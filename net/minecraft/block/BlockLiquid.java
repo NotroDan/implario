@@ -152,9 +152,9 @@ public abstract class BlockLiquid extends Block
         Vec3 vec3 = new Vec3(0.0D, 0.0D, 0.0D);
         int i = this.getEffectiveFlowDecay(worldIn, pos);
 
-        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
+        for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
         {
-            BlockPos blockpos = pos.offset(enumfacing);
+            BlockPos blockpos = pos.offset((EnumFacing) enumfacing);
             int j = this.getEffectiveFlowDecay(worldIn, blockpos);
 
             if (j < 0)
@@ -179,11 +179,11 @@ public abstract class BlockLiquid extends Block
 
         if (((Integer)worldIn.getBlockState(pos).getValue(LEVEL)).intValue() >= 8)
         {
-            for (EnumFacing enumfacing1 : EnumFacing.Plane.HORIZONTAL)
+            for (Object enumfacing1 : EnumFacing.Plane.HORIZONTAL)
             {
-                BlockPos blockpos1 = pos.offset(enumfacing1);
+                BlockPos blockpos1 = pos.offset((EnumFacing) enumfacing1);
 
-                if (this.isBlockSolid(worldIn, blockpos1, enumfacing1) || this.isBlockSolid(worldIn, blockpos1.up(), enumfacing1))
+                if (this.isBlockSolid(worldIn, blockpos1, (EnumFacing) enumfacing1) || this.isBlockSolid(worldIn, blockpos1.up(), (EnumFacing) enumfacing1))
                 {
                     vec3 = vec3.normalize().addVector(0.0D, -6.0D, 0.0D);
                     break;

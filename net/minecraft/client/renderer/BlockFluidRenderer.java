@@ -10,11 +10,14 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
+import optifine.CustomColors;
+import optifine.RenderEnv;
 
 public class BlockFluidRenderer
 {
     private TextureAtlasSprite[] atlasSpritesLava = new TextureAtlasSprite[2];
     private TextureAtlasSprite[] atlasSpritesWater = new TextureAtlasSprite[2];
+    private static final String __OBFID = "CL_00002519";
 
     public BlockFluidRenderer()
     {
@@ -35,13 +38,18 @@ public class BlockFluidRenderer
         BlockLiquid blockliquid = (BlockLiquid)blockStateIn.getBlock();
         blockliquid.setBlockBoundsBasedOnState(blockAccess, blockPosIn);
         TextureAtlasSprite[] atextureatlassprite = blockliquid.getMaterial() == Material.lava ? this.atlasSpritesLava : this.atlasSpritesWater;
-        int i = blockliquid.colorMultiplier(blockAccess, blockPosIn);
+        RenderEnv renderenv = RenderEnv.getInstance(blockAccess, blockStateIn, blockPosIn);
+        int i = CustomColors.getFluidColor(blockAccess, blockStateIn, blockPosIn, renderenv);
         float f = (float)(i >> 16 & 255) / 255.0F;
         float f1 = (float)(i >> 8 & 255) / 255.0F;
         float f2 = (float)(i & 255) / 255.0F;
         boolean flag = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.up(), EnumFacing.UP);
         boolean flag1 = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.down(), EnumFacing.DOWN);
-        boolean[] aboolean = new boolean[] {blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.north(), EnumFacing.NORTH), blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.south(), EnumFacing.SOUTH), blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.west(), EnumFacing.WEST), blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.east(), EnumFacing.EAST)};
+        boolean[] aboolean = renderenv.getBorderFlags();
+        aboolean[0] = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.north(), EnumFacing.NORTH);
+        aboolean[1] = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.south(), EnumFacing.SOUTH);
+        aboolean[2] = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.west(), EnumFacing.WEST);
+        aboolean[3] = blockliquid.shouldSideBeRendered(blockAccess, blockPosIn.east(), EnumFacing.EAST);
 
         if (!flag && !flag1 && !aboolean[0] && !aboolean[1] && !aboolean[2] && !aboolean[3])
         {
@@ -75,6 +83,7 @@ public class BlockFluidRenderer
                     textureatlassprite = atextureatlassprite[1];
                 }
 
+                worldRendererIn.setSprite(textureatlassprite);
                 f7 -= f11;
                 f8 -= f11;
                 f9 -= f11;
@@ -84,53 +93,53 @@ public class BlockFluidRenderer
                 float f15;
                 float f16;
                 float f17;
-                float f18;
                 float f19;
                 float f20;
+                float f21;
 
                 if (f12 < -999.0F)
                 {
                     f13 = textureatlassprite.getInterpolatedU(0.0D);
                     f17 = textureatlassprite.getInterpolatedV(0.0D);
                     f14 = f13;
-                    f18 = textureatlassprite.getInterpolatedV(16.0D);
+                    f19 = textureatlassprite.getInterpolatedV(16.0D);
                     f15 = textureatlassprite.getInterpolatedU(16.0D);
-                    f19 = f18;
+                    f20 = f19;
                     f16 = f15;
-                    f20 = f17;
+                    f21 = f17;
                 }
                 else
                 {
-                    float f21 = MathHelper.sin(f12) * 0.25F;
-                    float f22 = MathHelper.cos(f12) * 0.25F;
-                    float f23 = 8.0F;
-                    f13 = textureatlassprite.getInterpolatedU((double)(8.0F + (-f22 - f21) * 16.0F));
-                    f17 = textureatlassprite.getInterpolatedV((double)(8.0F + (-f22 + f21) * 16.0F));
-                    f14 = textureatlassprite.getInterpolatedU((double)(8.0F + (-f22 + f21) * 16.0F));
-                    f18 = textureatlassprite.getInterpolatedV((double)(8.0F + (f22 + f21) * 16.0F));
-                    f15 = textureatlassprite.getInterpolatedU((double)(8.0F + (f22 + f21) * 16.0F));
-                    f19 = textureatlassprite.getInterpolatedV((double)(8.0F + (f22 - f21) * 16.0F));
-                    f16 = textureatlassprite.getInterpolatedU((double)(8.0F + (f22 - f21) * 16.0F));
-                    f20 = textureatlassprite.getInterpolatedV((double)(8.0F + (-f22 - f21) * 16.0F));
+                    float f22 = MathHelper.sin(f12) * 0.25F;
+                    float f23 = MathHelper.cos(f12) * 0.25F;
+                    float f24 = 8.0F;
+                    f13 = textureatlassprite.getInterpolatedU((double)(8.0F + (-f23 - f22) * 16.0F));
+                    f17 = textureatlassprite.getInterpolatedV((double)(8.0F + (-f23 + f22) * 16.0F));
+                    f14 = textureatlassprite.getInterpolatedU((double)(8.0F + (-f23 + f22) * 16.0F));
+                    f19 = textureatlassprite.getInterpolatedV((double)(8.0F + (f23 + f22) * 16.0F));
+                    f15 = textureatlassprite.getInterpolatedU((double)(8.0F + (f23 + f22) * 16.0F));
+                    f20 = textureatlassprite.getInterpolatedV((double)(8.0F + (f23 - f22) * 16.0F));
+                    f16 = textureatlassprite.getInterpolatedU((double)(8.0F + (f23 - f22) * 16.0F));
+                    f21 = textureatlassprite.getInterpolatedV((double)(8.0F + (-f23 - f22) * 16.0F));
                 }
 
                 int k2 = blockliquid.getMixedBrightnessForBlock(blockAccess, blockPosIn);
                 int l2 = k2 >> 16 & 65535;
                 int i3 = k2 & 65535;
-                float f24 = f4 * f;
-                float f25 = f4 * f1;
-                float f26 = f4 * f2;
-                worldRendererIn.pos(d0 + 0.0D, d1 + (double)f7, d2 + 0.0D).color(f24, f25, f26, 1.0F).tex((double)f13, (double)f17).lightmap(l2, i3).endVertex();
-                worldRendererIn.pos(d0 + 0.0D, d1 + (double)f8, d2 + 1.0D).color(f24, f25, f26, 1.0F).tex((double)f14, (double)f18).lightmap(l2, i3).endVertex();
-                worldRendererIn.pos(d0 + 1.0D, d1 + (double)f9, d2 + 1.0D).color(f24, f25, f26, 1.0F).tex((double)f15, (double)f19).lightmap(l2, i3).endVertex();
-                worldRendererIn.pos(d0 + 1.0D, d1 + (double)f10, d2 + 0.0D).color(f24, f25, f26, 1.0F).tex((double)f16, (double)f20).lightmap(l2, i3).endVertex();
+                float f25 = f4 * f;
+                float f26 = f4 * f1;
+                float f18 = f4 * f2;
+                worldRendererIn.pos(d0 + 0.0D, d1 + (double)f7, d2 + 0.0D).color(f25, f26, f18, 1.0F).tex((double)f13, (double)f17).lightmap(l2, i3).endVertex();
+                worldRendererIn.pos(d0 + 0.0D, d1 + (double)f8, d2 + 1.0D).color(f25, f26, f18, 1.0F).tex((double)f14, (double)f19).lightmap(l2, i3).endVertex();
+                worldRendererIn.pos(d0 + 1.0D, d1 + (double)f9, d2 + 1.0D).color(f25, f26, f18, 1.0F).tex((double)f15, (double)f20).lightmap(l2, i3).endVertex();
+                worldRendererIn.pos(d0 + 1.0D, d1 + (double)f10, d2 + 0.0D).color(f25, f26, f18, 1.0F).tex((double)f16, (double)f21).lightmap(l2, i3).endVertex();
 
                 if (blockliquid.func_176364_g(blockAccess, blockPosIn.up()))
                 {
-                    worldRendererIn.pos(d0 + 0.0D, d1 + (double)f7, d2 + 0.0D).color(f24, f25, f26, 1.0F).tex((double)f13, (double)f17).lightmap(l2, i3).endVertex();
-                    worldRendererIn.pos(d0 + 1.0D, d1 + (double)f10, d2 + 0.0D).color(f24, f25, f26, 1.0F).tex((double)f16, (double)f20).lightmap(l2, i3).endVertex();
-                    worldRendererIn.pos(d0 + 1.0D, d1 + (double)f9, d2 + 1.0D).color(f24, f25, f26, 1.0F).tex((double)f15, (double)f19).lightmap(l2, i3).endVertex();
-                    worldRendererIn.pos(d0 + 0.0D, d1 + (double)f8, d2 + 1.0D).color(f24, f25, f26, 1.0F).tex((double)f14, (double)f18).lightmap(l2, i3).endVertex();
+                    worldRendererIn.pos(d0 + 0.0D, d1 + (double)f7, d2 + 0.0D).color(f25, f26, f18, 1.0F).tex((double)f13, (double)f17).lightmap(l2, i3).endVertex();
+                    worldRendererIn.pos(d0 + 1.0D, d1 + (double)f10, d2 + 0.0D).color(f25, f26, f18, 1.0F).tex((double)f16, (double)f21).lightmap(l2, i3).endVertex();
+                    worldRendererIn.pos(d0 + 1.0D, d1 + (double)f9, d2 + 1.0D).color(f25, f26, f18, 1.0F).tex((double)f15, (double)f20).lightmap(l2, i3).endVertex();
+                    worldRendererIn.pos(d0 + 0.0D, d1 + (double)f8, d2 + 1.0D).color(f25, f26, f18, 1.0F).tex((double)f14, (double)f19).lightmap(l2, i3).endVertex();
                 }
             }
 
@@ -140,88 +149,89 @@ public class BlockFluidRenderer
                 float f36 = atextureatlassprite[0].getMaxU();
                 float f37 = atextureatlassprite[0].getMinV();
                 float f38 = atextureatlassprite[0].getMaxV();
-                int l1 = blockliquid.getMixedBrightnessForBlock(blockAccess, blockPosIn.down());
-                int i2 = l1 >> 16 & 65535;
-                int j2 = l1 & 65535;
-                worldRendererIn.pos(d0, d1, d2 + 1.0D).color(f3, f3, f3, 1.0F).tex((double)f35, (double)f38).lightmap(i2, j2).endVertex();
-                worldRendererIn.pos(d0, d1, d2).color(f3, f3, f3, 1.0F).tex((double)f35, (double)f37).lightmap(i2, j2).endVertex();
-                worldRendererIn.pos(d0 + 1.0D, d1, d2).color(f3, f3, f3, 1.0F).tex((double)f36, (double)f37).lightmap(i2, j2).endVertex();
-                worldRendererIn.pos(d0 + 1.0D, d1, d2 + 1.0D).color(f3, f3, f3, 1.0F).tex((double)f36, (double)f38).lightmap(i2, j2).endVertex();
+                int i1 = blockliquid.getMixedBrightnessForBlock(blockAccess, blockPosIn.down());
+                int k1 = i1 >> 16 & 65535;
+                int i2 = i1 & 65535;
+                worldRendererIn.pos(d0, d1, d2 + 1.0D).color(f3, f3, f3, 1.0F).tex((double)f35, (double)f38).lightmap(k1, i2).endVertex();
+                worldRendererIn.pos(d0, d1, d2).color(f3, f3, f3, 1.0F).tex((double)f35, (double)f37).lightmap(k1, i2).endVertex();
+                worldRendererIn.pos(d0 + 1.0D, d1, d2).color(f3, f3, f3, 1.0F).tex((double)f36, (double)f37).lightmap(k1, i2).endVertex();
+                worldRendererIn.pos(d0 + 1.0D, d1, d2 + 1.0D).color(f3, f3, f3, 1.0F).tex((double)f36, (double)f38).lightmap(k1, i2).endVertex();
                 flag2 = true;
             }
 
-            for (int i1 = 0; i1 < 4; ++i1)
+            for (int j1 = 0; j1 < 4; ++j1)
             {
-                int j1 = 0;
-                int k1 = 0;
+                int l1 = 0;
+                int j2 = 0;
 
-                if (i1 == 0)
+                if (j1 == 0)
                 {
-                    --k1;
+                    --j2;
                 }
 
-                if (i1 == 1)
+                if (j1 == 1)
                 {
-                    ++k1;
+                    ++j2;
                 }
 
-                if (i1 == 2)
+                if (j1 == 2)
                 {
-                    --j1;
+                    --l1;
                 }
 
-                if (i1 == 3)
+                if (j1 == 3)
                 {
-                    ++j1;
+                    ++l1;
                 }
 
-                BlockPos blockpos = blockPosIn.add(j1, 0, k1);
+                BlockPos blockpos = blockPosIn.add(l1, 0, j2);
                 TextureAtlasSprite textureatlassprite1 = atextureatlassprite[1];
+                worldRendererIn.setSprite(textureatlassprite1);
 
-                if (aboolean[i1])
+                if (aboolean[j1])
                 {
-                    float f39;
-                    float f40;
                     double d3;
                     double d4;
+                    float f39;
+                    float f40;
                     double d5;
                     double d6;
 
-                    if (i1 == 0)
+                    if (j1 == 0)
                     {
                         f39 = f7;
                         f40 = f10;
-                        d3 = d0;
-                        d5 = d0 + 1.0D;
-                        d4 = d2 + (double)f11;
+                        d5 = d0;
+                        d3 = d0 + 1.0D;
                         d6 = d2 + (double)f11;
+                        d4 = d2 + (double)f11;
                     }
-                    else if (i1 == 1)
+                    else if (j1 == 1)
                     {
                         f39 = f9;
                         f40 = f8;
-                        d3 = d0 + 1.0D;
-                        d5 = d0;
-                        d4 = d2 + 1.0D - (double)f11;
+                        d5 = d0 + 1.0D;
+                        d3 = d0;
                         d6 = d2 + 1.0D - (double)f11;
+                        d4 = d2 + 1.0D - (double)f11;
                     }
-                    else if (i1 == 2)
+                    else if (j1 == 2)
                     {
                         f39 = f8;
                         f40 = f7;
-                        d3 = d0 + (double)f11;
                         d5 = d0 + (double)f11;
-                        d4 = d2 + 1.0D;
-                        d6 = d2;
+                        d3 = d0 + (double)f11;
+                        d6 = d2 + 1.0D;
+                        d4 = d2;
                     }
                     else
                     {
                         f39 = f10;
                         f40 = f9;
-                        d3 = d0 + 1.0D - (double)f11;
                         d5 = d0 + 1.0D - (double)f11;
-                        d4 = d2;
-                        d6 = d2 + 1.0D;
+                        d3 = d0 + 1.0D - (double)f11;
+                        d6 = d2;
+                        d4 = d2 + 1.0D;
                     }
 
                     flag2 = true;
@@ -233,21 +243,22 @@ public class BlockFluidRenderer
                     int j = blockliquid.getMixedBrightnessForBlock(blockAccess, blockpos);
                     int k = j >> 16 & 65535;
                     int l = j & 65535;
-                    float f31 = i1 < 2 ? f5 : f6;
+                    float f31 = j1 < 2 ? f5 : f6;
                     float f32 = f4 * f31 * f;
                     float f33 = f4 * f31 * f1;
                     float f34 = f4 * f31 * f2;
-                    worldRendererIn.pos(d3, d1 + (double)f39, d4).color(f32, f33, f34, 1.0F).tex((double)f41, (double)f28).lightmap(k, l).endVertex();
-                    worldRendererIn.pos(d5, d1 + (double)f40, d6).color(f32, f33, f34, 1.0F).tex((double)f27, (double)f29).lightmap(k, l).endVertex();
-                    worldRendererIn.pos(d5, d1 + 0.0D, d6).color(f32, f33, f34, 1.0F).tex((double)f27, (double)f30).lightmap(k, l).endVertex();
-                    worldRendererIn.pos(d3, d1 + 0.0D, d4).color(f32, f33, f34, 1.0F).tex((double)f41, (double)f30).lightmap(k, l).endVertex();
-                    worldRendererIn.pos(d3, d1 + 0.0D, d4).color(f32, f33, f34, 1.0F).tex((double)f41, (double)f30).lightmap(k, l).endVertex();
-                    worldRendererIn.pos(d5, d1 + 0.0D, d6).color(f32, f33, f34, 1.0F).tex((double)f27, (double)f30).lightmap(k, l).endVertex();
-                    worldRendererIn.pos(d5, d1 + (double)f40, d6).color(f32, f33, f34, 1.0F).tex((double)f27, (double)f29).lightmap(k, l).endVertex();
-                    worldRendererIn.pos(d3, d1 + (double)f39, d4).color(f32, f33, f34, 1.0F).tex((double)f41, (double)f28).lightmap(k, l).endVertex();
+                    worldRendererIn.pos(d5, d1 + (double)f39, d6).color(f32, f33, f34, 1.0F).tex((double)f41, (double)f28).lightmap(k, l).endVertex();
+                    worldRendererIn.pos(d3, d1 + (double)f40, d4).color(f32, f33, f34, 1.0F).tex((double)f27, (double)f29).lightmap(k, l).endVertex();
+                    worldRendererIn.pos(d3, d1 + 0.0D, d4).color(f32, f33, f34, 1.0F).tex((double)f27, (double)f30).lightmap(k, l).endVertex();
+                    worldRendererIn.pos(d5, d1 + 0.0D, d6).color(f32, f33, f34, 1.0F).tex((double)f41, (double)f30).lightmap(k, l).endVertex();
+                    worldRendererIn.pos(d5, d1 + 0.0D, d6).color(f32, f33, f34, 1.0F).tex((double)f41, (double)f30).lightmap(k, l).endVertex();
+                    worldRendererIn.pos(d3, d1 + 0.0D, d4).color(f32, f33, f34, 1.0F).tex((double)f27, (double)f30).lightmap(k, l).endVertex();
+                    worldRendererIn.pos(d3, d1 + (double)f40, d4).color(f32, f33, f34, 1.0F).tex((double)f27, (double)f29).lightmap(k, l).endVertex();
+                    worldRendererIn.pos(d5, d1 + (double)f39, d6).color(f32, f33, f34, 1.0F).tex((double)f41, (double)f28).lightmap(k, l).endVertex();
                 }
             }
 
+            worldRendererIn.setSprite((TextureAtlasSprite)null);
             return flag2;
         }
     }

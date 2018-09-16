@@ -1,9 +1,11 @@
 package net.minecraft.world.chunk.storage;
 
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.NibbleArray;
+import optifine.Reflector;
 
 public class ExtendedBlockStorage
 {
@@ -29,6 +31,7 @@ public class ExtendedBlockStorage
 
     /** The NibbleArray containing a block of Sky-light data. */
     private NibbleArray skylightArray;
+    private static final String __OBFID = "CL_00000375";
 
     public ExtendedBlockStorage(int y, boolean storeSkylight)
     {
@@ -50,6 +53,11 @@ public class ExtendedBlockStorage
 
     public void set(int x, int y, int z, IBlockState state)
     {
+        if (Reflector.IExtendedBlockState.isInstance(state))
+        {
+            state = (IBlockState)Reflector.call(state, Reflector.IExtendedBlockState_getClean, new Object[0]);
+        }
+
         IBlockState iblockstate = this.get(x, y, z);
         Block block = iblockstate.getBlock();
         Block block1 = state.getBlock();
@@ -154,29 +162,48 @@ public class ExtendedBlockStorage
 
     public void removeInvalidBlocks()
     {
-        this.blockRefCount = 0;
-        this.tickRefCount = 0;
+        List list = Block.BLOCK_STATE_IDS.getObjectList();
+        int i = list.size();
+        int j = 0;
+        int k = 0;
 
-        for (int i = 0; i < 16; ++i)
+        for (int l = 0; l < 16; ++l)
         {
-            for (int j = 0; j < 16; ++j)
+            int i1 = l << 8;
+
+            for (int j1 = 0; j1 < 16; ++j1)
             {
-                for (int k = 0; k < 16; ++k)
+                int k1 = i1 | j1 << 4;
+
+                for (int l1 = 0; l1 < 16; ++l1)
                 {
-                    Block block = this.getBlockByExtId(i, j, k);
+                    int i2 = this.data[k1 | l1];
 
-                    if (block != Blocks.air)
+                    if (i2 > 0)
                     {
-                        ++this.blockRefCount;
+                        ++j;
 
-                        if (block.getTickRandomly())
+                        if (i2 < i)
                         {
-                            ++this.tickRefCount;
+                            IBlockState iblockstate = (IBlockState)list.get(i2);
+
+                            if (iblockstate != null)
+                            {
+                                Block block = iblockstate.getBlock();
+
+                                if (block.getTickRandomly())
+                                {
+                                    ++k;
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+
+        this.blockRefCount = j;
+        this.tickRefCount = k;
     }
 
     public char[] getData()

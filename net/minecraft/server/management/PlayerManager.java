@@ -23,7 +23,7 @@ public class PlayerManager
     private static final Logger pmLogger = LogManager.getLogger();
     private final WorldServer theWorldServer;
     private final List<EntityPlayerMP> players = Lists.<EntityPlayerMP>newArrayList();
-    private final LongHashMap<PlayerManager.PlayerInstance> playerInstances = new LongHashMap();
+    private final LongHashMap playerInstances = new LongHashMap();
     private final List<PlayerManager.PlayerInstance> playerInstancesToUpdate = Lists.<PlayerManager.PlayerInstance>newArrayList();
     private final List<PlayerManager.PlayerInstance> playerInstanceList = Lists.<PlayerManager.PlayerInstance>newArrayList();
 

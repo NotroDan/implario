@@ -13,7 +13,6 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import net.minecraft.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -2004,10 +2003,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                             this.gameSettings.field_181657_aC = GuiScreen.isAltKeyDown();
                         }
 
-                        if (this.gameSettings.keyBindToggleMultiJump.isPressed()) {
-                            Utils.toggleMultiJump();
-                        }
-
                         if (this.gameSettings.keyBindTogglePerspective.isPressed())
                         {
                             ++this.gameSettings.thirdPersonView;
@@ -2702,7 +2697,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             {
                 StringBuilder stringbuilder = new StringBuilder();
 
-                for (String s : Minecraft.this.gameSettings.resourcePacks)
+                for (Object s : Minecraft.this.gameSettings.resourcePacks)
                 {
                     if (stringbuilder.length() > 0)
                     {

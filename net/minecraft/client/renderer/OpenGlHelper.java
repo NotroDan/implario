@@ -5,6 +5,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
+import optifine.Config;
+
 import org.lwjgl.opengl.ARBFramebufferObject;
 import org.lwjgl.opengl.ARBMultitexture;
 import org.lwjgl.opengl.ARBShaderObjects;
@@ -89,12 +91,16 @@ public class OpenGlHelper
     private static boolean arbVbo;
     public static int GL_ARRAY_BUFFER;
     public static int GL_STATIC_DRAW;
+    private static final String __OBFID = "CL_00001179";
+    public static float lastBrightnessX = 0.0F;
+    public static float lastBrightnessY = 0.0F;
 
     /**
      * Initializes the texture constants to be used when rendering lightmap values
      */
     public static void initializeTextures()
     {
+        Config.initDisplay();
         ContextCapabilities contextcapabilities = GLContext.getCapabilities();
         arbMultitexture = contextcapabilities.GL_ARB_multitexture && !contextcapabilities.OpenGL13;
         arbTextureEnvCombine = contextcapabilities.GL_ARB_texture_env_combine && !contextcapabilities.OpenGL13;
@@ -627,7 +633,7 @@ public class OpenGlHelper
 
     public static boolean useVbo()
     {
-        return vboSupported && Minecraft.getMinecraft().gameSettings.useVbo;
+        return Config.isMultiTexture() ? false : vboSupported && Minecraft.getMinecraft().gameSettings.useVbo;
     }
 
     public static void glBindFramebuffer(int target, int framebufferIn)
@@ -891,6 +897,12 @@ public class OpenGlHelper
         {
             GL13.glMultiTexCoord2f(target, p_77475_1_, p_77475_2_);
         }
+
+        if (target == lightmapTexUnit)
+        {
+            lastBrightnessX = p_77475_1_;
+            lastBrightnessY = p_77475_2_;
+        }
     }
 
     public static void glBlendFunc(int sFactorRGB, int dFactorRGB, int sfactorAlpha, int dfactorAlpha)
@@ -914,7 +926,7 @@ public class OpenGlHelper
 
     public static boolean isFramebufferEnabled()
     {
-        return framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable;
+        return Config.isFastRender() ? false : (Config.isAntialiasing() ? false : framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable);
     }
 
     public static String func_183029_j()

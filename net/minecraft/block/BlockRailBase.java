@@ -391,9 +391,9 @@ public abstract class BlockRailBase extends Block
         {
             int i = 0;
 
-            for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
+            for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
             {
-                if (this.hasRailAt(this.pos.offset(enumfacing)))
+                if (this.hasRailAt(this.pos.offset((EnumFacing) enumfacing)))
                 {
                     ++i;
                 }

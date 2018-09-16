@@ -252,8 +252,10 @@ public class ComponentScatteredFeaturePieces
             this.setBlockState(worldIn, Blocks.sandstone.getStateFromMeta(BlockSandStone.EnumType.CHISELED.getMetadata()), 10, -10, 13, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.sandstone.getStateFromMeta(BlockSandStone.EnumType.SMOOTH.getMetadata()), 10, -11, 13, structureBoundingBoxIn);
 
-            for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
+            for (Object enumfacing0 : EnumFacing.Plane.HORIZONTAL)
             {
+                EnumFacing enumfacing = (EnumFacing) enumfacing0;
+
                 if (!this.field_74940_h[enumfacing.getHorizontalIndex()])
                 {
                     int l1 = enumfacing.getFrontOffsetX() * 2;

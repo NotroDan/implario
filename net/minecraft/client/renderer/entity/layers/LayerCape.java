@@ -3,12 +3,14 @@ package net.minecraft.client.renderer.entity.layers;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.util.MathHelper;
 
-public class LayerCape implements LayerRenderer<AbstractClientPlayer>
+public class LayerCape implements LayerRenderer
 {
     private final RenderPlayer playerRenderer;
+    private static final String __OBFID = "CL_00002425";
 
     public LayerCape(RenderPlayer playerRendererIn)
     {
@@ -39,12 +41,18 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer>
                 f2 = 0.0F;
             }
 
+            if (f2 > 165.0F)
+            {
+                f2 = 165.0F;
+            }
+
             float f4 = entitylivingbaseIn.prevCameraYaw + (entitylivingbaseIn.cameraYaw - entitylivingbaseIn.prevCameraYaw) * partialTicks;
             f1 = f1 + MathHelper.sin((entitylivingbaseIn.prevDistanceWalkedModified + (entitylivingbaseIn.distanceWalkedModified - entitylivingbaseIn.prevDistanceWalkedModified) * partialTicks) * 6.0F) * 32.0F * f4;
 
             if (entitylivingbaseIn.isSneaking())
             {
                 f1 += 25.0F;
+                GlStateManager.translate(0.0F, 0.142F, -0.0178F);
             }
 
             GlStateManager.rotate(6.0F + f2 / 2.0F + f1, 1.0F, 0.0F, 0.0F);
@@ -59,5 +67,10 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer>
     public boolean shouldCombineTextures()
     {
         return false;
+    }
+
+    public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
+    {
+        this.doRenderLayer((AbstractClientPlayer)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
     }
 }

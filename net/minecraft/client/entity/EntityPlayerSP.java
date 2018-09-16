@@ -43,7 +43,6 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -296,20 +295,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void sendChatMessage(String message)
     {
-        if (message.startsWith("$")) {
-            message = message.substring(1);
-            String cmd = message.substring(0, message.indexOf(" "));
-            String text = message.substring(cmd.length() + 1);
-            addChatMessage(new ChatComponentText(cmd + " | " + text));
-            switch (cmd) {
-                case "text": {
-                    Minecraft.getMinecraft().getRenderManager().getEntityRenderObject(this).doRender(this,
-                            posX, posY, posZ, lastReportedYaw, 600);
-                    addChatMessage(new ChatComponentText("§aНадпись §f" + text + "§a создана."));
-                    return;
-                }
-            }
-        }
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
     }
 

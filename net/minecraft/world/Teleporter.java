@@ -20,7 +20,7 @@ public class Teleporter
 
     /** A private Random() function in Teleporter */
     private final Random random;
-    private final LongHashMap<Teleporter.PortalPosition> destinationCoordinateCache = new LongHashMap();
+    private final LongHashMap destinationCoordinateCache = new LongHashMap();
     private final List<Long> destinationCoordinateKeys = Lists.<Long>newArrayList();
 
     public Teleporter(WorldServer worldIn)

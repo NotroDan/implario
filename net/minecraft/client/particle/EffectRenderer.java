@@ -2,6 +2,7 @@ package net.minecraft.client.particle;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -23,9 +24,12 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import optifine.Config;
+import optifine.Reflector;
 
 public class EffectRenderer
 {
@@ -33,13 +37,14 @@ public class EffectRenderer
 
     /** Reference to the World object. */
     protected World worldObj;
-    private List<EntityFX>[][] fxLayers = new List[4][];
-    private List<EntityParticleEmitter> particleEmitters = Lists.<EntityParticleEmitter>newArrayList();
+    private List[][] fxLayers = new List[4][];
+    private List particleEmitters = Lists.newArrayList();
     private TextureManager renderer;
 
     /** RNG. */
     private Random rand = new Random();
-    private Map<Integer, IParticleFactory> particleTypes = Maps.<Integer, IParticleFactory>newHashMap();
+    private Map particleTypes = Maps.newHashMap();
+    private static final String __OBFID = "CL_00000915";
 
     public EffectRenderer(World worldIn, TextureManager rendererIn)
     {
@@ -137,15 +142,24 @@ public class EffectRenderer
 
     public void addEffect(EntityFX effect)
     {
-        int i = effect.getFXLayer();
-        int j = effect.getAlpha() != 1.0F ? 0 : 1;
-
-        if (this.fxLayers[i][j].size() >= 4000)
+        if (effect != null)
         {
-            this.fxLayers[i][j].remove(0);
-        }
+            if (!(effect instanceof EntityFirework.SparkFX) || Config.isFireworkParticles())
+            {
+                int i = effect.getFXLayer();
+                int j = effect.getAlpha() != 1.0F ? 0 : 1;
 
-        this.fxLayers[i][j].add(effect);
+                if (this.fxLayers[i][j].size() >= 4000)
+                {
+                    this.fxLayers[i][j].remove(0);
+                }
+
+                if (!(effect instanceof Barrier) || !this.reuseBarrierParticle(effect, this.fxLayers[i][j]))
+                {
+                    this.fxLayers[i][j].add(effect);
+                }
+            }
+        }
     }
 
     public void updateEffects()
@@ -155,19 +169,20 @@ public class EffectRenderer
             this.updateEffectLayer(i);
         }
 
-        List<EntityParticleEmitter> list = Lists.<EntityParticleEmitter>newArrayList();
+        ArrayList arraylist = Lists.newArrayList();
 
-        for (EntityParticleEmitter entityparticleemitter : this.particleEmitters)
+        for (Object entityparticleemitter0 : this.particleEmitters)
         {
+            EntityParticleEmitter entityparticleemitter = (EntityParticleEmitter) entityparticleemitter0;
             entityparticleemitter.onUpdate();
 
             if (entityparticleemitter.isDead)
             {
-                list.add(entityparticleemitter);
+                arraylist.add(entityparticleemitter);
             }
         }
 
-        this.particleEmitters.removeAll(list);
+        this.particleEmitters.removeAll(arraylist);
     }
 
     private void updateEffectLayer(int p_178922_1_)
@@ -178,9 +193,9 @@ public class EffectRenderer
         }
     }
 
-    private void updateEffectAlphaLayer(List<EntityFX> p_178925_1_)
+    private void updateEffectAlphaLayer(List p_178925_1_)
     {
-        List<EntityFX> list = Lists.<EntityFX>newArrayList();
+        ArrayList arraylist = Lists.newArrayList();
 
         for (int i = 0; i < p_178925_1_.size(); ++i)
         {
@@ -189,11 +204,11 @@ public class EffectRenderer
 
             if (entityfx.isDead)
             {
-                list.add(entityfx);
+                arraylist.add(entityfx);
             }
         }
 
-        p_178925_1_.removeAll(list);
+        p_178925_1_.removeAll(arraylist);
     }
 
     private void tickParticle(final EntityFX p_178923_1_)
@@ -207,15 +222,17 @@ public class EffectRenderer
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Ticking Particle");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Particle being ticked");
             final int i = p_178923_1_.getFXLayer();
-            crashreportcategory.addCrashSectionCallable("Particle", new Callable<String>()
+            crashreportcategory.addCrashSectionCallable("Particle", new Callable()
             {
+                private static final String __OBFID = "CL_00000916";
                 public String call() throws Exception
                 {
                     return p_178923_1_.toString();
                 }
             });
-            crashreportcategory.addCrashSectionCallable("Particle Type", new Callable<String>()
+            crashreportcategory.addCrashSectionCallable("Particle Type", new Callable()
             {
+                private static final String __OBFID = "CL_00000917";
                 public String call() throws Exception
                 {
                     return i == 0 ? "MISC_TEXTURE" : (i == 1 ? "TERRAIN_TEXTURE" : (i == 3 ? "ENTITY_PARTICLE_TEXTURE" : "Unknown - " + i));
@@ -244,13 +261,13 @@ public class EffectRenderer
 
         for (int i = 0; i < 3; ++i)
         {
-            for (int j = 0; j < 2; ++j)
-            {
-                final int i_f = i;
+            final int j = i;
 
-                if (!this.fxLayers[i][j].isEmpty())
+            for (int k = 0; k < 2; ++k)
+            {
+                if (!this.fxLayers[j][k].isEmpty())
                 {
-                    switch (j)
+                    switch (k)
                     {
                         case 0:
                             GlStateManager.depthMask(false);
@@ -260,7 +277,7 @@ public class EffectRenderer
                             GlStateManager.depthMask(true);
                     }
 
-                    switch (i)
+                    switch (j)
                     {
                         case 0:
                         default:
@@ -276,9 +293,9 @@ public class EffectRenderer
                     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
                     worldrenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 
-                    for (int k = 0; k < this.fxLayers[i][j].size(); ++k)
+                    for (int l = 0; l < this.fxLayers[j][k].size(); ++l)
                     {
-                        final EntityFX entityfx = (EntityFX)this.fxLayers[i][j].get(k);
+                        final EntityFX entityfx = (EntityFX)this.fxLayers[j][k].get(l);
 
                         try
                         {
@@ -288,18 +305,20 @@ public class EffectRenderer
                         {
                             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering Particle");
                             CrashReportCategory crashreportcategory = crashreport.makeCategory("Particle being rendered");
-                            crashreportcategory.addCrashSectionCallable("Particle", new Callable<String>()
+                            crashreportcategory.addCrashSectionCallable("Particle", new Callable()
                             {
+                                private static final String __OBFID = "CL_00000918";
                                 public String call() throws Exception
                                 {
                                     return entityfx.toString();
                                 }
                             });
-                            crashreportcategory.addCrashSectionCallable("Particle Type", new Callable<String>()
+                            crashreportcategory.addCrashSectionCallable("Particle Type", new Callable()
                             {
+                                private static final String __OBFID = "CL_00000919";
                                 public String call() throws Exception
                                 {
-                                    return i_f == 0 ? "MISC_TEXTURE" : (i_f == 1 ? "TERRAIN_TEXTURE" : (i_f == 3 ? "ENTITY_PARTICLE_TEXTURE" : "Unknown - " + i_f));
+                                    return j == 0 ? "MISC_TEXTURE" : (j == 1 ? "TERRAIN_TEXTURE" : (j == 3 ? "ENTITY_PARTICLE_TEXTURE" : "Unknown - " + j));
                                 }
                             });
                             throw new ReportedException(crashreport);
@@ -327,7 +346,7 @@ public class EffectRenderer
 
         for (int i = 0; i < 2; ++i)
         {
-            List<EntityFX> list = this.fxLayers[3][i];
+            List list = this.fxLayers[3][i];
 
             if (!list.isEmpty())
             {
@@ -360,20 +379,33 @@ public class EffectRenderer
 
     public void addBlockDestroyEffects(BlockPos pos, IBlockState state)
     {
-        if (state.getBlock().getMaterial() != Material.air)
+        boolean flag;
+
+        if (Reflector.ForgeBlock_addDestroyEffects.exists() && Reflector.ForgeBlock_isAir.exists())
+        {
+            Block block = state.getBlock();
+            Reflector.callBoolean(block, Reflector.ForgeBlock_isAir, new Object[] {this.worldObj, pos});
+            flag = !Reflector.callBoolean(block, Reflector.ForgeBlock_isAir, new Object[] {this.worldObj, pos}) && !Reflector.callBoolean(block, Reflector.ForgeBlock_addDestroyEffects, new Object[] {this.worldObj, pos, this});
+        }
+        else
+        {
+            flag = state.getBlock().getMaterial() != Material.air;
+        }
+
+        if (flag)
         {
             state = state.getBlock().getActualState(state, this.worldObj, pos);
-            int i = 4;
+            byte b0 = 4;
 
-            for (int j = 0; j < i; ++j)
+            for (int i = 0; i < b0; ++i)
             {
-                for (int k = 0; k < i; ++k)
+                for (int j = 0; j < b0; ++j)
                 {
-                    for (int l = 0; l < i; ++l)
+                    for (int k = 0; k < b0; ++k)
                     {
-                        double d0 = (double)pos.getX() + ((double)j + 0.5D) / (double)i;
-                        double d1 = (double)pos.getY() + ((double)k + 0.5D) / (double)i;
-                        double d2 = (double)pos.getZ() + ((double)l + 0.5D) / (double)i;
+                        double d0 = (double)pos.getX() + ((double)i + 0.5D) / (double)b0;
+                        double d1 = (double)pos.getY() + ((double)j + 0.5D) / (double)b0;
+                        double d2 = (double)pos.getZ() + ((double)k + 0.5D) / (double)b0;
                         this.addEffect((new EntityDiggingFX(this.worldObj, d0, d1, d2, d0 - (double)pos.getX() - 0.5D, d1 - (double)pos.getY() - 0.5D, d2 - (double)pos.getZ() - 0.5D, state)).func_174846_a(pos));
                     }
                 }
@@ -468,5 +500,30 @@ public class EffectRenderer
         }
 
         return "" + i;
+    }
+
+    private boolean reuseBarrierParticle(EntityFX p_reuseBarrierParticle_1_, List<EntityFX> p_reuseBarrierParticle_2_)
+    {
+        for (EntityFX entityfx : p_reuseBarrierParticle_2_)
+        {
+            if (entityfx instanceof Barrier && p_reuseBarrierParticle_1_.posX == entityfx.posX && p_reuseBarrierParticle_1_.posY == entityfx.posY && p_reuseBarrierParticle_1_.posZ == entityfx.posZ)
+            {
+                entityfx.particleAge = 0;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void addBlockHitEffects(BlockPos p_addBlockHitEffects_1_, MovingObjectPosition p_addBlockHitEffects_2_)
+    {
+        Block block = this.worldObj.getBlockState(p_addBlockHitEffects_1_).getBlock();
+        boolean flag = Reflector.callBoolean(block, Reflector.ForgeBlock_addHitEffects, new Object[] {this.worldObj, p_addBlockHitEffects_2_, this});
+
+        if (block != null && !flag)
+        {
+            this.addBlockHitEffects(p_addBlockHitEffects_1_, p_addBlockHitEffects_2_.sideHit);
+        }
     }
 }

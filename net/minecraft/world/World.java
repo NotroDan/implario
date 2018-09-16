@@ -3765,9 +3765,9 @@ public abstract class World implements IBlockAccess
 
     public void updateComparatorOutputLevel(BlockPos pos, Block blockIn)
     {
-        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
+        for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
         {
-            BlockPos blockpos = pos.offset(enumfacing);
+            BlockPos blockpos = pos.offset((EnumFacing) enumfacing);
 
             if (this.isBlockLoaded(blockpos))
             {
@@ -3779,7 +3779,7 @@ public abstract class World implements IBlockAccess
                 }
                 else if (iblockstate.getBlock().isNormalCube())
                 {
-                    blockpos = blockpos.offset(enumfacing);
+                    blockpos = blockpos.offset((EnumFacing) enumfacing);
                     iblockstate = this.getBlockState(blockpos);
 
                     if (Blocks.unpowered_comparator.isAssociated(iblockstate.getBlock()))

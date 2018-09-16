@@ -3,7 +3,12 @@ package net.minecraft.entity;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
-import net.minecraft.Utils;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -45,13 +50,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
 
 public abstract class EntityLivingBase extends Entity
 {
@@ -2006,7 +2004,7 @@ public abstract class EntityLivingBase extends Entity
             {
                 this.handleJumpLava();
             }
-            else if ((this.onGround || Utils.multiJump) && this.jumpTicks == 0)
+            else if (this.onGround && this.jumpTicks == 0)
             {
                 this.jump();
                 this.jumpTicks = 10;

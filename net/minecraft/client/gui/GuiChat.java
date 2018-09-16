@@ -1,6 +1,8 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import java.io.IOException;
+import java.util.List;
 import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -12,9 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-
-import java.io.IOException;
-import java.util.List;
 
 public class GuiChat extends GuiScreen
 {
@@ -134,7 +133,7 @@ public class GuiChat extends GuiScreen
                 this.sendChatMessage(s);
             }
 
-            this.mc.displayGuiScreen(null);
+            this.mc.displayGuiScreen((GuiScreen)null);
         }
     }
 
