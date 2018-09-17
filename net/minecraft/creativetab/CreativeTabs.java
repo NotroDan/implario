@@ -241,49 +241,26 @@ public abstract class CreativeTabs
         }
     }
 
-    /**
-     * only shows items which have tabToDisplayOn == this
-     */
-    public void displayAllReleventItems(List<ItemStack> p_78018_1_)
-    {
+    public void displayAllReleventItems(List<ItemStack> items) {
         for (Item item : Item.itemRegistry)
-        {
             if (item != null && item.getCreativeTab() == this)
-            {
-                item.getSubItems(item, this, p_78018_1_);
-            }
-        }
+                item.getSubItems(item, this, items);
 
         if (this.getRelevantEnchantmentTypes() != null)
-        {
-            this.addEnchantmentBooksToList(p_78018_1_, this.getRelevantEnchantmentTypes());
-        }
+            this.addEnchantmentBooksToList(items, this.getRelevantEnchantmentTypes());
     }
 
-    /**
-     * Adds the enchantment books from the supplied EnumEnchantmentType to the given list.
-     */
-    public void addEnchantmentBooksToList(List<ItemStack> itemList, EnumEnchantmentType... enchantmentType)
-    {
-        for (Enchantment enchantment : Enchantment.enchantmentsBookList)
-        {
-            if (enchantment != null && enchantment.type != null)
-            {
-                boolean flag = false;
+    public void addEnchantmentBooksToList(List<ItemStack> itemList, EnumEnchantmentType... enchantmentType) {
+        for (Enchantment enchantment : Enchantment.enchantmentsBookList){
+            if(enchantment == null || enchantment.type == null) continue;
+            boolean flag = false;
 
-                for (int i = 0; i < enchantmentType.length && !flag; ++i)
-                {
-                    if (enchantment.type == enchantmentType[i])
-                    {
-                        flag = true;
-                    }
-                }
+            for (int i = 0; i < enchantmentType.length && !flag; ++i)
+                if(enchantment.type == enchantmentType[i])
+                    flag = true;
 
-                if (flag)
-                {
-                    itemList.add(Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(enchantment, enchantment.getMaxLevel())));
-                }
-            }
+            if(flag) itemList.add(Items.enchanted_book.getEnchantedItemStack(
+                    new EnchantmentData(enchantment, enchantment.getMaxLevel())));
         }
     }
 }

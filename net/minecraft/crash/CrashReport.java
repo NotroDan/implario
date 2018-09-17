@@ -1,11 +1,9 @@
 package net.minecraft.crash;
 
-import com.google.common.collect.Lists;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.text.SimpleDateFormat;
@@ -31,7 +29,7 @@ public class CrashReport {
 
     private final Throwable cause;
 
-    private final CrashReportCategory theReportCategory = new CrashReportCategory(this, "System Details");
+    private final CrashReportCategory theReportCategory = new CrashReportCategory("System Details");
 
     private final List<CrashReportCategory> crashReportSections = new ArrayList<>();
 
@@ -207,7 +205,7 @@ public class CrashReport {
     }
 
     public CrashReportCategory makeCategoryDepth(String categoryName, int stacktraceLength) {
-        CrashReportCategory crashreportcategory = new CrashReportCategory(this, categoryName);
+        CrashReportCategory crashreportcategory = new CrashReportCategory(categoryName);
 
         if (this.field_85059_f){
             int i = crashreportcategory.getPrunedStackTrace(stacktraceLength);
