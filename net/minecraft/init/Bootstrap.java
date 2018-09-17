@@ -56,7 +56,6 @@ public class Bootstrap
 {
     private static final PrintStream SYSOUT = System.out;
 
-    /** Whether the blocks, items, etc have already been registered */
     private static boolean alreadyRegistered = false;
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -99,13 +98,13 @@ public class Bootstrap
             {
                 return new EntityExpBottle(worldIn, position.getX(), position.getY(), position.getZ());
             }
-            protected float func_82498_a()
+            protected float magicOne()
             {
-                return super.func_82498_a() * 0.5F;
+                return super.magicOne() * 0.5F;
             }
             protected float func_82500_b()
             {
-                return super.func_82500_b() * 1.25F;
+                return super.magicTwo() * 1.25F;
             }
         });
         BlockDispenser.dispenseBehaviorRegistry.putObject(Items.potionitem, new IBehaviorDispenseItem()
@@ -115,17 +114,16 @@ public class Bootstrap
             {
                 return ItemPotion.isSplash(stack.getMetadata()) ? (new BehaviorProjectileDispense()
                 {
-                    protected IProjectile getProjectileEntity(World worldIn, IPosition position)
-                    {
+                    protected IProjectile getProjectileEntity(World worldIn, IPosition position) {
                         return new EntityPotion(worldIn, position.getX(), position.getY(), position.getZ(), stack.copy());
                     }
-                    protected float func_82498_a()
-                    {
-                        return super.func_82498_a() * 0.5F;
+
+                    protected float magicOne() {
+                        return super.magicOne() * 0.5F;
                     }
-                    protected float func_82500_b()
-                    {
-                        return super.func_82500_b() * 1.25F;
+
+                    protected float magicTwo() {
+                        return super.magicTwo() * 1.25F;
                     }
                 }).dispense(source, stack): this.field_150843_b.dispense(source, stack);
             }
