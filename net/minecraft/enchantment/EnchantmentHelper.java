@@ -20,7 +20,6 @@ import net.minecraft.util.WeightedRandom;
 
 public class EnchantmentHelper
 {
-    /** Is the random seed of enchantment effects. */
     private static final Random enchantmentRand = new Random();
 
     /**
