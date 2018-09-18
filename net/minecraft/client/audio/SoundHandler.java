@@ -57,9 +57,11 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {
+		System.out.println("Reloading sound system...");
 		this.sndManager.reloadSoundSystem();
+		System.out.println("Success. Clearing map...");
 		this.sndRegistry.clearMap();
-
+		System.out.println("Sucess. Parsing domains...");
 		for (String s : resourceManager.getResourceDomains()) {
 			try {
 				for (IResource iresource : resourceManager.getAllResources(new ResourceLocation(s, "sounds.json"))) {
@@ -75,6 +77,23 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 				}
 			} catch (IOException ignored) {}
 		}
+		System.out.println("Successfully reloaded SoundHadler.");
+		new Thread("ThreadCounterrr") {
+			@Override
+			public void run() {
+				try {
+					sleep(1000L);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				for (Entry<Thread, StackTraceElement[]> thread : Thread.getAllStackTraces().entrySet()) {
+					System.out.println(thread.getKey().getName());
+					for (StackTraceElement s : thread.getValue())
+						System.out.println(s.getClassName() + " : " + s.getMethodName() + " : " + s.getLineNumber());
+					System.out.println();
+				}
+			}
+		}.start();
 	}
 
 	protected Map<String, SoundList> getSoundMap(InputStream stream) {
