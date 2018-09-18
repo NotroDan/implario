@@ -52,6 +52,10 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		this.sndManager = new SoundManager(this, gameSettingsIn);
 	}
 
+	public SoundManager getSndManager() {
+		return sndManager;
+	}
+
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 		this.sndManager.reloadSoundSystem();
 		this.sndRegistry.clearMap();
