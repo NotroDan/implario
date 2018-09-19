@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.openal.AL;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -57,11 +58,8 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-		System.out.println("Reloading sound system...");
 		this.sndManager.reloadSoundSystem();
-		System.out.println("Success. Clearing map...");
 		this.sndRegistry.clearMap();
-		System.out.println("Sucess. Parsing domains...");
 		for (String s : resourceManager.getResourceDomains()) {
 			try {
 				for (IResource iresource : resourceManager.getAllResources(new ResourceLocation(s, "sounds.json"))) {
@@ -77,20 +75,14 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 				}
 			} catch (IOException ignored) {}
 		}
-		System.out.println("Successfully reloaded SoundHadler.");
-		new Thread("ThreadCounterrr") {
+		new Thread("FixOpenAL") {
 			@Override
 			public void run() {
 				try {
 					sleep(1000L);
+					if (!AL.isCreated()) sndManager.reloadSoundSystem();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
-				for (Entry<Thread, StackTraceElement[]> thread : Thread.getAllStackTraces().entrySet()) {
-					System.out.println(thread.getKey().getName());
-					for (StackTraceElement s : thread.getValue())
-						System.out.println(s.getClassName() + " : " + s.getMethodName() + " : " + s.getLineNumber());
-					System.out.println();
 				}
 			}
 		}.start();
