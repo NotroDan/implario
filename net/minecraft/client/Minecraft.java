@@ -189,10 +189,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
 	public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
 
-	/**
-	 * A 10MiB preallocation to ensure the heap is reasonably sized.
-	 */
-	public static byte[] memoryReserve = new byte[10485760];
 	private static final List<DisplayMode> macDisplayModes = Lists.newArrayList(new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
 	private final File fileResourcepacks;
 	private final PropertyMap twitchDetails;
@@ -356,7 +352,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	private final MinecraftSessionService sessionService;
 	private SkinManager skinManager;
 	private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
-	private long field_175615_aJ = 0L;
 	private final Thread mcThread = Thread.currentThread();
 	private ModelManager modelManager;
 
@@ -374,9 +369,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	 * String that shows the debug information
 	 */
 	public String debug = "";
-	public boolean field_175613_B = false;
-	public boolean field_175614_C = false;
-	public boolean field_175611_D = false;
 	public boolean renderChunksMany = true;
 
 	/**
@@ -1123,7 +1115,6 @@ label53:
 
 	public void freeMemory() {
 		try {
-			memoryReserve = new byte[0];
 			this.renderGlobal.deleteAllDisplayLists();
 		} catch (Throwable var3) {
 		}
