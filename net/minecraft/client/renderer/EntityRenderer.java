@@ -43,30 +43,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.server.integrated.IntegratedServer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MouseFilter;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ReportedException;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.biome.BiomeGenBase;
-import optifine.Config;
-import optifine.CustomColors;
-import optifine.Lagometer;
-import optifine.RandomMobs;
-import optifine.Reflector;
-import optifine.ReflectorForge;
-import optifine.TextureUtils;
+import optifine.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Mouse;
@@ -289,7 +271,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
             else if (Reflector.ForgeHooksClient_loadEntityShader.exists())
             {
-                Reflector.call(Reflector.ForgeHooksClient_loadEntityShader, new Object[] {entityIn, this});
+                Reflector.call(Reflector.ForgeHooksClient_loadEntityShader, entityIn, this);
             }
         }
     }
@@ -328,13 +310,13 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
             catch (IOException ioexception)
             {
-                logger.warn((String)("Failed to load shader: " + resourceLocationIn), (Throwable)ioexception);
+                logger.warn(("Failed to load shader: " + resourceLocationIn), ioexception);
                 this.shaderIndex = shaderCount;
                 this.useShader = false;
             }
             catch (JsonSyntaxException jsonsyntaxexception)
             {
-                logger.warn((String)("Failed to load shader: " + resourceLocationIn), (Throwable)jsonsyntaxexception);
+                logger.warn(("Failed to load shader: " + resourceLocationIn), jsonsyntaxexception);
                 this.shaderIndex = shaderCount;
                 this.useShader = false;
             }
@@ -546,7 +528,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             if (this.pointedEntity != null && flag && vec3.distanceTo(vec33) > 3.0D)
             {
                 this.pointedEntity = null;
-                this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, (EnumFacing)null, new BlockPos(vec33));
+                this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, null, new BlockPos(vec33));
             }
 
             if (this.pointedEntity != null && (d2 < d1 || this.mc.objectMouseOver == null))
@@ -731,11 +713,11 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                 if (Reflector.ForgeHooksClient_orientBedCamera.exists())
                 {
-                    Reflector.callVoid(Reflector.ForgeHooksClient_orientBedCamera, new Object[] {this.mc.theWorld, blockpos, iblockstate, entity});
+                    Reflector.callVoid(Reflector.ForgeHooksClient_orientBedCamera, this.mc.theWorld, blockpos, iblockstate, entity);
                 }
                 else if (block == Blocks.bed)
                 {
-                    int j = ((EnumFacing)iblockstate.getValue(BlockBed.FACING)).getHorizontalIndex();
+                    int j = iblockstate.getValue(BlockBed.FACING).getHorizontalIndex();
                     GlStateManager.rotate((float)(j * 90), 0.0F, 1.0F, 0.0F);
                 }
 
@@ -818,7 +800,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
 
                 Block block1 = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
-                Object object = Reflector.newInstance(Reflector.EntityViewRenderEvent_CameraSetup_Constructor, new Object[] {this, entity, block1, Float.valueOf(partialTicks), Float.valueOf(f6), Float.valueOf(f7), Float.valueOf(f8)});
+                Object object = Reflector.newInstance(Reflector.EntityViewRenderEvent_CameraSetup_Constructor, this, entity, block1, Float.valueOf(partialTicks), Float.valueOf(f6), Float.valueOf(f7), Float.valueOf(f8));
                 Reflector.postForgeBusEvent(object);
                 f8 = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_CameraSetup_roll, f8);
                 f7 = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_CameraSetup_pitch, f7);
@@ -1383,7 +1365,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 {
                     if (Reflector.ForgeHooksClient_drawScreen.exists())
                     {
-                        Reflector.callVoid(Reflector.ForgeHooksClient_drawScreen, new Object[] {this.mc.currentScreen, Integer.valueOf(j1), Integer.valueOf(k1), Float.valueOf(p_181560_1_)});
+                        Reflector.callVoid(Reflector.ForgeHooksClient_drawScreen, this.mc.currentScreen, Integer.valueOf(j1), Integer.valueOf(k1), Float.valueOf(p_181560_1_));
                     }
                     else
                     {
@@ -1398,17 +1380,15 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     crashreportcategory.addCrashSectionCallable("Mouse location", new Callable()
                     {
                         private static final String __OBFID = "CL_00000950";
-                        public String call() throws Exception
-                        {
-                            return String.format("Scaled: (%d, %d). Absolute: (%d, %d)", new Object[] {Integer.valueOf(j1), Integer.valueOf(k1), Integer.valueOf(Mouse.getX()), Integer.valueOf(Mouse.getY())});
+                        public String call() {
+                            return String.format("Scaled: (%d, %d). Absolute: (%d, %d)", Integer.valueOf(j1), Integer.valueOf(k1), Integer.valueOf(Mouse.getX()), Integer.valueOf(Mouse.getY()));
                         }
                     });
                     crashreportcategory.addCrashSectionCallable("Screen size", new Callable()
                     {
                         private static final String __OBFID = "CL_00000951";
-                        public String call() throws Exception
-                        {
-                            return String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", new Object[] {Integer.valueOf(scaledresolution.getScaledWidth()), Integer.valueOf(scaledresolution.getScaledHeight()), Integer.valueOf(EntityRenderer.this.mc.displayWidth), Integer.valueOf(EntityRenderer.this.mc.displayHeight), Integer.valueOf(scaledresolution.getScaleFactor())});
+                        public String call() {
+                            return String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", Integer.valueOf(scaledresolution.getScaledWidth()), Integer.valueOf(scaledresolution.getScaledHeight()), Integer.valueOf(EntityRenderer.this.mc.displayWidth), Integer.valueOf(EntityRenderer.this.mc.displayHeight), Integer.valueOf(scaledresolution.getScaleFactor()));
                         }
                     });
                     throw new ReportedException(crashreport);
@@ -1710,14 +1690,14 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
             if (Reflector.ForgeHooksClient_setRenderPass.exists())
             {
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(0)});
+                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, 0);
             }
 
             renderglobal.renderEntities(entity, frustum, partialTicks);
 
             if (Reflector.ForgeHooksClient_setRenderPass.exists())
             {
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(-1)});
+                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, -1);
             }
 
             RenderHelper.disableStandardItemLighting();
@@ -1732,7 +1712,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 GlStateManager.disableAlpha();
                 this.mc.mcProfiler.endStartSection("outline");
 
-                if ((!Reflector.ForgeHooksClient_onDrawBlockHighlight.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onDrawBlockHighlight, new Object[] {renderglobal, entityplayer, this.mc.objectMouseOver, Integer.valueOf(0), entityplayer.getHeldItem(), Float.valueOf(partialTicks)})) && !this.mc.gameSettings.hideGUI)
+                if ((!Reflector.ForgeHooksClient_onDrawBlockHighlight.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onDrawBlockHighlight, renderglobal, entityplayer, this.mc.objectMouseOver, Integer.valueOf(0), entityplayer.getHeldItem(), Float.valueOf(partialTicks))) && !this.mc.gameSettings.hideGUI)
                 {
                     renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, partialTicks);
                 }
@@ -1749,7 +1729,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             GlStateManager.disableAlpha();
             this.mc.mcProfiler.endStartSection("outline");
 
-            if ((!Reflector.ForgeHooksClient_onDrawBlockHighlight.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onDrawBlockHighlight, new Object[] {renderglobal, entityplayer1, this.mc.objectMouseOver, Integer.valueOf(0), entityplayer1.getHeldItem(), Float.valueOf(partialTicks)})) && !this.mc.gameSettings.hideGUI)
+            if ((!Reflector.ForgeHooksClient_onDrawBlockHighlight.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onDrawBlockHighlight, renderglobal, entityplayer1, this.mc.objectMouseOver, Integer.valueOf(0), entityplayer1.getHeldItem(), Float.valueOf(partialTicks))) && !this.mc.gameSettings.hideGUI)
             {
                 renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
             }
@@ -1852,10 +1832,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
         {
             RenderHelper.enableStandardItemLighting();
             this.mc.mcProfiler.endStartSection("entities");
-            Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(1)});
+            Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, Integer.valueOf(1));
             this.mc.renderGlobal.renderEntities(entity, frustum, partialTicks);
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(-1)});
+            Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, Integer.valueOf(-1));
             RenderHelper.disableStandardItemLighting();
         }
 
@@ -1874,7 +1854,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         if (Reflector.ForgeHooksClient_dispatchRenderLast.exists())
         {
             this.mc.mcProfiler.endStartSection("forge_render_last");
-            Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[] {renderglobal, Float.valueOf(partialTicks)});
+            Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, renderglobal, Float.valueOf(partialTicks));
         }
 
         this.mc.mcProfiler.endStartSection("hand");
@@ -1974,7 +1954,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                     if (block.getMaterial() == Material.lava)
                     {
-                        this.mc.theWorld.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, (double)blockpos1.getX() + d3, (double)((float)blockpos1.getY() + 0.1F) - block.getBlockBoundsMinY(), (double)blockpos1.getZ() + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+                        this.mc.theWorld.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, (double)blockpos1.getX() + d3, (double)((float)blockpos1.getY() + 0.1F) - block.getBlockBoundsMinY(), (double)blockpos1.getZ() + d4, 0.0D, 0.0D, 0.0D);
                     }
                     else if (block.getMaterial() != Material.air)
                     {
@@ -1988,7 +1968,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                             d2 = (double)blockpos2.getZ() + d4;
                         }
 
-                        this.mc.theWorld.spawnParticle(EnumParticleTypes.WATER_DROP, (double)blockpos2.getX() + d3, (double)((float)blockpos2.getY() + 0.1F) + block.getBlockBoundsMaxY(), (double)blockpos2.getZ() + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+                        this.mc.theWorld.spawnParticle(EnumParticleTypes.WATER_DROP, (double)blockpos2.getX() + d3, (double)((float)blockpos2.getY() + 0.1F) + block.getBlockBoundsMaxY(), (double)blockpos2.getZ() + d4, 0.0D, 0.0D, 0.0D);
                     }
                 }
             }
@@ -2017,11 +1997,11 @@ public class EntityRenderer implements IResourceManagerReloadListener
         if (Reflector.ForgeWorldProvider_getWeatherRenderer.exists())
         {
             WorldProvider worldprovider = this.mc.theWorld.provider;
-            Object object = Reflector.call(worldprovider, Reflector.ForgeWorldProvider_getWeatherRenderer, new Object[0]);
+            Object object = Reflector.call(worldprovider, Reflector.ForgeWorldProvider_getWeatherRenderer);
 
             if (object != null)
             {
-                Reflector.callVoid(object, Reflector.IRenderHandler_render, new Object[] {Float.valueOf(partialTicks), this.mc.theWorld, this.mc});
+                Reflector.callVoid(object, Reflector.IRenderHandler_render, Float.valueOf(partialTicks), this.mc.theWorld, this.mc);
                 return;
             }
         }
@@ -2381,7 +2361,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (Reflector.EntityViewRenderEvent_FogColors_Constructor.exists())
         {
-            Object object = Reflector.newInstance(Reflector.EntityViewRenderEvent_FogColors_Constructor, new Object[] {this, entity, block, Float.valueOf(partialTicks), Float.valueOf(this.fogColorRed), Float.valueOf(this.fogColorGreen), Float.valueOf(this.fogColorBlue)});
+            Object object = Reflector.newInstance(Reflector.EntityViewRenderEvent_FogColors_Constructor, this, entity, block, Float.valueOf(partialTicks), Float.valueOf(this.fogColorRed), Float.valueOf(this.fogColorGreen), Float.valueOf(this.fogColorBlue));
             Reflector.postForgeBusEvent(object);
             this.fogColorRed = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_FogColors_red, this.fogColorRed);
             this.fogColorGreen = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_FogColors_green, this.fogColorGreen);
@@ -2406,7 +2386,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             flag = ((EntityPlayer)entity).capabilities.isCreativeMode;
         }
 
-        GL11.glFog(GL11.GL_FOG_COLOR, (FloatBuffer)this.setFogColorBuffer(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 1.0F));
+        GL11.glFog(GL11.GL_FOG_COLOR, this.setFogColorBuffer(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 1.0F));
         GL11.glNormal3f(0.0F, -1.0F, 0.0F);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
@@ -2414,7 +2394,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (Reflector.ForgeHooksClient_getFogDensity.exists())
         {
-            f1 = Reflector.callFloat(Reflector.ForgeHooksClient_getFogDensity, new Object[] {this, entity, block, Float.valueOf(partialTicks), Float.valueOf(0.1F)});
+            f1 = Reflector.callFloat(Reflector.ForgeHooksClient_getFogDensity, this, entity, block, Float.valueOf(partialTicks), Float.valueOf(0.1F));
         }
 
         if (f1 >= 0.0F)
@@ -2553,7 +2533,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
             if (Reflector.ForgeHooksClient_onFogRender.exists())
             {
-                Reflector.callVoid(Reflector.ForgeHooksClient_onFogRender, new Object[] {this, entity, block, Float.valueOf(partialTicks), Integer.valueOf(p_78468_1_), Float.valueOf(f)});
+                Reflector.callVoid(Reflector.ForgeHooksClient_onFogRender, this, entity, block, Float.valueOf(partialTicks), Integer.valueOf(p_78468_1_), Float.valueOf(f));
             }
         }
 
@@ -2695,15 +2675,15 @@ public class EntityRenderer implements IResourceManagerReloadListener
             {
                 String s = "HD_U".replace("HD_U", "HD Ultra").replace("L", "Light");
                 String s1 = s + " " + Config.getNewRelease();
-                ChatComponentText chatcomponenttext = new ChatComponentText(I18n.format("of.message.newVersion", new Object[] {s1}));
+                ChatComponentText chatcomponenttext = new ChatComponentText(I18n.format("of.message.newVersion", s1));
                 this.mc.ingameGUI.getChatGUI().printChatMessage(chatcomponenttext);
-                Config.setNewRelease((String)null);
+                Config.setNewRelease(null);
             }
 
             if (Config.isNotify64BitJava())
             {
                 Config.setNotify64BitJava(false);
-                ChatComponentText chatcomponenttext1 = new ChatComponentText(I18n.format("of.message.java64Bit", new Object[0]));
+                ChatComponentText chatcomponenttext1 = new ChatComponentText(I18n.format("of.message.java64Bit"));
                 this.mc.ingameGUI.getChatGUI().printChatMessage(chatcomponenttext1);
             }
         }
@@ -2742,7 +2722,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 if (j != 0)
                 {
                     String s = GLU.gluErrorString(j);
-                    ChatComponentText chatcomponenttext = new ChatComponentText(I18n.format("of.message.openglError", new Object[] {Integer.valueOf(j), s}));
+                    ChatComponentText chatcomponenttext = new ChatComponentText(I18n.format("of.message.openglError", Integer.valueOf(j), s));
                     this.mc.ingameGUI.getChatGUI().printChatMessage(chatcomponenttext);
                 }
             }
@@ -2788,7 +2768,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
         catch (Throwable var8)
         {
-            ;
         }
     }
 

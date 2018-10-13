@@ -3,22 +3,9 @@ package net.minecraft.client.gui;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import java.awt.Toolkit;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.stream.GuiTwitchUserMode;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -43,6 +30,20 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import tv.twitch.chat.ChatUserInfo;
+
+import java.awt.*;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public abstract class GuiScreen extends Gui implements GuiYesNoCallback
 {
@@ -87,14 +88,18 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        for (int i = 0; i < this.buttonList.size(); ++i)
-        {
-            ((GuiButton)this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY);
+        for (GuiButton button : this.buttonList) {
+            button.drawButton(this.mc, mouseX, mouseY);
+            if (button instanceof HoverButton) {
+                if (mouseX >= button.xPosition && mouseX <= button.xPosition + button.width &&
+                    mouseY >= button.yPosition && mouseY <= button.yPosition + button.height) {
+                    drawHoveringText(((HoverButton) button).getHoverText(), mouseX, mouseY);
+                }
+            }
         }
 
-        for (int j = 0; j < this.labelList.size(); ++j)
-        {
-            ((GuiLabel)this.labelList.get(j)).drawLabel(this.mc, mouseX, mouseY);
+        for (GuiLabel aLabelList : this.labelList) {
+            ((GuiLabel) aLabelList).drawLabel(this.mc, mouseX, mouseY);
         }
     }
 
@@ -106,7 +111,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
     {
         if (keyCode == 1)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
 
             if (this.mc.currentScreen == null)
             {
@@ -118,21 +123,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
     /**
      * Returns a string stored in the system clipboard.
      */
-    public static String getClipboardString()
-    {
-        try
-        {
+    public static String getClipboardString() {
+        try {
             Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents((Object)null);
 
             if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.stringFlavor))
-            {
-                return (String)transferable.getTransferData(DataFlavor.stringFlavor);
-            }
-        }
-        catch (Exception var1)
-        {
-            ;
-        }
+				return (String) transferable.getTransferData(DataFlavor.stringFlavor);
+        } catch (Exception ignored) {}
 
         return "";
     }
@@ -140,169 +137,124 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
     /**
      * Stores the given string in the system clipboard
      */
-    public static void setClipboardString(String copyText)
-    {
-        if (!StringUtils.isEmpty(copyText))
-        {
-            try
-            {
-                StringSelection stringselection = new StringSelection(copyText);
-                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringselection, (ClipboardOwner)null);
-            }
-            catch (Exception var2)
-            {
-                ;
-            }
-        }
+    public static void setClipboardString(String copyText) {
+        if (!StringUtils.isEmpty(copyText)) try {
+			StringSelection stringselection = new StringSelection(copyText);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringselection, (ClipboardOwner) null);
+		} catch (Exception ignored) {}
     }
 
-    protected void renderToolTip(ItemStack stack, int x, int y)
-    {
-        List<String> list = stack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
-
-        for (int i = 0; i < list.size(); ++i)
-        {
-            if (i == 0)
-            {
-                list.set(i, stack.getRarity().rarityColor + (String)list.get(i));
-            }
-            else
-            {
-                list.set(i, EnumChatFormatting.GRAY + (String)list.get(i));
-            }
-        }
-
-        this.drawHoveringText(list, x, y);
+    protected void renderToolTip(ItemStack stack, int x, int y) {
+        List<String> list = stack.getTooltip(this.mc.thePlayer, false);
+        String advanced = stack.getAdvancedToolTip();
+		int width = 0;
+        for (int i = 0; i < list.size(); ++i) {
+        	int w = fontRendererObj.getStringWidth(list.get(i));
+        	if (width < w) width = w;
+			if (i == 0) list.set(i, stack.getRarity().rarityColor + list.get(i));
+			else list.set(i, EnumChatFormatting.GRAY + list.get(i));
+		}
+		int advWidth = fontRendererObj.getStringWidth(advanced);
+		if (mc.gameSettings.advancedItemTooltips && width < advWidth) width = advWidth;
+        this.drawHoveringText(list, x, y, width);
+		int k = 8;
+		if (list.size() > 1) k += 2 + (list.size() - 1) * 10;
+		if (mc.gameSettings.advancedItemTooltips)
+			drawHoveringText(Collections.singletonList(advanced), x, y + k + 7, width, 0xd7124f20, 0xff217b91);
     }
 
-    /**
+
+	/**
      * Draws the text when mouse is over creative inventory tab. Params: current creative tab to be checked, current
      * mouse x position, current mouse y position.
      */
-    protected void drawCreativeTabHoveringText(String tabName, int mouseX, int mouseY)
-    {
-        this.drawHoveringText(Arrays.<String>asList(new String[] {tabName}), mouseX, mouseY);
+    protected void drawCreativeTabHoveringText(String tabName, int mouseX, int mouseY) {
+        this.drawHoveringText(Arrays.asList(tabName), mouseX, mouseY);
     }
 
     /**
      * Draws a List of strings as a tooltip. Every entry is drawn on a seperate line.
      */
-    protected void drawHoveringText(List<String> textLines, int x, int y)
-    {
-        if (!textLines.isEmpty())
-        {
-            GlStateManager.disableRescaleNormal();
-            RenderHelper.disableStandardItemLighting();
-            GlStateManager.disableLighting();
-            GlStateManager.disableDepth();
-            int i = 0;
+	public void drawHoveringText(List<String> textLines, int x, int y, int textWidth, int backgroundColor, int stripColor) {
+    	if (textLines.isEmpty()) return;
+//            GlStateManager.disableRescaleNormal();
+//            RenderHelper.disableStandardItemLighting();
+//            GlStateManager.disableLighting();
+		GlStateManager.disableDepth();
 
-            for (String s : textLines)
-            {
-                int j = this.fontRendererObj.getStringWidth(s);
+		// Ширина рамки по самой длинной строке
+		if (textWidth < 0) for (String s : textLines) {
+			int j = this.fontRendererObj.getStringWidth(s);
+			if (j > textWidth) textWidth = j;
+		}
 
-                if (j > i)
-                {
-                    i = j;
-                }
-            }
+		int posX = x + 12;
+		int posY = y - 12;
+		int k = 8;
 
-            int l1 = x + 12;
-            int i2 = y - 12;
-            int k = 8;
+		if (textLines.size() > 1) k += 2 + (textLines.size() - 1) * 10;
+		if (posX + textWidth > this.width) posX -= 28 + textWidth;
+		if (posY + k + 6 > this.height) posY = this.height - k - 6;
 
-            if (textLines.size() > 1)
-            {
-                k += 2 + (textLines.size() - 1) * 10;
-            }
+		this.zLevel = 300.0F;
+		this.itemRender.zLevel = 300.0F;
 
-            if (l1 + i > this.width)
-            {
-                l1 -= 28 + i;
-            }
+		drawRect(posX - 3, posY - 4, posX + textWidth + 3, posY + k + 3, backgroundColor);
+		drawRect(posX - 5, posY - 4, posX - 3, posY + k + 3, stripColor);
 
-            if (i2 + k + 6 > this.height)
-            {
-                i2 = this.height - k - 6;
-            }
+//            int l = -267386864;
+//            this.drawGradientRect(posX - 3, posY - 4, posX + textWidth + 3, posY - 3, l, l);
+//            this.drawGradientRect(posX - 3, posY + k + 3, posX + textWidth + 3, posY + k + 4, l, l);
+//            this.drawGradientRect(posX - 3, posY - 3, posX + textWidth + 3, posY + k + 3, l, l);
+//            this.drawGradientRect(posX - 4, posY - 3, posX - 3, posY + k + 3, l, l);
+//            this.drawGradientRect(posX + textWidth + 3, posY - 3, posX + textWidth + 4, posY + k + 3, l, l);
+//            int i1 = 1347420415;
+//            int j1 = (i1 & 16711422) >> 1 | i1 & -16777216;
+//            this.drawGradientRect(posX - 3, posY - 3 + 1, posX - 3 + 1, posY + k + 3 - 1, i1, j1);
+//            this.drawGradientRect(posX + textWidth + 2, posY - 3 + 1, posX + textWidth + 3, posY + k + 3 - 1, i1, j1);
+//            this.drawGradientRect(posX - 3, posY - 3, posX + textWidth + 3, posY - 3 + 1, i1, i1);
+//            this.drawGradientRect(posX - 3, posY + k + 2, posX + textWidth + 3, posY + k + 3, j1, j1);
 
-            this.zLevel = 300.0F;
-            this.itemRender.zLevel = 300.0F;
-            int l = -267386864;
-            this.drawGradientRect(l1 - 3, i2 - 4, l1 + i + 3, i2 - 3, l, l);
-            this.drawGradientRect(l1 - 3, i2 + k + 3, l1 + i + 3, i2 + k + 4, l, l);
-            this.drawGradientRect(l1 - 3, i2 - 3, l1 + i + 3, i2 + k + 3, l, l);
-            this.drawGradientRect(l1 - 4, i2 - 3, l1 - 3, i2 + k + 3, l, l);
-            this.drawGradientRect(l1 + i + 3, i2 - 3, l1 + i + 4, i2 + k + 3, l, l);
-            int i1 = 1347420415;
-            int j1 = (i1 & 16711422) >> 1 | i1 & -16777216;
-            this.drawGradientRect(l1 - 3, i2 - 3 + 1, l1 - 3 + 1, i2 + k + 3 - 1, i1, j1);
-            this.drawGradientRect(l1 + i + 2, i2 - 3 + 1, l1 + i + 3, i2 + k + 3 - 1, i1, j1);
-            this.drawGradientRect(l1 - 3, i2 - 3, l1 + i + 3, i2 - 3 + 1, i1, i1);
-            this.drawGradientRect(l1 - 3, i2 + k + 2, l1 + i + 3, i2 + k + 3, j1, j1);
+		for (int k1 = 0; k1 < textLines.size(); ++k1) {
+			String s1 = textLines.get(k1);
+			this.fontRendererObj.drawStringWithShadow(s1, (float)posX, (float)posY, -1);
+			if (k1 == 0) posY += 2;
+			posY += 10;
+		}
 
-            for (int k1 = 0; k1 < textLines.size(); ++k1)
-            {
-                String s1 = (String)textLines.get(k1);
-                this.fontRendererObj.drawStringWithShadow(s1, (float)l1, (float)i2, -1);
+		this.zLevel = 0.0F;
+		this.itemRender.zLevel = 0.0F;
+//            GlStateManager.enableLighting();
+		GlStateManager.enableDepth();
+//            RenderHelper.enableStandardItemLighting();
+//            GlStateManager.enableRescaleNormal();
+	}
+    protected void drawHoveringText(List<String> textLines, int x, int y) {
+    	drawHoveringText(textLines, x, y, -1);
+	}
 
-                if (k1 == 0)
-                {
-                    i2 += 2;
-                }
-
-                i2 += 10;
-            }
-
-            this.zLevel = 0.0F;
-            this.itemRender.zLevel = 0.0F;
-            GlStateManager.enableLighting();
-            GlStateManager.enableDepth();
-            RenderHelper.enableStandardItemLighting();
-            GlStateManager.enableRescaleNormal();
-        }
-    }
+    protected void drawHoveringText(List<String> textLines, int x, int y, int width) {
+    	drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
+	}
 
     /**
      * Draws the hover event specified by the given chat component
      */
-    protected void handleComponentHover(IChatComponent p_175272_1_, int p_175272_2_, int p_175272_3_)
-    {
-        if (p_175272_1_ != null && p_175272_1_.getChatStyle().getChatHoverEvent() != null)
-        {
-            HoverEvent hoverevent = p_175272_1_.getChatStyle().getChatHoverEvent();
-
-            if (hoverevent.getAction() == HoverEvent.Action.SHOW_ITEM)
-            {
+    protected void handleComponentHover(IChatComponent component, int x, int y) {
+        if (component != null && component.getChatStyle().getChatHoverEvent() != null) {
+            HoverEvent hoverevent = component.getChatStyle().getChatHoverEvent();
+            if (hoverevent.getAction() == HoverEvent.Action.SHOW_ITEM) {
                 ItemStack itemstack = null;
+                try {
+                    NBTTagCompound nbtbase = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
+					itemstack = ItemStack.loadItemStackFromNBT(nbtbase);
+                } catch (NBTException ignored) {}
 
-                try
-                {
-                    NBTBase nbtbase = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
-
-                    if (nbtbase instanceof NBTTagCompound)
-                    {
-                        itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound)nbtbase);
-                    }
-                }
-                catch (NBTException var11)
-                {
-                    ;
-                }
-
-                if (itemstack != null)
-                {
-                    this.renderToolTip(itemstack, p_175272_2_, p_175272_3_);
-                }
-                else
-                {
-                    this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Item!", p_175272_2_, p_175272_3_);
-                }
+                if (itemstack != null) this.renderToolTip(itemstack, x, y);
+				else this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Item!", x, y);
             }
-            else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ENTITY)
-            {
-                if (this.mc.gameSettings.advancedItemTooltips)
-                {
+            else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ENTITY) {
+                if (this.mc.gameSettings.advancedItemTooltips) {
                     try
                     {
                         NBTBase nbtbase1 = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
@@ -320,22 +272,22 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
                             }
 
                             list1.add(nbttagcompound.getString("id"));
-                            this.drawHoveringText(list1, p_175272_2_, p_175272_3_);
+                            this.drawHoveringText(list1, x, y);
                         }
                         else
                         {
-                            this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", p_175272_2_, p_175272_3_);
+                            this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", x, y);
                         }
                     }
                     catch (NBTException var10)
                     {
-                        this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", p_175272_2_, p_175272_3_);
+                        this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", x, y);
                     }
                 }
             }
             else if (hoverevent.getAction() == HoverEvent.Action.SHOW_TEXT)
             {
-                this.drawHoveringText(NEWLINE_SPLITTER.splitToList(hoverevent.getValue().getFormattedText()), p_175272_2_, p_175272_3_);
+                this.drawHoveringText(NEWLINE_SPLITTER.splitToList(hoverevent.getValue().getFormattedText()), x, y);
             }
             else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT)
             {
@@ -354,11 +306,11 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
                         list.addAll(this.fontRendererObj.listFormattedStringToWidth(s1, 150));
                     }
 
-                    this.drawHoveringText(list, p_175272_2_, p_175272_3_);
+                    this.drawHoveringText(list, x, y);
                 }
                 else
                 {
-                    this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid statistic/achievement!", p_175272_2_, p_175272_3_);
+                    this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid statistic/achievement!", x, y);
                 }
             }
 

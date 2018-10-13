@@ -2,7 +2,6 @@ package net.minecraft.client.gui.spectator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;
@@ -10,12 +9,14 @@ import net.minecraft.client.gui.spectator.categories.SpectatorDetails;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
+import java.util.List;
+
 public class SpectatorMenu
 {
-    private static final ISpectatorMenuObject field_178655_b = new SpectatorMenu.EndSpectatorObject();
-    private static final ISpectatorMenuObject field_178656_c = new SpectatorMenu.MoveMenuObject(-1, true);
-    private static final ISpectatorMenuObject field_178653_d = new SpectatorMenu.MoveMenuObject(1, true);
-    private static final ISpectatorMenuObject field_178654_e = new SpectatorMenu.MoveMenuObject(1, false);
+    private static final ISpectatorMenuObject quitButton = new QuitMenuObject();
+    private static final ISpectatorMenuObject field_178656_c = new SwitchPageMenuObject(-1, true);
+    private static final ISpectatorMenuObject field_178653_d = new SwitchPageMenuObject(1, true);
+    private static final ISpectatorMenuObject field_178654_e = new SwitchPageMenuObject(1, false);
     public static final ISpectatorMenuObject field_178657_a = new ISpectatorMenuObject()
     {
         public void func_178661_a(SpectatorMenu menu)
@@ -33,32 +34,27 @@ public class SpectatorMenu
             return false;
         }
     };
-    private final ISpectatorMenuRecipient field_178651_f;
-    private final List<SpectatorDetails> field_178652_g = Lists.<SpectatorDetails>newArrayList();
+    private final ISpectatorMenuRecipient recipient;
+    private final List<SpectatorDetails> field_178652_g = Lists.newArrayList();
     private ISpectatorMenuView field_178659_h = new BaseSpectatorGroup();
     private int field_178660_i = -1;
     private int field_178658_j;
 
-    public SpectatorMenu(ISpectatorMenuRecipient p_i45497_1_)
+    public SpectatorMenu(ISpectatorMenuRecipient recipient)
     {
-        this.field_178651_f = p_i45497_1_;
+        this.recipient = recipient;
     }
 
     public ISpectatorMenuObject func_178643_a(int p_178643_1_)
     {
         int i = p_178643_1_ + this.field_178658_j * 6;
-        return this.field_178658_j > 0 && p_178643_1_ == 0 ? field_178656_c : (p_178643_1_ == 7 ? (i < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e) : (p_178643_1_ == 8 ? field_178655_b : (i >= 0 && i < this.field_178659_h.func_178669_a().size() ? (ISpectatorMenuObject)Objects.firstNonNull(this.field_178659_h.func_178669_a().get(i), field_178657_a) : field_178657_a)));
+        return this.field_178658_j > 0 && p_178643_1_ == 0 ? field_178656_c : (p_178643_1_ == 7 ? (i < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e) : (p_178643_1_ == 8 ? quitButton : (i >= 0 && i < this.field_178659_h.func_178669_a().size() ? Objects.firstNonNull(this.field_178659_h.func_178669_a().get(i), field_178657_a) : field_178657_a)));
     }
 
-    public List<ISpectatorMenuObject> func_178642_a()
-    {
-        List<ISpectatorMenuObject> list = Lists.<ISpectatorMenuObject>newArrayList();
+    public List<ISpectatorMenuObject> func_178642_a() {
+        List<ISpectatorMenuObject> list = Lists.newArrayList();
 
-        for (int i = 0; i <= 8; ++i)
-        {
-            list.add(this.func_178643_a(i));
-        }
-
+        for (int i = 0; i <= 8; ++i) list.add(this.func_178643_a(i));
         return list;
     }
 
@@ -91,7 +87,7 @@ public class SpectatorMenu
 
     public void func_178641_d()
     {
-        this.field_178651_f.func_175257_a(this);
+        this.recipient.func_175257_a(this);
     }
 
     public int func_178648_e()
@@ -112,11 +108,8 @@ public class SpectatorMenu
         return new SpectatorDetails(this.field_178659_h, this.func_178642_a(), this.field_178660_i);
     }
 
-    static class EndSpectatorObject implements ISpectatorMenuObject
-    {
-        private EndSpectatorObject()
-        {
-        }
+    static class QuitMenuObject implements ISpectatorMenuObject {
+        private QuitMenuObject() {}
 
         public void func_178661_a(SpectatorMenu menu)
         {
@@ -125,7 +118,7 @@ public class SpectatorMenu
 
         public IChatComponent getSpectatorName()
         {
-            return new ChatComponentText("Close menu");
+            return new ChatComponentText("Закрыть меню");
         }
 
         public void func_178663_a(float p_178663_1_, int alpha)
@@ -140,12 +133,12 @@ public class SpectatorMenu
         }
     }
 
-    static class MoveMenuObject implements ISpectatorMenuObject
+    static class SwitchPageMenuObject implements ISpectatorMenuObject
     {
         private final int field_178666_a;
         private final boolean field_178665_b;
 
-        public MoveMenuObject(int p_i45495_1_, boolean p_i45495_2_)
+        public SwitchPageMenuObject(int p_i45495_1_, boolean p_i45495_2_)
         {
             this.field_178666_a = p_i45495_1_;
             this.field_178665_b = p_i45495_2_;
@@ -158,7 +151,7 @@ public class SpectatorMenu
 
         public IChatComponent getSpectatorName()
         {
-            return this.field_178666_a < 0 ? new ChatComponentText("Previous Page") : new ChatComponentText("Next Page");
+            return this.field_178666_a < 0 ? new ChatComponentText("Предыдущая страница") : new ChatComponentText("Следующая страница");
         }
 
         public void func_178663_a(float p_178663_1_, int alpha)

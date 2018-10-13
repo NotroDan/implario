@@ -3,9 +3,6 @@ package net.minecraft.client.gui;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -32,17 +29,14 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.FoodStats;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.*;
 import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
 import optifine.CustomColors;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Random;
 
 public class GuiIngame extends Gui
 {
@@ -113,20 +107,15 @@ public class GuiIngame extends Gui
         this.field_175193_B = 20;
     }
 
-    public void renderGameOverlay(float partialTicks)
-    {
+    public void renderGameOverlay(float partialTicks) {
         ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
         this.mc.entityRenderer.setupOverlayRendering();
         GlStateManager.enableBlend();
 
-        if (Config.isVignetteEnabled())
-        {
-            this.renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
-        }
-        else
-        {
+        if (Config.isVignetteEnabled()) this.renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
+        else {
             GlStateManager.enableDepth();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         }
@@ -134,28 +123,15 @@ public class GuiIngame extends Gui
         ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
 
         if (this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))
-        {
             this.renderPumpkinOverlay(scaledresolution);
-        }
 
-        if (!this.mc.thePlayer.isPotionActive(Potion.confusion))
-        {
+        if (!this.mc.thePlayer.isPotionActive(Potion.confusion)) {
             float f = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * partialTicks;
-
-            if (f > 0.0F)
-            {
-                this.func_180474_b(f, scaledresolution);
-            }
+            if (f > 0) this.func_180474_b(f, scaledresolution);
         }
 
-        if (this.mc.playerController.isSpectator())
-        {
-            this.spectatorGui.renderTooltip(scaledresolution, partialTicks);
-        }
-        else
-        {
-            this.renderTooltip(scaledresolution, partialTicks);
-        }
+        if (this.mc.playerController.isSpectator()) this.spectatorGui.renderTooltip(scaledresolution, partialTicks);
+        else this.renderTooltip(scaledresolution, partialTicks);
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(icons);
@@ -361,7 +337,7 @@ public class GuiIngame extends Gui
             int i = sr.getScaledWidth() / 2;
             float f = this.zLevel;
             this.zLevel = -90.0F;
-            this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
+            this.drawTexturedModalRect(i - 91 - 23, sr.getScaledHeight() - 22 - 7, 20, 110, 182 + 23 + 23, 22 + 7 + 7);
             this.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
             this.zLevel = f;
             GlStateManager.enableRescaleNormal();
@@ -493,11 +469,11 @@ public class GuiIngame extends Gui
 
         if (this.mc.theWorld.getTotalWorldTime() >= 120500L)
         {
-            s = I18n.format("demo.demoExpired", new Object[0]);
+            s = I18n.format("demo.demoExpired");
         }
         else
         {
-            s = I18n.format("demo.remainingTime", new Object[] {StringUtils.ticksToElapsedTime((int)(120500L - this.mc.theWorld.getTotalWorldTime()))});
+            s = I18n.format("demo.remainingTime", StringUtils.ticksToElapsedTime((int)(120500L - this.mc.theWorld.getTotalWorldTime())));
         }
 
         int i = this.getFontRenderer().getStringWidth(s);
@@ -523,10 +499,7 @@ public class GuiIngame extends Gui
                 {
                     BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
 
-                    if (this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory)
-                    {
-                        return true;
-                    }
+                    return this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
                 }
 
                 return false;

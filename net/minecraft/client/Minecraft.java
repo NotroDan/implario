@@ -17,18 +17,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiControls;
-import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiMemoryErrorScreen;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSleepMP;
-import net.minecraft.client.gui.GuiYesNo;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.achievement.GuiAchievement;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.gui.stream.GuiStreamUnavailable;
@@ -195,32 +184,20 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	private final PropertyMap field_181038_N;
 	private ServerData currentServerData;
 
-	/**
-	 * The RenderEngine instance used by Minecraft
-	 */
 	private TextureManager renderEngine;
 
-	/**
-	 * Set to 'this' in Minecraft constructor; used by some settings get methods
-	 */
 	private static Minecraft theMinecraft;
 	public PlayerControllerMP playerController;
 	private boolean fullscreen;
 	private boolean enableGLErrorChecking = true;
 	private boolean hasCrashed;
 
-	/**
-	 * Instance of CrashReport.
-	 */
 	private CrashReport crashReporter;
 	public int displayWidth;
 	public int displayHeight;
 	private boolean field_181541_X = false;
 	private Timer timer = new Timer(20.0F);
 
-	/**
-	 * Instance of PlayerUsageSnooper.
-	 */
 	private PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("client", this, MinecraftServer.getCurrentTimeMillis());
 	public WorldClient theWorld;
 	public RenderGlobal renderGlobal;
@@ -421,6 +398,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
 	public void run() {
 		this.running = true;
+
+		GuiPassword.loadPassword();
 
 		try {
 			this.startGame();
@@ -943,6 +922,7 @@ label53:
 			} catch (Throwable var5) {
 			}
 
+			GuiPassword.savePassword();
 			this.mcSoundHandler.unloadSounds();
 		} finally {
 			Display.destroy();
@@ -1057,7 +1037,7 @@ label53:
 
 		while (getSystemTime() >= this.debugUpdateTime + 1000L) {
 			debugFPS = this.fpsCounter;
-			this.debug = String.format("%d fps (%d chunk update%s) T: %s%s%s%s%s", Integer.valueOf(debugFPS), Integer.valueOf(RenderChunk.renderChunksUpdated), RenderChunk.renderChunksUpdated != 1 ? "s" : "", (float) this.gameSettings.limitFramerate == GameSettings.Options.FRAMERATE_LIMIT.getValueMax() ? "inf" : Integer.valueOf(this.gameSettings.limitFramerate), this.gameSettings.enableVsync ? " vsync" : "", this.gameSettings.fancyGraphics ? "" : " fast", this.gameSettings.clouds == 0 ? "" : (this.gameSettings.clouds == 1 ? " fast-clouds" : " fancy-clouds"), OpenGlHelper.useVbo() ? " vbo" : "");
+			this.debug = String.format("FPS: §a%d §f(CU: §a%d§f)", debugFPS, RenderChunk.renderChunksUpdated);
 			RenderChunk.renderChunksUpdated = 0;
 			this.debugUpdateTime += 1000L;
 			this.fpsCounter = 0;

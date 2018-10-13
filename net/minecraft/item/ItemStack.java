@@ -3,10 +3,6 @@ package net.minecraft.item;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Random;
-import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDurability;
@@ -24,14 +20,13 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
 
 public final class ItemStack
 {
@@ -624,10 +619,7 @@ public final class ItemStack
                 {
                     this.stackTagCompound.removeTag("display");
 
-                    if (this.stackTagCompound.hasNoTags())
-                    {
-                        this.setTagCompound((NBTTagCompound)null);
-                    }
+                    if (this.stackTagCompound.hasNoTags()) this.setTagCompound(null);
                 }
             }
         }
@@ -638,44 +630,23 @@ public final class ItemStack
      */
     public boolean hasDisplayName()
     {
-        return this.stackTagCompound == null ? false : (!this.stackTagCompound.hasKey("display", 10) ? false : this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8));
+        return this.stackTagCompound != null && (this.stackTagCompound.hasKey("display", 10) && this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8));
     }
 
-    public List<String> getTooltip(EntityPlayer playerIn, boolean advanced)
-    {
-        List<String> list = Lists.<String>newArrayList();
+	public String getAdvancedToolTip() {
+		String description = "§7" + Item.getIdFromItem(this.item);
+		description += " - " + Item.itemRegistry.getNameForObject(this.item);
+		return description;
+	}
+
+    public List<String> getTooltip(EntityPlayer playerIn, boolean advanced) {
+        List<String> list = Lists.newArrayList();
         String s = this.getDisplayName();
 
-        if (this.hasDisplayName())
-        {
-            s = EnumChatFormatting.ITALIC + s;
-        }
-
+        if (this.hasDisplayName() && !s.startsWith("§")) s = EnumChatFormatting.ITALIC + s;
         s = s + EnumChatFormatting.RESET;
 
-        if (advanced)
-        {
-            String s1 = "";
-
-            if (s.length() > 0)
-            {
-                s = s + " (";
-                s1 = ")";
-            }
-
-            int i = Item.getIdFromItem(this.item);
-
-            if (this.getHasSubtypes())
-            {
-                s = s + String.format("#%04d/%d%s", new Object[] {Integer.valueOf(i), Integer.valueOf(this.itemDamage), s1});
-            }
-            else
-            {
-                s = s + String.format("#%04d%s", new Object[] {Integer.valueOf(i), s1});
-            }
-        }
-        else if (!this.hasDisplayName() && this.item == Items.filled_map)
-        {
+        if (!this.hasDisplayName() && this.item == Items.filled_map) {
             s = s + " #" + this.itemDamage;
         }
 
@@ -1083,4 +1054,5 @@ public final class ItemStack
             return false;
         }
     }
+
 }

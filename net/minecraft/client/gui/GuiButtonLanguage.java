@@ -3,11 +3,11 @@ package net.minecraft.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 
-public class GuiButtonLanguage extends GuiButton
+public class GuiButtonLanguage extends HoverButton
 {
     public GuiButtonLanguage(int buttonID, int xPos, int yPos)
     {
-        super(buttonID, xPos, yPos, 20, 20, "");
+        super(buttonID, xPos, yPos, 20, 20, "", "Изменить язык");
     }
 
     /**

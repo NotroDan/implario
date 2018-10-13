@@ -1,12 +1,6 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,6 +13,13 @@ import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.Charsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Random;
 
 public class GuiWinGame extends GuiScreen
 {
@@ -70,7 +71,7 @@ public class GuiWinGame extends GuiScreen
     private void sendRespawnPacket()
     {
         this.mc.thePlayer.sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.PERFORM_RESPAWN));
-        this.mc.displayGuiScreen((GuiScreen)null);
+        this.mc.displayGuiScreen(null);
     }
 
     /**
@@ -89,7 +90,7 @@ public class GuiWinGame extends GuiScreen
     {
         if (this.field_146582_i == null)
         {
-            this.field_146582_i = Lists.<String>newArrayList();
+            this.field_146582_i = Lists.newArrayList();
 
             try
             {
@@ -139,7 +140,7 @@ public class GuiWinGame extends GuiScreen
             }
             catch (Exception exception)
             {
-                logger.error((String)"Couldn\'t load credits", (Throwable)exception);
+                logger.error("Couldn\'t load credits", exception);
             }
         }
     }
@@ -211,7 +212,7 @@ public class GuiWinGame extends GuiScreen
 
             if ((float)l + f + 12.0F + 8.0F > 0.0F && (float)l + f < (float)this.height)
             {
-                String s = (String)this.field_146582_i.get(i1);
+                String s = this.field_146582_i.get(i1);
 
                 if (s.startsWith("[C]"))
                 {

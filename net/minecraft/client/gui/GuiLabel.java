@@ -1,10 +1,11 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
+
+import java.util.List;
 
 public class GuiLabel extends Gui
 {
@@ -32,7 +33,7 @@ public class GuiLabel extends Gui
         this.field_146174_h = p_i45540_4_;
         this.field_146167_a = p_i45540_5_;
         this.field_146161_f = p_i45540_6_;
-        this.field_146173_k = Lists.<String>newArrayList();
+        this.field_146173_k = Lists.newArrayList();
         this.centered = false;
         this.labelBgEnabled = false;
         this.field_146168_n = p_i45540_7_;
@@ -44,7 +45,7 @@ public class GuiLabel extends Gui
 
     public void func_175202_a(String p_175202_1_)
     {
-        this.field_146173_k.add(I18n.format(p_175202_1_, new Object[0]));
+        this.field_146173_k.add(I18n.format(p_175202_1_));
     }
 
     /**

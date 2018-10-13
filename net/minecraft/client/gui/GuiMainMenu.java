@@ -1,15 +1,7 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -32,14 +24,22 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 {
     private static final AtomicInteger field_175373_f = new AtomicInteger(0);
     private static final Logger logger = LogManager.getLogger();
     private static final Random RANDOM = new Random();
-
-    /** Counts the number of screen updates. */
-    private float updateCounter;
 
     /** The splash message. */
     private String splashText;
@@ -82,69 +82,40 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
     private ResourceLocation backgroundTexture;
 
     /** Minecraft Realms button. */
-    private GuiButton realmsButton;
+//    private GuiButton realmsButton;
 
-    public GuiMainMenu()
-    {
+    public GuiMainMenu() {
         this.openGLWarning2 = field_96138_a;
-        this.splashText = "missingno";
+        this.splashText = "Слава Арстоцке.";
         BufferedReader bufferedreader = null;
 
-        try
-        {
-            List<String> list = Lists.<String>newArrayList();
+        try {
+            List<String> list = Lists.newArrayList();
             bufferedreader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(splashTexts).getInputStream(), Charsets.UTF_8));
             String s;
-
-            while ((s = bufferedreader.readLine()) != null)
-            {
+            while ((s = bufferedreader.readLine()) != null) {
                 s = s.trim();
-
-                if (!s.isEmpty())
-                {
-                    list.add(s);
-                }
+                if (!s.isEmpty()) list.add(s);
             }
 
-            if (!list.isEmpty())
-            {
-                while (true)
-                {
-                    this.splashText = (String)list.get(RANDOM.nextInt(list.size()));
+            if (!list.isEmpty()) {
+				this.splashText = list.get(RANDOM.nextInt(list.size()));
 
-                    if (this.splashText.hashCode() != 125780783)
-                    {
-                        break;
-                    }
-                }
+				// 125780783 - хеш-код сплеша, который никогда не появляется.
+				while (this.splashText.hashCode() == 125780783) this.splashText = list.get(RANDOM.nextInt(list.size()));
             }
-        }
-        catch (IOException var12)
-        {
-            ;
-        }
-        finally
-        {
-            if (bufferedreader != null)
-            {
-                try
-                {
-                    bufferedreader.close();
-                }
-                catch (IOException var11)
-                {
-                    ;
-                }
-            }
+        } catch (IOException ignored) {}
+        finally {
+            if (bufferedreader != null) try {
+				bufferedreader.close();
+			} catch (IOException ignored) {}
         }
 
-        this.updateCounter = RANDOM.nextFloat();
         this.openGLWarning1 = "";
-
         if (!GLContext.getCapabilities().OpenGL20 && !OpenGlHelper.areShadersSupported())
         {
-            this.openGLWarning1 = I18n.format("title.oldgl1", new Object[0]);
-            this.openGLWarning2 = I18n.format("title.oldgl2", new Object[0]);
+            this.openGLWarning1 = I18n.format("title.oldgl1");
+            this.openGLWarning2 = I18n.format("title.oldgl2");
             this.openGLWarningLink = "https://help.mojang.com/customer/portal/articles/325948?ref=game";
         }
     }
@@ -169,9 +140,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
      * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
      */
-    protected void keyTyped(char typedChar, int keyCode) throws IOException
-    {
-    }
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {}
 
     /**
      * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
@@ -184,42 +153,29 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 
-        if (calendar.get(2) + 1 == 12 && calendar.get(5) == 24)
-        {
-            this.splashText = "Merry X-mas!";
-        }
-        else if (calendar.get(2) + 1 == 1 && calendar.get(5) == 1)
-        {
-            this.splashText = "Happy new year!";
-        }
-        else if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31)
-        {
-            this.splashText = "OOoooOOOoooo! Spooky!";
-        }
+        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DAY_OF_MONTH) + 1 == 25) this.splashText = "С рождеством!";
+		else if (calendar.get(Calendar.MONTH) + 1 == 1 && calendar.get(Calendar.DATE) + 1 == 2) this.splashText = "С новым годом!";
+		else if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31) this.splashText = "Сласти или напасти?";
 
         int i = 24;
         int j = this.height / 4 + 48;
 
-        if (this.mc.isDemo())
-        {
-            this.addDemoButtons(j, 24);
-        }
-        else
-        {
-            this.addSingleplayerMultiplayerButtons(j, 24);
-        }
+        if (this.mc.isDemo()) this.addDemoButtons(j, 24);
+        else this.addSingleplayerMultiplayerButtons(j, 24);
 
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
-        this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options")));
+        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit")));
+        this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Логин"));
+        this.buttonList.add(new GuiButton(98, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Регистрация"));
+        this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j)); // j + 72 + 12
+        this.buttonList.add(new GuiButtonChangeName(99, this.width / 2 - 124, j + 24));
 
-        synchronized (this.threadLock)
-        {
+        synchronized (this.threadLock) {
             this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
             this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
             int k = Math.max(this.field_92023_s, this.field_92024_r);
             this.field_92022_t = (this.width - k) / 2;
-            this.field_92021_u = ((GuiButton)this.buttonList.get(0)).yPosition - 24;
+            this.field_92021_u = this.buttonList.get(0).yPosition - 24;
             this.field_92020_v = this.field_92022_t + k;
             this.field_92019_w = this.field_92021_u + 24;
         }
@@ -232,9 +188,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      */
     private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_)
     {
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer", new Object[0])));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer", new Object[0])));
-        this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
+        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer")));
+        //this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
     }
 
     /**
@@ -242,15 +198,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      */
     private void addDemoButtons(int p_73972_1_, int p_73972_2_)
     {
-        this.buttonList.add(new GuiButton(11, this.width / 2 - 100, p_73972_1_, I18n.format("menu.playdemo", new Object[0])));
-        this.buttonList.add(this.buttonResetDemo = new GuiButton(12, this.width / 2 - 100, p_73972_1_ + p_73972_2_ * 1, I18n.format("menu.resetdemo", new Object[0])));
+        this.buttonList.add(new GuiButton(11, this.width / 2 - 100, p_73972_1_, I18n.format("menu.playdemo")));
+        this.buttonList.add(this.buttonResetDemo = new GuiButton(12, this.width / 2 - 100, p_73972_1_ + p_73972_2_ * 1, I18n.format("menu.resetdemo")));
         ISaveFormat isaveformat = this.mc.getSaveLoader();
         WorldInfo worldinfo = isaveformat.getWorldInfo("Demo_World");
 
-        if (worldinfo == null)
-        {
-            this.buttonResetDemo.enabled = false;
-        }
+        if (worldinfo == null) this.buttonResetDemo.enabled = false;
     }
 
     /**
@@ -278,10 +231,19 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
         }
 
-        if (button.id == 14 && this.realmsButton.visible)
-        {
-            this.switchToRealms();
+        if (button.id == 99)
+		{
+			this.mc.displayGuiScreen(new GuiPlayername(this));
+		}
+		if (button.id == 98) {
+		    Utils.reg(GuiPassword.password, mc.getSession().username);
         }
+		if (button.id == 97) Utils.log(GuiPassword.password, mc.getSession().username);
+
+//        if (button.id == 14 && this.realmsButton.visible)
+//        {
+//            this.switchToRealms();
+//        }
 
         if (button.id == 4)
         {
@@ -328,8 +290,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
                 try
                 {
                     Class<?> oclass = Class.forName("java.awt.Desktop");
-                    Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                    oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {new URI(this.openGLWarningLink)});
+                    Object object = oclass.getMethod("getDesktop", new Class[0]).invoke(null);
+                    oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new URI(this.openGLWarningLink));
                 }
                 catch (Throwable throwable)
                 {
@@ -498,6 +460,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         tessellator.draw();
     }
 
+    public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
+
     /**
      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
      */
@@ -516,19 +481,15 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         this.mc.getTextureManager().bindTexture(minecraftTitleTextures);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-        if ((double)this.updateCounter < 1.0E-4D)
-        {
-            this.drawTexturedModalRect(j + 0, k + 0, 0, 0, 99, 44);
-            this.drawTexturedModalRect(j + 99, k + 0, 129, 0, 27, 44);
-            this.drawTexturedModalRect(j + 99 + 26, k + 0, 126, 0, 3, 44);
-            this.drawTexturedModalRect(j + 99 + 26 + 3, k + 0, 99, 0, 26, 44);
-            this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
-        }
-        else
-        {
-            this.drawTexturedModalRect(j + 0, k + 0, 0, 0, 155, 44);
-            this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
-        }
+        // minCEraft
+//            this.drawTexturedModalRect(j + 0, k + 0, 0, 0, 99, 44);
+//            this.drawTexturedModalRect(j + 99, k + 0, 129, 0, 27, 44);
+//            this.drawTexturedModalRect(j + 99 + 26, k + 0, 126, 0, 3, 44);
+//            this.drawTexturedModalRect(j + 99 + 26 + 3, k + 0, 99, 0, 26, 44);
+//            this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
+
+		this.drawTexturedModalRect(j + 0, k + 0, 0, 0, 155, 44);
+		this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)(this.width / 2 + 90), 70.0F, 0.0F);
@@ -538,22 +499,21 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         GlStateManager.scale(f, f, f);
         this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
         GlStateManager.popMatrix();
-        String s = "Minecraft 1.8.8";
+        String s = "§cImplario Client";
 
-        if (this.mc.isDemo())
-        {
-            s = s + " Demo";
-        }
+        if (this.mc.isDemo()) s = s + " Demo";
 
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
-        String s1 = "Copyright Mojang AB. Do not distribute!";
-        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
+        Date date = new Date();
+        String today = "Сегодня §a" + DATE_FORMAT.format(date);
+        String time = "Сейчас §a" + TIME_FORMAT.format(date);
+        this.drawString(this.fontRendererObj, today, this.width - this.fontRendererObj.getStringWidth(today) - 6, this.height - 10 - fontRendererObj.FONT_HEIGHT, -1);
+        this.drawString(this.fontRendererObj, time, this.width - this.fontRendererObj.getStringWidth(time) - 6, this.height - 10, -1);
 
-        if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0)
-        {
+        if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0) {
             drawRect(this.field_92022_t - 2, this.field_92021_u - 2, this.field_92020_v + 2, this.field_92019_w - 1, 1428160512);
             this.drawString(this.fontRendererObj, this.openGLWarning1, this.field_92022_t, this.field_92021_u, -1);
-            this.drawString(this.fontRendererObj, this.openGLWarning2, (this.width - this.field_92024_r) / 2, ((GuiButton)this.buttonList.get(0)).yPosition - 12, -1);
+            this.drawString(this.fontRendererObj, this.openGLWarning2, (this.width - this.field_92024_r) / 2, this.buttonList.get(0).yPosition - 12, -1);
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -562,14 +522,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
     /**
      * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
      */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
-    {
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-
-        synchronized (this.threadLock)
-        {
-            if (this.openGLWarning1.length() > 0 && mouseX >= this.field_92022_t && mouseX <= this.field_92020_v && mouseY >= this.field_92021_u && mouseY <= this.field_92019_w)
-            {
+        synchronized (this.threadLock) {
+            if (this.openGLWarning1.length() > 0 && mouseX >= this.field_92022_t && mouseX <= this.field_92020_v && mouseY >= this.field_92021_u && mouseY <= this.field_92019_w) {
                 GuiConfirmOpenLink guiconfirmopenlink = new GuiConfirmOpenLink(this, this.openGLWarningLink, 13, true);
                 guiconfirmopenlink.disableSecurityWarning();
                 this.mc.displayGuiScreen(guiconfirmopenlink);
