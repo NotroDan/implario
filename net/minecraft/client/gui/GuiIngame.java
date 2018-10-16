@@ -94,6 +94,10 @@ public class GuiIngame extends Gui {
 	private int playerHealth = 0;
 	private int lastPlayerHealth = 0;
 
+	private long loadingStarted = 0;
+	private long loadingTime = 0;
+	private String loading = null;
+
 	/**
 	 * The last recorded system time
 	 */
@@ -113,10 +117,10 @@ public class GuiIngame extends Gui {
 		this.persistantChatGUI = new GuiNewChat(mcIn);
 		this.streamIndicator = new GuiStreamIndicator(mcIn);
 		this.overlayPlayerList = new GuiPlayerTabOverlay(mcIn, this);
-		this.func_175177_a();
+		this.resetTitle();
 	}
 
-	public void func_175177_a() {
+	public void resetTitle() {
 		this.fadeIn = 10;
 		this.titleDuration = 70;
 		this.fadeOut = 20;
@@ -205,6 +209,36 @@ public class GuiIngame extends Gui {
 
 		if (this.mc.isDemo()) {
 			this.renderDemo(scaledresolution);
+		}
+
+		if (this.loading != null) {
+			long time = System.currentTimeMillis();
+			float percentage = (float) (time - loadingStarted) / loadingTime;
+			if (percentage > 1.1) {
+				loading = null;
+				loadingTime = 0;
+				loadingStarted = 0;
+			} else {
+				int x1 = scaledresolution.getScaledWidth() / 2 - 100;
+				int x2 = x1 + 200;
+				int x = (int) (x1 + percentage * 200);
+				int y = scaledresolution.getScaledHeight() - 64;
+
+				int opacity = 0b000000000000000011000000;
+				if (percentage < 0.1) opacity *= percentage * 10;
+
+
+				opacity <<= 24;
+				if (percentage > 1) {
+					x = x2;
+					y += (time - loadingStarted - loadingTime) / 2;
+					if (y > scaledresolution.getScaledHeight() + 26) loadingTime = 0;
+				}
+
+				drawRect(x1, y, x2, y + 10, 0xffffff | opacity);
+				drawRect(x1, y, x, y + 10, 0xf93eed | opacity);
+				drawCenteredString(mc.fontRendererObj, loading, x1 + 100, y - 15, 0xffffff | opacity);
+			}
 		}
 
 		if (this.mc.gameSettings.showDebugInfo) {
@@ -1006,5 +1040,11 @@ public class GuiIngame extends Gui {
 
 	public void func_181029_i() {
 		this.overlayPlayerList.func_181030_a();
+	}
+
+	public void setLoading(long ms, String string) {
+		this.loading = string;
+		this.loadingTime = ms;
+		this.loadingStarted = System.currentTimeMillis();
 	}
 }

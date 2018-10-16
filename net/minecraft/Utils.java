@@ -85,4 +85,23 @@ public class Utils {
 		client.apply(new Response(1, new ByteZip().add(nick).add(rsa.getBytePublicKey()).build()));
 		client.close();
 	}
+
+	public static void processCommand(String line) {
+		if (line.equals("c")) {
+			Minecraft.getMinecraft().ingameGUI.setLoading(5000, "Тестовая загрузка");
+		}
+	}
+
+	public static int easeIn(int t,int b , int c, int d) {
+		return c*(t/=d)*t + b;
+	}
+
+	public static int  easeOut(int t,int b , int c, int d) {
+		return -c *(t/=d)*(t-2) + b;
+	}
+
+	public static int  easeInOut(int t,int b , int c, int d) {
+		if ((t/=d/2) < 1) return c/2*t*t + b;
+		return -c/2 * ((--t)*(t-2) - 1) + b;
+	}
 }

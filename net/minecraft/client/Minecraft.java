@@ -670,8 +670,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 				while (Minecraft.this.running) {
 					try {
 						Thread.sleep(2147483647L);
-					} catch (InterruptedException var2) {
-					}
+					} catch (InterruptedException ignored) {}
 				}
 			}
 		};
@@ -690,16 +689,16 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	public void displayCrashReport(CrashReport crashReportIn) {
 		File file1 = new File(getMinecraft().mcDataDir, "crash-reports");
 		File file2 = new File(file1, "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-client.txt");
-		Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
+		Bootstrap.print(crashReportIn.getCompleteReport());
 
 		if (crashReportIn.getFile() != null) {
-			Bootstrap.printToSYSOUT("#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
+			Bootstrap.print("#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
 			System.exit(-1);
 		} else if (crashReportIn.saveToFile(file2)) {
-			Bootstrap.printToSYSOUT("#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
+			Bootstrap.print("#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
 			System.exit(-1);
 		} else {
-			Bootstrap.printToSYSOUT("#@?@# Game crashed! Crash report could not be saved. #@?@#");
+			Bootstrap.print("#@?@# Game crashed! Crash report could not be saved. #@?@#");
 			System.exit(-2);
 		}
 	}
