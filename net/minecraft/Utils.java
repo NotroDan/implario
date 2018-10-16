@@ -43,10 +43,10 @@ public class Utils {
 		int i = width / 2;
 		GlStateManager.disableTexture2D();
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		worldrenderer.pos((double)(-i - 1), (double)(-1 + b0), 0.0D).color(0.0F, 0.2F, 1F, 0.5F).endVertex();
-		worldrenderer.pos((double)(-i - 1), (double)(8 + b0), 0.0D).color(0.0F, 0.2F, 1F, 0.5F).endVertex();
-		worldrenderer.pos((double)(i + 1), (double)(8 + b0), 0.0D).color(0.0F, 0.2F, 1F, 0.5F).endVertex();
-		worldrenderer.pos((double)(i + 1), (double)(-1 + b0), 0.0D).color(0.0F, 0.2F, 1F, 0.5F).endVertex();
+		worldrenderer.pos((double)(-i - 1), (double)(-1 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
+		worldrenderer.pos((double)(-i - 1), (double)(8 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
+		worldrenderer.pos((double)(i + 1), (double)(8 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
+		worldrenderer.pos((double)(i + 1), (double)(-1 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
 		tessellator.draw();
 			GlStateManager.enableTexture2D();
 		if (!back) fontrenderer.drawString(text, -width / 2, b0, 553648127);

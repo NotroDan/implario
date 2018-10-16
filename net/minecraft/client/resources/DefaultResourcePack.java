@@ -1,19 +1,16 @@
 package net.minecraft.client.resources;
 
 import com.google.common.collect.ImmutableSet;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Set;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import optifine.ReflectorForge;
+
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.Map;
+import java.util.Set;
 
 public class DefaultResourcePack implements IResourcePack
 {
@@ -72,19 +69,12 @@ public class DefaultResourcePack implements IResourcePack
         return defaultResourceDomains;
     }
 
-    public IMetadataSection getPackMetadata(IMetadataSerializer p_135058_1_, String p_135058_2_) throws IOException
-    {
-        try
-        {
+    public IMetadataSection getPackMetadata(IMetadataSerializer p_135058_1_, String p_135058_2_) {
+        try {
             FileInputStream fileinputstream = new FileInputStream((File)this.mapAssets.get("pack.mcmeta"));
             return AbstractResourcePack.readMetadata(p_135058_1_, fileinputstream, p_135058_2_);
         }
-        catch (RuntimeException var4)
-        {
-            return null;
-        }
-        catch (FileNotFoundException var5)
-        {
+        catch (RuntimeException | FileNotFoundException var4) {
             return null;
         }
     }
@@ -96,6 +86,6 @@ public class DefaultResourcePack implements IResourcePack
 
     public String getPackName()
     {
-        return "Default";
+        return "Стандартный";
     }
 }

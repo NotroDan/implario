@@ -451,6 +451,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	 * Starts the game: initializes the canvas, the title, the settings, etcetera.
 	 */
 	private void startGame() throws LWJGLException {
+		long start = System.currentTimeMillis();
 		this.gameSettings = new GameSettings(this, this.mcDataDir);
 		this.defaultResourcePacks.add(this.mcDefaultResourcePack);
 		this.startTimerHackThread();
@@ -488,6 +489,10 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 			this.fontRendererObj.setUnicodeFlag(this.isUnicode());
 			this.fontRendererObj.setBidiFlag(this.mcLanguageManager.isCurrentLanguageBidirectional());
 		}
+
+		long end = System.currentTimeMillis();
+		System.out.println("PRESTATE COMPLETED IN " + (end - start) + " ms.");
+		fontRendererObj.drawString("TEXT TEXT TEXT TEXT", 6, 6, 0xff0000);
 
 		this.standardGalacticFontRenderer = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii_sga.png"), this.renderEngine, false);
 		this.mcResourceManager.registerReloadListener(this.fontRendererObj);
@@ -791,7 +796,7 @@ label53:
 		this.displayHeight = displaymode.getHeight();
 	}
 
-	private void drawSplashScreen(TextureManager textureManagerInstance) {
+	private void drawSplashScreen(TextureManager txtmgr) {
 		ScaledResolution scaledresolution = new ScaledResolution(this);
 		int i = scaledresolution.getScaleFactor();
 		Framebuffer framebuffer = new Framebuffer(scaledresolution.getScaledWidth() * i, scaledresolution.getScaledHeight() * i, true);
@@ -810,8 +815,8 @@ label53:
 
 		try {
 			inputstream = this.mcDefaultResourcePack.getInputStream(locationMojangPng);
-			this.mojangLogo = textureManagerInstance.getDynamicTextureLocation("logo", new DynamicTexture(ImageIO.read(inputstream)));
-			textureManagerInstance.bindTexture(this.mojangLogo);
+			this.mojangLogo = txtmgr.getDynamicTextureLocation("logo", new DynamicTexture(ImageIO.read(inputstream)));
+			txtmgr.bindTexture(this.mojangLogo);
 		} catch (IOException ioexception) {
 			logger.error(("Unable to load logo: " + locationMojangPng), ioexception);
 		} finally {

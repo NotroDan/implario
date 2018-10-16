@@ -452,23 +452,9 @@ public class EntityItem extends Entity
      * Returns the ItemStack corresponding to the Entity (Note: if no item exists, will log an error but still return an
      * ItemStack containing Block.stone)
      */
-    public ItemStack getEntityItem()
-    {
+    public ItemStack getEntityItem() {
         ItemStack itemstack = this.getDataWatcher().getWatchableObjectItemStack(10);
-
-        if (itemstack == null)
-        {
-            if (this.worldObj != null)
-            {
-                logger.error("Item entity " + this.getEntityId() + " has no item?!");
-            }
-
-            return new ItemStack(Blocks.stone);
-        }
-        else
-        {
-            return itemstack;
-        }
+        return itemstack == null ? new ItemStack(Blocks.stone) : itemstack;
     }
 
     /**

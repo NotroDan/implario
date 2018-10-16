@@ -158,17 +158,17 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		else if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31) this.splashText = "Сласти или напасти?";
 
         int i = 24;
-        int j = this.height / 4 + 48;
+        int j = this.height / 4 + 12;
 
         if (this.mc.isDemo()) this.addDemoButtons(j, 24);
-        else this.addSingleplayerMultiplayerButtons(j, 24);
+        else this.addSingleplayerMultiplayerButtons(j + 36, 24);
 
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit")));
         this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Логин"));
         this.buttonList.add(new GuiButton(98, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Регистрация"));
-        this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j)); // j + 72 + 12
-        this.buttonList.add(new GuiButtonChangeName(99, this.width / 2 - 124, j + 24));
+        this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12)); // j + 72 + 12
+        this.buttonList.add(new GuiButtonChangeName(99, this.width / 2 - 124, j + 72 + 12 + 24));
 
         synchronized (this.threadLock) {
             this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
@@ -186,10 +186,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
     /**
      * Adds Singleplayer and Multiplayer buttons on Main Menu for players who have bought the game.
      */
-    private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_)
-    {
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer")));
+    private void addSingleplayerMultiplayerButtons(int y, int offset) {
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, y, I18n.format("menu.singleplayer")));
+        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + offset * 1, I18n.format("menu.multiplayer")));
         //this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
     }
 
@@ -211,52 +210,23 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      */
     protected void actionPerformed(GuiButton button) throws IOException
     {
-        if (button.id == 0)
-        {
-            this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
-        }
+        if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
 
-        if (button.id == 5)
-        {
-            this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
-        }
+        if (button.id == 5) this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
 
-        if (button.id == 1)
-        {
-            this.mc.displayGuiScreen(new GuiSelectWorld(this));
-        }
+        if (button.id == 1) this.mc.displayGuiScreen(new GuiSelectWorld(this));
 
-        if (button.id == 2)
-        {
-            this.mc.displayGuiScreen(new GuiMultiplayer(this));
-        }
+        if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
 
-        if (button.id == 99)
-		{
-			this.mc.displayGuiScreen(new GuiPlayername(this));
-		}
-		if (button.id == 98) {
-		    Utils.reg(GuiPassword.password, mc.getSession().username);
-        }
+        if (button.id == 99) this.mc.displayGuiScreen(new GuiPlayername(this));
+		if (button.id == 98) Utils.reg(GuiPassword.password, mc.getSession().username);
 		if (button.id == 97) Utils.log(GuiPassword.password, mc.getSession().username);
 
-//        if (button.id == 14 && this.realmsButton.visible)
-//        {
-//            this.switchToRealms();
-//        }
+        if (button.id == 4) this.mc.shutdown();
 
-        if (button.id == 4)
-        {
-            this.mc.shutdown();
-        }
+        if (button.id == 11) this.mc.launchIntegratedServer("Demo_World", "Demo_World", DemoWorldServer.demoWorldSettings);
 
-        if (button.id == 11)
-        {
-            this.mc.launchIntegratedServer("Demo_World", "Demo_World", DemoWorldServer.demoWorldSettings);
-        }
-
-        if (button.id == 12)
-        {
+        if (button.id == 12) {
             ISaveFormat isaveformat = this.mc.getSaveLoader();
             WorldInfo worldinfo = isaveformat.getWorldInfo("Demo_World");
 

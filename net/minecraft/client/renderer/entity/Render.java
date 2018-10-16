@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -20,7 +19,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import optifine.Config;
-
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
 
@@ -342,7 +340,6 @@ public abstract class Render<T extends Entity>
      */
     protected void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance)
     {
-        Utils.drawFloatingText("   §3[§lDev§3] DelfikPro §6TOP1   ", (float) x, (float) (y + 3), (float) z);
         double d0 = entityIn.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
         if (d0 <= (double)(maxDistance * maxDistance))

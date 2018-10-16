@@ -87,19 +87,25 @@ public class GuiButton extends Gui
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.blendFunc(770, 771);
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+
+
+
+            if (mc.gameSettings.fancyButtons) {
+				if (i > 0) drawRect(xPosition, yPosition, xPosition + 3, yPosition + height, 0xff12c40f);
+				if (i == 2) drawRect(xPosition, yPosition, xPosition + width, yPosition + height, 0xd738a318);
+				else if (i == 1) drawRect(xPosition, yPosition, xPosition + width, yPosition + height, 0xd732821a);
+				else {
+					drawRect(xPosition, yPosition, xPosition + width, yPosition + height, 0xd7821818);
+					drawRect(xPosition, yPosition, xPosition + 3, yPosition + height, 0xff661414);
+				}
+			} else {
+				this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
+				this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+			}
             this.mouseDragged(mc, mouseX, mouseY);
             int j = 14737632;
-
-            if (!this.enabled)
-            {
-                j = 10526880;
-            }
-            else if (this.hovered)
-            {
-                j = 16777120;
-            }
+            if (!enabled) j = 10526880;
+            else if (hovered) j = 16777120;
 
             this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
         }
