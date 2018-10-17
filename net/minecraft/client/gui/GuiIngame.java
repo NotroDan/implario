@@ -226,14 +226,10 @@ public class GuiIngame extends Gui {
 
 				int opacity = 0b000000000000000011000000;
 				if (percentage < 0.1) opacity *= percentage * 10;
-
+				if (percentage > 1.0) opacity *= (0.1 - (percentage - 1)) * 10;
 
 				opacity <<= 24;
-				if (percentage > 1) {
-					x = x2;
-					y += (time - loadingStarted - loadingTime) / 2;
-					if (y > scaledresolution.getScaledHeight() + 26) loadingTime = 0;
-				}
+				if (percentage > 1) x = x2;
 
 				drawRect(x1, y, x2, y + 10, 0xffffff | opacity);
 				drawRect(x1, y, x, y + 10, 0xf93eed | opacity);
@@ -849,13 +845,13 @@ public class GuiIngame extends Gui {
 	/**
 	 * Renders a Vignette arount the entire screen that changes with light level.
 	 */
-	private void renderVignette(float p_180480_1_, ScaledResolution p_180480_2_) {
+	private void renderVignette(float brightness, ScaledResolution resolution) {
 		if (!Config.isVignetteEnabled()) {
 			GlStateManager.enableDepth();
 			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		} else {
-			p_180480_1_ = 1.0F - p_180480_1_;
-			p_180480_1_ = MathHelper.clamp_float(p_180480_1_, 0.0F, 1.0F);
+			brightness = 1.0F - brightness;
+			brightness = MathHelper.clamp_float(brightness, 0.0F, 1.0F);
 			WorldBorder worldborder = this.mc.theWorld.getWorldBorder();
 			float f = (float) worldborder.getClosestDistance(this.mc.thePlayer);
 			double d0 = Math.min(worldborder.getResizeSpeed() * (double) worldborder.getWarningTime() * 1000.0D, Math.abs(worldborder.getTargetSize() - worldborder.getDiameter()));
@@ -864,7 +860,7 @@ public class GuiIngame extends Gui {
 			if ((double) f < d1) f = 1.0F - (float) ((double) f / d1);
 			else f = 0.0F;
 
-			this.prevVignetteBrightness = (float) ((double) this.prevVignetteBrightness + (double) (p_180480_1_ - this.prevVignetteBrightness) * 0.01D);
+			this.prevVignetteBrightness = (float) ((double) this.prevVignetteBrightness + (double) (brightness - this.prevVignetteBrightness) * 0.01D);
 			GlStateManager.disableDepth();
 			GlStateManager.depthMask(false);
 			GlStateManager.tryBlendFuncSeparate(0, 769, 1, 0);
@@ -876,9 +872,9 @@ public class GuiIngame extends Gui {
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			worldrenderer.pos(0.0D, (double) p_180480_2_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-			worldrenderer.pos((double) p_180480_2_.getScaledWidth(), (double) p_180480_2_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-			worldrenderer.pos((double) p_180480_2_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+			worldrenderer.pos(0.0D, (double) resolution.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+			worldrenderer.pos((double) resolution.getScaledWidth(), (double) resolution.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+			worldrenderer.pos((double) resolution.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
 			worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
 			tessellator.draw();
 			GlStateManager.depthMask(true);
