@@ -1,6 +1,7 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.util.MathHelper;
 
 public class ScaledResolution
@@ -17,7 +18,7 @@ public class ScaledResolution
         this.scaledHeight = p_i46445_1_.displayHeight;
         this.scaleFactor = 1;
         boolean flag = p_i46445_1_.isUnicode();
-        int i = p_i46445_1_.gameSettings.guiScale;
+        int i = Settings.GUI_SCALE.i();
 
         if (i == 0)
         {

@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiButton extends Gui
@@ -90,7 +91,7 @@ public class GuiButton extends Gui
 
 
 
-            if (mc.gameSettings.fancyButtons) {
+            if (Settings.FANCY_BUTTONS.b()) {
 				if (i > 0) drawRect(xPosition, yPosition, xPosition + 3, yPosition + height, 0xff12c40f);
 				if (i == 2) drawRect(xPosition, yPosition, xPosition + width, yPosition + height, 0xd738a318);
 				else if (i == 1) drawRect(xPosition, yPosition, xPosition + width, yPosition + height, 0xd732821a);

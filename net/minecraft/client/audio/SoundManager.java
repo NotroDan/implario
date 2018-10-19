@@ -1,14 +1,9 @@
 package net.minecraft.client.audio;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.*;
 import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -16,11 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import paulscode.sound.SoundSystem;
-import paulscode.sound.SoundSystemConfig;
-import paulscode.sound.SoundSystemException;
-import paulscode.sound.SoundSystemLogger;
-import paulscode.sound.Source;
+import paulscode.sound.*;
 import paulscode.sound.codecs.CodecJOrbis;
 import paulscode.sound.libraries.LibraryLWJGLOpenAL;
 
@@ -36,6 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class SoundManager {
+
 	/**
 	 * The marker used for logging
 	 */
@@ -46,11 +38,6 @@ public class SoundManager {
 	 * A reference to the sound handler.
 	 */
 	private final SoundHandler sndHandler;
-
-	/**
-	 * Reference to the GameSettings object.
-	 */
-	private final GameSettings options;
 
 	/**
 	 * A reference to the sound system.
@@ -74,15 +61,14 @@ public class SoundManager {
 	private final Map<ISound, Integer> delayedSounds;
 	private final Map<String, Integer> playingSoundsStopTime;
 
-	public SoundManager(SoundHandler p_i45119_1_, GameSettings p_i45119_2_) {
+	public SoundManager(SoundHandler handler) {
 		this.invPlayingSounds = ((BiMap) this.playingSounds).inverse();
 		this.playingSoundPoolEntries = Maps.newHashMap();
 		this.categorySounds = HashMultimap.create();
 		this.tickableSounds = Lists.newArrayList();
 		this.delayedSounds = Maps.newHashMap();
 		this.playingSoundsStopTime = Maps.newHashMap();
-		this.sndHandler = p_i45119_1_;
-		this.options = p_i45119_2_;
+		this.sndHandler = handler;
 
 		try {
 			SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
@@ -129,13 +115,13 @@ public class SoundManager {
 					});
 					SoundManager.this.sndSystem = SoundManager.this.new SoundSystemStarterThread();
 					SoundManager.this.loaded = true;
-					SoundManager.this.sndSystem.setMasterVolume(SoundManager.this.options.getSoundLevel(SoundCategory.MASTER));
+					SoundManager.this.sndSystem.setMasterVolume(Settings.SOUND_MASTER.f());
 					SoundManager.logger.info(SoundManager.LOG_MARKER, "Sound engine started");
 				}, "Sound Library Loader")).start();
 			} catch (RuntimeException runtimeexception) {
 				logger.error(LOG_MARKER, "Error starting SoundSystem. Turning off sounds & music", runtimeexception);
-				this.options.setSoundLevel(SoundCategory.MASTER, 0.0F);
-				this.options.saveOptions();
+				Settings.SOUND_MASTER.set(0);
+				Settings.saveOptions();
 			}
 		}
 	}
@@ -144,7 +130,7 @@ public class SoundManager {
 	 * Returns the sound level (between 0.0 and 1.0) for a category, but 1.0 for the master sound category
 	 */
 	private float getSoundCategoryVolume(SoundCategory category) {
-		return category != null && category != SoundCategory.MASTER ? this.options.getSoundLevel(category) : 1.0F;
+		return category != null && category != SoundCategory.MASTER ? Settings.getSoundLevel(category) : 1.0F;
 	}
 
 	/**
@@ -208,7 +194,8 @@ public class SoundManager {
 				this.stopSound(itickablesound);
 			} else {
 				String s = this.invPlayingSounds.get(itickablesound);
-				this.sndSystem.setVolume(s, this.getNormalizedVolume(itickablesound, this.playingSoundPoolEntries.get(itickablesound), this.sndHandler.getSound(itickablesound.getSoundLocation()).getSoundCategory()));
+				this.sndSystem.setVolume(s,
+						this.getNormalizedVolume(itickablesound, this.playingSoundPoolEntries.get(itickablesound), this.sndHandler.getSound(itickablesound.getSoundLocation()).getSoundCategory()));
 				this.sndSystem.setPitch(s, this.getNormalizedPitch(itickablesound, this.playingSoundPoolEntries.get(itickablesound)));
 				this.sndSystem.setPosition(s, itickablesound.getXPosF(), itickablesound.getYPosF(), itickablesound.getZPosF());
 			}
@@ -322,9 +309,11 @@ public class SoundManager {
 							String s = MathHelper.getRandomUuid(ThreadLocalRandom.current()).toString();
 
 							if (soundpoolentry.isStreamingSound()) {
-								this.sndSystem.newStreamingSource(false, s, getURLForSoundResource(resourcelocation), resourcelocation.toString(), flag, sound.getXPosF(), sound.getYPosF(), sound.getZPosF(), sound.getAttenuationType().getTypeInt(), f1);
+								this.sndSystem.newStreamingSource(false, s, getURLForSoundResource(resourcelocation), resourcelocation.toString(), flag, sound.getXPosF(), sound.getYPosF(),
+										sound.getZPosF(), sound.getAttenuationType().getTypeInt(), f1);
 							} else {
-								this.sndSystem.newSource(false, s, getURLForSoundResource(resourcelocation), resourcelocation.toString(), flag, sound.getXPosF(), sound.getYPosF(), sound.getZPosF(), sound.getAttenuationType().getTypeInt(), f1);
+								this.sndSystem.newSource(false, s, getURLForSoundResource(resourcelocation), resourcelocation.toString(), flag, sound.getXPosF(), sound.getYPosF(), sound.getZPosF(),
+										sound.getAttenuationType().getTypeInt(), f1);
 							}
 
 							logger.debug(LOG_MARKER, "Playing sound {} for event {} as channel {}", soundpoolentry.getSoundPoolEntryLocation(), soundeventaccessorcomposite.getSoundEventLocation(), s);
@@ -438,6 +427,7 @@ public class SoundManager {
 	}
 
 	class SoundSystemStarterThread extends SoundSystem {
+
 		private SoundSystemStarterThread() {
 		}
 
@@ -451,5 +441,7 @@ public class SoundManager {
 				}
 			}
 		}
+
 	}
+
 }

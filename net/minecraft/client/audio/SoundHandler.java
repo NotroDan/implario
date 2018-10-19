@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
@@ -48,9 +47,9 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	private final SoundManager sndManager;
 	private final IResourceManager mcResourceManager;
 
-	public SoundHandler(IResourceManager manager, GameSettings gameSettingsIn) {
+	public SoundHandler(IResourceManager manager) {
 		this.mcResourceManager = manager;
-		this.sndManager = new SoundManager(this, gameSettingsIn);
+		this.sndManager = new SoundManager(this);
 	}
 
 	public SoundManager getSndManager() {

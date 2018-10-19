@@ -1,5 +1,14 @@
 package net.minecraft.crash;
 
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.util.ReportedException;
+import net.minecraft.world.gen.layer.IntCache;
+import optifine.Reflector;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -10,17 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.util.ReportedException;
-import net.minecraft.world.gen.layer.IntCache;
-import optifine.CrashReporter;
-import optifine.Reflector;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class CrashReport {
     private static final Logger logger = LogManager.getLogger();
@@ -149,7 +147,6 @@ public class CrashReport {
     public String getCompleteReport() {
         if (!this.reported){
             this.reported = true;
-            CrashReporter.onCrashReport(this, this.theReportCategory);
         }
 
         StringBuilder stringbuilder = new StringBuilder();

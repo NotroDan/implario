@@ -1,26 +1,21 @@
 package shadersmod.client;
 
-import java.nio.IntBuffer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.culling.ClippingHelper;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumWorldBlockLayer;
 import optifine.Reflector;
-
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+
+import java.nio.IntBuffer;
 
 public class ShadersRender
 {
@@ -188,8 +183,8 @@ public class ShadersRender
             RenderGlobal renderglobal = minecraft.renderGlobal;
             Shaders.isShadowPass = true;
             Shaders.shadowPassCounter = Shaders.shadowPassInterval;
-            Shaders.preShadowPassThirdPersonView = minecraft.gameSettings.thirdPersonView;
-            minecraft.gameSettings.thirdPersonView = 1;
+            Shaders.preShadowPassThirdPersonView = Settings.getPerspective();
+			Settings.PERSPECTIVE.set(1);
             Shaders.checkGLError("pre shadow");
             GL11.glMatrixMode(GL11.GL_PROJECTION);
             GL11.glPushMatrix();
@@ -202,7 +197,7 @@ public class ShadersRender
             minecraft.mcProfiler.endStartSection("shadow camera");
             entityRenderer.setupCameraTransform(partialTicks, 2);
             Shaders.setCameraShadow(partialTicks);
-            ActiveRenderInfo.updateRenderInfo(minecraft.thePlayer, minecraft.gameSettings.thirdPersonView == 2);
+            ActiveRenderInfo.updateRenderInfo(minecraft.thePlayer, Settings.getPerspective() == 2);
             Shaders.checkGLError("shadow camera");
             GL20.glDrawBuffers(Shaders.sfbDrawBuffers);
             Shaders.checkGLError("shadow drawbuffers");
@@ -237,8 +232,7 @@ public class ShadersRender
             minecraft.mcProfiler.endStartSection("shadow prepareterrain");
             minecraft.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
             minecraft.mcProfiler.endStartSection("shadow setupterrain");
-            int i = 0;
-            i = entityRenderer.frameCount;
+            int i = entityRenderer.frameCount;
             entityRenderer.frameCount = i + 1;
             renderglobal.setupTerrain(entity, (double)partialTicks, frustum, i, minecraft.thePlayer.isSpectator());
             minecraft.mcProfiler.endStartSection("shadow updatechunks");
@@ -263,9 +257,7 @@ public class ShadersRender
             minecraft.mcProfiler.endStartSection("shadow entities");
 
             if (Reflector.ForgeHooksClient_setRenderPass.exists())
-            {
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(0)});
-            }
+				Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, 0);
 
             renderglobal.renderEntities(entity, frustum, partialTicks);
             Shaders.checkGLError("shadow entities");
@@ -305,9 +297,9 @@ public class ShadersRender
             if (Reflector.ForgeHooksClient_setRenderPass.exists())
             {
                 RenderHelper.enableStandardItemLighting();
-                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(1)});
+                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, 1);
                 renderglobal.renderEntities(entity, frustum, partialTicks);
-                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(-1)});
+                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, -1);
                 RenderHelper.disableStandardItemLighting();
                 Shaders.checkGLError("shadow entities 1");
             }
@@ -319,7 +311,7 @@ public class ShadersRender
             GL11.glFlush();
             Shaders.checkGLError("shadow flush");
             Shaders.isShadowPass = false;
-            minecraft.gameSettings.thirdPersonView = Shaders.preShadowPassThirdPersonView;
+            Settings.PERSPECTIVE.set(Shaders.preShadowPassThirdPersonView);
             minecraft.mcProfiler.endStartSection("shadow postprocess");
 
             if (Shaders.hasGlGenMipmap)

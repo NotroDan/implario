@@ -14,6 +14,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -50,7 +52,6 @@ public class GuiIngame extends Gui {
 	 * ChatGUI instance that retains all previous chat data
 	 */
 	private final GuiNewChat persistantChatGUI;
-	private final GuiStreamIndicator streamIndicator;
 	private int updateCounter;
 
 	/**
@@ -115,7 +116,6 @@ public class GuiIngame extends Gui {
 		this.overlayDebug = new GuiOverlayDebug(mcIn);
 		this.spectatorGui = new GuiSpectator(mcIn);
 		this.persistantChatGUI = new GuiNewChat(mcIn);
-		this.streamIndicator = new GuiStreamIndicator(mcIn);
 		this.overlayPlayerList = new GuiPlayerTabOverlay(mcIn, this);
 		this.resetTitle();
 	}
@@ -142,7 +142,7 @@ public class GuiIngame extends Gui {
 
 		ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
 
-		if (this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))
+		if (Settings.getPerspective() == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))
 			this.renderPumpkinOverlay(scaledresolution);
 
 		if (!this.mc.thePlayer.isPotionActive(Potion.confusion)) {
@@ -157,7 +157,7 @@ public class GuiIngame extends Gui {
 		this.mc.getTextureManager().bindTexture(icons);
 		GlStateManager.enableBlend();
 
-		if (this.showCrosshair() && this.mc.gameSettings.thirdPersonView < 1) {
+		if (this.showCrosshair() && Settings.getPerspective() < 1) {
 			GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
 			GlStateManager.enableAlpha();
 			this.drawTexturedModalRect(width / 2 - 7, height / 2 - 7, 0, 0, 16, 16);
@@ -201,7 +201,7 @@ public class GuiIngame extends Gui {
 			this.renderExpBar(scaledresolution, i2);
 		}
 
-		if (this.mc.gameSettings.heldItemTooltips && !this.mc.playerController.isSpectator()) {
+		if (Settings.ITEM_TOOLTIPS.b() && !this.mc.playerController.isSpectator()) {
 			this.func_181551_a(scaledresolution);
 		} else if (this.mc.thePlayer.isSpectator()) {
 			this.spectatorGui.func_175263_a(scaledresolution);
@@ -237,7 +237,7 @@ public class GuiIngame extends Gui {
 			}
 		}
 
-		if (this.mc.gameSettings.showDebugInfo) {
+		if (Settings.SHOW_DEBUG.b()) {
 			this.overlayDebug.renderDebugInfo(scaledresolution);
 		}
 
@@ -300,7 +300,7 @@ public class GuiIngame extends Gui {
 		GlStateManager.popMatrix();
 		scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
 
-		if (!this.mc.gameSettings.keyBindPlayerList.isKeyDown() || this.mc.isIntegratedServerRunning() && this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() <= 1 && scoreobjective1 == null) {
+		if (!KeyBinding.PLAYERLIST.isKeyDown() || this.mc.isIntegratedServerRunning() && this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() <= 1 && scoreobjective1 == null) {
 			this.overlayPlayerList.updatePlayerList(false);
 		} else {
 			this.overlayPlayerList.updatePlayerList(true);
@@ -479,7 +479,7 @@ public class GuiIngame extends Gui {
 	}
 
 	protected boolean showCrosshair() {
-		if (this.mc.gameSettings.showDebugInfo && !this.mc.thePlayer.hasReducedDebug() && !this.mc.gameSettings.reducedDebugInfo) {
+		if (Settings.SHOW_DEBUG.b() && !this.mc.thePlayer.hasReducedDebug() && !Settings.REDUCED_DEBUG_INFO.b()) {
 			return false;
 		} else if (this.mc.playerController.isSpectator()) {
 			if (this.mc.pointedEntity != null) {
@@ -498,9 +498,6 @@ public class GuiIngame extends Gui {
 		}
 	}
 
-	public void renderStreamIndicator(ScaledResolution p_180478_1_) {
-		this.streamIndicator.render(p_180478_1_.getScaledWidth() - 10, 10);
-	}
 
 	private void renderScoreboard(ScoreObjective p_180475_1_, ScaledResolution p_180475_2_) {
 		Scoreboard scoreboard = p_180475_1_.getScoreboard();
@@ -956,7 +953,6 @@ public class GuiIngame extends Gui {
 		}
 
 		++this.updateCounter;
-		this.streamIndicator.func_152439_a();
 
 		if (this.mc.thePlayer != null) {
 			ItemStack itemstack = this.mc.thePlayer.inventory.getCurrentItem();

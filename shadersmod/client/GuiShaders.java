@@ -1,8 +1,5 @@
 package shadersmod.client;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -10,8 +7,13 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import optifine.Config;
 import optifine.Lang;
-
 import org.lwjgl.Sys;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+
+import static net.minecraft.Utils.CLASS;
 
 public class GuiShaders extends GuiScreen
 {
@@ -41,7 +43,7 @@ public class GuiShaders extends GuiScreen
      */
     public void initGui()
     {
-        this.screenTitle = I18n.format("of.options.shadersTitle", new Object[0]);
+        this.screenTitle = I18n.format("of.options.shadersTitle");
 
         if (Shaders.shadersConfig == null)
         {
@@ -66,7 +68,7 @@ public class GuiShaders extends GuiScreen
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_LIGHTING, k, 7 * i1 + l, i, j));
         int k1 = Math.min(150, j1 / 2 - 10);
         this.buttonList.add(new GuiButton(201, j1 / 4 - k1 / 2, this.height - 25, k1, j, Lang.get("of.options.shaders.shadersFolder")));
-        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(203, k, this.height - 25, i, j, Lang.get("of.options.shaders.shaderOptions")));
         this.updateButtons();
     }
@@ -260,7 +262,7 @@ public class GuiShaders extends GuiScreen
                         switch (getOSType())
                         {
                             case 1:
-                                String s = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[] {Shaders.shaderpacksdir.getAbsolutePath()});
+                                String s = String.format("cmd.exe /C start \"Open file\" \"%s\"", Shaders.shaderpacksdir.getAbsolutePath());
 
                                 try
                                 {
@@ -290,8 +292,8 @@ public class GuiShaders extends GuiScreen
                         try
                         {
                             Class oclass = Class.forName("java.awt.Desktop");
-                            Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {(new File(this.mc.mcDataDir, Shaders.shaderpacksdirname)).toURI()});
+                            Object object = oclass.getMethod("getDesktop", CLASS).invoke(null);
+                            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, (new File(this.mc.mcDataDir, Shaders.shaderpacksdirname)).toURI());
                         }
                         catch (Throwable throwable)
                         {
@@ -315,7 +317,7 @@ public class GuiShaders extends GuiScreen
                         break;
 
                     case 203:
-                        GuiShaderOptions guishaderoptions = new GuiShaderOptions(this, Config.getGameSettings());
+                        GuiShaderOptions guishaderoptions = new GuiShaderOptions(this);
                         Config.getMinecraft().displayGuiScreen(guishaderoptions);
                         break;
 

@@ -10,9 +10,21 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.MathHelper;
+import optifine.CustomColormap;
+import optifine.CustomSkyLayer;
 import org.lwjgl.opengl.GL11;
+import shadersmod.client.ShaderOption;
 
 public class Utils {
+
+	public static final Object[] OBJECT = new Object[0];
+	public static final ShaderOption[] SHADEROPTION = new ShaderOption[0];
+	public static final CustomColormap[] CUSTOMCOLORMAP = new CustomColormap[0];
+	public static final String[] STRING = new String[0];
+	public static final Integer[] INTEGER = new Integer[0];
+	public static final Class[] CLASS = new Class[0];
+	public static final CustomSkyLayer[] CUSTOMSKYLAYER = new CustomSkyLayer[0];
 
 	public static void drawFloatingText(String text, float x, float y, float z) {
 		drawFloatingText0(text, x, y, z, false);
@@ -104,4 +116,8 @@ public class Utils {
 		if ((t/=d/2) < 1) return c/2*t*t + b;
 		return -c/2 * ((--t)*(t-2) - 1) + b;
 	}
+
+
+
+
 }

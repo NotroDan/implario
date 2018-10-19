@@ -9,6 +9,7 @@ import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.*;
@@ -48,9 +49,8 @@ public class GuiOverlayDebug extends Gui
 		this.mc.mcProfiler.endSection();
 	}
 
-	private boolean isReducedDebug()
-	{
-		return this.mc.thePlayer.hasReducedDebug() || this.mc.gameSettings.reducedDebugInfo;
+	private boolean isReducedDebug() {
+		return this.mc.thePlayer.hasReducedDebug() || Settings.REDUCED_DEBUG_INFO.b();
 	}
 
 	protected void renderDebugInfoLeft()
@@ -262,10 +262,8 @@ public class GuiOverlayDebug extends Gui
 		this.drawVerticalLine(0, scaledresolution.getScaledHeight() - 60, scaledresolution.getScaledHeight(), -1);
 		this.drawVerticalLine(239, scaledresolution.getScaledHeight() - 60, scaledresolution.getScaledHeight(), -1);
 
-		if (this.mc.gameSettings.limitFramerate <= 120)
-		{
-			this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 60 + this.mc.gameSettings.limitFramerate / 2, -16711681);
-		}
+		if (Settings.FRAMERATE_LIMIT.f() <= 120)
+			this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 60 + (int) Settings.FRAMERATE_LIMIT.f() / 2, -16711681);
 
 		GlStateManager.enableDepth();
 	}

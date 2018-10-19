@@ -209,9 +209,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      */
     protected void actionPerformed(GuiButton button) throws IOException
     {
-        if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+        if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions(this));
 
-        if (button.id == 5) this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
+        if (button.id == 5) this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.getLanguageManager()));
 
         if (button.id == 1) this.mc.displayGuiScreen(new GuiSelectWorld(this));
 
@@ -253,7 +253,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
                 try
                 {
                     Class<?> oclass = Class.forName("java.awt.Desktop");
-                    Object object = oclass.getMethod("getDesktop", new Class[0]).invoke(null);
+                    Object object = oclass.getMethod("getDesktop", Utils.CLASS).invoke(null);
                     oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new URI(this.openGLWarningLink));
                 }
                 catch (Throwable throwable)
