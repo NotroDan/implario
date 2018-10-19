@@ -136,12 +136,9 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 	 * events.
 	 */
 	public boolean isPressed() {
-		if (this.pressTime == 0) {
-			return false;
-		} else {
-			--this.pressTime;
-			return true;
-		}
+		if (this.pressTime == 0) return false;
+		--this.pressTime;
+		return true;
 	}
 
 	private void unpressKey() {

@@ -203,21 +203,23 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 		this.zLevel = 300.0F;
 		this.itemRender.zLevel = 300.0F;
 
-		drawRect(posX - 3, posY - 4, posX + textWidth + 3, posY + k + 3, backgroundColor);
-		drawRect(posX - 5, posY - 4, posX - 3, posY + k + 3, stripColor);
-
-		//            int l = -267386864;
-		//            this.drawGradientRect(posX - 3, posY - 4, posX + textWidth + 3, posY - 3, l, l);
-		//            this.drawGradientRect(posX - 3, posY + k + 3, posX + textWidth + 3, posY + k + 4, l, l);
-		//            this.drawGradientRect(posX - 3, posY - 3, posX + textWidth + 3, posY + k + 3, l, l);
-		//            this.drawGradientRect(posX - 4, posY - 3, posX - 3, posY + k + 3, l, l);
-		//            this.drawGradientRect(posX + textWidth + 3, posY - 3, posX + textWidth + 4, posY + k + 3, l, l);
-		//            int i1 = 1347420415;
-		//            int j1 = (i1 & 16711422) >> 1 | i1 & -16777216;
-		//            this.drawGradientRect(posX - 3, posY - 3 + 1, posX - 3 + 1, posY + k + 3 - 1, i1, j1);
-		//            this.drawGradientRect(posX + textWidth + 2, posY - 3 + 1, posX + textWidth + 3, posY + k + 3 - 1, i1, j1);
-		//            this.drawGradientRect(posX - 3, posY - 3, posX + textWidth + 3, posY - 3 + 1, i1, i1);
-		//            this.drawGradientRect(posX - 3, posY + k + 2, posX + textWidth + 3, posY + k + 3, j1, j1);
+		if (Settings.FANCY_BUTTONS.b()) {
+			drawRect(posX - 3, posY - 4, posX + textWidth + 3, posY + k + 3, backgroundColor);
+			drawRect(posX - 5, posY - 4, posX - 3, posY + k + 3, stripColor);
+		} else {
+			int l = -267386864;
+			this.drawGradientRect(posX - 3, posY - 4, posX + textWidth + 3, posY - 3, l, l);
+			this.drawGradientRect(posX - 3, posY + k + 3, posX + textWidth + 3, posY + k + 4, l, l);
+			this.drawGradientRect(posX - 3, posY - 3, posX + textWidth + 3, posY + k + 3, l, l);
+			this.drawGradientRect(posX - 4, posY - 3, posX - 3, posY + k + 3, l, l);
+			this.drawGradientRect(posX + textWidth + 3, posY - 3, posX + textWidth + 4, posY + k + 3, l, l);
+			int i1 = 1347420415;
+			int j1 = (i1 & 16711422) >> 1 | i1 & -16777216;
+			this.drawGradientRect(posX - 3, posY - 3 + 1, posX - 3 + 1, posY + k + 3 - 1, i1, j1);
+			this.drawGradientRect(posX + textWidth + 2, posY - 3 + 1, posX + textWidth + 3, posY + k + 3 - 1, i1, j1);
+			this.drawGradientRect(posX - 3, posY - 3, posX + textWidth + 3, posY - 3 + 1, i1, i1);
+			this.drawGradientRect(posX - 3, posY + k + 2, posX + textWidth + 3, posY + k + 3, j1, j1);
+		}
 
 		for (int k1 = 0; k1 < textLines.size(); ++k1) {
 			String s1 = textLines.get(k1);

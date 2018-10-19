@@ -34,7 +34,6 @@ public class Setting {
 			System.out.println("Неизвестная настройка - " + s);
 			return;
 		}
-		System.out.println("Настройке " + setting.name + " было присвоено значение " + args[1]);
 		setting.set(args[1]);
 	}
 

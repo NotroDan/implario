@@ -201,7 +201,7 @@ public class GuiIngame extends Gui {
 			this.renderExpBar(scaledresolution, i2);
 		}
 
-		if (Settings.ITEM_TOOLTIPS.b() && !this.mc.playerController.isSpectator()) {
+		if (Settings.HELD_ITEM_TOOLTIPS.b() && !this.mc.playerController.isSpectator()) {
 			this.func_181551_a(scaledresolution);
 		} else if (this.mc.thePlayer.isSpectator()) {
 			this.spectatorGui.func_175263_a(scaledresolution);

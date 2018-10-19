@@ -141,8 +141,8 @@ public enum Settings {
 
 	private static final Settings[] SOUNDS;
 	private static final Settings[] MODELPARTS;
-	public static List<String> resourcePacks = new ArrayList<>();;
-	public static List<String> incompatibleResourcePacks = new ArrayList<>();;
+	public static List<String> resourcePacks = new ArrayList<>();
+	public static List<String> incompatibleResourcePacks = new ArrayList<>();
 	public static EnumDifficulty difficulty = EnumDifficulty.NORMAL;
 	public static String lastServer;
 	public static String language = "ru_RU";
