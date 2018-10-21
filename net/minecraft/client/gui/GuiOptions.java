@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.*;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
@@ -77,9 +79,10 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.MODEL_LEFT_PANTS_LEG, x1, y += 22)
 				);
 
-//		y = tabs.y;
-//		tabs.add("Анимация",
-//				createButton(Settings.ANI));
+		y = tabs.y;
+		tabs.add("Анимация",
+				new IconButton(Settings.ANIMATED_LAVA, x1, y + 40, new ItemStack(Items.lava_bucket))
+				);
 
 
 		tabs.init(buttonList, width);

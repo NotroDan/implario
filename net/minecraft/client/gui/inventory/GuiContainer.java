@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -176,7 +177,7 @@ public abstract class GuiContainer extends GuiScreen {
 				}
 			}
 
-			this.drawItemStack(itemstack, mouseX - i - j2, mouseY - j - k2, s);
+			drawItemStack(itemstack, mouseX - i - j2, mouseY - j - k2, s);
 		}
 
 		if (this.returningStack != null) {
@@ -191,7 +192,7 @@ public abstract class GuiContainer extends GuiScreen {
 			int i3 = this.returningStackDestSlot.yDisplayPosition - this.touchUpY;
 			int l1 = this.touchUpX + (int) ((float) l2 * f);
 			int i2 = this.touchUpY + (int) ((float) i3 * f);
-			this.drawItemStack(this.returningStack, l1, i2, null);
+			drawItemStack(this.returningStack, l1, i2, null);
 		}
 
 		GlStateManager.popMatrix();
@@ -206,17 +207,23 @@ public abstract class GuiContainer extends GuiScreen {
 		RenderHelper.enableStandardItemLighting();
 	}
 
+
+	private void drawItemStack(ItemStack stack, int x, int y, String altText) {
+		zLevel = 200;
+		drawItemStack0(this, stack, x, y, altText);
+		zLevel = 0;
+	}
+
 	/**
 	 * Render an ItemStack. Args : stack, x, y, format
 	 */
-	private void drawItemStack(ItemStack stack, int x, int y, String altText) {
+	public static void drawItemStack0(GuiScreen screen, ItemStack stack, int x, int y, String altText) {
 		GlStateManager.translate(0.0F, 0.0F, 32.0F);
-		this.zLevel = 200.0F;
-		this.itemRender.zLevel = 200.0F;
-		this.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
-		this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, stack, x, y - (this.draggedStack == null ? 0 : 8), altText);
-		this.zLevel = 0.0F;
-		this.itemRender.zLevel = 0.0F;
+		ItemRenderer r = Minecraft.getMinecraft().getItemRenderer();
+		screen.itemRender.zLevel = 200.0F;
+		screen.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
+//		screen.itemRender.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj, stack, x, y - (this.draggedStack == null ? 0 : 8), altText);
+		screen.itemRender.zLevel = 0.0F;
 	}
 
 	/**

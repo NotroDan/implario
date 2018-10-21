@@ -32,7 +32,6 @@ import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class RenderItem implements IResourceManagerReloadListener {
 
@@ -48,7 +47,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	private static final String __OBFID = "CL_00001003";
 	private ModelResourceLocation modelLocation = null;
 	private boolean renderItemGui = false;
-	public ModelManager modelManager = null;
+	public ModelManager modelManager;
 
 	public RenderItem(TextureManager textureManager, ModelManager modelManager) {
 		this.textureManager = textureManager;
@@ -92,7 +91,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	}
 
 	public void renderModel(IBakedModel model, int color) {
-		this.renderModel(model, color, (ItemStack) null);
+		this.renderModel(model, color, null);
 	}
 
 	private void renderModel(IBakedModel model, int color, ItemStack stack) {
@@ -115,15 +114,18 @@ public class RenderItem implements IResourceManagerReloadListener {
 		tessellator.draw();
 
 		if (flag1) {
-			worldrenderer.setBlockLayer((EnumWorldBlockLayer) null);
+			worldrenderer.setBlockLayer(null);
 			GlStateManager.bindCurrentTexture();
 		}
 	}
 
 	public void renderItem(ItemStack stack, IBakedModel model) {
+		renderItem(stack, model, 0.5f);
+	}
+	public void renderItem(ItemStack stack, IBakedModel model, float scale) {
 		if (stack != null) {
 			GlStateManager.pushMatrix();
-			GlStateManager.scale(0.5F, 0.5F, 0.5F);
+			GlStateManager.scale(scale, scale, scale);
 
 			if (model.isBuiltInRenderer()) {
 				GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
@@ -236,7 +238,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 
 	public boolean shouldRenderItemIn3D(ItemStack stack) {
 		IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);
-		return ibakedmodel == null ? false : ibakedmodel.isGui3d();
+		return ibakedmodel != null && ibakedmodel.isGui3d();
 	}
 
 	private void preTransform(ItemStack stack) {
@@ -284,7 +286,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 					}
 				} else if (Reflector.ForgeItem_getModel.exists()) {
 					modelresourcelocation = (ModelResourceLocation) Reflector.call(item, Reflector.ForgeItem_getModel,
-							new Object[] {stack, entityplayer, Integer.valueOf(entityplayer.getItemInUseCount())});
+							new Object[] {stack, entityplayer, entityplayer.getItemInUseCount()});
 				}
 
 				this.modelLocation = modelresourcelocation;
@@ -334,6 +336,9 @@ public class RenderItem implements IResourceManagerReloadListener {
 	}
 
 	public void renderItemIntoGUI(ItemStack stack, int x, int y) {
+		renderItemIntoGUI(stack, x, y, 0.5f);
+	}
+	public void renderItemIntoGUI(ItemStack stack, int x, int y, float scale) {
 		this.renderItemGui = true;
 		IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);
 		GlStateManager.pushMatrix();
@@ -341,9 +346,9 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.textureManager.getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.enableAlpha();
-		GlStateManager.alphaFunc(516, 0.1F);
+		GlStateManager.alphaFunc(0x204, 0.1f);
 		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(770, 771);
+		GlStateManager.blendFunc(0x302, 0x303);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
 
@@ -353,7 +358,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 			ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
 		}
 
-		this.renderItem(stack, ibakedmodel);
+		this.renderItem(stack, ibakedmodel, scale);
 		GlStateManager.disableAlpha();
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.disableLighting();
@@ -390,34 +395,10 @@ public class RenderItem implements IResourceManagerReloadListener {
 			} catch (Throwable throwable) {
 				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering item");
 				CrashReportCategory crashreportcategory = crashreport.makeCategory("Item being rendered");
-				crashreportcategory.addCrashSectionCallable("Item Type", new Callable() {
-					private static final String __OBFID = "CL_00001004";
-
-					public String call() throws Exception {
-						return String.valueOf((Object) stack.getItem());
-					}
-				});
-				crashreportcategory.addCrashSectionCallable("Item Aux", new Callable() {
-					private static final String __OBFID = "CL_00001005";
-
-					public String call() throws Exception {
-						return String.valueOf(stack.getMetadata());
-					}
-				});
-				crashreportcategory.addCrashSectionCallable("Item NBT", new Callable() {
-					private static final String __OBFID = "CL_00001006";
-
-					public String call() throws Exception {
-						return String.valueOf((Object) stack.getTagCompound());
-					}
-				});
-				crashreportcategory.addCrashSectionCallable("Item Foil", new Callable() {
-					private static final String __OBFID = "CL_00001007";
-
-					public String call() throws Exception {
-						return String.valueOf(stack.hasEffect());
-					}
-				});
+				crashreportcategory.addCrashSectionCallable("Item Type", () -> String.valueOf(stack.getItem()));
+				crashreportcategory.addCrashSectionCallable("Item Aux", () -> String.valueOf(stack.getMetadata()));
+				crashreportcategory.addCrashSectionCallable("Item NBT", () -> String.valueOf(stack.getTagCompound()));
+				crashreportcategory.addCrashSectionCallable("Item Foil", () -> String.valueOf(stack.hasEffect()));
 				throw new ReportedException(crashreport);
 			}
 
@@ -426,7 +407,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	}
 
 	public void renderItemOverlays(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
-		this.renderItemOverlayIntoGUI(fr, stack, xPosition, yPosition, (String) null);
+		this.renderItemOverlayIntoGUI(fr, stack, xPosition, yPosition, null);
 	}
 
 	/**
@@ -452,7 +433,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 			boolean flag = stack.isItemDamaged();
 
 			if (Reflector.ForgeItem_showDurabilityBar.exists()) {
-				flag = Reflector.callBoolean(stack.getItem(), Reflector.ForgeItem_showDurabilityBar, new Object[] {stack});
+				flag = Reflector.callBoolean(stack.getItem(), Reflector.ForgeItem_showDurabilityBar, stack);
 			}
 
 			if (flag) {
@@ -460,7 +441,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 				int j = (int) Math.round(255.0D - (double) stack.getItemDamage() * 255.0D / (double) stack.getMaxDamage());
 
 				if (Reflector.ForgeItem_getDurabilityForDisplay.exists()) {
-					double d0 = Reflector.callDouble(stack.getItem(), Reflector.ForgeItem_getDurabilityForDisplay, new Object[] {stack});
+					double d0 = Reflector.callDouble(stack.getItem(), Reflector.ForgeItem_getDurabilityForDisplay, stack);
 					i = (int) Math.round(13.0D - d0 * 13.0D);
 					j = (int) Math.round(255.0D - d0 * 255.0D);
 				}
@@ -1044,7 +1025,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerBlock(Blocks.dragon_egg, "dragon_egg");
 
 		if (Reflector.ModelLoader_onRegisterItems.exists()) {
-			Reflector.call(Reflector.ModelLoader_onRegisterItems, new Object[] {this.itemModelMesher});
+			Reflector.call(Reflector.ModelLoader_onRegisterItems, this.itemModelMesher);
 		}
 	}
 
