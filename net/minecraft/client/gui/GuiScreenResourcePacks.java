@@ -2,6 +2,8 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import net.minecraft.Utils;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.resources.*;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.Util;

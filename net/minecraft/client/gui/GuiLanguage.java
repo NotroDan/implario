@@ -3,6 +3,8 @@ package net.minecraft.client.gui;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.Language;
 import net.minecraft.client.resources.LanguageManager;

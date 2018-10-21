@@ -1,6 +1,6 @@
 package shadersmod.client;
 
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.element.GuiButton;
 
 public class GuiButtonShaderOption extends GuiButton
 {

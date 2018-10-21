@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import java.io.IOException;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;

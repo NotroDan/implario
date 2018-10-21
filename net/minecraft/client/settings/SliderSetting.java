@@ -6,7 +6,7 @@ public class SliderSetting extends Setting {
 
 	private final float min, max;
 	private final float defaultValue;
-	private final float step;
+	public final float step;
 	public float value;
 
 	public SliderSetting(String name, String caption, float min, float max, float defaultValue, float step) {

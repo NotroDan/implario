@@ -1,7 +1,11 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.element;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiPageButtonList;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;

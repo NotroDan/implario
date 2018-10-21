@@ -2,6 +2,9 @@ package net.minecraft.client.gui;
 
 import io.netty.buffer.Unpooled;
 import java.io.IOException;
+
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.network.PacketBuffer;

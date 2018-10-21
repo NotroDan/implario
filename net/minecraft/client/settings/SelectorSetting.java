@@ -48,4 +48,8 @@ public class SelectorSetting extends Setting {
 		state = defaultState;
 	}
 
+	public void next() {
+		if (++state >= titles.length) state = 0;
+	}
+
 }

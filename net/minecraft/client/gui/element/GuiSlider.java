@@ -1,6 +1,7 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.element;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiPageButtonList;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 

@@ -1,6 +1,8 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.element;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.HoverButton;
+import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiButtonLanguage extends HoverButton

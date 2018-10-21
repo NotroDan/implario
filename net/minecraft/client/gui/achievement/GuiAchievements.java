@@ -2,8 +2,8 @@ package net.minecraft.client.gui.achievement;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiOptionButton;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IProgressMeter;
 import net.minecraft.client.renderer.GlStateManager;

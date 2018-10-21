@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiLabel;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -510,11 +512,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	}
 
 	public void drawWorldBackground(int tint) {
-		if (this.mc.theWorld != null) {
-			this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
-		} else {
-			this.drawBackground(tint);
-		}
+		if (this.mc.theWorld != null) this.drawGradientRect(0, 0, this.width, this.height, 0xc0101010, 0xd0101010);
+		else this.drawBackground(tint);
 	}
 
 	/**

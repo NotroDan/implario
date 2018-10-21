@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.MathHelper;
 import optifine.CustomColormap;
 import optifine.CustomSkyLayer;
 import org.lwjgl.opengl.GL11;
@@ -118,6 +117,45 @@ public class Utils {
 	}
 
 
+	// seed: 0 - 1535
+	public static int rainbowGradient(int seed) {
+		int s = seed / 256;
+		seed %= 256;
+		int r = 0x00;
+		int g = 0x00;
+		int b = 0x00;
+		switch (s) {
+			case 0:
+				r = seed;
+				g = 0xff;
+				break;
+			case 1:
+				g = 0xff - seed;
+				r = 0xff;
+				break;
+			case 2:
+				r = 0xff;
+				b = seed;
+				break;
+			case 3:
+				b = 0xff;
+				r = 0xff - seed;
+				break;
+			case 4:
+				b = 0xff;
+				g = seed;
+				break;
+			case 5:
+				g = 0xff;
+				b = 0xff - seed;
+				break;
+		}
+		return 0xff000000 | r << 16 | g << 8 | b;
+	}
 
+
+	public static String bool(boolean b) {
+		return b ? "§aДа" : "§cНет";
+	}
 
 }

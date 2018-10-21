@@ -1,5 +1,7 @@
 package net.minecraft.client.gui;
 
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 

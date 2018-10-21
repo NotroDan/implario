@@ -1,6 +1,6 @@
 package shadersmod.client;
 
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.I18n;
 
 public class GuiButtonEnumShaderOption extends GuiButton

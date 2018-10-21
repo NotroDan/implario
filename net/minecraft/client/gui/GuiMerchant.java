@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import io.netty.buffer.Unpooled;
 import java.io.IOException;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;

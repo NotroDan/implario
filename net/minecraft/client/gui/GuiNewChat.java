@@ -2,6 +2,7 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.element.ChatLine;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.ChatComponentText;
@@ -285,7 +286,7 @@ public class GuiNewChat extends Gui {
 	}
 
 	public int getChatHeight() {
-		return calculateChatboxHeight(this.getChatOpen() ? Settings.CHAT_HEIGHT_UNFOCUSED.f() : Settings.CHAT_HEIGHT_UNFOCUSED.f());
+		return calculateChatboxHeight(this.getChatOpen() ? Settings.CHAT_HEIGHT_FOCUSED.f() : Settings.CHAT_HEIGHT_UNFOCUSED.f());
 	}
 
 	/**
@@ -295,16 +296,18 @@ public class GuiNewChat extends Gui {
 		return Settings.CHAT_SCALE.f();
 	}
 
-	public static int calculateChatboxWidth(float p_146233_0_) {
-		int i = 320;
-		int j = 40;
-		return MathHelper.floor_float(p_146233_0_ * (float) (i - j) + (float) j);
+	public static int calculateChatboxWidth(float v) {
+		//		int i = 320;
+		//		int j = 40;
+		//		return MathHelper.floor_float(v * (float) (i - j) + (float) j);
+		return (int) v;
 	}
 
-	public static int calculateChatboxHeight(float p_146243_0_) {
-		int i = 180;
-		int j = 20;
-		return MathHelper.floor_float(p_146243_0_ * (float) (i - j) + (float) j);
+	public static int calculateChatboxHeight(float v) {
+//		int i = 180;
+//		int j = 20;
+//		return MathHelper.floor_float(v * (float) (i - j) + (float) j);
+		return (int) v;
 	}
 
 	public int getLineCount() {

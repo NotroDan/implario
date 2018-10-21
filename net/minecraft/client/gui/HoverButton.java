@@ -1,6 +1,7 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.gui.element.GuiButton;
 
 import java.util.List;
 

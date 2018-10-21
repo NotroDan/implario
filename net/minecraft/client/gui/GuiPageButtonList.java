@@ -6,6 +6,10 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiLabel;
+import net.minecraft.client.gui.element.GuiSlider;
+import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.util.IntHashMap;
 
 public class GuiPageButtonList extends GuiListExtended
@@ -241,7 +245,7 @@ public class GuiPageButtonList extends GuiListExtended
         }
 
         guilabel.visible = p_178063_3_.func_178934_d();
-        guilabel.func_175202_a(p_178063_3_.func_178936_c());
+        guilabel.add(p_178063_3_.func_178936_c());
         guilabel.setCentered();
         return guilabel;
     }

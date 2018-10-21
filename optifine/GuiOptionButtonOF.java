@@ -1,6 +1,6 @@
 package optifine;
 
-import net.minecraft.client.gui.GuiOptionButton;
+import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.settings.GameSettings;
 
 public class GuiOptionButtonOF extends GuiOptionButton implements IOptionControl

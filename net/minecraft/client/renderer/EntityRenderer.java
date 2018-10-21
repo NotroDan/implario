@@ -2063,11 +2063,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 */
 	private void setupFog(int p_78468_1_, float partialTicks) {
 		Entity entity = this.mc.getRenderViewEntity();
-		boolean flag = false;
 		this.fogStandard = false;
-
-		if (entity instanceof EntityPlayer) flag = ((EntityPlayer) entity).capabilities.isCreativeMode;
-		if (flag) return;
 
 		GL11.glFog(GL11.GL_FOG_COLOR, this.setFogColorBuffer(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 1.0F));
 		GL11.glNormal3f(0.0F, -1.0F, 0.0F);

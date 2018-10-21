@@ -4,6 +4,10 @@ import com.google.common.base.Predicate;
 import com.google.common.primitives.Floats;
 import java.io.IOException;
 import java.util.Random;
+
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiSlider;
+import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;

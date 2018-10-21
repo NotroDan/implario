@@ -1,8 +1,8 @@
 package net.minecraft.client.gui.inventory;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.renderer.GlStateManager;

@@ -4,6 +4,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
+
+import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;

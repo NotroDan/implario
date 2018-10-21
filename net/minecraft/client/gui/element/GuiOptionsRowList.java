@@ -1,7 +1,8 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.element;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.settings.GameSettings;
 
 import java.util.List;

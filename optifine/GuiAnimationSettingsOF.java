@@ -1,7 +1,7 @@
 package optifine;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiOptionButton;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;

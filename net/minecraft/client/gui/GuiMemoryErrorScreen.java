@@ -1,6 +1,9 @@
 package net.minecraft.client.gui;
 
 import java.io.IOException;
+
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.resources.I18n;
 
 public class GuiMemoryErrorScreen extends GuiScreen

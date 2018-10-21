@@ -25,14 +25,11 @@ public enum Settings {
 	FOV("Поле зрения", 30, 110, 1, 90),
 //	GRAPHICS("Детальная графика", true),
 	GAMMA("Гамма", 0, 1, 0.01f, 1),
-	SATURATION("Насыщенность", 0, 1, 0.01f, 1),
 	RENDER_DISTANCE("Дальность прорисовки", 2, 32, 1, 10),
 	VIEW_BOBBING("Покачивание камеры", true),
-	ANAGLYPH("3D-Анаглиф", false),
 	FRAMERATE_LIMIT("Частота кадров", 0, 260, 5, 260),
 	FBO_ENABLE("Использовать FBO", false),
 //	RENDER_CLOUDS("Облака", false),
-	AMBIENT_OCCLUSION("Мягкое освещение", 2, "§cВыкл.", "Минимум", "Максимум"),
 	GUI_SCALE("Интерфейс", 2, "Авто", "Маленький", "Обычный", "Крупный"),
 	PARTICLES("Частицы", 0, "Все", "Меньше", "Минимум"),
 	CHAT_VISIBILITY("Чат", 0, "Виден", "Только команды", "Скрыт"),
@@ -67,7 +64,6 @@ public enum Settings {
 	ANIMATED_PORTAL("Портал", true),
 	AO_LEVEL("Мягкое освещение", 0, 1, 0.01f, 1f),
 	LAGOMETER("Лагометр", false),
-	AUTOSAVE_TICKS("Автосохранение", 2, "Каждые 2 сек.", "Каждые 20 сек.", "Каждые 3 мин.", "Каждые 30 мин."),
 	BETTER_GRASS("Улучшенная трава", 0, "§cВыкл.", "Быстро", "Детально"),
 	ANIMATED_REDSTONE("Редстоун", true),
 	ANIMATED_EXPLOSION("Вызрывы", true),
@@ -109,7 +105,6 @@ public enum Settings {
 	DROPPED_ITEMS("3D-Предметы", true),
 	LAZY_CHUNK_LOADING("Ленивая загрузка чанков", false),
 	CUSTOM_SKY("Кастомное небо", true),
-	FAST_MATH("Быстрая математика", false),
 	FAST_RENDER("Быстрый рендер", true),
 	TRANSLUCENT_BLOCKS("Просвечивание блоков", 0, "Быстрое", "Детальное"),
 	DYNAMIC_FOV("Динамика поля зрения", true),
@@ -137,6 +132,7 @@ public enum Settings {
 	PAUSE_FOCUS("Пауза при сворачивании", true),
 	ITEM_TOOLTIPS("ID предметов", false),
 	FANCY_BUTTONS("Тип кнопок", true),
+	RAINBOW_SHIT("Радужная хуйня", true),
 	HIDE_SERVER_ADDRESS("Скрыть IP серверов", false);
 
 	private static final Settings[] SOUNDS;
@@ -144,7 +140,7 @@ public enum Settings {
 	public static List<String> resourcePacks = new ArrayList<>();
 	public static List<String> incompatibleResourcePacks = new ArrayList<>();
 	public static EnumDifficulty difficulty = EnumDifficulty.NORMAL;
-	public static String lastServer;
+	public static String lastServer = "";
 	public static String language = "ru_RU";
 
 	private static final Gson gson = new Gson();

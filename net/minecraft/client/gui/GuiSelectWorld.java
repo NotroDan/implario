@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import net.minecraft.client.AnvilConverterException;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldSettings;

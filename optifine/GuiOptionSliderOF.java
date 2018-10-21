@@ -1,6 +1,6 @@
 package optifine;
 
-import net.minecraft.client.gui.GuiOptionSlider;
+import net.minecraft.client.gui.element.GuiOptionSlider;
 import net.minecraft.client.settings.GameSettings;
 
 public class GuiOptionSliderOF extends GuiOptionSlider implements IOptionControl
