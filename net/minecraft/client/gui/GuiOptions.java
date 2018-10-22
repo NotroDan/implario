@@ -47,20 +47,20 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		y = tabs.y;
 		tabs.add("Графика",
 				createButton(Settings.RENDER_DISTANCE, x1, y += 22),
-				createButton(Settings.FBO_ENABLE, x2, y),
-				createButton(Settings.USE_VBO, x1, y += 22),
+				createButton(Settings.FBO_ENABLE, x2, y).updateGraphics(),
+				createButton(Settings.USE_VBO, x1, y += 22).updateGraphics(),
 				createButton(Settings.VIEW_BOBBING, x2, y),
-				createButton(Settings.ENABLE_VSYNC, x1, y += 22),
-				createButton(Settings.FAST_RENDER, x2, y),
-				createButton(Settings.AA_LEVEL, x1, y += 22),
-				createButton(Settings.AO_LEVEL, x2, y),
-				createButton(Settings.AF_LEVEL, x1, y += 22),
-				createButton(Settings.LAZY_CHUNK_LOADING, x2, y),
-				createButton(Settings.DYNAMIC_LIGHTS, x1, y += 22),
-				createButton(Settings.CHUNK_UPDATES_DYNAMIC, x2, y),
+				createButton(Settings.ENABLE_VSYNC, x1, y += 22).updateGraphics(),
+				createButton(Settings.FAST_RENDER, x2, y).updateGraphics(),
+				createButton(Settings.AA_LEVEL, x1, y += 22).updateGraphics(),
+				createButton(Settings.AO_LEVEL, x2, y).updateGraphics(),
+				createButton(Settings.AF_LEVEL, x1, y += 22).updateGraphics(),
+				createButton(Settings.LAZY_CHUNK_LOADING, x2, y).updateGraphics(),
+				createButton(Settings.DYNAMIC_LIGHTS, x1, y += 22).updateGraphics(),
+				createButton(Settings.CHUNK_UPDATES_DYNAMIC, x2, y).updateGraphics(),
 				createButton(Settings.DYNAMIC_FOV, x1, y += 22),
-				createButton(Settings.MIPMAP_LEVELS, x2, y),
-				createButton(Settings.MIPMAP_TYPE, x1, y += 22)//,
+				createButton(Settings.MIPMAP_LEVELS, x2, y).updateGraphics(),
+				createButton(Settings.MIPMAP_TYPE, x1, y += 22).updateGraphics()//,
 //				createButton(Settings., x2, y),
 //				createButton(Settings., x1, y += 22),
 //				createButton(Settings., x2, y),
@@ -178,7 +178,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done")));
 	}
 
-	private GuiButton createButton(Settings s, int x, int y) {
+	private SettingButton createButton(Settings s, int x, int y) {
 		if (s.getBase() instanceof ToggleSetting) return new SettingButton(s, x, y, 150, 20);
 		if (s.getBase() instanceof SelectorSetting) return new SettingButton(s, x, y, 150, 20);
 		if (s.getBase() instanceof SliderSetting) return new SettingSlider(x, y, s);
@@ -212,7 +212,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		if (button.id >= 1000) tabs.select(button.id - 1000);
 
-		if (button instanceof SettingButton) ((SettingButton) button).click();
+		if (button instanceof SettingButton) ((SettingButton) button).click(this);
 
 		if (button.enabled == button.enabled) return;
 		if (button.id < 100 && button instanceof GuiOptionButton) {

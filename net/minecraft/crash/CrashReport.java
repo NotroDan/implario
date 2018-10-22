@@ -1,12 +1,11 @@
 package net.minecraft.crash;
 
+import net.minecraft.Utils;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.gen.layer.IntCache;
-import optifine.Reflector;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
 import net.minecraft.client.Logger;
 
 import java.io.File;
@@ -21,7 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 public class CrashReport {
-    private static final Logger logger = Logger.getInstance();
+
+	private static final Logger logger = Logger.getInstance();
 
     private final String description;
 
@@ -33,7 +33,7 @@ public class CrashReport {
 
     private File crashReportFile;
     private boolean field_85059_f = true;
-    private StackTraceElement[] stacktrace = new StackTraceElement[0];
+    private StackTraceElement[] stacktrace = Utils.STACKTRACEELEMENT;
     private boolean reported = false;
 
     public CrashReport(String descriptionIn, Throwable causeThrowable) {
@@ -79,10 +79,6 @@ public class CrashReport {
         });
         this.theReportCategory.addCrashSectionCallable("IntCache", IntCache::getCacheSizes);
 
-        if (Reflector.FMLCommonHandler_enhanceCrashReport.exists()){
-            Object object = Reflector.call(Reflector.FMLCommonHandler_instance);
-            Reflector.callString(object, Reflector.FMLCommonHandler_enhanceCrashReport, this, this.theReportCategory);
-        }
     }
 
     public String getDescription() {
@@ -95,7 +91,7 @@ public class CrashReport {
 
     public void getSectionsInStringBuilder(StringBuilder builder) {
         if ((this.stacktrace == null || this.stacktrace.length <= 0) && this.crashReportSections.size() > 0)
-            this.stacktrace = ArrayUtils.subarray((this.crashReportSections.get(0)).getStackTrace(), 0, 1);
+            this.stacktrace = ArrayUtils.subarray(this.crashReportSections.get(0).getStackTrace(), 0, 1);
 
         if (this.stacktrace != null && this.stacktrace.length > 0){
             builder.append("-- Head --\n");
@@ -151,13 +147,11 @@ public class CrashReport {
 
         StringBuilder stringbuilder = new StringBuilder();
         stringbuilder.append("---- Minecraft Crash Report ----\n");
-        Reflector.call(Reflector.BlamingTransformer_onCrash, stringbuilder);
-        Reflector.call(Reflector.CoreModManager_onCrash, stringbuilder);
         stringbuilder.append("// ");
         stringbuilder.append(getWittyComment());
         stringbuilder.append("\n\n");
         stringbuilder.append("Time: ");
-        stringbuilder.append((new SimpleDateFormat()).format(new Date()));
+        stringbuilder.append(new SimpleDateFormat().format(new Date()));
         stringbuilder.append("\n");
         stringbuilder.append("Description: ");
         stringbuilder.append(this.description);

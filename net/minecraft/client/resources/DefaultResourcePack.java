@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
-import optifine.ReflectorForge;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -55,8 +54,7 @@ public class DefaultResourcePack implements IResourcePack
     private InputStream getResourceStream(ResourceLocation location)
     {
         String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
-        InputStream inputstream = ReflectorForge.getOptiFineResourceStream(s);
-        return inputstream != null ? inputstream : DefaultResourcePack.class.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
+        return DefaultResourcePack.class.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
     }
 
     public boolean resourceExists(ResourceLocation location)
@@ -81,7 +79,7 @@ public class DefaultResourcePack implements IResourcePack
 
     public BufferedImage getPackImage() throws IOException
     {
-        return TextureUtil.readBufferedImage(DefaultResourcePack.class.getResourceAsStream("/" + (new ResourceLocation("pack.png")).getResourcePath()));
+        return TextureUtil.readBufferedImage(DefaultResourcePack.class.getResourceAsStream("/" + new ResourceLocation("pack.png").getResourcePath()));
     }
 
     public String getPackName()

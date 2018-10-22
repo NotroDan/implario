@@ -6,9 +6,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.Mipmaps;
-import optifine.Reflector;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
 import net.minecraft.client.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -119,7 +117,7 @@ public class TextureUtil {
 			j = Math.min(i, p_147947_3_ - l);
 			int i1 = p_147947_2_ * j;
 			copyToBufferPos(p_147947_1_, k, i1);
-			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, p_147947_0_, p_147947_4_, p_147947_5_ + l, p_147947_2_, j, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer) dataBuffer);
+			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, p_147947_0_, p_147947_4_, p_147947_5_ + l, p_147947_2_, j, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, dataBuffer);
 		}
 	}
 
@@ -133,13 +131,8 @@ public class TextureUtil {
 	}
 
 	public static void allocateTextureImpl(int p_180600_0_, int p_180600_1_, int p_180600_2_, int p_180600_3_) {
-		Object object = TextureUtil.class;
 
-		if (Reflector.SplashScreen.exists()) {
-			object = Reflector.SplashScreen.getTargetClass();
-		}
-
-		synchronized (object) {
+		synchronized (TextureUtil.class) {
 			deleteTexture(p_180600_0_);
 			bindTexture(p_180600_0_);
 		}
@@ -152,7 +145,7 @@ public class TextureUtil {
 		}
 
 		for (int i = 0; i <= p_180600_1_; ++i) {
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, i, GL11.GL_RGBA, p_180600_2_ >> i, p_180600_3_ >> i, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer) ((IntBuffer) null));
+			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, i, GL11.GL_RGBA, p_180600_2_ >> i, p_180600_3_ >> i, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer) null);
 		}
 	}
 
@@ -176,7 +169,7 @@ public class TextureUtil {
 			int k1 = i * j1;
 			p_110993_0_.getRGB(0, i1, i, j1, aint, 0, i);
 			copyToBuffer(aint, k1);
-			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, p_110993_1_, p_110993_2_ + i1, i, j1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer) dataBuffer);
+			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, p_110993_1_, p_110993_2_ + i1, i, j1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, dataBuffer);
 		}
 	}
 
@@ -272,16 +265,16 @@ public class TextureUtil {
 			int l = j * k;
 			IntBuffer intbuffer = BufferUtils.createIntBuffer(l);
 			int[] aint = new int[l];
-			GL11.glGetTexImage(GL11.GL_TEXTURE_2D, i, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer) intbuffer);
+			GL11.glGetTexImage(GL11.GL_TEXTURE_2D, i, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, intbuffer);
 			intbuffer.get(aint);
 			BufferedImage bufferedimage = new BufferedImage(j, k, 2);
 			bufferedimage.setRGB(0, 0, j, k, aint, 0, j);
 
 			try {
-				ImageIO.write(bufferedimage, "png", (File) file1);
+				ImageIO.write(bufferedimage, "png", file1);
 				logger.debug("Exported png to: {}", new Object[] {file1.getAbsolutePath()});
 			} catch (Exception exception) {
-				logger.debug((String) "Unable to write: ", (Throwable) exception);
+				logger.debug("Unable to write: ", exception);
 			}
 		}
 	}

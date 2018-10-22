@@ -1,6 +1,9 @@
 package net.minecraft.client.gui.element;
 
 import net.minecraft.Utils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.SelectorSetting;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.client.settings.SliderSetting;
@@ -11,7 +14,7 @@ import java.text.DecimalFormat;
 public class SettingButton extends GuiButton {
 
 	public Settings settings;
-	public boolean autosave = true;
+	public boolean updateGraphics = false;
 
 	public SettingButton(Settings settings, int x, int y) {
 		super(settings.ordinal(), x, y, getCaption(settings));
@@ -23,8 +26,9 @@ public class SettingButton extends GuiButton {
 		this.settings = settings;
 	}
 
-	public void asOff() {
-		autosave = false;
+	public SettingButton updateGraphics() {
+		updateGraphics = true;
+		return this;
 	}
 
 	public static String getCaption(Settings s) {
@@ -43,10 +47,17 @@ public class SettingButton extends GuiButton {
 		return null;
 	}
 
-	public void click() {
-		if (autosave) if (settings.getBase() instanceof ToggleSetting) settings.toggle();
-			else if (settings.getBase() instanceof SelectorSetting) ((SelectorSetting) settings.getBase()).next();
-		else
+	public void click(GuiScreen screen) {
+		if (settings.getBase() instanceof ToggleSetting) settings.toggle();
+		else if (settings.getBase() instanceof SelectorSetting) ((SelectorSetting) settings.getBase()).next();
 		displayString = getCaption(settings);
+		if (updateGraphics) {
+			ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
+			drawRect(0, 0, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 0xd0202020);
+			drawCenteredString(Minecraft.getMinecraft().fontRendererObj, "Применение настроек...",
+					scaledresolution.getScaledWidth() / 2, scaledresolution.getScaledHeight() / 2, -1);
+			Minecraft.getMinecraft().renderGlobal.loadRenderers();
+		}
+		settings.change();
 	}
 }

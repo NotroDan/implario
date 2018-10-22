@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.network.play.client.C15PacketClientSettings;
@@ -44,7 +45,15 @@ public enum Settings {
 	CHAT_WIDTH("Ширина чата", 40, 320, 1, 320),
 	CHAT_HEIGHT_FOCUSED("Высота (Активный чат)", 20, 180, 1, 180),
 	CHAT_HEIGHT_UNFOCUSED("Высота (Неактивный чат)", 20, 180, 1, 100),
-	MIPMAP_LEVELS("Уровень сглаживания", 0, 4, 1, 4),
+	MIPMAP_LEVELS("Уровень сглаживания", 0, 4, 1, 4) {
+		public void change() {
+			Minecraft mc = Minecraft.getMinecraft();
+			mc.getTextureMapBlocks().setMipmapLevels(i());
+			mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+			mc.getTextureMapBlocks().setBlurMipmapDirect(false, i() > 0);
+			mc.scheduleResourcesRefresh();
+		}
+	},
 	FORCE_UNICODE_FONT("Шрифт Unicode", true),
 	USE_NATIVE_CONNECTION("Нативное соединение", true),
 	BLOCK_ALTERNATIVES("Альтернативные блоки", false),
@@ -142,7 +151,6 @@ public enum Settings {
 	public static EnumDifficulty difficulty = EnumDifficulty.NORMAL;
 	public static String lastServer = "";
 	public static String language = "ru_RU";
-	public boolean changed = false;
 
 	private static final Gson gson = new Gson();
 	private static final ParameterizedType gsonType = new ParameterizedType() {
@@ -218,7 +226,6 @@ public enum Settings {
 					exception.printStackTrace();
 				}
 			}
-			for (Settings settings : values()) settings.changed = false;
 			KeyBinding.resetKeyBindingArrayAndHash();
 			bufferedreader.close();
 		} catch (Exception ex) {
@@ -239,7 +246,6 @@ public enum Settings {
 			w.println("lang: " + language);
 			for (Settings s : values()) w.println(s.base.toString());
 			w.close();
-			for (Settings settings : values()) settings.changed = false;
 		} catch (Exception exception) {
 			System.out.println("Не удалось сохранить опции.");
 			exception.printStackTrace();
@@ -327,4 +333,7 @@ public enum Settings {
 		return valueOf("MODEL_" + part.name());
 	}
 
+	public void change() {
+
+	}
 }

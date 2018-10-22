@@ -27,7 +27,6 @@ import net.minecraft.util.*;
 import optifine.Config;
 import optifine.CustomColors;
 import optifine.CustomItems;
-import optifine.Reflector;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 
@@ -52,12 +51,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	public RenderItem(TextureManager textureManager, ModelManager modelManager) {
 		this.textureManager = textureManager;
 		this.modelManager = modelManager;
-
-		if (Reflector.ItemModelMesherForge_Constructor.exists()) {
-			this.itemModelMesher = (ItemModelMesher) Reflector.newInstance(Reflector.ItemModelMesherForge_Constructor, new Object[] {modelManager});
-		} else {
-			this.itemModelMesher = new ItemModelMesher(modelManager);
-		}
+		this.itemModelMesher = new ItemModelMesher(modelManager);
 
 		this.registerItems();
 	}
@@ -205,11 +199,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 			renderer.addVertexData(quad.getVertexData());
 		}
 
-		if (Reflector.IColoredBakedQuad.exists() && Reflector.IColoredBakedQuad.isInstance(quad)) {
-			forgeHooksClient_putQuadColor(renderer, quad, color);
-		} else {
-			renderer.putColor4(color);
-		}
+		renderer.putColor4(color);
 
 		this.putQuadNormal(renderer, quad);
 	}
@@ -284,9 +274,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 					} else if (i > 0) {
 						modelresourcelocation = new ModelResourceLocation("bow_pulling_0", "inventory");
 					}
-				} else if (Reflector.ForgeItem_getModel.exists()) {
-					modelresourcelocation = (ModelResourceLocation) Reflector.call(item, Reflector.ForgeItem_getModel,
-							new Object[] {stack, entityplayer, entityplayer.getItemInUseCount()});
 				}
 
 				this.modelLocation = modelresourcelocation;
@@ -311,15 +298,11 @@ public class RenderItem implements IResourceManagerReloadListener {
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		GlStateManager.pushMatrix();
 
-		if (Reflector.ForgeHooksClient_handleCameraTransforms.exists()) {
-			model = (IBakedModel) Reflector.call(Reflector.ForgeHooksClient_handleCameraTransforms, new Object[] {model, cameraTransformType});
-		} else {
-			ItemCameraTransforms itemcameratransforms = model.getItemCameraTransforms();
-			itemcameratransforms.applyTransform(cameraTransformType);
+		ItemCameraTransforms itemcameratransforms = model.getItemCameraTransforms();
+		itemcameratransforms.applyTransform(cameraTransformType);
 
-			if (this.func_183005_a(itemcameratransforms.getTransform(cameraTransformType))) {
-				GlStateManager.cullFace(1028);
-			}
+		if (this.func_183005_a(itemcameratransforms.getTransform(cameraTransformType))) {
+			GlStateManager.cullFace(1028);
 		}
 
 		this.renderItem(stack, model);
@@ -351,12 +334,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		GlStateManager.blendFunc(0x302, 0x303);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
-
-		if (Reflector.ForgeHooksClient_handleCameraTransforms.exists()) {
-			ibakedmodel = (IBakedModel) Reflector.call(Reflector.ForgeHooksClient_handleCameraTransforms, new Object[] {ibakedmodel, ItemCameraTransforms.TransformType.GUI});
-		} else {
-			ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
-		}
+		ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
 
 		this.renderItem(stack, ibakedmodel, scale);
 		GlStateManager.disableAlpha();
@@ -432,19 +410,9 @@ public class RenderItem implements IResourceManagerReloadListener {
 
 			boolean flag = stack.isItemDamaged();
 
-			if (Reflector.ForgeItem_showDurabilityBar.exists()) {
-				flag = Reflector.callBoolean(stack.getItem(), Reflector.ForgeItem_showDurabilityBar, stack);
-			}
-
 			if (flag) {
 				int i = (int) Math.round(13.0D - (double) stack.getItemDamage() * 13.0D / (double) stack.getMaxDamage());
 				int j = (int) Math.round(255.0D - (double) stack.getItemDamage() * 255.0D / (double) stack.getMaxDamage());
-
-				if (Reflector.ForgeItem_getDurabilityForDisplay.exists()) {
-					double d0 = Reflector.callDouble(stack.getItem(), Reflector.ForgeItem_getDurabilityForDisplay, stack);
-					i = (int) Math.round(13.0D - d0 * 13.0D);
-					j = (int) Math.round(255.0D - d0 * 255.0D);
-				}
 
 				GlStateManager.disableLighting();
 				GlStateManager.disableDepth();
@@ -456,10 +424,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 13, 2, 0, 0, 0, 255);
 				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 12, 1, (255 - j) / 4, 64, 0, 255);
 				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, i, 1, 255 - j, j, 0, 255);
-
-				if (!Reflector.ForgeHooksClient.exists()) {
-					GlStateManager.enableBlend();
-				}
 
 				GlStateManager.enableAlpha();
 				GlStateManager.enableTexture2D();
@@ -1024,9 +988,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerBlock(Blocks.red_mushroom_block, BlockHugeMushroom.EnumType.ALL_INSIDE.getMetadata(), "red_mushroom_block");
 		this.registerBlock(Blocks.dragon_egg, "dragon_egg");
 
-		if (Reflector.ModelLoader_onRegisterItems.exists()) {
-			Reflector.call(Reflector.ModelLoader_onRegisterItems, this.itemModelMesher);
-		}
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {

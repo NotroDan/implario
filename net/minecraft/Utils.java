@@ -10,8 +10,10 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.IResourcePack;
 import optifine.CustomColormap;
 import optifine.CustomSkyLayer;
+import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShaderOption;
 
@@ -24,6 +26,9 @@ public class Utils {
 	public static final Integer[] INTEGER = new Integer[0];
 	public static final Class[] CLASS = new Class[0];
 	public static final CustomSkyLayer[] CUSTOMSKYLAYER = new CustomSkyLayer[0];
+	public static final StackTraceElement[] STACKTRACEELEMENT = new StackTraceElement[0];
+	public static final IResourcePack[] IRESOURCEPACK = new IResourcePack[0];
+	public static final DisplayMode[] DISPLAYMODE = new DisplayMode[0];
 
 	public static void drawFloatingText(String text, float x, float y, float z) {
 		drawFloatingText0(text, x, y, z, false);
@@ -113,7 +118,7 @@ public class Utils {
 
 	public static int  easeInOut(int t,int b , int c, int d) {
 		if ((t/=d/2) < 1) return c/2*t*t + b;
-		return -c/2 * ((--t)*(t-2) - 1) + b;
+		return -c/2 * (--t *(t-2) - 1) + b;
 	}
 
 

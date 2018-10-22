@@ -1,7 +1,6 @@
 package net.minecraft.client.entity;
 
 import com.mojang.authlib.GameProfile;
-import java.io.File;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.ImageBufferDownload;
@@ -20,14 +19,12 @@ import net.minecraft.world.WorldSettings;
 import optifine.CapeUtils;
 import optifine.Config;
 import optifine.PlayerConfigurations;
-import optifine.Reflector;
 
 public abstract class AbstractClientPlayer extends EntityPlayer
 {
     private NetworkPlayerInfo playerInfo;
     private ResourceLocation locationOfCape = null;
-    private String nameClear = null;
-    private static final String __OBFID = "CL_00000935";
+    private String nameClear;
 
     public AbstractClientPlayer(World worldIn, GameProfile playerProfile)
     {
@@ -108,12 +105,13 @@ public abstract class AbstractClientPlayer extends EntityPlayer
     public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username)
     {
         TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-        Object object = texturemanager.getTexture(resourceLocationIn);
+        ITextureObject object = texturemanager.getTexture(resourceLocationIn);
 
         if (object == null)
         {
-            object = new ThreadDownloadImageData((File)null, String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", new Object[] {StringUtils.stripControlCodes(username)}), DefaultPlayerSkin.getDefaultSkin(getOfflineUUID(username)), new ImageBufferDownload());
-            texturemanager.loadTexture(resourceLocationIn, (ITextureObject)object);
+            object = new ThreadDownloadImageData(null, String.format("http://skins.minecraft.net/MinecraftSkins/%s.png",
+					StringUtils.stripControlCodes(username)), DefaultPlayerSkin.getDefaultSkin(getOfflineUUID(username)), new ImageBufferDownload());
+            texturemanager.loadTexture(resourceLocationIn, object);
         }
 
         return (ThreadDownloadImageData)object;
@@ -167,7 +165,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer
             f *= 1.0F - f1 * 0.15F;
         }
 
-        return Reflector.ForgeHooksClient_getOffsetFOV.exists() ? Reflector.callFloat(Reflector.ForgeHooksClient_getOffsetFOV, new Object[] {this, Float.valueOf(f)}): f;
+        return f;
     }
 
     public String getNameClear()

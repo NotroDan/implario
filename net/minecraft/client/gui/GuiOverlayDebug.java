@@ -17,12 +17,10 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.Chunk;
-import optifine.Reflector;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -212,7 +210,8 @@ public class GuiOverlayDebug extends Gui
 				String.format("Память:§a% 2d%% %03d§f/§a%03d§f МБ", l * 100L / i, bytesToMb(l), bytesToMb(i)),
 				String.format("Выделено:§a% 2d%% %03d§f МБ", j * 100L / i, bytesToMb(j))
 		);
-		ArrayList arraylist = Lists.newArrayList(
+
+		return Lists.newArrayList(
 				String.format("Версия Java: §a%s§fx%d", System.getProperty("java.version"), this.mc.isJava64bit() ? 64 : 32),
 				String.format("Память:§a% 2d%% %03d§f/§a%03d§f МБ", l * 100L / i, bytesToMb(l), bytesToMb(i)),
 				String.format("Выделено:§a% 2d%% %03d§f МБ", j * 100L / i, bytesToMb(j)),
@@ -221,14 +220,6 @@ public class GuiOverlayDebug extends Gui
 				String.format("Видеокарта: §a%d§fx§a%d §f(§a%s§f)", Display.getWidth(), Display.getHeight(), GL11.glGetString(GL11.GL_VENDOR)),
 				"GL-Рендерер: §a" + GL11.glGetString(GL11.GL_RENDERER),
 				"Версия GL: §a" + GL11.glGetString(GL11.GL_VERSION));
-
-		if (Reflector.FMLCommonHandler_getBrandings.exists())
-		{
-			Object object = Reflector.call(Reflector.FMLCommonHandler_instance);
-			arraylist.add("");
-			arraylist.addAll((Collection)Reflector.call(object, Reflector.FMLCommonHandler_getBrandings, false));
-		}
-		return arraylist;
 	}
 
 	private void func_181554_e()
