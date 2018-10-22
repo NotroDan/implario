@@ -52,7 +52,7 @@ public class UserList<K, V extends UserListEntry<K>>
     public UserList(File saveFile)
     {
         this.saveFile = saveFile;
-        GsonBuilder gsonbuilder = (new GsonBuilder()).setPrettyPrinting();
+        GsonBuilder gsonbuilder = new GsonBuilder().setPrettyPrinting();
         gsonbuilder.registerTypeHierarchyAdapter(UserListEntry.class, new UserList.Serializer());
         this.gson = gsonbuilder.create();
     }
@@ -87,7 +87,7 @@ public class UserList<K, V extends UserListEntry<K>>
     public V getEntry(K obj)
     {
         this.removeExpired();
-        return (V)((UserListEntry)this.values.get(this.getObjectKey(obj)));
+        return (V) (UserListEntry)this.values.get(this.getObjectKey(obj));
     }
 
     public void removeEntry(K p_152684_1_)

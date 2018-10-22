@@ -1010,7 +1010,7 @@ public class StructureOceanMonumentPieces
 
                 for (int l1 = 0; l1 < 4; ++l1)
                 {
-                    int i1 = p_175840_1_ ? p_175840_2_ + (24 - (17 - l1 * 3)) : p_175840_2_ + 17 - l1 * 3;
+                    int i1 = p_175840_1_ ? p_175840_2_ + 24 - (17 - l1 * 3) : p_175840_2_ + 17 - l1 * 3;
                     this.setBlockState(worldIn, field_175824_d, i1, 5, 5, p_175840_5_);
                 }
 

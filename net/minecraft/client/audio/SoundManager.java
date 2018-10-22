@@ -92,7 +92,7 @@ public class SoundManager {
 	private synchronized void loadSoundSystem() {
 		if (!this.loaded) {
 			try {
-				(new Thread(() -> {
+				new Thread(() -> {
 					SoundSystemConfig.setLogger(new SoundSystemLogger() {
 						public void message(String p_message_1_, int p_message_2_) {
 							if (!p_message_1_.isEmpty()) {
@@ -117,7 +117,7 @@ public class SoundManager {
 					SoundManager.this.loaded = true;
 					SoundManager.this.sndSystem.setMasterVolume(Settings.SOUND_MASTER.f());
 					SoundManager.logger.info(SoundManager.LOG_MARKER, "Sound engine started");
-				}, "Sound Library Loader")).start();
+				}, "Sound Library Loader").start();
 			} catch (RuntimeException runtimeexception) {
 				logger.error(LOG_MARKER, "Error starting SoundSystem. Turning off sounds & music", runtimeexception);
 				Settings.SOUND_MASTER.set(0);

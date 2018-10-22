@@ -230,7 +230,7 @@ public class BlockLever extends Block
 
     public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
     {
-        return !((Boolean)state.getValue(POWERED)).booleanValue() ? 0 : (((BlockLever.EnumOrientation)state.getValue(FACING)).getFacing() == side ? 15 : 0);
+        return !((Boolean)state.getValue(POWERED)).booleanValue() ? 0 : ((EnumOrientation)state.getValue(FACING)).getFacing() == side ? 15 : 0;
     }
 
     /**

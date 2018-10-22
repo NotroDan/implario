@@ -211,7 +211,7 @@ public class CryptManager
         try
         {
             Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
-            cipher.init(opMode, (Key)key, (AlgorithmParameterSpec)(new IvParameterSpec(key.getEncoded())));
+            cipher.init(opMode, (Key)key, (AlgorithmParameterSpec) new IvParameterSpec(key.getEncoded()));
             return cipher;
         }
         catch (GeneralSecurityException generalsecurityexception)

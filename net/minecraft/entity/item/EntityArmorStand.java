@@ -656,7 +656,7 @@ public class EntityArmorStand extends EntityLivingBase
             {
                 if (this.contents[i] != null)
                 {
-                    Block.spawnAsEntity(this.worldObj, (new BlockPos(this)).up(), this.contents[i]);
+                    Block.spawnAsEntity(this.worldObj, new BlockPos(this).up(), this.contents[i]);
                 }
 
                 this.contents[i] = null;

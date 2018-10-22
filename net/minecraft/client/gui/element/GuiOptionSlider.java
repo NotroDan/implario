@@ -74,7 +74,7 @@ public class GuiOptionSlider extends GuiButton
         {
             sliderValue = (float)(mouseX - (xPosition + 4)) / (float)(width - 8);
             sliderValue = MathHelper.clamp_float(sliderValue, 0.0F, 1.0F);
-			options.value = (options.denormalizeValue(sliderValue));
+			options.value = options.denormalizeValue(sliderValue);
             displayString = options.caption;
             dragging = true;
             return true;

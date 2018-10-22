@@ -75,7 +75,7 @@ public class ConnectedParser
                 list.addAll(Arrays.asList(amatchblock));
             }
 
-            MatchBlock[] amatchblock1 = (MatchBlock[])((MatchBlock[])list.toArray(new MatchBlock[list.size()]));
+            MatchBlock[] amatchblock1 = (MatchBlock[]) (MatchBlock[])list.toArray(new MatchBlock[list.size()]);
             return amatchblock1;
         }
     }
@@ -158,7 +158,7 @@ public class ConnectedParser
         else
         {
             String s = p_isFullBlockName_1_[1];
-            return s.length() < 1 ? false : (this.startsWithDigit(s) ? false : !s.contains("="));
+            return s.length() < 1 ? false : this.startsWithDigit(s) ? false : !s.contains("=");
         }
     }
 
@@ -395,7 +395,7 @@ public class ConnectedParser
 
     public static Comparable parseValue(String p_parseValue_0_, Class p_parseValue_1_)
     {
-        return (Comparable)(p_parseValue_1_ == String.class ? p_parseValue_0_ : (p_parseValue_1_ == Boolean.class ? Boolean.valueOf(p_parseValue_0_) : (p_parseValue_1_ == Float.class ? Float.valueOf(p_parseValue_0_) : (p_parseValue_1_ == Double.class ? Double.valueOf(p_parseValue_0_) : (p_parseValue_1_ == Integer.class ? Integer.valueOf(p_parseValue_0_) : (p_parseValue_1_ == Long.class ? Long.valueOf(p_parseValue_0_) : null))))));
+        return (Comparable)(p_parseValue_1_ == String.class ? p_parseValue_0_ : p_parseValue_1_ == Boolean.class ? Boolean.valueOf(p_parseValue_0_) : p_parseValue_1_ == Float.class ? Float.valueOf(p_parseValue_0_) : p_parseValue_1_ == Double.class ? Double.valueOf(p_parseValue_0_) : p_parseValue_1_ == Integer.class ? Integer.valueOf(p_parseValue_0_) : p_parseValue_1_ == Long.class ? Long.valueOf(p_parseValue_0_) : null);
     }
 
     public boolean matchState(IBlockState p_matchState_1_, Map<IProperty, List<Comparable>> p_matchState_2_)
@@ -445,7 +445,7 @@ public class ConnectedParser
                 }
             }
 
-            BiomeGenBase[] abiomegenbase = (BiomeGenBase[])((BiomeGenBase[])list.toArray(new BiomeGenBase[list.size()]));
+            BiomeGenBase[] abiomegenbase = (BiomeGenBase[]) (BiomeGenBase[])list.toArray(new BiomeGenBase[list.size()]);
             return abiomegenbase;
         }
     }

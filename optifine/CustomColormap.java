@@ -362,7 +362,7 @@ public class CustomColormap implements CustomColors.IColorizer
 
     public int getColor(BiomeGenBase p_getColor_1_, BlockPos p_getColor_2_)
     {
-        return this.format == 0 ? this.getColorVanilla(p_getColor_1_, p_getColor_2_) : (this.format == 1 ? this.getColorGrid(p_getColor_1_, p_getColor_2_) : this.color);
+        return this.format == 0 ? this.getColorVanilla(p_getColor_1_, p_getColor_2_) : this.format == 1 ? this.getColorGrid(p_getColor_1_, p_getColor_2_) : this.color;
     }
 
     public int getColorSmooth(IBlockAccess p_getColorSmooth_1_, double p_getColorSmooth_2_, double p_getColorSmooth_4_, double p_getColorSmooth_6_, int p_getColorSmooth_8_)
@@ -470,7 +470,7 @@ public class CustomColormap implements CustomColors.IColorizer
             this.matchBlocks = new MatchBlock[0];
         }
 
-        this.matchBlocks = (MatchBlock[])((MatchBlock[])Config.addObjectToArray(this.matchBlocks, p_addMatchBlock_1_));
+        this.matchBlocks = (MatchBlock[]) (MatchBlock[])Config.addObjectToArray(this.matchBlocks, p_addMatchBlock_1_);
     }
 
     public void addMatchBlock(int p_addMatchBlock_1_, int p_addMatchBlock_2_)
@@ -532,7 +532,7 @@ public class CustomColormap implements CustomColors.IColorizer
                 }
             }
 
-            Integer[] ainteger = (Integer[])((Integer[])set.toArray(new Integer[set.size()]));
+            Integer[] ainteger = (Integer[]) (Integer[])set.toArray(new Integer[set.size()]);
             int[] aint = new int[ainteger.length];
 
             for (int j = 0; j < ainteger.length; ++j)

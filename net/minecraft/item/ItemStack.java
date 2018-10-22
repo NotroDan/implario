@@ -244,7 +244,7 @@ public final class ItemStack
      */
     public boolean isItemStackDamageable()
     {
-        return this.item == null ? false : (this.item.getMaxDamage() <= 0 ? false : !this.hasTagCompound() || !this.getTagCompound().getBoolean("Unbreakable"));
+        return this.item == null ? false : this.item.getMaxDamage() <= 0 ? false : !this.hasTagCompound() || !this.getTagCompound().getBoolean("Unbreakable");
     }
 
     public boolean getHasSubtypes()
@@ -420,7 +420,7 @@ public final class ItemStack
 
     public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB)
     {
-        return stackA == null && stackB == null ? true : (stackA != null && stackB != null ? (stackA.stackTagCompound == null && stackB.stackTagCompound != null ? false : stackA.stackTagCompound == null || stackA.stackTagCompound.equals(stackB.stackTagCompound)) : false);
+        return stackA == null && stackB == null ? true : stackA != null && stackB != null ? stackA.stackTagCompound == null && stackB.stackTagCompound != null ? false : stackA.stackTagCompound == null || stackA.stackTagCompound.equals(stackB.stackTagCompound) : false;
     }
 
     /**
@@ -428,7 +428,7 @@ public final class ItemStack
      */
     public static boolean areItemStacksEqual(ItemStack stackA, ItemStack stackB)
     {
-        return stackA == null && stackB == null ? true : (stackA != null && stackB != null ? stackA.isItemStackEqual(stackB) : false);
+        return stackA == null && stackB == null ? true : stackA != null && stackB != null ? stackA.isItemStackEqual(stackB) : false;
     }
 
     /**
@@ -436,7 +436,7 @@ public final class ItemStack
      */
     private boolean isItemStackEqual(ItemStack other)
     {
-        return this.stackSize != other.stackSize ? false : (this.item != other.item ? false : (this.itemDamage != other.itemDamage ? false : (this.stackTagCompound == null && other.stackTagCompound != null ? false : this.stackTagCompound == null || this.stackTagCompound.equals(other.stackTagCompound))));
+        return this.stackSize != other.stackSize ? false : this.item != other.item ? false : this.itemDamage != other.itemDamage ? false : this.stackTagCompound == null && other.stackTagCompound != null ? false : this.stackTagCompound == null || this.stackTagCompound.equals(other.stackTagCompound);
     }
 
     /**
@@ -444,7 +444,7 @@ public final class ItemStack
      */
     public static boolean areItemsEqual(ItemStack stackA, ItemStack stackB)
     {
-        return stackA == null && stackB == null ? true : (stackA != null && stackB != null ? stackA.isItemEqual(stackB) : false);
+        return stackA == null && stackB == null ? true : stackA != null && stackB != null ? stackA.isItemEqual(stackB) : false;
     }
 
     /**
@@ -630,7 +630,7 @@ public final class ItemStack
      */
     public boolean hasDisplayName()
     {
-        return this.stackTagCompound != null && (this.stackTagCompound.hasKey("display", 10) && this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8));
+        return this.stackTagCompound != null && this.stackTagCompound.hasKey("display", 10) && this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8);
     }
 
 	public String getAdvancedToolTip() {
@@ -863,7 +863,7 @@ public final class ItemStack
         NBTTagList nbttaglist = this.stackTagCompound.getTagList("ench", 10);
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         nbttagcompound.setShort("id", (short)ench.effectId);
-        nbttagcompound.setShort("lvl", (short)((byte)level));
+        nbttagcompound.setShort("lvl", (short) (byte)level);
         nbttaglist.appendTag(nbttagcompound);
     }
 
@@ -980,7 +980,7 @@ public final class ItemStack
             chatcomponenttext.getChatStyle().setItalic(Boolean.valueOf(true));
         }
 
-        IChatComponent ichatcomponent = (new ChatComponentText("[")).appendSibling(chatcomponenttext).appendText("]");
+        IChatComponent ichatcomponent = new ChatComponentText("[").appendSibling(chatcomponenttext).appendText("]");
 
         if (this.item != null)
         {

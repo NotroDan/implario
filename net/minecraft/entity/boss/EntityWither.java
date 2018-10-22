@@ -194,7 +194,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
                 double d8 = entity1.posZ - d13;
                 double d9 = (double)MathHelper.sqrt_double(d6 * d6 + d8 * d8);
                 float f = (float)(MathHelper.func_181159_b(d8, d6) * 180.0D / Math.PI) - 90.0F;
-                float f1 = (float)(-(MathHelper.func_181159_b(d7, d9) * 180.0D / Math.PI));
+                float f1 = (float) -(MathHelper.func_181159_b(d7, d9) * 180.0D / Math.PI);
                 this.field_82220_d[j] = this.func_82204_b(this.field_82220_d[j], f1, 40.0F);
                 this.field_82221_e[j] = this.func_82204_b(this.field_82221_e[j], f, 10.0F);
             }

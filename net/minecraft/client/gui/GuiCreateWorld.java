@@ -202,7 +202,7 @@ public class GuiCreateWorld extends GuiScreen
                 }
 
                 this.field_146345_x = true;
-                long i = (new Random()).nextLong();
+                long i = new Random().nextLong();
                 String s = this.field_146335_h.getText();
 
                 if (!StringUtils.isEmpty(s))
@@ -344,7 +344,7 @@ public class GuiCreateWorld extends GuiScreen
     private boolean func_175299_g()
     {
         WorldType worldtype = WorldType.worldTypes[this.selectedIndex];
-        return worldtype != null && worldtype.getCanBeCreated() ? (worldtype == WorldType.DEBUG_WORLD ? isShiftKeyDown() : true) : false;
+        return worldtype != null && worldtype.getCanBeCreated() ? worldtype == WorldType.DEBUG_WORLD ? isShiftKeyDown() : true : false;
     }
 
     private void func_146315_i()

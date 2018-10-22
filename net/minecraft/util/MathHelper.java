@@ -10,9 +10,9 @@ public class MathHelper
     private static final int SIN_MASK = 4095;
     private static final int SIN_COUNT = 4096;
     public static final float PI = (float)Math.PI;
-    public static final float PI2 = ((float)Math.PI * 2F);
-    public static final float PId2 = ((float)Math.PI / 2F);
-    private static final float radFull = ((float)Math.PI * 2F);
+    public static final float PI2 = (float)Math.PI * 2F;
+    public static final float PId2 = (float)Math.PI / 2F;
+    private static final float radFull = (float)Math.PI * 2F;
     private static final float degFull = 360.0F;
     private static final float radToIndex = 651.8986F;
     private static final float degToIndex = 11.377778F;
@@ -51,7 +51,7 @@ public class MathHelper
      */
     public static float cos(float value)
     {
-        return fastMath ? SIN_TABLE_FAST[(int)((value + ((float)Math.PI / 2F)) * 651.8986F) & 4095] : SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
+        return fastMath ? SIN_TABLE_FAST[(int)((value + (float)Math.PI / 2F) * 651.8986F) & 4095] : SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
     }
 
     public static float sqrt_float(float value)
@@ -135,7 +135,7 @@ public class MathHelper
      */
     public static int clamp_int(int num, int min, int max)
     {
-        return num < min ? min : (num > max ? max : num);
+        return num < min ? min : num > max ? max : num;
     }
 
     /**
@@ -144,17 +144,17 @@ public class MathHelper
      */
     public static float clamp_float(float num, float min, float max)
     {
-        return num < min ? min : (num > max ? max : num);
+        return num < min ? min : num > max ? max : num;
     }
 
     public static double clamp_double(double num, double min, double max)
     {
-        return num < min ? min : (num > max ? max : num);
+        return num < min ? min : num > max ? max : num;
     }
 
     public static double denormalizeClamp(double p_151238_0_, double p_151238_2_, double p_151238_4_)
     {
-        return p_151238_4_ < 0.0D ? p_151238_0_ : (p_151238_4_ > 1.0D ? p_151238_2_ : p_151238_0_ + (p_151238_2_ - p_151238_0_) * p_151238_4_);
+        return p_151238_4_ < 0.0D ? p_151238_0_ : p_151238_4_ > 1.0D ? p_151238_2_ : p_151238_0_ + (p_151238_2_ - p_151238_0_) * p_151238_4_;
     }
 
     /**
@@ -469,7 +469,7 @@ public class MathHelper
 
             if (flag2)
             {
-                d8 = (Math.PI / 2D) - d8;
+                d8 = Math.PI / 2D - d8;
             }
 
             if (flag1)

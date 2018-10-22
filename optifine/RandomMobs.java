@@ -329,7 +329,7 @@ public class RandomMobs
             }
             else
             {
-                ResourceLocation[] aresourcelocation = (ResourceLocation[])((ResourceLocation[])list.toArray(new ResourceLocation[list.size()]));
+                ResourceLocation[] aresourcelocation = (ResourceLocation[]) (ResourceLocation[])list.toArray(new ResourceLocation[list.size()]);
                 Config.dbg("RandomMobs: " + p_getTextureVariants_0_.getResourcePath() + ", variants: " + aresourcelocation.length);
                 return aresourcelocation;
             }

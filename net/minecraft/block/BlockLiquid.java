@@ -90,12 +90,12 @@ public abstract class BlockLiquid extends Block
     public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
         Material material = worldIn.getBlockState(pos).getBlock().getMaterial();
-        return material == this.blockMaterial ? false : (side == EnumFacing.UP ? true : (material == Material.ice ? false : super.isBlockSolid(worldIn, pos, side)));
+        return material == this.blockMaterial ? false : side == EnumFacing.UP ? true : material == Material.ice ? false : super.isBlockSolid(worldIn, pos, side);
     }
 
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
-        return worldIn.getBlockState(pos).getBlock().getMaterial() == this.blockMaterial ? false : (side == EnumFacing.UP ? true : super.shouldSideBeRendered(worldIn, pos, side));
+        return worldIn.getBlockState(pos).getBlock().getMaterial() == this.blockMaterial ? false : side == EnumFacing.UP ? true : super.shouldSideBeRendered(worldIn, pos, side);
     }
 
     public boolean func_176364_g(IBlockAccess blockAccess, BlockPos pos)
@@ -204,7 +204,7 @@ public abstract class BlockLiquid extends Block
      */
     public int tickRate(World worldIn)
     {
-        return this.blockMaterial == Material.water ? 5 : (this.blockMaterial == Material.lava ? (worldIn.provider.getHasNoSky() ? 10 : 30) : 0);
+        return this.blockMaterial == Material.water ? 5 : this.blockMaterial == Material.lava ? worldIn.provider.getHasNoSky() ? 10 : 30 : 0;
     }
 
     public int getMixedBrightnessForBlock(IBlockAccess worldIn, BlockPos pos)
@@ -288,7 +288,7 @@ public abstract class BlockLiquid extends Block
     public static double getFlowDirection(IBlockAccess worldIn, BlockPos pos, Material materialIn)
     {
         Vec3 vec3 = getFlowingBlock(materialIn).getFlowVector(worldIn, pos);
-        return vec3.xCoord == 0.0D && vec3.zCoord == 0.0D ? -1000.0D : MathHelper.func_181159_b(vec3.zCoord, vec3.xCoord) - (Math.PI / 2D);
+        return vec3.xCoord == 0.0D && vec3.zCoord == 0.0D ? -1000.0D : MathHelper.func_181159_b(vec3.zCoord, vec3.xCoord) - Math.PI / 2D;
     }
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)

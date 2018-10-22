@@ -53,7 +53,7 @@ public class EntitySpellParticleFX extends EntityFX
             this.setDead();
         }
 
-        this.setParticleTextureIndex(this.baseSpellTextureIndex + (7 - this.particleAge * 8 / this.particleMaxAge));
+        this.setParticleTextureIndex(this.baseSpellTextureIndex + 7 - this.particleAge * 8 / this.particleMaxAge);
         this.motionY += 0.004D;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
 

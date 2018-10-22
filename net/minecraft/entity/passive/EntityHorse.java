@@ -49,7 +49,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
             return p_apply_1_ instanceof EntityHorse && ((EntityHorse)p_apply_1_).isBreeding();
         }
     };
-    private static final IAttribute horseJumpStrength = (new RangedAttribute((IAttribute)null, "horse.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
+    private static final IAttribute horseJumpStrength = new RangedAttribute((IAttribute)null, "horse.jumpStrength", 0.7D, 0.0D, 2.0D).setDescription("Jump Strength").setShouldWatch(true);
     private static final String[] horseArmorTextures = new String[] {null, "textures/entity/horse/armor/horse_armor_iron.png", "textures/entity/horse/armor/horse_armor_gold.png", "textures/entity/horse/armor/horse_armor_diamond.png"};
     private static final String[] HORSE_ARMOR_TEXTURES_ABBR = new String[] {"", "meo", "goo", "dio"};
     private static final int[] armorValues = new int[] {0, 5, 7, 11};
@@ -292,7 +292,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
         else
         {
             Item item = itemStackIn.getItem();
-            return item == Items.iron_horse_armor ? 1 : (item == Items.golden_horse_armor ? 2 : (item == Items.diamond_horse_armor ? 3 : 0));
+            return item == Items.iron_horse_armor ? 1 : item == Items.golden_horse_armor ? 2 : item == Items.diamond_horse_armor ? 3 : 0;
         }
     }
 
@@ -560,14 +560,14 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
     {
         this.openHorseMouth();
         int i = this.getHorseType();
-        return i == 3 ? "mob.horse.zombie.death" : (i == 4 ? "mob.horse.skeleton.death" : (i != 1 && i != 2 ? "mob.horse.death" : "mob.horse.donkey.death"));
+        return i == 3 ? "mob.horse.zombie.death" : i == 4 ? "mob.horse.skeleton.death" : i != 1 && i != 2 ? "mob.horse.death" : "mob.horse.donkey.death";
     }
 
     protected Item getDropItem()
     {
         boolean flag = this.rand.nextInt(4) == 0;
         int i = this.getHorseType();
-        return i == 4 ? Items.bone : (i == 3 ? (flag ? null : Items.rotten_flesh) : Items.leather);
+        return i == 4 ? Items.bone : i == 3 ? flag ? null : Items.rotten_flesh : Items.leather;
     }
 
     /**
@@ -583,7 +583,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
         }
 
         int i = this.getHorseType();
-        return i == 3 ? "mob.horse.zombie.hit" : (i == 4 ? "mob.horse.skeleton.hit" : (i != 1 && i != 2 ? "mob.horse.hit" : "mob.horse.donkey.hit"));
+        return i == 3 ? "mob.horse.zombie.hit" : i == 4 ? "mob.horse.skeleton.hit" : i != 1 && i != 2 ? "mob.horse.hit" : "mob.horse.donkey.hit";
     }
 
     public boolean isHorseSaddled()
@@ -604,7 +604,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
         }
 
         int i = this.getHorseType();
-        return i == 3 ? "mob.horse.zombie.idle" : (i == 4 ? "mob.horse.skeleton.idle" : (i != 1 && i != 2 ? "mob.horse.idle" : "mob.horse.donkey.idle"));
+        return i == 3 ? "mob.horse.zombie.idle" : i == 4 ? "mob.horse.skeleton.idle" : i != 1 && i != 2 ? "mob.horse.idle" : "mob.horse.donkey.idle";
     }
 
     protected String getAngrySoundName()
@@ -612,7 +612,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
         this.openHorseMouth();
         this.makeHorseRear();
         int i = this.getHorseType();
-        return i != 3 && i != 4 ? (i != 1 && i != 2 ? "mob.horse.angry" : "mob.horse.donkey.angry") : null;
+        return i != 3 && i != 4 ? i != 1 && i != 2 ? "mob.horse.angry" : "mob.horse.donkey.angry" : null;
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn)

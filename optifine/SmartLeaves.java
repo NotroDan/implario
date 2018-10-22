@@ -39,7 +39,7 @@ public class SmartLeaves
         else
         {
             List list = p_getLeavesModel_0_.getGeneralQuads();
-            return list == generalQuadsCullAcacia ? modelLeavesDoubleAcacia : (list == generalQuadsCullBirch ? modelLeavesDoubleBirch : (list == generalQuadsCullDarkOak ? modelLeavesDoubleDarkOak : (list == generalQuadsCullJungle ? modelLeavesDoubleJungle : (list == generalQuadsCullOak ? modelLeavesDoubleOak : (list == generalQuadsCullSpruce ? modelLeavesDoubleSpruce : p_getLeavesModel_0_)))));
+            return list == generalQuadsCullAcacia ? modelLeavesDoubleAcacia : list == generalQuadsCullBirch ? modelLeavesDoubleBirch : list == generalQuadsCullDarkOak ? modelLeavesDoubleDarkOak : list == generalQuadsCullJungle ? modelLeavesDoubleJungle : list == generalQuadsCullOak ? modelLeavesDoubleOak : list == generalQuadsCullSpruce ? modelLeavesDoubleSpruce : p_getLeavesModel_0_;
         }
     }
 

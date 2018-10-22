@@ -84,7 +84,7 @@ public class RandomMobsProperties
             }
         }
 
-        RandomMobsRule[] arandommobsrule = (RandomMobsRule[])((RandomMobsRule[])list.toArray(new RandomMobsRule[list.size()]));
+        RandomMobsRule[] arandommobsrule = (RandomMobsRule[]) (RandomMobsRule[])list.toArray(new RandomMobsRule[list.size()]);
         return arandommobsrule;
     }
 

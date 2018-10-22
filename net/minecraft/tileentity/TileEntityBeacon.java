@@ -81,7 +81,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
             int j = this.pos.getX();
             int k = this.pos.getY();
             int l = this.pos.getZ();
-            AxisAlignedBB axisalignedbb = (new AxisAlignedBB((double)j, (double)k, (double)l, (double)(j + 1), (double)(k + 1), (double)(l + 1))).expand(d0, d0, d0).addCoord(0.0D, (double)this.worldObj.getHeight(), 0.0D);
+            AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)j, (double)k, (double)l, (double)(j + 1), (double)(k + 1), (double)(l + 1)).expand(d0, d0, d0).addCoord(0.0D, (double)this.worldObj.getHeight(), 0.0D);
             List<EntityPlayer> list = this.worldObj.<EntityPlayer>getEntitiesWithinAABB(EntityPlayer.class, axisalignedbb);
 
             for (EntityPlayer entityplayer : list)
@@ -199,7 +199,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 
         if (!this.worldObj.isRemote && this.levels == 4 && i < this.levels)
         {
-            for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, (new AxisAlignedBB((double)j, (double)k, (double)l, (double)j, (double)(k - 4), (double)l)).expand(10.0D, 5.0D, 10.0D)))
+            for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double)j, (double)k, (double)l, (double)j, (double)(k - 4), (double)l).expand(10.0D, 5.0D, 10.0D)))
             {
                 entityplayer.triggerAchievement(AchievementList.fullBeacon);
             }

@@ -218,7 +218,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
      */
     public boolean canMateWith(EntityAnimal otherAnimal)
     {
-        return otherAnimal == this ? false : (otherAnimal.getClass() != this.getClass() ? false : this.isInLove() && otherAnimal.isInLove());
+        return otherAnimal == this ? false : otherAnimal.getClass() != this.getClass() ? false : this.isInLove() && otherAnimal.isInLove();
     }
 
     public void handleStatusUpdate(byte id)

@@ -151,7 +151,7 @@ public class WorldGenBigMushroom extends WorldGenerator
                                         blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_WEST;
                                     }
 
-                                    if (l1 == position.getX() + (j3 - 1) && i2 == j1)
+                                    if (l1 == position.getX() + j3 - 1 && i2 == j1)
                                     {
                                         blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_EAST;
                                     }
@@ -166,17 +166,17 @@ public class WorldGenBigMushroom extends WorldGenerator
                                         blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_WEST;
                                     }
 
-                                    if (l1 == k3 && i2 == position.getZ() + (j3 - 1))
+                                    if (l1 == k3 && i2 == position.getZ() + j3 - 1)
                                     {
                                         blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_WEST;
                                     }
 
-                                    if (l1 == position.getX() + (j3 - 1) && i2 == k1)
+                                    if (l1 == position.getX() + j3 - 1 && i2 == k1)
                                     {
                                         blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_EAST;
                                     }
 
-                                    if (l1 == l3 && i2 == position.getZ() + (j3 - 1))
+                                    if (l1 == l3 && i2 == position.getZ() + j3 - 1)
                                     {
                                         blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_EAST;
                                     }

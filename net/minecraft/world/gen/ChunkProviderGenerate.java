@@ -425,7 +425,7 @@ public class ChunkProviderGenerate implements IChunkProvider
             int i1 = this.rand.nextInt(16) + 8;
             int j1 = this.rand.nextInt(256);
             int k1 = this.rand.nextInt(16) + 8;
-            (new WorldGenLakes(Blocks.water)).generate(this.worldObj, this.rand, blockpos.add(i1, j1, k1));
+            new WorldGenLakes(Blocks.water).generate(this.worldObj, this.rand, blockpos.add(i1, j1, k1));
         }
 
         if (!flag && this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes)
@@ -436,7 +436,7 @@ public class ChunkProviderGenerate implements IChunkProvider
 
             if (l2 < this.worldObj.func_181545_F() || this.rand.nextInt(this.settings.lavaLakeChance / 8) == 0)
             {
-                (new WorldGenLakes(Blocks.lava)).generate(this.worldObj, this.rand, blockpos.add(i2, l2, k3));
+                new WorldGenLakes(Blocks.lava).generate(this.worldObj, this.rand, blockpos.add(i2, l2, k3));
             }
         }
 
@@ -447,7 +447,7 @@ public class ChunkProviderGenerate implements IChunkProvider
                 int i3 = this.rand.nextInt(16) + 8;
                 int l3 = this.rand.nextInt(256);
                 int l1 = this.rand.nextInt(16) + 8;
-                (new WorldGenDungeons()).generate(this.worldObj, this.rand, blockpos.add(i3, l3, l1));
+                new WorldGenDungeons().generate(this.worldObj, this.rand, blockpos.add(i3, l3, l1));
             }
         }
 

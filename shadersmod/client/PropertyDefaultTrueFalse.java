@@ -14,7 +14,7 @@ public class PropertyDefaultTrueFalse extends Property
 
     public String getUserValue()
     {
-        return this.isDefault() ? Lang.getDefault() : (this.isTrue() ? Lang.getOn() : (this.isFalse() ? Lang.getOff() : super.getUserValue()));
+        return this.isDefault() ? Lang.getDefault() : this.isTrue() ? Lang.getOn() : this.isFalse() ? Lang.getOff() : super.getUserValue();
     }
 
     public boolean isDefault()

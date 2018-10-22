@@ -42,7 +42,7 @@ public class EntityAIFindEntityNearest extends EntityAIBase
                     d0 *= 0.800000011920929D;
                 }
 
-                return p_apply_1_.isInvisible() ? false : ((double)p_apply_1_.getDistanceToEntity(EntityAIFindEntityNearest.this.field_179442_b) > d0 ? false : EntityAITarget.isSuitableTarget(EntityAIFindEntityNearest.this.field_179442_b, p_apply_1_, false, true));
+                return p_apply_1_.isInvisible() ? false : (double)p_apply_1_.getDistanceToEntity(EntityAIFindEntityNearest.this.field_179442_b) > d0 ? false : EntityAITarget.isSuitableTarget(EntityAIFindEntityNearest.this.field_179442_b, p_apply_1_, false, true);
             }
         };
         this.field_179440_d = new EntityAINearestAttackableTarget.Sorter(p_i45884_1_);

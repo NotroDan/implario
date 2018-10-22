@@ -106,7 +106,7 @@ public class CrashReportCategory {
                     stacktraceelement.getClassName().equals(s1.getClassName()) &&
                     stacktraceelement.getFileName().equals(s1.getFileName()) &&
                     stacktraceelement.getMethodName().equals(s1.getMethodName())){
-                if ((s2 != null && (stackTrace.length < 2 || !this.stackTrace[1].equals(s2))))
+                if (s2 != null && (stackTrace.length < 2 || !this.stackTrace[1].equals(s2)))
                     return false;
                 stackTrace[0] = s1;
                 return true;

@@ -107,7 +107,7 @@ public class PlayerItemParser
                 }
             }
 
-            PlayerItemRenderer[] aplayeritemrenderer = (PlayerItemRenderer[])((PlayerItemRenderer[])list.toArray(new PlayerItemRenderer[list.size()]));
+            PlayerItemRenderer[] aplayeritemrenderer = (PlayerItemRenderer[]) (PlayerItemRenderer[])list.toArray(new PlayerItemRenderer[list.size()]);
             return new PlayerItemModel(dimension, flag, aplayeritemrenderer);
         }
     }

@@ -21,7 +21,7 @@ public class SelectorSetting extends Setting {
 
 	@Override
 	public void set(float f) {
-		int state = ((int) f);
+		int state = (int) f;
 		state = MathHelper.clamp_int(state, 0, titles.length - 1);
 		this.state = state;
 	}

@@ -58,7 +58,7 @@ public class ShaderMacros
         else
         {
             s = s.toLowerCase();
-            return s.startsWith("ati") ? "MC_GL_VENDOR_ATI" : (s.startsWith("intel") ? "MC_GL_VENDOR_INTEL" : (s.startsWith("nvidia") ? "MC_GL_VENDOR_NVIDIA" : (s.startsWith("x.org") ? "MC_GL_VENDOR_XORG" : "MC_GL_VENDOR_OTHER")));
+            return s.startsWith("ati") ? "MC_GL_VENDOR_ATI" : s.startsWith("intel") ? "MC_GL_VENDOR_INTEL" : s.startsWith("nvidia") ? "MC_GL_VENDOR_NVIDIA" : s.startsWith("x.org") ? "MC_GL_VENDOR_XORG" : "MC_GL_VENDOR_OTHER";
         }
     }
 
@@ -73,7 +73,7 @@ public class ShaderMacros
         else
         {
             s = s.toLowerCase();
-            return s.startsWith("amd") ? "MC_GL_RENDERER_RADEON" : (s.startsWith("ati") ? "MC_GL_RENDERER_RADEON" : (s.startsWith("radeon") ? "MC_GL_RENDERER_RADEON" : (s.startsWith("gallium") ? "MC_GL_RENDERER_GALLIUM" : (s.startsWith("intel") ? "MC_GL_RENDERER_INTEL" : (s.startsWith("geforce") ? "MC_GL_RENDERER_GEFORCE" : (s.startsWith("nvidia") ? "MC_GL_RENDERER_GEFORCE" : (s.startsWith("quadro") ? "MC_GL_RENDERER_QUADRO" : (s.startsWith("nvs") ? "MC_GL_RENDERER_QUADRO" : (s.startsWith("mesa") ? "MC_GL_RENDERER_MESA" : "MC_GL_RENDERER_OTHER")))))))));
+            return s.startsWith("amd") ? "MC_GL_RENDERER_RADEON" : s.startsWith("ati") ? "MC_GL_RENDERER_RADEON" : s.startsWith("radeon") ? "MC_GL_RENDERER_RADEON" : s.startsWith("gallium") ? "MC_GL_RENDERER_GALLIUM" : s.startsWith("intel") ? "MC_GL_RENDERER_INTEL" : s.startsWith("geforce") ? "MC_GL_RENDERER_GEFORCE" : s.startsWith("nvidia") ? "MC_GL_RENDERER_GEFORCE" : s.startsWith("quadro") ? "MC_GL_RENDERER_QUADRO" : s.startsWith("nvs") ? "MC_GL_RENDERER_QUADRO" : s.startsWith("mesa") ? "MC_GL_RENDERER_MESA" : "MC_GL_RENDERER_OTHER";
         }
     }
 

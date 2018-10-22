@@ -39,7 +39,7 @@ public class StatBase
             double d2 = d1 / 60.0D;
             double d3 = d2 / 24.0D;
             double d4 = d3 / 365.0D;
-            return d4 > 0.5D ? StatBase.decimalFormat.format(d4) + " y" : (d3 > 0.5D ? StatBase.decimalFormat.format(d3) + " d" : (d2 > 0.5D ? StatBase.decimalFormat.format(d2) + " h" : (d1 > 0.5D ? StatBase.decimalFormat.format(d1) + " m" : d0 + " s")));
+            return d4 > 0.5D ? StatBase.decimalFormat.format(d4) + " y" : d3 > 0.5D ? StatBase.decimalFormat.format(d3) + " d" : d2 > 0.5D ? StatBase.decimalFormat.format(d2) + " h" : d1 > 0.5D ? StatBase.decimalFormat.format(d1) + " m" : d0 + " s";
         }
     };
     public static IStatType distanceStatType = new IStatType()
@@ -48,7 +48,7 @@ public class StatBase
         {
             double d0 = (double)p_75843_1_ / 100.0D;
             double d1 = d0 / 1000.0D;
-            return d1 > 0.5D ? StatBase.decimalFormat.format(d1) + " km" : (d0 > 0.5D ? StatBase.decimalFormat.format(d0) + " m" : p_75843_1_ + " cm");
+            return d1 > 0.5D ? StatBase.decimalFormat.format(d1) + " km" : d0 > 0.5D ? StatBase.decimalFormat.format(d0) + " m" : p_75843_1_ + " cm";
         }
     };
     public static IStatType field_111202_k = new IStatType()
@@ -124,7 +124,7 @@ public class StatBase
     public IChatComponent func_150955_j()
     {
         IChatComponent ichatcomponent = this.getStatName();
-        IChatComponent ichatcomponent1 = (new ChatComponentText("[")).appendSibling(ichatcomponent).appendText("]");
+        IChatComponent ichatcomponent1 = new ChatComponentText("[").appendSibling(ichatcomponent).appendText("]");
         ichatcomponent1.setChatStyle(ichatcomponent.getChatStyle());
         return ichatcomponent1;
     }

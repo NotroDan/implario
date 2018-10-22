@@ -49,6 +49,6 @@ public class RenderWolf extends RenderLiving<EntityWolf>
      */
     protected ResourceLocation getEntityTexture(EntityWolf entity)
     {
-        return entity.isTamed() ? tamedWolfTextures : (entity.isAngry() ? anrgyWolfTextures : wolfTextures);
+        return entity.isTamed() ? tamedWolfTextures : entity.isAngry() ? anrgyWolfTextures : wolfTextures;
     }
 }

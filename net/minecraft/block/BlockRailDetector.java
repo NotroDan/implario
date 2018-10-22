@@ -90,7 +90,7 @@ public class BlockRailDetector extends BlockRailBase
 
     public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
     {
-        return !((Boolean)state.getValue(POWERED)).booleanValue() ? 0 : (side == EnumFacing.UP ? 15 : 0);
+        return !((Boolean)state.getValue(POWERED)).booleanValue() ? 0 : side == EnumFacing.UP ? 15 : 0;
     }
 
     private void updatePoweredState(World worldIn, BlockPos pos, IBlockState state)

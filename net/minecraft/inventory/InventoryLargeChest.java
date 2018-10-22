@@ -68,7 +68,7 @@ public class InventoryLargeChest implements ILockableContainer
      */
     public String getName()
     {
-        return this.upperChest.hasCustomName() ? this.upperChest.getName() : (this.lowerChest.hasCustomName() ? this.lowerChest.getName() : this.name);
+        return this.upperChest.hasCustomName() ? this.upperChest.getName() : this.lowerChest.hasCustomName() ? this.lowerChest.getName() : this.name;
     }
 
     /**

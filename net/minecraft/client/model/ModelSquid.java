@@ -27,7 +27,7 @@ public class ModelSquid extends ModelBase
             this.squidTentacles[j].rotationPointX = f;
             this.squidTentacles[j].rotationPointZ = f1;
             this.squidTentacles[j].rotationPointY = (float)(31 + i);
-            d0 = (double)j * Math.PI * -2.0D / (double)this.squidTentacles.length + (Math.PI / 2D);
+            d0 = (double)j * Math.PI * -2.0D / (double)this.squidTentacles.length + Math.PI / 2D;
             this.squidTentacles[j].rotateAngleY = (float)d0;
         }
     }

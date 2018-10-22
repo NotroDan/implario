@@ -167,7 +167,7 @@ public class EntityWolf extends EntityTameable
      */
     protected String getLivingSound()
     {
-        return this.isAngry() ? "mob.wolf.growl" : (this.rand.nextInt(3) == 0 ? (this.isTamed() && this.dataWatcher.getWatchableObjectFloat(18) < 10.0F ? "mob.wolf.whine" : "mob.wolf.panting") : "mob.wolf.bark");
+        return this.isAngry() ? "mob.wolf.growl" : this.rand.nextInt(3) == 0 ? this.isTamed() && this.dataWatcher.getWatchableObjectFloat(18) < 10.0F ? "mob.wolf.whine" : "mob.wolf.panting" : "mob.wolf.bark";
     }
 
     /**
@@ -354,7 +354,7 @@ public class EntityWolf extends EntityTameable
 
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)((int)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue()));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (int)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue());
 
         if (flag)
         {
@@ -492,7 +492,7 @@ public class EntityWolf extends EntityTameable
 
     public float getTailRotation()
     {
-        return this.isAngry() ? 1.5393804F : (this.isTamed() ? (0.55F - (20.0F - this.dataWatcher.getWatchableObjectFloat(18)) * 0.02F) * (float)Math.PI : ((float)Math.PI / 5F));
+        return this.isAngry() ? 1.5393804F : this.isTamed() ? (0.55F - (20.0F - this.dataWatcher.getWatchableObjectFloat(18)) * 0.02F) * (float)Math.PI : (float)Math.PI / 5F;
     }
 
     /**
@@ -501,7 +501,7 @@ public class EntityWolf extends EntityTameable
      */
     public boolean isBreedingItem(ItemStack stack)
     {
-        return stack == null ? false : (!(stack.getItem() instanceof ItemFood) ? false : ((ItemFood)stack.getItem()).isWolfsFavoriteMeat());
+        return stack == null ? false : !(stack.getItem() instanceof ItemFood) ? false : ((ItemFood)stack.getItem()).isWolfsFavoriteMeat();
     }
 
     /**
@@ -593,7 +593,7 @@ public class EntityWolf extends EntityTameable
         else
         {
             EntityWolf entitywolf = (EntityWolf)otherAnimal;
-            return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
+            return !entitywolf.isTamed() ? false : entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove();
         }
     }
 

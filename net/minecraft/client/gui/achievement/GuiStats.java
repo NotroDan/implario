@@ -580,7 +580,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
 
         protected String func_148210_b(int p_148210_1_)
         {
-            return p_148210_1_ == 0 ? "stat.crafted" : (p_148210_1_ == 1 ? "stat.used" : "stat.mined");
+            return p_148210_1_ == 0 ? "stat.crafted" : p_148210_1_ == 1 ? "stat.used" : "stat.mined";
         }
     }
 
@@ -752,7 +752,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
 
         protected String func_148210_b(int p_148210_1_)
         {
-            return p_148210_1_ == 1 ? "stat.crafted" : (p_148210_1_ == 2 ? "stat.used" : "stat.depleted");
+            return p_148210_1_ == 1 ? "stat.crafted" : p_148210_1_ == 2 ? "stat.used" : "stat.depleted";
         }
     }
 

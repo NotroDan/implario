@@ -25,11 +25,7 @@ public class BlockModelRenderer {
 		aoLightValueOpaque = 1.0F - Config.getAmbientOcclusionLevel() * 0.8F;
 	}
 
-	public BlockModelRenderer() {
-		if (Reflector.ForgeModContainer_forgeLightPipelineEnabled.exists()) {
-			Reflector.setFieldValue(Reflector.ForgeModContainer_forgeLightPipelineEnabled, Boolean.valueOf(false));
-		}
-	}
+	public BlockModelRenderer() {}
 
 	public boolean renderModel(IBlockAccess blockAccessIn, IBakedModel modelIn, IBlockState blockStateIn, BlockPos blockPosIn, WorldRenderer worldRendererIn) {
 		Block block = blockStateIn.getBlock();
@@ -53,7 +49,7 @@ public class BlockModelRenderer {
 			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Tesselating block model");
 			CrashReportCategory crashreportcategory = crashreport.makeCategory("Block model being tesselated");
 			CrashReportCategory.addBlockInfo(crashreportcategory, blockPosIn, blockStateIn);
-			crashreportcategory.addCrashSection("Using AO", Boolean.valueOf(flag));
+			crashreportcategory.addCrashSection("Using AO", flag);
 			throw new ReportedException(crashreport);
 		}
 	}
@@ -151,7 +147,7 @@ public class BlockModelRenderer {
 				renderenv = RenderEnv.getInstance(p_renderModelStandard_1_, p_renderModelStandard_4_, p_renderModelStandard_5_);
 			}
 
-			this.renderModelStandardQuads(p_renderModelStandard_1_, p_renderModelStandard_3_, p_renderModelStandard_5_, (EnumFacing) null, -1, true, p_renderModelStandard_6_, list1, renderenv);
+			this.renderModelStandardQuads(p_renderModelStandard_1_, p_renderModelStandard_3_, p_renderModelStandard_5_, null, -1, true, p_renderModelStandard_6_, list1, renderenv);
 			flag = true;
 		}
 
@@ -363,7 +359,7 @@ public class BlockModelRenderer {
 			}
 
 			if (p_renderModelStandardQuads_6_) {
-				this.fillQuadBounds(p_renderModelStandardQuads_2_, bakedquad.getVertexData(), bakedquad.getFace(), (float[]) null, bitset);
+				this.fillQuadBounds(p_renderModelStandardQuads_2_, bakedquad.getVertexData(), bakedquad.getFace(), null, bitset);
 				p_renderModelStandardQuads_5_ = bitset.get(0) ? p_renderModelStandardQuads_2_.getMixedBrightnessForBlock(p_renderModelStandardQuads_1_,
 						p_renderModelStandardQuads_3_.offset(bakedquad.getFace())) : p_renderModelStandardQuads_2_.getMixedBrightnessForBlock(p_renderModelStandardQuads_1_,
 						p_renderModelStandardQuads_3_);
@@ -459,38 +455,32 @@ public class BlockModelRenderer {
 		static {
 			try {
 				field_178290_a[EnumFacing.DOWN.ordinal()] = 1;
-			} catch (NoSuchFieldError var6) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				field_178290_a[EnumFacing.UP.ordinal()] = 2;
-			} catch (NoSuchFieldError var5) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				field_178290_a[EnumFacing.NORTH.ordinal()] = 3;
-			} catch (NoSuchFieldError var4) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				field_178290_a[EnumFacing.SOUTH.ordinal()] = 4;
-			} catch (NoSuchFieldError var3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				field_178290_a[EnumFacing.WEST.ordinal()] = 5;
-			} catch (NoSuchFieldError var2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				field_178290_a[EnumFacing.EAST.ordinal()] = 6;
-			} catch (NoSuchFieldError var1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 		}
 	}
@@ -658,7 +648,7 @@ public class BlockModelRenderer {
 
 	}
 
-	public static enum EnumNeighborInfo {
+	public enum EnumNeighborInfo {
 		DOWN("DOWN", 0, new EnumFacing[] {EnumFacing.WEST, EnumFacing.EAST, EnumFacing.NORTH, EnumFacing.SOUTH}, 0.5F, true, new BlockModelRenderer.Orientation[] {
 				BlockModelRenderer.Orientation.FLIP_WEST, BlockModelRenderer.Orientation.SOUTH, BlockModelRenderer.Orientation.FLIP_WEST, BlockModelRenderer.Orientation.FLIP_SOUTH,
 				BlockModelRenderer.Orientation.WEST, BlockModelRenderer.Orientation.FLIP_SOUTH, BlockModelRenderer.Orientation.WEST, BlockModelRenderer.Orientation.SOUTH
@@ -749,8 +739,8 @@ public class BlockModelRenderer {
 		private static final BlockModelRenderer.EnumNeighborInfo[] $VALUES = new BlockModelRenderer.EnumNeighborInfo[] {DOWN, UP, NORTH, SOUTH, WEST, EAST};
 		private static final String __OBFID = "CL_00002516";
 
-		private EnumNeighborInfo(String p_i6_3_, int p_i6_4_, EnumFacing[] p_i6_5_, float p_i6_6_, boolean p_i6_7_, BlockModelRenderer.Orientation[] p_i6_8_, BlockModelRenderer.Orientation[] p_i6_9_,
-								 BlockModelRenderer.Orientation[] p_i6_10_, BlockModelRenderer.Orientation[] p_i6_11_) {
+		EnumNeighborInfo(String p_i6_3_, int p_i6_4_, EnumFacing[] p_i6_5_, float p_i6_6_, boolean p_i6_7_, BlockModelRenderer.Orientation[] p_i6_8_, BlockModelRenderer.Orientation[] p_i6_9_,
+						 BlockModelRenderer.Orientation[] p_i6_10_, BlockModelRenderer.Orientation[] p_i6_11_) {
 			this.field_178276_g = p_i6_5_;
 			this.field_178288_h = p_i6_6_;
 			this.field_178289_i = p_i6_7_;
@@ -774,7 +764,7 @@ public class BlockModelRenderer {
 		}
 	}
 
-	public static enum Orientation {
+	public enum Orientation {
 		DOWN("DOWN", 0, EnumFacing.DOWN, false),
 		UP("UP", 1, EnumFacing.UP, false),
 		NORTH("NORTH", 2, EnumFacing.NORTH, false),
@@ -794,12 +784,12 @@ public class BlockModelRenderer {
 		};
 		private static final String __OBFID = "CL_00002513";
 
-		private Orientation(String p_i8_3_, int p_i8_4_, EnumFacing p_i8_5_, boolean p_i8_6_) {
+		Orientation(String p_i8_3_, int p_i8_4_, EnumFacing p_i8_5_, boolean p_i8_6_) {
 			this.field_178229_m = p_i8_5_.getIndex() + (p_i8_6_ ? EnumFacing.values().length : 0);
 		}
 	}
 
-	static enum VertexTranslations {
+	enum VertexTranslations {
 		DOWN("DOWN", 0, 0, 1, 2, 3),
 		UP("UP", 1, 2, 3, 0, 1),
 		NORTH("NORTH", 2, 3, 0, 1, 2),
@@ -815,7 +805,7 @@ public class BlockModelRenderer {
 		private static final BlockModelRenderer.VertexTranslations[] $VALUES = new BlockModelRenderer.VertexTranslations[] {DOWN, UP, NORTH, SOUTH, WEST, EAST};
 		private static final String __OBFID = "CL_00002514";
 
-		private VertexTranslations(String p_i7_3_, int p_i7_4_, int p_i7_5_, int p_i7_6_, int p_i7_7_, int p_i7_8_) {
+		VertexTranslations(String p_i7_3_, int p_i7_4_, int p_i7_5_, int p_i7_6_, int p_i7_7_, int p_i7_8_) {
 			this.field_178191_g = p_i7_5_;
 			this.field_178200_h = p_i7_6_;
 			this.field_178201_i = p_i7_7_;

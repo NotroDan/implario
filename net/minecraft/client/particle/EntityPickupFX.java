@@ -50,7 +50,7 @@ public class EntityPickupFX extends EntityFX
         d6 = d6 - interpPosX;
         d7 = d7 - interpPosY;
         d8 = d8 - interpPosZ;
-        this.field_174842_aB.renderEntityWithPosYaw(this.field_174840_a, (double)((float)d6), (double)((float)d7), (double)((float)d8), this.field_174840_a.rotationYaw, partialTicks);
+        this.field_174842_aB.renderEntityWithPosYaw(this.field_174840_a, (double) (float)d6, (double) (float)d7, (double) (float)d8, this.field_174840_a.rotationYaw, partialTicks);
     }
 
     /**

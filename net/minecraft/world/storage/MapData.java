@@ -165,15 +165,15 @@ public class MapData extends WorldSavedData
         int i = 1 << this.scale;
         float f = (float)(worldX - (double)this.xCenter) / (float)i;
         float f1 = (float)(worldZ - (double)this.zCenter) / (float)i;
-        byte b0 = (byte)((int)((double)(f * 2.0F) + 0.5D));
-        byte b1 = (byte)((int)((double)(f1 * 2.0F) + 0.5D));
+        byte b0 = (byte) (int)((double)(f * 2.0F) + 0.5D);
+        byte b1 = (byte) (int)((double)(f1 * 2.0F) + 0.5D);
         int j = 63;
         byte b2;
 
-        if (f >= (float)(-j) && f1 >= (float)(-j) && f <= (float)j && f1 <= (float)j)
+        if (f >= (float) -j && f1 >= (float) -j && f <= (float)j && f1 <= (float)j)
         {
             rotation = rotation + (rotation < 0.0D ? -8.0D : 8.0D);
-            b2 = (byte)((int)(rotation * 16.0D / 360.0D));
+            b2 = (byte) (int)(rotation * 16.0D / 360.0D);
 
             if (this.dimension < 0)
             {
@@ -192,14 +192,14 @@ public class MapData extends WorldSavedData
             type = 6;
             b2 = 0;
 
-            if (f <= (float)(-j))
+            if (f <= (float) -j)
             {
-                b0 = (byte)((int)((double)(j * 2) + 2.5D));
+                b0 = (byte) (int)((double)(j * 2) + 2.5D);
             }
 
-            if (f1 <= (float)(-j))
+            if (f1 <= (float) -j)
             {
-                b1 = (byte)((int)((double)(j * 2) + 2.5D));
+                b1 = (byte) (int)((double)(j * 2) + 2.5D);
             }
 
             if (f >= (float)j)

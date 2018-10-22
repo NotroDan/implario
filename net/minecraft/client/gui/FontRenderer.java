@@ -373,7 +373,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 */
 	private String bidiReorder(String p_147647_1_) {
 		try {
-			Bidi bidi = new Bidi((new ArabicShaping(8)).shape(p_147647_1_), 127);
+			Bidi bidi = new Bidi(new ArabicShaping(8).shape(p_147647_1_), 127);
 			bidi.setReorderingMode(0);
 			return bidi.writeReordered(2);
 		} catch (ArabicShapingException var3) {

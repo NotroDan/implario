@@ -122,7 +122,7 @@ public class BlockWall extends Block
     public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos)
     {
         Block block = worldIn.getBlockState(pos).getBlock();
-        return block == Blocks.barrier ? false : (block != this && !(block instanceof BlockFenceGate) ? (block.blockMaterial.isOpaque() && block.isFullCube() ? block.blockMaterial != Material.gourd : false) : true);
+        return block == Blocks.barrier ? false : block != this && !(block instanceof BlockFenceGate) ? block.blockMaterial.isOpaque() && block.isFullCube() ? block.blockMaterial != Material.gourd : false : true;
     }
 
     /**

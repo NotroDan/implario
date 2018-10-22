@@ -441,7 +441,7 @@ public class EntityBoat extends Entity
 
             if (d18 * d18 + d21 * d21 > 0.001D)
             {
-                d15 = (double)((float)(MathHelper.func_181159_b(d21, d18) * 180.0D / Math.PI));
+                d15 = (double) (float)(MathHelper.func_181159_b(d21, d18) * 180.0D / Math.PI);
             }
 
             double d23 = MathHelper.wrapAngleTo180_double(d15 - (double)this.rotationYaw);
@@ -557,7 +557,7 @@ public class EntityBoat extends Entity
                 this.fallDistance = 0.0F;
             }
         }
-        else if (this.worldObj.getBlockState((new BlockPos(this)).down()).getBlock().getMaterial() != Material.water && y < 0.0D)
+        else if (this.worldObj.getBlockState(new BlockPos(this).down()).getBlock().getMaterial() != Material.water && y < 0.0D)
         {
             this.fallDistance = (float)((double)this.fallDistance - y);
         }

@@ -243,7 +243,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 
                     d12 = d12 / (double)MathHelper.sqrt_double(d11 * d11 + d13 * d13);
                     float f17 = 0.6F;
-                    d12 = MathHelper.clamp_double(d12, (double)(-f17), (double)f17);
+                    d12 = MathHelper.clamp_double(d12, (double) -f17, (double)f17);
                     this.motionY += d12 * 0.10000000149011612D;
                     this.rotationYaw = MathHelper.wrapAngleTo180_float(this.rotationYaw);
                     double d4 = 180.0D - MathHelper.func_181159_b(d11, d13) * 180.0D / Math.PI;
@@ -259,9 +259,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
                         d6 = -50.0D;
                     }
 
-                    Vec3 vec3 = (new Vec3(this.targetX - this.posX, this.targetY - this.posY, this.targetZ - this.posZ)).normalize();
-                    double d15 = (double)(-MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F));
-                    Vec3 vec31 = (new Vec3((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), this.motionY, d15)).normalize();
+                    Vec3 vec3 = new Vec3(this.targetX - this.posX, this.targetY - this.posY, this.targetZ - this.posZ).normalize();
+                    double d15 = (double) -MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
+                    Vec3 vec31 = new Vec3((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), this.motionY, d15).normalize();
                     float f5 = ((float)vec31.dotProduct(vec3) + 0.5F) / 1.5F;
 
                     if (f5 < 0.0F)
@@ -293,7 +293,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
                         this.moveEntity(this.motionX, this.motionY, this.motionZ);
                     }
 
-                    Vec3 vec32 = (new Vec3(this.motionX, this.motionY, this.motionZ)).normalize();
+                    Vec3 vec32 = new Vec3(this.motionX, this.motionY, this.motionZ).normalize();
                     float f9 = ((float)vec32.dotProduct(vec31) + 1.0F) / 2.0F;
                     f9 = 0.8F + 0.15F * f9;
                     this.motionX *= (double)f9;

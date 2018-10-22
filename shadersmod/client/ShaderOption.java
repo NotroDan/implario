@@ -139,7 +139,7 @@ public abstract class ShaderOption
 
             if (!list.contains(s))
             {
-                this.paths = (String[])((String[])Config.addObjectToArray(this.paths, s));
+                this.paths = (String[]) (String[])Config.addObjectToArray(this.paths, s);
             }
         }
     }

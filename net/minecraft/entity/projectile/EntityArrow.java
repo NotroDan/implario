@@ -84,7 +84,7 @@ public class EntityArrow extends Entity implements IProjectile
         if (d3 >= 1.0E-7D)
         {
             float f = (float)(MathHelper.func_181159_b(d2, d0) * 180.0D / Math.PI) - 90.0F;
-            float f1 = (float)(-(MathHelper.func_181159_b(d1, d3) * 180.0D / Math.PI));
+            float f1 = (float) -(MathHelper.func_181159_b(d1, d3) * 180.0D / Math.PI);
             double d4 = d0 / d3;
             double d5 = d2 / d3;
             this.setLocationAndAngles(shooter.posX + d4, this.posY, shooter.posZ + d5, f, f1);
@@ -112,7 +112,7 @@ public class EntityArrow extends Entity implements IProjectile
         this.setPosition(this.posX, this.posY, this.posZ);
         this.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI));
         this.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI));
-        this.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI));
+        this.motionY = (double) -MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI);
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, velocity * 1.5F, 1.0F);
     }
 
@@ -372,9 +372,9 @@ public class EntityArrow extends Entity implements IProjectile
                     IBlockState iblockstate1 = this.worldObj.getBlockState(blockpos1);
                     this.inTile = iblockstate1.getBlock();
                     this.inData = this.inTile.getMetaFromState(iblockstate1);
-                    this.motionX = (double)((float)(movingobjectposition.hitVec.xCoord - this.posX));
-                    this.motionY = (double)((float)(movingobjectposition.hitVec.yCoord - this.posY));
-                    this.motionZ = (double)((float)(movingobjectposition.hitVec.zCoord - this.posZ));
+                    this.motionX = (double) (float)(movingobjectposition.hitVec.xCoord - this.posX);
+                    this.motionY = (double) (float)(movingobjectposition.hitVec.yCoord - this.posY);
+                    this.motionZ = (double) (float)(movingobjectposition.hitVec.zCoord - this.posZ);
                     float f5 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
                     this.posX -= this.motionX / (double)f5 * 0.05000000074505806D;
                     this.posY -= this.motionY / (double)f5 * 0.05000000074505806D;

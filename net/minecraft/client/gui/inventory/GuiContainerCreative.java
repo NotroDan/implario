@@ -660,7 +660,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			i1 = i1 - 28;
 		} else {
 			k += 64;
-			i1 = i1 + (this.ySize - 4);
+			i1 = i1 + this.ySize - 4;
 		}
 
 		GlStateManager.disableLighting();

@@ -105,7 +105,7 @@ public class GameRules
     public String[] getRules()
     {
         Set set = this.theGameRules.keySet();
-        return (String[])((String[])set.toArray(new String[set.size()]));
+        return (String[]) (String[])set.toArray(new String[set.size()]);
     }
 
     /**

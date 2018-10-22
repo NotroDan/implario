@@ -303,7 +303,7 @@ public class StrUtils
                 }
 
                 list.add(p_split_0_.substring(i, p_split_0_.length()));
-                return (String[])((String[])list.toArray(new String[list.size()]));
+                return (String[]) (String[])list.toArray(new String[list.size()]);
             }
         }
         else
@@ -448,7 +448,7 @@ public class StrUtils
 
     public static boolean equals(Object p_equals_0_, Object p_equals_1_)
     {
-        return p_equals_0_ == p_equals_1_ ? true : (p_equals_0_ != null && p_equals_0_.equals(p_equals_1_) ? true : p_equals_1_ != null && p_equals_1_.equals(p_equals_0_));
+        return p_equals_0_ == p_equals_1_ ? true : p_equals_0_ != null && p_equals_0_.equals(p_equals_1_) ? true : p_equals_1_ != null && p_equals_1_.equals(p_equals_0_);
     }
 
     public static boolean startsWith(String p_startsWith_0_, String[] p_startsWith_1_)

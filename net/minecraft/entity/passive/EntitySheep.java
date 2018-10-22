@@ -155,7 +155,7 @@ public class EntitySheep extends EntityAnimal
 
     public float getHeadRotationPointY(float p_70894_1_)
     {
-        return this.sheepTimer <= 0 ? 0.0F : (this.sheepTimer >= 4 && this.sheepTimer <= 36 ? 1.0F : (this.sheepTimer < 4 ? ((float)this.sheepTimer - p_70894_1_) / 4.0F : -((float)(this.sheepTimer - 40) - p_70894_1_) / 4.0F));
+        return this.sheepTimer <= 0 ? 0.0F : this.sheepTimer >= 4 && this.sheepTimer <= 36 ? 1.0F : this.sheepTimer < 4 ? ((float)this.sheepTimer - p_70894_1_) / 4.0F : -((float)(this.sheepTimer - 40) - p_70894_1_) / 4.0F;
     }
 
     public float getHeadRotationAngleX(float p_70890_1_)
@@ -163,11 +163,11 @@ public class EntitySheep extends EntityAnimal
         if (this.sheepTimer > 4 && this.sheepTimer <= 36)
         {
             float f = ((float)(this.sheepTimer - 4) - p_70890_1_) / 32.0F;
-            return ((float)Math.PI / 5F) + ((float)Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
+            return (float)Math.PI / 5F + ((float)Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
         }
         else
         {
-            return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.rotationPitch / (180F / (float)Math.PI);
+            return this.sheepTimer > 0 ? (float)Math.PI / 5F : this.rotationPitch / (180F / (float)Math.PI);
         }
     }
 
@@ -298,7 +298,7 @@ public class EntitySheep extends EntityAnimal
     public static EnumDyeColor getRandomSheepColor(Random random)
     {
         int i = random.nextInt(100);
-        return i < 5 ? EnumDyeColor.BLACK : (i < 10 ? EnumDyeColor.GRAY : (i < 15 ? EnumDyeColor.SILVER : (i < 18 ? EnumDyeColor.BROWN : (random.nextInt(500) == 0 ? EnumDyeColor.PINK : EnumDyeColor.WHITE))));
+        return i < 5 ? EnumDyeColor.BLACK : i < 10 ? EnumDyeColor.GRAY : i < 15 ? EnumDyeColor.SILVER : i < 18 ? EnumDyeColor.BROWN : random.nextInt(500) == 0 ? EnumDyeColor.PINK : EnumDyeColor.WHITE;
     }
 
     public EntitySheep createChild(EntityAgeable ageable)

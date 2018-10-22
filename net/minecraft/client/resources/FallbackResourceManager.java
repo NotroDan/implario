@@ -109,7 +109,7 @@ public class FallbackResourceManager implements IResourceManager
         {
             this.field_177330_a = p_i46093_1_;
             ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
-            (new Exception()).printStackTrace(new PrintStream(bytearrayoutputstream));
+            new Exception().printStackTrace(new PrintStream(bytearrayoutputstream));
             this.field_177328_b = "Leaked resource: \'" + location + "\' loaded from pack: \'" + p_i46093_3_ + "\'\n" + bytearrayoutputstream.toString();
         }
 

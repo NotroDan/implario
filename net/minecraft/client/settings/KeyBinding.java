@@ -124,7 +124,7 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 
 	public boolean isClicked() {
 		int i = getKeyCode();
-		return (i >= -100 && i <= 255) && (i != 0 && (i < 0 ? Mouse.isButtonDown(i + 100) : Keyboard.isKeyDown(i)));
+		return i >= -100 && i <= 255 && i != 0 && (i < 0 ? Mouse.isButtonDown(i + 100) : Keyboard.isKeyDown(i));
 	}
 
 	public String getKeyCategory() {

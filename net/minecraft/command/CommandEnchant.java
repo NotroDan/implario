@@ -124,7 +124,7 @@ public class CommandEnchant extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayers()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Enchantment.func_181077_c()) : null);
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayers()) : args.length == 2 ? getListOfStringsMatchingLastWord(args, Enchantment.func_181077_c()) : null;
     }
 
     protected String[] getListOfPlayers()

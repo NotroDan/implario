@@ -1914,9 +1914,9 @@ public abstract class Entity implements ICommandSender
                     d0 = (double)f;
                 }
 
-                if (d0 < (double)(-f))
+                if (d0 < (double) -f)
                 {
-                    d0 = (double)(-f);
+                    d0 = (double) -f;
                 }
 
                 if (d1 > (double)f)
@@ -1924,9 +1924,9 @@ public abstract class Entity implements ICommandSender
                     d1 = (double)f;
                 }
 
-                if (d1 < (double)(-f))
+                if (d1 < (double) -f)
                 {
-                    d1 = (double)(-f);
+                    d1 = (double) -f;
                 }
 
                 this.entityRiderYawDelta -= d0;
@@ -2292,7 +2292,7 @@ public abstract class Entity implements ICommandSender
 
             if (i == 0)
             {
-                this.motionX = (double)(-f);
+                this.motionX = (double) -f;
             }
 
             if (i == 1)
@@ -2307,7 +2307,7 @@ public abstract class Entity implements ICommandSender
 
             if (i == 4)
             {
-                this.motionZ = (double)(-f);
+                this.motionZ = (double) -f;
             }
 
             if (i == 5)

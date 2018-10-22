@@ -101,7 +101,7 @@ public class ModelRenderer
         partName = this.boxName + "." + partName;
         TextureOffset textureoffset = this.baseModel.getTextureOffset(partName);
         this.setTextureOffset(textureoffset.textureOffsetX, textureoffset.textureOffsetY);
-        this.cubeList.add((new ModelBox(this, this.textureOffsetX, this.textureOffsetY, offX, offY, offZ, width, height, depth, 0.0F)).setBoxName(partName));
+        this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, offX, offY, offZ, width, height, depth, 0.0F).setBoxName(partName));
         return this;
     }
 

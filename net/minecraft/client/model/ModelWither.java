@@ -17,7 +17,7 @@ public class ModelWither extends ModelBase
         this.field_82905_a = new ModelRenderer[3];
         this.field_82905_a[0] = new ModelRenderer(this, 0, 16);
         this.field_82905_a[0].addBox(-10.0F, 3.9F, -0.5F, 20, 3, 3, p_i46302_1_);
-        this.field_82905_a[1] = (new ModelRenderer(this)).setTextureSize(this.textureWidth, this.textureHeight);
+        this.field_82905_a[1] = new ModelRenderer(this).setTextureSize(this.textureWidth, this.textureHeight);
         this.field_82905_a[1].setRotationPoint(-2.0F, 6.9F, -0.5F);
         this.field_82905_a[1].setTextureOffset(0, 22).addBox(0.0F, 0.0F, 0.0F, 3, 10, 3, p_i46302_1_);
         this.field_82905_a[1].setTextureOffset(24, 22).addBox(-4.0F, 1.5F, 0.5F, 11, 2, 2, p_i46302_1_);

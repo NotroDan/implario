@@ -57,7 +57,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
                 f5 = 0.5F;
             }
 
-            float f7 = (float)(-(y + (double)f3));
+            float f7 = (float) -(y + (double)f3);
             float f8 = f7 + (float)ActiveRenderInfo.getPosition().yCoord;
             float f9 = f7 + f4 + (float)ActiveRenderInfo.getPosition().yCoord;
             float f10 = f8 / f9;

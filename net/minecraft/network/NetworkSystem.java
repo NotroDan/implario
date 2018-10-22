@@ -52,21 +52,21 @@ public class NetworkSystem
     {
         protected NioEventLoopGroup load()
         {
-            return new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Server IO #%d").setDaemon(true).build());
+            return new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Server IO #%d").setDaemon(true).build());
         }
     };
     public static final LazyLoadBase<EpollEventLoopGroup> field_181141_b = new LazyLoadBase<EpollEventLoopGroup>()
     {
         protected EpollEventLoopGroup load()
         {
-            return new EpollEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Epoll Server IO #%d").setDaemon(true).build());
+            return new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Server IO #%d").setDaemon(true).build());
         }
     };
     public static final LazyLoadBase<LocalEventLoopGroup> SERVER_LOCAL_EVENTLOOP = new LazyLoadBase<LocalEventLoopGroup>()
     {
         protected LocalEventLoopGroup load()
         {
-            return new LocalEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Local Server IO #%d").setDaemon(true).build());
+            return new LocalEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Local Server IO #%d").setDaemon(true).build());
         }
     };
 
@@ -107,7 +107,7 @@ public class NetworkSystem
                 logger.info("Using default channel type");
             }
 
-            this.endpoints.add(((ServerBootstrap)((ServerBootstrap)(new ServerBootstrap()).channel(oclass)).childHandler(new ChannelInitializer<Channel>()
+            this.endpoints.add(((ServerBootstrap)((ServerBootstrap) new ServerBootstrap().channel(oclass)).childHandler(new ChannelInitializer<Channel>()
             {
                 protected void initChannel(Channel p_initChannel_1_) throws Exception
                 {
@@ -120,7 +120,7 @@ public class NetworkSystem
                         ;
                     }
 
-                    p_initChannel_1_.pipeline().addLast((String)"timeout", (ChannelHandler)(new ReadTimeoutHandler(30))).addLast((String)"legacy_query", (ChannelHandler)(new PingResponseHandler(NetworkSystem.this))).addLast((String)"splitter", (ChannelHandler)(new MessageDeserializer2())).addLast((String)"decoder", (ChannelHandler)(new MessageDeserializer(EnumPacketDirection.SERVERBOUND))).addLast((String)"prepender", (ChannelHandler)(new MessageSerializer2())).addLast((String)"encoder", (ChannelHandler)(new MessageSerializer(EnumPacketDirection.CLIENTBOUND)));
+                    p_initChannel_1_.pipeline().addLast((String)"timeout", (ChannelHandler) new ReadTimeoutHandler(30)).addLast((String)"legacy_query", (ChannelHandler) new PingResponseHandler(NetworkSystem.this)).addLast((String)"splitter", (ChannelHandler) new MessageDeserializer2()).addLast((String)"decoder", (ChannelHandler) new MessageDeserializer(EnumPacketDirection.SERVERBOUND)).addLast((String)"prepender", (ChannelHandler) new MessageSerializer2()).addLast((String)"encoder", (ChannelHandler) new MessageSerializer(EnumPacketDirection.CLIENTBOUND));
                     NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.SERVERBOUND);
                     NetworkSystem.this.networkManagers.add(networkmanager);
                     p_initChannel_1_.pipeline().addLast((String)"packet_handler", (ChannelHandler)networkmanager);
@@ -139,7 +139,7 @@ public class NetworkSystem
 
         synchronized (this.endpoints)
         {
-            channelfuture = ((ServerBootstrap)((ServerBootstrap)(new ServerBootstrap()).channel(LocalServerChannel.class)).childHandler(new ChannelInitializer<Channel>()
+            channelfuture = ((ServerBootstrap)((ServerBootstrap) new ServerBootstrap().channel(LocalServerChannel.class)).childHandler(new ChannelInitializer<Channel>()
             {
                 protected void initChannel(Channel p_initChannel_1_) throws Exception
                 {

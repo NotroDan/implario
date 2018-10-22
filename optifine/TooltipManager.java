@@ -124,7 +124,7 @@ public class TooltipManager
         }
         else
         {
-            String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring = (String[]) (String[])list.toArray(new String[list.size()]);
             return astring;
         }
     }

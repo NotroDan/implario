@@ -120,8 +120,8 @@ public class CustomItems
         if (map.size() > 0)
         {
             Set set = map.keySet();
-            String[] astring1 = (String[])((String[])set.toArray(new String[set.size()]));
-            astring = (String[])((String[])Config.addObjectsToArray(astring, astring1));
+            String[] astring1 = (String[]) (String[])set.toArray(new String[set.size()]);
+            astring = (String[]) (String[])Config.addObjectsToArray(astring, astring1);
         }
 
         Arrays.sort((Object[])astring);
@@ -208,7 +208,7 @@ public class CustomItems
             {
                 CustomItemProperties customitemproperties = (CustomItemProperties)p_compare_1_;
                 CustomItemProperties customitemproperties1 = (CustomItemProperties)p_compare_2_;
-                return customitemproperties.layer != customitemproperties1.layer ? customitemproperties.layer - customitemproperties1.layer : (customitemproperties.weight != customitemproperties1.weight ? customitemproperties1.weight - customitemproperties.weight : (!customitemproperties.basePath.equals(customitemproperties1.basePath) ? customitemproperties.basePath.compareTo(customitemproperties1.basePath) : customitemproperties.name.compareTo(customitemproperties1.name)));
+                return customitemproperties.layer != customitemproperties1.layer ? customitemproperties.layer - customitemproperties1.layer : customitemproperties.weight != customitemproperties1.weight ? customitemproperties1.weight - customitemproperties.weight : !customitemproperties.basePath.equals(customitemproperties1.basePath) ? customitemproperties.basePath.compareTo(customitemproperties1.basePath) : customitemproperties.name.compareTo(customitemproperties1.name);
             }
         };
         return comparator;
@@ -289,7 +289,7 @@ public class CustomItems
         else
         {
             int i = Item.getIdFromItem(Items.potionitem);
-            int[] aint = (int[])((int[])getMapPotionIds().get(p_makePotionProperties_0_));
+            int[] aint = (int[]) (int[])getMapPotionIds().get(p_makePotionProperties_0_);
 
             if (aint == null)
             {
@@ -437,7 +437,7 @@ public class CustomItems
 
             if (list != null)
             {
-                CustomItemProperties[] acustomitemproperties1 = (CustomItemProperties[])((CustomItemProperties[])list.toArray(new CustomItemProperties[list.size()]));
+                CustomItemProperties[] acustomitemproperties1 = (CustomItemProperties[]) (CustomItemProperties[])list.toArray(new CustomItemProperties[list.size()]);
                 Arrays.sort(acustomitemproperties1, new CustomItemsComparator());
                 acustomitemproperties[i] = acustomitemproperties1;
             }

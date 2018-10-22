@@ -102,7 +102,7 @@ public abstract class PathNavigate
      */
     public boolean tryMoveToXYZ(double x, double y, double z, double speedIn)
     {
-        PathEntity pathentity = this.getPathToXYZ((double)MathHelper.floor_double(x), (double)((int)y), (double)MathHelper.floor_double(z));
+        PathEntity pathentity = this.getPathToXYZ((double)MathHelper.floor_double(x), (double) (int)y, (double)MathHelper.floor_double(z));
         return this.setPath(pathentity, speedIn);
     }
 
@@ -127,7 +127,7 @@ public abstract class PathNavigate
         {
             float f = this.getPathSearchRange();
             this.worldObj.theProfiler.startSection("pathfind");
-            BlockPos blockpos = (new BlockPos(this.theEntity)).up();
+            BlockPos blockpos = new BlockPos(this.theEntity).up();
             int i = (int)(f + 16.0F);
             ChunkCache chunkcache = new ChunkCache(this.worldObj, blockpos.add(-i, -i, -i), blockpos.add(i, i, i), 0);
             PathEntity pathentity = this.pathFinder.createEntityPathTo(chunkcache, this.theEntity, entityIn, f);
@@ -215,7 +215,7 @@ public abstract class PathNavigate
 
                 if (vec32 != null)
                 {
-                    AxisAlignedBB axisalignedbb1 = (new AxisAlignedBB(vec32.xCoord, vec32.yCoord, vec32.zCoord, vec32.xCoord, vec32.yCoord, vec32.zCoord)).expand(0.5D, 0.5D, 0.5D);
+                    AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(vec32.xCoord, vec32.yCoord, vec32.zCoord, vec32.xCoord, vec32.yCoord, vec32.zCoord).expand(0.5D, 0.5D, 0.5D);
                     List<AxisAlignedBB> list = this.worldObj.getCollidingBoundingBoxes(this.theEntity, axisalignedbb1.addCoord(0.0D, -1.0D, 0.0D));
                     double d0 = -1.0D;
                     axisalignedbb1 = axisalignedbb1.offset(0.0D, 1.0D, 0.0D);

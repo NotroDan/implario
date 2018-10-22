@@ -42,7 +42,7 @@ public class GlVersion
 
     public int toInt()
     {
-        return this.minor > 9 ? this.major * 100 + this.minor : (this.release > 9 ? this.major * 100 + this.minor * 10 + 9 : this.major * 100 + this.minor * 10 + this.release);
+        return this.minor > 9 ? this.major * 100 + this.minor : this.release > 9 ? this.major * 100 + this.minor * 10 + 9 : this.major * 100 + this.minor * 10 + this.release;
     }
 
     public String toString()

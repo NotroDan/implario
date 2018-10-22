@@ -94,7 +94,7 @@ public class CommandDebug extends CommandBase
 
     private void func_147205_a(long p_147205_1_, int p_147205_3_)
     {
-        File file1 = new File(MinecraftServer.getServer().getFile("debug"), "profile-results-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + ".txt");
+        File file1 = new File(MinecraftServer.getServer().getFile("debug"), "profile-results-" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".txt");
         file1.getParentFile().mkdirs();
 
         try

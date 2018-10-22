@@ -133,7 +133,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         else
         {
             BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)state.getValue(VARIANT);
-            return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? null : (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? (rand.nextInt(8) == 0 ? Items.wheat_seeds : null) : Item.getItemFromBlock(this));
+            return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? null : blockdoubleplant$enumplanttype == EnumPlantType.GRASS ? rand.nextInt(8) == 0 ? Items.wheat_seeds : null : Item.getItemFromBlock(this);
         }
     }
 

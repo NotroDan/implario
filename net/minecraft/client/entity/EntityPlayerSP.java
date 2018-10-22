@@ -395,7 +395,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 				float f = 0.1F;
 
 				if (i == 0) {
-					this.motionX = (double) (-f);
+					this.motionX = (double) -f;
 				}
 
 				if (i == 1) {
@@ -403,7 +403,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 				}
 
 				if (i == 4) {
-					this.motionZ = (double) (-f);
+					this.motionZ = (double) -f;
 				}
 
 				if (i == 5) {

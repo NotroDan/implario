@@ -43,6 +43,6 @@ public class ItemShears extends Item
 
     public float getStrVsBlock(ItemStack stack, Block block)
     {
-        return block != Blocks.web && block.getMaterial() != Material.leaves ? (block == Blocks.wool ? 5.0F : super.getStrVsBlock(stack, block)) : 15.0F;
+        return block != Blocks.web && block.getMaterial() != Material.leaves ? block == Blocks.wool ? 5.0F : super.getStrVsBlock(stack, block) : 15.0F;
     }
 }

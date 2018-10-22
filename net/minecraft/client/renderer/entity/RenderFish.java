@@ -85,9 +85,9 @@ public class RenderFish extends Render<EntityFishHook>
             double d13 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double)partialTicks;
             double d5 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double)partialTicks + 0.25D;
             double d7 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double)partialTicks;
-            double d9 = (double)((float)(d0 - d13));
-            double d11 = (double)((float)(d1 - d5)) + d3;
-            double d12 = (double)((float)(d2 - d7));
+            double d9 = (double) (float)(d0 - d13);
+            double d11 = (double) (float)(d1 - d5) + d3;
+            double d12 = (double) (float)(d2 - d7);
             GlStateManager.disableTexture2D();
             GlStateManager.disableLighting();
             worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);

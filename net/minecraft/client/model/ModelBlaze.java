@@ -52,7 +52,7 @@ public class ModelBlaze extends ModelBase
             ++f;
         }
 
-        f = ((float)Math.PI / 4F) + p_78087_3_ * (float)Math.PI * 0.03F;
+        f = (float)Math.PI / 4F + p_78087_3_ * (float)Math.PI * 0.03F;
 
         for (int j = 4; j < 8; ++j)
         {

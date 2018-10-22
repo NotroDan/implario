@@ -74,13 +74,13 @@ public class CommandParticle extends CommandBase
             {
                 String s = args[0];
                 Vec3 vec3 = sender.getPositionVector();
-                double d6 = (double)((float)parseDouble(vec3.xCoord, args[1], true));
-                double d0 = (double)((float)parseDouble(vec3.yCoord, args[2], true));
-                double d1 = (double)((float)parseDouble(vec3.zCoord, args[3], true));
-                double d2 = (double)((float)parseDouble(args[4]));
-                double d3 = (double)((float)parseDouble(args[5]));
-                double d4 = (double)((float)parseDouble(args[6]));
-                double d5 = (double)((float)parseDouble(args[7]));
+                double d6 = (double) (float)parseDouble(vec3.xCoord, args[1], true);
+                double d0 = (double) (float)parseDouble(vec3.yCoord, args[2], true);
+                double d1 = (double) (float)parseDouble(vec3.zCoord, args[3], true);
+                double d2 = (double) (float)parseDouble(args[4]);
+                double d3 = (double) (float)parseDouble(args[5]);
+                double d4 = (double) (float)parseDouble(args[6]);
+                double d5 = (double) (float)parseDouble(args[7]);
                 int i = 0;
 
                 if (args.length > 8)
@@ -128,6 +128,6 @@ public class CommandParticle extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, EnumParticleTypes.getParticleNames()) : (args.length > 1 && args.length <= 4 ? func_175771_a(args, 1, pos) : (args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"normal", "force"}): null));
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, EnumParticleTypes.getParticleNames()) : args.length > 1 && args.length <= 4 ? func_175771_a(args, 1, pos) : args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"normal", "force"}): null;
     }
 }

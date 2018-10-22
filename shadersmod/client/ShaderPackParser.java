@@ -51,7 +51,7 @@ public class ShaderPackParser
             }
 
             Collection<ShaderOption> collection = map.values();
-            ShaderOption[] ashaderoption = (ShaderOption[])((ShaderOption[])collection.toArray(new ShaderOption[collection.size()]));
+            ShaderOption[] ashaderoption = (ShaderOption[]) (ShaderOption[])collection.toArray(new ShaderOption[collection.size()]);
             Comparator<ShaderOption> comparator = new Comparator<ShaderOption>()
             {
                 public int compare(ShaderOption o1, ShaderOption o2)
@@ -261,7 +261,7 @@ public class ShaderPackParser
         }
         else
         {
-            ShaderProfile[] ashaderprofile = (ShaderProfile[])((ShaderProfile[])list.toArray(new ShaderProfile[list.size()]));
+            ShaderProfile[] ashaderprofile = (ShaderProfile[]) (ShaderProfile[])list.toArray(new ShaderProfile[list.size()]);
             return ashaderprofile;
         }
     }
@@ -464,7 +464,7 @@ public class ShaderPackParser
                 }
             }
 
-            ShaderOption[] ashaderoption = (ShaderOption[])((ShaderOption[])list.toArray(new ShaderOption[list.size()]));
+            ShaderOption[] ashaderoption = (ShaderOption[]) (ShaderOption[])list.toArray(new ShaderOption[list.size()]);
             map.put(key, ashaderoption);
             return true;
         }
@@ -589,7 +589,7 @@ public class ShaderPackParser
             }
         }
 
-        String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] astring = (String[]) (String[])list.toArray(new String[list.size()]);
         return astring;
     }
 

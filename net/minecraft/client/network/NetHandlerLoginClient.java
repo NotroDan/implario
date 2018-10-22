@@ -47,7 +47,7 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient
         final SecretKey secretkey = CryptManager.createNewSharedKey();
         String s = packetIn.getServerId();
         PublicKey publickey = packetIn.getPublicKey();
-        String s1 = (new BigInteger(CryptManager.getServerIdHash(s, publickey, secretkey))).toString(16);
+        String s1 = new BigInteger(CryptManager.getServerIdHash(s, publickey, secretkey)).toString(16);
 
         if (this.mc.getCurrentServerData() != null && this.mc.getCurrentServerData().func_181041_d())
         {

@@ -636,7 +636,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
     public boolean isSpectatedByPlayer(EntityPlayerMP player)
     {
-        return player.isSpectator() ? this.getSpectatingEntity() == this : (this.isSpectator() ? false : super.isSpectatedByPlayer(player));
+        return player.isSpectator() ? this.getSpectatingEntity() == this : this.isSpectator() ? false : super.isSpectatedByPlayer(player);
     }
 
     private void sendTileEntityUpdate(TileEntity p_147097_1_)

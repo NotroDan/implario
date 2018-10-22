@@ -53,7 +53,7 @@ public class BlockFaceUV
 
     public int func_178345_c(int p_178345_1_)
     {
-        return (p_178345_1_ + (4 - this.rotation / 90)) % 4;
+        return (p_178345_1_ + 4 - this.rotation / 90) % 4;
     }
 
     public void setUvs(float[] uvsIn)

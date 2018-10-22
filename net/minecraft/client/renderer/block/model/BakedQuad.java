@@ -6,7 +6,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.model.pipeline.IVertexConsumer;
 import net.minecraftforge.client.model.pipeline.IVertexProducer;
 import optifine.Config;
-import optifine.Reflector;
 
 public class BakedQuad implements IVertexProducer
 {
@@ -86,7 +85,7 @@ public class BakedQuad implements IVertexProducer
 
     private static int[] makeVertexDataSingle(int[] p_makeVertexDataSingle_0_, TextureAtlasSprite p_makeVertexDataSingle_1_)
     {
-        int[] aint = (int[])p_makeVertexDataSingle_0_.clone();
+        int[] aint = p_makeVertexDataSingle_0_.clone();
         int i = p_makeVertexDataSingle_1_.sheetWidth / p_makeVertexDataSingle_1_.getIconWidth();
         int j = p_makeVertexDataSingle_1_.sheetHeight / p_makeVertexDataSingle_1_.getIconHeight();
         int k = aint.length / 4;
@@ -107,7 +106,6 @@ public class BakedQuad implements IVertexProducer
 
     public void pipe(IVertexConsumer p_pipe_1_)
     {
-        Reflector.callVoid(Reflector.LightUtil_putBakedQuad, new Object[] {p_pipe_1_, this});
     }
 
     private static TextureAtlasSprite getSpriteByUv(int[] p_getSpriteByUv_0_)
@@ -131,8 +129,7 @@ public class BakedQuad implements IVertexProducer
 
         float f6 = (f + f2) / 2.0F;
         float f7 = (f1 + f3) / 2.0F;
-        TextureAtlasSprite textureatlassprite = Minecraft.getMinecraft().getTextureMapBlocks().getIconByUV((double)f6, (double)f7);
-        return textureatlassprite;
+		return Minecraft.getMinecraft().getTextureMapBlocks().getIconByUV((double)f6, (double)f7);
     }
 
     private void fixVertexData()

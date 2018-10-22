@@ -217,7 +217,7 @@ public class ShaderManager {
 	 * gets a shader uniform for the name given. if not found, returns a default not-null value
 	 */
 	public ShaderUniform getShaderUniformOrDefault(String p_147984_1_) {
-		return (this.mappedShaderUniforms.containsKey(p_147984_1_) ? this.mappedShaderUniforms.get(p_147984_1_) : defaultShaderUniform);
+		return this.mappedShaderUniforms.containsKey(p_147984_1_) ? this.mappedShaderUniforms.get(p_147984_1_) : defaultShaderUniform;
 	}
 
 	/**

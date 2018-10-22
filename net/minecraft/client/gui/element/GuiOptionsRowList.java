@@ -35,8 +35,8 @@ public class GuiOptionsRowList extends GuiListExtended
         else
         {
             int i = p_148182_4_.returnEnumOrdinal();
-            return (p_148182_4_.getEnumFloat() ? new GuiOptionSlider(i, p_148182_2_, p_148182_3_, null) : new GuiOptionButton(i, p_148182_2_, p_148182_3_, p_148182_4_,
-					"123"));
+            return p_148182_4_.getEnumFloat() ? new GuiOptionSlider(i, p_148182_2_, p_148182_3_, null) : new GuiOptionButton(i, p_148182_2_, p_148182_3_, p_148182_4_,
+					"123");
         }
     }
 

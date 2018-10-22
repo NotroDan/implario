@@ -65,16 +65,16 @@ public class WorldBorder
 
     public EnumBorderStatus getStatus()
     {
-        return this.endDiameter < this.startDiameter ? EnumBorderStatus.SHRINKING : (this.endDiameter > this.startDiameter ? EnumBorderStatus.GROWING : EnumBorderStatus.STATIONARY);
+        return this.endDiameter < this.startDiameter ? EnumBorderStatus.SHRINKING : this.endDiameter > this.startDiameter ? EnumBorderStatus.GROWING : EnumBorderStatus.STATIONARY;
     }
 
     public double minX()
     {
         double d0 = this.getCenterX() - this.getDiameter() / 2.0D;
 
-        if (d0 < (double)(-this.worldSize))
+        if (d0 < (double) -this.worldSize)
         {
-            d0 = (double)(-this.worldSize);
+            d0 = (double) -this.worldSize;
         }
 
         return d0;
@@ -84,9 +84,9 @@ public class WorldBorder
     {
         double d0 = this.getCenterZ() - this.getDiameter() / 2.0D;
 
-        if (d0 < (double)(-this.worldSize))
+        if (d0 < (double) -this.worldSize)
         {
-            d0 = (double)(-this.worldSize);
+            d0 = (double) -this.worldSize;
         }
 
         return d0;

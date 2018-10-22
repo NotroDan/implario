@@ -36,20 +36,20 @@ public class CraftingManager
 
     private CraftingManager()
     {
-        (new RecipesTools()).addRecipes(this);
-        (new RecipesWeapons()).addRecipes(this);
-        (new RecipesIngots()).addRecipes(this);
-        (new RecipesFood()).addRecipes(this);
-        (new RecipesCrafting()).addRecipes(this);
-        (new RecipesArmor()).addRecipes(this);
-        (new RecipesDyes()).addRecipes(this);
+        new RecipesTools().addRecipes(this);
+        new RecipesWeapons().addRecipes(this);
+        new RecipesIngots().addRecipes(this);
+        new RecipesFood().addRecipes(this);
+        new RecipesCrafting().addRecipes(this);
+        new RecipesArmor().addRecipes(this);
+        new RecipesDyes().addRecipes(this);
         this.recipes.add(new RecipesArmorDyes());
         this.recipes.add(new RecipeBookCloning());
         this.recipes.add(new RecipesMapCloning());
         this.recipes.add(new RecipesMapExtending());
         this.recipes.add(new RecipeFireworks());
         this.recipes.add(new RecipeRepairItem());
-        (new RecipesBanners()).addRecipes(this);
+        new RecipesBanners().addRecipes(this);
         this.addRecipe(new ItemStack(Items.paper, 3), new Object[] {"###", '#', Items.reeds});
         this.addShapelessRecipe(new ItemStack(Items.book, 1), new Object[] {Items.paper, Items.paper, Items.paper, Items.leather});
         this.addShapelessRecipe(new ItemStack(Items.writable_book, 1), new Object[] {Items.book, new ItemStack(Items.dye, 1, EnumDyeColor.BLACK.getDyeDamage()), Items.feather});
@@ -188,7 +188,7 @@ public class CraftingManager
         {
             public int compare(IRecipe p_compare_1_, IRecipe p_compare_2_)
             {
-                return p_compare_1_ instanceof ShapelessRecipes && p_compare_2_ instanceof ShapedRecipes ? 1 : (p_compare_2_ instanceof ShapelessRecipes && p_compare_1_ instanceof ShapedRecipes ? -1 : (p_compare_2_.getRecipeSize() < p_compare_1_.getRecipeSize() ? -1 : (p_compare_2_.getRecipeSize() > p_compare_1_.getRecipeSize() ? 1 : 0)));
+                return p_compare_1_ instanceof ShapelessRecipes && p_compare_2_ instanceof ShapedRecipes ? 1 : p_compare_2_ instanceof ShapelessRecipes && p_compare_1_ instanceof ShapedRecipes ? -1 : p_compare_2_.getRecipeSize() < p_compare_1_.getRecipeSize() ? -1 : p_compare_2_.getRecipeSize() > p_compare_1_.getRecipeSize() ? 1 : 0;
             }
         });
     }
@@ -205,7 +205,7 @@ public class CraftingManager
 
         if (recipeComponents[i] instanceof String[])
         {
-            String[] astring = (String[])((String[])recipeComponents[i++]);
+            String[] astring = (String[]) (String[])recipeComponents[i++];
 
             for (int l = 0; l < astring.length; ++l)
             {

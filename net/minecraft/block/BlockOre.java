@@ -31,7 +31,7 @@ public class BlockOre extends Block
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return this == Blocks.coal_ore ? Items.coal : (this == Blocks.diamond_ore ? Items.diamond : (this == Blocks.lapis_ore ? Items.dye : (this == Blocks.emerald_ore ? Items.emerald : (this == Blocks.quartz_ore ? Items.quartz : Item.getItemFromBlock(this)))));
+        return this == Blocks.coal_ore ? Items.coal : this == Blocks.diamond_ore ? Items.diamond : this == Blocks.lapis_ore ? Items.dye : this == Blocks.emerald_ore ? Items.emerald : this == Blocks.quartz_ore ? Items.quartz : Item.getItemFromBlock(this);
     }
 
     /**

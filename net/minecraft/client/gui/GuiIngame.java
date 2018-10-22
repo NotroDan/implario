@@ -701,7 +701,7 @@ public class GuiIngame extends Gui {
 					}
 
 					if (entityplayer.getFoodStats().getSaturationLevel() <= 0.0F && this.updateCounter % (k * 3 + 1) == 0) {
-						i8 = k1 + (this.rand.nextInt(3) - 1);
+						i8 = k1 + this.rand.nextInt(3) - 1;
 					}
 
 					if (flag1) {
@@ -924,7 +924,7 @@ public class GuiIngame extends Gui {
 				float f1 = 1.0F + f / 5.0F;
 				GlStateManager.translate((float) (xPos + 8), (float) (yPos + 12), 0.0F);
 				GlStateManager.scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
-				GlStateManager.translate((float) (-(xPos + 8)), (float) (-(yPos + 12)), 0.0F);
+				GlStateManager.translate((float) -(xPos + 8), (float) -(yPos + 12), 0.0F);
 			}
 
 			this.itemRenderer.renderItemAndEffectIntoGUI(itemstack, xPos, yPos);

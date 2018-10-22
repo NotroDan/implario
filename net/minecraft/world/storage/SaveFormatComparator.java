@@ -63,7 +63,7 @@ public class SaveFormatComparator implements Comparable<SaveFormatComparator>
 
     public int compareTo(SaveFormatComparator p_compareTo_1_)
     {
-        return this.lastTimePlayed < p_compareTo_1_.lastTimePlayed ? 1 : (this.lastTimePlayed > p_compareTo_1_.lastTimePlayed ? -1 : this.fileName.compareTo(p_compareTo_1_.fileName));
+        return this.lastTimePlayed < p_compareTo_1_.lastTimePlayed ? 1 : this.lastTimePlayed > p_compareTo_1_.lastTimePlayed ? -1 : this.fileName.compareTo(p_compareTo_1_.fileName);
     }
 
     /**

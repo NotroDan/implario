@@ -155,7 +155,7 @@ public class PlayerProfileCache
         String s = username.toLowerCase(Locale.ROOT);
         PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry)this.usernameToProfileEntryMap.get(s);
 
-        if (playerprofilecache$profileentry != null && (new Date()).getTime() >= playerprofilecache$profileentry.expirationDate.getTime())
+        if (playerprofilecache$profileentry != null && new Date().getTime() >= playerprofilecache$profileentry.expirationDate.getTime())
         {
             this.uuidToProfileEntryMap.remove(playerprofilecache$profileentry.getGameProfile().getId());
             this.usernameToProfileEntryMap.remove(playerprofilecache$profileentry.getGameProfile().getName().toLowerCase(Locale.ROOT));

@@ -30,7 +30,7 @@ public class ItemModelGenerator
 
             String s1 = blockModel.resolveTextureName(s);
             map.put(s, s1);
-            TextureAtlasSprite textureatlassprite = textureMapIn.getAtlasSprite((new ResourceLocation(s1)).toString());
+            TextureAtlasSprite textureatlassprite = textureMapIn.getAtlasSprite(new ResourceLocation(s1).toString());
             list.addAll(this.func_178394_a(i, s, textureatlassprite));
         }
 

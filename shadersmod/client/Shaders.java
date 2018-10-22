@@ -672,12 +672,6 @@ public class Shaders {
 
 		if (flag4 || flag3) {
 			DefaultVertexFormats.updateVertexFormats();
-
-			if (Reflector.LightUtil.exists()) {
-				Reflector.LightUtil_itemConsumer.setValue((Object) null);
-				Reflector.LightUtil_tessellator.setValue((Object) null);
-			}
-
 			updateBlockLightLevel();
 			mc.scheduleResourcesRefresh();
 		}
@@ -693,7 +687,7 @@ public class Shaders {
 		}
 
 		if (shaderPackDimensions.size() > 0) {
-			Integer[] ainteger = (Integer[]) ((Integer[]) shaderPackDimensions.toArray(new Integer[shaderPackDimensions.size()]));
+			Integer[] ainteger = (Integer[]) (Integer[]) shaderPackDimensions.toArray(new Integer[shaderPackDimensions.size()]);
 			Config.dbg("[Shaders] Worlds: " + Config.arrayToString((Object[]) ainteger));
 		}
 	}
@@ -783,7 +777,7 @@ public class Shaders {
 
 		if (list.size() <= 0) return null;
 		else {
-			return (CustomTexture[]) ((CustomTexture[]) list.toArray(new CustomTexture[list.size()]));
+			return (CustomTexture[]) (CustomTexture[]) list.toArray(new CustomTexture[list.size()]);
 		}
 	}
 
@@ -889,7 +883,7 @@ public class Shaders {
 		if (shaderPackGuiScreens == null) {
 			if (shaderPackProfiles != null) {
 				ShaderOptionProfile shaderoptionprofile = new ShaderOptionProfile(shaderPackProfiles, ashaderoption);
-				ashaderoption = (ShaderOption[]) ((ShaderOption[]) Config.addObjectToArray(ashaderoption, shaderoptionprofile, 0));
+				ashaderoption = (ShaderOption[]) (ShaderOption[]) Config.addObjectToArray(ashaderoption, shaderoptionprofile, 0);
 			}
 
 			ashaderoption = getVisibleOptions(ashaderoption);
@@ -910,7 +904,7 @@ public class Shaders {
 					} else list.add(shaderoption);
 				}
 
-				return (ShaderOption[]) ((ShaderOption[]) list.toArray(new ShaderOption[list.size()]));
+				return (ShaderOption[]) (ShaderOption[]) list.toArray(new ShaderOption[list.size()]);
 			}
 		}
 	}
@@ -936,7 +930,7 @@ public class Shaders {
 			}
 		}
 
-		return (ShaderOption[]) ((ShaderOption[]) list.toArray(new ShaderOption[list.size()]));
+		return (ShaderOption[]) (ShaderOption[]) list.toArray(new ShaderOption[list.size()]);
 	}
 
 	public static ShaderOption getShaderOption(String name) {
@@ -954,7 +948,7 @@ public class Shaders {
 			if (shaderoption.isVisible()) list.add(shaderoption);
 		}
 
-		return (ShaderOption[]) ((ShaderOption[]) list.toArray(new ShaderOption[list.size()]));
+		return (ShaderOption[]) (ShaderOption[]) list.toArray(new ShaderOption[list.size()]);
 	}
 
 	public static void saveShaderPackOptions() {
@@ -1181,7 +1175,7 @@ public class Shaders {
 	}
 
 	public static boolean isOldHandLight() {
-		return !configOldHandLight.isDefault() ? configOldHandLight.isTrue() : (!shaderPackOldHandLight.isDefault() ? shaderPackOldHandLight.isTrue() : true);
+		return !configOldHandLight.isDefault() ? configOldHandLight.isTrue() : !shaderPackOldHandLight.isDefault() ? shaderPackOldHandLight.isTrue() : true;
 	}
 
 	public static boolean isDynamicHandLight() {
@@ -1189,7 +1183,7 @@ public class Shaders {
 	}
 
 	public static boolean isOldLighting() {
-		return !configOldLighting.isDefault() ? configOldLighting.isTrue() : (!shaderPackOldLighting.isDefault() ? shaderPackOldLighting.isTrue() : true);
+		return !configOldLighting.isDefault() ? configOldLighting.isTrue() : !shaderPackOldLighting.isDefault() ? shaderPackOldLighting.isTrue() : true;
 	}
 
 	public static boolean isRenderShadowTranslucent() {
@@ -2202,9 +2196,9 @@ public class Shaders {
 	}
 
 	private static int getBufferIndexFromString(String name) {
-		return !name.equals("colortex0") && !name.equals("gcolor") ? (!name.equals("colortex1") && !name.equals("gdepth") ? (!name.equals("colortex2") && !name.equals("gnormal") ? (!name.equals(
-				"colortex3") && !name.equals("composite") ? (!name.equals("colortex4") && !name.equals("gaux1") ? (!name.equals("colortex5") && !name.equals("gaux2") ? (!name.equals(
-				"colortex6") && !name.equals("gaux3") ? (!name.equals("colortex7") && !name.equals("gaux4") ? -1 : 7) : 6) : 5) : 4) : 3) : 2) : 1) : 0;
+		return !name.equals("colortex0") && !name.equals("gcolor") ? !name.equals("colortex1") && !name.equals("gdepth") ? !name.equals("colortex2") && !name.equals("gnormal") ? !name.equals(
+				"colortex3") && !name.equals("composite") ? !name.equals("colortex4") && !name.equals("gaux1") ? !name.equals("colortex5") && !name.equals("gaux2") ? !name.equals(
+				"colortex6") && !name.equals("gaux3") ? !name.equals("colortex7") && !name.equals("gaux4") ? -1 : 7 : 6 : 5 : 4 : 3 : 2 : 1 : 0;
 	}
 
 	private static int getTextureFormatFromString(String par) {
@@ -2392,7 +2386,7 @@ public class Shaders {
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_DEPTH_TEXTURE_MODE, GL11.GL_LUMINANCE);
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_DEPTH_COMPONENT, renderWidth, renderHeight, 0, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, (FloatBuffer) ((FloatBuffer) null));
+			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_DEPTH_COMPONENT, renderWidth, renderHeight, 0, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, (FloatBuffer) (FloatBuffer) null);
 		}
 
 		EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36096, 3553, dfbDepthTextures.get(0), 0);
@@ -2406,7 +2400,7 @@ public class Shaders {
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, gbuffersFormat[k], renderWidth, renderHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) ((ByteBuffer) null));
+			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, gbuffersFormat[k], renderWidth, renderHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) (ByteBuffer) null);
 			EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36064 + k, 3553, dfbColorTexturesA[k], 0);
 			checkGLError("FT c");
 		}
@@ -2417,7 +2411,7 @@ public class Shaders {
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, gbuffersFormat[l], renderWidth, renderHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) ((ByteBuffer) null));
+			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, gbuffersFormat[l], renderWidth, renderHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) (ByteBuffer) null);
 			checkGLError("FT ca");
 		}
 
@@ -2428,7 +2422,7 @@ public class Shaders {
 
 			for (int j = 0; j < usedColorBuffers; ++j) {
 				GlStateManager.bindTexture(dfbColorTextures.get(j));
-				GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, renderWidth, renderHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) ((ByteBuffer) null));
+				GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, renderWidth, renderHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) (ByteBuffer) null);
 				EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36064 + j, 3553, dfbColorTextures.get(j), 0);
 				checkGLError("FT c");
 			}
@@ -2471,7 +2465,7 @@ public class Shaders {
 
 				if (shadowHardwareFilteringEnabled[i]) GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_COMPARE_MODE, GL14.GL_COMPARE_R_TO_TEXTURE);
 
-				GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_DEPTH_COMPONENT, shadowMapWidth, shadowMapHeight, 0, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, (FloatBuffer) ((FloatBuffer) null));
+				GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_DEPTH_COMPONENT, shadowMapWidth, shadowMapHeight, 0, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, (FloatBuffer) (FloatBuffer) null);
 			}
 
 			EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36096, 3553, sfbDepthTextures.get(0), 0);
@@ -2484,7 +2478,7 @@ public class Shaders {
 				int i1 = shadowColorFilterNearest[k] ? 9728 : 9729;
 				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, i1);
 				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, i1);
-				GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, shadowMapWidth, shadowMapHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) ((ByteBuffer) null));
+				GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, shadowMapWidth, shadowMapHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) (ByteBuffer) null);
 				EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36064 + k, 3553, sfbColorTextures.get(k), 0);
 				checkGLError("FT sc");
 			}
@@ -2801,7 +2795,7 @@ public class Shaders {
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 
-		if (shadowMapIsOrtho) GL11.glOrtho((double) (-shadowMapHalfPlane), (double) shadowMapHalfPlane, (double) (-shadowMapHalfPlane), (double) shadowMapHalfPlane, 0.05000000074505806D, 256.0D);
+		if (shadowMapIsOrtho) GL11.glOrtho((double) -shadowMapHalfPlane, (double) shadowMapHalfPlane, (double) -shadowMapHalfPlane, (double) shadowMapHalfPlane, 0.05000000074505806D, 256.0D);
 		else GLU.gluPerspective(shadowMapFOV, (float) shadowMapWidth / (float) shadowMapHeight, 0.05F, 256.0F);
 
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -3511,7 +3505,7 @@ public class Shaders {
 	}
 
 	public static String getShaderPackName() {
-		return shaderPack == null ? null : (shaderPack instanceof ShaderPackNone ? null : shaderPack.getName());
+		return shaderPack == null ? null : shaderPack instanceof ShaderPackNone ? null : shaderPack.getName();
 	}
 
 	public static InputStream getShaderPackResourceStream(String path) {

@@ -98,6 +98,6 @@ public class BiomeGenHills extends BiomeGenBase
 
     protected BiomeGenBase createMutatedBiome(int p_180277_1_)
     {
-        return (new BiomeGenHills(p_180277_1_, false)).mutateHills(this);
+        return new BiomeGenHills(p_180277_1_, false).mutateHills(this);
     }
 }

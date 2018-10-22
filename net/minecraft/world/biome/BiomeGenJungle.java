@@ -55,7 +55,7 @@ public class BiomeGenJungle extends BiomeGenBase
 
     public WorldGenAbstractTree genBigTreeChance(Random rand)
     {
-        return (WorldGenAbstractTree)(rand.nextInt(10) == 0 ? this.worldGeneratorBigTree : (rand.nextInt(2) == 0 ? new WorldGenShrub(field_181620_aE, field_181622_aG) : (!this.field_150614_aC && rand.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, field_181620_aE, field_181621_aF) : new WorldGenTrees(false, 4 + rand.nextInt(7), field_181620_aE, field_181621_aF, true))));
+        return (WorldGenAbstractTree)(rand.nextInt(10) == 0 ? this.worldGeneratorBigTree : rand.nextInt(2) == 0 ? new WorldGenShrub(field_181620_aE, field_181622_aG) : !this.field_150614_aC && rand.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, field_181620_aE, field_181621_aF) : new WorldGenTrees(false, 4 + rand.nextInt(7), field_181620_aE, field_181621_aF, true));
     }
 
     /**
@@ -72,7 +72,7 @@ public class BiomeGenJungle extends BiomeGenBase
         int i = rand.nextInt(16) + 8;
         int j = rand.nextInt(16) + 8;
         int k = rand.nextInt(worldIn.getHeight(pos.add(i, 0, j)).getY() * 2);
-        (new WorldGenMelon()).generate(worldIn, rand, pos.add(i, k, j));
+        new WorldGenMelon().generate(worldIn, rand, pos.add(i, k, j));
         WorldGenVines worldgenvines = new WorldGenVines();
 
         for (j = 0; j < 50; ++j)

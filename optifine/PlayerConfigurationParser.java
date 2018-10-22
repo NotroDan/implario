@@ -104,7 +104,7 @@ public class PlayerConfigurationParser
         try
         {
             byte[] abyte = HttpPipeline.get(s, Minecraft.getMinecraft().getProxy());
-            BufferedImage bufferedimage = ImageIO.read((InputStream)(new ByteArrayInputStream(abyte)));
+            BufferedImage bufferedimage = ImageIO.read((InputStream) new ByteArrayInputStream(abyte));
             return bufferedimage;
         }
         catch (IOException ioexception)

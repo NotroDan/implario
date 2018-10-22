@@ -119,7 +119,7 @@ public class RandomMobsRule
 
     public boolean matches(EntityLiving p_matches_1_)
     {
-        return !Matches.biome(p_matches_1_.spawnBiome, this.biomes) ? false : (this.heights != null && p_matches_1_.spawnPosition != null ? this.heights.isInRange(p_matches_1_.spawnPosition.getY()) : true);
+        return !Matches.biome(p_matches_1_.spawnBiome, this.biomes) ? false : this.heights != null && p_matches_1_.spawnPosition != null ? this.heights.isInRange(p_matches_1_.spawnPosition.getY()) : true;
     }
 
     public ResourceLocation getTextureLocation(ResourceLocation p_getTextureLocation_1_, int p_getTextureLocation_2_)

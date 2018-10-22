@@ -66,7 +66,7 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
                     }
                 }
 
-                this.doorPosition = (new BlockPos(this.theEntity)).up();
+                this.doorPosition = new BlockPos(this.theEntity).up();
                 this.doorBlock = this.getBlockDoor(this.doorPosition);
                 return this.doorBlock != null;
             }

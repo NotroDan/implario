@@ -83,12 +83,12 @@ public class NBTTagLong extends NBTBase.NBTPrimitive
 
     public short getShort()
     {
-        return (short)((int)(this.data & 65535L));
+        return (short) (int)(this.data & 65535L);
     }
 
     public byte getByte()
     {
-        return (byte)((int)(this.data & 255L));
+        return (byte) (int)(this.data & 255L);
     }
 
     public double getDouble()

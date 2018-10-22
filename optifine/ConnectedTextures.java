@@ -919,7 +919,7 @@ public class ConnectedTextures
         }
         else
         {
-            return p_isNeighbour_0_.connect == 3 ? (iblockstate == null ? false : (iblockstate == AIR_DEFAULT_STATE ? false : iblockstate.getBlock().getMaterial() == p_isNeighbour_2_.getBlock().getMaterial())) : false;
+            return p_isNeighbour_0_.connect == 3 ? iblockstate == null ? false : iblockstate == AIR_DEFAULT_STATE ? false : iblockstate.getBlock().getMaterial() == p_isNeighbour_2_.getBlock().getMaterial() : false;
         }
     }
 
@@ -1159,7 +1159,7 @@ public class ConnectedTextures
         else
         {
             TextureAtlasSprite textureatlassprite1 = getConnectedTextureVertical(p_getConnectedTextureHorizontalVertical_0_, p_getConnectedTextureHorizontalVertical_1_, p_getConnectedTextureHorizontalVertical_2_, p_getConnectedTextureHorizontalVertical_3_, p_getConnectedTextureHorizontalVertical_4_, p_getConnectedTextureHorizontalVertical_5_, p_getConnectedTextureHorizontalVertical_6_, p_getConnectedTextureHorizontalVertical_7_);
-            return textureatlassprite1 == atextureatlassprite[0] ? atextureatlassprite[4] : (textureatlassprite1 == atextureatlassprite[1] ? atextureatlassprite[5] : (textureatlassprite1 == atextureatlassprite[2] ? atextureatlassprite[6] : textureatlassprite1));
+            return textureatlassprite1 == atextureatlassprite[0] ? atextureatlassprite[4] : textureatlassprite1 == atextureatlassprite[1] ? atextureatlassprite[5] : textureatlassprite1 == atextureatlassprite[2] ? atextureatlassprite[6] : textureatlassprite1;
         }
     }
 
@@ -1175,7 +1175,7 @@ public class ConnectedTextures
         else
         {
             TextureAtlasSprite textureatlassprite1 = getConnectedTextureHorizontal(p_getConnectedTextureVerticalHorizontal_0_, p_getConnectedTextureVerticalHorizontal_1_, p_getConnectedTextureVerticalHorizontal_2_, p_getConnectedTextureVerticalHorizontal_3_, p_getConnectedTextureVerticalHorizontal_4_, p_getConnectedTextureVerticalHorizontal_5_, p_getConnectedTextureVerticalHorizontal_6_, p_getConnectedTextureVerticalHorizontal_7_);
-            return textureatlassprite1 == atextureatlassprite[0] ? atextureatlassprite[4] : (textureatlassprite1 == atextureatlassprite[1] ? atextureatlassprite[5] : (textureatlassprite1 == atextureatlassprite[2] ? atextureatlassprite[6] : textureatlassprite1));
+            return textureatlassprite1 == atextureatlassprite[0] ? atextureatlassprite[4] : textureatlassprite1 == atextureatlassprite[1] ? atextureatlassprite[5] : textureatlassprite1 == atextureatlassprite[2] ? atextureatlassprite[6] : textureatlassprite1;
         }
     }
 
@@ -1357,7 +1357,7 @@ public class ConnectedTextures
             }
         }
 
-        ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[])((ConnectedProperties[])list.toArray(new ConnectedProperties[list.size()]));
+        ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) (ConnectedProperties[])list.toArray(new ConnectedProperties[list.size()]);
         Set set1 = new HashSet();
         Set set = new HashSet();
 
@@ -1390,7 +1390,7 @@ public class ConnectedTextures
 
             if (list != null)
             {
-                ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[])((ConnectedProperties[])list.toArray(new ConnectedProperties[list.size()]));
+                ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) (ConnectedProperties[])list.toArray(new ConnectedProperties[list.size()]);
                 aconnectedproperties[i] = aconnectedproperties1;
             }
         }
@@ -1499,19 +1499,19 @@ public class ConnectedTextures
             }
         }
 
-        String[] astring1 = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] astring1 = (String[]) (String[])list.toArray(new String[list.size()]);
         return astring1;
     }
 
     public static int getPaneTextureIndex(boolean p_getPaneTextureIndex_0_, boolean p_getPaneTextureIndex_1_, boolean p_getPaneTextureIndex_2_, boolean p_getPaneTextureIndex_3_)
     {
-        return p_getPaneTextureIndex_1_ && p_getPaneTextureIndex_0_ ? (p_getPaneTextureIndex_2_ ? (p_getPaneTextureIndex_3_ ? 34 : 50) : (p_getPaneTextureIndex_3_ ? 18 : 2)) : (p_getPaneTextureIndex_1_ && !p_getPaneTextureIndex_0_ ? (p_getPaneTextureIndex_2_ ? (p_getPaneTextureIndex_3_ ? 35 : 51) : (p_getPaneTextureIndex_3_ ? 19 : 3)) : (!p_getPaneTextureIndex_1_ && p_getPaneTextureIndex_0_ ? (p_getPaneTextureIndex_2_ ? (p_getPaneTextureIndex_3_ ? 33 : 49) : (p_getPaneTextureIndex_3_ ? 17 : 1)) : (p_getPaneTextureIndex_2_ ? (p_getPaneTextureIndex_3_ ? 32 : 48) : (p_getPaneTextureIndex_3_ ? 16 : 0))));
+        return p_getPaneTextureIndex_1_ && p_getPaneTextureIndex_0_ ? p_getPaneTextureIndex_2_ ? p_getPaneTextureIndex_3_ ? 34 : 50 : p_getPaneTextureIndex_3_ ? 18 : 2 : p_getPaneTextureIndex_1_ && !p_getPaneTextureIndex_0_ ? p_getPaneTextureIndex_2_ ? p_getPaneTextureIndex_3_ ? 35 : 51 : p_getPaneTextureIndex_3_ ? 19 : 3 : !p_getPaneTextureIndex_1_ && p_getPaneTextureIndex_0_ ? p_getPaneTextureIndex_2_ ? p_getPaneTextureIndex_3_ ? 33 : 49 : p_getPaneTextureIndex_3_ ? 17 : 1 : p_getPaneTextureIndex_2_ ? p_getPaneTextureIndex_3_ ? 32 : 48 : p_getPaneTextureIndex_3_ ? 16 : 0;
     }
 
     public static int getReversePaneTextureIndex(int p_getReversePaneTextureIndex_0_)
     {
         int i = p_getReversePaneTextureIndex_0_ % 16;
-        return i == 1 ? p_getReversePaneTextureIndex_0_ + 2 : (i == 3 ? p_getReversePaneTextureIndex_0_ - 2 : p_getReversePaneTextureIndex_0_);
+        return i == 1 ? p_getReversePaneTextureIndex_0_ + 2 : i == 3 ? p_getReversePaneTextureIndex_0_ - 2 : p_getReversePaneTextureIndex_0_;
     }
 
     public static TextureAtlasSprite getCtmTexture(ConnectedProperties p_getCtmTexture_0_, int p_getCtmTexture_1_, TextureAtlasSprite p_getCtmTexture_2_)

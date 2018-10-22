@@ -1,6 +1,8 @@
 package optifine;
 
+import net.minecraft.Utils;
 import net.minecraft.client.LoadingScreenRenderer;
+import net.minecraft.client.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,8 +22,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
@@ -103,7 +103,6 @@ public class Config {
 	public static void initGameSettings() {
 		desktopDisplayMode = Display.getDesktopDisplayMode();
 		updateAvailableProcessors();
-		ReflectorForge.putLaunchBlackboard("optifine.ForgeSplashCompatible", Boolean.TRUE);
 	}
 
 	public static void initDisplay() {
@@ -211,13 +210,13 @@ public class Config {
 	}
 
 	private static GlVersion getGlVersionLwjgl() {
-		return GLContext.getCapabilities().OpenGL44 ? new GlVersion(4, 4) : (GLContext.getCapabilities().OpenGL43 ? new GlVersion(4, 3) : (GLContext.getCapabilities().OpenGL42 ? new GlVersion(4,
-				2) : (GLContext.getCapabilities().OpenGL41 ? new GlVersion(4, 1) : (GLContext.getCapabilities().OpenGL40 ? new GlVersion(4, 0) : (GLContext.getCapabilities().OpenGL33 ? new GlVersion(
-				3, 3) : (GLContext.getCapabilities().OpenGL32 ? new GlVersion(3, 2) : (GLContext.getCapabilities().OpenGL31 ? new GlVersion(3,
-				1) : (GLContext.getCapabilities().OpenGL30 ? new GlVersion(3, 0) : (GLContext.getCapabilities().OpenGL21 ? new GlVersion(2, 1) : (GLContext.getCapabilities().OpenGL20 ? new GlVersion(
-				2, 0) : (GLContext.getCapabilities().OpenGL15 ? new GlVersion(1, 5) : (GLContext.getCapabilities().OpenGL14 ? new GlVersion(1,
-				4) : (GLContext.getCapabilities().OpenGL13 ? new GlVersion(1, 3) : (GLContext.getCapabilities().OpenGL12 ? new GlVersion(1, 2) : (GLContext.getCapabilities().OpenGL11 ? new GlVersion(
-				1, 1) : new GlVersion(1, 0))))))))))))))));
+		return GLContext.getCapabilities().OpenGL44 ? new GlVersion(4, 4) : GLContext.getCapabilities().OpenGL43 ? new GlVersion(4, 3) : GLContext.getCapabilities().OpenGL42 ? new GlVersion(4,
+				2) : GLContext.getCapabilities().OpenGL41 ? new GlVersion(4, 1) : GLContext.getCapabilities().OpenGL40 ? new GlVersion(4, 0) : GLContext.getCapabilities().OpenGL33 ? new GlVersion(
+				3, 3) : GLContext.getCapabilities().OpenGL32 ? new GlVersion(3, 2) : GLContext.getCapabilities().OpenGL31 ? new GlVersion(3,
+				1) : GLContext.getCapabilities().OpenGL30 ? new GlVersion(3, 0) : GLContext.getCapabilities().OpenGL21 ? new GlVersion(2, 1) : GLContext.getCapabilities().OpenGL20 ? new GlVersion(
+				2, 0) : GLContext.getCapabilities().OpenGL15 ? new GlVersion(1, 5) : GLContext.getCapabilities().OpenGL14 ? new GlVersion(1,
+				4) : GLContext.getCapabilities().OpenGL13 ? new GlVersion(1, 3) : GLContext.getCapabilities().OpenGL12 ? new GlVersion(1, 2) : GLContext.getCapabilities().OpenGL11 ? new GlVersion(
+				1, 1) : new GlVersion(1, 0);
 	}
 
 	public static GlVersion getGlVersion() {
@@ -301,7 +300,7 @@ public class Config {
 			return s.split(" ");
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			return new String[0];
+			return Utils.STRING;
 		}
 	}
 
@@ -509,19 +508,19 @@ public class Config {
 	}
 
 	public static int limit(int p_limit_0_, int p_limit_1_, int p_limit_2_) {
-		return p_limit_0_ < p_limit_1_ ? p_limit_1_ : (p_limit_0_ > p_limit_2_ ? p_limit_2_ : p_limit_0_);
+		return p_limit_0_ < p_limit_1_ ? p_limit_1_ : p_limit_0_ > p_limit_2_ ? p_limit_2_ : p_limit_0_;
 	}
 
 	public static float limit(float p_limit_0_, float p_limit_1_, float p_limit_2_) {
-		return p_limit_0_ < p_limit_1_ ? p_limit_1_ : (p_limit_0_ > p_limit_2_ ? p_limit_2_ : p_limit_0_);
+		return p_limit_0_ < p_limit_1_ ? p_limit_1_ : p_limit_0_ > p_limit_2_ ? p_limit_2_ : p_limit_0_;
 	}
 
 	public static double limit(double p_limit_0_, double p_limit_2_, double p_limit_4_) {
-		return p_limit_0_ < p_limit_2_ ? p_limit_2_ : (p_limit_0_ > p_limit_4_ ? p_limit_4_ : p_limit_0_);
+		return p_limit_0_ < p_limit_2_ ? p_limit_2_ : p_limit_0_ > p_limit_4_ ? p_limit_4_ : p_limit_0_;
 	}
 
 	public static float limitTo1(float p_limitTo1_0_) {
-		return p_limitTo1_0_ < 0.0F ? 0.0F : (p_limitTo1_0_ > 1.0F ? 1.0F : p_limitTo1_0_);
+		return p_limitTo1_0_ < 0.0F ? 0.0F : p_limitTo1_0_ > 1.0F ? 1.0F : p_limitTo1_0_;
 	}
 
 	public static boolean isAnimatedWater() {
@@ -676,7 +675,7 @@ public class Config {
 		List<IResourcePack> list1 = new ArrayList<>();
 		for (Object e : list) list1.add(((Entry) e).getResourcePack());
 		if (resourcepackrepository.getResourcePackInstance() != null) list1.add(resourcepackrepository.getResourcePackInstance());
-		return list1.toArray(new IResourcePack[0]);
+		return list1.toArray(Utils.IRESOURCEPACK);
 	}
 
 	public static String getResourcePackNames() {
@@ -691,15 +690,9 @@ public class Config {
 	public static DefaultResourcePack getDefaultResourcePack() {
 		if (defaultResourcePackLazy == null) {
 			Minecraft minecraft = Minecraft.getMinecraft();
-			defaultResourcePackLazy = (DefaultResourcePack) Reflector.getFieldValue(minecraft, Reflector.Minecraft_defaultResourcePack);
+			ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();
 
-			if (defaultResourcePackLazy == null) {
-				ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();
-
-				if (resourcepackrepository != null) {
-					defaultResourcePackLazy = (DefaultResourcePack) resourcepackrepository.rprDefaultResourcePack;
-				}
-			}
+			if (resourcepackrepository != null) defaultResourcePackLazy = (DefaultResourcePack) resourcepackrepository.rprDefaultResourcePack;
 		}
 
 		return defaultResourcePackLazy;
@@ -715,13 +708,13 @@ public class Config {
 		IResourcePack iresourcepack = resourcepackrepository.getResourcePackInstance();
 
 		if (iresourcepack != null && iresourcepack.resourceExists(loc)) return iresourcepack;
-		List<ResourcePackRepository.Entry> list = (List) Reflector.getFieldValue(resourcepackrepository, Reflector.ResourcePackRepository_repositoryEntries);
-
-		if (list != null) for (int i = list.size() - 1; i >= 0; --i) {
-			Entry e = list.get(i);
-			IResourcePack rp = e.getResourcePack();
-			if (rp.resourceExists(loc)) return rp;
-		}
+		//		List<ResourcePackRepository.Entry> list = (List) Reflector.getFieldValue(resourcepackrepository, Reflector.ResourcePackRepository_repositoryEntries);
+		//
+		//		if (list != null) for (int i = list.size() - 1; i >= 0; --i) {
+		//			Entry e = list.get(i);
+		//			IResourcePack rp = e.getResourcePack();
+		//			if (rp.resourceExists(loc)) return rp;
+		//		}
 		return getDefaultResourcePack().resourceExists(loc) ? getDefaultResourcePack() : null;
 	}
 
@@ -878,7 +871,7 @@ public class Config {
 			list.add(s);
 		}
 
-		return list.toArray(new String[0]);
+		return list.toArray(Utils.STRING);
 	}
 
 	public static DisplayMode getDesktopDisplayMode() {
@@ -899,7 +892,7 @@ public class Config {
 					if (displaymode != null) list.add(displaymode);
 				}
 
-				DisplayMode[] adisplaymode2 = list.toArray(new DisplayMode[0]);
+				DisplayMode[] adisplaymode2 = list.toArray(Utils.DISPLAYMODE);
 				Arrays.sort(adisplaymode2, new DisplayModeComparator());
 				return adisplaymode2;
 			} catch (Exception exception) {
@@ -916,7 +909,7 @@ public class Config {
 
 		if (adisplaymode != null && adisplaymode.length >= 1) {
 			DisplayMode displaymode = adisplaymode[adisplaymode.length - 1];
-			return desktopDisplayMode.getWidth() > displaymode.getWidth() ? desktopDisplayMode : (desktopDisplayMode.getWidth() == displaymode.getWidth() && desktopDisplayMode.getHeight() > displaymode.getHeight() ? desktopDisplayMode : displaymode);
+			return desktopDisplayMode.getWidth() > displaymode.getWidth() ? desktopDisplayMode : desktopDisplayMode.getWidth() == displaymode.getWidth() && desktopDisplayMode.getHeight() > displaymode.getHeight() ? desktopDisplayMode : displaymode;
 		} else {
 			return desktopDisplayMode;
 		}
@@ -939,7 +932,7 @@ public class Config {
 		for (DisplayMode displaymode : modes)
 			if (displaymode.getWidth() == dim.getWidth() && displaymode.getHeight() == dim.getHeight()) list.add(displaymode);
 
-		return list.toArray(new DisplayMode[0]);
+		return list.toArray(Utils.DISPLAYMODE);
 	}
 
 	private static DisplayMode getDisplayMode(DisplayMode[] p_getDisplayMode_0_, DisplayMode p_getDisplayMode_1_) {
@@ -1065,7 +1058,7 @@ public class Config {
 
 		while (true) {
 			String s = bufferedreader.readLine();
-			if (s == null) return list.toArray(new String[0]);
+			if (s == null) return list.toArray(Utils.STRING);
 			list.add(s);
 		}
 	}
@@ -1110,9 +1103,9 @@ public class Config {
 		}
 	}
 
-//	public static GameSettings getGameSettings() {
-//		return gameSettings;
-//	}
+	//	public static GameSettings getGameSettings() {
+	//		return gameSettings;
+	//	}
 
 	public static String getNewRelease() {
 		return newRelease;
@@ -1250,7 +1243,7 @@ public class Config {
 	}
 
 	public static boolean equals(Object a, Object b) {
-		return a == b || (a != null && a.equals(b));
+		return a == b || a != null && a.equals(b);
 	}
 
 	public static boolean equalsOne(Object a, Object[] o) {
@@ -1279,7 +1272,7 @@ public class Config {
 			try {
 				Display.destroy();
 				Display.setDisplayMode(displaymode);
-				Display.create((new PixelFormat()).withDepthBits(24).withSamples(i));
+				Display.create(new PixelFormat().withDepthBits(24).withSamples(i));
 				Display.setResizable(false);
 				Display.setResizable(true);
 			} catch (LWJGLException lwjglexception2) {
@@ -1288,7 +1281,7 @@ public class Config {
 
 				try {
 					Display.setDisplayMode(displaymode);
-					Display.create((new PixelFormat()).withDepthBits(24));
+					Display.create(new PixelFormat().withDepthBits(24));
 					Display.setResizable(false);
 					Display.setResizable(true);
 				} catch (LWJGLException lwjglexception1) {

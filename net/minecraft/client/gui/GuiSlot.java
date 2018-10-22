@@ -466,7 +466,7 @@ public abstract class GuiSlot
 
             if (this.showSelectionBox && this.isSelected(j))
             {
-                int i1 = this.left + (this.width / 2 - this.getListWidth() / 2);
+                int i1 = this.left + this.width / 2 - this.getListWidth() / 2;
                 int j1 = this.left + this.width / 2 + this.getListWidth() / 2;
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 GlStateManager.disableTexture2D();

@@ -179,7 +179,7 @@ public class BlockStem extends BlockBush implements IGrowable
 
     protected Item getSeedItem()
     {
-        return this.crop == Blocks.pumpkin ? Items.pumpkin_seeds : (this.crop == Blocks.melon_block ? Items.melon_seeds : null);
+        return this.crop == Blocks.pumpkin ? Items.pumpkin_seeds : this.crop == Blocks.melon_block ? Items.melon_seeds : null;
     }
 
     /**

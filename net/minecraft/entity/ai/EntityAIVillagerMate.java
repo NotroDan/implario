@@ -121,7 +121,7 @@ public class EntityAIVillagerMate extends EntityAIBase
         }
         else
         {
-            int i = (int)((double)((float)this.villageObj.getNumVillageDoors()) * 0.35D);
+            int i = (int)((double) (float)this.villageObj.getNumVillageDoors() * 0.35D);
             return this.villageObj.getNumVillagers() < i;
         }
     }

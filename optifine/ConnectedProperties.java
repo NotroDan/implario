@@ -192,7 +192,7 @@ public class ConnectedProperties
                 list.add(s);
             }
 
-            String[] astring2 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring2 = (String[]) (String[])list.toArray(new String[list.size()]);
 
             for (int i1 = 0; i1 < astring2.length; ++i1)
             {
@@ -527,7 +527,7 @@ public class ConnectedProperties
 
     private int detectConnect()
     {
-        return this.matchBlocks != null ? 1 : (this.matchTiles != null ? 2 : 128);
+        return this.matchBlocks != null ? 1 : this.matchTiles != null ? 2 : 128;
     }
 
     private MatchBlock[] detectMatchBlocks()
@@ -880,7 +880,7 @@ public class ConnectedProperties
                 list.add(textureatlassprite);
             }
 
-            TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[])((TextureAtlasSprite[])list.toArray(new TextureAtlasSprite[list.size()]));
+            TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) (TextureAtlasSprite[])list.toArray(new TextureAtlasSprite[list.size()]);
             return atextureatlassprite;
         }
     }

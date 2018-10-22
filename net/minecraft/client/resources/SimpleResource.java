@@ -64,7 +64,7 @@ public class SimpleResource implements IResource
                 try
                 {
                     bufferedreader = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
-                    this.mcmetaJson = (new JsonParser()).parse((Reader)bufferedreader).getAsJsonObject();
+                    this.mcmetaJson = new JsonParser().parse((Reader)bufferedreader).getAsJsonObject();
                 }
                 finally
                 {

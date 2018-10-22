@@ -150,6 +150,6 @@ public class CommandCompare extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos) : (args.length > 3 && args.length <= 6 ? func_175771_a(args, 3, pos) : (args.length > 6 && args.length <= 9 ? func_175771_a(args, 6, pos) : (args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"masked", "all"}): null)));
+        return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos) : args.length > 3 && args.length <= 6 ? func_175771_a(args, 3, pos) : args.length > 6 && args.length <= 9 ? func_175771_a(args, 6, pos) : args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"masked", "all"}): null;
     }
 }

@@ -300,14 +300,14 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 			if (i == 0) {
 				if (this.isDemo()) {
-					this.worldServers[i] = (WorldServer) (new DemoWorldServer(this, isavehandler, worldinfo, j, this.theProfiler)).init();
+					this.worldServers[i] = (WorldServer) new DemoWorldServer(this, isavehandler, worldinfo, j, this.theProfiler).init();
 				} else {
-					this.worldServers[i] = (WorldServer) (new WorldServer(this, isavehandler, worldinfo, j, this.theProfiler)).init();
+					this.worldServers[i] = (WorldServer) new WorldServer(this, isavehandler, worldinfo, j, this.theProfiler).init();
 				}
 
 				this.worldServers[i].initialize(worldsettings);
 			} else {
-				this.worldServers[i] = (WorldServer) (new WorldServerMulti(this, isavehandler, j, this.worldServers[0], this.theProfiler)).init();
+				this.worldServers[i] = (WorldServer) new WorldServerMulti(this, isavehandler, j, this.worldServers[0], this.theProfiler).init();
 			}
 
 			this.worldServers[i].addWorldAccess(new WorldManager(this, this.worldServers[i]));
@@ -515,7 +515,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 				crashreport = this.addServerInfoToCrashReport(new CrashReport("Exception in server tick loop", throwable1));
 			}
 
-			File file1 = new File(new File(this.getDataDirectory(), "crash-reports"), "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-server.txt");
+			File file1 = new File(new File(this.getDataDirectory(), "crash-reports"), "crash-" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + "-server.txt");
 
 			if (crashreport.saveToFile(file1)) {
 				logger.error("This crash report has been saved to: " + file1.getAbsolutePath());
@@ -546,7 +546,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 				BufferedImage bufferedimage = ImageIO.read(file1);
 				Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide");
 				Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high");
-				ImageIO.write(bufferedimage, "PNG", (new ByteBufOutputStream(bytebuf)));
+				ImageIO.write(bufferedimage, "PNG", new ByteBufOutputStream(bytebuf));
 				ByteBuf bytebuf1 = Base64.encode(bytebuf);
 				response.setFavicon("data:image/png;base64," + bytebuf1.toString(Charsets.UTF_8));
 			} catch (Exception exception) {
@@ -708,7 +708,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Gets the worldServer by the given dimension.
 	 */
 	public WorldServer worldServerForDimension(int dimension) {
-		return dimension == -1 ? this.worldServers[1] : (dimension == 1 ? this.worldServers[2] : this.worldServers[0]);
+		return dimension == -1 ? this.worldServers[1] : dimension == 1 ? this.worldServers[2] : this.worldServers[0];
 	}
 
 	/**

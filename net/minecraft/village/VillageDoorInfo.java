@@ -22,7 +22,7 @@ public class VillageDoorInfo
 
     private static EnumFacing getFaceDirection(int deltaX, int deltaZ)
     {
-        return deltaX < 0 ? EnumFacing.WEST : (deltaX > 0 ? EnumFacing.EAST : (deltaZ < 0 ? EnumFacing.NORTH : EnumFacing.SOUTH));
+        return deltaX < 0 ? EnumFacing.WEST : deltaX > 0 ? EnumFacing.EAST : deltaZ < 0 ? EnumFacing.NORTH : EnumFacing.SOUTH;
     }
 
     public VillageDoorInfo(BlockPos p_i45872_1_, EnumFacing p_i45872_2_, int p_i45872_3_)

@@ -96,7 +96,7 @@ public class BlockPistonBase extends Block
 
         if (flag && !((Boolean)state.getValue(EXTENDED)).booleanValue())
         {
-            if ((new BlockPistonStructureHelper(worldIn, pos, enumfacing, true)).canMove())
+            if (new BlockPistonStructureHelper(worldIn, pos, enumfacing, true).canMove())
             {
                 worldIn.addBlockEvent(pos, this, 0, enumfacing.getIndex());
             }

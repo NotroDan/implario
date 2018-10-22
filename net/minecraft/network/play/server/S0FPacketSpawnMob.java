@@ -37,9 +37,9 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient>
         this.x = MathHelper.floor_double(entityIn.posX * 32.0D);
         this.y = MathHelper.floor_double(entityIn.posY * 32.0D);
         this.z = MathHelper.floor_double(entityIn.posZ * 32.0D);
-        this.yaw = (byte)((int)(entityIn.rotationYaw * 256.0F / 360.0F));
-        this.pitch = (byte)((int)(entityIn.rotationPitch * 256.0F / 360.0F));
-        this.headPitch = (byte)((int)(entityIn.rotationYawHead * 256.0F / 360.0F));
+        this.yaw = (byte) (int)(entityIn.rotationYaw * 256.0F / 360.0F);
+        this.pitch = (byte) (int)(entityIn.rotationPitch * 256.0F / 360.0F);
+        this.headPitch = (byte) (int)(entityIn.rotationYawHead * 256.0F / 360.0F);
         double d0 = 3.9D;
         double d1 = entityIn.motionX;
         double d2 = entityIn.motionY;

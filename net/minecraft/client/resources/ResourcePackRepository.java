@@ -38,7 +38,7 @@ public class ResourcePackRepository {
 	private static final Logger logger = Logger.getInstance();
 	private static final FileFilter resourcePackFilter = f -> {
 		boolean flag = f.isFile() && f.getName().endsWith(".zip");
-		boolean flag1 = f.isDirectory() && (new File(f, "pack.mcmeta")).isFile();
+		boolean flag1 = f.isDirectory() && new File(f, "pack.mcmeta").isFile();
 		return flag || flag1;
 	};
 	private final File dirResourcepacks;
@@ -293,7 +293,7 @@ public class ResourcePackRepository {
 		}
 
 		public boolean equals(Object p_equals_1_) {
-			return this == p_equals_1_ || (p_equals_1_ instanceof Entry && this.toString().equals(p_equals_1_.toString()));
+			return this == p_equals_1_ || p_equals_1_ instanceof Entry && this.toString().equals(p_equals_1_.toString());
 		}
 
 		public int hashCode() {

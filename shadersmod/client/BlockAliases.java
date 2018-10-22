@@ -156,7 +156,7 @@ public class BlockAliases
 
             if (list != null)
             {
-                ablockalias[i] = (BlockAlias[])((BlockAlias[])list.toArray(new BlockAlias[list.size()]));
+                ablockalias[i] = (BlockAlias[]) (BlockAlias[])list.toArray(new BlockAlias[list.size()]);
             }
         }
 

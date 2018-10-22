@@ -466,7 +466,7 @@ public class EntityTrackerEntry
     {
         double d0 = playerMP.posX - (double)(this.encodedPosX / 32);
         double d1 = playerMP.posZ - (double)(this.encodedPosZ / 32);
-        return d0 >= (double)(-this.trackingDistanceThreshold) && d0 <= (double)this.trackingDistanceThreshold && d1 >= (double)(-this.trackingDistanceThreshold) && d1 <= (double)this.trackingDistanceThreshold && this.trackedEntity.isSpectatedByPlayer(playerMP);
+        return d0 >= (double) -this.trackingDistanceThreshold && d0 <= (double)this.trackingDistanceThreshold && d1 >= (double) -this.trackingDistanceThreshold && d1 <= (double)this.trackingDistanceThreshold && this.trackedEntity.isSpectatedByPlayer(playerMP);
     }
 
     private boolean isPlayerWatchingThisChunk(EntityPlayerMP playerMP)

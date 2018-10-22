@@ -217,7 +217,7 @@ public class ChunkProviderFlat implements IChunkProvider
         {
             for (int i1 = 0; i1 < 8; ++i1)
             {
-                (new WorldGenDungeons()).generate(this.worldObj, this.random, blockpos.add(this.random.nextInt(16) + 8, this.random.nextInt(256), this.random.nextInt(16) + 8));
+                new WorldGenDungeons().generate(this.worldObj, this.random, blockpos.add(this.random.nextInt(16) + 8, this.random.nextInt(256), this.random.nextInt(16) + 8));
             }
         }
 

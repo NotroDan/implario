@@ -293,7 +293,7 @@ public class GuiShaders extends GuiScreen
                         {
                             Class oclass = Class.forName("java.awt.Desktop");
                             Object object = oclass.getMethod("getDesktop", CLASS).invoke(null);
-                            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, (new File(this.mc.mcDataDir, Shaders.shaderpacksdirname)).toURI());
+                            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new File(this.mc.mcDataDir, Shaders.shaderpacksdirname).toURI());
                         }
                         catch (Throwable throwable)
                         {
@@ -399,7 +399,7 @@ public class GuiShaders extends GuiScreen
 
     public static String toStringAa(int value)
     {
-        return value == 2 ? "FXAA 2x" : (value == 4 ? "FXAA 4x" : Lang.getOff());
+        return value == 2 ? "FXAA 2x" : value == 4 ? "FXAA 4x" : Lang.getOff();
     }
 
     public static String toStringValue(float val, float[] values, String[] names)
@@ -436,6 +436,6 @@ public class GuiShaders extends GuiScreen
     public static int getOSType()
     {
         String s = System.getProperty("os.name").toLowerCase();
-        return s.contains("win") ? 1 : (s.contains("mac") ? 2 : (s.contains("solaris") ? 3 : (s.contains("sunos") ? 3 : (s.contains("linux") ? 4 : (s.contains("unix") ? 4 : 0)))));
+        return s.contains("win") ? 1 : s.contains("mac") ? 2 : s.contains("solaris") ? 3 : s.contains("sunos") ? 3 : s.contains("linux") ? 4 : s.contains("unix") ? 4 : 0;
     }
 }

@@ -253,7 +253,7 @@ public class EntityGuardian extends EntityMob
      */
     protected String getLivingSound()
     {
-        return !this.isInWater() ? "mob.guardian.land.idle" : (this.isElder() ? "mob.guardian.elder.idle" : "mob.guardian.idle");
+        return !this.isInWater() ? "mob.guardian.land.idle" : this.isElder() ? "mob.guardian.elder.idle" : "mob.guardian.idle";
     }
 
     /**
@@ -261,7 +261,7 @@ public class EntityGuardian extends EntityMob
      */
     protected String getHurtSound()
     {
-        return !this.isInWater() ? "mob.guardian.land.hit" : (this.isElder() ? "mob.guardian.elder.hit" : "mob.guardian.hit");
+        return !this.isInWater() ? "mob.guardian.land.hit" : this.isElder() ? "mob.guardian.elder.hit" : "mob.guardian.hit";
     }
 
     /**
@@ -269,7 +269,7 @@ public class EntityGuardian extends EntityMob
      */
     protected String getDeathSound()
     {
-        return !this.isInWater() ? "mob.guardian.land.death" : (this.isElder() ? "mob.guardian.elder.death" : "mob.guardian.death");
+        return !this.isInWater() ? "mob.guardian.land.death" : this.isElder() ? "mob.guardian.elder.death" : "mob.guardian.death";
     }
 
     /**
@@ -310,7 +310,7 @@ public class EntityGuardian extends EntityMob
                     this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.guardian.flop", 1.0F, 1.0F, false);
                 }
 
-                this.field_175480_bp = this.motionY < 0.0D && this.worldObj.isBlockNormalCube((new BlockPos(this)).down(), false);
+                this.field_175480_bp = this.motionY < 0.0D && this.worldObj.isBlockNormalCube(new BlockPos(this).down(), false);
             }
             else if (this.func_175472_n())
             {

@@ -80,7 +80,7 @@ public abstract class World implements IBlockAccess
      * value of 0x3c6ef35f, producing a highly planar series of values ill-suited for choosing random blocks in a
      * 16x128x16 field.
      */
-    protected int updateLCG = (new Random()).nextInt();
+    protected int updateLCG = new Random().nextInt();
 
     /**
      * magic number used to generate fast random numbers for 3d distribution within a chunk
@@ -2420,7 +2420,7 @@ public abstract class World implements IBlockAccess
     {
         IBlockState iblockstate = blockAccess.getBlockState(pos);
         Block block = iblockstate.getBlock();
-        return block.getMaterial().isOpaque() && block.isFullCube() ? true : (block instanceof BlockStairs ? iblockstate.getValue(BlockStairs.HALF) == BlockStairs.EnumHalf.TOP : (block instanceof BlockSlab ? iblockstate.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP : (block instanceof BlockHopper ? true : (block instanceof BlockSnow ? ((Integer)iblockstate.getValue(BlockSnow.LAYERS)).intValue() == 7 : false))));
+        return block.getMaterial().isOpaque() && block.isFullCube() ? true : block instanceof BlockStairs ? iblockstate.getValue(BlockStairs.HALF) == BlockStairs.EnumHalf.TOP : block instanceof BlockSlab ? iblockstate.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP : block instanceof BlockHopper ? true : block instanceof BlockSnow ? ((Integer)iblockstate.getValue(BlockSnow.LAYERS)).intValue() == 7 : false;
     }
 
     /**
@@ -3154,7 +3154,7 @@ public abstract class World implements IBlockAccess
     {
         Block block = this.getBlockState(pos).getBlock();
         AxisAlignedBB axisalignedbb = p_175716_3_ ? null : blockIn.getCollisionBoundingBox(this, pos, blockIn.getDefaultState());
-        return axisalignedbb != null && !this.checkNoEntityCollision(axisalignedbb, entityIn) ? false : (block.getMaterial() == Material.circuits && blockIn == Blocks.anvil ? true : block.getMaterial().isReplaceable() && blockIn.canReplace(this, pos, side, itemStackIn));
+        return axisalignedbb != null && !this.checkNoEntityCollision(axisalignedbb, entityIn) ? false : block.getMaterial() == Material.circuits && blockIn == Blocks.anvil ? true : block.getMaterial().isReplaceable() && blockIn.canReplace(this, pos, side, itemStackIn);
     }
 
     public int func_181545_F()
@@ -3247,7 +3247,7 @@ public abstract class World implements IBlockAccess
 
     public boolean isBlockPowered(BlockPos pos)
     {
-        return this.getRedstonePower(pos.down(), EnumFacing.DOWN) > 0 ? true : (this.getRedstonePower(pos.up(), EnumFacing.UP) > 0 ? true : (this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0 ? true : (this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 ? true : (this.getRedstonePower(pos.west(), EnumFacing.WEST) > 0 ? true : this.getRedstonePower(pos.east(), EnumFacing.EAST) > 0))));
+        return this.getRedstonePower(pos.down(), EnumFacing.DOWN) > 0 ? true : this.getRedstonePower(pos.up(), EnumFacing.UP) > 0 ? true : this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0 ? true : this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 ? true : this.getRedstonePower(pos.west(), EnumFacing.WEST) > 0 ? true : this.getRedstonePower(pos.east(), EnumFacing.EAST) > 0;
     }
 
     /**
@@ -3575,7 +3575,7 @@ public abstract class World implements IBlockAccess
         else
         {
             BiomeGenBase biomegenbase = this.getBiomeGenForCoords(strikePosition);
-            return biomegenbase.getEnableSnow() ? false : (this.canSnowAt(strikePosition, false) ? false : biomegenbase.canSpawnLightningBolt());
+            return biomegenbase.getEnableSnow() ? false : this.canSnowAt(strikePosition, false) ? false : biomegenbase.canSpawnLightningBolt();
         }
     }
 

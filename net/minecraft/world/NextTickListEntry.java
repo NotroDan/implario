@@ -19,7 +19,7 @@ public class NextTickListEntry implements Comparable<NextTickListEntry>
 
     public NextTickListEntry(BlockPos p_i45745_1_, Block p_i45745_2_)
     {
-        this.tickEntryID = (long)(nextTickEntryID++);
+        this.tickEntryID = (long) nextTickEntryID++;
         this.position = p_i45745_1_;
         this.block = p_i45745_2_;
     }
@@ -58,7 +58,7 @@ public class NextTickListEntry implements Comparable<NextTickListEntry>
 
     public int compareTo(NextTickListEntry p_compareTo_1_)
     {
-        return this.scheduledTime < p_compareTo_1_.scheduledTime ? -1 : (this.scheduledTime > p_compareTo_1_.scheduledTime ? 1 : (this.priority != p_compareTo_1_.priority ? this.priority - p_compareTo_1_.priority : (this.tickEntryID < p_compareTo_1_.tickEntryID ? -1 : (this.tickEntryID > p_compareTo_1_.tickEntryID ? 1 : 0))));
+        return this.scheduledTime < p_compareTo_1_.scheduledTime ? -1 : this.scheduledTime > p_compareTo_1_.scheduledTime ? 1 : this.priority != p_compareTo_1_.priority ? this.priority - p_compareTo_1_.priority : this.tickEntryID < p_compareTo_1_.tickEntryID ? -1 : this.tickEntryID > p_compareTo_1_.tickEntryID ? 1 : 0;
     }
 
     public String toString()

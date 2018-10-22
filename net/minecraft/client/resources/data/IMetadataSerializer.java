@@ -58,7 +58,7 @@ public class IMetadataSerializer
             }
             else
             {
-                return (T)((IMetadataSection)this.getGson().fromJson((JsonElement)p_110503_2_.getAsJsonObject(p_110503_1_), registration.field_110500_b));
+                return (T) (IMetadataSection)this.getGson().fromJson((JsonElement)p_110503_2_.getAsJsonObject(p_110503_1_), registration.field_110500_b);
             }
         }
     }

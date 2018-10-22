@@ -154,7 +154,7 @@ public class StructureMineshaftPieces
 
                     case SOUTH:
                         structureboundingbox.maxX = x + 2;
-                        structureboundingbox.maxZ = z + (j - 1);
+                        structureboundingbox.maxZ = z + j - 1;
                         break;
 
                     case WEST:
@@ -163,7 +163,7 @@ public class StructureMineshaftPieces
                         break;
 
                     case EAST:
-                        structureboundingbox.maxX = x + (j - 1);
+                        structureboundingbox.maxX = x + j - 1;
                         structureboundingbox.maxZ = z + 2;
                 }
 

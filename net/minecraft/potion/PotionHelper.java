@@ -269,7 +269,7 @@ public class PotionHelper
                     else
                     {
                         int j2 = parsePotionEffects(p_77912_0_, j + 1, p_77912_2_, p_77912_3_);
-                        return j2 <= 0 ? 0 : (k > j2 ? k : j2);
+                        return j2 <= 0 ? 0 : k > j2 ? k : j2;
                     }
                 }
                 else
@@ -298,7 +298,7 @@ public class PotionHelper
                             else
                             {
                                 l = l * 10;
-                                l = l + (c0 - 48);
+                                l = l + c0 - 48;
                                 flag2 = true;
                             }
                         }
@@ -524,7 +524,7 @@ public class PotionHelper
             if (c0 >= 48 && c0 <= 57)
             {
                 j = j * 10;
-                j = j + (c0 - 48);
+                j = j + c0 - 48;
                 flag = true;
             }
             else if (c0 == 33)

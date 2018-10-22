@@ -459,7 +459,7 @@ public abstract class EntityPlayer extends EntityLivingBase
                 Vec3 vec3 = new Vec3(((double)this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
                 vec3 = vec3.rotatePitch(-this.rotationPitch * (float)Math.PI / 180.0F);
                 vec3 = vec3.rotateYaw(-this.rotationYaw * (float)Math.PI / 180.0F);
-                double d0 = (double)(-this.rand.nextFloat()) * 0.6D - 0.3D;
+                double d0 = (double) -this.rand.nextFloat() * 0.6D - 0.3D;
                 Vec3 vec31 = new Vec3(((double)this.rand.nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
                 vec31 = vec31.rotatePitch(-this.rotationPitch * (float)Math.PI / 180.0F);
                 vec31 = vec31.rotateYaw(-this.rotationYaw * (float)Math.PI / 180.0F);
@@ -1114,7 +1114,7 @@ public abstract class EntityPlayer extends EntityLivingBase
     {
         Team team = this.getTeam();
         Team team1 = other.getTeam();
-        return team == null ? true : (!team.isSameTeam(team1) ? true : team.getAllowFriendlyFire());
+        return team == null ? true : !team.isSameTeam(team1) ? true : team.getAllowFriendlyFire();
     }
 
     protected void damageArmor(float p_70675_1_)
@@ -2058,7 +2058,7 @@ public abstract class EntityPlayer extends EntityLivingBase
      */
     public int xpBarCap()
     {
-        return this.experienceLevel >= 30 ? 112 + (this.experienceLevel - 30) * 9 : (this.experienceLevel >= 15 ? 37 + (this.experienceLevel - 15) * 5 : 7 + this.experienceLevel * 2);
+        return this.experienceLevel >= 30 ? 112 + (this.experienceLevel - 30) * 9 : this.experienceLevel >= 15 ? 37 + (this.experienceLevel - 15) * 5 : 7 + this.experienceLevel * 2;
     }
 
     /**

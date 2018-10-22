@@ -51,7 +51,7 @@ public class ModelMagmaCube extends ModelBase
 
         for (int i = 0; i < this.segments.length; ++i)
         {
-            this.segments[i].rotationPointY = (float)(-(4 - i)) * f * 1.7F;
+            this.segments[i].rotationPointY = (float) -(4 - i) * f * 1.7F;
         }
     }
 

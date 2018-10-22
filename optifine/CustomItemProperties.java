@@ -225,7 +225,7 @@ public class CustomItemProperties
                 }
             }
 
-            Integer[] ainteger = (Integer[])((Integer[])set.toArray(new Integer[set.size()]));
+            Integer[] ainteger = (Integer[]) (Integer[])set.toArray(new Integer[set.size()]);
             int[] aint = new int[ainteger.length];
 
             for (int l1 = 0; l1 < aint.length; ++l1)
@@ -514,7 +514,7 @@ public class CustomItemProperties
                 list.add(nbttagvalue);
             }
 
-            NbtTagValue[] anbttagvalue = (NbtTagValue[])((NbtTagValue[])list.toArray(new NbtTagValue[list.size()]));
+            NbtTagValue[] anbttagvalue = (NbtTagValue[]) (NbtTagValue[])list.toArray(new NbtTagValue[list.size()]);
             return anbttagvalue;
         }
     }
@@ -799,7 +799,7 @@ public class CustomItemProperties
         ModelRotation modelrotation = ModelRotation.X0_Y0;
         boolean flag = false;
         TextureAtlasSprite textureatlassprite = p_bakeModel_0_.getSpriteSafe(p_bakeModel_1_.resolveTextureName("particle"));
-        SimpleBakedModel.Builder simplebakedmodel$builder = (new SimpleBakedModel.Builder(p_bakeModel_1_)).setTexture(textureatlassprite);
+        SimpleBakedModel.Builder simplebakedmodel$builder = new SimpleBakedModel.Builder(p_bakeModel_1_).setTexture(textureatlassprite);
 
         for (BlockPart blockpart : p_bakeModel_1_.getElements())
         {

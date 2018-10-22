@@ -224,7 +224,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     private int getPotionResult(int meta, ItemStack stack)
     {
-        return stack == null ? meta : (stack.getItem().isPotionIngredient(stack) ? PotionHelper.applyIngredient(meta, stack.getItem().getPotionEffect(stack)) : meta);
+        return stack == null ? meta : stack.getItem().isPotionIngredient(stack) ? PotionHelper.applyIngredient(meta, stack.getItem().getPotionEffect(stack)) : meta;
     }
 
     public void readFromNBT(NBTTagCompound compound)

@@ -26,7 +26,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 
 	private static final Logger logger = Logger.getInstance();
-	private static final ThreadPoolExecutor field_148302_b = new ScheduledThreadPoolExecutor(5, (new ThreadFactoryBuilder()).setNameFormat("Server Pinger #%d").setDaemon(true).build());
+	private static final ThreadPoolExecutor field_148302_b = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Server Pinger #%d").setDaemon(true).build());
 	private static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
 	private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation("textures/gui/server_selection.png");
 	private final GuiMultiplayer field_148303_c;

@@ -273,7 +273,7 @@ public class BiomeDecorator
             if (l14 > 0)
             {
                 int i18 = this.randomGenerator.nextInt(l14);
-                (new WorldGenDeadBush()).generate(this.currentWorld, this.randomGenerator, this.field_180294_c.add(k7, i18, j11));
+                new WorldGenDeadBush().generate(this.currentWorld, this.randomGenerator, this.field_180294_c.add(k7, i18, j11));
             }
         }
 
@@ -389,7 +389,7 @@ public class BiomeDecorator
             if (j13 > 0)
             {
                 int k16 = this.randomGenerator.nextInt(j13);
-                (new WorldGenPumpkin()).generate(this.currentWorld, this.randomGenerator, this.field_180294_c.add(i5, k16, k9));
+                new WorldGenPumpkin().generate(this.currentWorld, this.randomGenerator, this.field_180294_c.add(i5, k16, k9));
             }
         }
 
@@ -418,7 +418,7 @@ public class BiomeDecorator
                 {
                     int k19 = this.randomGenerator.nextInt(i17);
                     BlockPos blockpos6 = this.field_180294_c.add(i10, k19, l13);
-                    (new WorldGenLiquids(Blocks.flowing_water)).generate(this.currentWorld, this.randomGenerator, blockpos6);
+                    new WorldGenLiquids(Blocks.flowing_water).generate(this.currentWorld, this.randomGenerator, blockpos6);
                 }
             }
 
@@ -428,7 +428,7 @@ public class BiomeDecorator
                 int i14 = this.randomGenerator.nextInt(16) + 8;
                 int j17 = this.randomGenerator.nextInt(this.randomGenerator.nextInt(this.randomGenerator.nextInt(240) + 8) + 8);
                 BlockPos blockpos3 = this.field_180294_c.add(j10, j17, i14);
-                (new WorldGenLiquids(Blocks.flowing_lava)).generate(this.currentWorld, this.randomGenerator, blockpos3);
+                new WorldGenLiquids(Blocks.flowing_lava).generate(this.currentWorld, this.randomGenerator, blockpos3);
             }
         }
     }

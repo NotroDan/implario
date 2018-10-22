@@ -128,7 +128,7 @@ public class BlockState
             }
             else
             {
-                return (T)((Comparable)property.getValueClass().cast(this.properties.get(property)));
+                return (T) (Comparable)property.getValueClass().cast(this.properties.get(property));
             }
         }
 

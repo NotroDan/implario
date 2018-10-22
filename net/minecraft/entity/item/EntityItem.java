@@ -43,9 +43,9 @@ public class EntityItem extends Entity
         this.setSize(0.25F, 0.25F);
         this.setPosition(x, y, z);
         this.rotationYaw = (float)(Math.random() * 360.0D);
-        this.motionX = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D));
+        this.motionX = (double) (float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D);
         this.motionY = 0.20000000298023224D;
-        this.motionZ = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D));
+        this.motionZ = (double) (float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D);
     }
 
     public EntityItem(World worldIn, double x, double y, double z, ItemStack stack)
@@ -305,7 +305,7 @@ public class EntityItem extends Entity
      */
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
-        tagCompound.setShort("Health", (short)((byte)this.health));
+        tagCompound.setShort("Health", (short) (byte)this.health);
         tagCompound.setShort("Age", (short)this.age);
         tagCompound.setShort("PickupDelay", (short)this.delayBeforeCanPickup);
 

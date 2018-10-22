@@ -62,7 +62,7 @@ public class ResUtils
         {
             AbstractResourcePack abstractresourcepack = (AbstractResourcePack)p_collectFiles_0_;
             File file1 = abstractresourcepack.resourcePackFile;
-            return file1 == null ? new String[0] : (file1.isDirectory() ? collectFilesFolder(file1, "", p_collectFiles_1_, p_collectFiles_2_) : (file1.isFile() ? collectFilesZIP(file1, p_collectFiles_1_, p_collectFiles_2_) : new String[0]));
+            return file1 == null ? new String[0] : file1.isDirectory() ? collectFilesFolder(file1, "", p_collectFiles_1_, p_collectFiles_2_) : file1.isFile() ? collectFilesZIP(file1, p_collectFiles_1_, p_collectFiles_2_) : new String[0];
         }
     }
 
@@ -87,7 +87,7 @@ public class ResUtils
                 }
             }
 
-            String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring = (String[]) (String[])list.toArray(new String[list.size()]);
             return astring;
         }
     }
@@ -135,7 +135,7 @@ public class ResUtils
                 }
             }
 
-            String[] astring1 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring1 = (String[]) (String[])list.toArray(new String[list.size()]);
             return astring1;
         }
     }
@@ -167,7 +167,7 @@ public class ResUtils
             }
 
             zipfile.close();
-            String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring = (String[]) (String[])list.toArray(new String[list.size()]);
             return astring;
         }
         catch (IOException ioexception)

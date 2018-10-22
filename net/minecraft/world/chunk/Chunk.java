@@ -113,7 +113,7 @@ public class Chunk
         this.chunkTileEntityMap = Maps.<BlockPos, TileEntity>newHashMap();
         this.queuedLightChecks = 4096;
         this.tileEntityPosQueue = Queues.<BlockPos>newConcurrentLinkedQueue();
-        this.entityLists = (ClassInheritanceMultiMap[])(new ClassInheritanceMultiMap[16]);
+        this.entityLists = (ClassInheritanceMultiMap[]) new ClassInheritanceMultiMap[16];
         this.worldObj = worldIn;
         this.xPosition = x;
         this.zPosition = z;
@@ -784,7 +784,7 @@ public class Chunk
         int j = pos.getY();
         int k = pos.getZ() & 15;
         ExtendedBlockStorage extendedblockstorage = this.storageArrays[j >> 4];
-        return extendedblockstorage == null ? (this.canSeeSky(pos) ? p_177413_1_.defaultLightValue : 0) : (p_177413_1_ == EnumSkyBlock.SKY ? (this.worldObj.provider.getHasNoSky() ? 0 : extendedblockstorage.getExtSkylightValue(i, j & 15, k)) : (p_177413_1_ == EnumSkyBlock.BLOCK ? extendedblockstorage.getExtBlocklightValue(i, j & 15, k) : p_177413_1_.defaultLightValue));
+        return extendedblockstorage == null ? this.canSeeSky(pos) ? p_177413_1_.defaultLightValue : 0 : p_177413_1_ == EnumSkyBlock.SKY ? this.worldObj.provider.getHasNoSky() ? 0 : extendedblockstorage.getExtSkylightValue(i, j & 15, k) : p_177413_1_ == EnumSkyBlock.BLOCK ? extendedblockstorage.getExtBlocklightValue(i, j & 15, k) : p_177413_1_.defaultLightValue;
     }
 
     public void setLightFor(EnumSkyBlock p_177431_1_, BlockPos pos, int value)

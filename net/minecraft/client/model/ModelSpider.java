@@ -105,7 +105,7 @@ public class ModelSpider extends ModelBase
     {
         this.spiderHead.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
         this.spiderHead.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
-        float f = ((float)Math.PI / 4F);
+        float f = (float)Math.PI / 4F;
         this.spiderLeg1.rotateAngleZ = -f;
         this.spiderLeg2.rotateAngleZ = f;
         this.spiderLeg3.rotateAngleZ = -f * 0.74F;
@@ -126,12 +126,12 @@ public class ModelSpider extends ModelBase
         this.spiderLeg8.rotateAngleY = f2 * 2.0F - f1;
         float f3 = -(MathHelper.cos(p_78087_1_ * 0.6662F * 2.0F + 0.0F) * 0.4F) * p_78087_2_;
         float f4 = -(MathHelper.cos(p_78087_1_ * 0.6662F * 2.0F + (float)Math.PI) * 0.4F) * p_78087_2_;
-        float f5 = -(MathHelper.cos(p_78087_1_ * 0.6662F * 2.0F + ((float)Math.PI / 2F)) * 0.4F) * p_78087_2_;
-        float f6 = -(MathHelper.cos(p_78087_1_ * 0.6662F * 2.0F + ((float)Math.PI * 3F / 2F)) * 0.4F) * p_78087_2_;
+        float f5 = -(MathHelper.cos(p_78087_1_ * 0.6662F * 2.0F + (float)Math.PI / 2F) * 0.4F) * p_78087_2_;
+        float f6 = -(MathHelper.cos(p_78087_1_ * 0.6662F * 2.0F + (float)Math.PI * 3F / 2F) * 0.4F) * p_78087_2_;
         float f7 = Math.abs(MathHelper.sin(p_78087_1_ * 0.6662F + 0.0F) * 0.4F) * p_78087_2_;
         float f8 = Math.abs(MathHelper.sin(p_78087_1_ * 0.6662F + (float)Math.PI) * 0.4F) * p_78087_2_;
-        float f9 = Math.abs(MathHelper.sin(p_78087_1_ * 0.6662F + ((float)Math.PI / 2F)) * 0.4F) * p_78087_2_;
-        float f10 = Math.abs(MathHelper.sin(p_78087_1_ * 0.6662F + ((float)Math.PI * 3F / 2F)) * 0.4F) * p_78087_2_;
+        float f9 = Math.abs(MathHelper.sin(p_78087_1_ * 0.6662F + (float)Math.PI / 2F) * 0.4F) * p_78087_2_;
+        float f10 = Math.abs(MathHelper.sin(p_78087_1_ * 0.6662F + (float)Math.PI * 3F / 2F) * 0.4F) * p_78087_2_;
         this.spiderLeg1.rotateAngleY += f3;
         this.spiderLeg2.rotateAngleY += -f3;
         this.spiderLeg3.rotateAngleY += f4;

@@ -75,7 +75,7 @@ public class Main {
 		boolean flag1 = optionset.has("checkGlErrors");
 		boolean flag2 = optionset.has("demo");
 		String s3 = optionset.valueOf(optionspec12);
-		Gson gson = (new GsonBuilder()).registerTypeAdapter(PropertyMap.class, new Serializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(PropertyMap.class, new Serializer()).create();
 		PropertyMap propertymap = gson.fromJson(optionset.valueOf(optionspec15), PropertyMap.class);
 		PropertyMap propertymap1 = gson.fromJson(optionset.valueOf(optionspec16), PropertyMap.class);
 		File file1 = optionset.valueOf(optionspec2);

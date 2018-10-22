@@ -28,7 +28,7 @@ import java.util.Random;
 
 public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	private static final Logger logger = Logger.getInstance();
-	private static final Gson GSON = (new GsonBuilder()).registerTypeAdapter(SoundList.class, new SoundListSerializer()).create();
+	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(SoundList.class, new SoundListSerializer()).create();
 	private static final ParameterizedType TYPE = new ParameterizedType() {
 		public Type[] getActualTypeArguments() {
 			return new Type[] {String.class, SoundList.class};
@@ -91,7 +91,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		Map map;
 
 		try {
-			map = GSON.fromJson((new InputStreamReader(stream)), TYPE);
+			map = GSON.fromJson(new InputStreamReader(stream), TYPE);
 		} finally {
 			IOUtils.closeQuietly(stream);
 		}
@@ -131,7 +131,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 						logger.warn("File {} does not exist, cannot add it to event {}", resourcelocation1, location);
 						continue;
 					} catch (IOException ioexception) {
-						logger.warn(("Could not load sound file " + resourcelocation1 + ", cannot add it to event " + location), ioexception);
+						logger.warn("Could not load sound file " + resourcelocation1 + ", cannot add it to event " + location, ioexception);
 						continue;
 					} finally {
 						IOUtils.closeQuietly(inputstream);
@@ -229,7 +229,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		}
 
 		if (list.isEmpty()) return null;
-		else return list.get((new Random()).nextInt(list.size()));
+		else return list.get(new Random().nextInt(list.size()));
 	}
 
 	public boolean isSoundPlaying(ISound sound) {

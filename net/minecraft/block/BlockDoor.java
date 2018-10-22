@@ -315,7 +315,7 @@ public class BlockDoor extends Block
 
     private Item getItem()
     {
-        return this == Blocks.iron_door ? Items.iron_door : (this == Blocks.spruce_door ? Items.spruce_door : (this == Blocks.birch_door ? Items.birch_door : (this == Blocks.jungle_door ? Items.jungle_door : (this == Blocks.acacia_door ? Items.acacia_door : (this == Blocks.dark_oak_door ? Items.dark_oak_door : Items.oak_door)))));
+        return this == Blocks.iron_door ? Items.iron_door : this == Blocks.spruce_door ? Items.spruce_door : this == Blocks.birch_door ? Items.birch_door : this == Blocks.jungle_door ? Items.jungle_door : this == Blocks.acacia_door ? Items.acacia_door : this == Blocks.dark_oak_door ? Items.dark_oak_door : Items.oak_door;
     }
 
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)

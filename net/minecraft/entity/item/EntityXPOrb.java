@@ -211,7 +211,7 @@ public class EntityXPOrb extends Entity
      */
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
-        tagCompound.setShort("Health", (short)((byte)this.xpOrbHealth));
+        tagCompound.setShort("Health", (short) (byte)this.xpOrbHealth);
         tagCompound.setShort("Age", (short)this.xpOrbAge);
         tagCompound.setShort("Value", (short)this.xpValue);
     }
@@ -258,7 +258,7 @@ public class EntityXPOrb extends Entity
      */
     public int getTextureByXP()
     {
-        return this.xpValue >= 2477 ? 10 : (this.xpValue >= 1237 ? 9 : (this.xpValue >= 617 ? 8 : (this.xpValue >= 307 ? 7 : (this.xpValue >= 149 ? 6 : (this.xpValue >= 73 ? 5 : (this.xpValue >= 37 ? 4 : (this.xpValue >= 17 ? 3 : (this.xpValue >= 7 ? 2 : (this.xpValue >= 3 ? 1 : 0)))))))));
+        return this.xpValue >= 2477 ? 10 : this.xpValue >= 1237 ? 9 : this.xpValue >= 617 ? 8 : this.xpValue >= 307 ? 7 : this.xpValue >= 149 ? 6 : this.xpValue >= 73 ? 5 : this.xpValue >= 37 ? 4 : this.xpValue >= 17 ? 3 : this.xpValue >= 7 ? 2 : this.xpValue >= 3 ? 1 : 0;
     }
 
     /**
@@ -266,7 +266,7 @@ public class EntityXPOrb extends Entity
      */
     public static int getXPSplit(int expValue)
     {
-        return expValue >= 2477 ? 2477 : (expValue >= 1237 ? 1237 : (expValue >= 617 ? 617 : (expValue >= 307 ? 307 : (expValue >= 149 ? 149 : (expValue >= 73 ? 73 : (expValue >= 37 ? 37 : (expValue >= 17 ? 17 : (expValue >= 7 ? 7 : (expValue >= 3 ? 3 : 1)))))))));
+        return expValue >= 2477 ? 2477 : expValue >= 1237 ? 1237 : expValue >= 617 ? 617 : expValue >= 307 ? 307 : expValue >= 149 ? 149 : expValue >= 73 ? 73 : expValue >= 37 ? 37 : expValue >= 17 ? 17 : expValue >= 7 ? 7 : expValue >= 3 ? 3 : 1;
     }
 
     /**

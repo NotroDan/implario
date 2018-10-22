@@ -109,7 +109,7 @@ public abstract class Render<T extends Entity> {
 		float f3 = entity.height / f;
 		float f4 = (float) (entity.posY - entity.getEntityBoundingBox().minY);
 		GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		GlStateManager.translate(0.0F, 0.0F, -0.3F + (float) ((int) f3) * 0.02F);
+		GlStateManager.translate(0.0F, 0.0F, -0.3F + (float) (int) f3 * 0.02F);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		float f5 = 0.0F;
 		int i = 0;

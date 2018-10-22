@@ -135,7 +135,7 @@ public class EntityOcelot extends EntityTameable
      */
     protected String getLivingSound()
     {
-        return this.isTamed() ? (this.isInLove() ? "mob.cat.purr" : (this.rand.nextInt(4) == 0 ? "mob.cat.purreow" : "mob.cat.meow")) : "";
+        return this.isTamed() ? this.isInLove() ? "mob.cat.purr" : this.rand.nextInt(4) == 0 ? "mob.cat.purreow" : "mob.cat.meow" : "";
     }
 
     /**
@@ -340,7 +340,7 @@ public class EntityOcelot extends EntityTameable
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.getCustomNameTag() : (this.isTamed() ? StatCollector.translateToLocal("entity.Cat.name") : super.getName());
+        return this.hasCustomName() ? this.getCustomNameTag() : this.isTamed() ? StatCollector.translateToLocal("entity.Cat.name") : super.getName();
     }
 
     public void setTamed(boolean tamed)

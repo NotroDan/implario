@@ -85,7 +85,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
 
     public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
     {
-        return !this.isPowered(state) ? 0 : (state.getValue(FACING) == side ? this.getActiveSignal(worldIn, pos, state) : 0);
+        return !this.isPowered(state) ? 0 : state.getValue(FACING) == side ? this.getActiveSignal(worldIn, pos, state) : 0;
     }
 
     /**
@@ -172,7 +172,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
         Block block = iblockstate.getBlock();
-        return this.canPowerSide(block) ? (block == Blocks.redstone_wire ? ((Integer)iblockstate.getValue(BlockRedstoneWire.POWER)).intValue() : worldIn.getStrongPower(pos, side)) : 0;
+        return this.canPowerSide(block) ? block == Blocks.redstone_wire ? ((Integer)iblockstate.getValue(BlockRedstoneWire.POWER)).intValue() : worldIn.getStrongPower(pos, side) : 0;
     }
 
     /**

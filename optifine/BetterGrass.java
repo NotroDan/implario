@@ -34,7 +34,7 @@ public class BetterGrass
         {
             if (p_getFaceQuads_1_ instanceof BlockMycelium)
             {
-                return Config.isBetterGrassFancy() ? (getBlockAt(p_getFaceQuads_2_.down(), p_getFaceQuads_3_, p_getFaceQuads_0_) == Blocks.mycelium ? modelCubeMycelium.getFaceQuads(p_getFaceQuads_3_) : p_getFaceQuads_4_) : modelCubeMycelium.getFaceQuads(p_getFaceQuads_3_);
+                return Config.isBetterGrassFancy() ? getBlockAt(p_getFaceQuads_2_.down(), p_getFaceQuads_3_, p_getFaceQuads_0_) == Blocks.mycelium ? modelCubeMycelium.getFaceQuads(p_getFaceQuads_3_) : p_getFaceQuads_4_ : modelCubeMycelium.getFaceQuads(p_getFaceQuads_3_);
             }
             else
             {

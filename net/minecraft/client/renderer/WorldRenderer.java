@@ -329,14 +329,14 @@ public class WorldRenderer
 
             case 4:
             case 5:
-                this.byteBuffer.putShort(i, (short)((int)p_181673_3_));
-                this.byteBuffer.putShort(i + 2, (short)((int)p_181673_1_));
+                this.byteBuffer.putShort(i, (short) (int)p_181673_3_);
+                this.byteBuffer.putShort(i + 2, (short) (int)p_181673_1_);
                 break;
 
             case 6:
             case 7:
-                this.byteBuffer.put(i, (byte)((int)p_181673_3_));
-                this.byteBuffer.put(i + 1, (byte)((int)p_181673_1_));
+                this.byteBuffer.put(i, (byte) (int)p_181673_3_);
+                this.byteBuffer.put(i + 1, (byte) (int)p_181673_1_);
         }
 
         this.func_181667_k();
@@ -599,16 +599,16 @@ public class WorldRenderer
 
             case 4:
             case 5:
-                this.byteBuffer.putShort(i, (short)((int)(p_181662_1_ + this.xOffset)));
-                this.byteBuffer.putShort(i + 2, (short)((int)(p_181662_3_ + this.yOffset)));
-                this.byteBuffer.putShort(i + 4, (short)((int)(p_181662_5_ + this.zOffset)));
+                this.byteBuffer.putShort(i, (short) (int)(p_181662_1_ + this.xOffset));
+                this.byteBuffer.putShort(i + 2, (short) (int)(p_181662_3_ + this.yOffset));
+                this.byteBuffer.putShort(i + 4, (short) (int)(p_181662_5_ + this.zOffset));
                 break;
 
             case 6:
             case 7:
-                this.byteBuffer.put(i, (byte)((int)(p_181662_1_ + this.xOffset)));
-                this.byteBuffer.put(i + 1, (byte)((int)(p_181662_3_ + this.yOffset)));
-                this.byteBuffer.put(i + 2, (byte)((int)(p_181662_5_ + this.zOffset)));
+                this.byteBuffer.put(i, (byte) (int)(p_181662_1_ + this.xOffset));
+                this.byteBuffer.put(i + 1, (byte) (int)(p_181662_3_ + this.yOffset));
+                this.byteBuffer.put(i + 2, (byte) (int)(p_181662_5_ + this.zOffset));
         }
 
         this.func_181667_k();
@@ -617,9 +617,9 @@ public class WorldRenderer
 
     public void putNormal(float x, float y, float z)
     {
-        int i = (byte)((int)(x * 127.0F)) & 255;
-        int j = (byte)((int)(y * 127.0F)) & 255;
-        int k = (byte)((int)(z * 127.0F)) & 255;
+        int i = (byte) (int)(x * 127.0F) & 255;
+        int j = (byte) (int)(y * 127.0F) & 255;
+        int k = (byte) (int)(z * 127.0F) & 255;
         int l = i | j << 8 | k << 16;
         int i1 = this.vertexFormat.getNextOffset() >> 2;
         int j1 = (this.vertexCount - 4) * i1 + this.vertexFormat.getNormalOffset() / 4;

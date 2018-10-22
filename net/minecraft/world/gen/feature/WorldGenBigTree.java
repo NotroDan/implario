@@ -147,7 +147,7 @@ public class WorldGenBigTree extends WorldGenAbstractTree
 
     float leafSize(int p_76495_1_)
     {
-        return p_76495_1_ >= 0 && p_76495_1_ < this.leafDistanceLimit ? (p_76495_1_ != 0 && p_76495_1_ != this.leafDistanceLimit - 1 ? 3.0F : 2.0F) : -1.0F;
+        return p_76495_1_ >= 0 && p_76495_1_ < this.leafDistanceLimit ? p_76495_1_ != 0 && p_76495_1_ != this.leafDistanceLimit - 1 ? 3.0F : 2.0F : -1.0F;
     }
 
     /**
@@ -185,7 +185,7 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         int i = MathHelper.abs_int(posIn.getX());
         int j = MathHelper.abs_int(posIn.getY());
         int k = MathHelper.abs_int(posIn.getZ());
-        return k > i && k > j ? k : (j > i ? j : i);
+        return k > i && k > j ? k : j > i ? j : i;
     }
 
     private BlockLog.EnumAxis func_175938_b(BlockPos p_175938_1_, BlockPos p_175938_2_)

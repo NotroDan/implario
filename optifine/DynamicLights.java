@@ -209,7 +209,7 @@ public class DynamicLights
                 }
             }
 
-            return item == Items.lava_bucket ? Blocks.lava.getLightValue() : (item != Items.blaze_rod && item != Items.blaze_powder ? (item == Items.glowstone_dust ? 8 : (item == Items.prismarine_crystals ? 8 : (item == Items.magma_cream ? 8 : (item == Items.nether_star ? Blocks.beacon.getLightValue() / 2 : 0)))) : 10);
+            return item == Items.lava_bucket ? Blocks.lava.getLightValue() : item != Items.blaze_rod && item != Items.blaze_powder ? item == Items.glowstone_dust ? 8 : item == Items.prismarine_crystals ? 8 : item == Items.magma_cream ? 8 : item == Items.nether_star ? Blocks.beacon.getLightValue() / 2 : 0 : 10;
         }
     }
 

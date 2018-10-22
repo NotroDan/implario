@@ -126,7 +126,7 @@ public class ItemArmor extends Item
      */
     public boolean hasColor(ItemStack stack)
     {
-        return this.material != ItemArmor.ArmorMaterial.LEATHER ? false : (!stack.hasTagCompound() ? false : (!stack.getTagCompound().hasKey("display", 10) ? false : stack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
+        return this.material != ItemArmor.ArmorMaterial.LEATHER ? false : !stack.hasTagCompound() ? false : !stack.getTagCompound().hasKey("display", 10) ? false : stack.getTagCompound().getCompoundTag("display").hasKey("color", 3);
     }
 
     /**
@@ -270,7 +270,7 @@ public class ItemArmor extends Item
 
         public Item getRepairItem()
         {
-            return this == LEATHER ? Items.leather : (this == CHAIN ? Items.iron_ingot : (this == GOLD ? Items.gold_ingot : (this == IRON ? Items.iron_ingot : (this == DIAMOND ? Items.diamond : null))));
+            return this == LEATHER ? Items.leather : this == CHAIN ? Items.iron_ingot : this == GOLD ? Items.gold_ingot : this == IRON ? Items.iron_ingot : this == DIAMOND ? Items.diamond : null;
         }
 
         public String getName()
