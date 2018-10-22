@@ -1,6 +1,9 @@
 package net.minecraft.client;
 
-import com.google.common.collect.*;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Queues;
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
@@ -79,8 +82,6 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -106,7 +107,7 @@ import java.util.concurrent.FutureTask;
 import static net.minecraft.client.settings.KeyBinding.*;
 
 public class Minecraft implements IThreadListener {
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = new Logger();
 	private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
 	public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
 
@@ -302,9 +303,9 @@ public class Minecraft implements IThreadListener {
 		this.launchedVersion = gameConfig.gameInfo.version;
 		this.twitchDetails = gameConfig.userInfo.userProperties;
 		this.field_181038_N = gameConfig.userInfo.field_181172_c;
-		this.mcDefaultResourcePack = new DefaultResourcePack((new ResourceIndex(gameConfig.folderInfo.assetsDir, gameConfig.folderInfo.assetIndex)).getResourceMap());
+		this.mcDefaultResourcePack = new DefaultResourcePack(new ResourceIndex(gameConfig.folderInfo.assetsDir, gameConfig.folderInfo.assetIndex).getResourceMap());
 		this.proxy = gameConfig.userInfo.proxy == null ? Proxy.NO_PROXY : gameConfig.userInfo.proxy;
-		this.sessionService = (new YggdrasilAuthenticationService(gameConfig.userInfo.proxy, UUID.randomUUID().toString())).createMinecraftSessionService();
+		this.sessionService = new YggdrasilAuthenticationService(gameConfig.userInfo.proxy, UUID.randomUUID().toString()).createMinecraftSessionService();
 		this.session = gameConfig.userInfo.session;
 		logger.info("Setting user: " + this.session.getUsername());
 		logger.info("(Session ID is " + this.session.getSessionID() + ")");
@@ -494,7 +495,7 @@ public class Minecraft implements IThreadListener {
 		Display.setTitle("Minecraft 1.8.8");
 
 		try {
-			Display.create((new PixelFormat()).withDepthBits(24));
+			Display.create(new PixelFormat().withDepthBits(24));
 		} catch (LWJGLException lwjglexception) {
 			logger.error("Couldn\'t set pixel format", lwjglexception);
 
@@ -590,7 +591,7 @@ public class Minecraft implements IThreadListener {
 	 */
 	public void displayCrashReport(CrashReport crashReportIn) {
 		File file1 = new File(getMinecraft().mcDataDir, "crash-reports");
-		File file2 = new File(file1, "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-client.txt");
+		File file2 = new File(file1, "crash-" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + "-client.txt");
 		Bootstrap.print(crashReportIn.getCompleteReport());
 
 		if (crashReportIn.getFile() != null) {
@@ -720,7 +721,7 @@ label53:
 			this.mojangLogo = txtmgr.getDynamicTextureLocation("logo", new DynamicTexture(ImageIO.read(inputstream)));
 			txtmgr.bindTexture(this.mojangLogo);
 		} catch (IOException ioexception) {
-			logger.error(("Unable to load logo: " + locationMojangPng), ioexception);
+			logger.error("Unable to load logo: " + locationMojangPng, ioexception);
 		} finally {
 			IOUtils.closeQuietly(inputstream);
 		}
@@ -1402,7 +1403,7 @@ label53:
 			} catch (Throwable throwable1) {
 				CrashReport crashreport = CrashReport.makeCrashReport(throwable1, "Updating screen events");
 				CrashReportCategory crashreportcategory = crashreport.makeCategory("Affected screen");
-				crashreportcategory.addCrashSectionCallable("Screen name", () -> Minecraft.this.currentScreen.getClass().getCanonicalName());
+				crashreportcategory.addCrashSectionCallable("Screen name", () -> this.currentScreen.getClass().getCanonicalName());
 				throw new ReportedException(crashreport);
 			}
 
@@ -1412,7 +1413,7 @@ label53:
 				} catch (Throwable throwable) {
 					CrashReport crashreport1 = CrashReport.makeCrashReport(throwable, "Ticking screen");
 					CrashReportCategory crashreportcategory1 = crashreport1.makeCategory("Affected screen");
-					crashreportcategory1.addCrashSectionCallable("Screen name", () -> Minecraft.this.currentScreen.getClass().getCanonicalName());
+					crashreportcategory1.addCrashSectionCallable("Screen name", () -> this.currentScreen.getClass().getCanonicalName());
 					throw new ReportedException(crashreport1);
 				}
 			}
@@ -2017,14 +2018,14 @@ label53:
 	 * adds core server Info (GL version , Texture pack, isModded, type), and the worldInfo to the crash report
 	 */
 	public CrashReport addGraphicsAndWorldToCrashReport(CrashReport theCrash) {
-		theCrash.getCategory().addCrashSectionCallable("Launched Version", () -> Minecraft.this.launchedVersion);
+		theCrash.getCategory().addCrashSectionCallable("Launched Version", () -> this.launchedVersion);
 		theCrash.getCategory().addCrashSectionCallable("LWJGL", Sys::getVersion);
 		theCrash.getCategory().addCrashSectionCallable("OpenGL", () -> GL11.glGetString(GL11.GL_RENDERER) + " GL version " + GL11.glGetString(GL11.GL_VERSION) + ", " + GL11.glGetString(GL11.GL_VENDOR));
 		theCrash.getCategory().addCrashSectionCallable("GL Caps", OpenGlHelper::getLogText);
 		theCrash.getCategory().addCrashSectionCallable("Using VBOs", () -> Settings.USE_VBO.b() ? "Yes" : "No");
 		theCrash.getCategory().addCrashSectionCallable("Is Modded", () -> {
 			String s = ClientBrandRetriever.getClientModName();
-			return !s.equals("vanilla") ? "Definitely; Client brand changed to \'" + s + "\'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and client brand is untouched.");
+			return !s.equals("vanilla") ? "Definitely; Client brand changed to \'" + s + "\'" : Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and client brand is untouched.";
 		});
 		theCrash.getCategory().addCrashSectionCallable("Type", () -> "Client (map_client.txt)");
 		theCrash.getCategory().addCrashSectionCallable("Resource Packs", () -> {
@@ -2045,9 +2046,9 @@ label53:
 			return stringbuilder.toString();
 		});
 		theCrash.getCategory().addCrashSectionCallable("Current Language",
-				() -> Minecraft.this.mcLanguageManager.getCurrentLanguage().toString());
+				() -> this.mcLanguageManager.getCurrentLanguage().toString());
 		theCrash.getCategory().addCrashSectionCallable("Profiler Position",
-				() -> Minecraft.this.mcProfiler.profilingEnabled ? Minecraft.this.mcProfiler.getNameOfLastSection() : "N/A (disabled)");
+				() -> this.mcProfiler.profilingEnabled ? this.mcProfiler.getNameOfLastSection() : "N/A (disabled)");
 		theCrash.getCategory().addCrashSectionCallable("CPU", OpenGlHelper::func_183029_j);
 
 		if (this.theWorld != null) {
@@ -2188,7 +2189,7 @@ label53:
 	}
 
 	public MusicTicker.MusicType getAmbientMusicType() {
-		return this.thePlayer != null ? (this.thePlayer.worldObj.provider instanceof WorldProviderHell ? MusicTicker.MusicType.NETHER : (this.thePlayer.worldObj.provider instanceof WorldProviderEnd ? (BossStatus.bossName != null && BossStatus.statusBarTime > 0 ? MusicTicker.MusicType.END_BOSS : MusicTicker.MusicType.END) : (this.thePlayer.capabilities.isCreativeMode && this.thePlayer.capabilities.allowFlying ? MusicTicker.MusicType.CREATIVE : MusicTicker.MusicType.GAME))) : MusicTicker.MusicType.MENU;
+		return this.thePlayer != null ? this.thePlayer.worldObj.provider instanceof WorldProviderHell ? MusicTicker.MusicType.NETHER : this.thePlayer.worldObj.provider instanceof WorldProviderEnd ? BossStatus.bossName != null && BossStatus.statusBarTime > 0 ? MusicTicker.MusicType.END_BOSS : MusicTicker.MusicType.END : this.thePlayer.capabilities.isCreativeMode && this.thePlayer.capabilities.allowFlying ? MusicTicker.MusicType.CREATIVE : MusicTicker.MusicType.GAME : MusicTicker.MusicType.MENU;
 	}
 
 	public void dispatchKeypresses() {

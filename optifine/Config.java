@@ -21,7 +21,7 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
@@ -74,7 +74,7 @@ public class Config {
 	private static boolean desktopModeChecked = false;
 	private static DefaultResourcePack defaultResourcePackLazy = null;
 	public static final Float DEF_ALPHA_FUNC_LEVEL = 0.1F;
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = Logger.getInstance();
 
 	public static String getVersion() {
 		return "OptiFine_1.8.8_HD_U_H8";

@@ -17,11 +17,11 @@ import net.minecraft.world.storage.SaveFormatComparator;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final DateFormat field_146633_h = new SimpleDateFormat();
     protected GuiScreen parentScreen;
     protected String field_146628_f = "Select world";

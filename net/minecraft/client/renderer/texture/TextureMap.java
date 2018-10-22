@@ -18,7 +18,7 @@ import optifine.ConnectedTextures;
 import optifine.Reflector;
 import optifine.TextureUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import shadersmod.client.ShadersTex;
 
 import java.awt.*;
@@ -33,7 +33,7 @@ import java.util.concurrent.Callable;
 public class TextureMap extends AbstractTexture implements ITickableTextureObject
 {
     private static final boolean ENABLE_SKIP = Boolean.parseBoolean(System.getProperty("fml.skipFirstTextureLoad", "true"));
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     public static final ResourceLocation LOCATION_MISSING_TEXTURE = new ResourceLocation("missingno");
     public static final ResourceLocation locationBlocksTexture = new ResourceLocation("textures/atlas/blocks.png");
     private final List listAnimatedSprites;

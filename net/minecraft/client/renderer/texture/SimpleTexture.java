@@ -10,12 +10,12 @@ import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import shadersmod.client.ShadersTex;
 
 public class SimpleTexture extends AbstractTexture
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     protected final ResourceLocation textureLocation;
     private static final String __OBFID = "CL_00001052";
 

@@ -3,11 +3,11 @@ package net.minecraft.potion;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class PotionEffect
 {
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = Logger.getInstance();
 
     /** ID value of the potion this effect matches. */
     private int potionID;

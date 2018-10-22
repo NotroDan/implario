@@ -58,11 +58,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.storage.MapData;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class EntityTrackerEntry
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
 
     /** The entity that this EntityTrackerEntry tracks. */
     public Entity trackedEntity;

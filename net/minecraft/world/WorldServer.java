@@ -69,11 +69,11 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class WorldServer extends World implements IThreadListener
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final MinecraftServer mcServer;
     private final EntityTracker theEntityTracker;
     private final PlayerManager thePlayerManager;

@@ -9,7 +9,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class SimpleReloadableResourceManager implements IReloadableResourceManager
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static final Joiner joinerResourcePacks = Joiner.on(", ");
     private final Map<String, FallbackResourceManager> domainResourceManagers = Maps.<String, FallbackResourceManager>newHashMap();
     private final List<IResourceManagerReloadListener> reloadListeners = Lists.<IResourceManagerReloadListener>newArrayList();

@@ -1,35 +1,41 @@
 package net.minecraft.client.gui.element;
 
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.HoverButton;
-import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 
-public class GuiButtonLanguage extends HoverButton
-{
-    public GuiButtonLanguage(int buttonID, int xPos, int yPos)
-    {
-        super(buttonID, xPos, yPos, 20, 20, "", "Изменить язык");
-    }
+import java.util.List;
 
-    /**
-     * Draws this button to the screen.
-     */
-    public void drawButton(Minecraft mc, int mouseX, int mouseY)
-    {
-        if (this.visible)
-        {
-            mc.getTextureManager().bindTexture(GuiButton.buttonTextures);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            boolean flag = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-            int i = 106;
+public class GuiButtonLanguage extends GuiButton implements HoverButton {
 
-            if (flag)
-            {
-                i += this.height;
-            }
+	private static final List<String> text = Lists.newArrayList("Изменить язык");
 
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, i, this.width, this.height);
-        }
-    }
+	public GuiButtonLanguage(int buttonID, int xPos, int yPos) {
+		super(buttonID, xPos, yPos, 20, 20, "");
+	}
+
+	@Override
+	public List<String> getHoverText() {
+		return text;
+	}
+
+	/**
+	 * Draws this button to the screen.
+	 */
+	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+		if (this.visible) {
+			mc.getTextureManager().bindTexture(GuiButton.buttonTextures);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			boolean flag = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			int i = 106;
+
+			if (flag) {
+				i += this.height;
+			}
+
+			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, i, this.width, this.height);
+		}
+	}
+
 }

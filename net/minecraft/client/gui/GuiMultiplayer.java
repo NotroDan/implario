@@ -13,12 +13,12 @@ import net.minecraft.client.network.LanServerDetector;
 import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.client.resources.I18n;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.input.Keyboard;
 
 public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final OldServerPinger oldServerPinger = new OldServerPinger();
     private GuiScreen parentScreen;
     private ServerSelectionList serverListSelector;

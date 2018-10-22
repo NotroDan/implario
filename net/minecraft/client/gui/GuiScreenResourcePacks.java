@@ -8,7 +8,7 @@ import net.minecraft.client.resources.*;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.Sys;
 
 import java.io.File;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GuiScreenResourcePacks extends GuiScreen {
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 	private final GuiScreen parentScreen;
 	private List<ResourcePackListEntry> availableResourcePacks;
 	private List<ResourcePackListEntry> selectedResourcePacks;

@@ -12,12 +12,12 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class LayeredColorMaskTexture extends AbstractTexture
 {
     /** Access to the Logger, for all your logging needs. */
-    private static final Logger LOG = LogManager.getLogger();
+    private static final Logger LOG = Logger.getInstance();
 
     /** The location of the texture. */
     private final ResourceLocation textureLocation;

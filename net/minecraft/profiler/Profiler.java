@@ -6,13 +6,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import optifine.Config;
 import optifine.Lagometer;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.util.*;
 
 public class Profiler {
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 
 	/**
 	 * List of parent sections

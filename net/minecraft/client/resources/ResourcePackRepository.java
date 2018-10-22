@@ -23,7 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
@@ -35,7 +35,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ResourcePackRepository {
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 	private static final FileFilter resourcePackFilter = f -> {
 		boolean flag = f.isFile() && f.getName().endsWith(".zip");
 		boolean flag1 = f.isDirectory() && (new File(f, "pack.mcmeta")).isFile();

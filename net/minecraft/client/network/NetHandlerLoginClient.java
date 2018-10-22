@@ -25,11 +25,11 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class NetHandlerLoginClient implements INetHandlerLoginClient
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final Minecraft mc;
     private final GuiScreen previousGuiScreen;
     private final NetworkManager networkManager;

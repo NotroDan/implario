@@ -162,7 +162,7 @@ public class Utils {
 		int 	a1 = a >> 24 & 0xff, a2 = b >> 24 & 0xff,
 				r1 = a >> 16 & 0xff, r2 = b >> 16 & 0xff,
 				g1 = a >> 8  & 0xff, g2 = b >> 8  & 0xff,
-				b1 = a & 0xff, b2 = b & 0xff;
+				b1 = a 			& 0xff, b2 = b & 0xff;
 		int a0 = (int) (a1 * p + a2 * (1 - p));
 		int r0 = (int) (r1 * p + r2 * (1 - p));
 		int g0 = (int) (g1 * p + g2 * (1 - p));

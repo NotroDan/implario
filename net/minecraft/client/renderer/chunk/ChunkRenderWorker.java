@@ -13,11 +13,11 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumWorldBlockLayer;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class ChunkRenderWorker implements Runnable
 {
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = Logger.getInstance();
     private final ChunkRenderDispatcher chunkRenderDispatcher;
     private final RegionRenderCacheBuilder regionRenderCacheBuilder;
 

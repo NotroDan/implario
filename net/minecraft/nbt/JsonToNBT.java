@@ -6,11 +6,11 @@ import com.google.common.collect.Lists;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class JsonToNBT
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static final Pattern field_179273_b = Pattern.compile("\\[[-+\\d|,\\s]+\\]");
 
     public static NBTTagCompound getTagFromJson(String jsonString) throws NBTException

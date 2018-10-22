@@ -17,11 +17,11 @@ import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public abstract class AbstractResourcePack implements IResourcePack
 {
-    private static final Logger resourceLog = LogManager.getLogger();
+    private static final Logger resourceLog = Logger.getInstance();
     public final File resourcePackFile;
     private static final String __OBFID = "CL_00001072";
 

@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.openal.AL;
 
 import java.io.FileNotFoundException;
@@ -27,7 +27,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 public class SoundHandler implements IResourceManagerReloadListener, ITickable {
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 	private static final Gson GSON = (new GsonBuilder()).registerTypeAdapter(SoundList.class, new SoundListSerializer()).create();
 	private static final ParameterizedType TYPE = new ParameterizedType() {
 		public Type[] getActualTypeArguments() {

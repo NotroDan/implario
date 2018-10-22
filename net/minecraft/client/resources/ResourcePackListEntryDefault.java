@@ -8,13 +8,13 @@ import net.minecraft.client.resources.data.PackMetadataSection;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.io.IOException;
 
 public class ResourcePackListEntryDefault extends ResourcePackListEntry
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final IResourcePack field_148320_d;
     private final ResourceLocation resourcePackIcon;
 

@@ -51,7 +51,7 @@ import net.minecraft.world.WorldSettings;
 import net.minecraft.world.biome.BiomeGenBase;
 import optifine.*;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -72,7 +72,7 @@ import java.util.concurrent.Callable;
 
 public class EntityRenderer implements IResourceManagerReloadListener {
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 	private static final ResourceLocation locationRainPng = new ResourceLocation("textures/environment/rain.png");
 	private static final ResourceLocation locationSnowPng = new ResourceLocation("textures/environment/snow.png");
 

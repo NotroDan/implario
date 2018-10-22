@@ -16,11 +16,11 @@ import java.util.Map.Entry;
 import net.minecraft.util.JsonUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class ResourceIndex
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final Map<String, File> resourceMap = Maps.<String, File>newHashMap();
 
     public ResourceIndex(File p_i1047_1_, String p_i1047_2_)

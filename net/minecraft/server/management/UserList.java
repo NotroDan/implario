@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class UserList<K, V extends UserListEntry<K>>
 {
-    protected static final Logger logger = LogManager.getLogger();
+    protected static final Logger logger = Logger.getInstance();
     protected final Gson gson;
     private final File saveFile;
     private final Map<String, V> values = Maps.<String, V>newHashMap();

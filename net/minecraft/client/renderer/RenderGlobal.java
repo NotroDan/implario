@@ -57,7 +57,7 @@ import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
 import optifine.*;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
@@ -72,7 +72,7 @@ import java.util.concurrent.Callable;
 
 public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListener {
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 	private static final ResourceLocation locationMoonPhasesPng = new ResourceLocation("textures/environment/moon_phases.png");
 	private static final ResourceLocation locationSunPng = new ResourceLocation("textures/environment/sun.png");
 	private static final ResourceLocation locationCloudsPng = new ResourceLocation("textures/environment/clouds.png");

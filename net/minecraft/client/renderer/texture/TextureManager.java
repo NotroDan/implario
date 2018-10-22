@@ -18,12 +18,12 @@ import optifine.Config;
 import optifine.RandomMobs;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import shadersmod.client.ShadersTex;
 
 public class TextureManager implements ITickable, IResourceManagerReloadListener
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final Map mapTextureObjects = Maps.newHashMap();
     private final List listTickables = Lists.newArrayList();
     private final Map mapTextureCounters = Maps.newHashMap();

@@ -21,11 +21,11 @@ import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.TupleIntJsonSerializable;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class StatisticsFile extends StatFileWriter
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final MinecraftServer mcServer;
     private final File statsFile;
     private final Set<StatBase> field_150888_e = Sets.<StatBase>newHashSet();

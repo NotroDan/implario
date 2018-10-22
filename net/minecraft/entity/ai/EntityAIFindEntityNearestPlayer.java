@@ -13,11 +13,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.scoreboard.Team;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class EntityAIFindEntityNearestPlayer extends EntityAIBase
 {
-    private static final Logger field_179436_a = LogManager.getLogger();
+    private static final Logger field_179436_a = Logger.getInstance();
     private EntityLiving field_179434_b;
     private final Predicate<Entity> field_179435_c;
     private final EntityAINearestAttackableTarget.Sorter field_179432_d;

@@ -66,7 +66,7 @@ public enum Settings {
 	LAGOMETER("Лагометр", false),
 	BETTER_GRASS("Улучшенная трава", 0, "§cВыкл.", "Быстро", "Детально"),
 	ANIMATED_REDSTONE("Редстоун", true),
-	ANIMATED_EXPLOSION("Вызрывы", true),
+	ANIMATED_EXPLOSION("Взрывы", true),
 	ANIMATED_FLAME("Пламя", true),
 	ANIMATED_SMOKE("Дым", true),
 	WEATHER("Погода", true),
@@ -88,7 +88,7 @@ public enum Settings {
 	PROFILER("Профайлер", false),
 	DRIPPING_WATER_LAVA("Капли лавы/воды", true),
 	BETTER_SNOW("Улучшенный снег", false),
-	ANIMATED_TERRAIN("Анимированное окружение", true),
+	ANIMATED_TERRAIN("Окружение", true),
 	SWAMP_COLORS("Болотные цвета", true),
 	RANDOM_MOBS("Случайные мобы", false),
 	SMOOTH_BIOMES("Гладкие биомы", true),
@@ -99,7 +99,7 @@ public enum Settings {
 	CUSTOM_ITEMS("Кастомные предметы", true),
 	AA_LEVEL("Антиалиасинг", 0, 16, 2, 0),
 	AF_LEVEL("Анизотропная фильтрация", 0, 16, 4, 0),
-	ANIMATED_TEXTURES("Анимированные текстуры", true),
+	ANIMATED_TEXTURES("Текстуры", true),
 	NATURAL_TEXTURES("Природные текстуры", true),
 	HELD_ITEM_TOOLTIPS("Подсказки о предмете в руке", true),
 	DROPPED_ITEMS("3D-Предметы", true),
@@ -142,6 +142,7 @@ public enum Settings {
 	public static EnumDifficulty difficulty = EnumDifficulty.NORMAL;
 	public static String lastServer = "";
 	public static String language = "ru_RU";
+	public boolean changed = false;
 
 	private static final Gson gson = new Gson();
 	private static final ParameterizedType gsonType = new ParameterizedType() {
@@ -217,7 +218,7 @@ public enum Settings {
 					exception.printStackTrace();
 				}
 			}
-
+			for (Settings settings : values()) settings.changed = false;
 			KeyBinding.resetKeyBindingArrayAndHash();
 			bufferedreader.close();
 		} catch (Exception ex) {
@@ -238,6 +239,7 @@ public enum Settings {
 			w.println("lang: " + language);
 			for (Settings s : values()) w.println(s.base.toString());
 			w.close();
+			for (Settings settings : values()) settings.changed = false;
 		} catch (Exception exception) {
 			System.out.println("Не удалось сохранить опции.");
 			exception.printStackTrace();

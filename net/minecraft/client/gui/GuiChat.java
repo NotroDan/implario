@@ -6,7 +6,7 @@ import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class GuiChat extends GuiScreen {
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 	private String historyBuffer = "";
 
 	/**

@@ -16,11 +16,11 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class PlayerManager
 {
-    private static final Logger pmLogger = LogManager.getLogger();
+    private static final Logger pmLogger = Logger.getInstance();
     private final WorldServer theWorldServer;
     private final List<EntityPlayerMP> players = Lists.<EntityPlayerMP>newArrayList();
     private final LongHashMap playerInstances = new LongHashMap();

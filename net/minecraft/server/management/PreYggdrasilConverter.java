@@ -14,11 +14,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class PreYggdrasilConverter
 {
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = Logger.getInstance();
     public static final File OLD_IPBAN_FILE = new File("banned-ips.txt");
     public static final File OLD_PLAYERBAN_FILE = new File("banned-players.txt");
     public static final File OLD_OPS_FILE = new File("ops.txt");

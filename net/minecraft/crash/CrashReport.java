@@ -7,7 +7,7 @@ import optifine.Reflector;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 public class CrashReport {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
 
     private final String description;
 

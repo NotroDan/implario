@@ -9,14 +9,14 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class GuiNewChat extends Gui {
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 	private final Minecraft mc;
 	private final List<String> sentMessages = Lists.newArrayList();
 	private final List<ChatLine> chatLines = Lists.newArrayList();

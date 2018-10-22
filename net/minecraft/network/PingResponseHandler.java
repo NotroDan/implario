@@ -9,11 +9,11 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import java.net.InetSocketAddress;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class PingResponseHandler extends ChannelInboundHandlerAdapter
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private NetworkSystem networkSystem;
 
     public PingResponseHandler(NetworkSystem networkSystemIn)

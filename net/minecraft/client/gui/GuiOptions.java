@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.*;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
@@ -45,8 +46,30 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		y = tabs.y;
 		tabs.add("Графика",
-				createButton(Settings.VIEW_BOBBING, x1, y += 22),
-				createButton(Settings.FBO_ENABLE, x2, y)
+				createButton(Settings.RENDER_DISTANCE, x1, y += 22),
+				createButton(Settings.FBO_ENABLE, x2, y),
+				createButton(Settings.USE_VBO, x1, y += 22),
+				createButton(Settings.VIEW_BOBBING, x2, y),
+				createButton(Settings.ENABLE_VSYNC, x1, y += 22),
+				createButton(Settings.FAST_RENDER, x2, y),
+				createButton(Settings.AA_LEVEL, x1, y += 22),
+				createButton(Settings.AO_LEVEL, x2, y),
+				createButton(Settings.AF_LEVEL, x1, y += 22),
+				createButton(Settings.LAZY_CHUNK_LOADING, x2, y),
+				createButton(Settings.DYNAMIC_LIGHTS, x1, y += 22),
+				createButton(Settings.CHUNK_UPDATES_DYNAMIC, x2, y),
+				createButton(Settings.DYNAMIC_FOV, x1, y += 22),
+				createButton(Settings.MIPMAP_LEVELS, x2, y),
+				createButton(Settings.MIPMAP_TYPE, x1, y += 22)//,
+//				createButton(Settings., x2, y),
+//				createButton(Settings., x1, y += 22),
+//				createButton(Settings., x2, y),
+//				createButton(Settings., x1, y += 22),
+//				createButton(Settings., x2, y),
+//				createButton(Settings., x1, y += 22),
+//				createButton(Settings., x2, y),
+//				createButton(Settings., x1, y += 22),
+//				createButton(Settings., x2, y),
 				);
 
 		y = tabs.y;
@@ -76,12 +99,32 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.MODEL_RIGHT_SLEEVE, x1, y += 22),
 				createButton(Settings.MODEL_LEFT_SLEEVE, x1, y += 22),
 				createButton(Settings.MODEL_RIGHT_PANTS_LEG, x1, y += 22),
-				createButton(Settings.MODEL_LEFT_PANTS_LEG, x1, y += 22)
+				createButton(Settings.MODEL_LEFT_PANTS_LEG, x1, y + 22)
 				);
 
-		y = tabs.y;
+		y = tabs.y + 22;
+		x1 = width / 2 - 162;
 		tabs.add("Анимация",
-				new IconButton(Settings.ANIMATED_LAVA, x1, y + 40, new ItemStack(Items.lava_bucket))
+				new IconButton(Settings.ANIMATED_LAVA, x1, y, new ItemStack(Items.lava_bucket))
+						.setHoverText("§eАнимация лавы", "Включить/выключить анимацию", "течения лавы."),
+				new IconButton(Settings.ANIMATED_WATER, x1 += 65, y, new ItemStack(Items.water_bucket))
+						.setHoverText("§eАнимация воды", "Включить/выключить анимацию", "течения воды."),
+				new IconButton(Settings.ANIMATED_REDSTONE, x1 += 65, y, new ItemStack(Items.redstone))
+						.setHoverText("§eАнимация редстоуна", "Включить/выключить анимацию", "Красной пыли, находящейся", "Под напряжением."),
+				new IconButton(Settings.ANIMATED_EXPLOSION, x1 += 65, y, new ItemStack(Blocks.tnt))
+						.setHoverText("§eАнимация взрывов", "Включить/выключить отображение взрывов"),
+				new IconButton(Settings.ANIMATED_PORTAL, x1 + 65, y, new ItemStack(Blocks.obsidian))
+						.setHoverText("§eАнимация порталов", "Включить/выключить анимированные", "волны на текстуре порталов в ад"),
+				new IconButton(Settings.ANIMATED_FIRE, x1 = width / 2 - 162, y += 65, new ItemStack(Blocks.torch))
+						.setHoverText("§eАнимация огня", "Включить/выключить анимацию", "горящих блоков"),
+				new IconButton(Settings.ANIMATED_SMOKE, x1 += 65, y, new ItemStack(Items.dye, 1, 15))
+						.setHoverText("§eАнимация дыма", "Включить/выключить дым"),
+				new IconButton(Settings.ANIMATED_FLAME, x1 += 65, y, new ItemStack(Items.flint_and_steel))
+						.setHoverText("§eАнимация горения", "Включить/выключить анимацию", "горящих сущностей"),
+				new IconButton(Settings.ANIMATED_TERRAIN, x1 += 65, y, new ItemStack(Blocks.grass))
+						.setHoverText("§eАнимация окружения", "Включить/выключить живую природу"),
+				new IconButton(Settings.ANIMATED_TEXTURES, x1 + 65, y, new ItemStack(Items.painting))
+						.setHoverText("§eАнимированные текстуры", "Включить/выключить GIF-текстуры", "Распространяется только на Ресурс-паки")
 				);
 
 

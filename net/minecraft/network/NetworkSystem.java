@@ -43,11 +43,11 @@ import net.minecraft.util.MessageSerializer;
 import net.minecraft.util.MessageSerializer2;
 import net.minecraft.util.ReportedException;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class NetworkSystem
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     public static final LazyLoadBase<NioEventLoopGroup> eventLoops = new LazyLoadBase<NioEventLoopGroup>()
     {
         protected NioEventLoopGroup load()

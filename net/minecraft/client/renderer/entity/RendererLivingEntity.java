@@ -27,13 +27,13 @@ import optifine.Config;
 import optifine.Reflector;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
 
 public abstract class RendererLivingEntity<T extends EntityLivingBase> extends Render<T>
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static final DynamicTexture field_177096_e = new DynamicTexture(16, 16);
     protected ModelBase mainModel;
     protected FloatBuffer brightnessBuffer = GLAllocation.createDirectFloatBuffer(4);

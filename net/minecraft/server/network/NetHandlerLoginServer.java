@@ -29,12 +29,12 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable
 {
     private static final AtomicInteger AUTHENTICATOR_THREAD_ID = new AtomicInteger(0);
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static final Random RANDOM = new Random();
     private final byte[] verifyToken = new byte[4];
     private final MinecraftServer server;

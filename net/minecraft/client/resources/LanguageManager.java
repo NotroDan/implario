@@ -11,11 +11,11 @@ import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.client.resources.data.LanguageMetadataSection;
 import net.minecraft.util.StringTranslate;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class LanguageManager implements IResourceManagerReloadListener
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private final IMetadataSerializer theMetadataSerializer;
     private String currentLanguage;
     protected static final Locale currentLocale = new Locale();

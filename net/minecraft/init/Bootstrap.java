@@ -26,7 +26,7 @@ import net.minecraft.util.LoggingPrintStream;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.io.PrintStream;
 import java.util.Random;
@@ -35,7 +35,7 @@ public class Bootstrap {
 	private static final PrintStream SYSOUT = System.out;
 
 	private static boolean alreadyRegistered = false;
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = Logger.getInstance();
 
 	/**
 	 * Is Bootstrap registration already done?
@@ -79,7 +79,7 @@ public class Bootstrap {
 			private final BehaviorDefaultDispenseItem field_150843_b = new BehaviorDefaultDispenseItem();
 
 			public ItemStack dispense(IBlockSource source, final ItemStack stack) {
-				return ItemPotion.isSplash(stack.getMetadata()) ? (new BehaviorProjectileDispense() {
+				return ItemPotion.isSplash(stack.getMetadata()) ? new BehaviorProjectileDispense() {
 					protected IProjectile getProjectileEntity(World worldIn, IPosition position) {
 						return new EntityPotion(worldIn, position.getX(), position.getY(), position.getZ(), stack.copy());
 					}
@@ -91,7 +91,7 @@ public class Bootstrap {
 					protected float magicTwo() {
 						return super.magicTwo() * 1.25F;
 					}
-				}).dispense(source, stack) : this.field_150843_b.dispense(source, stack);
+				}.dispense(source, stack) : this.field_150843_b.dispense(source, stack);
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(Items.spawn_egg, new BehaviorDefaultDispenseItem() {
@@ -398,7 +398,8 @@ public class Bootstrap {
 	public static void register() {
 		if (!alreadyRegistered) {
 			alreadyRegistered = true;
-			if (LOGGER.isDebugEnabled()) redirectOutputToLog();
+			//if (LOGGER.isDebugEnabled())
+//				redirectOutputToLog();
 
 			Block.registerBlocks();
 			BlockFire.init();

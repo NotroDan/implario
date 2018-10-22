@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import paulscode.sound.*;
@@ -32,7 +32,7 @@ public class SoundManager {
 	 * The marker used for logging
 	 */
 	private static final Marker LOG_MARKER = MarkerManager.getMarker("SOUNDS");
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 
 	/**
 	 * A reference to the sound handler.

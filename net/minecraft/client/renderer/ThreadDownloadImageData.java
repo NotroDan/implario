@@ -22,11 +22,11 @@ import optifine.HttpResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class ThreadDownloadImageData extends SimpleTexture
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static final AtomicInteger threadDownloadCounter = new AtomicInteger(0);
     private final File cacheFile;
     private final String imageUrl;

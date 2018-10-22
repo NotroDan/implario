@@ -28,7 +28,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -47,7 +47,7 @@ import java.util.Set;
 
 public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = Logger.getInstance();
 	private static final Set<String> PROTOCOLS = Sets.newHashSet("http", "https");
 	private static final Splitter NEWLINE_SPLITTER = Splitter.on('\n');
 
@@ -97,15 +97,17 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
 	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		HoverButton hovered = null;
 		for (GuiButton button : this.buttonList) {
 			button.drawButton(this.mc, mouseX, mouseY);
 			if (button instanceof HoverButton) {
-				if (mouseX >= button.xPosition && mouseX <= button.xPosition + button.width &&
+				if (button.visible && mouseX >= button.xPosition && mouseX <= button.xPosition + button.width &&
 						mouseY >= button.yPosition && mouseY <= button.yPosition + button.height) {
-					drawHoveringText(((HoverButton) button).getHoverText(), mouseX, mouseY);
+					hovered = (HoverButton) button;
 				}
 			}
 		}
+		if (hovered != null) drawHoveringText(hovered.getHoverText(), mouseX, mouseY);
 
 		for (GuiLabel aLabelList : this.labelList) {
 			aLabelList.drawLabel(this.mc, mouseX, mouseY);
@@ -352,10 +354,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 							this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, clickevent.getValue(), 31102009, false));
 						} else this.openWebLink(uri);
 					} catch (URISyntaxException urisyntaxexception) {
-						LOGGER.error(("Can\'t open url for " + clickevent), urisyntaxexception);
+						LOGGER.error("Can\'t open url for " + clickevent, urisyntaxexception);
 					}
 				} else if (clickevent.getAction() == ClickEvent.Action.OPEN_FILE) {
-					URI uri1 = (new File(clickevent.getValue())).toURI();
+					URI uri1 = new File(clickevent.getValue()).toURI();
 					this.openWebLink(uri1);
 				} else if (clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
 					this.setText(clickevent.getValue(), true);

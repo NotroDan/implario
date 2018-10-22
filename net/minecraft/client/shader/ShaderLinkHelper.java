@@ -4,11 +4,11 @@ import java.io.IOException;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.util.JsonException;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class ShaderLinkHelper
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static ShaderLinkHelper staticShaderLinkHelper;
 
     public static void setNewStaticShaderLinkHelper()

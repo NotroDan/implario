@@ -109,9 +109,9 @@ public class GuiButton extends Gui {
 			this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
 		}
 		this.mouseDragged(mc, mouseX, mouseY);
-		int j = 14737632;
-		if (!enabled) j = 10526880;
-		else if (hovered) j = 16777120;
+		int j = 0xe0e0e0;
+		if (!enabled) j = 0xa0a0a0;
+		else if (hovered) j = 0xffffa0;
 
 		this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
 	}

@@ -25,12 +25,12 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.input.Keyboard;
 
 public class GuiScreenBook extends GuiScreen
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static final ResourceLocation bookGuiTextures = new ResourceLocation("textures/gui/book.png");
 
     /** The player editing the book */

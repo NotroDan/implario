@@ -11,11 +11,11 @@ import java.util.Set;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class FallbackResourceManager implements IResourceManager
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     protected final List<IResourcePack> resourcePacks = Lists.<IResourcePack>newArrayList();
     private final IMetadataSerializer frmMetadataSerializer;
 

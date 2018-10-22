@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 public class SettingButton extends GuiButton {
 
 	public Settings settings;
+	public boolean autosave = true;
 
 	public SettingButton(Settings settings, int x, int y) {
 		super(settings.ordinal(), x, y, getCaption(settings));
@@ -20,6 +21,10 @@ public class SettingButton extends GuiButton {
 	public SettingButton(Settings settings, int x, int y, int widthIn, int heightIn) {
 		super(settings.ordinal(), x, y, widthIn, heightIn, getCaption(settings));
 		this.settings = settings;
+	}
+
+	public void asOff() {
+		autosave = false;
 	}
 
 	public static String getCaption(Settings s) {
@@ -39,8 +44,9 @@ public class SettingButton extends GuiButton {
 	}
 
 	public void click() {
-		if (settings.getBase() instanceof ToggleSetting) settings.toggle();
-		if (settings.getBase() instanceof SelectorSetting) ((SelectorSetting) settings.getBase()).next();
+		if (autosave) if (settings.getBase() instanceof ToggleSetting) settings.toggle();
+			else if (settings.getBase() instanceof SelectorSetting) ((SelectorSetting) settings.getBase()).next();
+		else
 		displayString = getCaption(settings);
 	}
 }

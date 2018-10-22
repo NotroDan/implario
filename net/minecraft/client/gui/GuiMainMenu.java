@@ -21,7 +21,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.io.Charsets;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
@@ -40,7 +40,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 {
     private static final AtomicInteger field_175373_f = new AtomicInteger(0);
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static final Random RANDOM = new Random();
 
     /** The splash message. */

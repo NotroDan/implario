@@ -21,7 +21,7 @@ import net.minecraft.world.storage.WorldInfo;
 import optifine.Reflector;
 import optifine.WorldServerOF;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +31,7 @@ import java.util.concurrent.FutureTask;
 
 public class IntegratedServer extends MinecraftServer {
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 
 	/**
 	 * The Minecraft instance.

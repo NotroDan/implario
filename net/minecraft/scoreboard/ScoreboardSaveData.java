@@ -6,11 +6,11 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldSavedData;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class ScoreboardSaveData extends WorldSavedData
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private Scoreboard theScoreboard;
     private NBTTagCompound delayedInitNbt;
 

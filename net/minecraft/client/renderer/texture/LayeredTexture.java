@@ -9,11 +9,11 @@ import java.util.List;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class LayeredTexture extends AbstractTexture
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     public final List<String> layeredTextureNames;
 
     public LayeredTexture(String... textureNames)

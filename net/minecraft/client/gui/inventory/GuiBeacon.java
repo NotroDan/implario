@@ -19,11 +19,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 public class GuiBeacon extends GuiContainer
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
     private static final ResourceLocation beaconGuiTextures = new ResourceLocation("textures/gui/container/beacon.png");
     private IInventory tileBeacon;
     private GuiBeacon.ConfirmButton beaconConfirmButton;

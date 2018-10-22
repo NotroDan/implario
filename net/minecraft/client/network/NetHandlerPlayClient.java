@@ -64,7 +64,7 @@ import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapData;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,7 +73,7 @@ import java.util.Map.Entry;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = Logger.getInstance();
 
     /**
      * The NetworkManager instance used to communicate with the server (used only by handlePlayerPosLook to update

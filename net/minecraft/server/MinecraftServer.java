@@ -33,7 +33,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.client.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -49,7 +49,7 @@ import java.util.concurrent.FutureTask;
 
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 	public static final File USER_CACHE_FILE = new File("usercache.json");
 
 	/**
