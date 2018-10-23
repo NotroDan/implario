@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer;
 
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.Settings;
+import net.minecraft.client.settings.SliderSetting;
 import optifine.Config;
 import org.lwjgl.opengl.*;
 import oshi.SystemInfo;
@@ -251,7 +251,7 @@ public class OpenGlHelper {
 			if (vboSupported) {
 				field_181062_Q = true;
 			} else {
-				GameSettings.Options.RENDER_DISTANCE.setValueMax(16.0F);
+				((SliderSetting) Settings.RENDER_DISTANCE.getBase()).setMax(16.0f);
 			}
 		}
 

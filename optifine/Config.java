@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.*;
 import net.minecraft.client.resources.ResourcePackRepository.Entry;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.BlockPos;
@@ -59,7 +58,6 @@ public class Config {
 	public static int minecraftVersionInt = -1;
 	public static boolean fancyFogAvailable = false;
 	public static boolean occlusionAvailable = false;
-	private static GameSettings gameSettings1 = null;
 	private static Minecraft minecraft = Minecraft.getMinecraft();
 	private static boolean initialized = false;
 	private static Thread minecraftThread = null;
@@ -409,7 +407,7 @@ public class Config {
 	}
 
 	public static void dbg(String p_dbg_0_) {
-		LOGGER.info("[OptiFine] " + p_dbg_0_);
+		if (LOGGER.isDebugEnabled()) LOGGER.info("[OptiFine] " + p_dbg_0_);
 	}
 
 	public static void warn(String p_warn_0_) {

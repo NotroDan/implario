@@ -1,6 +1,7 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.ChatLine;
 import net.minecraft.client.renderer.GlStateManager;
@@ -8,8 +9,6 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 
 import java.util.Iterator;
 import java.util.List;
@@ -118,9 +117,9 @@ public class GuiNewChat extends Gui {
 	/**
 	 * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing Chat Line of that ID from the GUI
 	 */
-	public void printChatMessageWithOptionalDeletion(IChatComponent p_146234_1_, int p_146234_2_) {
-		this.setChatLine(p_146234_1_, p_146234_2_, this.mc.ingameGUI.getUpdateCounter(), false);
-		logger.info("[CHAT] " + p_146234_1_.getUnformattedText());
+	public void printChatMessageWithOptionalDeletion(IChatComponent component, int line) {
+		this.setChatLine(component, line, this.mc.ingameGUI.getUpdateCounter(), false);
+		logger.info("[CHAT] " + component.getUnformattedText().replaceAll("§.", ""));
 	}
 
 	private void setChatLine(IChatComponent p_146237_1_, int p_146237_2_, int p_146237_3_, boolean p_146237_4_) {

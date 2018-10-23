@@ -1,8 +1,9 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.block;
 
 import io.netty.buffer.Unpooled;
 import java.io.IOException;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.resources.I18n;

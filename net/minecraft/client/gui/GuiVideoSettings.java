@@ -1,13 +1,9 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.gui.element.GuiOptionButton;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.Settings;
 import optifine.Config;
 import optifine.Lang;
-import optifine.TooltipManager;
 
 import java.io.IOException;
 
@@ -15,11 +11,7 @@ public class GuiVideoSettings extends GuiScreen
 {
     private GuiScreen parentGuiScreen;
     protected String screenTitle = "Video Settings";
-
-    /** An array of all of GameSettings.Options's video options. */
-    private static GameSettings.Options[] videoOptions = new GameSettings.Options[] {GameSettings.Options.GRAPHICS, GameSettings.Options.RENDER_DISTANCE, GameSettings.Options.AMBIENT_OCCLUSION, GameSettings.Options.FRAMERATE_LIMIT, GameSettings.Options.AO_LEVEL, GameSettings.Options.VIEW_BOBBING, GameSettings.Options.GUI_SCALE, GameSettings.Options.USE_VBO, GameSettings.Options.GAMMA, GameSettings.Options.BLOCK_ALTERNATIVES, GameSettings.Options.FOG_FANCY, GameSettings.Options.FOG_START};
     private static final String __OBFID = "CL_00000718";
-    private TooltipManager tooltipManager = new TooltipManager(this);
 
     public GuiVideoSettings(GuiScreen parentScreenIn)
     {
@@ -32,45 +24,7 @@ public class GuiVideoSettings extends GuiScreen
      */
     public void initGui()
     {
-        this.screenTitle = I18n.format("options.videoTitle");
-        this.buttonList.clear();
 
-        for (int i = 0; i < videoOptions.length; ++i)
-        {
-            GameSettings.Options gamesettings$options = videoOptions[i];
-
-            if (gamesettings$options != null)
-            {
-                int j = this.width / 2 - 155 + i % 2 * 160;
-                int k = this.height / 6 + 21 * (i / 2) - 12;
-
-                if (gamesettings$options.getEnumFloat())
-                {
-//                    this.buttonList.add(new GuiOptionSliderOF(gamesettings$options.returnEnumOrdinal(), j, k, gamesettings$options));
-                }
-                else
-                {
-//                    this.buttonList.add(new GuiOptionButtonOF(gamesettings$options.returnEnumOrdinal(), j, k, gamesettings$options, this.guiGameSettings.getKeyBinding(gamesettings$options)));
-                }
-            }
-        }
-
-        int l = this.height / 6 + 21 * (videoOptions.length / 2) - 12;
-        int i1 = this.width / 2 - 155 + 0;
-        this.buttonList.add(new GuiOptionButton(231, i1, l, Lang.get("of.options.shaders")));
-        i1 = this.width / 2 - 155 + 160;
-        this.buttonList.add(new GuiOptionButton(202, i1, l, Lang.get("of.options.quality")));
-        l = l + 21;
-        i1 = this.width / 2 - 155 + 0;
-        this.buttonList.add(new GuiOptionButton(201, i1, l, Lang.get("of.options.details")));
-        i1 = this.width / 2 - 155 + 160;
-        this.buttonList.add(new GuiOptionButton(212, i1, l, Lang.get("of.options.performance")));
-        l = l + 21;
-        i1 = this.width / 2 - 155 + 0;
-        this.buttonList.add(new GuiOptionButton(211, i1, l, Lang.get("of.options.animations")));
-        i1 = this.width / 2 - 155 + 160;
-        this.buttonList.add(new GuiOptionButton(222, i1, l, Lang.get("of.options.other")));
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done")));
     }
 
     /**
@@ -82,11 +36,11 @@ public class GuiVideoSettings extends GuiScreen
         {
             int i = Settings.GUI_SCALE.i();
 
-            if (button.id < 200 && button instanceof GuiOptionButton)
-            {
+//            if (button.id < 200 && button instanceof GuiOptionButton)
+//            {
 //                this.guiGameSettings.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
 //                button.displayString = this.guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
-            }
+//            }
 
             if (button.id == 200)
             {
@@ -194,7 +148,6 @@ public class GuiVideoSettings extends GuiScreen
         int i = this.fontRendererObj.getStringWidth(s2);
         this.drawString(this.fontRendererObj, s2, this.width - i - 2, this.height - 10, 8421504);
         super.drawScreen(mouseX, mouseY, partialTicks);
-        this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
     }
 
     public static int getButtonWidth(GuiButton p_getButtonWidth_0_)

@@ -2,13 +2,11 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import net.minecraft.Utils;
+import net.minecraft.client.Logger;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.resources.*;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.Util;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 import org.lwjgl.Sys;
 
 import java.io.File;
@@ -44,8 +42,8 @@ public class GuiScreenResourcePacks extends GuiScreen {
 	 * window resizes, the buttonList is cleared beforehand.
 	 */
 	public void initGui() {
-		this.buttonList.add(new GuiOptionButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder")));
-		this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done")));
+		this.buttonList.add(new GuiButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder")));
+		this.buttonList.add(new GuiButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done")));
 
 		if (!this.changed) {
 			this.availableResourcePacks = Lists.newArrayList();

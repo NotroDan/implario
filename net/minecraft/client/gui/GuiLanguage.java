@@ -4,11 +4,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.Language;
 import net.minecraft.client.resources.LanguageManager;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.Settings;
 
 import java.io.IOException;
@@ -25,14 +23,6 @@ public class GuiLanguage extends GuiScreen
     /** Reference to the LanguageManager object. */
     private final LanguageManager languageManager;
 
-    /**
-     * A button which allows the user to determine if the Unicode font should be forced.
-     */
-    private GuiOptionButton forceUnicodeFontBtn;
-
-    /** The button to confirm the current settings. */
-    private GuiOptionButton confirmSettingsBtn;
-
     public GuiLanguage(GuiScreen screen, LanguageManager manager)
     {
         this.parentScreen = screen;
@@ -45,11 +35,11 @@ public class GuiLanguage extends GuiScreen
      */
     public void initGui()
     {
-        this.buttonList.add(this.forceUnicodeFontBtn =
-				new GuiOptionButton(100, this.width / 2 - 155, this.height - 38, GameSettings.Options.FORCE_UNICODE_FONT,
-						"Использовать Unicode: " + Settings.FORCE_UNICODE_FONT.b()));
-        this.buttonList.add(this.confirmSettingsBtn =
-				new GuiOptionButton(6, this.width / 2 - 155 + 160, this.height - 38, I18n.format("gui.done")));
+//        this.buttonList.add(this.forceUnicodeFontBtn =
+//				new GuiOptionButton(100, this.width / 2 - 155, this.height - 38, null,
+//						"Использовать Unicode: " + Settings.FORCE_UNICODE_FONT.b()));
+//        this.buttonList.add(this.confirmSettingsBtn =
+//				new GuiOptionButton(6, this.width / 2 - 155 + 160, this.height - 38, I18n.format("gui.done")));
         this.list = new GuiLanguage.List(this.mc);
         this.list.registerScrollButtons(7, 8);
     }
@@ -80,14 +70,14 @@ public class GuiLanguage extends GuiScreen
                     break;
 
                 case 100:
-                    if (button instanceof GuiOptionButton)
-                    {
-                        button.displayString = "Использовать Unicode: " + Settings.FORCE_UNICODE_FONT.toggle();
-                        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-                        int i = scaledresolution.getScaledWidth();
-                        int j = scaledresolution.getScaledHeight();
-                        this.setWorldAndResolution(this.mc, i, j);
-                    }
+//                    if (button instanceof GuiOptionButton)
+//                    {
+//                        button.displayString = "Использовать Unicode: " + Settings.FORCE_UNICODE_FONT.toggle();
+//                        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+//                        int i = scaledresolution.getScaledWidth();
+//                        int j = scaledresolution.getScaledHeight();
+//                        this.setWorldAndResolution(this.mc, i, j);
+//                    }
 
                     break;
 
@@ -137,8 +127,6 @@ public class GuiLanguage extends GuiScreen
             this.mc.refreshResources();
             GuiLanguage.this.fontRendererObj.setUnicodeFlag(GuiLanguage.this.languageManager.isCurrentLocaleUnicode() || Settings.FORCE_UNICODE_FONT.b());
             GuiLanguage.this.fontRendererObj.setBidiFlag(GuiLanguage.this.languageManager.isCurrentLanguageBidirectional());
-            GuiLanguage.this.confirmSettingsBtn.displayString = I18n.format("gui.done");
-            GuiLanguage.this.forceUnicodeFontBtn.displayString = "Использовать Unicode: " + Settings.FORCE_UNICODE_FONT.b();
             Settings.saveOptions();
         }
 

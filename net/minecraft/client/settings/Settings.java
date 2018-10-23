@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
@@ -24,14 +25,29 @@ public enum Settings {
 	INVERT_MOUSE("Инверсия мыши", false),
 	SENSITIVITY("Чувствительность", 0f, 1f, 0.01f, 0.5f),
 	FOV("Поле зрения", 30, 110, 1, 90),
-//	GRAPHICS("Детальная графика", true),
 	GAMMA("Гамма", 0, 1, 0.01f, 1),
-	RENDER_DISTANCE("Дальность прорисовки", 2, 32, 1, 10),
+	RENDER_DISTANCE("Дальность прорисовки", 2, 32, 1, 10) {
+		@Override
+		public void change() {
+			Minecraft.getMinecraft().renderGlobal.setDisplayListEntitiesDirty();
+		}
+	},
 	VIEW_BOBBING("Покачивание камеры", true),
-	FRAMERATE_LIMIT("Частота кадров", 0, 260, 5, 260),
+	FRAMERATE_LIMIT(new FpsSetting("FRAMERATE_LIMIT")) {
+		@Override
+		public String getCaption() {
+			return f() == 0 ? "Верт. синх." : f() == 260 ? "Неогранич." : (int) f() + " FPS";
+		}
+	}, //0, 260, 5, 260),
 	FBO_ENABLE("Использовать FBO", false),
-//	RENDER_CLOUDS("Облака", false),
-	GUI_SCALE("Интерфейс", 2, "Авто", "Маленький", "Обычный", "Крупный"),
+	GUI_SCALE("Интерфейс", 2, "Авто", "Маленький", "Обычный", "Крупный") {
+		@Override
+		public void change() {
+			Minecraft mc = Minecraft.getMinecraft();
+			ScaledResolution r = new ScaledResolution(mc);
+			mc.currentScreen.setWorldAndResolution(mc, r.getScaledWidth(), r.getScaledHeight());
+		}
+	},
 	PARTICLES("Частицы", 0, "Все", "Меньше", "Минимум"),
 	CHAT_VISIBILITY("Чат", 0, "Виден", "Только команды", "Скрыт"),
 	CHAT_COLOR("Цвета", true),
@@ -42,9 +58,9 @@ public enum Settings {
 	ENABLE_VSYNC("Вертикальная синхронизация", false),
 	USE_VBO("Использовать VBO", false),
 	CHAT_SCALE("Размер чата", 0, 1, 0.01f, 1f),
-	CHAT_WIDTH("Ширина чата", 40, 320, 1, 320),
-	CHAT_HEIGHT_FOCUSED("Высота (Активный чат)", 20, 180, 1, 180),
-	CHAT_HEIGHT_UNFOCUSED("Высота (Неактивный чат)", 20, 180, 1, 100),
+	CHAT_WIDTH("Ширина чата", 40, 600, 1, 320),
+	CHAT_HEIGHT_FOCUSED("Высота (Активный чат)", 20, 300, 1, 180),
+	CHAT_HEIGHT_UNFOCUSED("Высота (Неактивный чат)", 20, 300, 1, 100),
 	MIPMAP_LEVELS("Уровень сглаживания", 0, 4, 1, 4) {
 		public void change() {
 			Minecraft mc = Minecraft.getMinecraft();
@@ -187,6 +203,10 @@ public enum Settings {
 		if (name().startsWith("SOUND_")) base = new SliderSetting(name(), caption, 0, 1, 0.1f, 0.01f);
 		else if (name().startsWith("MODEL_")) base = new ToggleSetting(name(), caption, true);
 		else throw new IllegalArgumentException();
+	}
+
+	Settings(FpsSetting setting) {
+		base = setting;
 	}
 
 
@@ -334,6 +354,10 @@ public enum Settings {
 	}
 
 	public void change() {
+		if (name().startsWith("CHAT")) Minecraft.getMinecraft().ingameGUI.getChatGUI().refreshChat();
+	}
 
+	public String getCaption() {
+		return null;
 	}
 }

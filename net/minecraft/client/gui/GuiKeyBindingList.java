@@ -3,7 +3,6 @@ package net.minecraft.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.EnumChatFormatting;
@@ -115,7 +114,7 @@ public class GuiKeyBindingList extends GuiListExtended {
 			this.btnReset.drawButton(GuiKeyBindingList.this.mc, mouseX, mouseY);
 			this.btnChangeKeyBinding.xPosition = x + 105;
 			this.btnChangeKeyBinding.yPosition = y;
-			this.btnChangeKeyBinding.displayString = GameSettings.getKeyDisplayString(this.keybinding.getKeyCode());
+			this.btnChangeKeyBinding.displayString = keybinding.getKeyDisplayString();
 			boolean flag1 = false;
 
 			if (this.keybinding.getKeyCode() != 0) for (KeyBinding keybinding : KeyBinding.values())

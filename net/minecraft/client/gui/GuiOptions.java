@@ -31,6 +31,11 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		this.parent = parent;
 	}
 
+	static {
+
+	}
+
+	@SuppressWarnings ("UnusedAssignment")
 	public void initGui() {
 
 		buttonList.clear();
@@ -41,7 +46,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		int y = tabs.y;
 
 		tabs.add("Общее",
-				createButton(Settings.FOV, x1, y += 22)
+				createButton(Settings.FOV, x1, y += 22),
+				createButton(Settings.REDUCED_DEBUG_INFO, x2, y)
 				);
 
 		y = tabs.y;
@@ -50,7 +56,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.FBO_ENABLE, x2, y).updateGraphics(),
 				createButton(Settings.USE_VBO, x1, y += 22).updateGraphics(),
 				createButton(Settings.VIEW_BOBBING, x2, y),
-				createButton(Settings.ENABLE_VSYNC, x1, y += 22).updateGraphics(),
+				createButton(Settings.FRAMERATE_LIMIT, x1, y += 22).updateGraphics(),
 				createButton(Settings.FAST_RENDER, x2, y).updateGraphics(),
 				createButton(Settings.AA_LEVEL, x1, y += 22).updateGraphics(),
 				createButton(Settings.AO_LEVEL, x2, y).updateGraphics(),
@@ -75,7 +81,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		y = tabs.y;
 		tabs.add("Интерфейс",
 				createButton(Settings.FANCY_BUTTONS, x1, y += 22),
-				createButton(Settings.RAINBOW_SHIT, x2, y)
+				createButton(Settings.RAINBOW_SHIT, x2, y),
+				createButton(Settings.GUI_SCALE, x1, y += 22)
 				);
 
 		y = tabs.y;
@@ -125,6 +132,17 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 						.setHoverText("§eАнимация окружения", "Включить/выключить живую природу"),
 				new IconButton(Settings.ANIMATED_TEXTURES, x1 + 65, y, new ItemStack(Items.painting))
 						.setHoverText("§eАнимированные текстуры", "Включить/выключить GIF-текстуры", "Распространяется только на Ресурс-паки")
+				);
+		x1 = width / 2 - 112;
+		tabs.add("Звуки",
+				new VolumeSlider(Settings.SOUND_AMBIENT, x1, 120),
+				new VolumeSlider(Settings.SOUND_ANIMALS, x1 += 28, 120),
+				new VolumeSlider(Settings.SOUND_BLOCKS, x1 += 28, 120),
+				new VolumeSlider(Settings.SOUND_MOBS, x1 += 28, 120),
+				new VolumeSlider(Settings.SOUND_MUSIC, x1 += 28, 120),
+				new VolumeSlider(Settings.SOUND_RECORDS, x1 += 28, 120),
+				new VolumeSlider(Settings.SOUND_WEATHER, x1 += 28, 120),
+				new VolumeSlider(Settings.SOUND_PLAYERS, x1 += 28, 120)
 				);
 
 
@@ -215,10 +233,6 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		if (button instanceof SettingButton) ((SettingButton) button).click(this);
 
 		if (button.enabled == button.enabled) return;
-		if (button.id < 100 && button instanceof GuiOptionButton) {
-			GameSettings.Options gamesettings$options = ((GuiOptionButton) button).returnEnumOptions();
-			button.displayString = "";
-		}
 
 		if (button.id == 108) {
 			this.mc.theWorld.getWorldInfo().setDifficulty(EnumDifficulty.getDifficultyEnum(this.mc.theWorld.getDifficulty().getDifficultyId() + 1));
@@ -258,7 +272,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		if (button.id == 103) {
 			Settings.saveOptions();
-			this.mc.displayGuiScreen(new ScreenChatOptions(this));
+//			this.mc.displayGuiScreen(new ScreenChatOptions(this));
 		}
 
 		if (button.id == 200) {
@@ -274,6 +288,15 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 106) {
 			Settings.saveOptions();
 			this.mc.displayGuiScreen(new GuiScreenOptionsSounds(this));
+		}
+	}
+
+	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		if (keyCode == 1) {
+			Settings.saveOptions();
+			super.keyTyped(typedChar, keyCode);
+//			return;
 		}
 	}
 

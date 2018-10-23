@@ -7,11 +7,13 @@ import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
+import net.minecraft.client.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.GuardianSound;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.block.GuiMerchant;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.ServerData;
@@ -21,8 +23,6 @@ import net.minecraft.client.particle.EntityPickupFX;
 import net.minecraft.client.player.inventory.ContainerLocalMenu;
 import net.minecraft.client.player.inventory.LocalBlockIntercommunication;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.*;
@@ -63,8 +63,6 @@ import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapData;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -741,7 +739,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             entity.mountEntity(entity1);
 
             if (flag) this.gameController.ingameGUI.setRecordPlaying(I18n.format("mount.onboard",
-					GameSettings.getKeyDisplayString(KeyBinding.SNEAK.getKeyCode())), false);
+					"SHIFT"), false);
         }
         else if (packetIn.getLeash() == 1 && entity instanceof EntityLiving)
 			if (entity1 != null)
@@ -1374,15 +1372,15 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 		} else if (this.gameController.getCurrentServerData() != null && this.gameController.getCurrentServerData().getResourceMode() != ServerData.ServerResourceMode.PROMPT)
 			this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.DECLINED));
 		else
-			this.gameController.addScheduledTask(() -> NetHandlerPlayClient.this.gameController.displayGuiScreen(new GuiYesNo((result, id) -> {
-				NetHandlerPlayClient.this.gameController = Minecraft.getMinecraft();
+			this.gameController.addScheduledTask(() -> this.gameController.displayGuiScreen(new GuiYesNo((result, id) -> {
+				this.gameController = Minecraft.getMinecraft();
 
 				if (result) {
-					if (NetHandlerPlayClient.this.gameController.getCurrentServerData() != null)
-						NetHandlerPlayClient.this.gameController.getCurrentServerData().setResourceMode(ServerData.ServerResourceMode.ENABLED);
+					if (this.gameController.getCurrentServerData() != null)
+						this.gameController.getCurrentServerData().setResourceMode(ServerData.ServerResourceMode.ENABLED);
 
-					NetHandlerPlayClient.this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.ACCEPTED));
-					Futures.addCallback(NetHandlerPlayClient.this.gameController.getResourcePackRepository().downloadResourcePack(s, s1), new FutureCallback<Object>() {
+					this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.ACCEPTED));
+					Futures.addCallback(this.gameController.getResourcePackRepository().downloadResourcePack(s, s1), new FutureCallback<Object>() {
 						public void onSuccess(Object p_onSuccess_1_) {
 							NetHandlerPlayClient.this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.SUCCESSFULLY_LOADED));
 						}
@@ -1392,14 +1390,14 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 						}
 					});
 				} else {
-					if (NetHandlerPlayClient.this.gameController.getCurrentServerData() != null)
-						NetHandlerPlayClient.this.gameController.getCurrentServerData().setResourceMode(ServerData.ServerResourceMode.DISABLED);
+					if (this.gameController.getCurrentServerData() != null)
+						this.gameController.getCurrentServerData().setResourceMode(ServerData.ServerResourceMode.DISABLED);
 
-					NetHandlerPlayClient.this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.DECLINED));
+					this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.DECLINED));
 				}
 
-				ServerList.func_147414_b(NetHandlerPlayClient.this.gameController.getCurrentServerData());
-				NetHandlerPlayClient.this.gameController.displayGuiScreen(null);
+				ServerList.func_147414_b(this.gameController.getCurrentServerData());
+				this.gameController.displayGuiScreen(null);
 			}, I18n.format("multiplayer.texturePrompt.line1"), I18n.format("multiplayer.texturePrompt.line2"), 0)));
     }
 

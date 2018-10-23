@@ -27,7 +27,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
 import net.minecraft.client.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -92,6 +91,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 */
 	private int touchValue;
 	private URI clickedLinkURI;
+	private boolean supportButtonOverlap = false;
 
 	/**
 	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
@@ -396,6 +396,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 					this.selectedButton = guibutton;
 					guibutton.playPressSound(this.mc.getSoundHandler());
 					this.actionPerformed(guibutton);
+					if (!supportButtonOverlap) break;
 				}
 			}
 		}

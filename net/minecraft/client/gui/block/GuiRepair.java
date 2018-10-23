@@ -1,4 +1,4 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.block;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;

@@ -116,6 +116,14 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 	}
 
 	/**
+	 * Represents a key or mouse button as a string. Args: key
+	 */
+	public String getKeyDisplayString() {
+		return keyCode < 0 ? "Кнопка " + (keyCode + 101) :
+				keyCode < 256 ? Keyboard.getKeyName(keyCode) : String.valueOf((char) (keyCode - 256)).toUpperCase();
+	}
+
+	/**
 	 * Returns true if the key is pressed (used for continuous querying). Should be used in tickers.
 	 */
 	public boolean isKeyDown() {

@@ -7,7 +7,6 @@ import net.minecraft.client.gui.spectator.SpectatorMenu;
 import net.minecraft.client.gui.spectator.categories.SpectatorDetails;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -90,7 +89,7 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 			GlStateManager.color(f, f, f, p_175266_4_);
 			p_175266_5_.func_178663_a(f, i);
 			GlStateManager.popMatrix();
-			String s = String.valueOf(GameSettings.getKeyDisplayString(KeyBinding.HOTBAR[key].getKeyCode()));
+			String s = KeyBinding.HOTBAR[key].getKeyDisplayString();
 
 			if (i > 3 && p_175266_5_.func_178662_A_()) {
 				this.minecraft.fontRendererObj.drawStringWithShadow(s, (float) (p_175266_2_ + 19 - 2 - this.minecraft.fontRendererObj.getStringWidth(s)), p_175266_3_ + 6.0F + 3.0F, 16777215 + (i << 24));

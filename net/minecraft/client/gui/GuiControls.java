@@ -2,16 +2,14 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.gui.element.GuiOptionButton;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 
 import java.io.IOException;
 
 public class GuiControls extends GuiScreen
 {
-    private static final GameSettings.Options[] optionsArr = new GameSettings.Options[] {GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN};
+//    private static final GameSettings.Options[] optionsArr = new GameSettings.Options[] {GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN};
 
     /**
      * A reference to the screen object that created this. Used for navigating between screens.
@@ -42,19 +40,19 @@ public class GuiControls extends GuiScreen
         this.screenTitle = I18n.format("controls.title");
         int i = 0;
 
-        for (GameSettings.Options gamesettings$options : optionsArr)
-        {
-            if (gamesettings$options.getEnumFloat())
-            {
+//        for (GameSettings.Options gamesettings$options : optionsArr)
+//        {
+//            if (gamesettings$options.getEnumFloat())
+//            {
 //                this.buttonList.add(new GuiOptionSlider(gamesettings$options.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, 18 + 24 * (i >> 1), gamesettings$options));
-            }
-            else
-            {
+//            }
+//            else
+//            {
 //                this.buttonList.add(new GuiOptionButton(gamesettings$options.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, 18 + 24 * (i >> 1), gamesettings$options, this.options.getKeyBinding(gamesettings$options)));
-            }
+//            }
 
-            ++i;
-        }
+//            ++i;
+//        }
     }
 
     /**
@@ -75,10 +73,10 @@ public class GuiControls extends GuiScreen
             for (KeyBinding keybinding : KeyBinding.values()) keybinding.setKeyCode(keybinding.getKeyCodeDefault());
             KeyBinding.resetKeyBindingArrayAndHash();
         }
-        else if (button.id < 100 && button instanceof GuiOptionButton) {
+//        else if (button.id < 100 && button instanceof GuiOptionButton) {
 //            this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
 //            button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
-        }
+//        }
     }
 
     /**

@@ -257,7 +257,7 @@ public class GameSettings {
 		GameSettings.Options.RENDER_DISTANCE.setValueMax(32.0F);
 		this.renderDistanceChunks = 8;
 		this.loadOptions();
-//		Config.initGameSettings(this);
+		//		Config.initGameSettings(this);
 	}
 
 	public GameSettings() {
@@ -266,15 +266,6 @@ public class GameSettings {
 		this.fovSetting = 110.0F;
 		this.language = "ru_RU";
 		this.forceUnicodeFont = false;
-	}
-
-	/**
-	 * Represents a key or mouse button as a string. Args: key
-	 */
-	public static String getKeyDisplayString(int p_74298_0_) {
-		return p_74298_0_ < 0 ?
-				I18n.format("key.mouseButton", p_74298_0_ + 101) :
-				p_74298_0_ < 256 ? Keyboard.getKeyName(p_74298_0_) : String.format("%c", (char) (p_74298_0_ - 256)).toUpperCase();
 	}
 
 	/**

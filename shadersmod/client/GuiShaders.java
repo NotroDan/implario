@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
 import optifine.Config;
 import optifine.Lang;
 import org.lwjgl.Sys;
@@ -32,7 +31,7 @@ public class GuiShaders extends GuiScreen
     public static final int EnumOS_SOLARIS = 3;
     public static final int EnumOS_LINUX = 4;
 
-    public GuiShaders(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
+    public GuiShaders(GuiScreen par1GuiScreen)
     {
         this.parentGui = par1GuiScreen;
     }

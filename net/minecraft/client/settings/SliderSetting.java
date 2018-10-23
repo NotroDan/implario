@@ -4,7 +4,8 @@ import static net.minecraft.util.MathHelper.clamp_float;
 
 public class SliderSetting extends Setting {
 
-	private final float min, max;
+	private final float min;
+	private float max;
 	private final float defaultValue;
 	public final float step;
 	public float value;
@@ -65,5 +66,9 @@ public class SliderSetting extends Setting {
 		return value;
 	}
 
+
+	public void setMax(float v) {
+		this.max = v;
+	}
 
 }

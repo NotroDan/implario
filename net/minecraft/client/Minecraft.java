@@ -38,10 +38,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.*;
 import net.minecraft.client.resources.data.*;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.settings.SelectorSetting;
-import net.minecraft.client.settings.Settings;
+import net.minecraft.client.settings.*;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -191,11 +188,6 @@ public class Minecraft implements IThreadListener {
 	 * The ray trace hit that the mouse is over.
 	 */
 	public MovingObjectPosition objectMouseOver;
-
-	/**
-	 * The game settings that currently hold effect.
-	 */
-	public GameSettings gameSettings1;
 
 	/**
 	 * Mouse helper instance.
@@ -418,7 +410,7 @@ public class Minecraft implements IThreadListener {
 		this.mcResourceManager.registerReloadListener(new FoliageColorReloadListener());
 		AchievementList.openInventory.setStatStringFormatter(p_74535_1_ -> {
 			try {
-				return String.format(p_74535_1_, GameSettings.getKeyDisplayString(KeyBinding.INVENTORY.getKeyCode()));
+				return String.format(p_74535_1_, "E");
 			} catch (Exception exception) {
 				return "Error: " + exception.getLocalizedMessage();
 			}
@@ -980,11 +972,11 @@ label53:
 	}
 
 	public int getLimitFramerate() {
-		return this.theWorld == null && this.currentScreen != null ? 30 : Settings.FRAMERATE_LIMIT.i();
+		return this.theWorld == null && this.currentScreen != null ? 60 : Settings.FRAMERATE_LIMIT.i();
 	}
 
 	public boolean isFramerateLimitBelowMax() {
-		return (float) this.getLimitFramerate() < GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
+		return (float) this.getLimitFramerate() < ((SliderSetting) Settings.FRAMERATE_LIMIT.getBase()).getMax();
 	}
 
 	public void freeMemory() {

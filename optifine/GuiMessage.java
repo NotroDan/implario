@@ -1,12 +1,12 @@
 package optifine;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.resources.I18n;
+
 import java.io.IOException;
 import java.util.List;
-import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.gui.element.GuiOptionButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
 
 public class GuiMessage extends GuiScreen
 {
@@ -22,7 +22,7 @@ public class GuiMessage extends GuiScreen
         this.parentScreen = p_i48_1_;
         this.messageLine1 = p_i48_2_;
         this.messageLine2 = p_i48_3_;
-        this.confirmButtonText = I18n.format("gui.done", new Object[0]);
+        this.confirmButtonText = I18n.format("gui.done");
     }
 
     /**
@@ -31,7 +31,7 @@ public class GuiMessage extends GuiScreen
      */
     public void initGui()
     {
-        this.buttonList.add(new GuiOptionButton(0, this.width / 2 - 74, this.height / 6 + 96, this.confirmButtonText));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 74, this.height / 6 + 96, this.confirmButtonText));
         this.listLines2.clear();
         this.listLines2.addAll(this.fontRendererObj.listFormattedStringToWidth(this.messageLine2, this.width - 50));
     }

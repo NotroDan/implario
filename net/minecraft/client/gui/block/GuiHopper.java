@@ -1,4 +1,4 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.block;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

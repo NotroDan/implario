@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.creativetab.CreativeTabs;
@@ -259,7 +258,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (selectedTabIndex != CreativeTabs.tabAllSearch.getTabIndex()) {
-			if (GameSettings.isKeyDown(KeyBinding.CHAT)) {
+			if (KeyBinding.CHAT.isClicked()) {
 				this.setCurrentCreativeTab(CreativeTabs.tabAllSearch);
 			} else {
 				super.keyTyped(typedChar, keyCode);

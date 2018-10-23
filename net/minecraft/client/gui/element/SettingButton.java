@@ -32,6 +32,8 @@ public class SettingButton extends GuiButton {
 	}
 
 	public static String getCaption(Settings s) {
+		String str = s.getCaption();
+		if (str != null) return s.getBase().caption + ": §e" + str;
 		if (s.getBase() instanceof ToggleSetting) return s.getBase().caption + ": " + Utils.bool(s.b());
 		if (s.getBase() instanceof SliderSetting) {
 			String value;

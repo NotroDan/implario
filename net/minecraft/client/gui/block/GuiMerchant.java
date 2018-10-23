@@ -1,4 +1,4 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.block;
 
 import io.netty.buffer.Unpooled;
 import java.io.IOException;
@@ -19,7 +19,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.LogManager;
 import net.minecraft.client.Logger;
 
 public class GuiMerchant extends GuiContainer

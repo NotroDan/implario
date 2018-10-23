@@ -1,9 +1,12 @@
-package net.minecraft.client.gui;
+package net.minecraft.client.gui.block;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
