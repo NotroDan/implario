@@ -570,7 +570,7 @@ public class Config {
 	}
 
 	public static boolean isRainSplash() {
-		return Settings.RAIN_SPLASH.b();
+		return Settings.WATER_PARTICLES.b();
 	}
 
 	public static boolean isPortalParticles() {

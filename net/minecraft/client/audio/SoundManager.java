@@ -2,13 +2,12 @@ package net.minecraft.client.audio;
 
 import com.google.common.collect.*;
 import io.netty.util.internal.ThreadLocalRandom;
+import net.minecraft.client.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import paulscode.sound.*;
@@ -113,9 +112,9 @@ public class SoundManager {
 							}
 						}
 					});
-					SoundManager.this.sndSystem = SoundManager.this.new SoundSystemStarterThread();
-					SoundManager.this.loaded = true;
-					SoundManager.this.sndSystem.setMasterVolume(Settings.SOUND_MASTER.f());
+					this.sndSystem = this.new SoundSystemStarterThread();
+					this.loaded = true;
+					this.sndSystem.setMasterVolume(Settings.SOUND_MASTER.f());
 					SoundManager.logger.info(SoundManager.LOG_MARKER, "Sound engine started");
 				}, "Sound Library Loader").start();
 			} catch (RuntimeException runtimeexception) {

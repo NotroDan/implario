@@ -2,7 +2,6 @@ package net.minecraft.client.gui.element;
 
 import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.SelectorSetting;
 import net.minecraft.client.settings.Settings;
@@ -49,7 +48,7 @@ public class SettingButton extends GuiButton {
 		return null;
 	}
 
-	public void click(GuiScreen screen) {
+	public void click() {
 		if (settings.getBase() instanceof ToggleSetting) settings.toggle();
 		else if (settings.getBase() instanceof SelectorSetting) ((SelectorSetting) settings.getBase()).next();
 		displayString = getCaption(settings);

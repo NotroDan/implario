@@ -425,6 +425,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 12, 1, (255 - j) / 4, 64, 0, 255);
 				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, i, 1, 255 - j, j, 0, 255);
 
+				GlStateManager.enableBlend();
 				GlStateManager.enableAlpha();
 				GlStateManager.enableTexture2D();
 				GlStateManager.enableLighting();

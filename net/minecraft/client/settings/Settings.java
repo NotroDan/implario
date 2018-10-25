@@ -104,12 +104,11 @@ public enum Settings {
 	TIME("Тема", 0, "§cВыкл.", "Светлая", "Тёмная"),
 	CLEAR_WATER("Чистая вода", true),
 	SMOOTH_WORLD("Стабилизация мира", false),
-	VOID_PARTICLES("Частицы пустоты", true),
-	WATER_PARTICLES("Частицы воды", true),
-	RAIN_SPLASH("Брызги дождя", true),
-	PORTAL_PARTICLES("Частицы портала", true),
-	POTION_PARTICLES("Частицы зелий", true),
-	FIREWORK_PARTICLES("Фейерверки", true),
+	VOID_PARTICLES("Пустота", true),
+	WATER_PARTICLES("Брызги", true),
+	PORTAL_PARTICLES("Портал", true),
+	POTION_PARTICLES("Зелья", true),
+	FIREWORK_PARTICLES("Ракеты", true),
 	PROFILER("Профайлер", false),
 	DRIPPING_WATER_LAVA("Капли лавы/воды", true),
 	BETTER_SNOW("Улучшенный снег", false),
@@ -189,6 +188,7 @@ public enum Settings {
 	}
 
 	private final Setting base;
+	private SoundCategory soundCategory;
 
 	Settings(String caption, float min, float max, float step, float defaultValue) {
 		base = new SliderSetting(name(), caption, min, max, defaultValue, step);
@@ -200,7 +200,10 @@ public enum Settings {
 		base = new ToggleSetting(name(), caption, defaultState);
 	}
 	Settings(String caption) {
-		if (name().startsWith("SOUND_")) base = new SliderSetting(name(), caption, 0, 1, 0.1f, 0.01f);
+		if (name().startsWith("SOUND_")) {
+			base = new SliderSetting(name(), caption, 0, 1, 0.1f, 0.01f);
+			soundCategory = SoundCategory.valueOf(name().substring(6));
+		}
 		else if (name().startsWith("MODEL_")) base = new ToggleSetting(name(), caption, true);
 		else throw new IllegalArgumentException();
 	}
@@ -284,6 +287,7 @@ public enum Settings {
 
 	public static void setSoundLevel(SoundCategory category, float level) {
 		valueOf("SOUND_" + category.name()).set(level);
+		Minecraft.getMinecraft().getSoundHandler().setSoundLevel(category, level);
 	}
 	public static float getSoundLevel(SoundCategory category) {
 		try {
@@ -355,6 +359,7 @@ public enum Settings {
 
 	public void change() {
 		if (name().startsWith("CHAT")) Minecraft.getMinecraft().ingameGUI.getChatGUI().refreshChat();
+		if (name().startsWith("SOUND_")) Minecraft.getMinecraft().getSoundHandler().setSoundLevel(soundCategory, f());
 	}
 
 	public String getCaption() {

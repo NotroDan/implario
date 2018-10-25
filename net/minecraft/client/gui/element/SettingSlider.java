@@ -77,11 +77,13 @@ public class SettingSlider extends SettingButton {
 		return true;
 	}
 
+
 	/**
 	 * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
 	 */
 	public void mouseReleased(int mouseX, int mouseY) {
 		dragging = false;
+//		if (mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height) click();
 	}
 
 }

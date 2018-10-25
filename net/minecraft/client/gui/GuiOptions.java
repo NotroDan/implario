@@ -7,7 +7,10 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.*;
+import net.minecraft.client.settings.SelectorSetting;
+import net.minecraft.client.settings.Settings;
+import net.minecraft.client.settings.SliderSetting;
+import net.minecraft.client.settings.ToggleSetting;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -110,6 +113,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		y = tabs.y + 22;
 		x1 = width / 2 - 162;
+		int x3 = width  / 2 - 192;
 		tabs.add("Анимация",
 				new IconButton(Settings.ANIMATED_LAVA, x1, y, new ItemStack(Items.lava_bucket))
 						.setHoverText("§eАнимация лавы", "Включить/выключить анимацию", "течения лавы."),
@@ -130,10 +134,18 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				new IconButton(Settings.ANIMATED_TERRAIN, x1 += 65, y, new ItemStack(Blocks.grass))
 						.setHoverText("§eАнимация окружения", "Включить/выключить живую природу"),
 				new IconButton(Settings.ANIMATED_TEXTURES, x1 + 65, y, new ItemStack(Items.painting))
-						.setHoverText("§eАнимированные текстуры", "Включить/выключить GIF-текстуры", "Распространяется только на Ресурс-паки")
+						.setHoverText("§eАнимированные текстуры", "Включить/выключить GIF-текстуры", "Распространяется только на Ресурс-паки"),
+				new IconButton(Settings.VOID_PARTICLES, x3, y += 65, new ItemStack(Items.coal)).setHoverText("§eЧастицы на низкой высоте"),
+				new IconButton(Settings.PORTAL_PARTICLES, x3 += 65, y, new ItemStack(Blocks.stained_glass, 2)).setHoverText("§eЧастицы порталов"),
+				new IconButton(Settings.POTION_PARTICLES, x3 += 65, y, new ItemStack(Items.potionitem, 1, 17)).setHoverText("§eЧастицы зелий"),
+				new IconButton(Settings.FIREWORK_PARTICLES, x3 += 65, y, new ItemStack(Items.fireworks)).setHoverText("§eСлед фейерверков"),
+				new IconButton(Settings.WATER_PARTICLES, x3 += 65, y, new ItemStack(Items.water_bucket)).setHoverText("§eБрызги воды"),
+				new IconButton(Settings.PARTICLES, x3 += 65, y, new ItemStack(Items.dye, 15)).setHoverText("§eОстальные частицы")
 				);
+
 		x1 = width / 2 - 112;
 		tabs.add("Звуки",
+				new VolumeSlider(Settings.SOUND_MASTER, x1 - 28, 120),
 				new VolumeSlider(Settings.SOUND_AMBIENT, x1, 120),
 				new VolumeSlider(Settings.SOUND_ANIMALS, x1 += 28, 120),
 				new VolumeSlider(Settings.SOUND_BLOCKS, x1 += 28, 120),
@@ -229,7 +241,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		if (button.id >= 1000) tabs.select(button.id - 1000);
 
-		if (button instanceof SettingButton) ((SettingButton) button).click(this);
+		if (button instanceof SettingButton) ((SettingButton) button).click();
 
 		if (button.enabled == button.enabled) return;
 
@@ -294,6 +306,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (keyCode == 1) {
 			Settings.saveOptions();
+			Minecraft.getMinecraft().getSoundHandler().getSndManager().pauseAllSounds();
+			Minecraft.getMinecraft().getSoundHandler().getSndManager().resumeAllSounds();
 			super.keyTyped(typedChar, keyCode);
 //			return;
 		}

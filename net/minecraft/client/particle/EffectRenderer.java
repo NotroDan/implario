@@ -165,25 +165,22 @@ public class EffectRenderer {
 		this.particleEmitters.removeAll(arraylist);
 	}
 
-	private void updateEffectLayer(int p_178922_1_) {
+	private void updateEffectLayer(int id) {
 		for (int i = 0; i < 2; ++i) {
-			this.updateEffectAlphaLayer(this.fxLayers[p_178922_1_][i]);
+			this.updateEffectAlphaLayer(this.fxLayers[id][i]);
 		}
 	}
 
-	private void updateEffectAlphaLayer(List p_178925_1_) {
+	private void updateEffectAlphaLayer(List entityList) {
 		ArrayList arraylist = Lists.newArrayList();
 
-		for (Object aP_178925_1_ : p_178925_1_) {
-			EntityFX entityfx = (EntityFX) aP_178925_1_;
+		for (Object o : entityList) {
+			EntityFX entityfx = (EntityFX) o;
 			this.tickParticle(entityfx);
-
-			if (entityfx.isDead) {
-				arraylist.add(entityfx);
-			}
+			if (entityfx.isDead) arraylist.add(entityfx);
 		}
 
-		p_178925_1_.removeAll(arraylist);
+		entityList.removeAll(arraylist);
 	}
 
 	private void tickParticle(final EntityFX p_178923_1_) {
