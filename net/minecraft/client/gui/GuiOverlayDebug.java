@@ -111,6 +111,7 @@ public class GuiOverlayDebug extends Gui
 
 	protected List call()
 	{
+		if(Settings.F3_MINIMAL.b())return Lists.newArrayList(this.mc.debug);
 		BlockPos blockpos = new BlockPos(this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
 		Entity entity = this.mc.getRenderViewEntity();
 		EnumFacing enumfacing = entity.getHorizontalFacing();
@@ -178,10 +179,11 @@ public class GuiOverlayDebug extends Gui
 	}
 
 	protected List getDebugInfoCenter() {
+		if(Settings.F3_MINIMAL.b())return new ArrayList();
 		if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.mc.objectMouseOver.getBlockPos() != null) {
 			List<String> arraylist = new ArrayList<>();
 			BlockPos blockpos1 = this.mc.objectMouseOver.getBlockPos();
-			arraylist.add(String.format("§e%d %d %d", blockpos1.getX(), blockpos1.getY(), blockpos1.getZ()));
+			arraylist.add("§e" + blockpos1.getX() + " " + blockpos1.getY() + " " + blockpos1.getZ());
 			IBlockState iblockstate = this.mc.theWorld.getBlockState(blockpos1);
 
 			if (this.mc.theWorld.getWorldType() != WorldType.DEBUG_WORLD)
@@ -201,14 +203,15 @@ public class GuiOverlayDebug extends Gui
 
 	protected List getDebugInfoRight()
 	{
+		if(Settings.F3_MINIMAL.b())return new ArrayList();
 		long i = Runtime.getRuntime().maxMemory();
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
 		if (isReducedDebug()) return Lists.newArrayList(
-				String.format("Версия Java: §a%s§fx%d", System.getProperty("java.version"), this.mc.isJava64bit() ? 64 : 32),
-				String.format("Память:§a% 2d%% %03d§f/§a%03d§f МБ", l * 100L / i, bytesToMb(l), bytesToMb(i)),
-				String.format("Выделено:§a% 2d%% %03d§f МБ", j * 100L / i, bytesToMb(j))
+				"Версия Java: §a" + System.getProperty("java.version") + "§fx" + (this.mc.isJava64bit() ? 64 : 32),
+				"Память: §a" + (l * 100L / i) + "% " +  bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ",
+				"Выделено: §a" + (j * 100L / i) + "% " + bytesToMb(j) + " §fМБ"
 		);
 
 		return Lists.newArrayList(

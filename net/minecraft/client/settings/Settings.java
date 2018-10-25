@@ -22,6 +22,7 @@ import java.util.List;
 
 public enum Settings {
 
+	F3_MINIMAL("Минимальный F3", false),
 	INVERT_MOUSE("Инверсия мыши", false),
 	SENSITIVITY("Чувствительность", 0f, 1f, 0.01f, 0.5f),
 	FOV("Поле зрения", 30, 110, 1, 90),
