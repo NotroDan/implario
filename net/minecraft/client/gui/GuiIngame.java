@@ -237,9 +237,7 @@ public class GuiIngame extends Gui {
 			}
 		}
 
-		if (Settings.SHOW_DEBUG.b()) {
-			this.overlayDebug.renderDebugInfo(scaledresolution);
-		}
+		if (Settings.SHOW_DEBUG.b()) this.overlayDebug.renderDebugInfo(scaledresolution);
 
 		if (this.recordPlayingUpFor > 0) {
 			this.mc.mcProfiler.startSection("overlayMessage");
