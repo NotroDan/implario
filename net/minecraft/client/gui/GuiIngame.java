@@ -479,7 +479,7 @@ public class GuiIngame extends Gui {
 	}
 
 	protected boolean showCrosshair() {
-		if (Settings.SHOW_DEBUG.b() && !this.mc.thePlayer.hasReducedDebug() && !Settings.REDUCED_DEBUG_INFO.b()) {
+		if (Settings.SHOW_DEBUG.b() && !this.mc.thePlayer.hasReducedDebug() && !(Settings.REDUCED_DEBUG_INFO.i() > 0)) {
 			return false;
 		} else if (this.mc.playerController.isSpectator()) {
 			if (this.mc.pointedEntity != null) {

@@ -28,7 +28,6 @@ public class GuiOverlayDebug extends Gui
 {
 	private final Minecraft mc;
 	private final FontRenderer fontRenderer;
-	private static final String __OBFID = "CL_00001956";
 
 	public GuiOverlayDebug(Minecraft mc)
 	{
@@ -48,7 +47,7 @@ public class GuiOverlayDebug extends Gui
 	}
 
 	private boolean isReducedDebug() {
-		return this.mc.thePlayer.hasReducedDebug() || Settings.REDUCED_DEBUG_INFO.b();
+		return this.mc.thePlayer.hasReducedDebug() || Settings.REDUCED_DEBUG_INFO.i() == 1;
 	}
 
 	protected void renderDebugInfoLeft()
@@ -111,7 +110,7 @@ public class GuiOverlayDebug extends Gui
 
 	protected List call()
 	{
-		if(Settings.F3_MINIMAL.b())return Lists.newArrayList(this.mc.debug);
+		if(Settings.REDUCED_DEBUG_INFO.i() == 2)return Lists.newArrayList(this.mc.debug);
 		BlockPos blockpos = new BlockPos(this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
 		Entity entity = this.mc.getRenderViewEntity();
 		EnumFacing enumfacing = entity.getHorizontalFacing();
@@ -179,7 +178,7 @@ public class GuiOverlayDebug extends Gui
 	}
 
 	protected List getDebugInfoCenter() {
-		if(Settings.F3_MINIMAL.b())return new ArrayList();
+		if(Settings.REDUCED_DEBUG_INFO.i() == 2)return new ArrayList();
 		if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.mc.objectMouseOver.getBlockPos() != null) {
 			List<String> arraylist = new ArrayList<>();
 			BlockPos blockpos1 = this.mc.objectMouseOver.getBlockPos();
@@ -203,15 +202,15 @@ public class GuiOverlayDebug extends Gui
 
 	protected List getDebugInfoRight()
 	{
-		if(Settings.F3_MINIMAL.b())return new ArrayList();
+		if(Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList();
 		long i = Runtime.getRuntime().maxMemory();
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
 		if (isReducedDebug()) return Lists.newArrayList(
 				"Версия Java: §a" + System.getProperty("java.version") + "§fx" + (this.mc.isJava64bit() ? 64 : 32),
-				"Память: §a" + (l * 100L / i) + "% " +  bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ",
-				"Выделено: §a" + (j * 100L / i) + "% " + bytesToMb(j) + " §fМБ"
+				"Память: §a" + l * 100L / i + "% " +  bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ",
+				"Выделено: §a" + j * 100L / i + "% " + bytesToMb(j) + " §fМБ"
 		);
 
 		return Lists.newArrayList(

@@ -66,8 +66,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.CHUNK_UPDATES_DYNAMIC, x2, y).updateGraphics(),
 				createButton(Settings.DYNAMIC_FOV, x1, y += 22),
 				createButton(Settings.MIPMAP_LEVELS, x2, y).updateGraphics(),
-				createButton(Settings.MIPMAP_TYPE, x1, y += 22).updateGraphics(),
-				createButton(Settings.F3_MINIMAL, x2, y).updateGraphics()
+				createButton(Settings.MIPMAP_TYPE, x1, y += 22).updateGraphics()
 //				createButton(Settings., x1, y += 22),
 //				createButton(Settings., x2, y),
 //				createButton(Settings., x1, y += 22),

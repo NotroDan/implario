@@ -1221,26 +1221,25 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void renderWorldDirections(float partialTicks) {
-		if (Settings.SHOW_DEBUG.b() && !Settings.HIDE_GUI.b() && !this.mc.thePlayer.hasReducedDebug() && Settings.PERSPECTIVE.i() == 0) {
-			Entity entity = this.mc.getRenderViewEntity();
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-			GL11.glLineWidth(1.0F);
-			GlStateManager.disableTexture2D();
-			GlStateManager.depthMask(false);
-			GlStateManager.pushMatrix();
-			GlStateManager.matrixMode(5888);
-			GlStateManager.loadIdentity();
-			this.orientCamera(partialTicks);
-			GlStateManager.translate(0.0F, entity.getEyeHeight(), 0.0F);
-			RenderGlobal.func_181563_a(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.005D, 1.0E-4D, 1.0E-4D), 255, 0, 0, 255);
-			RenderGlobal.func_181563_a(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0E-4D, 1.0E-4D, 0.005D), 0, 0, 255, 255);
-			RenderGlobal.func_181563_a(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0E-4D, 0.0033D, 1.0E-4D), 0, 255, 0, 255);
-			GlStateManager.popMatrix();
-			GlStateManager.depthMask(true);
-			GlStateManager.enableTexture2D();
-			GlStateManager.disableBlend();
-		}
+		if (!Settings.SHOW_DEBUG.b() || Settings.REDUCED_DEBUG_INFO.i() != 0 || Settings.HIDE_GUI.b() || this.mc.thePlayer.hasReducedDebug() || Settings.PERSPECTIVE.i() != 0) return;
+		Entity entity = this.mc.getRenderViewEntity();
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		GL11.glLineWidth(1.0F);
+		GlStateManager.disableTexture2D();
+		GlStateManager.depthMask(false);
+		GlStateManager.pushMatrix();
+		GlStateManager.matrixMode(5888);
+		GlStateManager.loadIdentity();
+		this.orientCamera(partialTicks);
+		GlStateManager.translate(0.0F, entity.getEyeHeight(), 0.0F);
+		RenderGlobal.func_181563_a(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.005D, 1.0E-4D, 1.0E-4D), 255, 0, 0, 255);
+		RenderGlobal.func_181563_a(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0E-4D, 1.0E-4D, 0.005D), 0, 0, 255, 255);
+		RenderGlobal.func_181563_a(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0E-4D, 0.0033D, 1.0E-4D), 0, 255, 0, 255);
+		GlStateManager.popMatrix();
+		GlStateManager.depthMask(true);
+		GlStateManager.enableTexture2D();
+		GlStateManager.disableBlend();
 	}
 
 	public void renderWorld(float partialTicks, long finishTimeNano) {

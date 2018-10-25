@@ -22,7 +22,6 @@ import java.util.List;
 
 public enum Settings {
 
-	F3_MINIMAL("Минимальный F3", false),
 	INVERT_MOUSE("Инверсия мыши", false),
 	SENSITIVITY("Чувствительность", 0f, 1f, 0.01f, 0.5f),
 	FOV("Поле зрения", 30, 110, 1, 90),
@@ -74,7 +73,7 @@ public enum Settings {
 	FORCE_UNICODE_FONT("Шрифт Unicode", true),
 	USE_NATIVE_CONNECTION("Нативное соединение", true),
 	BLOCK_ALTERNATIVES("Альтернативные блоки", false),
-	REDUCED_DEBUG_INFO("Компактный F3", true),
+	REDUCED_DEBUG_INFO("Экран F3", 1, "§aПолный", "§eСокращённый", "§6Только FPS"),
 	ENTITY_SHADOWS("Тени сущностей", true),
 	FOG_FANCY("Качество тумана", 1, "§cВыкл", "Быстро", "Детально"),
 	FOG_START("Дальность тумана", 0.2f, 0.8f, 0.2f, 0.8f),
