@@ -2,10 +2,14 @@ package net.minecraft.client.gui.element;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.HoverButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.Settings;
 
-public class VolumeSlider extends SettingSlider {
+import java.util.List;
+
+public class VolumeSlider extends SettingSlider implements HoverButton {
 
 	private float sliderPosition;
 	public boolean isMouseDown;
@@ -43,12 +47,12 @@ public class VolumeSlider extends SettingSlider {
 
 		}
 
-		int slider = (int) (yPosition + height * (1- sliderPosition));
+		int slider = (int) (yPosition + height * (1 - sliderPosition));
 		int y = yPosition + height;
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		drawHorizontalLine(xPosition, xPosition + 9, slider,-1);
-		drawHorizontalLine(xPosition, xPosition + 9, slider + 1,-1);
+		drawHorizontalLine(xPosition, xPosition + 9, slider, -1);
+		drawHorizontalLine(xPosition, xPosition + 9, slider + 1, -1);
 	}
 
 	/**
@@ -57,7 +61,7 @@ public class VolumeSlider extends SettingSlider {
 	 */
 	@Override
 	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-		if (!super.mousePressed(mc, mouseX, mouseY)) return false;
+		if (!superPressed(mc, mouseX, mouseY)) return false;
 		this.sliderPosition = 1 - (float) (mouseY - this.yPosition) / this.height;
 
 		if (this.sliderPosition < 0.0F) this.sliderPosition = 0.0F;
@@ -69,6 +73,14 @@ public class VolumeSlider extends SettingSlider {
 		return true;
 	}
 
+	public boolean superPressed(Minecraft mc, int mouseX, int mouseY) {
+		return this.enabled && this.visible &&
+				mouseX >= this.xPosition - 5 &&
+				mouseY >= this.yPosition - 12 &&
+				mouseX < this.xPosition + this.width + 5 &&
+				mouseY < this.yPosition + this.height + 26;
+	}
+
 
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
@@ -76,7 +88,7 @@ public class VolumeSlider extends SettingSlider {
 		FontRenderer fontrenderer = mc.fontRendererObj;
 		mc.getTextureManager().bindTexture(buttonTextures);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+		this.hovered = superPressed(mc, mouseX, mouseY);
 		int i = this.getHoverState(this.hovered);
 		GlStateManager.enableBlend();
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -84,6 +96,11 @@ public class VolumeSlider extends SettingSlider {
 
 		int slider = (int) (yPosition + height * (1 - sliderPosition));
 		int y = yPosition + height;
+
+		if (hovered) {
+			drawRect(xPosition - 5, yPosition - 12, xPosition + width + 5, yPosition + height + 26, 0x60f4c242);
+		}
+
 		drawRect(xPosition + 1, yPosition, xPosition + 9, y, 0xc0c7ffbf);
 		drawRect(xPosition + 1, slider, xPosition + 9, y, 0xff48a334);
 		if (settings != Settings.SOUND_MASTER) {
@@ -91,22 +108,23 @@ public class VolumeSlider extends SettingSlider {
 			drawRect(xPosition, total, xPosition + 10, total + 1, 0xfff3ff77);
 		}
 		drawCenteredString(Minecraft.getMinecraft().fontRendererObj, (int) (sliderPosition * 100) + "%", xPosition + 5, yPosition - 10, -1);
+		RenderHelper.enableGUIStandardItemLighting();
+		Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(settings.getSoundCategory().getItem(), xPosition - 3, yPosition + height + 8);
+		RenderHelper.disableStandardItemLighting();
 
 
 		this.mouseDragged(mc, mouseX, mouseY);
 	}
 
 
-	/**
-	 * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
-	 */
 	@Override
 	public void mouseReleased(int mouseX, int mouseY) {
-//		if (isMouseDown) {
-//			settings.set(MathHelper.clamp_float((mouseY - yPosition) / height, 0, 1));
-//			settings.change();
-//		}
 		this.isMouseDown = false;
+	}
+
+	@Override
+	public List<String> getHoverText() {
+		return settings.getSoundCategory().getDescription();
 	}
 
 }

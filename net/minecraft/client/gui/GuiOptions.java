@@ -143,17 +143,18 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				new IconButton(Settings.PARTICLES, x3 += 65, y, new ItemStack(Items.dye, 15)).setHoverText("§eОстальные частицы")
 				);
 
-		x1 = width / 2 - 112;
+		x1 = width / 2 - 116;
+		y = tabs.y + 42;
 		tabs.add("Звуки",
-				new VolumeSlider(Settings.SOUND_MASTER, x1 - 28, 120),
-				new VolumeSlider(Settings.SOUND_AMBIENT, x1, 120),
-				new VolumeSlider(Settings.SOUND_ANIMALS, x1 += 28, 120),
-				new VolumeSlider(Settings.SOUND_BLOCKS, x1 += 28, 120),
-				new VolumeSlider(Settings.SOUND_MOBS, x1 += 28, 120),
-				new VolumeSlider(Settings.SOUND_MUSIC, x1 += 28, 120),
-				new VolumeSlider(Settings.SOUND_RECORDS, x1 += 28, 120),
-				new VolumeSlider(Settings.SOUND_WEATHER, x1 += 28, 120),
-				new VolumeSlider(Settings.SOUND_PLAYERS, x1 += 28, 120)
+				new VolumeSlider(Settings.SOUND_MASTER, x1, y),
+				new VolumeSlider(Settings.SOUND_AMBIENT, x1 += 28, y),
+				new VolumeSlider(Settings.SOUND_ANIMALS, x1 += 28, y),
+				new VolumeSlider(Settings.SOUND_BLOCKS, x1 += 28, y),
+				new VolumeSlider(Settings.SOUND_MOBS, x1 += 28, y),
+				new VolumeSlider(Settings.SOUND_MUSIC, x1 += 28, y),
+				new VolumeSlider(Settings.SOUND_RECORDS, x1 += 28, y),
+				new VolumeSlider(Settings.SOUND_WEATHER, x1 += 28, y),
+				new VolumeSlider(Settings.SOUND_PLAYERS, x1 += 28, y)
 				);
 
 
@@ -309,7 +310,10 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 			Minecraft.getMinecraft().getSoundHandler().getSndManager().pauseAllSounds();
 			Minecraft.getMinecraft().getSoundHandler().getSndManager().resumeAllSounds();
 			super.keyTyped(typedChar, keyCode);
-//			return;
+			return;
+		}
+		if (keyCode == 15) {
+			tabs.select(tabs.getCurrent() + 1 >= tabs.getTabs().size() ? 0 : tabs.getCurrent() + 1);
 		}
 	}
 

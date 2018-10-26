@@ -365,4 +365,8 @@ public enum Settings {
 	public String getCaption() {
 		return null;
 	}
+
+	public SoundCategory getSoundCategory() {
+		return soundCategory;
+	}
 }

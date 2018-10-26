@@ -58,4 +58,12 @@ public class TabSet {
 		return w;
 	}
 
+	public int getCurrent() {
+		return current;
+	}
+
+	public List<Tab> getTabs() {
+		return tabs;
+	}
+
 }

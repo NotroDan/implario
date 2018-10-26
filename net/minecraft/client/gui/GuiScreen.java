@@ -7,6 +7,7 @@ import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiLabel;
+import net.minecraft.client.gui.element.VolumeSlider;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -101,10 +102,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 		for (GuiButton button : this.buttonList) {
 			button.drawButton(this.mc, mouseX, mouseY);
 			if (button instanceof HoverButton) {
-				if (button.visible && mouseX >= button.xPosition && mouseX <= button.xPosition + button.width &&
-						mouseY >= button.yPosition && mouseY <= button.yPosition + button.height) {
-					hovered = (HoverButton) button;
-				}
+				if (button.visible &&
+						mouseX >= button.xPosition &&
+						mouseX <= button.xPosition + button.width &&
+						mouseY >= button.yPosition &&
+						mouseY <= button.yPosition + button.height ||
+						button instanceof VolumeSlider && ((VolumeSlider) button).superPressed(mc, mouseX, mouseY)
+				) hovered = (HoverButton) button;
 			}
 		}
 		if (hovered != null) drawHoveringText(hovered.getHoverText(), mouseX, mouseY);
