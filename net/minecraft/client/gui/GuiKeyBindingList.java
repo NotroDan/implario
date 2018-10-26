@@ -106,7 +106,7 @@ public class GuiKeyBindingList extends GuiListExtended {
 		}
 
 		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-			boolean flag = GuiKeyBindingList.this.guiControls.buttonId == this.keybinding;
+			boolean flag = GuiKeyBindingList.this.guiControls.editing == this.keybinding;
 			GuiKeyBindingList.this.mc.fontRendererObj.drawString(this.keyDesc, x + 90 - GuiKeyBindingList.this.maxListLabelWidth, y + slotHeight / 2 - GuiKeyBindingList.this.mc.fontRendererObj.FONT_HEIGHT / 2, 16777215);
 			this.btnReset.xPosition = x + 190;
 			this.btnReset.yPosition = y;
@@ -131,7 +131,7 @@ public class GuiKeyBindingList extends GuiListExtended {
 
 		public boolean mousePressed(int slotIndex, int p_148278_2_, int p_148278_3_, int p_148278_4_, int p_148278_5_, int p_148278_6_) {
 			if (this.btnChangeKeyBinding.mousePressed(GuiKeyBindingList.this.mc, p_148278_2_, p_148278_3_)) {
-				GuiKeyBindingList.this.guiControls.buttonId = this.keybinding;
+				GuiKeyBindingList.this.guiControls.editing = this.keybinding;
 				return true;
 			} else if (this.btnReset.mousePressed(GuiKeyBindingList.this.mc, p_148278_2_, p_148278_3_)) {
 				keybinding.setKeyCode(keybinding.getKeyCodeDefault());

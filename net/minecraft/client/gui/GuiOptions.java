@@ -158,6 +158,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				new VolumeSlider(Settings.SOUND_PLAYERS, x1 += 28, y)
 				);
 
+		tabs.add("Управление");
+
 
 		tabs.init(buttonList, width);
 		if (tabs.current >= 0) tabs.select(tabs.current);
@@ -241,7 +243,12 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (!button.enabled || !button.visible) return;
 
-		if (button.id >= 1000) tabs.select(button.id - 1000);
+		if (button.id >= 1000) {
+			if (button.id == 1007) {
+				mc.displayGuiScreen(new GuiControls(this));
+			}
+			tabs.select(button.id - 1000);
+		}
 
 		if (button instanceof SettingButton) ((SettingButton) button).click();
 
