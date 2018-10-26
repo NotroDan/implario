@@ -157,7 +157,8 @@ public enum Settings {
 	ITEM_TOOLTIPS("ID предметов", false),
 	FANCY_BUTTONS("Тип кнопок", true),
 	RAINBOW_SHIT("Радужная хуйня", true),
-	HIDE_SERVER_ADDRESS("Скрыть IP серверов", false);
+	HIDE_SERVER_ADDRESS("Скрыть IP серверов", false),
+	RENDER_FIRE("Огонь", 0, "Стандартный", "Иконка", "Отключён");
 
 	private static final Settings[] SOUNDS;
 	private static final Settings[] MODELPARTS;

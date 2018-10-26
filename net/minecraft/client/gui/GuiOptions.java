@@ -50,7 +50,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		tabs.add("Общее",
 				createButton(Settings.FOV, x1, y += 22),
-				createButton(Settings.REDUCED_DEBUG_INFO, x2, y)
+				createButton(Settings.REDUCED_DEBUG_INFO, x2, y),
+				createButton(Settings.RENDER_FIRE, x1, y += 22)
 				);
 
 		y = tabs.y;

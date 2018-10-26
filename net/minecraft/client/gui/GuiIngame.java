@@ -267,6 +267,12 @@ public class GuiIngame extends Gui {
 			this.mc.mcProfiler.endSection();
 		}
 
+		if (mc.thePlayer.isBurning() && Settings.RENDER_FIRE.i() == 1) {
+			TextureAtlasSprite textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite("minecraft:blocks/fire_layer_1");
+			this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+			drawTexturedModalRect(width / 2 - 16, height / 2, textureatlassprite, 16, 16);
+		}
+
 		if (this.titleTicks > 0) renderTitle(partialTicks, width, height);
 
 		Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
@@ -434,9 +440,7 @@ public class GuiIngame extends Gui {
 		if (this.remainingHighlightTicks > 0 && this.highlightingItemStack != null) {
 			String s = this.highlightingItemStack.getDisplayName();
 
-			if (this.highlightingItemStack.hasDisplayName()) {
-				s = EnumChatFormatting.ITALIC + s;
-			}
+			if (this.highlightingItemStack.hasDisplayName()) s = EnumChatFormatting.ITALIC + s + EnumChatFormatting.RESET;
 
 			int i = (p_181551_1_.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2;
 			int j = p_181551_1_.getScaledHeight() - 59;

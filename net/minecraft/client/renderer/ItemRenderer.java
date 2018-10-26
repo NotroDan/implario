@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -457,6 +458,7 @@ public class ItemRenderer {
 	 * Renders the fire on the screen for first person mode. Arg: partialTickTime
 	 */
 	private void renderFireInFirstPerson(float p_78442_1_) {
+		if (Settings.RENDER_FIRE.i() != 0) return;
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);
