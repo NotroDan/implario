@@ -8,8 +8,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -43,7 +46,6 @@ public class RenderChunk {
 	private int frameIndex = -1;
 	private boolean needsUpdate = true;
 	private EnumMap field_181702_p;
-	private static final String __OBFID = "CL_00002452";
 	private BlockPos[] positionOffsets16 = new BlockPos[EnumFacing.VALUES.length];
 	private static EnumWorldBlockLayer[] ENUM_WORLD_BLOCK_LAYERS = EnumWorldBlockLayer.values();
 	private EnumWorldBlockLayer[] blockLayersSingle = new EnumWorldBlockLayer[1];
@@ -103,23 +105,19 @@ public class RenderChunk {
 
 	public void rebuildChunk(float x, float y, float z, ChunkCompileTaskGenerator generator) {
 		CompiledChunk compiledchunk = new CompiledChunk();
-		boolean flag = true;
 		BlockPos blockpos = this.position;
 		BlockPos blockpos1 = blockpos.add(15, 15, 15);
 		generator.getLock().lock();
 		RegionRenderCache regionrendercache;
 
 		try {
-			if (generator.getStatus() != ChunkCompileTaskGenerator.Status.COMPILING) {
+			if (generator.getStatus() != ChunkCompileTaskGenerator.Status.COMPILING)
 				return;
-			}
 
-			if (this.world == null) {
+			if (this.world == null)
 				return;
-			}
 
 			regionrendercache = this.createRegionRenderCache(this.world, blockpos.add(-1, -1, -1), blockpos1.add(1, 1, 1), 1);
-
 			generator.setCompiledChunk(compiledchunk);
 		} finally {
 			generator.getLock().unlock();
@@ -132,6 +130,7 @@ public class RenderChunk {
 			++renderChunksUpdated;
 			boolean[] aboolean = new boolean[ENUM_WORLD_BLOCK_LAYERS.length];
 			BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+
 			for (Object o : BlockPosM.getAllInBoxMutable(blockpos, blockpos1)) {
 				BlockPosM blockposm = (BlockPosM) o;
 				IBlockState iblockstate = regionrendercache.getBlockState(blockposm);
@@ -141,13 +140,27 @@ public class RenderChunk {
 					var10.func_178606_a(blockposm);
 				}
 
+				if (iblockstate.getBlock().hasTileEntity()) {
+					TileEntity tileentity = regionrendercache.getTileEntity(new BlockPos(blockposm));
+					TileEntitySpecialRenderer tileentityspecialrenderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(tileentity);
+
+					if (tileentity != null && tileentityspecialrenderer != null) {
+						compiledchunk.addTileEntity(tileentity);
+
+						if (tileentityspecialrenderer.func_181055_a()) {
+							var11.add(tileentity);
+						}
+					}
+				}
+
 				EnumWorldBlockLayer[] aenumworldblocklayer;
 
 				aenumworldblocklayer = this.blockLayersSingle;
 				aenumworldblocklayer[0] = block.getBlockLayer();
 
-				for (EnumWorldBlockLayer anAenumworldblocklayer : aenumworldblocklayer) {
-					EnumWorldBlockLayer enumworldblocklayer = anAenumworldblocklayer;
+				for (int i = 0; i < aenumworldblocklayer.length; ++i) {
+					EnumWorldBlockLayer enumworldblocklayer = aenumworldblocklayer[i];
+
 					enumworldblocklayer = this.fixBlockLayer(block, enumworldblocklayer);
 
 					int j = enumworldblocklayer.ordinal();
@@ -167,9 +180,7 @@ public class RenderChunk {
 			}
 
 			for (EnumWorldBlockLayer enumworldblocklayer1 : ENUM_WORLD_BLOCK_LAYERS) {
-				if (aboolean[enumworldblocklayer1.ordinal()]) {
-					compiledchunk.setLayerUsed(enumworldblocklayer1);
-				}
+				if (aboolean[enumworldblocklayer1.ordinal()]) compiledchunk.setLayerUsed(enumworldblocklayer1);
 
 				if (compiledchunk.isLayerStarted(enumworldblocklayer1)) {
 					if (Config.isShaders()) {
@@ -234,9 +245,7 @@ public class RenderChunk {
 		ChunkCompileTaskGenerator chunkcompiletaskgenerator1;
 
 		try {
-			if (this.compileTask != null && this.compileTask.getStatus() == ChunkCompileTaskGenerator.Status.PENDING) {
-				return null;
-			}
+			if (this.compileTask != null && this.compileTask.getStatus() == ChunkCompileTaskGenerator.Status.PENDING) return null;
 
 			if (this.compileTask != null && this.compileTask.getStatus() != ChunkCompileTaskGenerator.Status.DONE) {
 				this.compileTask.finish();
@@ -270,7 +279,7 @@ public class RenderChunk {
 	private void initModelviewMatrix() {
 		GlStateManager.pushMatrix();
 		GlStateManager.loadIdentity();
-		float f = 1.000001F;
+		float f = 1.000001f;
 		GlStateManager.translate(-8.0F, -8.0F, -8.0F);
 		GlStateManager.scale(f, f, f);
 		GlStateManager.translate(8.0F, 8.0F, 8.0F);
