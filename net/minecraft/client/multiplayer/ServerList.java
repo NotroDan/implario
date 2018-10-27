@@ -1,147 +1,127 @@
 package net.minecraft.client.multiplayer;
 
 import com.google.common.collect.Lists;
-import java.io.File;
-import java.util.List;
+import net.minecraft.client.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 
-public class ServerList
-{
-    private static final Logger logger = Logger.getInstance();
+import java.io.File;
+import java.util.List;
 
-    /** The Minecraft instance. */
-    private final Minecraft mc;
-    private final List<ServerData> servers = Lists.<ServerData>newArrayList();
+public class ServerList {
 
-    public ServerList(Minecraft mcIn)
-    {
-        this.mc = mcIn;
-        this.loadServerList();
-    }
+	private static final Logger logger = Logger.getInstance();
 
-    /**
-     * Loads a list of servers from servers.dat, by running ServerData.getServerDataFromNBTCompound on each NBT compound
-     * found in the "servers" tag list.
-     */
-    public void loadServerList()
-    {
-        try
-        {
-            this.servers.clear();
-            NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
+	/**
+	 * The Minecraft instance.
+	 */
+	private final Minecraft mc;
+	private final List<ServerData> servers = Lists.newArrayList();
 
-            if (nbttagcompound == null)
-            {
-                return;
-            }
+	public ServerList(Minecraft mcIn) {
+		this.mc = mcIn;
+		this.loadServerList();
+	}
 
-            NBTTagList nbttaglist = nbttagcompound.getTagList("servers", 10);
+	/**
+	 * Loads a list of servers from servers.dat, by running ServerData.getServerDataFromNBTCompound on each NBT compound
+	 * found in the "servers" tag list.
+	 */
+	public void loadServerList() {
+		try {
+			this.servers.clear();
+			NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
 
-            for (int i = 0; i < nbttaglist.tagCount(); ++i)
-            {
-                this.servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
-            }
-        }
-        catch (Exception exception)
-        {
-            logger.error((String)"Couldn\'t load server list", (Throwable)exception);
-        }
-    }
+			if (nbttagcompound == null) return;
 
-    /**
-     * Runs getNBTCompound on each ServerData instance, puts everything into a "servers" NBT list and writes it to
-     * servers.dat.
-     */
-    public void saveServerList()
-    {
-        try
-        {
-            NBTTagList nbttaglist = new NBTTagList();
+			NBTTagList nbttaglist = nbttagcompound.getTagList("servers", 10);
 
-            for (ServerData serverdata : this.servers)
-            {
-                nbttaglist.appendTag(serverdata.getNBTCompound());
-            }
+			for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+				this.servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
+			}
+		} catch (Exception exception) {
+			logger.error("Couldn\'t load server list", exception);
+		}
+	}
 
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
-            nbttagcompound.setTag("servers", nbttaglist);
-            CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "servers.dat"));
-        }
-        catch (Exception exception)
-        {
-            logger.error((String)"Couldn\'t save server list", (Throwable)exception);
-        }
-    }
+	/**
+	 * Runs getNBTCompound on each ServerData instance, puts everything into a "servers" NBT list and writes it to
+	 * servers.dat.
+	 */
+	public void saveServerList() {
+		try {
+			NBTTagList nbttaglist = new NBTTagList();
 
-    /**
-     * Gets the ServerData instance stored for the given index in the list.
-     */
-    public ServerData getServerData(int p_78850_1_)
-    {
-        return (ServerData)this.servers.get(p_78850_1_);
-    }
+			for (ServerData serverdata : this.servers) {
+				nbttaglist.appendTag(serverdata.getNBTCompound());
+			}
 
-    /**
-     * Removes the ServerData instance stored for the given index in the list.
-     */
-    public void removeServerData(int p_78851_1_)
-    {
-        this.servers.remove(p_78851_1_);
-    }
+			NBTTagCompound nbttagcompound = new NBTTagCompound();
+			nbttagcompound.setTag("servers", nbttaglist);
+			CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "servers.dat"));
+		} catch (Exception exception) {
+			logger.error("Couldn\'t save server list", exception);
+		}
+	}
 
-    /**
-     * Adds the given ServerData instance to the list.
-     */
-    public void addServerData(ServerData p_78849_1_)
-    {
-        this.servers.add(p_78849_1_);
-    }
+	/**
+	 * Gets the ServerData instance stored for the given index in the list.
+	 */
+	public ServerData getServerData(int p_78850_1_) {
+		return this.servers.get(p_78850_1_);
+	}
 
-    /**
-     * Counts the number of ServerData instances in the list.
-     */
-    public int countServers()
-    {
-        return this.servers.size();
-    }
+	/**
+	 * Removes the ServerData instance stored for the given index in the list.
+	 */
+	public void removeServerData(int p_78851_1_) {
+		this.servers.remove(p_78851_1_);
+	}
 
-    /**
-     * Takes two list indexes, and swaps their order around.
-     */
-    public void swapServers(int p_78857_1_, int p_78857_2_)
-    {
-        ServerData serverdata = this.getServerData(p_78857_1_);
-        this.servers.set(p_78857_1_, this.getServerData(p_78857_2_));
-        this.servers.set(p_78857_2_, serverdata);
-        this.saveServerList();
-    }
+	/**
+	 * Adds the given ServerData instance to the list.
+	 */
+	public void addServerData(ServerData p_78849_1_) {
+		this.servers.add(p_78849_1_);
+	}
 
-    public void func_147413_a(int p_147413_1_, ServerData p_147413_2_)
-    {
-        this.servers.set(p_147413_1_, p_147413_2_);
-    }
+	/**
+	 * Counts the number of ServerData instances in the list.
+	 */
+	public int countServers() {
+		return this.servers.size();
+	}
 
-    public static void func_147414_b(ServerData p_147414_0_)
-    {
-        ServerList serverlist = new ServerList(Minecraft.getMinecraft());
-        serverlist.loadServerList();
+	/**
+	 * Takes two list indexes, and swaps their order around.
+	 */
+	public void swapServers(int p_78857_1_, int p_78857_2_) {
+		ServerData serverdata = this.getServerData(p_78857_1_);
+		this.servers.set(p_78857_1_, this.getServerData(p_78857_2_));
+		this.servers.set(p_78857_2_, serverdata);
+		this.saveServerList();
+	}
 
-        for (int i = 0; i < serverlist.countServers(); ++i)
-        {
-            ServerData serverdata = serverlist.getServerData(i);
+	public void func_147413_a(int p_147413_1_, ServerData p_147413_2_) {
+		this.servers.set(p_147413_1_, p_147413_2_);
+	}
 
-            if (serverdata.serverName.equals(p_147414_0_.serverName) && serverdata.serverIP.equals(p_147414_0_.serverIP))
-            {
-                serverlist.func_147413_a(i, p_147414_0_);
-                break;
-            }
-        }
+	public static void func_147414_b(ServerData p_147414_0_) {
+		ServerList serverlist = new ServerList(Minecraft.getMinecraft());
+		serverlist.loadServerList();
 
-        serverlist.saveServerList();
-    }
+		for (int i = 0; i < serverlist.countServers(); ++i) {
+			ServerData serverdata = serverlist.getServerData(i);
+
+			if (serverdata.serverName.equals(p_147414_0_.serverName) && serverdata.serverIP.equals(p_147414_0_.serverIP)) {
+				serverlist.func_147413_a(i, p_147414_0_);
+				break;
+			}
+		}
+
+		serverlist.saveServerList();
+	}
+
 }
