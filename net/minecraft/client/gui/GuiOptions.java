@@ -252,63 +252,6 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		if (button instanceof SettingButton) ((SettingButton) button).click();
 
-		if (button.enabled == button.enabled) return;
-
-		if (button.id == 108) {
-			this.mc.theWorld.getWorldInfo().setDifficulty(EnumDifficulty.getDifficultyEnum(this.mc.theWorld.getDifficulty().getDifficultyId() + 1));
-			this.difficultyBtn.displayString = this.func_175355_a(this.mc.theWorld.getDifficulty());
-		}
-
-		if (button.id == 109)
-			this.mc.displayGuiScreen(new GuiYesNo(this,
-							new ChatComponentTranslation("difficulty.lock.title").getFormattedText(),
-							new ChatComponentTranslation("difficulty.lock.question",
-									new ChatComponentTranslation(this.mc.theWorld.getWorldInfo().getDifficulty().getDifficultyResourceKey())).getFormattedText(), 109)
-									);
-
-		if (button.id == 110) {
-			Settings.saveOptions();
-			this.mc.displayGuiScreen(new GuiCustomizeSkin(this));
-		}
-
-		if (button.id == 990) Settings.FANCY_BUTTONS.toggle();
-
-		if (button.id == 8675309) this.mc.entityRenderer.activateNextShader();
-
-		if (button.id == 101) {
-			Settings.saveOptions();
-			this.mc.displayGuiScreen(new GuiVideoSettings(this));
-		}
-
-		if (button.id == 100) {
-			Settings.saveOptions();
-			this.mc.displayGuiScreen(new GuiControls(this));
-		}
-
-		if (button.id == 102) {
-			Settings.saveOptions();
-			this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.getLanguageManager()));
-		}
-
-		if (button.id == 103) {
-			Settings.saveOptions();
-//			this.mc.displayGuiScreen(new ScreenChatOptions(this));
-		}
-
-		if (button.id == 200) {
-			Settings.saveOptions();
-			this.mc.displayGuiScreen(this.parent);
-		}
-
-		if (button.id == 105) {
-			Settings.saveOptions();
-			this.mc.displayGuiScreen(new GuiScreenResourcePacks(this));
-		}
-
-		if (button.id == 106) {
-			Settings.saveOptions();
-			this.mc.displayGuiScreen(new GuiScreenOptionsSounds(this));
-		}
 	}
 
 	@Override
