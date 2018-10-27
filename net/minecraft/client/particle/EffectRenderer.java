@@ -30,7 +30,7 @@ public class EffectRenderer {
 	private static final ResourceLocation particleTextures = new ResourceLocation("textures/particle/particles.png");
 
 	/**
-	 * Reference to the World object.
+	 * Reference to the World object
 	 */
 	protected World worldObj;
 	private List[][] fxLayers = new List[4][];
@@ -165,22 +165,25 @@ public class EffectRenderer {
 		this.particleEmitters.removeAll(arraylist);
 	}
 
-	private void updateEffectLayer(int id) {
+	private void updateEffectLayer(int p_178922_1_) {
 		for (int i = 0; i < 2; ++i) {
-			this.updateEffectAlphaLayer(this.fxLayers[id][i]);
+			this.updateEffectAlphaLayer(this.fxLayers[p_178922_1_][i]);
 		}
 	}
 
-	private void updateEffectAlphaLayer(List entityList) {
+	private void updateEffectAlphaLayer(List p_178925_1_) {
 		ArrayList arraylist = Lists.newArrayList();
 
-		for (Object o : entityList) {
-			EntityFX entityfx = (EntityFX) o;
+		for (int i = 0; i < p_178925_1_.size(); ++i) {
+			EntityFX entityfx = (EntityFX) p_178925_1_.get(i);
 			this.tickParticle(entityfx);
-			if (entityfx.isDead) arraylist.add(entityfx);
+
+			if (entityfx.isDead) {
+				arraylist.add(entityfx);
+			}
 		}
 
-		entityList.removeAll(arraylist);
+		p_178925_1_.removeAll(arraylist);
 	}
 
 	private void tickParticle(final EntityFX p_178923_1_) {
@@ -190,9 +193,20 @@ public class EffectRenderer {
 			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Ticking Particle");
 			CrashReportCategory crashreportcategory = crashreport.makeCategory("Particle being ticked");
 			final int i = p_178923_1_.getFXLayer();
-			crashreportcategory.addCrashSectionCallable("Particle", p_178923_1_::toString);
-			crashreportcategory.addCrashSectionCallable("Particle Type", (Callable)
-					() -> i == 0 ? "MISC_TEXTURE" : i == 1 ? "TERRAIN_TEXTURE" : i == 3 ? "ENTITY_PARTICLE_TEXTURE" : "Unknown - " + i);
+			crashreportcategory.addCrashSectionCallable("Particle", new Callable() {
+				private static final String __OBFID = "CL_00000916";
+
+				public String call() throws Exception {
+					return p_178923_1_.toString();
+				}
+			});
+			crashreportcategory.addCrashSectionCallable("Particle Type", new Callable() {
+				private static final String __OBFID = "CL_00000917";
+
+				public String call() throws Exception {
+					return i == 0 ? "MISC_TEXTURE" : i == 1 ? "TERRAIN_TEXTURE" : i == 3 ? "ENTITY_PARTICLE_TEXTURE" : "Unknown - " + i;
+				}
+			});
 			throw new ReportedException(crashreport);
 		}
 	}
@@ -293,8 +307,8 @@ public class EffectRenderer {
 				Tessellator tessellator = Tessellator.getInstance();
 				WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-				for (Object aList : list) {
-					EntityFX entityfx = (EntityFX) aList;
+				for (int j = 0; j < list.size(); ++j) {
+					EntityFX entityfx = (EntityFX) list.get(j);
 					entityfx.renderParticle(worldrenderer, entityIn, p_78872_2_, f1, f5, f2, f3, f4);
 				}
 			}
@@ -314,7 +328,6 @@ public class EffectRenderer {
 	}
 
 	public void addBlockDestroyEffects(BlockPos pos, IBlockState state) {
-
 		if (state.getBlock().getMaterial() != Material.air) {
 			state = state.getBlock().getActualState(state, this.worldObj, pos);
 			byte b0 = 4;
@@ -325,9 +338,8 @@ public class EffectRenderer {
 						double d0 = (double) pos.getX() + ((double) i + 0.5D) / (double) b0;
 						double d1 = (double) pos.getY() + ((double) j + 0.5D) / (double) b0;
 						double d2 = (double) pos.getZ() + ((double) k + 0.5D) / (double) b0;
-						this.addEffect(
-								new EntityDiggingFX(this.worldObj, d0, d1, d2, d0 - (double) pos.getX() - 0.5D, d1 - (double) pos.getY() - 0.5D, d2 - (double) pos.getZ() - 0.5D, state).func_174846_a(
-										pos));
+						this.addEffect(new EntityDiggingFX(this.worldObj, d0, d1, d2, d0 - (double) pos.getX() - 0.5D, d1 - (double) pos.getY() - 0.5D, d2 - (double) pos.getZ() - 0.5D,
+								state).func_174846_a(pos));
 					}
 				}
 			}
@@ -416,11 +428,6 @@ public class EffectRenderer {
 		}
 
 		return false;
-	}
-
-	public void addBlockHitEffects(BlockPos p_addBlockHitEffects_1_, MovingObjectPosition p_addBlockHitEffects_2_) {
-		Block block = this.worldObj.getBlockState(p_addBlockHitEffects_1_).getBlock();
-		if (block != null) this.addBlockHitEffects(p_addBlockHitEffects_1_, p_addBlockHitEffects_2_.sideHit);
 	}
 
 }
