@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.HoverButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.item.ItemStack;
@@ -34,9 +35,9 @@ public class IconButton extends SettingButton implements HoverButton {
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
-		RenderHelper.enableGUIStandardItemLighting();
-		Minecraft.getMinecraft().currentScreen.itemRender.renderItemIntoGUI(item, xPosition + 22, yPosition + 15, 1.2f);
-		RenderHelper.disableStandardItemLighting();
+		GlStateManager.enableAlpha();
+		GlStateManager.enableBlend();
+		GlStateManager.color(1, 1, 1, 1);
 		boolean hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 		if (this.hovered != hovered) {
 			this.hovered = hovered;
@@ -55,6 +56,10 @@ public class IconButton extends SettingButton implements HoverButton {
 		drawRect(xPosition, yPosition, xPosition + width, yPosition + height, i);
 		this.drawCenteredString(Minecraft.getMinecraft().fontRendererObj, this.displayString, this.xPosition + this.width / 2, this.yPosition + this.height - 13,
 				hovered ? 0xffffa0 : 0xffffffff);
+		GlStateManager.disableBlend();
+		RenderHelper.enableGUIStandardItemLighting();
+		Minecraft.getMinecraft().currentScreen.itemRender.renderItemIntoGUI(item, xPosition + 22, yPosition + 15, 1.2f);
+		RenderHelper.disableStandardItemLighting();
 	}
 
 	@Override
