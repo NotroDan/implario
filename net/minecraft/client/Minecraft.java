@@ -139,27 +139,59 @@ public class Minecraft implements IThreadListener {
 	public EffectRenderer effectRenderer;
 	private final Session session;
 	private boolean isGamePaused;
+
+	/**
+	 * The font renderer used for displaying and measuring text
+	 */
 	public FontRenderer fontRendererObj;
 	public FontRenderer standardGalacticFontRenderer;
+
+	/**
+	 * The GuiScreen that's being displayed at the moment.
+	 */
 	public GuiScreen currentScreen;
 	public LoadingScreenRenderer loadingScreen;
 	public EntityRenderer entityRenderer;
 
+	/**
+	 * Mouse left click counter
+	 */
 	private int leftClickCounter;
 
+	/**
+	 * Display width
+	 */
 	private int tempDisplayWidth;
+
+	/**
+	 * Display height
+	 */
 	private int tempDisplayHeight;
 
+	/**
+	 * Instance of IntegratedServer.
+	 */
 	private IntegratedServer theIntegratedServer;
 
+	/**
+	 * Gui achievement
+	 */
 	public GuiAchievement guiAchievement;
 	public GuiIngame ingameGUI;
 
+	/**
+	 * Skip render world
+	 */
 	public boolean skipRenderWorld;
 
-	// The ray trace hit that the mouse is over.
+	/**
+	 * The ray trace hit that the mouse is over.
+	 */
 	public MovingObjectPosition objectMouseOver;
 
+	/**
+	 * Mouse helper instance.
+	 */
 	public MouseHelper mouseHelper;
 	public final File mcDataDir;
 	private final File fileAssets;
@@ -267,7 +299,8 @@ public class Minecraft implements IThreadListener {
 		this.proxy = gameConfig.userInfo.proxy == null ? Proxy.NO_PROXY : gameConfig.userInfo.proxy;
 		this.sessionService = new YggdrasilAuthenticationService(gameConfig.userInfo.proxy, UUID.randomUUID().toString()).createMinecraftSessionService();
 		this.session = gameConfig.userInfo.session;
-		logger.info("Установлено имя " + this.session.getUsername() + ", ID сессии: " + session.getSessionID());
+		logger.info("Setting user: " + this.session.getUsername());
+		logger.info("(Session ID is " + this.session.getSessionID() + ")");
 		this.isDemo = gameConfig.gameInfo.isDemo;
 		this.displayWidth = gameConfig.displayInfo.width > 0 ? gameConfig.displayInfo.width : 1;
 		this.displayHeight = gameConfig.displayInfo.height > 0 ? gameConfig.displayInfo.height : 1;
@@ -482,16 +515,13 @@ public class Minecraft implements IThreadListener {
 	}
 
 	private void setWindowIcon() {
-		Util.EnumOS os = Util.getOSType();
+		Util.EnumOS util$enumos = Util.getOSType();
 
-		if (os != Util.EnumOS.OSX) {
+		if (util$enumos != Util.EnumOS.OSX) {
 			InputStream inputstream = null;
 			InputStream inputstream1 = null;
 
 			try {
-//				inputstream = Minecraft.class.getResourceAsStream("/icon16.png");
-//				inputstream1 = Minecraft.class.getResourceAsStream("/icon32.png");
-
 				inputstream = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_16x16.png"));
 				inputstream1 = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_32x32.png"));
 

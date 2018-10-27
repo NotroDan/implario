@@ -11,59 +11,79 @@ import java.io.*;
 import java.util.Map;
 import java.util.Set;
 
-public class DefaultResourcePack implements IResourcePack {
+public class DefaultResourcePack implements IResourcePack
+{
+    public static final Set defaultResourceDomains = ImmutableSet.of("minecraft", "realms");
+    private final Map mapAssets;
+    private static final String __OBFID = "CL_00001073";
 
-	public static final Set defaultResourceDomains = ImmutableSet.of("minecraft", "realms");
-	private final Map<String, File> mapAssets;
+    public DefaultResourcePack(Map mapAssetsIn)
+    {
+        this.mapAssets = mapAssetsIn;
+    }
 
-	public DefaultResourcePack(Map<String, File> mapAssetsIn) {
-		this.mapAssets = mapAssetsIn;
-	}
+    public InputStream getInputStream(ResourceLocation location) throws IOException
+    {
+        InputStream inputstream = this.getResourceStream(location);
 
-	public InputStream getInputStream(ResourceLocation location) throws IOException {
-		InputStream inputstream = this.getResourceStream(location);
-		if (inputstream != null) return inputstream;
+        if (inputstream != null)
+        {
+            return inputstream;
+        }
+        else
+        {
+            InputStream inputstream1 = this.getInputStreamAssets(location);
 
-		InputStream inputstream1 = this.getInputStreamAssets(location);
-		if (inputstream1 != null) return inputstream1;
+            if (inputstream1 != null)
+            {
+                return inputstream1;
+            }
+            else
+            {
+                throw new FileNotFoundException(location.getResourcePath());
+            }
+        }
+    }
 
-		throw new FileNotFoundException(location.getResourcePath());
-	}
+    public InputStream getInputStreamAssets(ResourceLocation location) throws IOException, FileNotFoundException
+    {
+        File file1 = (File)this.mapAssets.get(location.toString());
+        return file1 != null && file1.isFile() ? new FileInputStream(file1) : null;
+    }
 
-	public InputStream getInputStreamAssets(ResourceLocation location) throws IOException {
-		File f = this.mapAssets.get(location.toString());
-		return f != null && f.isFile() ? new FileInputStream(f) : null;
-	}
+    private InputStream getResourceStream(ResourceLocation location)
+    {
+        String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
+        return DefaultResourcePack.class.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
+    }
 
-	private InputStream getResourceStream(ResourceLocation location) {
-		String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
-		return DefaultResourcePack.class.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
-	}
+    public boolean resourceExists(ResourceLocation location)
+    {
+        return this.getResourceStream(location) != null || this.mapAssets.containsKey(location.toString());
+    }
 
-	public boolean resourceExists(ResourceLocation location) {
-		return this.getResourceStream(location) != null || this.mapAssets.containsKey(location.toString());
-	}
+    public Set getResourceDomains()
+    {
+        return defaultResourceDomains;
+    }
 
+    public IMetadataSection getPackMetadata(IMetadataSerializer p_135058_1_, String p_135058_2_) {
+        try {
+            FileInputStream fileinputstream = new FileInputStream((File)this.mapAssets.get("pack.mcmeta"));
+            return AbstractResourcePack.readMetadata(p_135058_1_, fileinputstream, p_135058_2_);
+        }
+        catch (RuntimeException | FileNotFoundException var4) {
+            return null;
+        }
+    }
 
-	public IMetadataSection getPackMetadata(IMetadataSerializer serializer, String s) {
-		try {
-			FileInputStream fileinputstream = new FileInputStream(this.mapAssets.get("pack.mcmeta"));
-			return AbstractResourcePack.readMetadata(serializer, fileinputstream, s);
-		} catch (RuntimeException | FileNotFoundException e) {
-			return null;
-		}
-	}
+    public BufferedImage getPackImage() throws IOException
+    {
+        return TextureUtil.readBufferedImage(DefaultResourcePack.class.getResourceAsStream("/" + new ResourceLocation("pack.png").getResourcePath()));
+    }
 
-	public BufferedImage getPackImage() throws IOException {
-		String path = "/" + new ResourceLocation("pack.png").getResourcePath();
-		return TextureUtil.readBufferedImage(DefaultResourcePack.class.getResourceAsStream(path));
-	}
-
-	public Set getResourceDomains() {
-		return defaultResourceDomains;
-	}
-	public String getPackName() {
-		return "Стандартный";
-	}
-
+    public String getPackName()
+    {
+        return "Стандартный";
+    }
 }
