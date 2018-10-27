@@ -200,6 +200,7 @@ public class RenderManager {
 
 		if (Settings.PERSPECTIVE.i() == 2) {
 			this.playerViewY += 180.0F;
+			this.playerViewX = -this.playerViewX;
 		}
 
 		this.viewerPosX = livingPlayerIn.lastTickPosX + (livingPlayerIn.posX - livingPlayerIn.lastTickPosX) * (double) partialTicks;
