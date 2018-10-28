@@ -10,7 +10,7 @@ import java.io.IOException;
 public class GuiPlayername extends GuiScreen {
 
 	private GuiScreen parentScreen;
-	private GuiTextField inputField, passField;
+	private GuiTextField inputField;
 
 	public GuiPlayername(GuiScreen parentScreenIn) {
 		this.parentScreen = parentScreenIn;
@@ -22,7 +22,6 @@ public class GuiPlayername extends GuiScreen {
 	public void updateScreen()
 	{
 		inputField.updateCursorCounter();
-		passField.updateCursorCounter();
 	}
 
 	/**
@@ -39,8 +38,6 @@ public class GuiPlayername extends GuiScreen {
 		inputField = new GuiTextField(2, fontRendererObj, width / 2 - 100, 60, 200, 20);
 		inputField.setFocused(true);
 		inputField.setText(s);
-		passField = new GuiTextField(2, fontRendererObj, width / 2 - 100, 85, 200, 20);
-		passField.setText(GuiPassword.password);
 	}
 
 	/**
@@ -59,8 +56,6 @@ public class GuiPlayername extends GuiScreen {
 			if (button.id == 1) this.mc.displayGuiScreen(this.parentScreen);
 			else if (button.id == 0) {
 				mc.getSession().username = inputField.getText().trim();
-				GuiPassword.password = passField.getText().trim();
-				GuiPassword.savePassword();
 				this.mc.displayGuiScreen(this.parentScreen);
 			}
 		}
@@ -72,7 +67,6 @@ public class GuiPlayername extends GuiScreen {
 	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (inputField.isFocused()) this.inputField.textboxKeyTyped(typedChar, keyCode);
-		if (passField.isFocused()) this.passField.textboxKeyTyped(typedChar, keyCode);
 		this.buttonList.get(0).enabled = this.inputField.getText().trim().length() > 0;
 		if (keyCode == 28 || keyCode == 156) {
 			this.actionPerformed(this.buttonList.get(0));
@@ -85,7 +79,6 @@ public class GuiPlayername extends GuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
-		this.passField.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	/**
@@ -96,7 +89,6 @@ public class GuiPlayername extends GuiScreen {
 		this.drawCenteredString(this.fontRendererObj, I18n.format("Сменить никнейм"), this.width / 2, 20, 16777215);
 		this.drawString(this.fontRendererObj, I18n.format("Введите ник"), this.width / 2 - 100, 47, 10526880);
 		this.inputField.drawTextBox();
-		this.passField.drawTextBox();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

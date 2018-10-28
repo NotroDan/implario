@@ -167,8 +167,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit")));
-        this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Логин"));
-        this.buttonList.add(new GuiButton(98, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Регистрация"));
+        this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Авторизация"));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12)); // j + 72 + 12
         this.buttonList.add(new GuiButtonChangeName(99, this.width / 2 - 124, j + 72 + 12 + 24));
 
@@ -221,8 +220,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
 
         if (button.id == 99) this.mc.displayGuiScreen(new GuiPlayername(this));
-		if (button.id == 98) Utils.reg(GuiPassword.password, mc.getSession().username);
-		if (button.id == 97) Utils.log(GuiPassword.password, mc.getSession().username);
+		if (button.id == 97) this.mc.displayGuiScreen(new GuiAuth(this));
 
         if (button.id == 4) this.mc.shutdown();
 

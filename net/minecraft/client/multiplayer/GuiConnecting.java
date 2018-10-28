@@ -1,9 +1,11 @@
 package net.minecraft.client.multiplayer;
 
+import net.minecraft.Auth;
+import net.minecraft.client.Logger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.network.NetHandlerLoginClient;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.Settings;
@@ -13,8 +15,6 @@ import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -28,6 +28,7 @@ public class GuiConnecting extends GuiScreen {
 	private NetworkManager networkManager;
 	private boolean cancel;
 	private final GuiScreen previousGuiScreen;
+	private volatile boolean authorizing;
 
 	public GuiConnecting(GuiScreen p_i1181_1_, Minecraft mcIn, ServerData p_i1181_3_) {
 		this.mc = mcIn;
@@ -49,6 +50,19 @@ public class GuiConnecting extends GuiScreen {
 		logger.info("Connecting to " + ip + ", " + port);
 		new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
 			public void run() {
+
+				if (ip.equalsIgnoreCase("lmaomc.ru")) {
+					authorizing = true;
+					try {
+						Auth.log();
+					} catch (Throwable t) {
+						mc.displayGuiScreen(
+								new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed",
+										new ChatComponentTranslation("disconnect.genericReason", "Не удалось авторизоваться.")));
+						t.printStackTrace();
+					}
+				}
+
 				InetAddress inetaddress = null;
 
 				try {
@@ -139,11 +153,9 @@ public class GuiConnecting extends GuiScreen {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 
-		if (this.networkManager == null) {
-			this.drawCenteredString(this.fontRendererObj, I18n.format("connect.connecting"), this.width / 2, this.height / 2 - 50, 16777215);
-		} else {
-			this.drawCenteredString(this.fontRendererObj, I18n.format("connect.authorizing"), this.width / 2, this.height / 2 - 50, 16777215);
-		}
+		String s = this.networkManager == null ? I18n.format("connect.connecting") : I18n.format("connect.authorizing");
+		if (authorizing) s = "Авторизация в крутой системе гугла...";
+		this.drawCenteredString(this.fontRendererObj, s, this.width / 2, this.height / 2 - 50, 16777215);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

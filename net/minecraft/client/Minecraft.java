@@ -11,6 +11,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import net.minecraft.Auth;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -287,10 +288,14 @@ public class Minecraft implements IThreadListener {
 		Bootstrap.register();
 	}
 
+	public static String getGlobalName() {
+		return getMinecraft().getSession().defaultName;
+	}
+
 	public void run() {
 		this.running = true;
 
-		GuiPassword.loadPassword();
+		Auth.loadPassword();
 
 		try {
 			this.startGame();
@@ -789,7 +794,7 @@ label53:
 				this.loadWorld(null);
 			} catch (Throwable ignored) {}
 
-			GuiPassword.savePassword();
+			Auth.savePassword();
 			this.mcSoundHandler.unloadSounds();
 		} finally {
 			Display.destroy();

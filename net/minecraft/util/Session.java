@@ -3,6 +3,7 @@ package net.minecraft.util;
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.util.UUIDTypeAdapter;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,10 +13,12 @@ public class Session
     private final String playerID;
     private final String token;
     private final Session.Type sessionType;
+	public String defaultName;
 
-    public Session(String usernameIn, String playerIDIn, String tokenIn, String sessionTypeIn)
+	public Session(String usernameIn, String playerIDIn, String tokenIn, String sessionTypeIn)
     {
         this.username = usernameIn;
+        defaultName = usernameIn;
         this.playerID = playerIDIn;
         this.token = tokenIn;
         this.sessionType = Session.Type.setSessionType(sessionTypeIn);
@@ -62,7 +65,7 @@ public class Session
         return this.sessionType;
     }
 
-    public enum Type
+	public enum Type
     {
         LEGACY("legacy"),
         MOJANG("mojang");
