@@ -16,6 +16,7 @@ public class GuiAuth extends GuiScreen {
 	private final GuiScreen parent;
 	private String popup = "";
 	private long popupTime;
+	private int rounds = 12;
 
 	public GuiAuth(GuiScreen parent) {
 		mc = Minecraft.getMinecraft();
@@ -48,6 +49,9 @@ public class GuiAuth extends GuiScreen {
 		passText.drawTextBox();
 		if (b1) loginText.setText("");
 		if (b2) passText.setText("");
+
+		drawCenteredString(fontRendererObj, "Итерации: " + rounds, width / 2 + 100, height / 2 - 18, -1);
+
 		if (popup.length() != 0) {
 			long time = System.currentTimeMillis() - popupTime;
 			if (time > 3000) {
@@ -86,7 +90,7 @@ public class GuiAuth extends GuiScreen {
 					return;
 				}
 				try {
-					Auth.setPassword(pass, 12);
+					Auth.setPassword(pass, rounds);
 					Utils.reg(pass, login);
 					popup("§aРегистрация успешно завершена.");
 				} catch (Throwable t) {
@@ -98,6 +102,13 @@ public class GuiAuth extends GuiScreen {
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		if (keyCode == 200 && isCtrlKeyDown()) {
+			rounds++;
+			return;
+		} else if (keyCode == 208 && isCtrlKeyDown()) {
+			rounds--;
+			return;
+		}
 		if (loginText.isEnabled && loginText.isFocused()) loginText.textboxKeyTyped(typedChar, keyCode);
 		if (passText.isFocused()) passText.textboxKeyTyped(typedChar, keyCode);
 		this.buttonList.get(1).enabled = loginText.getText().trim().length() > 0 && passText.getText().trim().length() > 0;
