@@ -90,7 +90,6 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 			if (i == 0) {
 				f11 = f12 = f13 = 1.0F * f6;
 			}
-
 			worldrenderer.pos(x, y + (double) f3, z).color(f11, f12, f13, 1.0F).endVertex();
 			worldrenderer.pos(x, y + (double) f3, z + 1.0D).color(f11, f12, f13, 1.0F).endVertex();
 			worldrenderer.pos(x + 1.0D, y + (double) f3, z + 1.0D).color(f11, f12, f13, 1.0F).endVertex();
@@ -157,9 +156,9 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 			GlStateManager.loadIdentity();
 			GlStateManager.translate(0.0F, (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
 			GlStateManager.scale(f5, f5, f5);
-			GlStateManager.translate(0.5F, 0.5F, 0.0F);
-			GlStateManager.rotate((float) (i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
-			GlStateManager.translate(-0.5F, -0.5F, 0.0F);
+//			GlStateManager.translate(0.5F, 0.5F, 0.0F);
+//			GlStateManager.rotate((float) (i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
+//			GlStateManager.translate(-0.5F, -0.5F, 0.0F);
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 			worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -171,10 +170,10 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 				f11 = f12 = f13 = 1.0F * f6;
 			}
 
-			worldrenderer.pos(0, h, 0).color(f11, f12, f13, 1.0F).endVertex();
+			worldrenderer.pos(0, h, -1).color(f11, f12, f13, 1.0F).endVertex();
 			worldrenderer.pos(w, h, 0).color(f11, f12, f13, 1.0F).endVertex();
 			worldrenderer.pos(w, 0, 0).color(f11, f12, f13, 1.0F).endVertex();
-			worldrenderer.pos(0, 0,0).color(f11, f12, f13, 1.0F).endVertex();
+			worldrenderer.pos(0, 0, -1).color(f11, f12, f13, 1.0F).endVertex();
 			tessellator.draw();
 			GlStateManager.popMatrix();
 			GlStateManager.matrixMode(5888);
