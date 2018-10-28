@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.renderer.tileentity.TileEntityEndPortalRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -440,6 +441,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         float j = width / 16 - 21;
 
         drawRect(0, 0, width, height, 0xff202020);
+
+        renderBackground();
         renderTitle();
 //        this.mc.getTextureManager().bindTexture(minecraftTitleTextures);
 
@@ -471,7 +474,30 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    private static final CyclicIterator<String> titles = new CyclicIterator<>(new String[] {"Implario", "BedWars", "MLGRush"});
+	private void renderBackground() {
+//    	mc.getTextureManager().bindTexture(TileEntityEndPortalRenderer.END_PORTAL_TEXTURE);
+//    	GlStateManager.disableLighting();
+//		GlStateManager.enableBlend();
+//		GlStateManager.disableTexture2D();
+//
+//		Tessellator tessellator = Tessellator.getInstance();
+//		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+//		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+//		GlStateManager.color(1, 0, 0, 0.5f);
+//		worldrenderer.begin(7, DefaultVertexFormats.POSITION);
+//		worldrenderer.pos(0, height, 0.0D).endVertex();
+//		worldrenderer.pos(width, height, 0.0D).endVertex();
+//		worldrenderer.pos(width, 0, 0.0D).endVertex();
+//		worldrenderer.pos(0, 0, 0.0D).endVertex();
+//		tessellator.draw();
+//
+//		GlStateManager.enableTexture2D();
+//		GlStateManager.disableBlend();
+//    	GlStateManager.enableLighting();
+		TileEntityEndPortalRenderer.portal(width, height);
+	}
+
+	private static final CyclicIterator<String> titles = new CyclicIterator<>(new String[] {"Implario", "BedWars", "MLGRush"});
     private static final CyclicIterator<String> headers = new CyclicIterator<>(new String[] {"Клиент Minecraft 1.8.8", "Киберспортивная версия", "Тренируйте свои навыки на"});
     private static boolean switched = true;
     private static String title = titles.current();
@@ -496,10 +522,13 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 			render = "§7> §f" + title.substring(0, (int) ((float) d / 500 * (title.length() + 1)));
 		} else render = "§7> §f" + title + (d % 500 > 250 ? "§7_" : "");
 
-
-		GlStateManager.color(1.0F, 0.0F, 0.0F, 1.0F);
-
 		GlStateManager.scale(8, 8, 8);
+		if (d > 4000 && d < 4200) {
+			int a;
+			a = Math.abs(Math.abs((int) d - 4100) - 50) / 25;
+			fontRendererObj.drawString("§c> " + title, width / 16 - 21 - a, 2.5f + a, 0xffff0000, false);
+			fontRendererObj.drawString("§b> " + title, width / 16 - 21 + a, 2.5f - a, 0xff00ffff, false);
+		}
 		fontRendererObj.drawString(render, width / 16 - 21, 2.5f, -1, false);
 		GlStateManager.scale(0.25, 0.25, 0.25);
 		renderHeader(d);
@@ -508,7 +537,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 	private void renderHeader(long deltaTime) {
 		int opacity = 0xff;
-		int offset = 0________0;
+		int offset = 0;
 		int d = (int) (deltaTime - 5000);
 		if (d < 0) d =- d;
 		if ((d -= 4500) > 0) offset = d / 10;

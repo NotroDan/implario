@@ -51,14 +51,18 @@ public class GuiConnecting extends GuiScreen {
 		new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
 			public void run() {
 
-				if (ip.equalsIgnoreCase("lmaomc.ru")) {
+				if (ip.equalsIgnoreCase("lmaomc.ru") && Auth.password != null) {
 					authorizing = true;
 					try {
 						Auth.log();
+						authorizing = false;
 					} catch (Throwable t) {
 						mc.displayGuiScreen(
 								new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed",
-										new ChatComponentTranslation("disconnect.genericReason", "Не удалось авторизоваться.")));
+										new ChatComponentTranslation("disconnect.genericReason", "Не удалось авторизоваться.\nИспользуем стандартную авторизацию.")));
+						try {
+							sleep(1000);
+						} catch (InterruptedException ignored) {}
 						t.printStackTrace();
 					}
 				}

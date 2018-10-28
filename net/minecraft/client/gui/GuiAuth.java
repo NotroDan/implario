@@ -1,7 +1,6 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.Auth;
-import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiTextField;
@@ -91,7 +90,7 @@ public class GuiAuth extends GuiScreen {
 				}
 				try {
 					Auth.setPassword(pass, rounds);
-					Utils.reg(pass, login);
+					Auth.reg();
 					popup("§aРегистрация успешно завершена.");
 				} catch (Throwable t) {
 					popup("§cПроизошла ошибка.");
