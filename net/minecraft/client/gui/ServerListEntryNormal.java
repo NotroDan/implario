@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
+import net.minecraft.client.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,9 +15,10 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.Validate;
-import net.minecraft.client.Logger;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -200,6 +202,9 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 					bufferedimage = TextureUtil.readBufferedImage(new ByteBufInputStream(bytebuf1));
 					Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide");
 					Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high");
+					File f = new File(serverData.serverIP + ".png");
+					if (!f.exists()) f.createNewFile();
+					ImageIO.write(bufferedimage, "png", f);
 					break label101;
 				} catch (Throwable throwable) {
 					logger.error("Invalid icon for server " + this.serverData.serverName + " (" + this.serverData.serverIP + ")", throwable);

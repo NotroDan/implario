@@ -102,11 +102,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 import static net.minecraft.client.settings.KeyBinding.*;
+import static net.minecraft.util.Util.EnumOS.OSX;
 
 public class Minecraft implements IThreadListener {
 	private static final Logger logger = new Logger();
 	private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
-	public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
+	public static final boolean isRunningOnMac = Util.getOSType() == OSX;
 
 	private static final List<DisplayMode> macDisplayModes = Lists.newArrayList(new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
 	private final File fileResourcepacks;
@@ -451,7 +452,7 @@ public class Minecraft implements IThreadListener {
 
 	private void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle("Minecraft 1.8.8");
+		Display.setTitle("Implario Client");
 
 		try {
 			Display.create(new PixelFormat().withDepthBits(24));
@@ -482,28 +483,26 @@ public class Minecraft implements IThreadListener {
 	}
 
 	private void setWindowIcon() {
-		Util.EnumOS os = Util.getOSType();
+		if (Util.getOSType() == OSX) return;
 
-		if (os != Util.EnumOS.OSX) {
-			InputStream inputstream = null;
-			InputStream inputstream1 = null;
+		InputStream inputstream = null;
+		InputStream inputstream1 = null;
 
-			try {
-//				inputstream = Minecraft.class.getResourceAsStream("/icon16.png");
-//				inputstream1 = Minecraft.class.getResourceAsStream("/icon32.png");
+		try {
+			inputstream = Minecraft.class.getResourceAsStream("/icon16.png");
+			inputstream1 = Minecraft.class.getResourceAsStream("/icon32.png");
 
-				inputstream = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_16x16.png"));
-				inputstream1 = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_32x32.png"));
+//				inputstream = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_16x16.png"));
+//				inputstream1 = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_32x32.png"));
 
-				if (inputstream != null && inputstream1 != null) {
-					Display.setIcon(new ByteBuffer[] {this.readImageToBuffer(inputstream), this.readImageToBuffer(inputstream1)});
-				}
-			} catch (IOException ioexception) {
-				logger.error("Couldn\'t set icon", ioexception);
-			} finally {
-				IOUtils.closeQuietly(inputstream);
-				IOUtils.closeQuietly(inputstream1);
+			if (inputstream != null && inputstream1 != null) {
+				Display.setIcon(new ByteBuffer[] {this.readImageToBuffer(inputstream), this.readImageToBuffer(inputstream1)});
 			}
+		} catch (IOException ioexception) {
+			logger.error("Couldn\'t set icon", ioexception);
+		} finally {
+			IOUtils.closeQuietly(inputstream);
+			IOUtils.closeQuietly(inputstream1);
 		}
 	}
 
@@ -621,7 +620,7 @@ public class Minecraft implements IThreadListener {
 		Collections.addAll(set, Display.getAvailableDisplayModes());
 		DisplayMode displaymode = Display.getDesktopDisplayMode();
 
-		if (!set.contains(displaymode) && Util.getOSType() == Util.EnumOS.OSX) {
+		if (!set.contains(displaymode) && Util.getOSType() == OSX) {
 label53:
 
 			for (DisplayMode displaymode1 : macDisplayModes) {
