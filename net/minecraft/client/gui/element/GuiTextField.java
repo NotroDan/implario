@@ -43,7 +43,7 @@ public class GuiTextField extends Gui
     /**
      * If this value is true along with isFocused, keyTyped will process the keys.
      */
-    private boolean isEnabled = true;
+	public boolean isEnabled = true;
 
     /**
      * The current character index that should be used as start of the rendered text.

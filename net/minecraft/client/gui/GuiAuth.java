@@ -26,9 +26,12 @@ public class GuiAuth extends GuiScreen {
 	public void initGui() {
 		loginText = new GuiTextField(3, mc.fontRendererObj, width / 2 - 50, height / 2 - 40, 100, 20);
 		passText = new GuiTextField(4, mc.fontRendererObj, width / 2 - 50, height / 2 - 15, 100, 20);
+		loginText.setText(Minecraft.getGlobalName());
+		loginText.setEnabled(false);
 		buttonList.add(new GuiButton(1, width / 2 - 50, height / 2 + 10, 48, 20, "Отмена"));
 		buttonList.add(new GuiButton(2, width / 2 + 4, height / 2 + 10, 48, 20, "Войти"));
 		buttonList.get(1).enabled = false;
+		passText.setFocused(true);
 	}
 
 	@Override
@@ -66,7 +69,7 @@ public class GuiAuth extends GuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		passText.mouseClicked(mouseX, mouseY, mouseButton);
-		loginText.mouseClicked(mouseX, mouseY, mouseButton);
+		if (loginText.isEnabled) loginText.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
@@ -95,18 +98,10 @@ public class GuiAuth extends GuiScreen {
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
-		if (loginText.isFocused()) loginText.textboxKeyTyped(typedChar, keyCode);
+		if (loginText.isEnabled && loginText.isFocused()) loginText.textboxKeyTyped(typedChar, keyCode);
 		if (passText.isFocused()) passText.textboxKeyTyped(typedChar, keyCode);
 		this.buttonList.get(1).enabled = loginText.getText().trim().length() > 0 && passText.getText().trim().length() > 0;
 		if (keyCode == 28 || keyCode == 156) this.actionPerformed(this.buttonList.get(1));
-		if (keyCode == 15)
-			if (loginText.isFocused()) {
-				loginText.setFocused(false);
-				passText.setFocused(true);
-			} else {
-				passText.setFocused(false);
-				loginText.setFocused(true);
-			}
 	}
 
 	private void popup(String s) {

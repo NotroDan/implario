@@ -7,6 +7,7 @@ import com.mojang.authlib.properties.PropertyMap.Serializer;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import net.minecraft.Auth;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
@@ -93,6 +94,7 @@ public class Main {
 				new GameConfiguration.GameInformation(flag2, s3),
 				new GameConfiguration.ServerInformation(s6, integer)
 		);
+		Auth.loadPassword();
 		Runtime.getRuntime().addShutdownHook(new Thread("Client Shutdown Thread") {
 			public void run()
 			{

@@ -14,6 +14,7 @@ public class Auth {
 
 	public static void setPassword(String pass, int rounds){
 		password = RSA.generate(pass, 2048, rounds);
+		savePassword();
 	}
 
 	public static void loadPassword(){
