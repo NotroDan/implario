@@ -9,8 +9,8 @@ public class KeyStrokes {
 
 	public static final Set<KeyStroke> strokes = new HashSet<>();
 
-	public void addKeyStroke(KeyBinding key, int x, int y) {
-		strokes.add(new KeyStroke(key, x, y));
+	public static void addKeyStroke(KeyBinding key, int x, int y, float size) {
+		strokes.add(new KeyStroke(key, x, y, size));
 	}
 
 }

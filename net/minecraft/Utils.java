@@ -6,11 +6,13 @@ import __google_.net.client.Client;
 import __google_.util.ByteZip;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.client.settings.KeyBinding;
 import optifine.CustomColormap;
 import optifine.CustomSkyLayer;
 import org.lwjgl.opengl.DisplayMode;
@@ -106,6 +108,7 @@ public class Utils {
 		if (line.equals("c")) {
 			Minecraft.getMinecraft().ingameGUI.setLoading(5000, "Тестовая загрузка");
 		}
+		if (line.equals("key")) KeyStrokes.addKeyStroke(KeyBinding.FORWARD, 10, 10, 2f);
 	}
 
 	public static int easeIn(int t,int b , int c, int d) {
