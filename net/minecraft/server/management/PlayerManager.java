@@ -15,7 +15,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 
 public class PlayerManager

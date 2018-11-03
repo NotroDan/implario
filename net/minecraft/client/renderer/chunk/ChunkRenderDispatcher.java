@@ -19,7 +19,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.util.EnumWorldBlockLayer;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 import org.lwjgl.opengl.GL11;
 

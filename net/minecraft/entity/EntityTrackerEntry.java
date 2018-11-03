@@ -57,7 +57,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.storage.MapData;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 
 public class EntityTrackerEntry

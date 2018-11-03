@@ -11,7 +11,7 @@ import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.Charsets;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 
 import java.io.BufferedReader;

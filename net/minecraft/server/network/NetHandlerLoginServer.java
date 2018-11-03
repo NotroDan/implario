@@ -28,7 +28,7 @@ import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
 import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 
 public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable

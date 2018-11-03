@@ -2,11 +2,10 @@ package net.minecraft.profiler;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.minecraft.client.Logger;
 import net.minecraft.client.renderer.GlStateManager;
 import optifine.Config;
 import optifine.Lagometer;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 
 import java.util.*;
 

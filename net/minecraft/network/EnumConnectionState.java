@@ -16,7 +16,7 @@ import net.minecraft.network.status.client.C00PacketServerQuery;
 import net.minecraft.network.status.client.C01PacketPing;
 import net.minecraft.network.status.server.S00PacketServerInfo;
 import net.minecraft.network.status.server.S01PacketPong;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 
 import java.util.Map;
 

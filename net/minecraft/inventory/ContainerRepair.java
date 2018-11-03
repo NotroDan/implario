@@ -1,9 +1,8 @@
 package net.minecraft.inventory;
 
-import java.util.Iterator;
-import java.util.Map;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Logger;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,8 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class ContainerRepair extends Container
 {

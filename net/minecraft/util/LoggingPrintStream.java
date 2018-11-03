@@ -2,7 +2,7 @@ package net.minecraft.util;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 
 public class LoggingPrintStream extends PrintStream

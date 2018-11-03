@@ -9,7 +9,7 @@ import net.minecraft.client.resources.data.TextureMetadataSection;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 import shadersmod.client.ShadersTex;
 

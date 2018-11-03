@@ -24,7 +24,7 @@ import net.minecraft.network.login.server.S03PacketEnableCompression;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 
 public class NetHandlerLoginClient implements INetHandlerLoginClient

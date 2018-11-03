@@ -1,12 +1,11 @@
 package net.minecraft.scoreboard;
 
+import net.minecraft.client.Logger;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldSavedData;
-import org.apache.logging.log4j.LogManager;
-import net.minecraft.client.Logger;
 
 public class ScoreboardSaveData extends WorldSavedData
 {

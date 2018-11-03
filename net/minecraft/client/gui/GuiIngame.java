@@ -5,6 +5,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.keystrokes.KeyStroke;
+import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -108,7 +110,6 @@ public class GuiIngame extends Gui {
 	 * Used with updateCounter to make the heart bar flash
 	 */
 	private long healthUpdateCounter = 0L;
-	private static final String __OBFID = "CL_00000661";
 
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
@@ -133,8 +134,7 @@ public class GuiIngame extends Gui {
 		this.mc.entityRenderer.setupOverlayRendering();
 		GlStateManager.enableBlend();
 
-		if (Config.isVignetteEnabled())
-			this.renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
+		if (Config.isVignetteEnabled()) renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
 		else {
 			GlStateManager.enableDepth();
 			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -145,10 +145,7 @@ public class GuiIngame extends Gui {
 		if (Settings.getPerspective() == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))
 			this.renderPumpkinOverlay(scaledresolution);
 
-		if (!this.mc.thePlayer.isPotionActive(Potion.confusion)) {
-			float f = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * partialTicks;
-			if (f > 0) this.func_180474_b(f, scaledresolution);
-		}
+		if (!this.mc.thePlayer.isPotionActive(Potion.confusion)) renderPortal(scaledresolution, partialTicks);
 
 		if (this.mc.playerController.isSpectator()) this.spectatorGui.renderTooltip(scaledresolution, partialTicks);
 		else this.renderTooltip(scaledresolution, partialTicks);
@@ -164,9 +161,7 @@ public class GuiIngame extends Gui {
 		}
 
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-		this.mc.mcProfiler.startSection("bossHealth");
 		this.renderBossHealth();
-		this.mc.mcProfiler.endSection();
 
 		if (this.mc.playerController.shouldDrawHUD()) {
 			this.renderPlayerStats(scaledresolution);
@@ -174,23 +169,7 @@ public class GuiIngame extends Gui {
 
 		GlStateManager.disableBlend();
 
-		if (this.mc.thePlayer.getSleepTimer() > 0) {
-			this.mc.mcProfiler.startSection("sleep");
-			GlStateManager.disableDepth();
-			GlStateManager.disableAlpha();
-			int l = this.mc.thePlayer.getSleepTimer();
-			float f2 = (float) l / 100.0F;
-
-			if (f2 > 1.0F) {
-				f2 = 1.0F - (float) (l - 100) / 10.0F;
-			}
-
-			int k = (int) (220.0F * f2) << 24 | 1052704;
-			drawRect(0, 0, width, height, k);
-			GlStateManager.enableAlpha();
-			GlStateManager.enableDepth();
-			this.mc.mcProfiler.endSection();
-		}
+		if (this.mc.thePlayer.getSleepTimer() > 0) renderSleeping(width, height);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		int i2 = width / 2 - 91;
@@ -201,98 +180,31 @@ public class GuiIngame extends Gui {
 			this.renderExpBar(scaledresolution, i2);
 		}
 
-		if (Settings.HELD_ITEM_TOOLTIPS.b() && !this.mc.playerController.isSpectator()) {
-			this.func_181551_a(scaledresolution);
-		} else if (this.mc.thePlayer.isSpectator()) {
-			this.spectatorGui.func_175263_a(scaledresolution);
-		}
+		if (Settings.HELD_ITEM_TOOLTIPS.b() && !this.mc.playerController.isSpectator()) this.renderTooltip(scaledresolution);
+		else if (this.mc.thePlayer.isSpectator()) this.spectatorGui.render(scaledresolution);
 
-		if (this.mc.isDemo()) {
-			this.renderDemo(scaledresolution);
-		}
-
-		if (this.loading != null) {
-			long time = System.currentTimeMillis();
-			float percentage = (float) (time - loadingStarted) / loadingTime;
-			if (percentage > 1.1) {
-				loading = null;
-				loadingTime = 0;
-				loadingStarted = 0;
-			} else {
-				int x1 = scaledresolution.getScaledWidth() / 2 - 100;
-				int x2 = x1 + 200;
-				int x = (int) (x1 + percentage * 200);
-				int y = scaledresolution.getScaledHeight() - 64;
-
-				int opacity = 0b000000000000000011000000;
-				if (percentage < 0.1) opacity *= percentage * 10;
-				if (percentage > 1.0) opacity *= (0.1 - (percentage - 1)) * 10;
-
-				opacity <<= 24;
-				if (percentage > 1) x = x2;
-
-				drawRect(x1, y, x2, y + 10, 0xffffff | opacity);
-				drawRect(x1, y, x, y + 10, 0xf93eed | opacity);
-				drawCenteredString(mc.fontRendererObj, loading, x1 + 100, y - 15, 0xffffff | opacity);
-			}
-		}
+		if (this.loading != null) renderLoading(scaledresolution);
 
 		if (Settings.SHOW_DEBUG.b()) this.overlayDebug.renderDebugInfo(scaledresolution);
 
-		if (this.recordPlayingUpFor > 0) {
-			this.mc.mcProfiler.startSection("overlayMessage");
-			float f3 = (float) this.recordPlayingUpFor - partialTicks;
-			int k1 = (int) (f3 * 255.0F / 20.0F);
+		if (this.recordPlayingUpFor > 0) renderRecord(partialTicks, width, height);
 
-			if (k1 > 255) {
-				k1 = 255;
-			}
-
-			if (k1 > 8) {
-				GlStateManager.pushMatrix();
-				GlStateManager.translate((float) (width / 2), (float) (height - 68), 0.0F);
-				GlStateManager.enableBlend();
-				GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-				int i1 = 16777215;
-
-				if (this.recordIsPlaying) {
-					i1 = MathHelper.func_181758_c(f3 / 50.0F, 0.7F, 0.6F) & 16777215;
-				}
-
-				this.getFontRenderer().drawString(this.recordPlaying, -this.getFontRenderer().getStringWidth(this.recordPlaying) / 2, -4, i1 + (k1 << 24 & -16777216));
-				GlStateManager.disableBlend();
-				GlStateManager.popMatrix();
-			}
-
-			this.mc.mcProfiler.endSection();
-		}
-
-		if (mc.thePlayer.isBurning() && Settings.RENDER_FIRE.i() == 1) {
-			TextureAtlasSprite textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite("minecraft:blocks/fire_layer_1");
-			this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-			drawTexturedModalRect(width / 2 - 16, height / 2, textureatlassprite, 16, 16);
-		}
+		if (mc.thePlayer.isBurning() && Settings.RENDER_FIRE.i() == 1) renderFireIcon(width, height);
 
 		if (this.titleTicks > 0) renderTitle(partialTicks, width, height);
 
-		Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
-		ScoreObjective scoreobjective = null;
-		ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(this.mc.thePlayer.getName());
+		renderScoreboard(scaledresolution);
 
-		if (scoreplayerteam != null) {
-			int j1 = scoreplayerteam.getChatFormat().getColorIndex();
+		renderChat(height);
 
-			if (j1 >= 0) {
-				scoreobjective = scoreboard.getObjectiveInDisplaySlot(3 + j1);
-			}
-		}
+		renderKeyStrokes();
+	}
 
-		ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
+	private void renderKeyStrokes() {
+		for (KeyStroke stroke : KeyStrokes.strokes) stroke.render(this);
+	}
 
-		if (scoreobjective1 != null) {
-			this.renderScoreboard(scoreobjective1, scaledresolution);
-		}
-
+	private void renderChat(int height) {
 		GlStateManager.enableBlend();
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		GlStateManager.disableAlpha();
@@ -302,18 +214,116 @@ public class GuiIngame extends Gui {
 		this.persistantChatGUI.drawChat(this.updateCounter);
 		this.mc.mcProfiler.endSection();
 		GlStateManager.popMatrix();
-		scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
-
-		if (!KeyBinding.PLAYERLIST.isKeyDown() || this.mc.isIntegratedServerRunning() && this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() <= 1 && scoreobjective1 == null) {
-			this.overlayPlayerList.updatePlayerList(false);
-		} else {
-			this.overlayPlayerList.updatePlayerList(true);
-			this.overlayPlayerList.renderPlayerlist(width, scoreboard, scoreobjective1);
-		}
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableLighting();
 		GlStateManager.enableAlpha();
+	}
+
+	private void renderScoreboard(ScaledResolution scaledresolution) {
+		Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
+		ScoreObjective obj = null;
+		ScorePlayerTeam team = scoreboard.getPlayersTeam(this.mc.thePlayer.getName());
+
+		if (team != null) {
+			int j1 = team.getChatFormat().getColorIndex();
+			if (j1 >= 0) obj = scoreboard.getObjectiveInDisplaySlot(3 + j1);
+		}
+
+		ScoreObjective slotObj = obj != null ? obj : scoreboard.getObjectiveInDisplaySlot(1);
+		if (slotObj != null) this.renderScoreboard(slotObj, scaledresolution);
+
+		slotObj = scoreboard.getObjectiveInDisplaySlot(0);
+
+		if (!KeyBinding.PLAYERLIST.isKeyDown() || this.mc.isIntegratedServerRunning() && this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() <= 1 && slotObj == null) {
+			this.overlayPlayerList.updatePlayerList(false);
+		} else {
+			this.overlayPlayerList.updatePlayerList(true);
+			this.overlayPlayerList.renderPlayerlist(scaledresolution.getScaledWidth(), scoreboard, slotObj);
+		}
+	}
+
+	private void renderSleeping(int width, int height) {
+		this.mc.mcProfiler.startSection("sleep");
+		GlStateManager.disableDepth();
+		GlStateManager.disableAlpha();
+		int l = this.mc.thePlayer.getSleepTimer();
+		float f2 = (float) l / 100.0F;
+
+		if (f2 > 1.0F) {
+			f2 = 1.0F - (float) (l - 100) / 10.0F;
+		}
+
+		int k = (int) (220.0F * f2) << 24 | 1052704;
+		drawRect(0, 0, width, height, k);
+		GlStateManager.enableAlpha();
+		GlStateManager.enableDepth();
+		this.mc.mcProfiler.endSection();
+	}
+
+	private void renderPortal(ScaledResolution scaledresolution, float partialTicks) {
+		float f = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * partialTicks;
+		if (f > 0) this.func_180474_b(f, scaledresolution);
+	}
+
+	private void renderFireIcon(int width, int height) {
+		TextureAtlasSprite textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite("minecraft:blocks/fire_layer_1");
+		this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+		drawTexturedModalRect(width / 2 - 16, height / 2, textureatlassprite, 16, 16);
+	}
+
+	private void renderLoading(ScaledResolution scaledresolution) {
+		long time = System.currentTimeMillis();
+		float percentage = (float) (time - loadingStarted) / loadingTime;
+		if (percentage > 1.1) {
+			loading = null;
+			loadingTime = 0;
+			loadingStarted = 0;
+		} else {
+			int x1 = scaledresolution.getScaledWidth() / 2 - 100;
+			int x2 = x1 + 200;
+			int x = (int) (x1 + percentage * 200);
+			int y = scaledresolution.getScaledHeight() - 64;
+
+			int opacity = 0b000000000000000011000000;
+			if (percentage < 0.1) opacity *= percentage * 10;
+			if (percentage > 1.0) opacity *= (0.1 - (percentage - 1)) * 10;
+
+			opacity <<= 24;
+			if (percentage > 1) x = x2;
+
+			drawRect(x1, y, x2, y + 10, 0xffffff | opacity);
+			drawRect(x1, y, x, y + 10, 0xf93eed | opacity);
+			drawCenteredString(mc.fontRendererObj, loading, x1 + 100, y - 15, 0xffffff | opacity);
+		}
+	}
+
+	private void renderRecord(float partialTicks, int width, int height) {
+		this.mc.mcProfiler.startSection("overlayMessage");
+		float f3 = (float) this.recordPlayingUpFor - partialTicks;
+		int k1 = (int) (f3 * 255.0F / 20.0F);
+
+		if (k1 > 255) {
+			k1 = 255;
+		}
+
+		if (k1 > 8) {
+			GlStateManager.pushMatrix();
+			GlStateManager.translate((float) (width / 2), (float) (height - 68), 0.0F);
+			GlStateManager.enableBlend();
+			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			int i1 = 16777215;
+
+			if (this.recordIsPlaying) {
+				i1 = MathHelper.func_181758_c(f3 / 50.0F, 0.7F, 0.6F) & 16777215;
+			}
+
+			this.getFontRenderer().drawString(this.recordPlaying, -this.getFontRenderer().getStringWidth(this.recordPlaying) / 2, -4, i1 + (k1 << 24 & -16777216));
+			GlStateManager.disableBlend();
+			GlStateManager.popMatrix();
+		}
+
+		this.mc.mcProfiler.endSection();
 	}
 
 	public void renderTitle(float partialTicks, int width, int height) {
@@ -434,7 +444,7 @@ public class GuiIngame extends Gui {
 		}
 	}
 
-	public void func_181551_a(ScaledResolution p_181551_1_) {
+	public void renderTooltip(ScaledResolution p_181551_1_) {
 		this.mc.mcProfiler.startSection("selectedItemName");
 
 		if (this.remainingHighlightTicks > 0 && this.highlightingItemStack != null) {
@@ -796,6 +806,7 @@ public class GuiIngame extends Gui {
 	 * Renders dragon's (boss) health on the HUD
 	 */
 	private void renderBossHealth() {
+		this.mc.mcProfiler.startSection("bossHealth");
 		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
 			--BossStatus.statusBarTime;
 			FontRenderer fontrenderer = this.mc.fontRendererObj;
@@ -818,6 +829,7 @@ public class GuiIngame extends Gui {
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(icons);
 		}
+		this.mc.mcProfiler.endSection();
 	}
 
 	private void renderPumpkinOverlay(ScaledResolution p_180476_1_) {

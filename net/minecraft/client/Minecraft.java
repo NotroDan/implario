@@ -925,24 +925,24 @@ label53:
 	}
 
 	protected void checkWindowResize() {
-		if (!this.fullscreen && Display.wasResized()) {
-			int i = this.displayWidth;
-			int j = this.displayHeight;
-			this.displayWidth = Display.getWidth();
-			this.displayHeight = Display.getHeight();
-
-			if (this.displayWidth != i || this.displayHeight != j) {
-				if (this.displayWidth <= 0) {
-					this.displayWidth = 1;
-				}
-
-				if (this.displayHeight <= 0) {
-					this.displayHeight = 1;
-				}
-
-				this.resize(this.displayWidth, this.displayHeight);
-			}
-		}
+//		if (!this.fullscreen && Display.wasResized()) {
+//			int i = this.displayWidth;
+//			int j = this.displayHeight;
+//			this.displayWidth = Display.getWidth();
+//			this.displayHeight = Display.getHeight();
+//
+//			if (this.displayWidth != i || this.displayHeight != j) {
+//				if (this.displayWidth <= 0) {
+//					this.displayWidth = 1;
+//				}
+//
+//				if (this.displayHeight <= 0) {
+//					this.displayHeight = 1;
+//				}
+//
+//				this.resize(this.displayWidth, this.displayHeight);
+//			}
+//		}
 	}
 
 	public int getLimitFramerate() {

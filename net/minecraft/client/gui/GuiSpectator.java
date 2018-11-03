@@ -97,7 +97,7 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 		}
 	}
 
-	public void func_175263_a(ScaledResolution p_175263_1_) {
+	public void render(ScaledResolution p_175263_1_) {
 		int i = (int) (this.func_175265_c() * 255.0F);
 
 		if (i > 3 && this.spectatorMenu != null) {

@@ -479,7 +479,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		float offset = (float) (Minecraft.getSystemTime() % 40000L) / 40000.0F;
+		float offset = (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F;
 		random.setSeed(31100L);
 		GlStateManager.enableAlpha();
 		GlStateManager.enableBlend();
