@@ -77,11 +77,8 @@ public class TileEntityEnderChest extends TileEntity implements ITickable
             this.numPlayersUsing = type;
             return true;
         }
-        else
-        {
-            return super.receiveClientEvent(id, type);
-        }
-    }
+		return super.receiveClientEvent(id, type);
+	}
 
     /**
      * invalidates a tile entity

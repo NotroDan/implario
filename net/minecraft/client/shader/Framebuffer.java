@@ -149,23 +149,20 @@ public class Framebuffer
             {
                 throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
             }
-            else if (i == OpenGlHelper.GL_FB_INCOMPLETE_MISS_ATTACH)
-            {
-                throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
-            }
-            else if (i == OpenGlHelper.GL_FB_INCOMPLETE_DRAW_BUFFER)
-            {
-                throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
-            }
-            else if (i == OpenGlHelper.GL_FB_INCOMPLETE_READ_BUFFER)
-            {
-                throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
-            }
-            else
-            {
-                throw new RuntimeException("glCheckFramebufferStatus returned unknown status:" + i);
-            }
-        }
+			if (i == OpenGlHelper.GL_FB_INCOMPLETE_MISS_ATTACH)
+			{
+				throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+			}
+			if (i == OpenGlHelper.GL_FB_INCOMPLETE_DRAW_BUFFER)
+			{
+				throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
+			}
+			if (i == OpenGlHelper.GL_FB_INCOMPLETE_READ_BUFFER)
+			{
+				throw new RuntimeException("GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
+			}
+			throw new RuntimeException("glCheckFramebufferStatus returned unknown status:" + i);
+		}
     }
 
     public void bindFramebufferTexture()

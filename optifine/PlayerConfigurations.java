@@ -27,23 +27,20 @@ public class PlayerConfigurations
         {
             return null;
         }
-        else
-        {
-            PlayerConfiguration playerconfiguration = (PlayerConfiguration)getMapConfigurations().get(s);
+		PlayerConfiguration playerconfiguration = (PlayerConfiguration)getMapConfigurations().get(s);
 
-            if (playerconfiguration == null)
-            {
-                playerconfiguration = new PlayerConfiguration();
-                getMapConfigurations().put(s, playerconfiguration);
-                PlayerConfigurationReceiver playerconfigurationreceiver = new PlayerConfigurationReceiver(s);
-                String s1 = "http://s.optifine.net/users/" + s + ".cfg";
-                FileDownloadThread filedownloadthread = new FileDownloadThread(s1, playerconfigurationreceiver);
-                filedownloadthread.start();
-            }
+		if (playerconfiguration == null)
+		{
+			playerconfiguration = new PlayerConfiguration();
+			getMapConfigurations().put(s, playerconfiguration);
+			PlayerConfigurationReceiver playerconfigurationreceiver = new PlayerConfigurationReceiver(s);
+			String s1 = "http://s.optifine.net/users/" + s + ".cfg";
+			FileDownloadThread filedownloadthread = new FileDownloadThread(s1, playerconfigurationreceiver);
+			filedownloadthread.start();
+		}
 
-            return playerconfiguration;
-        }
-    }
+		return playerconfiguration;
+	}
 
     public static synchronized void setPlayerConfiguration(String p_setPlayerConfiguration_0_, PlayerConfiguration p_setPlayerConfiguration_1_)
     {

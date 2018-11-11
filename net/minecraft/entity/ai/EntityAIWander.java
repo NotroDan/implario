@@ -50,15 +50,12 @@ public class EntityAIWander extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            this.xPosition = vec3.xCoord;
-            this.yPosition = vec3.yCoord;
-            this.zPosition = vec3.zCoord;
-            this.mustUpdate = false;
-            return true;
-        }
-    }
+		this.xPosition = vec3.xCoord;
+		this.yPosition = vec3.yCoord;
+		this.zPosition = vec3.zCoord;
+		this.mustUpdate = false;
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

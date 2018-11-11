@@ -39,10 +39,9 @@ public abstract class TileEntity {
 	private static void addMapping(Class<? extends TileEntity> cl, String id) {
 		if (nameToClassMap.containsKey(id)) {
 			throw new IllegalArgumentException("Duplicate id: " + id);
-		} else {
-			nameToClassMap.put(id, cl);
-			classToNameMap.put(cl, id);
 		}
+		nameToClassMap.put(id, cl);
+		classToNameMap.put(cl, id);
 	}
 
 	/**
@@ -75,12 +74,11 @@ public abstract class TileEntity {
 
 		if (s == null) {
 			throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
-		} else {
-			compound.setString("id", s);
-			compound.setInteger("x", this.pos.getX());
-			compound.setInteger("y", this.pos.getY());
-			compound.setInteger("z", this.pos.getZ());
 		}
+		compound.setString("id", s);
+		compound.setInteger("x", this.pos.getX());
+		compound.setInteger("y", this.pos.getY());
+		compound.setInteger("z", this.pos.getZ());
 	}
 
 	/**
@@ -217,10 +215,9 @@ public abstract class TileEntity {
 
 				if (i < 0) {
 					return "Unknown? (Got " + i + ")";
-				} else {
-					String s = String.format("%4s", new Object[] {Integer.toBinaryString(i)}).replace(" ", "0");
-					return String.format("%1$d / 0x%1$X / 0b%2$s", i, s);
 				}
+				String s = String.format("%4s", new Object[] {Integer.toBinaryString(i)}).replace(" ", "0");
+				return String.format("%1$d / 0x%1$X / 0b%2$s", i, s);
 			});
 		}
 	}

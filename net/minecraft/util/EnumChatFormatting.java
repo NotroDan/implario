@@ -139,19 +139,16 @@ public enum EnumChatFormatting
         {
             return RESET;
         }
-        else
-        {
-            for (EnumChatFormatting enumchatformatting : values())
-            {
-                if (enumchatformatting.getColorIndex() == p_175744_0_)
-                {
-                    return enumchatformatting;
-                }
-            }
+		for (EnumChatFormatting enumchatformatting : values())
+		{
+			if (enumchatformatting.getColorIndex() == p_175744_0_)
+			{
+				return enumchatformatting;
+			}
+		}
 
-            return null;
-        }
-    }
+		return null;
+	}
 
     public static Collection<String> getValidValues(boolean p_96296_0_, boolean p_96296_1_)
     {

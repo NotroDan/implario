@@ -120,19 +120,16 @@ public class BlockFurnace extends BlockContainer
         {
             return true;
         }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityFurnace)
-            {
-                playerIn.displayGUIChest((TileEntityFurnace)tileentity);
-                playerIn.triggerAchievement(StatList.field_181741_Y);
-            }
+		if (tileentity instanceof TileEntityFurnace)
+		{
+			playerIn.displayGUIChest((TileEntityFurnace)tileentity);
+			playerIn.triggerAchievement(StatList.field_181741_Y);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     public static void setState(boolean active, World worldIn, BlockPos pos)
     {

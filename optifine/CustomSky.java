@@ -85,14 +85,13 @@ public class CustomSky {
 
 		if (i < 0) {
 			return null;
-		} else {
-			int l = i + 1;
-			CustomSkyLayer[][] acustomskylayer1 = new CustomSkyLayer[l][0];
-
-			System.arraycopy(acustomskylayer, 0, acustomskylayer1, 0, acustomskylayer1.length);
-
-			return acustomskylayer1;
 		}
+		int l = i + 1;
+		CustomSkyLayer[][] acustomskylayer1 = new CustomSkyLayer[l][0];
+
+		System.arraycopy(acustomskylayer, 0, acustomskylayer1, 0, acustomskylayer1.length);
+
+		return acustomskylayer1;
 	}
 
 	public static void renderSky(World p_renderSky_0_, TextureManager p_renderSky_1_, float p_renderSky_2_, float p_renderSky_3_) {
@@ -123,18 +122,17 @@ public class CustomSky {
 	public static boolean hasSkyLayers(World p_hasSkyLayers_0_) {
 		if (worldSkyLayers == null) {
 			return false;
-		} else if (Settings.RENDER_DISTANCE.f() < 8) {
-			return false;
-		} else {
-			int i = p_hasSkyLayers_0_.provider.getDimensionId();
-
-			if (i >= 0 && i < worldSkyLayers.length) {
-				CustomSkyLayer[] acustomskylayer = worldSkyLayers[i];
-				return acustomskylayer != null && acustomskylayer.length > 0;
-			} else {
-				return false;
-			}
 		}
+		if (Settings.RENDER_DISTANCE.f() < 8) {
+			return false;
+		}
+		int i = p_hasSkyLayers_0_.provider.getDimensionId();
+
+		if (i >= 0 && i < worldSkyLayers.length) {
+			CustomSkyLayer[] acustomskylayer = worldSkyLayers[i];
+			return acustomskylayer != null && acustomskylayer.length > 0;
+		}
+		return false;
 	}
 
 }

@@ -78,60 +78,57 @@ public class RandomMobs
         {
             return p_getTextureLocation_0_;
         }
-        else
-        {
-            ResourceLocation entity;
+		ResourceLocation entity;
 
-            try
-            {
-                working = true;
+		try
+		{
+			working = true;
 
-                if (!initialized)
-                {
-                    initialize();
-                }
+			if (!initialized)
+			{
+				initialize();
+			}
 
-                if (renderGlobal != null)
-                {
-                    Entity entity1 = renderGlobal.renderedEntity;
+			if (renderGlobal != null)
+			{
+				Entity entity1 = renderGlobal.renderedEntity;
 
-                    if (!(entity1 instanceof EntityLiving))
-                    {
-                        ResourceLocation resourcelocation2 = p_getTextureLocation_0_;
-                        return resourcelocation2;
-                    }
+				if (!(entity1 instanceof EntityLiving))
+				{
+					ResourceLocation resourcelocation2 = p_getTextureLocation_0_;
+					return resourcelocation2;
+				}
 
-                    EntityLiving entityliving = (EntityLiving)entity1;
-                    String s = p_getTextureLocation_0_.getResourcePath();
+				EntityLiving entityliving = (EntityLiving)entity1;
+				String s = p_getTextureLocation_0_.getResourcePath();
 
-                    if (!s.startsWith("textures/entity/"))
-                    {
-                        ResourceLocation resourcelocation3 = p_getTextureLocation_0_;
-                        return resourcelocation3;
-                    }
+				if (!s.startsWith("textures/entity/"))
+				{
+					ResourceLocation resourcelocation3 = p_getTextureLocation_0_;
+					return resourcelocation3;
+				}
 
-                    RandomMobsProperties randommobsproperties = getProperties(p_getTextureLocation_0_);
+				RandomMobsProperties randommobsproperties = getProperties(p_getTextureLocation_0_);
 
-                    if (randommobsproperties == null)
-                    {
-                        ResourceLocation resourcelocation4 = p_getTextureLocation_0_;
-                        return resourcelocation4;
-                    }
+				if (randommobsproperties == null)
+				{
+					ResourceLocation resourcelocation4 = p_getTextureLocation_0_;
+					return resourcelocation4;
+				}
 
-                    ResourceLocation resourcelocation1 = randommobsproperties.getTextureLocation(p_getTextureLocation_0_, entityliving);
-                    return resourcelocation1;
-                }
+				ResourceLocation resourcelocation1 = randommobsproperties.getTextureLocation(p_getTextureLocation_0_, entityliving);
+				return resourcelocation1;
+			}
 
-                entity = p_getTextureLocation_0_;
-            }
-            finally
-            {
-                working = false;
-            }
+			entity = p_getTextureLocation_0_;
+		}
+		finally
+		{
+			working = false;
+		}
 
-            return entity;
-        }
-    }
+		return entity;
+	}
 
     private static RandomMobsProperties getProperties(ResourceLocation p_getProperties_0_)
     {
@@ -179,15 +176,12 @@ public class RandomMobs
                 Config.warn("RandomMobs properties not found: " + s);
                 return null;
             }
-            else
-            {
-                Properties properties = new Properties();
-                properties.load(inputstream);
-                inputstream.close();
-                RandomMobsProperties randommobsproperties = new RandomMobsProperties(properties, s, p_parseProperties_1_);
-                return !randommobsproperties.isValid(s) ? null : randommobsproperties;
-            }
-        }
+			Properties properties = new Properties();
+			properties.load(inputstream);
+			inputstream.close();
+			RandomMobsProperties randommobsproperties = new RandomMobsProperties(properties, s, p_parseProperties_1_);
+			return !randommobsproperties.isValid(s) ? null : randommobsproperties;
+		}
         catch (FileNotFoundException var6)
         {
             Config.warn("RandomMobs file not found: " + p_parseProperties_1_.getResourcePath());
@@ -208,40 +202,31 @@ public class RandomMobs
         {
             return null;
         }
-        else
-        {
-            String s = resourcelocation.getResourceDomain();
-            String s1 = resourcelocation.getResourcePath();
-            String s2 = s1;
+		String s = resourcelocation.getResourceDomain();
+		String s1 = resourcelocation.getResourcePath();
+		String s2 = s1;
 
-            if (s1.endsWith(".png"))
-            {
-                s2 = s1.substring(0, s1.length() - ".png".length());
-            }
+		if (s1.endsWith(".png"))
+		{
+			s2 = s1.substring(0, s1.length() - ".png".length());
+		}
 
-            String s3 = s2 + ".properties";
-            ResourceLocation resourcelocation1 = new ResourceLocation(s, s3);
+		String s3 = s2 + ".properties";
+		ResourceLocation resourcelocation1 = new ResourceLocation(s, s3);
 
-            if (Config.hasResource(resourcelocation1))
-            {
-                return resourcelocation1;
-            }
-            else
-            {
-                String s4 = getParentPath(s2);
+		if (Config.hasResource(resourcelocation1))
+		{
+			return resourcelocation1;
+		}
+		String s4 = getParentPath(s2);
 
-                if (s4 == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    ResourceLocation resourcelocation2 = new ResourceLocation(s, s4 + ".properties");
-                    return Config.hasResource(resourcelocation2) ? resourcelocation2 : null;
-                }
-            }
-        }
-    }
+		if (s4 == null)
+		{
+			return null;
+		}
+		ResourceLocation resourcelocation2 = new ResourceLocation(s, s4 + ".properties");
+		return Config.hasResource(resourcelocation2) ? resourcelocation2 : null;
+	}
 
     public static ResourceLocation getMcpatcherLocation(ResourceLocation p_getMcpatcherLocation_0_)
     {
@@ -251,12 +236,9 @@ public class RandomMobs
         {
             return null;
         }
-        else
-        {
-            String s1 = "mcpatcher/mob/" + s.substring("textures/entity/".length());
-            return new ResourceLocation(p_getMcpatcherLocation_0_.getResourceDomain(), s1);
-        }
-    }
+		String s1 = "mcpatcher/mob/" + s.substring("textures/entity/".length());
+		return new ResourceLocation(p_getMcpatcherLocation_0_.getResourceDomain(), s1);
+	}
 
     public static ResourceLocation getLocationIndexed(ResourceLocation p_getLocationIndexed_0_, int p_getLocationIndexed_1_)
     {
@@ -264,25 +246,19 @@ public class RandomMobs
         {
             return null;
         }
-        else
-        {
-            String s = p_getLocationIndexed_0_.getResourcePath();
-            int i = s.lastIndexOf(46);
+		String s = p_getLocationIndexed_0_.getResourcePath();
+		int i = s.lastIndexOf(46);
 
-            if (i < 0)
-            {
-                return null;
-            }
-            else
-            {
-                String s1 = s.substring(0, i);
-                String s2 = s.substring(i);
-                String s3 = s1 + p_getLocationIndexed_1_ + s2;
-                ResourceLocation resourcelocation = new ResourceLocation(p_getLocationIndexed_0_.getResourceDomain(), s3);
-                return resourcelocation;
-            }
-        }
-    }
+		if (i < 0)
+		{
+			return null;
+		}
+		String s1 = s.substring(0, i);
+		String s2 = s.substring(i);
+		String s3 = s1 + p_getLocationIndexed_1_ + s2;
+		ResourceLocation resourcelocation = new ResourceLocation(p_getLocationIndexed_0_.getResourceDomain(), s3);
+		return resourcelocation;
+	}
 
     private static String getParentPath(String p_getParentPath_0_)
     {
@@ -310,31 +286,25 @@ public class RandomMobs
         {
             return null;
         }
-        else
-        {
-            for (int i = 1; i < ((List)list).size() + 10; ++i)
-            {
-                int j = i + 1;
-                ResourceLocation resourcelocation1 = getLocationIndexed(resourcelocation, j);
+		for (int i = 1; i < ((List)list).size() + 10; ++i)
+		{
+			int j = i + 1;
+			ResourceLocation resourcelocation1 = getLocationIndexed(resourcelocation, j);
 
-                if (Config.hasResource(resourcelocation1))
-                {
-                    list.add(resourcelocation1);
-                }
-            }
+			if (Config.hasResource(resourcelocation1))
+			{
+				list.add(resourcelocation1);
+			}
+		}
 
-            if (list.size() <= 1)
-            {
-                return null;
-            }
-            else
-            {
-                ResourceLocation[] aresourcelocation = (ResourceLocation[]) (ResourceLocation[])list.toArray(new ResourceLocation[list.size()]);
-                Config.dbg("RandomMobs: " + p_getTextureVariants_0_.getResourcePath() + ", variants: " + aresourcelocation.length);
-                return aresourcelocation;
-            }
-        }
-    }
+		if (list.size() <= 1)
+		{
+			return null;
+		}
+		ResourceLocation[] aresourcelocation = (ResourceLocation[]) (ResourceLocation[])list.toArray(new ResourceLocation[list.size()]);
+		Config.dbg("RandomMobs: " + p_getTextureVariants_0_.getResourcePath() + ", variants: " + aresourcelocation.length);
+		return aresourcelocation;
+	}
 
     public static void resetTextures()
     {

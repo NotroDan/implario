@@ -21,35 +21,29 @@ public class IntCache
                 inUseSmallArrays.add(aint4);
                 return aint4;
             }
-            else
-            {
-                int[] aint3 = (int[])freeSmallArrays.remove(freeSmallArrays.size() - 1);
-                inUseSmallArrays.add(aint3);
-                return aint3;
-            }
-        }
-        else if (p_76445_0_ > intCacheSize)
-        {
-            intCacheSize = p_76445_0_;
-            freeLargeArrays.clear();
-            inUseLargeArrays.clear();
-            int[] aint2 = new int[intCacheSize];
-            inUseLargeArrays.add(aint2);
-            return aint2;
-        }
-        else if (freeLargeArrays.isEmpty())
-        {
-            int[] aint1 = new int[intCacheSize];
-            inUseLargeArrays.add(aint1);
-            return aint1;
-        }
-        else
-        {
-            int[] aint = (int[])freeLargeArrays.remove(freeLargeArrays.size() - 1);
-            inUseLargeArrays.add(aint);
-            return aint;
-        }
-    }
+			int[] aint3 = (int[])freeSmallArrays.remove(freeSmallArrays.size() - 1);
+			inUseSmallArrays.add(aint3);
+			return aint3;
+		}
+		if (p_76445_0_ > intCacheSize)
+		{
+			intCacheSize = p_76445_0_;
+			freeLargeArrays.clear();
+			inUseLargeArrays.clear();
+			int[] aint2 = new int[intCacheSize];
+			inUseLargeArrays.add(aint2);
+			return aint2;
+		}
+		if (freeLargeArrays.isEmpty())
+		{
+			int[] aint1 = new int[intCacheSize];
+			inUseLargeArrays.add(aint1);
+			return aint1;
+		}
+		int[] aint = (int[])freeLargeArrays.remove(freeLargeArrays.size() - 1);
+		inUseLargeArrays.add(aint);
+		return aint;
+	}
 
     /**
      * Mark all pre-allocated arrays as available for re-use by moving them to the appropriate free lists.

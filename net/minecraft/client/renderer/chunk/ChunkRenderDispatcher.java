@@ -241,23 +241,20 @@ public class ChunkRenderDispatcher
             p_178503_2_.setTranslation(0.0D, 0.0D, 0.0D);
             return Futures.<Object>immediateFuture((Object)null);
         }
-        else
-        {
-            ListenableFutureTask<Object> listenablefuturetask = ListenableFutureTask.<Object>create(new Runnable()
-            {
-                public void run()
-                {
-                    ChunkRenderDispatcher.this.uploadChunk(player, p_178503_2_, chunkRenderer, compiledChunkIn);
-                }
-            }, (Object)null);
+		ListenableFutureTask<Object> listenablefuturetask = ListenableFutureTask.<Object>create(new Runnable()
+		{
+			public void run()
+			{
+				ChunkRenderDispatcher.this.uploadChunk(player, p_178503_2_, chunkRenderer, compiledChunkIn);
+			}
+		}, (Object)null);
 
-            synchronized (this.queueChunkUploads)
-            {
-                this.queueChunkUploads.add(listenablefuturetask);
-                return listenablefuturetask;
-            }
-        }
-    }
+		synchronized (this.queueChunkUploads)
+		{
+			this.queueChunkUploads.add(listenablefuturetask);
+			return listenablefuturetask;
+		}
+	}
 
     private void uploadDisplayList(WorldRenderer p_178510_1_, int p_178510_2_, RenderChunk chunkRenderer)
     {

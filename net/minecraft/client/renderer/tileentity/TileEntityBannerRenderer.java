@@ -90,54 +90,51 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
         {
             return null;
         }
-        else
-        {
-            TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture = (TileEntityBannerRenderer.TimedBannerTexture)DESIGNS.get(s);
+		TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture = (TileEntityBannerRenderer.TimedBannerTexture)DESIGNS.get(s);
 
-            if (tileentitybannerrenderer$timedbannertexture == null)
-            {
-                if (DESIGNS.size() >= 256)
-                {
-                    long i = System.currentTimeMillis();
-                    Iterator<String> iterator = DESIGNS.keySet().iterator();
+		if (tileentitybannerrenderer$timedbannertexture == null)
+		{
+			if (DESIGNS.size() >= 256)
+			{
+				long i = System.currentTimeMillis();
+				Iterator<String> iterator = DESIGNS.keySet().iterator();
 
-                    while (iterator.hasNext())
-                    {
-                        String s1 = (String)iterator.next();
-                        TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture1 = (TileEntityBannerRenderer.TimedBannerTexture)DESIGNS.get(s1);
+				while (iterator.hasNext())
+				{
+					String s1 = (String)iterator.next();
+					TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture1 = (TileEntityBannerRenderer.TimedBannerTexture)DESIGNS.get(s1);
 
-                        if (i - tileentitybannerrenderer$timedbannertexture1.systemTime > 60000L)
-                        {
-                            Minecraft.getMinecraft().getTextureManager().deleteTexture(tileentitybannerrenderer$timedbannertexture1.bannerTexture);
-                            iterator.remove();
-                        }
-                    }
+					if (i - tileentitybannerrenderer$timedbannertexture1.systemTime > 60000L)
+					{
+						Minecraft.getMinecraft().getTextureManager().deleteTexture(tileentitybannerrenderer$timedbannertexture1.bannerTexture);
+						iterator.remove();
+					}
+				}
 
-                    if (DESIGNS.size() >= 256)
-                    {
-                        return null;
-                    }
-                }
+				if (DESIGNS.size() >= 256)
+				{
+					return null;
+				}
+			}
 
-                List<TileEntityBanner.EnumBannerPattern> list1 = bannerObj.getPatternList();
-                List<EnumDyeColor> list = bannerObj.getColorList();
-                List<String> list2 = Lists.<String>newArrayList();
+			List<TileEntityBanner.EnumBannerPattern> list1 = bannerObj.getPatternList();
+			List<EnumDyeColor> list = bannerObj.getColorList();
+			List<String> list2 = Lists.<String>newArrayList();
 
-                for (TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern : list1)
-                {
-                    list2.add("textures/entity/banner/" + tileentitybanner$enumbannerpattern.getPatternName() + ".png");
-                }
+			for (TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern : list1)
+			{
+				list2.add("textures/entity/banner/" + tileentitybanner$enumbannerpattern.getPatternName() + ".png");
+			}
 
-                tileentitybannerrenderer$timedbannertexture = new TileEntityBannerRenderer.TimedBannerTexture();
-                tileentitybannerrenderer$timedbannertexture.bannerTexture = new ResourceLocation(s);
-                Minecraft.getMinecraft().getTextureManager().loadTexture(tileentitybannerrenderer$timedbannertexture.bannerTexture, new LayeredColorMaskTexture(BANNERTEXTURES, list2, list));
-                DESIGNS.put(s, tileentitybannerrenderer$timedbannertexture);
-            }
+			tileentitybannerrenderer$timedbannertexture = new TileEntityBannerRenderer.TimedBannerTexture();
+			tileentitybannerrenderer$timedbannertexture.bannerTexture = new ResourceLocation(s);
+			Minecraft.getMinecraft().getTextureManager().loadTexture(tileentitybannerrenderer$timedbannertexture.bannerTexture, new LayeredColorMaskTexture(BANNERTEXTURES, list2, list));
+			DESIGNS.put(s, tileentitybannerrenderer$timedbannertexture);
+		}
 
-            tileentitybannerrenderer$timedbannertexture.systemTime = System.currentTimeMillis();
-            return tileentitybannerrenderer$timedbannertexture.bannerTexture;
-        }
-    }
+		tileentitybannerrenderer$timedbannertexture.systemTime = System.currentTimeMillis();
+		return tileentitybannerrenderer$timedbannertexture.bannerTexture;
+	}
 
     static class TimedBannerTexture
     {

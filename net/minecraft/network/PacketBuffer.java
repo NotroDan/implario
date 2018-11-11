@@ -219,12 +219,9 @@ public class PacketBuffer extends ByteBuf
         {
             return null;
         }
-        else
-        {
-            this.readerIndex(i);
-            return CompressedStreamTools.read(new ByteBufInputStream(this), new NBTSizeTracker(2097152L));
-        }
-    }
+		this.readerIndex(i);
+		return CompressedStreamTools.read(new ByteBufInputStream(this), new NBTSizeTracker(2097152L));
+	}
 
     /**
      * Writes the ItemStack's ID (short), then size (byte), then damage. (short)
@@ -282,24 +279,18 @@ public class PacketBuffer extends ByteBuf
         {
             throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + i + " > " + maxLength * 4 + ")");
         }
-        else if (i < 0)
-        {
-            throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
-        }
-        else
-        {
-            String s = new String(this.readBytes(i).array(), Charsets.UTF_8);
+		if (i < 0)
+		{
+			throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
+		}
+		String s = new String(this.readBytes(i).array(), Charsets.UTF_8);
 
-            if (s.length() > maxLength)
-            {
-                throw new DecoderException("The received string length is longer than maximum allowed (" + i + " > " + maxLength + ")");
-            }
-            else
-            {
-                return s;
-            }
-        }
-    }
+		if (s.length() > maxLength)
+		{
+			throw new DecoderException("The received string length is longer than maximum allowed (" + i + " > " + maxLength + ")");
+		}
+		return s;
+	}
 
     public PacketBuffer writeString(String string)
     {
@@ -309,13 +300,10 @@ public class PacketBuffer extends ByteBuf
         {
             throw new EncoderException("String too big (was " + string.length() + " bytes encoded, max " + 32767 + ")");
         }
-        else
-        {
-            this.writeVarIntToBuffer(abyte.length);
-            this.writeBytes(abyte);
-            return this;
-        }
-    }
+		this.writeVarIntToBuffer(abyte.length);
+		this.writeBytes(abyte);
+		return this;
+	}
 
     public int capacity()
     {

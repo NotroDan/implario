@@ -317,26 +317,23 @@ public class EntitySlime extends EntityLiving implements IMob
         {
             return false;
         }
-        else
-        {
-            if (this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL)
-            {
-                BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(blockpos);
+		if (this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL)
+		{
+			BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(blockpos);
 
-                if (biomegenbase == BiomeGenBase.swampland && this.posY > 50.0D && this.posY < 70.0D && this.rand.nextFloat() < 0.5F && this.rand.nextFloat() < this.worldObj.getCurrentMoonPhaseFactor() && this.worldObj.getLightFromNeighbors(new BlockPos(this)) <= this.rand.nextInt(8))
-                {
-                    return super.getCanSpawnHere();
-                }
+			if (biomegenbase == BiomeGenBase.swampland && this.posY > 50.0D && this.posY < 70.0D && this.rand.nextFloat() < 0.5F && this.rand.nextFloat() < this.worldObj.getCurrentMoonPhaseFactor() && this.worldObj.getLightFromNeighbors(new BlockPos(this)) <= this.rand.nextInt(8))
+			{
+				return super.getCanSpawnHere();
+			}
 
-                if (this.rand.nextInt(10) == 0 && chunk.getRandomWithSeed(987234911L).nextInt(10) == 0 && this.posY < 40.0D)
-                {
-                    return super.getCanSpawnHere();
-                }
-            }
+			if (this.rand.nextInt(10) == 0 && chunk.getRandomWithSeed(987234911L).nextInt(10) == 0 && this.posY < 40.0D)
+			{
+				return super.getCanSpawnHere();
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Returns the volume for the sounds this mob makes.

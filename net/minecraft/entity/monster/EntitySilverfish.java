@@ -100,16 +100,13 @@ public class EntitySilverfish extends EntityMob
         {
             return false;
         }
-        else
-        {
-            if (source instanceof EntityDamageSource || source == DamageSource.magic)
-            {
-                this.summonSilverfish.func_179462_f();
-            }
+		if (source instanceof EntityDamageSource || source == DamageSource.magic)
+		{
+			this.summonSilverfish.func_179462_f();
+		}
 
-            return super.attackEntityFrom(source, amount);
-        }
-    }
+		return super.attackEntityFrom(source, amount);
+	}
 
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
@@ -153,11 +150,8 @@ public class EntitySilverfish extends EntityMob
             EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
             return entityplayer == null;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Get this Entity's EnumCreatureAttribute
@@ -186,31 +180,28 @@ public class EntitySilverfish extends EntityMob
             {
                 return false;
             }
-            else if (!this.field_179485_a.getNavigator().noPath())
-            {
-                return false;
-            }
-            else
-            {
-                Random random = this.field_179485_a.getRNG();
+			if (!this.field_179485_a.getNavigator().noPath())
+			{
+				return false;
+			}
+			Random random = this.field_179485_a.getRNG();
 
-                if (random.nextInt(10) == 0)
-                {
-                    this.facing = EnumFacing.random(random);
-                    BlockPos blockpos = new BlockPos(this.field_179485_a.posX, this.field_179485_a.posY + 0.5D, this.field_179485_a.posZ).offset(this.facing);
-                    IBlockState iblockstate = this.field_179485_a.worldObj.getBlockState(blockpos);
+			if (random.nextInt(10) == 0)
+			{
+				this.facing = EnumFacing.random(random);
+				BlockPos blockpos = new BlockPos(this.field_179485_a.posX, this.field_179485_a.posY + 0.5D, this.field_179485_a.posZ).offset(this.facing);
+				IBlockState iblockstate = this.field_179485_a.worldObj.getBlockState(blockpos);
 
-                    if (BlockSilverfish.canContainSilverfish(iblockstate))
-                    {
-                        this.field_179484_c = true;
-                        return true;
-                    }
-                }
+				if (BlockSilverfish.canContainSilverfish(iblockstate))
+				{
+					this.field_179484_c = true;
+					return true;
+				}
+			}
 
-                this.field_179484_c = false;
-                return super.shouldExecute();
-            }
-        }
+			this.field_179484_c = false;
+			return super.shouldExecute();
+		}
 
         public boolean continueExecuting()
         {

@@ -15,44 +15,35 @@ public class ItemFireworkCharge extends Item
         {
             return super.getColorFromItemStack(stack, renderPass);
         }
-        else
-        {
-            NBTBase nbtbase = getExplosionTag(stack, "Colors");
+		NBTBase nbtbase = getExplosionTag(stack, "Colors");
 
-            if (!(nbtbase instanceof NBTTagIntArray))
-            {
-                return 9079434;
-            }
-            else
-            {
-                NBTTagIntArray nbttagintarray = (NBTTagIntArray)nbtbase;
-                int[] aint = nbttagintarray.getIntArray();
+		if (!(nbtbase instanceof NBTTagIntArray))
+		{
+			return 9079434;
+		}
+		NBTTagIntArray nbttagintarray = (NBTTagIntArray)nbtbase;
+		int[] aint = nbttagintarray.getIntArray();
 
-                if (aint.length == 1)
-                {
-                    return aint[0];
-                }
-                else
-                {
-                    int i = 0;
-                    int j = 0;
-                    int k = 0;
+		if (aint.length == 1)
+		{
+			return aint[0];
+		}
+		int i = 0;
+		int j = 0;
+		int k = 0;
 
-                    for (int l : aint)
-                    {
-                        i += (l & 16711680) >> 16;
-                        j += (l & 65280) >> 8;
-                        k += (l & 255) >> 0;
-                    }
+		for (int l : aint)
+		{
+			i += (l & 16711680) >> 16;
+			j += (l & 65280) >> 8;
+			k += (l & 255) >> 0;
+		}
 
-                    i = i / aint.length;
-                    j = j / aint.length;
-                    k = k / aint.length;
-                    return i << 16 | j << 8 | k;
-                }
-            }
-        }
-    }
+		i = i / aint.length;
+		j = j / aint.length;
+		k = k / aint.length;
+		return i << 16 | j << 8 | k;
+	}
 
     public static NBTBase getExplosionTag(ItemStack stack, String key)
     {

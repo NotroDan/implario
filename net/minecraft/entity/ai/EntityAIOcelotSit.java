@@ -81,34 +81,31 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
         {
             return false;
         }
-        else
-        {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            Block block = iblockstate.getBlock();
+		IBlockState iblockstate = worldIn.getBlockState(pos);
+		Block block = iblockstate.getBlock();
 
-            if (block == Blocks.chest)
-            {
-                TileEntity tileentity = worldIn.getTileEntity(pos);
+		if (block == Blocks.chest)
+		{
+			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-                if (tileentity instanceof TileEntityChest && ((TileEntityChest)tileentity).numPlayersUsing < 1)
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                if (block == Blocks.lit_furnace)
-                {
-                    return true;
-                }
+			if (tileentity instanceof TileEntityChest && ((TileEntityChest)tileentity).numPlayersUsing < 1)
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if (block == Blocks.lit_furnace)
+			{
+				return true;
+			}
 
-                if (block == Blocks.bed && iblockstate.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD)
-                {
-                    return true;
-                }
-            }
+			if (block == Blocks.bed && iblockstate.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD)
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 }

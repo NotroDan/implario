@@ -1093,9 +1093,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			}
 
 			return this.viewFrustum.getRenderChunk(blockpos);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	private void fixTerrainFrustum(double x, double y, double z) {
@@ -1192,16 +1191,15 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		if (l == 0) {
 			this.mc.mcProfiler.endSection();
 			return l;
-		} else {
-			if (Config.isFogOff() && this.mc.entityRenderer.fogStandard) {
-				GlStateManager.disableFog();
-			}
-
-			this.mc.mcProfiler.endStartSection("render_" + blockLayerIn);
-			this.renderBlockLayer(blockLayerIn);
-			this.mc.mcProfiler.endSection();
-			return l;
 		}
+		if (Config.isFogOff() && this.mc.entityRenderer.fogStandard) {
+			GlStateManager.disableFog();
+		}
+
+		this.mc.mcProfiler.endStartSection("render_" + blockLayerIn);
+		this.renderBlockLayer(blockLayerIn);
+		this.mc.mcProfiler.endSection();
+		return l;
 	}
 
 	@SuppressWarnings ("incomplete-switch")
@@ -2319,87 +2317,103 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 			if (p_174974_1_ == EnumParticleTypes.EXPLOSION_HUGE.getParticleID() && !Config.isAnimatedExplosion()) {
 				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.EXPLOSION_LARGE.getParticleID() && !Config.isAnimatedExplosion()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.EXPLOSION_NORMAL.getParticleID() && !Config.isAnimatedExplosion()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SUSPENDED.getParticleID() && !Config.isWaterParticles()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SUSPENDED_DEPTH.getParticleID() && !Config.isVoidParticles()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SMOKE_NORMAL.getParticleID() && !Config.isAnimatedSmoke()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SMOKE_LARGE.getParticleID() && !Config.isAnimatedSmoke()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SPELL_MOB.getParticleID() && !Config.isPotionParticles()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SPELL_MOB_AMBIENT.getParticleID() && !Config.isPotionParticles()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SPELL.getParticleID() && !Config.isPotionParticles()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SPELL_INSTANT.getParticleID() && !Config.isPotionParticles()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.SPELL_WITCH.getParticleID() && !Config.isPotionParticles()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.PORTAL.getParticleID() && !Config.isAnimatedPortal()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.FLAME.getParticleID() && !Config.isAnimatedFlame()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.REDSTONE.getParticleID() && !Config.isAnimatedRedstone()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.DRIP_WATER.getParticleID() && !Config.isDrippingWaterLava()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.DRIP_LAVA.getParticleID() && !Config.isDrippingWaterLava()) {
-				return null;
-			} else if (p_174974_1_ == EnumParticleTypes.FIREWORKS_SPARK.getParticleID() && !Config.isFireworkParticles()) {
-				return null;
-			} else if (ignoreRange) {
-				return this.mc.effectRenderer.spawnEffectParticle(p_174974_1_, p_174974_3_, p_174974_5_, p_174974_7_, p_174974_9_, p_174974_11_, p_174974_13_, p_174974_15_);
-			} else {
-				double d3 = 16.0D;
-				double d4 = 256.0D;
-
-				if (p_174974_1_ == EnumParticleTypes.CRIT.getParticleID()) {
-					d4 = 38416.0D;
-				}
-
-				if (d0 * d0 + d1 * d1 + d2 * d2 > d4) {
-					return null;
-				} else if (i > 1) {
-					return null;
-				} else {
-					EntityFX entityfx = this.mc.effectRenderer.spawnEffectParticle(p_174974_1_, p_174974_3_, p_174974_5_, p_174974_7_, p_174974_9_, p_174974_11_, p_174974_13_, p_174974_15_);
-
-					if (p_174974_1_ == EnumParticleTypes.WATER_BUBBLE.getParticleID()) {
-						CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
-					}
-
-					if (p_174974_1_ == EnumParticleTypes.WATER_SPLASH.getParticleID()) {
-						CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
-					}
-
-					if (p_174974_1_ == EnumParticleTypes.WATER_DROP.getParticleID()) {
-						CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
-					}
-
-					if (p_174974_1_ == EnumParticleTypes.TOWN_AURA.getParticleID()) {
-						CustomColors.updateMyceliumFX(entityfx);
-					}
-
-					if (p_174974_1_ == EnumParticleTypes.PORTAL.getParticleID()) {
-						CustomColors.updatePortalFX(entityfx);
-					}
-
-					if (p_174974_1_ == EnumParticleTypes.REDSTONE.getParticleID()) {
-						CustomColors.updateReddustFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
-					}
-
-					return entityfx;
-				}
 			}
-		} else {
-			return null;
+			if (p_174974_1_ == EnumParticleTypes.EXPLOSION_LARGE.getParticleID() && !Config.isAnimatedExplosion()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.EXPLOSION_NORMAL.getParticleID() && !Config.isAnimatedExplosion()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SUSPENDED.getParticleID() && !Config.isWaterParticles()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SUSPENDED_DEPTH.getParticleID() && !Config.isVoidParticles()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SMOKE_NORMAL.getParticleID() && !Config.isAnimatedSmoke()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SMOKE_LARGE.getParticleID() && !Config.isAnimatedSmoke()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SPELL_MOB.getParticleID() && !Config.isPotionParticles()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SPELL_MOB_AMBIENT.getParticleID() && !Config.isPotionParticles()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SPELL.getParticleID() && !Config.isPotionParticles()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SPELL_INSTANT.getParticleID() && !Config.isPotionParticles()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.SPELL_WITCH.getParticleID() && !Config.isPotionParticles()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.PORTAL.getParticleID() && !Config.isAnimatedPortal()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.FLAME.getParticleID() && !Config.isAnimatedFlame()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.REDSTONE.getParticleID() && !Config.isAnimatedRedstone()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.DRIP_WATER.getParticleID() && !Config.isDrippingWaterLava()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.DRIP_LAVA.getParticleID() && !Config.isDrippingWaterLava()) {
+				return null;
+			}
+			if (p_174974_1_ == EnumParticleTypes.FIREWORKS_SPARK.getParticleID() && !Config.isFireworkParticles()) {
+				return null;
+			}
+			if (ignoreRange) {
+				return this.mc.effectRenderer.spawnEffectParticle(p_174974_1_, p_174974_3_, p_174974_5_, p_174974_7_, p_174974_9_, p_174974_11_, p_174974_13_, p_174974_15_);
+			}
+			double d3 = 16.0D;
+			double d4 = 256.0D;
+
+			if (p_174974_1_ == EnumParticleTypes.CRIT.getParticleID()) {
+				d4 = 38416.0D;
+			}
+
+			if (d0 * d0 + d1 * d1 + d2 * d2 > d4) {
+				return null;
+			}
+			if (i > 1) {
+				return null;
+			}
+			EntityFX entityfx = this.mc.effectRenderer.spawnEffectParticle(p_174974_1_, p_174974_3_, p_174974_5_, p_174974_7_, p_174974_9_, p_174974_11_, p_174974_13_, p_174974_15_);
+
+			if (p_174974_1_ == EnumParticleTypes.WATER_BUBBLE.getParticleID()) {
+				CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
+			}
+
+			if (p_174974_1_ == EnumParticleTypes.WATER_SPLASH.getParticleID()) {
+				CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
+			}
+
+			if (p_174974_1_ == EnumParticleTypes.WATER_DROP.getParticleID()) {
+				CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
+			}
+
+			if (p_174974_1_ == EnumParticleTypes.TOWN_AURA.getParticleID()) {
+				CustomColors.updateMyceliumFX(entityfx);
+			}
+
+			if (p_174974_1_ == EnumParticleTypes.PORTAL.getParticleID()) {
+				CustomColors.updatePortalFX(entityfx);
+			}
+
+			if (p_174974_1_ == EnumParticleTypes.REDSTONE.getParticleID()) {
+				CustomColors.updateReddustFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
+			}
+
+			return entityfx;
 		}
+		return null;
 	}
 
 	/**
@@ -2699,10 +2713,9 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	public RenderChunk getRenderChunk(RenderChunk p_getRenderChunk_1_, EnumFacing p_getRenderChunk_2_) {
 		if (p_getRenderChunk_1_ == null) {
 			return null;
-		} else {
-			BlockPos blockpos = p_getRenderChunk_1_.func_181701_a(p_getRenderChunk_2_);
-			return this.viewFrustum.getRenderChunk(blockpos);
 		}
+		BlockPos blockpos = p_getRenderChunk_1_.func_181701_a(p_getRenderChunk_2_);
+		return this.viewFrustum.getRenderChunk(blockpos);
 	}
 
 	public WorldClient getWorld() {

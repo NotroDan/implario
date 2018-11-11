@@ -55,6 +55,6 @@ public class EntityDamageSource extends DamageSource
      */
     public boolean isDifficultyScaled()
     {
-        return this.damageSourceEntity != null && this.damageSourceEntity instanceof EntityLivingBase && !(this.damageSourceEntity instanceof EntityPlayer);
+        return this.damageSourceEntity instanceof EntityLivingBase && !(this.damageSourceEntity instanceof EntityPlayer);
     }
 }

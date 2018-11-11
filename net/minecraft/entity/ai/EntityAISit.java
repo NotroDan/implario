@@ -25,20 +25,17 @@ public class EntityAISit extends EntityAIBase
         {
             return false;
         }
-        else if (this.theEntity.isInWater())
-        {
-            return false;
-        }
-        else if (!this.theEntity.onGround)
-        {
-            return false;
-        }
-        else
-        {
-            EntityLivingBase entitylivingbase = this.theEntity.getOwner();
-            return entitylivingbase == null ? true : this.theEntity.getDistanceSqToEntity(entitylivingbase) < 144.0D && entitylivingbase.getAITarget() != null ? false : this.isSitting;
-        }
-    }
+		if (this.theEntity.isInWater())
+		{
+			return false;
+		}
+		if (!this.theEntity.onGround)
+		{
+			return false;
+		}
+		EntityLivingBase entitylivingbase = this.theEntity.getOwner();
+		return entitylivingbase == null ? true : this.theEntity.getDistanceSqToEntity(entitylivingbase) < 144.0D && entitylivingbase.getAITarget() != null ? false : this.isSitting;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

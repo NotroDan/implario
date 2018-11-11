@@ -36,11 +36,8 @@ public class ShaderLinkHelper
         {
             throw new JsonException("Could not create shader program (returned program ID " + i + ")");
         }
-        else
-        {
-            return i;
-        }
-    }
+		return i;
+	}
 
     public void linkProgram(ShaderManager manager) throws IOException
     {

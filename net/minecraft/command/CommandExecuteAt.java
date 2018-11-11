@@ -45,96 +45,93 @@ public class CommandExecuteAt extends CommandBase
         {
             throw new WrongUsageException("commands.execute.usage", new Object[0]);
         }
-        else
-        {
-            final Entity entity = getEntity(sender, args[0], Entity.class);
-            final double d0 = parseDouble(entity.posX, args[1], false);
-            final double d1 = parseDouble(entity.posY, args[2], false);
-            final double d2 = parseDouble(entity.posZ, args[3], false);
-            final BlockPos blockpos = new BlockPos(d0, d1, d2);
-            int i = 4;
+		final Entity entity = getEntity(sender, args[0], Entity.class);
+		final double d0 = parseDouble(entity.posX, args[1], false);
+		final double d1 = parseDouble(entity.posY, args[2], false);
+		final double d2 = parseDouble(entity.posZ, args[3], false);
+		final BlockPos blockpos = new BlockPos(d0, d1, d2);
+		int i = 4;
 
-            if ("detect".equals(args[4]) && args.length > 10)
-            {
-                World world = entity.getEntityWorld();
-                double d3 = parseDouble(d0, args[5], false);
-                double d4 = parseDouble(d1, args[6], false);
-                double d5 = parseDouble(d2, args[7], false);
-                Block block = getBlockByText(sender, args[8]);
-                int k = parseInt(args[9], -1, 15);
-                BlockPos blockpos1 = new BlockPos(d3, d4, d5);
-                IBlockState iblockstate = world.getBlockState(blockpos1);
+		if ("detect".equals(args[4]) && args.length > 10)
+		{
+			World world = entity.getEntityWorld();
+			double d3 = parseDouble(d0, args[5], false);
+			double d4 = parseDouble(d1, args[6], false);
+			double d5 = parseDouble(d2, args[7], false);
+			Block block = getBlockByText(sender, args[8]);
+			int k = parseInt(args[9], -1, 15);
+			BlockPos blockpos1 = new BlockPos(d3, d4, d5);
+			IBlockState iblockstate = world.getBlockState(blockpos1);
 
-                if (iblockstate.getBlock() != block || k >= 0 && iblockstate.getBlock().getMetaFromState(iblockstate) != k)
-                {
-                    throw new CommandException("commands.execute.failed", new Object[] {"detect", entity.getName()});
-                }
+			if (iblockstate.getBlock() != block || k >= 0 && iblockstate.getBlock().getMetaFromState(iblockstate) != k)
+			{
+				throw new CommandException("commands.execute.failed", new Object[] {"detect", entity.getName()});
+			}
 
-                i = 10;
-            }
+			i = 10;
+		}
 
-            String s = buildString(args, i);
-            ICommandSender icommandsender = new ICommandSender()
-            {
-                public String getName()
-                {
-                    return entity.getName();
-                }
-                public IChatComponent getDisplayName()
-                {
-                    return entity.getDisplayName();
-                }
-                public void addChatMessage(IChatComponent component)
-                {
-                    sender.addChatMessage(component);
-                }
-                public boolean canCommandSenderUseCommand(int permLevel, String commandName)
-                {
-                    return sender.canCommandSenderUseCommand(permLevel, commandName);
-                }
-                public BlockPos getPosition()
-                {
-                    return blockpos;
-                }
-                public Vec3 getPositionVector()
-                {
-                    return new Vec3(d0, d1, d2);
-                }
-                public World getEntityWorld()
-                {
-                    return entity.worldObj;
-                }
-                public Entity getCommandSenderEntity()
-                {
-                    return entity;
-                }
-                public boolean sendCommandFeedback()
-                {
-                    MinecraftServer minecraftserver = MinecraftServer.getServer();
-                    return minecraftserver == null || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
-                }
-                public void setCommandStat(CommandResultStats.Type type, int amount)
-                {
-                    entity.setCommandStat(type, amount);
-                }
-            };
-            ICommandManager icommandmanager = MinecraftServer.getServer().getCommandManager();
+		String s = buildString(args, i);
+		ICommandSender icommandsender = new ICommandSender()
+		{
+			public String getName()
+			{
+				return entity.getName();
+			}
+			public IChatComponent getDisplayName()
+			{
+				return entity.getDisplayName();
+			}
+			public void addChatMessage(IChatComponent component)
+			{
+				sender.addChatMessage(component);
+			}
+			public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+			{
+				return sender.canCommandSenderUseCommand(permLevel, commandName);
+			}
+			public BlockPos getPosition()
+			{
+				return blockpos;
+			}
+			public Vec3 getPositionVector()
+			{
+				return new Vec3(d0, d1, d2);
+			}
+			public World getEntityWorld()
+			{
+				return entity.worldObj;
+			}
+			public Entity getCommandSenderEntity()
+			{
+				return entity;
+			}
+			public boolean sendCommandFeedback()
+			{
+				MinecraftServer minecraftserver = MinecraftServer.getServer();
+				return minecraftserver == null || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+			}
+			public void setCommandStat(CommandResultStats.Type type, int amount)
+			{
+				entity.setCommandStat(type, amount);
+			}
+		};
+		ICommandManager icommandmanager = MinecraftServer.getServer().getCommandManager();
 
-            try
-            {
-                int j = icommandmanager.executeCommand(icommandsender, s);
+		try
+		{
+			int j = icommandmanager.executeCommand(icommandsender, s);
 
-                if (j < 1)
-                {
-                    throw new CommandException("commands.execute.allInvocationsFailed", new Object[] {s});
-                }
-            }
-            catch (Throwable var23)
-            {
-                throw new CommandException("commands.execute.failed", new Object[] {s, entity.getName()});
-            }
-        }
-    }
+			if (j < 1)
+			{
+				throw new CommandException("commands.execute.allInvocationsFailed", new Object[] {s});
+			}
+		}
+		catch (Throwable var23)
+		{
+			throw new CommandException("commands.execute.failed", new Object[] {s, entity.getName()});
+		}
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {

@@ -62,17 +62,17 @@ public class S3EPacketTeams implements Packet<INetHandlerPlayClient>
         {
             throw new IllegalArgumentException("Method must be join or leave for player constructor");
         }
-        else if (p_i45226_2_ != null && !p_i45226_2_.isEmpty())
-        {
-            this.field_149314_f = p_i45226_3_;
-            this.field_149320_a = p_i45226_1_.getRegisteredName();
-            this.field_149317_e.addAll(p_i45226_2_);
-        }
-        else
-        {
-            throw new IllegalArgumentException("Players cannot be null/empty");
-        }
-    }
+		if (p_i45226_2_ != null && !p_i45226_2_.isEmpty())
+		{
+			this.field_149314_f = p_i45226_3_;
+			this.field_149320_a = p_i45226_1_.getRegisteredName();
+			this.field_149317_e.addAll(p_i45226_2_);
+		}
+		else
+		{
+			throw new IllegalArgumentException("Players cannot be null/empty");
+		}
+	}
 
     /**
      * Reads the raw packet data from the data stream.

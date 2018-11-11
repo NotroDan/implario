@@ -176,9 +176,6 @@ public class ViewFrustum
             int l = (k * this.countChunksY + j) * this.countChunksX + i;
             return this.renderChunks[l];
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 }

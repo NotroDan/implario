@@ -40,26 +40,20 @@ public class ShaderOptionSwitch extends ShaderOption
         {
             return null;
         }
-        else
-        {
-            String s = matcher.group(1);
-            String s1 = matcher.group(2);
-            String s2 = matcher.group(3);
+		String s = matcher.group(1);
+		String s1 = matcher.group(2);
+		String s2 = matcher.group(3);
 
-            if (s1 != null && s1.length() > 0)
-            {
-                boolean flag = Config.equals(s, "//");
-                boolean flag1 = !flag;
-                path = StrUtils.removePrefix(path, "/shaders/");
-                ShaderOption shaderoption = new ShaderOptionSwitch(s1, s2, String.valueOf(flag1), path);
-                return shaderoption;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+		if (s1 != null && s1.length() > 0)
+		{
+			boolean flag = Config.equals(s, "//");
+			boolean flag1 = !flag;
+			path = StrUtils.removePrefix(path, "/shaders/");
+			ShaderOption shaderoption = new ShaderOptionSwitch(s1, s2, String.valueOf(flag1), path);
+			return shaderoption;
+		}
+		return null;
+	}
 
     public boolean matchesLine(String line)
     {
@@ -69,12 +63,9 @@ public class ShaderOptionSwitch extends ShaderOption
         {
             return false;
         }
-        else
-        {
-            String s = matcher.group(2);
-            return s.matches(this.getName());
-        }
-    }
+		String s = matcher.group(2);
+		return s.matches(this.getName());
+	}
 
     public boolean checkUsed()
     {

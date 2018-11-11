@@ -183,36 +183,33 @@ public class Stitcher
         {
             return false;
         }
-        else
-        {
-            Stitcher.Slot stitcher$slot;
+		Stitcher.Slot stitcher$slot;
 
-            if (flag1)
-            {
-                if (p_94311_1_.getWidth() > p_94311_1_.getHeight())
-                {
-                    p_94311_1_.rotate();
-                }
+		if (flag1)
+		{
+			if (p_94311_1_.getWidth() > p_94311_1_.getHeight())
+			{
+				p_94311_1_.rotate();
+			}
 
-                if (this.currentHeight == 0)
-                {
-                    this.currentHeight = p_94311_1_.getHeight();
-                }
+			if (this.currentHeight == 0)
+			{
+				this.currentHeight = p_94311_1_.getHeight();
+			}
 
-                stitcher$slot = new Stitcher.Slot(this.currentWidth, 0, p_94311_1_.getWidth(), this.currentHeight);
-                this.currentWidth += p_94311_1_.getWidth();
-            }
-            else
-            {
-                stitcher$slot = new Stitcher.Slot(0, this.currentHeight, this.currentWidth, p_94311_1_.getHeight());
-                this.currentHeight += p_94311_1_.getHeight();
-            }
+			stitcher$slot = new Stitcher.Slot(this.currentWidth, 0, p_94311_1_.getWidth(), this.currentHeight);
+			this.currentWidth += p_94311_1_.getWidth();
+		}
+		else
+		{
+			stitcher$slot = new Stitcher.Slot(0, this.currentHeight, this.currentWidth, p_94311_1_.getHeight());
+			this.currentHeight += p_94311_1_.getHeight();
+		}
 
-            stitcher$slot.addSlot(p_94311_1_);
-            this.stitchSlots.add(stitcher$slot);
-            return true;
-        }
-    }
+		stitcher$slot.addSlot(p_94311_1_);
+		this.stitchSlots.add(stitcher$slot);
+		return true;
+	}
 
     public static class Holder implements Comparable
     {
@@ -342,70 +339,61 @@ public class Stitcher
             {
                 return false;
             }
-            else
-            {
-                int i = holderIn.getWidth();
-                int j = holderIn.getHeight();
+			int i = holderIn.getWidth();
+			int j = holderIn.getHeight();
 
-                if (i <= this.width && j <= this.height)
-                {
-                    if (i == this.width && j == this.height)
-                    {
-                        this.holder = holderIn;
-                        return true;
-                    }
-                    else
-                    {
-                        if (this.subSlots == null)
-                        {
-                            this.subSlots = Lists.newArrayListWithCapacity(1);
-                            this.subSlots.add(new Stitcher.Slot(this.originX, this.originY, i, j));
-                            int k = this.width - i;
-                            int l = this.height - j;
+			if (i <= this.width && j <= this.height)
+			{
+				if (i == this.width && j == this.height)
+				{
+					this.holder = holderIn;
+					return true;
+				}
+				if (this.subSlots == null)
+					{
+						this.subSlots = Lists.newArrayListWithCapacity(1);
+						this.subSlots.add(new Stitcher.Slot(this.originX, this.originY, i, j));
+						int k = this.width - i;
+						int l = this.height - j;
 
-                            if (l > 0 && k > 0)
-                            {
-                                int i1 = Math.max(this.height, k);
-                                int j1 = Math.max(this.width, l);
+						if (l > 0 && k > 0)
+						{
+							int i1 = Math.max(this.height, k);
+							int j1 = Math.max(this.width, l);
 
-                                if (i1 >= j1)
-                                {
-                                    this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + j, i, l));
-                                    this.subSlots.add(new Stitcher.Slot(this.originX + i, this.originY, k, this.height));
-                                }
-                                else
-                                {
-                                    this.subSlots.add(new Stitcher.Slot(this.originX + i, this.originY, k, j));
-                                    this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + j, this.width, l));
-                                }
-                            }
-                            else if (k == 0)
-                            {
-                                this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + j, i, l));
-                            }
-                            else if (l == 0)
-                            {
-                                this.subSlots.add(new Stitcher.Slot(this.originX + i, this.originY, k, j));
-                            }
-                        }
+							if (i1 >= j1)
+							{
+								this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + j, i, l));
+								this.subSlots.add(new Stitcher.Slot(this.originX + i, this.originY, k, this.height));
+							}
+							else
+							{
+								this.subSlots.add(new Stitcher.Slot(this.originX + i, this.originY, k, j));
+								this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + j, this.width, l));
+							}
+						}
+						else if (k == 0)
+						{
+							this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + j, i, l));
+						}
+						else if (l == 0)
+						{
+							this.subSlots.add(new Stitcher.Slot(this.originX + i, this.originY, k, j));
+						}
+					}
 
-                        for (Object stitcher$slot : this.subSlots)
-                        {
-                            if (((Slot) stitcher$slot).addSlot(holderIn))
-                            {
-                                return true;
-                            }
-                        }
+				for (Object stitcher$slot : this.subSlots)
+					{
+						if (((Slot) stitcher$slot).addSlot(holderIn))
+						{
+							return true;
+						}
+					}
 
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+				return false;
+			}
+			return false;
+		}
 
         public void getAllStitchSlots(List p_94184_1_)
         {

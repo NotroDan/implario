@@ -36,44 +36,38 @@ public class BetterGrass
             {
                 return Config.isBetterGrassFancy() ? getBlockAt(p_getFaceQuads_2_.down(), p_getFaceQuads_3_, p_getFaceQuads_0_) == Blocks.mycelium ? modelCubeMycelium.getFaceQuads(p_getFaceQuads_3_) : p_getFaceQuads_4_ : modelCubeMycelium.getFaceQuads(p_getFaceQuads_3_);
             }
-            else
-            {
-                if (p_getFaceQuads_1_ instanceof BlockGrass)
-                {
-                    Block block = p_getFaceQuads_0_.getBlockState(p_getFaceQuads_2_.up()).getBlock();
-                    boolean flag = block == Blocks.snow || block == Blocks.snow_layer;
+			if (p_getFaceQuads_1_ instanceof BlockGrass)
+			{
+				Block block = p_getFaceQuads_0_.getBlockState(p_getFaceQuads_2_.up()).getBlock();
+				boolean flag = block == Blocks.snow || block == Blocks.snow_layer;
 
-                    if (!Config.isBetterGrassFancy())
-                    {
-                        if (flag)
-                        {
-                            return modelCubeGrassSnowy.getFaceQuads(p_getFaceQuads_3_);
-                        }
+				if (!Config.isBetterGrassFancy())
+				{
+					if (flag)
+					{
+						return modelCubeGrassSnowy.getFaceQuads(p_getFaceQuads_3_);
+					}
 
-                        return modelCubeGrass.getFaceQuads(p_getFaceQuads_3_);
-                    }
+					return modelCubeGrass.getFaceQuads(p_getFaceQuads_3_);
+				}
 
-                    if (flag)
-                    {
-                        if (getBlockAt(p_getFaceQuads_2_, p_getFaceQuads_3_, p_getFaceQuads_0_) == Blocks.snow_layer)
-                        {
-                            return modelCubeGrassSnowy.getFaceQuads(p_getFaceQuads_3_);
-                        }
-                    }
-                    else if (getBlockAt(p_getFaceQuads_2_.down(), p_getFaceQuads_3_, p_getFaceQuads_0_) == Blocks.grass)
-                    {
-                        return modelCubeGrass.getFaceQuads(p_getFaceQuads_3_);
-                    }
-                }
+				if (flag)
+				{
+					if (getBlockAt(p_getFaceQuads_2_, p_getFaceQuads_3_, p_getFaceQuads_0_) == Blocks.snow_layer)
+					{
+						return modelCubeGrassSnowy.getFaceQuads(p_getFaceQuads_3_);
+					}
+				}
+				else if (getBlockAt(p_getFaceQuads_2_.down(), p_getFaceQuads_3_, p_getFaceQuads_0_) == Blocks.grass)
+				{
+					return modelCubeGrass.getFaceQuads(p_getFaceQuads_3_);
+				}
+			}
 
-                return p_getFaceQuads_4_;
-            }
-        }
-        else
-        {
-            return p_getFaceQuads_4_;
-        }
-    }
+			return p_getFaceQuads_4_;
+		}
+		return p_getFaceQuads_4_;
+	}
 
     private static Block getBlockAt(BlockPos p_getBlockAt_0_, EnumFacing p_getBlockAt_1_, IBlockAccess p_getBlockAt_2_)
     {

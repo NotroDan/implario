@@ -99,36 +99,27 @@ public class TileEntitySkull extends TileEntity
             {
                 return input;
             }
-            else if (MinecraftServer.getServer() == null)
-            {
-                return input;
-            }
-            else
-            {
-                GameProfile gameprofile = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(input.getName());
+			if (MinecraftServer.getServer() == null)
+			{
+				return input;
+			}
+			GameProfile gameprofile = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(input.getName());
 
-                if (gameprofile == null)
-                {
-                    return input;
-                }
-                else
-                {
-                    Property property = (Property)Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
+			if (gameprofile == null)
+			{
+				return input;
+			}
+			Property property = (Property)Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
 
-                    if (property == null)
-                    {
-                        gameprofile = MinecraftServer.getServer().getMinecraftSessionService().fillProfileProperties(gameprofile, true);
-                    }
+			if (property == null)
+			{
+				gameprofile = MinecraftServer.getServer().getMinecraftSessionService().fillProfileProperties(gameprofile, true);
+			}
 
-                    return gameprofile;
-                }
-            }
-        }
-        else
-        {
-            return input;
-        }
-    }
+			return gameprofile;
+		}
+		return input;
+	}
 
     public int getSkullType()
     {

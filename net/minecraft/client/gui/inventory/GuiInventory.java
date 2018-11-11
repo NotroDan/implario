@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -61,7 +61,7 @@ public class GuiInventory extends InventoryEffectRenderer {
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items). Args : mouseX, mouseY
 	 */
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.fontRendererObj.drawString(I18n.format("container.crafting"), 86, 16, 4210752);
+		this.fontRendererObj.drawString(Lang.format("container.crafting"), 86, 16, 4210752);
 	}
 
 	/**

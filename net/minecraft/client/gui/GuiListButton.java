@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 
 public class GuiListButton extends GuiButton
 {
@@ -28,7 +28,7 @@ public class GuiListButton extends GuiButton
      */
     private String buildDisplayString()
     {
-        return I18n.format(this.localizationStr, new Object[0]) + ": " + (this.field_175216_o ? I18n.format("gui.yes", new Object[0]) : I18n.format("gui.no", new Object[0]));
+        return Lang.format(this.localizationStr, new Object[0]) + ": " + (this.field_175216_o ? Lang.format("gui.yes", new Object[0]) : Lang.format("gui.no", new Object[0]));
     }
 
     public void func_175212_b(boolean p_175212_1_)
@@ -51,9 +51,6 @@ public class GuiListButton extends GuiButton
             this.guiResponder.func_175321_a(this.id, this.field_175216_o);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 }

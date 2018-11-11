@@ -200,16 +200,13 @@ public class BlockVine extends Block
         {
             return false;
         }
-        else
-        {
-            if (iblockstate != state)
-            {
-                worldIn.setBlockState(pos, state, 2);
-            }
+		if (iblockstate != state)
+		{
+			worldIn.setBlockState(pos, state, 2);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     public int getBlockColor()
     {

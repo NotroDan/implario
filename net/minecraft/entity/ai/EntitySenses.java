@@ -34,26 +34,23 @@ public class EntitySenses
         {
             return true;
         }
-        else if (this.unseenEntities.contains(entityIn))
-        {
-            return false;
-        }
-        else
-        {
-            this.entityObj.worldObj.theProfiler.startSection("canSee");
-            boolean flag = this.entityObj.canEntityBeSeen(entityIn);
-            this.entityObj.worldObj.theProfiler.endSection();
+		if (this.unseenEntities.contains(entityIn))
+		{
+			return false;
+		}
+		this.entityObj.worldObj.theProfiler.startSection("canSee");
+		boolean flag = this.entityObj.canEntityBeSeen(entityIn);
+		this.entityObj.worldObj.theProfiler.endSection();
 
-            if (flag)
-            {
-                this.seenEntities.add(entityIn);
-            }
-            else
-            {
-                this.unseenEntities.add(entityIn);
-            }
+		if (flag)
+		{
+			this.seenEntities.add(entityIn);
+		}
+		else
+		{
+			this.unseenEntities.add(entityIn);
+		}
 
-            return flag;
-        }
-    }
+		return flag;
+	}
 }

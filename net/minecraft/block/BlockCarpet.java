@@ -92,11 +92,8 @@ public class BlockCarpet extends Block
             worldIn.setBlockToAir(pos);
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }
+		return true;
+	}
 
     private boolean canBlockStay(World worldIn, BlockPos pos)
     {

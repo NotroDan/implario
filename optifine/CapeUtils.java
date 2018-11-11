@@ -28,7 +28,7 @@ public class CapeUtils
             TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
             ITextureObject itextureobject = texturemanager.getTexture(resourcelocation);
 
-            if (itextureobject != null && itextureobject instanceof ThreadDownloadImageData)
+            if (itextureobject instanceof ThreadDownloadImageData)
             {
                 ThreadDownloadImageData threaddownloadimagedata = (ThreadDownloadImageData)itextureobject;
 

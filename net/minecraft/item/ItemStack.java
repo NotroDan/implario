@@ -300,33 +300,30 @@ public final class ItemStack
         {
             return false;
         }
-        else
-        {
-            if (amount > 0)
-            {
-                int i = EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, this);
-                int j = 0;
+		if (amount > 0)
+		{
+			int i = EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, this);
+			int j = 0;
 
-                for (int k = 0; i > 0 && k < amount; ++k)
-                {
-                    if (EnchantmentDurability.negateDamage(this, i, rand))
-                    {
-                        ++j;
-                    }
-                }
+			for (int k = 0; i > 0 && k < amount; ++k)
+			{
+				if (EnchantmentDurability.negateDamage(this, i, rand))
+				{
+					++j;
+				}
+			}
 
-                amount -= j;
+			amount -= j;
 
-                if (amount <= 0)
-                {
-                    return false;
-                }
-            }
+			if (amount <= 0)
+			{
+				return false;
+			}
+		}
 
-            this.itemDamage += amount;
-            return this.itemDamage > this.getMaxDamage();
-        }
-    }
+		this.itemDamage += amount;
+		return this.itemDamage > this.getMaxDamage();
+	}
 
     /**
      * Damages the item in the ItemStack
@@ -542,17 +539,14 @@ public final class ItemStack
         {
             return this.stackTagCompound.getCompoundTag(key);
         }
-        else if (create)
-        {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
-            this.setTagInfo(key, nbttagcompound);
-            return nbttagcompound;
-        }
-        else
-        {
-            return null;
-        }
-    }
+		if (create)
+		{
+			NBTTagCompound nbttagcompound = new NBTTagCompound();
+			this.setTagInfo(key, nbttagcompound);
+			return nbttagcompound;
+		}
+		return null;
+	}
 
     public NBTTagList getEnchantmentTagList()
     {
@@ -999,30 +993,27 @@ public final class ItemStack
         {
             return this.canDestroyCacheResult;
         }
-        else
-        {
-            this.canDestroyCacheBlock = blockIn;
+		this.canDestroyCacheBlock = blockIn;
 
-            if (this.hasTagCompound() && this.stackTagCompound.hasKey("CanDestroy", 9))
-            {
-                NBTTagList nbttaglist = this.stackTagCompound.getTagList("CanDestroy", 8);
+		if (this.hasTagCompound() && this.stackTagCompound.hasKey("CanDestroy", 9))
+		{
+			NBTTagList nbttaglist = this.stackTagCompound.getTagList("CanDestroy", 8);
 
-                for (int i = 0; i < nbttaglist.tagCount(); ++i)
-                {
-                    Block block = Block.getBlockFromName(nbttaglist.getStringTagAt(i));
+			for (int i = 0; i < nbttaglist.tagCount(); ++i)
+			{
+				Block block = Block.getBlockFromName(nbttaglist.getStringTagAt(i));
 
-                    if (block == blockIn)
-                    {
-                        this.canDestroyCacheResult = true;
-                        return true;
-                    }
-                }
-            }
+				if (block == blockIn)
+				{
+					this.canDestroyCacheResult = true;
+					return true;
+				}
+			}
+		}
 
-            this.canDestroyCacheResult = false;
-            return false;
-        }
-    }
+		this.canDestroyCacheResult = false;
+		return false;
+	}
 
     public boolean canPlaceOn(Block blockIn)
     {
@@ -1030,29 +1021,26 @@ public final class ItemStack
         {
             return this.canPlaceOnCacheResult;
         }
-        else
-        {
-            this.canPlaceOnCacheBlock = blockIn;
+		this.canPlaceOnCacheBlock = blockIn;
 
-            if (this.hasTagCompound() && this.stackTagCompound.hasKey("CanPlaceOn", 9))
-            {
-                NBTTagList nbttaglist = this.stackTagCompound.getTagList("CanPlaceOn", 8);
+		if (this.hasTagCompound() && this.stackTagCompound.hasKey("CanPlaceOn", 9))
+		{
+			NBTTagList nbttaglist = this.stackTagCompound.getTagList("CanPlaceOn", 8);
 
-                for (int i = 0; i < nbttaglist.tagCount(); ++i)
-                {
-                    Block block = Block.getBlockFromName(nbttaglist.getStringTagAt(i));
+			for (int i = 0; i < nbttaglist.tagCount(); ++i)
+			{
+				Block block = Block.getBlockFromName(nbttaglist.getStringTagAt(i));
 
-                    if (block == blockIn)
-                    {
-                        this.canPlaceOnCacheResult = true;
-                        return true;
-                    }
-                }
-            }
+				if (block == blockIn)
+				{
+					this.canPlaceOnCacheResult = true;
+					return true;
+				}
+			}
+		}
 
-            this.canPlaceOnCacheResult = false;
-            return false;
-        }
-    }
+		this.canPlaceOnCacheResult = false;
+		return false;
+	}
 
 }

@@ -54,21 +54,18 @@ public class BlockNote extends BlockContainer
         {
             return true;
         }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityNote)
-            {
-                TileEntityNote tileentitynote = (TileEntityNote)tileentity;
-                tileentitynote.changePitch();
-                tileentitynote.triggerNote(worldIn, pos);
-                playerIn.triggerAchievement(StatList.field_181735_S);
-            }
+		if (tileentity instanceof TileEntityNote)
+		{
+			TileEntityNote tileentitynote = (TileEntityNote)tileentity;
+			tileentitynote.changePitch();
+			tileentitynote.triggerNote(worldIn, pos);
+			playerIn.triggerAchievement(StatList.field_181735_S);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn)
     {

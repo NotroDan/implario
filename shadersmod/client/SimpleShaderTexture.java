@@ -46,20 +46,17 @@ public class SimpleShaderTexture extends AbstractTexture
         {
             throw new FileNotFoundException("Shader texture not found: " + this.texturePath);
         }
-        else
-        {
-            try
-            {
-                BufferedImage bufferedimage = TextureUtil.readBufferedImage(inputstream);
-                TextureMetadataSection texturemetadatasection = this.loadTextureMetadataSection();
-                TextureUtil.uploadTextureImageAllocate(this.getGlTextureId(), bufferedimage, texturemetadatasection.getTextureBlur(), texturemetadatasection.getTextureClamp());
-            }
-            finally
-            {
-                IOUtils.closeQuietly(inputstream);
-            }
-        }
-    }
+		try
+		{
+			BufferedImage bufferedimage = TextureUtil.readBufferedImage(inputstream);
+			TextureMetadataSection texturemetadatasection = this.loadTextureMetadataSection();
+			TextureUtil.uploadTextureImageAllocate(this.getGlTextureId(), bufferedimage, texturemetadatasection.getTextureBlur(), texturemetadatasection.getTextureClamp());
+		}
+		finally
+		{
+			IOUtils.closeQuietly(inputstream);
+		}
+	}
 
     private TextureMetadataSection loadTextureMetadataSection()
     {
@@ -99,11 +96,8 @@ public class SimpleShaderTexture extends AbstractTexture
 
             return texturemetadatasection1;
         }
-        else
-        {
-            return new TextureMetadataSection(false, false, new ArrayList());
-        }
-    }
+		return new TextureMetadataSection(false, false, new ArrayList());
+	}
 
     private static IMetadataSerializer makeMetadataSerializer()
     {

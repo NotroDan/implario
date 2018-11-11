@@ -37,36 +37,30 @@ public class ClickEvent
         {
             return true;
         }
-        else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
-        {
-            ClickEvent clickevent = (ClickEvent)p_equals_1_;
+		if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
+		{
+			ClickEvent clickevent = (ClickEvent)p_equals_1_;
 
-            if (this.action != clickevent.action)
-            {
-                return false;
-            }
-            else
-            {
-                if (this.value != null)
-                {
-                    if (!this.value.equals(clickevent.value))
-                    {
-                        return false;
-                    }
-                }
-                else if (clickevent.value != null)
-                {
-                    return false;
-                }
+			if (this.action != clickevent.action)
+			{
+				return false;
+			}
+			if (this.value != null)
+				{
+					if (!this.value.equals(clickevent.value))
+					{
+						return false;
+					}
+				}
+				else if (clickevent.value != null)
+				{
+					return false;
+				}
 
-                return true;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     public String toString()
     {

@@ -2,7 +2,7 @@ package net.minecraft.client.resources;
 
 import java.util.Map;
 
-public class I18n
+public class Lang
 {
     private static Locale i18nLocale;
     private static final String __OBFID = "CL_00001094";

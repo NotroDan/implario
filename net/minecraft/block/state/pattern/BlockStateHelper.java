@@ -40,11 +40,8 @@ public class BlockStateHelper implements Predicate<IBlockState>
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public <V extends Comparable<V>> BlockStateHelper where(IProperty<V> property, Predicate <? extends V > is)
     {
@@ -52,10 +49,7 @@ public class BlockStateHelper implements Predicate<IBlockState>
         {
             throw new IllegalArgumentException(this.blockstate + " cannot support property " + property);
         }
-        else
-        {
-            this.propertyPredicates.put(property, is);
-            return this;
-        }
-    }
+		this.propertyPredicates.put(property, is);
+		return this;
+	}
 }

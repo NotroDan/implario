@@ -101,21 +101,15 @@ public class BlockPortal extends BlockBreakable
             blockportal$size.func_150859_c();
             return true;
         }
-        else
-        {
-            BlockPortal.Size blockportal$size1 = new BlockPortal.Size(worldIn, p_176548_2_, EnumFacing.Axis.Z);
+		BlockPortal.Size blockportal$size1 = new BlockPortal.Size(worldIn, p_176548_2_, EnumFacing.Axis.Z);
 
-            if (blockportal$size1.func_150860_b() && blockportal$size1.field_150864_e == 0)
-            {
-                blockportal$size1.func_150859_c();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+		if (blockportal$size1.func_150860_b() && blockportal$size1.field_150864_e == 0)
+		{
+			blockportal$size1.func_150859_c();
+			return true;
+		}
+		return false;
+	}
 
     /**
      * Called when a neighboring block changes.
@@ -276,43 +270,40 @@ public class BlockPortal extends BlockBreakable
         {
             return new BlockPattern.PatternHelper(p_181089_2_, EnumFacing.NORTH, EnumFacing.UP, loadingcache, 1, 1, 1);
         }
-        else
-        {
-            int[] aint = new int[EnumFacing.AxisDirection.values().length];
-            EnumFacing enumfacing = blockportal$size.field_150866_c.rotateYCCW();
-            BlockPos blockpos = blockportal$size.field_150861_f.up(blockportal$size.func_181100_a() - 1);
+		int[] aint = new int[EnumFacing.AxisDirection.values().length];
+		EnumFacing enumfacing = blockportal$size.field_150866_c.rotateYCCW();
+		BlockPos blockpos = blockportal$size.field_150861_f.up(blockportal$size.func_181100_a() - 1);
 
-            for (EnumFacing.AxisDirection enumfacing$axisdirection : EnumFacing.AxisDirection.values())
-            {
-                BlockPattern.PatternHelper blockpattern$patternhelper = new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enumfacing$axisdirection ? blockpos : blockpos.offset(blockportal$size.field_150866_c, blockportal$size.func_181101_b() - 1), EnumFacing.func_181076_a(enumfacing$axisdirection, enumfacing$axis), EnumFacing.UP, loadingcache, blockportal$size.func_181101_b(), blockportal$size.func_181100_a(), 1);
+		for (EnumFacing.AxisDirection enumfacing$axisdirection : EnumFacing.AxisDirection.values())
+		{
+			BlockPattern.PatternHelper blockpattern$patternhelper = new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enumfacing$axisdirection ? blockpos : blockpos.offset(blockportal$size.field_150866_c, blockportal$size.func_181101_b() - 1), EnumFacing.func_181076_a(enumfacing$axisdirection, enumfacing$axis), EnumFacing.UP, loadingcache, blockportal$size.func_181101_b(), blockportal$size.func_181100_a(), 1);
 
-                for (int i = 0; i < blockportal$size.func_181101_b(); ++i)
-                {
-                    for (int j = 0; j < blockportal$size.func_181100_a(); ++j)
-                    {
-                        BlockWorldState blockworldstate = blockpattern$patternhelper.translateOffset(i, j, 1);
+			for (int i = 0; i < blockportal$size.func_181101_b(); ++i)
+			{
+				for (int j = 0; j < blockportal$size.func_181100_a(); ++j)
+				{
+					BlockWorldState blockworldstate = blockpattern$patternhelper.translateOffset(i, j, 1);
 
-                        if (blockworldstate.getBlockState() != null && blockworldstate.getBlockState().getBlock().getMaterial() != Material.air)
-                        {
-                            ++aint[enumfacing$axisdirection.ordinal()];
-                        }
-                    }
-                }
-            }
+					if (blockworldstate.getBlockState() != null && blockworldstate.getBlockState().getBlock().getMaterial() != Material.air)
+					{
+						++aint[enumfacing$axisdirection.ordinal()];
+					}
+				}
+			}
+		}
 
-            EnumFacing.AxisDirection enumfacing$axisdirection1 = EnumFacing.AxisDirection.POSITIVE;
+		EnumFacing.AxisDirection enumfacing$axisdirection1 = EnumFacing.AxisDirection.POSITIVE;
 
-            for (EnumFacing.AxisDirection enumfacing$axisdirection2 : EnumFacing.AxisDirection.values())
-            {
-                if (aint[enumfacing$axisdirection2.ordinal()] < aint[enumfacing$axisdirection1.ordinal()])
-                {
-                    enumfacing$axisdirection1 = enumfacing$axisdirection2;
-                }
-            }
+		for (EnumFacing.AxisDirection enumfacing$axisdirection2 : EnumFacing.AxisDirection.values())
+		{
+			if (aint[enumfacing$axisdirection2.ordinal()] < aint[enumfacing$axisdirection1.ordinal()])
+			{
+				enumfacing$axisdirection1 = enumfacing$axisdirection2;
+			}
+		}
 
-            return new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enumfacing$axisdirection1 ? blockpos : blockpos.offset(blockportal$size.field_150866_c, blockportal$size.func_181101_b() - 1), EnumFacing.func_181076_a(enumfacing$axisdirection1, enumfacing$axis), EnumFacing.UP, loadingcache, blockportal$size.func_181101_b(), blockportal$size.func_181100_a(), 1);
-        }
-    }
+		return new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enumfacing$axisdirection1 ? blockpos : blockpos.offset(blockportal$size.field_150866_c, blockportal$size.func_181101_b() - 1), EnumFacing.func_181076_a(enumfacing$axisdirection1, enumfacing$axis), EnumFacing.UP, loadingcache, blockportal$size.func_181101_b(), blockportal$size.func_181100_a(), 1);
+	}
 
     public static class Size
     {
@@ -449,14 +440,11 @@ public class BlockPortal extends BlockBreakable
             {
                 return this.field_150862_g;
             }
-            else
-            {
-                this.field_150861_f = null;
-                this.field_150868_h = 0;
-                this.field_150862_g = 0;
-                return 0;
-            }
-        }
+			this.field_150861_f = null;
+			this.field_150868_h = 0;
+			this.field_150862_g = 0;
+			return 0;
+		}
 
         protected boolean func_150857_a(Block p_150857_1_)
         {

@@ -43,12 +43,9 @@ public class EntityAIMate extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            this.targetMate = this.getNearbyMate();
-            return this.targetMate != null;
-        }
-    }
+		this.targetMate = this.getNearbyMate();
+		return this.targetMate != null;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

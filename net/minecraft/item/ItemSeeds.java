@@ -30,19 +30,16 @@ public class ItemSeeds extends Item
         {
             return false;
         }
-        else if (!playerIn.canPlayerEdit(pos.offset(side), side, stack))
-        {
-            return false;
-        }
-        else if (worldIn.getBlockState(pos).getBlock() == this.soilBlockID && worldIn.isAirBlock(pos.up()))
-        {
-            worldIn.setBlockState(pos.up(), this.crops.getDefaultState());
-            --stack.stackSize;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (!playerIn.canPlayerEdit(pos.offset(side), side, stack))
+		{
+			return false;
+		}
+		if (worldIn.getBlockState(pos).getBlock() == this.soilBlockID && worldIn.isAirBlock(pos.up()))
+		{
+			worldIn.setBlockState(pos.up(), this.crops.getDefaultState());
+			--stack.stackSize;
+			return true;
+		}
+		return false;
+	}
 }

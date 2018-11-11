@@ -120,15 +120,12 @@ public class BlockStem extends BlockBush implements IGrowable
         {
             return super.getRenderColor(state);
         }
-        else
-        {
-            int i = ((Integer)state.getValue(AGE)).intValue();
-            int j = i * 32;
-            int k = 255 - i * 8;
-            int l = i * 4;
-            return j << 16 | k << 8 | l;
-        }
-    }
+		int i = ((Integer)state.getValue(AGE)).intValue();
+		int j = i * 32;
+		int k = 255 - i * 8;
+		int l = i * 4;
+		return j << 16 | k << 8 | l;
+	}
 
     public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
     {

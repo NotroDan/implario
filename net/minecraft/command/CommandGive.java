@@ -45,62 +45,59 @@ public class CommandGive extends CommandBase
         {
             throw new WrongUsageException("commands.give.usage", new Object[0]);
         }
-        else
-        {
-            EntityPlayer entityplayer = getPlayer(sender, args[0]);
-            Item item = getItemByText(sender, args[1]);
-            int i = args.length >= 3 ? parseInt(args[2], 1, 64) : 1;
-            int j = args.length >= 4 ? parseInt(args[3]) : 0;
-            ItemStack itemstack = new ItemStack(item, i, j);
+		EntityPlayer entityplayer = getPlayer(sender, args[0]);
+		Item item = getItemByText(sender, args[1]);
+		int i = args.length >= 3 ? parseInt(args[2], 1, 64) : 1;
+		int j = args.length >= 4 ? parseInt(args[3]) : 0;
+		ItemStack itemstack = new ItemStack(item, i, j);
 
-            if (args.length >= 5)
-            {
-                String s = getChatComponentFromNthArg(sender, args, 4).getUnformattedText();
+		if (args.length >= 5)
+		{
+			String s = getChatComponentFromNthArg(sender, args, 4).getUnformattedText();
 
-                try
-                {
-                    itemstack.setTagCompound(JsonToNBT.getTagFromJson(s));
-                }
-                catch (NBTException nbtexception)
-                {
-                    throw new CommandException("commands.give.tagError", new Object[] {nbtexception.getMessage()});
-                }
-            }
+			try
+			{
+				itemstack.setTagCompound(JsonToNBT.getTagFromJson(s));
+			}
+			catch (NBTException nbtexception)
+			{
+				throw new CommandException("commands.give.tagError", new Object[] {nbtexception.getMessage()});
+			}
+		}
 
-            boolean flag = entityplayer.inventory.addItemStackToInventory(itemstack);
+		boolean flag = entityplayer.inventory.addItemStackToInventory(itemstack);
 
-            if (flag)
-            {
-                entityplayer.worldObj.playSoundAtEntity(entityplayer, "random.pop", 0.2F, ((entityplayer.getRNG().nextFloat() - entityplayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                entityplayer.inventoryContainer.detectAndSendChanges();
-            }
+		if (flag)
+		{
+			entityplayer.worldObj.playSoundAtEntity(entityplayer, "random.pop", 0.2F, ((entityplayer.getRNG().nextFloat() - entityplayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+			entityplayer.inventoryContainer.detectAndSendChanges();
+		}
 
-            if (flag && itemstack.stackSize <= 0)
-            {
-                itemstack.stackSize = 1;
-                sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, i);
-                EntityItem entityitem1 = entityplayer.dropPlayerItemWithRandomChoice(itemstack, false);
+		if (flag && itemstack.stackSize <= 0)
+		{
+			itemstack.stackSize = 1;
+			sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, i);
+			EntityItem entityitem1 = entityplayer.dropPlayerItemWithRandomChoice(itemstack, false);
 
-                if (entityitem1 != null)
-                {
-                    entityitem1.func_174870_v();
-                }
-            }
-            else
-            {
-                sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, i - itemstack.stackSize);
-                EntityItem entityitem = entityplayer.dropPlayerItemWithRandomChoice(itemstack, false);
+			if (entityitem1 != null)
+			{
+				entityitem1.func_174870_v();
+			}
+		}
+		else
+		{
+			sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, i - itemstack.stackSize);
+			EntityItem entityitem = entityplayer.dropPlayerItemWithRandomChoice(itemstack, false);
 
-                if (entityitem != null)
-                {
-                    entityitem.setNoPickupDelay();
-                    entityitem.setOwner(entityplayer.getName());
-                }
-            }
+			if (entityitem != null)
+			{
+				entityitem.setNoPickupDelay();
+				entityitem.setOwner(entityplayer.getName());
+			}
+		}
 
-            notifyOperators(sender, this, "commands.give.success", new Object[] {itemstack.getChatComponent(), Integer.valueOf(i), entityplayer.getName()});
-        }
-    }
+		notifyOperators(sender, this, "commands.give.success", new Object[] {itemstack.getChatComponent(), Integer.valueOf(i), entityplayer.getName()});
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {

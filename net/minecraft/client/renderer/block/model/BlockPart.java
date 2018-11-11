@@ -81,12 +81,9 @@ public class BlockPart
             {
                 throw new JsonParseException("Expected shade to be a Boolean");
             }
-            else
-            {
-                boolean flag = JsonUtils.getBoolean(jsonobject, "shade", true);
-                return new BlockPart(vector3f, vector3f1, map, blockpartrotation, flag);
-            }
-        }
+			boolean flag = JsonUtils.getBoolean(jsonobject, "shade", true);
+			return new BlockPart(vector3f, vector3f1, map, blockpartrotation, flag);
+		}
 
         private BlockPartRotation parseRotation(JsonObject p_178256_1_)
         {
@@ -114,11 +111,8 @@ public class BlockPart
             {
                 throw new JsonParseException("Invalid rotation " + f + " found, only -45/-22.5/0/22.5/45 allowed");
             }
-            else
-            {
-                return f;
-            }
-        }
+			return f;
+		}
 
         private EnumFacing.Axis parseAxis(JsonObject p_178252_1_)
         {
@@ -129,11 +123,8 @@ public class BlockPart
             {
                 throw new JsonParseException("Invalid rotation axis: " + s);
             }
-            else
-            {
-                return enumfacing$axis;
-            }
-        }
+			return enumfacing$axis;
+		}
 
         private Map<EnumFacing, BlockPartFace> parseFacesCheck(JsonDeserializationContext p_178250_1_, JsonObject p_178250_2_)
         {
@@ -143,11 +134,8 @@ public class BlockPart
             {
                 throw new JsonParseException("Expected between 1 and 6 unique faces, got 0");
             }
-            else
-            {
-                return map;
-            }
-        }
+			return map;
+		}
 
         private Map<EnumFacing, BlockPartFace> parseFaces(JsonDeserializationContext p_178253_1_, JsonObject p_178253_2_)
         {
@@ -171,11 +159,8 @@ public class BlockPart
             {
                 throw new JsonParseException("Unknown facing: " + name);
             }
-            else
-            {
-                return enumfacing;
-            }
-        }
+			return enumfacing;
+		}
 
         private Vector3f parsePositionTo(JsonObject p_178247_1_)
         {
@@ -185,11 +170,8 @@ public class BlockPart
             {
                 return vector3f;
             }
-            else
-            {
-                throw new JsonParseException("\'to\' specifier exceeds the allowed boundaries: " + vector3f);
-            }
-        }
+			throw new JsonParseException("\'to\' specifier exceeds the allowed boundaries: " + vector3f);
+		}
 
         private Vector3f parsePositionFrom(JsonObject p_178249_1_)
         {
@@ -199,11 +181,8 @@ public class BlockPart
             {
                 return vector3f;
             }
-            else
-            {
-                throw new JsonParseException("\'from\' specifier exceeds the allowed boundaries: " + vector3f);
-            }
-        }
+			throw new JsonParseException("\'from\' specifier exceeds the allowed boundaries: " + vector3f);
+		}
 
         private Vector3f parsePosition(JsonObject p_178251_1_, String p_178251_2_)
         {
@@ -213,17 +192,14 @@ public class BlockPart
             {
                 throw new JsonParseException("Expected 3 " + p_178251_2_ + " values, found: " + jsonarray.size());
             }
-            else
-            {
-                float[] afloat = new float[3];
+			float[] afloat = new float[3];
 
-                for (int i = 0; i < afloat.length; ++i)
-                {
-                    afloat[i] = JsonUtils.getFloat(jsonarray.get(i), p_178251_2_ + "[" + i + "]");
-                }
+			for (int i = 0; i < afloat.length; ++i)
+			{
+				afloat[i] = JsonUtils.getFloat(jsonarray.get(i), p_178251_2_ + "[" + i + "]");
+			}
 
-                return new Vector3f(afloat[0], afloat[1], afloat[2]);
-            }
-        }
+			return new Vector3f(afloat[0], afloat[1], afloat[2]);
+		}
     }
 }

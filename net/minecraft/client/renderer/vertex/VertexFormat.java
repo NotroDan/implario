@@ -57,29 +57,26 @@ public class VertexFormat
             LOGGER.warn("VertexFormat error: Trying to add a position VertexFormatElement when one already exists, ignoring.");
             return this;
         }
-        else
-        {
-            this.elements.add(p_181721_1_);
-            this.offsets.add(Integer.valueOf(this.nextOffset));
+		this.elements.add(p_181721_1_);
+		this.offsets.add(Integer.valueOf(this.nextOffset));
 
-            switch (p_181721_1_.getUsage())
-            {
-                case NORMAL:
-                    this.normalElementOffset = this.nextOffset;
-                    break;
+		switch (p_181721_1_.getUsage())
+		{
+			case NORMAL:
+				this.normalElementOffset = this.nextOffset;
+				break;
 
-                case COLOR:
-                    this.colorElementOffset = this.nextOffset;
-                    break;
+			case COLOR:
+				this.colorElementOffset = this.nextOffset;
+				break;
 
-                case UV:
-                    this.uvOffsetsById.add(p_181721_1_.getIndex(), Integer.valueOf(this.nextOffset));
-            }
+			case UV:
+				this.uvOffsetsById.add(p_181721_1_.getIndex(), Integer.valueOf(this.nextOffset));
+		}
 
-            this.nextOffset += p_181721_1_.getSize();
-            return this;
-        }
-    }
+		this.nextOffset += p_181721_1_.getSize();
+		return this;
+	}
 
     public boolean hasNormal()
     {
@@ -181,16 +178,13 @@ public class VertexFormat
         {
             return true;
         }
-        else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
-        {
-            VertexFormat vertexformat = (VertexFormat)p_equals_1_;
-            return this.nextOffset != vertexformat.nextOffset ? false : !this.elements.equals(vertexformat.elements) ? false : this.offsets.equals(vertexformat.offsets);
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
+		{
+			VertexFormat vertexformat = (VertexFormat)p_equals_1_;
+			return this.nextOffset != vertexformat.nextOffset ? false : !this.elements.equals(vertexformat.elements) ? false : this.offsets.equals(vertexformat.offsets);
+		}
+		return false;
+	}
 
     public int hashCode()
     {

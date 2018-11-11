@@ -46,16 +46,13 @@ public class BiomeGenPlains extends BiomeGenBase
                     return BlockFlower.EnumFlowerType.WHITE_TULIP;
             }
         }
-        else if (rand.nextInt(3) > 0)
-        {
-            int i = rand.nextInt(3);
-            return i == 0 ? BlockFlower.EnumFlowerType.POPPY : i == 1 ? BlockFlower.EnumFlowerType.HOUSTONIA : BlockFlower.EnumFlowerType.OXEYE_DAISY;
-        }
-        else
-        {
-            return BlockFlower.EnumFlowerType.DANDELION;
-        }
-    }
+		if (rand.nextInt(3) > 0)
+		{
+			int i = rand.nextInt(3);
+			return i == 0 ? BlockFlower.EnumFlowerType.POPPY : i == 1 ? BlockFlower.EnumFlowerType.HOUSTONIA : BlockFlower.EnumFlowerType.OXEYE_DAISY;
+		}
+		return BlockFlower.EnumFlowerType.DANDELION;
+	}
 
     public void decorate(World worldIn, Random rand, BlockPos pos)
     {

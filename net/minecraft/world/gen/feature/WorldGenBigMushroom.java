@@ -72,151 +72,142 @@ public class WorldGenBigMushroom extends WorldGenerator
             {
                 return false;
             }
-            else
-            {
-                Block block1 = worldIn.getBlockState(position.down()).getBlock();
+			Block block1 = worldIn.getBlockState(position.down()).getBlock();
 
-                if (block1 != Blocks.dirt && block1 != Blocks.grass && block1 != Blocks.mycelium)
-                {
-                    return false;
-                }
-                else
-                {
-                    int k2 = position.getY() + i;
+			if (block1 != Blocks.dirt && block1 != Blocks.grass && block1 != Blocks.mycelium)
+			{
+				return false;
+			}
+			int k2 = position.getY() + i;
 
-                    if (this.mushroomType == Blocks.red_mushroom_block)
-                    {
-                        k2 = position.getY() + i - 3;
-                    }
+			if (this.mushroomType == Blocks.red_mushroom_block)
+			{
+				k2 = position.getY() + i - 3;
+			}
 
-                    for (int l2 = k2; l2 <= position.getY() + i; ++l2)
-                    {
-                        int j3 = 1;
+			for (int l2 = k2; l2 <= position.getY() + i; ++l2)
+			{
+				int j3 = 1;
 
-                        if (l2 < position.getY() + i)
-                        {
-                            ++j3;
-                        }
+				if (l2 < position.getY() + i)
+				{
+					++j3;
+				}
 
-                        if (this.mushroomType == Blocks.brown_mushroom_block)
-                        {
-                            j3 = 3;
-                        }
+				if (this.mushroomType == Blocks.brown_mushroom_block)
+				{
+					j3 = 3;
+				}
 
-                        int k3 = position.getX() - j3;
-                        int l3 = position.getX() + j3;
-                        int j1 = position.getZ() - j3;
-                        int k1 = position.getZ() + j3;
+				int k3 = position.getX() - j3;
+				int l3 = position.getX() + j3;
+				int j1 = position.getZ() - j3;
+				int k1 = position.getZ() + j3;
 
-                        for (int l1 = k3; l1 <= l3; ++l1)
-                        {
-                            for (int i2 = j1; i2 <= k1; ++i2)
-                            {
-                                int j2 = 5;
+				for (int l1 = k3; l1 <= l3; ++l1)
+				{
+					for (int i2 = j1; i2 <= k1; ++i2)
+					{
+						int j2 = 5;
 
-                                if (l1 == k3)
-                                {
-                                    --j2;
-                                }
-                                else if (l1 == l3)
-                                {
-                                    ++j2;
-                                }
+						if (l1 == k3)
+						{
+							--j2;
+						}
+						else if (l1 == l3)
+						{
+							++j2;
+						}
 
-                                if (i2 == j1)
-                                {
-                                    j2 -= 3;
-                                }
-                                else if (i2 == k1)
-                                {
-                                    j2 += 3;
-                                }
+						if (i2 == j1)
+						{
+							j2 -= 3;
+						}
+						else if (i2 == k1)
+						{
+							j2 += 3;
+						}
 
-                                BlockHugeMushroom.EnumType blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.byMetadata(j2);
+						BlockHugeMushroom.EnumType blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.byMetadata(j2);
 
-                                if (this.mushroomType == Blocks.brown_mushroom_block || l2 < position.getY() + i)
-                                {
-                                    if ((l1 == k3 || l1 == l3) && (i2 == j1 || i2 == k1))
-                                    {
-                                        continue;
-                                    }
+						if (this.mushroomType == Blocks.brown_mushroom_block || l2 < position.getY() + i)
+						{
+							if ((l1 == k3 || l1 == l3) && (i2 == j1 || i2 == k1))
+							{
+								continue;
+							}
 
-                                    if (l1 == position.getX() - (j3 - 1) && i2 == j1)
-                                    {
-                                        blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_WEST;
-                                    }
+							if (l1 == position.getX() - (j3 - 1) && i2 == j1)
+							{
+								blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_WEST;
+							}
 
-                                    if (l1 == k3 && i2 == position.getZ() - (j3 - 1))
-                                    {
-                                        blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_WEST;
-                                    }
+							if (l1 == k3 && i2 == position.getZ() - (j3 - 1))
+							{
+								blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_WEST;
+							}
 
-                                    if (l1 == position.getX() + j3 - 1 && i2 == j1)
-                                    {
-                                        blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_EAST;
-                                    }
+							if (l1 == position.getX() + j3 - 1 && i2 == j1)
+							{
+								blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_EAST;
+							}
 
-                                    if (l1 == l3 && i2 == position.getZ() - (j3 - 1))
-                                    {
-                                        blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_EAST;
-                                    }
+							if (l1 == l3 && i2 == position.getZ() - (j3 - 1))
+							{
+								blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.NORTH_EAST;
+							}
 
-                                    if (l1 == position.getX() - (j3 - 1) && i2 == k1)
-                                    {
-                                        blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_WEST;
-                                    }
+							if (l1 == position.getX() - (j3 - 1) && i2 == k1)
+							{
+								blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_WEST;
+							}
 
-                                    if (l1 == k3 && i2 == position.getZ() + j3 - 1)
-                                    {
-                                        blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_WEST;
-                                    }
+							if (l1 == k3 && i2 == position.getZ() + j3 - 1)
+							{
+								blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_WEST;
+							}
 
-                                    if (l1 == position.getX() + j3 - 1 && i2 == k1)
-                                    {
-                                        blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_EAST;
-                                    }
+							if (l1 == position.getX() + j3 - 1 && i2 == k1)
+							{
+								blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_EAST;
+							}
 
-                                    if (l1 == l3 && i2 == position.getZ() + j3 - 1)
-                                    {
-                                        blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_EAST;
-                                    }
-                                }
+							if (l1 == l3 && i2 == position.getZ() + j3 - 1)
+							{
+								blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.SOUTH_EAST;
+							}
+						}
 
-                                if (blockhugemushroom$enumtype == BlockHugeMushroom.EnumType.CENTER && l2 < position.getY() + i)
-                                {
-                                    blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.ALL_INSIDE;
-                                }
+						if (blockhugemushroom$enumtype == BlockHugeMushroom.EnumType.CENTER && l2 < position.getY() + i)
+						{
+							blockhugemushroom$enumtype = BlockHugeMushroom.EnumType.ALL_INSIDE;
+						}
 
-                                if (position.getY() >= position.getY() + i - 1 || blockhugemushroom$enumtype != BlockHugeMushroom.EnumType.ALL_INSIDE)
-                                {
-                                    BlockPos blockpos = new BlockPos(l1, l2, i2);
+						if (position.getY() >= position.getY() + i - 1 || blockhugemushroom$enumtype != BlockHugeMushroom.EnumType.ALL_INSIDE)
+						{
+							BlockPos blockpos = new BlockPos(l1, l2, i2);
 
-                                    if (!worldIn.getBlockState(blockpos).getBlock().isFullBlock())
-                                    {
-                                        this.setBlockAndNotifyAdequately(worldIn, blockpos, this.mushroomType.getDefaultState().withProperty(BlockHugeMushroom.VARIANT, blockhugemushroom$enumtype));
-                                    }
-                                }
-                            }
-                        }
-                    }
+							if (!worldIn.getBlockState(blockpos).getBlock().isFullBlock())
+							{
+								this.setBlockAndNotifyAdequately(worldIn, blockpos, this.mushroomType.getDefaultState().withProperty(BlockHugeMushroom.VARIANT, blockhugemushroom$enumtype));
+							}
+						}
+					}
+				}
+			}
 
-                    for (int i3 = 0; i3 < i; ++i3)
-                    {
-                        Block block2 = worldIn.getBlockState(position.up(i3)).getBlock();
+			for (int i3 = 0; i3 < i; ++i3)
+			{
+				Block block2 = worldIn.getBlockState(position.up(i3)).getBlock();
 
-                        if (!block2.isFullBlock())
-                        {
-                            this.setBlockAndNotifyAdequately(worldIn, position.up(i3), this.mushroomType.getDefaultState().withProperty(BlockHugeMushroom.VARIANT, BlockHugeMushroom.EnumType.STEM));
-                        }
-                    }
+				if (!block2.isFullBlock())
+				{
+					this.setBlockAndNotifyAdequately(worldIn, position.up(i3), this.mushroomType.getDefaultState().withProperty(BlockHugeMushroom.VARIANT, BlockHugeMushroom.EnumType.STEM));
+				}
+			}
 
-                    return true;
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 }

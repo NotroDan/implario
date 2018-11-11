@@ -169,18 +169,15 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         {
             return true;
         }
-        else
-        {
-            List<EntityItem> list = this.worldObj.<EntityItem>getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25D, 0.0D, 0.25D), EntitySelectors.selectAnything);
+		List<EntityItem> list = this.worldObj.<EntityItem>getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25D, 0.0D, 0.25D), EntitySelectors.selectAnything);
 
-            if (list.size() > 0)
-            {
-                TileEntityHopper.putDropInInventoryAllSlots(this, (EntityItem)list.get(0));
-            }
+		if (list.size() > 0)
+		{
+			TileEntityHopper.putDropInInventoryAllSlots(this, (EntityItem)list.get(0));
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public void killMinecart(DamageSource p_94095_1_)
     {

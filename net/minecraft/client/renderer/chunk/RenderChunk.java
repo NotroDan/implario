@@ -71,10 +71,9 @@ public class RenderChunk {
 	public boolean setFrameIndex(int frameIndexIn) {
 		if (this.frameIndex == frameIndexIn) {
 			return false;
-		} else {
-			this.frameIndex = frameIndexIn;
-			return true;
 		}
+		this.frameIndex = frameIndexIn;
+		return true;
 	}
 
 	public VertexBuffer getVertexBufferByLayer(int layer) {
@@ -165,17 +164,16 @@ public class RenderChunk {
 
 					int j = enumworldblocklayer.ordinal();
 
-					if (block.getRenderType() != -1) {
-						WorldRenderer worldrenderer = generator.getRegionRenderCacheBuilder().getWorldRendererByLayerId(j);
-						worldrenderer.setBlockLayer(enumworldblocklayer);
+					if (block.getRenderType() == -1) continue;
+					WorldRenderer worldrenderer = generator.getRegionRenderCacheBuilder().getWorldRendererByLayerId(j);
+					worldrenderer.setBlockLayer(enumworldblocklayer);
 
-						if (!compiledchunk.isLayerStarted(enumworldblocklayer)) {
-							compiledchunk.setLayerStarted(enumworldblocklayer);
-							this.preRenderBlocks(worldrenderer, blockpos);
-						}
-
-						aboolean[j] |= blockrendererdispatcher.renderBlock(iblockstate, blockposm, regionrendercache, worldrenderer);
+					if (!compiledchunk.isLayerStarted(enumworldblocklayer)) {
+						compiledchunk.setLayerStarted(enumworldblocklayer);
+						this.preRenderBlocks(worldrenderer, blockpos);
 					}
+
+					aboolean[j] |= blockrendererdispatcher.renderBlock(iblockstate, blockposm, regionrendercache, worldrenderer);
 				}
 			}
 
@@ -361,9 +359,8 @@ public class RenderChunk {
 		if (this.world instanceof WorldClient) {
 			WorldClient worldclient = (WorldClient) this.world;
 			return worldclient.isPlayerUpdate();
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public boolean isPlayerUpdate() {

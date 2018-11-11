@@ -46,76 +46,67 @@ public class CommandTrigger extends CommandBase
         {
             throw new WrongUsageException("commands.trigger.usage", new Object[0]);
         }
-        else
-        {
-            EntityPlayerMP entityplayermp;
+		EntityPlayerMP entityplayermp;
 
-            if (sender instanceof EntityPlayerMP)
-            {
-                entityplayermp = (EntityPlayerMP)sender;
-            }
-            else
-            {
-                Entity entity = sender.getCommandSenderEntity();
+		if (sender instanceof EntityPlayerMP)
+		{
+			entityplayermp = (EntityPlayerMP)sender;
+		}
+		else
+		{
+			Entity entity = sender.getCommandSenderEntity();
 
-                if (!(entity instanceof EntityPlayerMP))
-                {
-                    throw new CommandException("commands.trigger.invalidPlayer", new Object[0]);
-                }
+			if (!(entity instanceof EntityPlayerMP))
+			{
+				throw new CommandException("commands.trigger.invalidPlayer", new Object[0]);
+			}
 
-                entityplayermp = (EntityPlayerMP)entity;
-            }
+			entityplayermp = (EntityPlayerMP)entity;
+		}
 
-            Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
-            ScoreObjective scoreobjective = scoreboard.getObjective(args[0]);
+		Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
+		ScoreObjective scoreobjective = scoreboard.getObjective(args[0]);
 
-            if (scoreobjective != null && scoreobjective.getCriteria() == IScoreObjectiveCriteria.TRIGGER)
-            {
-                int i = parseInt(args[2]);
+		if (scoreobjective != null && scoreobjective.getCriteria() == IScoreObjectiveCriteria.TRIGGER)
+		{
+			int i = parseInt(args[2]);
 
-                if (!scoreboard.entityHasObjective(entityplayermp.getName(), scoreobjective))
-                {
-                    throw new CommandException("commands.trigger.invalidObjective", new Object[] {args[0]});
-                }
-                else
-                {
-                    Score score = scoreboard.getValueFromObjective(entityplayermp.getName(), scoreobjective);
+			if (!scoreboard.entityHasObjective(entityplayermp.getName(), scoreobjective))
+			{
+				throw new CommandException("commands.trigger.invalidObjective", new Object[] {args[0]});
+			}
+			Score score = scoreboard.getValueFromObjective(entityplayermp.getName(), scoreobjective);
 
-                    if (score.isLocked())
-                    {
-                        throw new CommandException("commands.trigger.disabled", new Object[] {args[0]});
-                    }
-                    else
-                    {
-                        if ("set".equals(args[1]))
-                        {
-                            score.setScorePoints(i);
-                        }
-                        else
-                        {
-                            if (!"add".equals(args[1]))
-                            {
-                                throw new CommandException("commands.trigger.invalidMode", new Object[] {args[1]});
-                            }
+			if (score.isLocked())
+				{
+					throw new CommandException("commands.trigger.disabled", new Object[] {args[0]});
+				}
+			if ("set".equals(args[1]))
+					{
+						score.setScorePoints(i);
+					}
+					else
+					{
+						if (!"add".equals(args[1]))
+						{
+							throw new CommandException("commands.trigger.invalidMode", new Object[] {args[1]});
+						}
 
-                            score.increseScore(i);
-                        }
+						score.increseScore(i);
+					}
 
-                        score.setLocked(true);
+			score.setLocked(true);
 
-                        if (entityplayermp.theItemInWorldManager.isCreative())
-                        {
-                            notifyOperators(sender, this, "commands.trigger.success", new Object[] {args[0], args[1], args[2]});
-                        }
-                    }
-                }
-            }
-            else
-            {
-                throw new CommandException("commands.trigger.invalidObjective", new Object[] {args[0]});
-            }
-        }
-    }
+			if (entityplayermp.theItemInWorldManager.isCreative())
+					{
+						notifyOperators(sender, this, "commands.trigger.success", new Object[] {args[0], args[1], args[2]});
+					}
+		}
+		else
+		{
+			throw new CommandException("commands.trigger.invalidObjective", new Object[] {args[0]});
+		}
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
@@ -134,9 +125,6 @@ public class CommandTrigger extends CommandBase
 
             return getListOfStringsMatchingLastWord(args, (String[])list.toArray(new String[list.size()]));
         }
-        else
-        {
-            return args.length == 2 ? getListOfStringsMatchingLastWord(args, new String[] {"add", "set"}): null;
-        }
-    }
+		return args.length == 2 ? getListOfStringsMatchingLastWord(args, new String[] {"add", "set"}): null;
+	}
 }

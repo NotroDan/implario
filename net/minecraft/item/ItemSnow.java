@@ -27,44 +27,41 @@ public class ItemSnow extends ItemBlock
         {
             return false;
         }
-        else if (!playerIn.canPlayerEdit(pos, side, stack))
-        {
-            return false;
-        }
-        else
-        {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            Block block = iblockstate.getBlock();
-            BlockPos blockpos = pos;
+		if (!playerIn.canPlayerEdit(pos, side, stack))
+		{
+			return false;
+		}
+		IBlockState iblockstate = worldIn.getBlockState(pos);
+		Block block = iblockstate.getBlock();
+		BlockPos blockpos = pos;
 
-            if ((side != EnumFacing.UP || block != this.block) && !block.isReplaceable(worldIn, pos))
-            {
-                blockpos = pos.offset(side);
-                iblockstate = worldIn.getBlockState(blockpos);
-                block = iblockstate.getBlock();
-            }
+		if ((side != EnumFacing.UP || block != this.block) && !block.isReplaceable(worldIn, pos))
+		{
+			blockpos = pos.offset(side);
+			iblockstate = worldIn.getBlockState(blockpos);
+			block = iblockstate.getBlock();
+		}
 
-            if (block == this.block)
-            {
-                int i = ((Integer)iblockstate.getValue(BlockSnow.LAYERS)).intValue();
+		if (block == this.block)
+		{
+			int i = ((Integer)iblockstate.getValue(BlockSnow.LAYERS)).intValue();
 
-                if (i <= 7)
-                {
-                    IBlockState iblockstate1 = iblockstate.withProperty(BlockSnow.LAYERS, Integer.valueOf(i + 1));
-                    AxisAlignedBB axisalignedbb = this.block.getCollisionBoundingBox(worldIn, blockpos, iblockstate1);
+			if (i <= 7)
+			{
+				IBlockState iblockstate1 = iblockstate.withProperty(BlockSnow.LAYERS, Integer.valueOf(i + 1));
+				AxisAlignedBB axisalignedbb = this.block.getCollisionBoundingBox(worldIn, blockpos, iblockstate1);
 
-                    if (axisalignedbb != null && worldIn.checkNoEntityCollision(axisalignedbb) && worldIn.setBlockState(blockpos, iblockstate1, 2))
-                    {
-                        worldIn.playSoundEffect((double)((float)blockpos.getX() + 0.5F), (double)((float)blockpos.getY() + 0.5F), (double)((float)blockpos.getZ() + 0.5F), this.block.stepSound.getPlaceSound(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getFrequency() * 0.8F);
-                        --stack.stackSize;
-                        return true;
-                    }
-                }
-            }
+				if (axisalignedbb != null && worldIn.checkNoEntityCollision(axisalignedbb) && worldIn.setBlockState(blockpos, iblockstate1, 2))
+				{
+					worldIn.playSoundEffect((double)((float)blockpos.getX() + 0.5F), (double)((float)blockpos.getY() + 0.5F), (double)((float)blockpos.getZ() + 0.5F), this.block.stepSound.getPlaceSound(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getFrequency() * 0.8F);
+					--stack.stackSize;
+					return true;
+				}
+			}
+		}
 
-            return super.onItemUse(stack, playerIn, worldIn, blockpos, side, hitX, hitY, hitZ);
-        }
-    }
+		return super.onItemUse(stack, playerIn, worldIn, blockpos, side, hitX, hitY, hitZ);
+	}
 
     /**
      * Converts the given ItemStack damage value into a metadata value to be placed in the world when this Item is

@@ -29,12 +29,9 @@ public class EntityAIOcelotAttack extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            this.theVictim = entitylivingbase;
-            return true;
-        }
-    }
+		this.theVictim = entitylivingbase;
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

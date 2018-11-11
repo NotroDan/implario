@@ -38,14 +38,14 @@ public class CloudRenderer {
 	public boolean shouldUpdateGlList() {
 		if (!this.updated) {
 			return true;
-		} else if (this.cloudTickCounter >= this.cloudTickCounterUpdate + 20) {
-			return true;
-		} else {
-			Entity entity = this.mc.getRenderViewEntity();
-			boolean flag = this.cloudPlayerY + (double) entity.getEyeHeight() < 128.0D + (double) (Settings.CLOUD_HEIGHT.f() * 128.0F);
-			boolean flag1 = entity.prevPosY + (double) entity.getEyeHeight() < 128.0D + (double) (Settings.CLOUD_HEIGHT.f() * 128.0F);
-			return flag1 != flag;
 		}
+		if (this.cloudTickCounter >= this.cloudTickCounterUpdate + 20) {
+			return true;
+		}
+		Entity entity = this.mc.getRenderViewEntity();
+		boolean flag = this.cloudPlayerY + (double) entity.getEyeHeight() < 128.0D + (double) (Settings.CLOUD_HEIGHT.f() * 128.0F);
+		boolean flag1 = entity.prevPosY + (double) entity.getEyeHeight() < 128.0D + (double) (Settings.CLOUD_HEIGHT.f() * 128.0F);
+		return flag1 != flag;
 	}
 
 	public void startUpdateGlList() {

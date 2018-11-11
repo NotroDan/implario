@@ -76,12 +76,9 @@ public class EnchantmentProtection extends Enchantment
         {
             return 0;
         }
-        else
-        {
-            float f = (float)(6 + level * level) / 3.0F;
-            return this.protectionType == 0 ? MathHelper.floor_float(f * 0.75F) : this.protectionType == 1 && source.isFireDamage() ? MathHelper.floor_float(f * 1.25F) : this.protectionType == 2 && source == DamageSource.fall ? MathHelper.floor_float(f * 2.5F) : this.protectionType == 3 && source.isExplosion() ? MathHelper.floor_float(f * 1.5F) : this.protectionType == 4 && source.isProjectile() ? MathHelper.floor_float(f * 1.5F) : 0;
-        }
-    }
+		float f = (float)(6 + level * level) / 3.0F;
+		return this.protectionType == 0 ? MathHelper.floor_float(f * 0.75F) : this.protectionType == 1 && source.isFireDamage() ? MathHelper.floor_float(f * 1.25F) : this.protectionType == 2 && source == DamageSource.fall ? MathHelper.floor_float(f * 2.5F) : this.protectionType == 3 && source.isExplosion() ? MathHelper.floor_float(f * 1.5F) : this.protectionType == 4 && source.isProjectile() ? MathHelper.floor_float(f * 1.5F) : 0;
+	}
 
     /**
      * Return the name of key in translation table of this enchantment.
@@ -101,11 +98,8 @@ public class EnchantmentProtection extends Enchantment
             EnchantmentProtection enchantmentprotection = (EnchantmentProtection)ench;
             return enchantmentprotection.protectionType == this.protectionType ? false : this.protectionType == 2 || enchantmentprotection.protectionType == 2;
         }
-        else
-        {
-            return super.canApplyTogether(ench);
-        }
-    }
+		return super.canApplyTogether(ench);
+	}
 
     /**
      * Gets the amount of ticks an entity should be set fire, adjusted for fire protection.

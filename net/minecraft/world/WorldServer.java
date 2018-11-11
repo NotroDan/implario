@@ -300,11 +300,8 @@ public class WorldServer extends World implements IThreadListener
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Sets a new spawn location by finding an uncovered block at a random (x,z) location in the chunk.
@@ -557,78 +554,72 @@ public class WorldServer extends World implements IThreadListener
         {
             return false;
         }
-        else
-        {
-            int i = this.pendingTickListEntriesTreeSet.size();
+		int i = this.pendingTickListEntriesTreeSet.size();
 
-            if (i != this.pendingTickListEntriesHashSet.size())
-            {
-                throw new IllegalStateException("TickNextTick list out of synch");
-            }
-            else
-            {
-                if (i > 1000)
-                {
-                    i = 1000;
-                }
+		if (i != this.pendingTickListEntriesHashSet.size())
+		{
+			throw new IllegalStateException("TickNextTick list out of synch");
+		}
+		if (i > 1000)
+		{
+			i = 1000;
+		}
 
-                this.theProfiler.startSection("cleaning");
+		this.theProfiler.startSection("cleaning");
 
-                for (int j = 0; j < i; ++j)
-                {
-                    NextTickListEntry nextticklistentry = (NextTickListEntry)this.pendingTickListEntriesTreeSet.first();
+		for (int j = 0; j < i; ++j)
+		{
+			NextTickListEntry nextticklistentry = (NextTickListEntry)this.pendingTickListEntriesTreeSet.first();
 
-                    if (!p_72955_1_ && nextticklistentry.scheduledTime > this.worldInfo.getWorldTotalTime())
-                    {
-                        break;
-                    }
+			if (!p_72955_1_ && nextticklistentry.scheduledTime > this.worldInfo.getWorldTotalTime())
+			{
+				break;
+			}
 
-                    this.pendingTickListEntriesTreeSet.remove(nextticklistentry);
-                    this.pendingTickListEntriesHashSet.remove(nextticklistentry);
-                    this.pendingTickListEntriesThisTick.add(nextticklistentry);
-                }
+			this.pendingTickListEntriesTreeSet.remove(nextticklistentry);
+			this.pendingTickListEntriesHashSet.remove(nextticklistentry);
+			this.pendingTickListEntriesThisTick.add(nextticklistentry);
+		}
 
-                this.theProfiler.endSection();
-                this.theProfiler.startSection("ticking");
-                Iterator<NextTickListEntry> iterator = this.pendingTickListEntriesThisTick.iterator();
+		this.theProfiler.endSection();
+		this.theProfiler.startSection("ticking");
+		Iterator<NextTickListEntry> iterator = this.pendingTickListEntriesThisTick.iterator();
 
-                while (iterator.hasNext())
-                {
-                    NextTickListEntry nextticklistentry1 = (NextTickListEntry)iterator.next();
-                    iterator.remove();
-                    int k = 0;
+		while (iterator.hasNext())
+		{
+			NextTickListEntry nextticklistentry1 = (NextTickListEntry)iterator.next();
+			iterator.remove();
+			int k = 0;
 
-                    if (this.isAreaLoaded(nextticklistentry1.position.add(-k, -k, -k), nextticklistentry1.position.add(k, k, k)))
-                    {
-                        IBlockState iblockstate = this.getBlockState(nextticklistentry1.position);
+			if (this.isAreaLoaded(nextticklistentry1.position.add(-k, -k, -k), nextticklistentry1.position.add(k, k, k)))
+			{
+				IBlockState iblockstate = this.getBlockState(nextticklistentry1.position);
 
-                        if (iblockstate.getBlock().getMaterial() != Material.air && Block.isEqualTo(iblockstate.getBlock(), nextticklistentry1.getBlock()))
-                        {
-                            try
-                            {
-                                iblockstate.getBlock().updateTick(this, nextticklistentry1.position, iblockstate, this.rand);
-                            }
-                            catch (Throwable throwable)
-                            {
-                                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception while ticking a block");
-                                CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being ticked");
-                                CrashReportCategory.addBlockInfo(crashreportcategory, nextticklistentry1.position, iblockstate);
-                                throw new ReportedException(crashreport);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        this.scheduleUpdate(nextticklistentry1.position, nextticklistentry1.getBlock(), 0);
-                    }
-                }
+				if (iblockstate.getBlock().getMaterial() != Material.air && Block.isEqualTo(iblockstate.getBlock(), nextticklistentry1.getBlock()))
+				{
+					try
+					{
+						iblockstate.getBlock().updateTick(this, nextticklistentry1.position, iblockstate, this.rand);
+					}
+					catch (Throwable throwable)
+					{
+						CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception while ticking a block");
+						CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being ticked");
+						CrashReportCategory.addBlockInfo(crashreportcategory, nextticklistentry1.position, iblockstate);
+						throw new ReportedException(crashreport);
+					}
+				}
+			}
+			else
+			{
+				this.scheduleUpdate(nextticklistentry1.position, nextticklistentry1.getBlock(), 0);
+			}
+		}
 
-                this.theProfiler.endSection();
-                this.pendingTickListEntriesThisTick.clear();
-                return !this.pendingTickListEntriesTreeSet.isEmpty();
-            }
-        }
-    }
+		this.theProfiler.endSection();
+		this.pendingTickListEntriesThisTick.clear();
+		return !this.pendingTickListEntriesTreeSet.isEmpty();
+	}
 
     public List<NextTickListEntry> getPendingBlockUpdates(Chunk chunkIn, boolean p_72920_2_)
     {
@@ -984,11 +975,8 @@ public class WorldServer extends World implements IThreadListener
             this.mcServer.getConfigurationManager().sendToAllNear(entityIn.posX, entityIn.posY, entityIn.posZ, 512.0D, this.provider.getDimensionId(), new S2CPacketSpawnGlobalEntity(entityIn));
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * sends a Packet 38 (Entity Status) to all tracked players of that entity

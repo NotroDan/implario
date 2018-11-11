@@ -15,7 +15,6 @@ import net.minecraft.util.CryptManager;
 import net.minecraft.util.HttpUtil;
 import net.minecraft.util.Util;
 import net.minecraft.world.*;
-import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import optifine.WorldServerOF;
@@ -51,12 +50,11 @@ public class IntegratedServer extends MinecraftServer {
 		this.setServerOwner(mcIn.getSession().getUsername());
 		this.setFolderName(folderName);
 		this.setWorldName(worldName);
-		this.setDemo(mcIn.isDemo());
 		this.canCreateBonusChest(settings.isBonusChestEnabled());
 		this.setBuildLimit(256);
 		this.setConfigManager(new IntegratedPlayerList(this));
 		this.mc = mcIn;
-		this.theWorldSettings = this.isDemo() ? DemoWorldServer.demoWorldSettings : settings;
+		this.theWorldSettings = settings;
 	}
 
 	protected ServerCommandManager createNewCommandManager() {
@@ -90,11 +88,7 @@ public class IntegratedServer extends MinecraftServer {
 			}
 
 			if (l == 0) {
-				if (this.isDemo()) {
-					this.worldServers[l] = (WorldServer) new DemoWorldServer(this, isavehandler, worldinfo, b0, this.theProfiler).init();
-				} else {
-					this.worldServers[l] = (WorldServer) new WorldServerOF(this, isavehandler, worldinfo, b0, this.theProfiler).init();
-				}
+				this.worldServers[l] = (WorldServer) new WorldServerOF(this, isavehandler, worldinfo, b0, this.theProfiler).init();
 
 				this.worldServers[l].initialize(this.theWorldSettings);
 			} else {
@@ -153,7 +147,7 @@ public class IntegratedServer extends MinecraftServer {
 
 			synchronized (this.futureTaskQueue) {
 				while (!this.futureTaskQueue.isEmpty()) {
-					Util.func_181617_a((FutureTask) this.futureTaskQueue.poll(), logger);
+					Util.schedule((FutureTask) this.futureTaskQueue.poll(), logger);
 				}
 			}
 		} else {
@@ -253,11 +247,10 @@ public class IntegratedServer extends MinecraftServer {
 
 				if (!s.equals("vanilla")) {
 					return "Definitely; Client brand changed to \'" + s + "\'";
-				} else {
-					s = IntegratedServer.this.getServerModName();
-					return !s.equals(
-							"vanilla") ? "Definitely; Server brand changed to \'" + s + "\'" : Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.";
 				}
+				s = IntegratedServer.this.getServerModName();
+				return !s.equals(
+						"vanilla") ? "Definitely; Server brand changed to \'" + s + "\'" : Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.";
 			}
 		});
 		return report;

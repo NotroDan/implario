@@ -192,19 +192,16 @@ public class EntityXPOrb extends Entity
         {
             return false;
         }
-        else
-        {
-            this.setBeenAttacked();
-            this.xpOrbHealth = (int)((float)this.xpOrbHealth - amount);
+		this.setBeenAttacked();
+		this.xpOrbHealth = (int)((float)this.xpOrbHealth - amount);
 
-            if (this.xpOrbHealth <= 0)
-            {
-                this.setDead();
-            }
+		if (this.xpOrbHealth <= 0)
+		{
+			this.setDead();
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.

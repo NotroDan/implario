@@ -57,25 +57,22 @@ public class ConnectedTextures
         {
             return p_getConnectedTexture_3_;
         }
-        else
-        {
-            Block block = p_getConnectedTexture_1_.getBlock();
-            EnumFacing enumfacing = p_getConnectedTexture_3_.getFace();
+		Block block = p_getConnectedTexture_1_.getBlock();
+		EnumFacing enumfacing = p_getConnectedTexture_3_.getFace();
 
-            if (block instanceof BlockPane && textureatlassprite.getIconName().startsWith("minecraft:blocks/glass_pane_top"))
-            {
-                IBlockState iblockstate = p_getConnectedTexture_0_.getBlockState(p_getConnectedTexture_2_.offset(p_getConnectedTexture_3_.getFace()));
+		if (block instanceof BlockPane && textureatlassprite.getIconName().startsWith("minecraft:blocks/glass_pane_top"))
+		{
+			IBlockState iblockstate = p_getConnectedTexture_0_.getBlockState(p_getConnectedTexture_2_.offset(p_getConnectedTexture_3_.getFace()));
 
-                if (iblockstate == p_getConnectedTexture_1_)
-                {
-                    return getQuad(emptySprite, block, p_getConnectedTexture_1_, p_getConnectedTexture_3_);
-                }
-            }
+			if (iblockstate == p_getConnectedTexture_1_)
+			{
+				return getQuad(emptySprite, block, p_getConnectedTexture_1_, p_getConnectedTexture_3_);
+			}
+		}
 
-            TextureAtlasSprite textureatlassprite1 = getConnectedTextureMultiPass(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, enumfacing, textureatlassprite, p_getConnectedTexture_4_);
-            return textureatlassprite1 == textureatlassprite ? p_getConnectedTexture_3_ : getQuad(textureatlassprite1, block, p_getConnectedTexture_1_, p_getConnectedTexture_3_);
-        }
-    }
+		TextureAtlasSprite textureatlassprite1 = getConnectedTextureMultiPass(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, enumfacing, textureatlassprite, p_getConnectedTexture_4_);
+		return textureatlassprite1 == textureatlassprite ? p_getConnectedTexture_3_ : getQuad(textureatlassprite1, block, p_getConnectedTexture_1_, p_getConnectedTexture_3_);
+	}
 
     private static BakedQuad getQuad(TextureAtlasSprite p_getQuad_0_, Block p_getQuad_1_, IBlockState p_getQuad_2_, BakedQuad p_getQuad_3_)
     {
@@ -83,36 +80,30 @@ public class ConnectedTextures
         {
             return p_getQuad_3_;
         }
-        else
-        {
-            int i = p_getQuad_0_.getIndexInMap();
+		int i = p_getQuad_0_.getIndexInMap();
 
-            if (i >= 0 && i < spriteQuadMaps.length)
-            {
-                Map map = spriteQuadMaps[i];
+		if (i >= 0 && i < spriteQuadMaps.length)
+		{
+			Map map = spriteQuadMaps[i];
 
-                if (map == null)
-                {
-                    map = new IdentityHashMap(1);
-                    spriteQuadMaps[i] = map;
-                }
+			if (map == null)
+			{
+				map = new IdentityHashMap(1);
+				spriteQuadMaps[i] = map;
+			}
 
-                BakedQuad bakedquad = (BakedQuad)map.get(p_getQuad_3_);
+			BakedQuad bakedquad = (BakedQuad)map.get(p_getQuad_3_);
 
-                if (bakedquad == null)
-                {
-                    bakedquad = makeSpriteQuad(p_getQuad_3_, p_getQuad_0_);
-                    map.put(p_getQuad_3_, bakedquad);
-                }
+			if (bakedquad == null)
+			{
+				bakedquad = makeSpriteQuad(p_getQuad_3_, p_getQuad_0_);
+				map.put(p_getQuad_3_, bakedquad);
+			}
 
-                return bakedquad;
-            }
-            else
-            {
-                return p_getQuad_3_;
-            }
-        }
-    }
+			return bakedquad;
+		}
+		return p_getQuad_3_;
+	}
 
     private static BakedQuad makeSpriteQuad(BakedQuad p_makeSpriteQuad_0_, TextureAtlasSprite p_makeSpriteQuad_1_)
     {
@@ -148,29 +139,26 @@ public class ConnectedTextures
         {
             return textureatlassprite;
         }
-        else if (textureatlassprite == p_getConnectedTextureMultiPass_4_)
-        {
-            return textureatlassprite;
-        }
-        else
-        {
-            TextureAtlasSprite textureatlassprite1 = textureatlassprite;
+		if (textureatlassprite == p_getConnectedTextureMultiPass_4_)
+		{
+			return textureatlassprite;
+		}
+		TextureAtlasSprite textureatlassprite1 = textureatlassprite;
 
-            for (int i = 0; i < 3; ++i)
-            {
-                TextureAtlasSprite textureatlassprite2 = getConnectedTextureSingle(p_getConnectedTextureMultiPass_0_, p_getConnectedTextureMultiPass_1_, p_getConnectedTextureMultiPass_2_, p_getConnectedTextureMultiPass_3_, textureatlassprite1, false, p_getConnectedTextureMultiPass_5_);
+		for (int i = 0; i < 3; ++i)
+		{
+			TextureAtlasSprite textureatlassprite2 = getConnectedTextureSingle(p_getConnectedTextureMultiPass_0_, p_getConnectedTextureMultiPass_1_, p_getConnectedTextureMultiPass_2_, p_getConnectedTextureMultiPass_3_, textureatlassprite1, false, p_getConnectedTextureMultiPass_5_);
 
-                if (textureatlassprite2 == textureatlassprite1)
-                {
-                    break;
-                }
+			if (textureatlassprite2 == textureatlassprite1)
+			{
+				break;
+			}
 
-                textureatlassprite1 = textureatlassprite2;
-            }
+			textureatlassprite1 = textureatlassprite2;
+		}
 
-            return textureatlassprite1;
-        }
-    }
+		return textureatlassprite1;
+	}
 
     public static TextureAtlasSprite getConnectedTextureSingle(IBlockAccess p_getConnectedTextureSingle_0_, IBlockState p_getConnectedTextureSingle_1_, BlockPos p_getConnectedTextureSingle_2_, EnumFacing p_getConnectedTextureSingle_3_, TextureAtlasSprite p_getConnectedTextureSingle_4_, boolean p_getConnectedTextureSingle_5_, RenderEnv p_getConnectedTextureSingle_6_)
     {
@@ -180,73 +168,70 @@ public class ConnectedTextures
         {
             return p_getConnectedTextureSingle_4_;
         }
-        else
-        {
-            BlockStateBase blockstatebase = (BlockStateBase)p_getConnectedTextureSingle_1_;
+		BlockStateBase blockstatebase = (BlockStateBase)p_getConnectedTextureSingle_1_;
 
-            if (tileProperties != null)
-            {
-                int i = p_getConnectedTextureSingle_4_.getIndexInMap();
+		if (tileProperties != null)
+		{
+			int i = p_getConnectedTextureSingle_4_.getIndexInMap();
 
-                if (i >= 0 && i < tileProperties.length)
-                {
-                    ConnectedProperties[] aconnectedproperties = tileProperties[i];
+			if (i >= 0 && i < tileProperties.length)
+			{
+				ConnectedProperties[] aconnectedproperties = tileProperties[i];
 
-                    if (aconnectedproperties != null)
-                    {
-                        int j = getSide(p_getConnectedTextureSingle_3_);
+				if (aconnectedproperties != null)
+				{
+					int j = getSide(p_getConnectedTextureSingle_3_);
 
-                        for (int k = 0; k < aconnectedproperties.length; ++k)
-                        {
-                            ConnectedProperties connectedproperties = aconnectedproperties[k];
+					for (int k = 0; k < aconnectedproperties.length; ++k)
+					{
+						ConnectedProperties connectedproperties = aconnectedproperties[k];
 
-                            if (connectedproperties != null && connectedproperties.matchesBlockId(blockstatebase.getBlockId()))
-                            {
-                                TextureAtlasSprite textureatlassprite = getConnectedTexture(connectedproperties, p_getConnectedTextureSingle_0_, blockstatebase, p_getConnectedTextureSingle_2_, j, p_getConnectedTextureSingle_4_, p_getConnectedTextureSingle_6_);
+						if (connectedproperties != null && connectedproperties.matchesBlockId(blockstatebase.getBlockId()))
+						{
+							TextureAtlasSprite textureatlassprite = getConnectedTexture(connectedproperties, p_getConnectedTextureSingle_0_, blockstatebase, p_getConnectedTextureSingle_2_, j, p_getConnectedTextureSingle_4_, p_getConnectedTextureSingle_6_);
 
-                                if (textureatlassprite != null)
-                                {
-                                    return textureatlassprite;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+							if (textureatlassprite != null)
+							{
+								return textureatlassprite;
+							}
+						}
+					}
+				}
+			}
+		}
 
-            if (blockProperties != null && p_getConnectedTextureSingle_5_)
-            {
-                int l = p_getConnectedTextureSingle_6_.getBlockId();
+		if (blockProperties != null && p_getConnectedTextureSingle_5_)
+		{
+			int l = p_getConnectedTextureSingle_6_.getBlockId();
 
-                if (l >= 0 && l < blockProperties.length)
-                {
-                    ConnectedProperties[] aconnectedproperties1 = blockProperties[l];
+			if (l >= 0 && l < blockProperties.length)
+			{
+				ConnectedProperties[] aconnectedproperties1 = blockProperties[l];
 
-                    if (aconnectedproperties1 != null)
-                    {
-                        int i1 = getSide(p_getConnectedTextureSingle_3_);
+				if (aconnectedproperties1 != null)
+				{
+					int i1 = getSide(p_getConnectedTextureSingle_3_);
 
-                        for (int j1 = 0; j1 < aconnectedproperties1.length; ++j1)
-                        {
-                            ConnectedProperties connectedproperties1 = aconnectedproperties1[j1];
+					for (int j1 = 0; j1 < aconnectedproperties1.length; ++j1)
+					{
+						ConnectedProperties connectedproperties1 = aconnectedproperties1[j1];
 
-                            if (connectedproperties1 != null && connectedproperties1.matchesIcon(p_getConnectedTextureSingle_4_))
-                            {
-                                TextureAtlasSprite textureatlassprite1 = getConnectedTexture(connectedproperties1, p_getConnectedTextureSingle_0_, blockstatebase, p_getConnectedTextureSingle_2_, i1, p_getConnectedTextureSingle_4_, p_getConnectedTextureSingle_6_);
+						if (connectedproperties1 != null && connectedproperties1.matchesIcon(p_getConnectedTextureSingle_4_))
+						{
+							TextureAtlasSprite textureatlassprite1 = getConnectedTexture(connectedproperties1, p_getConnectedTextureSingle_0_, blockstatebase, p_getConnectedTextureSingle_2_, i1, p_getConnectedTextureSingle_4_, p_getConnectedTextureSingle_6_);
 
-                                if (textureatlassprite1 != null)
-                                {
-                                    return textureatlassprite1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+							if (textureatlassprite1 != null)
+							{
+								return textureatlassprite1;
+							}
+						}
+					}
+				}
+			}
+		}
 
-            return p_getConnectedTextureSingle_4_;
-        }
-    }
+		return p_getConnectedTextureSingle_4_;
+	}
 
     public static int getSide(EnumFacing p_getSide_0_)
     {
@@ -254,33 +239,30 @@ public class ConnectedTextures
         {
             return -1;
         }
-        else
-        {
-            switch (p_getSide_0_)
-            {
-                case DOWN:
-                    return 0;
+		switch (p_getSide_0_)
+		{
+			case DOWN:
+				return 0;
 
-                case UP:
-                    return 1;
+			case UP:
+				return 1;
 
-                case EAST:
-                    return 5;
+			case EAST:
+				return 5;
 
-                case WEST:
-                    return 4;
+			case WEST:
+				return 4;
 
-                case NORTH:
-                    return 2;
+			case NORTH:
+				return 2;
 
-                case SOUTH:
-                    return 3;
+			case SOUTH:
+				return 3;
 
-                default:
-                    return -1;
-            }
-        }
-    }
+			default:
+				return -1;
+		}
+	}
 
     private static EnumFacing getFacing(int p_getFacing_0_)
     {
@@ -340,76 +322,70 @@ public class ConnectedTextures
         {
             return null;
         }
-        else
-        {
-            if (p_getConnectedTexture_4_ >= 0 && p_getConnectedTexture_0_.faces != 63)
-            {
-                int l = p_getConnectedTexture_4_;
+		if (p_getConnectedTexture_4_ >= 0 && p_getConnectedTexture_0_.faces != 63)
+		{
+			int l = p_getConnectedTexture_4_;
 
-                if (i != 0)
-                {
-                    l = fixSideByAxis(p_getConnectedTexture_4_, i);
-                }
+			if (i != 0)
+			{
+				l = fixSideByAxis(p_getConnectedTexture_4_, i);
+			}
 
-                if ((1 << l & p_getConnectedTexture_0_.faces) == 0)
-                {
-                    return null;
-                }
-            }
+			if ((1 << l & p_getConnectedTexture_0_.faces) == 0)
+			{
+				return null;
+			}
+		}
 
-            int i1 = p_getConnectedTexture_3_.getY();
+		int i1 = p_getConnectedTexture_3_.getY();
 
-            if (i1 >= p_getConnectedTexture_0_.minHeight && i1 <= p_getConnectedTexture_0_.maxHeight)
-            {
-                if (p_getConnectedTexture_0_.biomes != null)
-                {
-                    BiomeGenBase biomegenbase = p_getConnectedTexture_1_.getBiomeGenForCoords(p_getConnectedTexture_3_);
+		if (i1 >= p_getConnectedTexture_0_.minHeight && i1 <= p_getConnectedTexture_0_.maxHeight)
+		{
+			if (p_getConnectedTexture_0_.biomes != null)
+			{
+				BiomeGenBase biomegenbase = p_getConnectedTexture_1_.getBiomeGenForCoords(p_getConnectedTexture_3_);
 
-                    if (!p_getConnectedTexture_0_.matchesBiome(biomegenbase))
-                    {
-                        return null;
-                    }
-                }
+				if (!p_getConnectedTexture_0_.matchesBiome(biomegenbase))
+				{
+					return null;
+				}
+			}
 
-                switch (p_getConnectedTexture_0_.method)
-                {
-                    case 1:
-                        return getConnectedTextureCtm(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j, p_getConnectedTexture_6_);
+			switch (p_getConnectedTexture_0_.method)
+			{
+				case 1:
+					return getConnectedTextureCtm(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j, p_getConnectedTexture_6_);
 
-                    case 2:
-                        return getConnectedTextureHorizontal(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
+				case 2:
+					return getConnectedTextureHorizontal(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
 
-                    case 3:
-                        return getConnectedTextureTop(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
+				case 3:
+					return getConnectedTextureTop(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
 
-                    case 4:
-                        return getConnectedTextureRandom(p_getConnectedTexture_0_, p_getConnectedTexture_3_, p_getConnectedTexture_4_);
+				case 4:
+					return getConnectedTextureRandom(p_getConnectedTexture_0_, p_getConnectedTexture_3_, p_getConnectedTexture_4_);
 
-                    case 5:
-                        return getConnectedTextureRepeat(p_getConnectedTexture_0_, p_getConnectedTexture_3_, p_getConnectedTexture_4_);
+				case 5:
+					return getConnectedTextureRepeat(p_getConnectedTexture_0_, p_getConnectedTexture_3_, p_getConnectedTexture_4_);
 
-                    case 6:
-                        return getConnectedTextureVertical(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
+				case 6:
+					return getConnectedTextureVertical(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
 
-                    case 7:
-                        return getConnectedTextureFixed(p_getConnectedTexture_0_);
+				case 7:
+					return getConnectedTextureFixed(p_getConnectedTexture_0_);
 
-                    case 8:
-                        return getConnectedTextureHorizontalVertical(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
+				case 8:
+					return getConnectedTextureHorizontalVertical(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
 
-                    case 9:
-                        return getConnectedTextureVerticalHorizontal(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
+				case 9:
+					return getConnectedTextureVerticalHorizontal(p_getConnectedTexture_0_, p_getConnectedTexture_1_, p_getConnectedTexture_2_, p_getConnectedTexture_3_, i, p_getConnectedTexture_4_, p_getConnectedTexture_5_, j);
 
-                    default:
-                        return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+				default:
+					return null;
+			}
+		}
+		return null;
+	}
 
     private static int fixSideByAxis(int p_fixSideByAxis_0_, int p_fixSideByAxis_1_)
     {
@@ -501,34 +477,31 @@ public class ConnectedTextures
         {
             return p_getConnectedTextureRandom_0_.tileIcons[0];
         }
-        else
-        {
-            int i = p_getConnectedTextureRandom_2_ / p_getConnectedTextureRandom_0_.symmetry * p_getConnectedTextureRandom_0_.symmetry;
-            int j = Config.getRandom(p_getConnectedTextureRandom_1_, i) & Integer.MAX_VALUE;
-            int k = 0;
+		int i = p_getConnectedTextureRandom_2_ / p_getConnectedTextureRandom_0_.symmetry * p_getConnectedTextureRandom_0_.symmetry;
+		int j = Config.getRandom(p_getConnectedTextureRandom_1_, i) & Integer.MAX_VALUE;
+		int k = 0;
 
-            if (p_getConnectedTextureRandom_0_.weights == null)
-            {
-                k = j % p_getConnectedTextureRandom_0_.tileIcons.length;
-            }
-            else
-            {
-                int l = j % p_getConnectedTextureRandom_0_.sumAllWeights;
-                int[] aint = p_getConnectedTextureRandom_0_.sumWeights;
+		if (p_getConnectedTextureRandom_0_.weights == null)
+		{
+			k = j % p_getConnectedTextureRandom_0_.tileIcons.length;
+		}
+		else
+		{
+			int l = j % p_getConnectedTextureRandom_0_.sumAllWeights;
+			int[] aint = p_getConnectedTextureRandom_0_.sumWeights;
 
-                for (int i1 = 0; i1 < aint.length; ++i1)
-                {
-                    if (l < aint[i1])
-                    {
-                        k = i1;
-                        break;
-                    }
-                }
-            }
+			for (int i1 = 0; i1 < aint.length; ++i1)
+			{
+				if (l < aint[i1])
+				{
+					k = i1;
+					break;
+				}
+			}
+		}
 
-            return p_getConnectedTextureRandom_0_.tileIcons[k];
-        }
-    }
+		return p_getConnectedTextureRandom_0_.tileIcons[k];
+	}
 
     private static TextureAtlasSprite getConnectedTextureFixed(ConnectedProperties p_getConnectedTextureFixed_0_)
     {
@@ -541,63 +514,60 @@ public class ConnectedTextures
         {
             return p_getConnectedTextureRepeat_0_.tileIcons[0];
         }
-        else
-        {
-            int i = p_getConnectedTextureRepeat_1_.getX();
-            int j = p_getConnectedTextureRepeat_1_.getY();
-            int k = p_getConnectedTextureRepeat_1_.getZ();
-            int l = 0;
-            int i1 = 0;
+		int i = p_getConnectedTextureRepeat_1_.getX();
+		int j = p_getConnectedTextureRepeat_1_.getY();
+		int k = p_getConnectedTextureRepeat_1_.getZ();
+		int l = 0;
+		int i1 = 0;
 
-            switch (p_getConnectedTextureRepeat_2_)
-            {
-                case 0:
-                    l = i;
-                    i1 = k;
-                    break;
+		switch (p_getConnectedTextureRepeat_2_)
+		{
+			case 0:
+				l = i;
+				i1 = k;
+				break;
 
-                case 1:
-                    l = i;
-                    i1 = k;
-                    break;
+			case 1:
+				l = i;
+				i1 = k;
+				break;
 
-                case 2:
-                    l = -i - 1;
-                    i1 = -j;
-                    break;
+			case 2:
+				l = -i - 1;
+				i1 = -j;
+				break;
 
-                case 3:
-                    l = i;
-                    i1 = -j;
-                    break;
+			case 3:
+				l = i;
+				i1 = -j;
+				break;
 
-                case 4:
-                    l = k;
-                    i1 = -j;
-                    break;
+			case 4:
+				l = k;
+				i1 = -j;
+				break;
 
-                case 5:
-                    l = -k - 1;
-                    i1 = -j;
-            }
+			case 5:
+				l = -k - 1;
+				i1 = -j;
+		}
 
-            l = l % p_getConnectedTextureRepeat_0_.width;
-            i1 = i1 % p_getConnectedTextureRepeat_0_.height;
+		l = l % p_getConnectedTextureRepeat_0_.width;
+		i1 = i1 % p_getConnectedTextureRepeat_0_.height;
 
-            if (l < 0)
-            {
-                l += p_getConnectedTextureRepeat_0_.width;
-            }
+		if (l < 0)
+		{
+			l += p_getConnectedTextureRepeat_0_.width;
+		}
 
-            if (i1 < 0)
-            {
-                i1 += p_getConnectedTextureRepeat_0_.height;
-            }
+		if (i1 < 0)
+		{
+			i1 += p_getConnectedTextureRepeat_0_.height;
+		}
 
-            int j1 = i1 * p_getConnectedTextureRepeat_0_.width + l;
-            return p_getConnectedTextureRepeat_0_.tileIcons[j1];
-        }
-    }
+		int j1 = i1 * p_getConnectedTextureRepeat_0_.width + l;
+		return p_getConnectedTextureRepeat_0_.tileIcons[j1];
+	}
 
     private static TextureAtlasSprite getConnectedTextureCtm(ConnectedProperties p_getConnectedTextureCtm_0_, IBlockAccess p_getConnectedTextureCtm_1_, IBlockState p_getConnectedTextureCtm_2_, BlockPos p_getConnectedTextureCtm_3_, int p_getConnectedTextureCtm_4_, int p_getConnectedTextureCtm_5_, TextureAtlasSprite p_getConnectedTextureCtm_6_, int p_getConnectedTextureCtm_7_, RenderEnv p_getConnectedTextureCtm_8_)
     {
@@ -714,184 +684,181 @@ public class ConnectedTextures
         {
             return p_getConnectedTextureCtm_0_.tileIcons[i];
         }
-        else if (!Config.isConnectedTexturesFancy())
-        {
-            return p_getConnectedTextureCtm_0_.tileIcons[i];
-        }
-        else
-        {
-            switch (p_getConnectedTextureCtm_5_)
-            {
-                case 0:
-                    aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    break;
+		if (!Config.isConnectedTexturesFancy())
+		{
+			return p_getConnectedTextureCtm_0_.tileIcons[i];
+		}
+		switch (p_getConnectedTextureCtm_5_)
+		{
+			case 0:
+				aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				break;
 
-                case 1:
-                    aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    break;
+			case 1:
+				aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				break;
 
-                case 2:
-                    aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().down(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().down(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().up(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().up(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    break;
+			case 2:
+				aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().down(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().down(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().up(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().up(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				break;
 
-                case 3:
-                    aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().down(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().down(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().up(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().up(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    break;
+			case 3:
+				aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().down(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().down(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.east().up(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.west().up(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				break;
 
-                case 4:
-                    aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.down().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.down().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.up().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.up().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    break;
+			case 4:
+				aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.down().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.down().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.up().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.up().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				break;
 
-                case 5:
-                    aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.down().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.down().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.up().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-                    aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.up().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
-            }
+			case 5:
+				aboolean[0] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.down().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[1] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.down().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[2] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.up().north(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+				aboolean[3] = !isNeighbour(p_getConnectedTextureCtm_0_, p_getConnectedTextureCtm_1_, p_getConnectedTextureCtm_2_, p_getConnectedTextureCtm_3_.up().south(), p_getConnectedTextureCtm_5_, p_getConnectedTextureCtm_6_, p_getConnectedTextureCtm_7_);
+		}
 
-            if (i == 13 && aboolean[0])
-            {
-                i = 4;
-            }
-            else if (i == 15 && aboolean[1])
-            {
-                i = 5;
-            }
-            else if (i == 37 && aboolean[2])
-            {
-                i = 16;
-            }
-            else if (i == 39 && aboolean[3])
-            {
-                i = 17;
-            }
-            else if (i == 14 && aboolean[0] && aboolean[1])
-            {
-                i = 7;
-            }
-            else if (i == 25 && aboolean[0] && aboolean[2])
-            {
-                i = 6;
-            }
-            else if (i == 27 && aboolean[3] && aboolean[1])
-            {
-                i = 19;
-            }
-            else if (i == 38 && aboolean[3] && aboolean[2])
-            {
-                i = 18;
-            }
-            else if (i == 14 && !aboolean[0] && aboolean[1])
-            {
-                i = 31;
-            }
-            else if (i == 25 && aboolean[0] && !aboolean[2])
-            {
-                i = 30;
-            }
-            else if (i == 27 && !aboolean[3] && aboolean[1])
-            {
-                i = 41;
-            }
-            else if (i == 38 && aboolean[3] && !aboolean[2])
-            {
-                i = 40;
-            }
-            else if (i == 14 && aboolean[0] && !aboolean[1])
-            {
-                i = 29;
-            }
-            else if (i == 25 && !aboolean[0] && aboolean[2])
-            {
-                i = 28;
-            }
-            else if (i == 27 && aboolean[3] && !aboolean[1])
-            {
-                i = 43;
-            }
-            else if (i == 38 && !aboolean[3] && aboolean[2])
-            {
-                i = 42;
-            }
-            else if (i == 26 && aboolean[0] && aboolean[1] && aboolean[2] && aboolean[3])
-            {
-                i = 46;
-            }
-            else if (i == 26 && !aboolean[0] && aboolean[1] && aboolean[2] && aboolean[3])
-            {
-                i = 9;
-            }
-            else if (i == 26 && aboolean[0] && !aboolean[1] && aboolean[2] && aboolean[3])
-            {
-                i = 21;
-            }
-            else if (i == 26 && aboolean[0] && aboolean[1] && !aboolean[2] && aboolean[3])
-            {
-                i = 8;
-            }
-            else if (i == 26 && aboolean[0] && aboolean[1] && aboolean[2] && !aboolean[3])
-            {
-                i = 20;
-            }
-            else if (i == 26 && aboolean[0] && aboolean[1] && !aboolean[2] && !aboolean[3])
-            {
-                i = 11;
-            }
-            else if (i == 26 && !aboolean[0] && !aboolean[1] && aboolean[2] && aboolean[3])
-            {
-                i = 22;
-            }
-            else if (i == 26 && !aboolean[0] && aboolean[1] && !aboolean[2] && aboolean[3])
-            {
-                i = 23;
-            }
-            else if (i == 26 && aboolean[0] && !aboolean[1] && aboolean[2] && !aboolean[3])
-            {
-                i = 10;
-            }
-            else if (i == 26 && aboolean[0] && !aboolean[1] && !aboolean[2] && aboolean[3])
-            {
-                i = 34;
-            }
-            else if (i == 26 && !aboolean[0] && aboolean[1] && aboolean[2] && !aboolean[3])
-            {
-                i = 35;
-            }
-            else if (i == 26 && aboolean[0] && !aboolean[1] && !aboolean[2] && !aboolean[3])
-            {
-                i = 32;
-            }
-            else if (i == 26 && !aboolean[0] && aboolean[1] && !aboolean[2] && !aboolean[3])
-            {
-                i = 33;
-            }
-            else if (i == 26 && !aboolean[0] && !aboolean[1] && aboolean[2] && !aboolean[3])
-            {
-                i = 44;
-            }
-            else if (i == 26 && !aboolean[0] && !aboolean[1] && !aboolean[2] && aboolean[3])
-            {
-                i = 45;
-            }
+		if (i == 13 && aboolean[0])
+		{
+			i = 4;
+		}
+		else if (i == 15 && aboolean[1])
+		{
+			i = 5;
+		}
+		else if (i == 37 && aboolean[2])
+		{
+			i = 16;
+		}
+		else if (i == 39 && aboolean[3])
+		{
+			i = 17;
+		}
+		else if (i == 14 && aboolean[0] && aboolean[1])
+		{
+			i = 7;
+		}
+		else if (i == 25 && aboolean[0] && aboolean[2])
+		{
+			i = 6;
+		}
+		else if (i == 27 && aboolean[3] && aboolean[1])
+		{
+			i = 19;
+		}
+		else if (i == 38 && aboolean[3] && aboolean[2])
+		{
+			i = 18;
+		}
+		else if (i == 14 && !aboolean[0] && aboolean[1])
+		{
+			i = 31;
+		}
+		else if (i == 25 && aboolean[0] && !aboolean[2])
+		{
+			i = 30;
+		}
+		else if (i == 27 && !aboolean[3] && aboolean[1])
+		{
+			i = 41;
+		}
+		else if (i == 38 && aboolean[3] && !aboolean[2])
+		{
+			i = 40;
+		}
+		else if (i == 14 && aboolean[0] && !aboolean[1])
+		{
+			i = 29;
+		}
+		else if (i == 25 && !aboolean[0] && aboolean[2])
+		{
+			i = 28;
+		}
+		else if (i == 27 && aboolean[3] && !aboolean[1])
+		{
+			i = 43;
+		}
+		else if (i == 38 && !aboolean[3] && aboolean[2])
+		{
+			i = 42;
+		}
+		else if (i == 26 && aboolean[0] && aboolean[1] && aboolean[2] && aboolean[3])
+		{
+			i = 46;
+		}
+		else if (i == 26 && !aboolean[0] && aboolean[1] && aboolean[2] && aboolean[3])
+		{
+			i = 9;
+		}
+		else if (i == 26 && aboolean[0] && !aboolean[1] && aboolean[2] && aboolean[3])
+		{
+			i = 21;
+		}
+		else if (i == 26 && aboolean[0] && aboolean[1] && !aboolean[2] && aboolean[3])
+		{
+			i = 8;
+		}
+		else if (i == 26 && aboolean[0] && aboolean[1] && aboolean[2] && !aboolean[3])
+		{
+			i = 20;
+		}
+		else if (i == 26 && aboolean[0] && aboolean[1] && !aboolean[2] && !aboolean[3])
+		{
+			i = 11;
+		}
+		else if (i == 26 && !aboolean[0] && !aboolean[1] && aboolean[2] && aboolean[3])
+		{
+			i = 22;
+		}
+		else if (i == 26 && !aboolean[0] && aboolean[1] && !aboolean[2] && aboolean[3])
+		{
+			i = 23;
+		}
+		else if (i == 26 && aboolean[0] && !aboolean[1] && aboolean[2] && !aboolean[3])
+		{
+			i = 10;
+		}
+		else if (i == 26 && aboolean[0] && !aboolean[1] && !aboolean[2] && aboolean[3])
+		{
+			i = 34;
+		}
+		else if (i == 26 && !aboolean[0] && aboolean[1] && aboolean[2] && !aboolean[3])
+		{
+			i = 35;
+		}
+		else if (i == 26 && aboolean[0] && !aboolean[1] && !aboolean[2] && !aboolean[3])
+		{
+			i = 32;
+		}
+		else if (i == 26 && !aboolean[0] && aboolean[1] && !aboolean[2] && !aboolean[3])
+		{
+			i = 33;
+		}
+		else if (i == 26 && !aboolean[0] && !aboolean[1] && aboolean[2] && !aboolean[3])
+		{
+			i = 44;
+		}
+		else if (i == 26 && !aboolean[0] && !aboolean[1] && !aboolean[2] && aboolean[3])
+		{
+			i = 45;
+		}
 
-            return p_getConnectedTextureCtm_0_.tileIcons[i];
-        }
-    }
+		return p_getConnectedTextureCtm_0_.tileIcons[i];
+	}
 
     private static boolean isNeighbour(ConnectedProperties p_isNeighbour_0_, IBlockAccess p_isNeighbour_1_, IBlockState p_isNeighbour_2_, BlockPos p_isNeighbour_3_, int p_isNeighbour_4_, TextureAtlasSprite p_isNeighbour_5_, int p_isNeighbour_6_)
     {
@@ -901,27 +868,21 @@ public class ConnectedTextures
         {
             return true;
         }
-        else if (p_isNeighbour_0_.connect == 2)
-        {
-            if (iblockstate == null)
-            {
-                return false;
-            }
-            else if (iblockstate == AIR_DEFAULT_STATE)
-            {
-                return false;
-            }
-            else
-            {
-                TextureAtlasSprite textureatlassprite = getNeighbourIcon(p_isNeighbour_1_, p_isNeighbour_3_, iblockstate, p_isNeighbour_4_);
-                return textureatlassprite == p_isNeighbour_5_;
-            }
-        }
-        else
-        {
-            return p_isNeighbour_0_.connect == 3 ? iblockstate == null ? false : iblockstate == AIR_DEFAULT_STATE ? false : iblockstate.getBlock().getMaterial() == p_isNeighbour_2_.getBlock().getMaterial() : false;
-        }
-    }
+		if (p_isNeighbour_0_.connect == 2)
+		{
+			if (iblockstate == null)
+			{
+				return false;
+			}
+			if (iblockstate == AIR_DEFAULT_STATE)
+			{
+				return false;
+			}
+			TextureAtlasSprite textureatlassprite = getNeighbourIcon(p_isNeighbour_1_, p_isNeighbour_3_, iblockstate, p_isNeighbour_4_);
+			return textureatlassprite == p_isNeighbour_5_;
+		}
+		return p_isNeighbour_0_.connect == 3 ? iblockstate == null ? false : iblockstate == AIR_DEFAULT_STATE ? false : iblockstate.getBlock().getMaterial() == p_isNeighbour_2_.getBlock().getMaterial() : false;
+	}
 
     private static TextureAtlasSprite getNeighbourIcon(IBlockAccess p_getNeighbourIcon_0_, BlockPos p_getNeighbourIcon_1_, IBlockState p_getNeighbourIcon_2_, int p_getNeighbourIcon_3_)
     {
@@ -932,34 +893,28 @@ public class ConnectedTextures
         {
             return null;
         }
-        else
-        {
-            EnumFacing enumfacing = getFacing(p_getNeighbourIcon_3_);
-            List list = ibakedmodel.getFaceQuads(enumfacing);
+		EnumFacing enumfacing = getFacing(p_getNeighbourIcon_3_);
+		List list = ibakedmodel.getFaceQuads(enumfacing);
 
-            if (list.size() > 0)
-            {
-                BakedQuad bakedquad1 = (BakedQuad)list.get(0);
-                return bakedquad1.getSprite();
-            }
-            else
-            {
-                List list1 = ibakedmodel.getGeneralQuads();
+		if (list.size() > 0)
+		{
+			BakedQuad bakedquad1 = (BakedQuad)list.get(0);
+			return bakedquad1.getSprite();
+		}
+		List list1 = ibakedmodel.getGeneralQuads();
 
-                for (int i = 0; i < list1.size(); ++i)
-                {
-                    BakedQuad bakedquad = (BakedQuad)list1.get(i);
+		for (int i = 0; i < list1.size(); ++i)
+		{
+			BakedQuad bakedquad = (BakedQuad)list1.get(i);
 
-                    if (bakedquad.getFace() == enumfacing)
-                    {
-                        return bakedquad.getSprite();
-                    }
-                }
+			if (bakedquad.getFace() == enumfacing)
+			{
+				return bakedquad.getSprite();
+			}
+		}
 
-                return null;
-            }
-        }
-    }
+		return null;
+	}
 
     private static TextureAtlasSprite getConnectedTextureHorizontal(ConnectedProperties p_getConnectedTextureHorizontal_0_, IBlockAccess p_getConnectedTextureHorizontal_1_, IBlockState p_getConnectedTextureHorizontal_2_, BlockPos p_getConnectedTextureHorizontal_3_, int p_getConnectedTextureHorizontal_4_, int p_getConnectedTextureHorizontal_5_, TextureAtlasSprite p_getConnectedTextureHorizontal_6_, int p_getConnectedTextureHorizontal_7_)
     {
@@ -1156,12 +1111,9 @@ public class ConnectedTextures
         {
             return textureatlassprite;
         }
-        else
-        {
-            TextureAtlasSprite textureatlassprite1 = getConnectedTextureVertical(p_getConnectedTextureHorizontalVertical_0_, p_getConnectedTextureHorizontalVertical_1_, p_getConnectedTextureHorizontalVertical_2_, p_getConnectedTextureHorizontalVertical_3_, p_getConnectedTextureHorizontalVertical_4_, p_getConnectedTextureHorizontalVertical_5_, p_getConnectedTextureHorizontalVertical_6_, p_getConnectedTextureHorizontalVertical_7_);
-            return textureatlassprite1 == atextureatlassprite[0] ? atextureatlassprite[4] : textureatlassprite1 == atextureatlassprite[1] ? atextureatlassprite[5] : textureatlassprite1 == atextureatlassprite[2] ? atextureatlassprite[6] : textureatlassprite1;
-        }
-    }
+		TextureAtlasSprite textureatlassprite1 = getConnectedTextureVertical(p_getConnectedTextureHorizontalVertical_0_, p_getConnectedTextureHorizontalVertical_1_, p_getConnectedTextureHorizontalVertical_2_, p_getConnectedTextureHorizontalVertical_3_, p_getConnectedTextureHorizontalVertical_4_, p_getConnectedTextureHorizontalVertical_5_, p_getConnectedTextureHorizontalVertical_6_, p_getConnectedTextureHorizontalVertical_7_);
+		return textureatlassprite1 == atextureatlassprite[0] ? atextureatlassprite[4] : textureatlassprite1 == atextureatlassprite[1] ? atextureatlassprite[5] : textureatlassprite1 == atextureatlassprite[2] ? atextureatlassprite[6] : textureatlassprite1;
+	}
 
     private static TextureAtlasSprite getConnectedTextureVerticalHorizontal(ConnectedProperties p_getConnectedTextureVerticalHorizontal_0_, IBlockAccess p_getConnectedTextureVerticalHorizontal_1_, IBlockState p_getConnectedTextureVerticalHorizontal_2_, BlockPos p_getConnectedTextureVerticalHorizontal_3_, int p_getConnectedTextureVerticalHorizontal_4_, int p_getConnectedTextureVerticalHorizontal_5_, TextureAtlasSprite p_getConnectedTextureVerticalHorizontal_6_, int p_getConnectedTextureVerticalHorizontal_7_)
     {
@@ -1172,12 +1124,9 @@ public class ConnectedTextures
         {
             return textureatlassprite;
         }
-        else
-        {
-            TextureAtlasSprite textureatlassprite1 = getConnectedTextureHorizontal(p_getConnectedTextureVerticalHorizontal_0_, p_getConnectedTextureVerticalHorizontal_1_, p_getConnectedTextureVerticalHorizontal_2_, p_getConnectedTextureVerticalHorizontal_3_, p_getConnectedTextureVerticalHorizontal_4_, p_getConnectedTextureVerticalHorizontal_5_, p_getConnectedTextureVerticalHorizontal_6_, p_getConnectedTextureVerticalHorizontal_7_);
-            return textureatlassprite1 == atextureatlassprite[0] ? atextureatlassprite[4] : textureatlassprite1 == atextureatlassprite[1] ? atextureatlassprite[5] : textureatlassprite1 == atextureatlassprite[2] ? atextureatlassprite[6] : textureatlassprite1;
-        }
-    }
+		TextureAtlasSprite textureatlassprite1 = getConnectedTextureHorizontal(p_getConnectedTextureVerticalHorizontal_0_, p_getConnectedTextureVerticalHorizontal_1_, p_getConnectedTextureVerticalHorizontal_2_, p_getConnectedTextureVerticalHorizontal_3_, p_getConnectedTextureVerticalHorizontal_4_, p_getConnectedTextureVerticalHorizontal_5_, p_getConnectedTextureVerticalHorizontal_6_, p_getConnectedTextureVerticalHorizontal_7_);
+		return textureatlassprite1 == atextureatlassprite[0] ? atextureatlassprite[4] : textureatlassprite1 == atextureatlassprite[1] ? atextureatlassprite[5] : textureatlassprite1 == atextureatlassprite[2] ? atextureatlassprite[6] : textureatlassprite1;
+	}
 
     private static TextureAtlasSprite getConnectedTextureTop(ConnectedProperties p_getConnectedTextureTop_0_, IBlockAccess p_getConnectedTextureTop_1_, IBlockState p_getConnectedTextureTop_2_, BlockPos p_getConnectedTextureTop_3_, int p_getConnectedTextureTop_4_, int p_getConnectedTextureTop_5_, TextureAtlasSprite p_getConnectedTextureTop_6_, int p_getConnectedTextureTop_7_)
     {
@@ -1216,11 +1165,8 @@ public class ConnectedTextures
         {
             return p_getConnectedTextureTop_0_.tileIcons[0];
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     public static void updateIcons(TextureMap p_updateIcons_0_)
     {
@@ -1520,15 +1466,12 @@ public class ConnectedTextures
         {
             return p_getCtmTexture_2_;
         }
-        else if (p_getCtmTexture_1_ >= 0 && p_getCtmTexture_1_ < ctmIndexes.length)
-        {
-            int i = ctmIndexes[p_getCtmTexture_1_];
-            TextureAtlasSprite[] atextureatlassprite = p_getCtmTexture_0_.tileIcons;
-            return i >= 0 && i < atextureatlassprite.length ? atextureatlassprite[i] : p_getCtmTexture_2_;
-        }
-        else
-        {
-            return p_getCtmTexture_2_;
-        }
-    }
+		if (p_getCtmTexture_1_ >= 0 && p_getCtmTexture_1_ < ctmIndexes.length)
+		{
+			int i = ctmIndexes[p_getCtmTexture_1_];
+			TextureAtlasSprite[] atextureatlassprite = p_getCtmTexture_0_.tileIcons;
+			return i >= 0 && i < atextureatlassprite.length ? atextureatlassprite[i] : p_getCtmTexture_2_;
+		}
+		return p_getCtmTexture_2_;
+	}
 }

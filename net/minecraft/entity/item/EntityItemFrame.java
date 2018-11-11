@@ -50,21 +50,18 @@ public class EntityItemFrame extends EntityHanging
         {
             return false;
         }
-        else if (!source.isExplosion() && this.getDisplayedItem() != null)
-        {
-            if (!this.worldObj.isRemote)
-            {
-                this.dropItemOrSelf(source.getEntity(), false);
-                this.setDisplayedItem((ItemStack)null);
-            }
+		if (!source.isExplosion() && this.getDisplayedItem() != null)
+		{
+			if (!this.worldObj.isRemote)
+			{
+				this.dropItemOrSelf(source.getEntity(), false);
+				this.setDisplayedItem((ItemStack)null);
+			}
 
-            return true;
-        }
-        else
-        {
-            return super.attackEntityFrom(source, amount);
-        }
-    }
+			return true;
+		}
+		return super.attackEntityFrom(source, amount);
+	}
 
     public int getWidthPixels()
     {

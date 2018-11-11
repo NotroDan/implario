@@ -325,11 +325,8 @@ public class EntityRabbit extends EntityAnimal
             this.playSound("mob.attack", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 8.0F);
         }
-        else
-        {
-            return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
-        }
-    }
+		return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
+	}
 
     /**
      * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue

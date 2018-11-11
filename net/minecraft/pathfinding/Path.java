@@ -17,21 +17,18 @@ public class Path
         {
             throw new IllegalStateException("OW KNOWS!");
         }
-        else
-        {
-            if (this.count == this.pathPoints.length)
-            {
-                PathPoint[] apathpoint = new PathPoint[this.count << 1];
-                System.arraycopy(this.pathPoints, 0, apathpoint, 0, this.count);
-                this.pathPoints = apathpoint;
-            }
+		if (this.count == this.pathPoints.length)
+		{
+			PathPoint[] apathpoint = new PathPoint[this.count << 1];
+			System.arraycopy(this.pathPoints, 0, apathpoint, 0, this.count);
+			this.pathPoints = apathpoint;
+		}
 
-            this.pathPoints[this.count] = point;
-            point.index = this.count;
-            this.sortBack(this.count++);
-            return point;
-        }
-    }
+		this.pathPoints[this.count] = point;
+		point.index = this.count;
+		this.sortBack(this.count++);
+		return point;
+	}
 
     /**
      * Clears the path

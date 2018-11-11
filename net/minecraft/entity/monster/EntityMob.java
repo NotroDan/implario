@@ -69,16 +69,13 @@ public abstract class EntityMob extends EntityCreature implements IMob
         {
             return false;
         }
-        else if (super.attackEntityFrom(source, amount))
-        {
-            Entity entity = source.getEntity();
-            return this.riddenByEntity != entity && this.ridingEntity != entity ? true : true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (super.attackEntityFrom(source, amount))
+		{
+			Entity entity = source.getEntity();
+			return this.riddenByEntity != entity && this.ridingEntity != entity ? true : true;
+		}
+		return false;
+	}
 
     /**
      * Returns the sound this mob makes when it is hurt.
@@ -152,21 +149,18 @@ public abstract class EntityMob extends EntityCreature implements IMob
         {
             return false;
         }
-        else
-        {
-            int i = this.worldObj.getLightFromNeighbors(blockpos);
+		int i = this.worldObj.getLightFromNeighbors(blockpos);
 
-            if (this.worldObj.isThundering())
-            {
-                int j = this.worldObj.getSkylightSubtracted();
-                this.worldObj.setSkylightSubtracted(10);
-                i = this.worldObj.getLightFromNeighbors(blockpos);
-                this.worldObj.setSkylightSubtracted(j);
-            }
+		if (this.worldObj.isThundering())
+		{
+			int j = this.worldObj.getSkylightSubtracted();
+			this.worldObj.setSkylightSubtracted(10);
+			i = this.worldObj.getLightFromNeighbors(blockpos);
+			this.worldObj.setSkylightSubtracted(j);
+		}
 
-            return i <= this.rand.nextInt(8);
-        }
-    }
+		return i <= this.rand.nextInt(8);
+	}
 
     /**
      * Checks if the entity's current position is a valid location to spawn this entity.

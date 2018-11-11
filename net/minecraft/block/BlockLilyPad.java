@@ -27,7 +27,7 @@ public class BlockLilyPad extends BlockBush
      */
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
-        if (collidingEntity == null || !(collidingEntity instanceof EntityBoat))
+        if (!(collidingEntity instanceof EntityBoat))
         {
             super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
         }
@@ -68,11 +68,8 @@ public class BlockLilyPad extends BlockBush
             IBlockState iblockstate = worldIn.getBlockState(pos.down());
             return iblockstate.getBlock().getMaterial() == Material.water && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Convert the BlockState into the correct metadata value

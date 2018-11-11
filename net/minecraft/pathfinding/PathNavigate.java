@@ -84,18 +84,15 @@ public abstract class PathNavigate
         {
             return null;
         }
-        else
-        {
-            float f = this.getPathSearchRange();
-            this.worldObj.theProfiler.startSection("pathfind");
-            BlockPos blockpos = new BlockPos(this.theEntity);
-            int i = (int)(f + 8.0F);
-            ChunkCache chunkcache = new ChunkCache(this.worldObj, blockpos.add(-i, -i, -i), blockpos.add(i, i, i), 0);
-            PathEntity pathentity = this.pathFinder.createEntityPathTo(chunkcache, this.theEntity, pos, f);
-            this.worldObj.theProfiler.endSection();
-            return pathentity;
-        }
-    }
+		float f = this.getPathSearchRange();
+		this.worldObj.theProfiler.startSection("pathfind");
+		BlockPos blockpos = new BlockPos(this.theEntity);
+		int i = (int)(f + 8.0F);
+		ChunkCache chunkcache = new ChunkCache(this.worldObj, blockpos.add(-i, -i, -i), blockpos.add(i, i, i), 0);
+		PathEntity pathentity = this.pathFinder.createEntityPathTo(chunkcache, this.theEntity, pos, f);
+		this.worldObj.theProfiler.endSection();
+		return pathentity;
+	}
 
     /**
      * Try to find and set a path to XYZ. Returns true if successful. Args : x, y, z, speed
@@ -123,18 +120,15 @@ public abstract class PathNavigate
         {
             return null;
         }
-        else
-        {
-            float f = this.getPathSearchRange();
-            this.worldObj.theProfiler.startSection("pathfind");
-            BlockPos blockpos = new BlockPos(this.theEntity).up();
-            int i = (int)(f + 16.0F);
-            ChunkCache chunkcache = new ChunkCache(this.worldObj, blockpos.add(-i, -i, -i), blockpos.add(i, i, i), 0);
-            PathEntity pathentity = this.pathFinder.createEntityPathTo(chunkcache, this.theEntity, entityIn, f);
-            this.worldObj.theProfiler.endSection();
-            return pathentity;
-        }
-    }
+		float f = this.getPathSearchRange();
+		this.worldObj.theProfiler.startSection("pathfind");
+		BlockPos blockpos = new BlockPos(this.theEntity).up();
+		int i = (int)(f + 16.0F);
+		ChunkCache chunkcache = new ChunkCache(this.worldObj, blockpos.add(-i, -i, -i), blockpos.add(i, i, i), 0);
+		PathEntity pathentity = this.pathFinder.createEntityPathTo(chunkcache, this.theEntity, entityIn, f);
+		this.worldObj.theProfiler.endSection();
+		return pathentity;
+	}
 
     /**
      * Try to find and set a path to EntityLiving. Returns true if successful. Args : entity, speed
@@ -156,29 +150,23 @@ public abstract class PathNavigate
             this.currentPath = null;
             return false;
         }
-        else
-        {
-            if (!pathentityIn.isSamePath(this.currentPath))
-            {
-                this.currentPath = pathentityIn;
-            }
+		if (!pathentityIn.isSamePath(this.currentPath))
+		{
+			this.currentPath = pathentityIn;
+		}
 
-            this.removeSunnyPath();
+		this.removeSunnyPath();
 
-            if (this.currentPath.getCurrentPathLength() == 0)
-            {
-                return false;
-            }
-            else
-            {
-                this.speed = speedIn;
-                Vec3 vec3 = this.getEntityPosition();
-                this.ticksAtLastPos = this.totalTicks;
-                this.lastPosCheck = vec3;
-                return true;
-            }
-        }
-    }
+		if (this.currentPath.getCurrentPathLength() == 0)
+		{
+			return false;
+		}
+		this.speed = speedIn;
+		Vec3 vec3 = this.getEntityPosition();
+		this.ticksAtLastPos = this.totalTicks;
+		this.lastPosCheck = vec3;
+		return true;
+	}
 
     /**
      * gets the actively used PathEntity

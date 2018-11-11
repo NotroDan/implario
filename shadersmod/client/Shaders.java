@@ -776,9 +776,7 @@ public class Shaders {
 		}
 
 		if (list.size() <= 0) return null;
-		else {
-			return (CustomTexture[]) (CustomTexture[]) list.toArray(new CustomTexture[list.size()]);
-		}
+		return (CustomTexture[]) (CustomTexture[]) list.toArray(new CustomTexture[list.size()]);
 	}
 
 	private static int getTextureIndex(int stage, String name) {
@@ -888,25 +886,22 @@ public class Shaders {
 
 			ashaderoption = getVisibleOptions(ashaderoption);
 			return ashaderoption;
-		} else {
-			String s = screenName != null ? "screen." + screenName : "screen";
-			ShaderOption[] ashaderoption1 = (ShaderOption[]) shaderPackGuiScreens.get(s);
-
-			if (ashaderoption1 == null) return Utils.SHADEROPTION;
-			else {
-				List<ShaderOption> list = new ArrayList();
-
-				for (ShaderOption shaderoption : ashaderoption1) {
-					if (shaderoption == null) list.add((ShaderOption) null);
-					else if (shaderoption instanceof ShaderOptionRest) {
-						ShaderOption[] ashaderoption2 = getShaderOptionsRest(shaderPackGuiScreens, ashaderoption);
-						list.addAll(Arrays.<ShaderOption>asList(ashaderoption2));
-					} else list.add(shaderoption);
-				}
-
-				return (ShaderOption[]) (ShaderOption[]) list.toArray(new ShaderOption[list.size()]);
-			}
 		}
+		String s = screenName != null ? "screen." + screenName : "screen";
+		ShaderOption[] ashaderoption1 = (ShaderOption[]) shaderPackGuiScreens.get(s);
+
+		if (ashaderoption1 == null) return Utils.SHADEROPTION;
+		List<ShaderOption> list = new ArrayList();
+
+		for (ShaderOption shaderoption : ashaderoption1) {
+			if (shaderoption == null) list.add((ShaderOption) null);
+			else if (shaderoption instanceof ShaderOptionRest) {
+				ShaderOption[] ashaderoption2 = getShaderOptionsRest(shaderPackGuiScreens, ashaderoption);
+				list.addAll(Arrays.<ShaderOption>asList(ashaderoption2));
+			} else list.add(shaderoption);
+		}
+
+		return (ShaderOption[]) (ShaderOption[]) list.toArray(new ShaderOption[list.size()]);
 	}
 
 	private static ShaderOption[] getShaderOptionsRest(Map<String, ShaderOption[]> mapScreens, ShaderOption[] ops) {
@@ -1016,7 +1011,8 @@ public class Shaders {
 			properties.load(fileinputstream);
 			fileinputstream.close();
 			return properties;
-		} else return properties;
+		}
+		return properties;
 	}
 
 	public static ShaderOption[] getChangedOptions(ShaderOption[] ops) {
@@ -1041,7 +1037,8 @@ public class Shaders {
 			}
 
 			return line;
-		} else return line;
+		}
+		return line;
 	}
 
 	static ArrayList listOfShaders() {
@@ -1541,323 +1538,319 @@ public class Shaders {
 		int i = ARBShaderObjects.glCreateShaderObjectARB(ARBVertexShader.GL_VERTEX_SHADER_ARB);
 
 		if (i == 0) return 0;
-		else {
-			StringBuilder stringbuilder = new StringBuilder(131072);
-			BufferedReader bufferedreader = null;
+		StringBuilder stringbuilder = new StringBuilder(131072);
+		BufferedReader bufferedreader = null;
 
+		try {
+			bufferedreader = new BufferedReader(new InputStreamReader(shaderPack.getResourceAsStream(filename)));
+		} catch (Exception var8) {
 			try {
-				bufferedreader = new BufferedReader(new InputStreamReader(shaderPack.getResourceAsStream(filename)));
-			} catch (Exception var8) {
-				try {
-					bufferedreader = new BufferedReader(new FileReader(new File(filename)));
-				} catch (Exception var7) {
-					ARBShaderObjects.glDeleteObjectARB(i);
-					return 0;
-				}
-			}
-
-			ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
-			List<String> list = new ArrayList();
-
-			if (bufferedreader != null) try {
-				bufferedreader = ShaderPackParser.resolveIncludes(bufferedreader, filename, shaderPack, 0, list, 0);
-
-				while (true) {
-					String s = bufferedreader.readLine();
-
-					if (s == null) {
-						bufferedreader.close();
-						break;
-					}
-
-					s = applyOptions(s, ashaderoption);
-					stringbuilder.append(s).append('\n');
-
-					if (s.matches("attribute [_a-zA-Z0-9]+ mc_Entity.*")) {
-						useEntityAttrib = true;
-						progUseEntityAttrib = true;
-					} else if (s.matches("attribute [_a-zA-Z0-9]+ mc_midTexCoord.*")) {
-						useMidTexCoordAttrib = true;
-						progUseMidTexCoordAttrib = true;
-					} else if (s.matches(".*gl_MultiTexCoord3.*")) useMultiTexCoord3Attrib = true;
-					else if (s.matches("attribute [_a-zA-Z0-9]+ at_tangent.*")) {
-						useTangentAttrib = true;
-						progUseTangentAttrib = true;
-					}
-				}
-			} catch (Exception exception) {
-				SMCLog.severe("Couldn\'t read " + filename + "!");
-				exception.printStackTrace();
+				bufferedreader = new BufferedReader(new FileReader(new File(filename)));
+			} catch (Exception var7) {
 				ARBShaderObjects.glDeleteObjectARB(i);
 				return 0;
 			}
-
-			if (saveFinalShaders) saveShader(filename, stringbuilder.toString());
-
-			ARBShaderObjects.glShaderSourceARB(i, (CharSequence) stringbuilder);
-			ARBShaderObjects.glCompileShaderARB(i);
-
-			if (GL20.glGetShaderi(i, 35713) != 1) SMCLog.severe("Error compiling vertex shader: " + filename);
-
-			printShaderLogInfo(i, filename, list);
-			return i;
 		}
+
+		ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
+		List<String> list = new ArrayList();
+
+		if (bufferedreader != null) try {
+			bufferedreader = ShaderPackParser.resolveIncludes(bufferedreader, filename, shaderPack, 0, list, 0);
+
+			while (true) {
+				String s = bufferedreader.readLine();
+
+				if (s == null) {
+					bufferedreader.close();
+					break;
+				}
+
+				s = applyOptions(s, ashaderoption);
+				stringbuilder.append(s).append('\n');
+
+				if (s.matches("attribute [_a-zA-Z0-9]+ mc_Entity.*")) {
+					useEntityAttrib = true;
+					progUseEntityAttrib = true;
+				} else if (s.matches("attribute [_a-zA-Z0-9]+ mc_midTexCoord.*")) {
+					useMidTexCoordAttrib = true;
+					progUseMidTexCoordAttrib = true;
+				} else if (s.matches(".*gl_MultiTexCoord3.*")) useMultiTexCoord3Attrib = true;
+				else if (s.matches("attribute [_a-zA-Z0-9]+ at_tangent.*")) {
+					useTangentAttrib = true;
+					progUseTangentAttrib = true;
+				}
+			}
+		} catch (Exception exception) {
+			SMCLog.severe("Couldn\'t read " + filename + "!");
+			exception.printStackTrace();
+			ARBShaderObjects.glDeleteObjectARB(i);
+			return 0;
+		}
+
+		if (saveFinalShaders) saveShader(filename, stringbuilder.toString());
+
+		ARBShaderObjects.glShaderSourceARB(i, (CharSequence) stringbuilder);
+		ARBShaderObjects.glCompileShaderARB(i);
+
+		if (GL20.glGetShaderi(i, 35713) != 1) SMCLog.severe("Error compiling vertex shader: " + filename);
+
+		printShaderLogInfo(i, filename, list);
+		return i;
 	}
 
 	private static int createFragShader(String filename) {
 		int i = ARBShaderObjects.glCreateShaderObjectARB(ARBFragmentShader.GL_FRAGMENT_SHADER_ARB);
 
 		if (i == 0) return 0;
-		else {
-			StringBuilder stringbuilder = new StringBuilder(131072);
-			BufferedReader bufferedreader = null;
+		StringBuilder stringbuilder = new StringBuilder(131072);
+		BufferedReader bufferedreader = null;
 
+		try {
+			bufferedreader = new BufferedReader(new InputStreamReader(shaderPack.getResourceAsStream(filename)));
+		} catch (Exception var13) {
 			try {
-				bufferedreader = new BufferedReader(new InputStreamReader(shaderPack.getResourceAsStream(filename)));
-			} catch (Exception var13) {
-				try {
-					bufferedreader = new BufferedReader(new FileReader(new File(filename)));
-				} catch (Exception var12) {
-					ARBShaderObjects.glDeleteObjectARB(i);
-					return 0;
-				}
-			}
-
-			ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
-			List<String> list = new ArrayList();
-
-			if (bufferedreader != null) try {
-				bufferedreader = ShaderPackParser.resolveIncludes(bufferedreader, filename, shaderPack, 0, list, 0);
-
-				while (true) {
-					String s = bufferedreader.readLine();
-
-					if (s == null) {
-						bufferedreader.close();
-						break;
-					}
-
-					s = applyOptions(s, ashaderoption);
-					stringbuilder.append(s).append('\n');
-
-					if (!s.matches("#version .*")) if (s.matches("uniform [ _a-zA-Z0-9]+ shadow;.*")) {
-						if (usedShadowDepthBuffers < 1) usedShadowDepthBuffers = 1;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ watershadow;.*")) {
-						waterShadowEnabled = true;
-
-						if (usedShadowDepthBuffers < 2) usedShadowDepthBuffers = 2;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowtex0;.*")) {
-						if (usedShadowDepthBuffers < 1) usedShadowDepthBuffers = 1;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowtex1;.*")) {
-						if (usedShadowDepthBuffers < 2) usedShadowDepthBuffers = 2;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowcolor;.*")) {
-						if (usedShadowColorBuffers < 1) usedShadowColorBuffers = 1;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowcolor0;.*")) {
-						if (usedShadowColorBuffers < 1) usedShadowColorBuffers = 1;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowcolor1;.*")) {
-						if (usedShadowColorBuffers < 2) usedShadowColorBuffers = 2;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ depthtex0;.*")) {
-						if (usedDepthBuffers < 1) usedDepthBuffers = 1;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ depthtex1;.*")) {
-						if (usedDepthBuffers < 2) usedDepthBuffers = 2;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ depthtex2;.*")) {
-						if (usedDepthBuffers < 3) usedDepthBuffers = 3;
-					} else if (s.matches("uniform [ _a-zA-Z0-9]+ gdepth;.*")) {
-						if (gbuffersFormat[1] == 6408) gbuffersFormat[1] = 34836;
-					} else if (usedColorBuffers < 5 && s.matches("uniform [ _a-zA-Z0-9]+ gaux1;.*")) usedColorBuffers = 5;
-					else if (usedColorBuffers < 6 && s.matches("uniform [ _a-zA-Z0-9]+ gaux2;.*")) usedColorBuffers = 6;
-					else if (usedColorBuffers < 7 && s.matches("uniform [ _a-zA-Z0-9]+ gaux3;.*")) usedColorBuffers = 7;
-					else if (usedColorBuffers < 8 && s.matches("uniform [ _a-zA-Z0-9]+ gaux4;.*")) usedColorBuffers = 8;
-					else if (usedColorBuffers < 5 && s.matches("uniform [ _a-zA-Z0-9]+ colortex4;.*")) usedColorBuffers = 5;
-					else if (usedColorBuffers < 6 && s.matches("uniform [ _a-zA-Z0-9]+ colortex5;.*")) usedColorBuffers = 6;
-					else if (usedColorBuffers < 7 && s.matches("uniform [ _a-zA-Z0-9]+ colortex6;.*")) usedColorBuffers = 7;
-					else if (usedColorBuffers < 8 && s.matches("uniform [ _a-zA-Z0-9]+ colortex7;.*")) usedColorBuffers = 8;
-					else if (s.matches("uniform [ _a-zA-Z0-9]+ centerDepthSmooth;.*")) centerDepthSmoothEnabled = true;
-					else if (s.matches("/\\* SHADOWRES:[0-9]+ \\*/.*")) {
-						String[] astring17 = s.split("(:| )", 4);
-						SMCLog.info("Shadow map resolution: " + astring17[2]);
-						spShadowMapWidth = spShadowMapHeight = Integer.parseInt(astring17[2]);
-						shadowMapWidth = shadowMapHeight = Math.round((float) spShadowMapWidth * configShadowResMul);
-					} else if (s.matches("[ \t]*const[ \t]*int[ \t]*shadowMapResolution[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring16 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Shadow map resolution: " + astring16[1]);
-						spShadowMapWidth = spShadowMapHeight = Integer.parseInt(astring16[1]);
-						shadowMapWidth = shadowMapHeight = Math.round((float) spShadowMapWidth * configShadowResMul);
-					} else if (s.matches("/\\* SHADOWFOV:[0-9\\.]+ \\*/.*")) {
-						String[] astring15 = s.split("(:| )", 4);
-						SMCLog.info("Shadow map field of view: " + astring15[2]);
-						shadowMapFOV = Float.parseFloat(astring15[2]);
-						shadowMapIsOrtho = false;
-					} else if (s.matches("/\\* SHADOWHPL:[0-9\\.]+ \\*/.*")) {
-						String[] astring14 = s.split("(:| )", 4);
-						SMCLog.info("Shadow map half-plane: " + astring14[2]);
-						shadowMapHalfPlane = Float.parseFloat(astring14[2]);
-						shadowMapIsOrtho = true;
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*shadowDistance[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring13 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Shadow map distance: " + astring13[1]);
-						shadowMapHalfPlane = Float.parseFloat(astring13[1]);
-						shadowMapIsOrtho = true;
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*shadowDistanceRenderMul[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring12 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Shadow distance render mul: " + astring12[1]);
-						shadowDistanceRenderMul = Float.parseFloat(astring12[1]);
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*shadowIntervalSize[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring11 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Shadow map interval size: " + astring11[1]);
-						shadowIntervalSize = Float.parseFloat(astring11[1]);
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*generateShadowMipmap[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("Generate shadow mipmap");
-						Arrays.fill(shadowMipmapEnabled, true);
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*generateShadowColorMipmap[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("Generate shadow color mipmap");
-						Arrays.fill(shadowColorMipmapEnabled, true);
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*shadowHardwareFiltering[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("Hardware shadow filtering enabled.");
-						Arrays.fill(shadowHardwareFilteringEnabled, true);
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*shadowHardwareFiltering0[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowHardwareFiltering0");
-						shadowHardwareFilteringEnabled[0] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*shadowHardwareFiltering1[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowHardwareFiltering1");
-						shadowHardwareFilteringEnabled[1] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowtex0Mipmap|shadowtexMipmap)[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowtex0Mipmap");
-						shadowMipmapEnabled[0] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowtex1Mipmap)[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowtex1Mipmap");
-						shadowMipmapEnabled[1] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowcolor0Mipmap|shadowColor0Mipmap)[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowcolor0Mipmap");
-						shadowColorMipmapEnabled[0] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowcolor1Mipmap|shadowColor1Mipmap)[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowcolor1Mipmap");
-						shadowColorMipmapEnabled[1] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowtex0Nearest|shadowtexNearest|shadow0MinMagNearest)[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowtex0Nearest");
-						shadowFilterNearest[0] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowtex1Nearest|shadow1MinMagNearest)[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowtex1Nearest");
-						shadowFilterNearest[1] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowcolor0Nearest|shadowColor0Nearest|shadowColor0MinMagNearest)[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowcolor0Nearest");
-						shadowColorFilterNearest[0] = true;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowcolor1Nearest|shadowColor1Nearest|shadowColor1MinMagNearest)[ \t]*=[ \t]*true[ \t]*;.*")) {
-						SMCLog.info("shadowcolor1Nearest");
-						shadowColorFilterNearest[1] = true;
-					} else if (s.matches("/\\* WETNESSHL:[0-9\\.]+ \\*/.*")) {
-						String[] astring10 = s.split("(:| )", 4);
-						SMCLog.info("Wetness halflife: " + astring10[2]);
-						wetnessHalfLife = Float.parseFloat(astring10[2]);
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*wetnessHalflife[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring9 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Wetness halflife: " + astring9[1]);
-						wetnessHalfLife = Float.parseFloat(astring9[1]);
-					} else if (s.matches("/\\* DRYNESSHL:[0-9\\.]+ \\*/.*")) {
-						String[] astring8 = s.split("(:| )", 4);
-						SMCLog.info("Dryness halflife: " + astring8[2]);
-						drynessHalfLife = Float.parseFloat(astring8[2]);
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*drynessHalflife[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring7 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Dryness halflife: " + astring7[1]);
-						drynessHalfLife = Float.parseFloat(astring7[1]);
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*eyeBrightnessHalflife[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring6 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Eye brightness halflife: " + astring6[1]);
-						eyeBrightnessHalflife = Float.parseFloat(astring6[1]);
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*centerDepthHalflife[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring5 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Center depth halflife: " + astring5[1]);
-						centerDepthSmoothHalflife = Float.parseFloat(astring5[1]);
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*sunPathRotation[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring4 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Sun path rotation: " + astring4[1]);
-						sunPathRotation = Float.parseFloat(astring4[1]);
-					} else if (s.matches("[ \t]*const[ \t]*float[ \t]*ambientOcclusionLevel[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring3 = s.split("(=[ \t]*|;)");
-						SMCLog.info("AO Level: " + astring3[1]);
-						aoLevel = Config.limit(Float.parseFloat(astring3[1]), 0.0F, 1.0F);
-					} else if (s.matches("[ \t]*const[ \t]*int[ \t]*superSamplingLevel[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring2 = s.split("(=[ \t]*|;)");
-						int i1 = Integer.parseInt(astring2[1]);
-
-						if (i1 > 1) {
-							SMCLog.info("Super sampling level: " + i1 + "x");
-							superSamplingLevel = i1;
-						} else superSamplingLevel = 1;
-					} else if (s.matches("[ \t]*const[ \t]*int[ \t]*noiseTextureResolution[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
-						String[] astring1 = s.split("(=[ \t]*|;)");
-						SMCLog.info("Noise texture enabled");
-						SMCLog.info("Noise texture resolution: " + astring1[1]);
-						noiseTextureResolution = Integer.parseInt(astring1[1]);
-						noiseTextureEnabled = true;
-					} else if (s.matches("[ \t]*const[ \t]*int[ \t]*\\w+Format[ \t]*=[ \t]*[RGBA0123456789FUI_SNORM]*[ \t]*;.*")) {
-						Matcher matcher2 = gbufferFormatPattern.matcher(s);
-						matcher2.matches();
-						String s3 = matcher2.group(1);
-						String s4 = matcher2.group(2);
-						int k = getBufferIndexFromString(s3);
-						int l = getTextureFormatFromString(s4);
-
-						if (k >= 0 && l != 0) {
-							gbuffersFormat[k] = l;
-							SMCLog.info("%s format: %s", new Object[] {s3, s4});
-						}
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*\\w+Clear[ \t]*=[ \t]*false[ \t]*;.*")) {
-						if (filename.matches(".*composite[0-9]?.fsh")) {
-							Matcher matcher1 = gbufferClearPattern.matcher(s);
-							matcher1.matches();
-							String s2 = matcher1.group(1);
-							int j1 = getBufferIndexFromString(s2);
-
-							if (j1 >= 0) {
-								gbuffersClear[j1] = false;
-								SMCLog.info("%s clear disabled", new Object[] {s2});
-							}
-						}
-					} else if (s.matches("/\\* GAUX4FORMAT:RGBA32F \\*/.*")) {
-						SMCLog.info("gaux4 format : RGB32AF");
-						gbuffersFormat[7] = 34836;
-					} else if (s.matches("/\\* GAUX4FORMAT:RGB32F \\*/.*")) {
-						SMCLog.info("gaux4 format : RGB32F");
-						gbuffersFormat[7] = 34837;
-					} else if (s.matches("/\\* GAUX4FORMAT:RGB16 \\*/.*")) {
-						SMCLog.info("gaux4 format : RGB16");
-						gbuffersFormat[7] = 32852;
-					} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*\\w+MipmapEnabled[ \t]*=[ \t]*true[ \t]*;.*")) {
-						if (filename.matches(".*composite[0-9]?.fsh") || filename.matches(".*final.fsh")) {
-							Matcher matcher = gbufferMipmapEnabledPattern.matcher(s);
-							matcher.matches();
-							String s1 = matcher.group(1);
-							int j = getBufferIndexFromString(s1);
-
-							if (j >= 0) {
-								newCompositeMipmapSetting |= 1 << j;
-								SMCLog.info("%s mipmap enabled", new Object[] {s1});
-							}
-						}
-					} else if (s.matches("/\\* DRAWBUFFERS:[0-7N]* \\*/.*")) {
-						String[] astring = s.split("(:| )", 4);
-						newDrawBufSetting = astring[2];
-					}
-				}
-			} catch (Exception exception) {
-				SMCLog.severe("Couldn\'t read " + filename + "!");
-				exception.printStackTrace();
+				bufferedreader = new BufferedReader(new FileReader(new File(filename)));
+			} catch (Exception var12) {
 				ARBShaderObjects.glDeleteObjectARB(i);
 				return 0;
 			}
-
-			if (saveFinalShaders) saveShader(filename, stringbuilder.toString());
-
-			ARBShaderObjects.glShaderSourceARB(i, (CharSequence) stringbuilder);
-			ARBShaderObjects.glCompileShaderARB(i);
-
-			if (GL20.glGetShaderi(i, 35713) != 1) SMCLog.severe("Error compiling fragment shader: " + filename);
-
-			printShaderLogInfo(i, filename, list);
-			return i;
 		}
+
+		ShaderOption[] ashaderoption = getChangedOptions(shaderPackOptions);
+		List<String> list = new ArrayList();
+
+		if (bufferedreader != null) try {
+			bufferedreader = ShaderPackParser.resolveIncludes(bufferedreader, filename, shaderPack, 0, list, 0);
+
+			while (true) {
+				String s = bufferedreader.readLine();
+
+				if (s == null) {
+					bufferedreader.close();
+					break;
+				}
+
+				s = applyOptions(s, ashaderoption);
+				stringbuilder.append(s).append('\n');
+
+				if (!s.matches("#version .*")) if (s.matches("uniform [ _a-zA-Z0-9]+ shadow;.*")) {
+					if (usedShadowDepthBuffers < 1) usedShadowDepthBuffers = 1;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ watershadow;.*")) {
+					waterShadowEnabled = true;
+
+					if (usedShadowDepthBuffers < 2) usedShadowDepthBuffers = 2;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowtex0;.*")) {
+					if (usedShadowDepthBuffers < 1) usedShadowDepthBuffers = 1;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowtex1;.*")) {
+					if (usedShadowDepthBuffers < 2) usedShadowDepthBuffers = 2;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowcolor;.*")) {
+					if (usedShadowColorBuffers < 1) usedShadowColorBuffers = 1;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowcolor0;.*")) {
+					if (usedShadowColorBuffers < 1) usedShadowColorBuffers = 1;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ shadowcolor1;.*")) {
+					if (usedShadowColorBuffers < 2) usedShadowColorBuffers = 2;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ depthtex0;.*")) {
+					if (usedDepthBuffers < 1) usedDepthBuffers = 1;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ depthtex1;.*")) {
+					if (usedDepthBuffers < 2) usedDepthBuffers = 2;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ depthtex2;.*")) {
+					if (usedDepthBuffers < 3) usedDepthBuffers = 3;
+				} else if (s.matches("uniform [ _a-zA-Z0-9]+ gdepth;.*")) {
+					if (gbuffersFormat[1] == 6408) gbuffersFormat[1] = 34836;
+				} else if (usedColorBuffers < 5 && s.matches("uniform [ _a-zA-Z0-9]+ gaux1;.*")) usedColorBuffers = 5;
+				else if (usedColorBuffers < 6 && s.matches("uniform [ _a-zA-Z0-9]+ gaux2;.*")) usedColorBuffers = 6;
+				else if (usedColorBuffers < 7 && s.matches("uniform [ _a-zA-Z0-9]+ gaux3;.*")) usedColorBuffers = 7;
+				else if (usedColorBuffers < 8 && s.matches("uniform [ _a-zA-Z0-9]+ gaux4;.*")) usedColorBuffers = 8;
+				else if (usedColorBuffers < 5 && s.matches("uniform [ _a-zA-Z0-9]+ colortex4;.*")) usedColorBuffers = 5;
+				else if (usedColorBuffers < 6 && s.matches("uniform [ _a-zA-Z0-9]+ colortex5;.*")) usedColorBuffers = 6;
+				else if (usedColorBuffers < 7 && s.matches("uniform [ _a-zA-Z0-9]+ colortex6;.*")) usedColorBuffers = 7;
+				else if (usedColorBuffers < 8 && s.matches("uniform [ _a-zA-Z0-9]+ colortex7;.*")) usedColorBuffers = 8;
+				else if (s.matches("uniform [ _a-zA-Z0-9]+ centerDepthSmooth;.*")) centerDepthSmoothEnabled = true;
+				else if (s.matches("/\\* SHADOWRES:[0-9]+ \\*/.*")) {
+					String[] astring17 = s.split("(:| )", 4);
+					SMCLog.info("Shadow map resolution: " + astring17[2]);
+					spShadowMapWidth = spShadowMapHeight = Integer.parseInt(astring17[2]);
+					shadowMapWidth = shadowMapHeight = Math.round((float) spShadowMapWidth * configShadowResMul);
+				} else if (s.matches("[ \t]*const[ \t]*int[ \t]*shadowMapResolution[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring16 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Shadow map resolution: " + astring16[1]);
+					spShadowMapWidth = spShadowMapHeight = Integer.parseInt(astring16[1]);
+					shadowMapWidth = shadowMapHeight = Math.round((float) spShadowMapWidth * configShadowResMul);
+				} else if (s.matches("/\\* SHADOWFOV:[0-9\\.]+ \\*/.*")) {
+					String[] astring15 = s.split("(:| )", 4);
+					SMCLog.info("Shadow map field of view: " + astring15[2]);
+					shadowMapFOV = Float.parseFloat(astring15[2]);
+					shadowMapIsOrtho = false;
+				} else if (s.matches("/\\* SHADOWHPL:[0-9\\.]+ \\*/.*")) {
+					String[] astring14 = s.split("(:| )", 4);
+					SMCLog.info("Shadow map half-plane: " + astring14[2]);
+					shadowMapHalfPlane = Float.parseFloat(astring14[2]);
+					shadowMapIsOrtho = true;
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*shadowDistance[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring13 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Shadow map distance: " + astring13[1]);
+					shadowMapHalfPlane = Float.parseFloat(astring13[1]);
+					shadowMapIsOrtho = true;
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*shadowDistanceRenderMul[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring12 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Shadow distance render mul: " + astring12[1]);
+					shadowDistanceRenderMul = Float.parseFloat(astring12[1]);
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*shadowIntervalSize[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring11 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Shadow map interval size: " + astring11[1]);
+					shadowIntervalSize = Float.parseFloat(astring11[1]);
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*generateShadowMipmap[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("Generate shadow mipmap");
+					Arrays.fill(shadowMipmapEnabled, true);
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*generateShadowColorMipmap[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("Generate shadow color mipmap");
+					Arrays.fill(shadowColorMipmapEnabled, true);
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*shadowHardwareFiltering[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("Hardware shadow filtering enabled.");
+					Arrays.fill(shadowHardwareFilteringEnabled, true);
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*shadowHardwareFiltering0[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowHardwareFiltering0");
+					shadowHardwareFilteringEnabled[0] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*shadowHardwareFiltering1[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowHardwareFiltering1");
+					shadowHardwareFilteringEnabled[1] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowtex0Mipmap|shadowtexMipmap)[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowtex0Mipmap");
+					shadowMipmapEnabled[0] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowtex1Mipmap)[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowtex1Mipmap");
+					shadowMipmapEnabled[1] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowcolor0Mipmap|shadowColor0Mipmap)[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowcolor0Mipmap");
+					shadowColorMipmapEnabled[0] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowcolor1Mipmap|shadowColor1Mipmap)[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowcolor1Mipmap");
+					shadowColorMipmapEnabled[1] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowtex0Nearest|shadowtexNearest|shadow0MinMagNearest)[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowtex0Nearest");
+					shadowFilterNearest[0] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowtex1Nearest|shadow1MinMagNearest)[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowtex1Nearest");
+					shadowFilterNearest[1] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowcolor0Nearest|shadowColor0Nearest|shadowColor0MinMagNearest)[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowcolor0Nearest");
+					shadowColorFilterNearest[0] = true;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*(shadowcolor1Nearest|shadowColor1Nearest|shadowColor1MinMagNearest)[ \t]*=[ \t]*true[ \t]*;.*")) {
+					SMCLog.info("shadowcolor1Nearest");
+					shadowColorFilterNearest[1] = true;
+				} else if (s.matches("/\\* WETNESSHL:[0-9\\.]+ \\*/.*")) {
+					String[] astring10 = s.split("(:| )", 4);
+					SMCLog.info("Wetness halflife: " + astring10[2]);
+					wetnessHalfLife = Float.parseFloat(astring10[2]);
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*wetnessHalflife[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring9 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Wetness halflife: " + astring9[1]);
+					wetnessHalfLife = Float.parseFloat(astring9[1]);
+				} else if (s.matches("/\\* DRYNESSHL:[0-9\\.]+ \\*/.*")) {
+					String[] astring8 = s.split("(:| )", 4);
+					SMCLog.info("Dryness halflife: " + astring8[2]);
+					drynessHalfLife = Float.parseFloat(astring8[2]);
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*drynessHalflife[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring7 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Dryness halflife: " + astring7[1]);
+					drynessHalfLife = Float.parseFloat(astring7[1]);
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*eyeBrightnessHalflife[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring6 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Eye brightness halflife: " + astring6[1]);
+					eyeBrightnessHalflife = Float.parseFloat(astring6[1]);
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*centerDepthHalflife[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring5 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Center depth halflife: " + astring5[1]);
+					centerDepthSmoothHalflife = Float.parseFloat(astring5[1]);
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*sunPathRotation[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring4 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Sun path rotation: " + astring4[1]);
+					sunPathRotation = Float.parseFloat(astring4[1]);
+				} else if (s.matches("[ \t]*const[ \t]*float[ \t]*ambientOcclusionLevel[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring3 = s.split("(=[ \t]*|;)");
+					SMCLog.info("AO Level: " + astring3[1]);
+					aoLevel = Config.limit(Float.parseFloat(astring3[1]), 0.0F, 1.0F);
+				} else if (s.matches("[ \t]*const[ \t]*int[ \t]*superSamplingLevel[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring2 = s.split("(=[ \t]*|;)");
+					int i1 = Integer.parseInt(astring2[1]);
+
+					if (i1 > 1) {
+						SMCLog.info("Super sampling level: " + i1 + "x");
+						superSamplingLevel = i1;
+					} else superSamplingLevel = 1;
+				} else if (s.matches("[ \t]*const[ \t]*int[ \t]*noiseTextureResolution[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
+					String[] astring1 = s.split("(=[ \t]*|;)");
+					SMCLog.info("Noise texture enabled");
+					SMCLog.info("Noise texture resolution: " + astring1[1]);
+					noiseTextureResolution = Integer.parseInt(astring1[1]);
+					noiseTextureEnabled = true;
+				} else if (s.matches("[ \t]*const[ \t]*int[ \t]*\\w+Format[ \t]*=[ \t]*[RGBA0123456789FUI_SNORM]*[ \t]*;.*")) {
+					Matcher matcher2 = gbufferFormatPattern.matcher(s);
+					matcher2.matches();
+					String s3 = matcher2.group(1);
+					String s4 = matcher2.group(2);
+					int k = getBufferIndexFromString(s3);
+					int l = getTextureFormatFromString(s4);
+
+					if (k >= 0 && l != 0) {
+						gbuffersFormat[k] = l;
+						SMCLog.info("%s format: %s", new Object[] {s3, s4});
+					}
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*\\w+Clear[ \t]*=[ \t]*false[ \t]*;.*")) {
+					if (filename.matches(".*composite[0-9]?.fsh")) {
+						Matcher matcher1 = gbufferClearPattern.matcher(s);
+						matcher1.matches();
+						String s2 = matcher1.group(1);
+						int j1 = getBufferIndexFromString(s2);
+
+						if (j1 >= 0) {
+							gbuffersClear[j1] = false;
+							SMCLog.info("%s clear disabled", new Object[] {s2});
+						}
+					}
+				} else if (s.matches("/\\* GAUX4FORMAT:RGBA32F \\*/.*")) {
+					SMCLog.info("gaux4 format : RGB32AF");
+					gbuffersFormat[7] = 34836;
+				} else if (s.matches("/\\* GAUX4FORMAT:RGB32F \\*/.*")) {
+					SMCLog.info("gaux4 format : RGB32F");
+					gbuffersFormat[7] = 34837;
+				} else if (s.matches("/\\* GAUX4FORMAT:RGB16 \\*/.*")) {
+					SMCLog.info("gaux4 format : RGB16");
+					gbuffersFormat[7] = 32852;
+				} else if (s.matches("[ \t]*const[ \t]*bool[ \t]*\\w+MipmapEnabled[ \t]*=[ \t]*true[ \t]*;.*")) {
+					if (filename.matches(".*composite[0-9]?.fsh") || filename.matches(".*final.fsh")) {
+						Matcher matcher = gbufferMipmapEnabledPattern.matcher(s);
+						matcher.matches();
+						String s1 = matcher.group(1);
+						int j = getBufferIndexFromString(s1);
+
+						if (j >= 0) {
+							newCompositeMipmapSetting |= 1 << j;
+							SMCLog.info("%s mipmap enabled", new Object[] {s1});
+						}
+					}
+				} else if (s.matches("/\\* DRAWBUFFERS:[0-7N]* \\*/.*")) {
+					String[] astring = s.split("(:| )", 4);
+					newDrawBufSetting = astring[2];
+				}
+			}
+		} catch (Exception exception) {
+			SMCLog.severe("Couldn\'t read " + filename + "!");
+			exception.printStackTrace();
+			ARBShaderObjects.glDeleteObjectARB(i);
+			return 0;
+		}
+
+		if (saveFinalShaders) saveShader(filename, stringbuilder.toString());
+
+		ARBShaderObjects.glShaderSourceARB(i, (CharSequence) stringbuilder);
+		ARBShaderObjects.glCompileShaderARB(i);
+
+		if (GL20.glGetShaderi(i, 35713) != 1) SMCLog.severe("Error compiling fragment shader: " + filename);
+
+		printShaderLogInfo(i, filename, list);
+		return i;
 	}
 
 	private static void saveShader(String filename, String code) {
@@ -1900,7 +1893,8 @@ public class Shaders {
 			String s = new String(abyte);
 			SMCLog.info("Info log: " + name + "\n" + s);
 			return false;
-		} else return true;
+		}
+		return true;
 	}
 
 	private static boolean printShaderLogInfo(int shader, String name, List<String> listFiles) {
@@ -1908,16 +1902,14 @@ public class Shaders {
 		int i = GL20.glGetShaderi(shader, 35716);
 
 		if (i <= 1) return true;
-		else {
-			for (int j = 0; j < listFiles.size(); ++j) {
-				String s = (String) listFiles.get(j);
-				SMCLog.info("File: " + (j + 1) + " = " + s);
-			}
-
-			String s1 = GL20.glGetShaderInfoLog(shader, i);
-			SMCLog.info("Shader info log: " + name + "\n" + s1);
-			return false;
+		for (int j = 0; j < listFiles.size(); ++j) {
+			String s = (String) listFiles.get(j);
+			SMCLog.info("File: " + (j + 1) + " = " + s);
 		}
+
+		String s1 = GL20.glGetShaderInfoLog(shader, i);
+		SMCLog.info("Shader info log: " + name + "\n" + s1);
+		return false;
 	}
 
 	public static void setDrawBuffers(IntBuffer drawBuffers) {
@@ -3574,14 +3566,12 @@ public class Shaders {
 
 	public static boolean isProgramPath(String program) {
 		if (program == null) return false;
-		else if (program.length() <= 0) return false;
-		else {
-			int i = program.lastIndexOf("/");
+		if (program.length() <= 0) return false;
+		int i = program.lastIndexOf("/");
 
-			if (i >= 0) program = program.substring(i + 1);
+		if (i >= 0) program = program.substring(i + 1);
 
-			return Arrays.asList(programNames).contains(program);
-		}
+		return Arrays.asList(programNames).contains(program);
 	}
 
 	public static void setItemToRenderMain(ItemStack itemToRenderMain) {
@@ -3594,22 +3584,16 @@ public class Shaders {
 
 	private static boolean isTranslucentBlock(ItemStack stack) {
 		if (stack == null) return false;
-		else {
-			Item item = stack.getItem();
+		Item item = stack.getItem();
 
-			if (item == null) return false;
-			else if (!(item instanceof ItemBlock)) return false;
-			else {
-				ItemBlock itemblock = (ItemBlock) item;
-				Block block = itemblock.getBlock();
+		if (item == null) return false;
+		if (!(item instanceof ItemBlock)) return false;
+		ItemBlock itemblock = (ItemBlock) item;
+		Block block = itemblock.getBlock();
 
-				if (block == null) return false;
-				else {
-					EnumWorldBlockLayer enumworldblocklayer = block.getBlockLayer();
-					return enumworldblocklayer == EnumWorldBlockLayer.TRANSLUCENT;
-				}
-			}
-		}
+		if (block == null) return false;
+		EnumWorldBlockLayer enumworldblocklayer = block.getBlockLayer();
+		return enumworldblocklayer == EnumWorldBlockLayer.TRANSLUCENT;
 	}
 
 	public static boolean isRenderBothHands() {

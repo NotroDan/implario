@@ -34,11 +34,8 @@ public class Score
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
-        else
-        {
-            this.setScorePoints(this.getScorePoints() + amount);
-        }
-    }
+		this.setScorePoints(this.getScorePoints() + amount);
+	}
 
     public void decreaseScore(int amount)
     {
@@ -46,11 +43,8 @@ public class Score
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
-        else
-        {
-            this.setScorePoints(this.getScorePoints() - amount);
-        }
-    }
+		this.setScorePoints(this.getScorePoints() - amount);
+	}
 
     public void func_96648_a()
     {
@@ -58,11 +52,8 @@ public class Score
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
-        else
-        {
-            this.increseScore(1);
-        }
-    }
+		this.increseScore(1);
+	}
 
     public int getScorePoints()
     {

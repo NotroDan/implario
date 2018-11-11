@@ -102,11 +102,8 @@ public class BlockSnow extends Block
             worldIn.setBlockToAir(pos);
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }
+		return true;
+	}
 
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te)
     {

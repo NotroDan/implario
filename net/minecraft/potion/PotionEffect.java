@@ -193,12 +193,9 @@ public class PotionEffect
         {
             return false;
         }
-        else
-        {
-            PotionEffect potioneffect = (PotionEffect)p_equals_1_;
-            return this.potionID == potioneffect.potionID && this.amplifier == potioneffect.amplifier && this.duration == potioneffect.duration && this.isSplashPotion == potioneffect.isSplashPotion && this.isAmbient == potioneffect.isAmbient;
-        }
-    }
+		PotionEffect potioneffect = (PotionEffect)p_equals_1_;
+		return this.potionID == potioneffect.potionID && this.amplifier == potioneffect.amplifier && this.duration == potioneffect.duration && this.isSplashPotion == potioneffect.isSplashPotion && this.isAmbient == potioneffect.isAmbient;
+	}
 
     /**
      * Write a custom potion effect to a potion item's NBT data.
@@ -234,11 +231,8 @@ public class PotionEffect
 
             return new PotionEffect(i, k, j, flag, flag1);
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Toggle the isPotionDurationMax field.

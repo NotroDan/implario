@@ -45,18 +45,15 @@ public class EntityAIArrowAttack extends EntityAIBase
         {
             throw new IllegalArgumentException("ArrowAttackGoal requires Mob implements RangedAttackMob");
         }
-        else
-        {
-            this.rangedAttackEntityHost = attacker;
-            this.entityHost = (EntityLiving)attacker;
-            this.entityMoveSpeed = movespeed;
-            this.field_96561_g = p_i1650_4_;
-            this.maxRangedAttackTime = maxAttackTime;
-            this.field_96562_i = maxAttackDistanceIn;
-            this.maxAttackDistance = maxAttackDistanceIn * maxAttackDistanceIn;
-            this.setMutexBits(3);
-        }
-    }
+		this.rangedAttackEntityHost = attacker;
+		this.entityHost = (EntityLiving)attacker;
+		this.entityMoveSpeed = movespeed;
+		this.field_96561_g = p_i1650_4_;
+		this.maxRangedAttackTime = maxAttackTime;
+		this.field_96562_i = maxAttackDistanceIn;
+		this.maxAttackDistance = maxAttackDistanceIn * maxAttackDistanceIn;
+		this.setMutexBits(3);
+	}
 
     /**
      * Returns whether the EntityAIBase should begin execution.
@@ -69,12 +66,9 @@ public class EntityAIArrowAttack extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            this.attackTarget = entitylivingbase;
-            return true;
-        }
-    }
+		this.attackTarget = entitylivingbase;
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

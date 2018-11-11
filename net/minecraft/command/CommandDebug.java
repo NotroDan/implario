@@ -50,47 +50,44 @@ public class CommandDebug extends CommandBase
         {
             throw new WrongUsageException("commands.debug.usage", new Object[0]);
         }
-        else
-        {
-            if (args[0].equals("start"))
-            {
-                if (args.length != 1)
-                {
-                    throw new WrongUsageException("commands.debug.usage", new Object[0]);
-                }
+		if (args[0].equals("start"))
+		{
+			if (args.length != 1)
+			{
+				throw new WrongUsageException("commands.debug.usage", new Object[0]);
+			}
 
-                notifyOperators(sender, this, "commands.debug.start", new Object[0]);
-                MinecraftServer.getServer().enableProfiling();
-                this.field_147206_b = MinecraftServer.getCurrentTimeMillis();
-                this.field_147207_c = MinecraftServer.getServer().getTickCounter();
-            }
-            else
-            {
-                if (!args[0].equals("stop"))
-                {
-                    throw new WrongUsageException("commands.debug.usage", new Object[0]);
-                }
+			notifyOperators(sender, this, "commands.debug.start", new Object[0]);
+			MinecraftServer.getServer().enableProfiling();
+			this.field_147206_b = MinecraftServer.getCurrentTimeMillis();
+			this.field_147207_c = MinecraftServer.getServer().getTickCounter();
+		}
+		else
+		{
+			if (!args[0].equals("stop"))
+			{
+				throw new WrongUsageException("commands.debug.usage", new Object[0]);
+			}
 
-                if (args.length != 1)
-                {
-                    throw new WrongUsageException("commands.debug.usage", new Object[0]);
-                }
+			if (args.length != 1)
+			{
+				throw new WrongUsageException("commands.debug.usage", new Object[0]);
+			}
 
-                if (!MinecraftServer.getServer().theProfiler.profilingEnabled)
-                {
-                    throw new CommandException("commands.debug.notStarted", new Object[0]);
-                }
+			if (!MinecraftServer.getServer().theProfiler.profilingEnabled)
+			{
+				throw new CommandException("commands.debug.notStarted", new Object[0]);
+			}
 
-                long i = MinecraftServer.getCurrentTimeMillis();
-                int j = MinecraftServer.getServer().getTickCounter();
-                long k = i - this.field_147206_b;
-                int l = j - this.field_147207_c;
-                this.func_147205_a(k, l);
-                MinecraftServer.getServer().theProfiler.profilingEnabled = false;
-                notifyOperators(sender, this, "commands.debug.stop", new Object[] {Float.valueOf((float)k / 1000.0F), Integer.valueOf(l)});
-            }
-        }
-    }
+			long i = MinecraftServer.getCurrentTimeMillis();
+			int j = MinecraftServer.getServer().getTickCounter();
+			long k = i - this.field_147206_b;
+			int l = j - this.field_147207_c;
+			this.func_147205_a(k, l);
+			MinecraftServer.getServer().theProfiler.profilingEnabled = false;
+			notifyOperators(sender, this, "commands.debug.stop", new Object[] {Float.valueOf((float)k / 1000.0F), Integer.valueOf(l)});
+		}
+	}
 
     private void func_147205_a(long p_147205_1_, int p_147205_3_)
     {

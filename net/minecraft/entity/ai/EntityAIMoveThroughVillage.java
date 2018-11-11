@@ -46,54 +46,39 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            Village village = this.theEntity.worldObj.getVillageCollection().getNearestVillage(new BlockPos(this.theEntity), 0);
+		Village village = this.theEntity.worldObj.getVillageCollection().getNearestVillage(new BlockPos(this.theEntity), 0);
 
-            if (village == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.doorInfo = this.findNearestDoor(village);
+		if (village == null)
+		{
+			return false;
+		}
+		this.doorInfo = this.findNearestDoor(village);
 
-                if (this.doorInfo == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    PathNavigateGround pathnavigateground = (PathNavigateGround)this.theEntity.getNavigator();
-                    boolean flag = pathnavigateground.getEnterDoors();
-                    pathnavigateground.setBreakDoors(false);
-                    this.entityPathNavigate = pathnavigateground.getPathToPos(this.doorInfo.getDoorBlockPos());
-                    pathnavigateground.setBreakDoors(flag);
+		if (this.doorInfo == null)
+		{
+			return false;
+		}
+		PathNavigateGround pathnavigateground = (PathNavigateGround)this.theEntity.getNavigator();
+		boolean flag = pathnavigateground.getEnterDoors();
+		pathnavigateground.setBreakDoors(false);
+		this.entityPathNavigate = pathnavigateground.getPathToPos(this.doorInfo.getDoorBlockPos());
+		pathnavigateground.setBreakDoors(flag);
 
-                    if (this.entityPathNavigate != null)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 10, 7, new Vec3((double)this.doorInfo.getDoorBlockPos().getX(), (double)this.doorInfo.getDoorBlockPos().getY(), (double)this.doorInfo.getDoorBlockPos().getZ()));
+		if (this.entityPathNavigate != null)
+		{
+			return true;
+		}
+		Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 10, 7, new Vec3((double)this.doorInfo.getDoorBlockPos().getX(), (double)this.doorInfo.getDoorBlockPos().getY(), (double)this.doorInfo.getDoorBlockPos().getZ()));
 
-                        if (vec3 == null)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            pathnavigateground.setBreakDoors(false);
-                            this.entityPathNavigate = this.theEntity.getNavigator().getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
-                            pathnavigateground.setBreakDoors(flag);
-                            return this.entityPathNavigate != null;
-                        }
-                    }
-                }
-            }
-        }
-    }
+		if (vec3 == null)
+		{
+			return false;
+		}
+		pathnavigateground.setBreakDoors(false);
+		this.entityPathNavigate = this.theEntity.getNavigator().getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+		pathnavigateground.setBreakDoors(flag);
+		return this.entityPathNavigate != null;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
@@ -104,12 +89,9 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            float f = this.theEntity.width + 4.0F;
-            return this.theEntity.getDistanceSq(this.doorInfo.getDoorBlockPos()) > (double)(f * f);
-        }
-    }
+		float f = this.theEntity.width + 4.0F;
+		return this.theEntity.getDistanceSq(this.doorInfo.getDoorBlockPos()) > (double)(f * f);
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

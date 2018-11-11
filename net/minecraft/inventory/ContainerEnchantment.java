@@ -250,60 +250,57 @@ public class ContainerEnchantment extends Container
         {
             return false;
         }
-        else if (this.enchantLevels[id] > 0 && itemstack != null && (playerIn.experienceLevel >= i && playerIn.experienceLevel >= this.enchantLevels[id] || playerIn.capabilities.isCreativeMode))
-        {
-            if (!this.worldPointer.isRemote)
-            {
-                List<EnchantmentData> list = this.func_178148_a(itemstack, id, this.enchantLevels[id]);
-                boolean flag = itemstack.getItem() == Items.book;
+		if (this.enchantLevels[id] > 0 && itemstack != null && (playerIn.experienceLevel >= i && playerIn.experienceLevel >= this.enchantLevels[id] || playerIn.capabilities.isCreativeMode))
+		{
+			if (!this.worldPointer.isRemote)
+			{
+				List<EnchantmentData> list = this.func_178148_a(itemstack, id, this.enchantLevels[id]);
+				boolean flag = itemstack.getItem() == Items.book;
 
-                if (list != null)
-                {
-                    playerIn.removeExperienceLevel(i);
+				if (list != null)
+				{
+					playerIn.removeExperienceLevel(i);
 
-                    if (flag)
-                    {
-                        itemstack.setItem(Items.enchanted_book);
-                    }
+					if (flag)
+					{
+						itemstack.setItem(Items.enchanted_book);
+					}
 
-                    for (int j = 0; j < list.size(); ++j)
-                    {
-                        EnchantmentData enchantmentdata = (EnchantmentData)list.get(j);
+					for (int j = 0; j < list.size(); ++j)
+					{
+						EnchantmentData enchantmentdata = (EnchantmentData)list.get(j);
 
-                        if (flag)
-                        {
-                            Items.enchanted_book.addEnchantment(itemstack, enchantmentdata);
-                        }
-                        else
-                        {
-                            itemstack.addEnchantment(enchantmentdata.enchantmentobj, enchantmentdata.enchantmentLevel);
-                        }
-                    }
+						if (flag)
+						{
+							Items.enchanted_book.addEnchantment(itemstack, enchantmentdata);
+						}
+						else
+						{
+							itemstack.addEnchantment(enchantmentdata.enchantmentobj, enchantmentdata.enchantmentLevel);
+						}
+					}
 
-                    if (!playerIn.capabilities.isCreativeMode)
-                    {
-                        itemstack1.stackSize -= i;
+					if (!playerIn.capabilities.isCreativeMode)
+					{
+						itemstack1.stackSize -= i;
 
-                        if (itemstack1.stackSize <= 0)
-                        {
-                            this.tableInventory.setInventorySlotContents(1, (ItemStack)null);
-                        }
-                    }
+						if (itemstack1.stackSize <= 0)
+						{
+							this.tableInventory.setInventorySlotContents(1, (ItemStack)null);
+						}
+					}
 
-                    playerIn.triggerAchievement(StatList.field_181739_W);
-                    this.tableInventory.markDirty();
-                    this.xpSeed = playerIn.getXPSeed();
-                    this.onCraftMatrixChanged(this.tableInventory);
-                }
-            }
+					playerIn.triggerAchievement(StatList.field_181739_W);
+					this.tableInventory.markDirty();
+					this.xpSeed = playerIn.getXPSeed();
+					this.onCraftMatrixChanged(this.tableInventory);
+				}
+			}
 
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     private List<EnchantmentData> func_178148_a(ItemStack stack, int p_178148_2_, int p_178148_3_)
     {

@@ -31,17 +31,11 @@ public class ItemLead extends Item
             {
                 return true;
             }
-            else
-            {
-                attachToFence(playerIn, worldIn, pos);
-                return true;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			attachToFence(playerIn, worldIn, pos);
+			return true;
+		}
+		return false;
+	}
 
     public static boolean attachToFence(EntityPlayer player, World worldIn, BlockPos fence)
     {

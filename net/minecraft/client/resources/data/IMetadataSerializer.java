@@ -40,28 +40,22 @@ public class IMetadataSerializer
         {
             throw new IllegalArgumentException("Metadata section name cannot be null");
         }
-        else if (!p_110503_2_.has(p_110503_1_))
-        {
-            return (T)null;
-        }
-        else if (!p_110503_2_.get(p_110503_1_).isJsonObject())
-        {
-            throw new IllegalArgumentException("Invalid metadata for \'" + p_110503_1_ + "\' - expected object, found " + p_110503_2_.get(p_110503_1_));
-        }
-        else
-        {
-            IMetadataSerializer.Registration<?> registration = (IMetadataSerializer.Registration)this.metadataSectionSerializerRegistry.getObject(p_110503_1_);
+		if (!p_110503_2_.has(p_110503_1_))
+		{
+			return (T)null;
+		}
+		if (!p_110503_2_.get(p_110503_1_).isJsonObject())
+		{
+			throw new IllegalArgumentException("Invalid metadata for \'" + p_110503_1_ + "\' - expected object, found " + p_110503_2_.get(p_110503_1_));
+		}
+		IMetadataSerializer.Registration<?> registration = (IMetadataSerializer.Registration)this.metadataSectionSerializerRegistry.getObject(p_110503_1_);
 
-            if (registration == null)
-            {
-                throw new IllegalArgumentException("Don\'t know how to handle metadata section \'" + p_110503_1_ + "\'");
-            }
-            else
-            {
-                return (T) (IMetadataSection)this.getGson().fromJson((JsonElement)p_110503_2_.getAsJsonObject(p_110503_1_), registration.field_110500_b);
-            }
-        }
-    }
+		if (registration == null)
+		{
+			throw new IllegalArgumentException("Don\'t know how to handle metadata section \'" + p_110503_1_ + "\'");
+		}
+		return (T) (IMetadataSection)this.getGson().fromJson((JsonElement)p_110503_2_.getAsJsonObject(p_110503_1_), registration.field_110500_b);
+	}
 
     /**
      * Returns a Gson instance with type adapters registered for metadata sections.

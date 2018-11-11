@@ -29,49 +29,46 @@ public final class NBTUtil
         {
             return null;
         }
-        else
-        {
-            UUID uuid;
+		UUID uuid;
 
-            try
-            {
-                uuid = UUID.fromString(s1);
-            }
-            catch (Throwable var12)
-            {
-                uuid = null;
-            }
+		try
+		{
+			uuid = UUID.fromString(s1);
+		}
+		catch (Throwable var12)
+		{
+			uuid = null;
+		}
 
-            GameProfile gameprofile = new GameProfile(uuid, s);
+		GameProfile gameprofile = new GameProfile(uuid, s);
 
-            if (compound.hasKey("Properties", 10))
-            {
-                NBTTagCompound nbttagcompound = compound.getCompoundTag("Properties");
+		if (compound.hasKey("Properties", 10))
+		{
+			NBTTagCompound nbttagcompound = compound.getCompoundTag("Properties");
 
-                for (String s2 : nbttagcompound.getKeySet())
-                {
-                    NBTTagList nbttaglist = nbttagcompound.getTagList(s2, 10);
+			for (String s2 : nbttagcompound.getKeySet())
+			{
+				NBTTagList nbttaglist = nbttagcompound.getTagList(s2, 10);
 
-                    for (int i = 0; i < nbttaglist.tagCount(); ++i)
-                    {
-                        NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-                        String s3 = nbttagcompound1.getString("Value");
+				for (int i = 0; i < nbttaglist.tagCount(); ++i)
+				{
+					NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+					String s3 = nbttagcompound1.getString("Value");
 
-                        if (nbttagcompound1.hasKey("Signature", 8))
-                        {
-                            gameprofile.getProperties().put(s2, new Property(s2, s3, nbttagcompound1.getString("Signature")));
-                        }
-                        else
-                        {
-                            gameprofile.getProperties().put(s2, new Property(s2, s3));
-                        }
-                    }
-                }
-            }
+					if (nbttagcompound1.hasKey("Signature", 8))
+					{
+						gameprofile.getProperties().put(s2, new Property(s2, s3, nbttagcompound1.getString("Signature")));
+					}
+					else
+					{
+						gameprofile.getProperties().put(s2, new Property(s2, s3));
+					}
+				}
+			}
+		}
 
-            return gameprofile;
-        }
-    }
+		return gameprofile;
+	}
 
     /**
      * Writes a GameProfile to an NBTTagCompound.
@@ -124,72 +121,66 @@ public final class NBTUtil
         {
             return true;
         }
-        else if (p_181123_0_ == null)
-        {
-            return true;
-        }
-        else if (p_181123_1_ == null)
-        {
-            return false;
-        }
-        else if (!p_181123_0_.getClass().equals(p_181123_1_.getClass()))
-        {
-            return false;
-        }
-        else if (p_181123_0_ instanceof NBTTagCompound)
-        {
-            NBTTagCompound nbttagcompound = (NBTTagCompound)p_181123_0_;
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound)p_181123_1_;
+		if (p_181123_0_ == null)
+		{
+			return true;
+		}
+		if (p_181123_1_ == null)
+		{
+			return false;
+		}
+		if (!p_181123_0_.getClass().equals(p_181123_1_.getClass()))
+		{
+			return false;
+		}
+		if (p_181123_0_ instanceof NBTTagCompound)
+		{
+			NBTTagCompound nbttagcompound = (NBTTagCompound)p_181123_0_;
+			NBTTagCompound nbttagcompound1 = (NBTTagCompound)p_181123_1_;
 
-            for (String s : nbttagcompound.getKeySet())
-            {
-                NBTBase nbtbase1 = nbttagcompound.getTag(s);
+			for (String s : nbttagcompound.getKeySet())
+			{
+				NBTBase nbtbase1 = nbttagcompound.getTag(s);
 
-                if (!func_181123_a(nbtbase1, nbttagcompound1.getTag(s), p_181123_2_))
-                {
-                    return false;
-                }
-            }
+				if (!func_181123_a(nbtbase1, nbttagcompound1.getTag(s), p_181123_2_))
+				{
+					return false;
+				}
+			}
 
-            return true;
-        }
-        else if (p_181123_0_ instanceof NBTTagList && p_181123_2_)
-        {
-            NBTTagList nbttaglist = (NBTTagList)p_181123_0_;
-            NBTTagList nbttaglist1 = (NBTTagList)p_181123_1_;
+			return true;
+		}
+		if (p_181123_0_ instanceof NBTTagList && p_181123_2_)
+		{
+			NBTTagList nbttaglist = (NBTTagList)p_181123_0_;
+			NBTTagList nbttaglist1 = (NBTTagList)p_181123_1_;
 
-            if (nbttaglist.tagCount() == 0)
-            {
-                return nbttaglist1.tagCount() == 0;
-            }
-            else
-            {
-                for (int i = 0; i < nbttaglist.tagCount(); ++i)
-                {
-                    NBTBase nbtbase = nbttaglist.get(i);
-                    boolean flag = false;
+			if (nbttaglist.tagCount() == 0)
+			{
+				return nbttaglist1.tagCount() == 0;
+			}
+			for (int i = 0; i < nbttaglist.tagCount(); ++i)
+				{
+					NBTBase nbtbase = nbttaglist.get(i);
+					boolean flag = false;
 
-                    for (int j = 0; j < nbttaglist1.tagCount(); ++j)
-                    {
-                        if (func_181123_a(nbtbase, nbttaglist1.get(j), p_181123_2_))
-                        {
-                            flag = true;
-                            break;
-                        }
-                    }
+					for (int j = 0; j < nbttaglist1.tagCount(); ++j)
+					{
+						if (func_181123_a(nbtbase, nbttaglist1.get(j), p_181123_2_))
+						{
+							flag = true;
+							break;
+						}
+					}
 
-                    if (!flag)
-                    {
-                        return false;
-                    }
-                }
+					if (!flag)
+					{
+						return false;
+					}
+				}
 
-                return true;
-            }
-        }
-        else
-        {
-            return p_181123_0_.equals(p_181123_1_);
-        }
-    }
+			return true;
+		}
+		return p_181123_0_.equals(p_181123_1_);
+	}
 }

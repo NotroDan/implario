@@ -42,19 +42,16 @@ public class BlockBeacon extends BlockContainer
         {
             return true;
         }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityBeacon)
-            {
-                playerIn.displayGUIChest((TileEntityBeacon)tileentity);
-                playerIn.triggerAchievement(StatList.field_181730_N);
-            }
+		if (tileentity instanceof TileEntityBeacon)
+		{
+			playerIn.displayGUIChest((TileEntityBeacon)tileentity);
+			playerIn.triggerAchievement(StatList.field_181730_N);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Used to determine ambient occlusion and culling when rebuilding chunks for render

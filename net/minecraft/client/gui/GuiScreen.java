@@ -4,6 +4,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.Utils;
+import net.minecraft.client.Logger;
+import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiLabel;
@@ -24,11 +26,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.*;
 import org.apache.commons.lang3.StringUtils;
-import net.minecraft.client.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -157,16 +156,16 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	}
 
 	protected void renderToolTip(ItemStack stack, int x, int y) {
-		List<String> list = stack.getTooltip(this.mc.thePlayer, false);
+		List<String> list = stack.getTooltip(MC.getPlayer(), false);
 		String advanced = stack.getAdvancedToolTip();
 		int width = 0;
 		for (int i = 0; i < list.size(); ++i) {
-			int w = fontRendererObj.getStringWidth(list.get(i));
+			int w = MC.getFontRenderer().getStringWidth(list.get(i));
 			if (width < w) width = w;
 			if (i == 0) list.set(i, stack.getRarity().rarityColor + list.get(i));
 			else list.set(i, EnumChatFormatting.GRAY + list.get(i));
 		}
-		int advWidth = fontRendererObj.getStringWidth(advanced);
+		int advWidth = MC.getFontRenderer().getStringWidth(advanced);
 		if (Settings.ITEM_TOOLTIPS.b() && width < advWidth) width = advWidth;
 		this.drawHoveringText(list, x, y, width);
 		int k = 8;
@@ -189,9 +188,6 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 */
 	public void drawHoveringText(List<String> textLines, int x, int y, int textWidth, int backgroundColor, int stripColor) {
 		if (textLines.isEmpty()) return;
-		//            GlStateManager.disableRescaleNormal();
-		//            RenderHelper.disableStandardItemLighting();
-		//            GlStateManager.disableLighting();
 		GlStateManager.disableDepth();
 
 		// Ширина рамки по самой длинной строке
@@ -238,10 +234,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 		this.zLevel = 0.0F;
 		this.itemRender.zLevel = 0.0F;
-		//            GlStateManager.enableLighting();
 		GlStateManager.enableDepth();
-		//            RenderHelper.enableStandardItemLighting();
-		//            GlStateManager.enableRescaleNormal();
 	}
 
 	protected void drawHoveringText(List<String> textLines, int x, int y) {
@@ -256,9 +249,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 * Draws the hover event specified by the given chat component
 	 */
 	protected void handleComponentHover(IChatComponent component, int x, int y) {
-		if (component != null && component.getChatStyle().getChatHoverEvent() != null) {
-			HoverEvent hoverevent = component.getChatStyle().getChatHoverEvent();
-			if (hoverevent.getAction() == HoverEvent.Action.SHOW_ITEM) {
+		if (component == null || component.getChatStyle().getChatHoverEvent() == null) return;
+		HoverEvent hoverevent = component.getChatStyle().getChatHoverEvent();
+		switch (hoverevent.getAction()) {
+			case SHOW_ITEM:
 				ItemStack itemstack = null;
 				try {
 					NBTTagCompound nbtbase = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
@@ -267,7 +261,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 				if (itemstack != null) this.renderToolTip(itemstack, x, y);
 				else this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Item!", x, y);
-			} else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ENTITY) {
+				break;
+			case SHOW_ENTITY:
 				if (Settings.ITEM_TOOLTIPS.b()) {
 					try {
 						NBTTagCompound nbtbase1 = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
@@ -283,16 +278,20 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 							list1.add(nbtbase1.getString("id"));
 							this.drawHoveringText(list1, x, y);
-						} else {
-							this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", x, y);
-						}
+						} else this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", x, y);
 					} catch (NBTException var10) {
 						this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Entity!", x, y);
 					}
 				}
-			} else if (hoverevent.getAction() == HoverEvent.Action.SHOW_TEXT) {
+				break;
+			case SHOW_FILE:
+				drawHoveringText(Lists.newArrayList(isCtrlKeyDown() ? "Показать файл в проводнике" : "Открыть файл",
+						"§e" + hoverevent.getValue().getFormattedText(), "§f", "§7§oЗажмите Ctrl, чтобы", "§7§oоткрыть папку файла."), x, y);
+				break;
+			case SHOW_TEXT:
 				this.drawHoveringText(NEWLINE_SPLITTER.splitToList(hoverevent.getValue().getFormattedText()), x, y);
-			} else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT) {
+				break;
+			case SHOW_ACHIEVEMENT:
 				StatBase statbase = StatList.getOneShotStat(hoverevent.getValue().getUnformattedText());
 
 				if (statbase != null) {
@@ -310,10 +309,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 				} else {
 					this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid statistic/achievement!", x, y);
 				}
-			}
-
-			GlStateManager.disableLighting();
+				break;
 		}
+
+		GlStateManager.disableLighting();
 	}
 
 	/**
@@ -328,53 +327,64 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	protected boolean handleComponentClick(IChatComponent p_175276_1_) {
 		if (p_175276_1_ == null) {
 			return false;
-		} else {
-			ClickEvent clickevent = p_175276_1_.getChatStyle().getChatClickEvent();
+		}
+		ClickEvent clickevent = p_175276_1_.getChatStyle().getChatClickEvent();
 
-			if (isShiftKeyDown()) {
-				if (p_175276_1_.getChatStyle().getInsertion() != null) {
-					this.setText(p_175276_1_.getChatStyle().getInsertion(), false);
-				}
-			} else if (clickevent != null) {
-				if (clickevent.getAction() == ClickEvent.Action.OPEN_URL) {
-					if (!Settings.CHAT_LINKS.b())
-						return false;
+		if (isShiftKeyDown()) {
+			if (p_175276_1_.getChatStyle().getInsertion() != null) {
+				this.setText(p_175276_1_.getChatStyle().getInsertion(), false);
+			}
+		} else if (clickevent != null) {
+			if (clickevent.getAction() == ClickEvent.Action.OPEN_URL) {
+				if (!Settings.CHAT_LINKS.b())
+					return false;
 
 
-					try {
-						URI uri = new URI(clickevent.getValue());
-						String s = uri.getScheme();
+				try {
+					URI uri = new URI(clickevent.getValue());
+					String s = uri.getScheme();
 
-						if (s == null) {
-							throw new URISyntaxException(clickevent.getValue(), "Missing protocol");
-						}
-
-						if (!PROTOCOLS.contains(s.toLowerCase())) {
-							throw new URISyntaxException(clickevent.getValue(), "Unsupported protocol: " + s.toLowerCase());
-						}
-
-						if (Settings.CHAT_LINKS_PROMPT.b()) {
-							this.clickedLinkURI = uri;
-							this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, clickevent.getValue(), 31102009, false));
-						} else this.openWebLink(uri);
-					} catch (URISyntaxException urisyntaxexception) {
-						LOGGER.error("Can\'t open url for " + clickevent, urisyntaxexception);
+					if (s == null) {
+						throw new URISyntaxException(clickevent.getValue(), "Missing protocol");
 					}
-				} else if (clickevent.getAction() == ClickEvent.Action.OPEN_FILE) {
-					URI uri1 = new File(clickevent.getValue()).toURI();
-					this.openWebLink(uri1);
-				} else if (clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
-					this.setText(clickevent.getValue(), true);
-				} else if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
-					this.sendChatMessage(clickevent.getValue(), false);
-				} else {
-					LOGGER.error("Don\'t know how to handle " + clickevent);
-				}
 
-				return true;
+					if (!PROTOCOLS.contains(s.toLowerCase())) {
+						throw new URISyntaxException(clickevent.getValue(), "Unsupported protocol: " + s.toLowerCase());
+					}
+
+					if (Settings.CHAT_LINKS_PROMPT.b()) {
+						this.clickedLinkURI = uri;
+						this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, clickevent.getValue(), 31102009, false));
+					} else this.openWebLink(uri);
+				} catch (URISyntaxException urisyntaxexception) {
+					LOGGER.error("Can\'t open url for " + clickevent, urisyntaxexception);
+				}
+			} else if (clickevent.getAction() == ClickEvent.Action.OPEN_FILE) {
+				File f = new File(clickevent.getValue());
+				if (isCtrlKeyDown()) showFile(f);
+				else openFile(f);
+//				URI uri1 = new File(clickevent.getValue()).toURI();
+//				this.openWebLink(uri1);
+			} else if (clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
+				this.setText(clickevent.getValue(), true);
+			} else if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
+				this.sendChatMessage(clickevent.getValue(), false);
+			} else {
+				LOGGER.error("Don\'t know how to handle " + clickevent);
 			}
 
-			return false;
+			return true;
+		}
+
+		return false;
+	}
+
+	public void showFile(File f) {
+		if (Util.getOSType() != Util.OS.WINDOWS) openFile(f);
+		try {
+			Runtime.getRuntime().exec("explorer.exe /select," + f.getAbsolutePath());
+		} catch (IOException e) {
+			MC.i().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText("§cПри открытии скриншота произошла ошибка."));
 		}
 	}
 
@@ -558,6 +568,16 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 			this.clickedLinkURI = null;
 			this.mc.displayGuiScreen(this);
+		}
+	}
+
+	private void openFile(File f) {
+		try {
+			Class<?> oclass = Class.forName("java.awt.Desktop");
+			Object object = oclass.getMethod("getDesktop", Utils.CLASS).invoke(null);
+			oclass.getMethod("open", File.class).invoke(object, f);
+		} catch (Throwable throwable) {
+			LOGGER.error("Couldn\'t open link", throwable);
 		}
 	}
 

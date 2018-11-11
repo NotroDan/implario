@@ -195,32 +195,23 @@ public class EntityGuardian extends EntityMob
         {
             return null;
         }
-        else if (this.worldObj.isRemote)
-        {
-            if (this.targetedEntity != null)
-            {
-                return this.targetedEntity;
-            }
-            else
-            {
-                Entity entity = this.worldObj.getEntityByID(this.dataWatcher.getWatchableObjectInt(17));
+		if (this.worldObj.isRemote)
+		{
+			if (this.targetedEntity != null)
+			{
+				return this.targetedEntity;
+			}
+			Entity entity = this.worldObj.getEntityByID(this.dataWatcher.getWatchableObjectInt(17));
 
-                if (entity instanceof EntityLivingBase)
-                {
-                    this.targetedEntity = (EntityLivingBase)entity;
-                    return this.targetedEntity;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-        else
-        {
-            return this.getAttackTarget();
-        }
-    }
+			if (entity instanceof EntityLivingBase)
+				{
+					this.targetedEntity = (EntityLivingBase)entity;
+					return this.targetedEntity;
+				}
+			return null;
+		}
+		return this.getAttackTarget();
+	}
 
     public void onDataWatcherUpdate(int dataID)
     {

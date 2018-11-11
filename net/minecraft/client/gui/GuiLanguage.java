@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.resources.Language;
 import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.client.settings.Settings;
@@ -93,8 +93,8 @@ public class GuiLanguage extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.list.drawScreen(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("options.language"), this.width / 2, 16, 16777215);
-        this.drawCenteredString(this.fontRendererObj, "(" + I18n.format("options.languageWarning") + ")", this.width / 2, this.height - 56, 8421504);
+        this.drawCenteredString(this.fontRendererObj, Lang.format("options.language"), this.width / 2, 16, 16777215);
+        this.drawCenteredString(this.fontRendererObj, "(" + Lang.format("options.languageWarning") + ")", this.width / 2, this.height - 56, 8421504);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

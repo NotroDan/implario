@@ -40,18 +40,15 @@ public class CommandSetSpawnpoint extends CommandBase
         {
             throw new WrongUsageException("commands.spawnpoint.usage", new Object[0]);
         }
-        else
-        {
-            EntityPlayerMP entityplayermp = args.length > 0 ? getPlayer(sender, args[0]) : getCommandSenderAsPlayer(sender);
-            BlockPos blockpos = args.length > 3 ? parseBlockPos(sender, args, 1, true) : entityplayermp.getPosition();
+		EntityPlayerMP entityplayermp = args.length > 0 ? getPlayer(sender, args[0]) : getCommandSenderAsPlayer(sender);
+		BlockPos blockpos = args.length > 3 ? parseBlockPos(sender, args, 1, true) : entityplayermp.getPosition();
 
-            if (entityplayermp.worldObj != null)
-            {
-                entityplayermp.setSpawnPoint(blockpos, true);
-                notifyOperators(sender, this, "commands.spawnpoint.success", new Object[] {entityplayermp.getName(), Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
-            }
-        }
-    }
+		if (entityplayermp.worldObj != null)
+		{
+			entityplayermp.setSpawnPoint(blockpos, true);
+			notifyOperators(sender, this, "commands.spawnpoint.success", new Object[] {entityplayermp.getName(), Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
+		}
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {

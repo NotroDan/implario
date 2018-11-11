@@ -74,15 +74,12 @@ public abstract class CommandBase implements ICommand
         {
             throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] {Integer.valueOf(i), Integer.valueOf(min)});
         }
-        else if (i > max)
-        {
-            throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] {Integer.valueOf(i), Integer.valueOf(max)});
-        }
-        else
-        {
-            return i;
-        }
-    }
+		if (i > max)
+		{
+			throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] {Integer.valueOf(i), Integer.valueOf(max)});
+		}
+		return i;
+	}
 
     public static long parseLong(String input) throws NumberInvalidException
     {
@@ -104,15 +101,12 @@ public abstract class CommandBase implements ICommand
         {
             throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] {Long.valueOf(i), Long.valueOf(min)});
         }
-        else if (i > max)
-        {
-            throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] {Long.valueOf(i), Long.valueOf(max)});
-        }
-        else
-        {
-            return i;
-        }
-    }
+		if (i > max)
+		{
+			throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] {Long.valueOf(i), Long.valueOf(max)});
+		}
+		return i;
+	}
 
     public static BlockPos parseBlockPos(ICommandSender sender, String[] args, int startIndex, boolean centerBlock) throws NumberInvalidException
     {
@@ -130,11 +124,8 @@ public abstract class CommandBase implements ICommand
             {
                 throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {input});
             }
-            else
-            {
-                return d0;
-            }
-        }
+			return d0;
+		}
         catch (NumberFormatException var3)
         {
             throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {input});
@@ -154,15 +145,12 @@ public abstract class CommandBase implements ICommand
         {
             throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(d0), Double.valueOf(min)});
         }
-        else if (d0 > max)
-        {
-            throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(d0), Double.valueOf(max)});
-        }
-        else
-        {
-            return d0;
-        }
-    }
+		if (d0 > max)
+		{
+			throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(d0), Double.valueOf(max)});
+		}
+		return d0;
+	}
 
     public static boolean parseBoolean(String input) throws CommandException
     {
@@ -172,16 +160,10 @@ public abstract class CommandBase implements ICommand
             {
                 throw new CommandException("commands.generic.boolean.invalid", new Object[] {input});
             }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
+			return false;
+		}
+		return true;
+	}
 
     /**
      * Returns the given ICommandSender as a EntityPlayer or throw an exception.
@@ -192,11 +174,8 @@ public abstract class CommandBase implements ICommand
         {
             return (EntityPlayerMP)sender;
         }
-        else
-        {
-            throw new PlayerNotFoundException("You must specify which player you wish to perform this action on.", new Object[0]);
-        }
-    }
+		throw new PlayerNotFoundException("You must specify which player you wish to perform this action on.", new Object[0]);
+	}
 
     public static EntityPlayerMP getPlayer(ICommandSender sender, String username) throws PlayerNotFoundException
     {
@@ -223,11 +202,8 @@ public abstract class CommandBase implements ICommand
         {
             throw new PlayerNotFoundException();
         }
-        else
-        {
-            return entityplayermp;
-        }
-    }
+		return entityplayermp;
+	}
 
     public static Entity func_175768_b(ICommandSender p_175768_0_, String p_175768_1_) throws EntityNotFoundException
     {
@@ -266,11 +242,8 @@ public abstract class CommandBase implements ICommand
         {
             return (T)entity;
         }
-        else
-        {
-            throw new EntityNotFoundException();
-        }
-    }
+		throw new EntityNotFoundException();
+	}
 
     public static List<Entity> func_175763_c(ICommandSender p_175763_0_, String p_175763_1_) throws EntityNotFoundException
     {
@@ -289,11 +262,8 @@ public abstract class CommandBase implements ICommand
             {
                 throw playernotfoundexception;
             }
-            else
-            {
-                return query;
-            }
-        }
+			return query;
+		}
     }
 
     /**
@@ -318,11 +288,8 @@ public abstract class CommandBase implements ICommand
                 {
                     throw entitynotfoundexception;
                 }
-                else
-                {
-                    return p_175758_1_;
-                }
-            }
+				return p_175758_1_;
+			}
         }
     }
 
@@ -401,43 +368,40 @@ public abstract class CommandBase implements ICommand
         {
             throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {Double.valueOf(p_175767_0_)});
         }
-        else
-        {
-            double d0 = 0.0D;
+		double d0 = 0.0D;
 
-            if (!flag || p_175767_2_.length() > 1)
-            {
-                boolean flag1 = p_175767_2_.contains(".");
+		if (!flag || p_175767_2_.length() > 1)
+		{
+			boolean flag1 = p_175767_2_.contains(".");
 
-                if (flag)
-                {
-                    p_175767_2_ = p_175767_2_.substring(1);
-                }
+			if (flag)
+			{
+				p_175767_2_ = p_175767_2_.substring(1);
+			}
 
-                d0 += parseDouble(p_175767_2_);
+			d0 += parseDouble(p_175767_2_);
 
-                if (!flag1 && !flag && centerBlock)
-                {
-                    d0 += 0.5D;
-                }
-            }
+			if (!flag1 && !flag && centerBlock)
+			{
+				d0 += 0.5D;
+			}
+		}
 
-            if (min != 0 || max != 0)
-            {
-                if (d0 < (double)min)
-                {
-                    throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(d0), Integer.valueOf(min)});
-                }
+		if (min != 0 || max != 0)
+		{
+			if (d0 < (double)min)
+			{
+				throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(d0), Integer.valueOf(min)});
+			}
 
-                if (d0 > (double)max)
-                {
-                    throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(d0), Integer.valueOf(max)});
-                }
-            }
+			if (d0 > (double)max)
+			{
+				throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(d0), Integer.valueOf(max)});
+			}
+		}
 
-            return new CommandBase.CoordinateArg(d0 + (flag ? p_175767_0_ : 0.0D), d0, flag);
-        }
-    }
+		return new CommandBase.CoordinateArg(d0 + (flag ? p_175767_0_ : 0.0D), d0, flag);
+	}
 
     public static double parseDouble(double base, String input, boolean centerBlock) throws NumberInvalidException
     {
@@ -452,43 +416,40 @@ public abstract class CommandBase implements ICommand
         {
             throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {Double.valueOf(base)});
         }
-        else
-        {
-            double d0 = flag ? base : 0.0D;
+		double d0 = flag ? base : 0.0D;
 
-            if (!flag || input.length() > 1)
-            {
-                boolean flag1 = input.contains(".");
+		if (!flag || input.length() > 1)
+		{
+			boolean flag1 = input.contains(".");
 
-                if (flag)
-                {
-                    input = input.substring(1);
-                }
+			if (flag)
+			{
+				input = input.substring(1);
+			}
 
-                d0 += parseDouble(input);
+			d0 += parseDouble(input);
 
-                if (!flag1 && !flag && centerBlock)
-                {
-                    d0 += 0.5D;
-                }
-            }
+			if (!flag1 && !flag && centerBlock)
+			{
+				d0 += 0.5D;
+			}
+		}
 
-            if (min != 0 || max != 0)
-            {
-                if (d0 < (double)min)
-                {
-                    throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(d0), Integer.valueOf(min)});
-                }
+		if (min != 0 || max != 0)
+		{
+			if (d0 < (double)min)
+			{
+				throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(d0), Integer.valueOf(min)});
+			}
 
-                if (d0 > (double)max)
-                {
-                    throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(d0), Integer.valueOf(max)});
-                }
-            }
+			if (d0 > (double)max)
+			{
+				throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(d0), Integer.valueOf(max)});
+			}
+		}
 
-            return d0;
-        }
-    }
+		return d0;
+	}
 
     /**
      * Gets the Item specified by the given text string.  First checks the item registry, then tries by parsing the
@@ -504,11 +465,8 @@ public abstract class CommandBase implements ICommand
         {
             throw new NumberInvalidException("commands.give.item.notFound", new Object[] {resourcelocation});
         }
-        else
-        {
-            return item;
-        }
-    }
+		return item;
+	}
 
     /**
      * Gets the Block specified by the given text string.  First checks the block registry, then tries by parsing the
@@ -523,20 +481,14 @@ public abstract class CommandBase implements ICommand
         {
             throw new NumberInvalidException("commands.give.block.notFound", new Object[] {resourcelocation});
         }
-        else
-        {
-            Block block = (Block)Block.blockRegistry.getObject(resourcelocation);
+		Block block = (Block)Block.blockRegistry.getObject(resourcelocation);
 
-            if (block == null)
-            {
-                throw new NumberInvalidException("commands.give.block.notFound", new Object[] {resourcelocation});
-            }
-            else
-            {
-                return block;
-            }
-        }
-    }
+		if (block == null)
+		{
+			throw new NumberInvalidException("commands.give.block.notFound", new Object[] {resourcelocation});
+		}
+		return block;
+	}
 
     /**
      * Creates a linguistic series joining the input objects together.  Examples: 1) {} --> "",  2) {"Steve"} -->
@@ -608,32 +560,29 @@ public abstract class CommandBase implements ICommand
         {
             return null;
         }
-        else
-        {
-            int i = p_175771_0_.length - 1;
-            String s;
+		int i = p_175771_0_.length - 1;
+		String s;
 
-            if (i == p_175771_1_)
-            {
-                s = Integer.toString(p_175771_2_.getX());
-            }
-            else if (i == p_175771_1_ + 1)
-            {
-                s = Integer.toString(p_175771_2_.getY());
-            }
-            else
-            {
-                if (i != p_175771_1_ + 2)
-                {
-                    return null;
-                }
+		if (i == p_175771_1_)
+		{
+			s = Integer.toString(p_175771_2_.getX());
+		}
+		else if (i == p_175771_1_ + 1)
+		{
+			s = Integer.toString(p_175771_2_.getY());
+		}
+		else
+		{
+			if (i != p_175771_1_ + 2)
+			{
+				return null;
+			}
 
-                s = Integer.toString(p_175771_2_.getZ());
-            }
+			s = Integer.toString(p_175771_2_.getZ());
+		}
 
-            return Lists.newArrayList(new String[] {s});
-        }
-    }
+		return Lists.newArrayList(new String[] {s});
+	}
 
     public static List<String> func_181043_b(String[] p_181043_0_, int p_181043_1_, BlockPos p_181043_2_)
     {
@@ -641,28 +590,25 @@ public abstract class CommandBase implements ICommand
         {
             return null;
         }
-        else
-        {
-            int i = p_181043_0_.length - 1;
-            String s;
+		int i = p_181043_0_.length - 1;
+		String s;
 
-            if (i == p_181043_1_)
-            {
-                s = Integer.toString(p_181043_2_.getX());
-            }
-            else
-            {
-                if (i != p_181043_1_ + 1)
-                {
-                    return null;
-                }
+		if (i == p_181043_1_)
+		{
+			s = Integer.toString(p_181043_2_.getX());
+		}
+		else
+		{
+			if (i != p_181043_1_ + 1)
+			{
+				return null;
+			}
 
-                s = Integer.toString(p_181043_2_.getZ());
-            }
+			s = Integer.toString(p_181043_2_.getZ());
+		}
 
-            return Lists.newArrayList(new String[] {s});
-        }
-    }
+		return Lists.newArrayList(new String[] {s});
+	}
 
     /**
      * Returns true if the given substring is exactly equal to the start of the given string (case insensitive).

@@ -52,58 +52,52 @@ public class CommandSpreadPlayers extends CommandBase
         {
             throw new WrongUsageException("commands.spreadplayers.usage", new Object[0]);
         }
-        else
-        {
-            int i = 0;
-            BlockPos blockpos = sender.getPosition();
-            double d0 = parseDouble((double)blockpos.getX(), args[i++], true);
-            double d1 = parseDouble((double)blockpos.getZ(), args[i++], true);
-            double d2 = parseDouble(args[i++], 0.0D);
-            double d3 = parseDouble(args[i++], d2 + 1.0D);
-            boolean flag = parseBoolean(args[i++]);
-            List<Entity> list = Lists.<Entity>newArrayList();
+		int i = 0;
+		BlockPos blockpos = sender.getPosition();
+		double d0 = parseDouble((double)blockpos.getX(), args[i++], true);
+		double d1 = parseDouble((double)blockpos.getZ(), args[i++], true);
+		double d2 = parseDouble(args[i++], 0.0D);
+		double d3 = parseDouble(args[i++], d2 + 1.0D);
+		boolean flag = parseBoolean(args[i++]);
+		List<Entity> list = Lists.<Entity>newArrayList();
 
-            while (i < args.length)
-            {
-                String s = args[i++];
+		while (i < args.length)
+		{
+			String s = args[i++];
 
-                if (PlayerSelector.hasArguments(s))
-                {
-                    List<Entity> list1 = PlayerSelector.<Entity>matchEntities(sender, s, Entity.class);
+			if (PlayerSelector.hasArguments(s))
+			{
+				List<Entity> list1 = PlayerSelector.<Entity>matchEntities(sender, s, Entity.class);
 
-                    if (list1.size() == 0)
-                    {
-                        throw new EntityNotFoundException();
-                    }
+				if (list1.size() == 0)
+				{
+					throw new EntityNotFoundException();
+				}
 
-                    list.addAll(list1);
-                }
-                else
-                {
-                    EntityPlayer entityplayer = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(s);
+				list.addAll(list1);
+			}
+			else
+			{
+				EntityPlayer entityplayer = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(s);
 
-                    if (entityplayer == null)
-                    {
-                        throw new PlayerNotFoundException();
-                    }
+				if (entityplayer == null)
+				{
+					throw new PlayerNotFoundException();
+				}
 
-                    list.add(entityplayer);
-                }
-            }
+				list.add(entityplayer);
+			}
+		}
 
-            sender.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, list.size());
+		sender.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, list.size());
 
-            if (list.isEmpty())
-            {
-                throw new EntityNotFoundException();
-            }
-            else
-            {
-                sender.addChatMessage(new ChatComponentTranslation("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), new Object[] {Integer.valueOf(list.size()), Double.valueOf(d3), Double.valueOf(d0), Double.valueOf(d1), Double.valueOf(d2)}));
-                this.func_110669_a(sender, list, new CommandSpreadPlayers.Position(d0, d1), d2, d3, ((Entity)list.get(0)).worldObj, flag);
-            }
-        }
-    }
+		if (list.isEmpty())
+		{
+			throw new EntityNotFoundException();
+		}
+		sender.addChatMessage(new ChatComponentTranslation("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), new Object[] {Integer.valueOf(list.size()), Double.valueOf(d3), Double.valueOf(d0), Double.valueOf(d1), Double.valueOf(d2)}));
+		this.func_110669_a(sender, list, new CommandSpreadPlayers.Position(d0, d1), d2, d3, ((Entity)list.get(0)).worldObj, flag);
+	}
 
     private void func_110669_a(ICommandSender p_110669_1_, List<Entity> p_110669_2_, CommandSpreadPlayers.Position p_110669_3_, double p_110669_4_, double p_110669_6_, World worldIn, boolean p_110669_9_) throws CommandException
     {
@@ -218,11 +212,8 @@ public class CommandSpreadPlayers extends CommandBase
         {
             throw new CommandException("commands.spreadplayers.failure." + (p_110668_15_ ? "teams" : "players"), new Object[] {Integer.valueOf(p_110668_14_.length), Double.valueOf(p_110668_1_.field_111101_a), Double.valueOf(p_110668_1_.field_111100_b), String.format("%.2f", new Object[]{Double.valueOf(d0)})});
         }
-        else
-        {
-            return i;
-        }
-    }
+		return i;
+	}
 
     private double func_110671_a(List<Entity> p_110671_1_, World worldIn, CommandSpreadPlayers.Position[] p_110671_3_, boolean p_110671_4_)
     {

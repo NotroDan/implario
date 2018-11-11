@@ -51,24 +51,21 @@ public class EntityAIFollowOwner extends EntityAIBase
         {
             return false;
         }
-        else if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer)entitylivingbase).isSpectator())
-        {
-            return false;
-        }
-        else if (this.thePet.isSitting())
-        {
-            return false;
-        }
-        else if (this.thePet.getDistanceSqToEntity(entitylivingbase) < (double)(this.minDist * this.minDist))
-        {
-            return false;
-        }
-        else
-        {
-            this.theOwner = entitylivingbase;
-            return true;
-        }
-    }
+		if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer)entitylivingbase).isSpectator())
+		{
+			return false;
+		}
+		if (this.thePet.isSitting())
+		{
+			return false;
+		}
+		if (this.thePet.getDistanceSqToEntity(entitylivingbase) < (double)(this.minDist * this.minDist))
+		{
+			return false;
+		}
+		this.theOwner = entitylivingbase;
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

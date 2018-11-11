@@ -3,7 +3,7 @@ package net.minecraft.client.gui;
 import java.io.IOException;
 
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 
 public class GuiErrorScreen extends GuiScreen
 {
@@ -23,7 +23,7 @@ public class GuiErrorScreen extends GuiScreen
     public void initGui()
     {
         super.initGui();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, 140, I18n.format("gui.cancel", new Object[0])));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, 140, Lang.format("gui.cancel", new Object[0])));
     }
 
     /**

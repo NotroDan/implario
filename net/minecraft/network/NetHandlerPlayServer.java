@@ -530,44 +530,41 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
                 {
                     return;
                 }
-                else if (blockpos.getY() >= this.serverController.getBuildLimit())
-                {
-                    return;
-                }
-                else
-                {
-                    if (packetIn.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK)
-                    {
-                        if (!this.serverController.isBlockProtected(worldserver, blockpos, this.playerEntity) && worldserver.getWorldBorder().contains(blockpos))
-                        {
-                            this.playerEntity.theItemInWorldManager.onBlockClicked(blockpos, packetIn.getFacing());
-                        }
-                        else
-                        {
-                            this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(worldserver, blockpos));
-                        }
-                    }
-                    else
-                    {
-                        if (packetIn.getStatus() == C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK)
-                        {
-                            this.playerEntity.theItemInWorldManager.blockRemoving(blockpos);
-                        }
-                        else if (packetIn.getStatus() == C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK)
-                        {
-                            this.playerEntity.theItemInWorldManager.cancelDestroyingBlock();
-                        }
+				if (blockpos.getY() >= this.serverController.getBuildLimit())
+				{
+					return;
+				}
+				if (packetIn.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK)
+				{
+					if (!this.serverController.isBlockProtected(worldserver, blockpos, this.playerEntity) && worldserver.getWorldBorder().contains(blockpos))
+					{
+						this.playerEntity.theItemInWorldManager.onBlockClicked(blockpos, packetIn.getFacing());
+					}
+					else
+					{
+						this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(worldserver, blockpos));
+					}
+				}
+				else
+				{
+					if (packetIn.getStatus() == C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK)
+					{
+						this.playerEntity.theItemInWorldManager.blockRemoving(blockpos);
+					}
+					else if (packetIn.getStatus() == C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK)
+					{
+						this.playerEntity.theItemInWorldManager.cancelDestroyingBlock();
+					}
 
-                        if (worldserver.getBlockState(blockpos).getBlock().getMaterial() != Material.air)
-                        {
-                            this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(worldserver, blockpos));
-                        }
-                    }
+					if (worldserver.getBlockState(blockpos).getBlock().getMaterial() != Material.air)
+					{
+						this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(worldserver, blockpos));
+					}
+				}
 
-                    return;
-                }
+				return;
 
-            default:
+			default:
                 throw new IllegalArgumentException("Invalid player action");
         }
     }
@@ -1284,177 +1281,177 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
 
             return;
         }
-        else if ("MC|BSign".equals(packetIn.getChannelName()))
-        {
-            PacketBuffer packetbuffer2 = new PacketBuffer(Unpooled.wrappedBuffer((ByteBuf)packetIn.getBufferData()));
+		if ("MC|BSign".equals(packetIn.getChannelName()))
+		{
+			PacketBuffer packetbuffer2 = new PacketBuffer(Unpooled.wrappedBuffer((ByteBuf)packetIn.getBufferData()));
 
-            try
-            {
-                ItemStack itemstack = packetbuffer2.readItemStackFromBuffer();
+			try
+			{
+				ItemStack itemstack = packetbuffer2.readItemStackFromBuffer();
 
-                if (itemstack != null)
-                {
-                    if (!ItemEditableBook.validBookTagContents(itemstack.getTagCompound()))
-                    {
-                        throw new IOException("Invalid book tag!");
-                    }
+				if (itemstack != null)
+				{
+					if (!ItemEditableBook.validBookTagContents(itemstack.getTagCompound()))
+					{
+						throw new IOException("Invalid book tag!");
+					}
 
-                    ItemStack itemstack2 = this.playerEntity.inventory.getCurrentItem();
+					ItemStack itemstack2 = this.playerEntity.inventory.getCurrentItem();
 
-                    if (itemstack2 == null)
-                    {
-                        return;
-                    }
+					if (itemstack2 == null)
+					{
+						return;
+					}
 
-                    if (itemstack.getItem() == Items.written_book && itemstack2.getItem() == Items.writable_book)
-                    {
-                        itemstack2.setTagInfo("author", new NBTTagString(this.playerEntity.getName()));
-                        itemstack2.setTagInfo("title", new NBTTagString(itemstack.getTagCompound().getString("title")));
-                        itemstack2.setTagInfo("pages", itemstack.getTagCompound().getTagList("pages", 8));
-                        itemstack2.setItem(Items.written_book);
-                    }
+					if (itemstack.getItem() == Items.written_book && itemstack2.getItem() == Items.writable_book)
+					{
+						itemstack2.setTagInfo("author", new NBTTagString(this.playerEntity.getName()));
+						itemstack2.setTagInfo("title", new NBTTagString(itemstack.getTagCompound().getString("title")));
+						itemstack2.setTagInfo("pages", itemstack.getTagCompound().getTagList("pages", 8));
+						itemstack2.setItem(Items.written_book);
+					}
 
-                    return;
-                }
-            }
-            catch (Exception exception4)
-            {
-                logger.error((String)"Couldn\'t sign book", (Throwable)exception4);
-                return;
-            }
-            finally
-            {
-                packetbuffer2.release();
-            }
+					return;
+				}
+			}
+			catch (Exception exception4)
+			{
+				logger.error((String)"Couldn\'t sign book", (Throwable)exception4);
+				return;
+			}
+			finally
+			{
+				packetbuffer2.release();
+			}
 
-            return;
-        }
-        else if ("MC|TrSel".equals(packetIn.getChannelName()))
-        {
-            try
-            {
-                int i = packetIn.getBufferData().readInt();
-                Container container = this.playerEntity.openContainer;
+			return;
+		}
+		if ("MC|TrSel".equals(packetIn.getChannelName()))
+		{
+			try
+			{
+				int i = packetIn.getBufferData().readInt();
+				Container container = this.playerEntity.openContainer;
 
-                if (container instanceof ContainerMerchant)
-                {
-                    ((ContainerMerchant)container).setCurrentRecipeIndex(i);
-                }
-            }
-            catch (Exception exception2)
-            {
-                logger.error((String)"Couldn\'t select trade", (Throwable)exception2);
-            }
-        }
-        else if ("MC|AdvCdm".equals(packetIn.getChannelName()))
-        {
-            if (!this.serverController.isCommandBlockEnabled())
-            {
-                this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notEnabled", new Object[0]));
-            }
-            else if (this.playerEntity.canCommandSenderUseCommand(2, "") && this.playerEntity.capabilities.isCreativeMode)
-            {
-                PacketBuffer packetbuffer = packetIn.getBufferData();
+				if (container instanceof ContainerMerchant)
+				{
+					((ContainerMerchant)container).setCurrentRecipeIndex(i);
+				}
+			}
+			catch (Exception exception2)
+			{
+				logger.error((String)"Couldn\'t select trade", (Throwable)exception2);
+			}
+		}
+		else if ("MC|AdvCdm".equals(packetIn.getChannelName()))
+		{
+			if (!this.serverController.isCommandBlockEnabled())
+			{
+				this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notEnabled", new Object[0]));
+			}
+			else if (this.playerEntity.canCommandSenderUseCommand(2, "") && this.playerEntity.capabilities.isCreativeMode)
+			{
+				PacketBuffer packetbuffer = packetIn.getBufferData();
 
-                try
-                {
-                    int j = packetbuffer.readByte();
-                    CommandBlockLogic commandblocklogic = null;
+				try
+				{
+					int j = packetbuffer.readByte();
+					CommandBlockLogic commandblocklogic = null;
 
-                    if (j == 0)
-                    {
-                        TileEntity tileentity = this.playerEntity.worldObj.getTileEntity(new BlockPos(packetbuffer.readInt(), packetbuffer.readInt(), packetbuffer.readInt()));
+					if (j == 0)
+					{
+						TileEntity tileentity = this.playerEntity.worldObj.getTileEntity(new BlockPos(packetbuffer.readInt(), packetbuffer.readInt(), packetbuffer.readInt()));
 
-                        if (tileentity instanceof TileEntityCommandBlock)
-                        {
-                            commandblocklogic = ((TileEntityCommandBlock)tileentity).getCommandBlockLogic();
-                        }
-                    }
-                    else if (j == 1)
-                    {
-                        Entity entity = this.playerEntity.worldObj.getEntityByID(packetbuffer.readInt());
+						if (tileentity instanceof TileEntityCommandBlock)
+						{
+							commandblocklogic = ((TileEntityCommandBlock)tileentity).getCommandBlockLogic();
+						}
+					}
+					else if (j == 1)
+					{
+						Entity entity = this.playerEntity.worldObj.getEntityByID(packetbuffer.readInt());
 
-                        if (entity instanceof EntityMinecartCommandBlock)
-                        {
-                            commandblocklogic = ((EntityMinecartCommandBlock)entity).getCommandBlockLogic();
-                        }
-                    }
+						if (entity instanceof EntityMinecartCommandBlock)
+						{
+							commandblocklogic = ((EntityMinecartCommandBlock)entity).getCommandBlockLogic();
+						}
+					}
 
-                    String s1 = packetbuffer.readStringFromBuffer(packetbuffer.readableBytes());
-                    boolean flag = packetbuffer.readBoolean();
+					String s1 = packetbuffer.readStringFromBuffer(packetbuffer.readableBytes());
+					boolean flag = packetbuffer.readBoolean();
 
-                    if (commandblocklogic != null)
-                    {
-                        commandblocklogic.setCommand(s1);
-                        commandblocklogic.setTrackOutput(flag);
+					if (commandblocklogic != null)
+					{
+						commandblocklogic.setCommand(s1);
+						commandblocklogic.setTrackOutput(flag);
 
-                        if (!flag)
-                        {
-                            commandblocklogic.setLastOutput((IChatComponent)null);
-                        }
+						if (!flag)
+						{
+							commandblocklogic.setLastOutput((IChatComponent)null);
+						}
 
-                        commandblocklogic.updateCommand();
-                        this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.setCommand.success", new Object[] {s1}));
-                    }
-                }
-                catch (Exception exception1)
-                {
-                    logger.error((String)"Couldn\'t set command block", (Throwable)exception1);
-                }
-                finally
-                {
-                    packetbuffer.release();
-                }
-            }
-            else
-            {
-                this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notAllowed", new Object[0]));
-            }
-        }
-        else if ("MC|Beacon".equals(packetIn.getChannelName()))
-        {
-            if (this.playerEntity.openContainer instanceof ContainerBeacon)
-            {
-                try
-                {
-                    PacketBuffer packetbuffer1 = packetIn.getBufferData();
-                    int k = packetbuffer1.readInt();
-                    int l = packetbuffer1.readInt();
-                    ContainerBeacon containerbeacon = (ContainerBeacon)this.playerEntity.openContainer;
-                    Slot slot = containerbeacon.getSlot(0);
+						commandblocklogic.updateCommand();
+						this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.setCommand.success", new Object[] {s1}));
+					}
+				}
+				catch (Exception exception1)
+				{
+					logger.error((String)"Couldn\'t set command block", (Throwable)exception1);
+				}
+				finally
+				{
+					packetbuffer.release();
+				}
+			}
+			else
+			{
+				this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notAllowed", new Object[0]));
+			}
+		}
+		else if ("MC|Beacon".equals(packetIn.getChannelName()))
+		{
+			if (this.playerEntity.openContainer instanceof ContainerBeacon)
+			{
+				try
+				{
+					PacketBuffer packetbuffer1 = packetIn.getBufferData();
+					int k = packetbuffer1.readInt();
+					int l = packetbuffer1.readInt();
+					ContainerBeacon containerbeacon = (ContainerBeacon)this.playerEntity.openContainer;
+					Slot slot = containerbeacon.getSlot(0);
 
-                    if (slot.getHasStack())
-                    {
-                        slot.decrStackSize(1);
-                        IInventory iinventory = containerbeacon.func_180611_e();
-                        iinventory.setField(1, k);
-                        iinventory.setField(2, l);
-                        iinventory.markDirty();
-                    }
-                }
-                catch (Exception exception)
-                {
-                    logger.error((String)"Couldn\'t set beacon", (Throwable)exception);
-                }
-            }
-        }
-        else if ("MC|ItemName".equals(packetIn.getChannelName()) && this.playerEntity.openContainer instanceof ContainerRepair)
-        {
-            ContainerRepair containerrepair = (ContainerRepair)this.playerEntity.openContainer;
+					if (slot.getHasStack())
+					{
+						slot.decrStackSize(1);
+						IInventory iinventory = containerbeacon.func_180611_e();
+						iinventory.setField(1, k);
+						iinventory.setField(2, l);
+						iinventory.markDirty();
+					}
+				}
+				catch (Exception exception)
+				{
+					logger.error((String)"Couldn\'t set beacon", (Throwable)exception);
+				}
+			}
+		}
+		else if ("MC|ItemName".equals(packetIn.getChannelName()) && this.playerEntity.openContainer instanceof ContainerRepair)
+		{
+			ContainerRepair containerrepair = (ContainerRepair)this.playerEntity.openContainer;
 
-            if (packetIn.getBufferData() != null && packetIn.getBufferData().readableBytes() >= 1)
-            {
-                String s = ChatAllowedCharacters.filterAllowedCharacters(packetIn.getBufferData().readStringFromBuffer(32767));
+			if (packetIn.getBufferData() != null && packetIn.getBufferData().readableBytes() >= 1)
+			{
+				String s = ChatAllowedCharacters.filterAllowedCharacters(packetIn.getBufferData().readStringFromBuffer(32767));
 
-                if (s.length() <= 30)
-                {
-                    containerrepair.updateItemName(s);
-                }
-            }
-            else
-            {
-                containerrepair.updateItemName("");
-            }
-        }
-    }
+				if (s.length() <= 30)
+				{
+					containerrepair.updateItemName(s);
+				}
+			}
+			else
+			{
+				containerrepair.updateItemName("");
+			}
+		}
+	}
 }

@@ -51,12 +51,9 @@ public class BlockRedstoneRepeater extends BlockRedstoneDiode
         {
             return false;
         }
-        else
-        {
-            worldIn.setBlockState(pos, state.cycleProperty(DELAY), 3);
-            return true;
-        }
-    }
+		worldIn.setBlockState(pos, state.cycleProperty(DELAY), 3);
+		return true;
+	}
 
     protected int getDelay(IBlockState state)
     {

@@ -37,32 +37,29 @@ public class ShaderPackParser
         {
             return new ShaderOption[0];
         }
-        else
-        {
-            Map<String, ShaderOption> map = new HashMap();
-            collectShaderOptions(shaderPack, "/shaders", programNames, map);
-            Iterator<Integer> iterator = listDimensions.iterator();
+		Map<String, ShaderOption> map = new HashMap();
+		collectShaderOptions(shaderPack, "/shaders", programNames, map);
+		Iterator<Integer> iterator = listDimensions.iterator();
 
-            while (iterator.hasNext())
-            {
-                int i = ((Integer)iterator.next()).intValue();
-                String s = "/shaders/world" + i;
-                collectShaderOptions(shaderPack, s, programNames, map);
-            }
+		while (iterator.hasNext())
+		{
+			int i = ((Integer)iterator.next()).intValue();
+			String s = "/shaders/world" + i;
+			collectShaderOptions(shaderPack, s, programNames, map);
+		}
 
-            Collection<ShaderOption> collection = map.values();
-            ShaderOption[] ashaderoption = (ShaderOption[]) (ShaderOption[])collection.toArray(new ShaderOption[collection.size()]);
-            Comparator<ShaderOption> comparator = new Comparator<ShaderOption>()
-            {
-                public int compare(ShaderOption o1, ShaderOption o2)
-                {
-                    return o1.getName().compareToIgnoreCase(o2.getName());
-                }
-            };
-            Arrays.sort(ashaderoption, comparator);
-            return ashaderoption;
-        }
-    }
+		Collection<ShaderOption> collection = map.values();
+		ShaderOption[] ashaderoption = (ShaderOption[]) (ShaderOption[])collection.toArray(new ShaderOption[collection.size()]);
+		Comparator<ShaderOption> comparator = new Comparator<ShaderOption>()
+		{
+			public int compare(ShaderOption o1, ShaderOption o2)
+			{
+				return o1.getName().compareToIgnoreCase(o2.getName());
+			}
+		};
+		Arrays.sort(ashaderoption, comparator);
+		return ashaderoption;
+	}
 
     private static void collectShaderOptions(IShaderPack shaderPack, String dir, String[] programNames, Map<String, ShaderOption> mapOptions)
     {
@@ -145,13 +142,10 @@ public class ShaderPackParser
             {
                 return new String[0];
             }
-            else
-            {
-                ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(s.getBytes());
-                String[] astring = Config.readLines((InputStream)bytearrayinputstream);
-                return astring;
-            }
-        }
+			ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(s.getBytes());
+			String[] astring = Config.readLines((InputStream)bytearrayinputstream);
+			return astring;
+		}
         catch (IOException ioexception)
         {
             Config.dbg(ioexception.getClass().getName() + ": " + ioexception.getMessage());
@@ -177,21 +171,18 @@ public class ShaderPackParser
         {
             return shaderoption;
         }
-        else
-        {
-            if (shaderoption == null)
-            {
-                shaderoption = ShaderOptionSwitchConst.parseOption(line, path);
-            }
+		if (shaderoption == null)
+		{
+			shaderoption = ShaderOptionSwitchConst.parseOption(line, path);
+		}
 
-            if (shaderoption == null)
-            {
-                shaderoption = ShaderOptionVariableConst.parseOption(line, path);
-            }
+		if (shaderoption == null)
+		{
+			shaderoption = ShaderOptionVariableConst.parseOption(line, path);
+		}
 
-            return shaderoption != null && setConstNames.contains(shaderoption.getName()) ? shaderoption : null;
-        }
-    }
+		return shaderoption != null && setConstNames.contains(shaderoption.getName()) ? shaderoption : null;
+	}
 
     private static Set<String> makeSetConstNames()
     {
@@ -259,12 +250,9 @@ public class ShaderPackParser
         {
             return null;
         }
-        else
-        {
-            ShaderProfile[] ashaderprofile = (ShaderProfile[]) (ShaderProfile[])list.toArray(new ShaderProfile[list.size()]);
-            return ashaderprofile;
-        }
-    }
+		ShaderProfile[] ashaderprofile = (ShaderProfile[]) (ShaderProfile[])list.toArray(new ShaderProfile[list.size()]);
+		return ashaderprofile;
+	}
 
     private static ShaderProfile parseProfile(String name, Properties props, Set<String> parsedProfiles, ShaderOption[] shaderOptions)
     {
@@ -276,103 +264,100 @@ public class ShaderPackParser
             Config.warn("[Shaders] Profile already parsed: " + name);
             return null;
         }
-        else
-        {
-            parsedProfiles.add(name);
-            ShaderProfile shaderprofile = new ShaderProfile(name);
-            String s2 = props.getProperty(s1);
-            String[] astring = Config.tokenize(s2, " ");
+		parsedProfiles.add(name);
+		ShaderProfile shaderprofile = new ShaderProfile(name);
+		String s2 = props.getProperty(s1);
+		String[] astring = Config.tokenize(s2, " ");
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s3 = astring[i];
+		for (int i = 0; i < astring.length; ++i)
+		{
+			String s3 = astring[i];
 
-                if (s3.startsWith(s))
-                {
-                    String s6 = s3.substring(s.length());
-                    ShaderProfile shaderprofile1 = parseProfile(s6, props, parsedProfiles, shaderOptions);
+			if (s3.startsWith(s))
+			{
+				String s6 = s3.substring(s.length());
+				ShaderProfile shaderprofile1 = parseProfile(s6, props, parsedProfiles, shaderOptions);
 
-                    if (shaderprofile != null)
-                    {
-                        shaderprofile.addOptionValues(shaderprofile1);
-                        shaderprofile.addDisabledPrograms(shaderprofile1.getDisabledPrograms());
-                    }
-                }
-                else
-                {
-                    String[] astring1 = Config.tokenize(s3, ":=");
+				if (shaderprofile != null)
+				{
+					shaderprofile.addOptionValues(shaderprofile1);
+					shaderprofile.addDisabledPrograms(shaderprofile1.getDisabledPrograms());
+				}
+			}
+			else
+			{
+				String[] astring1 = Config.tokenize(s3, ":=");
 
-                    if (astring1.length == 1)
-                    {
-                        String s7 = astring1[0];
-                        boolean flag = true;
+				if (astring1.length == 1)
+				{
+					String s7 = astring1[0];
+					boolean flag = true;
 
-                        if (s7.startsWith("!"))
-                        {
-                            flag = false;
-                            s7 = s7.substring(1);
-                        }
+					if (s7.startsWith("!"))
+					{
+						flag = false;
+						s7 = s7.substring(1);
+					}
 
-                        String s8 = "program.";
+					String s8 = "program.";
 
-                        if (!flag && s7.startsWith("program."))
-                        {
-                            String s9 = s7.substring(s8.length());
+					if (!flag && s7.startsWith("program."))
+					{
+						String s9 = s7.substring(s8.length());
 
-                            if (!Shaders.isProgramPath(s9))
-                            {
-                                Config.warn("Invalid program: " + s9 + " in profile: " + shaderprofile.getName());
-                            }
-                            else
-                            {
-                                shaderprofile.addDisabledProgram(s9);
-                            }
-                        }
-                        else
-                        {
-                            ShaderOption shaderoption1 = ShaderUtils.getShaderOption(s7, shaderOptions);
+						if (!Shaders.isProgramPath(s9))
+						{
+							Config.warn("Invalid program: " + s9 + " in profile: " + shaderprofile.getName());
+						}
+						else
+						{
+							shaderprofile.addDisabledProgram(s9);
+						}
+					}
+					else
+					{
+						ShaderOption shaderoption1 = ShaderUtils.getShaderOption(s7, shaderOptions);
 
-                            if (!(shaderoption1 instanceof ShaderOptionSwitch))
-                            {
-                                Config.warn("[Shaders] Invalid option: " + s7);
-                            }
-                            else
-                            {
-                                shaderprofile.addOptionValue(s7, String.valueOf(flag));
-                                shaderoption1.setVisible(true);
-                            }
-                        }
-                    }
-                    else if (astring1.length != 2)
-                    {
-                        Config.warn("[Shaders] Invalid option value: " + s3);
-                    }
-                    else
-                    {
-                        String s4 = astring1[0];
-                        String s5 = astring1[1];
-                        ShaderOption shaderoption = ShaderUtils.getShaderOption(s4, shaderOptions);
+						if (!(shaderoption1 instanceof ShaderOptionSwitch))
+						{
+							Config.warn("[Shaders] Invalid option: " + s7);
+						}
+						else
+						{
+							shaderprofile.addOptionValue(s7, String.valueOf(flag));
+							shaderoption1.setVisible(true);
+						}
+					}
+				}
+				else if (astring1.length != 2)
+				{
+					Config.warn("[Shaders] Invalid option value: " + s3);
+				}
+				else
+				{
+					String s4 = astring1[0];
+					String s5 = astring1[1];
+					ShaderOption shaderoption = ShaderUtils.getShaderOption(s4, shaderOptions);
 
-                        if (shaderoption == null)
-                        {
-                            Config.warn("[Shaders] Invalid option: " + s3);
-                        }
-                        else if (!shaderoption.isValidValue(s5))
-                        {
-                            Config.warn("[Shaders] Invalid value: " + s3);
-                        }
-                        else
-                        {
-                            shaderoption.setVisible(true);
-                            shaderprofile.addOptionValue(s4, s5);
-                        }
-                    }
-                }
-            }
+					if (shaderoption == null)
+					{
+						Config.warn("[Shaders] Invalid option: " + s3);
+					}
+					else if (!shaderoption.isValidValue(s5))
+					{
+						Config.warn("[Shaders] Invalid value: " + s3);
+					}
+					else
+					{
+						shaderoption.setVisible(true);
+						shaderprofile.addOptionValue(s4, s5);
+					}
+				}
+			}
+		}
 
-            return shaderprofile;
-        }
-    }
+		return shaderprofile;
+	}
 
     public static Map<String, ShaderOption[]> parseGuiScreens(Properties props, ShaderProfile[] shaderProfiles, ShaderOption[] shaderOptions)
     {
@@ -389,86 +374,83 @@ public class ShaderPackParser
         {
             return false;
         }
-        else
-        {
-            List<ShaderOption> list = new ArrayList();
-            Set<String> set = new HashSet();
-            String[] astring = Config.tokenize(s, " ");
+		List<ShaderOption> list = new ArrayList();
+		Set<String> set = new HashSet();
+		String[] astring = Config.tokenize(s, " ");
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s1 = astring[i];
+		for (int i = 0; i < astring.length; ++i)
+		{
+			String s1 = astring[i];
 
-                if (s1.equals("<empty>"))
-                {
-                    list.add((ShaderOption)null);
-                }
-                else if (set.contains(s1))
-                {
-                    Config.warn("[Shaders] Duplicate option: " + s1 + ", key: " + key);
-                }
-                else
-                {
-                    set.add(s1);
+			if (s1.equals("<empty>"))
+			{
+				list.add((ShaderOption)null);
+			}
+			else if (set.contains(s1))
+			{
+				Config.warn("[Shaders] Duplicate option: " + s1 + ", key: " + key);
+			}
+			else
+			{
+				set.add(s1);
 
-                    if (s1.equals("<profile>"))
-                    {
-                        if (shaderProfiles == null)
-                        {
-                            Config.warn("[Shaders] Option profile can not be used, no profiles defined: " + s1 + ", key: " + key);
-                        }
-                        else
-                        {
-                            ShaderOptionProfile shaderoptionprofile = new ShaderOptionProfile(shaderProfiles, shaderOptions);
-                            list.add(shaderoptionprofile);
-                        }
-                    }
-                    else if (s1.equals("*"))
-                    {
-                        ShaderOption shaderoption1 = new ShaderOptionRest("<rest>");
-                        list.add(shaderoption1);
-                    }
-                    else if (s1.startsWith("[") && s1.endsWith("]"))
-                    {
-                        String s2 = StrUtils.removePrefixSuffix(s1, "[", "]");
+				if (s1.equals("<profile>"))
+				{
+					if (shaderProfiles == null)
+					{
+						Config.warn("[Shaders] Option profile can not be used, no profiles defined: " + s1 + ", key: " + key);
+					}
+					else
+					{
+						ShaderOptionProfile shaderoptionprofile = new ShaderOptionProfile(shaderProfiles, shaderOptions);
+						list.add(shaderoptionprofile);
+					}
+				}
+				else if (s1.equals("*"))
+				{
+					ShaderOption shaderoption1 = new ShaderOptionRest("<rest>");
+					list.add(shaderoption1);
+				}
+				else if (s1.startsWith("[") && s1.endsWith("]"))
+				{
+					String s2 = StrUtils.removePrefixSuffix(s1, "[", "]");
 
-                        if (!s2.matches("^[a-zA-Z0-9_]+$"))
-                        {
-                            Config.warn("[Shaders] Invalid screen: " + s1 + ", key: " + key);
-                        }
-                        else if (!parseGuiScreen("screen." + s2, props, map, shaderProfiles, shaderOptions))
-                        {
-                            Config.warn("[Shaders] Invalid screen: " + s1 + ", key: " + key);
-                        }
-                        else
-                        {
-                            ShaderOptionScreen shaderoptionscreen = new ShaderOptionScreen(s2);
-                            list.add(shaderoptionscreen);
-                        }
-                    }
-                    else
-                    {
-                        ShaderOption shaderoption = ShaderUtils.getShaderOption(s1, shaderOptions);
+					if (!s2.matches("^[a-zA-Z0-9_]+$"))
+					{
+						Config.warn("[Shaders] Invalid screen: " + s1 + ", key: " + key);
+					}
+					else if (!parseGuiScreen("screen." + s2, props, map, shaderProfiles, shaderOptions))
+					{
+						Config.warn("[Shaders] Invalid screen: " + s1 + ", key: " + key);
+					}
+					else
+					{
+						ShaderOptionScreen shaderoptionscreen = new ShaderOptionScreen(s2);
+						list.add(shaderoptionscreen);
+					}
+				}
+				else
+				{
+					ShaderOption shaderoption = ShaderUtils.getShaderOption(s1, shaderOptions);
 
-                        if (shaderoption == null)
-                        {
-                            Config.warn("[Shaders] Invalid option: " + s1 + ", key: " + key);
-                            list.add((ShaderOption)null);
-                        }
-                        else
-                        {
-                            shaderoption.setVisible(true);
-                            list.add(shaderoption);
-                        }
-                    }
-                }
-            }
+					if (shaderoption == null)
+					{
+						Config.warn("[Shaders] Invalid option: " + s1 + ", key: " + key);
+						list.add((ShaderOption)null);
+					}
+					else
+					{
+						shaderoption.setVisible(true);
+						list.add(shaderoption);
+					}
+				}
+			}
+		}
 
-            ShaderOption[] ashaderoption = (ShaderOption[]) (ShaderOption[])list.toArray(new ShaderOption[list.size()]);
-            map.put(key, ashaderoption);
-            return true;
-        }
-    }
+		ShaderOption[] ashaderoption = (ShaderOption[]) (ShaderOption[])list.toArray(new ShaderOption[list.size()]);
+		map.put(key, ashaderoption);
+		return true;
+	}
 
     public static BufferedReader resolveIncludes(BufferedReader reader, String filePath, IShaderPack shaderPack, int fileIndex, List<String> listFiles, int includeLevel) throws IOException
     {
@@ -599,35 +581,29 @@ public class ShaderPackParser
         {
             throw new IOException("#include depth exceeded: " + includeLevel + ", file: " + filePath);
         }
-        else
-        {
-            ++includeLevel;
-            InputStream inputstream = shaderPack.getResourceAsStream(filePath);
+		++includeLevel;
+		InputStream inputstream = shaderPack.getResourceAsStream(filePath);
 
-            if (inputstream == null)
-            {
-                return null;
-            }
-            else
-            {
-                InputStreamReader inputstreamreader = new InputStreamReader(inputstream, "ASCII");
-                BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
-                bufferedreader = resolveIncludes(bufferedreader, filePath, shaderPack, fileIndex, listFiles, includeLevel);
-                CharArrayWriter chararraywriter = new CharArrayWriter();
+		if (inputstream == null)
+		{
+			return null;
+		}
+		InputStreamReader inputstreamreader = new InputStreamReader(inputstream, "ASCII");
+		BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
+		bufferedreader = resolveIncludes(bufferedreader, filePath, shaderPack, fileIndex, listFiles, includeLevel);
+		CharArrayWriter chararraywriter = new CharArrayWriter();
 
-                while (true)
-                {
-                    String s = bufferedreader.readLine();
+		while (true)
+		{
+			String s = bufferedreader.readLine();
 
-                    if (s == null)
-                    {
-                        return chararraywriter.toString();
-                    }
+			if (s == null)
+			{
+				return chararraywriter.toString();
+			}
 
-                    chararraywriter.write(s);
-                    chararraywriter.write("\n");
-                }
-            }
-        }
-    }
+			chararraywriter.write(s);
+			chararraywriter.write("\n");
+		}
+	}
 }

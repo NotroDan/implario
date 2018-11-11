@@ -54,130 +54,127 @@ public class CommandReplaceItem extends CommandBase
         {
             throw new WrongUsageException("commands.replaceitem.usage", new Object[0]);
         }
-        else
-        {
-            boolean flag;
+		boolean flag;
 
-            if (args[0].equals("entity"))
-            {
-                flag = false;
-            }
-            else
-            {
-                if (!args[0].equals("block"))
-                {
-                    throw new WrongUsageException("commands.replaceitem.usage", new Object[0]);
-                }
+		if (args[0].equals("entity"))
+		{
+			flag = false;
+		}
+		else
+		{
+			if (!args[0].equals("block"))
+			{
+				throw new WrongUsageException("commands.replaceitem.usage", new Object[0]);
+			}
 
-                flag = true;
-            }
+			flag = true;
+		}
 
-            int i;
+		int i;
 
-            if (flag)
-            {
-                if (args.length < 6)
-                {
-                    throw new WrongUsageException("commands.replaceitem.block.usage", new Object[0]);
-                }
+		if (flag)
+		{
+			if (args.length < 6)
+			{
+				throw new WrongUsageException("commands.replaceitem.block.usage", new Object[0]);
+			}
 
-                i = 4;
-            }
-            else
-            {
-                if (args.length < 4)
-                {
-                    throw new WrongUsageException("commands.replaceitem.entity.usage", new Object[0]);
-                }
+			i = 4;
+		}
+		else
+		{
+			if (args.length < 4)
+			{
+				throw new WrongUsageException("commands.replaceitem.entity.usage", new Object[0]);
+			}
 
-                i = 2;
-            }
+			i = 2;
+		}
 
-            int j = this.getSlotForShortcut(args[i++]);
-            Item item;
+		int j = this.getSlotForShortcut(args[i++]);
+		Item item;
 
-            try
-            {
-                item = getItemByText(sender, args[i]);
-            }
-            catch (NumberInvalidException numberinvalidexception)
-            {
-                if (Block.getBlockFromName(args[i]) != Blocks.air)
-                {
-                    throw numberinvalidexception;
-                }
+		try
+		{
+			item = getItemByText(sender, args[i]);
+		}
+		catch (NumberInvalidException numberinvalidexception)
+		{
+			if (Block.getBlockFromName(args[i]) != Blocks.air)
+			{
+				throw numberinvalidexception;
+			}
 
-                item = null;
-            }
+			item = null;
+		}
 
-            ++i;
-            int k = args.length > i ? parseInt(args[i++], 1, 64) : 1;
-            int l = args.length > i ? parseInt(args[i++]) : 0;
-            ItemStack itemstack = new ItemStack(item, k, l);
+		++i;
+		int k = args.length > i ? parseInt(args[i++], 1, 64) : 1;
+		int l = args.length > i ? parseInt(args[i++]) : 0;
+		ItemStack itemstack = new ItemStack(item, k, l);
 
-            if (args.length > i)
-            {
-                String s = getChatComponentFromNthArg(sender, args, i).getUnformattedText();
+		if (args.length > i)
+		{
+			String s = getChatComponentFromNthArg(sender, args, i).getUnformattedText();
 
-                try
-                {
-                    itemstack.setTagCompound(JsonToNBT.getTagFromJson(s));
-                }
-                catch (NBTException nbtexception)
-                {
-                    throw new CommandException("commands.replaceitem.tagError", new Object[] {nbtexception.getMessage()});
-                }
-            }
+			try
+			{
+				itemstack.setTagCompound(JsonToNBT.getTagFromJson(s));
+			}
+			catch (NBTException nbtexception)
+			{
+				throw new CommandException("commands.replaceitem.tagError", new Object[] {nbtexception.getMessage()});
+			}
+		}
 
-            if (itemstack.getItem() == null)
-            {
-                itemstack = null;
-            }
+		if (itemstack.getItem() == null)
+		{
+			itemstack = null;
+		}
 
-            if (flag)
-            {
-                sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
-                BlockPos blockpos = parseBlockPos(sender, args, 1, false);
-                World world = sender.getEntityWorld();
-                TileEntity tileentity = world.getTileEntity(blockpos);
+		if (flag)
+		{
+			sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
+			BlockPos blockpos = parseBlockPos(sender, args, 1, false);
+			World world = sender.getEntityWorld();
+			TileEntity tileentity = world.getTileEntity(blockpos);
 
-                if (tileentity == null || !(tileentity instanceof IInventory))
-                {
-                    throw new CommandException("commands.replaceitem.noContainer", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
-                }
+			if (!(tileentity instanceof IInventory))
+			{
+				throw new CommandException("commands.replaceitem.noContainer", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
+			}
 
-                IInventory iinventory = (IInventory)tileentity;
+			IInventory iinventory = (IInventory)tileentity;
 
-                if (j >= 0 && j < iinventory.getSizeInventory())
-                {
-                    iinventory.setInventorySlotContents(j, itemstack);
-                }
-            }
-            else
-            {
-                Entity entity = func_175768_b(sender, args[1]);
-                sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
+			if (j >= 0 && j < iinventory.getSizeInventory())
+			{
+				iinventory.setInventorySlotContents(j, itemstack);
+			}
+		}
+		else
+		{
+			Entity entity = func_175768_b(sender, args[1]);
+			sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
 
-                if (entity instanceof EntityPlayer)
-                {
-                    ((EntityPlayer)entity).inventoryContainer.detectAndSendChanges();
-                }
+			if (entity instanceof EntityPlayer)
+			{
+				((EntityPlayer)entity).inventoryContainer.detectAndSendChanges();
+			}
 
-                if (!entity.replaceItemInInventory(j, itemstack))
-                {
-                    throw new CommandException("commands.replaceitem.failed", new Object[] {Integer.valueOf(j), Integer.valueOf(k), itemstack == null ? "Air" : itemstack.getChatComponent()});
-                }
+			if (!entity.replaceItemInInventory(j, itemstack))
+			{
+				throw new CommandException("commands.replaceitem.failed", new Object[] {Integer.valueOf(j), Integer.valueOf(k), itemstack == null ? "Air" : itemstack.getChatComponent()});
+			}
 
-                if (entity instanceof EntityPlayer)
-                {
-                    ((EntityPlayer)entity).inventoryContainer.detectAndSendChanges();
-                }
-            }
+			if (entity instanceof EntityPlayer)
+			{
+				((EntityPlayer)entity).inventoryContainer.detectAndSendChanges();
+			}
+		}
 
-            sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, k);
-            notifyOperators(sender, this, "commands.replaceitem.success", new Object[] {Integer.valueOf(j), Integer.valueOf(k), itemstack == null ? "Air" : itemstack.getChatComponent()});
-        }
-    }
+		sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, k);
+		notifyOperators(sender, this, "commands.replaceitem.success", new Object[] {Integer.valueOf(j), Integer.valueOf(k), itemstack == null ? "Air" : itemstack.getChatComponent()});
+	}
 
     private int getSlotForShortcut(String shortcut) throws CommandException
     {
@@ -185,11 +182,8 @@ public class CommandReplaceItem extends CommandBase
         {
             throw new CommandException("commands.generic.parameter.invalid", new Object[] {shortcut});
         }
-        else
-        {
-            return ((Integer)SHORTCUTS.get(shortcut)).intValue();
-        }
-    }
+		return ((Integer)SHORTCUTS.get(shortcut)).intValue();
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {

@@ -177,26 +177,24 @@ public abstract class MapGenStructure extends MapGenBase {
 
 		if (blockpos != null) {
 			return blockpos;
-		} else {
-			List list = this.getCoordList();
-
-			if (list != null) {
-				BlockPos blockpos3 = null;
-
-				for (Object blockpos2 : list) {
-					double d2 = ((BlockPos) blockpos2).distanceSq(pos);
-
-					if (d2 < d0) {
-						d0 = d2;
-						blockpos3 = (BlockPos) blockpos2;
-					}
-				}
-
-				return blockpos3;
-			} else {
-				return null;
-			}
 		}
+		List list = this.getCoordList();
+
+		if (list != null) {
+			BlockPos blockpos3 = null;
+
+			for (Object blockpos2 : list) {
+				double d2 = ((BlockPos) blockpos2).distanceSq(pos);
+
+				if (d2 < d0) {
+					d0 = d2;
+					blockpos3 = (BlockPos) blockpos2;
+				}
+			}
+
+			return blockpos3;
+		}
+		return null;
 	}
 
 	/**

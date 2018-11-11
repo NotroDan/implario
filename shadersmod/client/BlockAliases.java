@@ -22,34 +22,28 @@ public class BlockAliases
         {
             return blockId;
         }
-        else if (blockId >= 0 && blockId < blockAliases.length)
-        {
-            BlockAlias[] ablockalias = blockAliases[blockId];
+		if (blockId >= 0 && blockId < blockAliases.length)
+		{
+			BlockAlias[] ablockalias = blockAliases[blockId];
 
-            if (ablockalias == null)
-            {
-                return blockId;
-            }
-            else
-            {
-                for (int i = 0; i < ablockalias.length; ++i)
-                {
-                    BlockAlias blockalias = ablockalias[i];
+			if (ablockalias == null)
+			{
+				return blockId;
+			}
+			for (int i = 0; i < ablockalias.length; ++i)
+				{
+					BlockAlias blockalias = ablockalias[i];
 
-                    if (blockalias.matches(blockId, metadata))
-                    {
-                        return blockalias.getBlockId();
-                    }
-                }
+					if (blockalias.matches(blockId, metadata))
+					{
+						return blockalias.getBlockId();
+					}
+				}
 
-                return blockId;
-            }
-        }
-        else
-        {
-            return blockId;
-        }
-    }
+			return blockId;
+		}
+		return blockId;
+	}
 
     public static void update(IShaderPack shaderPack)
     {

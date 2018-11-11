@@ -70,21 +70,15 @@ public class EntityAITempt extends EntityAIBase
             --this.delayTemptCounter;
             return false;
         }
-        else
-        {
-            this.temptingPlayer = this.temptedEntity.worldObj.getClosestPlayerToEntity(this.temptedEntity, 10.0D);
+		this.temptingPlayer = this.temptedEntity.worldObj.getClosestPlayerToEntity(this.temptedEntity, 10.0D);
 
-            if (this.temptingPlayer == null)
-            {
-                return false;
-            }
-            else
-            {
-                ItemStack itemstack = this.temptingPlayer.getCurrentEquippedItem();
-                return itemstack == null ? false : itemstack.getItem() == this.temptItem;
-            }
-        }
-    }
+		if (this.temptingPlayer == null)
+		{
+			return false;
+		}
+		ItemStack itemstack = this.temptingPlayer.getCurrentEquippedItem();
+		return itemstack == null ? false : itemstack.getItem() == this.temptItem;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

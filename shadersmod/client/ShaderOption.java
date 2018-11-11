@@ -70,12 +70,9 @@ public abstract class ShaderOption
         {
             return false;
         }
-        else
-        {
-            this.value = value;
-            return true;
-        }
-    }
+		this.value = value;
+		return true;
+	}
 
     public String getValueDefault()
     {

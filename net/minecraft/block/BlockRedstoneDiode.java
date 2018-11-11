@@ -153,12 +153,9 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
         {
             return i;
         }
-        else
-        {
-            IBlockState iblockstate = worldIn.getBlockState(blockpos);
-            return Math.max(i, iblockstate.getBlock() == Blocks.redstone_wire ? ((Integer)iblockstate.getValue(BlockRedstoneWire.POWER)).intValue() : 0);
-        }
-    }
+		IBlockState iblockstate = worldIn.getBlockState(blockpos);
+		return Math.max(i, iblockstate.getBlock() == Blocks.redstone_wire ? ((Integer)iblockstate.getValue(BlockRedstoneWire.POWER)).intValue() : 0);
+	}
 
     protected int getPowerOnSides(IBlockAccess worldIn, BlockPos pos, IBlockState state)
     {

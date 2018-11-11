@@ -57,19 +57,16 @@ public class ItemPotion extends Item
 
             return list1;
         }
-        else
-        {
-            List<PotionEffect> list = (List)this.effectCache.get(Integer.valueOf(stack.getMetadata()));
+		List<PotionEffect> list = (List)this.effectCache.get(Integer.valueOf(stack.getMetadata()));
 
-            if (list == null)
-            {
-                list = PotionHelper.getPotionEffects(stack.getMetadata(), false);
-                this.effectCache.put(Integer.valueOf(stack.getMetadata()), list);
-            }
+		if (list == null)
+		{
+			list = PotionHelper.getPotionEffects(stack.getMetadata(), false);
+			this.effectCache.put(Integer.valueOf(stack.getMetadata()), list);
+		}
 
-            return list;
-        }
-    }
+		return list;
+	}
 
     public List<PotionEffect> getEffects(int meta)
     {
@@ -161,12 +158,9 @@ public class ItemPotion extends Item
             playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
             return itemStackIn;
         }
-        else
-        {
-            playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-            return itemStackIn;
-        }
-    }
+		playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+		return itemStackIn;
+	}
 
     /**
      * returns wether or not a potion is a throwable splash potion based on damage value
@@ -202,11 +196,8 @@ public class ItemPotion extends Item
 
             return false;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public String getItemStackDisplayName(ItemStack stack)
     {
@@ -214,30 +205,24 @@ public class ItemPotion extends Item
         {
             return StatCollector.translateToLocal("item.emptyPotion.name").trim();
         }
-        else
-        {
-            String s = "";
+		String s = "";
 
-            if (isSplash(stack.getMetadata()))
-            {
-                s = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
-            }
+		if (isSplash(stack.getMetadata()))
+		{
+			s = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
+		}
 
-            List<PotionEffect> list = Items.potionitem.getEffects(stack);
+		List<PotionEffect> list = Items.potionitem.getEffects(stack);
 
-            if (list != null && !list.isEmpty())
-            {
-                String s2 = ((PotionEffect)list.get(0)).getEffectName();
-                s2 = s2 + ".postfix";
-                return s + StatCollector.translateToLocal(s2).trim();
-            }
-            else
-            {
-                String s1 = PotionHelper.getPotionPrefix(stack.getMetadata());
-                return StatCollector.translateToLocal(s1).trim() + " " + super.getItemStackDisplayName(stack);
-            }
-        }
-    }
+		if (list != null && !list.isEmpty())
+		{
+			String s2 = ((PotionEffect)list.get(0)).getEffectName();
+			s2 = s2 + ".postfix";
+			return s + StatCollector.translateToLocal(s2).trim();
+		}
+		String s1 = PotionHelper.getPotionPrefix(stack.getMetadata());
+		return StatCollector.translateToLocal(s1).trim() + " " + super.getItemStackDisplayName(stack);
+	}
 
     /**
      * allows items to add custom lines of information to the mouseover description

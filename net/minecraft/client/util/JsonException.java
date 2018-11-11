@@ -46,18 +46,15 @@ public class JsonException extends IOException
         {
             return (JsonException)p_151379_0_;
         }
-        else
-        {
-            String s = p_151379_0_.getMessage();
+		String s = p_151379_0_.getMessage();
 
-            if (p_151379_0_ instanceof FileNotFoundException)
-            {
-                s = "File not found";
-            }
+		if (p_151379_0_ instanceof FileNotFoundException)
+		{
+			s = "File not found";
+		}
 
-            return new JsonException(s, p_151379_0_);
-        }
-    }
+		return new JsonException(s, p_151379_0_);
+	}
 
     public static class Entry
     {

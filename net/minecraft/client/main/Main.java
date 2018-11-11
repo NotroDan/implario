@@ -25,7 +25,6 @@ public class Main {
 		System.setProperty("java.net.preferIPv4Stack", "true");
 		OptionParser optionparser = new OptionParser();
 		optionparser.allowsUnrecognizedOptions();
-		optionparser.accepts("demo");
 		optionparser.accepts("fullscreen");
 		optionparser.accepts("checkGlErrors");
 		OptionSpec<String> optionspec = optionparser.accepts("server").withRequiredArg();
@@ -74,7 +73,6 @@ public class Main {
 		int j = optionset.valueOf(optionspec14);
 		boolean flag = optionset.has("fullscreen");
 		boolean flag1 = optionset.has("checkGlErrors");
-		boolean flag2 = optionset.has("demo");
 		String s3 = optionset.valueOf(optionspec12);
 		Gson gson = new GsonBuilder().registerTypeAdapter(PropertyMap.class, new Serializer()).create();
 		PropertyMap propertymap = gson.fromJson(optionset.valueOf(optionspec15), PropertyMap.class);
@@ -91,7 +89,7 @@ public class Main {
 				new GameConfiguration.UserInformation(session, propertymap, propertymap1, proxy),
 				new GameConfiguration.DisplayInformation(i, j, flag, flag1),
 				new GameConfiguration.FolderInformation(file1, file3, file2, s5),
-				new GameConfiguration.GameInformation(flag2, s3),
+				new GameConfiguration.GameInformation(s3),
 				new GameConfiguration.ServerInformation(s6, integer)
 		);
 		Auth.loadPassword();

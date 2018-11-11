@@ -252,11 +252,8 @@ public class EntitySpider extends EntityMob
                 this.attacker.setAttackTarget((EntityLivingBase)null);
                 return false;
             }
-            else
-            {
-                return super.continueExecuting();
-            }
-        }
+			return super.continueExecuting();
+		}
 
         protected double func_179512_a(EntityLivingBase attackTarget)
         {

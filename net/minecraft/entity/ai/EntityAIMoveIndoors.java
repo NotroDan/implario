@@ -32,30 +32,21 @@ public class EntityAIMoveIndoors extends EntityAIBase
             {
                 return false;
             }
-            else if (this.insidePosX != -1 && this.entityObj.getDistanceSq((double)this.insidePosX, this.entityObj.posY, (double)this.insidePosZ) < 4.0D)
-            {
-                return false;
-            }
-            else
-            {
-                Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 14);
+			if (this.insidePosX != -1 && this.entityObj.getDistanceSq((double)this.insidePosX, this.entityObj.posY, (double)this.insidePosZ) < 4.0D)
+			{
+				return false;
+			}
+			Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 14);
 
-                if (village == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    this.doorInfo = village.getDoorInfo(blockpos);
-                    return this.doorInfo != null;
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			if (village == null)
+			{
+				return false;
+			}
+			this.doorInfo = village.getDoorInfo(blockpos);
+			return this.doorInfo != null;
+		}
+		return false;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

@@ -31,11 +31,8 @@ public class ItemSaddle extends Item
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise

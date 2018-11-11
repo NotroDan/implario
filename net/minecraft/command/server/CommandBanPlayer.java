@@ -60,27 +60,24 @@ public class CommandBanPlayer extends CommandBase
             {
                 throw new CommandException("commands.ban.failed", new Object[] {args[0]});
             }
-            else
-            {
-                String s = null;
+			String s = null;
 
-                if (args.length >= 2)
-                {
-                    s = getChatComponentFromNthArg(sender, args, 1).getUnformattedText();
-                }
+			if (args.length >= 2)
+			{
+				s = getChatComponentFromNthArg(sender, args, 1).getUnformattedText();
+			}
 
-                UserListBansEntry userlistbansentry = new UserListBansEntry(gameprofile, (Date)null, sender.getName(), (Date)null, s);
-                minecraftserver.getConfigurationManager().getBannedPlayers().addEntry(userlistbansentry);
-                EntityPlayerMP entityplayermp = minecraftserver.getConfigurationManager().getPlayerByUsername(args[0]);
+			UserListBansEntry userlistbansentry = new UserListBansEntry(gameprofile, (Date)null, sender.getName(), (Date)null, s);
+			minecraftserver.getConfigurationManager().getBannedPlayers().addEntry(userlistbansentry);
+			EntityPlayerMP entityplayermp = minecraftserver.getConfigurationManager().getPlayerByUsername(args[0]);
 
-                if (entityplayermp != null)
-                {
-                    entityplayermp.playerNetServerHandler.kickPlayerFromServer("You are banned from this server.");
-                }
+			if (entityplayermp != null)
+			{
+				entityplayermp.playerNetServerHandler.kickPlayerFromServer("You are banned from this server.");
+			}
 
-                notifyOperators(sender, this, "commands.ban.success", new Object[] {args[0]});
-            }
-        }
+			notifyOperators(sender, this, "commands.ban.success", new Object[] {args[0]});
+		}
         else
         {
             throw new WrongUsageException("commands.ban.usage", new Object[0]);

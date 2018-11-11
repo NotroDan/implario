@@ -175,43 +175,40 @@ public abstract class GenLayer
         {
             return true;
         }
-        else if (biomeIDA != BiomeGenBase.mesaPlateau_F.biomeID && biomeIDA != BiomeGenBase.mesaPlateau.biomeID)
-        {
-            final BiomeGenBase biomegenbase = BiomeGenBase.getBiome(biomeIDA);
-            final BiomeGenBase biomegenbase1 = BiomeGenBase.getBiome(biomeIDB);
+		if (biomeIDA != BiomeGenBase.mesaPlateau_F.biomeID && biomeIDA != BiomeGenBase.mesaPlateau.biomeID)
+		{
+			final BiomeGenBase biomegenbase = BiomeGenBase.getBiome(biomeIDA);
+			final BiomeGenBase biomegenbase1 = BiomeGenBase.getBiome(biomeIDB);
 
-            try
-            {
-                return biomegenbase != null && biomegenbase1 != null ? biomegenbase.isEqualTo(biomegenbase1) : false;
-            }
-            catch (Throwable throwable)
-            {
-                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Comparing biomes");
-                CrashReportCategory crashreportcategory = crashreport.makeCategory("Biomes being compared");
-                crashreportcategory.addCrashSection("Biome A ID", Integer.valueOf(biomeIDA));
-                crashreportcategory.addCrashSection("Biome B ID", Integer.valueOf(biomeIDB));
-                crashreportcategory.addCrashSectionCallable("Biome A", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return String.valueOf((Object)biomegenbase);
-                    }
-                });
-                crashreportcategory.addCrashSectionCallable("Biome B", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return String.valueOf((Object)biomegenbase1);
-                    }
-                });
-                throw new ReportedException(crashreport);
-            }
-        }
-        else
-        {
-            return biomeIDB == BiomeGenBase.mesaPlateau_F.biomeID || biomeIDB == BiomeGenBase.mesaPlateau.biomeID;
-        }
-    }
+			try
+			{
+				return biomegenbase != null && biomegenbase1 != null ? biomegenbase.isEqualTo(biomegenbase1) : false;
+			}
+			catch (Throwable throwable)
+			{
+				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Comparing biomes");
+				CrashReportCategory crashreportcategory = crashreport.makeCategory("Biomes being compared");
+				crashreportcategory.addCrashSection("Biome A ID", Integer.valueOf(biomeIDA));
+				crashreportcategory.addCrashSection("Biome B ID", Integer.valueOf(biomeIDB));
+				crashreportcategory.addCrashSectionCallable("Biome A", new Callable<String>()
+				{
+					public String call() throws Exception
+					{
+						return String.valueOf((Object)biomegenbase);
+					}
+				});
+				crashreportcategory.addCrashSectionCallable("Biome B", new Callable<String>()
+				{
+					public String call() throws Exception
+					{
+						return String.valueOf((Object)biomegenbase1);
+					}
+				});
+				throw new ReportedException(crashreport);
+			}
+		}
+		return biomeIDB == BiomeGenBase.mesaPlateau_F.biomeID || biomeIDB == BiomeGenBase.mesaPlateau.biomeID;
+	}
 
     /**
      * returns true if the biomeId is one of the various ocean biomes.

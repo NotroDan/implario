@@ -49,36 +49,33 @@ public class ItemBlock extends Item
         {
             return false;
         }
-        else if (!playerIn.canPlayerEdit(pos, side, stack))
-        {
-            return false;
-        }
-        else if (worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity)null, stack))
-        {
-            int i = this.getMetadata(stack.getMetadata());
-            IBlockState iblockstate1 = this.block.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
+		if (!playerIn.canPlayerEdit(pos, side, stack))
+		{
+			return false;
+		}
+		if (worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity)null, stack))
+		{
+			int i = this.getMetadata(stack.getMetadata());
+			IBlockState iblockstate1 = this.block.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
 
-            if (worldIn.setBlockState(pos, iblockstate1, 3))
-            {
-                iblockstate1 = worldIn.getBlockState(pos);
+			if (worldIn.setBlockState(pos, iblockstate1, 3))
+			{
+				iblockstate1 = worldIn.getBlockState(pos);
 
-                if (iblockstate1.getBlock() == this.block)
-                {
-                    setTileEntityNBT(worldIn, playerIn, pos, stack);
-                    this.block.onBlockPlacedBy(worldIn, pos, iblockstate1, playerIn, stack);
-                }
+				if (iblockstate1.getBlock() == this.block)
+				{
+					setTileEntityNBT(worldIn, playerIn, pos, stack);
+					this.block.onBlockPlacedBy(worldIn, pos, iblockstate1, playerIn, stack);
+				}
 
-                worldIn.playSoundEffect((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), this.block.stepSound.getPlaceSound(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getFrequency() * 0.8F);
-                --stack.stackSize;
-            }
+				worldIn.playSoundEffect((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), this.block.stepSound.getPlaceSound(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getFrequency() * 0.8F);
+				--stack.stackSize;
+			}
 
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     public static boolean setTileEntityNBT(World worldIn, EntityPlayer pos, BlockPos stack, ItemStack p_179224_3_)
     {
@@ -88,40 +85,37 @@ public class ItemBlock extends Item
         {
             return false;
         }
-        else
-        {
-            if (p_179224_3_.hasTagCompound() && p_179224_3_.getTagCompound().hasKey("BlockEntityTag", 10))
-            {
-                TileEntity tileentity = worldIn.getTileEntity(stack);
+		if (p_179224_3_.hasTagCompound() && p_179224_3_.getTagCompound().hasKey("BlockEntityTag", 10))
+		{
+			TileEntity tileentity = worldIn.getTileEntity(stack);
 
-                if (tileentity != null)
-                {
-                    if (!worldIn.isRemote && tileentity.func_183000_F() && !minecraftserver.getConfigurationManager().canSendCommands(pos.getGameProfile()))
-                    {
-                        return false;
-                    }
+			if (tileentity != null)
+			{
+				if (!worldIn.isRemote && tileentity.func_183000_F() && !minecraftserver.getConfigurationManager().canSendCommands(pos.getGameProfile()))
+				{
+					return false;
+				}
 
-                    NBTTagCompound nbttagcompound = new NBTTagCompound();
-                    NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttagcompound.copy();
-                    tileentity.writeToNBT(nbttagcompound);
-                    NBTTagCompound nbttagcompound2 = (NBTTagCompound)p_179224_3_.getTagCompound().getTag("BlockEntityTag");
-                    nbttagcompound.merge(nbttagcompound2);
-                    nbttagcompound.setInteger("x", stack.getX());
-                    nbttagcompound.setInteger("y", stack.getY());
-                    nbttagcompound.setInteger("z", stack.getZ());
+				NBTTagCompound nbttagcompound = new NBTTagCompound();
+				NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttagcompound.copy();
+				tileentity.writeToNBT(nbttagcompound);
+				NBTTagCompound nbttagcompound2 = (NBTTagCompound)p_179224_3_.getTagCompound().getTag("BlockEntityTag");
+				nbttagcompound.merge(nbttagcompound2);
+				nbttagcompound.setInteger("x", stack.getX());
+				nbttagcompound.setInteger("y", stack.getY());
+				nbttagcompound.setInteger("z", stack.getZ());
 
-                    if (!nbttagcompound.equals(nbttagcompound1))
-                    {
-                        tileentity.readFromNBT(nbttagcompound);
-                        tileentity.markDirty();
-                        return true;
-                    }
-                }
-            }
+				if (!nbttagcompound.equals(nbttagcompound1))
+				{
+					tileentity.readFromNBT(nbttagcompound);
+					tileentity.markDirty();
+					return true;
+				}
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack)
     {

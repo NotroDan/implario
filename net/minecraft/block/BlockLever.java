@@ -84,26 +84,20 @@ public class BlockLever extends Block
         {
             return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings(facing, placer.getHorizontalFacing()));
         }
-        else
-        {
-            for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
-            {
-                if (enumfacing != facing && func_181090_a(worldIn, pos, ((EnumFacing) enumfacing).getOpposite()))
-                {
-                    return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings((EnumFacing) enumfacing, placer.getHorizontalFacing()));
-                }
-            }
+		for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
+		{
+			if (enumfacing != facing && func_181090_a(worldIn, pos, ((EnumFacing) enumfacing).getOpposite()))
+			{
+				return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings((EnumFacing) enumfacing, placer.getHorizontalFacing()));
+			}
+		}
 
-            if (World.doesBlockHaveSolidTopSurface(worldIn, pos.down()))
-            {
-                return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings(EnumFacing.UP, placer.getHorizontalFacing()));
-            }
-            else
-            {
-                return iblockstate;
-            }
-        }
-    }
+		if (World.doesBlockHaveSolidTopSurface(worldIn, pos.down()))
+		{
+			return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings(EnumFacing.UP, placer.getHorizontalFacing()));
+		}
+		return iblockstate;
+	}
 
     public static int getMetadataForFacing(EnumFacing facing)
     {
@@ -150,13 +144,10 @@ public class BlockLever extends Block
         {
             return true;
         }
-        else
-        {
-            this.dropBlockAsItem(p_181091_1_, p_181091_2_, p_181091_3_, 0);
-            p_181091_1_.setBlockToAir(p_181091_2_);
-            return false;
-        }
-    }
+		this.dropBlockAsItem(p_181091_1_, p_181091_2_, p_181091_3_, 0);
+		p_181091_1_.setBlockToAir(p_181091_2_);
+		return false;
+	}
 
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
@@ -199,17 +190,14 @@ public class BlockLever extends Block
         {
             return true;
         }
-        else
-        {
-            state = state.cycleProperty(POWERED);
-            worldIn.setBlockState(pos, state, 3);
-            worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "random.click", 0.3F, ((Boolean)state.getValue(POWERED)).booleanValue() ? 0.6F : 0.5F);
-            worldIn.notifyNeighborsOfStateChange(pos, this);
-            EnumFacing enumfacing = ((BlockLever.EnumOrientation)state.getValue(FACING)).getFacing();
-            worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing.getOpposite()), this);
-            return true;
-        }
-    }
+		state = state.cycleProperty(POWERED);
+		worldIn.setBlockState(pos, state, 3);
+		worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "random.click", 0.3F, ((Boolean)state.getValue(POWERED)).booleanValue() ? 0.6F : 0.5F);
+		worldIn.notifyNeighborsOfStateChange(pos, this);
+		EnumFacing enumfacing = ((BlockLever.EnumOrientation)state.getValue(FACING)).getFacing();
+		worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing.getOpposite()), this);
+		return true;
+	}
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {

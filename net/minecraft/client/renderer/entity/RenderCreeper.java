@@ -44,13 +44,10 @@ public class RenderCreeper extends RenderLiving<EntityCreeper>
         {
             return 0;
         }
-        else
-        {
-            int i = (int)(f * 0.2F * 255.0F);
-            i = MathHelper.clamp_int(i, 0, 255);
-            return i << 24 | 16777215;
-        }
-    }
+		int i = (int)(f * 0.2F * 255.0F);
+		i = MathHelper.clamp_int(i, 0, 255);
+		return i << 24 | 16777215;
+	}
 
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.

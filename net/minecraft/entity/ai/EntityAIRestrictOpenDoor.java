@@ -30,22 +30,16 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            BlockPos blockpos = new BlockPos(this.entityObj);
-            Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 16);
+		BlockPos blockpos = new BlockPos(this.entityObj);
+		Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 16);
 
-            if (village == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.frontDoor = village.getNearestDoor(blockpos);
-                return this.frontDoor == null ? false : (double)this.frontDoor.getDistanceToInsideBlockSq(blockpos) < 2.25D;
-            }
-        }
-    }
+		if (village == null)
+		{
+			return false;
+		}
+		this.frontDoor = village.getNearestDoor(blockpos);
+		return this.frontDoor == null ? false : (double)this.frontDoor.getDistanceToInsideBlockSq(blockpos) < 2.25D;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

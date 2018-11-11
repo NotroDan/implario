@@ -157,31 +157,28 @@ public class ChunkProviderServer implements IChunkProvider
         {
             return null;
         }
-        else
-        {
-            try
-            {
-                Chunk chunk = this.chunkLoader.loadChunk(this.worldObj, x, z);
+		try
+		{
+			Chunk chunk = this.chunkLoader.loadChunk(this.worldObj, x, z);
 
-                if (chunk != null)
-                {
-                    chunk.setLastSaveTime(this.worldObj.getTotalWorldTime());
+			if (chunk != null)
+			{
+				chunk.setLastSaveTime(this.worldObj.getTotalWorldTime());
 
-                    if (this.serverChunkGenerator != null)
-                    {
-                        this.serverChunkGenerator.recreateStructures(chunk, x, z);
-                    }
-                }
+				if (this.serverChunkGenerator != null)
+				{
+					this.serverChunkGenerator.recreateStructures(chunk, x, z);
+				}
+			}
 
-                return chunk;
-            }
-            catch (Exception exception)
-            {
-                logger.error((String)"Couldn\'t load chunk", (Throwable)exception);
-                return null;
-            }
-        }
-    }
+			return chunk;
+		}
+		catch (Exception exception)
+		{
+			logger.error((String)"Couldn\'t load chunk", (Throwable)exception);
+			return null;
+		}
+	}
 
     private void saveChunkExtraData(Chunk p_73243_1_)
     {
@@ -245,11 +242,8 @@ public class ChunkProviderServer implements IChunkProvider
             chunk.setChunkModified();
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Two modes of operation: if passed true, save all Chunks in one go.  If passed false, save up to two chunks.

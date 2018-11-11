@@ -351,21 +351,18 @@ public class MathHelper
         {
             return 0;
         }
-        else if (p_154354_0_ == 0)
-        {
-            return p_154354_1_;
-        }
-        else
-        {
-            if (p_154354_0_ < 0)
-            {
-                p_154354_1_ *= -1;
-            }
+		if (p_154354_0_ == 0)
+		{
+			return p_154354_1_;
+		}
+		if (p_154354_0_ < 0)
+		{
+			p_154354_1_ *= -1;
+		}
 
-            int i = p_154354_0_ % p_154354_1_;
-            return i == 0 ? p_154354_0_ : p_154354_0_ + p_154354_1_ - i;
-        }
-    }
+		int i = p_154354_0_ % p_154354_1_;
+		return i == 0 ? p_154354_0_ : p_154354_0_ + p_154354_1_ - i;
+	}
 
     public static int func_180183_b(float p_180183_0_, float p_180183_1_, float p_180183_2_)
     {
@@ -430,61 +427,58 @@ public class MathHelper
         {
             return Double.NaN;
         }
-        else
-        {
-            boolean flag = p_181159_0_ < 0.0D;
+		boolean flag = p_181159_0_ < 0.0D;
 
-            if (flag)
-            {
-                p_181159_0_ = -p_181159_0_;
-            }
+		if (flag)
+		{
+			p_181159_0_ = -p_181159_0_;
+		}
 
-            boolean flag1 = p_181159_2_ < 0.0D;
+		boolean flag1 = p_181159_2_ < 0.0D;
 
-            if (flag1)
-            {
-                p_181159_2_ = -p_181159_2_;
-            }
+		if (flag1)
+		{
+			p_181159_2_ = -p_181159_2_;
+		}
 
-            boolean flag2 = p_181159_0_ > p_181159_2_;
+		boolean flag2 = p_181159_0_ > p_181159_2_;
 
-            if (flag2)
-            {
-                double d1 = p_181159_2_;
-                p_181159_2_ = p_181159_0_;
-                p_181159_0_ = d1;
-            }
+		if (flag2)
+		{
+			double d1 = p_181159_2_;
+			p_181159_2_ = p_181159_0_;
+			p_181159_0_ = d1;
+		}
 
-            double d9 = func_181161_i(d0);
-            p_181159_2_ = p_181159_2_ * d9;
-            p_181159_0_ = p_181159_0_ * d9;
-            double d2 = field_181163_d + p_181159_0_;
-            int i = (int)Double.doubleToRawLongBits(d2);
-            double d3 = field_181164_e[i];
-            double d4 = field_181165_f[i];
-            double d5 = d2 - field_181163_d;
-            double d6 = p_181159_0_ * d4 - p_181159_2_ * d5;
-            double d7 = (6.0D + d6 * d6) * d6 * 0.16666666666666666D;
-            double d8 = d3 + d7;
+		double d9 = func_181161_i(d0);
+		p_181159_2_ = p_181159_2_ * d9;
+		p_181159_0_ = p_181159_0_ * d9;
+		double d2 = field_181163_d + p_181159_0_;
+		int i = (int)Double.doubleToRawLongBits(d2);
+		double d3 = field_181164_e[i];
+		double d4 = field_181165_f[i];
+		double d5 = d2 - field_181163_d;
+		double d6 = p_181159_0_ * d4 - p_181159_2_ * d5;
+		double d7 = (6.0D + d6 * d6) * d6 * 0.16666666666666666D;
+		double d8 = d3 + d7;
 
-            if (flag2)
-            {
-                d8 = Math.PI / 2D - d8;
-            }
+		if (flag2)
+		{
+			d8 = Math.PI / 2D - d8;
+		}
 
-            if (flag1)
-            {
-                d8 = Math.PI - d8;
-            }
+		if (flag1)
+		{
+			d8 = Math.PI - d8;
+		}
 
-            if (flag)
-            {
-                d8 = -d8;
-            }
+		if (flag)
+		{
+			d8 = -d8;
+		}
 
-            return d8;
-        }
-    }
+		return d8;
+	}
 
     public static double func_181161_i(double p_181161_0_)
     {

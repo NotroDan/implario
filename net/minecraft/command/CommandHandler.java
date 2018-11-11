@@ -163,21 +163,18 @@ public class CommandHandler implements ICommandManager
 
             return list;
         }
-        else
-        {
-            if (astring.length > 1)
-            {
-                ICommand icommand = (ICommand)this.commandMap.get(s);
+		if (astring.length > 1)
+		{
+			ICommand icommand = (ICommand)this.commandMap.get(s);
 
-                if (icommand != null && icommand.canCommandSenderUseCommand(sender))
-                {
-                    return icommand.addTabCompletionOptions(sender, dropFirstString(astring), pos);
-                }
-            }
+			if (icommand != null && icommand.canCommandSenderUseCommand(sender))
+			{
+				return icommand.addTabCompletionOptions(sender, dropFirstString(astring), pos);
+			}
+		}
 
-            return null;
-        }
-    }
+		return null;
+	}
 
     public List<ICommand> getPossibleCommands(ICommandSender sender)
     {
@@ -208,17 +205,14 @@ public class CommandHandler implements ICommandManager
         {
             return -1;
         }
-        else
-        {
-            for (int i = 0; i < args.length; ++i)
-            {
-                if (command.isUsernameIndex(args, i) && PlayerSelector.matchesMultiplePlayers(args[i]))
-                {
-                    return i;
-                }
-            }
+		for (int i = 0; i < args.length; ++i)
+		{
+			if (command.isUsernameIndex(args, i) && PlayerSelector.matchesMultiplePlayers(args[i]))
+			{
+				return i;
+			}
+		}
 
-            return -1;
-        }
-    }
+		return -1;
+	}
 }

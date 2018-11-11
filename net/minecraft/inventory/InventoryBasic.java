@@ -66,24 +66,18 @@ public class InventoryBasic implements IInventory
                 this.markDirty();
                 return itemstack1;
             }
-            else
-            {
-                ItemStack itemstack = this.inventoryContents[index].splitStack(count);
+			ItemStack itemstack = this.inventoryContents[index].splitStack(count);
 
-                if (this.inventoryContents[index].stackSize == 0)
-                {
-                    this.inventoryContents[index] = null;
-                }
+			if (this.inventoryContents[index].stackSize == 0)
+			{
+				this.inventoryContents[index] = null;
+			}
 
-                this.markDirty();
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			this.markDirty();
+			return itemstack;
+		}
+		return null;
+	}
 
     public ItemStack func_174894_a(ItemStack stack)
     {
@@ -138,11 +132,8 @@ public class InventoryBasic implements IInventory
             this.inventoryContents[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).

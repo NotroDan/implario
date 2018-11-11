@@ -106,11 +106,8 @@ public class PathFinder
         {
             return null;
         }
-        else
-        {
-            return this.createEntityPath(pathpointStart, pathpoint);
-        }
-    }
+		return this.createEntityPath(pathpointStart, pathpoint);
+	}
 
     /**
      * Returns a new PathEntity for a given start and end point

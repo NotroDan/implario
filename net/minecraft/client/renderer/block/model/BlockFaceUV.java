@@ -26,12 +26,9 @@ public class BlockFaceUV
         {
             throw new NullPointerException("uvs");
         }
-        else
-        {
-            int i = this.func_178347_d(p_178348_1_);
-            return i != 0 && i != 1 ? this.uvs[2] : this.uvs[0];
-        }
-    }
+		int i = this.func_178347_d(p_178348_1_);
+		return i != 0 && i != 1 ? this.uvs[2] : this.uvs[0];
+	}
 
     public float func_178346_b(int p_178346_1_)
     {
@@ -39,12 +36,9 @@ public class BlockFaceUV
         {
             throw new NullPointerException("uvs");
         }
-        else
-        {
-            int i = this.func_178347_d(p_178346_1_);
-            return i != 0 && i != 3 ? this.uvs[3] : this.uvs[1];
-        }
-    }
+		int i = this.func_178347_d(p_178346_1_);
+		return i != 0 && i != 3 ? this.uvs[3] : this.uvs[1];
+	}
 
     private int func_178347_d(int p_178347_1_)
     {
@@ -82,11 +76,8 @@ public class BlockFaceUV
             {
                 return i;
             }
-            else
-            {
-                throw new JsonParseException("Invalid rotation " + i + " found, only 0/90/180/270 allowed");
-            }
-        }
+			throw new JsonParseException("Invalid rotation " + i + " found, only 0/90/180/270 allowed");
+		}
 
         private float[] parseUV(JsonObject p_178292_1_)
         {
@@ -94,26 +85,20 @@ public class BlockFaceUV
             {
                 return null;
             }
-            else
-            {
-                JsonArray jsonarray = JsonUtils.getJsonArray(p_178292_1_, "uv");
+			JsonArray jsonarray = JsonUtils.getJsonArray(p_178292_1_, "uv");
 
-                if (jsonarray.size() != 4)
-                {
-                    throw new JsonParseException("Expected 4 uv values, found: " + jsonarray.size());
-                }
-                else
-                {
-                    float[] afloat = new float[4];
+			if (jsonarray.size() != 4)
+			{
+				throw new JsonParseException("Expected 4 uv values, found: " + jsonarray.size());
+			}
+			float[] afloat = new float[4];
 
-                    for (int i = 0; i < afloat.length; ++i)
-                    {
-                        afloat[i] = JsonUtils.getFloat(jsonarray.get(i), "uv[" + i + "]");
-                    }
+			for (int i = 0; i < afloat.length; ++i)
+			{
+				afloat[i] = JsonUtils.getFloat(jsonarray.get(i), "uv[" + i + "]");
+			}
 
-                    return afloat;
-                }
-            }
-        }
+			return afloat;
+		}
     }
 }

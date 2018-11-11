@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -49,15 +49,15 @@ public class GuiFlatPresets extends GuiScreen
     {
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
-        this.presetsTitle = I18n.format("createWorld.customize.presets.title", new Object[0]);
-        this.presetsShare = I18n.format("createWorld.customize.presets.share", new Object[0]);
-        this.field_146436_r = I18n.format("createWorld.customize.presets.list", new Object[0]);
+        this.presetsTitle = Lang.format("createWorld.customize.presets.title", new Object[0]);
+        this.presetsShare = Lang.format("createWorld.customize.presets.share", new Object[0]);
+        this.field_146436_r = Lang.format("createWorld.customize.presets.list", new Object[0]);
         this.field_146433_u = new GuiTextField(2, this.fontRendererObj, 50, 40, this.width - 100, 20);
         this.field_146435_s = new GuiFlatPresets.ListSlot();
         this.field_146433_u.setMaxStringLength(1230);
         this.field_146433_u.setText(this.parentScreen.func_146384_e());
-        this.buttonList.add(this.field_146434_t = new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("createWorld.customize.presets.select", new Object[0])));
-        this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel", new Object[0])));
+        this.buttonList.add(this.field_146434_t = new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, Lang.format("createWorld.customize.presets.select", new Object[0])));
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, Lang.format("gui.cancel", new Object[0])));
         this.func_146426_g();
     }
 

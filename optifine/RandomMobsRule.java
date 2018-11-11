@@ -34,88 +34,85 @@ public class RandomMobsRule
             Config.warn("Invalid path: " + this.baseResLoc.getResourcePath());
             return false;
         }
-        else
-        {
-            for (int i = 0; i < this.resourceLocations.length; ++i)
-            {
-                int j = this.skins[i];
+		for (int i = 0; i < this.resourceLocations.length; ++i)
+		{
+			int j = this.skins[i];
 
-                if (j <= 1)
-                {
-                    this.resourceLocations[i] = this.baseResLoc;
-                }
-                else
-                {
-                    ResourceLocation resourcelocation1 = RandomMobs.getLocationIndexed(resourcelocation, j);
+			if (j <= 1)
+			{
+				this.resourceLocations[i] = this.baseResLoc;
+			}
+			else
+			{
+				ResourceLocation resourcelocation1 = RandomMobs.getLocationIndexed(resourcelocation, j);
 
-                    if (resourcelocation1 == null)
-                    {
-                        Config.warn("Invalid path: " + this.baseResLoc.getResourcePath());
-                        return false;
-                    }
+				if (resourcelocation1 == null)
+				{
+					Config.warn("Invalid path: " + this.baseResLoc.getResourcePath());
+					return false;
+				}
 
-                    if (!Config.hasResource(resourcelocation1))
-                    {
-                        Config.warn("Texture not found: " + resourcelocation1.getResourcePath());
-                        return false;
-                    }
+				if (!Config.hasResource(resourcelocation1))
+				{
+					Config.warn("Texture not found: " + resourcelocation1.getResourcePath());
+					return false;
+				}
 
-                    this.resourceLocations[i] = resourcelocation1;
-                }
-            }
+				this.resourceLocations[i] = resourcelocation1;
+			}
+		}
 
-            if (this.weights != null)
-            {
-                if (this.weights.length > this.resourceLocations.length)
-                {
-                    Config.warn("More weights defined than skins, trimming weights: " + p_isValid_1_);
-                    int[] aint = new int[this.resourceLocations.length];
-                    System.arraycopy(this.weights, 0, aint, 0, aint.length);
-                    this.weights = aint;
-                }
+		if (this.weights != null)
+		{
+			if (this.weights.length > this.resourceLocations.length)
+			{
+				Config.warn("More weights defined than skins, trimming weights: " + p_isValid_1_);
+				int[] aint = new int[this.resourceLocations.length];
+				System.arraycopy(this.weights, 0, aint, 0, aint.length);
+				this.weights = aint;
+			}
 
-                if (this.weights.length < this.resourceLocations.length)
-                {
-                    Config.warn("Less weights defined than skins, expanding weights: " + p_isValid_1_);
-                    int[] aint1 = new int[this.resourceLocations.length];
-                    System.arraycopy(this.weights, 0, aint1, 0, this.weights.length);
-                    int l = MathUtils.getAverage(this.weights);
+			if (this.weights.length < this.resourceLocations.length)
+			{
+				Config.warn("Less weights defined than skins, expanding weights: " + p_isValid_1_);
+				int[] aint1 = new int[this.resourceLocations.length];
+				System.arraycopy(this.weights, 0, aint1, 0, this.weights.length);
+				int l = MathUtils.getAverage(this.weights);
 
-                    for (int j1 = this.weights.length; j1 < aint1.length; ++j1)
-                    {
-                        aint1[j1] = l;
-                    }
+				for (int j1 = this.weights.length; j1 < aint1.length; ++j1)
+				{
+					aint1[j1] = l;
+				}
 
-                    this.weights = aint1;
-                }
+				this.weights = aint1;
+			}
 
-                this.sumWeights = new int[this.weights.length];
-                int k = 0;
+			this.sumWeights = new int[this.weights.length];
+			int k = 0;
 
-                for (int i1 = 0; i1 < this.weights.length; ++i1)
-                {
-                    if (this.weights[i1] < 0)
-                    {
-                        Config.warn("Invalid weight: " + this.weights[i1]);
-                        return false;
-                    }
+			for (int i1 = 0; i1 < this.weights.length; ++i1)
+			{
+				if (this.weights[i1] < 0)
+				{
+					Config.warn("Invalid weight: " + this.weights[i1]);
+					return false;
+				}
 
-                    k += this.weights[i1];
-                    this.sumWeights[i1] = k;
-                }
+				k += this.weights[i1];
+				this.sumWeights[i1] = k;
+			}
 
-                this.sumAllWeights = k;
+			this.sumAllWeights = k;
 
-                if (this.sumAllWeights <= 0)
-                {
-                    Config.warn("Invalid sum of all weights: " + k);
-                    this.sumAllWeights = 1;
-                }
-            }
+			if (this.sumAllWeights <= 0)
+			{
+				Config.warn("Invalid sum of all weights: " + k);
+				this.sumAllWeights = 1;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     public boolean matches(EntityLiving p_matches_1_)
     {

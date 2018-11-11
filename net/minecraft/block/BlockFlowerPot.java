@@ -104,39 +104,30 @@ public class BlockFlowerPot extends BlockContainer
             {
                 return false;
             }
-            else if (tileentityflowerpot.getFlowerPotItem() != null)
-            {
-                return false;
-            }
-            else
-            {
-                Block block = Block.getBlockFromItem(itemstack.getItem());
+			if (tileentityflowerpot.getFlowerPotItem() != null)
+			{
+				return false;
+			}
+			Block block = Block.getBlockFromItem(itemstack.getItem());
 
-                if (!this.canNotContain(block, itemstack.getMetadata()))
-                {
-                    return false;
-                }
-                else
-                {
-                    tileentityflowerpot.setFlowerPotData(itemstack.getItem(), itemstack.getMetadata());
-                    tileentityflowerpot.markDirty();
-                    worldIn.markBlockForUpdate(pos);
-                    playerIn.triggerAchievement(StatList.field_181736_T);
+			if (!this.canNotContain(block, itemstack.getMetadata()))
+			{
+				return false;
+			}
+			tileentityflowerpot.setFlowerPotData(itemstack.getItem(), itemstack.getMetadata());
+			tileentityflowerpot.markDirty();
+			worldIn.markBlockForUpdate(pos);
+			playerIn.triggerAchievement(StatList.field_181736_T);
 
-                    if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
-                    {
-                        playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack)null);
-                    }
+			if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
+			{
+				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack)null);
+			}
 
-                    return true;
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     private boolean canNotContain(Block blockIn, int meta)
     {

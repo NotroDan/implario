@@ -40,12 +40,9 @@ public class ItemSword extends Item
         {
             return 15.0F;
         }
-        else
-        {
-            Material material = block.getMaterial();
-            return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.gourd ? 1.0F : 1.5F;
-        }
-    }
+		Material material = block.getMaterial();
+		return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.gourd ? 1.0F : 1.5F;
+	}
 
     /**
      * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise

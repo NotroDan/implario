@@ -91,11 +91,8 @@ public class RecipesMapCloning implements IRecipe
 
             return itemstack2;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Returns the size of the recipe area

@@ -83,11 +83,8 @@ public class RegionRenderCache extends ChunkCache
             int j = (pos.getZ() >> 4) - this.chunkZ;
             return this.chunkArray[i][j].getBlockState(pos);
         }
-        else
-        {
-            return DEFAULT_STATE;
-        }
-    }
+		return DEFAULT_STATE;
+	}
 
     private int getPositionIndex(BlockPos p_175630_1_)
     {

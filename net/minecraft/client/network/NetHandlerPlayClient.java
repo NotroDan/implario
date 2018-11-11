@@ -22,7 +22,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EntityPickupFX;
 import net.minecraft.client.player.inventory.ContainerLocalMenu;
 import net.minecraft.client.player.inventory.LocalBlockIntercommunication;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.*;
@@ -738,7 +738,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
             entity.mountEntity(entity1);
 
-            if (flag) this.gameController.ingameGUI.setRecordPlaying(I18n.format("mount.onboard",
+            if (flag) this.gameController.ingameGUI.setRecordPlaying(Lang.format("mount.onboard",
 					"SHIFT"), false);
         }
         else if (packetIn.getLeash() == 1 && entity instanceof EntityLiving)
@@ -1398,7 +1398,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
 				ServerList.func_147414_b(this.gameController.getCurrentServerData());
 				this.gameController.displayGuiScreen(null);
-			}, I18n.format("multiplayer.texturePrompt.line1"), I18n.format("multiplayer.texturePrompt.line2"), 0)));
+			}, Lang.format("multiplayer.texturePrompt.line1"), Lang.format("multiplayer.texturePrompt.line2"), 0)));
     }
 
     public void handleEntityNBT(S49PacketUpdateEntityNBT packetIn)

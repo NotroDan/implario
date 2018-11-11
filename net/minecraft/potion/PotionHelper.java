@@ -108,24 +108,18 @@ public class PotionHelper
             {
                 return 0;
             }
-            else
-            {
-                f = f / f3 * 255.0F;
-                f1 = f1 / f3 * 255.0F;
-                f2 = f2 / f3 * 255.0F;
-                return (int)f << 16 | (int)f1 << 8 | (int)f2;
-            }
-        }
-        else
-        {
-            if (Config.isCustomColors())
-            {
-                i = CustomColors.getPotionColor(0, i);
-            }
+			f = f / f3 * 255.0F;
+			f1 = f1 / f3 * 255.0F;
+			f2 = f2 / f3 * 255.0F;
+			return (int)f << 16 | (int)f1 << 8 | (int)f2;
+		}
+		if (Config.isCustomColors())
+		{
+			i = CustomColors.getPotionColor(0, i);
+		}
 
-            return i;
-        }
-    }
+		return i;
+	}
 
     /**
      * Check whether a {@link Collection}<{@link PotionEffect}> are all ambient.
@@ -156,18 +150,12 @@ public class PotionHelper
             {
                 return ((Integer)DATAVALUE_COLORS.get(integer)).intValue();
             }
-            else
-            {
-                int i = calcPotionLiquidColor(getPotionEffects(integer.intValue(), false));
-                DATAVALUE_COLORS.put(integer, Integer.valueOf(i));
-                return i;
-            }
-        }
-        else
-        {
-            return calcPotionLiquidColor(getPotionEffects(integer.intValue(), true));
-        }
-    }
+			int i = calcPotionLiquidColor(getPotionEffects(integer.intValue(), false));
+			DATAVALUE_COLORS.put(integer, Integer.valueOf(i));
+			return i;
+		}
+		return calcPotionLiquidColor(getPotionEffects(integer.intValue(), true));
+	}
 
     /**
      * Given a potion data value, get its prefix as a translation ID.
@@ -248,157 +236,142 @@ public class PotionHelper
                 {
                     return l1;
                 }
-                else
-                {
-                    int i2 = parsePotionEffects(p_77912_0_, i + 1, p_77912_2_, p_77912_3_);
-                    return i2 > 0 ? i2 : 0;
-                }
-            }
-            else
-            {
-                int j = p_77912_0_.indexOf(38, p_77912_1_);
+				int i2 = parsePotionEffects(p_77912_0_, i + 1, p_77912_2_, p_77912_3_);
+				return i2 > 0 ? i2 : 0;
+			}
+			int j = p_77912_0_.indexOf(38, p_77912_1_);
 
-                if (j >= 0 && j < p_77912_2_)
-                {
-                    int k = parsePotionEffects(p_77912_0_, p_77912_1_, j - 1, p_77912_3_);
+			if (j >= 0 && j < p_77912_2_)
+			{
+				int k = parsePotionEffects(p_77912_0_, p_77912_1_, j - 1, p_77912_3_);
 
-                    if (k <= 0)
-                    {
-                        return 0;
-                    }
-                    else
-                    {
-                        int j2 = parsePotionEffects(p_77912_0_, j + 1, p_77912_2_, p_77912_3_);
-                        return j2 <= 0 ? 0 : k > j2 ? k : j2;
-                    }
-                }
-                else
-                {
-                    boolean flag = false;
-                    boolean flag1 = false;
-                    boolean flag2 = false;
-                    boolean flag3 = false;
-                    boolean flag4 = false;
-                    byte b0 = -1;
-                    int l = 0;
-                    int i1 = 0;
-                    int j1 = 0;
+				if (k <= 0)
+				{
+					return 0;
+				}
+				int j2 = parsePotionEffects(p_77912_0_, j + 1, p_77912_2_, p_77912_3_);
+				return j2 <= 0 ? 0 : k > j2 ? k : j2;
+			}
+			boolean flag = false;
+			boolean flag1 = false;
+			boolean flag2 = false;
+			boolean flag3 = false;
+			boolean flag4 = false;
+			byte b0 = -1;
+			int l = 0;
+			int i1 = 0;
+			int j1 = 0;
 
-                    for (int k1 = p_77912_1_; k1 < p_77912_2_; ++k1)
-                    {
-                        char c0 = p_77912_0_.charAt(k1);
+			for (int k1 = p_77912_1_; k1 < p_77912_2_; ++k1)
+			{
+				char c0 = p_77912_0_.charAt(k1);
 
-                        if (c0 >= 48 && c0 <= 57)
-                        {
-                            if (flag)
-                            {
-                                i1 = c0 - 48;
-                                flag1 = true;
-                            }
-                            else
-                            {
-                                l = l * 10;
-                                l = l + c0 - 48;
-                                flag2 = true;
-                            }
-                        }
-                        else if (c0 == 42)
-                        {
-                            flag = true;
-                        }
-                        else if (c0 == 33)
-                        {
-                            if (flag2)
-                            {
-                                j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
-                                flag3 = false;
-                                flag4 = false;
-                                flag = false;
-                                flag1 = false;
-                                flag2 = false;
-                                i1 = 0;
-                                l = 0;
-                                b0 = -1;
-                            }
+				if (c0 >= 48 && c0 <= 57)
+				{
+					if (flag)
+					{
+						i1 = c0 - 48;
+						flag1 = true;
+					}
+					else
+					{
+						l = l * 10;
+						l = l + c0 - 48;
+						flag2 = true;
+					}
+				}
+				else if (c0 == 42)
+				{
+					flag = true;
+				}
+				else if (c0 == 33)
+				{
+					if (flag2)
+					{
+						j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
+						flag3 = false;
+						flag4 = false;
+						flag = false;
+						flag1 = false;
+						flag2 = false;
+						i1 = 0;
+						l = 0;
+						b0 = -1;
+					}
 
-                            flag3 = true;
-                        }
-                        else if (c0 == 45)
-                        {
-                            if (flag2)
-                            {
-                                j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
-                                flag3 = false;
-                                flag4 = false;
-                                flag = false;
-                                flag1 = false;
-                                flag2 = false;
-                                i1 = 0;
-                                l = 0;
-                                b0 = -1;
-                            }
+					flag3 = true;
+				}
+				else if (c0 == 45)
+				{
+					if (flag2)
+					{
+						j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
+						flag3 = false;
+						flag4 = false;
+						flag = false;
+						flag1 = false;
+						flag2 = false;
+						i1 = 0;
+						l = 0;
+						b0 = -1;
+					}
 
-                            flag4 = true;
-                        }
-                        else if (c0 != 61 && c0 != 60 && c0 != 62)
-                        {
-                            if (c0 == 43 && flag2)
-                            {
-                                j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
-                                flag3 = false;
-                                flag4 = false;
-                                flag = false;
-                                flag1 = false;
-                                flag2 = false;
-                                i1 = 0;
-                                l = 0;
-                                b0 = -1;
-                            }
-                        }
-                        else
-                        {
-                            if (flag2)
-                            {
-                                j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
-                                flag3 = false;
-                                flag4 = false;
-                                flag = false;
-                                flag1 = false;
-                                flag2 = false;
-                                i1 = 0;
-                                l = 0;
-                                b0 = -1;
-                            }
+					flag4 = true;
+				}
+				else if (c0 != 61 && c0 != 60 && c0 != 62)
+				{
+					if (c0 == 43 && flag2)
+					{
+						j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
+						flag3 = false;
+						flag4 = false;
+						flag = false;
+						flag1 = false;
+						flag2 = false;
+						i1 = 0;
+						l = 0;
+						b0 = -1;
+					}
+				}
+				else
+				{
+					if (flag2)
+					{
+						j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
+						flag3 = false;
+						flag4 = false;
+						flag = false;
+						flag1 = false;
+						flag2 = false;
+						i1 = 0;
+						l = 0;
+						b0 = -1;
+					}
 
-                            if (c0 == 61)
-                            {
-                                b0 = 0;
-                            }
-                            else if (c0 == 60)
-                            {
-                                b0 = 2;
-                            }
-                            else if (c0 == 62)
-                            {
-                                b0 = 1;
-                            }
-                        }
-                    }
+					if (c0 == 61)
+					{
+						b0 = 0;
+					}
+					else if (c0 == 60)
+					{
+						b0 = 2;
+					}
+					else if (c0 == 62)
+					{
+						b0 = 1;
+					}
+				}
+			}
 
-                    if (flag2)
-                    {
-                        j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
-                    }
+			if (flag2)
+			{
+				j1 += func_77904_a(flag3, flag1, flag4, b0, l, i1, p_77912_3_);
+			}
 
-                    return j1;
-                }
-            }
-        }
-        else
-        {
-            return 0;
-        }
-    }
+			return j1;
+		}
+		return 0;
+	}
 
     /**
      * Returns a list of effects for the specified potion damage value.

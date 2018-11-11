@@ -70,12 +70,9 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
         {
             return false;
         }
-        else
-        {
-            this.inLove = 0;
-            return super.attackEntityFrom(source, amount);
-        }
-    }
+		this.inLove = 0;
+		return super.attackEntityFrom(source, amount);
+	}
 
     public float getBlockPathWeight(BlockPos pos)
     {

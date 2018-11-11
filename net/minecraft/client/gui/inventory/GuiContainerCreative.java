@@ -8,7 +8,7 @@ import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.creativetab.CreativeTabs;
@@ -326,7 +326,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 
 		if (creativetabs.drawInForegroundOfTab()) {
 			GlStateManager.disableBlend();
-			this.fontRendererObj.drawString(I18n.format(creativetabs.getTranslatedTabLabel()), 8, 6, 4210752);
+			this.fontRendererObj.drawString(Lang.format(creativetabs.getTranslatedTabLabel()), 8, 6, 4210752);
 		}
 	}
 
@@ -505,7 +505,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 
 		if (this.field_147064_C != null && selectedTabIndex == CreativeTabs.tabInventory.getTabIndex() && this.isPointInRegion(this.field_147064_C.xDisplayPosition,
 				this.field_147064_C.yDisplayPosition, 16, 16, mouseX, mouseY)) {
-			this.drawCreativeTabHoveringText(I18n.format("inventory.binSlot"), mouseX, mouseY);
+			this.drawCreativeTabHoveringText(Lang.format("inventory.binSlot"), mouseX, mouseY);
 		}
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -533,7 +533,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			}
 
 			if (creativetabs != null) {
-				list.add(1, "" + EnumChatFormatting.BOLD + EnumChatFormatting.BLUE + I18n.format(creativetabs.getTranslatedTabLabel()));
+				list.add(1, "" + EnumChatFormatting.BOLD + EnumChatFormatting.BLUE + Lang.format(creativetabs.getTranslatedTabLabel()));
 			}
 
 			for (int i = 0; i < list.size(); ++i) {
@@ -628,11 +628,10 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 		}
 
 		if (this.isPointInRegion(j + 3, k + 3, 23, 27, p_147052_2_, p_147052_3_)) {
-			this.drawCreativeTabHoveringText(I18n.format(p_147052_1_.getTranslatedTabLabel()), p_147052_2_, p_147052_3_);
+			this.drawCreativeTabHoveringText(Lang.format(p_147052_1_.getTranslatedTabLabel()), p_147052_2_, p_147052_3_);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	protected void func_147051_a(CreativeTabs p_147051_1_) {

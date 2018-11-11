@@ -169,18 +169,15 @@ public class EntityPigZombie extends EntityZombie
         {
             return false;
         }
-        else
-        {
-            Entity entity = source.getEntity();
+		Entity entity = source.getEntity();
 
-            if (entity instanceof EntityPlayer)
-            {
-                this.becomeAngryAt(entity);
-            }
+		if (entity instanceof EntityPlayer)
+		{
+			this.becomeAngryAt(entity);
+		}
 
-            return super.attackEntityFrom(source, amount);
-        }
-    }
+		return super.attackEntityFrom(source, amount);
+	}
 
     /**
      * Causes this PigZombie to become angry at the supplied Entity (which will be a player).

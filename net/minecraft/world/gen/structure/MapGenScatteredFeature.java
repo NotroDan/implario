@@ -102,16 +102,13 @@ public class MapGenScatteredFeature extends MapGenStructure
     {
         StructureStart structurestart = this.func_175797_c(p_175798_1_);
 
-        if (structurestart != null && structurestart instanceof MapGenScatteredFeature.Start && !structurestart.components.isEmpty())
+        if (structurestart instanceof Start && !structurestart.components.isEmpty())
         {
             StructureComponent structurecomponent = (StructureComponent)structurestart.components.getFirst();
             return structurecomponent instanceof ComponentScatteredFeaturePieces.SwampHut;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public List<BiomeGenBase.SpawnListEntry> getScatteredFeatureSpawnList()
     {

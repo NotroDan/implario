@@ -21,23 +21,20 @@ public class RegionFileCache
         {
             return regionfile;
         }
-        else
-        {
-            if (!file1.exists())
-            {
-                file1.mkdirs();
-            }
+		if (!file1.exists())
+		{
+			file1.mkdirs();
+		}
 
-            if (regionsByFilename.size() >= 256)
-            {
-                clearRegionFileReferences();
-            }
+		if (regionsByFilename.size() >= 256)
+		{
+			clearRegionFileReferences();
+		}
 
-            RegionFile regionfile1 = new RegionFile(file2);
-            regionsByFilename.put(file2, regionfile1);
-            return regionfile1;
-        }
-    }
+		RegionFile regionfile1 = new RegionFile(file2);
+		regionsByFilename.put(file2, regionfile1);
+		return regionfile1;
+	}
 
     /**
      * clears region file references

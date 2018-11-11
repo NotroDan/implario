@@ -45,13 +45,10 @@ public class PathNavigateClimber extends PathNavigateGround
         {
             return this.setPath(pathentity, speedIn);
         }
-        else
-        {
-            this.targetPosition = new BlockPos(entityIn);
-            this.speed = speedIn;
-            return true;
-        }
-    }
+		this.targetPosition = new BlockPos(entityIn);
+		this.speed = speedIn;
+		return true;
+	}
 
     public void onUpdateNavigation()
     {

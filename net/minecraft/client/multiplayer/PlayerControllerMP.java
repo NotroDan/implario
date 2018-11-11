@@ -146,47 +146,41 @@ public class PlayerControllerMP
         {
             return false;
         }
-        else
-        {
-            World world = this.mc.theWorld;
-            IBlockState iblockstate = world.getBlockState(pos);
-            Block block1 = iblockstate.getBlock();
+		World world = this.mc.theWorld;
+		IBlockState iblockstate = world.getBlockState(pos);
+		Block block1 = iblockstate.getBlock();
 
-            if (block1.getMaterial() == Material.air)
-            {
-                return false;
-            }
-            else
-            {
-                world.playAuxSFX(2001, pos, Block.getStateId(iblockstate));
-                boolean flag = world.setBlockToAir(pos);
+		if (block1.getMaterial() == Material.air)
+		{
+			return false;
+		}
+		world.playAuxSFX(2001, pos, Block.getStateId(iblockstate));
+		boolean flag = world.setBlockToAir(pos);
 
-                if (flag)
-                {
-                    block1.onBlockDestroyedByPlayer(world, pos, iblockstate);
-                }
+		if (flag)
+		{
+			block1.onBlockDestroyedByPlayer(world, pos, iblockstate);
+		}
 
-                this.currentBlock = new BlockPos(this.currentBlock.getX(), -1, this.currentBlock.getZ());
+		this.currentBlock = new BlockPos(this.currentBlock.getX(), -1, this.currentBlock.getZ());
 
-                if (!this.currentGameType.isCreative())
-                {
-                    ItemStack itemstack1 = this.mc.thePlayer.getCurrentEquippedItem();
+		if (!this.currentGameType.isCreative())
+		{
+			ItemStack itemstack1 = this.mc.thePlayer.getCurrentEquippedItem();
 
-                    if (itemstack1 != null)
-                    {
-                        itemstack1.onBlockDestroyed(world, block1, pos, this.mc.thePlayer);
+			if (itemstack1 != null)
+			{
+				itemstack1.onBlockDestroyed(world, block1, pos, this.mc.thePlayer);
 
-                        if (itemstack1.stackSize == 0)
-                        {
-                            this.mc.thePlayer.destroyCurrentEquippedItem();
-                        }
-                    }
-                }
+				if (itemstack1.stackSize == 0)
+				{
+					this.mc.thePlayer.destroyCurrentEquippedItem();
+				}
+			}
+		}
 
-                return flag;
-            }
-        }
-    }
+		return flag;
+	}
 
     /**
      * Called when the player is hitting a block with an item.
@@ -221,48 +215,45 @@ public class PlayerControllerMP
         {
             return false;
         }
-        else
-        {
-            if (this.currentGameType.isCreative())
-            {
-                this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, loc, face));
-                clickBlockCreative(this.mc, this, loc, face);
-                this.blockHitDelay = 5;
-            }
-            else if (!this.isHittingBlock || !this.isHittingPosition(loc))
-            {
-                if (this.isHittingBlock)
-                {
-                    this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, this.currentBlock, face));
-                }
+		if (this.currentGameType.isCreative())
+		{
+			this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, loc, face));
+			clickBlockCreative(this.mc, this, loc, face);
+			this.blockHitDelay = 5;
+		}
+		else if (!this.isHittingBlock || !this.isHittingPosition(loc))
+		{
+			if (this.isHittingBlock)
+			{
+				this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, this.currentBlock, face));
+			}
 
-                this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, loc, face));
-                Block block1 = this.mc.theWorld.getBlockState(loc).getBlock();
-                boolean flag = block1.getMaterial() != Material.air;
+			this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, loc, face));
+			Block block1 = this.mc.theWorld.getBlockState(loc).getBlock();
+			boolean flag = block1.getMaterial() != Material.air;
 
-                if (flag && this.curBlockDamageMP == 0.0F)
-                {
-                    block1.onBlockClicked(this.mc.theWorld, loc, this.mc.thePlayer);
-                }
+			if (flag && this.curBlockDamageMP == 0.0F)
+			{
+				block1.onBlockClicked(this.mc.theWorld, loc, this.mc.thePlayer);
+			}
 
-                if (flag && block1.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, loc) >= 1.0F)
-                {
-                    this.onPlayerDestroyBlock(loc, face);
-                }
-                else
-                {
-                    this.isHittingBlock = true;
-                    this.currentBlock = loc;
-                    this.currentItemHittingBlock = this.mc.thePlayer.getHeldItem();
-                    this.curBlockDamageMP = 0.0F;
-                    this.stepSoundTickCounter = 0.0F;
-                    this.mc.theWorld.sendBlockBreakProgress(this.mc.thePlayer.getEntityId(), this.currentBlock, (int)(this.curBlockDamageMP * 10.0F) - 1);
-                }
-            }
+			if (flag && block1.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, loc) >= 1.0F)
+			{
+				this.onPlayerDestroyBlock(loc, face);
+			}
+			else
+			{
+				this.isHittingBlock = true;
+				this.currentBlock = loc;
+				this.currentItemHittingBlock = this.mc.thePlayer.getHeldItem();
+				this.curBlockDamageMP = 0.0F;
+				this.stepSoundTickCounter = 0.0F;
+				this.mc.theWorld.sendBlockBreakProgress(this.mc.thePlayer.getEntityId(), this.currentBlock, (int)(this.curBlockDamageMP * 10.0F) - 1);
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Resets current block damage and isHittingBlock
@@ -287,52 +278,46 @@ public class PlayerControllerMP
             --this.blockHitDelay;
             return true;
         }
-        else if (this.currentGameType.isCreative() && this.mc.theWorld.getWorldBorder().contains(posBlock))
-        {
-            this.blockHitDelay = 5;
-            this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, posBlock, directionFacing));
-            clickBlockCreative(this.mc, this, posBlock, directionFacing);
-            return true;
-        }
-        else if (this.isHittingPosition(posBlock))
-        {
-            Block block = this.mc.theWorld.getBlockState(posBlock).getBlock();
+		if (this.currentGameType.isCreative() && this.mc.theWorld.getWorldBorder().contains(posBlock))
+		{
+			this.blockHitDelay = 5;
+			this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, posBlock, directionFacing));
+			clickBlockCreative(this.mc, this, posBlock, directionFacing);
+			return true;
+		}
+		if (this.isHittingPosition(posBlock))
+		{
+			Block block = this.mc.theWorld.getBlockState(posBlock).getBlock();
 
-            if (block.getMaterial() == Material.air)
-            {
-                this.isHittingBlock = false;
-                return false;
-            }
-            else
-            {
-                this.curBlockDamageMP += block.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, posBlock);
+			if (block.getMaterial() == Material.air)
+			{
+				this.isHittingBlock = false;
+				return false;
+			}
+			this.curBlockDamageMP += block.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, posBlock);
 
-                if (this.stepSoundTickCounter % 4.0F == 0.0F)
-                {
-                    this.mc.getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(block.stepSound.getStepSound()), (block.stepSound.getVolume() + 1.0F) / 8.0F, block.stepSound.getFrequency() * 0.5F, (float)posBlock.getX() + 0.5F, (float)posBlock.getY() + 0.5F, (float)posBlock.getZ() + 0.5F));
-                }
+			if (this.stepSoundTickCounter % 4.0F == 0.0F)
+				{
+					this.mc.getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(block.stepSound.getStepSound()), (block.stepSound.getVolume() + 1.0F) / 8.0F, block.stepSound.getFrequency() * 0.5F, (float)posBlock.getX() + 0.5F, (float)posBlock.getY() + 0.5F, (float)posBlock.getZ() + 0.5F));
+				}
 
-                ++this.stepSoundTickCounter;
+			++this.stepSoundTickCounter;
 
-                if (this.curBlockDamageMP >= 1.0F)
-                {
-                    this.isHittingBlock = false;
-                    this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, posBlock, directionFacing));
-                    this.onPlayerDestroyBlock(posBlock, directionFacing);
-                    this.curBlockDamageMP = 0.0F;
-                    this.stepSoundTickCounter = 0.0F;
-                    this.blockHitDelay = 5;
-                }
+			if (this.curBlockDamageMP >= 1.0F)
+				{
+					this.isHittingBlock = false;
+					this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, posBlock, directionFacing));
+					this.onPlayerDestroyBlock(posBlock, directionFacing);
+					this.curBlockDamageMP = 0.0F;
+					this.stepSoundTickCounter = 0.0F;
+					this.blockHitDelay = 5;
+				}
 
-                this.mc.theWorld.sendBlockBreakProgress(this.mc.thePlayer.getEntityId(), this.currentBlock, (int)(this.curBlockDamageMP * 10.0F) - 1);
-                return true;
-            }
-        }
-        else
-        {
-            return this.clickBlock(posBlock, directionFacing);
-        }
-    }
+			this.mc.theWorld.sendBlockBreakProgress(this.mc.thePlayer.getEntityId(), this.currentBlock, (int)(this.curBlockDamageMP * 10.0F) - 1);
+			return true;
+		}
+		return this.clickBlock(posBlock, directionFacing);
+	}
 
     /**
      * player reach distance = 4F
@@ -395,56 +380,47 @@ public class PlayerControllerMP
         {
             return false;
         }
-        else
-        {
-            if (this.currentGameType != WorldSettings.GameType.SPECTATOR)
-            {
-                IBlockState iblockstate = worldIn.getBlockState(hitPos);
+		if (this.currentGameType != WorldSettings.GameType.SPECTATOR)
+		{
+			IBlockState iblockstate = worldIn.getBlockState(hitPos);
 
-                if ((!player.isSneaking() || player.getHeldItem() == null) && iblockstate.getBlock().onBlockActivated(worldIn, hitPos, iblockstate, player, side, f, f1, f2))
-                {
-                    flag = true;
-                }
+			if ((!player.isSneaking() || player.getHeldItem() == null) && iblockstate.getBlock().onBlockActivated(worldIn, hitPos, iblockstate, player, side, f, f1, f2))
+			{
+				flag = true;
+			}
 
-                if (!flag && heldStack != null && heldStack.getItem() instanceof ItemBlock)
-                {
-                    ItemBlock itemblock = (ItemBlock)heldStack.getItem();
+			if (!flag && heldStack != null && heldStack.getItem() instanceof ItemBlock)
+			{
+				ItemBlock itemblock = (ItemBlock)heldStack.getItem();
 
-                    if (!itemblock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack))
-                    {
-                        return false;
-                    }
-                }
-            }
+				if (!itemblock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack))
+				{
+					return false;
+				}
+			}
+		}
 
-            this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(hitPos, side.getIndex(), player.inventory.getCurrentItem(), f, f1, f2));
+		this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(hitPos, side.getIndex(), player.inventory.getCurrentItem(), f, f1, f2));
 
-            if (!flag && this.currentGameType != WorldSettings.GameType.SPECTATOR)
-            {
-                if (heldStack == null)
-                {
-                    return false;
-                }
-                else if (this.currentGameType.isCreative())
-                {
-                    int i = heldStack.getMetadata();
-                    int j = heldStack.stackSize;
-                    boolean flag1 = heldStack.onItemUse(player, worldIn, hitPos, side, f, f1, f2);
-                    heldStack.setItemDamage(i);
-                    heldStack.stackSize = j;
-                    return flag1;
-                }
-                else
-                {
-                    return heldStack.onItemUse(player, worldIn, hitPos, side, f, f1, f2);
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }
-    }
+		if (!flag && this.currentGameType != WorldSettings.GameType.SPECTATOR)
+		{
+			if (heldStack == null)
+			{
+				return false;
+			}
+			if (this.currentGameType.isCreative())
+			{
+				int i = heldStack.getMetadata();
+				int j = heldStack.stackSize;
+				boolean flag1 = heldStack.onItemUse(player, worldIn, hitPos, side, f, f1, f2);
+				heldStack.setItemDamage(i);
+				heldStack.stackSize = j;
+				return flag1;
+			}
+			return heldStack.onItemUse(player, worldIn, hitPos, side, f, f1, f2);
+		}
+		return true;
+	}
 
     /**
      * Notifies the server of things like consuming food, etc...
@@ -455,30 +431,24 @@ public class PlayerControllerMP
         {
             return false;
         }
-        else
-        {
-            this.syncCurrentPlayItem();
-            this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(playerIn.inventory.getCurrentItem()));
-            int i = itemStackIn.stackSize;
-            ItemStack itemstack = itemStackIn.useItemRightClick(worldIn, playerIn);
+		this.syncCurrentPlayItem();
+		this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(playerIn.inventory.getCurrentItem()));
+		int i = itemStackIn.stackSize;
+		ItemStack itemstack = itemStackIn.useItemRightClick(worldIn, playerIn);
 
-            if (itemstack != itemStackIn || itemstack != null && itemstack.stackSize != i)
-            {
-                playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = itemstack;
+		if (itemstack != itemStackIn || itemstack != null && itemstack.stackSize != i)
+		{
+			playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = itemstack;
 
-                if (itemstack.stackSize == 0)
-                {
-                    playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = null;
-                }
+			if (itemstack.stackSize == 0)
+			{
+				playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = null;
+			}
 
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     public EntityPlayerSP func_178892_a(World worldIn, StatFileWriter p_178892_2_)
     {

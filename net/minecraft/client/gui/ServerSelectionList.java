@@ -29,21 +29,15 @@ public class ServerSelectionList extends GuiListExtended
         {
             return (GuiListExtended.IGuiListEntry)this.field_148198_l.get(index);
         }
-        else
-        {
-            index = index - this.field_148198_l.size();
+		index = index - this.field_148198_l.size();
 
-            if (index == 0)
-            {
-                return this.lanScanEntry;
-            }
-            else
-            {
-                --index;
-                return (GuiListExtended.IGuiListEntry)this.field_148199_m.get(index);
-            }
-        }
-    }
+		if (index == 0)
+		{
+			return this.lanScanEntry;
+		}
+		--index;
+		return (GuiListExtended.IGuiListEntry)this.field_148199_m.get(index);
+	}
 
     protected int getSize()
     {

@@ -28,36 +28,30 @@ public class ItemHangingEntity extends Item
         {
             return false;
         }
-        else if (side == EnumFacing.UP)
-        {
-            return false;
-        }
-        else
-        {
-            BlockPos blockpos = pos.offset(side);
+		if (side == EnumFacing.UP)
+		{
+			return false;
+		}
+		BlockPos blockpos = pos.offset(side);
 
-            if (!playerIn.canPlayerEdit(blockpos, side, stack))
-            {
-                return false;
-            }
-            else
-            {
-                EntityHanging entityhanging = this.createEntity(worldIn, blockpos, side);
+		if (!playerIn.canPlayerEdit(blockpos, side, stack))
+		{
+			return false;
+		}
+		EntityHanging entityhanging = this.createEntity(worldIn, blockpos, side);
 
-                if (entityhanging != null && entityhanging.onValidSurface())
-                {
-                    if (!worldIn.isRemote)
-                    {
-                        worldIn.spawnEntityInWorld(entityhanging);
-                    }
+		if (entityhanging != null && entityhanging.onValidSurface())
+		{
+			if (!worldIn.isRemote)
+			{
+				worldIn.spawnEntityInWorld(entityhanging);
+			}
 
-                    --stack.stackSize;
-                }
+			--stack.stackSize;
+		}
 
-                return true;
-            }
-        }
-    }
+		return true;
+	}
 
     private EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing clickedSide)
     {

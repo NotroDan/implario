@@ -103,23 +103,17 @@ public class BlockEnderChest extends BlockContainer
             {
                 return true;
             }
-            else if (worldIn.isRemote)
-            {
-                return true;
-            }
-            else
-            {
-                inventoryenderchest.setChestTileEntity((TileEntityEnderChest)tileentity);
-                playerIn.displayGUIChest(inventoryenderchest);
-                playerIn.triggerAchievement(StatList.field_181738_V);
-                return true;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
+			if (worldIn.isRemote)
+			{
+				return true;
+			}
+			inventoryenderchest.setChestTileEntity((TileEntityEnderChest)tileentity);
+			playerIn.displayGUIChest(inventoryenderchest);
+			playerIn.triggerAchievement(StatList.field_181738_V);
+			return true;
+		}
+		return true;
+	}
 
     /**
      * Returns a new instance of a block's tile entity class. Called on placing the block.

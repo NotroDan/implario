@@ -103,7 +103,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 import static net.minecraft.client.settings.KeyBinding.*;
-import static net.minecraft.util.Util.EnumOS.OSX;
+import static net.minecraft.util.Util.OS.OSX;
 
 public class Minecraft implements IThreadListener {
 	private static final Logger logger = new Logger();
@@ -118,7 +118,7 @@ public class Minecraft implements IThreadListener {
 
 	private TextureManager renderEngine;
 
-	private static Minecraft theMinecraft;
+	protected static Minecraft theMinecraft;
 	public PlayerControllerMP playerController;
 	private boolean fullscreen;
 	private boolean enableGLErrorChecking = true;
@@ -195,7 +195,6 @@ public class Minecraft implements IThreadListener {
 	public final FrameTimer field_181542_y = new FrameTimer();
 	long field_181543_z = System.nanoTime();
 	private final boolean jvm64bit;
-	private final boolean isDemo;
 	private NetworkManager myNetworkManager;
 	private boolean integratedServerIsRunning;
 
@@ -270,7 +269,6 @@ public class Minecraft implements IThreadListener {
 		this.sessionService = new YggdrasilAuthenticationService(gameConfig.userInfo.proxy, UUID.randomUUID().toString()).createMinecraftSessionService();
 		this.session = gameConfig.userInfo.session;
 		logger.info("Установлено имя " + this.session.getUsername() + ", ID сессии: " + session.getSessionID());
-		this.isDemo = gameConfig.gameInfo.isDemo;
 		this.displayWidth = gameConfig.displayInfo.width > 0 ? gameConfig.displayInfo.width : 1;
 		this.displayHeight = gameConfig.displayInfo.height > 0 ? gameConfig.displayInfo.height : 1;
 		this.tempDisplayWidth = gameConfig.displayInfo.width;
@@ -345,9 +343,11 @@ public class Minecraft implements IThreadListener {
 		this.defaultResourcePacks.add(this.mcDefaultResourcePack);
 		this.startTimerHackThread();
 
-		logger.info("LWJGL Version: " + Sys.getVersion());
+		logger.info("Используемая версия LWJGL: " + Sys.getVersion());
 		this.setWindowIcon();
 		this.setInitialDisplayMode();
+		System.out.println("Преинициализация завершена за " + (System.currentTimeMillis() - start) + " мс.");
+
 		this.createDisplay();
 		OpenGlHelper.initializeTextures();
 		this.framebufferMc = new Framebuffer(this.displayWidth, this.displayHeight, true);
@@ -360,8 +360,8 @@ public class Minecraft implements IThreadListener {
 		this.refreshResources();
 		this.renderEngine = new TextureManager(this.mcResourceManager);
 		this.mcResourceManager.registerReloadListener(this.renderEngine);
-		this.drawSplashScreen(this.renderEngine);
 		this.skinManager = new SkinManager(this.renderEngine, new File(this.fileAssets, "skins"), this.sessionService);
+		this.drawMojangLogo(this.renderEngine);
 		this.saveLoader = new AnvilSaveConverter(new File(this.mcDataDir, "saves"));
 		this.mcSoundHandler = new SoundHandler(this.mcResourceManager);
 		this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
@@ -374,20 +374,14 @@ public class Minecraft implements IThreadListener {
 		}
 
 		long end = System.currentTimeMillis();
-		System.out.println("PRESTATE COMPLETED IN " + (end - start) + " ms.");
+		System.out.println("Инициализация завершена за " + (end - start) + " мс.");
 
 		this.standardGalacticFontRenderer = new FontRenderer(new ResourceLocation("textures/font/ascii_sga.png"), this.renderEngine, false);
 		this.mcResourceManager.registerReloadListener(this.fontRendererObj);
 		this.mcResourceManager.registerReloadListener(this.standardGalacticFontRenderer);
 		this.mcResourceManager.registerReloadListener(new GrassColorReloadListener());
 		this.mcResourceManager.registerReloadListener(new FoliageColorReloadListener());
-		AchievementList.openInventory.setStatStringFormatter(p_74535_1_ -> {
-			try {
-				return String.format(p_74535_1_, "E");
-			} catch (Exception exception) {
-				return "Error: " + exception.getLocalizedMessage();
-			}
-		});
+		AchievementList.openInventory.setStatStringFormatter(s -> String.format(s, "E"));
 		this.mouseHelper = new MouseHelper();
 		this.checkGLError("Pre startup");
 		GlStateManager.enableTexture2D();
@@ -425,11 +419,8 @@ public class Minecraft implements IThreadListener {
 		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
 
-		if (this.serverName != null) {
-			this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
-		} else {
-			this.displayGuiScreen(new GuiMainMenu());
-		}
+		if (this.serverName != null) this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
+		else this.displayGuiScreen(new GuiMainMenu());
 
 		this.renderEngine.deleteTexture(this.mojangLogo);
 		this.mojangLogo = null;
@@ -468,10 +459,7 @@ public class Minecraft implements IThreadListener {
 				Thread.sleep(1000L);
 			} catch (InterruptedException ignored) {}
 
-			if (this.fullscreen) {
-				this.updateDisplayMode();
-			}
-
+			if (this.fullscreen) this.updateDisplayMode();
 			Display.create();
 		}
 	}
@@ -516,10 +504,7 @@ public class Minecraft implements IThreadListener {
 
 		for (String s : astring) {
 			String s1 = System.getProperty(s);
-
-			if (s1 != null && s1.contains("64")) {
-				return true;
-			}
+			if (s1 != null && s1.contains("64")) return true;
 		}
 
 		return false;
@@ -563,13 +548,13 @@ public class Minecraft implements IThreadListener {
 		if (crashReportIn.getFile() != null) {
 			Bootstrap.print("#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
 			System.exit(-1);
-		} else if (crashReportIn.saveToFile(file2)) {
+		}
+		if (crashReportIn.saveToFile(file2)) {
 			Bootstrap.print("#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
 			System.exit(-1);
-		} else {
-			Bootstrap.print("#@?@# Game crashed! Crash report could not be saved. #@?@#");
-			System.exit(-2);
 		}
+		Bootstrap.print("#@?@# Game crashed! Crash report could not be saved. #@?@#");
+		System.exit(-2);
 	}
 
 	public boolean isUnicode() {
@@ -601,10 +586,7 @@ public class Minecraft implements IThreadListener {
 		}
 
 		this.mcLanguageManager.parseLanguageMetadata(list);
-
-		if (this.renderGlobal != null) {
-			this.renderGlobal.loadRenderers();
-		}
+		if (this.renderGlobal != null) this.renderGlobal.loadRenderers();
 	}
 
 	private ByteBuffer readImageToBuffer(InputStream imageStream) throws IOException {
@@ -665,7 +647,7 @@ label53:
 		this.displayHeight = displaymode.getHeight();
 	}
 
-	private void drawSplashScreen(TextureManager txtmgr) {
+	private void drawMojangLogo(TextureManager txtmgr) {
 		ScaledResolution scaledresolution = new ScaledResolution(this);
 		int i = scaledresolution.getScaleFactor();
 		Framebuffer framebuffer = new Framebuffer(scaledresolution.getScaledWidth() * i, scaledresolution.getScaledHeight() * i, true);
@@ -736,15 +718,10 @@ label53:
 	 * Sets the argument GuiScreen as the main (topmost visible) screen.
 	 */
 	public void displayGuiScreen(GuiScreen guiScreenIn) {
-		if (this.currentScreen != null) {
-			this.currentScreen.onGuiClosed();
-		}
+		if (this.currentScreen != null) this.currentScreen.onGuiClosed();
 
-		if (guiScreenIn == null && this.theWorld == null) {
-			guiScreenIn = new GuiMainMenu();
-		} else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F) {
-			guiScreenIn = new GuiGameOver();
-		}
+		if (guiScreenIn == null && this.theWorld == null) guiScreenIn = new GuiMainMenu();
+		else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F) guiScreenIn = new GuiGameOver();
 
 		if (guiScreenIn instanceof GuiMainMenu) {
 			Settings.SHOW_DEBUG.set(false);
@@ -770,16 +747,14 @@ label53:
 	 * Checks for an OpenGL error. If there is one, prints the error ID and error string.
 	 */
 	private void checkGLError(String message) {
-		if (this.enableGLErrorChecking) {
-			int i = GL11.glGetError();
+		if (!this.enableGLErrorChecking) return;
+		int i = GL11.glGetError();
+		if (i == 0) return;
 
-			if (i != 0) {
-				String s = GLU.gluErrorString(i);
-				logger.error("########## GL ERROR ##########");
-				logger.error("@ " + message);
-				logger.error(i + ": " + s);
-			}
-		}
+		String s = GLU.gluErrorString(i);
+		logger.error("########## ОШИБКА OpenGL ##########");
+		logger.error("@ " + message);
+		logger.error(i + ": " + s);
 	}
 
 	/**
@@ -788,8 +763,7 @@ label53:
 	 */
 	public void shutdownMinecraftApplet() {
 		try {
-			logger.info("Stopping!");
-
+			logger.info("Прекращаем работу апплета Minecraft...");
 			try {
 				this.loadWorld(null);
 			} catch (Throwable ignored) {}
@@ -798,10 +772,7 @@ label53:
 			this.mcSoundHandler.unloadSounds();
 		} finally {
 			Display.destroy();
-
-			if (!this.hasCrashed) {
-				System.exit(0);
-			}
+			if (!this.hasCrashed) System.exit(0);
 		}
 
 		System.gc();
@@ -814,33 +785,26 @@ label53:
 		long i = System.nanoTime();
 		this.mcProfiler.startSection("root");
 
-		if (Display.isCreated() && Display.isCloseRequested()) {
-			this.shutdown();
-		}
+		if (Display.isCreated() && Display.isCloseRequested()) this.shutdown();
 
-		if (this.isGamePaused && this.theWorld != null) {
+		if (!this.isGamePaused || this.theWorld == null) this.timer.updateTimer();
+		else {
 			float f = this.timer.renderPartialTicks;
 			this.timer.updateTimer();
 			this.timer.renderPartialTicks = f;
-		} else {
-			this.timer.updateTimer();
 		}
 
 		this.mcProfiler.startSection("scheduledExecutables");
 
 		synchronized (this.scheduledTasks) {
-			while (!this.scheduledTasks.isEmpty()) {
-				Util.func_181617_a((FutureTask) this.scheduledTasks.poll(), logger);
-			}
+			while (!this.scheduledTasks.isEmpty()) Util.schedule((FutureTask) this.scheduledTasks.poll(), logger);
 		}
 
 		this.mcProfiler.endSection();
 		long l = System.nanoTime();
 		this.mcProfiler.startSection("tick");
 
-		for (int j = 0; j < this.timer.elapsedTicks; ++j) {
-			this.runTick();
-		}
+		for (int j = 0; j < this.timer.elapsedTicks; ++j) this.runTick();
 
 		this.mcProfiler.endStartSection("preRenderErrors");
 		long i1 = System.nanoTime() - l;
@@ -868,9 +832,7 @@ label53:
 		this.mcProfiler.endSection();
 
 		if (Settings.SHOW_DEBUG.b() && Settings.PROFILER.b() && !Settings.HIDE_GUI.b()) {
-			if (!this.mcProfiler.profilingEnabled) {
-				this.mcProfiler.clearProfiling();
-			}
+			if (!this.mcProfiler.profilingEnabled) this.mcProfiler.clearProfiling();
 
 			this.mcProfiler.profilingEnabled = true;
 			this.displayDebugInfo(i1);
@@ -972,27 +934,23 @@ label53:
 	private void updateDebugProfilerName(int keyCount) {
 		List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
 
-		if (list != null && !list.isEmpty()) {
-			Profiler.Result profiler$result = list.remove(0);
+		if (list == null || list.isEmpty()) return;
+		Profiler.Result profiler$result = list.remove(0);
 
-			if (keyCount == 0) {
-				if (profiler$result.field_76331_c.length() > 0) {
-					int i = this.debugProfilerName.lastIndexOf(".");
+		if (keyCount == 0) {
+			if (profiler$result.field_76331_c.length() > 0) {
+				int i = this.debugProfilerName.lastIndexOf(".");
+				if (i >= 0) this.debugProfilerName = this.debugProfilerName.substring(0, i);
+			}
+		} else {
+			--keyCount;
 
-					if (i >= 0) {
-						this.debugProfilerName = this.debugProfilerName.substring(0, i);
-					}
+			if (keyCount < list.size() && !list.get(keyCount).field_76331_c.equals("unspecified")) {
+				if (this.debugProfilerName.length() > 0) {
+					this.debugProfilerName = this.debugProfilerName + ".";
 				}
-			} else {
-				--keyCount;
 
-				if (keyCount < list.size() && !list.get(keyCount).field_76331_c.equals("unspecified")) {
-					if (this.debugProfilerName.length() > 0) {
-						this.debugProfilerName = this.debugProfilerName + ".";
-					}
-
-					this.debugProfilerName = this.debugProfilerName + list.get(keyCount).field_76331_c;
-				}
+				this.debugProfilerName = this.debugProfilerName + list.get(keyCount).field_76331_c;
 			}
 		}
 	}
@@ -1001,98 +959,88 @@ label53:
 	 * Parameter appears to be unused
 	 */
 	private void displayDebugInfo(long elapsedTicksTime) {
-		if (this.mcProfiler.profilingEnabled) {
-			List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
-			Profiler.Result profiler$result = list.remove(0);
-			GlStateManager.clear(256);
-			GlStateManager.matrixMode(5889);
-			GlStateManager.enableColorMaterial();
-			GlStateManager.loadIdentity();
-			GlStateManager.ortho(0.0D, (double) this.displayWidth, (double) this.displayHeight, 0.0D, 1000.0D, 3000.0D);
-			GlStateManager.matrixMode(5888);
-			GlStateManager.loadIdentity();
-			GlStateManager.translate(0.0F, 0.0F, -2000.0F);
-			GL11.glLineWidth(1.0F);
-			GlStateManager.disableTexture2D();
-			Tessellator tessellator = Tessellator.getInstance();
-			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-			int i = 160;
-			int j = this.displayWidth - i - 10;
-			int k = this.displayHeight - i * 2;
-			GlStateManager.enableBlend();
-			worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-			worldrenderer.pos((double) ((float) j - (float) i * 1.1F), (double) ((float) k - (float) i * 0.6F - 16.0F), 0.0D).color(200, 0, 0, 0).endVertex();
-			worldrenderer.pos((double) ((float) j - (float) i * 1.1F), (double) (k + i * 2), 0.0D).color(200, 0, 0, 0).endVertex();
-			worldrenderer.pos((double) ((float) j + (float) i * 1.1F), (double) (k + i * 2), 0.0D).color(200, 0, 0, 0).endVertex();
-			worldrenderer.pos((double) ((float) j + (float) i * 1.1F), (double) ((float) k - (float) i * 0.6F - 16.0F), 0.0D).color(200, 0, 0, 0).endVertex();
+		if (!this.mcProfiler.profilingEnabled) return;
+		List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
+		Profiler.Result profiler$result = list.remove(0);
+		GlStateManager.clear(256);
+		GlStateManager.matrixMode(5889);
+		GlStateManager.enableColorMaterial();
+		GlStateManager.loadIdentity();
+		GlStateManager.ortho(0.0D, (double) this.displayWidth, (double) this.displayHeight, 0.0D, 1000.0D, 3000.0D);
+		GlStateManager.matrixMode(5888);
+		GlStateManager.loadIdentity();
+		GlStateManager.translate(0.0F, 0.0F, -2000.0F);
+		GL11.glLineWidth(1.0F);
+		GlStateManager.disableTexture2D();
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		int i = 160;
+		int j = this.displayWidth - i - 10;
+		int k = this.displayHeight - i * 2;
+		GlStateManager.enableBlend();
+		worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+		worldrenderer.pos((double) ((float) j - (float) i * 1.1F), (double) ((float) k - (float) i * 0.6F - 16.0F), 0.0D).color(200, 0, 0, 0).endVertex();
+		worldrenderer.pos((double) ((float) j - (float) i * 1.1F), (double) (k + i * 2), 0.0D).color(200, 0, 0, 0).endVertex();
+		worldrenderer.pos((double) ((float) j + (float) i * 1.1F), (double) (k + i * 2), 0.0D).color(200, 0, 0, 0).endVertex();
+		worldrenderer.pos((double) ((float) j + (float) i * 1.1F), (double) ((float) k - (float) i * 0.6F - 16.0F), 0.0D).color(200, 0, 0, 0).endVertex();
+		tessellator.draw();
+		GlStateManager.disableBlend();
+		double d0 = 0.0D;
+
+		for (Profiler.Result profiler$result1 : list) {
+			int i1 = MathHelper.floor_double(profiler$result1.field_76332_a / 4.0D) + 1;
+			worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
+			int j1 = profiler$result1.func_76329_a();
+			int k1 = j1 >> 16 & 255;
+			int l1 = j1 >> 8 & 255;
+			int i2 = j1 & 255;
+			worldrenderer.pos((double) j, (double) k, 0.0D).color(k1, l1, i2, 255).endVertex();
+
+			for (int j2 = i1; j2 >= 0; --j2) {
+				float f = (float) ((d0 + profiler$result1.field_76332_a * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
+				float f1 = MathHelper.sin(f) * (float) i;
+				float f2 = MathHelper.cos(f) * (float) i * 0.5F;
+				worldrenderer.pos((double) ((float) j + f1), (double) ((float) k - f2), 0.0D).color(k1, l1, i2, 255).endVertex();
+			}
+
 			tessellator.draw();
-			GlStateManager.disableBlend();
-			double d0 = 0.0D;
+			worldrenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
 
-			for (Profiler.Result profiler$result1 : list) {
-				int i1 = MathHelper.floor_double(profiler$result1.field_76332_a / 4.0D) + 1;
-				worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-				int j1 = profiler$result1.func_76329_a();
-				int k1 = j1 >> 16 & 255;
-				int l1 = j1 >> 8 & 255;
-				int i2 = j1 & 255;
-				worldrenderer.pos((double) j, (double) k, 0.0D).color(k1, l1, i2, 255).endVertex();
-
-				for (int j2 = i1; j2 >= 0; --j2) {
-					float f = (float) ((d0 + profiler$result1.field_76332_a * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
-					float f1 = MathHelper.sin(f) * (float) i;
-					float f2 = MathHelper.cos(f) * (float) i * 0.5F;
-					worldrenderer.pos((double) ((float) j + f1), (double) ((float) k - f2), 0.0D).color(k1, l1, i2, 255).endVertex();
-				}
-
-				tessellator.draw();
-				worldrenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
-
-				for (int i3 = i1; i3 >= 0; --i3) {
-					float f3 = (float) ((d0 + profiler$result1.field_76332_a * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
-					float f4 = MathHelper.sin(f3) * (float) i;
-					float f5 = MathHelper.cos(f3) * (float) i * 0.5F;
-					worldrenderer.pos((double) ((float) j + f4), (double) ((float) k - f5), 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
-					worldrenderer.pos((double) ((float) j + f4), (double) ((float) k - f5 + 10.0F), 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
-				}
-
-				tessellator.draw();
-				d0 += profiler$result1.field_76332_a;
+			for (int i3 = i1; i3 >= 0; --i3) {
+				float f3 = (float) ((d0 + profiler$result1.field_76332_a * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
+				float f4 = MathHelper.sin(f3) * (float) i;
+				float f5 = MathHelper.cos(f3) * (float) i * 0.5F;
+				worldrenderer.pos((double) ((float) j + f4), (double) ((float) k - f5), 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
+				worldrenderer.pos((double) ((float) j + f4), (double) ((float) k - f5 + 10.0F), 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
 			}
 
-			DecimalFormat decimalformat = new DecimalFormat("##0.00");
-			GlStateManager.enableTexture2D();
-			String s = "";
+			tessellator.draw();
+			d0 += profiler$result1.field_76332_a;
+		}
 
-			if (!profiler$result.field_76331_c.equals("unspecified")) {
-				s = s + "[0] ";
-			}
+		DecimalFormat decimalformat = new DecimalFormat("##0.00");
+		GlStateManager.enableTexture2D();
+		String s = "";
 
-			if (profiler$result.field_76331_c.length() == 0) {
-				s = s + "ROOT ";
-			} else {
-				s = s + profiler$result.field_76331_c + " ";
-			}
+		if (!profiler$result.field_76331_c.equals("unspecified")) s = s + "[0] ";
+		if (profiler$result.field_76331_c.length() == 0) s = s + "ROOT ";
+		else s = s + profiler$result.field_76331_c + " ";
 
-			int l2 = 16777215;
-			this.fontRendererObj.drawStringWithShadow(s, (float) (j - i), (float) (k - i / 2 - 16), l2);
-			this.fontRendererObj.drawStringWithShadow(s = decimalformat.format(profiler$result.field_76330_b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s)), (float) (k - i / 2 - 16), l2);
+		int l2 = 16777215;
+		this.fontRendererObj.drawStringWithShadow(s, (float) (j - i), (float) (k - i / 2 - 16), l2);
+		this.fontRendererObj.drawStringWithShadow(s = decimalformat.format(profiler$result.field_76330_b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s)), (float) (k - i / 2 - 16), l2);
 
-			for (int k2 = 0; k2 < list.size(); ++k2) {
-				Profiler.Result profiler$result2 = list.get(k2);
-				String s1 = "";
+		for (int k2 = 0; k2 < list.size(); k2++) {
+			Profiler.Result profiler$result2 = list.get(k2);
+			String s1 = "";
 
-				if (profiler$result2.field_76331_c.equals("unspecified")) {
-					s1 = s1 + "[?] ";
-				} else {
-					s1 = s1 + "[" + (k2 + 1) + "] ";
-				}
+			if (profiler$result2.field_76331_c.equals("unspecified")) s1 = s1 + "[?] ";
+			else s1 = s1 + "[" + (k2 + 1) + "] ";
 
-				s1 = s1 + profiler$result2.field_76331_c;
-				this.fontRendererObj.drawStringWithShadow(s1, (float) (j - i), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
-				this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.field_76332_a) + "%", (float) (j + i - 50 - this.fontRendererObj.getStringWidth(s1)), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
-				this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.field_76330_b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s1)), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
-			}
+			s1 = s1 + profiler$result2.field_76331_c;
+			this.fontRendererObj.drawStringWithShadow(s1, (float) (j - i), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
+			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.field_76332_a) + "%", (float) (j + i - 50 - this.fontRendererObj.getStringWidth(s1)), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
+			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.field_76330_b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s1)), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
 		}
 	}
 
@@ -1202,7 +1150,7 @@ label53:
 	 */
 	private void rightClickMouse() {
 		if (!this.playerController.func_181040_m()) {
-			this.rightClickDelayTimer = 4;
+			this.rightClickDelayTimer = Settings.FAST_PLACE.b() ? 0 : 4;
 			boolean flag = true;
 			ItemStack itemstack = this.thePlayer.inventory.getCurrentItem();
 
@@ -1691,13 +1639,13 @@ label53:
 			throw new ReportedException(crashreport);
 		}
 
-		this.loadingScreen.displaySavingString(I18n.format("menu.loadingLevel"));
+		this.loadingScreen.displaySavingString(Lang.format("menu.loadingLevel"));
 
 		while (!this.theIntegratedServer.serverIsInRunLoop()) {
 			String s = this.theIntegratedServer.getUserMessage();
 
 			if (s != null) {
-				this.loadingScreen.displayLoadingString(I18n.format(s));
+				this.loadingScreen.displayLoadingString(Lang.format(s));
 			} else {
 				this.loadingScreen.displayLoadingString("");
 			}
@@ -1820,13 +1768,6 @@ label53:
 		if (this.currentScreen instanceof GuiGameOver) {
 			this.displayGuiScreen(null);
 		}
-	}
-
-	/**
-	 * Gets whether this is a demo or not.
-	 */
-	public final boolean isDemo() {
-		return this.isDemo;
 	}
 
 	public NetHandlerPlayClient getNetHandler() {
@@ -1969,15 +1910,14 @@ label53:
 			nbttagcompound3.setTag("SkullOwner", nbttagcompound2);
 			itemstack.setTagCompound(nbttagcompound3);
 			return itemstack;
-		} else {
-			itemstack.setTagInfo("BlockEntityTag", nbttagcompound);
-			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-			NBTTagList nbttaglist = new NBTTagList();
-			nbttaglist.appendTag(new NBTTagString("(+NBT)"));
-			nbttagcompound1.setTag("Lore", nbttaglist);
-			itemstack.setTagInfo("display", nbttagcompound1);
-			return itemstack;
 		}
+		itemstack.setTagInfo("BlockEntityTag", nbttagcompound);
+		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+		NBTTagList nbttaglist = new NBTTagList();
+		nbttaglist.appendTag(new NBTTagString("(+NBT)"));
+		nbttagcompound1.setTag("Lore", nbttaglist);
+		itemstack.setTagInfo("display", nbttagcompound1);
+		return itemstack;
 	}
 
 	/**
@@ -2198,12 +2138,11 @@ label53:
 				this.scheduledTasks.add(listenablefuturetask);
 				return listenablefuturetask;
 			}
-		} else {
-			try {
-				return Futures.immediateFuture(callableToSchedule.call());
-			} catch (Exception exception) {
-				return Futures.immediateFailedCheckedFuture(exception);
-			}
+		}
+		try {
+			return Futures.immediateFuture(callableToSchedule.call());
+		} catch (Exception exception) {
+			return Futures.immediateFailedCheckedFuture(exception);
 		}
 	}
 
@@ -2252,7 +2191,7 @@ label53:
 		return this.field_181541_X;
 	}
 
-	public void func_181537_a(boolean p_181537_1_) {
-		this.field_181541_X = p_181537_1_;
+	public void func_181537_a(boolean value) {
+		this.field_181541_X = value;
 	}
 }

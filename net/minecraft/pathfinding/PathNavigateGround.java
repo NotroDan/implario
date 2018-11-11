@@ -67,11 +67,8 @@ public class PathNavigateGround extends PathNavigate
 
             return i;
         }
-        else
-        {
-            return (int)(this.theEntity.getEntityBoundingBox().minY + 0.5D);
-        }
-    }
+		return (int)(this.theEntity.getEntityBoundingBox().minY + 0.5D);
+	}
 
     /**
      * Trims path data from the end to the first sun covered block
@@ -116,71 +113,65 @@ public class PathNavigateGround extends PathNavigate
         {
             return false;
         }
-        else
-        {
-            double d3 = 1.0D / Math.sqrt(d2);
-            d0 = d0 * d3;
-            d1 = d1 * d3;
-            sizeX = sizeX + 2;
-            sizeZ = sizeZ + 2;
+		double d3 = 1.0D / Math.sqrt(d2);
+		d0 = d0 * d3;
+		d1 = d1 * d3;
+		sizeX = sizeX + 2;
+		sizeZ = sizeZ + 2;
 
-            if (!this.isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
-            {
-                return false;
-            }
-            else
-            {
-                sizeX = sizeX - 2;
-                sizeZ = sizeZ - 2;
-                double d4 = 1.0D / Math.abs(d0);
-                double d5 = 1.0D / Math.abs(d1);
-                double d6 = (double)(i * 1) - posVec31.xCoord;
-                double d7 = (double)(j * 1) - posVec31.zCoord;
+		if (!this.isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
+		{
+			return false;
+		}
+		sizeX = sizeX - 2;
+		sizeZ = sizeZ - 2;
+		double d4 = 1.0D / Math.abs(d0);
+		double d5 = 1.0D / Math.abs(d1);
+		double d6 = (double)(i * 1) - posVec31.xCoord;
+		double d7 = (double)(j * 1) - posVec31.zCoord;
 
-                if (d0 >= 0.0D)
-                {
-                    ++d6;
-                }
+		if (d0 >= 0.0D)
+		{
+			++d6;
+		}
 
-                if (d1 >= 0.0D)
-                {
-                    ++d7;
-                }
+		if (d1 >= 0.0D)
+		{
+			++d7;
+		}
 
-                d6 = d6 / d0;
-                d7 = d7 / d1;
-                int k = d0 < 0.0D ? -1 : 1;
-                int l = d1 < 0.0D ? -1 : 1;
-                int i1 = MathHelper.floor_double(posVec32.xCoord);
-                int j1 = MathHelper.floor_double(posVec32.zCoord);
-                int k1 = i1 - i;
-                int l1 = j1 - j;
+		d6 = d6 / d0;
+		d7 = d7 / d1;
+		int k = d0 < 0.0D ? -1 : 1;
+		int l = d1 < 0.0D ? -1 : 1;
+		int i1 = MathHelper.floor_double(posVec32.xCoord);
+		int j1 = MathHelper.floor_double(posVec32.zCoord);
+		int k1 = i1 - i;
+		int l1 = j1 - j;
 
-                while (k1 * k > 0 || l1 * l > 0)
-                {
-                    if (d6 < d7)
-                    {
-                        d6 += d4;
-                        i += k;
-                        k1 = i1 - i;
-                    }
-                    else
-                    {
-                        d7 += d5;
-                        j += l;
-                        l1 = j1 - j;
-                    }
+		while (k1 * k > 0 || l1 * l > 0)
+		{
+			if (d6 < d7)
+			{
+				d6 += d4;
+				i += k;
+				k1 = i1 - i;
+			}
+			else
+			{
+				d7 += d5;
+				j += l;
+				l1 = j1 - j;
+			}
 
-                    if (!this.isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
-                    {
-                        return false;
-                    }
-                }
+			if (!this.isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
+			{
+				return false;
+			}
+		}
 
-                return true;
-            }
-        }
-    }
+		return true;
+	}
 
     /**
      * Returns true when an entity could stand at a position, including solid blocks under the entire entity.
@@ -194,41 +185,38 @@ public class PathNavigateGround extends PathNavigate
         {
             return false;
         }
-        else
-        {
-            for (int k = i; k < i + sizeX; ++k)
-            {
-                for (int l = j; l < j + sizeZ; ++l)
-                {
-                    double d0 = (double)k + 0.5D - vec31.xCoord;
-                    double d1 = (double)l + 0.5D - vec31.zCoord;
+		for (int k = i; k < i + sizeX; ++k)
+		{
+			for (int l = j; l < j + sizeZ; ++l)
+			{
+				double d0 = (double)k + 0.5D - vec31.xCoord;
+				double d1 = (double)l + 0.5D - vec31.zCoord;
 
-                    if (d0 * p_179683_8_ + d1 * p_179683_10_ >= 0.0D)
-                    {
-                        Block block = this.worldObj.getBlockState(new BlockPos(k, y - 1, l)).getBlock();
-                        Material material = block.getMaterial();
+				if (d0 * p_179683_8_ + d1 * p_179683_10_ >= 0.0D)
+				{
+					Block block = this.worldObj.getBlockState(new BlockPos(k, y - 1, l)).getBlock();
+					Material material = block.getMaterial();
 
-                        if (material == Material.air)
-                        {
-                            return false;
-                        }
+					if (material == Material.air)
+					{
+						return false;
+					}
 
-                        if (material == Material.water && !this.theEntity.isInWater())
-                        {
-                            return false;
-                        }
+					if (material == Material.water && !this.theEntity.isInWater())
+					{
+						return false;
+					}
 
-                        if (material == Material.lava)
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
+					if (material == Material.lava)
+					{
+						return false;
+					}
+				}
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Returns true if an entity does not collide with any solid blocks at the position.

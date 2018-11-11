@@ -114,13 +114,10 @@ public abstract class BlockButton extends Block
         {
             return true;
         }
-        else
-        {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockToAir(pos);
-            return false;
-        }
-    }
+		this.dropBlockAsItem(worldIn, pos, state, 0);
+		worldIn.setBlockToAir(pos);
+		return false;
+	}
 
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
@@ -170,16 +167,13 @@ public abstract class BlockButton extends Block
         {
             return true;
         }
-        else
-        {
-            worldIn.setBlockState(pos, state.withProperty(POWERED, Boolean.valueOf(true)), 3);
-            worldIn.markBlockRangeForRenderUpdate(pos, pos);
-            worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "random.click", 0.3F, 0.6F);
-            this.notifyNeighbors(worldIn, pos, (EnumFacing)state.getValue(FACING));
-            worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
-            return true;
-        }
-    }
+		worldIn.setBlockState(pos, state.withProperty(POWERED, Boolean.valueOf(true)), 3);
+		worldIn.markBlockRangeForRenderUpdate(pos, pos);
+		worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "random.click", 0.3F, 0.6F);
+		this.notifyNeighbors(worldIn, pos, (EnumFacing)state.getValue(FACING));
+		worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+		return true;
+	}
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {

@@ -132,11 +132,8 @@ public class EntityCow extends EntityAnimal
 
             return true;
         }
-        else
-        {
-            return super.interact(player);
-        }
-    }
+		return super.interact(player);
+	}
 
     public EntityCow createChild(EntityAgeable ageable)
     {

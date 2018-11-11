@@ -73,25 +73,22 @@ public class AnimationMetadataSectionSerializer extends BaseMetadataSectionSeria
         {
             return new AnimationFrame(JsonUtils.getInt(p_110492_2_, "frames[" + p_110492_1_ + "]"));
         }
-        else if (p_110492_2_.isJsonObject())
-        {
-            JsonObject jsonobject = JsonUtils.getJsonObject(p_110492_2_, "frames[" + p_110492_1_ + "]");
-            int i = JsonUtils.getInt(jsonobject, "time", -1);
+		if (p_110492_2_.isJsonObject())
+		{
+			JsonObject jsonobject = JsonUtils.getJsonObject(p_110492_2_, "frames[" + p_110492_1_ + "]");
+			int i = JsonUtils.getInt(jsonobject, "time", -1);
 
-            if (jsonobject.has("time"))
-            {
-                Validate.inclusiveBetween(1L, 2147483647L, (long)i, "Invalid frame time");
-            }
+			if (jsonobject.has("time"))
+			{
+				Validate.inclusiveBetween(1L, 2147483647L, (long)i, "Invalid frame time");
+			}
 
-            int j = JsonUtils.getInt(jsonobject, "index");
-            Validate.inclusiveBetween(0L, 2147483647L, (long)j, "Invalid frame index");
-            return new AnimationFrame(j, i);
-        }
-        else
-        {
-            return null;
-        }
-    }
+			int j = JsonUtils.getInt(jsonobject, "index");
+			Validate.inclusiveBetween(0L, 2147483647L, (long)j, "Invalid frame index");
+			return new AnimationFrame(j, i);
+		}
+		return null;
+	}
 
     public JsonElement serialize(AnimationMetadataSection p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_)
     {

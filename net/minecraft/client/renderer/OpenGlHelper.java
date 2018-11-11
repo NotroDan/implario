@@ -562,40 +562,38 @@ public class OpenGlHelper {
 	public static int glGenFramebuffers() {
 		if (!framebufferSupported) {
 			return -1;
-		} else {
-			switch (framebufferType) {
-				case 0:
-					return GL30.glGenFramebuffers();
+		}
+		switch (framebufferType) {
+			case 0:
+				return GL30.glGenFramebuffers();
 
-				case 1:
-					return ARBFramebufferObject.glGenFramebuffers();
+			case 1:
+				return ARBFramebufferObject.glGenFramebuffers();
 
-				case 2:
-					return EXTFramebufferObject.glGenFramebuffersEXT();
+			case 2:
+				return EXTFramebufferObject.glGenFramebuffersEXT();
 
-				default:
-					return -1;
-			}
+			default:
+				return -1;
 		}
 	}
 
 	public static int glGenRenderbuffers() {
 		if (!framebufferSupported) {
 			return -1;
-		} else {
-			switch (framebufferType) {
-				case 0:
-					return GL30.glGenRenderbuffers();
+		}
+		switch (framebufferType) {
+			case 0:
+				return GL30.glGenRenderbuffers();
 
-				case 1:
-					return ARBFramebufferObject.glGenRenderbuffers();
+			case 1:
+				return ARBFramebufferObject.glGenRenderbuffers();
 
-				case 2:
-					return EXTFramebufferObject.glGenRenderbuffersEXT();
+			case 2:
+				return EXTFramebufferObject.glGenRenderbuffersEXT();
 
-				default:
-					return -1;
-			}
+			default:
+				return -1;
 		}
 	}
 
@@ -636,20 +634,19 @@ public class OpenGlHelper {
 	public static int glCheckFramebufferStatus(int target) {
 		if (!framebufferSupported) {
 			return -1;
-		} else {
-			switch (framebufferType) {
-				case 0:
-					return GL30.glCheckFramebufferStatus(target);
+		}
+		switch (framebufferType) {
+			case 0:
+				return GL30.glCheckFramebufferStatus(target);
 
-				case 1:
-					return ARBFramebufferObject.glCheckFramebufferStatus(target);
+			case 1:
+				return ARBFramebufferObject.glCheckFramebufferStatus(target);
 
-				case 2:
-					return EXTFramebufferObject.glCheckFramebufferStatusEXT(target);
+			case 2:
+				return EXTFramebufferObject.glCheckFramebufferStatusEXT(target);
 
-				default:
-					return -1;
-			}
+			default:
+				return -1;
 		}
 	}
 

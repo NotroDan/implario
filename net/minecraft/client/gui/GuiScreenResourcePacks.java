@@ -42,8 +42,8 @@ public class GuiScreenResourcePacks extends GuiScreen {
 	 * window resizes, the buttonList is cleared beforehand.
 	 */
 	public void initGui() {
-		this.buttonList.add(new GuiButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder")));
-		this.buttonList.add(new GuiButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done")));
+		this.buttonList.add(new GuiButton(2, this.width / 2 - 154, this.height - 48, Lang.format("resourcePack.openFolder")));
+		this.buttonList.add(new GuiButton(1, this.width / 2 + 4, this.height - 48, Lang.format("gui.done")));
 
 		if (!this.changed) {
 			this.availableResourcePacks = Lists.newArrayList();
@@ -104,7 +104,7 @@ public class GuiScreenResourcePacks extends GuiScreen {
 				File file1 = this.mc.getResourcePackRepository().getDirResourcepacks();
 				String s = file1.getAbsolutePath();
 
-				if (Util.getOSType() == Util.EnumOS.OSX)
+				if (Util.getOSType() == Util.OS.OSX)
 					try {
 						logger.info(s);
 						Runtime.getRuntime().exec(new String[] {"/usr/bin/open", s});
@@ -112,7 +112,7 @@ public class GuiScreenResourcePacks extends GuiScreen {
 					} catch (IOException ioexception1) {
 						logger.error("Couldn\'t open file", ioexception1);
 					}
-				else if (Util.getOSType() == Util.EnumOS.WINDOWS) {
+				else if (Util.getOSType() == Util.OS.WINDOWS) {
 					String s1 = String.format("cmd.exe /C start \"Open file\" \"%s\"", s);
 
 					try {
@@ -189,8 +189,8 @@ public class GuiScreenResourcePacks extends GuiScreen {
 		this.drawBackground(0);
 		this.availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
 		this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title"), this.width / 2, 16, 16777215);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo"), this.width / 2 - 77, this.height - 26, 8421504);
+		this.drawCenteredString(this.fontRendererObj, Lang.format("resourcePack.title"), this.width / 2, 16, 16777215);
+		this.drawCenteredString(this.fontRendererObj, Lang.format("resourcePack.folderInfo"), this.width / 2 - 77, this.height - 26, 8421504);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

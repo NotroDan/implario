@@ -62,23 +62,17 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
                 this.minecartContainerItems[index] = null;
                 return itemstack1;
             }
-            else
-            {
-                ItemStack itemstack = this.minecartContainerItems[index].splitStack(count);
+			ItemStack itemstack = this.minecartContainerItems[index].splitStack(count);
 
-                if (this.minecartContainerItems[index].stackSize == 0)
-                {
-                    this.minecartContainerItems[index] = null;
-                }
+			if (this.minecartContainerItems[index].stackSize == 0)
+			{
+				this.minecartContainerItems[index] = null;
+			}
 
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			return itemstack;
+		}
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -91,11 +85,8 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
             this.minecartContainerItems[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).

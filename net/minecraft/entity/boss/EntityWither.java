@@ -416,13 +416,10 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
         {
             return this.posX;
         }
-        else
-        {
-            float f = (this.renderYawOffset + (float)(180 * (p_82214_1_ - 1))) / 180.0F * (float)Math.PI;
-            float f1 = MathHelper.cos(f);
-            return this.posX + (double)f1 * 1.3D;
-        }
-    }
+		float f = (this.renderYawOffset + (float)(180 * (p_82214_1_ - 1))) / 180.0F * (float)Math.PI;
+		float f1 = MathHelper.cos(f);
+		return this.posX + (double)f1 * 1.3D;
+	}
 
     private double func_82208_v(int p_82208_1_)
     {
@@ -435,13 +432,10 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
         {
             return this.posZ;
         }
-        else
-        {
-            float f = (this.renderYawOffset + (float)(180 * (p_82213_1_ - 1))) / 180.0F * (float)Math.PI;
-            float f1 = MathHelper.sin(f);
-            return this.posZ + (double)f1 * 1.3D;
-        }
-    }
+		float f = (this.renderYawOffset + (float)(180 * (p_82213_1_ - 1))) / 180.0F * (float)Math.PI;
+		float f1 = MathHelper.sin(f);
+		return this.posZ + (double)f1 * 1.3D;
+	}
 
     private float func_82204_b(float p_82204_1_, float p_82204_2_, float p_82204_3_)
     {
@@ -507,51 +501,42 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
         {
             return false;
         }
-        else if (source != DamageSource.drown && !(source.getEntity() instanceof EntityWither))
-        {
-            if (this.getInvulTime() > 0 && source != DamageSource.outOfWorld)
-            {
-                return false;
-            }
-            else
-            {
-                if (this.isArmored())
-                {
-                    Entity entity = source.getSourceOfDamage();
+		if (source != DamageSource.drown && !(source.getEntity() instanceof EntityWither))
+		{
+			if (this.getInvulTime() > 0 && source != DamageSource.outOfWorld)
+			{
+				return false;
+			}
+			if (this.isArmored())
+				{
+					Entity entity = source.getSourceOfDamage();
 
-                    if (entity instanceof EntityArrow)
-                    {
-                        return false;
-                    }
-                }
+					if (entity instanceof EntityArrow)
+					{
+						return false;
+					}
+				}
 
-                Entity entity1 = source.getEntity();
+			Entity entity1 = source.getEntity();
 
-                if (entity1 != null && !(entity1 instanceof EntityPlayer) && entity1 instanceof EntityLivingBase && ((EntityLivingBase)entity1).getCreatureAttribute() == this.getCreatureAttribute())
-                {
-                    return false;
-                }
-                else
-                {
-                    if (this.blockBreakCounter <= 0)
-                    {
-                        this.blockBreakCounter = 20;
-                    }
+			if (entity1 != null && !(entity1 instanceof EntityPlayer) && entity1 instanceof EntityLivingBase && ((EntityLivingBase)entity1).getCreatureAttribute() == this.getCreatureAttribute())
+				{
+					return false;
+				}
+			if (this.blockBreakCounter <= 0)
+					{
+						this.blockBreakCounter = 20;
+					}
 
-                    for (int i = 0; i < this.field_82224_i.length; ++i)
-                    {
-                        this.field_82224_i[i] += 3;
-                    }
+			for (int i = 0; i < this.field_82224_i.length; ++i)
+					{
+						this.field_82224_i[i] += 3;
+					}
 
-                    return super.attackEntityFrom(source, amount);
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return super.attackEntityFrom(source, amount);
+		}
+		return false;
+	}
 
     /**
      * Drop 0-2 items of this living's type

@@ -27,25 +27,19 @@ public class ShaderOptionSwitchConst extends ShaderOptionSwitch
         {
             return null;
         }
-        else
-        {
-            String s = matcher.group(1);
-            String s1 = matcher.group(2);
-            String s2 = matcher.group(3);
+		String s = matcher.group(1);
+		String s1 = matcher.group(2);
+		String s2 = matcher.group(3);
 
-            if (s != null && s.length() > 0)
-            {
-                path = StrUtils.removePrefix(path, "/shaders/");
-                ShaderOption shaderoption = new ShaderOptionSwitchConst(s, s2, s1, path);
-                shaderoption.setVisible(false);
-                return shaderoption;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+		if (s != null && s.length() > 0)
+		{
+			path = StrUtils.removePrefix(path, "/shaders/");
+			ShaderOption shaderoption = new ShaderOptionSwitchConst(s, s2, s1, path);
+			shaderoption.setVisible(false);
+			return shaderoption;
+		}
+		return null;
+	}
 
     public boolean matchesLine(String line)
     {
@@ -55,12 +49,9 @@ public class ShaderOptionSwitchConst extends ShaderOptionSwitch
         {
             return false;
         }
-        else
-        {
-            String s = matcher.group(1);
-            return s.matches(this.getName());
-        }
-    }
+		String s = matcher.group(1);
+		return s.matches(this.getName());
+	}
 
     public boolean checkUsed()
     {

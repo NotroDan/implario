@@ -21,24 +21,21 @@ public class EntityMinecartEmpty extends EntityMinecart
      */
     public boolean interactFirst(EntityPlayer playerIn)
     {
-        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != playerIn)
+        if (this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != playerIn)
         {
             return true;
         }
-        else if (this.riddenByEntity != null && this.riddenByEntity != playerIn)
-        {
-            return false;
-        }
-        else
-        {
-            if (!this.worldObj.isRemote)
-            {
-                playerIn.mountEntity(this);
-            }
+		if (this.riddenByEntity != null && this.riddenByEntity != playerIn)
+		{
+			return false;
+		}
+		if (!this.worldObj.isRemote)
+		{
+			playerIn.mountEntity(this);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power

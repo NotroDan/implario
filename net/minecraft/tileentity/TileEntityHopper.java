@@ -117,23 +117,17 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
                 this.inventory[index] = null;
                 return itemstack1;
             }
-            else
-            {
-                ItemStack itemstack = this.inventory[index].splitStack(count);
+			ItemStack itemstack = this.inventory[index].splitStack(count);
 
-                if (this.inventory[index].stackSize == 0)
-                {
-                    this.inventory[index] = null;
-                }
+			if (this.inventory[index].stackSize == 0)
+			{
+				this.inventory[index] = null;
+			}
 
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			return itemstack;
+		}
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -146,11 +140,8 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
             this.inventory[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
@@ -263,11 +254,8 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
             return false;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     private boolean isEmpty()
     {
@@ -303,37 +291,31 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
         {
             return false;
         }
-        else
-        {
-            EnumFacing enumfacing = BlockHopper.getFacing(this.getBlockMetadata()).getOpposite();
+		EnumFacing enumfacing = BlockHopper.getFacing(this.getBlockMetadata()).getOpposite();
 
-            if (this.isInventoryFull(iinventory, enumfacing))
-            {
-                return false;
-            }
-            else
-            {
-                for (int i = 0; i < this.getSizeInventory(); ++i)
-                {
-                    if (this.getStackInSlot(i) != null)
-                    {
-                        ItemStack itemstack = this.getStackInSlot(i).copy();
-                        ItemStack itemstack1 = putStackInInventoryAllSlots(iinventory, this.decrStackSize(i, 1), enumfacing);
+		if (this.isInventoryFull(iinventory, enumfacing))
+		{
+			return false;
+		}
+		for (int i = 0; i < this.getSizeInventory(); ++i)
+		{
+			if (this.getStackInSlot(i) != null)
+			{
+				ItemStack itemstack = this.getStackInSlot(i).copy();
+				ItemStack itemstack1 = putStackInInventoryAllSlots(iinventory, this.decrStackSize(i, 1), enumfacing);
 
-                        if (itemstack1 == null || itemstack1.stackSize == 0)
-                        {
-                            iinventory.markDirty();
-                            return true;
-                        }
+				if (itemstack1 == null || itemstack1.stackSize == 0)
+				{
+					iinventory.markDirty();
+					return true;
+				}
 
-                        this.setInventorySlotContents(i, itemstack);
-                    }
-                }
+				this.setInventorySlotContents(i, itemstack);
+			}
+		}
 
-                return false;
-            }
-        }
-    }
+		return false;
+	}
 
     /**
      * Returns false if the inventory has any room to place items in
@@ -497,24 +479,21 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
         {
             return false;
         }
-        else
-        {
-            ItemStack itemstack = itemIn.getEntityItem().copy();
-            ItemStack itemstack1 = putStackInInventoryAllSlots(p_145898_0_, itemstack, (EnumFacing)null);
+		ItemStack itemstack = itemIn.getEntityItem().copy();
+		ItemStack itemstack1 = putStackInInventoryAllSlots(p_145898_0_, itemstack, (EnumFacing)null);
 
-            if (itemstack1 != null && itemstack1.stackSize != 0)
-            {
-                itemIn.setEntityItemStack(itemstack1);
-            }
-            else
-            {
-                flag = true;
-                itemIn.setDead();
-            }
+		if (itemstack1 != null && itemstack1.stackSize != 0)
+		{
+			itemIn.setEntityItemStack(itemstack1);
+		}
+		else
+		{
+			flag = true;
+			itemIn.setDead();
+		}
 
-            return flag;
-        }
-    }
+		return flag;
+	}
 
     /**
      * Attempts to place the passed stack in the inventory, using as many slots as required. Returns leftover items

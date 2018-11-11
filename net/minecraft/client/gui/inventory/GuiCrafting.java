@@ -1,7 +1,7 @@
 package net.minecraft.client.gui.inventory;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.util.BlockPos;
@@ -27,8 +27,8 @@ public class GuiCrafting extends GuiContainer
      */
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRendererObj.drawString(I18n.format("container.crafting", new Object[0]), 28, 6, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
+        this.fontRendererObj.drawString(Lang.format("container.crafting", new Object[0]), 28, 6, 4210752);
+        this.fontRendererObj.drawString(Lang.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
     }
 
     /**

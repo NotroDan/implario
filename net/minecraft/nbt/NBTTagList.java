@@ -49,29 +49,23 @@ public class NBTTagList extends NBTBase
         {
             throw new RuntimeException("Tried to read NBT tag with too high complexity, depth > 512");
         }
-        else
-        {
-            this.tagType = input.readByte();
-            int i = input.readInt();
+		this.tagType = input.readByte();
+		int i = input.readInt();
 
-            if (this.tagType == 0 && i > 0)
-            {
-                throw new RuntimeException("Missing type on ListTag");
-            }
-            else
-            {
-                sizeTracker.read(32L * (long)i);
-                this.tagList = Lists.<NBTBase>newArrayListWithCapacity(i);
+		if (this.tagType == 0 && i > 0)
+		{
+			throw new RuntimeException("Missing type on ListTag");
+		}
+		sizeTracker.read(32L * (long)i);
+		this.tagList = Lists.<NBTBase>newArrayListWithCapacity(i);
 
-                for (int j = 0; j < i; ++j)
-                {
-                    NBTBase nbtbase = NBTBase.createNewByType(this.tagType);
-                    nbtbase.read(input, depth + 1, sizeTracker);
-                    this.tagList.add(nbtbase);
-                }
-            }
-        }
-    }
+		for (int j = 0; j < i; ++j)
+		{
+			NBTBase nbtbase = NBTBase.createNewByType(this.tagType);
+			nbtbase.read(input, depth + 1, sizeTracker);
+			this.tagList.add(nbtbase);
+		}
+	}
 
     /**
      * Gets the type byte for the tag.
@@ -179,11 +173,8 @@ public class NBTTagList extends NBTBase
             NBTBase nbtbase = (NBTBase)this.tagList.get(i);
             return nbtbase.getId() == 10 ? (NBTTagCompound)nbtbase : new NBTTagCompound();
         }
-        else
-        {
-            return new NBTTagCompound();
-        }
-    }
+		return new NBTTagCompound();
+	}
 
     public int[] getIntArrayAt(int i)
     {
@@ -192,11 +183,8 @@ public class NBTTagList extends NBTBase
             NBTBase nbtbase = (NBTBase)this.tagList.get(i);
             return nbtbase.getId() == 11 ? ((NBTTagIntArray)nbtbase).getIntArray() : new int[0];
         }
-        else
-        {
-            return new int[0];
-        }
-    }
+		return new int[0];
+	}
 
     public double getDoubleAt(int i)
     {
@@ -205,11 +193,8 @@ public class NBTTagList extends NBTBase
             NBTBase nbtbase = (NBTBase)this.tagList.get(i);
             return nbtbase.getId() == 6 ? ((NBTTagDouble)nbtbase).getDouble() : 0.0D;
         }
-        else
-        {
-            return 0.0D;
-        }
-    }
+		return 0.0D;
+	}
 
     public float getFloatAt(int i)
     {
@@ -218,11 +203,8 @@ public class NBTTagList extends NBTBase
             NBTBase nbtbase = (NBTBase)this.tagList.get(i);
             return nbtbase.getId() == 5 ? ((NBTTagFloat)nbtbase).getFloat() : 0.0F;
         }
-        else
-        {
-            return 0.0F;
-        }
-    }
+		return 0.0F;
+	}
 
     /**
      * Retrieves the tag String value at the specified index in the list
@@ -234,11 +216,8 @@ public class NBTTagList extends NBTBase
             NBTBase nbtbase = (NBTBase)this.tagList.get(i);
             return nbtbase.getId() == 8 ? nbtbase.getString() : nbtbase.toString();
         }
-        else
-        {
-            return "";
-        }
-    }
+		return "";
+	}
 
     /**
      * Get the tag at the given position

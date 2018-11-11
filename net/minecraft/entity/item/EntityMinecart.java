@@ -158,39 +158,33 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
             {
                 return false;
             }
-            else
-            {
-                this.setRollingDirection(-this.getRollingDirection());
-                this.setRollingAmplitude(10);
-                this.setBeenAttacked();
-                this.setDamage(this.getDamage() + amount * 10.0F);
-                boolean flag = source.getEntity() instanceof EntityPlayer && ((EntityPlayer)source.getEntity()).capabilities.isCreativeMode;
+			this.setRollingDirection(-this.getRollingDirection());
+			this.setRollingAmplitude(10);
+			this.setBeenAttacked();
+			this.setDamage(this.getDamage() + amount * 10.0F);
+			boolean flag = source.getEntity() instanceof EntityPlayer && ((EntityPlayer)source.getEntity()).capabilities.isCreativeMode;
 
-                if (flag || this.getDamage() > 40.0F)
-                {
-                    if (this.riddenByEntity != null)
-                    {
-                        this.riddenByEntity.mountEntity((Entity)null);
-                    }
+			if (flag || this.getDamage() > 40.0F)
+			{
+				if (this.riddenByEntity != null)
+				{
+					this.riddenByEntity.mountEntity((Entity)null);
+				}
 
-                    if (flag && !this.hasCustomName())
-                    {
-                        this.setDead();
-                    }
-                    else
-                    {
-                        this.killMinecart(source);
-                    }
-                }
+				if (flag && !this.hasCustomName())
+				{
+					this.setDead();
+				}
+				else
+				{
+					this.killMinecart(source);
+				}
+			}
 
-                return true;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
+			return true;
+		}
+		return true;
+	}
 
     public void killMinecart(DamageSource p_94095_1_)
     {
@@ -732,11 +726,8 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
 
             return this.func_70489_a(p_70495_1_, p_70495_3_, p_70495_5_);
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     public Vec3 func_70489_a(double p_70489_1_, double p_70489_3_, double p_70489_5_)
     {
@@ -799,11 +790,8 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
 
             return new Vec3(p_70489_1_, p_70489_3_, p_70489_5_);
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
@@ -1125,14 +1113,11 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable
             chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
             return chatcomponenttext;
         }
-        else
-        {
-            ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(this.getName(), new Object[0]);
-            chatcomponenttranslation.getChatStyle().setChatHoverEvent(this.getHoverEvent());
-            chatcomponenttranslation.getChatStyle().setInsertion(this.getUniqueID().toString());
-            return chatcomponenttranslation;
-        }
-    }
+		ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(this.getName(), new Object[0]);
+		chatcomponenttranslation.getChatStyle().setChatHoverEvent(this.getHoverEvent());
+		chatcomponenttranslation.getChatStyle().setInsertion(this.getUniqueID().toString());
+		return chatcomponenttranslation;
+	}
 
     public static enum EnumMinecartType
     {

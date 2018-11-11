@@ -28,7 +28,6 @@ import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.*;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.storage.AnvilSaveConverter;
-import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
@@ -269,16 +268,14 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		WorldSettings worldsettings;
 
 		if (worldinfo == null) {
-			if (this.isDemo()) {
-				worldsettings = DemoWorldServer.demoWorldSettings;
-			} else {
-				worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(), this.isHardcore(), type);
-				worldsettings.setWorldName(p_71247_6_);
 
-				if (this.enableBonusChest) {
-					worldsettings.enableBonusChest();
-				}
+			worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(), this.isHardcore(), type);
+			worldsettings.setWorldName(p_71247_6_);
+
+			if (this.enableBonusChest) {
+				worldsettings.enableBonusChest();
 			}
+
 
 			worldinfo = new WorldInfo(worldsettings, p_71247_2_);
 		} else {
@@ -298,12 +295,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			}
 
 			if (i == 0) {
-				if (this.isDemo()) {
-					this.worldServers[i] = (WorldServer) new DemoWorldServer(this, isavehandler, worldinfo, j, this.theProfiler).init();
-				} else {
-					this.worldServers[i] = (WorldServer) new WorldServer(this, isavehandler, worldinfo, j, this.theProfiler).init();
-				}
-
+				this.worldServers[i] = (WorldServer) new WorldServer(this, isavehandler, worldinfo, j, this.theProfiler).init();
 				this.worldServers[i].initialize(worldsettings);
 			} else {
 				this.worldServers[i] = (WorldServer) new WorldServerMulti(this, isavehandler, j, this.worldServers[0], this.theProfiler).init();
@@ -475,13 +467,13 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 					long j = k - this.currentTime;
 
 					if (j > 2000L && this.currentTime - this.timeOfLastWarning >= 15000L) {
-						logger.warn("Can\'t keep up! Did the system time change, or is the server overloaded? Running {}ms behind, skipping {} tick(s)", j, j / 50L);
+						logger.warn("Скип тиков (" + j + " т. или " + j / 50L + "мс.)");
 						j = 2000L;
 						this.timeOfLastWarning = this.currentTime;
 					}
 
 					if (j < 0L) {
-						logger.warn("Time ran backwards! Did the system time change?");
+						logger.warn("Время пошло в обратную сторону?! Что ты блядь сделал вообще?!!!");
 						j = 0L;
 					}
 
@@ -620,7 +612,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 		synchronized (this.futureTaskQueue) {
 			while (!this.futureTaskQueue.isEmpty()) {
-				Util.func_181617_a((FutureTask) this.futureTaskQueue.poll(), logger);
+				Util.schedule((FutureTask) this.futureTaskQueue.poll(), logger);
 			}
 		}
 
@@ -635,7 +627,9 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 				if (this.tickCounter % 20 == 0) {
 					this.theProfiler.startSection("timeSync");
-					this.serverConfigManager.sendPacketToAllPlayersInDimension(new S03PacketTimeUpdate(worldserver.getTotalWorldTime(), worldserver.getWorldTime(), worldserver.getGameRules().getBoolean("doDaylightCycle")), worldserver.provider.getDimensionId());
+					this.serverConfigManager.sendPacketToAllPlayersInDimension(
+							new S03PacketTimeUpdate(worldserver.getTotalWorldTime(), worldserver.getWorldTime(), worldserver.getGameRules().getBoolean("doDaylightCycle")),
+							worldserver.provider.getDimensionId());
 					this.theProfiler.endSection();
 				}
 
@@ -753,10 +747,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Adds the server info, including from theWorldServer, to the crash report.
 	 */
 	public CrashReport addServerInfoToCrashReport(CrashReport report) {
-		report.getCategory().addCrashSectionCallable("Profiler Position", () -> MinecraftServer.this.theProfiler.profilingEnabled ? MinecraftServer.this.theProfiler.getNameOfLastSection() : "N/A (disabled)");
+		report.getCategory().addCrashSectionCallable("Profiler Position", () -> this.theProfiler.profilingEnabled ? this.theProfiler.getNameOfLastSection() : "N/A (disabled)");
 
 		if (this.serverConfigManager != null) {
-			report.getCategory().addCrashSectionCallable("Player Count", () -> MinecraftServer.this.serverConfigManager.getCurrentPlayerCount() + " / " + MinecraftServer.this.serverConfigManager.getMaxPlayers() + "; " + MinecraftServer.this.serverConfigManager.func_181057_v());
+			report.getCategory().addCrashSectionCallable("Player Count",
+					() -> this.serverConfigManager.getCurrentPlayerCount() + " / " + this.serverConfigManager.getMaxPlayers() + "; " + this.serverConfigManager.func_181057_v());
 		}
 
 		return report;
@@ -781,18 +776,17 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			}
 
 			return list;
-		} else {
-			String[] astring = input.split(" ", -1);
-			String s = astring[astring.length - 1];
-
-			for (String s1 : this.serverConfigManager.getAllUsernames()) {
-				if (CommandBase.doesStringStartWith(s, s1)) {
-					list.add(s1);
-				}
-			}
-
-			return list;
 		}
+		String[] astring = input.split(" ", -1);
+		String s = astring[astring.length - 1];
+
+		for (String s1 : this.serverConfigManager.getAllUsernames()) {
+			if (CommandBase.doesStringStartWith(s, s1)) {
+				list.add(s1);
+			}
+		}
+
+		return list;
 	}
 
 	/**
@@ -895,20 +889,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 	protected boolean allowSpawnMonsters() {
 		return true;
-	}
-
-	/**
-	 * Gets whether this is a demo or not.
-	 */
-	public boolean isDemo() {
-		return this.isDemo;
-	}
-
-	/**
-	 * Sets whether this is a demo or not.
-	 */
-	public void setDemo(boolean demo) {
-		this.isDemo = demo;
 	}
 
 	public void canCreateBonusChest(boolean enable) {
@@ -1192,12 +1172,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 				this.futureTaskQueue.add(listenablefuturetask);
 				return listenablefuturetask;
 			}
-		} else {
-			try {
-				return Futures.immediateFuture(callable.call());
-			} catch (Exception exception) {
-				return Futures.immediateFailedCheckedFuture(exception);
-			}
+		}
+		try {
+			return Futures.immediateFuture(callable.call());
+		} catch (Exception exception) {
+			return Futures.immediateFailedCheckedFuture(exception);
 		}
 	}
 

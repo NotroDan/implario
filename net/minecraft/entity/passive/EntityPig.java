@@ -125,16 +125,13 @@ public class EntityPig extends EntityAnimal
         {
             return true;
         }
-        else if (!this.getSaddled() || this.worldObj.isRemote || this.riddenByEntity != null && this.riddenByEntity != player)
-        {
-            return false;
-        }
-        else
-        {
-            player.mountEntity(this);
-            return true;
-        }
-    }
+		if (!this.getSaddled() || this.worldObj.isRemote || this.riddenByEntity != null && this.riddenByEntity != player)
+		{
+			return false;
+		}
+		player.mountEntity(this);
+		return true;
+	}
 
     protected Item getDropItem()
     {

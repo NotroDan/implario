@@ -5,7 +5,7 @@ import java.util.Random;
 
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiTextField;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
@@ -52,7 +52,7 @@ public class GuiCreateWorld extends GuiScreen
     {
         this.parentScreen = p_i46320_1_;
         this.field_146329_I = "";
-        this.field_146330_J = I18n.format("selectWorld.newWorld", new Object[0]);
+        this.field_146330_J = Lang.format("selectWorld.newWorld", new Object[0]);
     }
 
     /**
@@ -72,19 +72,19 @@ public class GuiCreateWorld extends GuiScreen
     {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("selectWorld.create", new Object[0])));
-        this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel", new Object[0])));
-        this.buttonList.add(this.btnGameMode = new GuiButton(2, this.width / 2 - 75, 115, 150, 20, I18n.format("selectWorld.gameMode", new Object[0])));
-        this.buttonList.add(this.btnMoreOptions = new GuiButton(3, this.width / 2 - 75, 187, 150, 20, I18n.format("selectWorld.moreWorldOptions", new Object[0])));
-        this.buttonList.add(this.btnMapFeatures = new GuiButton(4, this.width / 2 - 155, 100, 150, 20, I18n.format("selectWorld.mapFeatures", new Object[0])));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, Lang.format("selectWorld.create", new Object[0])));
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, Lang.format("gui.cancel", new Object[0])));
+        this.buttonList.add(this.btnGameMode = new GuiButton(2, this.width / 2 - 75, 115, 150, 20, Lang.format("selectWorld.gameMode", new Object[0])));
+        this.buttonList.add(this.btnMoreOptions = new GuiButton(3, this.width / 2 - 75, 187, 150, 20, Lang.format("selectWorld.moreWorldOptions", new Object[0])));
+        this.buttonList.add(this.btnMapFeatures = new GuiButton(4, this.width / 2 - 155, 100, 150, 20, Lang.format("selectWorld.mapFeatures", new Object[0])));
         this.btnMapFeatures.visible = false;
-        this.buttonList.add(this.btnBonusItems = new GuiButton(7, this.width / 2 + 5, 151, 150, 20, I18n.format("selectWorld.bonusItems", new Object[0])));
+        this.buttonList.add(this.btnBonusItems = new GuiButton(7, this.width / 2 + 5, 151, 150, 20, Lang.format("selectWorld.bonusItems", new Object[0])));
         this.btnBonusItems.visible = false;
-        this.buttonList.add(this.btnMapType = new GuiButton(5, this.width / 2 + 5, 100, 150, 20, I18n.format("selectWorld.mapType", new Object[0])));
+        this.buttonList.add(this.btnMapType = new GuiButton(5, this.width / 2 + 5, 100, 150, 20, Lang.format("selectWorld.mapType", new Object[0])));
         this.btnMapType.visible = false;
-        this.buttonList.add(this.btnAllowCommands = new GuiButton(6, this.width / 2 - 155, 151, 150, 20, I18n.format("selectWorld.allowCommands", new Object[0])));
+        this.buttonList.add(this.btnAllowCommands = new GuiButton(6, this.width / 2 - 155, 151, 150, 20, Lang.format("selectWorld.allowCommands", new Object[0])));
         this.btnAllowCommands.visible = false;
-        this.buttonList.add(this.btnCustomizeType = new GuiButton(8, this.width / 2 + 5, 120, 150, 20, I18n.format("selectWorld.customizeType", new Object[0])));
+        this.buttonList.add(this.btnCustomizeType = new GuiButton(8, this.width / 2 + 5, 120, 150, 20, Lang.format("selectWorld.customizeType", new Object[0])));
         this.btnCustomizeType.visible = false;
         this.field_146333_g = new GuiTextField(9, this.fontRendererObj, this.width / 2 - 100, 60, 200, 20);
         this.field_146333_g.setFocused(true);
@@ -115,41 +115,41 @@ public class GuiCreateWorld extends GuiScreen
 
     private void func_146319_h()
     {
-        this.btnGameMode.displayString = I18n.format("selectWorld.gameMode", new Object[0]) + ": " + I18n.format("selectWorld.gameMode." + this.gameMode, new Object[0]);
-        this.field_146323_G = I18n.format("selectWorld.gameMode." + this.gameMode + ".line1", new Object[0]);
-        this.field_146328_H = I18n.format("selectWorld.gameMode." + this.gameMode + ".line2", new Object[0]);
-        this.btnMapFeatures.displayString = I18n.format("selectWorld.mapFeatures", new Object[0]) + " ";
+        this.btnGameMode.displayString = Lang.format("selectWorld.gameMode", new Object[0]) + ": " + Lang.format("selectWorld.gameMode." + this.gameMode, new Object[0]);
+        this.field_146323_G = Lang.format("selectWorld.gameMode." + this.gameMode + ".line1", new Object[0]);
+        this.field_146328_H = Lang.format("selectWorld.gameMode." + this.gameMode + ".line2", new Object[0]);
+        this.btnMapFeatures.displayString = Lang.format("selectWorld.mapFeatures", new Object[0]) + " ";
 
         if (this.field_146341_s)
         {
-            this.btnMapFeatures.displayString = this.btnMapFeatures.displayString + I18n.format("options.on", new Object[0]);
+            this.btnMapFeatures.displayString = this.btnMapFeatures.displayString + Lang.format("options.on", new Object[0]);
         }
         else
         {
-            this.btnMapFeatures.displayString = this.btnMapFeatures.displayString + I18n.format("options.off", new Object[0]);
+            this.btnMapFeatures.displayString = this.btnMapFeatures.displayString + Lang.format("options.off", new Object[0]);
         }
 
-        this.btnBonusItems.displayString = I18n.format("selectWorld.bonusItems", new Object[0]) + " ";
+        this.btnBonusItems.displayString = Lang.format("selectWorld.bonusItems", new Object[0]) + " ";
 
         if (this.field_146338_v && !this.field_146337_w)
         {
-            this.btnBonusItems.displayString = this.btnBonusItems.displayString + I18n.format("options.on", new Object[0]);
+            this.btnBonusItems.displayString = this.btnBonusItems.displayString + Lang.format("options.on", new Object[0]);
         }
         else
         {
-            this.btnBonusItems.displayString = this.btnBonusItems.displayString + I18n.format("options.off", new Object[0]);
+            this.btnBonusItems.displayString = this.btnBonusItems.displayString + Lang.format("options.off", new Object[0]);
         }
 
-        this.btnMapType.displayString = I18n.format("selectWorld.mapType", new Object[0]) + " " + I18n.format(WorldType.worldTypes[this.selectedIndex].getTranslateName(), new Object[0]);
-        this.btnAllowCommands.displayString = I18n.format("selectWorld.allowCommands", new Object[0]) + " ";
+        this.btnMapType.displayString = Lang.format("selectWorld.mapType", new Object[0]) + " " + Lang.format(WorldType.worldTypes[this.selectedIndex].getTranslateName(), new Object[0]);
+        this.btnAllowCommands.displayString = Lang.format("selectWorld.allowCommands", new Object[0]) + " ";
 
         if (this.allowCheats && !this.field_146337_w)
         {
-            this.btnAllowCommands.displayString = this.btnAllowCommands.displayString + I18n.format("options.on", new Object[0]);
+            this.btnAllowCommands.displayString = this.btnAllowCommands.displayString + Lang.format("options.on", new Object[0]);
         }
         else
         {
-            this.btnAllowCommands.displayString = this.btnAllowCommands.displayString + I18n.format("options.off", new Object[0]);
+            this.btnAllowCommands.displayString = this.btnAllowCommands.displayString + Lang.format("options.off", new Object[0]);
         }
     }
 
@@ -395,11 +395,11 @@ public class GuiCreateWorld extends GuiScreen
 
         if (this.field_146344_y)
         {
-            this.btnMoreOptions.displayString = I18n.format("gui.done", new Object[0]);
+            this.btnMoreOptions.displayString = Lang.format("gui.done", new Object[0]);
         }
         else
         {
-            this.btnMoreOptions.displayString = I18n.format("selectWorld.moreWorldOptions", new Object[0]);
+            this.btnMoreOptions.displayString = Lang.format("selectWorld.moreWorldOptions", new Object[0]);
         }
     }
 
@@ -452,34 +452,34 @@ public class GuiCreateWorld extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.create", new Object[0]), this.width / 2, 20, -1);
+        this.drawCenteredString(this.fontRendererObj, Lang.format("selectWorld.create", new Object[0]), this.width / 2, 20, -1);
 
         if (this.field_146344_y)
         {
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterSeed", new Object[0]), this.width / 2 - 100, 47, -6250336);
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.seedInfo", new Object[0]), this.width / 2 - 100, 85, -6250336);
+            this.drawString(this.fontRendererObj, Lang.format("selectWorld.enterSeed", new Object[0]), this.width / 2 - 100, 47, -6250336);
+            this.drawString(this.fontRendererObj, Lang.format("selectWorld.seedInfo", new Object[0]), this.width / 2 - 100, 85, -6250336);
 
             if (this.btnMapFeatures.visible)
             {
-                this.drawString(this.fontRendererObj, I18n.format("selectWorld.mapFeatures.info", new Object[0]), this.width / 2 - 150, 122, -6250336);
+                this.drawString(this.fontRendererObj, Lang.format("selectWorld.mapFeatures.info", new Object[0]), this.width / 2 - 150, 122, -6250336);
             }
 
             if (this.btnAllowCommands.visible)
             {
-                this.drawString(this.fontRendererObj, I18n.format("selectWorld.allowCommands.info", new Object[0]), this.width / 2 - 150, 172, -6250336);
+                this.drawString(this.fontRendererObj, Lang.format("selectWorld.allowCommands.info", new Object[0]), this.width / 2 - 150, 172, -6250336);
             }
 
             this.field_146335_h.drawTextBox();
 
             if (WorldType.worldTypes[this.selectedIndex].showWorldInfoNotice())
             {
-                this.fontRendererObj.drawSplitString(I18n.format(WorldType.worldTypes[this.selectedIndex].func_151359_c(), new Object[0]), this.btnMapType.xPosition + 2, this.btnMapType.yPosition + 22, this.btnMapType.getButtonWidth(), 10526880);
+                this.fontRendererObj.drawSplitString(Lang.format(WorldType.worldTypes[this.selectedIndex].func_151359_c(), new Object[0]), this.btnMapType.xPosition + 2, this.btnMapType.yPosition + 22, this.btnMapType.getButtonWidth(), 10526880);
             }
         }
         else
         {
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName", new Object[0]), this.width / 2 - 100, 47, -6250336);
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.resultFolder", new Object[0]) + " " + this.field_146336_i, this.width / 2 - 100, 85, -6250336);
+            this.drawString(this.fontRendererObj, Lang.format("selectWorld.enterName", new Object[0]), this.width / 2 - 100, 47, -6250336);
+            this.drawString(this.fontRendererObj, Lang.format("selectWorld.resultFolder", new Object[0]) + " " + this.field_146336_i, this.width / 2 - 100, 85, -6250336);
             this.field_146333_g.drawTextBox();
             this.drawString(this.fontRendererObj, this.field_146323_G, this.width / 2 - 100, 137, -6250336);
             this.drawString(this.fontRendererObj, this.field_146328_H, this.width / 2 - 100, 149, -6250336);
@@ -490,7 +490,7 @@ public class GuiCreateWorld extends GuiScreen
 
     public void func_146318_a(WorldInfo p_146318_1_)
     {
-        this.field_146330_J = I18n.format("selectWorld.newWorld.copyOf", new Object[] {p_146318_1_.getWorldName()});
+        this.field_146330_J = Lang.format("selectWorld.newWorld.copyOf", new Object[] {p_146318_1_.getWorldName()});
         this.field_146329_I = p_146318_1_.getSeed() + "";
         this.selectedIndex = p_146318_1_.getTerrainType().getWorldTypeID();
         this.chunkProviderSettingsJson = p_146318_1_.getGeneratorOptions();

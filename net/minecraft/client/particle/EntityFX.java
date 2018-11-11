@@ -246,12 +246,9 @@ public class EntityFX extends Entity
         {
             throw new RuntimeException("Invalid call to Particle.setMiscTex");
         }
-        else
-        {
-            this.particleTextureIndexX = particleTextureIndex % 16;
-            this.particleTextureIndexY = particleTextureIndex / 16;
-        }
-    }
+		this.particleTextureIndexX = particleTextureIndex % 16;
+		this.particleTextureIndexY = particleTextureIndex / 16;
+	}
 
     public void nextTextureIndexX()
     {

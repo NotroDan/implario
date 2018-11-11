@@ -112,43 +112,37 @@ public class EntityBoat extends Entity
         {
             return false;
         }
-        else if (!this.worldObj.isRemote && !this.isDead)
-        {
-            if (this.riddenByEntity != null && this.riddenByEntity == source.getEntity() && source instanceof EntityDamageSourceIndirect)
-            {
-                return false;
-            }
-            else
-            {
-                this.setForwardDirection(-this.getForwardDirection());
-                this.setTimeSinceHit(10);
-                this.setDamageTaken(this.getDamageTaken() + amount * 10.0F);
-                this.setBeenAttacked();
-                boolean flag = source.getEntity() instanceof EntityPlayer && ((EntityPlayer)source.getEntity()).capabilities.isCreativeMode;
+		if (!this.worldObj.isRemote && !this.isDead)
+		{
+			if (this.riddenByEntity != null && this.riddenByEntity == source.getEntity() && source instanceof EntityDamageSourceIndirect)
+			{
+				return false;
+			}
+			this.setForwardDirection(-this.getForwardDirection());
+			this.setTimeSinceHit(10);
+			this.setDamageTaken(this.getDamageTaken() + amount * 10.0F);
+			this.setBeenAttacked();
+			boolean flag = source.getEntity() instanceof EntityPlayer && ((EntityPlayer)source.getEntity()).capabilities.isCreativeMode;
 
-                if (flag || this.getDamageTaken() > 40.0F)
-                {
-                    if (this.riddenByEntity != null)
-                    {
-                        this.riddenByEntity.mountEntity(this);
-                    }
+			if (flag || this.getDamageTaken() > 40.0F)
+				{
+					if (this.riddenByEntity != null)
+					{
+						this.riddenByEntity.mountEntity(this);
+					}
 
-                    if (!flag && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
-                    {
-                        this.dropItemWithOffset(Items.boat, 1, 0.0F);
-                    }
+					if (!flag && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+					{
+						this.dropItemWithOffset(Items.boat, 1, 0.0F);
+					}
 
-                    this.setDead();
-                }
+					this.setDead();
+				}
 
-                return true;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
+			return true;
+		}
+		return true;
+	}
 
     /**
      * Setups the entity to do the hurt animation. Only used by packets in multiplayer.
@@ -513,20 +507,17 @@ public class EntityBoat extends Entity
      */
     public boolean interactFirst(EntityPlayer playerIn)
     {
-        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != playerIn)
+        if (this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != playerIn)
         {
             return true;
         }
-        else
-        {
-            if (!this.worldObj.isRemote)
-            {
-                playerIn.mountEntity(this);
-            }
+		if (!this.worldObj.isRemote)
+		{
+			playerIn.mountEntity(this);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     protected void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos)
     {

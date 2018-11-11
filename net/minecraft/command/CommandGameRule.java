@@ -91,21 +91,18 @@ public class CommandGameRule extends CommandBase
         {
             return getListOfStringsMatchingLastWord(args, this.getGameRules().getRules());
         }
-        else
-        {
-            if (args.length == 2)
-            {
-                GameRules gamerules = this.getGameRules();
+		if (args.length == 2)
+		{
+			GameRules gamerules = this.getGameRules();
 
-                if (gamerules.areSameType(args[0], GameRules.ValueType.BOOLEAN_VALUE))
-                {
-                    return getListOfStringsMatchingLastWord(args, new String[] {"true", "false"});
-                }
-            }
+			if (gamerules.areSameType(args[0], GameRules.ValueType.BOOLEAN_VALUE))
+			{
+				return getListOfStringsMatchingLastWord(args, new String[] {"true", "false"});
+			}
+		}
 
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Return the game rule set this command should be able to manipulate.

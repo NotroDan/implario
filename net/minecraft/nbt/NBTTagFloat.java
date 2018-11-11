@@ -61,11 +61,8 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive
             NBTTagFloat nbttagfloat = (NBTTagFloat)p_equals_1_;
             return this.data == nbttagfloat.data;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public int hashCode()
     {

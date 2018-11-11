@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 
 import java.io.IOException;
 
@@ -17,11 +17,11 @@ public class GuiConfirmOpenLink extends GuiYesNo
 
     public GuiConfirmOpenLink(GuiYesNoCallback p_i1084_1_, String linkTextIn, int p_i1084_3_, boolean p_i1084_4_)
     {
-        super(p_i1084_1_, I18n.format(p_i1084_4_ ? "chat.link.confirmTrusted" : "chat.link.confirm"), linkTextIn, p_i1084_3_);
-        this.confirmButtonText = I18n.format(p_i1084_4_ ? "chat.link.open" : "gui.yes");
-        this.cancelButtonText = I18n.format(p_i1084_4_ ? "gui.cancel" : "gui.no");
-        this.copyLinkButtonText = I18n.format("chat.copy");
-        this.openLinkWarning = I18n.format("chat.link.warning");
+        super(p_i1084_1_, Lang.format(p_i1084_4_ ? "chat.link.confirmTrusted" : "chat.link.confirm"), linkTextIn, p_i1084_3_);
+        this.confirmButtonText = Lang.format(p_i1084_4_ ? "chat.link.open" : "gui.yes");
+        this.cancelButtonText = Lang.format(p_i1084_4_ ? "gui.cancel" : "gui.no");
+        this.copyLinkButtonText = Lang.format("chat.copy");
+        this.openLinkWarning = Lang.format("chat.link.warning");
         this.linkText = linkTextIn;
     }
 

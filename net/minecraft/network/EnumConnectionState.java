@@ -168,10 +168,9 @@ public enum EnumConnectionState {
 			String s = direction + " packet " + packetClass + " is already known to ID " + bimap.inverse().get(packetClass);
 			LogManager.getLogger().fatal(s);
 			throw new IllegalArgumentException(s);
-		} else {
-			bimap.put(bimap.size(), packetClass);
-			return this;
 		}
+		bimap.put(bimap.size(), packetClass);
+		return this;
 	}
 
 	public Integer getPacketId(EnumPacketDirection direction, Packet packetIn) {

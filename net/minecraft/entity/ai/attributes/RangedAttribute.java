@@ -18,15 +18,15 @@ public class RangedAttribute extends BaseAttribute
         {
             throw new IllegalArgumentException("Minimum value cannot be bigger than maximum value!");
         }
-        else if (defaultValue < minimumValueIn)
-        {
-            throw new IllegalArgumentException("Default value cannot be lower than minimum value!");
-        }
-        else if (defaultValue > maximumValueIn)
-        {
-            throw new IllegalArgumentException("Default value cannot be bigger than maximum value!");
-        }
-    }
+		if (defaultValue < minimumValueIn)
+		{
+			throw new IllegalArgumentException("Default value cannot be lower than minimum value!");
+		}
+		if (defaultValue > maximumValueIn)
+		{
+			throw new IllegalArgumentException("Default value cannot be bigger than maximum value!");
+		}
+	}
 
     public RangedAttribute setDescription(String descriptionIn)
     {

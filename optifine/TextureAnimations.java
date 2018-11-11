@@ -71,39 +71,38 @@ public class TextureAnimations {
 
 		if (astring.length <= 0) {
 			return null;
-		} else {
-			List list = new ArrayList();
-
-			for (int i = 0; i < astring.length; ++i) {
-				String s = astring[i];
-				Config.dbg("Texture animation: " + s);
-
-				try {
-					ResourceLocation resourcelocation = new ResourceLocation(s);
-					InputStream inputstream = p_getTextureAnimations_0_.getInputStream(resourcelocation);
-					Properties properties = new Properties();
-					properties.load(inputstream);
-					TextureAnimation textureanimation = makeTextureAnimation(properties, resourcelocation);
-
-					if (textureanimation != null) {
-						ResourceLocation resourcelocation1 = new ResourceLocation(textureanimation.getDstTex());
-
-						if (Config.getDefiningResourcePack(resourcelocation1) != p_getTextureAnimations_0_) {
-							Config.dbg("Skipped: " + s + ", target texture not loaded from same resource pack");
-						} else {
-							list.add(textureanimation);
-						}
-					}
-				} catch (FileNotFoundException filenotfoundexception) {
-					Config.warn("File not found: " + filenotfoundexception.getMessage());
-				} catch (IOException ioexception) {
-					ioexception.printStackTrace();
-				}
-			}
-
-			TextureAnimation[] atextureanimation = (TextureAnimation[]) (TextureAnimation[]) list.toArray(new TextureAnimation[list.size()]);
-			return atextureanimation;
 		}
+		List list = new ArrayList();
+
+		for (int i = 0; i < astring.length; ++i) {
+			String s = astring[i];
+			Config.dbg("Texture animation: " + s);
+
+			try {
+				ResourceLocation resourcelocation = new ResourceLocation(s);
+				InputStream inputstream = p_getTextureAnimations_0_.getInputStream(resourcelocation);
+				Properties properties = new Properties();
+				properties.load(inputstream);
+				TextureAnimation textureanimation = makeTextureAnimation(properties, resourcelocation);
+
+				if (textureanimation != null) {
+					ResourceLocation resourcelocation1 = new ResourceLocation(textureanimation.getDstTex());
+
+					if (Config.getDefiningResourcePack(resourcelocation1) != p_getTextureAnimations_0_) {
+						Config.dbg("Skipped: " + s + ", target texture not loaded from same resource pack");
+					} else {
+						list.add(textureanimation);
+					}
+				}
+			} catch (FileNotFoundException filenotfoundexception) {
+				Config.warn("File not found: " + filenotfoundexception.getMessage());
+			} catch (IOException ioexception) {
+				ioexception.printStackTrace();
+			}
+		}
+
+		TextureAnimation[] atextureanimation = (TextureAnimation[]) (TextureAnimation[]) list.toArray(new TextureAnimation[list.size()]);
+		return atextureanimation;
 	}
 
 	public static TextureAnimation makeTextureAnimation(Properties p_makeTextureAnimation_0_, ResourceLocation p_makeTextureAnimation_1_) {
@@ -126,25 +125,21 @@ public class TextureAnimations {
 				if (abyte == null) {
 					Config.warn("TextureAnimation: Source texture not found: " + s1);
 					return null;
-				} else {
-					ResourceLocation resourcelocation = new ResourceLocation(s1);
-
-					if (!Config.hasResource(resourcelocation)) {
-						Config.warn("TextureAnimation: Target texture not found: " + s1);
-						return null;
-					} else {
-						TextureAnimation textureanimation = new TextureAnimation(s, abyte, s1, resourcelocation, i, j, k, l, p_makeTextureAnimation_0_, 1);
-						return textureanimation;
-					}
 				}
-			} else {
-				Config.warn("TextureAnimation: Invalid coordinates");
-				return null;
+				ResourceLocation resourcelocation = new ResourceLocation(s1);
+
+				if (!Config.hasResource(resourcelocation)) {
+					Config.warn("TextureAnimation: Target texture not found: " + s1);
+					return null;
+				}
+				TextureAnimation textureanimation = new TextureAnimation(s, abyte, s1, resourcelocation, i, j, k, l, p_makeTextureAnimation_0_, 1);
+				return textureanimation;
 			}
-		} else {
-			Config.warn("TextureAnimation: Source or target texture not specified");
+			Config.warn("TextureAnimation: Invalid coordinates");
 			return null;
 		}
+		Config.warn("TextureAnimation: Source or target texture not specified");
+		return null;
 	}
 
 	public static byte[] getCustomTextureData(String p_getCustomTextureData_0_, int p_getCustomTextureData_1_) {
@@ -164,40 +159,38 @@ public class TextureAnimations {
 
 			if (inputstream == null) {
 				return null;
-			} else {
-				BufferedImage bufferedimage = readTextureImage(inputstream);
-				inputstream.close();
-
-				if (bufferedimage == null) {
-					return null;
-				} else {
-					if (p_loadImage_1_ > 0 && bufferedimage.getWidth() != p_loadImage_1_) {
-						double d0 = (double) (bufferedimage.getHeight() / bufferedimage.getWidth());
-						int j = (int) ((double) p_loadImage_1_ * d0);
-						bufferedimage = scaleBufferedImage(bufferedimage, p_loadImage_1_, j);
-					}
-
-					int k2 = bufferedimage.getWidth();
-					int i = bufferedimage.getHeight();
-					int[] aint = new int[k2 * i];
-					byte[] abyte = new byte[k2 * i * 4];
-					bufferedimage.getRGB(0, 0, k2, i, aint, 0, k2);
-
-					for (int k = 0; k < aint.length; ++k) {
-						int l = aint[k] >> 24 & 255;
-						int i1 = aint[k] >> 16 & 255;
-						int j1 = aint[k] >> 8 & 255;
-						int k1 = aint[k] & 255;
-
-						abyte[k * 4 + 0] = (byte) i1;
-						abyte[k * 4 + 1] = (byte) j1;
-						abyte[k * 4 + 2] = (byte) k1;
-						abyte[k * 4 + 3] = (byte) l;
-					}
-
-					return abyte;
-				}
 			}
+			BufferedImage bufferedimage = readTextureImage(inputstream);
+			inputstream.close();
+
+			if (bufferedimage == null) {
+				return null;
+			}
+			if (p_loadImage_1_ > 0 && bufferedimage.getWidth() != p_loadImage_1_) {
+				double d0 = (double) (bufferedimage.getHeight() / bufferedimage.getWidth());
+				int j = (int) ((double) p_loadImage_1_ * d0);
+				bufferedimage = scaleBufferedImage(bufferedimage, p_loadImage_1_, j);
+			}
+
+			int k2 = bufferedimage.getWidth();
+			int i = bufferedimage.getHeight();
+			int[] aint = new int[k2 * i];
+			byte[] abyte = new byte[k2 * i * 4];
+			bufferedimage.getRGB(0, 0, k2, i, aint, 0, k2);
+
+			for (int k = 0; k < aint.length; ++k) {
+				int l = aint[k] >> 24 & 255;
+				int i1 = aint[k] >> 16 & 255;
+				int j1 = aint[k] >> 8 & 255;
+				int k1 = aint[k] & 255;
+
+				abyte[k * 4 + 0] = (byte) i1;
+				abyte[k * 4 + 1] = (byte) j1;
+				abyte[k * 4 + 2] = (byte) k1;
+				abyte[k * 4 + 3] = (byte) l;
+			}
+
+			return abyte;
 		} catch (FileNotFoundException var18) {
 			return null;
 		} catch (Exception exception) {

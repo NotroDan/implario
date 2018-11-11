@@ -127,40 +127,34 @@ public class NaturalTextures
         {
             return p_getNaturalTexture_1_;
         }
-        else
-        {
-            NaturalProperties naturalproperties = getNaturalProperties(textureatlassprite);
+		NaturalProperties naturalproperties = getNaturalProperties(textureatlassprite);
 
-            if (naturalproperties == null)
-            {
-                return p_getNaturalTexture_1_;
-            }
-            else
-            {
-                int i = ConnectedTextures.getSide(p_getNaturalTexture_1_.getFace());
-                int j = Config.getRandom(p_getNaturalTexture_0_, i);
-                int k = 0;
-                boolean flag = false;
+		if (naturalproperties == null)
+		{
+			return p_getNaturalTexture_1_;
+		}
+		int i = ConnectedTextures.getSide(p_getNaturalTexture_1_.getFace());
+		int j = Config.getRandom(p_getNaturalTexture_0_, i);
+		int k = 0;
+		boolean flag = false;
 
-                if (naturalproperties.rotation > 1)
-                {
-                    k = j & 3;
-                }
+		if (naturalproperties.rotation > 1)
+		{
+			k = j & 3;
+		}
 
-                if (naturalproperties.rotation == 2)
-                {
-                    k = k / 2 * 2;
-                }
+		if (naturalproperties.rotation == 2)
+		{
+			k = k / 2 * 2;
+		}
 
-                if (naturalproperties.flip)
-                {
-                    flag = (j & 4) != 0;
-                }
+		if (naturalproperties.flip)
+		{
+			flag = (j & 4) != 0;
+		}
 
-                return naturalproperties.getQuad(p_getNaturalTexture_1_, k, flag);
-            }
-        }
-    }
+		return naturalproperties.getQuad(p_getNaturalTexture_1_, k, flag);
+	}
 
     public static NaturalProperties getNaturalProperties(TextureAtlasSprite p_getNaturalProperties_0_)
     {
@@ -168,19 +162,13 @@ public class NaturalTextures
         {
             return null;
         }
-        else
-        {
-            int i = p_getNaturalProperties_0_.getIndexInMap();
+		int i = p_getNaturalProperties_0_.getIndexInMap();
 
-            if (i >= 0 && i < propertiesByIndex.length)
-            {
-                NaturalProperties naturalproperties = propertiesByIndex[i];
-                return naturalproperties;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+		if (i >= 0 && i < propertiesByIndex.length)
+		{
+			NaturalProperties naturalproperties = propertiesByIndex[i];
+			return naturalproperties;
+		}
+		return null;
+	}
 }

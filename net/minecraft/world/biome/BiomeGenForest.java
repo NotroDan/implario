@@ -68,11 +68,8 @@ public class BiomeGenForest extends BiomeGenBase
 
             return this;
         }
-        else
-        {
-            return super.func_150557_a(p_150557_1_, p_150557_2_);
-        }
-    }
+		return super.func_150557_a(p_150557_1_, p_150557_2_);
+	}
 
     public WorldGenAbstractTree genBigTreeChance(Random rand)
     {
@@ -87,11 +84,8 @@ public class BiomeGenForest extends BiomeGenBase
             BlockFlower.EnumFlowerType blockflower$enumflowertype = BlockFlower.EnumFlowerType.values()[(int)(d0 * (double)BlockFlower.EnumFlowerType.values().length)];
             return blockflower$enumflowertype == BlockFlower.EnumFlowerType.BLUE_ORCHID ? BlockFlower.EnumFlowerType.POPPY : blockflower$enumflowertype;
         }
-        else
-        {
-            return super.pickRandomFlower(rand, pos);
-        }
-    }
+		return super.pickRandomFlower(rand, pos);
+	}
 
     public void decorate(World worldIn, Random rand, BlockPos pos)
     {
@@ -181,21 +175,18 @@ public class BiomeGenForest extends BiomeGenBase
             biomegenforest.setFillerBlockMetadata(8233509);
             return biomegenforest;
         }
-        else
-        {
-            return this.biomeID != BiomeGenBase.birchForest.biomeID && this.biomeID != BiomeGenBase.birchForestHills.biomeID ? new BiomeGenMutated(p_180277_1_, this)
-            {
-                public void decorate(World worldIn, Random rand, BlockPos pos)
-                {
-                    this.baseBiome.decorate(worldIn, rand, pos);
-                }
-            }: new BiomeGenMutated(p_180277_1_, this)
-            {
-                public WorldGenAbstractTree genBigTreeChance(Random rand)
-                {
-                    return rand.nextBoolean() ? BiomeGenForest.field_150629_aC : BiomeGenForest.field_150630_aD;
-                }
-            };
-        }
-    }
+		return this.biomeID != BiomeGenBase.birchForest.biomeID && this.biomeID != BiomeGenBase.birchForestHills.biomeID ? new BiomeGenMutated(p_180277_1_, this)
+		{
+			public void decorate(World worldIn, Random rand, BlockPos pos)
+			{
+				this.baseBiome.decorate(worldIn, rand, pos);
+			}
+		}: new BiomeGenMutated(p_180277_1_, this)
+		{
+			public WorldGenAbstractTree genBigTreeChance(Random rand)
+			{
+				return rand.nextBoolean() ? BiomeGenForest.field_150629_aC : BiomeGenForest.field_150630_aD;
+			}
+		};
+	}
 }

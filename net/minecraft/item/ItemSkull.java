@@ -39,84 +39,78 @@ public class ItemSkull extends Item
         {
             return false;
         }
-        else
-        {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            Block block = iblockstate.getBlock();
-            boolean flag = block.isReplaceable(worldIn, pos);
+		IBlockState iblockstate = worldIn.getBlockState(pos);
+		Block block = iblockstate.getBlock();
+		boolean flag = block.isReplaceable(worldIn, pos);
 
-            if (!flag)
-            {
-                if (!worldIn.getBlockState(pos).getBlock().getMaterial().isSolid())
-                {
-                    return false;
-                }
+		if (!flag)
+		{
+			if (!worldIn.getBlockState(pos).getBlock().getMaterial().isSolid())
+			{
+				return false;
+			}
 
-                pos = pos.offset(side);
-            }
+			pos = pos.offset(side);
+		}
 
-            if (!playerIn.canPlayerEdit(pos, side, stack))
-            {
-                return false;
-            }
-            else if (!Blocks.skull.canPlaceBlockAt(worldIn, pos))
-            {
-                return false;
-            }
-            else
-            {
-                if (!worldIn.isRemote)
-                {
-                    worldIn.setBlockState(pos, Blocks.skull.getDefaultState().withProperty(BlockSkull.FACING, side), 3);
-                    int i = 0;
+		if (!playerIn.canPlayerEdit(pos, side, stack))
+		{
+			return false;
+		}
+		if (!Blocks.skull.canPlaceBlockAt(worldIn, pos))
+		{
+			return false;
+		}
+		if (!worldIn.isRemote)
+		{
+			worldIn.setBlockState(pos, Blocks.skull.getDefaultState().withProperty(BlockSkull.FACING, side), 3);
+			int i = 0;
 
-                    if (side == EnumFacing.UP)
-                    {
-                        i = MathHelper.floor_double((double)(playerIn.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
-                    }
+			if (side == EnumFacing.UP)
+			{
+				i = MathHelper.floor_double((double)(playerIn.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
+			}
 
-                    TileEntity tileentity = worldIn.getTileEntity(pos);
+			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-                    if (tileentity instanceof TileEntitySkull)
-                    {
-                        TileEntitySkull tileentityskull = (TileEntitySkull)tileentity;
+			if (tileentity instanceof TileEntitySkull)
+			{
+				TileEntitySkull tileentityskull = (TileEntitySkull)tileentity;
 
-                        if (stack.getMetadata() == 3)
-                        {
-                            GameProfile gameprofile = null;
+				if (stack.getMetadata() == 3)
+				{
+					GameProfile gameprofile = null;
 
-                            if (stack.hasTagCompound())
-                            {
-                                NBTTagCompound nbttagcompound = stack.getTagCompound();
+					if (stack.hasTagCompound())
+					{
+						NBTTagCompound nbttagcompound = stack.getTagCompound();
 
-                                if (nbttagcompound.hasKey("SkullOwner", 10))
-                                {
-                                    gameprofile = NBTUtil.readGameProfileFromNBT(nbttagcompound.getCompoundTag("SkullOwner"));
-                                }
-                                else if (nbttagcompound.hasKey("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0)
-                                {
-                                    gameprofile = new GameProfile((UUID)null, nbttagcompound.getString("SkullOwner"));
-                                }
-                            }
+						if (nbttagcompound.hasKey("SkullOwner", 10))
+						{
+							gameprofile = NBTUtil.readGameProfileFromNBT(nbttagcompound.getCompoundTag("SkullOwner"));
+						}
+						else if (nbttagcompound.hasKey("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0)
+						{
+							gameprofile = new GameProfile((UUID)null, nbttagcompound.getString("SkullOwner"));
+						}
+					}
 
-                            tileentityskull.setPlayerProfile(gameprofile);
-                        }
-                        else
-                        {
-                            tileentityskull.setType(stack.getMetadata());
-                        }
+					tileentityskull.setPlayerProfile(gameprofile);
+				}
+				else
+				{
+					tileentityskull.setType(stack.getMetadata());
+				}
 
-                        tileentityskull.setSkullRotation(i);
-                        Blocks.skull.checkWitherSpawn(worldIn, pos, tileentityskull);
-                    }
+				tileentityskull.setSkullRotation(i);
+				Blocks.skull.checkWitherSpawn(worldIn, pos, tileentityskull);
+			}
 
-                    --stack.stackSize;
-                }
+			--stack.stackSize;
+		}
 
-                return true;
-            }
-        }
-    }
+		return true;
+	}
 
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
@@ -191,9 +185,6 @@ public class ItemSkull extends Item
             nbt.setTag("SkullOwner", NBTUtil.writeGameProfile(new NBTTagCompound(), gameprofile));
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 }

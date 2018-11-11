@@ -74,12 +74,9 @@ public class NBTTagString extends NBTBase
         {
             return false;
         }
-        else
-        {
-            NBTTagString nbttagstring = (NBTTagString)p_equals_1_;
-            return this.data == null && nbttagstring.data == null || this.data != null && this.data.equals(nbttagstring.data);
-        }
-    }
+		NBTTagString nbttagstring = (NBTTagString)p_equals_1_;
+		return this.data == null && nbttagstring.data == null || this.data != null && this.data.equals(nbttagstring.data);
+	}
 
     public int hashCode()
     {

@@ -44,16 +44,13 @@ public class ChunkCoordIntPair
         {
             return true;
         }
-        else if (!(p_equals_1_ instanceof ChunkCoordIntPair))
-        {
-            return false;
-        }
-        else
-        {
-            ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)p_equals_1_;
-            return this.chunkXPos == chunkcoordintpair.chunkXPos && this.chunkZPos == chunkcoordintpair.chunkZPos;
-        }
-    }
+		if (!(p_equals_1_ instanceof ChunkCoordIntPair))
+		{
+			return false;
+		}
+		ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)p_equals_1_;
+		return this.chunkXPos == chunkcoordintpair.chunkXPos && this.chunkZPos == chunkcoordintpair.chunkZPos;
+	}
 
     public int getCenterXPos()
     {

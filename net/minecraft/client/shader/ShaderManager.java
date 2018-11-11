@@ -288,41 +288,40 @@ public class ShaderManager {
 
 		if (jsonarray.size() != j && jsonarray.size() > 1) {
 			throw new JsonException("Invalid amount of values specified (expected " + j + ", found " + jsonarray.size() + ")");
-		} else {
-			int k = 0;
+		}
+		int k = 0;
 
-			for (JsonElement jsonelement : jsonarray) {
-				try {
-					afloat[k] = JsonUtils.getFloat(jsonelement, "value");
-				} catch (Exception exception) {
-					JsonException jsonexception = JsonException.func_151379_a(exception);
-					jsonexception.func_151380_a("values[" + k + "]");
-					throw jsonexception;
-				}
+		for (JsonElement jsonelement : jsonarray) {
+			try {
+				afloat[k] = JsonUtils.getFloat(jsonelement, "value");
+			} catch (Exception exception) {
+				JsonException jsonexception = JsonException.func_151379_a(exception);
+				jsonexception.func_151380_a("values[" + k + "]");
+				throw jsonexception;
+			}
 
+			++k;
+		}
+
+		if (j > 1 && jsonarray.size() == 1) {
+			while (k < j) {
+				afloat[k] = afloat[0];
 				++k;
 			}
-
-			if (j > 1 && jsonarray.size() == 1) {
-				while (k < j) {
-					afloat[k] = afloat[0];
-					++k;
-				}
-			}
-
-			int l = j > 1 && j <= 4 && i < 8 ? j - 1 : 0;
-			ShaderUniform shaderuniform = new ShaderUniform(s, i + l, j, this);
-
-			if (i <= 3) {
-				shaderuniform.set((int) afloat[0], (int) afloat[1], (int) afloat[2], (int) afloat[3]);
-			} else if (i <= 7) {
-				shaderuniform.func_148092_b(afloat[0], afloat[1], afloat[2], afloat[3]);
-			} else {
-				shaderuniform.set(afloat);
-			}
-
-			this.shaderUniforms.add(shaderuniform);
 		}
+
+		int l = j > 1 && j <= 4 && i < 8 ? j - 1 : 0;
+		ShaderUniform shaderuniform = new ShaderUniform(s, i + l, j, this);
+
+		if (i <= 3) {
+			shaderuniform.set((int) afloat[0], (int) afloat[1], (int) afloat[2], (int) afloat[3]);
+		} else if (i <= 7) {
+			shaderuniform.func_148092_b(afloat[0], afloat[1], afloat[2], afloat[3]);
+		} else {
+			shaderuniform.set(afloat);
+		}
+
+		this.shaderUniforms.add(shaderuniform);
 	}
 
 	public ShaderLoader getVertexShaderLoader() {

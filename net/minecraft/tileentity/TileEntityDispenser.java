@@ -46,24 +46,18 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
                 this.markDirty();
                 return itemstack1;
             }
-            else
-            {
-                ItemStack itemstack = this.stacks[index].splitStack(count);
+			ItemStack itemstack = this.stacks[index].splitStack(count);
 
-                if (this.stacks[index].stackSize == 0)
-                {
-                    this.stacks[index] = null;
-                }
+			if (this.stacks[index].stackSize == 0)
+			{
+				this.stacks[index] = null;
+			}
 
-                this.markDirty();
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			this.markDirty();
+			return itemstack;
+		}
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -76,11 +70,8 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
             this.stacks[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     public int getDispenseSlot()
     {

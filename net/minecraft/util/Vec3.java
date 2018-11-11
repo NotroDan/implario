@@ -136,12 +136,9 @@ public class Vec3
         {
             return null;
         }
-        else
-        {
-            double d3 = (x - this.xCoord) / d0;
-            return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
-        }
-    }
+		double d3 = (x - this.xCoord) / d0;
+		return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
+	}
 
     /**
      * Returns a new vector with y value equal to the second parameter, along the line between this vector and the
@@ -157,12 +154,9 @@ public class Vec3
         {
             return null;
         }
-        else
-        {
-            double d3 = (y - this.yCoord) / d1;
-            return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
-        }
-    }
+		double d3 = (y - this.yCoord) / d1;
+		return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
+	}
 
     /**
      * Returns a new vector with z value equal to the second parameter, along the line between this vector and the
@@ -178,12 +172,9 @@ public class Vec3
         {
             return null;
         }
-        else
-        {
-            double d3 = (z - this.zCoord) / d2;
-            return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
-        }
-    }
+		double d3 = (z - this.zCoord) / d2;
+		return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
+	}
 
     public String toString()
     {

@@ -71,34 +71,28 @@ public class TextureAnimation
         {
             return false;
         }
-        else
-        {
-            if (this.activeFrame >= this.frames.length)
-            {
-                this.activeFrame = 0;
-            }
+		if (this.activeFrame >= this.frames.length)
+		{
+			this.activeFrame = 0;
+		}
 
-            TextureAnimationFrame textureanimationframe = this.frames[this.activeFrame];
-            ++textureanimationframe.counter;
+		TextureAnimationFrame textureanimationframe = this.frames[this.activeFrame];
+		++textureanimationframe.counter;
 
-            if (textureanimationframe.counter < textureanimationframe.duration)
-            {
-                return false;
-            }
-            else
-            {
-                textureanimationframe.counter = 0;
-                ++this.activeFrame;
+		if (textureanimationframe.counter < textureanimationframe.duration)
+		{
+			return false;
+		}
+		textureanimationframe.counter = 0;
+		++this.activeFrame;
 
-                if (this.activeFrame >= this.frames.length)
-                {
-                    this.activeFrame = 0;
-                }
+		if (this.activeFrame >= this.frames.length)
+		{
+			this.activeFrame = 0;
+		}
 
-                return true;
-            }
-        }
-    }
+		return true;
+	}
 
     public int getActiveFrameIndex()
     {
@@ -106,17 +100,14 @@ public class TextureAnimation
         {
             return 0;
         }
-        else
-        {
-            if (this.activeFrame >= this.frames.length)
-            {
-                this.activeFrame = 0;
-            }
+		if (this.activeFrame >= this.frames.length)
+		{
+			this.activeFrame = 0;
+		}
 
-            TextureAnimationFrame textureanimationframe = this.frames[this.activeFrame];
-            return textureanimationframe.index;
-        }
-    }
+		TextureAnimationFrame textureanimationframe = this.frames[this.activeFrame];
+		return textureanimationframe.index;
+	}
 
     public int getFrameCount()
     {
@@ -148,25 +139,19 @@ public class TextureAnimation
         {
             return false;
         }
-        else
-        {
-            int k = this.frameWidth * this.frameHeight * 4;
-            int i = this.getActiveFrameIndex();
-            int j = k * i;
+		int k = this.frameWidth * this.frameHeight * 4;
+		int i = this.getActiveFrameIndex();
+		int j = k * i;
 
-            if (j + k > this.imageData.capacity())
-            {
-                return false;
-            }
-            else
-            {
-                this.imageData.position(j);
-                GlStateManager.bindTexture(this.dstTextId);
-                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)this.imageData);
-                return true;
-            }
-        }
-    }
+		if (j + k > this.imageData.capacity())
+		{
+			return false;
+		}
+		this.imageData.position(j);
+		GlStateManager.bindTexture(this.dstTextId);
+		GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)this.imageData);
+		return true;
+	}
 
     public String getSrcTex()
     {

@@ -98,19 +98,16 @@ public class BlockBrewingStand extends BlockContainer
         {
             return true;
         }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityBrewingStand)
-            {
-                playerIn.displayGUIChest((TileEntityBrewingStand)tileentity);
-                playerIn.triggerAchievement(StatList.field_181729_M);
-            }
+		if (tileentity instanceof TileEntityBrewingStand)
+		{
+			playerIn.displayGUIChest((TileEntityBrewingStand)tileentity);
+			playerIn.triggerAchievement(StatList.field_181729_M);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic

@@ -3,7 +3,7 @@ package optifine;
 import com.google.common.collect.Lists;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +22,7 @@ public class GuiMessage extends GuiScreen
         this.parentScreen = p_i48_1_;
         this.messageLine1 = p_i48_2_;
         this.messageLine2 = p_i48_3_;
-        this.confirmButtonText = I18n.format("gui.done");
+        this.confirmButtonText = Lang.format("gui.done");
     }
 
     /**

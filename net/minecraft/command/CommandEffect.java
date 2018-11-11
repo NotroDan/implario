@@ -43,103 +43,97 @@ public class CommandEffect extends CommandBase
         {
             throw new WrongUsageException("commands.effect.usage", new Object[0]);
         }
-        else
-        {
-            EntityLivingBase entitylivingbase = (EntityLivingBase)getEntity(sender, args[0], EntityLivingBase.class);
+		EntityLivingBase entitylivingbase = (EntityLivingBase)getEntity(sender, args[0], EntityLivingBase.class);
 
-            if (args[1].equals("clear"))
-            {
-                if (entitylivingbase.getActivePotionEffects().isEmpty())
-                {
-                    throw new CommandException("commands.effect.failure.notActive.all", new Object[] {entitylivingbase.getName()});
-                }
-                else
-                {
-                    entitylivingbase.clearActivePotions();
-                    notifyOperators(sender, this, "commands.effect.success.removed.all", new Object[] {entitylivingbase.getName()});
-                }
-            }
-            else
-            {
-                int i;
+		if (args[1].equals("clear"))
+		{
+			if (entitylivingbase.getActivePotionEffects().isEmpty())
+			{
+				throw new CommandException("commands.effect.failure.notActive.all", new Object[] {entitylivingbase.getName()});
+			}
+			entitylivingbase.clearActivePotions();
+			notifyOperators(sender, this, "commands.effect.success.removed.all", new Object[] {entitylivingbase.getName()});
+		}
+		else
+		{
+			int i;
 
-                try
-                {
-                    i = parseInt(args[1], 1);
-                }
-                catch (NumberInvalidException numberinvalidexception)
-                {
-                    Potion potion = Potion.getPotionFromResourceLocation(args[1]);
+			try
+			{
+				i = parseInt(args[1], 1);
+			}
+			catch (NumberInvalidException numberinvalidexception)
+			{
+				Potion potion = Potion.getPotionFromResourceLocation(args[1]);
 
-                    if (potion == null)
-                    {
-                        throw numberinvalidexception;
-                    }
+				if (potion == null)
+				{
+					throw numberinvalidexception;
+				}
 
-                    i = potion.id;
-                }
+				i = potion.id;
+			}
 
-                int j = 600;
-                int l = 30;
-                int k = 0;
+			int j = 600;
+			int l = 30;
+			int k = 0;
 
-                if (i >= 0 && i < Potion.potionTypes.length && Potion.potionTypes[i] != null)
-                {
-                    Potion potion1 = Potion.potionTypes[i];
+			if (i >= 0 && i < Potion.potionTypes.length && Potion.potionTypes[i] != null)
+			{
+				Potion potion1 = Potion.potionTypes[i];
 
-                    if (args.length >= 3)
-                    {
-                        l = parseInt(args[2], 0, 1000000);
+				if (args.length >= 3)
+				{
+					l = parseInt(args[2], 0, 1000000);
 
-                        if (potion1.isInstant())
-                        {
-                            j = l;
-                        }
-                        else
-                        {
-                            j = l * 20;
-                        }
-                    }
-                    else if (potion1.isInstant())
-                    {
-                        j = 1;
-                    }
+					if (potion1.isInstant())
+					{
+						j = l;
+					}
+					else
+					{
+						j = l * 20;
+					}
+				}
+				else if (potion1.isInstant())
+				{
+					j = 1;
+				}
 
-                    if (args.length >= 4)
-                    {
-                        k = parseInt(args[3], 0, 255);
-                    }
+				if (args.length >= 4)
+				{
+					k = parseInt(args[3], 0, 255);
+				}
 
-                    boolean flag = true;
+				boolean flag = true;
 
-                    if (args.length >= 5 && "true".equalsIgnoreCase(args[4]))
-                    {
-                        flag = false;
-                    }
+				if (args.length >= 5 && "true".equalsIgnoreCase(args[4]))
+				{
+					flag = false;
+				}
 
-                    if (l > 0)
-                    {
-                        PotionEffect potioneffect = new PotionEffect(i, j, k, false, flag);
-                        entitylivingbase.addPotionEffect(potioneffect);
-                        notifyOperators(sender, this, "commands.effect.success", new Object[] {new ChatComponentTranslation(potioneffect.getEffectName(), new Object[0]), Integer.valueOf(i), Integer.valueOf(k), entitylivingbase.getName(), Integer.valueOf(l)});
-                    }
-                    else if (entitylivingbase.isPotionActive(i))
-                    {
-                        entitylivingbase.removePotionEffect(i);
-                        notifyOperators(sender, this, "commands.effect.success.removed", new Object[] {new ChatComponentTranslation(potion1.getName(), new Object[0]), entitylivingbase.getName()});
-                    }
-                    else
-                    {
-                        throw new CommandException("commands.effect.failure.notActive", new Object[] {new ChatComponentTranslation(potion1.getName(), new Object[0]), entitylivingbase.getName()});
-                    }
-                }
-                else
-                {
-                    throw new NumberInvalidException("commands.effect.notFound", new Object[] {Integer.valueOf(i)});
-                }
-            }
-        }
-    }
+				if (l > 0)
+				{
+					PotionEffect potioneffect = new PotionEffect(i, j, k, false, flag);
+					entitylivingbase.addPotionEffect(potioneffect);
+					notifyOperators(sender, this, "commands.effect.success", new Object[] {new ChatComponentTranslation(potioneffect.getEffectName(), new Object[0]), Integer.valueOf(i), Integer.valueOf(k), entitylivingbase.getName(), Integer.valueOf(l)});
+				}
+				else if (entitylivingbase.isPotionActive(i))
+				{
+					entitylivingbase.removePotionEffect(i);
+					notifyOperators(sender, this, "commands.effect.success.removed", new Object[] {new ChatComponentTranslation(potion1.getName(), new Object[0]), entitylivingbase.getName()});
+				}
+				else
+				{
+					throw new CommandException("commands.effect.failure.notActive", new Object[] {new ChatComponentTranslation(potion1.getName(), new Object[0]), entitylivingbase.getName()});
+				}
+			}
+			else
+			{
+				throw new NumberInvalidException("commands.effect.notFound", new Object[] {Integer.valueOf(i)});
+			}
+		}
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {

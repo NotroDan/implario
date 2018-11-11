@@ -80,27 +80,21 @@ public class BlockDaylightDetector extends BlockContainer
             {
                 return true;
             }
-            else
-            {
-                if (this.inverted)
-                {
-                    worldIn.setBlockState(pos, Blocks.daylight_detector.getDefaultState().withProperty(POWER, state.getValue(POWER)), 4);
-                    Blocks.daylight_detector.updatePower(worldIn, pos);
-                }
-                else
-                {
-                    worldIn.setBlockState(pos, Blocks.daylight_detector_inverted.getDefaultState().withProperty(POWER, state.getValue(POWER)), 4);
-                    Blocks.daylight_detector_inverted.updatePower(worldIn, pos);
-                }
+			if (this.inverted)
+			{
+				worldIn.setBlockState(pos, Blocks.daylight_detector.getDefaultState().withProperty(POWER, state.getValue(POWER)), 4);
+				Blocks.daylight_detector.updatePower(worldIn, pos);
+			}
+			else
+			{
+				worldIn.setBlockState(pos, Blocks.daylight_detector_inverted.getDefaultState().withProperty(POWER, state.getValue(POWER)), 4);
+				Blocks.daylight_detector_inverted.updatePower(worldIn, pos);
+			}
 
-                return true;
-            }
-        }
-        else
-        {
-            return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
-        }
-    }
+			return true;
+		}
+		return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
+	}
 
     /**
      * Get the Item that this Block should drop when harvested.

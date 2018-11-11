@@ -72,43 +72,40 @@ public class SaveFormatOld implements ISaveFormat
         {
             return null;
         }
-        else
-        {
-            File file2 = new File(file1, "level.dat");
+		File file2 = new File(file1, "level.dat");
 
-            if (file2.exists())
-            {
-                try
-                {
-                    NBTTagCompound nbttagcompound2 = CompressedStreamTools.readCompressed(new FileInputStream(file2));
-                    NBTTagCompound nbttagcompound3 = nbttagcompound2.getCompoundTag("Data");
-                    return new WorldInfo(nbttagcompound3);
-                }
-                catch (Exception exception1)
-                {
-                    logger.error((String)("Exception reading " + file2), (Throwable)exception1);
-                }
-            }
+		if (file2.exists())
+		{
+			try
+			{
+				NBTTagCompound nbttagcompound2 = CompressedStreamTools.readCompressed(new FileInputStream(file2));
+				NBTTagCompound nbttagcompound3 = nbttagcompound2.getCompoundTag("Data");
+				return new WorldInfo(nbttagcompound3);
+			}
+			catch (Exception exception1)
+			{
+				logger.error((String)("Exception reading " + file2), (Throwable)exception1);
+			}
+		}
 
-            file2 = new File(file1, "level.dat_old");
+		file2 = new File(file1, "level.dat_old");
 
-            if (file2.exists())
-            {
-                try
-                {
-                    NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
-                    NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
-                    return new WorldInfo(nbttagcompound1);
-                }
-                catch (Exception exception)
-                {
-                    logger.error((String)("Exception reading " + file2), (Throwable)exception);
-                }
-            }
+		if (file2.exists())
+		{
+			try
+			{
+				NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
+				NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+				return new WorldInfo(nbttagcompound1);
+			}
+			catch (Exception exception)
+			{
+				logger.error((String)("Exception reading " + file2), (Throwable)exception);
+			}
+		}
 
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Renames the world by storing the new name in level.dat. It does *not* rename the directory containing the world
@@ -147,21 +144,18 @@ public class SaveFormatOld implements ISaveFormat
         {
             return false;
         }
-        else
-        {
-            try
-            {
-                file1.mkdir();
-                file1.delete();
-                return true;
-            }
-            catch (Throwable throwable)
-            {
-                logger.warn("Couldn\'t make new level", throwable);
-                return false;
-            }
-        }
-    }
+		try
+		{
+			file1.mkdir();
+			file1.delete();
+			return true;
+		}
+		catch (Throwable throwable)
+		{
+			logger.warn("Couldn\'t make new level", throwable);
+			return false;
+		}
+	}
 
     /**
      * @args: Takes one argument - the name of the directory of the world to delete. @desc: Delete the world by deleting
@@ -175,37 +169,34 @@ public class SaveFormatOld implements ISaveFormat
         {
             return true;
         }
-        else
-        {
-            logger.info("Deleting level " + p_75802_1_);
+		logger.info("Deleting level " + p_75802_1_);
 
-            for (int i = 1; i <= 5; ++i)
-            {
-                logger.info("Attempt " + i + "...");
+		for (int i = 1; i <= 5; ++i)
+		{
+			logger.info("Attempt " + i + "...");
 
-                if (deleteFiles(file1.listFiles()))
-                {
-                    break;
-                }
+			if (deleteFiles(file1.listFiles()))
+			{
+				break;
+			}
 
-                logger.warn("Unsuccessful in deleting contents.");
+			logger.warn("Unsuccessful in deleting contents.");
 
-                if (i < 5)
-                {
-                    try
-                    {
-                        Thread.sleep(500L);
-                    }
-                    catch (InterruptedException var5)
-                    {
-                        ;
-                    }
-                }
-            }
+			if (i < 5)
+			{
+				try
+				{
+					Thread.sleep(500L);
+				}
+				catch (InterruptedException var5)
+				{
+					;
+				}
+			}
+		}
 
-            return file1.delete();
-        }
-    }
+		return file1.delete();
+	}
 
     /**
      * @args: Takes one argument - the list of files and directories to delete. @desc: Deletes the files and directory

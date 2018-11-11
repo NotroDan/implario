@@ -5,6 +5,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockBarrier extends Block
 {
     protected BlockBarrier()
@@ -24,7 +26,12 @@ public class BlockBarrier extends Block
         return -1;
     }
 
-    /**
+	@Override
+	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		super.randomDisplayTick(worldIn, pos, state, rand);
+	}
+
+	/**
      * Used to determine ambient occlusion and culling when rebuilding chunks for render
      */
     public boolean isOpaqueCube()
@@ -32,12 +39,13 @@ public class BlockBarrier extends Block
         return false;
     }
 
+
     /**
      * Returns the default ambient occlusion value based on block opacity
      */
     public float getAmbientOcclusionLightValue()
     {
-        return 1.0F;
+        return 0.5F;
     }
 
     /**

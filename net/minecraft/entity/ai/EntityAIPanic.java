@@ -27,23 +27,17 @@ public class EntityAIPanic extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
+		Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
 
-            if (vec3 == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.randPosX = vec3.xCoord;
-                this.randPosY = vec3.yCoord;
-                this.randPosZ = vec3.zCoord;
-                return true;
-            }
-        }
-    }
+		if (vec3 == null)
+		{
+			return false;
+		}
+		this.randPosX = vec3.xCoord;
+		this.randPosY = vec3.yCoord;
+		this.randPosZ = vec3.zCoord;
+		return true;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

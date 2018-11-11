@@ -21,17 +21,14 @@ public class ItemNameTag extends Item
         {
             return false;
         }
-        else if (target instanceof EntityLiving)
-        {
-            EntityLiving entityliving = (EntityLiving)target;
-            entityliving.setCustomNameTag(stack.getDisplayName());
-            entityliving.enablePersistence();
-            --stack.stackSize;
-            return true;
-        }
-        else
-        {
-            return super.itemInteractionForEntity(stack, playerIn, target);
-        }
-    }
+		if (target instanceof EntityLiving)
+		{
+			EntityLiving entityliving = (EntityLiving)target;
+			entityliving.setCustomNameTag(stack.getDisplayName());
+			entityliving.enablePersistence();
+			--stack.stackSize;
+			return true;
+		}
+		return super.itemInteractionForEntity(stack, playerIn, target);
+	}
 }

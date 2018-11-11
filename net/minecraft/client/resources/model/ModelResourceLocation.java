@@ -59,16 +59,13 @@ public class ModelResourceLocation extends ResourceLocation
         {
             return true;
         }
-        else if (p_equals_1_ instanceof ModelResourceLocation && super.equals(p_equals_1_))
-        {
-            ModelResourceLocation modelresourcelocation = (ModelResourceLocation)p_equals_1_;
-            return this.variant.equals(modelresourcelocation.variant);
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (p_equals_1_ instanceof ModelResourceLocation && super.equals(p_equals_1_))
+		{
+			ModelResourceLocation modelresourcelocation = (ModelResourceLocation)p_equals_1_;
+			return this.variant.equals(modelresourcelocation.variant);
+		}
+		return false;
+	}
 
     public int hashCode()
     {

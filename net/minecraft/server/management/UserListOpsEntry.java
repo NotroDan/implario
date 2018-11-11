@@ -66,9 +66,6 @@ public class UserListOpsEntry extends UserListEntry<GameProfile>
 
             return new GameProfile(uuid, p_152643_0_.get("name").getAsString());
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 }

@@ -88,11 +88,8 @@ public class FallbackResourceManager implements IResourceManager
         {
             throw new FileNotFoundException(location.toString());
         }
-        else
-        {
-            return list;
-        }
-    }
+		return list;
+	}
 
     static ResourceLocation getLocationMcmeta(ResourceLocation location)
     {

@@ -62,11 +62,8 @@ public class InventoryCraftResult implements IInventory
             this.stackResult[0] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -79,11 +76,8 @@ public class InventoryCraftResult implements IInventory
             this.stackResult[0] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).

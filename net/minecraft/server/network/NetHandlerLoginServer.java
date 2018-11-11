@@ -178,57 +178,54 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable
         {
             throw new IllegalStateException("Invalid nonce!");
         }
-        else
-        {
-            this.secretKey = packetIn.getSecretKey(privatekey);
-            this.currentLoginState = NetHandlerLoginServer.LoginState.AUTHENTICATING;
-            this.networkManager.enableEncryption(this.secretKey);
-            new Thread("User Authenticator #" + AUTHENTICATOR_THREAD_ID.incrementAndGet())
-            {
-                public void run()
-                {
-                    GameProfile gameprofile = NetHandlerLoginServer.this.loginGameProfile;
+		this.secretKey = packetIn.getSecretKey(privatekey);
+		this.currentLoginState = NetHandlerLoginServer.LoginState.AUTHENTICATING;
+		this.networkManager.enableEncryption(this.secretKey);
+		new Thread("User Authenticator #" + AUTHENTICATOR_THREAD_ID.incrementAndGet())
+		{
+			public void run()
+			{
+				GameProfile gameprofile = NetHandlerLoginServer.this.loginGameProfile;
 
-                    try
-                    {
-                        String s = new BigInteger(CryptManager.getServerIdHash(NetHandlerLoginServer.this.serverId, NetHandlerLoginServer.this.server.getKeyPair().getPublic(), NetHandlerLoginServer.this.secretKey)).toString(16);
-                        NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.server.getMinecraftSessionService().hasJoinedServer(new GameProfile((UUID)null, gameprofile.getName()), s);
+				try
+				{
+					String s = new BigInteger(CryptManager.getServerIdHash(NetHandlerLoginServer.this.serverId, NetHandlerLoginServer.this.server.getKeyPair().getPublic(), NetHandlerLoginServer.this.secretKey)).toString(16);
+					NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.server.getMinecraftSessionService().hasJoinedServer(new GameProfile((UUID)null, gameprofile.getName()), s);
 
-                        if (NetHandlerLoginServer.this.loginGameProfile != null)
-                        {
-                            NetHandlerLoginServer.logger.info("UUID of player " + NetHandlerLoginServer.this.loginGameProfile.getName() + " is " + NetHandlerLoginServer.this.loginGameProfile.getId());
-                            NetHandlerLoginServer.this.currentLoginState = LoginState.READY_TO_ACCEPT;
-                        }
-                        else if (NetHandlerLoginServer.this.server.isSinglePlayer())
-                        {
-                            NetHandlerLoginServer.logger.warn("Failed to verify username but will let them in anyway!");
-                            NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.getOfflineProfile(gameprofile);
-                            NetHandlerLoginServer.this.currentLoginState = LoginState.READY_TO_ACCEPT;
-                        }
-                        else
-                        {
-                            NetHandlerLoginServer.this.closeConnection("Failed to verify username!");
-                            NetHandlerLoginServer.logger.error("Username \'" + NetHandlerLoginServer.this.loginGameProfile.getName() + "\' tried to join with an invalid session");
-                        }
-                    }
-                    catch (AuthenticationUnavailableException var3)
-                    {
-                        if (NetHandlerLoginServer.this.server.isSinglePlayer())
-                        {
-                            NetHandlerLoginServer.logger.warn("Authentication servers are down but will let them in anyway!");
-                            NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.getOfflineProfile(gameprofile);
-                            NetHandlerLoginServer.this.currentLoginState = LoginState.READY_TO_ACCEPT;
-                        }
-                        else
-                        {
-                            NetHandlerLoginServer.this.closeConnection("Authentication servers are down. Please try again later, sorry!");
-                            NetHandlerLoginServer.logger.error("Couldn\'t verify username because servers are unavailable");
-                        }
-                    }
-                }
-            }.start();
-        }
-    }
+					if (NetHandlerLoginServer.this.loginGameProfile != null)
+					{
+						NetHandlerLoginServer.logger.info("UUID of player " + NetHandlerLoginServer.this.loginGameProfile.getName() + " is " + NetHandlerLoginServer.this.loginGameProfile.getId());
+						NetHandlerLoginServer.this.currentLoginState = LoginState.READY_TO_ACCEPT;
+					}
+					else if (NetHandlerLoginServer.this.server.isSinglePlayer())
+					{
+						NetHandlerLoginServer.logger.warn("Failed to verify username but will let them in anyway!");
+						NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.getOfflineProfile(gameprofile);
+						NetHandlerLoginServer.this.currentLoginState = LoginState.READY_TO_ACCEPT;
+					}
+					else
+					{
+						NetHandlerLoginServer.this.closeConnection("Failed to verify username!");
+						NetHandlerLoginServer.logger.error("Username \'" + NetHandlerLoginServer.this.loginGameProfile.getName() + "\' tried to join with an invalid session");
+					}
+				}
+				catch (AuthenticationUnavailableException var3)
+				{
+					if (NetHandlerLoginServer.this.server.isSinglePlayer())
+					{
+						NetHandlerLoginServer.logger.warn("Authentication servers are down but will let them in anyway!");
+						NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.getOfflineProfile(gameprofile);
+						NetHandlerLoginServer.this.currentLoginState = LoginState.READY_TO_ACCEPT;
+					}
+					else
+					{
+						NetHandlerLoginServer.this.closeConnection("Authentication servers are down. Please try again later, sorry!");
+						NetHandlerLoginServer.logger.error("Couldn\'t verify username because servers are unavailable");
+					}
+				}
+			}
+		}.start();
+	}
 
     protected GameProfile getOfflineProfile(GameProfile original)
     {

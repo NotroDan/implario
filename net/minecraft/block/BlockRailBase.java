@@ -349,23 +349,17 @@ public abstract class BlockRailBase extends Block
             {
                 return BlockRailBase.this.new Rail(this.world, pos, iblockstate);
             }
-            else
-            {
-                BlockPos lvt_2_1_ = pos.up();
-                iblockstate = this.world.getBlockState(lvt_2_1_);
+			BlockPos lvt_2_1_ = pos.up();
+			iblockstate = this.world.getBlockState(lvt_2_1_);
 
-                if (BlockRailBase.isRailBlock(iblockstate))
-                {
-                    return BlockRailBase.this.new Rail(this.world, lvt_2_1_, iblockstate);
-                }
-                else
-                {
-                    lvt_2_1_ = pos.down();
-                    iblockstate = this.world.getBlockState(lvt_2_1_);
-                    return BlockRailBase.isRailBlock(iblockstate) ? BlockRailBase.this.new Rail(this.world, lvt_2_1_, iblockstate) : null;
-                }
-            }
-        }
+			if (BlockRailBase.isRailBlock(iblockstate))
+			{
+				return BlockRailBase.this.new Rail(this.world, lvt_2_1_, iblockstate);
+			}
+			lvt_2_1_ = pos.down();
+			iblockstate = this.world.getBlockState(lvt_2_1_);
+			return BlockRailBase.isRailBlock(iblockstate) ? BlockRailBase.this.new Rail(this.world, lvt_2_1_, iblockstate) : null;
+		}
 
         private boolean func_150653_a(BlockRailBase.Rail p_150653_1_)
         {
@@ -496,12 +490,9 @@ public abstract class BlockRailBase extends Block
             {
                 return false;
             }
-            else
-            {
-                blockrailbase$rail.func_150651_b();
-                return blockrailbase$rail.func_150649_b(this);
-            }
-        }
+			blockrailbase$rail.func_150651_b();
+			return blockrailbase$rail.func_150649_b(this);
+		}
 
         public BlockRailBase.Rail func_180364_a(boolean p_180364_1_, boolean p_180364_2_)
         {

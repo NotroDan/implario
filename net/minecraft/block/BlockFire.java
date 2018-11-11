@@ -56,11 +56,8 @@ public class BlockFire extends Block
 
             return state.withProperty(NORTH, Boolean.valueOf(this.canCatchFire(worldIn, pos.north()))).withProperty(EAST, Boolean.valueOf(this.canCatchFire(worldIn, pos.east()))).withProperty(SOUTH, Boolean.valueOf(this.canCatchFire(worldIn, pos.south()))).withProperty(WEST, Boolean.valueOf(this.canCatchFire(worldIn, pos.west()))).withProperty(UPPER, Integer.valueOf(l)).withProperty(FLIP, Boolean.valueOf(flag1)).withProperty(ALT, Boolean.valueOf(flag));
         }
-        else
-        {
-            return this.getDefaultState();
-        }
-    }
+		return this.getDefaultState();
+	}
 
     protected BlockFire()
     {
@@ -334,18 +331,15 @@ public class BlockFire extends Block
         {
             return 0;
         }
-        else
-        {
-            int i = 0;
+		int i = 0;
 
-            for (EnumFacing enumfacing : EnumFacing.values())
-            {
-                i = Math.max(this.getEncouragement(worldIn.getBlockState(pos.offset(enumfacing)).getBlock()), i);
-            }
+		for (EnumFacing enumfacing : EnumFacing.values())
+		{
+			i = Math.max(this.getEncouragement(worldIn.getBlockState(pos.offset(enumfacing)).getBlock()), i);
+		}
 
-            return i;
-        }
-    }
+		return i;
+	}
 
     /**
      * Returns if this block is collidable (only used by Fire). Args: x, y, z

@@ -24,16 +24,13 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
         {
             return false;
         }
-        else if (!this.theEntity.worldObj.getGameRules().getBoolean("mobGriefing"))
-        {
-            return false;
-        }
-        else
-        {
-            BlockDoor blockdoor = this.doorBlock;
-            return !BlockDoor.isOpen(this.theEntity.worldObj, this.doorPosition);
-        }
-    }
+		if (!this.theEntity.worldObj.getGameRules().getBoolean("mobGriefing"))
+		{
+			return false;
+		}
+		BlockDoor blockdoor = this.doorBlock;
+		return !BlockDoor.isOpen(this.theEntity.worldObj, this.doorPosition);
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

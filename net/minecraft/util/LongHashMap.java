@@ -282,26 +282,23 @@ public class LongHashMap
             {
                 return false;
             }
-            else
-            {
-                LongHashMap.Entry longhashmap$entry = (LongHashMap.Entry)p_equals_1_;
-                Long olong = Long.valueOf(this.getKey());
-                Long olong1 = Long.valueOf(longhashmap$entry.getKey());
+			LongHashMap.Entry longhashmap$entry = (LongHashMap.Entry)p_equals_1_;
+			Long olong = Long.valueOf(this.getKey());
+			Long olong1 = Long.valueOf(longhashmap$entry.getKey());
 
-                if (olong == olong1 || olong != null && olong.equals(olong1))
-                {
-                    Object object = this.getValue();
-                    Object object1 = longhashmap$entry.getValue();
+			if (olong == olong1 || olong != null && olong.equals(olong1))
+			{
+				Object object = this.getValue();
+				Object object1 = longhashmap$entry.getValue();
 
-                    if (object == object1 || object != null && object.equals(object1))
-                    {
-                        return true;
-                    }
-                }
+				if (object == object1 || object != null && object.equals(object1))
+				{
+					return true;
+				}
+			}
 
-                return false;
-            }
-        }
+			return false;
+		}
 
         public final int hashCode()
         {

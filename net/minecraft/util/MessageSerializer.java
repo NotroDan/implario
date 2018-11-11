@@ -22,15 +22,14 @@ public class MessageSerializer extends MessageToByteEncoder<Packet> {
 
 		if (integer == null) {
 			throw new IOException("Can\'t serialize unregistered packet");
-		} else {
-			PacketBuffer packetbuffer = new PacketBuffer(p_encode_3_);
-			packetbuffer.writeVarIntToBuffer(integer);
+		}
+		PacketBuffer packetbuffer = new PacketBuffer(p_encode_3_);
+		packetbuffer.writeVarIntToBuffer(integer);
 
-			try {
-				p_encode_2_.writePacketData(packetbuffer);
-			} catch (Throwable throwable) {
-				logger.error((Object) throwable);
-			}
+		try {
+			p_encode_2_.writePacketData(packetbuffer);
+		} catch (Throwable throwable) {
+			logger.error((Object) throwable);
 		}
 	}
 

@@ -162,9 +162,8 @@ public class Config {
 
 			if (inputstream == null) {
 				return null;
-			} else {
-				return readLines(inputstream)[0];
 			}
+			return readLines(inputstream)[0];
 		} catch (Exception exception) {
 			warn("" + exception.getClass().getName() + ": " + exception.getMessage());
 			return null;
@@ -244,20 +243,18 @@ public class Config {
 		try {
 			if (p_parseGlVersion_0_ == null) {
 				return p_parseGlVersion_1_;
-			} else {
-				Pattern pattern = Pattern.compile("([0-9]+)\\.([0-9]+)(\\.([0-9]+))?(.+)?");
-				Matcher matcher = pattern.matcher(p_parseGlVersion_0_);
-
-				if (!matcher.matches()) {
-					return p_parseGlVersion_1_;
-				} else {
-					int i = Integer.parseInt(matcher.group(1));
-					int j = Integer.parseInt(matcher.group(2));
-					int k = matcher.group(4) != null ? Integer.parseInt(matcher.group(4)) : 0;
-					String s = matcher.group(5);
-					return new GlVersion(i, j, k, s);
-				}
 			}
+			Pattern pattern = Pattern.compile("([0-9]+)\\.([0-9]+)(\\.([0-9]+))?(.+)?");
+			Matcher matcher = pattern.matcher(p_parseGlVersion_0_);
+
+			if (!matcher.matches()) {
+				return p_parseGlVersion_1_;
+			}
+			int i = Integer.parseInt(matcher.group(1));
+			int j = Integer.parseInt(matcher.group(2));
+			int k = matcher.group(4) != null ? Integer.parseInt(matcher.group(4)) : 0;
+			String s = matcher.group(5);
+			return new GlVersion(i, j, k, s);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			return p_parseGlVersion_1_;
@@ -591,41 +588,38 @@ public class Config {
 
 	public static String arrayToString(Object[] p_arrayToString_0_) {
 		if (p_arrayToString_0_ == null) return "";
-		else {
-			StringBuilder stringbuffer = new StringBuilder(p_arrayToString_0_.length * 5);
+		StringBuilder stringbuffer = new StringBuilder(p_arrayToString_0_.length * 5);
 
-			for (int i = 0; i < p_arrayToString_0_.length; ++i) {
-				Object object = p_arrayToString_0_[i];
+		for (int i = 0; i < p_arrayToString_0_.length; ++i) {
+			Object object = p_arrayToString_0_[i];
 
-				if (i > 0) {
-					stringbuffer.append(", ");
-				}
-
-				stringbuffer.append(String.valueOf(object));
+			if (i > 0) {
+				stringbuffer.append(", ");
 			}
 
-			return stringbuffer.toString();
+			stringbuffer.append(String.valueOf(object));
 		}
+
+		return stringbuffer.toString();
 	}
 
 	public static String arrayToString(int[] p_arrayToString_0_) {
 		if (p_arrayToString_0_ == null) {
 			return "";
-		} else {
-			StringBuilder stringbuffer = new StringBuilder(p_arrayToString_0_.length * 5);
+		}
+		StringBuilder stringbuffer = new StringBuilder(p_arrayToString_0_.length * 5);
 
-			for (int i = 0; i < p_arrayToString_0_.length; ++i) {
-				int j = p_arrayToString_0_[i];
+		for (int i = 0; i < p_arrayToString_0_.length; ++i) {
+			int j = p_arrayToString_0_[i];
 
-				if (i > 0) {
-					stringbuffer.append(", ");
-				}
-
-				stringbuffer.append(String.valueOf(j));
+			if (i > 0) {
+				stringbuffer.append(", ");
 			}
 
-			return stringbuffer.toString();
+			stringbuffer.append(String.valueOf(j));
 		}
+
+		return stringbuffer.toString();
 	}
 
 	public static Minecraft getMinecraft() {
@@ -825,10 +819,9 @@ public class Config {
 		try {
 			if (p_parseInt_0_ == null) {
 				return p_parseInt_1_;
-			} else {
-				p_parseInt_0_ = p_parseInt_0_.trim();
-				return Integer.parseInt(p_parseInt_0_);
 			}
+			p_parseInt_0_ = p_parseInt_0_.trim();
+			return Integer.parseInt(p_parseInt_0_);
 		} catch (NumberFormatException var3) {
 			return p_parseInt_1_;
 		}
@@ -838,10 +831,9 @@ public class Config {
 		try {
 			if (p_parseFloat_0_ == null) {
 				return p_parseFloat_1_;
-			} else {
-				p_parseFloat_0_ = p_parseFloat_0_.trim();
-				return Float.parseFloat(p_parseFloat_0_);
 			}
+			p_parseFloat_0_ = p_parseFloat_0_.trim();
+			return Float.parseFloat(p_parseFloat_0_);
 		} catch (NumberFormatException var3) {
 			return p_parseFloat_1_;
 		}
@@ -851,10 +843,9 @@ public class Config {
 		try {
 			if (p_parseBoolean_0_ == null) {
 				return p_parseBoolean_1_;
-			} else {
-				p_parseBoolean_0_ = p_parseBoolean_0_.trim();
-				return Boolean.parseBoolean(p_parseBoolean_0_);
 			}
+			p_parseBoolean_0_ = p_parseBoolean_0_.trim();
+			return Boolean.parseBoolean(p_parseBoolean_0_);
 		} catch (NumberFormatException var3) {
 			return p_parseBoolean_1_;
 		}
@@ -908,9 +899,8 @@ public class Config {
 		if (adisplaymode != null && adisplaymode.length >= 1) {
 			DisplayMode displaymode = adisplaymode[adisplaymode.length - 1];
 			return desktopDisplayMode.getWidth() > displaymode.getWidth() ? desktopDisplayMode : desktopDisplayMode.getWidth() == displaymode.getWidth() && desktopDisplayMode.getHeight() > displaymode.getHeight() ? desktopDisplayMode : displaymode;
-		} else {
-			return desktopDisplayMode;
 		}
+		return desktopDisplayMode;
 	}
 
 	private static Set<Dimension> getDisplayModeDimensions(DisplayMode[] p_getDisplayModeDimensions_0_) {
@@ -944,10 +934,9 @@ public class Config {
 
 		if (p_getDisplayMode_0_.length <= 0) {
 			return null;
-		} else {
-			Arrays.sort(p_getDisplayMode_0_, new DisplayModeComparator());
-			return p_getDisplayMode_0_[p_getDisplayMode_0_.length - 1];
 		}
+		Arrays.sort(p_getDisplayMode_0_, new DisplayModeComparator());
+		return p_getDisplayMode_0_[p_getDisplayMode_0_.length - 1];
 	}
 
 	public static String[] getDisplayModeNames() {
@@ -1121,29 +1110,27 @@ public class Config {
 
 		if (!s.equals(s1)) {
 			return s.compareTo(s1);
-		} else {
-			int i = parseInt(astring[1], -1);
-			int j = parseInt(astring1[1], -1);
+		}
+		int i = parseInt(astring[1], -1);
+		int j = parseInt(astring1[1], -1);
 
-			if (i != j) {
-				return i - j;
-			} else {
-				String s2 = astring[2];
-				String s3 = astring1[2];
+		if (i != j) {
+			return i - j;
+		}
+		String s2 = astring[2];
+		String s3 = astring1[2];
 
-				if (!s2.equals(s3)) {
-					if (s2.isEmpty()) {
-						return 1;
-					}
+		if (!s2.equals(s3)) {
+			if (s2.isEmpty()) {
+				return 1;
+			}
 
-					if (s3.isEmpty()) {
-						return -1;
-					}
-				}
-
-				return s2.compareTo(s3);
+			if (s3.isEmpty()) {
+				return -1;
 			}
 		}
+
+		return s2.compareTo(s3);
 	}
 
 	private static String[] splitRelease(String p_splitRelease_0_) {
@@ -1153,15 +1140,13 @@ public class Config {
 
 			if (!matcher.matches()) {
 				return new String[] {"", "", ""};
-			} else {
-				String s = normalize(matcher.group(1));
-				String s1 = normalize(matcher.group(2));
-				String s2 = normalize(matcher.group(3));
-				return new String[] {s, s1, s2};
 			}
-		} else {
-			return new String[] {"", "", ""};
+			String s = normalize(matcher.group(1));
+			String s1 = normalize(matcher.group(2));
+			String s2 = normalize(matcher.group(3));
+			return new String[] {s, s1, s2};
 		}
+		return new String[] {"", "", ""};
 	}
 
 	public static int intHash(int p_intHash_0_) {
@@ -1191,20 +1176,18 @@ public class Config {
 
 		if (integratedserver == null) {
 			return null;
-		} else {
-			WorldProvider worldprovider = world.provider;
+		}
+		WorldProvider worldprovider = world.provider;
 
-			if (worldprovider == null) {
-				return null;
-			} else {
-				int i = worldprovider.getDimensionId();
+		if (worldprovider == null) {
+			return null;
+		}
+		int i = worldprovider.getDimensionId();
 
-				try {
-					return integratedserver.worldServerForDimension(i);
-				} catch (NullPointerException var5) {
-					return null;
-				}
-			}
+		try {
+			return integratedserver.worldServerForDimension(i);
+		} catch (NullPointerException var5) {
+			return null;
 		}
 	}
 
@@ -1499,9 +1482,8 @@ public class Config {
 			System.arraycopy(p_addIntsToArray_1_, 0, aint, i, p_addIntsToArray_1_.length);
 
 			return aint;
-		} else {
-			throw new NullPointerException("The given array is NULL");
 		}
+		throw new NullPointerException("The given array is NULL");
 	}
 
 	public static DynamicTexture getMojangLogoTexture(DynamicTexture texture) {

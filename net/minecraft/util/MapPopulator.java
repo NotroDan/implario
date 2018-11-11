@@ -25,9 +25,6 @@ public class MapPopulator
         {
             throw new NoSuchElementException();
         }
-        else
-        {
-            return map;
-        }
-    }
+		return map;
+	}
 }

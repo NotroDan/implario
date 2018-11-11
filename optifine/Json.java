@@ -41,27 +41,21 @@ public class Json
         {
             return p_parseFloatArray_2_;
         }
-        else
-        {
-            JsonArray jsonarray = p_parseFloatArray_0_.getAsJsonArray();
+		JsonArray jsonarray = p_parseFloatArray_0_.getAsJsonArray();
 
-            if (jsonarray.size() != p_parseFloatArray_1_)
-            {
-                throw new JsonParseException("Wrong array length: " + jsonarray.size() + ", should be: " + p_parseFloatArray_1_ + ", array: " + jsonarray);
-            }
-            else
-            {
-                float[] afloat = new float[jsonarray.size()];
+		if (jsonarray.size() != p_parseFloatArray_1_)
+		{
+			throw new JsonParseException("Wrong array length: " + jsonarray.size() + ", should be: " + p_parseFloatArray_1_ + ", array: " + jsonarray);
+		}
+		float[] afloat = new float[jsonarray.size()];
 
-                for (int i = 0; i < afloat.length; ++i)
-                {
-                    afloat[i] = jsonarray.get(i).getAsFloat();
-                }
+		for (int i = 0; i < afloat.length; ++i)
+		{
+			afloat[i] = jsonarray.get(i).getAsFloat();
+		}
 
-                return afloat;
-            }
-        }
-    }
+		return afloat;
+	}
 
     public static int[] parseIntArray(JsonElement p_parseIntArray_0_, int p_parseIntArray_1_)
     {
@@ -74,25 +68,19 @@ public class Json
         {
             return p_parseIntArray_2_;
         }
-        else
-        {
-            JsonArray jsonarray = p_parseIntArray_0_.getAsJsonArray();
+		JsonArray jsonarray = p_parseIntArray_0_.getAsJsonArray();
 
-            if (jsonarray.size() != p_parseIntArray_1_)
-            {
-                throw new JsonParseException("Wrong array length: " + jsonarray.size() + ", should be: " + p_parseIntArray_1_ + ", array: " + jsonarray);
-            }
-            else
-            {
-                int[] aint = new int[jsonarray.size()];
+		if (jsonarray.size() != p_parseIntArray_1_)
+		{
+			throw new JsonParseException("Wrong array length: " + jsonarray.size() + ", should be: " + p_parseIntArray_1_ + ", array: " + jsonarray);
+		}
+		int[] aint = new int[jsonarray.size()];
 
-                for (int i = 0; i < aint.length; ++i)
-                {
-                    aint[i] = jsonarray.get(i).getAsInt();
-                }
+		for (int i = 0; i < aint.length; ++i)
+		{
+			aint[i] = jsonarray.get(i).getAsInt();
+		}
 
-                return aint;
-            }
-        }
-    }
+		return aint;
+	}
 }

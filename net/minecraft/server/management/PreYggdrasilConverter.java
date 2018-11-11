@@ -60,32 +60,26 @@ public class PreYggdrasilConverter
             {
                 return gameprofile.getId().toString();
             }
-            else if (!minecraftserver.isSinglePlayer() && minecraftserver.isServerInOnlineMode())
-            {
-                final List<GameProfile> list = Lists.<GameProfile>newArrayList();
-                ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback()
-                {
-                    public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_)
-                    {
-                        minecraftserver.getPlayerProfileCache().addEntry(p_onProfileLookupSucceeded_1_);
-                        list.add(p_onProfileLookupSucceeded_1_);
-                    }
-                    public void onProfileLookupFailed(GameProfile p_onProfileLookupFailed_1_, Exception p_onProfileLookupFailed_2_)
-                    {
-                        PreYggdrasilConverter.LOGGER.warn((String)("Could not lookup user whitelist entry for " + p_onProfileLookupFailed_1_.getName()), (Throwable)p_onProfileLookupFailed_2_);
-                    }
-                };
-                lookupNames(minecraftserver, Lists.newArrayList(new String[] {p_152719_0_}), profilelookupcallback);
-                return list.size() > 0 && ((GameProfile)list.get(0)).getId() != null ? ((GameProfile)list.get(0)).getId().toString() : "";
-            }
-            else
-            {
-                return EntityPlayer.getUUID(new GameProfile((UUID)null, p_152719_0_)).toString();
-            }
-        }
-        else
-        {
-            return p_152719_0_;
-        }
-    }
+			if (!minecraftserver.isSinglePlayer() && minecraftserver.isServerInOnlineMode())
+			{
+				final List<GameProfile> list = Lists.<GameProfile>newArrayList();
+				ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback()
+				{
+					public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_)
+					{
+						minecraftserver.getPlayerProfileCache().addEntry(p_onProfileLookupSucceeded_1_);
+						list.add(p_onProfileLookupSucceeded_1_);
+					}
+					public void onProfileLookupFailed(GameProfile p_onProfileLookupFailed_1_, Exception p_onProfileLookupFailed_2_)
+					{
+						PreYggdrasilConverter.LOGGER.warn((String)("Could not lookup user whitelist entry for " + p_onProfileLookupFailed_1_.getName()), (Throwable)p_onProfileLookupFailed_2_);
+					}
+				};
+				lookupNames(minecraftserver, Lists.newArrayList(new String[] {p_152719_0_}), profilelookupcallback);
+				return list.size() > 0 && ((GameProfile)list.get(0)).getId() != null ? ((GameProfile)list.get(0)).getId().toString() : "";
+			}
+			return EntityPlayer.getUUID(new GameProfile((UUID)null, p_152719_0_)).toString();
+		}
+		return p_152719_0_;
+	}
 }

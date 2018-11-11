@@ -25,22 +25,16 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget
         {
             return false;
         }
-        else
-        {
-            EntityLivingBase entitylivingbase = this.theDefendingTameable.getOwner();
+		EntityLivingBase entitylivingbase = this.theDefendingTameable.getOwner();
 
-            if (entitylivingbase == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.theOwnerAttacker = entitylivingbase.getAITarget();
-                int i = entitylivingbase.getRevengeTimer();
-                return i != this.field_142051_e && this.isSuitableTarget(this.theOwnerAttacker, false) && this.theDefendingTameable.shouldAttackEntity(this.theOwnerAttacker, entitylivingbase);
-            }
-        }
-    }
+		if (entitylivingbase == null)
+		{
+			return false;
+		}
+		this.theOwnerAttacker = entitylivingbase.getAITarget();
+		int i = entitylivingbase.getRevengeTimer();
+		return i != this.field_142051_e && this.isSuitableTarget(this.theOwnerAttacker, false) && this.theDefendingTameable.shouldAttackEntity(this.theOwnerAttacker, entitylivingbase);
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

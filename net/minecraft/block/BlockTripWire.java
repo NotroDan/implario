@@ -243,17 +243,14 @@ public class BlockTripWire extends Block
             EnumFacing enumfacing = direction.getOpposite();
             return iblockstate.getValue(BlockTripWireHook.FACING) == enumfacing;
         }
-        else if (block == Blocks.tripwire)
-        {
-            boolean flag = ((Boolean)state.getValue(SUSPENDED)).booleanValue();
-            boolean flag1 = ((Boolean)iblockstate.getValue(SUSPENDED)).booleanValue();
-            return flag == flag1;
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (block == Blocks.tripwire)
+		{
+			boolean flag = ((Boolean)state.getValue(SUSPENDED)).booleanValue();
+			boolean flag1 = ((Boolean)iblockstate.getValue(SUSPENDED)).booleanValue();
+			return flag == flag1;
+		}
+		return false;
+	}
 
     /**
      * Convert the given metadata into a BlockState for this Block

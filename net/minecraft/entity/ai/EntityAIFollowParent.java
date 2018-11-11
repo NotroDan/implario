@@ -26,41 +26,35 @@ public class EntityAIFollowParent extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            List<EntityAnimal> list = this.childAnimal.worldObj.<EntityAnimal>getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.getEntityBoundingBox().expand(8.0D, 4.0D, 8.0D));
-            EntityAnimal entityanimal = null;
-            double d0 = Double.MAX_VALUE;
+		List<EntityAnimal> list = this.childAnimal.worldObj.<EntityAnimal>getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.getEntityBoundingBox().expand(8.0D, 4.0D, 8.0D));
+		EntityAnimal entityanimal = null;
+		double d0 = Double.MAX_VALUE;
 
-            for (EntityAnimal entityanimal1 : list)
-            {
-                if (entityanimal1.getGrowingAge() >= 0)
-                {
-                    double d1 = this.childAnimal.getDistanceSqToEntity(entityanimal1);
+		for (EntityAnimal entityanimal1 : list)
+		{
+			if (entityanimal1.getGrowingAge() >= 0)
+			{
+				double d1 = this.childAnimal.getDistanceSqToEntity(entityanimal1);
 
-                    if (d1 <= d0)
-                    {
-                        d0 = d1;
-                        entityanimal = entityanimal1;
-                    }
-                }
-            }
+				if (d1 <= d0)
+				{
+					d0 = d1;
+					entityanimal = entityanimal1;
+				}
+			}
+		}
 
-            if (entityanimal == null)
-            {
-                return false;
-            }
-            else if (d0 < 9.0D)
-            {
-                return false;
-            }
-            else
-            {
-                this.parentAnimal = entityanimal;
-                return true;
-            }
-        }
-    }
+		if (entityanimal == null)
+		{
+			return false;
+		}
+		if (d0 < 9.0D)
+		{
+			return false;
+		}
+		this.parentAnimal = entityanimal;
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
@@ -71,16 +65,13 @@ public class EntityAIFollowParent extends EntityAIBase
         {
             return false;
         }
-        else if (!this.parentAnimal.isEntityAlive())
-        {
-            return false;
-        }
-        else
-        {
-            double d0 = this.childAnimal.getDistanceSqToEntity(this.parentAnimal);
-            return d0 >= 9.0D && d0 <= 256.0D;
-        }
-    }
+		if (!this.parentAnimal.isEntityAlive())
+		{
+			return false;
+		}
+		double d0 = this.childAnimal.getDistanceSqToEntity(this.parentAnimal);
+		return d0 >= 9.0D && d0 <= 256.0D;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

@@ -147,12 +147,9 @@ public class EntityArmorStand extends EntityLivingBase
         {
             return false;
         }
-        else
-        {
-            this.setCurrentItemOrArmor(i, itemStackIn);
-            return true;
-        }
-    }
+		this.setCurrentItemOrArmor(i, itemStackIn);
+		return true;
+	}
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
@@ -374,104 +371,98 @@ public class EntityArmorStand extends EntityLivingBase
         {
             return false;
         }
-        else if (!this.worldObj.isRemote && !player.isSpectator())
-        {
-            int i = 0;
-            ItemStack itemstack = player.getCurrentEquippedItem();
-            boolean flag = itemstack != null;
+		if (!this.worldObj.isRemote && !player.isSpectator())
+		{
+			int i = 0;
+			ItemStack itemstack = player.getCurrentEquippedItem();
+			boolean flag = itemstack != null;
 
-            if (flag && itemstack.getItem() instanceof ItemArmor)
-            {
-                ItemArmor itemarmor = (ItemArmor)itemstack.getItem();
+			if (flag && itemstack.getItem() instanceof ItemArmor)
+			{
+				ItemArmor itemarmor = (ItemArmor)itemstack.getItem();
 
-                if (itemarmor.armorType == 3)
-                {
-                    i = 1;
-                }
-                else if (itemarmor.armorType == 2)
-                {
-                    i = 2;
-                }
-                else if (itemarmor.armorType == 1)
-                {
-                    i = 3;
-                }
-                else if (itemarmor.armorType == 0)
-                {
-                    i = 4;
-                }
-            }
+				if (itemarmor.armorType == 3)
+				{
+					i = 1;
+				}
+				else if (itemarmor.armorType == 2)
+				{
+					i = 2;
+				}
+				else if (itemarmor.armorType == 1)
+				{
+					i = 3;
+				}
+				else if (itemarmor.armorType == 0)
+				{
+					i = 4;
+				}
+			}
 
-            if (flag && (itemstack.getItem() == Items.skull || itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin)))
-            {
-                i = 4;
-            }
+			if (flag && (itemstack.getItem() == Items.skull || itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin)))
+			{
+				i = 4;
+			}
 
-            double d4 = 0.1D;
-            double d0 = 0.9D;
-            double d1 = 0.4D;
-            double d2 = 1.6D;
-            int j = 0;
-            boolean flag1 = this.isSmall();
-            double d3 = flag1 ? targetVec3.yCoord * 2.0D : targetVec3.yCoord;
+			double d4 = 0.1D;
+			double d0 = 0.9D;
+			double d1 = 0.4D;
+			double d2 = 1.6D;
+			int j = 0;
+			boolean flag1 = this.isSmall();
+			double d3 = flag1 ? targetVec3.yCoord * 2.0D : targetVec3.yCoord;
 
-            if (d3 >= 0.1D && d3 < 0.1D + (flag1 ? 0.8D : 0.45D) && this.contents[1] != null)
-            {
-                j = 1;
-            }
-            else if (d3 >= 0.9D + (flag1 ? 0.3D : 0.0D) && d3 < 0.9D + (flag1 ? 1.0D : 0.7D) && this.contents[3] != null)
-            {
-                j = 3;
-            }
-            else if (d3 >= 0.4D && d3 < 0.4D + (flag1 ? 1.0D : 0.8D) && this.contents[2] != null)
-            {
-                j = 2;
-            }
-            else if (d3 >= 1.6D && this.contents[4] != null)
-            {
-                j = 4;
-            }
+			if (d3 >= 0.1D && d3 < 0.1D + (flag1 ? 0.8D : 0.45D) && this.contents[1] != null)
+			{
+				j = 1;
+			}
+			else if (d3 >= 0.9D + (flag1 ? 0.3D : 0.0D) && d3 < 0.9D + (flag1 ? 1.0D : 0.7D) && this.contents[3] != null)
+			{
+				j = 3;
+			}
+			else if (d3 >= 0.4D && d3 < 0.4D + (flag1 ? 1.0D : 0.8D) && this.contents[2] != null)
+			{
+				j = 2;
+			}
+			else if (d3 >= 1.6D && this.contents[4] != null)
+			{
+				j = 4;
+			}
 
-            boolean flag2 = this.contents[j] != null;
+			boolean flag2 = this.contents[j] != null;
 
-            if ((this.disabledSlots & 1 << j) != 0 || (this.disabledSlots & 1 << i) != 0)
-            {
-                j = i;
+			if ((this.disabledSlots & 1 << j) != 0 || (this.disabledSlots & 1 << i) != 0)
+			{
+				j = i;
 
-                if ((this.disabledSlots & 1 << i) != 0)
-                {
-                    if ((this.disabledSlots & 1) != 0)
-                    {
-                        return true;
-                    }
+				if ((this.disabledSlots & 1 << i) != 0)
+				{
+					if ((this.disabledSlots & 1) != 0)
+					{
+						return true;
+					}
 
-                    j = 0;
-                }
-            }
+					j = 0;
+				}
+			}
 
-            if (flag && i == 0 && !this.getShowArms())
-            {
-                return true;
-            }
-            else
-            {
-                if (flag)
-                {
-                    this.func_175422_a(player, i);
-                }
-                else if (flag2)
-                {
-                    this.func_175422_a(player, j);
-                }
+			if (flag && i == 0 && !this.getShowArms())
+			{
+				return true;
+			}
+			if (flag)
+				{
+					this.func_175422_a(player, i);
+				}
+				else if (flag2)
+				{
+					this.func_175422_a(player, j);
+				}
 
-                return true;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
+			return true;
+		}
+		return true;
+	}
 
     private void func_175422_a(EntityPlayer p_175422_1_, int p_175422_2_)
     {
@@ -518,88 +509,76 @@ public class EntityArmorStand extends EntityLivingBase
         {
             return false;
         }
-        else if (DamageSource.outOfWorld.equals(source))
-        {
-            this.setDead();
-            return false;
-        }
-        else if (!this.isEntityInvulnerable(source) && !this.canInteract && !this.func_181026_s())
-        {
-            if (source.isExplosion())
-            {
-                this.dropContents();
-                this.setDead();
-                return false;
-            }
-            else if (DamageSource.inFire.equals(source))
-            {
-                if (!this.isBurning())
-                {
-                    this.setFire(5);
-                }
-                else
-                {
-                    this.damageArmorStand(0.15F);
-                }
+		if (DamageSource.outOfWorld.equals(source))
+		{
+			this.setDead();
+			return false;
+		}
+		if (!this.isEntityInvulnerable(source) && !this.canInteract && !this.func_181026_s())
+		{
+			if (source.isExplosion())
+			{
+				this.dropContents();
+				this.setDead();
+				return false;
+			}
+			if (DamageSource.inFire.equals(source))
+			{
+				if (!this.isBurning())
+				{
+					this.setFire(5);
+				}
+				else
+				{
+					this.damageArmorStand(0.15F);
+				}
 
-                return false;
-            }
-            else if (DamageSource.onFire.equals(source) && this.getHealth() > 0.5F)
-            {
-                this.damageArmorStand(4.0F);
-                return false;
-            }
-            else
-            {
-                boolean flag = "arrow".equals(source.getDamageType());
-                boolean flag1 = "player".equals(source.getDamageType());
+				return false;
+			}
+			if (DamageSource.onFire.equals(source) && this.getHealth() > 0.5F)
+			{
+				this.damageArmorStand(4.0F);
+				return false;
+			}
+			boolean flag = "arrow".equals(source.getDamageType());
+			boolean flag1 = "player".equals(source.getDamageType());
 
-                if (!flag1 && !flag)
-                {
-                    return false;
-                }
-                else
-                {
-                    if (source.getSourceOfDamage() instanceof EntityArrow)
-                    {
-                        source.getSourceOfDamage().setDead();
-                    }
+			if (!flag1 && !flag)
+				{
+					return false;
+				}
+			if (source.getSourceOfDamage() instanceof EntityArrow)
+					{
+						source.getSourceOfDamage().setDead();
+					}
 
-                    if (source.getEntity() instanceof EntityPlayer && !((EntityPlayer)source.getEntity()).capabilities.allowEdit)
-                    {
-                        return false;
-                    }
-                    else if (source.isCreativePlayer())
-                    {
-                        this.playParticles();
-                        this.setDead();
-                        return false;
-                    }
-                    else
-                    {
-                        long i = this.worldObj.getTotalWorldTime();
+			if (source.getEntity() instanceof EntityPlayer && !((EntityPlayer)source.getEntity()).capabilities.allowEdit)
+					{
+						return false;
+					}
+			if (source.isCreativePlayer())
+					{
+						this.playParticles();
+						this.setDead();
+						return false;
+					}
+			long i = this.worldObj.getTotalWorldTime();
 
-                        if (i - this.punchCooldown > 5L && !flag)
-                        {
-                            this.punchCooldown = i;
-                        }
-                        else
-                        {
-                            this.dropBlock();
-                            this.playParticles();
-                            this.setDead();
-                        }
+			if (i - this.punchCooldown > 5L && !flag)
+						{
+							this.punchCooldown = i;
+						}
+						else
+						{
+							this.dropBlock();
+							this.playParticles();
+							this.setDead();
+						}
 
-                        return false;
-                    }
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return false;
+		}
+		return false;
+	}
 
     /**
      * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge

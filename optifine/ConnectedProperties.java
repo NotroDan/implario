@@ -93,26 +93,23 @@ public class ConnectedProperties
         {
             return null;
         }
-        else
-        {
-            String[] astring = Config.tokenize(p_parseMatchTiles_1_, " ");
+		String[] astring = Config.tokenize(p_parseMatchTiles_1_, " ");
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
+		for (int i = 0; i < astring.length; ++i)
+		{
+			String s = astring[i];
 
-                if (s.endsWith(".png"))
-                {
-                    s = s.substring(0, s.length() - 4);
-                }
+			if (s.endsWith(".png"))
+			{
+				s = s.substring(0, s.length() - 4);
+			}
 
-                s = TextureUtils.fixResourcePath(s, this.basePath);
-                astring[i] = s;
-            }
+			s = TextureUtils.fixResourcePath(s, this.basePath);
+			astring[i] = s;
+		}
 
-            return astring;
-        }
-    }
+		return astring;
+	}
 
     private static String parseName(String p_parseName_0_)
     {
@@ -146,87 +143,84 @@ public class ConnectedProperties
         {
             return null;
         }
-        else
-        {
-            List list = new ArrayList();
-            String[] astring = Config.tokenize(p_parseTileNames_1_, " ,");
-            label32:
+		List list = new ArrayList();
+		String[] astring = Config.tokenize(p_parseTileNames_1_, " ,");
+		label32:
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
+		for (int i = 0; i < astring.length; ++i)
+		{
+			String s = astring[i];
 
-                if (s.contains("-"))
-                {
-                    String[] astring1 = Config.tokenize(s, "-");
+			if (s.contains("-"))
+			{
+				String[] astring1 = Config.tokenize(s, "-");
 
-                    if (astring1.length == 2)
-                    {
-                        int j = Config.parseInt(astring1[0], -1);
-                        int k = Config.parseInt(astring1[1], -1);
+				if (astring1.length == 2)
+				{
+					int j = Config.parseInt(astring1[0], -1);
+					int k = Config.parseInt(astring1[1], -1);
 
-                        if (j >= 0 && k >= 0)
-                        {
-                            if (j > k)
-                            {
-                                Config.warn("Invalid interval: " + s + ", when parsing: " + p_parseTileNames_1_);
-                                continue;
-                            }
+					if (j >= 0 && k >= 0)
+					{
+						if (j > k)
+						{
+							Config.warn("Invalid interval: " + s + ", when parsing: " + p_parseTileNames_1_);
+							continue;
+						}
 
-                            int l = j;
+						int l = j;
 
-                            while (true)
-                            {
-                                if (l > k)
-                                {
-                                    continue label32;
-                                }
+						while (true)
+						{
+							if (l > k)
+							{
+								continue label32;
+							}
 
-                                list.add(String.valueOf(l));
-                                ++l;
-                            }
-                        }
-                    }
-                }
+							list.add(String.valueOf(l));
+							++l;
+						}
+					}
+				}
+			}
 
-                list.add(s);
-            }
+			list.add(s);
+		}
 
-            String[] astring2 = (String[]) (String[])list.toArray(new String[list.size()]);
+		String[] astring2 = (String[]) (String[])list.toArray(new String[list.size()]);
 
-            for (int i1 = 0; i1 < astring2.length; ++i1)
-            {
-                String s1 = astring2[i1];
-                s1 = TextureUtils.fixResourcePath(s1, this.basePath);
+		for (int i1 = 0; i1 < astring2.length; ++i1)
+		{
+			String s1 = astring2[i1];
+			s1 = TextureUtils.fixResourcePath(s1, this.basePath);
 
-                if (!s1.startsWith(this.basePath) && !s1.startsWith("textures/") && !s1.startsWith("mcpatcher/"))
-                {
-                    s1 = this.basePath + "/" + s1;
-                }
+			if (!s1.startsWith(this.basePath) && !s1.startsWith("textures/") && !s1.startsWith("mcpatcher/"))
+			{
+				s1 = this.basePath + "/" + s1;
+			}
 
-                if (s1.endsWith(".png"))
-                {
-                    s1 = s1.substring(0, s1.length() - 4);
-                }
+			if (s1.endsWith(".png"))
+			{
+				s1 = s1.substring(0, s1.length() - 4);
+			}
 
-                String s2 = "textures/blocks/";
+			String s2 = "textures/blocks/";
 
-                if (s1.startsWith(s2))
-                {
-                    s1 = s1.substring(s2.length());
-                }
+			if (s1.startsWith(s2))
+			{
+				s1 = s1.substring(s2.length());
+			}
 
-                if (s1.startsWith("/"))
-                {
-                    s1 = s1.substring(1);
-                }
+			if (s1.startsWith("/"))
+			{
+				s1 = s1.substring(1);
+			}
 
-                astring2[i1] = s1;
-            }
+			astring2[i1] = s1;
+		}
 
-            return astring2;
-        }
-    }
+		return astring2;
+	}
 
     private static int parseSymmetry(String p_parseSymmetry_0_)
     {
@@ -234,20 +228,17 @@ public class ConnectedProperties
         {
             return 1;
         }
-        else if (p_parseSymmetry_0_.equals("opposite"))
-        {
-            return 2;
-        }
-        else if (p_parseSymmetry_0_.equals("all"))
-        {
-            return 6;
-        }
-        else
-        {
-            Config.warn("Unknown symmetry: " + p_parseSymmetry_0_);
-            return 1;
-        }
-    }
+		if (p_parseSymmetry_0_.equals("opposite"))
+		{
+			return 2;
+		}
+		if (p_parseSymmetry_0_.equals("all"))
+		{
+			return 6;
+		}
+		Config.warn("Unknown symmetry: " + p_parseSymmetry_0_);
+		return 1;
+	}
 
     private static int parseFaces(String p_parseFaces_0_)
     {
@@ -255,21 +246,18 @@ public class ConnectedProperties
         {
             return 63;
         }
-        else
-        {
-            String[] astring = Config.tokenize(p_parseFaces_0_, " ,");
-            int i = 0;
+		String[] astring = Config.tokenize(p_parseFaces_0_, " ,");
+		int i = 0;
 
-            for (int j = 0; j < astring.length; ++j)
-            {
-                String s = astring[j];
-                int k = parseFace(s);
-                i |= k;
-            }
+		for (int j = 0; j < astring.length; ++j)
+		{
+			String s = astring[j];
+			int k = parseFace(s);
+			i |= k;
+		}
 
-            return i;
-        }
-    }
+		return i;
+	}
 
     private static int parseFace(String p_parseFace_0_)
     {
@@ -283,42 +271,33 @@ public class ConnectedProperties
                 {
                     return 4;
                 }
-                else if (p_parseFace_0_.equals("south"))
-                {
-                    return 8;
-                }
-                else if (p_parseFace_0_.equals("east"))
-                {
-                    return 32;
-                }
-                else if (p_parseFace_0_.equals("west"))
-                {
-                    return 16;
-                }
-                else if (p_parseFace_0_.equals("sides"))
-                {
-                    return 60;
-                }
-                else if (p_parseFace_0_.equals("all"))
-                {
-                    return 63;
-                }
-                else
-                {
-                    Config.warn("Unknown face: " + p_parseFace_0_);
-                    return 128;
-                }
-            }
-            else
-            {
-                return 2;
-            }
-        }
-        else
-        {
-            return 1;
-        }
-    }
+				if (p_parseFace_0_.equals("south"))
+				{
+					return 8;
+				}
+				if (p_parseFace_0_.equals("east"))
+				{
+					return 32;
+				}
+				if (p_parseFace_0_.equals("west"))
+				{
+					return 16;
+				}
+				if (p_parseFace_0_.equals("sides"))
+				{
+					return 60;
+				}
+				if (p_parseFace_0_.equals("all"))
+				{
+					return 63;
+				}
+				Config.warn("Unknown face: " + p_parseFace_0_);
+				return 128;
+			}
+			return 2;
+		}
+		return 1;
+	}
 
     private static int parseConnect(String p_parseConnect_0_)
     {
@@ -326,24 +305,21 @@ public class ConnectedProperties
         {
             return 0;
         }
-        else if (p_parseConnect_0_.equals("block"))
-        {
-            return 1;
-        }
-        else if (p_parseConnect_0_.equals("tile"))
-        {
-            return 2;
-        }
-        else if (p_parseConnect_0_.equals("material"))
-        {
-            return 3;
-        }
-        else
-        {
-            Config.warn("Unknown connect: " + p_parseConnect_0_);
-            return 128;
-        }
-    }
+		if (p_parseConnect_0_.equals("block"))
+		{
+			return 1;
+		}
+		if (p_parseConnect_0_.equals("tile"))
+		{
+			return 2;
+		}
+		if (p_parseConnect_0_.equals("material"))
+		{
+			return 3;
+		}
+		Config.warn("Unknown connect: " + p_parseConnect_0_);
+		return 128;
+	}
 
     public static IProperty getProperty(String p_getProperty_0_, Collection p_getProperty_1_)
     {
@@ -364,57 +340,45 @@ public class ConnectedProperties
         {
             return 1;
         }
-        else if (!p_parseMethod_0_.equals("ctm") && !p_parseMethod_0_.equals("glass"))
-        {
-            if (!p_parseMethod_0_.equals("horizontal") && !p_parseMethod_0_.equals("bookshelf"))
-            {
-                if (p_parseMethod_0_.equals("vertical"))
-                {
-                    return 6;
-                }
-                else if (p_parseMethod_0_.equals("top"))
-                {
-                    return 3;
-                }
-                else if (p_parseMethod_0_.equals("random"))
-                {
-                    return 4;
-                }
-                else if (p_parseMethod_0_.equals("repeat"))
-                {
-                    return 5;
-                }
-                else if (p_parseMethod_0_.equals("fixed"))
-                {
-                    return 7;
-                }
-                else if (!p_parseMethod_0_.equals("horizontal+vertical") && !p_parseMethod_0_.equals("h+v"))
-                {
-                    if (!p_parseMethod_0_.equals("vertical+horizontal") && !p_parseMethod_0_.equals("v+h"))
-                    {
-                        Config.warn("Unknown method: " + p_parseMethod_0_);
-                        return 0;
-                    }
-                    else
-                    {
-                        return 9;
-                    }
-                }
-                else
-                {
-                    return 8;
-                }
-            }
-            else
-            {
-                return 2;
-            }
-        }
-        else
-        {
-            return 1;
-        }
-    }
+		if (!p_parseMethod_0_.equals("ctm") && !p_parseMethod_0_.equals("glass"))
+		{
+			if (!p_parseMethod_0_.equals("horizontal") && !p_parseMethod_0_.equals("bookshelf"))
+			{
+				if (p_parseMethod_0_.equals("vertical"))
+				{
+					return 6;
+				}
+				if (p_parseMethod_0_.equals("top"))
+				{
+					return 3;
+				}
+				if (p_parseMethod_0_.equals("random"))
+				{
+					return 4;
+				}
+				if (p_parseMethod_0_.equals("repeat"))
+				{
+					return 5;
+				}
+				if (p_parseMethod_0_.equals("fixed"))
+				{
+					return 7;
+				}
+				if (!p_parseMethod_0_.equals("horizontal+vertical") && !p_parseMethod_0_.equals("h+v"))
+				{
+					if (!p_parseMethod_0_.equals("vertical+horizontal") && !p_parseMethod_0_.equals("v+h"))
+					{
+						Config.warn("Unknown method: " + p_parseMethod_0_);
+						return 0;
+					}
+					return 9;
+				}
+				return 8;
+			}
+			return 2;
+		}
+		return 1;
+	}
 
     public boolean isValid(String p_isValid_1_)
     {
@@ -425,105 +389,93 @@ public class ConnectedProperties
                 Config.warn("No base path found: " + p_isValid_1_);
                 return false;
             }
-            else
-            {
-                if (this.matchBlocks == null)
-                {
-                    this.matchBlocks = this.detectMatchBlocks();
-                }
+			if (this.matchBlocks == null)
+			{
+				this.matchBlocks = this.detectMatchBlocks();
+			}
 
-                if (this.matchTiles == null && this.matchBlocks == null)
-                {
-                    this.matchTiles = this.detectMatchTiles();
-                }
+			if (this.matchTiles == null && this.matchBlocks == null)
+			{
+				this.matchTiles = this.detectMatchTiles();
+			}
 
-                if (this.matchBlocks == null && this.matchTiles == null)
-                {
-                    Config.warn("No matchBlocks or matchTiles specified: " + p_isValid_1_);
-                    return false;
-                }
-                else if (this.method == 0)
-                {
-                    Config.warn("No method: " + p_isValid_1_);
-                    return false;
-                }
-                else if (this.tiles != null && this.tiles.length > 0)
-                {
-                    if (this.connect == 0)
-                    {
-                        this.connect = this.detectConnect();
-                    }
+			if (this.matchBlocks == null && this.matchTiles == null)
+			{
+				Config.warn("No matchBlocks or matchTiles specified: " + p_isValid_1_);
+				return false;
+			}
+			if (this.method == 0)
+			{
+				Config.warn("No method: " + p_isValid_1_);
+				return false;
+			}
+			if (this.tiles != null && this.tiles.length > 0)
+			{
+				if (this.connect == 0)
+				{
+					this.connect = this.detectConnect();
+				}
 
-                    if (this.connect == 128)
-                    {
-                        Config.warn("Invalid connect in: " + p_isValid_1_);
-                        return false;
-                    }
-                    else if (this.renderPass > 0)
-                    {
-                        Config.warn("Render pass not supported: " + this.renderPass);
-                        return false;
-                    }
-                    else if ((this.faces & 128) != 0)
-                    {
-                        Config.warn("Invalid faces in: " + p_isValid_1_);
-                        return false;
-                    }
-                    else if ((this.symmetry & 128) != 0)
-                    {
-                        Config.warn("Invalid symmetry in: " + p_isValid_1_);
-                        return false;
-                    }
-                    else
-                    {
-                        switch (this.method)
-                        {
-                            case 1:
-                                return this.isValidCtm(p_isValid_1_);
+				if (this.connect == 128)
+				{
+					Config.warn("Invalid connect in: " + p_isValid_1_);
+					return false;
+				}
+				if (this.renderPass > 0)
+				{
+					Config.warn("Render pass not supported: " + this.renderPass);
+					return false;
+				}
+				if ((this.faces & 128) != 0)
+				{
+					Config.warn("Invalid faces in: " + p_isValid_1_);
+					return false;
+				}
+				if ((this.symmetry & 128) != 0)
+				{
+					Config.warn("Invalid symmetry in: " + p_isValid_1_);
+					return false;
+				}
+				switch (this.method)
+					{
+						case 1:
+							return this.isValidCtm(p_isValid_1_);
 
-                            case 2:
-                                return this.isValidHorizontal(p_isValid_1_);
+						case 2:
+							return this.isValidHorizontal(p_isValid_1_);
 
-                            case 3:
-                                return this.isValidTop(p_isValid_1_);
+						case 3:
+							return this.isValidTop(p_isValid_1_);
 
-                            case 4:
-                                return this.isValidRandom(p_isValid_1_);
+						case 4:
+							return this.isValidRandom(p_isValid_1_);
 
-                            case 5:
-                                return this.isValidRepeat(p_isValid_1_);
+						case 5:
+							return this.isValidRepeat(p_isValid_1_);
 
-                            case 6:
-                                return this.isValidVertical(p_isValid_1_);
+						case 6:
+							return this.isValidVertical(p_isValid_1_);
 
-                            case 7:
-                                return this.isValidFixed(p_isValid_1_);
+						case 7:
+							return this.isValidFixed(p_isValid_1_);
 
-                            case 8:
-                                return this.isValidHorizontalVertical(p_isValid_1_);
+						case 8:
+							return this.isValidHorizontalVertical(p_isValid_1_);
 
-                            case 9:
-                                return this.isValidVerticalHorizontal(p_isValid_1_);
+						case 9:
+							return this.isValidVerticalHorizontal(p_isValid_1_);
 
-                            default:
-                                Config.warn("Unknown method: " + p_isValid_1_);
-                                return false;
-                        }
-                    }
-                }
-                else
-                {
-                    Config.warn("No tiles specified: " + p_isValid_1_);
-                    return false;
-                }
-            }
-        }
-        else
-        {
-            Config.warn("No name found: " + p_isValid_1_);
-            return false;
-        }
-    }
+						default:
+							Config.warn("Unknown method: " + p_isValid_1_);
+							return false;
+					}
+			}
+			Config.warn("No tiles specified: " + p_isValid_1_);
+			return false;
+		}
+		Config.warn("No name found: " + p_isValid_1_);
+		return false;
+	}
 
     private int detectConnect()
     {
@@ -538,18 +490,15 @@ public class ConnectedProperties
         {
             return null;
         }
-        else
-        {
-            MatchBlock[] amatchblock = new MatchBlock[aint.length];
+		MatchBlock[] amatchblock = new MatchBlock[aint.length];
 
-            for (int i = 0; i < amatchblock.length; ++i)
-            {
-                amatchblock[i] = new MatchBlock(aint[i]);
-            }
+		for (int i = 0; i < amatchblock.length; ++i)
+		{
+			amatchblock[i] = new MatchBlock(aint[i]);
+		}
 
-            return amatchblock;
-        }
-    }
+		return amatchblock;
+	}
 
     private int[] detectMatchBlockIds()
     {
@@ -557,33 +506,27 @@ public class ConnectedProperties
         {
             return null;
         }
-        else
-        {
-            int i = "block".length();
-            int j;
+		int i = "block".length();
+		int j;
 
-            for (j = i; j < this.name.length(); ++j)
-            {
-                char c0 = this.name.charAt(j);
+		for (j = i; j < this.name.length(); ++j)
+		{
+			char c0 = this.name.charAt(j);
 
-                if (c0 < 48 || c0 > 57)
-                {
-                    break;
-                }
-            }
+			if (c0 < 48 || c0 > 57)
+			{
+				break;
+			}
+		}
 
-            if (j == i)
-            {
-                return null;
-            }
-            else
-            {
-                String s = this.name.substring(i, j);
-                int k = Config.parseInt(s, -1);
-                return k < 0 ? null : new int[] {k};
-            }
-        }
-    }
+		if (j == i)
+		{
+			return null;
+		}
+		String s = this.name.substring(i, j);
+		int k = Config.parseInt(s, -1);
+		return k < 0 ? null : new int[] {k};
+	}
 
     private String[] detectMatchTiles()
     {
@@ -600,12 +543,9 @@ public class ConnectedProperties
         {
             return textureatlassprite;
         }
-        else
-        {
-            textureatlassprite = texturemap.getSpriteSafe("blocks/" + p_getIcon_0_);
-            return textureatlassprite;
-        }
-    }
+		textureatlassprite = texturemap.getSpriteSafe("blocks/" + p_getIcon_0_);
+		return textureatlassprite;
+	}
 
     private boolean isValidCtm(String p_isValidCtm_1_)
     {
@@ -619,11 +559,8 @@ public class ConnectedProperties
             Config.warn("Invalid tiles, must be at least 47: " + p_isValidCtm_1_);
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }
+		return true;
+	}
 
     private boolean isValidHorizontal(String p_isValidHorizontal_1_)
     {
@@ -637,11 +574,8 @@ public class ConnectedProperties
             Config.warn("Invalid tiles, must be exactly 4: " + p_isValidHorizontal_1_);
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }
+		return true;
+	}
 
     private boolean isValidVertical(String p_isValidVertical_1_)
     {
@@ -650,16 +584,13 @@ public class ConnectedProperties
             Config.warn("No tiles defined for vertical: " + p_isValidVertical_1_);
             return false;
         }
-        else if (this.tiles.length != 4)
-        {
-            Config.warn("Invalid tiles, must be exactly 4: " + p_isValidVertical_1_);
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+		if (this.tiles.length != 4)
+		{
+			Config.warn("Invalid tiles, must be exactly 4: " + p_isValidVertical_1_);
+			return false;
+		}
+		return true;
+	}
 
     private boolean isValidHorizontalVertical(String p_isValidHorizontalVertical_1_)
     {
@@ -668,16 +599,13 @@ public class ConnectedProperties
             Config.warn("No tiles defined for horizontal+vertical: " + p_isValidHorizontalVertical_1_);
             return false;
         }
-        else if (this.tiles.length != 7)
-        {
-            Config.warn("Invalid tiles, must be exactly 7: " + p_isValidHorizontalVertical_1_);
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+		if (this.tiles.length != 7)
+		{
+			Config.warn("Invalid tiles, must be exactly 7: " + p_isValidHorizontalVertical_1_);
+			return false;
+		}
+		return true;
+	}
 
     private boolean isValidVerticalHorizontal(String p_isValidVerticalHorizontal_1_)
     {
@@ -686,16 +614,13 @@ public class ConnectedProperties
             Config.warn("No tiles defined for vertical+horizontal: " + p_isValidVerticalHorizontal_1_);
             return false;
         }
-        else if (this.tiles.length != 7)
-        {
-            Config.warn("Invalid tiles, must be exactly 7: " + p_isValidVerticalHorizontal_1_);
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+		if (this.tiles.length != 7)
+		{
+			Config.warn("Invalid tiles, must be exactly 7: " + p_isValidVerticalHorizontal_1_);
+			return false;
+		}
+		return true;
+	}
 
     private boolean isValidRandom(String p_isValidRandom_1_)
     {
@@ -746,12 +671,9 @@ public class ConnectedProperties
 
             return true;
         }
-        else
-        {
-            Config.warn("Tiles not defined: " + p_isValidRandom_1_);
-            return false;
-        }
-    }
+		Config.warn("Tiles not defined: " + p_isValidRandom_1_);
+		return false;
+	}
 
     private boolean isValidRepeat(String p_isValidRepeat_1_)
     {
@@ -760,32 +682,23 @@ public class ConnectedProperties
             Config.warn("Tiles not defined: " + p_isValidRepeat_1_);
             return false;
         }
-        else if (this.width > 0 && this.width <= 16)
-        {
-            if (this.height > 0 && this.height <= 16)
-            {
-                if (this.tiles.length != this.width * this.height)
-                {
-                    Config.warn("Number of tiles does not equal width x height: " + p_isValidRepeat_1_);
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                Config.warn("Invalid height: " + p_isValidRepeat_1_);
-                return false;
-            }
-        }
-        else
-        {
-            Config.warn("Invalid width: " + p_isValidRepeat_1_);
-            return false;
-        }
-    }
+		if (this.width > 0 && this.width <= 16)
+		{
+			if (this.height > 0 && this.height <= 16)
+			{
+				if (this.tiles.length != this.width * this.height)
+				{
+					Config.warn("Number of tiles does not equal width x height: " + p_isValidRepeat_1_);
+					return false;
+				}
+				return true;
+			}
+			Config.warn("Invalid height: " + p_isValidRepeat_1_);
+			return false;
+		}
+		Config.warn("Invalid width: " + p_isValidRepeat_1_);
+		return false;
+	}
 
     private boolean isValidFixed(String p_isValidFixed_1_)
     {
@@ -794,16 +707,13 @@ public class ConnectedProperties
             Config.warn("Tiles not defined: " + p_isValidFixed_1_);
             return false;
         }
-        else if (this.tiles.length != 1)
-        {
-            Config.warn("Number of tiles should be 1 for method: fixed.");
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+		if (this.tiles.length != 1)
+		{
+			Config.warn("Number of tiles should be 1 for method: fixed.");
+			return false;
+		}
+		return true;
+	}
 
     private boolean isValidTop(String p_isValidTop_1_)
     {
@@ -817,11 +727,8 @@ public class ConnectedProperties
             Config.warn("Invalid tiles, must be exactly 1: " + p_isValidTop_1_);
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }
+		return true;
+	}
 
     public void updateIcons(TextureMap p_updateIcons_1_)
     {
@@ -842,48 +749,45 @@ public class ConnectedProperties
         {
             return null;
         }
-        else
-        {
-            List list = new ArrayList();
+		List list = new ArrayList();
 
-            for (int i = 0; i < p_registerIcons_0_.length; ++i)
-            {
-                String s = p_registerIcons_0_[i];
-                ResourceLocation resourcelocation = new ResourceLocation(s);
-                String s1 = resourcelocation.getResourceDomain();
-                String s2 = resourcelocation.getResourcePath();
+		for (int i = 0; i < p_registerIcons_0_.length; ++i)
+		{
+			String s = p_registerIcons_0_[i];
+			ResourceLocation resourcelocation = new ResourceLocation(s);
+			String s1 = resourcelocation.getResourceDomain();
+			String s2 = resourcelocation.getResourcePath();
 
-                if (!s2.contains("/"))
-                {
-                    s2 = "textures/blocks/" + s2;
-                }
+			if (!s2.contains("/"))
+			{
+				s2 = "textures/blocks/" + s2;
+			}
 
-                String s3 = s2 + ".png";
-                ResourceLocation resourcelocation1 = new ResourceLocation(s1, s3);
-                boolean flag = Config.hasResource(resourcelocation1);
+			String s3 = s2 + ".png";
+			ResourceLocation resourcelocation1 = new ResourceLocation(s1, s3);
+			boolean flag = Config.hasResource(resourcelocation1);
 
-                if (!flag)
-                {
-                    Config.warn("File not found: " + s3);
-                }
+			if (!flag)
+			{
+				Config.warn("File not found: " + s3);
+			}
 
-                String s4 = "textures/";
-                String s5 = s2;
+			String s4 = "textures/";
+			String s5 = s2;
 
-                if (s2.startsWith(s4))
-                {
-                    s5 = s2.substring(s4.length());
-                }
+			if (s2.startsWith(s4))
+			{
+				s5 = s2.substring(s4.length());
+			}
 
-                ResourceLocation resourcelocation2 = new ResourceLocation(s1, s5);
-                TextureAtlasSprite textureatlassprite = p_registerIcons_1_.registerSprite(resourcelocation2);
-                list.add(textureatlassprite);
-            }
+			ResourceLocation resourcelocation2 = new ResourceLocation(s1, s5);
+			TextureAtlasSprite textureatlassprite = p_registerIcons_1_.registerSprite(resourcelocation2);
+			list.add(textureatlassprite);
+		}
 
-            TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) (TextureAtlasSprite[])list.toArray(new TextureAtlasSprite[list.size()]);
-            return atextureatlassprite;
-        }
-    }
+		TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) (TextureAtlasSprite[])list.toArray(new TextureAtlasSprite[list.size()]);
+		return atextureatlassprite;
+	}
 
     public boolean matchesBlockId(int p_matchesBlockId_1_)
     {
@@ -933,19 +837,16 @@ public class ConnectedProperties
         {
             return p_getMax_2_;
         }
-        else
-        {
-            for (int i = 0; i < p_getMax_1_.length; ++i)
-            {
-                int j = p_getMax_1_[i];
+		for (int i = 0; i < p_getMax_1_.length; ++i)
+		{
+			int j = p_getMax_1_[i];
 
-                if (j > p_getMax_2_)
-                {
-                    p_getMax_2_ = j;
-                }
-            }
+			if (j > p_getMax_2_)
+			{
+				p_getMax_2_ = j;
+			}
+		}
 
-            return p_getMax_2_;
-        }
-    }
+		return p_getMax_2_;
+	}
 }

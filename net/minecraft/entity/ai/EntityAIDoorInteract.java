@@ -43,39 +43,33 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            PathNavigateGround pathnavigateground = (PathNavigateGround)this.theEntity.getNavigator();
-            PathEntity pathentity = pathnavigateground.getPath();
+		PathNavigateGround pathnavigateground = (PathNavigateGround)this.theEntity.getNavigator();
+		PathEntity pathentity = pathnavigateground.getPath();
 
-            if (pathentity != null && !pathentity.isFinished() && pathnavigateground.getEnterDoors())
-            {
-                for (int i = 0; i < Math.min(pathentity.getCurrentPathIndex() + 2, pathentity.getCurrentPathLength()); ++i)
-                {
-                    PathPoint pathpoint = pathentity.getPathPointFromIndex(i);
-                    this.doorPosition = new BlockPos(pathpoint.xCoord, pathpoint.yCoord + 1, pathpoint.zCoord);
+		if (pathentity != null && !pathentity.isFinished() && pathnavigateground.getEnterDoors())
+		{
+			for (int i = 0; i < Math.min(pathentity.getCurrentPathIndex() + 2, pathentity.getCurrentPathLength()); ++i)
+			{
+				PathPoint pathpoint = pathentity.getPathPointFromIndex(i);
+				this.doorPosition = new BlockPos(pathpoint.xCoord, pathpoint.yCoord + 1, pathpoint.zCoord);
 
-                    if (this.theEntity.getDistanceSq((double)this.doorPosition.getX(), this.theEntity.posY, (double)this.doorPosition.getZ()) <= 2.25D)
-                    {
-                        this.doorBlock = this.getBlockDoor(this.doorPosition);
+				if (this.theEntity.getDistanceSq((double)this.doorPosition.getX(), this.theEntity.posY, (double)this.doorPosition.getZ()) <= 2.25D)
+				{
+					this.doorBlock = this.getBlockDoor(this.doorPosition);
 
-                        if (this.doorBlock != null)
-                        {
-                            return true;
-                        }
-                    }
-                }
+					if (this.doorBlock != null)
+					{
+						return true;
+					}
+				}
+			}
 
-                this.doorPosition = new BlockPos(this.theEntity).up();
-                this.doorBlock = this.getBlockDoor(this.doorPosition);
-                return this.doorBlock != null;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+			this.doorPosition = new BlockPos(this.theEntity).up();
+			this.doorBlock = this.getBlockDoor(this.doorPosition);
+			return this.doorBlock != null;
+		}
+		return false;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

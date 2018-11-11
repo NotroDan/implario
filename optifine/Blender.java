@@ -21,53 +21,47 @@ public class Blender
         {
             return 1;
         }
-        else
-        {
-            p_parseBlend_0_ = p_parseBlend_0_.toLowerCase().trim();
+		p_parseBlend_0_ = p_parseBlend_0_.toLowerCase().trim();
 
-            if (p_parseBlend_0_.equals("alpha"))
-            {
-                return 0;
-            }
-            else if (p_parseBlend_0_.equals("add"))
-            {
-                return 1;
-            }
-            else if (p_parseBlend_0_.equals("subtract"))
-            {
-                return 2;
-            }
-            else if (p_parseBlend_0_.equals("multiply"))
-            {
-                return 3;
-            }
-            else if (p_parseBlend_0_.equals("dodge"))
-            {
-                return 4;
-            }
-            else if (p_parseBlend_0_.equals("burn"))
-            {
-                return 5;
-            }
-            else if (p_parseBlend_0_.equals("screen"))
-            {
-                return 6;
-            }
-            else if (p_parseBlend_0_.equals("overlay"))
-            {
-                return 7;
-            }
-            else if (p_parseBlend_0_.equals("replace"))
-            {
-                return 8;
-            }
-            else
-            {
-                Config.warn("Unknown blend: " + p_parseBlend_0_);
-                return 1;
-            }
-        }
-    }
+		if (p_parseBlend_0_.equals("alpha"))
+		{
+			return 0;
+		}
+		if (p_parseBlend_0_.equals("add"))
+		{
+			return 1;
+		}
+		if (p_parseBlend_0_.equals("subtract"))
+		{
+			return 2;
+		}
+		if (p_parseBlend_0_.equals("multiply"))
+		{
+			return 3;
+		}
+		if (p_parseBlend_0_.equals("dodge"))
+		{
+			return 4;
+		}
+		if (p_parseBlend_0_.equals("burn"))
+		{
+			return 5;
+		}
+		if (p_parseBlend_0_.equals("screen"))
+		{
+			return 6;
+		}
+		if (p_parseBlend_0_.equals("overlay"))
+		{
+			return 7;
+		}
+		if (p_parseBlend_0_.equals("replace"))
+		{
+			return 8;
+		}
+		Config.warn("Unknown blend: " + p_parseBlend_0_);
+		return 1;
+	}
 
     public static void setupBlend(int p_setupBlend_0_, float p_setupBlend_1_)
     {

@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
@@ -444,70 +444,49 @@ public class GuiIngame extends Gui {
 		}
 	}
 
-	public void renderTooltip(ScaledResolution p_181551_1_) {
+	public void renderTooltip(ScaledResolution res) {
+		if (this.remainingHighlightTicks <= 0 || this.highlightingItemStack == null) return;
 		this.mc.mcProfiler.startSection("selectedItemName");
 
-		if (this.remainingHighlightTicks > 0 && this.highlightingItemStack != null) {
-			String s = this.highlightingItemStack.getDisplayName();
+		String s = this.highlightingItemStack.getDisplayName();
 
-			if (this.highlightingItemStack.hasDisplayName()) s = EnumChatFormatting.ITALIC + s + EnumChatFormatting.RESET;
+		int i = (res.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2;
+		int j = res.getScaledHeight() - 59;
 
-			int i = (p_181551_1_.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2;
-			int j = p_181551_1_.getScaledHeight() - 59;
+		if (!this.mc.playerController.shouldDrawHUD()) j += 14;
 
-			if (!this.mc.playerController.shouldDrawHUD()) {
-				j += 14;
-			}
+		int k = (int) ((float) this.remainingHighlightTicks * 256.0F / 10.0F);
+		if (k > 255) k = 255;
 
-			int k = (int) ((float) this.remainingHighlightTicks * 256.0F / 10.0F);
-
-			if (k > 255) {
-				k = 255;
-			}
-
-			if (k > 0) {
-				GlStateManager.pushMatrix();
-				GlStateManager.enableBlend();
-				GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-				this.getFontRenderer().drawStringWithShadow(s, (float) i, (float) j, 16777215 + (k << 24));
-				GlStateManager.disableBlend();
-				GlStateManager.popMatrix();
-			}
+		if (k > 0) {
+			GlStateManager.pushMatrix();
+			GlStateManager.enableBlend();
+			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			this.getFontRenderer().drawStringWithShadow(s, (float) i, (float) j, 16777215 + (k << 24));
+			GlStateManager.disableBlend();
+			GlStateManager.popMatrix();
 		}
-
 		this.mc.mcProfiler.endSection();
-	}
 
-	public void renderDemo(ScaledResolution p_175185_1_) {
-		this.mc.mcProfiler.startSection("demo");
-		String s;
-
-		if (this.mc.theWorld.getTotalWorldTime() >= 120500L) s = I18n.format("demo.demoExpired");
-		else s = I18n.format("demo.remainingTime", StringUtils.ticksToElapsedTime((int) (120500L - this.mc.theWorld.getTotalWorldTime())));
-
-		int i = this.getFontRenderer().getStringWidth(s);
-		this.getFontRenderer().drawStringWithShadow(s, (float) (p_175185_1_.getScaledWidth() - i - 10), 5.0F, 16777215);
-		this.mc.mcProfiler.endSection();
 	}
 
 	protected boolean showCrosshair() {
 		if (Settings.SHOW_DEBUG.b() && !this.mc.thePlayer.hasReducedDebug() && !(Settings.REDUCED_DEBUG_INFO.i() > 0)) {
 			return false;
-		} else if (this.mc.playerController.isSpectator()) {
+		}
+		if (this.mc.playerController.isSpectator()) {
 			if (this.mc.pointedEntity != null) {
 				return true;
-			} else {
-				if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+			}
+			if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 					BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
 
 					return this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
 				}
 
-				return false;
-			}
-		} else {
-			return true;
+			return false;
 		}
+		return true;
 	}
 
 
@@ -986,7 +965,7 @@ public class GuiIngame extends Gui {
 	}
 
 	public void setRecordPlayingMessage(String record) {
-		this.setRecordPlaying(I18n.format("record.nowPlaying", record), true);
+		this.setRecordPlaying(Lang.format("record.nowPlaying", record), true);
 	}
 
 	public void setRecordPlaying(String p_110326_1_, boolean p_110326_2_) {

@@ -61,11 +61,8 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive
             NBTTagDouble nbttagdouble = (NBTTagDouble)p_equals_1_;
             return this.data == nbttagdouble.data;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public int hashCode()
     {

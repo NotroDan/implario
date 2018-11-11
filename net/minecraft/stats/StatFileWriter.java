@@ -32,18 +32,15 @@ public class StatFileWriter
         {
             return 0;
         }
-        else
-        {
-            int i = 0;
+		int i = 0;
 
-            for (Achievement achievement = p_150874_1_.parentAchievement; achievement != null && !this.hasAchievementUnlocked(achievement); ++i)
-            {
-                achievement = achievement.parentAchievement;
-            }
+		for (Achievement achievement = p_150874_1_.parentAchievement; achievement != null && !this.hasAchievementUnlocked(achievement); ++i)
+		{
+			achievement = achievement.parentAchievement;
+		}
 
-            return i;
-        }
-    }
+		return i;
+	}
 
     public void increaseStat(EntityPlayer player, StatBase stat, int amount)
     {

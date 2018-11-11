@@ -50,38 +50,35 @@ public class ItemSlab extends ItemBlock
         {
             return false;
         }
-        else if (!playerIn.canPlayerEdit(pos.offset(side), side, stack))
-        {
-            return false;
-        }
-        else
-        {
-            Object object = this.singleSlab.getVariant(stack);
-            IBlockState iblockstate = worldIn.getBlockState(pos);
+		if (!playerIn.canPlayerEdit(pos.offset(side), side, stack))
+		{
+			return false;
+		}
+		Object object = this.singleSlab.getVariant(stack);
+		IBlockState iblockstate = worldIn.getBlockState(pos);
 
-            if (iblockstate.getBlock() == this.singleSlab)
-            {
-                IProperty iproperty = this.singleSlab.getVariantProperty();
-                Comparable comparable = iblockstate.getValue(iproperty);
-                BlockSlab.EnumBlockHalf blockslab$enumblockhalf = (BlockSlab.EnumBlockHalf)iblockstate.getValue(BlockSlab.HALF);
+		if (iblockstate.getBlock() == this.singleSlab)
+		{
+			IProperty iproperty = this.singleSlab.getVariantProperty();
+			Comparable comparable = iblockstate.getValue(iproperty);
+			BlockSlab.EnumBlockHalf blockslab$enumblockhalf = (BlockSlab.EnumBlockHalf)iblockstate.getValue(BlockSlab.HALF);
 
-                if ((side == EnumFacing.UP && blockslab$enumblockhalf == BlockSlab.EnumBlockHalf.BOTTOM || side == EnumFacing.DOWN && blockslab$enumblockhalf == BlockSlab.EnumBlockHalf.TOP) && comparable == object)
-                {
-                    IBlockState iblockstate1 = this.doubleSlab.getDefaultState().withProperty(iproperty, comparable);
+			if ((side == EnumFacing.UP && blockslab$enumblockhalf == BlockSlab.EnumBlockHalf.BOTTOM || side == EnumFacing.DOWN && blockslab$enumblockhalf == BlockSlab.EnumBlockHalf.TOP) && comparable == object)
+			{
+				IBlockState iblockstate1 = this.doubleSlab.getDefaultState().withProperty(iproperty, comparable);
 
-                    if (worldIn.checkNoEntityCollision(this.doubleSlab.getCollisionBoundingBox(worldIn, pos, iblockstate1)) && worldIn.setBlockState(pos, iblockstate1, 3))
-                    {
-                        worldIn.playSoundEffect((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), this.doubleSlab.stepSound.getPlaceSound(), (this.doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, this.doubleSlab.stepSound.getFrequency() * 0.8F);
-                        --stack.stackSize;
-                    }
+				if (worldIn.checkNoEntityCollision(this.doubleSlab.getCollisionBoundingBox(worldIn, pos, iblockstate1)) && worldIn.setBlockState(pos, iblockstate1, 3))
+				{
+					worldIn.playSoundEffect((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), this.doubleSlab.stepSound.getPlaceSound(), (this.doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, this.doubleSlab.stepSound.getFrequency() * 0.8F);
+					--stack.stackSize;
+				}
 
-                    return true;
-                }
-            }
+				return true;
+			}
+		}
 
-            return this.tryPlace(stack, worldIn, pos.offset(side), object) ? true : super.onItemUse(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
-        }
-    }
+		return this.tryPlace(stack, worldIn, pos.offset(side), object) ? true : super.onItemUse(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
+	}
 
     public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack)
     {

@@ -64,11 +64,8 @@ public class JsonUtils
         {
             return p_151206_0_.getAsString();
         }
-        else
-        {
-            throw new JsonSyntaxException("Expected " + p_151206_1_ + " to be a string, was " + toString(p_151206_0_));
-        }
-    }
+		throw new JsonSyntaxException("Expected " + p_151206_1_ + " to be a string, was " + toString(p_151206_0_));
+	}
 
     /**
      * Gets the string value of the field on the JsonObject with the given name.
@@ -79,11 +76,8 @@ public class JsonUtils
         {
             return getString(p_151200_0_.get(p_151200_1_), p_151200_1_);
         }
-        else
-        {
-            throw new JsonSyntaxException("Missing " + p_151200_1_ + ", expected to find a string");
-        }
-    }
+		throw new JsonSyntaxException("Missing " + p_151200_1_ + ", expected to find a string");
+	}
 
     /**
      * Gets the string value of the field on the JsonObject with the given name, or the given default value if the field
@@ -104,11 +98,8 @@ public class JsonUtils
         {
             return p_151216_0_.getAsBoolean();
         }
-        else
-        {
-            throw new JsonSyntaxException("Expected " + p_151216_1_ + " to be a Boolean, was " + toString(p_151216_0_));
-        }
-    }
+		throw new JsonSyntaxException("Expected " + p_151216_1_ + " to be a Boolean, was " + toString(p_151216_0_));
+	}
 
     /**
      * Gets the boolean value of the field on the JsonObject with the given name.
@@ -119,11 +110,8 @@ public class JsonUtils
         {
             return getBoolean(p_151212_0_.get(p_151212_1_), p_151212_1_);
         }
-        else
-        {
-            throw new JsonSyntaxException("Missing " + p_151212_1_ + ", expected to find a Boolean");
-        }
-    }
+		throw new JsonSyntaxException("Missing " + p_151212_1_ + ", expected to find a Boolean");
+	}
 
     /**
      * Gets the boolean value of the field on the JsonObject with the given name, or the given default value if the
@@ -144,11 +132,8 @@ public class JsonUtils
         {
             return p_151220_0_.getAsFloat();
         }
-        else
-        {
-            throw new JsonSyntaxException("Expected " + p_151220_1_ + " to be a Float, was " + toString(p_151220_0_));
-        }
-    }
+		throw new JsonSyntaxException("Expected " + p_151220_1_ + " to be a Float, was " + toString(p_151220_0_));
+	}
 
     /**
      * Gets the float value of the field on the JsonObject with the given name.
@@ -159,11 +144,8 @@ public class JsonUtils
         {
             return getFloat(p_151217_0_.get(p_151217_1_), p_151217_1_);
         }
-        else
-        {
-            throw new JsonSyntaxException("Missing " + p_151217_1_ + ", expected to find a Float");
-        }
-    }
+		throw new JsonSyntaxException("Missing " + p_151217_1_ + ", expected to find a Float");
+	}
 
     /**
      * Gets the float value of the field on the JsonObject with the given name, or the given default value if the field
@@ -184,11 +166,8 @@ public class JsonUtils
         {
             return p_151215_0_.getAsInt();
         }
-        else
-        {
-            throw new JsonSyntaxException("Expected " + p_151215_1_ + " to be a Int, was " + toString(p_151215_0_));
-        }
-    }
+		throw new JsonSyntaxException("Expected " + p_151215_1_ + " to be a Int, was " + toString(p_151215_0_));
+	}
 
     /**
      * Gets the integer value of the field on the JsonObject with the given name.
@@ -199,11 +178,8 @@ public class JsonUtils
         {
             return getInt(p_151203_0_.get(p_151203_1_), p_151203_1_);
         }
-        else
-        {
-            throw new JsonSyntaxException("Missing " + p_151203_1_ + ", expected to find a Int");
-        }
-    }
+		throw new JsonSyntaxException("Missing " + p_151203_1_ + ", expected to find a Int");
+	}
 
     /**
      * Gets the integer value of the field on the JsonObject with the given name, or the given default value if the
@@ -224,11 +200,8 @@ public class JsonUtils
         {
             return p_151210_0_.getAsJsonObject();
         }
-        else
-        {
-            throw new JsonSyntaxException("Expected " + p_151210_1_ + " to be a JsonObject, was " + toString(p_151210_0_));
-        }
-    }
+		throw new JsonSyntaxException("Expected " + p_151210_1_ + " to be a JsonObject, was " + toString(p_151210_0_));
+	}
 
     public static JsonObject getJsonObject(JsonObject base, String key)
     {
@@ -236,11 +209,8 @@ public class JsonUtils
         {
             return getJsonObject(base.get(key), key);
         }
-        else
-        {
-            throw new JsonSyntaxException("Missing " + key + ", expected to find a JsonObject");
-        }
-    }
+		throw new JsonSyntaxException("Missing " + key + ", expected to find a JsonObject");
+	}
 
     /**
      * Gets the JsonObject field on the JsonObject with the given name, or the given default value if the field is
@@ -261,11 +231,8 @@ public class JsonUtils
         {
             return p_151207_0_.getAsJsonArray();
         }
-        else
-        {
-            throw new JsonSyntaxException("Expected " + p_151207_1_ + " to be a JsonArray, was " + toString(p_151207_0_));
-        }
-    }
+		throw new JsonSyntaxException("Expected " + p_151207_1_ + " to be a JsonArray, was " + toString(p_151207_0_));
+	}
 
     /**
      * Gets the JsonArray field on the JsonObject with the given name.
@@ -276,11 +243,8 @@ public class JsonUtils
         {
             return getJsonArray(p_151214_0_.get(p_151214_1_), p_151214_1_);
         }
-        else
-        {
-            throw new JsonSyntaxException("Missing " + p_151214_1_ + ", expected to find a JsonArray");
-        }
-    }
+		throw new JsonSyntaxException("Missing " + p_151214_1_ + ", expected to find a JsonArray");
+	}
 
     /**
      * Gets the JsonArray field on the JsonObject with the given name, or the given default value if the field is
@@ -302,36 +266,33 @@ public class JsonUtils
         {
             return "null (missing)";
         }
-        else if (p_151222_0_.isJsonNull())
-        {
-            return "null (json)";
-        }
-        else if (p_151222_0_.isJsonArray())
-        {
-            return "an array (" + s + ")";
-        }
-        else if (p_151222_0_.isJsonObject())
-        {
-            return "an object (" + s + ")";
-        }
-        else
-        {
-            if (p_151222_0_.isJsonPrimitive())
-            {
-                JsonPrimitive jsonprimitive = p_151222_0_.getAsJsonPrimitive();
+		if (p_151222_0_.isJsonNull())
+		{
+			return "null (json)";
+		}
+		if (p_151222_0_.isJsonArray())
+		{
+			return "an array (" + s + ")";
+		}
+		if (p_151222_0_.isJsonObject())
+		{
+			return "an object (" + s + ")";
+		}
+		if (p_151222_0_.isJsonPrimitive())
+		{
+			JsonPrimitive jsonprimitive = p_151222_0_.getAsJsonPrimitive();
 
-                if (jsonprimitive.isNumber())
-                {
-                    return "a number (" + s + ")";
-                }
+			if (jsonprimitive.isNumber())
+			{
+				return "a number (" + s + ")";
+			}
 
-                if (jsonprimitive.isBoolean())
-                {
-                    return "a boolean (" + s + ")";
-                }
-            }
+			if (jsonprimitive.isBoolean())
+			{
+				return "a boolean (" + s + ")";
+			}
+		}
 
-            return s;
-        }
-    }
+		return s;
+	}
 }

@@ -1,7 +1,7 @@
 package shadersmod.client;
 
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 
 public class GuiButtonEnumShaderOption extends GuiButton
 {
@@ -20,7 +20,7 @@ public class GuiButtonEnumShaderOption extends GuiButton
 
     private static String getButtonText(EnumShaderOption eso)
     {
-        String s = I18n.format(eso.getResourceKey(), new Object[0]) + ": ";
+        String s = Lang.format(eso.getResourceKey(), new Object[0]) + ": ";
 
         switch (eso)
         {

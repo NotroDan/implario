@@ -48,11 +48,8 @@ public class BlockQuartz extends Block
                     return this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.LINES_Y);
             }
         }
-        else
-        {
-            return meta == BlockQuartz.EnumType.CHISELED.getMetadata() ? this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.CHISELED) : this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.DEFAULT);
-        }
-    }
+		return meta == BlockQuartz.EnumType.CHISELED.getMetadata() ? this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.CHISELED) : this.getDefaultState().withProperty(VARIANT, BlockQuartz.EnumType.DEFAULT);
+	}
 
     /**
      * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It

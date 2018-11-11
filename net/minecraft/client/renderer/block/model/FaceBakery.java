@@ -184,11 +184,10 @@ public class FaceBakery {
 	public int rotateVertex(Vector3f p_rotateVertex_1_, EnumFacing p_rotateVertex_2_, int p_rotateVertex_3_, ITransformation p_rotateVertex_4_, boolean p_rotateVertex_5_) {
 		if (p_rotateVertex_4_ == ModelRotation.X0_Y0) {
 			return p_rotateVertex_3_;
-		} else {
-			this.rotateScale(p_rotateVertex_1_, new Vector3f(0.5F, 0.5F, 0.5F), ((ModelRotation) p_rotateVertex_4_).getMatrix4d(), new Vector3f(1.0F, 1.0F, 1.0F));
-
-			return p_rotateVertex_4_.rotate(p_rotateVertex_2_, p_rotateVertex_3_);
 		}
+		this.rotateScale(p_rotateVertex_1_, new Vector3f(0.5F, 0.5F, 0.5F), ((ModelRotation) p_rotateVertex_4_).getMatrix4d(), new Vector3f(1.0F, 1.0F, 1.0F));
+
+		return p_rotateVertex_4_.rotate(p_rotateVertex_2_, p_rotateVertex_3_);
 	}
 
 	private void rotateScale(Vector3f position, Vector3f rotationOrigin, Matrix4f rotationMatrix, Vector3f scale) {

@@ -141,56 +141,50 @@ public class StructureVillagePieces
         {
             return null;
         }
-        else
-        {
-            int j = 0;
+		int j = 0;
 
-            while (j < 5)
-            {
-                ++j;
-                int k = rand.nextInt(i);
+		while (j < 5)
+		{
+			++j;
+			int k = rand.nextInt(i);
 
-                for (StructureVillagePieces.PieceWeight structurevillagepieces$pieceweight : start.structureVillageWeightedPieceList)
-                {
-                    k -= structurevillagepieces$pieceweight.villagePieceWeight;
+			for (StructureVillagePieces.PieceWeight structurevillagepieces$pieceweight : start.structureVillageWeightedPieceList)
+			{
+				k -= structurevillagepieces$pieceweight.villagePieceWeight;
 
-                    if (k < 0)
-                    {
-                        if (!structurevillagepieces$pieceweight.canSpawnMoreVillagePiecesOfType(p_176067_7_) || structurevillagepieces$pieceweight == start.structVillagePieceWeight && start.structureVillageWeightedPieceList.size() > 1)
-                        {
-                            break;
-                        }
+				if (k < 0)
+				{
+					if (!structurevillagepieces$pieceweight.canSpawnMoreVillagePiecesOfType(p_176067_7_) || structurevillagepieces$pieceweight == start.structVillagePieceWeight && start.structureVillageWeightedPieceList.size() > 1)
+					{
+						break;
+					}
 
-                        StructureVillagePieces.Village structurevillagepieces$village = func_176065_a(start, structurevillagepieces$pieceweight, p_176067_1_, rand, p_176067_3_, p_176067_4_, p_176067_5_, facing, p_176067_7_);
+					StructureVillagePieces.Village structurevillagepieces$village = func_176065_a(start, structurevillagepieces$pieceweight, p_176067_1_, rand, p_176067_3_, p_176067_4_, p_176067_5_, facing, p_176067_7_);
 
-                        if (structurevillagepieces$village != null)
-                        {
-                            ++structurevillagepieces$pieceweight.villagePiecesSpawned;
-                            start.structVillagePieceWeight = structurevillagepieces$pieceweight;
+					if (structurevillagepieces$village != null)
+					{
+						++structurevillagepieces$pieceweight.villagePiecesSpawned;
+						start.structVillagePieceWeight = structurevillagepieces$pieceweight;
 
-                            if (!structurevillagepieces$pieceweight.canSpawnMoreVillagePieces())
-                            {
-                                start.structureVillageWeightedPieceList.remove(structurevillagepieces$pieceweight);
-                            }
+						if (!structurevillagepieces$pieceweight.canSpawnMoreVillagePieces())
+						{
+							start.structureVillageWeightedPieceList.remove(structurevillagepieces$pieceweight);
+						}
 
-                            return structurevillagepieces$village;
-                        }
-                    }
-                }
-            }
+						return structurevillagepieces$village;
+					}
+				}
+			}
+		}
 
-            StructureBoundingBox structureboundingbox = StructureVillagePieces.Torch.func_175856_a(start, p_176067_1_, rand, p_176067_3_, p_176067_4_, p_176067_5_, facing);
+		StructureBoundingBox structureboundingbox = StructureVillagePieces.Torch.func_175856_a(start, p_176067_1_, rand, p_176067_3_, p_176067_4_, p_176067_5_, facing);
 
-            if (structureboundingbox != null)
-            {
-                return new StructureVillagePieces.Torch(start, p_176067_7_, rand, structureboundingbox, facing);
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+		if (structureboundingbox != null)
+		{
+			return new StructureVillagePieces.Torch(start, p_176067_7_, rand, structureboundingbox, facing);
+		}
+		return null;
+	}
 
     private static StructureComponent func_176066_d(StructureVillagePieces.Start start, List<StructureComponent> p_176066_1_, Random rand, int p_176066_3_, int p_176066_4_, int p_176066_5_, EnumFacing facing, int p_176066_7_)
     {
@@ -198,33 +192,30 @@ public class StructureVillagePieces
         {
             return null;
         }
-        else if (Math.abs(p_176066_3_ - start.getBoundingBox().minX) <= 112 && Math.abs(p_176066_5_ - start.getBoundingBox().minZ) <= 112)
-        {
-            StructureComponent structurecomponent = func_176067_c(start, p_176066_1_, rand, p_176066_3_, p_176066_4_, p_176066_5_, facing, p_176066_7_ + 1);
+		if (Math.abs(p_176066_3_ - start.getBoundingBox().minX) <= 112 && Math.abs(p_176066_5_ - start.getBoundingBox().minZ) <= 112)
+		{
+			StructureComponent structurecomponent = func_176067_c(start, p_176066_1_, rand, p_176066_3_, p_176066_4_, p_176066_5_, facing, p_176066_7_ + 1);
 
-            if (structurecomponent != null)
-            {
-                int i = (structurecomponent.boundingBox.minX + structurecomponent.boundingBox.maxX) / 2;
-                int j = (structurecomponent.boundingBox.minZ + structurecomponent.boundingBox.maxZ) / 2;
-                int k = structurecomponent.boundingBox.maxX - structurecomponent.boundingBox.minX;
-                int l = structurecomponent.boundingBox.maxZ - structurecomponent.boundingBox.minZ;
-                int i1 = k > l ? k : l;
+			if (structurecomponent != null)
+			{
+				int i = (structurecomponent.boundingBox.minX + structurecomponent.boundingBox.maxX) / 2;
+				int j = (structurecomponent.boundingBox.minZ + structurecomponent.boundingBox.maxZ) / 2;
+				int k = structurecomponent.boundingBox.maxX - structurecomponent.boundingBox.minX;
+				int l = structurecomponent.boundingBox.maxZ - structurecomponent.boundingBox.minZ;
+				int i1 = k > l ? k : l;
 
-                if (start.getWorldChunkManager().areBiomesViable(i, j, i1 / 2 + 4, MapGenVillage.villageSpawnBiomes))
-                {
-                    p_176066_1_.add(structurecomponent);
-                    start.field_74932_i.add(structurecomponent);
-                    return structurecomponent;
-                }
-            }
+				if (start.getWorldChunkManager().areBiomesViable(i, j, i1 / 2 + 4, MapGenVillage.villageSpawnBiomes))
+				{
+					p_176066_1_.add(structurecomponent);
+					start.field_74932_i.add(structurecomponent);
+					return structurecomponent;
+				}
+			}
 
-            return null;
-        }
-        else
-        {
-            return null;
-        }
-    }
+			return null;
+		}
+		return null;
+	}
 
     private static StructureComponent func_176069_e(StructureVillagePieces.Start start, List<StructureComponent> p_176069_1_, Random rand, int p_176069_3_, int p_176069_4_, int p_176069_5_, EnumFacing facing, int p_176069_7_)
     {
@@ -232,34 +223,31 @@ public class StructureVillagePieces
         {
             return null;
         }
-        else if (Math.abs(p_176069_3_ - start.getBoundingBox().minX) <= 112 && Math.abs(p_176069_5_ - start.getBoundingBox().minZ) <= 112)
-        {
-            StructureBoundingBox structureboundingbox = StructureVillagePieces.Path.func_175848_a(start, p_176069_1_, rand, p_176069_3_, p_176069_4_, p_176069_5_, facing);
+		if (Math.abs(p_176069_3_ - start.getBoundingBox().minX) <= 112 && Math.abs(p_176069_5_ - start.getBoundingBox().minZ) <= 112)
+		{
+			StructureBoundingBox structureboundingbox = Path.func_175848_a(start, p_176069_1_, rand, p_176069_3_, p_176069_4_, p_176069_5_, facing);
 
-            if (structureboundingbox != null && structureboundingbox.minY > 10)
-            {
-                StructureComponent structurecomponent = new StructureVillagePieces.Path(start, p_176069_7_, rand, structureboundingbox, facing);
-                int i = (structurecomponent.boundingBox.minX + structurecomponent.boundingBox.maxX) / 2;
-                int j = (structurecomponent.boundingBox.minZ + structurecomponent.boundingBox.maxZ) / 2;
-                int k = structurecomponent.boundingBox.maxX - structurecomponent.boundingBox.minX;
-                int l = structurecomponent.boundingBox.maxZ - structurecomponent.boundingBox.minZ;
-                int i1 = k > l ? k : l;
+			if (structureboundingbox != null && structureboundingbox.minY > 10)
+			{
+				StructureComponent structurecomponent = new Path(start, p_176069_7_, rand, structureboundingbox, facing);
+				int i = (structurecomponent.boundingBox.minX + structurecomponent.boundingBox.maxX) / 2;
+				int j = (structurecomponent.boundingBox.minZ + structurecomponent.boundingBox.maxZ) / 2;
+				int k = structurecomponent.boundingBox.maxX - structurecomponent.boundingBox.minX;
+				int l = structurecomponent.boundingBox.maxZ - structurecomponent.boundingBox.minZ;
+				int i1 = k > l ? k : l;
 
-                if (start.getWorldChunkManager().areBiomesViable(i, j, i1 / 2 + 4, MapGenVillage.villageSpawnBiomes))
-                {
-                    p_176069_1_.add(structurecomponent);
-                    start.field_74930_j.add(structurecomponent);
-                    return structurecomponent;
-                }
-            }
+				if (start.getWorldChunkManager().areBiomesViable(i, j, i1 / 2 + 4, MapGenVillage.villageSpawnBiomes))
+				{
+					p_176069_1_.add(structurecomponent);
+					start.field_74930_j.add(structurecomponent);
+					return structurecomponent;
+				}
+			}
 
-            return null;
-        }
-        else
-        {
-            return null;
-        }
-    }
+			return null;
+		}
+		return null;
+	}
 
     public static class Church extends StructureVillagePieces.Village
     {
@@ -1586,11 +1574,8 @@ public class StructureVillagePieces
             {
                 return -1;
             }
-            else
-            {
-                return i / j;
-            }
-        }
+			return i / j;
+		}
 
         protected static boolean canVillageGoDeeper(StructureBoundingBox p_74895_0_)
         {

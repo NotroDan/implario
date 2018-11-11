@@ -45,12 +45,9 @@ public class ScorePlayerTeam extends Team
         {
             throw new IllegalArgumentException("Name cannot be null");
         }
-        else
-        {
-            this.teamNameSPT = name;
-            this.theScoreboard.sendTeamUpdate(this);
-        }
-    }
+		this.teamNameSPT = name;
+		this.theScoreboard.sendTeamUpdate(this);
+	}
 
     public Collection<String> getMembershipCollection()
     {
@@ -71,12 +68,9 @@ public class ScorePlayerTeam extends Team
         {
             throw new IllegalArgumentException("Prefix cannot be null");
         }
-        else
-        {
-            this.namePrefixSPT = prefix;
-            this.theScoreboard.sendTeamUpdate(this);
-        }
-    }
+		this.namePrefixSPT = prefix;
+		this.theScoreboard.sendTeamUpdate(this);
+	}
 
     /**
      * Returns the color suffix for the player's team name

@@ -87,25 +87,22 @@ public class GenLayerBiomeEdge extends GenLayer
         {
             return false;
         }
-        else
-        {
-            int i = p_151636_1_[p_151636_3_ + 1 + (p_151636_4_ + 1 - 1) * (p_151636_5_ + 2)];
-            int j = p_151636_1_[p_151636_3_ + 1 + 1 + (p_151636_4_ + 1) * (p_151636_5_ + 2)];
-            int k = p_151636_1_[p_151636_3_ + 1 - 1 + (p_151636_4_ + 1) * (p_151636_5_ + 2)];
-            int l = p_151636_1_[p_151636_3_ + 1 + (p_151636_4_ + 1 + 1) * (p_151636_5_ + 2)];
+		int i = p_151636_1_[p_151636_3_ + 1 + (p_151636_4_ + 1 - 1) * (p_151636_5_ + 2)];
+		int j = p_151636_1_[p_151636_3_ + 1 + 1 + (p_151636_4_ + 1) * (p_151636_5_ + 2)];
+		int k = p_151636_1_[p_151636_3_ + 1 - 1 + (p_151636_4_ + 1) * (p_151636_5_ + 2)];
+		int l = p_151636_1_[p_151636_3_ + 1 + (p_151636_4_ + 1 + 1) * (p_151636_5_ + 2)];
 
-            if (this.canBiomesBeNeighbors(i, p_151636_7_) && this.canBiomesBeNeighbors(j, p_151636_7_) && this.canBiomesBeNeighbors(k, p_151636_7_) && this.canBiomesBeNeighbors(l, p_151636_7_))
-            {
-                p_151636_2_[p_151636_3_ + p_151636_4_ * p_151636_5_] = p_151636_6_;
-            }
-            else
-            {
-                p_151636_2_[p_151636_3_ + p_151636_4_ * p_151636_5_] = p_151636_8_;
-            }
+		if (this.canBiomesBeNeighbors(i, p_151636_7_) && this.canBiomesBeNeighbors(j, p_151636_7_) && this.canBiomesBeNeighbors(k, p_151636_7_) && this.canBiomesBeNeighbors(l, p_151636_7_))
+		{
+			p_151636_2_[p_151636_3_ + p_151636_4_ * p_151636_5_] = p_151636_6_;
+		}
+		else
+		{
+			p_151636_2_[p_151636_3_ + p_151636_4_ * p_151636_5_] = p_151636_8_;
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Creates a border around a biome.
@@ -116,25 +113,22 @@ public class GenLayerBiomeEdge extends GenLayer
         {
             return false;
         }
-        else
-        {
-            int i = p_151635_1_[p_151635_3_ + 1 + (p_151635_4_ + 1 - 1) * (p_151635_5_ + 2)];
-            int j = p_151635_1_[p_151635_3_ + 1 + 1 + (p_151635_4_ + 1) * (p_151635_5_ + 2)];
-            int k = p_151635_1_[p_151635_3_ + 1 - 1 + (p_151635_4_ + 1) * (p_151635_5_ + 2)];
-            int l = p_151635_1_[p_151635_3_ + 1 + (p_151635_4_ + 1 + 1) * (p_151635_5_ + 2)];
+		int i = p_151635_1_[p_151635_3_ + 1 + (p_151635_4_ + 1 - 1) * (p_151635_5_ + 2)];
+		int j = p_151635_1_[p_151635_3_ + 1 + 1 + (p_151635_4_ + 1) * (p_151635_5_ + 2)];
+		int k = p_151635_1_[p_151635_3_ + 1 - 1 + (p_151635_4_ + 1) * (p_151635_5_ + 2)];
+		int l = p_151635_1_[p_151635_3_ + 1 + (p_151635_4_ + 1 + 1) * (p_151635_5_ + 2)];
 
-            if (biomesEqualOrMesaPlateau(i, p_151635_7_) && biomesEqualOrMesaPlateau(j, p_151635_7_) && biomesEqualOrMesaPlateau(k, p_151635_7_) && biomesEqualOrMesaPlateau(l, p_151635_7_))
-            {
-                p_151635_2_[p_151635_3_ + p_151635_4_ * p_151635_5_] = p_151635_6_;
-            }
-            else
-            {
-                p_151635_2_[p_151635_3_ + p_151635_4_ * p_151635_5_] = p_151635_8_;
-            }
+		if (biomesEqualOrMesaPlateau(i, p_151635_7_) && biomesEqualOrMesaPlateau(j, p_151635_7_) && biomesEqualOrMesaPlateau(k, p_151635_7_) && biomesEqualOrMesaPlateau(l, p_151635_7_))
+		{
+			p_151635_2_[p_151635_3_ + p_151635_4_ * p_151635_5_] = p_151635_6_;
+		}
+		else
+		{
+			p_151635_2_[p_151635_3_ + p_151635_4_ * p_151635_5_] = p_151635_8_;
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Returns if two biomes can logically be neighbors. If one is hot and the other cold, for example, it returns
@@ -146,21 +140,15 @@ public class GenLayerBiomeEdge extends GenLayer
         {
             return true;
         }
-        else
-        {
-            BiomeGenBase biomegenbase = BiomeGenBase.getBiome(p_151634_1_);
-            BiomeGenBase biomegenbase1 = BiomeGenBase.getBiome(p_151634_2_);
+		BiomeGenBase biomegenbase = BiomeGenBase.getBiome(p_151634_1_);
+		BiomeGenBase biomegenbase1 = BiomeGenBase.getBiome(p_151634_2_);
 
-            if (biomegenbase != null && biomegenbase1 != null)
-            {
-                BiomeGenBase.TempCategory biomegenbase$tempcategory = biomegenbase.getTempCategory();
-                BiomeGenBase.TempCategory biomegenbase$tempcategory1 = biomegenbase1.getTempCategory();
-                return biomegenbase$tempcategory == biomegenbase$tempcategory1 || biomegenbase$tempcategory == BiomeGenBase.TempCategory.MEDIUM || biomegenbase$tempcategory1 == BiomeGenBase.TempCategory.MEDIUM;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+		if (biomegenbase != null && biomegenbase1 != null)
+		{
+			BiomeGenBase.TempCategory biomegenbase$tempcategory = biomegenbase.getTempCategory();
+			BiomeGenBase.TempCategory biomegenbase$tempcategory1 = biomegenbase1.getTempCategory();
+			return biomegenbase$tempcategory == biomegenbase$tempcategory1 || biomegenbase$tempcategory == BiomeGenBase.TempCategory.MEDIUM || biomegenbase$tempcategory1 == BiomeGenBase.TempCategory.MEDIUM;
+		}
+		return false;
+	}
 }

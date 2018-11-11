@@ -3,7 +3,7 @@ package net.minecraft.client.gui.element;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiPageButtonList;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 
 public class GuiSlider extends GuiButton {
 
@@ -44,7 +44,7 @@ public class GuiSlider extends GuiButton {
 	}
 
 	private String getDisplayString() {
-		return this.formatHelper == null ? I18n.format(this.name) + ": " + this.func_175220_c() : this.formatHelper.getText(this.id, I18n.format(this.name), this.func_175220_c());
+		return this.formatHelper == null ? Lang.format(this.name) + ": " + this.func_175220_c() : this.formatHelper.getText(this.id, Lang.format(this.name), this.func_175220_c());
 	}
 
 	/**
@@ -107,9 +107,8 @@ public class GuiSlider extends GuiButton {
 			this.responder.onTick(this.id, this.func_175220_c());
 			this.isMouseDown = true;
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**

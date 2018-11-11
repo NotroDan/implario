@@ -219,16 +219,13 @@ public class EntityBat extends EntityAmbientCreature
         {
             return false;
         }
-        else
-        {
-            if (!this.worldObj.isRemote && this.getIsBatHanging())
-            {
-                this.setIsBatHanging(false);
-            }
+		if (!this.worldObj.isRemote && this.getIsBatHanging())
+		{
+			this.setIsBatHanging(false);
+		}
 
-            return super.attackEntityFrom(source, amount);
-        }
-    }
+		return super.attackEntityFrom(source, amount);
+	}
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
@@ -259,23 +256,20 @@ public class EntityBat extends EntityAmbientCreature
         {
             return false;
         }
-        else
-        {
-            int i = this.worldObj.getLightFromNeighbors(blockpos);
-            int j = 4;
+		int i = this.worldObj.getLightFromNeighbors(blockpos);
+		int j = 4;
 
-            if (this.isDateAroundHalloween(this.worldObj.getCurrentDate()))
-            {
-                j = 7;
-            }
-            else if (this.rand.nextBoolean())
-            {
-                return false;
-            }
+		if (this.isDateAroundHalloween(this.worldObj.getCurrentDate()))
+		{
+			j = 7;
+		}
+		else if (this.rand.nextBoolean())
+		{
+			return false;
+		}
 
-            return i > this.rand.nextInt(j) ? false : super.getCanSpawnHere();
-        }
-    }
+		return i > this.rand.nextInt(j) ? false : super.getCanSpawnHere();
+	}
 
     private boolean isDateAroundHalloween(Calendar p_175569_1_)
     {

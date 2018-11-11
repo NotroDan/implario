@@ -229,11 +229,8 @@ public class FlatGeneratorInfo
 
             return list;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     public static FlatGeneratorInfo createFlatGeneratorFromString(String p_82651_0_)
     {
@@ -241,78 +238,69 @@ public class FlatGeneratorInfo
         {
             return getDefaultFlatGenerator();
         }
-        else
-        {
-            String[] astring = p_82651_0_.split(";", -1);
-            int i = astring.length == 1 ? 0 : MathHelper.parseIntWithDefault(astring[0], 0);
+		String[] astring = p_82651_0_.split(";", -1);
+		int i = astring.length == 1 ? 0 : MathHelper.parseIntWithDefault(astring[0], 0);
 
-            if (i >= 0 && i <= 3)
-            {
-                FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
-                int j = astring.length == 1 ? 0 : 1;
-                List<FlatLayerInfo> list = func_180716_a(i, astring[j++]);
+		if (i >= 0 && i <= 3)
+		{
+			FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
+			int j = astring.length == 1 ? 0 : 1;
+			List<FlatLayerInfo> list = func_180716_a(i, astring[j++]);
 
-                if (list != null && !list.isEmpty())
-                {
-                    flatgeneratorinfo.getFlatLayers().addAll(list);
-                    flatgeneratorinfo.func_82645_d();
-                    int k = BiomeGenBase.plains.biomeID;
+			if (list != null && !list.isEmpty())
+			{
+				flatgeneratorinfo.getFlatLayers().addAll(list);
+				flatgeneratorinfo.func_82645_d();
+				int k = BiomeGenBase.plains.biomeID;
 
-                    if (i > 0 && astring.length > j)
-                    {
-                        k = MathHelper.parseIntWithDefault(astring[j++], k);
-                    }
+				if (i > 0 && astring.length > j)
+				{
+					k = MathHelper.parseIntWithDefault(astring[j++], k);
+				}
 
-                    flatgeneratorinfo.setBiome(k);
+				flatgeneratorinfo.setBiome(k);
 
-                    if (i > 0 && astring.length > j)
-                    {
-                        String[] astring1 = astring[j++].toLowerCase().split(",");
+				if (i > 0 && astring.length > j)
+				{
+					String[] astring1 = astring[j++].toLowerCase().split(",");
 
-                        for (String s : astring1)
-                        {
-                            String[] astring2 = s.split("\\(", 2);
-                            Map<String, String> map = Maps.<String, String>newHashMap();
+					for (String s : astring1)
+					{
+						String[] astring2 = s.split("\\(", 2);
+						Map<String, String> map = Maps.<String, String>newHashMap();
 
-                            if (astring2[0].length() > 0)
-                            {
-                                flatgeneratorinfo.getWorldFeatures().put(astring2[0], map);
+						if (astring2[0].length() > 0)
+						{
+							flatgeneratorinfo.getWorldFeatures().put(astring2[0], map);
 
-                                if (astring2.length > 1 && astring2[1].endsWith(")") && astring2[1].length() > 1)
-                                {
-                                    String[] astring3 = astring2[1].substring(0, astring2[1].length() - 1).split(" ");
+							if (astring2.length > 1 && astring2[1].endsWith(")") && astring2[1].length() > 1)
+							{
+								String[] astring3 = astring2[1].substring(0, astring2[1].length() - 1).split(" ");
 
-                                    for (int l = 0; l < astring3.length; ++l)
-                                    {
-                                        String[] astring4 = astring3[l].split("=", 2);
+								for (int l = 0; l < astring3.length; ++l)
+								{
+									String[] astring4 = astring3[l].split("=", 2);
 
-                                        if (astring4.length == 2)
-                                        {
-                                            map.put(astring4[0], astring4[1]);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        flatgeneratorinfo.getWorldFeatures().put("village", Maps.<String, String>newHashMap());
-                    }
+									if (astring4.length == 2)
+									{
+										map.put(astring4[0], astring4[1]);
+									}
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					flatgeneratorinfo.getWorldFeatures().put("village", Maps.<String, String>newHashMap());
+				}
 
-                    return flatgeneratorinfo;
-                }
-                else
-                {
-                    return getDefaultFlatGenerator();
-                }
-            }
-            else
-            {
-                return getDefaultFlatGenerator();
-            }
-        }
-    }
+				return flatgeneratorinfo;
+			}
+			return getDefaultFlatGenerator();
+		}
+		return getDefaultFlatGenerator();
+	}
 
     public static FlatGeneratorInfo getDefaultFlatGenerator()
     {

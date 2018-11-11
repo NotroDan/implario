@@ -28,32 +28,26 @@ public class ItemDoor extends Item
         {
             return false;
         }
-        else
-        {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            Block block = iblockstate.getBlock();
+		IBlockState iblockstate = worldIn.getBlockState(pos);
+		Block block = iblockstate.getBlock();
 
-            if (!block.isReplaceable(worldIn, pos))
-            {
-                pos = pos.offset(side);
-            }
+		if (!block.isReplaceable(worldIn, pos))
+		{
+			pos = pos.offset(side);
+		}
 
-            if (!playerIn.canPlayerEdit(pos, side, stack))
-            {
-                return false;
-            }
-            else if (!this.block.canPlaceBlockAt(worldIn, pos))
-            {
-                return false;
-            }
-            else
-            {
-                placeDoor(worldIn, pos, EnumFacing.fromAngle((double)playerIn.rotationYaw), this.block);
-                --stack.stackSize;
-                return true;
-            }
-        }
-    }
+		if (!playerIn.canPlayerEdit(pos, side, stack))
+		{
+			return false;
+		}
+		if (!this.block.canPlaceBlockAt(worldIn, pos))
+		{
+			return false;
+		}
+		placeDoor(worldIn, pos, EnumFacing.fromAngle((double)playerIn.rotationYaw), this.block);
+		--stack.stackSize;
+		return true;
+	}
 
     public static void placeDoor(World worldIn, BlockPos pos, EnumFacing facing, Block door)
     {

@@ -197,7 +197,8 @@ public class GuiOverlayDebug extends Gui
 				arraylist.add(e.getKey().getName() + ": " + value);
 			}
 			return arraylist;
-		} else return new ArrayList<>();
+		}
+		return new ArrayList<>();
 	}
 
 	protected List getDebugInfoRight()

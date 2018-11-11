@@ -382,15 +382,12 @@ public abstract class BlockLiquid extends Block
         {
             return Blocks.flowing_water;
         }
-        else if (materialIn == Material.lava)
-        {
-            return Blocks.flowing_lava;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Invalid material");
-        }
-    }
+		if (materialIn == Material.lava)
+		{
+			return Blocks.flowing_lava;
+		}
+		throw new IllegalArgumentException("Invalid material");
+	}
 
     public static BlockStaticLiquid getStaticBlock(Material materialIn)
     {
@@ -398,13 +395,10 @@ public abstract class BlockLiquid extends Block
         {
             return Blocks.water;
         }
-        else if (materialIn == Material.lava)
-        {
-            return Blocks.lava;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Invalid material");
-        }
-    }
+		if (materialIn == Material.lava)
+		{
+			return Blocks.lava;
+		}
+		throw new IllegalArgumentException("Invalid material");
+	}
 }

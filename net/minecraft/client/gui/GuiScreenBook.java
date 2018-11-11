@@ -8,7 +8,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Items;
@@ -24,7 +24,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 import org.lwjgl.input.Keyboard;
 
@@ -118,14 +117,14 @@ public class GuiScreenBook extends GuiScreen
 
         if (this.bookIsUnsigned)
         {
-            this.buttonList.add(this.buttonSign = new GuiButton(3, this.width / 2 - 100, 4 + this.bookImageHeight, 98, 20, I18n.format("book.signButton", new Object[0])));
-            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 + 2, 4 + this.bookImageHeight, 98, 20, I18n.format("gui.done", new Object[0])));
-            this.buttonList.add(this.buttonFinalize = new GuiButton(5, this.width / 2 - 100, 4 + this.bookImageHeight, 98, 20, I18n.format("book.finalizeButton", new Object[0])));
-            this.buttonList.add(this.buttonCancel = new GuiButton(4, this.width / 2 + 2, 4 + this.bookImageHeight, 98, 20, I18n.format("gui.cancel", new Object[0])));
+            this.buttonList.add(this.buttonSign = new GuiButton(3, this.width / 2 - 100, 4 + this.bookImageHeight, 98, 20, Lang.format("book.signButton", new Object[0])));
+            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 + 2, 4 + this.bookImageHeight, 98, 20, Lang.format("gui.done", new Object[0])));
+            this.buttonList.add(this.buttonFinalize = new GuiButton(5, this.width / 2 - 100, 4 + this.bookImageHeight, 98, 20, Lang.format("book.finalizeButton", new Object[0])));
+            this.buttonList.add(this.buttonCancel = new GuiButton(4, this.width / 2 + 2, 4 + this.bookImageHeight, 98, 20, Lang.format("gui.cancel", new Object[0])));
         }
         else
         {
-            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + this.bookImageHeight, 200, 20, I18n.format("gui.done", new Object[0])));
+            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + this.bookImageHeight, 200, 20, Lang.format("gui.done", new Object[0])));
         }
 
         int i = (this.width - this.bookImageWidth) / 2;
@@ -431,20 +430,20 @@ public class GuiScreenBook extends GuiScreen
                 }
             }
 
-            String s1 = I18n.format("book.editTitle", new Object[0]);
+            String s1 = Lang.format("book.editTitle", new Object[0]);
             int k = this.fontRendererObj.getStringWidth(s1);
             this.fontRendererObj.drawString(s1, i + 36 + (116 - k) / 2, j + 16 + 16, 0);
             int l = this.fontRendererObj.getStringWidth(s);
             this.fontRendererObj.drawString(s, i + 36 + (116 - l) / 2, j + 48, 0);
-            String s2 = I18n.format("book.byAuthor", new Object[] {this.editingPlayer.getName()});
+            String s2 = Lang.format("book.byAuthor", new Object[] {this.editingPlayer.getName()});
             int i1 = this.fontRendererObj.getStringWidth(s2);
             this.fontRendererObj.drawString(EnumChatFormatting.DARK_GRAY + s2, i + 36 + (116 - i1) / 2, j + 48 + 10, 0);
-            String s3 = I18n.format("book.finalizeWarning", new Object[0]);
+            String s3 = Lang.format("book.finalizeWarning", new Object[0]);
             this.fontRendererObj.drawSplitString(s3, i + 36, j + 80, 116, 0);
         }
         else
         {
-            String s4 = I18n.format("book.pageIndicator", new Object[] {Integer.valueOf(this.currPage + 1), Integer.valueOf(this.bookTotalPages)});
+            String s4 = Lang.format("book.pageIndicator", new Object[] {Integer.valueOf(this.currPage + 1), Integer.valueOf(this.bookTotalPages)});
             String s5 = "";
 
             if (this.bookPages != null && this.currPage >= 0 && this.currPage < this.bookPages.tagCount())
@@ -548,40 +547,37 @@ public class GuiScreenBook extends GuiScreen
         {
             return false;
         }
-        else if (clickevent.getAction() == ClickEvent.Action.CHANGE_PAGE)
-        {
-            String s = clickevent.getValue();
+		if (clickevent.getAction() == ClickEvent.Action.CHANGE_PAGE)
+		{
+			String s = clickevent.getValue();
 
-            try
-            {
-                int i = Integer.parseInt(s) - 1;
+			try
+			{
+				int i = Integer.parseInt(s) - 1;
 
-                if (i >= 0 && i < this.bookTotalPages && i != this.currPage)
-                {
-                    this.currPage = i;
-                    this.updateButtons();
-                    return true;
-                }
-            }
-            catch (Throwable var5)
-            {
-                ;
-            }
+				if (i >= 0 && i < this.bookTotalPages && i != this.currPage)
+				{
+					this.currPage = i;
+					this.updateButtons();
+					return true;
+				}
+			}
+			catch (Throwable var5)
+			{
+				;
+			}
 
-            return false;
-        }
-        else
-        {
-            boolean flag = super.handleComponentClick(p_175276_1_);
+			return false;
+		}
+		boolean flag = super.handleComponentClick(p_175276_1_);
 
-            if (flag && clickevent.getAction() == ClickEvent.Action.RUN_COMMAND)
-            {
-                this.mc.displayGuiScreen((GuiScreen)null);
-            }
+		if (flag && clickevent.getAction() == ClickEvent.Action.RUN_COMMAND)
+		{
+			this.mc.displayGuiScreen((GuiScreen)null);
+		}
 
-            return flag;
-        }
-    }
+		return flag;
+	}
 
     public IChatComponent func_175385_b(int p_175385_1_, int p_175385_2_)
     {
@@ -589,51 +585,42 @@ public class GuiScreenBook extends GuiScreen
         {
             return null;
         }
-        else
-        {
-            int i = p_175385_1_ - (this.width - this.bookImageWidth) / 2 - 36;
-            int j = p_175385_2_ - 2 - 16 - 16;
+		int i = p_175385_1_ - (this.width - this.bookImageWidth) / 2 - 36;
+		int j = p_175385_2_ - 2 - 16 - 16;
 
-            if (i >= 0 && j >= 0)
-            {
-                int k = Math.min(128 / this.fontRendererObj.FONT_HEIGHT, this.field_175386_A.size());
+		if (i >= 0 && j >= 0)
+		{
+			int k = Math.min(128 / this.fontRendererObj.FONT_HEIGHT, this.field_175386_A.size());
 
-                if (i <= 116 && j < this.mc.fontRendererObj.FONT_HEIGHT * k + k)
-                {
-                    int l = j / this.mc.fontRendererObj.FONT_HEIGHT;
+			if (i <= 116 && j < this.mc.fontRendererObj.FONT_HEIGHT * k + k)
+			{
+				int l = j / this.mc.fontRendererObj.FONT_HEIGHT;
 
-                    if (l >= 0 && l < this.field_175386_A.size())
-                    {
-                        IChatComponent ichatcomponent = (IChatComponent)this.field_175386_A.get(l);
-                        int i1 = 0;
+				if (l >= 0 && l < this.field_175386_A.size())
+				{
+					IChatComponent ichatcomponent = (IChatComponent)this.field_175386_A.get(l);
+					int i1 = 0;
 
-                        for (IChatComponent ichatcomponent1 : ichatcomponent)
-                        {
-                            if (ichatcomponent1 instanceof ChatComponentText)
-                            {
-                                i1 += this.mc.fontRendererObj.getStringWidth(((ChatComponentText)ichatcomponent1).getChatComponentText_TextValue());
+					for (IChatComponent ichatcomponent1 : ichatcomponent)
+					{
+						if (ichatcomponent1 instanceof ChatComponentText)
+						{
+							i1 += this.mc.fontRendererObj.getStringWidth(((ChatComponentText)ichatcomponent1).getChatComponentText_TextValue());
 
-                                if (i1 > i)
-                                {
-                                    return ichatcomponent1;
-                                }
-                            }
-                        }
-                    }
+							if (i1 > i)
+							{
+								return ichatcomponent1;
+							}
+						}
+					}
+				}
 
-                    return null;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+				return null;
+			}
+			return null;
+		}
+		return null;
+	}
 
     static class NextPageButton extends GuiButton
     {

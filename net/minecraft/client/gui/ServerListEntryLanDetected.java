@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.LanServerDetector;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 
 public class ServerListEntryLanDetected implements GuiListExtended.IGuiListEntry {
@@ -19,11 +19,11 @@ public class ServerListEntryLanDetected implements GuiListExtended.IGuiListEntry
 	}
 
 	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-		this.mc.fontRendererObj.drawString(I18n.format("lanServer.title"), x + 32 + 3, y + 1, 16777215);
+		this.mc.fontRendererObj.drawString(Lang.format("lanServer.title"), x + 32 + 3, y + 1, 16777215);
 		this.mc.fontRendererObj.drawString(this.field_148291_b.getServerMotd(), x + 32 + 3, y + 12, 8421504);
 
 		if (Settings.HIDE_SERVER_ADDRESS.b()) {
-			this.mc.fontRendererObj.drawString(I18n.format("selectServer.hiddenAddress"), x + 32 + 3, y + 12 + 11, 3158064);
+			this.mc.fontRendererObj.drawString(Lang.format("selectServer.hiddenAddress"), x + 32 + 3, y + 12 + 11, 3158064);
 		} else {
 			this.mc.fontRendererObj.drawString(this.field_148291_b.getServerIpPort(), x + 32 + 3, y + 12 + 11, 3158064);
 		}

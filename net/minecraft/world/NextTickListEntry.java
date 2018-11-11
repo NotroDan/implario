@@ -30,12 +30,9 @@ public class NextTickListEntry implements Comparable<NextTickListEntry>
         {
             return false;
         }
-        else
-        {
-            NextTickListEntry nextticklistentry = (NextTickListEntry)p_equals_1_;
-            return this.position.equals(nextticklistentry.position) && Block.isEqualTo(this.block, nextticklistentry.block);
-        }
-    }
+		NextTickListEntry nextticklistentry = (NextTickListEntry)p_equals_1_;
+		return this.position.equals(nextticklistentry.position) && Block.isEqualTo(this.block, nextticklistentry.block);
+	}
 
     public int hashCode()
     {

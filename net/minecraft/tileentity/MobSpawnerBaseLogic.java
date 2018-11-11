@@ -59,11 +59,8 @@ public abstract class MobSpawnerBaseLogic
 
             return this.mobID;
         }
-        else
-        {
-            return this.getRandomEntity().entityType;
-        }
-    }
+		return this.getRandomEntity().entityType;
+	}
 
     public void setEntityName(String name)
     {
@@ -362,11 +359,8 @@ public abstract class MobSpawnerBaseLogic
             this.spawnDelay = this.minSpawnDelay;
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     private MobSpawnerBaseLogic.WeightedRandomMinecart getRandomEntity()
     {

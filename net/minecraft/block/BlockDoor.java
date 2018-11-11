@@ -159,25 +159,19 @@ public class BlockDoor extends Block
         {
             return true;
         }
-        else
-        {
-            BlockPos blockpos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
-            IBlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
+		BlockPos blockpos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+		IBlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
 
-            if (iblockstate.getBlock() != this)
-            {
-                return false;
-            }
-            else
-            {
-                state = iblockstate.cycleProperty(OPEN);
-                worldIn.setBlockState(blockpos, state, 2);
-                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-                worldIn.playAuxSFXAtEntity(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? 1003 : 1006, pos, 0);
-                return true;
-            }
-        }
-    }
+		if (iblockstate.getBlock() != this)
+		{
+			return false;
+		}
+		state = iblockstate.cycleProperty(OPEN);
+		worldIn.setBlockState(blockpos, state, 2);
+		worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
+		worldIn.playAuxSFXAtEntity(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? 1003 : 1006, pos, 0);
+		return true;
+	}
 
     public void toggleDoor(World worldIn, BlockPos pos, boolean open)
     {

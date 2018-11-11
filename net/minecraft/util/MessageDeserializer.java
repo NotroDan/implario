@@ -26,16 +26,14 @@ public class MessageDeserializer extends ByteToMessageDecoder {
 
 			if (packet == null) {
 				throw new IOException("Bad packet id " + i);
-			} else {
-				packet.readPacketData(packetbuffer);
-
-				if (packetbuffer.readableBytes() > 0) {
-					throw new IOException("Packet " + p_decode_1_.channel().attr(
-							NetworkManager.attrKeyConnectionState).get().getId() + "/" + i + " (" + packet.getClass().getSimpleName() + ") was larger than I expected, found " + packetbuffer.readableBytes() + " bytes extra whilst reading packet " + i);
-				} else {
-					p_decode_3_.add(packet);
-				}
 			}
+			packet.readPacketData(packetbuffer);
+
+			if (packetbuffer.readableBytes() > 0) {
+				throw new IOException("Packet " + p_decode_1_.channel().attr(
+						NetworkManager.attrKeyConnectionState).get().getId() + "/" + i + " (" + packet.getClass().getSimpleName() + ") was larger than I expected, found " + packetbuffer.readableBytes() + " bytes extra whilst reading packet " + i);
+			}
+			p_decode_3_.add(packet);
 		}
 	}
 

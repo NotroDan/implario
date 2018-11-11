@@ -68,23 +68,20 @@ public class BlockReed extends Block
         {
             return true;
         }
-        else if (block != Blocks.grass && block != Blocks.dirt && block != Blocks.sand)
-        {
-            return false;
-        }
-        else
-        {
-            for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
-            {
-                if (worldIn.getBlockState(pos.offset((EnumFacing) enumfacing).down()).getBlock().getMaterial() == Material.water)
-                {
-                    return true;
-                }
-            }
+		if (block != Blocks.grass && block != Blocks.dirt && block != Blocks.sand)
+		{
+			return false;
+		}
+		for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
+		{
+			if (worldIn.getBlockState(pos.offset((EnumFacing) enumfacing).down()).getBlock().getMaterial() == Material.water)
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Called when a neighboring block changes.
@@ -100,13 +97,10 @@ public class BlockReed extends Block
         {
             return true;
         }
-        else
-        {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockToAir(pos);
-            return false;
-        }
-    }
+		this.dropBlockAsItem(worldIn, pos, state, 0);
+		worldIn.setBlockToAir(pos);
+		return false;
+	}
 
     public boolean canBlockStay(World worldIn, BlockPos pos)
     {

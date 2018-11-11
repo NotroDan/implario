@@ -63,35 +63,29 @@ public class CommandClearInventory extends CommandBase
         {
             throw new CommandException("commands.clear.failure", new Object[] {entityplayermp.getName()});
         }
-        else
-        {
-            int k = entityplayermp.inventory.clearMatchingItems(item, i, j, nbttagcompound);
-            entityplayermp.inventoryContainer.detectAndSendChanges();
+		int k = entityplayermp.inventory.clearMatchingItems(item, i, j, nbttagcompound);
+		entityplayermp.inventoryContainer.detectAndSendChanges();
 
-            if (!entityplayermp.capabilities.isCreativeMode)
-            {
-                entityplayermp.updateHeldItem();
-            }
+		if (!entityplayermp.capabilities.isCreativeMode)
+		{
+			entityplayermp.updateHeldItem();
+		}
 
-            sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, k);
+		sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, k);
 
-            if (k == 0)
-            {
-                throw new CommandException("commands.clear.failure", new Object[] {entityplayermp.getName()});
-            }
-            else
-            {
-                if (j == 0)
-                {
-                    sender.addChatMessage(new ChatComponentTranslation("commands.clear.testing", new Object[] {entityplayermp.getName(), Integer.valueOf(k)}));
-                }
-                else
-                {
-                    notifyOperators(sender, this, "commands.clear.success", new Object[] {entityplayermp.getName(), Integer.valueOf(k)});
-                }
-            }
-        }
-    }
+		if (k == 0)
+		{
+			throw new CommandException("commands.clear.failure", new Object[] {entityplayermp.getName()});
+		}
+		if (j == 0)
+		{
+			sender.addChatMessage(new ChatComponentTranslation("commands.clear.testing", new Object[] {entityplayermp.getName(), Integer.valueOf(k)}));
+		}
+		else
+		{
+			notifyOperators(sender, this, "commands.clear.success", new Object[] {entityplayermp.getName(), Integer.valueOf(k)});
+		}
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {

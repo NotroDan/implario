@@ -231,13 +231,10 @@ public abstract class BiomeGenBase
         {
             throw new IllegalArgumentException("Please avoid temperatures in the range 0.1 - 0.2 because of snow");
         }
-        else
-        {
-            this.temperature = temperatureIn;
-            this.rainfall = rainfallIn;
-            return this;
-        }
-    }
+		this.temperature = temperatureIn;
+		this.rainfall = rainfallIn;
+		return this;
+	}
 
     protected final BiomeGenBase setHeight(BiomeGenBase.Height heights)
     {
@@ -411,11 +408,8 @@ public abstract class BiomeGenBase
             float f = (float)(temperatureNoise.func_151601_a((double)pos.getX() * 1.0D / 8.0D, (double)pos.getZ() * 1.0D / 8.0D) * 4.0D);
             return this.temperature - (f + (float)pos.getY() - 64.0F) * 0.05F / 30.0F;
         }
-        else
-        {
-            return this.temperature;
-        }
-    }
+		return this.temperature;
+	}
 
     public void decorate(World worldIn, Random rand, BlockPos pos)
     {
@@ -583,12 +577,9 @@ public abstract class BiomeGenBase
             BiomeGenBase biomegenbase = biomeList[biomeId];
             return biomegenbase == null ? biome : biomegenbase;
         }
-        else
-        {
-            logger.warn("Biome ID is out of bounds: " + biomeId + ", defaulting to 0 (Ocean)");
-            return ocean;
-        }
-    }
+		logger.warn("Biome ID is out of bounds: " + biomeId + ", defaulting to 0 (Ocean)");
+		return ocean;
+	}
 
     static
     {

@@ -124,38 +124,35 @@ public abstract class EntityHanging extends Entity
         {
             return false;
         }
-        else
-        {
-            int i = Math.max(1, this.getWidthPixels() / 16);
-            int j = Math.max(1, this.getHeightPixels() / 16);
-            BlockPos blockpos = this.hangingPosition.offset(this.facingDirection.getOpposite());
-            EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+		int i = Math.max(1, this.getWidthPixels() / 16);
+		int j = Math.max(1, this.getHeightPixels() / 16);
+		BlockPos blockpos = this.hangingPosition.offset(this.facingDirection.getOpposite());
+		EnumFacing enumfacing = this.facingDirection.rotateYCCW();
 
-            for (int k = 0; k < i; ++k)
-            {
-                for (int l = 0; l < j; ++l)
-                {
-                    BlockPos blockpos1 = blockpos.offset(enumfacing, k).up(l);
-                    Block block = this.worldObj.getBlockState(blockpos1).getBlock();
+		for (int k = 0; k < i; ++k)
+		{
+			for (int l = 0; l < j; ++l)
+			{
+				BlockPos blockpos1 = blockpos.offset(enumfacing, k).up(l);
+				Block block = this.worldObj.getBlockState(blockpos1).getBlock();
 
-                    if (!block.getMaterial().isSolid() && !BlockRedstoneDiode.isRedstoneRepeaterBlockID(block))
-                    {
-                        return false;
-                    }
-                }
-            }
+				if (!block.getMaterial().isSolid() && !BlockRedstoneDiode.isRedstoneRepeaterBlockID(block))
+				{
+					return false;
+				}
+			}
+		}
 
-            for (Entity entity : this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()))
-            {
-                if (entity instanceof EntityHanging)
-                {
-                    return false;
-                }
-            }
+		for (Entity entity : this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()))
+		{
+			if (entity instanceof EntityHanging)
+			{
+				return false;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Returns true if other Entities should be prevented from moving through this Entity.
@@ -187,18 +184,15 @@ public abstract class EntityHanging extends Entity
         {
             return false;
         }
-        else
-        {
-            if (!this.isDead && !this.worldObj.isRemote)
-            {
-                this.setDead();
-                this.setBeenAttacked();
-                this.onBroken(source.getEntity());
-            }
+		if (!this.isDead && !this.worldObj.isRemote)
+		{
+			this.setDead();
+			this.setBeenAttacked();
+			this.onBroken(source.getEntity());
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Tries to moves the entity by the passed in displacement. Args: x, y, z

@@ -77,11 +77,8 @@ public class NaturalProperties
 
             return bakedquad;
         }
-        else
-        {
-            return p_getQuad_1_;
-        }
-    }
+		return p_getQuad_1_;
+	}
 
     private BakedQuad makeQuad(BakedQuad p_makeQuad_1_, int p_makeQuad_2_, boolean p_makeQuad_3_)
     {
@@ -94,13 +91,10 @@ public class NaturalProperties
         {
             return p_makeQuad_1_;
         }
-        else
-        {
-            aint = this.transformVertexData(aint, p_makeQuad_2_, p_makeQuad_3_);
-            BakedQuad bakedquad = new BakedQuad(aint, i, enumfacing, textureatlassprite);
-            return bakedquad;
-        }
-    }
+		aint = this.transformVertexData(aint, p_makeQuad_2_, p_makeQuad_3_);
+		BakedQuad bakedquad = new BakedQuad(aint, i, enumfacing, textureatlassprite);
+		return bakedquad;
+	}
 
     private int[] transformVertexData(int[] p_transformVertexData_1_, int p_transformVertexData_2_, boolean p_transformVertexData_3_)
     {

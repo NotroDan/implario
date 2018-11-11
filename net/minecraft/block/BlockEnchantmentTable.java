@@ -95,18 +95,15 @@ public class BlockEnchantmentTable extends BlockContainer
         {
             return true;
         }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityEnchantmentTable)
-            {
-                playerIn.displayGui((TileEntityEnchantmentTable)tileentity);
-            }
+		if (tileentity instanceof TileEntityEnchantmentTable)
+		{
+			playerIn.displayGui((TileEntityEnchantmentTable)tileentity);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic

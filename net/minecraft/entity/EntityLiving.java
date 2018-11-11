@@ -232,9 +232,8 @@ public abstract class EntityLiving extends EntityLivingBase {
 			}
 
 			return i;
-		} else {
-			return this.experienceValue;
 		}
+		return this.experienceValue;
 	}
 
 	/**
@@ -657,16 +656,15 @@ public abstract class EntityLiving extends EntityLivingBase {
 	public int getMaxFallHeight() {
 		if (this.getAttackTarget() == null) {
 			return 3;
-		} else {
-			int i = (int) (this.getHealth() - this.getMaxHealth() * 0.33F);
-			i = i - (3 - this.worldObj.getDifficulty().getDifficultyId()) * 4;
-
-			if (i < 0) {
-				i = 0;
-			}
-
-			return i + 3;
 		}
+		int i = (int) (this.getHealth() - this.getMaxHealth() * 0.33F);
+		i = i - (3 - this.worldObj.getDifficulty().getDifficultyId()) * 4;
+
+		if (i < 0) {
+			i = 0;
+		}
+
+		return i + 3;
 	}
 
 	/**
@@ -787,9 +785,8 @@ public abstract class EntityLiving extends EntityLivingBase {
 			}
 
 			return 0;
-		} else {
-			return 4;
 		}
+		return 4;
 	}
 
 	/**
@@ -800,52 +797,68 @@ public abstract class EntityLiving extends EntityLivingBase {
 			case 4:
 				if (itemTier == 0) {
 					return Items.leather_helmet;
-				} else if (itemTier == 1) {
+				}
+				if (itemTier == 1) {
 					return Items.golden_helmet;
-				} else if (itemTier == 2) {
+				}
+				if (itemTier == 2) {
 					return Items.chainmail_helmet;
-				} else if (itemTier == 3) {
+				}
+				if (itemTier == 3) {
 					return Items.iron_helmet;
-				} else if (itemTier == 4) {
+				}
+				if (itemTier == 4) {
 					return Items.diamond_helmet;
 				}
 
 			case 3:
 				if (itemTier == 0) {
 					return Items.leather_chestplate;
-				} else if (itemTier == 1) {
+				}
+				if (itemTier == 1) {
 					return Items.golden_chestplate;
-				} else if (itemTier == 2) {
+				}
+				if (itemTier == 2) {
 					return Items.chainmail_chestplate;
-				} else if (itemTier == 3) {
+				}
+				if (itemTier == 3) {
 					return Items.iron_chestplate;
-				} else if (itemTier == 4) {
+				}
+				if (itemTier == 4) {
 					return Items.diamond_chestplate;
 				}
 
 			case 2:
 				if (itemTier == 0) {
 					return Items.leather_leggings;
-				} else if (itemTier == 1) {
+				}
+				if (itemTier == 1) {
 					return Items.golden_leggings;
-				} else if (itemTier == 2) {
+				}
+				if (itemTier == 2) {
 					return Items.chainmail_leggings;
-				} else if (itemTier == 3) {
+				}
+				if (itemTier == 3) {
 					return Items.iron_leggings;
-				} else if (itemTier == 4) {
+				}
+				if (itemTier == 4) {
 					return Items.diamond_leggings;
 				}
 
 			case 1:
 				if (itemTier == 0) {
 					return Items.leather_boots;
-				} else if (itemTier == 1) {
+				}
+				if (itemTier == 1) {
 					return Items.golden_boots;
-				} else if (itemTier == 2) {
+				}
+				if (itemTier == 2) {
 					return Items.chainmail_boots;
-				} else if (itemTier == 3) {
+				}
+				if (itemTier == 3) {
 					return Items.iron_boots;
-				} else if (itemTier == 4) {
+				}
+				if (itemTier == 4) {
 					return Items.diamond_boots;
 				}
 
@@ -920,25 +933,24 @@ public abstract class EntityLiving extends EntityLivingBase {
 		if (this.getLeashed() && this.getLeashedToEntity() == playerIn) {
 			this.clearLeashed(true, !playerIn.capabilities.isCreativeMode);
 			return true;
-		} else {
-			ItemStack itemstack = playerIn.inventory.getCurrentItem();
+		}
+		ItemStack itemstack = playerIn.inventory.getCurrentItem();
 
-			if (itemstack != null && itemstack.getItem() == Items.lead && this.allowLeashing()) {
-				if (!(this instanceof EntityTameable) || !((EntityTameable) this).isTamed()) {
-					this.setLeashedToEntity(playerIn, true);
-					--itemstack.stackSize;
-					return true;
-				}
-
-				if (((EntityTameable) this).isOwner(playerIn)) {
-					this.setLeashedToEntity(playerIn, true);
-					--itemstack.stackSize;
-					return true;
-				}
+		if (itemstack != null && itemstack.getItem() == Items.lead && this.allowLeashing()) {
+			if (!(this instanceof EntityTameable) || !((EntityTameable) this).isTamed()) {
+				this.setLeashedToEntity(playerIn, true);
+				--itemstack.stackSize;
+				return true;
 			}
 
-			return this.interact(playerIn) || super.interactFirst(playerIn);
+			if (((EntityTameable) this).isOwner(playerIn)) {
+				this.setLeashedToEntity(playerIn, true);
+				--itemstack.stackSize;
+				return true;
+			}
 		}
+
+		return this.interact(playerIn) || super.interactFirst(playerIn);
 	}
 
 	/**
@@ -1053,9 +1065,8 @@ public abstract class EntityLiving extends EntityLivingBase {
 		if (itemStackIn == null || getArmorPosition(itemStackIn) == i || i == 4 && itemStackIn.getItem() instanceof ItemBlock) {
 			this.setCurrentItemOrArmor(i, itemStackIn);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -1085,46 +1096,46 @@ public abstract class EntityLiving extends EntityLivingBase {
 	public boolean isEntityInsideOpaqueBlock() {
 		if (this.noClip) {
 			return false;
-		} else {
-			BlockPosM blockposm = new BlockPosM(0, 0, 0);
-
-			for (int i = 0; i < 8; ++i) {
-				double d0 = this.posX + (double) (((float) ((i >> 0) % 2) - 0.5F) * this.width * 0.8F);
-				double d1 = this.posY + (double) (((float) ((i >> 1) % 2) - 0.5F) * 0.1F);
-				double d2 = this.posZ + (double) (((float) ((i >> 2) % 2) - 0.5F) * this.width * 0.8F);
-				blockposm.setXyz(d0, d1 + (double) this.getEyeHeight(), d2);
-
-				if (this.worldObj.getBlockState(blockposm).getBlock().isVisuallyOpaque()) {
-					return true;
-				}
-			}
-
-			return false;
 		}
+		BlockPosM blockposm = new BlockPosM(0, 0, 0);
+
+		for (int i = 0; i < 8; ++i) {
+			double d0 = this.posX + (double) (((float) ((i >> 0) % 2) - 0.5F) * this.width * 0.8F);
+			double d1 = this.posY + (double) (((float) ((i >> 1) % 2) - 0.5F) * 0.1F);
+			double d2 = this.posZ + (double) (((float) ((i >> 2) % 2) - 0.5F) * this.width * 0.8F);
+			blockposm.setXyz(d0, d1 + (double) this.getEyeHeight(), d2);
+
+			if (this.worldObj.getBlockState(blockposm).getBlock().isVisuallyOpaque()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private boolean canSkipUpdate() {
 		if (this.isChild()) {
 			return false;
-		} else if (this.hurtTime > 0) {
-			return false;
-		} else if (this.ticksExisted < 20) {
-			return false;
-		} else {
-			World world = this.getEntityWorld();
-
-			if (world == null) {
-				return false;
-			} else if (world.playerEntities.size() != 1) {
-				return false;
-			} else {
-				Entity entity = world.playerEntities.get(0);
-				double d0 = Math.max(Math.abs(this.posX - entity.posX) - 16.0D, 0.0D);
-				double d1 = Math.max(Math.abs(this.posZ - entity.posZ) - 16.0D, 0.0D);
-				double d2 = d0 * d0 + d1 * d1;
-				return !this.isInRangeToRenderDist(d2);
-			}
 		}
+		if (this.hurtTime > 0) {
+			return false;
+		}
+		if (this.ticksExisted < 20) {
+			return false;
+		}
+		World world = this.getEntityWorld();
+
+		if (world == null) {
+			return false;
+		}
+		if (world.playerEntities.size() != 1) {
+			return false;
+		}
+		Entity entity = world.playerEntities.get(0);
+		double d0 = Math.max(Math.abs(this.posX - entity.posX) - 16.0D, 0.0D);
+		double d1 = Math.max(Math.abs(this.posZ - entity.posZ) - 16.0D, 0.0D);
+		double d2 = d0 * d0 + d1 * d1;
+		return !this.isInRangeToRenderDist(d2);
 	}
 
 	private void onUpdateMinimal() {

@@ -186,18 +186,15 @@ public class WorldChunkManager
             System.arraycopy(abiomegenbase, 0, listToReuse, 0, width * length);
             return listToReuse;
         }
-        else
-        {
-            int[] aint = this.biomeIndexLayer.getInts(x, z, width, length);
+		int[] aint = this.biomeIndexLayer.getInts(x, z, width, length);
 
-            for (int i = 0; i < width * length; ++i)
-            {
-                listToReuse[i] = BiomeGenBase.getBiomeFromBiomeList(aint[i], BiomeGenBase.field_180279_ad);
-            }
+		for (int i = 0; i < width * length; ++i)
+		{
+			listToReuse[i] = BiomeGenBase.getBiomeFromBiomeList(aint[i], BiomeGenBase.field_180279_ad);
+		}
 
-            return listToReuse;
-        }
-    }
+		return listToReuse;
+	}
 
     /**
      * checks given Chunk's Biomes against List of allowed ones

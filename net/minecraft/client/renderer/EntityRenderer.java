@@ -21,7 +21,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.settings.KeyBinding;
@@ -543,50 +543,49 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	private float getFOVModifier(float partialTicks, boolean p_78481_2_) {
 		if (this.debugView) {
 			return 90.0F;
-		} else {
-			Entity entity = this.mc.getRenderViewEntity();
-			float f = 70.0F;
-
-			if (p_78481_2_) {
-				f = Settings.FOV.f();
-
-				if (Config.isDynamicFov()) {
-					f *= this.fovModifierHandPrev + (this.fovModifierHand - this.fovModifierHandPrev) * partialTicks;
-				}
-			}
-
-			boolean flag = false;
-
-			if (this.mc.currentScreen == null) flag = KeyBinding.ZOOM.isClicked();
-
-			if (flag) {
-				if (!Config.zoomMode) {
-					Config.zoomMode = true;
-					Settings.SMOOTH_CAMERA.set(true);
-				}
-				if (Config.zoomMode) f /= 4.0F;
-
-			} else if (Config.zoomMode) {
-				Config.zoomMode = false;
-				Settings.SMOOTH_CAMERA.set(false);
-				this.mouseFilterXAxis = new MouseFilter();
-				this.mouseFilterYAxis = new MouseFilter();
-				this.mc.renderGlobal.displayListEntitiesDirty = true;
-			}
-
-			if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0.0F) {
-				float f1 = (float) ((EntityLivingBase) entity).deathTime + partialTicks;
-				f /= (1.0F - 500.0F / (f1 + 500.0F)) * 2.0F + 1.0F;
-			}
-
-			Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
-
-			if (block.getMaterial() == Material.water) {
-				f = f * 60.0F / 70.0F;
-			}
-
-			return f;
 		}
+		Entity entity = this.mc.getRenderViewEntity();
+		float f = 70.0F;
+
+		if (p_78481_2_) {
+			f = Settings.FOV.f();
+
+			if (Config.isDynamicFov()) {
+				f *= this.fovModifierHandPrev + (this.fovModifierHand - this.fovModifierHandPrev) * partialTicks;
+			}
+		}
+
+		boolean flag = false;
+
+		if (this.mc.currentScreen == null) flag = KeyBinding.ZOOM.isClicked();
+
+		if (flag) {
+			if (!Config.zoomMode) {
+				Config.zoomMode = true;
+				Settings.SMOOTH_CAMERA.set(true);
+			}
+			if (Config.zoomMode) f /= 4.0F;
+
+		} else if (Config.zoomMode) {
+			Config.zoomMode = false;
+			Settings.SMOOTH_CAMERA.set(false);
+			this.mouseFilterXAxis = new MouseFilter();
+			this.mouseFilterYAxis = new MouseFilter();
+			this.mc.renderGlobal.displayListEntitiesDirty = true;
+		}
+
+		if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0.0F) {
+			float f1 = (float) ((EntityLivingBase) entity).deathTime + partialTicks;
+			f /= (1.0F - 500.0F / (f1 + 500.0F)) * 2.0F + 1.0F;
+		}
+
+		Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
+
+		if (block.getMaterial() == Material.water) {
+			f = f * 60.0F / 70.0F;
+		}
+
+		return f;
 	}
 
 	private void hurtCameraEffect(float partialTicks) {
@@ -1196,28 +1195,27 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	private boolean isDrawBlockOutline() {
 		if (!this.drawBlockOutline) {
 			return false;
-		} else {
-			Entity entity = this.mc.getRenderViewEntity();
-			boolean flag = entity instanceof EntityPlayer && !Settings.HIDE_GUI.b();
+		}
+		Entity entity = this.mc.getRenderViewEntity();
+		boolean flag = entity instanceof EntityPlayer && !Settings.HIDE_GUI.b();
 
-			if (flag && !((EntityPlayer) entity).capabilities.allowEdit) {
-				ItemStack itemstack = ((EntityPlayer) entity).getCurrentEquippedItem();
+		if (flag && !((EntityPlayer) entity).capabilities.allowEdit) {
+			ItemStack itemstack = ((EntityPlayer) entity).getCurrentEquippedItem();
 
-				if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-					BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
-					IBlockState iblockstate = this.mc.theWorld.getBlockState(blockpos);
-					Block block = iblockstate.getBlock();
+			if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+				BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
+				IBlockState iblockstate = this.mc.theWorld.getBlockState(blockpos);
+				Block block = iblockstate.getBlock();
 
-					if (this.mc.playerController.getCurrentGameType() == WorldSettings.GameType.SPECTATOR) {
-						flag = this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
-					} else {
-						flag = itemstack != null && (itemstack.canDestroy(block) || itemstack.canPlaceOn(block));
-					}
+				if (this.mc.playerController.getCurrentGameType() == WorldSettings.GameType.SPECTATOR) {
+					flag = this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
+				} else {
+					flag = itemstack != null && (itemstack.canDestroy(block) || itemstack.canPlaceOn(block));
 				}
 			}
-
-			return flag;
 		}
+
+		return flag;
 	}
 
 	private void renderWorldDirections(float partialTicks) {
@@ -2200,14 +2198,14 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			if (Config.getNewRelease() != null) {
 				String s = "HD_U".replace("HD_U", "HD Ultra").replace("L", "Light");
 				String s1 = s + " " + Config.getNewRelease();
-				ChatComponentText chatcomponenttext = new ChatComponentText(I18n.format("of.message.newVersion", s1));
+				ChatComponentText chatcomponenttext = new ChatComponentText(Lang.format("of.message.newVersion", s1));
 				this.mc.ingameGUI.getChatGUI().printChatMessage(chatcomponenttext);
 				Config.setNewRelease(null);
 			}
 
 			if (Config.isNotify64BitJava()) {
 				Config.setNotify64BitJava(false);
-				ChatComponentText chatcomponenttext1 = new ChatComponentText(I18n.format("of.message.java64Bit"));
+				ChatComponentText chatcomponenttext1 = new ChatComponentText(Lang.format("of.message.java64Bit"));
 				this.mc.ingameGUI.getChatGUI().printChatMessage(chatcomponenttext1);
 			}
 		}
@@ -2239,7 +2237,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 				if (j != 0) {
 					String s = GLU.gluErrorString(j);
-					ChatComponentText chatcomponenttext = new ChatComponentText(I18n.format("of.message.openglError", j, s));
+					ChatComponentText chatcomponenttext = new ChatComponentText(Lang.format("of.message.openglError", j, s));
 					this.mc.ingameGUI.getChatGUI().printChatMessage(chatcomponenttext);
 				}
 			}
@@ -2281,25 +2279,27 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	public boolean setFxaaShader(int p_setFxaaShader_1_) {
 		if (!OpenGlHelper.isFramebufferEnabled()) {
 			return false;
-		} else if (this.theShaderGroup != null && this.theShaderGroup != this.fxaaShaders[2] && this.theShaderGroup != this.fxaaShaders[4]) {
+		}
+		if (this.theShaderGroup != null && this.theShaderGroup != this.fxaaShaders[2] && this.theShaderGroup != this.fxaaShaders[4]) {
 			return true;
-		} else if (p_setFxaaShader_1_ != 2 && p_setFxaaShader_1_ != 4) {
+		}
+		if (p_setFxaaShader_1_ != 2 && p_setFxaaShader_1_ != 4) {
 			if (this.theShaderGroup == null) {
 				return true;
-			} else {
-				this.theShaderGroup.deleteShaderGroup();
-				this.theShaderGroup = null;
-				return true;
 			}
-		} else if (this.theShaderGroup != null && this.theShaderGroup == this.fxaaShaders[p_setFxaaShader_1_]) {
+			this.theShaderGroup.deleteShaderGroup();
+			this.theShaderGroup = null;
 			return true;
-		} else if (this.mc.theWorld == null) {
-			return true;
-		} else {
-			this.loadShader(new ResourceLocation("shaders/post/fxaa_of_" + p_setFxaaShader_1_ + "x.json"));
-			this.fxaaShaders[p_setFxaaShader_1_] = this.theShaderGroup;
-			return this.useShader;
 		}
+		if (this.theShaderGroup != null && this.theShaderGroup == this.fxaaShaders[p_setFxaaShader_1_]) {
+			return true;
+		}
+		if (this.mc.theWorld == null) {
+			return true;
+		}
+		this.loadShader(new ResourceLocation("shaders/post/fxaa_of_" + p_setFxaaShader_1_ + "x.json"));
+		this.fxaaShaders[p_setFxaaShader_1_] = this.theShaderGroup;
+		return this.useShader;
 	}
 
 }

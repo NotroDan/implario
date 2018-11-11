@@ -191,10 +191,7 @@ public class UserList<K, V extends UserListEntry<K>>
                 UserListEntry<K> userlistentry = UserList.this.createEntry(jsonobject);
                 return userlistentry;
             }
-            else
-            {
-                return null;
-            }
-        }
+			return null;
+		}
     }
 }

@@ -123,11 +123,8 @@ public class DemoWorldManager extends ItemInWorldManager
             this.sendDemoReminder();
             return false;
         }
-        else
-        {
-            return super.tryUseItem(player, worldIn, stack);
-        }
-    }
+		return super.tryUseItem(player, worldIn, stack);
+	}
 
     /**
      * Activate the clicked on block, otherwise use the held item.
@@ -139,9 +136,6 @@ public class DemoWorldManager extends ItemInWorldManager
             this.sendDemoReminder();
             return false;
         }
-        else
-        {
-            return super.activateBlockOrUseItem(player, worldIn, stack, pos, side, offsetX, offsetY, offsetZ);
-        }
-    }
+		return super.activateBlockOrUseItem(player, worldIn, stack, pos, side, offsetX, offsetY, offsetZ);
+	}
 }

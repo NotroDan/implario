@@ -165,11 +165,8 @@ public abstract class WorldProvider
             this.colorsSunriseSunset[3] = f4;
             return this.colorsSunriseSunset;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Return Vec3D with biome specific fog color

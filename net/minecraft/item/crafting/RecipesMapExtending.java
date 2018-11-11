@@ -23,31 +23,25 @@ public class RecipesMapExtending extends ShapedRecipes
         {
             return false;
         }
-        else
-        {
-            ItemStack itemstack = null;
+		ItemStack itemstack = null;
 
-            for (int i = 0; i < inv.getSizeInventory() && itemstack == null; ++i)
-            {
-                ItemStack itemstack1 = inv.getStackInSlot(i);
+		for (int i = 0; i < inv.getSizeInventory() && itemstack == null; ++i)
+		{
+			ItemStack itemstack1 = inv.getStackInSlot(i);
 
-                if (itemstack1 != null && itemstack1.getItem() == Items.filled_map)
-                {
-                    itemstack = itemstack1;
-                }
-            }
+			if (itemstack1 != null && itemstack1.getItem() == Items.filled_map)
+			{
+				itemstack = itemstack1;
+			}
+		}
 
-            if (itemstack == null)
-            {
-                return false;
-            }
-            else
-            {
-                MapData mapdata = Items.filled_map.getMapData(itemstack, worldIn);
-                return mapdata == null ? false : mapdata.scale < 4;
-            }
-        }
-    }
+		if (itemstack == null)
+		{
+			return false;
+		}
+		MapData mapdata = Items.filled_map.getMapData(itemstack, worldIn);
+		return mapdata == null ? false : mapdata.scale < 4;
+	}
 
     /**
      * Returns an Item that is the result of this recipe

@@ -601,40 +601,37 @@ public class Chunk
 
             return iblockstate == null ? Blocks.air.getDefaultState() : iblockstate;
         }
-        else
-        {
-            try
-            {
-                if (pos.getY() >= 0 && pos.getY() >> 4 < this.storageArrays.length)
-                {
-                    ExtendedBlockStorage extendedblockstorage = this.storageArrays[pos.getY() >> 4];
+		try
+		{
+			if (pos.getY() >= 0 && pos.getY() >> 4 < this.storageArrays.length)
+			{
+				ExtendedBlockStorage extendedblockstorage = this.storageArrays[pos.getY() >> 4];
 
-                    if (extendedblockstorage != null)
-                    {
-                        int j = pos.getX() & 15;
-                        int k = pos.getY() & 15;
-                        int i = pos.getZ() & 15;
-                        return extendedblockstorage.get(j, k, i);
-                    }
-                }
+				if (extendedblockstorage != null)
+				{
+					int j = pos.getX() & 15;
+					int k = pos.getY() & 15;
+					int i = pos.getZ() & 15;
+					return extendedblockstorage.get(j, k, i);
+				}
+			}
 
-                return Blocks.air.getDefaultState();
-            }
-            catch (Throwable throwable)
-            {
-                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Getting block state");
-                CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being got");
-                crashreportcategory.addCrashSectionCallable("Location", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return CrashReportCategory.getCoordinateInfo(pos);
-                    }
-                });
-                throw new ReportedException(crashreport);
-            }
-        }
-    }
+			return Blocks.air.getDefaultState();
+		}
+		catch (Throwable throwable)
+		{
+			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Getting block state");
+			CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being got");
+			crashreportcategory.addCrashSectionCallable("Location", new Callable<String>()
+			{
+				public String call() throws Exception
+				{
+					return CrashReportCategory.getCoordinateInfo(pos);
+				}
+			});
+			throw new ReportedException(crashreport);
+		}
+	}
 
     /**
      * Return the metadata corresponding to the given coordinates inside a chunk.
@@ -645,12 +642,9 @@ public class Chunk
         {
             return 0;
         }
-        else
-        {
-            ExtendedBlockStorage extendedblockstorage = this.storageArrays[y >> 4];
-            return extendedblockstorage != null ? extendedblockstorage.getExtBlockMetadata(x, y & 15, z) : 0;
-        }
-    }
+		ExtendedBlockStorage extendedblockstorage = this.storageArrays[y >> 4];
+		return extendedblockstorage != null ? extendedblockstorage.getExtBlockMetadata(x, y & 15, z) : 0;
+	}
 
     public int getBlockMetadata(BlockPos pos)
     {
@@ -676,107 +670,101 @@ public class Chunk
         {
             return null;
         }
-        else
-        {
-            Block block = state.getBlock();
-            Block block1 = iblockstate.getBlock();
-            ExtendedBlockStorage extendedblockstorage = this.storageArrays[j >> 4];
-            boolean flag = false;
+		Block block = state.getBlock();
+		Block block1 = iblockstate.getBlock();
+		ExtendedBlockStorage extendedblockstorage = this.storageArrays[j >> 4];
+		boolean flag = false;
 
-            if (extendedblockstorage == null)
-            {
-                if (block == Blocks.air)
-                {
-                    return null;
-                }
+		if (extendedblockstorage == null)
+		{
+			if (block == Blocks.air)
+			{
+				return null;
+			}
 
-                extendedblockstorage = this.storageArrays[j >> 4] = new ExtendedBlockStorage(j >> 4 << 4, !this.worldObj.provider.getHasNoSky());
-                flag = j >= i1;
-            }
+			extendedblockstorage = this.storageArrays[j >> 4] = new ExtendedBlockStorage(j >> 4 << 4, !this.worldObj.provider.getHasNoSky());
+			flag = j >= i1;
+		}
 
-            extendedblockstorage.set(i, j & 15, k, state);
+		extendedblockstorage.set(i, j & 15, k, state);
 
-            if (block1 != block)
-            {
-                if (!this.worldObj.isRemote)
-                {
-                    block1.breakBlock(this.worldObj, pos, iblockstate);
-                }
-                else if (block1 instanceof ITileEntityProvider)
-                {
-                    this.worldObj.removeTileEntity(pos);
-                }
-            }
+		if (block1 != block)
+		{
+			if (!this.worldObj.isRemote)
+			{
+				block1.breakBlock(this.worldObj, pos, iblockstate);
+			}
+			else if (block1 instanceof ITileEntityProvider)
+			{
+				this.worldObj.removeTileEntity(pos);
+			}
+		}
 
-            if (extendedblockstorage.getBlockByExtId(i, j & 15, k) != block)
-            {
-                return null;
-            }
-            else
-            {
-                if (flag)
-                {
-                    this.generateSkylightMap();
-                }
-                else
-                {
-                    int j1 = block.getLightOpacity();
-                    int k1 = block1.getLightOpacity();
+		if (extendedblockstorage.getBlockByExtId(i, j & 15, k) != block)
+		{
+			return null;
+		}
+		if (flag)
+		{
+			this.generateSkylightMap();
+		}
+		else
+		{
+			int j1 = block.getLightOpacity();
+			int k1 = block1.getLightOpacity();
 
-                    if (j1 > 0)
-                    {
-                        if (j >= i1)
-                        {
-                            this.relightBlock(i, j + 1, k);
-                        }
-                    }
-                    else if (j == i1 - 1)
-                    {
-                        this.relightBlock(i, j, k);
-                    }
+			if (j1 > 0)
+			{
+				if (j >= i1)
+				{
+					this.relightBlock(i, j + 1, k);
+				}
+			}
+			else if (j == i1 - 1)
+			{
+				this.relightBlock(i, j, k);
+			}
 
-                    if (j1 != k1 && (j1 < k1 || this.getLightFor(EnumSkyBlock.SKY, pos) > 0 || this.getLightFor(EnumSkyBlock.BLOCK, pos) > 0))
-                    {
-                        this.propagateSkylightOcclusion(i, k);
-                    }
-                }
+			if (j1 != k1 && (j1 < k1 || this.getLightFor(EnumSkyBlock.SKY, pos) > 0 || this.getLightFor(EnumSkyBlock.BLOCK, pos) > 0))
+			{
+				this.propagateSkylightOcclusion(i, k);
+			}
+		}
 
-                if (block1 instanceof ITileEntityProvider)
-                {
-                    TileEntity tileentity = this.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK);
+		if (block1 instanceof ITileEntityProvider)
+		{
+			TileEntity tileentity = this.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK);
 
-                    if (tileentity != null)
-                    {
-                        tileentity.updateContainingBlockInfo();
-                    }
-                }
+			if (tileentity != null)
+			{
+				tileentity.updateContainingBlockInfo();
+			}
+		}
 
-                if (!this.worldObj.isRemote && block1 != block)
-                {
-                    block.onBlockAdded(this.worldObj, pos, state);
-                }
+		if (!this.worldObj.isRemote && block1 != block)
+		{
+			block.onBlockAdded(this.worldObj, pos, state);
+		}
 
-                if (block instanceof ITileEntityProvider)
-                {
-                    TileEntity tileentity1 = this.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK);
+		if (block instanceof ITileEntityProvider)
+		{
+			TileEntity tileentity1 = this.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK);
 
-                    if (tileentity1 == null)
-                    {
-                        tileentity1 = ((ITileEntityProvider)block).createNewTileEntity(this.worldObj, block.getMetaFromState(state));
-                        this.worldObj.setTileEntity(pos, tileentity1);
-                    }
+			if (tileentity1 == null)
+			{
+				tileentity1 = ((ITileEntityProvider)block).createNewTileEntity(this.worldObj, block.getMetaFromState(state));
+				this.worldObj.setTileEntity(pos, tileentity1);
+			}
 
-                    if (tileentity1 != null)
-                    {
-                        tileentity1.updateContainingBlockInfo();
-                    }
-                }
+			if (tileentity1 != null)
+			{
+				tileentity1.updateContainingBlockInfo();
+			}
+		}
 
-                this.isModified = true;
-                return iblockstate;
-            }
-        }
-    }
+		this.isModified = true;
+		return iblockstate;
+	}
 
     public int getLightFor(EnumSkyBlock p_177413_1_, BlockPos pos)
     {
@@ -826,20 +814,17 @@ public class Chunk
         {
             return !this.worldObj.provider.getHasNoSky() && amount < EnumSkyBlock.SKY.defaultLightValue ? EnumSkyBlock.SKY.defaultLightValue - amount : 0;
         }
-        else
-        {
-            int l = this.worldObj.provider.getHasNoSky() ? 0 : extendedblockstorage.getExtSkylightValue(i, j & 15, k);
-            l = l - amount;
-            int i1 = extendedblockstorage.getExtBlocklightValue(i, j & 15, k);
+		int l = this.worldObj.provider.getHasNoSky() ? 0 : extendedblockstorage.getExtSkylightValue(i, j & 15, k);
+		l = l - amount;
+		int i1 = extendedblockstorage.getExtBlocklightValue(i, j & 15, k);
 
-            if (i1 > l)
-            {
-                l = i1;
-            }
+		if (i1 > l)
+		{
+			l = i1;
+		}
 
-            return l;
-        }
-    }
+		return l;
+	}
 
     /**
      * Adds an entity to the chunk. Args: entity

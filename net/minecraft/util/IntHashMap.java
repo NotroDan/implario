@@ -248,26 +248,23 @@ public class IntHashMap<V>
             {
                 return false;
             }
-            else
-            {
-                IntHashMap.Entry<V> entry = (IntHashMap.Entry)p_equals_1_;
-                Object object = Integer.valueOf(this.getHash());
-                Object object1 = Integer.valueOf(entry.getHash());
+			IntHashMap.Entry<V> entry = (IntHashMap.Entry)p_equals_1_;
+			Object object = Integer.valueOf(this.getHash());
+			Object object1 = Integer.valueOf(entry.getHash());
 
-                if (object == object1 || object != null && object.equals(object1))
-                {
-                    Object object2 = this.getValue();
-                    Object object3 = entry.getValue();
+			if (object == object1 || object != null && object.equals(object1))
+			{
+				Object object2 = this.getValue();
+				Object object3 = entry.getValue();
 
-                    if (object2 == object3 || object2 != null && object2.equals(object3))
-                    {
-                        return true;
-                    }
-                }
+				if (object2 == object3 || object2 != null && object2.equals(object3))
+				{
+					return true;
+				}
+			}
 
-                return false;
-            }
-        }
+			return false;
+		}
 
         public final int hashCode()
         {

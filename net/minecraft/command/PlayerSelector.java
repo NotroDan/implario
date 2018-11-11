@@ -74,18 +74,15 @@ public class PlayerSelector
         {
             return null;
         }
-        else
-        {
-            List<IChatComponent> list1 = Lists.<IChatComponent>newArrayList();
+		List<IChatComponent> list1 = Lists.<IChatComponent>newArrayList();
 
-            for (Entity entity : list)
-            {
-                list1.add(entity.getDisplayName());
-            }
+		for (Entity entity : list)
+		{
+			list1.add(entity.getDisplayName());
+		}
 
-            return CommandBase.join(list1);
-        }
-    }
+		return CommandBase.join(list1);
+	}
 
     public static <T extends Entity> List<T> matchEntities(ICommandSender sender, String token, Class <? extends T > targetClass)
     {
@@ -99,38 +96,32 @@ public class PlayerSelector
             {
                 return Collections.<T>emptyList();
             }
-            else
-            {
-                String s = matcher.group(1);
-                BlockPos blockpos = func_179664_b(map, sender.getPosition());
-                List<World> list = getWorlds(sender, map);
-                List<T> list1 = Lists.<T>newArrayList();
+			String s = matcher.group(1);
+			BlockPos blockpos = func_179664_b(map, sender.getPosition());
+			List<World> list = getWorlds(sender, map);
+			List<T> list1 = Lists.<T>newArrayList();
 
-                for (World world : list)
-                {
-                    if (world != null)
-                    {
-                        List<Predicate<Entity>> list2 = Lists.<Predicate<Entity>>newArrayList();
-                        list2.addAll(func_179663_a(map, s));
-                        list2.addAll(func_179648_b(map));
-                        list2.addAll(func_179649_c(map));
-                        list2.addAll(func_179659_d(map));
-                        list2.addAll(func_179657_e(map));
-                        list2.addAll(func_179647_f(map));
-                        list2.addAll(func_180698_a(map, blockpos));
-                        list2.addAll(func_179662_g(map));
-                        list1.addAll(filterResults(map, targetClass, list2, s, world, blockpos));
-                    }
-                }
+			for (World world : list)
+			{
+				if (world != null)
+				{
+					List<Predicate<Entity>> list2 = Lists.<Predicate<Entity>>newArrayList();
+					list2.addAll(func_179663_a(map, s));
+					list2.addAll(func_179648_b(map));
+					list2.addAll(func_179649_c(map));
+					list2.addAll(func_179659_d(map));
+					list2.addAll(func_179657_e(map));
+					list2.addAll(func_179647_f(map));
+					list2.addAll(func_180698_a(map, blockpos));
+					list2.addAll(func_179662_g(map));
+					list1.addAll(filterResults(map, targetClass, list2, s, world, blockpos));
+				}
+			}
 
-                return func_179658_a(list1, map, sender, targetClass, s, blockpos);
-            }
-        }
-        else
-        {
-            return Collections.<T>emptyList();
-        }
-    }
+			return func_179658_a(list1, map, sender, targetClass, s, blockpos);
+		}
+		return Collections.<T>emptyList();
+	}
 
     private static List<World> getWorlds(ICommandSender sender, Map<String, String> argumentMap)
     {
@@ -160,11 +151,8 @@ public class PlayerSelector
             commandSender.addChatMessage(chatcomponenttranslation);
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }
+		return true;
+	}
 
     private static List<Predicate<Entity>> func_179663_a(Map<String, String> p_179663_0_, String p_179663_1_)
     {
@@ -224,12 +212,9 @@ public class PlayerSelector
                     {
                         return false;
                     }
-                    else
-                    {
-                        EntityPlayerMP entityplayermp = (EntityPlayerMP)p_apply_1_;
-                        return (i <= -1 || entityplayermp.experienceLevel >= i) && (j <= -1 || entityplayermp.experienceLevel <= j);
-                    }
-                }
+					EntityPlayerMP entityplayermp = (EntityPlayerMP)p_apply_1_;
+					return (i <= -1 || entityplayermp.experienceLevel >= i) && (j <= -1 || entityplayermp.experienceLevel <= j);
+				}
             });
         }
 
@@ -251,12 +236,9 @@ public class PlayerSelector
                     {
                         return false;
                     }
-                    else
-                    {
-                        EntityPlayerMP entityplayermp = (EntityPlayerMP)p_apply_1_;
-                        return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
-                    }
-                }
+					EntityPlayerMP entityplayermp = (EntityPlayerMP)p_apply_1_;
+					return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
+				}
             });
         }
 
@@ -285,14 +267,11 @@ public class PlayerSelector
                     {
                         return false;
                     }
-                    else
-                    {
-                        EntityLivingBase entitylivingbase = (EntityLivingBase)p_apply_1_;
-                        Team team = entitylivingbase.getTeam();
-                        String s1 = team == null ? "" : team.getRegisteredName();
-                        return s1.equals(s_f) != flag;
-                    }
-                }
+					EntityLivingBase entitylivingbase = (EntityLivingBase)p_apply_1_;
+					Team team = entitylivingbase.getTeam();
+					String s1 = team == null ? "" : team.getRegisteredName();
+					return s1.equals(s_f) != flag;
+				}
             });
         }
 
@@ -655,14 +634,11 @@ public class PlayerSelector
         {
             return false;
         }
-        else
-        {
-            Map<String, String> map = getArgumentMap(matcher.group(2));
-            String s = matcher.group(1);
-            int i = !"a".equals(s) && !"e".equals(s) ? 1 : 0;
-            return parseIntWithDefault(map, "c", i) != 1;
-        }
-    }
+		Map<String, String> map = getArgumentMap(matcher.group(2));
+		String s = matcher.group(1);
+		int i = !"a".equals(s) && !"e".equals(s) ? 1 : 0;
+		return parseIntWithDefault(map, "c", i) != 1;
+	}
 
     /**
      * Returns whether the given token has any arguments set.
@@ -680,50 +656,47 @@ public class PlayerSelector
         {
             return map;
         }
-        else
-        {
-            int i = 0;
-            int j = -1;
+		int i = 0;
+		int j = -1;
 
-            for (Matcher matcher = intListPattern.matcher(argumentString); matcher.find(); j = matcher.end())
-            {
-                String s = null;
+		for (Matcher matcher = intListPattern.matcher(argumentString); matcher.find(); j = matcher.end())
+		{
+			String s = null;
 
-                switch (i++)
-                {
-                    case 0:
-                        s = "x";
-                        break;
+			switch (i++)
+			{
+				case 0:
+					s = "x";
+					break;
 
-                    case 1:
-                        s = "y";
-                        break;
+				case 1:
+					s = "y";
+					break;
 
-                    case 2:
-                        s = "z";
-                        break;
+				case 2:
+					s = "z";
+					break;
 
-                    case 3:
-                        s = "r";
-                }
+				case 3:
+					s = "r";
+			}
 
-                if (s != null && matcher.group(1).length() > 0)
-                {
-                    map.put(s, matcher.group(1));
-                }
-            }
+			if (s != null && matcher.group(1).length() > 0)
+			{
+				map.put(s, matcher.group(1));
+			}
+		}
 
-            if (j < argumentString.length())
-            {
-                Matcher matcher1 = keyValueListPattern.matcher(j == -1 ? argumentString : argumentString.substring(j));
+		if (j < argumentString.length())
+		{
+			Matcher matcher1 = keyValueListPattern.matcher(j == -1 ? argumentString : argumentString.substring(j));
 
-                while (matcher1.find())
-                {
-                    map.put(matcher1.group(1), matcher1.group(2));
-                }
-            }
+			while (matcher1.find())
+			{
+				map.put(matcher1.group(1), matcher1.group(2));
+			}
+		}
 
-            return map;
-        }
-    }
+		return map;
+	}
 }

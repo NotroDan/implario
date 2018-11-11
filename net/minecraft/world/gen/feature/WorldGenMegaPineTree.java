@@ -35,47 +35,44 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees
         {
             return false;
         }
-        else
-        {
-            this.func_150541_c(worldIn, position.getX(), position.getZ(), position.getY() + i, 0, rand);
+		this.func_150541_c(worldIn, position.getX(), position.getZ(), position.getY() + i, 0, rand);
 
-            for (int j = 0; j < i; ++j)
-            {
-                Block block = worldIn.getBlockState(position.up(j)).getBlock();
+		for (int j = 0; j < i; ++j)
+		{
+			Block block = worldIn.getBlockState(position.up(j)).getBlock();
 
-                if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
-                {
-                    this.setBlockAndNotifyAdequately(worldIn, position.up(j), this.woodMetadata);
-                }
+			if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
+			{
+				this.setBlockAndNotifyAdequately(worldIn, position.up(j), this.woodMetadata);
+			}
 
-                if (j < i - 1)
-                {
-                    block = worldIn.getBlockState(position.add(1, j, 0)).getBlock();
+			if (j < i - 1)
+			{
+				block = worldIn.getBlockState(position.add(1, j, 0)).getBlock();
 
-                    if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
-                    {
-                        this.setBlockAndNotifyAdequately(worldIn, position.add(1, j, 0), this.woodMetadata);
-                    }
+				if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
+				{
+					this.setBlockAndNotifyAdequately(worldIn, position.add(1, j, 0), this.woodMetadata);
+				}
 
-                    block = worldIn.getBlockState(position.add(1, j, 1)).getBlock();
+				block = worldIn.getBlockState(position.add(1, j, 1)).getBlock();
 
-                    if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
-                    {
-                        this.setBlockAndNotifyAdequately(worldIn, position.add(1, j, 1), this.woodMetadata);
-                    }
+				if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
+				{
+					this.setBlockAndNotifyAdequately(worldIn, position.add(1, j, 1), this.woodMetadata);
+				}
 
-                    block = worldIn.getBlockState(position.add(0, j, 1)).getBlock();
+				block = worldIn.getBlockState(position.add(0, j, 1)).getBlock();
 
-                    if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
-                    {
-                        this.setBlockAndNotifyAdequately(worldIn, position.add(0, j, 1), this.woodMetadata);
-                    }
-                }
-            }
+				if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
+				{
+					this.setBlockAndNotifyAdequately(worldIn, position.add(0, j, 1), this.woodMetadata);
+				}
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     private void func_150541_c(World worldIn, int p_150541_2_, int p_150541_3_, int p_150541_4_, int p_150541_5_, Random p_150541_6_)
     {

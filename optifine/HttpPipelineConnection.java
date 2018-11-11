@@ -72,14 +72,11 @@ public class HttpPipelineConnection
         {
             return false;
         }
-        else
-        {
-            this.addRequest(p_addRequest_1_, this.listRequests);
-            this.addRequest(p_addRequest_1_, this.listRequestsSend);
-            ++this.countRequests;
-            return true;
-        }
-    }
+		this.addRequest(p_addRequest_1_, this.listRequests);
+		this.addRequest(p_addRequest_1_, this.listRequestsSend);
+		++this.countRequests;
+		return true;
+	}
 
     private void addRequest(HttpPipelineRequest p_addRequest_1_, List<HttpPipelineRequest> p_addRequest_2_)
     {
@@ -95,16 +92,13 @@ public class HttpPipelineConnection
             {
                 throw new IllegalArgumentException("Already connected");
             }
-            else
-            {
-                this.socket = p_setSocket_1_;
-                this.socket.setTcpNoDelay(true);
-                this.inputStream = this.socket.getInputStream();
-                this.outputStream = new BufferedOutputStream(this.socket.getOutputStream());
-                this.onActivity();
-                this.notifyAll();
-            }
-        }
+			this.socket = p_setSocket_1_;
+			this.socket.setTcpNoDelay(true);
+			this.inputStream = this.socket.getInputStream();
+			this.outputStream = new BufferedOutputStream(this.socket.getOutputStream());
+			this.onActivity();
+			this.notifyAll();
+		}
     }
 
     public synchronized OutputStream getOutputStream() throws IOException, InterruptedException
@@ -158,11 +152,8 @@ public class HttpPipelineConnection
         {
             return (HttpPipelineRequest)p_getNextRequest_1_.remove(0);
         }
-        else
-        {
-            return (HttpPipelineRequest)p_getNextRequest_1_.get(0);
-        }
-    }
+		return (HttpPipelineRequest)p_getNextRequest_1_.get(0);
+	}
 
     private void checkTimeout()
     {
@@ -246,31 +237,25 @@ public class HttpPipelineConnection
         {
             return p_normalizeUrl_1_;
         }
-        else if (p_normalizeUrl_1_.startsWith("//"))
-        {
-            return "http:" + p_normalizeUrl_1_;
-        }
-        else
-        {
-            String s = p_normalizeUrl_2_.getHost();
+		if (p_normalizeUrl_1_.startsWith("//"))
+		{
+			return "http:" + p_normalizeUrl_1_;
+		}
+		String s = p_normalizeUrl_2_.getHost();
 
-            if (p_normalizeUrl_2_.getPort() != 80)
-            {
-                s = s + ":" + p_normalizeUrl_2_.getPort();
-            }
+		if (p_normalizeUrl_2_.getPort() != 80)
+		{
+			s = s + ":" + p_normalizeUrl_2_.getPort();
+		}
 
-            if (p_normalizeUrl_1_.startsWith("/"))
-            {
-                return "http://" + s + p_normalizeUrl_1_;
-            }
-            else
-            {
-                String s1 = p_normalizeUrl_2_.getFile();
-                int i = s1.lastIndexOf("/");
-                return i >= 0 ? "http://" + s + s1.substring(0, i + 1) + p_normalizeUrl_1_ : "http://" + s + "/" + p_normalizeUrl_1_;
-            }
-        }
-    }
+		if (p_normalizeUrl_1_.startsWith("/"))
+		{
+			return "http://" + s + p_normalizeUrl_1_;
+		}
+		String s1 = p_normalizeUrl_2_.getFile();
+		int i = s1.lastIndexOf("/");
+		return i >= 0 ? "http://" + s + s1.substring(0, i + 1) + p_normalizeUrl_1_ : "http://" + s + "/" + p_normalizeUrl_1_;
+	}
 
     private void checkResponseHeader(HttpResponse p_checkResponseHeader_1_)
     {
@@ -326,13 +311,10 @@ public class HttpPipelineConnection
         {
             return new String[] {p_split_1_};
         }
-        else
-        {
-            String s = p_split_1_.substring(0, i);
-            String s1 = p_split_1_.substring(i + 1);
-            return new String[] {s, s1};
-        }
-    }
+		String s = p_split_1_.substring(0, i);
+		String s1 = p_split_1_.substring(i + 1);
+		return new String[] {s, s1};
+	}
 
     public synchronized void onExceptionSend(HttpPipelineRequest p_onExceptionSend_1_, Exception p_onExceptionSend_2_)
     {

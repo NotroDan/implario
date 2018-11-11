@@ -1,11 +1,11 @@
 package net.minecraft.client.gui;
 
-import java.io.IOException;
-
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
+
+import java.io.IOException;
 
 public class GuiSleepMP extends GuiChat
 {
@@ -16,7 +16,7 @@ public class GuiSleepMP extends GuiChat
     public void initGui()
     {
         super.initGui();
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height - 40, I18n.format("multiplayer.stopSleeping", new Object[0])));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height - 40, Lang.format("multiplayer.stopSleeping", new Object[0])));
     }
 
     /**

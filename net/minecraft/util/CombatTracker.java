@@ -77,65 +77,62 @@ public class CombatTracker
         {
             return new ChatComponentTranslation("death.attack.generic", new Object[] {this.fighter.getDisplayName()});
         }
-        else
-        {
-            CombatEntry combatentry = this.func_94544_f();
-            CombatEntry combatentry1 = (CombatEntry)this.combatEntries.get(this.combatEntries.size() - 1);
-            IChatComponent ichatcomponent1 = combatentry1.getDamageSrcDisplayName();
-            Entity entity = combatentry1.getDamageSrc().getEntity();
-            IChatComponent ichatcomponent;
+		CombatEntry combatentry = this.func_94544_f();
+		CombatEntry combatentry1 = (CombatEntry)this.combatEntries.get(this.combatEntries.size() - 1);
+		IChatComponent ichatcomponent1 = combatentry1.getDamageSrcDisplayName();
+		Entity entity = combatentry1.getDamageSrc().getEntity();
+		IChatComponent ichatcomponent;
 
-            if (combatentry != null && combatentry1.getDamageSrc() == DamageSource.fall)
-            {
-                IChatComponent ichatcomponent2 = combatentry.getDamageSrcDisplayName();
+		if (combatentry != null && combatentry1.getDamageSrc() == DamageSource.fall)
+		{
+			IChatComponent ichatcomponent2 = combatentry.getDamageSrcDisplayName();
 
-                if (combatentry.getDamageSrc() != DamageSource.fall && combatentry.getDamageSrc() != DamageSource.outOfWorld)
-                {
-                    if (ichatcomponent2 != null && (ichatcomponent1 == null || !ichatcomponent2.equals(ichatcomponent1)))
-                    {
-                        Entity entity1 = combatentry.getDamageSrc().getEntity();
-                        ItemStack itemstack1 = entity1 instanceof EntityLivingBase ? ((EntityLivingBase)entity1).getHeldItem() : null;
+			if (combatentry.getDamageSrc() != DamageSource.fall && combatentry.getDamageSrc() != DamageSource.outOfWorld)
+			{
+				if (ichatcomponent2 != null && (!ichatcomponent2.equals(ichatcomponent1)))
+				{
+					Entity entity1 = combatentry.getDamageSrc().getEntity();
+					ItemStack itemstack1 = entity1 instanceof EntityLivingBase ? ((EntityLivingBase)entity1).getHeldItem() : null;
 
-                        if (itemstack1 != null && itemstack1.hasDisplayName())
-                        {
-                            ichatcomponent = new ChatComponentTranslation("death.fell.assist.item", new Object[] {this.fighter.getDisplayName(), ichatcomponent2, itemstack1.getChatComponent()});
-                        }
-                        else
-                        {
-                            ichatcomponent = new ChatComponentTranslation("death.fell.assist", new Object[] {this.fighter.getDisplayName(), ichatcomponent2});
-                        }
-                    }
-                    else if (ichatcomponent1 != null)
-                    {
-                        ItemStack itemstack = entity instanceof EntityLivingBase ? ((EntityLivingBase)entity).getHeldItem() : null;
+					if (itemstack1 != null && itemstack1.hasDisplayName())
+					{
+						ichatcomponent = new ChatComponentTranslation("death.fell.assist.item", new Object[] {this.fighter.getDisplayName(), ichatcomponent2, itemstack1.getChatComponent()});
+					}
+					else
+					{
+						ichatcomponent = new ChatComponentTranslation("death.fell.assist", new Object[] {this.fighter.getDisplayName(), ichatcomponent2});
+					}
+				}
+				else if (ichatcomponent1 != null)
+				{
+					ItemStack itemstack = entity instanceof EntityLivingBase ? ((EntityLivingBase)entity).getHeldItem() : null;
 
-                        if (itemstack != null && itemstack.hasDisplayName())
-                        {
-                            ichatcomponent = new ChatComponentTranslation("death.fell.finish.item", new Object[] {this.fighter.getDisplayName(), ichatcomponent1, itemstack.getChatComponent()});
-                        }
-                        else
-                        {
-                            ichatcomponent = new ChatComponentTranslation("death.fell.finish", new Object[] {this.fighter.getDisplayName(), ichatcomponent1});
-                        }
-                    }
-                    else
-                    {
-                        ichatcomponent = new ChatComponentTranslation("death.fell.killer", new Object[] {this.fighter.getDisplayName()});
-                    }
-                }
-                else
-                {
-                    ichatcomponent = new ChatComponentTranslation("death.fell.accident." + this.func_94548_b(combatentry), new Object[] {this.fighter.getDisplayName()});
-                }
-            }
-            else
-            {
-                ichatcomponent = combatentry1.getDamageSrc().getDeathMessage(this.fighter);
-            }
+					if (itemstack != null && itemstack.hasDisplayName())
+					{
+						ichatcomponent = new ChatComponentTranslation("death.fell.finish.item", new Object[] {this.fighter.getDisplayName(), ichatcomponent1, itemstack.getChatComponent()});
+					}
+					else
+					{
+						ichatcomponent = new ChatComponentTranslation("death.fell.finish", new Object[] {this.fighter.getDisplayName(), ichatcomponent1});
+					}
+				}
+				else
+				{
+					ichatcomponent = new ChatComponentTranslation("death.fell.killer", new Object[] {this.fighter.getDisplayName()});
+				}
+			}
+			else
+			{
+				ichatcomponent = new ChatComponentTranslation("death.fell.accident." + this.func_94548_b(combatentry), new Object[] {this.fighter.getDisplayName()});
+			}
+		}
+		else
+		{
+			ichatcomponent = combatentry1.getDamageSrc().getDeathMessage(this.fighter);
+		}
 
-            return ichatcomponent;
-        }
-    }
+		return ichatcomponent;
+	}
 
     public EntityLivingBase func_94550_c()
     {
@@ -163,11 +160,8 @@ public class CombatTracker
         {
             return entityplayer;
         }
-        else
-        {
-            return entitylivingbase;
-        }
-    }
+		return entitylivingbase;
+	}
 
     private CombatEntry func_94544_f()
     {
@@ -205,15 +199,12 @@ public class CombatTracker
         {
             return combatentry;
         }
-        else if (i > 5 && combatentry1 != null)
-        {
-            return combatentry1;
-        }
-        else
-        {
-            return null;
-        }
-    }
+		if (i > 5 && combatentry1 != null)
+		{
+			return combatentry1;
+		}
+		return null;
+	}
 
     private String func_94548_b(CombatEntry p_94548_1_)
     {

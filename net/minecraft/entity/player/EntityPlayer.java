@@ -839,52 +839,49 @@ public abstract class EntityPlayer extends EntityLivingBase
         {
             return null;
         }
-        else if (droppedItem.stackSize == 0)
-        {
-            return null;
-        }
-        else
-        {
-            double d0 = this.posY - 0.30000001192092896D + (double)this.getEyeHeight();
-            EntityItem entityitem = new EntityItem(this.worldObj, this.posX, d0, this.posZ, droppedItem);
-            entityitem.setPickupDelay(40);
+		if (droppedItem.stackSize == 0)
+		{
+			return null;
+		}
+		double d0 = this.posY - 0.30000001192092896D + (double)this.getEyeHeight();
+		EntityItem entityitem = new EntityItem(this.worldObj, this.posX, d0, this.posZ, droppedItem);
+		entityitem.setPickupDelay(40);
 
-            if (traceItem)
-            {
-                entityitem.setThrower(this.getName());
-            }
+		if (traceItem)
+		{
+			entityitem.setThrower(this.getName());
+		}
 
-            if (dropAround)
-            {
-                float f = this.rand.nextFloat() * 0.5F;
-                float f1 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
-                entityitem.motionX = (double)(-MathHelper.sin(f1) * f);
-                entityitem.motionZ = (double)(MathHelper.cos(f1) * f);
-                entityitem.motionY = 0.20000000298023224D;
-            }
-            else
-            {
-                float f2 = 0.3F;
-                entityitem.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f2);
-                entityitem.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f2);
-                entityitem.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI) * f2 + 0.1F);
-                float f3 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
-                f2 = 0.02F * this.rand.nextFloat();
-                entityitem.motionX += Math.cos((double)f3) * (double)f2;
-                entityitem.motionY += (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                entityitem.motionZ += Math.sin((double)f3) * (double)f2;
-            }
+		if (dropAround)
+		{
+			float f = this.rand.nextFloat() * 0.5F;
+			float f1 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
+			entityitem.motionX = (double)(-MathHelper.sin(f1) * f);
+			entityitem.motionZ = (double)(MathHelper.cos(f1) * f);
+			entityitem.motionY = 0.20000000298023224D;
+		}
+		else
+		{
+			float f2 = 0.3F;
+			entityitem.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f2);
+			entityitem.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f2);
+			entityitem.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI) * f2 + 0.1F);
+			float f3 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
+			f2 = 0.02F * this.rand.nextFloat();
+			entityitem.motionX += Math.cos((double)f3) * (double)f2;
+			entityitem.motionY += (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
+			entityitem.motionZ += Math.sin((double)f3) * (double)f2;
+		}
 
-            this.joinEntityItemWithWorld(entityitem);
+		this.joinEntityItemWithWorld(entityitem);
 
-            if (traceItem)
-            {
-                this.triggerAchievement(StatList.dropStat);
-            }
+		if (traceItem)
+		{
+			this.triggerAchievement(StatList.dropStat);
+		}
 
-            return entityitem;
-        }
-    }
+		return entityitem;
+	}
 
     /**
      * Joins the passed in entity item with the world. Args: entityItem
@@ -1054,61 +1051,52 @@ public abstract class EntityPlayer extends EntityLivingBase
         {
             return false;
         }
-        else if (this.capabilities.disableDamage && !source.canHarmInCreative())
-        {
-            return false;
-        }
-        else
-        {
-            this.entityAge = 0;
+		if (this.capabilities.disableDamage && !source.canHarmInCreative())
+		{
+			return false;
+		}
+		this.entityAge = 0;
 
-            if (this.getHealth() <= 0.0F)
-            {
-                return false;
-            }
-            else
-            {
-                if (this.isPlayerSleeping() && !this.worldObj.isRemote)
-                {
-                    this.wakeUpPlayer(true, true, false);
-                }
+		if (this.getHealth() <= 0.0F)
+		{
+			return false;
+		}
+		if (this.isPlayerSleeping() && !this.worldObj.isRemote)
+		{
+			this.wakeUpPlayer(true, true, false);
+		}
 
-                if (source.isDifficultyScaled())
-                {
-                    if (this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
-                    {
-                        amount = 0.0F;
-                    }
+		if (source.isDifficultyScaled())
+		{
+			if (this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
+			{
+				amount = 0.0F;
+			}
 
-                    if (this.worldObj.getDifficulty() == EnumDifficulty.EASY)
-                    {
-                        amount = amount / 2.0F + 1.0F;
-                    }
+			if (this.worldObj.getDifficulty() == EnumDifficulty.EASY)
+			{
+				amount = amount / 2.0F + 1.0F;
+			}
 
-                    if (this.worldObj.getDifficulty() == EnumDifficulty.HARD)
-                    {
-                        amount = amount * 3.0F / 2.0F;
-                    }
-                }
+			if (this.worldObj.getDifficulty() == EnumDifficulty.HARD)
+			{
+				amount = amount * 3.0F / 2.0F;
+			}
+		}
 
-                if (amount == 0.0F)
-                {
-                    return false;
-                }
-                else
-                {
-                    Entity entity = source.getEntity();
+		if (amount == 0.0F)
+		{
+			return false;
+		}
+		Entity entity = source.getEntity();
 
-                    if (entity instanceof EntityArrow && ((EntityArrow)entity).shootingEntity != null)
-                    {
-                        entity = ((EntityArrow)entity).shootingEntity;
-                    }
+		if (entity instanceof EntityArrow && ((EntityArrow)entity).shootingEntity != null)
+		{
+			entity = ((EntityArrow)entity).shootingEntity;
+		}
 
-                    return super.attackEntityFrom(source, amount);
-                }
-            }
-        }
-    }
+		return super.attackEntityFrom(source, amount);
+	}
 
     public boolean canAttackPlayer(EntityPlayer other)
     {
@@ -1228,51 +1216,45 @@ public abstract class EntityPlayer extends EntityLivingBase
 
             return false;
         }
-        else
-        {
-            ItemStack itemstack = this.getCurrentEquippedItem();
-            ItemStack itemstack1 = itemstack != null ? itemstack.copy() : null;
+		ItemStack itemstack = this.getCurrentEquippedItem();
+		ItemStack itemstack1 = itemstack != null ? itemstack.copy() : null;
 
-            if (!p_70998_1_.interactFirst(this))
-            {
-                if (itemstack != null && p_70998_1_ instanceof EntityLivingBase)
-                {
-                    if (this.capabilities.isCreativeMode)
-                    {
-                        itemstack = itemstack1;
-                    }
+		if (!p_70998_1_.interactFirst(this))
+		{
+			if (itemstack != null && p_70998_1_ instanceof EntityLivingBase)
+			{
+				if (this.capabilities.isCreativeMode)
+				{
+					itemstack = itemstack1;
+				}
 
-                    if (itemstack.interactWithEntity(this, (EntityLivingBase)p_70998_1_))
-                    {
-                        if (itemstack.stackSize <= 0 && !this.capabilities.isCreativeMode)
-                        {
-                            this.destroyCurrentEquippedItem();
-                        }
+				if (itemstack.interactWithEntity(this, (EntityLivingBase)p_70998_1_))
+				{
+					if (itemstack.stackSize <= 0 && !this.capabilities.isCreativeMode)
+					{
+						this.destroyCurrentEquippedItem();
+					}
 
-                        return true;
-                    }
-                }
+					return true;
+				}
+			}
 
-                return false;
-            }
-            else
-            {
-                if (itemstack != null && itemstack == this.getCurrentEquippedItem())
-                {
-                    if (itemstack.stackSize <= 0 && !this.capabilities.isCreativeMode)
-                    {
-                        this.destroyCurrentEquippedItem();
-                    }
-                    else if (itemstack.stackSize < itemstack1.stackSize && this.capabilities.isCreativeMode)
-                    {
-                        itemstack.stackSize = itemstack1.stackSize;
-                    }
-                }
+			return false;
+		}
+		if (itemstack != null && itemstack == this.getCurrentEquippedItem())
+		{
+			if (itemstack.stackSize <= 0 && !this.capabilities.isCreativeMode)
+			{
+				this.destroyCurrentEquippedItem();
+			}
+			else if (itemstack.stackSize < itemstack1.stackSize && this.capabilities.isCreativeMode)
+			{
+				itemstack.stackSize = itemstack1.stackSize;
+			}
+		}
 
-                return true;
-            }
-        }
-    }
+		return true;
+	}
 
     /**
      * Returns the currently being used item by the player.
@@ -1655,18 +1637,12 @@ public abstract class EntityPlayer extends EntityLivingBase
             {
                 return null;
             }
-            else
-            {
-                boolean flag = block.func_181623_g();
-                boolean flag1 = worldIn.getBlockState(bedLocation.up()).getBlock().func_181623_g();
-                return flag && flag1 ? bedLocation : null;
-            }
-        }
-        else
-        {
-            return BlockBed.getSafeExitLocation(worldIn, bedLocation, 0);
-        }
-    }
+			boolean flag = block.func_181623_g();
+			boolean flag1 = worldIn.getBlockState(bedLocation.up()).getBlock().func_181623_g();
+			return flag && flag1 ? bedLocation : null;
+		}
+		return BlockBed.getSafeExitLocation(worldIn, bedLocation, 0);
+	}
 
     /**
      * Returns the orientation of the bed in degrees.
@@ -2124,17 +2100,14 @@ public abstract class EntityPlayer extends EntityLivingBase
         {
             return true;
         }
-        else if (p_175151_3_ == null)
-        {
-            return false;
-        }
-        else
-        {
-            BlockPos blockpos = p_175151_1_.offset(p_175151_2_.getOpposite());
-            Block block = this.worldObj.getBlockState(blockpos).getBlock();
-            return p_175151_3_.canPlaceOn(block) || p_175151_3_.canEditBlocks();
-        }
-    }
+		if (p_175151_3_ == null)
+		{
+			return false;
+		}
+		BlockPos blockpos = p_175151_1_.offset(p_175151_2_.getOpposite());
+		Block block = this.worldObj.getBlockState(blockpos).getBlock();
+		return p_175151_3_.canPlaceOn(block) || p_175151_3_.canEditBlocks();
+	}
 
     /**
      * Get the experience points the entity currently has.
@@ -2145,12 +2118,9 @@ public abstract class EntityPlayer extends EntityLivingBase
         {
             return 0;
         }
-        else
-        {
-            int i = this.experienceLevel * 7;
-            return i > 100 ? 100 : i;
-        }
-    }
+		int i = this.experienceLevel * 7;
+		return i > 100 ? 100 : i;
+	}
 
     /**
      * Only use is to identify if class is an instance of player for experience dropping
@@ -2272,16 +2242,13 @@ public abstract class EntityPlayer extends EntityLivingBase
         {
             return false;
         }
-        else if (player.isSpectator())
-        {
-            return false;
-        }
-        else
-        {
-            Team team = this.getTeam();
-            return team == null || player == null || player.getTeam() != team || !team.getSeeFriendlyInvisiblesEnabled();
-        }
-    }
+		if (player.isSpectator())
+		{
+			return false;
+		}
+		Team team = this.getTeam();
+		return team == null || player == null || player.getTeam() != team || !team.getSeeFriendlyInvisiblesEnabled();
+	}
 
     /**
      * Returns true if the player is in spectator mode.
@@ -2384,12 +2351,9 @@ public abstract class EntityPlayer extends EntityLivingBase
         {
             return true;
         }
-        else
-        {
-            ItemStack itemstack = this.getCurrentEquippedItem();
-            return itemstack != null && itemstack.hasDisplayName() ? itemstack.getDisplayName().equals(code.getLock()) : false;
-        }
-    }
+		ItemStack itemstack = this.getCurrentEquippedItem();
+		return itemstack != null && itemstack.hasDisplayName() ? itemstack.getDisplayName().equals(code.getLock()) : false;
+	}
 
     public boolean isWearing(EnumPlayerModelParts p_175148_1_)
     {
@@ -2411,48 +2375,39 @@ public abstract class EntityPlayer extends EntityLivingBase
             this.inventory.setInventorySlotContents(inventorySlot, itemStackIn);
             return true;
         }
-        else
-        {
-            int i = inventorySlot - 100;
+		int i = inventorySlot - 100;
 
-            if (i >= 0 && i < this.inventory.armorInventory.length)
-            {
-                int k = i + 1;
+		if (i >= 0 && i < this.inventory.armorInventory.length)
+		{
+			int k = i + 1;
 
-                if (itemStackIn != null && itemStackIn.getItem() != null)
-                {
-                    if (itemStackIn.getItem() instanceof ItemArmor)
-                    {
-                        if (EntityLiving.getArmorPosition(itemStackIn) != k)
-                        {
-                            return false;
-                        }
-                    }
-                    else if (k != 4 || itemStackIn.getItem() != Items.skull && !(itemStackIn.getItem() instanceof ItemBlock))
-                    {
-                        return false;
-                    }
-                }
+			if (itemStackIn != null && itemStackIn.getItem() != null)
+			{
+				if (itemStackIn.getItem() instanceof ItemArmor)
+				{
+					if (EntityLiving.getArmorPosition(itemStackIn) != k)
+					{
+						return false;
+					}
+				}
+				else if (k != 4 || itemStackIn.getItem() != Items.skull && !(itemStackIn.getItem() instanceof ItemBlock))
+				{
+					return false;
+				}
+			}
 
-                this.inventory.setInventorySlotContents(i + this.inventory.mainInventory.length, itemStackIn);
-                return true;
-            }
-            else
-            {
-                int j = inventorySlot - 200;
+			this.inventory.setInventorySlotContents(i + this.inventory.mainInventory.length, itemStackIn);
+			return true;
+		}
+		int j = inventorySlot - 200;
 
-                if (j >= 0 && j < this.theInventoryEnderChest.getSizeInventory())
-                {
-                    this.theInventoryEnderChest.setInventorySlotContents(j, itemStackIn);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-    }
+		if (j >= 0 && j < this.theInventoryEnderChest.getSizeInventory())
+		{
+			this.theInventoryEnderChest.setInventorySlotContents(j, itemStackIn);
+			return true;
+		}
+		return false;
+	}
 
     /**
      * Whether the "reducedDebugInfo" option is active for this player.

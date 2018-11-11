@@ -1183,11 +1183,8 @@ public abstract class Entity implements ICommandSender
             boolean flag = d0 < (double)f1;
             return !flag && this instanceof EntityPlayer ? false : flag;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public boolean isInLava()
     {
@@ -1422,12 +1419,9 @@ public abstract class Entity implements ICommandSender
         {
             return false;
         }
-        else
-        {
-            this.setBeenAttacked();
-            return false;
-        }
-    }
+		this.setBeenAttacked();
+		return false;
+	}
 
     /**
      * interpolated look vector
@@ -1438,13 +1432,10 @@ public abstract class Entity implements ICommandSender
         {
             return this.getVectorForRotation(this.rotationPitch, this.rotationYaw);
         }
-        else
-        {
-            float f = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
-            float f1 = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * partialTicks;
-            return this.getVectorForRotation(f, f1);
-        }
-    }
+		float f = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
+		float f1 = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * partialTicks;
+		return this.getVectorForRotation(f, f1);
+	}
 
     /**
      * Creates a Vec3 using the pitch and yaw of the entities rotation.
@@ -1464,14 +1455,11 @@ public abstract class Entity implements ICommandSender
         {
             return new Vec3(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ);
         }
-        else
-        {
-            double d0 = this.prevPosX + (this.posX - this.prevPosX) * (double)partialTicks;
-            double d1 = this.prevPosY + (this.posY - this.prevPosY) * (double)partialTicks + (double)this.getEyeHeight();
-            double d2 = this.prevPosZ + (this.posZ - this.prevPosZ) * (double)partialTicks;
-            return new Vec3(d0, d1, d2);
-        }
-    }
+		double d0 = this.prevPosX + (this.posX - this.prevPosX) * (double)partialTicks;
+		double d1 = this.prevPosY + (this.posY - this.prevPosY) * (double)partialTicks + (double)this.getEyeHeight();
+		double d2 = this.prevPosZ + (this.posZ - this.prevPosZ) * (double)partialTicks;
+		return new Vec3(d0, d1, d2);
+	}
 
     public MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks)
     {
@@ -1545,11 +1533,8 @@ public abstract class Entity implements ICommandSender
             this.writeToNBT(tagCompund);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Either write this entity to the NBT tag given and return true, or return false without doing anything. If this
@@ -1566,11 +1551,8 @@ public abstract class Entity implements ICommandSender
             this.writeToNBT(tagCompund);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Save the entity to NBT (calls an abstract helper method to write extra data)
@@ -1785,11 +1767,8 @@ public abstract class Entity implements ICommandSender
             this.worldObj.spawnEntityInWorld(entityitem);
             return entityitem;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Checks whether target entity is alive.
@@ -1808,30 +1787,27 @@ public abstract class Entity implements ICommandSender
         {
             return false;
         }
-        else
-        {
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-            for (int i = 0; i < 8; ++i)
-            {
-                int j = MathHelper.floor_double(this.posY + (double)(((float)((i >> 0) % 2) - 0.5F) * 0.1F) + (double)this.getEyeHeight());
-                int k = MathHelper.floor_double(this.posX + (double)(((float)((i >> 1) % 2) - 0.5F) * this.width * 0.8F));
-                int l = MathHelper.floor_double(this.posZ + (double)(((float)((i >> 2) % 2) - 0.5F) * this.width * 0.8F));
+		for (int i = 0; i < 8; ++i)
+		{
+			int j = MathHelper.floor_double(this.posY + (double)(((float)((i >> 0) % 2) - 0.5F) * 0.1F) + (double)this.getEyeHeight());
+			int k = MathHelper.floor_double(this.posX + (double)(((float)((i >> 1) % 2) - 0.5F) * this.width * 0.8F));
+			int l = MathHelper.floor_double(this.posZ + (double)(((float)((i >> 2) % 2) - 0.5F) * this.width * 0.8F));
 
-                if (blockpos$mutableblockpos.getX() != k || blockpos$mutableblockpos.getY() != j || blockpos$mutableblockpos.getZ() != l)
-                {
-                    blockpos$mutableblockpos.func_181079_c(k, j, l);
+			if (blockpos$mutableblockpos.getX() != k || blockpos$mutableblockpos.getY() != j || blockpos$mutableblockpos.getZ() != l)
+			{
+				blockpos$mutableblockpos.func_181079_c(k, j, l);
 
-                    if (this.worldObj.getBlockState(blockpos$mutableblockpos).getBlock().isVisuallyOpaque())
-                    {
-                        return true;
-                    }
-                }
-            }
+				if (this.worldObj.getBlockState(blockpos$mutableblockpos).getBlock().isVisuallyOpaque())
+				{
+					return true;
+				}
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * First layer of player interaction
@@ -2239,71 +2215,68 @@ public abstract class Entity implements ICommandSender
         {
             return false;
         }
-        else
-        {
-            int i = 3;
-            double d3 = 9999.0D;
+		int i = 3;
+		double d3 = 9999.0D;
 
-            if (!this.worldObj.isBlockFullCube(blockpos.west()) && d0 < d3)
-            {
-                d3 = d0;
-                i = 0;
-            }
+		if (!this.worldObj.isBlockFullCube(blockpos.west()) && d0 < d3)
+		{
+			d3 = d0;
+			i = 0;
+		}
 
-            if (!this.worldObj.isBlockFullCube(blockpos.east()) && 1.0D - d0 < d3)
-            {
-                d3 = 1.0D - d0;
-                i = 1;
-            }
+		if (!this.worldObj.isBlockFullCube(blockpos.east()) && 1.0D - d0 < d3)
+		{
+			d3 = 1.0D - d0;
+			i = 1;
+		}
 
-            if (!this.worldObj.isBlockFullCube(blockpos.up()) && 1.0D - d1 < d3)
-            {
-                d3 = 1.0D - d1;
-                i = 3;
-            }
+		if (!this.worldObj.isBlockFullCube(blockpos.up()) && 1.0D - d1 < d3)
+		{
+			d3 = 1.0D - d1;
+			i = 3;
+		}
 
-            if (!this.worldObj.isBlockFullCube(blockpos.north()) && d2 < d3)
-            {
-                d3 = d2;
-                i = 4;
-            }
+		if (!this.worldObj.isBlockFullCube(blockpos.north()) && d2 < d3)
+		{
+			d3 = d2;
+			i = 4;
+		}
 
-            if (!this.worldObj.isBlockFullCube(blockpos.south()) && 1.0D - d2 < d3)
-            {
-                d3 = 1.0D - d2;
-                i = 5;
-            }
+		if (!this.worldObj.isBlockFullCube(blockpos.south()) && 1.0D - d2 < d3)
+		{
+			d3 = 1.0D - d2;
+			i = 5;
+		}
 
-            float f = this.rand.nextFloat() * 0.2F + 0.1F;
+		float f = this.rand.nextFloat() * 0.2F + 0.1F;
 
-            if (i == 0)
-            {
-                this.motionX = (double) -f;
-            }
+		if (i == 0)
+		{
+			this.motionX = (double) -f;
+		}
 
-            if (i == 1)
-            {
-                this.motionX = (double)f;
-            }
+		if (i == 1)
+		{
+			this.motionX = (double)f;
+		}
 
-            if (i == 3)
-            {
-                this.motionY = (double)f;
-            }
+		if (i == 3)
+		{
+			this.motionY = (double)f;
+		}
 
-            if (i == 4)
-            {
-                this.motionZ = (double) -f;
-            }
+		if (i == 4)
+		{
+			this.motionZ = (double) -f;
+		}
 
-            if (i == 5)
-            {
-                this.motionZ = (double)f;
-            }
+		if (i == 5)
+		{
+			this.motionZ = (double)f;
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Sets the Entity inside a web block.
@@ -2323,18 +2296,15 @@ public abstract class Entity implements ICommandSender
         {
             return this.getCustomNameTag();
         }
-        else
-        {
-            String s = EntityList.getEntityString(this);
+		String s = EntityList.getEntityString(this);
 
-            if (s == null)
-            {
-                s = "generic";
-            }
+		if (s == null)
+		{
+			s = "generic";
+		}
 
-            return StatCollector.translateToLocal("entity." + s + ".name");
-        }
-    }
+		return StatCollector.translateToLocal("entity." + s + ".name");
+	}
 
     /**
      * Return the Entity parts making up this Entity (currently only for dragons)

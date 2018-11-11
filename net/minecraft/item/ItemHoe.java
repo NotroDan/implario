@@ -34,34 +34,31 @@ public class ItemHoe extends Item
         {
             return false;
         }
-        else
-        {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            Block block = iblockstate.getBlock();
+		IBlockState iblockstate = worldIn.getBlockState(pos);
+		Block block = iblockstate.getBlock();
 
-            if (side != EnumFacing.DOWN && worldIn.getBlockState(pos.up()).getBlock().getMaterial() == Material.air)
-            {
-                if (block == Blocks.grass)
-                {
-                    return this.useHoe(stack, playerIn, worldIn, pos, Blocks.farmland.getDefaultState());
-                }
+		if (side != EnumFacing.DOWN && worldIn.getBlockState(pos.up()).getBlock().getMaterial() == Material.air)
+		{
+			if (block == Blocks.grass)
+			{
+				return this.useHoe(stack, playerIn, worldIn, pos, Blocks.farmland.getDefaultState());
+			}
 
-                if (block == Blocks.dirt)
-                {
-                    switch ((BlockDirt.DirtType)iblockstate.getValue(BlockDirt.VARIANT))
-                    {
-                        case DIRT:
-                            return this.useHoe(stack, playerIn, worldIn, pos, Blocks.farmland.getDefaultState());
+			if (block == Blocks.dirt)
+			{
+				switch ((BlockDirt.DirtType)iblockstate.getValue(BlockDirt.VARIANT))
+				{
+					case DIRT:
+						return this.useHoe(stack, playerIn, worldIn, pos, Blocks.farmland.getDefaultState());
 
-                        case COARSE_DIRT:
-                            return this.useHoe(stack, playerIn, worldIn, pos, Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
-                    }
-                }
-            }
+					case COARSE_DIRT:
+						return this.useHoe(stack, playerIn, worldIn, pos, Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
+				}
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     protected boolean useHoe(ItemStack stack, EntityPlayer player, World worldIn, BlockPos target, IBlockState newState)
     {
@@ -71,13 +68,10 @@ public class ItemHoe extends Item
         {
             return true;
         }
-        else
-        {
-            worldIn.setBlockState(target, newState);
-            stack.damageItem(1, player);
-            return true;
-        }
-    }
+		worldIn.setBlockState(target, newState);
+		stack.damageItem(1, player);
+		return true;
+	}
 
     /**
      * Returns True is the item is renderer in full 3D when hold.

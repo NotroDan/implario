@@ -64,26 +64,20 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            this.closestLivingEntity = list.get(0);
-            Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.theEntity, 16, 7, new Vec3(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
+		this.closestLivingEntity = list.get(0);
+		Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.theEntity, 16, 7, new Vec3(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
 
-            if (vec3 == null)
-            {
-                return false;
-            }
-            else if (this.closestLivingEntity.getDistanceSq(vec3.xCoord, vec3.yCoord, vec3.zCoord) < this.closestLivingEntity.getDistanceSqToEntity(this.theEntity))
-            {
-                return false;
-            }
-            else
-            {
-                this.entityPathEntity = this.entityPathNavigate.getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
-                return this.entityPathEntity == null ? false : this.entityPathEntity.isDestinationSame(vec3);
-            }
-        }
-    }
+		if (vec3 == null)
+		{
+			return false;
+		}
+		if (this.closestLivingEntity.getDistanceSq(vec3.xCoord, vec3.yCoord, vec3.zCoord) < this.closestLivingEntity.getDistanceSqToEntity(this.theEntity))
+		{
+			return false;
+		}
+		this.entityPathEntity = this.entityPathNavigate.getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+		return this.entityPathEntity == null ? false : this.entityPathEntity.isDestinationSame(vec3);
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

@@ -43,31 +43,25 @@ public class EnchantmentHelper
         {
             return 0;
         }
-        else
-        {
-            NBTTagList nbttaglist = stack.getEnchantmentTagList();
+		NBTTagList nbttaglist = stack.getEnchantmentTagList();
 
-            if (nbttaglist == null)
-            {
-                return 0;
-            }
-            else
-            {
-                for (int i = 0; i < nbttaglist.tagCount(); ++i)
-                {
-                    int j = nbttaglist.getCompoundTagAt(i).getShort("id");
-                    int k = nbttaglist.getCompoundTagAt(i).getShort("lvl");
+		if (nbttaglist == null)
+		{
+			return 0;
+		}
+		for (int i = 0; i < nbttaglist.tagCount(); ++i)
+		{
+			int j = nbttaglist.getCompoundTagAt(i).getShort("id");
+			int k = nbttaglist.getCompoundTagAt(i).getShort("lvl");
 
-                    if (j == enchID)
-                    {
-                        return k;
-                    }
-                }
+			if (j == enchID)
+			{
+				return k;
+			}
+		}
 
-                return 0;
-            }
-        }
-    }
+		return 0;
+	}
 
     public static Map<Integer, Integer> getEnchantments(ItemStack stack)
     {
@@ -136,23 +130,20 @@ public class EnchantmentHelper
         {
             return 0;
         }
-        else
-        {
-            int i = 0;
+		int i = 0;
 
-            for (ItemStack itemstack : stacks)
-            {
-                int j = getEnchantmentLevel(enchID, itemstack);
+		for (ItemStack itemstack : stacks)
+		{
+			int j = getEnchantmentLevel(enchID, itemstack);
 
-                if (j > i)
-                {
-                    i = j;
-                }
-            }
+			if (j > i)
+			{
+				i = j;
+			}
+		}
 
-            return i;
-        }
-    }
+		return i;
+	}
 
     /**
      * Executes the enchantment modifier on the ItemStack passed.
@@ -365,17 +356,14 @@ public class EnchantmentHelper
         {
             return 0;
         }
-        else
-        {
-            if (p_77514_2_ > 15)
-            {
-                p_77514_2_ = 15;
-            }
+		if (p_77514_2_ > 15)
+		{
+			p_77514_2_ = 15;
+		}
 
-            int j = p_77514_0_.nextInt(8) + 1 + (p_77514_2_ >> 1) + p_77514_0_.nextInt(p_77514_2_ + 1);
-            return p_77514_1_ == 0 ? Math.max(j / 3, 1) : p_77514_1_ == 1 ? j * 2 / 3 + 1 : Math.max(j, p_77514_2_ * 2);
-        }
-    }
+		int j = p_77514_0_.nextInt(8) + 1 + (p_77514_2_ >> 1) + p_77514_0_.nextInt(p_77514_2_ + 1);
+		return p_77514_1_ == 0 ? Math.max(j / 3, 1) : p_77514_1_ == 1 ? j * 2 / 3 + 1 : Math.max(j, p_77514_2_ * 2);
+	}
 
     /**
      * Adds a random enchantment to the specified item. Args: random, itemStack, enchantabilityLevel
@@ -417,67 +405,64 @@ public class EnchantmentHelper
         {
             return null;
         }
-        else
-        {
-            i = i / 2;
-            i = 1 + randomIn.nextInt((i >> 1) + 1) + randomIn.nextInt((i >> 1) + 1);
-            int j = i + p_77513_2_;
-            float f = (randomIn.nextFloat() + randomIn.nextFloat() - 1.0F) * 0.15F;
-            int k = (int)((float)j * (1.0F + f) + 0.5F);
+		i = i / 2;
+		i = 1 + randomIn.nextInt((i >> 1) + 1) + randomIn.nextInt((i >> 1) + 1);
+		int j = i + p_77513_2_;
+		float f = (randomIn.nextFloat() + randomIn.nextFloat() - 1.0F) * 0.15F;
+		int k = (int)((float)j * (1.0F + f) + 0.5F);
 
-            if (k < 1)
-            {
-                k = 1;
-            }
+		if (k < 1)
+		{
+			k = 1;
+		}
 
-            List<EnchantmentData> list = null;
-            Map<Integer, EnchantmentData> map = mapEnchantmentData(k, itemStackIn);
+		List<EnchantmentData> list = null;
+		Map<Integer, EnchantmentData> map = mapEnchantmentData(k, itemStackIn);
 
-            if (map != null && !map.isEmpty())
-            {
-                EnchantmentData enchantmentdata = (EnchantmentData)WeightedRandom.getRandomItem(randomIn, map.values());
+		if (map != null && !map.isEmpty())
+		{
+			EnchantmentData enchantmentdata = (EnchantmentData)WeightedRandom.getRandomItem(randomIn, map.values());
 
-                if (enchantmentdata != null)
-                {
-                    list = Lists.<EnchantmentData>newArrayList();
-                    list.add(enchantmentdata);
+			if (enchantmentdata != null)
+			{
+				list = Lists.<EnchantmentData>newArrayList();
+				list.add(enchantmentdata);
 
-                    for (int l = k; randomIn.nextInt(50) <= l; l >>= 1)
-                    {
-                        Iterator<Integer> iterator = map.keySet().iterator();
+				for (int l = k; randomIn.nextInt(50) <= l; l >>= 1)
+				{
+					Iterator<Integer> iterator = map.keySet().iterator();
 
-                        while (iterator.hasNext())
-                        {
-                            Integer integer = (Integer)iterator.next();
-                            boolean flag = true;
+					while (iterator.hasNext())
+					{
+						Integer integer = (Integer)iterator.next();
+						boolean flag = true;
 
-                            for (EnchantmentData enchantmentdata1 : list)
-                            {
-                                if (!enchantmentdata1.enchantmentobj.canApplyTogether(Enchantment.getEnchantmentById(integer.intValue())))
-                                {
-                                    flag = false;
-                                    break;
-                                }
-                            }
+						for (EnchantmentData enchantmentdata1 : list)
+						{
+							if (!enchantmentdata1.enchantmentobj.canApplyTogether(Enchantment.getEnchantmentById(integer.intValue())))
+							{
+								flag = false;
+								break;
+							}
+						}
 
-                            if (!flag)
-                            {
-                                iterator.remove();
-                            }
-                        }
+						if (!flag)
+						{
+							iterator.remove();
+						}
+					}
 
-                        if (!map.isEmpty())
-                        {
-                            EnchantmentData enchantmentdata2 = (EnchantmentData)WeightedRandom.getRandomItem(randomIn, map.values());
-                            list.add(enchantmentdata2);
-                        }
-                    }
-                }
-            }
+					if (!map.isEmpty())
+					{
+						EnchantmentData enchantmentdata2 = (EnchantmentData)WeightedRandom.getRandomItem(randomIn, map.values());
+						list.add(enchantmentdata2);
+					}
+				}
+			}
+		}
 
-            return list;
-        }
-    }
+		return list;
+	}
 
     public static Map<Integer, EnchantmentData> mapEnchantmentData(int p_77505_0_, ItemStack p_77505_1_)
     {

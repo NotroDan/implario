@@ -60,11 +60,8 @@ public class NBTTagByte extends NBTBase.NBTPrimitive
             NBTTagByte nbttagbyte = (NBTTagByte)p_equals_1_;
             return this.data == nbttagbyte.data;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public int hashCode()
     {

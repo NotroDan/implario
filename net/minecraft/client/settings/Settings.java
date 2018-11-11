@@ -158,7 +158,9 @@ public enum Settings {
 	FANCY_BUTTONS("Тип кнопок", true),
 	RAINBOW_SHIT("Радужная хуйня", true),
 	HIDE_SERVER_ADDRESS("Скрыть IP серверов", false),
-	RENDER_FIRE("Огонь", 0, "Стандартный", "Иконка", "Отключён");
+	RENDER_FIRE("Огонь", 0, "Стандартный", "Иконка", "Отключён"),
+	SUDOKU_SEPARATORS("Разделители", false),
+	FAST_PLACE("Быстрый ПКМ", false);
 
 	private static final Settings[] SOUNDS;
 	private static final Settings[] MODELPARTS;

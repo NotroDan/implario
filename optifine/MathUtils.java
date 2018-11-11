@@ -8,18 +8,15 @@ public class MathUtils
         {
             return 0;
         }
-        else
-        {
-            int i = 0;
+		int i = 0;
 
-            for (int j = 0; j < p_getAverage_0_.length; ++j)
-            {
-                int k = p_getAverage_0_[j];
-                i += k;
-            }
+		for (int j = 0; j < p_getAverage_0_.length; ++j)
+		{
+			int k = p_getAverage_0_[j];
+			i += k;
+		}
 
-            int l = i / p_getAverage_0_.length;
-            return l;
-        }
-    }
+		int l = i / p_getAverage_0_.length;
+		return l;
+	}
 }

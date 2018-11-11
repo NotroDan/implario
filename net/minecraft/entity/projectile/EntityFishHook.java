@@ -532,48 +532,45 @@ public class EntityFishHook extends Entity
         {
             return 0;
         }
-        else
-        {
-            int i = 0;
+		int i = 0;
 
-            if (this.caughtEntity != null)
-            {
-                double d0 = this.angler.posX - this.posX;
-                double d2 = this.angler.posY - this.posY;
-                double d4 = this.angler.posZ - this.posZ;
-                double d6 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2 + d4 * d4);
-                double d8 = 0.1D;
-                this.caughtEntity.motionX += d0 * d8;
-                this.caughtEntity.motionY += d2 * d8 + (double)MathHelper.sqrt_double(d6) * 0.08D;
-                this.caughtEntity.motionZ += d4 * d8;
-                i = 3;
-            }
-            else if (this.ticksCatchable > 0)
-            {
-                EntityItem entityitem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, this.getFishingResult());
-                double d1 = this.angler.posX - this.posX;
-                double d3 = this.angler.posY - this.posY;
-                double d5 = this.angler.posZ - this.posZ;
-                double d7 = (double)MathHelper.sqrt_double(d1 * d1 + d3 * d3 + d5 * d5);
-                double d9 = 0.1D;
-                entityitem.motionX = d1 * d9;
-                entityitem.motionY = d3 * d9 + (double)MathHelper.sqrt_double(d7) * 0.08D;
-                entityitem.motionZ = d5 * d9;
-                this.worldObj.spawnEntityInWorld(entityitem);
-                this.angler.worldObj.spawnEntityInWorld(new EntityXPOrb(this.angler.worldObj, this.angler.posX, this.angler.posY + 0.5D, this.angler.posZ + 0.5D, this.rand.nextInt(6) + 1));
-                i = 1;
-            }
+		if (this.caughtEntity != null)
+		{
+			double d0 = this.angler.posX - this.posX;
+			double d2 = this.angler.posY - this.posY;
+			double d4 = this.angler.posZ - this.posZ;
+			double d6 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2 + d4 * d4);
+			double d8 = 0.1D;
+			this.caughtEntity.motionX += d0 * d8;
+			this.caughtEntity.motionY += d2 * d8 + (double)MathHelper.sqrt_double(d6) * 0.08D;
+			this.caughtEntity.motionZ += d4 * d8;
+			i = 3;
+		}
+		else if (this.ticksCatchable > 0)
+		{
+			EntityItem entityitem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, this.getFishingResult());
+			double d1 = this.angler.posX - this.posX;
+			double d3 = this.angler.posY - this.posY;
+			double d5 = this.angler.posZ - this.posZ;
+			double d7 = (double)MathHelper.sqrt_double(d1 * d1 + d3 * d3 + d5 * d5);
+			double d9 = 0.1D;
+			entityitem.motionX = d1 * d9;
+			entityitem.motionY = d3 * d9 + (double)MathHelper.sqrt_double(d7) * 0.08D;
+			entityitem.motionZ = d5 * d9;
+			this.worldObj.spawnEntityInWorld(entityitem);
+			this.angler.worldObj.spawnEntityInWorld(new EntityXPOrb(this.angler.worldObj, this.angler.posX, this.angler.posY + 0.5D, this.angler.posZ + 0.5D, this.rand.nextInt(6) + 1));
+			i = 1;
+		}
 
-            if (this.inGround)
-            {
-                i = 2;
-            }
+		if (this.inGround)
+		{
+			i = 2;
+		}
 
-            this.setDead();
-            this.angler.fishEntity = null;
-            return i;
-        }
-    }
+		this.setDead();
+		this.angler.fishEntity = null;
+		return i;
+	}
 
     private ItemStack getFishingResult()
     {
@@ -590,23 +587,17 @@ public class EntityFishHook extends Entity
             this.angler.triggerAchievement(StatList.junkFishedStat);
             return ((WeightedRandomFishable)WeightedRandom.getRandomItem(this.rand, JUNK)).getItemStack(this.rand);
         }
-        else
-        {
-            f = f - f1;
+		f = f - f1;
 
-            if (f < f2)
-            {
-                this.angler.triggerAchievement(StatList.treasureFishedStat);
-                return ((WeightedRandomFishable)WeightedRandom.getRandomItem(this.rand, TREASURE)).getItemStack(this.rand);
-            }
-            else
-            {
-                float f3 = f - f2;
-                this.angler.triggerAchievement(StatList.fishCaughtStat);
-                return ((WeightedRandomFishable)WeightedRandom.getRandomItem(this.rand, FISH)).getItemStack(this.rand);
-            }
-        }
-    }
+		if (f < f2)
+		{
+			this.angler.triggerAchievement(StatList.treasureFishedStat);
+			return ((WeightedRandomFishable)WeightedRandom.getRandomItem(this.rand, TREASURE)).getItemStack(this.rand);
+		}
+		float f3 = f - f2;
+		this.angler.triggerAchievement(StatList.fishCaughtStat);
+		return ((WeightedRandomFishable)WeightedRandom.getRandomItem(this.rand, FISH)).getItemStack(this.rand);
+	}
 
     /**
      * Will get destroyed next tick.

@@ -49,42 +49,33 @@ public class CustomSkyLayer
         {
             return -1;
         }
-        else
-        {
-            String[] astring = Config.tokenize(p_parseTime_1_, ":");
+		String[] astring = Config.tokenize(p_parseTime_1_, ":");
 
-            if (astring.length != 2)
-            {
-                Config.warn("Invalid time: " + p_parseTime_1_);
-                return -1;
-            }
-            else
-            {
-                String s = astring[0];
-                String s1 = astring[1];
-                int i = Config.parseInt(s, -1);
-                int j = Config.parseInt(s1, -1);
+		if (astring.length != 2)
+		{
+			Config.warn("Invalid time: " + p_parseTime_1_);
+			return -1;
+		}
+		String s = astring[0];
+		String s1 = astring[1];
+		int i = Config.parseInt(s, -1);
+		int j = Config.parseInt(s1, -1);
 
-                if (i >= 0 && i <= 23 && j >= 0 && j <= 59)
-                {
-                    i = i - 6;
+		if (i >= 0 && i <= 23 && j >= 0 && j <= 59)
+		{
+			i = i - 6;
 
-                    if (i < 0)
-                    {
-                        i += 24;
-                    }
+			if (i < 0)
+			{
+				i += 24;
+			}
 
-                    int k = i * 1000 + (int)((double)j / 60.0D * 1000.0D);
-                    return k;
-                }
-                else
-                {
-                    Config.warn("Invalid time: " + p_parseTime_1_);
-                    return -1;
-                }
-            }
-        }
-    }
+			int k = i * 1000 + (int)((double)j / 60.0D * 1000.0D);
+			return k;
+		}
+		Config.warn("Invalid time: " + p_parseTime_1_);
+		return -1;
+	}
 
     private boolean parseBoolean(String p_parseBoolean_1_, boolean p_parseBoolean_2_)
     {
@@ -92,20 +83,17 @@ public class CustomSkyLayer
         {
             return p_parseBoolean_2_;
         }
-        else if (p_parseBoolean_1_.toLowerCase().equals("true"))
-        {
-            return true;
-        }
-        else if (p_parseBoolean_1_.toLowerCase().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            Config.warn("Unknown boolean: " + p_parseBoolean_1_);
-            return p_parseBoolean_2_;
-        }
-    }
+		if (p_parseBoolean_1_.toLowerCase().equals("true"))
+		{
+			return true;
+		}
+		if (p_parseBoolean_1_.toLowerCase().equals("false"))
+		{
+			return false;
+		}
+		Config.warn("Unknown boolean: " + p_parseBoolean_1_);
+		return p_parseBoolean_2_;
+	}
 
     private float parseFloat(String p_parseFloat_1_, float p_parseFloat_2_)
     {
@@ -113,21 +101,15 @@ public class CustomSkyLayer
         {
             return p_parseFloat_2_;
         }
-        else
-        {
-            float f = Config.parseFloat(p_parseFloat_1_, Float.MIN_VALUE);
+		float f = Config.parseFloat(p_parseFloat_1_, Float.MIN_VALUE);
 
-            if (f == Float.MIN_VALUE)
-            {
-                Config.warn("Invalid value: " + p_parseFloat_1_);
-                return p_parseFloat_2_;
-            }
-            else
-            {
-                return f;
-            }
-        }
-    }
+		if (f == Float.MIN_VALUE)
+		{
+			Config.warn("Invalid value: " + p_parseFloat_1_);
+			return p_parseFloat_2_;
+		}
+		return f;
+	}
 
     private float[] parseAxis(String p_parseAxis_1_, float[] p_parseAxis_2_)
     {
@@ -135,53 +117,44 @@ public class CustomSkyLayer
         {
             return p_parseAxis_2_;
         }
-        else
-        {
-            String[] astring = Config.tokenize(p_parseAxis_1_, " ");
+		String[] astring = Config.tokenize(p_parseAxis_1_, " ");
 
-            if (astring.length != 3)
-            {
-                Config.warn("Invalid axis: " + p_parseAxis_1_);
-                return p_parseAxis_2_;
-            }
-            else
-            {
-                float[] afloat = new float[3];
+		if (astring.length != 3)
+		{
+			Config.warn("Invalid axis: " + p_parseAxis_1_);
+			return p_parseAxis_2_;
+		}
+		float[] afloat = new float[3];
 
-                for (int i = 0; i < astring.length; ++i)
-                {
-                    afloat[i] = Config.parseFloat(astring[i], Float.MIN_VALUE);
+		for (int i = 0; i < astring.length; ++i)
+		{
+			afloat[i] = Config.parseFloat(astring[i], Float.MIN_VALUE);
 
-                    if (afloat[i] == Float.MIN_VALUE)
-                    {
-                        Config.warn("Invalid axis: " + p_parseAxis_1_);
-                        return p_parseAxis_2_;
-                    }
+			if (afloat[i] == Float.MIN_VALUE)
+			{
+				Config.warn("Invalid axis: " + p_parseAxis_1_);
+				return p_parseAxis_2_;
+			}
 
-                    if (afloat[i] < -1.0F || afloat[i] > 1.0F)
-                    {
-                        Config.warn("Invalid axis values: " + p_parseAxis_1_);
-                        return p_parseAxis_2_;
-                    }
-                }
+			if (afloat[i] < -1.0F || afloat[i] > 1.0F)
+			{
+				Config.warn("Invalid axis values: " + p_parseAxis_1_);
+				return p_parseAxis_2_;
+			}
+		}
 
-                float f2 = afloat[0];
-                float f = afloat[1];
-                float f1 = afloat[2];
+		float f2 = afloat[0];
+		float f = afloat[1];
+		float f1 = afloat[2];
 
-                if (f2 * f2 + f * f + f1 * f1 < 1.0E-5F)
-                {
-                    Config.warn("Invalid axis values: " + p_parseAxis_1_);
-                    return p_parseAxis_2_;
-                }
-                else
-                {
-                    float[] afloat1 = new float[] {f1, f, -f2};
-                    return afloat1;
-                }
-            }
-        }
-    }
+		if (f2 * f2 + f * f + f1 * f1 < 1.0E-5F)
+		{
+			Config.warn("Invalid axis values: " + p_parseAxis_1_);
+			return p_parseAxis_2_;
+		}
+		float[] afloat1 = new float[] {f1, f, -f2};
+		return afloat1;
+	}
 
     public boolean isValid(String p_isValid_1_)
     {
@@ -190,56 +163,47 @@ public class CustomSkyLayer
             Config.warn("No source texture: " + p_isValid_1_);
             return false;
         }
-        else
-        {
-            this.source = TextureUtils.fixResourcePath(this.source, TextureUtils.getBasePath(p_isValid_1_));
+		this.source = TextureUtils.fixResourcePath(this.source, TextureUtils.getBasePath(p_isValid_1_));
 
-            if (this.startFadeIn >= 0 && this.endFadeIn >= 0 && this.endFadeOut >= 0)
-            {
-                int i = this.normalizeTime(this.endFadeIn - this.startFadeIn);
+		if (this.startFadeIn >= 0 && this.endFadeIn >= 0 && this.endFadeOut >= 0)
+		{
+			int i = this.normalizeTime(this.endFadeIn - this.startFadeIn);
 
-                if (this.startFadeOut < 0)
-                {
-                    this.startFadeOut = this.normalizeTime(this.endFadeOut - i);
+			if (this.startFadeOut < 0)
+			{
+				this.startFadeOut = this.normalizeTime(this.endFadeOut - i);
 
-                    if (this.timeBetween(this.startFadeOut, this.startFadeIn, this.endFadeIn))
-                    {
-                        this.startFadeOut = this.endFadeIn;
-                    }
-                }
+				if (this.timeBetween(this.startFadeOut, this.startFadeIn, this.endFadeIn))
+				{
+					this.startFadeOut = this.endFadeIn;
+				}
+			}
 
-                int j = this.normalizeTime(this.startFadeOut - this.endFadeIn);
-                int k = this.normalizeTime(this.endFadeOut - this.startFadeOut);
-                int l = this.normalizeTime(this.startFadeIn - this.endFadeOut);
-                int i1 = i + j + k + l;
+			int j = this.normalizeTime(this.startFadeOut - this.endFadeIn);
+			int k = this.normalizeTime(this.endFadeOut - this.startFadeOut);
+			int l = this.normalizeTime(this.startFadeIn - this.endFadeOut);
+			int i1 = i + j + k + l;
 
-                if (i1 != 24000)
-                {
-                    Config.warn("Invalid fadeIn/fadeOut times, sum is not 24h: " + i1);
-                    return false;
-                }
-                else if (this.speed < 0.0F)
-                {
-                    Config.warn("Invalid speed: " + this.speed);
-                    return false;
-                }
-                else if (this.daysLoop <= 0)
-                {
-                    Config.warn("Invalid daysLoop: " + this.daysLoop);
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                Config.warn("Invalid times, required are: startFadeIn, endFadeIn and endFadeOut.");
-                return false;
-            }
-        }
-    }
+			if (i1 != 24000)
+			{
+				Config.warn("Invalid fadeIn/fadeOut times, sum is not 24h: " + i1);
+				return false;
+			}
+			if (this.speed < 0.0F)
+			{
+				Config.warn("Invalid speed: " + this.speed);
+				return false;
+			}
+			if (this.daysLoop <= 0)
+			{
+				Config.warn("Invalid daysLoop: " + this.daysLoop);
+				return false;
+			}
+			return true;
+		}
+		Config.warn("Invalid times, required are: startFadeIn, endFadeIn and endFadeOut.");
+		return false;
+	}
 
     private int normalizeTime(int p_normalizeTime_1_)
     {
@@ -302,21 +266,18 @@ public class CustomSkyLayer
             int l = this.normalizeTime(p_getFadeBrightness_1_ - this.startFadeIn);
             return (float)l / (float)k;
         }
-        else if (this.timeBetween(p_getFadeBrightness_1_, this.endFadeIn, this.startFadeOut))
-        {
-            return 1.0F;
-        }
-        else if (this.timeBetween(p_getFadeBrightness_1_, this.startFadeOut, this.endFadeOut))
-        {
-            int i = this.normalizeTime(this.endFadeOut - this.startFadeOut);
-            int j = this.normalizeTime(p_getFadeBrightness_1_ - this.startFadeOut);
-            return 1.0F - (float)j / (float)i;
-        }
-        else
-        {
-            return 0.0F;
-        }
-    }
+		if (this.timeBetween(p_getFadeBrightness_1_, this.endFadeIn, this.startFadeOut))
+		{
+			return 1.0F;
+		}
+		if (this.timeBetween(p_getFadeBrightness_1_, this.startFadeOut, this.endFadeOut))
+		{
+			int i = this.normalizeTime(this.endFadeOut - this.startFadeOut);
+			int j = this.normalizeTime(p_getFadeBrightness_1_ - this.startFadeOut);
+			return 1.0F - (float)j / (float)i;
+		}
+		return 0.0F;
+	}
 
     private void renderSide(Tessellator p_renderSide_1_, int p_renderSide_2_)
     {
@@ -337,30 +298,27 @@ public class CustomSkyLayer
         {
             return false;
         }
-        else
-        {
-            if (this.days != null)
-            {
-                long i = p_isActive_1_.getWorldTime();
-                long j;
+		if (this.days != null)
+		{
+			long i = p_isActive_1_.getWorldTime();
+			long j;
 
-                for (j = i - (long)this.startFadeIn; j < 0L; j += (long)(24000 * this.daysLoop))
-                {
-                    ;
-                }
+			for (j = i - (long)this.startFadeIn; j < 0L; j += (long)(24000 * this.daysLoop))
+			{
+				;
+			}
 
-                int k = (int)(j / 24000L);
-                int l = k % this.daysLoop;
+			int k = (int)(j / 24000L);
+			int l = k % this.daysLoop;
 
-                if (!this.days.isInRange(l))
-                {
-                    return false;
-                }
-            }
+			if (!this.days.isInRange(l))
+			{
+				return false;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     private boolean timeBetween(int p_timeBetween_1_, int p_timeBetween_2_, int p_timeBetween_3_)
     {

@@ -206,56 +206,53 @@ public class ModelBakery
         {
             return MODEL_GENERATED;
         }
-        else if ("builtin/compass".equals(s))
-        {
-            return MODEL_COMPASS;
-        }
-        else if ("builtin/clock".equals(s))
-        {
-            return MODEL_CLOCK;
-        }
-        else if ("builtin/entity".equals(s))
-        {
-            return MODEL_ENTITY;
-        }
-        else
-        {
-            Reader reader;
+		if ("builtin/compass".equals(s))
+		{
+			return MODEL_COMPASS;
+		}
+		if ("builtin/clock".equals(s))
+		{
+			return MODEL_CLOCK;
+		}
+		if ("builtin/entity".equals(s))
+		{
+			return MODEL_ENTITY;
+		}
+		Reader reader;
 
-            if (s.startsWith("builtin/"))
-            {
-                String s1 = s.substring("builtin/".length());
-                String s2 = (String)BUILT_IN_MODELS.get(s1);
+		if (s.startsWith("builtin/"))
+		{
+			String s1 = s.substring("builtin/".length());
+			String s2 = (String)BUILT_IN_MODELS.get(s1);
 
-                if (s2 == null)
-                {
-                    throw new FileNotFoundException(p_177594_1_.toString());
-                }
+			if (s2 == null)
+			{
+				throw new FileNotFoundException(p_177594_1_.toString());
+			}
 
-                reader = new StringReader(s2);
-            }
-            else
-            {
-                IResource iresource = this.resourceManager.getResource(this.getModelLocation(p_177594_1_));
-                reader = new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8);
-            }
+			reader = new StringReader(s2);
+		}
+		else
+		{
+			IResource iresource = this.resourceManager.getResource(this.getModelLocation(p_177594_1_));
+			reader = new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8);
+		}
 
-            ModelBlock modelblock1;
+		ModelBlock modelblock1;
 
-            try
-            {
-                ModelBlock modelblock = ModelBlock.deserialize(reader);
-                modelblock.name = p_177594_1_.toString();
-                modelblock1 = modelblock;
-            }
-            finally
-            {
-                reader.close();
-            }
+		try
+		{
+			ModelBlock modelblock = ModelBlock.deserialize(reader);
+			modelblock.name = p_177594_1_.toString();
+			modelblock1 = modelblock;
+		}
+		finally
+		{
+			reader.close();
+		}
 
-            return modelblock1;
-        }
-    }
+		return modelblock1;
+	}
 
     private ResourceLocation getModelLocation(ResourceLocation p_177580_1_)
     {
@@ -654,12 +651,9 @@ public class ModelBakery
         {
             return false;
         }
-        else
-        {
-            ModelBlock modelblock = p_177581_1_.getRootModel();
-            return modelblock == MODEL_GENERATED || modelblock == MODEL_COMPASS || modelblock == MODEL_CLOCK;
-        }
-    }
+		ModelBlock modelblock = p_177581_1_.getRootModel();
+		return modelblock == MODEL_GENERATED || modelblock == MODEL_COMPASS || modelblock == MODEL_CLOCK;
+	}
 
     private boolean isCustomRenderer(ModelBlock p_177587_1_)
     {
@@ -667,12 +661,9 @@ public class ModelBakery
         {
             return false;
         }
-        else
-        {
-            ModelBlock modelblock = p_177587_1_.getRootModel();
-            return modelblock == MODEL_ENTITY;
-        }
-    }
+		ModelBlock modelblock = p_177587_1_.getRootModel();
+		return modelblock == MODEL_ENTITY;
+	}
 
     private void bakeItemModels()
     {

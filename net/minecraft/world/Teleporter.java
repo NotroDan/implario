@@ -183,11 +183,8 @@ public class Teleporter
             entityIn.setLocationAndAngles(d5, d6, d7, entityIn.rotationYaw, entityIn.rotationPitch);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public boolean makePortal(Entity p_85188_1_)
     {

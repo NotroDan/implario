@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class GuiLabel extends Gui {
 	}
 
 	public void add(String line) {
-		lines.add(I18n.format(line));
+		lines.add(Lang.format(line));
 	}
 
 	/**

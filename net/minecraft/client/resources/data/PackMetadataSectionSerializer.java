@@ -21,12 +21,9 @@ public class PackMetadataSectionSerializer extends BaseMetadataSectionSerializer
         {
             throw new JsonParseException("Invalid/missing description!");
         }
-        else
-        {
-            int i = JsonUtils.getInt(jsonobject, "pack_format");
-            return new PackMetadataSection(ichatcomponent, i);
-        }
-    }
+		int i = JsonUtils.getInt(jsonobject, "pack_format");
+		return new PackMetadataSection(ichatcomponent, i);
+	}
 
     public JsonElement serialize(PackMetadataSection p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_)
     {

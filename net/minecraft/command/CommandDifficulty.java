@@ -41,13 +41,10 @@ public class CommandDifficulty extends CommandBase
         {
             throw new WrongUsageException("commands.difficulty.usage", new Object[0]);
         }
-        else
-        {
-            EnumDifficulty enumdifficulty = this.getDifficultyFromCommand(args[0]);
-            MinecraftServer.getServer().setDifficultyForAllWorlds(enumdifficulty);
-            notifyOperators(sender, this, "commands.difficulty.success", new Object[] {new ChatComponentTranslation(enumdifficulty.getDifficultyResourceKey(), new Object[0])});
-        }
-    }
+		EnumDifficulty enumdifficulty = this.getDifficultyFromCommand(args[0]);
+		MinecraftServer.getServer().setDifficultyForAllWorlds(enumdifficulty);
+		notifyOperators(sender, this, "commands.difficulty.success", new Object[] {new ChatComponentTranslation(enumdifficulty.getDifficultyResourceKey(), new Object[0])});
+	}
 
     protected EnumDifficulty getDifficultyFromCommand(String p_180531_1_) throws CommandException, NumberInvalidException
     {

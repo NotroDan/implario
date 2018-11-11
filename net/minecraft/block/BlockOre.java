@@ -58,11 +58,8 @@ public class BlockOre extends Block
 
             return this.quantityDropped(random) * (i + 1);
         }
-        else
-        {
-            return this.quantityDropped(random);
-        }
-    }
+		return this.quantityDropped(random);
+	}
 
     /**
      * Spawns this Block's drops into the World as EntityItems.

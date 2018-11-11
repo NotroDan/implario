@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -55,16 +55,16 @@ public class GuiCreateFlatWorld extends GuiScreen
     public void initGui()
     {
         this.buttonList.clear();
-        this.flatWorldTitle = I18n.format("createWorld.customize.flat.title");
-        this.field_146394_i = I18n.format("createWorld.customize.flat.tile");
-        this.field_146391_r = I18n.format("createWorld.customize.flat.height");
+        this.flatWorldTitle = Lang.format("createWorld.customize.flat.title");
+        this.field_146394_i = Lang.format("createWorld.customize.flat.tile");
+        this.field_146391_r = Lang.format("createWorld.customize.flat.height");
         this.createFlatWorldListSlotGui = new GuiCreateFlatWorld.Details();
-        this.buttonList.add(this.field_146389_t = new GuiButton(2, this.width / 2 - 154, this.height - 52, 100, 20, I18n.format("createWorld.customize.flat.addLayer") + " (NYI)"));
-        this.buttonList.add(this.field_146388_u = new GuiButton(3, this.width / 2 - 50, this.height - 52, 100, 20, I18n.format("createWorld.customize.flat.editLayer") + " (NYI)"));
-        this.buttonList.add(this.field_146386_v = new GuiButton(4, this.width / 2 - 155, this.height - 52, 150, 20, I18n.format("createWorld.customize.flat.removeLayer")));
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("gui.done")));
-        this.buttonList.add(new GuiButton(5, this.width / 2 + 5, this.height - 52, 150, 20, I18n.format("createWorld.customize.presets")));
-        this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel")));
+        this.buttonList.add(this.field_146389_t = new GuiButton(2, this.width / 2 - 154, this.height - 52, 100, 20, Lang.format("createWorld.customize.flat.addLayer") + " (NYI)"));
+        this.buttonList.add(this.field_146388_u = new GuiButton(3, this.width / 2 - 50, this.height - 52, 100, 20, Lang.format("createWorld.customize.flat.editLayer") + " (NYI)"));
+        this.buttonList.add(this.field_146386_v = new GuiButton(4, this.width / 2 - 155, this.height - 52, 150, 20, Lang.format("createWorld.customize.flat.removeLayer")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, Lang.format("gui.done")));
+        this.buttonList.add(new GuiButton(5, this.width / 2 + 5, this.height - 52, 150, 20, Lang.format("createWorld.customize.presets")));
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, Lang.format("gui.cancel")));
         this.field_146389_t.visible = this.field_146388_u.visible = false;
         this.theFlatGeneratorInfo.func_82645_d();
         this.func_146375_g();
@@ -240,15 +240,15 @@ public class GuiCreateFlatWorld extends GuiScreen
 
             if (entryID == 0)
             {
-                s1 = I18n.format("createWorld.customize.flat.layer.top", Integer.valueOf(flatlayerinfo.getLayerCount()));
+                s1 = Lang.format("createWorld.customize.flat.layer.top", Integer.valueOf(flatlayerinfo.getLayerCount()));
             }
             else if (entryID == GuiCreateFlatWorld.this.theFlatGeneratorInfo.getFlatLayers().size() - 1)
             {
-                s1 = I18n.format("createWorld.customize.flat.layer.bottom", Integer.valueOf(flatlayerinfo.getLayerCount()));
+                s1 = Lang.format("createWorld.customize.flat.layer.bottom", Integer.valueOf(flatlayerinfo.getLayerCount()));
             }
             else
             {
-                s1 = I18n.format("createWorld.customize.flat.layer", Integer.valueOf(flatlayerinfo.getLayerCount()));
+                s1 = Lang.format("createWorld.customize.flat.layer", Integer.valueOf(flatlayerinfo.getLayerCount()));
             }
 
             GuiCreateFlatWorld.this.fontRendererObj.drawString(s1, p_180791_2_ + 2 + 213 - GuiCreateFlatWorld.this.fontRendererObj.getStringWidth(s1), p_180791_3_ + 3, 16777215);

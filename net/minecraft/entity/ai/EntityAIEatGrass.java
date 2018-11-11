@@ -40,12 +40,9 @@ public class EntityAIEatGrass extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
-            return field_179505_b.apply(this.entityWorld.getBlockState(blockpos)) ? true : this.entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.grass;
-        }
-    }
+		BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
+		return field_179505_b.apply(this.entityWorld.getBlockState(blockpos)) ? true : this.entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.grass;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

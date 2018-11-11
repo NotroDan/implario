@@ -104,7 +104,8 @@ public class GuiAuth extends GuiScreen {
 		if (keyCode == 200 && isCtrlKeyDown()) {
 			rounds++;
 			return;
-		} else if (keyCode == 208 && isCtrlKeyDown()) {
+		}
+		if (keyCode == 208 && isCtrlKeyDown()) {
 			rounds--;
 			return;
 		}

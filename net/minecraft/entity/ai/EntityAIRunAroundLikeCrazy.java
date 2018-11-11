@@ -33,19 +33,13 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase
             {
                 return false;
             }
-            else
-            {
-                this.targetX = vec3.xCoord;
-                this.targetY = vec3.yCoord;
-                this.targetZ = vec3.zCoord;
-                return true;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			this.targetX = vec3.xCoord;
+			this.targetY = vec3.yCoord;
+			this.targetZ = vec3.zCoord;
+			return true;
+		}
+		return false;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

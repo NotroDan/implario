@@ -173,9 +173,8 @@ public class RenderManager {
 			String s = ((AbstractClientPlayer) entityIn).getSkinType();
 			RenderPlayer renderplayer = (RenderPlayer) this.skinMap.get(s);
 			return renderplayer != null ? renderplayer : this.playerRenderer;
-		} else {
-			return this.getEntityClassRenderObject(entityIn.getClass());
 		}
+		return this.getEntityClassRenderObject(entityIn.getClass());
 	}
 
 	public void cacheActiveRenderInfo(World worldIn, FontRenderer textRendererIn, Entity livingPlayerIn, Entity pointedEntityIn, float partialTicks) {

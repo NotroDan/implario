@@ -12,21 +12,18 @@ public class Matches
         {
             return true;
         }
-        else
-        {
-            for (int i = 0; i < p_block_1_.length; ++i)
-            {
-                MatchBlock matchblock = p_block_1_[i];
+		for (int i = 0; i < p_block_1_.length; ++i)
+		{
+			MatchBlock matchblock = p_block_1_[i];
 
-                if (matchblock.matches(p_block_0_))
-                {
-                    return true;
-                }
-            }
+			if (matchblock.matches(p_block_0_))
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static boolean block(int p_block_0_, int p_block_1_, MatchBlock[] p_block_2_)
     {
@@ -34,21 +31,18 @@ public class Matches
         {
             return true;
         }
-        else
-        {
-            for (int i = 0; i < p_block_2_.length; ++i)
-            {
-                MatchBlock matchblock = p_block_2_[i];
+		for (int i = 0; i < p_block_2_.length; ++i)
+		{
+			MatchBlock matchblock = p_block_2_[i];
 
-                if (matchblock.matches(p_block_0_, p_block_1_))
-                {
-                    return true;
-                }
-            }
+			if (matchblock.matches(p_block_0_, p_block_1_))
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static boolean blockId(int p_blockId_0_, MatchBlock[] p_blockId_1_)
     {
@@ -56,21 +50,18 @@ public class Matches
         {
             return true;
         }
-        else
-        {
-            for (int i = 0; i < p_blockId_1_.length; ++i)
-            {
-                MatchBlock matchblock = p_blockId_1_[i];
+		for (int i = 0; i < p_blockId_1_.length; ++i)
+		{
+			MatchBlock matchblock = p_blockId_1_[i];
 
-                if (matchblock.getBlockId() == p_blockId_0_)
-                {
-                    return true;
-                }
-            }
+			if (matchblock.getBlockId() == p_blockId_0_)
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static boolean metadata(int p_metadata_0_, int[] p_metadata_1_)
     {
@@ -78,19 +69,16 @@ public class Matches
         {
             return true;
         }
-        else
-        {
-            for (int i = 0; i < p_metadata_1_.length; ++i)
-            {
-                if (p_metadata_1_[i] == p_metadata_0_)
-                {
-                    return true;
-                }
-            }
+		for (int i = 0; i < p_metadata_1_.length; ++i)
+		{
+			if (p_metadata_1_[i] == p_metadata_0_)
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static boolean sprite(TextureAtlasSprite p_sprite_0_, TextureAtlasSprite[] p_sprite_1_)
     {
@@ -98,19 +86,16 @@ public class Matches
         {
             return true;
         }
-        else
-        {
-            for (int i = 0; i < p_sprite_1_.length; ++i)
-            {
-                if (p_sprite_1_[i] == p_sprite_0_)
-                {
-                    return true;
-                }
-            }
+		for (int i = 0; i < p_sprite_1_.length; ++i)
+		{
+			if (p_sprite_1_[i] == p_sprite_0_)
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static boolean biome(BiomeGenBase p_biome_0_, BiomeGenBase[] p_biome_1_)
     {
@@ -118,17 +103,14 @@ public class Matches
         {
             return true;
         }
-        else
-        {
-            for (int i = 0; i < p_biome_1_.length; ++i)
-            {
-                if (p_biome_1_[i] == p_biome_0_)
-                {
-                    return true;
-                }
-            }
+		for (int i = 0; i < p_biome_1_.length; ++i)
+		{
+			if (p_biome_1_[i] == p_biome_0_)
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 }

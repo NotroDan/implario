@@ -87,16 +87,13 @@ public class ChatComponentScore extends ChatComponentStyle
         {
             return true;
         }
-        else if (!(p_equals_1_ instanceof ChatComponentScore))
-        {
-            return false;
-        }
-        else
-        {
-            ChatComponentScore chatcomponentscore = (ChatComponentScore)p_equals_1_;
-            return this.name.equals(chatcomponentscore.name) && this.objective.equals(chatcomponentscore.objective) && super.equals(p_equals_1_);
-        }
-    }
+		if (!(p_equals_1_ instanceof ChatComponentScore))
+		{
+			return false;
+		}
+		ChatComponentScore chatcomponentscore = (ChatComponentScore)p_equals_1_;
+		return this.name.equals(chatcomponentscore.name) && this.objective.equals(chatcomponentscore.objective) && super.equals(p_equals_1_);
+	}
 
     public String toString()
     {

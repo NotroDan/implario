@@ -255,10 +255,9 @@ public class SoundManager {
 	public boolean isSoundPlaying(ISound sound) {
 		if (!this.loaded) {
 			return false;
-		} else {
-			String s = this.invPlayingSounds.get(sound);
-			return s != null && (this.sndSystem.playing(s) || this.playingSoundsStopTime.containsKey(s) && this.playingSoundsStopTime.get(s) <= this.playTime);
 		}
+		String s = this.invPlayingSounds.get(sound);
+		return s != null && (this.sndSystem.playing(s) || this.playingSoundsStopTime.containsKey(s) && this.playingSoundsStopTime.get(s) <= this.playTime);
 	}
 
 	public void stopSound(ISound sound) {
@@ -431,10 +430,9 @@ public class SoundManager {
 			synchronized (SoundSystemConfig.THREAD_SYNC) {
 				if (this.soundLibrary == null) {
 					return false;
-				} else {
-					Source source = this.soundLibrary.getSources().get(p_playing_1_);
-					return source != null && (source.playing() || source.paused() || source.preLoad);
 				}
+				Source source = this.soundLibrary.getSources().get(p_playing_1_);
+				return source != null && (source.playing() || source.paused() || source.preLoad);
 			}
 		}
 

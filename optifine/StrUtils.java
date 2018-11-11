@@ -14,73 +14,61 @@ public class StrUtils
             {
                 return p_equalsMask_1_.indexOf(p_equalsMask_3_) < 0 ? p_equalsMask_1_.equals(p_equalsMask_0_) : equalsMaskSingle(p_equalsMask_0_, p_equalsMask_1_, p_equalsMask_3_);
             }
-            else
-            {
-                List list = new ArrayList();
-                String s = "" + p_equalsMask_2_;
+			List list = new ArrayList();
+			String s = "" + p_equalsMask_2_;
 
-                if (p_equalsMask_1_.startsWith(s))
-                {
-                    list.add("");
-                }
+			if (p_equalsMask_1_.startsWith(s))
+			{
+				list.add("");
+			}
 
-                StringTokenizer stringtokenizer = new StringTokenizer(p_equalsMask_1_, s);
+			StringTokenizer stringtokenizer = new StringTokenizer(p_equalsMask_1_, s);
 
-                while (stringtokenizer.hasMoreElements())
-                {
-                    list.add(stringtokenizer.nextToken());
-                }
+			while (stringtokenizer.hasMoreElements())
+			{
+				list.add(stringtokenizer.nextToken());
+			}
 
-                if (p_equalsMask_1_.endsWith(s))
-                {
-                    list.add("");
-                }
+			if (p_equalsMask_1_.endsWith(s))
+			{
+				list.add("");
+			}
 
-                String s1 = (String)list.get(0);
+			String s1 = (String)list.get(0);
 
-                if (!startsWithMaskSingle(p_equalsMask_0_, s1, p_equalsMask_3_))
-                {
-                    return false;
-                }
-                else
-                {
-                    String s2 = (String)list.get(list.size() - 1);
+			if (!startsWithMaskSingle(p_equalsMask_0_, s1, p_equalsMask_3_))
+			{
+				return false;
+			}
+			String s2 = (String)list.get(list.size() - 1);
 
-                    if (!endsWithMaskSingle(p_equalsMask_0_, s2, p_equalsMask_3_))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        int i = 0;
+			if (!endsWithMaskSingle(p_equalsMask_0_, s2, p_equalsMask_3_))
+			{
+				return false;
+			}
+			int i = 0;
 
-                        for (int j = 0; j < ((List)list).size(); ++j)
-                        {
-                            String s3 = (String)list.get(j);
+			for (int j = 0; j < ((List)list).size(); ++j)
+			{
+				String s3 = (String)list.get(j);
 
-                            if (s3.length() > 0)
-                            {
-                                int k = indexOfMaskSingle(p_equalsMask_0_, s3, i, p_equalsMask_3_);
+				if (s3.length() > 0)
+				{
+					int k = indexOfMaskSingle(p_equalsMask_0_, s3, i, p_equalsMask_3_);
 
-                                if (k < 0)
-                                {
-                                    return false;
-                                }
+					if (k < 0)
+					{
+						return false;
+					}
 
-                                i = k + s3.length();
-                            }
-                        }
+					i = k + s3.length();
+				}
+			}
 
-                        return true;
-                    }
-                }
-            }
-        }
-        else
-        {
-            return p_equalsMask_1_ == p_equalsMask_0_;
-        }
-    }
+			return true;
+		}
+		return p_equalsMask_1_ == p_equalsMask_0_;
+	}
 
     private static boolean equalsMaskSingle(String p_equalsMaskSingle_0_, String p_equalsMaskSingle_1_, char p_equalsMaskSingle_2_)
     {
@@ -90,26 +78,20 @@ public class StrUtils
             {
                 return false;
             }
-            else
-            {
-                for (int i = 0; i < p_equalsMaskSingle_1_.length(); ++i)
-                {
-                    char c0 = p_equalsMaskSingle_1_.charAt(i);
+			for (int i = 0; i < p_equalsMaskSingle_1_.length(); ++i)
+			{
+				char c0 = p_equalsMaskSingle_1_.charAt(i);
 
-                    if (c0 != p_equalsMaskSingle_2_ && p_equalsMaskSingle_0_.charAt(i) != c0)
-                    {
-                        return false;
-                    }
-                }
+				if (c0 != p_equalsMaskSingle_2_ && p_equalsMaskSingle_0_.charAt(i) != c0)
+				{
+					return false;
+				}
+			}
 
-                return true;
-            }
-        }
-        else
-        {
-            return p_equalsMaskSingle_0_ == p_equalsMaskSingle_1_;
-        }
-    }
+			return true;
+		}
+		return p_equalsMaskSingle_0_ == p_equalsMaskSingle_1_;
+	}
 
     private static int indexOfMaskSingle(String p_indexOfMaskSingle_0_, String p_indexOfMaskSingle_1_, int p_indexOfMaskSingle_2_, char p_indexOfMaskSingle_3_)
     {
@@ -121,31 +103,22 @@ public class StrUtils
                 {
                     return -1;
                 }
-                else
-                {
-                    for (int i = p_indexOfMaskSingle_2_; i + p_indexOfMaskSingle_1_.length() <= p_indexOfMaskSingle_0_.length(); ++i)
-                    {
-                        String s = p_indexOfMaskSingle_0_.substring(i, i + p_indexOfMaskSingle_1_.length());
+				for (int i = p_indexOfMaskSingle_2_; i + p_indexOfMaskSingle_1_.length() <= p_indexOfMaskSingle_0_.length(); ++i)
+				{
+					String s = p_indexOfMaskSingle_0_.substring(i, i + p_indexOfMaskSingle_1_.length());
 
-                        if (equalsMaskSingle(s, p_indexOfMaskSingle_1_, p_indexOfMaskSingle_3_))
-                        {
-                            return i;
-                        }
-                    }
+					if (equalsMaskSingle(s, p_indexOfMaskSingle_1_, p_indexOfMaskSingle_3_))
+					{
+						return i;
+					}
+				}
 
-                    return -1;
-                }
-            }
-            else
-            {
-                return -1;
-            }
-        }
-        else
-        {
-            return -1;
-        }
-    }
+				return -1;
+			}
+			return -1;
+		}
+		return -1;
+	}
 
     private static boolean endsWithMaskSingle(String p_endsWithMaskSingle_0_, String p_endsWithMaskSingle_1_, char p_endsWithMaskSingle_2_)
     {
@@ -155,17 +128,11 @@ public class StrUtils
             {
                 return false;
             }
-            else
-            {
-                String s = p_endsWithMaskSingle_0_.substring(p_endsWithMaskSingle_0_.length() - p_endsWithMaskSingle_1_.length(), p_endsWithMaskSingle_0_.length());
-                return equalsMaskSingle(s, p_endsWithMaskSingle_1_, p_endsWithMaskSingle_2_);
-            }
-        }
-        else
-        {
-            return p_endsWithMaskSingle_0_ == p_endsWithMaskSingle_1_;
-        }
-    }
+			String s = p_endsWithMaskSingle_0_.substring(p_endsWithMaskSingle_0_.length() - p_endsWithMaskSingle_1_.length(), p_endsWithMaskSingle_0_.length());
+			return equalsMaskSingle(s, p_endsWithMaskSingle_1_, p_endsWithMaskSingle_2_);
+		}
+		return p_endsWithMaskSingle_0_ == p_endsWithMaskSingle_1_;
+	}
 
     private static boolean startsWithMaskSingle(String p_startsWithMaskSingle_0_, String p_startsWithMaskSingle_1_, char p_startsWithMaskSingle_2_)
     {
@@ -175,17 +142,11 @@ public class StrUtils
             {
                 return false;
             }
-            else
-            {
-                String s = p_startsWithMaskSingle_0_.substring(0, p_startsWithMaskSingle_1_.length());
-                return equalsMaskSingle(s, p_startsWithMaskSingle_1_, p_startsWithMaskSingle_2_);
-            }
-        }
-        else
-        {
-            return p_startsWithMaskSingle_0_ == p_startsWithMaskSingle_1_;
-        }
-    }
+			String s = p_startsWithMaskSingle_0_.substring(0, p_startsWithMaskSingle_1_.length());
+			return equalsMaskSingle(s, p_startsWithMaskSingle_1_, p_startsWithMaskSingle_2_);
+		}
+		return p_startsWithMaskSingle_0_ == p_startsWithMaskSingle_1_;
+	}
 
     public static boolean equalsMask(String p_equalsMask_0_, String[] p_equalsMask_1_, char p_equalsMask_2_)
     {
@@ -210,73 +171,61 @@ public class StrUtils
             {
                 return p_equalsMask_1_.equals(p_equalsMask_0_);
             }
-            else
-            {
-                List list = new ArrayList();
-                String s = "" + p_equalsMask_2_;
+			List list = new ArrayList();
+			String s = "" + p_equalsMask_2_;
 
-                if (p_equalsMask_1_.startsWith(s))
-                {
-                    list.add("");
-                }
+			if (p_equalsMask_1_.startsWith(s))
+			{
+				list.add("");
+			}
 
-                StringTokenizer stringtokenizer = new StringTokenizer(p_equalsMask_1_, s);
+			StringTokenizer stringtokenizer = new StringTokenizer(p_equalsMask_1_, s);
 
-                while (stringtokenizer.hasMoreElements())
-                {
-                    list.add(stringtokenizer.nextToken());
-                }
+			while (stringtokenizer.hasMoreElements())
+			{
+				list.add(stringtokenizer.nextToken());
+			}
 
-                if (p_equalsMask_1_.endsWith(s))
-                {
-                    list.add("");
-                }
+			if (p_equalsMask_1_.endsWith(s))
+			{
+				list.add("");
+			}
 
-                String s1 = (String)list.get(0);
+			String s1 = (String)list.get(0);
 
-                if (!p_equalsMask_0_.startsWith(s1))
-                {
-                    return false;
-                }
-                else
-                {
-                    String s2 = (String)list.get(list.size() - 1);
+			if (!p_equalsMask_0_.startsWith(s1))
+			{
+				return false;
+			}
+			String s2 = (String)list.get(list.size() - 1);
 
-                    if (!p_equalsMask_0_.endsWith(s2))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        int i = 0;
+			if (!p_equalsMask_0_.endsWith(s2))
+			{
+				return false;
+			}
+			int i = 0;
 
-                        for (int j = 0; j < ((List)list).size(); ++j)
-                        {
-                            String s3 = (String)list.get(j);
+			for (int j = 0; j < ((List)list).size(); ++j)
+			{
+				String s3 = (String)list.get(j);
 
-                            if (s3.length() > 0)
-                            {
-                                int k = p_equalsMask_0_.indexOf(s3, i);
+				if (s3.length() > 0)
+				{
+					int k = p_equalsMask_0_.indexOf(s3, i);
 
-                                if (k < 0)
-                                {
-                                    return false;
-                                }
+					if (k < 0)
+					{
+						return false;
+					}
 
-                                i = k + s3.length();
-                            }
-                        }
+					i = k + s3.length();
+				}
+			}
 
-                        return true;
-                    }
-                }
-            }
-        }
-        else
-        {
-            return p_equalsMask_1_ == p_equalsMask_0_;
-        }
-    }
+			return true;
+		}
+		return p_equalsMask_1_ == p_equalsMask_0_;
+	}
 
     public static String[] split(String p_split_0_, String p_split_1_)
     {
@@ -286,31 +235,25 @@ public class StrUtils
             {
                 return new String[] {p_split_0_};
             }
-            else
-            {
-                List list = new ArrayList();
-                int i = 0;
+			List list = new ArrayList();
+			int i = 0;
 
-                for (int j = 0; j < p_split_0_.length(); ++j)
-                {
-                    char c0 = p_split_0_.charAt(j);
+			for (int j = 0; j < p_split_0_.length(); ++j)
+			{
+				char c0 = p_split_0_.charAt(j);
 
-                    if (equals(c0, p_split_1_))
-                    {
-                        list.add(p_split_0_.substring(i, j));
-                        i = j + 1;
-                    }
-                }
+				if (equals(c0, p_split_1_))
+				{
+					list.add(p_split_0_.substring(i, j));
+					i = j + 1;
+				}
+			}
 
-                list.add(p_split_0_.substring(i, p_split_0_.length()));
-                return (String[]) (String[])list.toArray(new String[list.size()]);
-            }
-        }
-        else
-        {
-            return new String[0];
-        }
-    }
+			list.add(p_split_0_.substring(i, p_split_0_.length()));
+			return (String[]) (String[])list.toArray(new String[list.size()]);
+		}
+		return new String[0];
+	}
 
     private static boolean equals(char p_equals_0_, String p_equals_1_)
     {
@@ -353,13 +296,10 @@ public class StrUtils
         {
             return "";
         }
-        else
-        {
-            ++i;
-            String s = "" + i;
-            return s.length() > p_stringInc_0_.length() ? "" : fillLeft("" + i, p_stringInc_0_.length(), '0');
-        }
-    }
+		++i;
+		String s = "" + i;
+		return s.length() > p_stringInc_0_.length() ? "" : fillLeft("" + i, p_stringInc_0_.length(), '0');
+	}
 
     public static int parseInt(String p_parseInt_0_, int p_parseInt_1_)
     {
@@ -367,18 +307,15 @@ public class StrUtils
         {
             return p_parseInt_1_;
         }
-        else
-        {
-            try
-            {
-                return Integer.parseInt(p_parseInt_0_);
-            }
-            catch (NumberFormatException var3)
-            {
-                return p_parseInt_1_;
-            }
-        }
-    }
+		try
+		{
+			return Integer.parseInt(p_parseInt_0_);
+		}
+		catch (NumberFormatException var3)
+		{
+			return p_parseInt_1_;
+		}
+	}
 
     public static boolean isFilled(String p_isFilled_0_)
     {
@@ -409,18 +346,15 @@ public class StrUtils
         {
             return p_fillLeft_0_;
         }
-        else
-        {
-            StringBuffer stringbuffer = new StringBuffer(p_fillLeft_0_);
+		StringBuffer stringbuffer = new StringBuffer(p_fillLeft_0_);
 
-            while (stringbuffer.length() < p_fillLeft_1_)
-            {
-                stringbuffer.insert(0, (char)p_fillLeft_2_);
-            }
+		while (stringbuffer.length() < p_fillLeft_1_)
+		{
+			stringbuffer.insert(0, (char)p_fillLeft_2_);
+		}
 
-            return stringbuffer.toString();
-        }
-    }
+		return stringbuffer.toString();
+	}
 
     public static String fillRight(String p_fillRight_0_, int p_fillRight_1_, char p_fillRight_2_)
     {
@@ -433,18 +367,15 @@ public class StrUtils
         {
             return p_fillRight_0_;
         }
-        else
-        {
-            StringBuffer stringbuffer = new StringBuffer(p_fillRight_0_);
+		StringBuffer stringbuffer = new StringBuffer(p_fillRight_0_);
 
-            while (stringbuffer.length() < p_fillRight_1_)
-            {
-                stringbuffer.append(p_fillRight_2_);
-            }
+		while (stringbuffer.length() < p_fillRight_1_)
+		{
+			stringbuffer.append(p_fillRight_2_);
+		}
 
-            return stringbuffer.toString();
-        }
-    }
+		return stringbuffer.toString();
+	}
 
     public static boolean equals(Object p_equals_0_, Object p_equals_1_)
     {
@@ -457,25 +388,22 @@ public class StrUtils
         {
             return false;
         }
-        else if (p_startsWith_1_ == null)
-        {
-            return false;
-        }
-        else
-        {
-            for (int i = 0; i < p_startsWith_1_.length; ++i)
-            {
-                String s = p_startsWith_1_[i];
+		if (p_startsWith_1_ == null)
+		{
+			return false;
+		}
+		for (int i = 0; i < p_startsWith_1_.length; ++i)
+		{
+			String s = p_startsWith_1_[i];
 
-                if (p_startsWith_0_.startsWith(s))
-                {
-                    return true;
-                }
-            }
+			if (p_startsWith_0_.startsWith(s))
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static boolean endsWith(String p_endsWith_0_, String[] p_endsWith_1_)
     {
@@ -483,25 +411,22 @@ public class StrUtils
         {
             return false;
         }
-        else if (p_endsWith_1_ == null)
-        {
-            return false;
-        }
-        else
-        {
-            for (int i = 0; i < p_endsWith_1_.length; ++i)
-            {
-                String s = p_endsWith_1_[i];
+		if (p_endsWith_1_ == null)
+		{
+			return false;
+		}
+		for (int i = 0; i < p_endsWith_1_.length; ++i)
+		{
+			String s = p_endsWith_1_[i];
 
-                if (p_endsWith_0_.endsWith(s))
-                {
-                    return true;
-                }
-            }
+			if (p_endsWith_0_.endsWith(s))
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static String removePrefix(String p_removePrefix_0_, String p_removePrefix_1_)
     {
@@ -514,11 +439,8 @@ public class StrUtils
 
             return p_removePrefix_0_;
         }
-        else
-        {
-            return p_removePrefix_0_;
-        }
-    }
+		return p_removePrefix_0_;
+	}
 
     public static String removeSuffix(String p_removeSuffix_0_, String p_removeSuffix_1_)
     {
@@ -531,11 +453,8 @@ public class StrUtils
 
             return p_removeSuffix_0_;
         }
-        else
-        {
-            return p_removeSuffix_0_;
-        }
-    }
+		return p_removeSuffix_0_;
+	}
 
     public static String replaceSuffix(String p_replaceSuffix_0_, String p_replaceSuffix_1_, String p_replaceSuffix_2_)
     {
@@ -553,11 +472,8 @@ public class StrUtils
 
             return p_replaceSuffix_0_ + p_replaceSuffix_2_;
         }
-        else
-        {
-            return p_replaceSuffix_0_;
-        }
-    }
+		return p_replaceSuffix_0_;
+	}
 
     public static int findPrefix(String[] p_findPrefix_0_, String p_findPrefix_1_)
     {
@@ -575,11 +491,8 @@ public class StrUtils
 
             return -1;
         }
-        else
-        {
-            return -1;
-        }
-    }
+		return -1;
+	}
 
     public static int findSuffix(String[] p_findSuffix_0_, String p_findSuffix_1_)
     {
@@ -597,11 +510,8 @@ public class StrUtils
 
             return -1;
         }
-        else
-        {
-            return -1;
-        }
-    }
+		return -1;
+	}
 
     public static String[] remove(String[] p_remove_0_, int p_remove_1_, int p_remove_2_)
     {
@@ -609,35 +519,29 @@ public class StrUtils
         {
             return p_remove_0_;
         }
-        else if (p_remove_2_ > 0 && p_remove_1_ < p_remove_0_.length)
-        {
-            if (p_remove_1_ >= p_remove_2_)
-            {
-                return p_remove_0_;
-            }
-            else
-            {
-                List<String> list = new ArrayList(p_remove_0_.length);
+		if (p_remove_2_ > 0 && p_remove_1_ < p_remove_0_.length)
+		{
+			if (p_remove_1_ >= p_remove_2_)
+			{
+				return p_remove_0_;
+			}
+			List<String> list = new ArrayList(p_remove_0_.length);
 
-                for (int i = 0; i < p_remove_0_.length; ++i)
-                {
-                    String s = p_remove_0_[i];
+			for (int i = 0; i < p_remove_0_.length; ++i)
+				{
+					String s = p_remove_0_[i];
 
-                    if (i < p_remove_1_ || i >= p_remove_2_)
-                    {
-                        list.add(s);
-                    }
-                }
+					if (i < p_remove_1_ || i >= p_remove_2_)
+					{
+						list.add(s);
+					}
+				}
 
-                String[] astring = (String[])list.toArray(new String[list.size()]);
-                return astring;
-            }
-        }
-        else
-        {
-            return p_remove_0_;
-        }
-    }
+			String[] astring = (String[])list.toArray(new String[list.size()]);
+			return astring;
+		}
+		return p_remove_0_;
+	}
 
     public static String removeSuffix(String p_removeSuffix_0_, String[] p_removeSuffix_1_)
     {
@@ -658,11 +562,8 @@ public class StrUtils
 
             return p_removeSuffix_0_;
         }
-        else
-        {
-            return p_removeSuffix_0_;
-        }
-    }
+		return p_removeSuffix_0_;
+	}
 
     public static String removePrefix(String p_removePrefix_0_, String[] p_removePrefix_1_)
     {
@@ -683,11 +584,8 @@ public class StrUtils
 
             return p_removePrefix_0_;
         }
-        else
-        {
-            return p_removePrefix_0_;
-        }
-    }
+		return p_removePrefix_0_;
+	}
 
     public static String removePrefixSuffix(String p_removePrefixSuffix_0_, String[] p_removePrefixSuffix_1_, String[] p_removePrefixSuffix_2_)
     {
@@ -711,15 +609,9 @@ public class StrUtils
             {
                 return null;
             }
-            else
-            {
-                int j = p_getSegment_0_.indexOf(p_getSegment_2_, i);
-                return j < 0 ? null : p_getSegment_0_.substring(i, j + p_getSegment_2_.length());
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			int j = p_getSegment_0_.indexOf(p_getSegment_2_, i);
+			return j < 0 ? null : p_getSegment_0_.substring(i, j + p_getSegment_2_.length());
+		}
+		return null;
+	}
 }

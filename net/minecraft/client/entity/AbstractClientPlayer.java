@@ -91,16 +91,13 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         {
             return null;
         }
-        else if (this.locationOfCape != null)
-        {
-            return this.locationOfCape;
-        }
-        else
-        {
-            NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-            return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
-        }
-    }
+		if (this.locationOfCape != null)
+		{
+			return this.locationOfCape;
+		}
+		NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
+		return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
+	}
 
     public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username)
     {

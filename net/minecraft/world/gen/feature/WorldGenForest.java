@@ -75,62 +75,53 @@ public class WorldGenForest extends WorldGenAbstractTree
             {
                 return false;
             }
-            else
-            {
-                Block block1 = worldIn.getBlockState(position.down()).getBlock();
+			Block block1 = worldIn.getBlockState(position.down()).getBlock();
 
-                if ((block1 == Blocks.grass || block1 == Blocks.dirt || block1 == Blocks.farmland) && position.getY() < 256 - i - 1)
-                {
-                    this.func_175921_a(worldIn, position.down());
+			if ((block1 == Blocks.grass || block1 == Blocks.dirt || block1 == Blocks.farmland) && position.getY() < 256 - i - 1)
+			{
+				this.func_175921_a(worldIn, position.down());
 
-                    for (int i2 = position.getY() - 3 + i; i2 <= position.getY() + i; ++i2)
-                    {
-                        int k2 = i2 - (position.getY() + i);
-                        int l2 = 1 - k2 / 2;
+				for (int i2 = position.getY() - 3 + i; i2 <= position.getY() + i; ++i2)
+				{
+					int k2 = i2 - (position.getY() + i);
+					int l2 = 1 - k2 / 2;
 
-                        for (int i3 = position.getX() - l2; i3 <= position.getX() + l2; ++i3)
-                        {
-                            int j1 = i3 - position.getX();
+					for (int i3 = position.getX() - l2; i3 <= position.getX() + l2; ++i3)
+					{
+						int j1 = i3 - position.getX();
 
-                            for (int k1 = position.getZ() - l2; k1 <= position.getZ() + l2; ++k1)
-                            {
-                                int l1 = k1 - position.getZ();
+						for (int k1 = position.getZ() - l2; k1 <= position.getZ() + l2; ++k1)
+						{
+							int l1 = k1 - position.getZ();
 
-                                if (Math.abs(j1) != l2 || Math.abs(l1) != l2 || rand.nextInt(2) != 0 && k2 != 0)
-                                {
-                                    BlockPos blockpos = new BlockPos(i3, i2, k1);
-                                    Block block = worldIn.getBlockState(blockpos).getBlock();
+							if (Math.abs(j1) != l2 || Math.abs(l1) != l2 || rand.nextInt(2) != 0 && k2 != 0)
+							{
+								BlockPos blockpos = new BlockPos(i3, i2, k1);
+								Block block = worldIn.getBlockState(blockpos).getBlock();
 
-                                    if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
-                                    {
-                                        this.setBlockAndNotifyAdequately(worldIn, blockpos, field_181630_b);
-                                    }
-                                }
-                            }
-                        }
-                    }
+								if (block.getMaterial() == Material.air || block.getMaterial() == Material.leaves)
+								{
+									this.setBlockAndNotifyAdequately(worldIn, blockpos, field_181630_b);
+								}
+							}
+						}
+					}
+				}
 
-                    for (int j2 = 0; j2 < i; ++j2)
-                    {
-                        Block block2 = worldIn.getBlockState(position.up(j2)).getBlock();
+				for (int j2 = 0; j2 < i; ++j2)
+				{
+					Block block2 = worldIn.getBlockState(position.up(j2)).getBlock();
 
-                        if (block2.getMaterial() == Material.air || block2.getMaterial() == Material.leaves)
-                        {
-                            this.setBlockAndNotifyAdequately(worldIn, position.up(j2), field_181629_a);
-                        }
-                    }
+					if (block2.getMaterial() == Material.air || block2.getMaterial() == Material.leaves)
+					{
+						this.setBlockAndNotifyAdequately(worldIn, position.up(j2), field_181629_a);
+					}
+				}
 
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
 }

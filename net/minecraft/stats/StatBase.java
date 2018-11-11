@@ -92,13 +92,10 @@ public class StatBase
         {
             throw new RuntimeException("Duplicate stat id: \"" + ((StatBase)StatList.oneShotStats.get(this.statId)).statName + "\" and \"" + this.statName + "\" at id " + this.statId);
         }
-        else
-        {
-            StatList.allStats.add(this);
-            StatList.oneShotStats.put(this.statId, this);
-            return this;
-        }
-    }
+		StatList.allStats.add(this);
+		StatList.oneShotStats.put(this.statId, this);
+		return this;
+	}
 
     /**
      * Returns whether or not the StatBase-derived class is a statistic (running counter) or an achievement (one-shot).
@@ -135,16 +132,13 @@ public class StatBase
         {
             return true;
         }
-        else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
-        {
-            StatBase statbase = (StatBase)p_equals_1_;
-            return this.statId.equals(statbase.statId);
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
+		{
+			StatBase statbase = (StatBase)p_equals_1_;
+			return this.statId.equals(statbase.statId);
+		}
+		return false;
+	}
 
     public int hashCode()
     {

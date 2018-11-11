@@ -22,43 +22,37 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory
         {
             return null;
         }
-        else
-        {
-            final Map<String, T> map = Maps.<String, T>newHashMap();
+		final Map<String, T> map = Maps.<String, T>newHashMap();
 
-            for (T t : oclass.getEnumConstants())
-            {
-                map.put(this.func_151232_a(t), t);
-            }
+		for (T t : oclass.getEnumConstants())
+		{
+			map.put(this.func_151232_a(t), t);
+		}
 
-            return new TypeAdapter<T>()
-            {
-                public void write(JsonWriter p_write_1_, T p_write_2_) throws IOException
-                {
-                    if (p_write_2_ == null)
-                    {
-                        p_write_1_.nullValue();
-                    }
-                    else
-                    {
-                        p_write_1_.value(EnumTypeAdapterFactory.this.func_151232_a(p_write_2_));
-                    }
-                }
-                public T read(JsonReader p_read_1_) throws IOException
-                {
-                    if (p_read_1_.peek() == JsonToken.NULL)
-                    {
-                        p_read_1_.nextNull();
-                        return (T)null;
-                    }
-                    else
-                    {
-                        return (T)map.get(p_read_1_.nextString());
-                    }
-                }
-            };
-        }
-    }
+		return new TypeAdapter<T>()
+		{
+			public void write(JsonWriter p_write_1_, T p_write_2_) throws IOException
+			{
+				if (p_write_2_ == null)
+				{
+					p_write_1_.nullValue();
+				}
+				else
+				{
+					p_write_1_.value(EnumTypeAdapterFactory.this.func_151232_a(p_write_2_));
+				}
+			}
+			public T read(JsonReader p_read_1_) throws IOException
+			{
+				if (p_read_1_.peek() == JsonToken.NULL)
+				{
+					p_read_1_.nextNull();
+					return (T)null;
+				}
+				return (T)map.get(p_read_1_.nextString());
+			}
+		};
+	}
 
     private String func_151232_a(Object p_151232_1_)
     {

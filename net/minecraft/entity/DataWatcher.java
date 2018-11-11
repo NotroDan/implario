@@ -42,23 +42,20 @@ public class DataWatcher
         {
             throw new IllegalArgumentException("Unknown data type: " + object.getClass());
         }
-        else if (id > 31)
-        {
-            throw new IllegalArgumentException("Data value id is too big with " + id + "! (Max is " + 31 + ")");
-        }
-        else if (this.watchedObjects.containsKey(Integer.valueOf(id)))
-        {
-            throw new IllegalArgumentException("Duplicate id value for " + id + "!");
-        }
-        else
-        {
-            DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(integer.intValue(), id, object);
-            this.lock.writeLock().lock();
-            this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
-            this.lock.writeLock().unlock();
-            this.isBlank = false;
-        }
-    }
+		if (id > 31)
+		{
+			throw new IllegalArgumentException("Data value id is too big with " + id + "! (Max is " + 31 + ")");
+		}
+		if (this.watchedObjects.containsKey(Integer.valueOf(id)))
+		{
+			throw new IllegalArgumentException("Duplicate id value for " + id + "!");
+		}
+		DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(integer.intValue(), id, object);
+		this.lock.writeLock().lock();
+		this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
+		this.lock.writeLock().unlock();
+		this.isBlank = false;
+	}
 
     /**
      * Add a new object for the DataWatcher to watch, using the specified data type.

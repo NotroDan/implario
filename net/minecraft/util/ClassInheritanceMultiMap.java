@@ -56,11 +56,8 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
 
             return p_181157_1_;
         }
-        else
-        {
-            throw new IllegalArgumentException("Don\'t know how to search for " + p_181157_1_);
-        }
-    }
+		throw new IllegalArgumentException("Don\'t know how to search for " + p_181157_1_);
+	}
 
     public boolean add(T p_add_1_)
     {
@@ -127,12 +124,9 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
                 {
                     return Iterators.<S>emptyIterator();
                 }
-                else
-                {
-                    Iterator<T> iterator = list.iterator();
-                    return Iterators.filter(iterator, clazz);
-                }
-            }
+				Iterator<T> iterator = list.iterator();
+				return Iterators.filter(iterator, clazz);
+			}
         };
     }
 

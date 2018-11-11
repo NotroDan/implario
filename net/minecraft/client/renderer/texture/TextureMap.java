@@ -498,24 +498,21 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         {
             throw new IllegalArgumentException("Location cannot be null!");
         }
-        else
-        {
-            TextureAtlasSprite textureatlassprite = (TextureAtlasSprite)this.mapRegisteredSprites.get(location.toString());
+		TextureAtlasSprite textureatlassprite = (TextureAtlasSprite)this.mapRegisteredSprites.get(location.toString());
 
-            if (textureatlassprite == null)
-            {
-                textureatlassprite = TextureAtlasSprite.makeAtlasSprite(location);
-                this.mapRegisteredSprites.put(location.toString(), textureatlassprite);
+		if (textureatlassprite == null)
+		{
+			textureatlassprite = TextureAtlasSprite.makeAtlasSprite(location);
+			this.mapRegisteredSprites.put(location.toString(), textureatlassprite);
 
-                if (textureatlassprite.getIndexInMap() < 0)
-                {
-                    textureatlassprite.setIndexInMap(this.counterIndexInMap++);
-                }
-            }
+			if (textureatlassprite.getIndexInMap() < 0)
+			{
+				textureatlassprite.setIndexInMap(this.counterIndexInMap++);
+			}
+		}
 
-            return textureatlassprite;
-        }
-    }
+		return textureatlassprite;
+	}
 
     public void tick()
     {
@@ -551,11 +548,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public boolean setTextureEntry(TextureAtlasSprite p_setTextureEntry_1_)
     {
@@ -793,12 +787,9 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         {
             return null;
         }
-        else
-        {
-            int i = (int)(p_getIconByUV_1_ / this.iconGridSizeU);
-            int j = (int)(p_getIconByUV_3_ / this.iconGridSizeV);
-            int k = j * this.iconGridCountX + i;
-            return k >= 0 && k <= this.iconGrid.length ? this.iconGrid[k] : null;
-        }
-    }
+		int i = (int)(p_getIconByUV_1_ / this.iconGridSizeU);
+		int j = (int)(p_getIconByUV_3_ / this.iconGridSizeV);
+		int k = j * this.iconGridCountX + i;
+		return k >= 0 && k <= this.iconGrid.length ? this.iconGrid[k] : null;
+	}
 }

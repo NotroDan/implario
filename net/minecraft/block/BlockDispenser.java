@@ -97,27 +97,24 @@ public class BlockDispenser extends BlockContainer
         {
             return true;
         }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityDispenser)
-            {
-                playerIn.displayGUIChest((TileEntityDispenser)tileentity);
+		if (tileentity instanceof TileEntityDispenser)
+		{
+			playerIn.displayGUIChest((TileEntityDispenser)tileentity);
 
-                if (tileentity instanceof TileEntityDropper)
-                {
-                    playerIn.triggerAchievement(StatList.field_181731_O);
-                }
-                else
-                {
-                    playerIn.triggerAchievement(StatList.field_181733_Q);
-                }
-            }
+			if (tileentity instanceof TileEntityDropper)
+			{
+				playerIn.triggerAchievement(StatList.field_181731_O);
+			}
+			else
+			{
+				playerIn.triggerAchievement(StatList.field_181733_Q);
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     protected void dispense(World worldIn, BlockPos pos)
     {

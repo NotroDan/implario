@@ -30,16 +30,13 @@ public class ItemEditableBook extends Item
         {
             return false;
         }
-        else if (!nbt.hasKey("title", 8))
-        {
-            return false;
-        }
-        else
-        {
-            String s = nbt.getString("title");
-            return s != null && s.length() <= 32 ? nbt.hasKey("author", 8) : false;
-        }
-    }
+		if (!nbt.hasKey("title", 8))
+		{
+			return false;
+		}
+		String s = nbt.getString("title");
+		return s != null && s.length() <= 32 ? nbt.hasKey("author", 8) : false;
+	}
 
     /**
      * Gets the generation of the book (how many times it has been cloned)

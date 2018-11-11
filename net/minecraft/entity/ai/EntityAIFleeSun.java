@@ -32,31 +32,25 @@ public class EntityAIFleeSun extends EntityAIBase
         {
             return false;
         }
-        else if (!this.theCreature.isBurning())
-        {
-            return false;
-        }
-        else if (!this.theWorld.canSeeSky(new BlockPos(this.theCreature.posX, this.theCreature.getEntityBoundingBox().minY, this.theCreature.posZ)))
-        {
-            return false;
-        }
-        else
-        {
-            Vec3 vec3 = this.findPossibleShelter();
+		if (!this.theCreature.isBurning())
+		{
+			return false;
+		}
+		if (!this.theWorld.canSeeSky(new BlockPos(this.theCreature.posX, this.theCreature.getEntityBoundingBox().minY, this.theCreature.posZ)))
+		{
+			return false;
+		}
+		Vec3 vec3 = this.findPossibleShelter();
 
-            if (vec3 == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.shelterX = vec3.xCoord;
-                this.shelterY = vec3.yCoord;
-                this.shelterZ = vec3.zCoord;
-                return true;
-            }
-        }
-    }
+		if (vec3 == null)
+		{
+			return false;
+		}
+		this.shelterX = vec3.xCoord;
+		this.shelterY = vec3.yCoord;
+		this.shelterZ = vec3.zCoord;
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

@@ -41,10 +41,9 @@ public class RenderEnv {
 			renderenv = new RenderEnv(p_getInstance_0_, p_getInstance_1_, p_getInstance_2_);
 			threadLocalInstance.set(renderenv);
 			return renderenv;
-		} else {
-			renderenv.reset(p_getInstance_0_, p_getInstance_1_, p_getInstance_2_);
-			return renderenv;
 		}
+		renderenv.reset(p_getInstance_0_, p_getInstance_1_, p_getInstance_2_);
+		return renderenv;
 	}
 
 	private void reset(IBlockAccess p_reset_1_, IBlockState p_reset_2_, BlockPos p_reset_3_) {

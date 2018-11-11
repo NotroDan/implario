@@ -28,15 +28,15 @@ public class Property
         {
             throw new IllegalArgumentException("Property and user values have different lengths: " + propertyValues.length + " != " + userValues.length);
         }
-        else if (defaultValue >= 0 && defaultValue < propertyValues.length)
-        {
-            this.value = defaultValue;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Invalid default value: " + defaultValue);
-        }
-    }
+		if (defaultValue >= 0 && defaultValue < propertyValues.length)
+		{
+			this.value = defaultValue;
+		}
+		else
+		{
+			throw new IllegalArgumentException("Invalid default value: " + defaultValue);
+		}
+	}
 
     public boolean setPropertyValue(String propVal)
     {
@@ -45,21 +45,15 @@ public class Property
             this.value = this.defaultValue;
             return false;
         }
-        else
-        {
-            this.value = ArrayUtils.indexOf(this.propertyValues, propVal);
+		this.value = ArrayUtils.indexOf(this.propertyValues, propVal);
 
-            if (this.value >= 0 && this.value < this.propertyValues.length)
-            {
-                return true;
-            }
-            else
-            {
-                this.value = this.defaultValue;
-                return false;
-            }
-        }
-    }
+		if (this.value >= 0 && this.value < this.propertyValues.length)
+		{
+			return true;
+		}
+		this.value = this.defaultValue;
+		return false;
+	}
 
     public void nextValue()
     {
@@ -119,12 +113,9 @@ public class Property
         {
             return false;
         }
-        else
-        {
-            String s = props.getProperty(this.propertyName);
-            return s == null ? false : this.setPropertyValue(s);
-        }
-    }
+		String s = props.getProperty(this.propertyName);
+		return s == null ? false : this.setPropertyValue(s);
+	}
 
     public void saveTo(Properties props)
     {

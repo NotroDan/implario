@@ -43,12 +43,9 @@ public class Rotations
         {
             return false;
         }
-        else
-        {
-            Rotations rotations = (Rotations)p_equals_1_;
-            return this.x == rotations.x && this.y == rotations.y && this.z == rotations.z;
-        }
-    }
+		Rotations rotations = (Rotations)p_equals_1_;
+		return this.x == rotations.x && this.y == rotations.y && this.z == rotations.z;
+	}
 
     /**
      * Gets the X axis rotation

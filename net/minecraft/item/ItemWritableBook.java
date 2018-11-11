@@ -32,30 +32,27 @@ public class ItemWritableBook extends Item
         {
             return false;
         }
-        else if (!nbt.hasKey("pages", 9))
-        {
-            return false;
-        }
-        else
-        {
-            NBTTagList nbttaglist = nbt.getTagList("pages", 8);
+		if (!nbt.hasKey("pages", 9))
+		{
+			return false;
+		}
+		NBTTagList nbttaglist = nbt.getTagList("pages", 8);
 
-            for (int i = 0; i < nbttaglist.tagCount(); ++i)
-            {
-                String s = nbttaglist.getStringTagAt(i);
+		for (int i = 0; i < nbttaglist.tagCount(); ++i)
+		{
+			String s = nbttaglist.getStringTagAt(i);
 
-                if (s == null)
-                {
-                    return false;
-                }
+			if (s == null)
+			{
+				return false;
+			}
 
-                if (s.length() > 32767)
-                {
-                    return false;
-                }
-            }
+			if (s.length() > 32767)
+			{
+				return false;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 }

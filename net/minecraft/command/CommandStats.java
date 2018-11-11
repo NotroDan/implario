@@ -47,146 +47,140 @@ public class CommandStats extends CommandBase
         {
             throw new WrongUsageException("commands.stats.usage", new Object[0]);
         }
-        else
-        {
-            boolean flag;
+		boolean flag;
 
-            if (args[0].equals("entity"))
-            {
-                flag = false;
-            }
-            else
-            {
-                if (!args[0].equals("block"))
-                {
-                    throw new WrongUsageException("commands.stats.usage", new Object[0]);
-                }
+		if (args[0].equals("entity"))
+		{
+			flag = false;
+		}
+		else
+		{
+			if (!args[0].equals("block"))
+			{
+				throw new WrongUsageException("commands.stats.usage", new Object[0]);
+			}
 
-                flag = true;
-            }
+			flag = true;
+		}
 
-            int i;
+		int i;
 
-            if (flag)
-            {
-                if (args.length < 5)
-                {
-                    throw new WrongUsageException("commands.stats.block.usage", new Object[0]);
-                }
+		if (flag)
+		{
+			if (args.length < 5)
+			{
+				throw new WrongUsageException("commands.stats.block.usage", new Object[0]);
+			}
 
-                i = 4;
-            }
-            else
-            {
-                if (args.length < 3)
-                {
-                    throw new WrongUsageException("commands.stats.entity.usage", new Object[0]);
-                }
+			i = 4;
+		}
+		else
+		{
+			if (args.length < 3)
+			{
+				throw new WrongUsageException("commands.stats.entity.usage", new Object[0]);
+			}
 
-                i = 2;
-            }
+			i = 2;
+		}
 
-            String s = args[i++];
+		String s = args[i++];
 
-            if ("set".equals(s))
-            {
-                if (args.length < i + 3)
-                {
-                    if (i == 5)
-                    {
-                        throw new WrongUsageException("commands.stats.block.set.usage", new Object[0]);
-                    }
+		if ("set".equals(s))
+		{
+			if (args.length < i + 3)
+			{
+				if (i == 5)
+				{
+					throw new WrongUsageException("commands.stats.block.set.usage", new Object[0]);
+				}
 
-                    throw new WrongUsageException("commands.stats.entity.set.usage", new Object[0]);
-                }
-            }
-            else
-            {
-                if (!"clear".equals(s))
-                {
-                    throw new WrongUsageException("commands.stats.usage", new Object[0]);
-                }
+				throw new WrongUsageException("commands.stats.entity.set.usage", new Object[0]);
+			}
+		}
+		else
+		{
+			if (!"clear".equals(s))
+			{
+				throw new WrongUsageException("commands.stats.usage", new Object[0]);
+			}
 
-                if (args.length < i + 1)
-                {
-                    if (i == 5)
-                    {
-                        throw new WrongUsageException("commands.stats.block.clear.usage", new Object[0]);
-                    }
+			if (args.length < i + 1)
+			{
+				if (i == 5)
+				{
+					throw new WrongUsageException("commands.stats.block.clear.usage", new Object[0]);
+				}
 
-                    throw new WrongUsageException("commands.stats.entity.clear.usage", new Object[0]);
-                }
-            }
+				throw new WrongUsageException("commands.stats.entity.clear.usage", new Object[0]);
+			}
+		}
 
-            CommandResultStats.Type commandresultstats$type = CommandResultStats.Type.getTypeByName(args[i++]);
+		CommandResultStats.Type commandresultstats$type = CommandResultStats.Type.getTypeByName(args[i++]);
 
-            if (commandresultstats$type == null)
-            {
-                throw new CommandException("commands.stats.failed", new Object[0]);
-            }
-            else
-            {
-                World world = sender.getEntityWorld();
-                CommandResultStats commandresultstats;
+		if (commandresultstats$type == null)
+		{
+			throw new CommandException("commands.stats.failed", new Object[0]);
+		}
+		World world = sender.getEntityWorld();
+		CommandResultStats commandresultstats;
 
-                if (flag)
-                {
-                    BlockPos blockpos = parseBlockPos(sender, args, 1, false);
-                    TileEntity tileentity = world.getTileEntity(blockpos);
+		if (flag)
+		{
+			BlockPos blockpos = parseBlockPos(sender, args, 1, false);
+			TileEntity tileentity = world.getTileEntity(blockpos);
 
-                    if (tileentity == null)
-                    {
-                        throw new CommandException("commands.stats.noCompatibleBlock", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
-                    }
+			if (tileentity == null)
+			{
+				throw new CommandException("commands.stats.noCompatibleBlock", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
+			}
 
-                    if (tileentity instanceof TileEntityCommandBlock)
-                    {
-                        commandresultstats = ((TileEntityCommandBlock)tileentity).getCommandResultStats();
-                    }
-                    else
-                    {
-                        if (!(tileentity instanceof TileEntitySign))
-                        {
-                            throw new CommandException("commands.stats.noCompatibleBlock", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
-                        }
+			if (tileentity instanceof TileEntityCommandBlock)
+			{
+				commandresultstats = ((TileEntityCommandBlock)tileentity).getCommandResultStats();
+			}
+			else
+			{
+				if (!(tileentity instanceof TileEntitySign))
+				{
+					throw new CommandException("commands.stats.noCompatibleBlock", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
+				}
 
-                        commandresultstats = ((TileEntitySign)tileentity).getStats();
-                    }
-                }
-                else
-                {
-                    Entity entity = func_175768_b(sender, args[1]);
-                    commandresultstats = entity.getCommandStats();
-                }
+				commandresultstats = ((TileEntitySign)tileentity).getStats();
+			}
+		}
+		else
+		{
+			Entity entity = func_175768_b(sender, args[1]);
+			commandresultstats = entity.getCommandStats();
+		}
 
-                if ("set".equals(s))
-                {
-                    String s1 = args[i++];
-                    String s2 = args[i];
+		if ("set".equals(s))
+		{
+			String s1 = args[i++];
+			String s2 = args[i];
 
-                    if (s1.length() == 0 || s2.length() == 0)
-                    {
-                        throw new CommandException("commands.stats.failed", new Object[0]);
-                    }
+			if (s1.length() == 0 || s2.length() == 0)
+			{
+				throw new CommandException("commands.stats.failed", new Object[0]);
+			}
 
-                    CommandResultStats.func_179667_a(commandresultstats, commandresultstats$type, s1, s2);
-                    notifyOperators(sender, this, "commands.stats.success", new Object[] {commandresultstats$type.getTypeName(), s2, s1});
-                }
-                else if ("clear".equals(s))
-                {
-                    CommandResultStats.func_179667_a(commandresultstats, commandresultstats$type, (String)null, (String)null);
-                    notifyOperators(sender, this, "commands.stats.cleared", new Object[] {commandresultstats$type.getTypeName()});
-                }
+			CommandResultStats.func_179667_a(commandresultstats, commandresultstats$type, s1, s2);
+			notifyOperators(sender, this, "commands.stats.success", new Object[] {commandresultstats$type.getTypeName(), s2, s1});
+		}
+		else if ("clear".equals(s))
+		{
+			CommandResultStats.func_179667_a(commandresultstats, commandresultstats$type, (String)null, (String)null);
+			notifyOperators(sender, this, "commands.stats.cleared", new Object[] {commandresultstats$type.getTypeName()});
+		}
 
-                if (flag)
-                {
-                    BlockPos blockpos1 = parseBlockPos(sender, args, 1, false);
-                    TileEntity tileentity1 = world.getTileEntity(blockpos1);
-                    tileentity1.markDirty();
-                }
-            }
-        }
-    }
+		if (flag)
+		{
+			BlockPos blockpos1 = parseBlockPos(sender, args, 1, false);
+			TileEntity tileentity1 = world.getTileEntity(blockpos1);
+			tileentity1.markDirty();
+		}
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {

@@ -16,12 +16,9 @@ public class MessageSerializer2 extends MessageToByteEncoder<ByteBuf>
         {
             throw new IllegalArgumentException("unable to fit " + i + " into " + 3);
         }
-        else
-        {
-            PacketBuffer packetbuffer = new PacketBuffer(p_encode_3_);
-            packetbuffer.ensureWritable(j + i);
-            packetbuffer.writeVarIntToBuffer(i);
-            packetbuffer.writeBytes(p_encode_2_, p_encode_2_.readerIndex(), i);
-        }
-    }
+		PacketBuffer packetbuffer = new PacketBuffer(p_encode_3_);
+		packetbuffer.ensureWritable(j + i);
+		packetbuffer.writeVarIntToBuffer(i);
+		packetbuffer.writeBytes(p_encode_2_, p_encode_2_.readerIndex(), i);
+	}
 }

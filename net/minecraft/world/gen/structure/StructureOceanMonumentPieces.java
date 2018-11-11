@@ -1658,11 +1658,8 @@ public class StructureOceanMonumentPieces
                 worldIn.spawnEntityInWorld(entityguardian);
                 return true;
             }
-            else
-            {
-                return false;
-            }
-        }
+			return false;
+		}
     }
 
     static class RoomDefinition
@@ -1699,21 +1696,18 @@ public class StructureOceanMonumentPieces
             {
                 return true;
             }
-            else
-            {
-                this.field_175962_f = p_175959_1_;
+			this.field_175962_f = p_175959_1_;
 
-                for (int i = 0; i < 6; ++i)
-                {
-                    if (this.field_175965_b[i] != null && this.field_175966_c[i] && this.field_175965_b[i].field_175962_f != p_175959_1_ && this.field_175965_b[i].func_175959_a(p_175959_1_))
-                    {
-                        return true;
-                    }
-                }
+			for (int i = 0; i < 6; ++i)
+			{
+				if (this.field_175965_b[i] != null && this.field_175966_c[i] && this.field_175965_b[i].field_175962_f != p_175959_1_ && this.field_175965_b[i].func_175959_a(p_175959_1_))
+				{
+					return true;
+				}
+			}
 
-                return false;
-            }
-        }
+			return false;
+		}
 
         public boolean func_175961_b()
         {
@@ -2146,11 +2140,8 @@ public class StructureOceanMonumentPieces
                 StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = p_175969_1_.field_175965_b[EnumFacing.EAST.getIndex()];
                 return structureoceanmonumentpieces$roomdefinition.field_175966_c[EnumFacing.UP.getIndex()] && !structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d;
             }
-            else
-            {
-                return false;
-            }
-        }
+			return false;
+		}
 
         public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_)
         {
@@ -2194,11 +2185,8 @@ public class StructureOceanMonumentPieces
                 StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = p_175969_1_.field_175965_b[EnumFacing.NORTH.getIndex()];
                 return structureoceanmonumentpieces$roomdefinition.field_175966_c[EnumFacing.UP.getIndex()] && !structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d;
             }
-            else
-            {
-                return false;
-            }
-        }
+			return false;
+		}
 
         public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_)
         {

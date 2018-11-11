@@ -113,41 +113,35 @@ public class ChunkCache implements IBlockAccess
         {
             return 0;
         }
-        else if (pos.getY() >= 0 && pos.getY() < 256)
-        {
-            if (this.getBlockState(pos).getBlock().getUseNeighborBrightness())
-            {
-                int l = 0;
+		if (pos.getY() >= 0 && pos.getY() < 256)
+		{
+			if (this.getBlockState(pos).getBlock().getUseNeighborBrightness())
+			{
+				int l = 0;
 
-                for (EnumFacing enumfacing : EnumFacing.values())
-                {
-                    int k = this.getLightFor(p_175629_1_, pos.offset(enumfacing));
+				for (EnumFacing enumfacing : EnumFacing.values())
+				{
+					int k = this.getLightFor(p_175629_1_, pos.offset(enumfacing));
 
-                    if (k > l)
-                    {
-                        l = k;
-                    }
+					if (k > l)
+					{
+						l = k;
+					}
 
-                    if (l >= 15)
-                    {
-                        return l;
-                    }
-                }
+					if (l >= 15)
+					{
+						return l;
+					}
+				}
 
-                return l;
-            }
-            else
-            {
-                int i = (pos.getX() >> 4) - this.chunkX;
-                int j = (pos.getZ() >> 4) - this.chunkZ;
-                return this.chunkArray[i][j].getLightFor(p_175629_1_, pos);
-            }
-        }
-        else
-        {
-            return p_175629_1_.defaultLightValue;
-        }
-    }
+				return l;
+			}
+			int i = (pos.getX() >> 4) - this.chunkX;
+			int j = (pos.getZ() >> 4) - this.chunkZ;
+			return this.chunkArray[i][j].getLightFor(p_175629_1_, pos);
+		}
+		return p_175629_1_.defaultLightValue;
+	}
 
     /**
      * Checks to see if an air block exists at the provided location. Note that this only checks to see if the blocks
@@ -166,11 +160,8 @@ public class ChunkCache implements IBlockAccess
             int j = (pos.getZ() >> 4) - this.chunkZ;
             return this.chunkArray[i][j].getLightFor(p_175628_1_, pos);
         }
-        else
-        {
-            return p_175628_1_.defaultLightValue;
-        }
-    }
+		return p_175628_1_.defaultLightValue;
+	}
 
     public int getStrongPower(BlockPos pos, EnumFacing direction)
     {

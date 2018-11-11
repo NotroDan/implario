@@ -75,12 +75,9 @@ public class PathPoint
         {
             return false;
         }
-        else
-        {
-            PathPoint pathpoint = (PathPoint)p_equals_1_;
-            return this.hash == pathpoint.hash && this.xCoord == pathpoint.xCoord && this.yCoord == pathpoint.yCoord && this.zCoord == pathpoint.zCoord;
-        }
-    }
+		PathPoint pathpoint = (PathPoint)p_equals_1_;
+		return this.hash == pathpoint.hash && this.xCoord == pathpoint.xCoord && this.yCoord == pathpoint.yCoord && this.zCoord == pathpoint.zCoord;
+	}
 
     public int hashCode()
     {

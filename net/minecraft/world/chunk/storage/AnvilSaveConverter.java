@@ -74,11 +74,8 @@ public class AnvilSaveConverter extends SaveFormatOld
 
             return list;
         }
-        else
-        {
-            throw new AnvilConverterException("Unable to read or access folder where game worlds are saved!");
-        }
-    }
+		throw new AnvilConverterException("Unable to read or access folder where game worlds are saved!");
+	}
 
     protected int getSaveVersion()
     {

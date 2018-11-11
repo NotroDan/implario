@@ -116,11 +116,8 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Get this Entity's EnumCreatureAttribute

@@ -34,16 +34,13 @@ public abstract class RenderLiving<T extends EntityLiving> extends RendererLivin
         {
             return true;
         }
-        else if (livingEntity.getLeashed() && livingEntity.getLeashedToEntity() != null)
-        {
-            Entity entity = livingEntity.getLeashedToEntity();
-            return camera.isBoundingBoxInFrustum(entity.getEntityBoundingBox());
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (livingEntity.getLeashed() && livingEntity.getLeashedToEntity() != null)
+		{
+			Entity entity = livingEntity.getLeashedToEntity();
+			return camera.isBoundingBoxInFrustum(entity.getEntityBoundingBox());
+		}
+		return false;
+	}
 
     /**
      * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then

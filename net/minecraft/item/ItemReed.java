@@ -40,33 +40,30 @@ public class ItemReed extends Item
         {
             return false;
         }
-        else if (stack.stackSize == 0)
-        {
-            return false;
-        }
-        else
-        {
-            if (worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity)null, stack))
-            {
-                IBlockState iblockstate1 = this.block.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, 0, playerIn);
+		if (stack.stackSize == 0)
+		{
+			return false;
+		}
+		if (worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity)null, stack))
+		{
+			IBlockState iblockstate1 = this.block.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, 0, playerIn);
 
-                if (worldIn.setBlockState(pos, iblockstate1, 3))
-                {
-                    iblockstate1 = worldIn.getBlockState(pos);
+			if (worldIn.setBlockState(pos, iblockstate1, 3))
+			{
+				iblockstate1 = worldIn.getBlockState(pos);
 
-                    if (iblockstate1.getBlock() == this.block)
-                    {
-                        ItemBlock.setTileEntityNBT(worldIn, playerIn, pos, stack);
-                        iblockstate1.getBlock().onBlockPlacedBy(worldIn, pos, iblockstate1, playerIn, stack);
-                    }
+				if (iblockstate1.getBlock() == this.block)
+				{
+					ItemBlock.setTileEntityNBT(worldIn, playerIn, pos, stack);
+					iblockstate1.getBlock().onBlockPlacedBy(worldIn, pos, iblockstate1, playerIn, stack);
+				}
 
-                    worldIn.playSoundEffect((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), this.block.stepSound.getPlaceSound(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getFrequency() * 0.8F);
-                    --stack.stackSize;
-                    return true;
-                }
-            }
+				worldIn.playSoundEffect((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), this.block.stepSound.getPlaceSound(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getFrequency() * 0.8F);
+				--stack.stackSize;
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 }

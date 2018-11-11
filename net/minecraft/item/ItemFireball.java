@@ -24,29 +24,23 @@ public class ItemFireball extends Item
         {
             return true;
         }
-        else
-        {
-            pos = pos.offset(side);
+		pos = pos.offset(side);
 
-            if (!playerIn.canPlayerEdit(pos, side, stack))
-            {
-                return false;
-            }
-            else
-            {
-                if (worldIn.getBlockState(pos).getBlock().getMaterial() == Material.air)
-                {
-                    worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "item.fireCharge.use", 1.0F, (itemRand.nextFloat() - itemRand.nextFloat()) * 0.2F + 1.0F);
-                    worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
-                }
+		if (!playerIn.canPlayerEdit(pos, side, stack))
+		{
+			return false;
+		}
+		if (worldIn.getBlockState(pos).getBlock().getMaterial() == Material.air)
+		{
+			worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "item.fireCharge.use", 1.0F, (itemRand.nextFloat() - itemRand.nextFloat()) * 0.2F + 1.0F);
+			worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
+		}
 
-                if (!playerIn.capabilities.isCreativeMode)
-                {
-                    --stack.stackSize;
-                }
+		if (!playerIn.capabilities.isCreativeMode)
+		{
+			--stack.stackSize;
+		}
 
-                return true;
-            }
-        }
-    }
+		return true;
+	}
 }

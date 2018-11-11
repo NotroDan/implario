@@ -33,12 +33,9 @@ public class ModelManager implements IResourceManagerReloadListener
         {
             return this.defaultModel;
         }
-        else
-        {
-            IBakedModel ibakedmodel = (IBakedModel)this.modelRegistry.getObject(modelLocation);
-            return ibakedmodel == null ? this.defaultModel : ibakedmodel;
-        }
-    }
+		IBakedModel ibakedmodel = (IBakedModel)this.modelRegistry.getObject(modelLocation);
+		return ibakedmodel == null ? this.defaultModel : ibakedmodel;
+	}
 
     public IBakedModel getMissingModel()
     {

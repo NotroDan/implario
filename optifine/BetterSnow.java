@@ -60,45 +60,36 @@ public class BetterSnow
         {
             return false;
         }
-        else if (p_checkBlock_0_.isOpaqueCube())
-        {
-            return false;
-        }
-        else if (p_checkBlock_0_ instanceof BlockSnow)
-        {
-            return false;
-        }
-        else if (!(p_checkBlock_0_ instanceof BlockBush) || !(p_checkBlock_0_ instanceof BlockDoublePlant) && !(p_checkBlock_0_ instanceof BlockFlower) && !(p_checkBlock_0_ instanceof BlockMushroom) && !(p_checkBlock_0_ instanceof BlockSapling) && !(p_checkBlock_0_ instanceof BlockTallGrass))
-        {
-            if (!(p_checkBlock_0_ instanceof BlockFence) && !(p_checkBlock_0_ instanceof BlockFenceGate) && !(p_checkBlock_0_ instanceof BlockFlowerPot) && !(p_checkBlock_0_ instanceof BlockPane) && !(p_checkBlock_0_ instanceof BlockReed) && !(p_checkBlock_0_ instanceof BlockWall))
-            {
-                if (p_checkBlock_0_ instanceof BlockRedstoneTorch && p_checkBlock_1_.getValue(BlockTorch.FACING) == EnumFacing.UP)
-                {
-                    return true;
-                }
-                else
-                {
-                    if (p_checkBlock_0_ instanceof BlockLever)
-                    {
-                        Object object = p_checkBlock_1_.getValue(BlockLever.FACING);
+		if (p_checkBlock_0_.isOpaqueCube())
+		{
+			return false;
+		}
+		if (p_checkBlock_0_ instanceof BlockSnow)
+		{
+			return false;
+		}
+		if (!(p_checkBlock_0_ instanceof BlockBush) || !(p_checkBlock_0_ instanceof BlockDoublePlant) && !(p_checkBlock_0_ instanceof BlockFlower) && !(p_checkBlock_0_ instanceof BlockMushroom) && !(p_checkBlock_0_ instanceof BlockSapling) && !(p_checkBlock_0_ instanceof BlockTallGrass))
+		{
+			if (!(p_checkBlock_0_ instanceof BlockFence) && !(p_checkBlock_0_ instanceof BlockFenceGate) && !(p_checkBlock_0_ instanceof BlockFlowerPot) && !(p_checkBlock_0_ instanceof BlockPane) && !(p_checkBlock_0_ instanceof BlockReed) && !(p_checkBlock_0_ instanceof BlockWall))
+			{
+				if (p_checkBlock_0_ instanceof BlockRedstoneTorch && p_checkBlock_1_.getValue(BlockTorch.FACING) == EnumFacing.UP)
+				{
+					return true;
+				}
+				if (p_checkBlock_0_ instanceof BlockLever)
+					{
+						Object object = p_checkBlock_1_.getValue(BlockLever.FACING);
 
-                        if (object == BlockLever.EnumOrientation.UP_X || object == BlockLever.EnumOrientation.UP_Z)
-                        {
-                            return true;
-                        }
-                    }
+						if (object == BlockLever.EnumOrientation.UP_X || object == BlockLever.EnumOrientation.UP_Z)
+						{
+							return true;
+						}
+					}
 
-                    return false;
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
+				return false;
+			}
+			return true;
+		}
+		return true;
+	}
 }

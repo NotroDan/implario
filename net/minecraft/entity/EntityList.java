@@ -93,27 +93,24 @@ public class EntityList
         {
             throw new IllegalArgumentException("ID is already registered: " + entityName);
         }
-        else if (idToClassMapping.containsKey(Integer.valueOf(id)))
-        {
-            throw new IllegalArgumentException("ID is already registered: " + id);
-        }
-        else if (id == 0)
-        {
-            throw new IllegalArgumentException("Cannot register to reserved id: " + id);
-        }
-        else if (entityClass == null)
-        {
-            throw new IllegalArgumentException("Cannot register null clazz for id: " + id);
-        }
-        else
-        {
-            stringToClassMapping.put(entityName, entityClass);
-            classToStringMapping.put(entityClass, entityName);
-            idToClassMapping.put(Integer.valueOf(id), entityClass);
-            classToIDMapping.put(entityClass, Integer.valueOf(id));
-            stringToIDMapping.put(entityName, Integer.valueOf(id));
-        }
-    }
+		if (idToClassMapping.containsKey(Integer.valueOf(id)))
+		{
+			throw new IllegalArgumentException("ID is already registered: " + id);
+		}
+		if (id == 0)
+		{
+			throw new IllegalArgumentException("Cannot register to reserved id: " + id);
+		}
+		if (entityClass == null)
+		{
+			throw new IllegalArgumentException("Cannot register null clazz for id: " + id);
+		}
+		stringToClassMapping.put(entityName, entityClass);
+		classToStringMapping.put(entityClass, entityName);
+		idToClassMapping.put(Integer.valueOf(id), entityClass);
+		classToIDMapping.put(entityClass, Integer.valueOf(id));
+		stringToIDMapping.put(entityName, Integer.valueOf(id));
+	}
 
     /**
      * Adds a entity mapping with egg info.

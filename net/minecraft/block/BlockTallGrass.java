@@ -57,12 +57,9 @@ public class BlockTallGrass extends BlockBush implements IGrowable
         {
             return super.getRenderColor(state);
         }
-        else
-        {
-            BlockTallGrass.EnumType blocktallgrass$enumtype = (BlockTallGrass.EnumType)state.getValue(TYPE);
-            return blocktallgrass$enumtype == BlockTallGrass.EnumType.DEAD_BUSH ? 16777215 : ColorizerGrass.getGrassColor(0.5D, 1.0D);
-        }
-    }
+		BlockTallGrass.EnumType blocktallgrass$enumtype = (BlockTallGrass.EnumType)state.getValue(TYPE);
+		return blocktallgrass$enumtype == BlockTallGrass.EnumType.DEAD_BUSH ? 16777215 : ColorizerGrass.getGrassColor(0.5D, 1.0D);
+	}
 
     public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
     {

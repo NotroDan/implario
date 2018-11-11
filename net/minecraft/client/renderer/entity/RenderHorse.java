@@ -71,11 +71,8 @@ public class RenderHorse extends RenderLiving<EntityHorse>
                     return skeletonHorseTextures;
             }
         }
-        else
-        {
-            return this.func_110848_b(entity);
-        }
-    }
+		return this.func_110848_b(entity);
+	}
 
     private ResourceLocation func_110848_b(EntityHorse horse)
     {
@@ -85,18 +82,15 @@ public class RenderHorse extends RenderLiving<EntityHorse>
         {
             return null;
         }
-        else
-        {
-            ResourceLocation resourcelocation = (ResourceLocation)field_110852_a.get(s);
+		ResourceLocation resourcelocation = (ResourceLocation)field_110852_a.get(s);
 
-            if (resourcelocation == null)
-            {
-                resourcelocation = new ResourceLocation(s);
-                Minecraft.getMinecraft().getTextureManager().loadTexture(resourcelocation, new LayeredTexture(horse.getVariantTexturePaths()));
-                field_110852_a.put(s, resourcelocation);
-            }
+		if (resourcelocation == null)
+		{
+			resourcelocation = new ResourceLocation(s);
+			Minecraft.getMinecraft().getTextureManager().loadTexture(resourcelocation, new LayeredTexture(horse.getVariantTexturePaths()));
+			field_110852_a.put(s, resourcelocation);
+		}
 
-            return resourcelocation;
-        }
-    }
+		return resourcelocation;
+	}
 }

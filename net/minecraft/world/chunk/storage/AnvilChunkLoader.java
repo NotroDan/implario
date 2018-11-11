@@ -77,31 +77,25 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
             logger.error("Chunk file at " + x + "," + z + " is missing level data, skipping");
             return null;
         }
-        else
-        {
-            NBTTagCompound nbttagcompound = p_75822_4_.getCompoundTag("Level");
+		NBTTagCompound nbttagcompound = p_75822_4_.getCompoundTag("Level");
 
-            if (!nbttagcompound.hasKey("Sections", 9))
-            {
-                logger.error("Chunk file at " + x + "," + z + " is missing block data, skipping");
-                return null;
-            }
-            else
-            {
-                Chunk chunk = this.readChunkFromNBT(worldIn, nbttagcompound);
+		if (!nbttagcompound.hasKey("Sections", 9))
+		{
+			logger.error("Chunk file at " + x + "," + z + " is missing block data, skipping");
+			return null;
+		}
+		Chunk chunk = this.readChunkFromNBT(worldIn, nbttagcompound);
 
-                if (!chunk.isAtLocation(x, z))
-                {
-                    logger.error("Chunk file at " + x + "," + z + " is in the wrong location; relocating. (Expected " + x + ", " + z + ", got " + chunk.xPosition + ", " + chunk.zPosition + ")");
-                    nbttagcompound.setInteger("xPos", x);
-                    nbttagcompound.setInteger("zPos", z);
-                    chunk = this.readChunkFromNBT(worldIn, nbttagcompound);
-                }
+		if (!chunk.isAtLocation(x, z))
+		{
+			logger.error("Chunk file at " + x + "," + z + " is in the wrong location; relocating. (Expected " + x + ", " + z + ", got " + chunk.xPosition + ", " + chunk.zPosition + ")");
+			nbttagcompound.setInteger("xPos", x);
+			nbttagcompound.setInteger("zPos", z);
+			chunk = this.readChunkFromNBT(worldIn, nbttagcompound);
+		}
 
-                return chunk;
-            }
-        }
-    }
+		return chunk;
+	}
 
     public void saveChunk(World worldIn, Chunk chunkIn) throws MinecraftException, IOException
     {
@@ -145,38 +139,35 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
 
             return false;
         }
-        else
-        {
-            ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)this.chunksToRemove.keySet().iterator().next();
-            boolean lvt_3_1_;
+		ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)this.chunksToRemove.keySet().iterator().next();
+		boolean lvt_3_1_;
 
-            try
-            {
-                this.pendingAnvilChunksCoordinates.add(chunkcoordintpair);
-                NBTTagCompound nbttagcompound = (NBTTagCompound)this.chunksToRemove.remove(chunkcoordintpair);
+		try
+		{
+			this.pendingAnvilChunksCoordinates.add(chunkcoordintpair);
+			NBTTagCompound nbttagcompound = (NBTTagCompound)this.chunksToRemove.remove(chunkcoordintpair);
 
-                if (nbttagcompound != null)
-                {
-                    try
-                    {
-                        this.func_183013_b(chunkcoordintpair, nbttagcompound);
-                    }
-                    catch (Exception exception)
-                    {
-                        logger.error((String)"Failed to save chunk", (Throwable)exception);
-                    }
-                }
+			if (nbttagcompound != null)
+			{
+				try
+				{
+					this.func_183013_b(chunkcoordintpair, nbttagcompound);
+				}
+				catch (Exception exception)
+				{
+					logger.error((String)"Failed to save chunk", (Throwable)exception);
+				}
+			}
 
-                lvt_3_1_ = true;
-            }
-            finally
-            {
-                this.pendingAnvilChunksCoordinates.remove(chunkcoordintpair);
-            }
+			lvt_3_1_ = true;
+		}
+		finally
+		{
+			this.pendingAnvilChunksCoordinates.remove(chunkcoordintpair);
+		}
 
-            return lvt_3_1_;
-        }
-    }
+		return lvt_3_1_;
+	}
 
     private void func_183013_b(ChunkCoordIntPair p_183013_1_, NBTTagCompound p_183013_2_) throws IOException
     {

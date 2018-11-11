@@ -70,68 +70,59 @@ public class WorldGenTaiga1 extends WorldGenAbstractTree
             {
                 return false;
             }
-            else
-            {
-                Block block = worldIn.getBlockState(position.down()).getBlock();
+			Block block = worldIn.getBlockState(position.down()).getBlock();
 
-                if ((block == Blocks.grass || block == Blocks.dirt) && position.getY() < 256 - i - 1)
-                {
-                    this.func_175921_a(worldIn, position.down());
-                    int k2 = 0;
+			if ((block == Blocks.grass || block == Blocks.dirt) && position.getY() < 256 - i - 1)
+			{
+				this.func_175921_a(worldIn, position.down());
+				int k2 = 0;
 
-                    for (int l2 = position.getY() + i; l2 >= position.getY() + j; --l2)
-                    {
-                        for (int j3 = position.getX() - k2; j3 <= position.getX() + k2; ++j3)
-                        {
-                            int k3 = j3 - position.getX();
+				for (int l2 = position.getY() + i; l2 >= position.getY() + j; --l2)
+				{
+					for (int j3 = position.getX() - k2; j3 <= position.getX() + k2; ++j3)
+					{
+						int k3 = j3 - position.getX();
 
-                            for (int i2 = position.getZ() - k2; i2 <= position.getZ() + k2; ++i2)
-                            {
-                                int j2 = i2 - position.getZ();
+						for (int i2 = position.getZ() - k2; i2 <= position.getZ() + k2; ++i2)
+						{
+							int j2 = i2 - position.getZ();
 
-                                if (Math.abs(k3) != k2 || Math.abs(j2) != k2 || k2 <= 0)
-                                {
-                                    BlockPos blockpos = new BlockPos(j3, l2, i2);
+							if (Math.abs(k3) != k2 || Math.abs(j2) != k2 || k2 <= 0)
+							{
+								BlockPos blockpos = new BlockPos(j3, l2, i2);
 
-                                    if (!worldIn.getBlockState(blockpos).getBlock().isFullBlock())
-                                    {
-                                        this.setBlockAndNotifyAdequately(worldIn, blockpos, field_181637_b);
-                                    }
-                                }
-                            }
-                        }
+								if (!worldIn.getBlockState(blockpos).getBlock().isFullBlock())
+								{
+									this.setBlockAndNotifyAdequately(worldIn, blockpos, field_181637_b);
+								}
+							}
+						}
+					}
 
-                        if (k2 >= 1 && l2 == position.getY() + j + 1)
-                        {
-                            --k2;
-                        }
-                        else if (k2 < l)
-                        {
-                            ++k2;
-                        }
-                    }
+					if (k2 >= 1 && l2 == position.getY() + j + 1)
+					{
+						--k2;
+					}
+					else if (k2 < l)
+					{
+						++k2;
+					}
+				}
 
-                    for (int i3 = 0; i3 < i - 1; ++i3)
-                    {
-                        Block block1 = worldIn.getBlockState(position.up(i3)).getBlock();
+				for (int i3 = 0; i3 < i - 1; ++i3)
+				{
+					Block block1 = worldIn.getBlockState(position.up(i3)).getBlock();
 
-                        if (block1.getMaterial() == Material.air || block1.getMaterial() == Material.leaves)
-                        {
-                            this.setBlockAndNotifyAdequately(worldIn, position.up(i3), field_181636_a);
-                        }
-                    }
+					if (block1.getMaterial() == Material.air || block1.getMaterial() == Material.leaves)
+					{
+						this.setBlockAndNotifyAdequately(worldIn, position.up(i3), field_181636_a);
+					}
+				}
 
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
 }

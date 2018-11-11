@@ -33,49 +33,46 @@ public class ServerAddress
         {
             return null;
         }
-        else
-        {
-            String[] astring = p_78860_0_.split(":");
+		String[] astring = p_78860_0_.split(":");
 
-            if (p_78860_0_.startsWith("["))
-            {
-                int i = p_78860_0_.indexOf("]");
+		if (p_78860_0_.startsWith("["))
+		{
+			int i = p_78860_0_.indexOf("]");
 
-                if (i > 0)
-                {
-                    String s = p_78860_0_.substring(1, i);
-                    String s1 = p_78860_0_.substring(i + 1).trim();
+			if (i > 0)
+			{
+				String s = p_78860_0_.substring(1, i);
+				String s1 = p_78860_0_.substring(i + 1).trim();
 
-                    if (s1.startsWith(":") && s1.length() > 0)
-                    {
-                        s1 = s1.substring(1);
-                        astring = new String[] {s, s1};
-                    }
-                    else
-                    {
-                        astring = new String[] {s};
-                    }
-                }
-            }
+				if (s1.startsWith(":") && s1.length() > 0)
+				{
+					s1 = s1.substring(1);
+					astring = new String[] {s, s1};
+				}
+				else
+				{
+					astring = new String[] {s};
+				}
+			}
+		}
 
-            if (astring.length > 2)
-            {
-                astring = new String[] {p_78860_0_};
-            }
+		if (astring.length > 2)
+		{
+			astring = new String[] {p_78860_0_};
+		}
 
-            String s2 = astring[0];
-            int j = astring.length > 1 ? parseIntWithDefault(astring[1], 25565) : 25565;
+		String s2 = astring[0];
+		int j = astring.length > 1 ? parseIntWithDefault(astring[1], 25565) : 25565;
 
-            if (j == 25565)
-            {
-                String[] astring1 = getServerAddress(s2);
-                s2 = astring1[0];
-                j = parseIntWithDefault(astring1[1], 25565);
-            }
+		if (j == 25565)
+		{
+			String[] astring1 = getServerAddress(s2);
+			s2 = astring1[0];
+			j = parseIntWithDefault(astring1[1], 25565);
+		}
 
-            return new ServerAddress(s2, j);
-        }
-    }
+		return new ServerAddress(s2, j);
+	}
 
     /**
      * Returns a server's address and port for the specified hostname, looking up the SRV record if possible

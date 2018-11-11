@@ -548,40 +548,34 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         {
             return false;
         }
-        else
-        {
-            boolean flag = this.mcServer.isDedicatedServer() && this.canPlayersAttack() && "fall".equals(source.damageType);
+		boolean flag = this.mcServer.isDedicatedServer() && this.canPlayersAttack() && "fall".equals(source.damageType);
 
-            if (!flag && this.respawnInvulnerabilityTicks > 0 && source != DamageSource.outOfWorld)
-            {
-                return false;
-            }
-            else
-            {
-                if (source instanceof EntityDamageSource)
-                {
-                    Entity entity = source.getEntity();
+		if (!flag && this.respawnInvulnerabilityTicks > 0 && source != DamageSource.outOfWorld)
+		{
+			return false;
+		}
+		if (source instanceof EntityDamageSource)
+		{
+			Entity entity = source.getEntity();
 
-                    if (entity instanceof EntityPlayer && !this.canAttackPlayer((EntityPlayer)entity))
-                    {
-                        return false;
-                    }
+			if (entity instanceof EntityPlayer && !this.canAttackPlayer((EntityPlayer)entity))
+			{
+				return false;
+			}
 
-                    if (entity instanceof EntityArrow)
-                    {
-                        EntityArrow entityarrow = (EntityArrow)entity;
+			if (entity instanceof EntityArrow)
+			{
+				EntityArrow entityarrow = (EntityArrow)entity;
 
-                        if (entityarrow.shootingEntity instanceof EntityPlayer && !this.canAttackPlayer((EntityPlayer)entityarrow.shootingEntity))
-                        {
-                            return false;
-                        }
-                    }
-                }
+				if (entityarrow.shootingEntity instanceof EntityPlayer && !this.canAttackPlayer((EntityPlayer)entityarrow.shootingEntity))
+				{
+					return false;
+				}
+			}
+		}
 
-                return super.attackEntityFrom(source, amount);
-            }
-        }
-    }
+		return super.attackEntityFrom(source, amount);
+	}
 
     public boolean canAttackPlayer(EntityPlayer other)
     {
@@ -1145,23 +1139,17 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         {
             return true;
         }
-        else if (!"tell".equals(commandName) && !"help".equals(commandName) && !"me".equals(commandName) && !"trigger".equals(commandName))
-        {
-            if (this.mcServer.getConfigurationManager().canSendCommands(this.getGameProfile()))
-            {
-                UserListOpsEntry userlistopsentry = (UserListOpsEntry)this.mcServer.getConfigurationManager().getOppedPlayers().getEntry(this.getGameProfile());
-                return userlistopsentry != null ? userlistopsentry.getPermissionLevel() >= permLevel : this.mcServer.getOpPermissionLevel() >= permLevel;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
+		if (!"tell".equals(commandName) && !"help".equals(commandName) && !"me".equals(commandName) && !"trigger".equals(commandName))
+		{
+			if (this.mcServer.getConfigurationManager().canSendCommands(this.getGameProfile()))
+			{
+				UserListOpsEntry userlistopsentry = (UserListOpsEntry)this.mcServer.getConfigurationManager().getOppedPlayers().getEntry(this.getGameProfile());
+				return userlistopsentry != null ? userlistopsentry.getPermissionLevel() >= permLevel : this.mcServer.getOpPermissionLevel() >= permLevel;
+			}
+			return false;
+		}
+		return true;
+	}
 
     /**
      * Gets the player's IP address. Used in /banip.

@@ -29,41 +29,38 @@ public class ItemLilyPad extends ItemColored
         {
             return itemStackIn;
         }
-        else
-        {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-            {
-                BlockPos blockpos = movingobjectposition.getBlockPos();
+		if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+		{
+			BlockPos blockpos = movingobjectposition.getBlockPos();
 
-                if (!worldIn.isBlockModifiable(playerIn, blockpos))
-                {
-                    return itemStackIn;
-                }
+			if (!worldIn.isBlockModifiable(playerIn, blockpos))
+			{
+				return itemStackIn;
+			}
 
-                if (!playerIn.canPlayerEdit(blockpos.offset(movingobjectposition.sideHit), movingobjectposition.sideHit, itemStackIn))
-                {
-                    return itemStackIn;
-                }
+			if (!playerIn.canPlayerEdit(blockpos.offset(movingobjectposition.sideHit), movingobjectposition.sideHit, itemStackIn))
+			{
+				return itemStackIn;
+			}
 
-                BlockPos blockpos1 = blockpos.up();
-                IBlockState iblockstate = worldIn.getBlockState(blockpos);
+			BlockPos blockpos1 = blockpos.up();
+			IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                if (iblockstate.getBlock().getMaterial() == Material.water && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0 && worldIn.isAirBlock(blockpos1))
-                {
-                    worldIn.setBlockState(blockpos1, Blocks.waterlily.getDefaultState());
+			if (iblockstate.getBlock().getMaterial() == Material.water && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0 && worldIn.isAirBlock(blockpos1))
+			{
+				worldIn.setBlockState(blockpos1, Blocks.waterlily.getDefaultState());
 
-                    if (!playerIn.capabilities.isCreativeMode)
-                    {
-                        --itemStackIn.stackSize;
-                    }
+				if (!playerIn.capabilities.isCreativeMode)
+				{
+					--itemStackIn.stackSize;
+				}
 
-                    playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-                }
-            }
+				playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+			}
+		}
 
-            return itemStackIn;
-        }
-    }
+		return itemStackIn;
+	}
 
     public int getColorFromItemStack(ItemStack stack, int renderPass)
     {

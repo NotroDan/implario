@@ -35,12 +35,9 @@ public class ShaderOptionVariable extends ShaderOption
         {
             return false;
         }
-        else
-        {
-            String s = matcher.group(1);
-            return s.matches(this.getName());
-        }
-    }
+		String s = matcher.group(1);
+		return s.matches(this.getName());
+	}
 
     public static ShaderOption parseOption(String line, String path)
     {
@@ -50,32 +47,26 @@ public class ShaderOptionVariable extends ShaderOption
         {
             return null;
         }
-        else
-        {
-            String s = matcher.group(1);
-            String s1 = matcher.group(2);
-            String s2 = matcher.group(3);
-            String s3 = StrUtils.getSegment(s2, "[", "]");
+		String s = matcher.group(1);
+		String s1 = matcher.group(2);
+		String s2 = matcher.group(3);
+		String s3 = StrUtils.getSegment(s2, "[", "]");
 
-            if (s3 != null && s3.length() > 0)
-            {
-                s2 = s2.replace(s3, "").trim();
-            }
+		if (s3 != null && s3.length() > 0)
+		{
+			s2 = s2.replace(s3, "").trim();
+		}
 
-            String[] astring = parseValues(s1, s3);
+		String[] astring = parseValues(s1, s3);
 
-            if (s != null && s.length() > 0)
-            {
-                path = StrUtils.removePrefix(path, "/shaders/");
-                ShaderOption shaderoption = new ShaderOptionVariable(s, s2, s1, astring, path);
-                return shaderoption;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+		if (s != null && s.length() > 0)
+		{
+			path = StrUtils.removePrefix(path, "/shaders/");
+			ShaderOption shaderoption = new ShaderOptionVariable(s, s2, s1, astring, path);
+			return shaderoption;
+		}
+		return null;
+	}
 
     public static String[] parseValues(String value, String valuesStr)
     {
@@ -85,35 +76,26 @@ public class ShaderOptionVariable extends ShaderOption
         {
             return astring;
         }
-        else
-        {
-            valuesStr = valuesStr.trim();
-            valuesStr = StrUtils.removePrefix(valuesStr, "[");
-            valuesStr = StrUtils.removeSuffix(valuesStr, "]");
-            valuesStr = valuesStr.trim();
+		valuesStr = valuesStr.trim();
+		valuesStr = StrUtils.removePrefix(valuesStr, "[");
+		valuesStr = StrUtils.removeSuffix(valuesStr, "]");
+		valuesStr = valuesStr.trim();
 
-            if (valuesStr.length() <= 0)
-            {
-                return astring;
-            }
-            else
-            {
-                String[] astring1 = Config.tokenize(valuesStr, " ");
+		if (valuesStr.length() <= 0)
+		{
+			return astring;
+		}
+		String[] astring1 = Config.tokenize(valuesStr, " ");
 
-                if (astring1.length <= 0)
-                {
-                    return astring;
-                }
-                else
-                {
-                    if (!Arrays.asList(astring1).contains(value))
-                    {
-                        astring1 = (String[]) (String[])Config.addObjectToArray(astring1, value, 0);
-                    }
+		if (astring1.length <= 0)
+		{
+			return astring;
+		}
+		if (!Arrays.asList(astring1).contains(value))
+		{
+			astring1 = (String[]) (String[])Config.addObjectToArray(astring1, value, 0);
+		}
 
-                    return astring1;
-                }
-            }
-        }
-    }
+		return astring1;
+	}
 }

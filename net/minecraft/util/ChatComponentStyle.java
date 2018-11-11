@@ -125,16 +125,13 @@ public abstract class ChatComponentStyle implements IChatComponent
         {
             return true;
         }
-        else if (!(p_equals_1_ instanceof ChatComponentStyle))
-        {
-            return false;
-        }
-        else
-        {
-            ChatComponentStyle chatcomponentstyle = (ChatComponentStyle)p_equals_1_;
-            return this.siblings.equals(chatcomponentstyle.siblings) && this.getChatStyle().equals(chatcomponentstyle.getChatStyle());
-        }
-    }
+		if (!(p_equals_1_ instanceof ChatComponentStyle))
+		{
+			return false;
+		}
+		ChatComponentStyle chatcomponentstyle = (ChatComponentStyle)p_equals_1_;
+		return this.siblings.equals(chatcomponentstyle.siblings) && this.getChatStyle().equals(chatcomponentstyle.getChatStyle());
+	}
 
     public int hashCode()
     {

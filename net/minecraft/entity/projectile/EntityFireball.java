@@ -308,37 +308,31 @@ public abstract class EntityFireball extends Entity
         {
             return false;
         }
-        else
-        {
-            this.setBeenAttacked();
+		this.setBeenAttacked();
 
-            if (source.getEntity() != null)
-            {
-                Vec3 vec3 = source.getEntity().getLookVec();
+		if (source.getEntity() != null)
+		{
+			Vec3 vec3 = source.getEntity().getLookVec();
 
-                if (vec3 != null)
-                {
-                    this.motionX = vec3.xCoord;
-                    this.motionY = vec3.yCoord;
-                    this.motionZ = vec3.zCoord;
-                    this.accelerationX = this.motionX * 0.1D;
-                    this.accelerationY = this.motionY * 0.1D;
-                    this.accelerationZ = this.motionZ * 0.1D;
-                }
+			if (vec3 != null)
+			{
+				this.motionX = vec3.xCoord;
+				this.motionY = vec3.yCoord;
+				this.motionZ = vec3.zCoord;
+				this.accelerationX = this.motionX * 0.1D;
+				this.accelerationY = this.motionY * 0.1D;
+				this.accelerationZ = this.motionZ * 0.1D;
+			}
 
-                if (source.getEntity() instanceof EntityLivingBase)
-                {
-                    this.shootingEntity = (EntityLivingBase)source.getEntity();
-                }
+			if (source.getEntity() instanceof EntityLivingBase)
+			{
+				this.shootingEntity = (EntityLivingBase)source.getEntity();
+			}
 
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     /**
      * Gets how bright this entity is.

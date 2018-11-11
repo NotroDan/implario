@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiTextField;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
@@ -86,8 +86,8 @@ public class GuiPlayername extends GuiScreen {
 	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("Сменить никнейм"), this.width / 2, 20, 16777215);
-		this.drawString(this.fontRendererObj, I18n.format("Введите ник"), this.width / 2 - 100, 47, 10526880);
+		this.drawCenteredString(this.fontRendererObj, Lang.format("Сменить никнейм"), this.width / 2, 20, 16777215);
+		this.drawString(this.fontRendererObj, Lang.format("Введите ник"), this.width / 2 - 100, 47, 10526880);
 		this.inputField.drawTextBox();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

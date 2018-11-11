@@ -54,17 +54,14 @@ public class ResUtils
         {
             return collectFilesFixed(p_collectFiles_0_, p_collectFiles_3_);
         }
-        else if (!(p_collectFiles_0_ instanceof AbstractResourcePack))
-        {
-            return new String[0];
-        }
-        else
-        {
-            AbstractResourcePack abstractresourcepack = (AbstractResourcePack)p_collectFiles_0_;
-            File file1 = abstractresourcepack.resourcePackFile;
-            return file1 == null ? new String[0] : file1.isDirectory() ? collectFilesFolder(file1, "", p_collectFiles_1_, p_collectFiles_2_) : file1.isFile() ? collectFilesZIP(file1, p_collectFiles_1_, p_collectFiles_2_) : new String[0];
-        }
-    }
+		if (!(p_collectFiles_0_ instanceof AbstractResourcePack))
+		{
+			return new String[0];
+		}
+		AbstractResourcePack abstractresourcepack = (AbstractResourcePack)p_collectFiles_0_;
+		File file1 = abstractresourcepack.resourcePackFile;
+		return file1 == null ? new String[0] : file1.isDirectory() ? collectFilesFolder(file1, "", p_collectFiles_1_, p_collectFiles_2_) : file1.isFile() ? collectFilesZIP(file1, p_collectFiles_1_, p_collectFiles_2_) : new String[0];
+	}
 
     private static String[] collectFilesFixed(IResourcePack p_collectFilesFixed_0_, String[] p_collectFilesFixed_1_)
     {
@@ -72,25 +69,22 @@ public class ResUtils
         {
             return new String[0];
         }
-        else
-        {
-            List list = new ArrayList();
+		List list = new ArrayList();
 
-            for (int i = 0; i < p_collectFilesFixed_1_.length; ++i)
-            {
-                String s = p_collectFilesFixed_1_[i];
-                ResourceLocation resourcelocation = new ResourceLocation(s);
+		for (int i = 0; i < p_collectFilesFixed_1_.length; ++i)
+		{
+			String s = p_collectFilesFixed_1_[i];
+			ResourceLocation resourcelocation = new ResourceLocation(s);
 
-                if (p_collectFilesFixed_0_.resourceExists(resourcelocation))
-                {
-                    list.add(s);
-                }
-            }
+			if (p_collectFilesFixed_0_.resourceExists(resourcelocation))
+			{
+				list.add(s);
+			}
+		}
 
-            String[] astring = (String[]) (String[])list.toArray(new String[list.size()]);
-            return astring;
-        }
-    }
+		String[] astring = (String[]) (String[])list.toArray(new String[list.size()]);
+		return astring;
+	}
 
     private static String[] collectFilesFolder(File p_collectFilesFolder_0_, String p_collectFilesFolder_1_, String[] p_collectFilesFolder_2_, String[] p_collectFilesFolder_3_)
     {
@@ -102,43 +96,40 @@ public class ResUtils
         {
             return new String[0];
         }
-        else
-        {
-            for (int i = 0; i < afile.length; ++i)
-            {
-                File file1 = afile[i];
+		for (int i = 0; i < afile.length; ++i)
+		{
+			File file1 = afile[i];
 
-                if (file1.isFile())
-                {
-                    String s3 = p_collectFilesFolder_1_ + file1.getName();
+			if (file1.isFile())
+			{
+				String s3 = p_collectFilesFolder_1_ + file1.getName();
 
-                    if (s3.startsWith(s))
-                    {
-                        s3 = s3.substring(s.length());
+				if (s3.startsWith(s))
+				{
+					s3 = s3.substring(s.length());
 
-                        if (StrUtils.startsWith(s3, p_collectFilesFolder_2_) && StrUtils.endsWith(s3, p_collectFilesFolder_3_))
-                        {
-                            list.add(s3);
-                        }
-                    }
-                }
-                else if (file1.isDirectory())
-                {
-                    String s1 = p_collectFilesFolder_1_ + file1.getName() + "/";
-                    String[] astring = collectFilesFolder(file1, s1, p_collectFilesFolder_2_, p_collectFilesFolder_3_);
+					if (StrUtils.startsWith(s3, p_collectFilesFolder_2_) && StrUtils.endsWith(s3, p_collectFilesFolder_3_))
+					{
+						list.add(s3);
+					}
+				}
+			}
+			else if (file1.isDirectory())
+			{
+				String s1 = p_collectFilesFolder_1_ + file1.getName() + "/";
+				String[] astring = collectFilesFolder(file1, s1, p_collectFilesFolder_2_, p_collectFilesFolder_3_);
 
-                    for (int j = 0; j < astring.length; ++j)
-                    {
-                        String s2 = astring[j];
-                        list.add(s2);
-                    }
-                }
-            }
+				for (int j = 0; j < astring.length; ++j)
+				{
+					String s2 = astring[j];
+					list.add(s2);
+				}
+			}
+		}
 
-            String[] astring1 = (String[]) (String[])list.toArray(new String[list.size()]);
-            return astring1;
-        }
-    }
+		String[] astring1 = (String[]) (String[])list.toArray(new String[list.size()]);
+		return astring1;
+	}
 
     private static String[] collectFilesZIP(File p_collectFilesZIP_0_, String[] p_collectFilesZIP_1_, String[] p_collectFilesZIP_2_)
     {

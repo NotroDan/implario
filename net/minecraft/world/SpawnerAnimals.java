@@ -32,142 +32,139 @@ public final class SpawnerAnimals
         {
             return 0;
         }
-        else
-        {
-            this.eligibleChunksForSpawning.clear();
-            int i = 0;
+		this.eligibleChunksForSpawning.clear();
+		int i = 0;
 
-            for (EntityPlayer entityplayer : p_77192_1_.playerEntities)
-            {
-                if (!entityplayer.isSpectator())
-                {
-                    int j = MathHelper.floor_double(entityplayer.posX / 16.0D);
-                    int k = MathHelper.floor_double(entityplayer.posZ / 16.0D);
-                    int l = 8;
+		for (EntityPlayer entityplayer : p_77192_1_.playerEntities)
+		{
+			if (!entityplayer.isSpectator())
+			{
+				int j = MathHelper.floor_double(entityplayer.posX / 16.0D);
+				int k = MathHelper.floor_double(entityplayer.posZ / 16.0D);
+				int l = 8;
 
-                    for (int i1 = -l; i1 <= l; ++i1)
-                    {
-                        for (int j1 = -l; j1 <= l; ++j1)
-                        {
-                            boolean flag = i1 == -l || i1 == l || j1 == -l || j1 == l;
-                            ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(i1 + j, j1 + k);
+				for (int i1 = -l; i1 <= l; ++i1)
+				{
+					for (int j1 = -l; j1 <= l; ++j1)
+					{
+						boolean flag = i1 == -l || i1 == l || j1 == -l || j1 == l;
+						ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(i1 + j, j1 + k);
 
-                            if (!this.eligibleChunksForSpawning.contains(chunkcoordintpair))
-                            {
-                                ++i;
+						if (!this.eligibleChunksForSpawning.contains(chunkcoordintpair))
+						{
+							++i;
 
-                                if (!flag && p_77192_1_.getWorldBorder().contains(chunkcoordintpair))
-                                {
-                                    this.eligibleChunksForSpawning.add(chunkcoordintpair);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+							if (!flag && p_77192_1_.getWorldBorder().contains(chunkcoordintpair))
+							{
+								this.eligibleChunksForSpawning.add(chunkcoordintpair);
+							}
+						}
+					}
+				}
+			}
+		}
 
-            int i4 = 0;
-            BlockPos blockpos2 = p_77192_1_.getSpawnPoint();
+		int i4 = 0;
+		BlockPos blockpos2 = p_77192_1_.getSpawnPoint();
 
-            for (EnumCreatureType enumcreaturetype : EnumCreatureType.values())
-            {
-                if ((!enumcreaturetype.getPeacefulCreature() || spawnPeacefulMobs) && (enumcreaturetype.getPeacefulCreature() || spawnHostileMobs) && (!enumcreaturetype.getAnimal() || p_77192_4_))
-                {
-                    int j4 = p_77192_1_.countEntities(enumcreaturetype.getCreatureClass());
-                    int k4 = enumcreaturetype.getMaxNumberOfCreature() * i / MOB_COUNT_DIV;
+		for (EnumCreatureType enumcreaturetype : EnumCreatureType.values())
+		{
+			if ((!enumcreaturetype.getPeacefulCreature() || spawnPeacefulMobs) && (enumcreaturetype.getPeacefulCreature() || spawnHostileMobs) && (!enumcreaturetype.getAnimal() || p_77192_4_))
+			{
+				int j4 = p_77192_1_.countEntities(enumcreaturetype.getCreatureClass());
+				int k4 = enumcreaturetype.getMaxNumberOfCreature() * i / MOB_COUNT_DIV;
 
-                    if (j4 <= k4)
-                    {
-                        label374:
+				if (j4 <= k4)
+				{
+					label374:
 
-                        for (ChunkCoordIntPair chunkcoordintpair1 : this.eligibleChunksForSpawning)
-                        {
-                            BlockPos blockpos = getRandomChunkPosition(p_77192_1_, chunkcoordintpair1.chunkXPos, chunkcoordintpair1.chunkZPos);
-                            int k1 = blockpos.getX();
-                            int l1 = blockpos.getY();
-                            int i2 = blockpos.getZ();
-                            Block block = p_77192_1_.getBlockState(blockpos).getBlock();
+					for (ChunkCoordIntPair chunkcoordintpair1 : this.eligibleChunksForSpawning)
+					{
+						BlockPos blockpos = getRandomChunkPosition(p_77192_1_, chunkcoordintpair1.chunkXPos, chunkcoordintpair1.chunkZPos);
+						int k1 = blockpos.getX();
+						int l1 = blockpos.getY();
+						int i2 = blockpos.getZ();
+						Block block = p_77192_1_.getBlockState(blockpos).getBlock();
 
-                            if (!block.isNormalCube())
-                            {
-                                int j2 = 0;
+						if (!block.isNormalCube())
+						{
+							int j2 = 0;
 
-                                for (int k2 = 0; k2 < 3; ++k2)
-                                {
-                                    int l2 = k1;
-                                    int i3 = l1;
-                                    int j3 = i2;
-                                    int k3 = 6;
-                                    BiomeGenBase.SpawnListEntry biomegenbase$spawnlistentry = null;
-                                    IEntityLivingData ientitylivingdata = null;
+							for (int k2 = 0; k2 < 3; ++k2)
+							{
+								int l2 = k1;
+								int i3 = l1;
+								int j3 = i2;
+								int k3 = 6;
+								BiomeGenBase.SpawnListEntry biomegenbase$spawnlistentry = null;
+								IEntityLivingData ientitylivingdata = null;
 
-                                    for (int l3 = 0; l3 < 4; ++l3)
-                                    {
-                                        l2 += p_77192_1_.rand.nextInt(k3) - p_77192_1_.rand.nextInt(k3);
-                                        i3 += p_77192_1_.rand.nextInt(1) - p_77192_1_.rand.nextInt(1);
-                                        j3 += p_77192_1_.rand.nextInt(k3) - p_77192_1_.rand.nextInt(k3);
-                                        BlockPos blockpos1 = new BlockPos(l2, i3, j3);
-                                        float f = (float)l2 + 0.5F;
-                                        float f1 = (float)j3 + 0.5F;
+								for (int l3 = 0; l3 < 4; ++l3)
+								{
+									l2 += p_77192_1_.rand.nextInt(k3) - p_77192_1_.rand.nextInt(k3);
+									i3 += p_77192_1_.rand.nextInt(1) - p_77192_1_.rand.nextInt(1);
+									j3 += p_77192_1_.rand.nextInt(k3) - p_77192_1_.rand.nextInt(k3);
+									BlockPos blockpos1 = new BlockPos(l2, i3, j3);
+									float f = (float)l2 + 0.5F;
+									float f1 = (float)j3 + 0.5F;
 
-                                        if (!p_77192_1_.isAnyPlayerWithinRangeAt((double)f, (double)i3, (double)f1, 24.0D) && blockpos2.distanceSq((double)f, (double)i3, (double)f1) >= 576.0D)
-                                        {
-                                            if (biomegenbase$spawnlistentry == null)
-                                            {
-                                                biomegenbase$spawnlistentry = p_77192_1_.getSpawnListEntryForTypeAt(enumcreaturetype, blockpos1);
+									if (!p_77192_1_.isAnyPlayerWithinRangeAt((double)f, (double)i3, (double)f1, 24.0D) && blockpos2.distanceSq((double)f, (double)i3, (double)f1) >= 576.0D)
+									{
+										if (biomegenbase$spawnlistentry == null)
+										{
+											biomegenbase$spawnlistentry = p_77192_1_.getSpawnListEntryForTypeAt(enumcreaturetype, blockpos1);
 
-                                                if (biomegenbase$spawnlistentry == null)
-                                                {
-                                                    break;
-                                                }
-                                            }
+											if (biomegenbase$spawnlistentry == null)
+											{
+												break;
+											}
+										}
 
-                                            if (p_77192_1_.canCreatureTypeSpawnHere(enumcreaturetype, biomegenbase$spawnlistentry, blockpos1) && canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.getPlacementForEntity(biomegenbase$spawnlistentry.entityClass), p_77192_1_, blockpos1))
-                                            {
-                                                EntityLiving entityliving;
+										if (p_77192_1_.canCreatureTypeSpawnHere(enumcreaturetype, biomegenbase$spawnlistentry, blockpos1) && canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.getPlacementForEntity(biomegenbase$spawnlistentry.entityClass), p_77192_1_, blockpos1))
+										{
+											EntityLiving entityliving;
 
-                                                try
-                                                {
-                                                    entityliving = (EntityLiving)biomegenbase$spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {p_77192_1_});
-                                                }
-                                                catch (Exception exception)
-                                                {
-                                                    exception.printStackTrace();
-                                                    return i4;
-                                                }
+											try
+											{
+												entityliving = (EntityLiving)biomegenbase$spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {p_77192_1_});
+											}
+											catch (Exception exception)
+											{
+												exception.printStackTrace();
+												return i4;
+											}
 
-                                                entityliving.setLocationAndAngles((double)f, (double)i3, (double)f1, p_77192_1_.rand.nextFloat() * 360.0F, 0.0F);
+											entityliving.setLocationAndAngles((double)f, (double)i3, (double)f1, p_77192_1_.rand.nextFloat() * 360.0F, 0.0F);
 
-                                                if (entityliving.getCanSpawnHere() && entityliving.isNotColliding())
-                                                {
-                                                    ientitylivingdata = entityliving.onInitialSpawn(p_77192_1_.getDifficultyForLocation(new BlockPos(entityliving)), ientitylivingdata);
+											if (entityliving.getCanSpawnHere() && entityliving.isNotColliding())
+											{
+												ientitylivingdata = entityliving.onInitialSpawn(p_77192_1_.getDifficultyForLocation(new BlockPos(entityliving)), ientitylivingdata);
 
-                                                    if (entityliving.isNotColliding())
-                                                    {
-                                                        ++j2;
-                                                        p_77192_1_.spawnEntityInWorld(entityliving);
-                                                    }
+												if (entityliving.isNotColliding())
+												{
+													++j2;
+													p_77192_1_.spawnEntityInWorld(entityliving);
+												}
 
-                                                    if (j2 >= entityliving.getMaxSpawnedInChunk())
-                                                    {
-                                                        continue label374;
-                                                    }
-                                                }
+												if (j2 >= entityliving.getMaxSpawnedInChunk())
+												{
+													continue label374;
+												}
+											}
 
-                                                i4 += j2;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+											i4 += j2;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 
-            return i4;
-        }
-    }
+		return i4;
+	}
 
     protected static BlockPos getRandomChunkPosition(World worldIn, int x, int z)
     {
@@ -185,31 +182,22 @@ public final class SpawnerAnimals
         {
             return false;
         }
-        else
-        {
-            Block block = worldIn.getBlockState(pos).getBlock();
+		Block block = worldIn.getBlockState(pos).getBlock();
 
-            if (p_180267_0_ == EntityLiving.SpawnPlacementType.IN_WATER)
-            {
-                return block.getMaterial().isLiquid() && worldIn.getBlockState(pos.down()).getBlock().getMaterial().isLiquid() && !worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
-            }
-            else
-            {
-                BlockPos blockpos = pos.down();
+		if (p_180267_0_ == EntityLiving.SpawnPlacementType.IN_WATER)
+		{
+			return block.getMaterial().isLiquid() && worldIn.getBlockState(pos.down()).getBlock().getMaterial().isLiquid() && !worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
+		}
+		BlockPos blockpos = pos.down();
 
-                if (!World.doesBlockHaveSolidTopSurface(worldIn, blockpos))
-                {
-                    return false;
-                }
-                else
-                {
-                    Block block1 = worldIn.getBlockState(blockpos).getBlock();
-                    boolean flag = block1 != Blocks.bedrock && block1 != Blocks.barrier;
-                    return flag && !block.isNormalCube() && !block.getMaterial().isLiquid() && !worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
-                }
-            }
-        }
-    }
+		if (!World.doesBlockHaveSolidTopSurface(worldIn, blockpos))
+		{
+			return false;
+		}
+		Block block1 = worldIn.getBlockState(blockpos).getBlock();
+		boolean flag = block1 != Blocks.bedrock && block1 != Blocks.barrier;
+		return flag && !block.isNormalCube() && !block.getMaterial().isLiquid() && !worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
+	}
 
     /**
      * Called during chunk generation to spawn initial creatures.

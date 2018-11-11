@@ -57,12 +57,9 @@ public class CommandPardonPlayer extends CommandBase
             {
                 throw new CommandException("commands.unban.failed", new Object[] {args[0]});
             }
-            else
-            {
-                minecraftserver.getConfigurationManager().getBannedPlayers().removeEntry(gameprofile);
-                notifyOperators(sender, this, "commands.unban.success", new Object[] {args[0]});
-            }
-        }
+			minecraftserver.getConfigurationManager().getBannedPlayers().removeEntry(gameprofile);
+			notifyOperators(sender, this, "commands.unban.success", new Object[] {args[0]});
+		}
         else
         {
             throw new WrongUsageException("commands.unban.usage", new Object[0]);

@@ -123,11 +123,8 @@ public class BlockPattern
             Vec3i vec3i2 = vec3i.crossProduct(vec3i1);
             return pos.add(vec3i1.getX() * -thumbOffset + vec3i2.getX() * palmOffset + vec3i.getX() * fingerOffset, vec3i1.getY() * -thumbOffset + vec3i2.getY() * palmOffset + vec3i.getY() * fingerOffset, vec3i1.getZ() * -thumbOffset + vec3i2.getZ() * palmOffset + vec3i.getZ() * fingerOffset);
         }
-        else
-        {
-            throw new IllegalArgumentException("Invalid forwards & up combination");
-        }
-    }
+		throw new IllegalArgumentException("Invalid forwards & up combination");
+	}
 
     static class CacheLoader extends com.google.common.cache.CacheLoader<BlockPos, BlockWorldState>
     {

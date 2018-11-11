@@ -72,12 +72,9 @@ public class Mipmaps
                 list.add(dimension);
             }
         }
-        else
-        {
-            Config.warn("Mipmaps not possible (power of 2 dimensions needed), texture: " + p_makeMipmapDimensions_2_ + ", dim: " + p_makeMipmapDimensions_0_ + "x" + p_makeMipmapDimensions_1_);
-            return new Dimension[0];
-        }
-    }
+		Config.warn("Mipmaps not possible (power of 2 dimensions needed), texture: " + p_makeMipmapDimensions_2_ + ", dim: " + p_makeMipmapDimensions_0_ + "x" + p_makeMipmapDimensions_1_);
+		return new Dimension[0];
+	}
 
     public static int[][] generateMipMapData(int[] p_generateMipMapData_0_, int p_generateMipMapData_1_, int p_generateMipMapData_2_, Dimension[] p_generateMipMapData_3_)
     {
@@ -182,25 +179,22 @@ public class Mipmaps
         {
             return null;
         }
-        else
-        {
-            IntBuffer[] aintbuffer = new IntBuffer[p_makeMipmapBuffers_0_.length];
+		IntBuffer[] aintbuffer = new IntBuffer[p_makeMipmapBuffers_0_.length];
 
-            for (int i = 0; i < p_makeMipmapBuffers_0_.length; ++i)
-            {
-                Dimension dimension = p_makeMipmapBuffers_0_[i];
-                int j = dimension.width * dimension.height;
-                IntBuffer intbuffer = GLAllocation.createDirectIntBuffer(j);
-                int[] aint = p_makeMipmapBuffers_1_[i];
-                intbuffer.clear();
-                intbuffer.put(aint);
-                intbuffer.clear();
-                aintbuffer[i] = intbuffer;
-            }
+		for (int i = 0; i < p_makeMipmapBuffers_0_.length; ++i)
+		{
+			Dimension dimension = p_makeMipmapBuffers_0_[i];
+			int j = dimension.width * dimension.height;
+			IntBuffer intbuffer = GLAllocation.createDirectIntBuffer(j);
+			int[] aint = p_makeMipmapBuffers_1_[i];
+			intbuffer.clear();
+			intbuffer.put(aint);
+			intbuffer.clear();
+			aintbuffer[i] = intbuffer;
+		}
 
-            return aintbuffer;
-        }
-    }
+		return aintbuffer;
+	}
 
     public static void allocateMipmapTextures(int p_allocateMipmapTextures_0_, int p_allocateMipmapTextures_1_, String p_allocateMipmapTextures_2_)
     {

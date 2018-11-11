@@ -291,9 +291,7 @@ public abstract class GuiContainer extends GuiScreen {
 		}
 
 		if (!flag1) {
-			if (flag) {
-				drawRect(i, j, i + 16, j + 16, -2130706433);
-			}
+			if (flag) drawRect(i, j, i + 16, j + 16, -2130706433);
 
 			GlStateManager.enableDepth();
 			this.itemRender.renderItemAndEffectIntoGUI(itemstack, i, j);
@@ -553,7 +551,7 @@ public abstract class GuiContainer extends GuiScreen {
 			//                    this.clickedSlot = null;
 			//                }
 			//            }
-			else if (this.dragSplitting && !this.dragSplittingSlots.isEmpty()) {
+			if (this.dragSplitting && !this.dragSplittingSlots.isEmpty()) {
 				this.handleMouseClick(null, -999, Container.func_94534_d(0, this.dragSplittingLimit), 5);
 
 				for (Slot slot1 : this.dragSplittingSlots) {

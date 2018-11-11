@@ -191,9 +191,8 @@ public class Bootstrap {
 					stack.setItem(Items.bucket);
 					stack.stackSize = 1;
 					return stack;
-				} else {
-					return this.field_150841_b.dispense(source, stack);
 				}
+				return this.field_150841_b.dispense(source, stack);
 			}
 		};
 		BlockDispenser.dispenseBehaviorRegistry.putObject(Items.lava_bucket, ibehaviordispenseitem);
@@ -279,9 +278,8 @@ public class Bootstrap {
 					}
 
 					return stack;
-				} else {
-					return super.dispenseStack(source, stack);
 				}
+				return super.dispenseStack(source, stack);
 			}
 
 			protected void playDispenseSound(IBlockSource source) {

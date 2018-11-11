@@ -27,40 +27,37 @@ public class ItemGlassBottle extends Item
         {
             return itemStackIn;
         }
-        else
-        {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-            {
-                BlockPos blockpos = movingobjectposition.getBlockPos();
+		if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+		{
+			BlockPos blockpos = movingobjectposition.getBlockPos();
 
-                if (!worldIn.isBlockModifiable(playerIn, blockpos))
-                {
-                    return itemStackIn;
-                }
+			if (!worldIn.isBlockModifiable(playerIn, blockpos))
+			{
+				return itemStackIn;
+			}
 
-                if (!playerIn.canPlayerEdit(blockpos.offset(movingobjectposition.sideHit), movingobjectposition.sideHit, itemStackIn))
-                {
-                    return itemStackIn;
-                }
+			if (!playerIn.canPlayerEdit(blockpos.offset(movingobjectposition.sideHit), movingobjectposition.sideHit, itemStackIn))
+			{
+				return itemStackIn;
+			}
 
-                if (worldIn.getBlockState(blockpos).getBlock().getMaterial() == Material.water)
-                {
-                    --itemStackIn.stackSize;
-                    playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+			if (worldIn.getBlockState(blockpos).getBlock().getMaterial() == Material.water)
+			{
+				--itemStackIn.stackSize;
+				playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 
-                    if (itemStackIn.stackSize <= 0)
-                    {
-                        return new ItemStack(Items.potionitem);
-                    }
+				if (itemStackIn.stackSize <= 0)
+				{
+					return new ItemStack(Items.potionitem);
+				}
 
-                    if (!playerIn.inventory.addItemStackToInventory(new ItemStack(Items.potionitem)))
-                    {
-                        playerIn.dropPlayerItemWithRandomChoice(new ItemStack(Items.potionitem, 1, 0), false);
-                    }
-                }
-            }
+				if (!playerIn.inventory.addItemStackToInventory(new ItemStack(Items.potionitem)))
+				{
+					playerIn.dropPlayerItemWithRandomChoice(new ItemStack(Items.potionitem, 1, 0), false);
+				}
+			}
+		}
 
-            return itemStackIn;
-        }
-    }
+		return itemStackIn;
+	}
 }

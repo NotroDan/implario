@@ -4,7 +4,7 @@ import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.block.*;
 import net.minecraft.client.gui.inventory.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -198,7 +198,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
 			if (this.ridingEntity == null) {
 				if (flag2 && flag3) {
-					this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround));
+					this.sendQueue.addToSendQueue(
+							new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround));
 				} else if (flag2) {
 					this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.onGround));
 				} else if (flag3) {
@@ -281,9 +282,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	}
 
 	public void closeScreenAndDropStack() {
-		this.inventory.setItemStack((ItemStack) null);
+		this.inventory.setItemStack(null);
 		super.closeScreen();
-		this.mc.displayGuiScreen((GuiScreen) null);
+		this.mc.displayGuiScreen(null);
 	}
 
 	/**
@@ -364,56 +365,55 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	protected boolean pushOutOfBlocks(double x, double y, double z) {
 		if (this.noClip) {
 			return false;
-		} else {
-			BlockPos blockpos = new BlockPos(x, y, z);
-			double d0 = x - (double) blockpos.getX();
-			double d1 = z - (double) blockpos.getZ();
+		}
+		BlockPos blockpos = new BlockPos(x, y, z);
+		double d0 = x - (double) blockpos.getX();
+		double d1 = z - (double) blockpos.getZ();
 
-			if (!this.isOpenBlockSpace(blockpos)) {
-				int i = -1;
-				double d2 = 9999.0D;
+		if (!this.isOpenBlockSpace(blockpos)) {
+			int i = -1;
+			double d2 = 9999.0D;
 
-				if (this.isOpenBlockSpace(blockpos.west()) && d0 < d2) {
-					d2 = d0;
-					i = 0;
-				}
-
-				if (this.isOpenBlockSpace(blockpos.east()) && 1.0D - d0 < d2) {
-					d2 = 1.0D - d0;
-					i = 1;
-				}
-
-				if (this.isOpenBlockSpace(blockpos.north()) && d1 < d2) {
-					d2 = d1;
-					i = 4;
-				}
-
-				if (this.isOpenBlockSpace(blockpos.south()) && 1.0D - d1 < d2) {
-					d2 = 1.0D - d1;
-					i = 5;
-				}
-
-				float f = 0.1F;
-
-				if (i == 0) {
-					this.motionX = (double) -f;
-				}
-
-				if (i == 1) {
-					this.motionX = (double) f;
-				}
-
-				if (i == 4) {
-					this.motionZ = (double) -f;
-				}
-
-				if (i == 5) {
-					this.motionZ = (double) f;
-				}
+			if (this.isOpenBlockSpace(blockpos.west()) && d0 < d2) {
+				d2 = d0;
+				i = 0;
 			}
 
-			return false;
+			if (this.isOpenBlockSpace(blockpos.east()) && 1.0D - d0 < d2) {
+				d2 = 1.0D - d0;
+				i = 1;
+			}
+
+			if (this.isOpenBlockSpace(blockpos.north()) && d1 < d2) {
+				d2 = d1;
+				i = 4;
+			}
+
+			if (this.isOpenBlockSpace(blockpos.south()) && 1.0D - d1 < d2) {
+				d2 = 1.0D - d1;
+				i = 5;
+			}
+
+			float f = 0.1F;
+
+			if (i == 0) {
+				this.motionX = (double) -f;
+			}
+
+			if (i == 1) {
+				this.motionX = (double) f;
+			}
+
+			if (i == 4) {
+				this.motionZ = (double) -f;
+			}
+
+			if (i == 5) {
+				this.motionZ = (double) f;
+			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -474,7 +474,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	}
 
 	public boolean isRidingHorse() {
-		return this.ridingEntity != null && this.ridingEntity instanceof EntityHorse && ((EntityHorse) this.ridingEntity).isHorseSaddled();
+		return this.ridingEntity instanceof EntityHorse && ((EntityHorse) this.ridingEntity).isHorseSaddled();
 	}
 
 	public float getHorseJumpPower() {
@@ -600,7 +600,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
 		if (this.inPortal) {
 			if (this.mc.currentScreen != null && !this.mc.currentScreen.doesGuiPauseGame()) {
-				this.mc.displayGuiScreen((GuiScreen) null);
+				this.mc.displayGuiScreen(null);
 			}
 
 			if (this.timeInPortal == 0.0F) {

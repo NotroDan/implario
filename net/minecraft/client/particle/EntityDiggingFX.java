@@ -32,15 +32,12 @@ public class EntityDiggingFX extends EntityFX
         {
             return this;
         }
-        else
-        {
-            int i = this.field_174847_a.getBlock().colorMultiplier(this.worldObj, pos);
-            this.particleRed *= (float)(i >> 16 & 255) / 255.0F;
-            this.particleGreen *= (float)(i >> 8 & 255) / 255.0F;
-            this.particleBlue *= (float)(i & 255) / 255.0F;
-            return this;
-        }
-    }
+		int i = this.field_174847_a.getBlock().colorMultiplier(this.worldObj, pos);
+		this.particleRed *= (float)(i >> 16 & 255) / 255.0F;
+		this.particleGreen *= (float)(i >> 8 & 255) / 255.0F;
+		this.particleBlue *= (float)(i & 255) / 255.0F;
+		return this;
+	}
 
     public EntityDiggingFX func_174845_l()
     {
@@ -51,15 +48,12 @@ public class EntityDiggingFX extends EntityFX
         {
             return this;
         }
-        else
-        {
-            int i = block.getRenderColor(this.field_174847_a);
-            this.particleRed *= (float)(i >> 16 & 255) / 255.0F;
-            this.particleGreen *= (float)(i >> 8 & 255) / 255.0F;
-            this.particleBlue *= (float)(i & 255) / 255.0F;
-            return this;
-        }
-    }
+		int i = block.getRenderColor(this.field_174847_a);
+		this.particleRed *= (float)(i >> 16 & 255) / 255.0F;
+		this.particleGreen *= (float)(i >> 8 & 255) / 255.0F;
+		this.particleBlue *= (float)(i & 255) / 255.0F;
+		return this;
+	}
 
     public int getFXLayer()
     {

@@ -85,12 +85,9 @@ public class BlockSign extends BlockContainer
         {
             return true;
         }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
-            return tileentity instanceof TileEntitySign ? ((TileEntitySign)tileentity).executeCommand(playerIn) : false;
-        }
-    }
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		return tileentity instanceof TileEntitySign ? ((TileEntitySign)tileentity).executeCommand(playerIn) : false;
+	}
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {

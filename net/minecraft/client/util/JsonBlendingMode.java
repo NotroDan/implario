@@ -78,16 +78,13 @@ public class JsonBlendingMode
         {
             return true;
         }
-        else if (!(p_equals_1_ instanceof JsonBlendingMode))
-        {
-            return false;
-        }
-        else
-        {
-            JsonBlendingMode jsonblendingmode = (JsonBlendingMode)p_equals_1_;
-            return this.field_148112_f != jsonblendingmode.field_148112_f ? false : this.field_148115_e != jsonblendingmode.field_148115_e ? false : this.field_148114_d != jsonblendingmode.field_148114_d ? false : this.field_148119_h != jsonblendingmode.field_148119_h ? false : this.field_148113_g != jsonblendingmode.field_148113_g ? false : this.field_148117_c != jsonblendingmode.field_148117_c ? false : this.field_148116_b == jsonblendingmode.field_148116_b;
-        }
-    }
+		if (!(p_equals_1_ instanceof JsonBlendingMode))
+		{
+			return false;
+		}
+		JsonBlendingMode jsonblendingmode = (JsonBlendingMode)p_equals_1_;
+		return this.field_148112_f != jsonblendingmode.field_148112_f ? false : this.field_148115_e != jsonblendingmode.field_148115_e ? false : this.field_148114_d != jsonblendingmode.field_148114_d ? false : this.field_148119_h != jsonblendingmode.field_148119_h ? false : this.field_148113_g != jsonblendingmode.field_148113_g ? false : this.field_148117_c != jsonblendingmode.field_148117_c ? false : this.field_148116_b == jsonblendingmode.field_148116_b;
+	}
 
     public int hashCode()
     {
@@ -112,73 +109,70 @@ public class JsonBlendingMode
         {
             return new JsonBlendingMode();
         }
-        else
-        {
-            int i = 32774;
-            int j = 1;
-            int k = 0;
-            int l = 1;
-            int i1 = 0;
-            boolean flag = true;
-            boolean flag1 = false;
+		int i = 32774;
+		int j = 1;
+		int k = 0;
+		int l = 1;
+		int i1 = 0;
+		boolean flag = true;
+		boolean flag1 = false;
 
-            if (JsonUtils.isString(p_148110_0_, "func"))
-            {
-                i = func_148108_a(p_148110_0_.get("func").getAsString());
+		if (JsonUtils.isString(p_148110_0_, "func"))
+		{
+			i = func_148108_a(p_148110_0_.get("func").getAsString());
 
-                if (i != 32774)
-                {
-                    flag = false;
-                }
-            }
+			if (i != 32774)
+			{
+				flag = false;
+			}
+		}
 
-            if (JsonUtils.isString(p_148110_0_, "srcrgb"))
-            {
-                j = func_148107_b(p_148110_0_.get("srcrgb").getAsString());
+		if (JsonUtils.isString(p_148110_0_, "srcrgb"))
+		{
+			j = func_148107_b(p_148110_0_.get("srcrgb").getAsString());
 
-                if (j != 1)
-                {
-                    flag = false;
-                }
-            }
+			if (j != 1)
+			{
+				flag = false;
+			}
+		}
 
-            if (JsonUtils.isString(p_148110_0_, "dstrgb"))
-            {
-                k = func_148107_b(p_148110_0_.get("dstrgb").getAsString());
+		if (JsonUtils.isString(p_148110_0_, "dstrgb"))
+		{
+			k = func_148107_b(p_148110_0_.get("dstrgb").getAsString());
 
-                if (k != 0)
-                {
-                    flag = false;
-                }
-            }
+			if (k != 0)
+			{
+				flag = false;
+			}
+		}
 
-            if (JsonUtils.isString(p_148110_0_, "srcalpha"))
-            {
-                l = func_148107_b(p_148110_0_.get("srcalpha").getAsString());
+		if (JsonUtils.isString(p_148110_0_, "srcalpha"))
+		{
+			l = func_148107_b(p_148110_0_.get("srcalpha").getAsString());
 
-                if (l != 1)
-                {
-                    flag = false;
-                }
+			if (l != 1)
+			{
+				flag = false;
+			}
 
-                flag1 = true;
-            }
+			flag1 = true;
+		}
 
-            if (JsonUtils.isString(p_148110_0_, "dstalpha"))
-            {
-                i1 = func_148107_b(p_148110_0_.get("dstalpha").getAsString());
+		if (JsonUtils.isString(p_148110_0_, "dstalpha"))
+		{
+			i1 = func_148107_b(p_148110_0_.get("dstalpha").getAsString());
 
-                if (i1 != 0)
-                {
-                    flag = false;
-                }
+			if (i1 != 0)
+			{
+				flag = false;
+			}
 
-                flag1 = true;
-            }
+			flag1 = true;
+		}
 
-            return flag ? new JsonBlendingMode() : flag1 ? new JsonBlendingMode(j, k, l, i1, i) : new JsonBlendingMode(j, k, i);
-        }
-    }
+		return flag ? new JsonBlendingMode() : flag1 ? new JsonBlendingMode(j, k, l, i1, i) : new JsonBlendingMode(j, k, i);
+	}
 
     private static int func_148108_a(String p_148108_0_)
     {

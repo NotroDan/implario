@@ -50,11 +50,8 @@ public class ItemArmor extends Item
                 --stack.stackSize;
                 return stack;
             }
-            else
-            {
-                return super.dispenseStack(source, stack);
-            }
-        }
+			return super.dispenseStack(source, stack);
+		}
     };
 
     /**
@@ -92,18 +89,15 @@ public class ItemArmor extends Item
         {
             return 16777215;
         }
-        else
-        {
-            int i = this.getColor(stack);
+		int i = this.getColor(stack);
 
-            if (i < 0)
-            {
-                i = 16777215;
-            }
+		if (i < 0)
+		{
+			i = 16777215;
+		}
 
-            return i;
-        }
-    }
+		return i;
+	}
 
     /**
      * Return the enchantability factor of the item, most of the time is based on material.
@@ -138,23 +132,20 @@ public class ItemArmor extends Item
         {
             return -1;
         }
-        else
-        {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
+		NBTTagCompound nbttagcompound = stack.getTagCompound();
 
-            if (nbttagcompound != null)
-            {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+		if (nbttagcompound != null)
+		{
+			NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
 
-                if (nbttagcompound1 != null && nbttagcompound1.hasKey("color", 3))
-                {
-                    return nbttagcompound1.getInteger("color");
-                }
-            }
+			if (nbttagcompound1 != null && nbttagcompound1.hasKey("color", 3))
+			{
+				return nbttagcompound1.getInteger("color");
+			}
+		}
 
-            return 10511680;
-        }
-    }
+		return 10511680;
+	}
 
     /**
      * Remove the color from the specified armor ItemStack.
@@ -186,26 +177,23 @@ public class ItemArmor extends Item
         {
             throw new UnsupportedOperationException("Can\'t dye non-leather!");
         }
-        else
-        {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
+		NBTTagCompound nbttagcompound = stack.getTagCompound();
 
-            if (nbttagcompound == null)
-            {
-                nbttagcompound = new NBTTagCompound();
-                stack.setTagCompound(nbttagcompound);
-            }
+		if (nbttagcompound == null)
+		{
+			nbttagcompound = new NBTTagCompound();
+			stack.setTagCompound(nbttagcompound);
+		}
 
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+		NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
 
-            if (!nbttagcompound.hasKey("display", 10))
-            {
-                nbttagcompound.setTag("display", nbttagcompound1);
-            }
+		if (!nbttagcompound.hasKey("display", 10))
+		{
+			nbttagcompound.setTag("display", nbttagcompound1);
+		}
 
-            nbttagcompound1.setInteger("color", color);
-        }
-    }
+		nbttagcompound1.setInteger("color", color);
+	}
 
     /**
      * Return whether this item is repairable in an anvil.

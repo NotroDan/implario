@@ -28,24 +28,18 @@ public class ItemRedstone extends Item
         {
             return false;
         }
-        else
-        {
-            Block block = worldIn.getBlockState(blockpos).getBlock();
+		Block block = worldIn.getBlockState(blockpos).getBlock();
 
-            if (!worldIn.canBlockBePlaced(block, blockpos, false, side, (Entity)null, stack))
-            {
-                return false;
-            }
-            else if (Blocks.redstone_wire.canPlaceBlockAt(worldIn, blockpos))
-            {
-                --stack.stackSize;
-                worldIn.setBlockState(blockpos, Blocks.redstone_wire.getDefaultState());
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+		if (!worldIn.canBlockBePlaced(block, blockpos, false, side, (Entity)null, stack))
+		{
+			return false;
+		}
+		if (Blocks.redstone_wire.canPlaceBlockAt(worldIn, blockpos))
+		{
+			--stack.stackSize;
+			worldIn.setBlockState(blockpos, Blocks.redstone_wire.getDefaultState());
+			return true;
+		}
+		return false;
+	}
 }

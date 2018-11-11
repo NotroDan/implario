@@ -74,11 +74,8 @@ public abstract class WorldGenHugeTrees extends WorldGenAbstractTree
 
             return flag;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     private boolean func_175927_a(BlockPos p_175927_1_, World worldIn)
     {
@@ -93,11 +90,8 @@ public abstract class WorldGenHugeTrees extends WorldGenAbstractTree
             this.func_175921_a(worldIn, blockpos.south().east());
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     protected boolean func_175929_a(World worldIn, Random p_175929_2_, BlockPos p_175929_3_, int p_175929_4_)
     {

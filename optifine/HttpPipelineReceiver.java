@@ -55,56 +55,53 @@ public class HttpPipelineReceiver extends Thread
         {
             throw new IOException("Invalid status line: " + s);
         }
-        else
-        {
-            String s1 = astring[0];
-            int i = Config.parseInt(astring[1], 0);
-            String s2 = astring[2];
-            Map<String, String> map = new LinkedHashMap();
+		String s1 = astring[0];
+		int i = Config.parseInt(astring[1], 0);
+		String s2 = astring[2];
+		Map<String, String> map = new LinkedHashMap();
 
-            while (true)
-            {
-                String s3 = this.readLine(p_readResponse_1_);
+		while (true)
+		{
+			String s3 = this.readLine(p_readResponse_1_);
 
-                if (s3.length() <= 0)
-                {
-                    byte[] abyte = null;
-                    String s6 = (String)map.get("Content-Length");
+			if (s3.length() <= 0)
+			{
+				byte[] abyte = null;
+				String s6 = (String)map.get("Content-Length");
 
-                    if (s6 != null)
-                    {
-                        int k = Config.parseInt(s6, -1);
+				if (s6 != null)
+				{
+					int k = Config.parseInt(s6, -1);
 
-                        if (k > 0)
-                        {
-                            abyte = new byte[k];
-                            this.readFull(abyte, p_readResponse_1_);
-                        }
-                    }
-                    else
-                    {
-                        String s7 = (String)map.get("Transfer-Encoding");
+					if (k > 0)
+					{
+						abyte = new byte[k];
+						this.readFull(abyte, p_readResponse_1_);
+					}
+				}
+				else
+				{
+					String s7 = (String)map.get("Transfer-Encoding");
 
-                        if (Config.equals(s7, "chunked"))
-                        {
-                            abyte = this.readContentChunked(p_readResponse_1_);
-                        }
-                    }
+					if (Config.equals(s7, "chunked"))
+					{
+						abyte = this.readContentChunked(p_readResponse_1_);
+					}
+				}
 
-                    return new HttpResponse(i, s, map, abyte);
-                }
+				return new HttpResponse(i, s, map, abyte);
+			}
 
-                int j = s3.indexOf(":");
+			int j = s3.indexOf(":");
 
-                if (j > 0)
-                {
-                    String s4 = s3.substring(0, j).trim();
-                    String s5 = s3.substring(j + 1).trim();
-                    map.put(s4, s5);
-                }
-            }
-        }
-    }
+			if (j > 0)
+			{
+				String s4 = s3.substring(0, j).trim();
+				String s5 = s3.substring(j + 1).trim();
+				map.put(s4, s5);
+			}
+		}
+	}
 
     private byte[] readContentChunked(InputStream p_readContentChunked_1_) throws IOException
     {

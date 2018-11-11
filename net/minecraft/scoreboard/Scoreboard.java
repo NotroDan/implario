@@ -39,32 +39,26 @@ public class Scoreboard
         {
             throw new IllegalArgumentException("The objective name \'" + name + "\' is too long!");
         }
-        else
-        {
-            ScoreObjective scoreobjective = this.getObjective(name);
+		ScoreObjective scoreobjective = this.getObjective(name);
 
-            if (scoreobjective != null)
-            {
-                throw new IllegalArgumentException("An objective with the name \'" + name + "\' already exists!");
-            }
-            else
-            {
-                scoreobjective = new ScoreObjective(this, name, criteria);
-                List<ScoreObjective> list = (List)this.scoreObjectiveCriterias.get(criteria);
+		if (scoreobjective != null)
+		{
+			throw new IllegalArgumentException("An objective with the name \'" + name + "\' already exists!");
+		}
+		scoreobjective = new ScoreObjective(this, name, criteria);
+		List<ScoreObjective> list = (List)this.scoreObjectiveCriterias.get(criteria);
 
-                if (list == null)
-                {
-                    list = Lists.<ScoreObjective>newArrayList();
-                    this.scoreObjectiveCriterias.put(criteria, list);
-                }
+		if (list == null)
+		{
+			list = Lists.<ScoreObjective>newArrayList();
+			this.scoreObjectiveCriterias.put(criteria, list);
+		}
 
-                list.add(scoreobjective);
-                this.scoreObjectives.put(name, scoreobjective);
-                this.onScoreObjectiveAdded(scoreobjective);
-                return scoreobjective;
-            }
-        }
-    }
+		list.add(scoreobjective);
+		this.scoreObjectives.put(name, scoreobjective);
+		this.onScoreObjectiveAdded(scoreobjective);
+		return scoreobjective;
+	}
 
     public Collection<ScoreObjective> getObjectivesFromCriteria(IScoreObjectiveCriteria criteria)
     {
@@ -83,12 +77,9 @@ public class Scoreboard
         {
             return false;
         }
-        else
-        {
-            Score score = (Score)map.get(p_178819_2_);
-            return score != null;
-        }
-    }
+		Score score = (Score)map.get(p_178819_2_);
+		return score != null;
+	}
 
     /**
      * Returns the value of the given objective for the given entity name
@@ -99,27 +90,24 @@ public class Scoreboard
         {
             throw new IllegalArgumentException("The player name \'" + name + "\' is too long!");
         }
-        else
-        {
-            Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.get(name);
+		Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.get(name);
 
-            if (map == null)
-            {
-                map = Maps.<ScoreObjective, Score>newHashMap();
-                this.entitiesScoreObjectives.put(name, map);
-            }
+		if (map == null)
+		{
+			map = Maps.<ScoreObjective, Score>newHashMap();
+			this.entitiesScoreObjectives.put(name, map);
+		}
 
-            Score score = (Score)map.get(objective);
+		Score score = (Score)map.get(objective);
 
-            if (score == null)
-            {
-                score = new Score(this, objective, name);
-                map.put(objective, score);
-            }
+		if (score == null)
+		{
+			score = new Score(this, objective, name);
+			map.put(objective, score);
+		}
 
-            return score;
-        }
-    }
+		return score;
+	}
 
     public Collection<Score> getSortedScores(ScoreObjective objective)
     {
@@ -270,23 +258,17 @@ public class Scoreboard
         {
             throw new IllegalArgumentException("The team name \'" + p_96527_1_ + "\' is too long!");
         }
-        else
-        {
-            ScorePlayerTeam scoreplayerteam = this.getTeam(p_96527_1_);
+		ScorePlayerTeam scoreplayerteam = this.getTeam(p_96527_1_);
 
-            if (scoreplayerteam != null)
-            {
-                throw new IllegalArgumentException("A team with the name \'" + p_96527_1_ + "\' already exists!");
-            }
-            else
-            {
-                scoreplayerteam = new ScorePlayerTeam(this, p_96527_1_);
-                this.teams.put(p_96527_1_, scoreplayerteam);
-                this.broadcastTeamCreated(scoreplayerteam);
-                return scoreplayerteam;
-            }
-        }
-    }
+		if (scoreplayerteam != null)
+		{
+			throw new IllegalArgumentException("A team with the name \'" + p_96527_1_ + "\' already exists!");
+		}
+		scoreplayerteam = new ScorePlayerTeam(this, p_96527_1_);
+		this.teams.put(p_96527_1_, scoreplayerteam);
+		this.broadcastTeamCreated(scoreplayerteam);
+		return scoreplayerteam;
+	}
 
     /**
      * Removes the team from the scoreboard, updates all player memberships and broadcasts the deletion to all players
@@ -312,24 +294,21 @@ public class Scoreboard
         {
             throw new IllegalArgumentException("The player name \'" + player + "\' is too long!");
         }
-        else if (!this.teams.containsKey(newTeam))
-        {
-            return false;
-        }
-        else
-        {
-            ScorePlayerTeam scoreplayerteam = this.getTeam(newTeam);
+		if (!this.teams.containsKey(newTeam))
+		{
+			return false;
+		}
+		ScorePlayerTeam scoreplayerteam = this.getTeam(newTeam);
 
-            if (this.getPlayersTeam(player) != null)
-            {
-                this.removePlayerFromTeams(player);
-            }
+		if (this.getPlayersTeam(player) != null)
+		{
+			this.removePlayerFromTeams(player);
+		}
 
-            this.teamMemberships.put(player, scoreplayerteam);
-            scoreplayerteam.getMembershipCollection().add(player);
-            return true;
-        }
-    }
+		this.teamMemberships.put(player, scoreplayerteam);
+		scoreplayerteam.getMembershipCollection().add(player);
+		return true;
+	}
 
     public boolean removePlayerFromTeams(String p_96524_1_)
     {
@@ -340,11 +319,8 @@ public class Scoreboard
             this.removePlayerFromTeam(p_96524_1_, scoreplayerteam);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Removes the given username from the given ScorePlayerTeam. If the player is not on the team then an
@@ -356,12 +332,9 @@ public class Scoreboard
         {
             throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + p_96512_2_.getRegisteredName() + "\'.");
         }
-        else
-        {
-            this.teamMemberships.remove(p_96512_1_);
-            p_96512_2_.getMembershipCollection().remove(p_96512_1_);
-        }
-    }
+		this.teamMemberships.remove(p_96512_1_);
+		p_96512_2_.getMembershipCollection().remove(p_96512_1_);
+	}
 
     public Collection<String> getTeamNames()
     {
@@ -466,30 +439,27 @@ public class Scoreboard
         {
             return 0;
         }
-        else if (p_96537_0_.equalsIgnoreCase("sidebar"))
-        {
-            return 1;
-        }
-        else if (p_96537_0_.equalsIgnoreCase("belowName"))
-        {
-            return 2;
-        }
-        else
-        {
-            if (p_96537_0_.startsWith("sidebar.team."))
-            {
-                String s = p_96537_0_.substring("sidebar.team.".length());
-                EnumChatFormatting enumchatformatting = EnumChatFormatting.getValueByName(s);
+		if (p_96537_0_.equalsIgnoreCase("sidebar"))
+		{
+			return 1;
+		}
+		if (p_96537_0_.equalsIgnoreCase("belowName"))
+		{
+			return 2;
+		}
+		if (p_96537_0_.startsWith("sidebar.team."))
+		{
+			String s = p_96537_0_.substring("sidebar.team.".length());
+			EnumChatFormatting enumchatformatting = EnumChatFormatting.getValueByName(s);
 
-                if (enumchatformatting != null && enumchatformatting.getColorIndex() >= 0)
-                {
-                    return enumchatformatting.getColorIndex() + 3;
-                }
-            }
+			if (enumchatformatting != null && enumchatformatting.getColorIndex() >= 0)
+			{
+				return enumchatformatting.getColorIndex() + 3;
+			}
+		}
 
-            return -1;
-        }
-    }
+		return -1;
+	}
 
     public static String[] getDisplaySlotStrings()
     {

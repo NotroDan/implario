@@ -38,12 +38,9 @@ public class ItemModelGenerator
         {
             return null;
         }
-        else
-        {
-            map.put("particle", blockModel.isTexturePresent("particle") ? blockModel.resolveTextureName("particle") : (String)map.get("layer0"));
-            return new ModelBlock(list, map, false, false, blockModel.func_181682_g());
-        }
-    }
+		map.put("particle", blockModel.isTexturePresent("particle") ? blockModel.resolveTextureName("particle") : (String)map.get("layer0"));
+		return new ModelBlock(list, map, false, false, blockModel.func_181682_g());
+	}
 
     private List<BlockPart> func_178394_a(int p_178394_1_, String p_178394_2_, TextureAtlasSprite p_178394_3_)
     {

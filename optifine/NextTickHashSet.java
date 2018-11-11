@@ -35,13 +35,10 @@ public class NextTickHashSet extends TreeSet
         {
             return false;
         }
-        else
-        {
-            NextTickListEntry nextticklistentry = (NextTickListEntry)p_contains_1_;
-            Set set = this.getSubSet(nextticklistentry, false);
-            return set == null ? false : set.contains(nextticklistentry);
-        }
-    }
+		NextTickListEntry nextticklistentry = (NextTickListEntry)p_contains_1_;
+		Set set = this.getSubSet(nextticklistentry, false);
+		return set == null ? false : set.contains(nextticklistentry);
+	}
 
     public boolean add(Object p_add_1_)
     {
@@ -49,31 +46,22 @@ public class NextTickHashSet extends TreeSet
         {
             return false;
         }
-        else
-        {
-            NextTickListEntry nextticklistentry = (NextTickListEntry)p_add_1_;
+		NextTickListEntry nextticklistentry = (NextTickListEntry)p_add_1_;
 
-            if (nextticklistentry == null)
-            {
-                return false;
-            }
-            else
-            {
-                Set set = this.getSubSet(nextticklistentry, true);
-                boolean flag = set.add(nextticklistentry);
-                boolean flag1 = super.add(p_add_1_);
+		if (nextticklistentry == null)
+		{
+			return false;
+		}
+		Set set = this.getSubSet(nextticklistentry, true);
+		boolean flag = set.add(nextticklistentry);
+		boolean flag1 = super.add(p_add_1_);
 
-                if (flag != flag1)
-                {
-                    throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
-                }
-                else
-                {
-                    return flag1;
-                }
-            }
-        }
-    }
+		if (flag != flag1)
+		{
+			throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
+		}
+		return flag1;
+	}
 
     public boolean remove(Object p_remove_1_)
     {
@@ -81,31 +69,22 @@ public class NextTickHashSet extends TreeSet
         {
             return false;
         }
-        else
-        {
-            NextTickListEntry nextticklistentry = (NextTickListEntry)p_remove_1_;
-            Set set = this.getSubSet(nextticklistentry, false);
+		NextTickListEntry nextticklistentry = (NextTickListEntry)p_remove_1_;
+		Set set = this.getSubSet(nextticklistentry, false);
 
-            if (set == null)
-            {
-                return false;
-            }
-            else
-            {
-                boolean flag = set.remove(nextticklistentry);
-                boolean flag1 = super.remove(nextticklistentry);
+		if (set == null)
+		{
+			return false;
+		}
+		boolean flag = set.remove(nextticklistentry);
+		boolean flag1 = super.remove(nextticklistentry);
 
-                if (flag != flag1)
-                {
-                    throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
-                }
-                else
-                {
-                    return flag1;
-                }
-            }
-        }
-    }
+		if (flag != flag1)
+		{
+			throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
+		}
+		return flag1;
+	}
 
     private Set getSubSet(NextTickListEntry p_getSubSet_1_, boolean p_getSubSet_2_)
     {
@@ -113,14 +92,11 @@ public class NextTickHashSet extends TreeSet
         {
             return null;
         }
-        else
-        {
-            BlockPos blockpos = p_getSubSet_1_.position;
-            int i = blockpos.getX() >> 4;
-            int j = blockpos.getZ() >> 4;
-            return this.getSubSet(i, j, p_getSubSet_2_);
-        }
-    }
+		BlockPos blockpos = p_getSubSet_1_.position;
+		int i = blockpos.getX() >> 4;
+		int j = blockpos.getZ() >> 4;
+		return this.getSubSet(i, j, p_getSubSet_2_);
+	}
 
     private Set getSubSet(int p_getSubSet_1_, int p_getSubSet_2_, boolean p_getSubSet_3_)
     {
@@ -142,45 +118,39 @@ public class NextTickHashSet extends TreeSet
         {
             return super.iterator();
         }
-        else if (this.size() <= 0)
-        {
-            return Iterators.emptyIterator();
-        }
-        else
-        {
-            int i = this.minX >> 4;
-            int j = this.minZ >> 4;
-            int k = this.maxX >> 4;
-            int l = this.maxZ >> 4;
-            List list = new ArrayList();
+		if (this.size() <= 0)
+		{
+			return Iterators.emptyIterator();
+		}
+		int i = this.minX >> 4;
+		int j = this.minZ >> 4;
+		int k = this.maxX >> 4;
+		int l = this.maxZ >> 4;
+		List list = new ArrayList();
 
-            for (int i1 = i; i1 <= k; ++i1)
-            {
-                for (int j1 = j; j1 <= l; ++j1)
-                {
-                    Set set = this.getSubSet(i1, j1, false);
+		for (int i1 = i; i1 <= k; ++i1)
+		{
+			for (int j1 = j; j1 <= l; ++j1)
+			{
+				Set set = this.getSubSet(i1, j1, false);
 
-                    if (set != null)
-                    {
-                        list.add(set.iterator());
-                    }
-                }
-            }
+				if (set != null)
+				{
+					list.add(set.iterator());
+				}
+			}
+		}
 
-            if (list.size() <= 0)
-            {
-                return Iterators.emptyIterator();
-            }
-            else if (list.size() == 1)
-            {
-                return (Iterator)list.get(0);
-            }
-            else
-            {
-                return Iterators.concat(list.iterator());
-            }
-        }
-    }
+		if (list.size() <= 0)
+		{
+			return Iterators.emptyIterator();
+		}
+		if (list.size() == 1)
+		{
+			return (Iterator)list.get(0);
+		}
+		return Iterators.concat(list.iterator());
+	}
 
     public void setIteratorLimits(int p_setIteratorLimits_1_, int p_setIteratorLimits_2_, int p_setIteratorLimits_3_, int p_setIteratorLimits_4_)
     {

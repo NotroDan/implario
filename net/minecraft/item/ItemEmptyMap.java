@@ -33,15 +33,12 @@ public class ItemEmptyMap extends ItemMapBase
         {
             return itemstack;
         }
-        else
-        {
-            if (!playerIn.inventory.addItemStackToInventory(itemstack.copy()))
-            {
-                playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
-            }
+		if (!playerIn.inventory.addItemStackToInventory(itemstack.copy()))
+		{
+			playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
+		}
 
-            playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-            return itemStackIn;
-        }
-    }
+		playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+		return itemStackIn;
+	}
 }

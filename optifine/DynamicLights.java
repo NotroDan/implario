@@ -194,24 +194,21 @@ public class DynamicLights
         {
             return 0;
         }
-        else
-        {
-            Item item = p_getLightLevel_0_.getItem();
+		Item item = p_getLightLevel_0_.getItem();
 
-            if (item instanceof ItemBlock)
-            {
-                ItemBlock itemblock = (ItemBlock)item;
-                Block block = itemblock.getBlock();
+		if (item instanceof ItemBlock)
+		{
+			ItemBlock itemblock = (ItemBlock)item;
+			Block block = itemblock.getBlock();
 
-                if (block != null)
-                {
-                    return block.getLightValue();
-                }
-            }
+			if (block != null)
+			{
+				return block.getLightValue();
+			}
+		}
 
-            return item == Items.lava_bucket ? Blocks.lava.getLightValue() : item != Items.blaze_rod && item != Items.blaze_powder ? item == Items.glowstone_dust ? 8 : item == Items.prismarine_crystals ? 8 : item == Items.magma_cream ? 8 : item == Items.nether_star ? Blocks.beacon.getLightValue() / 2 : 0 : 10;
-        }
-    }
+		return item == Items.lava_bucket ? Blocks.lava.getLightValue() : item != Items.blaze_rod && item != Items.blaze_powder ? item == Items.glowstone_dust ? 8 : item == Items.prismarine_crystals ? 8 : item == Items.magma_cream ? 8 : item == Items.nether_star ? Blocks.beacon.getLightValue() / 2 : 0 : 10;
+	}
 
     public static int getLightLevel(Entity p_getLightLevel_0_)
     {
@@ -219,74 +216,65 @@ public class DynamicLights
         {
             return 0;
         }
-        else
-        {
-            if (p_getLightLevel_0_ instanceof EntityPlayer)
-            {
-                EntityPlayer entityplayer = (EntityPlayer)p_getLightLevel_0_;
+		if (p_getLightLevel_0_ instanceof EntityPlayer)
+		{
+			EntityPlayer entityplayer = (EntityPlayer)p_getLightLevel_0_;
 
-                if (entityplayer.isSpectator())
-                {
-                    return 0;
-                }
-            }
+			if (entityplayer.isSpectator())
+			{
+				return 0;
+			}
+		}
 
-            if (p_getLightLevel_0_.isBurning())
-            {
-                return 15;
-            }
-            else if (p_getLightLevel_0_ instanceof EntityFireball)
-            {
-                return 15;
-            }
-            else if (p_getLightLevel_0_ instanceof EntityTNTPrimed)
-            {
-                return 15;
-            }
-            else if (p_getLightLevel_0_ instanceof EntityBlaze)
-            {
-                EntityBlaze entityblaze = (EntityBlaze)p_getLightLevel_0_;
-                return entityblaze.func_70845_n() ? 15 : 10;
-            }
-            else if (p_getLightLevel_0_ instanceof EntityMagmaCube)
-            {
-                EntityMagmaCube entitymagmacube = (EntityMagmaCube)p_getLightLevel_0_;
-                return (double)entitymagmacube.squishFactor > 0.6D ? 13 : 8;
-            }
-            else
-            {
-                if (p_getLightLevel_0_ instanceof EntityCreeper)
-                {
-                    EntityCreeper entitycreeper = (EntityCreeper)p_getLightLevel_0_;
+		if (p_getLightLevel_0_.isBurning())
+		{
+			return 15;
+		}
+		if (p_getLightLevel_0_ instanceof EntityFireball)
+		{
+			return 15;
+		}
+		if (p_getLightLevel_0_ instanceof EntityTNTPrimed)
+		{
+			return 15;
+		}
+		if (p_getLightLevel_0_ instanceof EntityBlaze)
+		{
+			EntityBlaze entityblaze = (EntityBlaze)p_getLightLevel_0_;
+			return entityblaze.func_70845_n() ? 15 : 10;
+		}
+		if (p_getLightLevel_0_ instanceof EntityMagmaCube)
+		{
+			EntityMagmaCube entitymagmacube = (EntityMagmaCube)p_getLightLevel_0_;
+			return (double)entitymagmacube.squishFactor > 0.6D ? 13 : 8;
+		}
+		if (p_getLightLevel_0_ instanceof EntityCreeper)
+		{
+			EntityCreeper entitycreeper = (EntityCreeper)p_getLightLevel_0_;
 
-                    if ((double)entitycreeper.getCreeperFlashIntensity(0.0F) > 0.001D)
-                    {
-                        return 15;
-                    }
-                }
+			if ((double)entitycreeper.getCreeperFlashIntensity(0.0F) > 0.001D)
+			{
+				return 15;
+			}
+		}
 
-                if (p_getLightLevel_0_ instanceof EntityLivingBase)
-                {
-                    EntityLivingBase entitylivingbase = (EntityLivingBase)p_getLightLevel_0_;
-                    ItemStack itemstack2 = entitylivingbase.getHeldItem();
-                    int i = getLightLevel(itemstack2);
-                    ItemStack itemstack1 = entitylivingbase.getEquipmentInSlot(4);
-                    int j = getLightLevel(itemstack1);
-                    return Math.max(i, j);
-                }
-                else if (p_getLightLevel_0_ instanceof EntityItem)
-                {
-                    EntityItem entityitem = (EntityItem)p_getLightLevel_0_;
-                    ItemStack itemstack = getItemStack(entityitem);
-                    return getLightLevel(itemstack);
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-    }
+		if (p_getLightLevel_0_ instanceof EntityLivingBase)
+		{
+			EntityLivingBase entitylivingbase = (EntityLivingBase)p_getLightLevel_0_;
+			ItemStack itemstack2 = entitylivingbase.getHeldItem();
+			int i = getLightLevel(itemstack2);
+			ItemStack itemstack1 = entitylivingbase.getEquipmentInSlot(4);
+			int j = getLightLevel(itemstack1);
+			return Math.max(i, j);
+		}
+		if (p_getLightLevel_0_ instanceof EntityItem)
+		{
+			EntityItem entityitem = (EntityItem)p_getLightLevel_0_;
+			ItemStack itemstack = getItemStack(entityitem);
+			return getLightLevel(itemstack);
+		}
+		return 0;
+	}
 
     public static void removeLights(RenderGlobal p_removeLights_0_)
     {

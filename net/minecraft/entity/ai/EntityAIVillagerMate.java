@@ -30,38 +30,29 @@ public class EntityAIVillagerMate extends EntityAIBase
         {
             return false;
         }
-        else if (this.villagerObj.getRNG().nextInt(500) != 0)
-        {
-            return false;
-        }
-        else
-        {
-            this.villageObj = this.worldObj.getVillageCollection().getNearestVillage(new BlockPos(this.villagerObj), 0);
+		if (this.villagerObj.getRNG().nextInt(500) != 0)
+		{
+			return false;
+		}
+		this.villageObj = this.worldObj.getVillageCollection().getNearestVillage(new BlockPos(this.villagerObj), 0);
 
-            if (this.villageObj == null)
-            {
-                return false;
-            }
-            else if (this.checkSufficientDoorsPresentForNewVillager() && this.villagerObj.getIsWillingToMate(true))
-            {
-                Entity entity = this.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.villagerObj.getEntityBoundingBox().expand(8.0D, 3.0D, 8.0D), this.villagerObj);
+		if (this.villageObj == null)
+		{
+			return false;
+		}
+		if (this.checkSufficientDoorsPresentForNewVillager() && this.villagerObj.getIsWillingToMate(true))
+		{
+			Entity entity = this.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.villagerObj.getEntityBoundingBox().expand(8.0D, 3.0D, 8.0D), this.villagerObj);
 
-                if (entity == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    this.mate = (EntityVillager)entity;
-                    return this.mate.getGrowingAge() == 0 && this.mate.getIsWillingToMate(true);
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+			if (entity == null)
+			{
+				return false;
+			}
+			this.mate = (EntityVillager)entity;
+			return this.mate.getGrowingAge() == 0 && this.mate.getIsWillingToMate(true);
+		}
+		return false;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task
@@ -119,12 +110,9 @@ public class EntityAIVillagerMate extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            int i = (int)((double) (float)this.villageObj.getNumVillageDoors() * 0.35D);
-            return this.villageObj.getNumVillagers() < i;
-        }
-    }
+		int i = (int)((double) (float)this.villageObj.getNumVillageDoors() * 0.35D);
+		return this.villageObj.getNumVillagers() < i;
+	}
 
     private void giveBirth()
     {

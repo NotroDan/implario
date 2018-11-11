@@ -89,12 +89,9 @@ public abstract class NBTBase
         {
             return false;
         }
-        else
-        {
-            NBTBase nbtbase = (NBTBase)p_equals_1_;
-            return this.getId() == nbtbase.getId();
-        }
-    }
+		NBTBase nbtbase = (NBTBase)p_equals_1_;
+		return this.getId() == nbtbase.getId();
+	}
 
     public int hashCode()
     {

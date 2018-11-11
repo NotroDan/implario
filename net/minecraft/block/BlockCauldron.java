@@ -96,124 +96,112 @@ public class BlockCauldron extends Block
         {
             return true;
         }
-        else
-        {
-            ItemStack itemstack = playerIn.inventory.getCurrentItem();
+		ItemStack itemstack = playerIn.inventory.getCurrentItem();
 
-            if (itemstack == null)
-            {
-                return true;
-            }
-            else
-            {
-                int i = ((Integer)state.getValue(LEVEL)).intValue();
-                Item item = itemstack.getItem();
+		if (itemstack == null)
+		{
+			return true;
+		}
+		int i = ((Integer)state.getValue(LEVEL)).intValue();
+		Item item = itemstack.getItem();
 
-                if (item == Items.water_bucket)
-                {
-                    if (i < 3)
-                    {
-                        if (!playerIn.capabilities.isCreativeMode)
-                        {
-                            playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, new ItemStack(Items.bucket));
-                        }
+		if (item == Items.water_bucket)
+		{
+			if (i < 3)
+			{
+				if (!playerIn.capabilities.isCreativeMode)
+				{
+					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, new ItemStack(Items.bucket));
+				}
 
-                        playerIn.triggerAchievement(StatList.field_181725_I);
-                        this.setWaterLevel(worldIn, pos, state, 3);
-                    }
+				playerIn.triggerAchievement(StatList.field_181725_I);
+				this.setWaterLevel(worldIn, pos, state, 3);
+			}
 
-                    return true;
-                }
-                else if (item == Items.glass_bottle)
-                {
-                    if (i > 0)
-                    {
-                        if (!playerIn.capabilities.isCreativeMode)
-                        {
-                            ItemStack itemstack2 = new ItemStack(Items.potionitem, 1, 0);
+			return true;
+		}
+		if (item == Items.glass_bottle)
+		{
+			if (i > 0)
+			{
+				if (!playerIn.capabilities.isCreativeMode)
+				{
+					ItemStack itemstack2 = new ItemStack(Items.potionitem, 1, 0);
 
-                            if (!playerIn.inventory.addItemStackToInventory(itemstack2))
-                            {
-                                worldIn.spawnEntityInWorld(new EntityItem(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 1.5D, (double)pos.getZ() + 0.5D, itemstack2));
-                            }
-                            else if (playerIn instanceof EntityPlayerMP)
-                            {
-                                ((EntityPlayerMP)playerIn).sendContainerToPlayer(playerIn.inventoryContainer);
-                            }
+					if (!playerIn.inventory.addItemStackToInventory(itemstack2))
+					{
+						worldIn.spawnEntityInWorld(new EntityItem(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 1.5D, (double)pos.getZ() + 0.5D, itemstack2));
+					}
+					else if (playerIn instanceof EntityPlayerMP)
+					{
+						((EntityPlayerMP)playerIn).sendContainerToPlayer(playerIn.inventoryContainer);
+					}
 
-                            playerIn.triggerAchievement(StatList.field_181726_J);
-                            --itemstack.stackSize;
+					playerIn.triggerAchievement(StatList.field_181726_J);
+					--itemstack.stackSize;
 
-                            if (itemstack.stackSize <= 0)
-                            {
-                                playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack)null);
-                            }
-                        }
+					if (itemstack.stackSize <= 0)
+					{
+						playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack)null);
+					}
+				}
 
-                        this.setWaterLevel(worldIn, pos, state, i - 1);
-                    }
+				this.setWaterLevel(worldIn, pos, state, i - 1);
+			}
 
-                    return true;
-                }
-                else
-                {
-                    if (i > 0 && item instanceof ItemArmor)
-                    {
-                        ItemArmor itemarmor = (ItemArmor)item;
+			return true;
+		}
+		if (i > 0 && item instanceof ItemArmor)
+		{
+			ItemArmor itemarmor = (ItemArmor)item;
 
-                        if (itemarmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER && itemarmor.hasColor(itemstack))
-                        {
-                            itemarmor.removeColor(itemstack);
-                            this.setWaterLevel(worldIn, pos, state, i - 1);
-                            playerIn.triggerAchievement(StatList.field_181727_K);
-                            return true;
-                        }
-                    }
+			if (itemarmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER && itemarmor.hasColor(itemstack))
+			{
+				itemarmor.removeColor(itemstack);
+				this.setWaterLevel(worldIn, pos, state, i - 1);
+				playerIn.triggerAchievement(StatList.field_181727_K);
+				return true;
+			}
+		}
 
-                    if (i > 0 && item instanceof ItemBanner && TileEntityBanner.getPatterns(itemstack) > 0)
-                    {
-                        ItemStack itemstack1 = itemstack.copy();
-                        itemstack1.stackSize = 1;
-                        TileEntityBanner.removeBannerData(itemstack1);
+		if (i > 0 && item instanceof ItemBanner && TileEntityBanner.getPatterns(itemstack) > 0)
+		{
+			ItemStack itemstack1 = itemstack.copy();
+			itemstack1.stackSize = 1;
+			TileEntityBanner.removeBannerData(itemstack1);
 
-                        if (itemstack.stackSize <= 1 && !playerIn.capabilities.isCreativeMode)
-                        {
-                            playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, itemstack1);
-                        }
-                        else
-                        {
-                            if (!playerIn.inventory.addItemStackToInventory(itemstack1))
-                            {
-                                worldIn.spawnEntityInWorld(new EntityItem(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 1.5D, (double)pos.getZ() + 0.5D, itemstack1));
-                            }
-                            else if (playerIn instanceof EntityPlayerMP)
-                            {
-                                ((EntityPlayerMP)playerIn).sendContainerToPlayer(playerIn.inventoryContainer);
-                            }
+			if (itemstack.stackSize <= 1 && !playerIn.capabilities.isCreativeMode)
+			{
+				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, itemstack1);
+			}
+			else
+			{
+				if (!playerIn.inventory.addItemStackToInventory(itemstack1))
+				{
+					worldIn.spawnEntityInWorld(new EntityItem(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 1.5D, (double)pos.getZ() + 0.5D, itemstack1));
+				}
+				else if (playerIn instanceof EntityPlayerMP)
+				{
+					((EntityPlayerMP)playerIn).sendContainerToPlayer(playerIn.inventoryContainer);
+				}
 
-                            playerIn.triggerAchievement(StatList.field_181728_L);
+				playerIn.triggerAchievement(StatList.field_181728_L);
 
-                            if (!playerIn.capabilities.isCreativeMode)
-                            {
-                                --itemstack.stackSize;
-                            }
-                        }
+				if (!playerIn.capabilities.isCreativeMode)
+				{
+					--itemstack.stackSize;
+				}
+			}
 
-                        if (!playerIn.capabilities.isCreativeMode)
-                        {
-                            this.setWaterLevel(worldIn, pos, state, i - 1);
-                        }
+			if (!playerIn.capabilities.isCreativeMode)
+			{
+				this.setWaterLevel(worldIn, pos, state, i - 1);
+			}
 
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     public void setWaterLevel(World worldIn, BlockPos pos, IBlockState state, int level)
     {

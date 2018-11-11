@@ -15,43 +15,40 @@ public class WorldGenGlowStone2 extends WorldGenerator
         {
             return false;
         }
-        else if (worldIn.getBlockState(position.up()).getBlock() != Blocks.netherrack)
-        {
-            return false;
-        }
-        else
-        {
-            worldIn.setBlockState(position, Blocks.glowstone.getDefaultState(), 2);
+		if (worldIn.getBlockState(position.up()).getBlock() != Blocks.netherrack)
+		{
+			return false;
+		}
+		worldIn.setBlockState(position, Blocks.glowstone.getDefaultState(), 2);
 
-            for (int i = 0; i < 1500; ++i)
-            {
-                BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), -rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
+		for (int i = 0; i < 1500; ++i)
+		{
+			BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), -rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
 
-                if (worldIn.getBlockState(blockpos).getBlock().getMaterial() == Material.air)
-                {
-                    int j = 0;
+			if (worldIn.getBlockState(blockpos).getBlock().getMaterial() == Material.air)
+			{
+				int j = 0;
 
-                    for (EnumFacing enumfacing : EnumFacing.values())
-                    {
-                        if (worldIn.getBlockState(blockpos.offset(enumfacing)).getBlock() == Blocks.glowstone)
-                        {
-                            ++j;
-                        }
+				for (EnumFacing enumfacing : EnumFacing.values())
+				{
+					if (worldIn.getBlockState(blockpos.offset(enumfacing)).getBlock() == Blocks.glowstone)
+					{
+						++j;
+					}
 
-                        if (j > 1)
-                        {
-                            break;
-                        }
-                    }
+					if (j > 1)
+					{
+						break;
+					}
+				}
 
-                    if (j == 1)
-                    {
-                        worldIn.setBlockState(blockpos, Blocks.glowstone.getDefaultState(), 2);
-                    }
-                }
-            }
+				if (j == 1)
+				{
+					worldIn.setBlockState(blockpos, Blocks.glowstone.getDefaultState(), 2);
+				}
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 }

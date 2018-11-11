@@ -228,7 +228,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		}
 
 		if (list.isEmpty()) return null;
-		else return list.get(new Random().nextInt(list.size()));
+		return list.get(new Random().nextInt(list.size()));
 	}
 
 	public boolean isSoundPlaying(ISound sound) {

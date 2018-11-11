@@ -67,16 +67,13 @@ public class ResourceLocation
         {
             return true;
         }
-        else if (!(p_equals_1_ instanceof ResourceLocation))
-        {
-            return false;
-        }
-        else
-        {
-            ResourceLocation resourcelocation = (ResourceLocation)p_equals_1_;
-            return this.resourceDomain.equals(resourcelocation.resourceDomain) && this.resourcePath.equals(resourcelocation.resourcePath);
-        }
-    }
+		if (!(p_equals_1_ instanceof ResourceLocation))
+		{
+			return false;
+		}
+		ResourceLocation resourcelocation = (ResourceLocation)p_equals_1_;
+		return this.resourceDomain.equals(resourcelocation.resourceDomain) && this.resourcePath.equals(resourcelocation.resourcePath);
+	}
 
     public int hashCode()
     {

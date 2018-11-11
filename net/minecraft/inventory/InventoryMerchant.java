@@ -52,40 +52,34 @@ public class InventoryMerchant implements IInventory
                 this.theInventory[index] = null;
                 return itemstack2;
             }
-            else if (this.theInventory[index].stackSize <= count)
-            {
-                ItemStack itemstack1 = this.theInventory[index];
-                this.theInventory[index] = null;
+			if (this.theInventory[index].stackSize <= count)
+			{
+				ItemStack itemstack1 = this.theInventory[index];
+				this.theInventory[index] = null;
 
-                if (this.inventoryResetNeededOnSlotChange(index))
-                {
-                    this.resetRecipeAndSlots();
-                }
+				if (this.inventoryResetNeededOnSlotChange(index))
+				{
+					this.resetRecipeAndSlots();
+				}
 
-                return itemstack1;
-            }
-            else
-            {
-                ItemStack itemstack = this.theInventory[index].splitStack(count);
+				return itemstack1;
+			}
+			ItemStack itemstack = this.theInventory[index].splitStack(count);
 
-                if (this.theInventory[index].stackSize == 0)
-                {
-                    this.theInventory[index] = null;
-                }
+			if (this.theInventory[index].stackSize == 0)
+			{
+				this.theInventory[index] = null;
+			}
 
-                if (this.inventoryResetNeededOnSlotChange(index))
-                {
-                    this.resetRecipeAndSlots();
-                }
+			if (this.inventoryResetNeededOnSlotChange(index))
+			{
+				this.resetRecipeAndSlots();
+			}
 
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			return itemstack;
+		}
+		return null;
+	}
 
     /**
      * if par1 slot has changed, does resetRecipeAndSlots need to be called?
@@ -106,11 +100,8 @@ public class InventoryMerchant implements IInventory
             this.theInventory[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).

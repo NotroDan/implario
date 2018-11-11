@@ -304,43 +304,37 @@ public class InventoryPlayer implements IInventory
         {
             return i;
         }
-        else
-        {
-            if (this.mainInventory[j] == null)
-            {
-                this.mainInventory[j] = new ItemStack(item, 0, itemStackIn.getMetadata());
+		if (this.mainInventory[j] == null)
+		{
+			this.mainInventory[j] = new ItemStack(item, 0, itemStackIn.getMetadata());
 
-                if (itemStackIn.hasTagCompound())
-                {
-                    this.mainInventory[j].setTagCompound((NBTTagCompound)itemStackIn.getTagCompound().copy());
-                }
-            }
+			if (itemStackIn.hasTagCompound())
+			{
+				this.mainInventory[j].setTagCompound((NBTTagCompound)itemStackIn.getTagCompound().copy());
+			}
+		}
 
-            int k = i;
+		int k = i;
 
-            if (i > this.mainInventory[j].getMaxStackSize() - this.mainInventory[j].stackSize)
-            {
-                k = this.mainInventory[j].getMaxStackSize() - this.mainInventory[j].stackSize;
-            }
+		if (i > this.mainInventory[j].getMaxStackSize() - this.mainInventory[j].stackSize)
+		{
+			k = this.mainInventory[j].getMaxStackSize() - this.mainInventory[j].stackSize;
+		}
 
-            if (k > this.getInventoryStackLimit() - this.mainInventory[j].stackSize)
-            {
-                k = this.getInventoryStackLimit() - this.mainInventory[j].stackSize;
-            }
+		if (k > this.getInventoryStackLimit() - this.mainInventory[j].stackSize)
+		{
+			k = this.getInventoryStackLimit() - this.mainInventory[j].stackSize;
+		}
 
-            if (k == 0)
-            {
-                return i;
-            }
-            else
-            {
-                i = i - k;
-                this.mainInventory[j].stackSize += k;
-                this.mainInventory[j].animationsToGo = 5;
-                return i;
-            }
-        }
-    }
+		if (k == 0)
+		{
+			return i;
+		}
+		i = i - k;
+		this.mainInventory[j].stackSize += k;
+		this.mainInventory[j].animationsToGo = 5;
+		return i;
+	}
 
     /**
      * Decrement the number of animations remaining. Only called on client side. This is used to handle the animation of
@@ -368,16 +362,13 @@ public class InventoryPlayer implements IInventory
         {
             return false;
         }
-        else
-        {
-            if (--this.mainInventory[i].stackSize <= 0)
-            {
-                this.mainInventory[i] = null;
-            }
+		if (--this.mainInventory[i].stackSize <= 0)
+		{
+			this.mainInventory[i] = null;
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Checks if a specified Item is inside the inventory
@@ -408,42 +399,33 @@ public class InventoryPlayer implements IInventory
                         itemStackIn.stackSize = 0;
                         return true;
                     }
-                    else if (this.player.capabilities.isCreativeMode)
-                    {
-                        itemStackIn.stackSize = 0;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    int i;
+					if (this.player.capabilities.isCreativeMode)
+					{
+						itemStackIn.stackSize = 0;
+						return true;
+					}
+					return false;
+				}
+				int i;
 
-                    while (true)
-                    {
-                        i = itemStackIn.stackSize;
-                        itemStackIn.stackSize = this.storePartialItemStack(itemStackIn);
+				while (true)
+				{
+					i = itemStackIn.stackSize;
+					itemStackIn.stackSize = this.storePartialItemStack(itemStackIn);
 
-                        if (itemStackIn.stackSize <= 0 || itemStackIn.stackSize >= i)
-                        {
-                            break;
-                        }
-                    }
+					if (itemStackIn.stackSize <= 0 || itemStackIn.stackSize >= i)
+					{
+						break;
+					}
+				}
 
-                    if (itemStackIn.stackSize == i && this.player.capabilities.isCreativeMode)
-                    {
-                        itemStackIn.stackSize = 0;
-                        return true;
-                    }
-                    else
-                    {
-                        return itemStackIn.stackSize < i;
-                    }
-                }
-            }
+				if (itemStackIn.stackSize == i && this.player.capabilities.isCreativeMode)
+				{
+					itemStackIn.stackSize = 0;
+					return true;
+				}
+				return itemStackIn.stackSize < i;
+			}
             catch (Throwable throwable)
             {
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Adding item to inventory");
@@ -460,11 +442,8 @@ public class InventoryPlayer implements IInventory
                 throw new ReportedException(crashreport);
             }
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
@@ -487,23 +466,17 @@ public class InventoryPlayer implements IInventory
                 aitemstack[index] = null;
                 return itemstack1;
             }
-            else
-            {
-                ItemStack itemstack = aitemstack[index].splitStack(count);
+			ItemStack itemstack = aitemstack[index].splitStack(count);
 
-                if (aitemstack[index].stackSize == 0)
-                {
-                    aitemstack[index] = null;
-                }
+			if (aitemstack[index].stackSize == 0)
+			{
+				aitemstack[index] = null;
+			}
 
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			return itemstack;
+		}
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -524,11 +497,8 @@ public class InventoryPlayer implements IInventory
             aitemstack[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
@@ -680,12 +650,9 @@ public class InventoryPlayer implements IInventory
         {
             return true;
         }
-        else
-        {
-            ItemStack itemstack = this.getStackInSlot(this.currentItem);
-            return itemstack != null ? itemstack.canHarvestBlock(blockIn) : false;
-        }
-    }
+		ItemStack itemstack = this.getStackInSlot(this.currentItem);
+		return itemstack != null ? itemstack.canHarvestBlock(blockIn) : false;
+	}
 
     /**
      * returns a player armor item (as itemstack) contained in specified armor slot.

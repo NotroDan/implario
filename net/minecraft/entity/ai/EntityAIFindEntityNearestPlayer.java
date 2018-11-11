@@ -40,34 +40,31 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase
                 {
                     return false;
                 }
-                else if (((EntityPlayer)p_apply_1_).capabilities.disableDamage)
-                {
-                    return false;
-                }
-                else
-                {
-                    double d0 = EntityAIFindEntityNearestPlayer.this.func_179431_f();
+				if (((EntityPlayer)p_apply_1_).capabilities.disableDamage)
+				{
+					return false;
+				}
+				double d0 = EntityAIFindEntityNearestPlayer.this.func_179431_f();
 
-                    if (p_apply_1_.isSneaking())
-                    {
-                        d0 *= 0.800000011920929D;
-                    }
+				if (p_apply_1_.isSneaking())
+				{
+					d0 *= 0.800000011920929D;
+				}
 
-                    if (p_apply_1_.isInvisible())
-                    {
-                        float f = ((EntityPlayer)p_apply_1_).getArmorVisibility();
+				if (p_apply_1_.isInvisible())
+				{
+					float f = ((EntityPlayer)p_apply_1_).getArmorVisibility();
 
-                        if (f < 0.1F)
-                        {
-                            f = 0.1F;
-                        }
+					if (f < 0.1F)
+					{
+						f = 0.1F;
+					}
 
-                        d0 *= (double)(0.7F * f);
-                    }
+					d0 *= (double)(0.7F * f);
+				}
 
-                    return (double)p_apply_1_.getDistanceToEntity(EntityAIFindEntityNearestPlayer.this.field_179434_b) > d0 ? false : EntityAITarget.isSuitableTarget(EntityAIFindEntityNearestPlayer.this.field_179434_b, (EntityLivingBase)p_apply_1_, false, true);
-                }
-            }
+				return (double)p_apply_1_.getDistanceToEntity(EntityAIFindEntityNearestPlayer.this.field_179434_b) > d0 ? false : EntityAITarget.isSuitableTarget(EntityAIFindEntityNearestPlayer.this.field_179434_b, (EntityLivingBase)p_apply_1_, false, true);
+			}
         };
         this.field_179432_d = new EntityAINearestAttackableTarget.Sorter(p_i45882_1_);
     }
@@ -85,12 +82,9 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            this.field_179433_e = (EntityLivingBase)list.get(0);
-            return true;
-        }
-    }
+		this.field_179433_e = (EntityLivingBase)list.get(0);
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
@@ -103,30 +97,24 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase
         {
             return false;
         }
-        else if (!entitylivingbase.isEntityAlive())
-        {
-            return false;
-        }
-        else if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer)entitylivingbase).capabilities.disableDamage)
-        {
-            return false;
-        }
-        else
-        {
-            Team team = this.field_179434_b.getTeam();
-            Team team1 = entitylivingbase.getTeam();
+		if (!entitylivingbase.isEntityAlive())
+		{
+			return false;
+		}
+		if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer)entitylivingbase).capabilities.disableDamage)
+		{
+			return false;
+		}
+		Team team = this.field_179434_b.getTeam();
+		Team team1 = entitylivingbase.getTeam();
 
-            if (team != null && team1 == team)
-            {
-                return false;
-            }
-            else
-            {
-                double d0 = this.func_179431_f();
-                return this.field_179434_b.getDistanceSqToEntity(entitylivingbase) > d0 * d0 ? false : !(entitylivingbase instanceof EntityPlayerMP) || !((EntityPlayerMP)entitylivingbase).theItemInWorldManager.isCreative();
-            }
-        }
-    }
+		if (team != null && team1 == team)
+		{
+			return false;
+		}
+		double d0 = this.func_179431_f();
+		return this.field_179434_b.getDistanceSqToEntity(entitylivingbase) > d0 * d0 ? false : !(entitylivingbase instanceof EntityPlayerMP) || !((EntityPlayerMP)entitylivingbase).theItemInWorldManager.isCreative();
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

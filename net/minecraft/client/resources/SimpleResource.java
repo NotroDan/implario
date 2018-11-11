@@ -54,34 +54,31 @@ public class SimpleResource implements IResource
         {
             return (T)null;
         }
-        else
-        {
-            if (this.mcmetaJson == null && !this.mcmetaJsonChecked)
-            {
-                this.mcmetaJsonChecked = true;
-                BufferedReader bufferedreader = null;
+		if (this.mcmetaJson == null && !this.mcmetaJsonChecked)
+		{
+			this.mcmetaJsonChecked = true;
+			BufferedReader bufferedreader = null;
 
-                try
-                {
-                    bufferedreader = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
-                    this.mcmetaJson = new JsonParser().parse((Reader)bufferedreader).getAsJsonObject();
-                }
-                finally
-                {
-                    IOUtils.closeQuietly((Reader)bufferedreader);
-                }
-            }
+			try
+			{
+				bufferedreader = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
+				this.mcmetaJson = new JsonParser().parse((Reader)bufferedreader).getAsJsonObject();
+			}
+			finally
+			{
+				IOUtils.closeQuietly((Reader)bufferedreader);
+			}
+		}
 
-            T t = (T)this.mapMetadataSections.get(p_110526_1_);
+		T t = (T)this.mapMetadataSections.get(p_110526_1_);
 
-            if (t == null)
-            {
-                t = this.srMetadataSerializer.parseMetadataSection(p_110526_1_, this.mcmetaJson);
-            }
+		if (t == null)
+		{
+			t = this.srMetadataSerializer.parseMetadataSection(p_110526_1_, this.mcmetaJson);
+		}
 
-            return t;
-        }
-    }
+		return t;
+	}
 
     public String getResourcePackName()
     {
@@ -94,41 +91,38 @@ public class SimpleResource implements IResource
         {
             return true;
         }
-        else if (!(p_equals_1_ instanceof SimpleResource))
-        {
-            return false;
-        }
-        else
-        {
-            SimpleResource simpleresource = (SimpleResource)p_equals_1_;
+		if (!(p_equals_1_ instanceof SimpleResource))
+		{
+			return false;
+		}
+		SimpleResource simpleresource = (SimpleResource)p_equals_1_;
 
-            if (this.srResourceLocation != null)
-            {
-                if (!this.srResourceLocation.equals(simpleresource.srResourceLocation))
-                {
-                    return false;
-                }
-            }
-            else if (simpleresource.srResourceLocation != null)
-            {
-                return false;
-            }
+		if (this.srResourceLocation != null)
+		{
+			if (!this.srResourceLocation.equals(simpleresource.srResourceLocation))
+			{
+				return false;
+			}
+		}
+		else if (simpleresource.srResourceLocation != null)
+		{
+			return false;
+		}
 
-            if (this.resourcePackName != null)
-            {
-                if (!this.resourcePackName.equals(simpleresource.resourcePackName))
-                {
-                    return false;
-                }
-            }
-            else if (simpleresource.resourcePackName != null)
-            {
-                return false;
-            }
+		if (this.resourcePackName != null)
+		{
+			if (!this.resourcePackName.equals(simpleresource.resourcePackName))
+			{
+				return false;
+			}
+		}
+		else if (simpleresource.resourcePackName != null)
+		{
+			return false;
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     public int hashCode()
     {

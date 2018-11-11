@@ -19,6 +19,8 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShaderOption;
 
+import java.util.Arrays;
+
 public class Utils {
 
 	public static final Object[] OBJECT = new Object[0];
@@ -176,6 +178,12 @@ public class Utils {
 		int g0 = (int) (g1 * p + g2 * (1 - p));
 		int b0 = (int) (b1 * p + b2 * (1 - p));
 		return a0 << 24 | r0 << 16 | g0 << 8 | b0;
+	}
+
+	public static <T> void cyclicShift(T[] array, int offset) {
+		T[] copy = Arrays.copyOf(array, offset);
+		System.arraycopy(array, offset, array, 0, array.length - offset);
+		System.arraycopy(copy, 0, array, array.length - offset, offset);
 	}
 
 }

@@ -234,21 +234,18 @@ public class Potion
             int k = 50 >> p_76397_2_;
             return k > 0 ? p_76397_1_ % k == 0 : true;
         }
-        else if (this.id == poison.id)
-        {
-            int j = 25 >> p_76397_2_;
-            return j > 0 ? p_76397_1_ % j == 0 : true;
-        }
-        else if (this.id == wither.id)
-        {
-            int i = 40 >> p_76397_2_;
-            return i > 0 ? p_76397_1_ % i == 0 : true;
-        }
-        else
-        {
-            return this.id == hunger.id;
-        }
-    }
+		if (this.id == poison.id)
+		{
+			int j = 25 >> p_76397_2_;
+			return j > 0 ? p_76397_1_ % j == 0 : true;
+		}
+		if (this.id == wither.id)
+		{
+			int i = 40 >> p_76397_2_;
+			return i > 0 ? p_76397_1_ % i == 0 : true;
+		}
+		return this.id == hunger.id;
+	}
 
     /**
      * Set the potion name.
@@ -297,12 +294,9 @@ public class Potion
         {
             return "**:**";
         }
-        else
-        {
-            int i = effect.getDuration();
-            return StringUtils.ticksToElapsedTime(i);
-        }
-    }
+		int i = effect.getDuration();
+		return StringUtils.ticksToElapsedTime(i);
+	}
 
     protected Potion setEffectiveness(double effectivenessIn)
     {

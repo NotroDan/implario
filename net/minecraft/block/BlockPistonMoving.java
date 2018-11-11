@@ -106,11 +106,8 @@ public class BlockPistonMoving extends BlockContainer
             worldIn.setBlockToAir(pos);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Get the Item that this Block should drop when harvested.
@@ -164,18 +161,15 @@ public class BlockPistonMoving extends BlockContainer
         {
             return null;
         }
-        else
-        {
-            float f = tileentitypiston.getProgress(0.0F);
+		float f = tileentitypiston.getProgress(0.0F);
 
-            if (tileentitypiston.isExtending())
-            {
-                f = 1.0F - f;
-            }
+		if (tileentitypiston.isExtending())
+		{
+			f = 1.0F - f;
+		}
 
-            return this.getBoundingBox(worldIn, pos, tileentitypiston.getPistonState(), f, tileentitypiston.getFacing());
-        }
-    }
+		return this.getBoundingBox(worldIn, pos, tileentitypiston.getPistonState(), f, tileentitypiston.getFacing());
+	}
 
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
@@ -225,50 +219,44 @@ public class BlockPistonMoving extends BlockContainer
             {
                 return null;
             }
-            else
-            {
-                double d0 = axisalignedbb.minX;
-                double d1 = axisalignedbb.minY;
-                double d2 = axisalignedbb.minZ;
-                double d3 = axisalignedbb.maxX;
-                double d4 = axisalignedbb.maxY;
-                double d5 = axisalignedbb.maxZ;
+			double d0 = axisalignedbb.minX;
+			double d1 = axisalignedbb.minY;
+			double d2 = axisalignedbb.minZ;
+			double d3 = axisalignedbb.maxX;
+			double d4 = axisalignedbb.maxY;
+			double d5 = axisalignedbb.maxZ;
 
-                if (direction.getFrontOffsetX() < 0)
-                {
-                    d0 -= (double)((float)direction.getFrontOffsetX() * progress);
-                }
-                else
-                {
-                    d3 -= (double)((float)direction.getFrontOffsetX() * progress);
-                }
+			if (direction.getFrontOffsetX() < 0)
+			{
+				d0 -= (double)((float)direction.getFrontOffsetX() * progress);
+			}
+			else
+			{
+				d3 -= (double)((float)direction.getFrontOffsetX() * progress);
+			}
 
-                if (direction.getFrontOffsetY() < 0)
-                {
-                    d1 -= (double)((float)direction.getFrontOffsetY() * progress);
-                }
-                else
-                {
-                    d4 -= (double)((float)direction.getFrontOffsetY() * progress);
-                }
+			if (direction.getFrontOffsetY() < 0)
+			{
+				d1 -= (double)((float)direction.getFrontOffsetY() * progress);
+			}
+			else
+			{
+				d4 -= (double)((float)direction.getFrontOffsetY() * progress);
+			}
 
-                if (direction.getFrontOffsetZ() < 0)
-                {
-                    d2 -= (double)((float)direction.getFrontOffsetZ() * progress);
-                }
-                else
-                {
-                    d5 -= (double)((float)direction.getFrontOffsetZ() * progress);
-                }
+			if (direction.getFrontOffsetZ() < 0)
+			{
+				d2 -= (double)((float)direction.getFrontOffsetZ() * progress);
+			}
+			else
+			{
+				d5 -= (double)((float)direction.getFrontOffsetZ() * progress);
+			}
 
-                return new AxisAlignedBB(d0, d1, d2, d3, d4, d5);
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			return new AxisAlignedBB(d0, d1, d2, d3, d4, d5);
+		}
+		return null;
+	}
 
     private TileEntityPiston getTileEntity(IBlockAccess worldIn, BlockPos pos)
     {

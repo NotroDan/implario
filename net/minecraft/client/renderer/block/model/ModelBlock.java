@@ -123,30 +123,24 @@ public class ModelBlock
                 LOGGER.warn("Unable to resolve texture due to upward reference: " + textureName + " in " + this.name);
                 return "missingno";
             }
-            else
-            {
-                String s = (String)this.textures.get(textureName.substring(1));
+			String s = (String)this.textures.get(textureName.substring(1));
 
-                if (s == null && this.hasParent())
-                {
-                    s = this.parent.resolveTextureName(textureName, p_178302_2_);
-                }
+			if (s == null && this.hasParent())
+			{
+				s = this.parent.resolveTextureName(textureName, p_178302_2_);
+			}
 
-                p_178302_2_.modelExt = this;
+			p_178302_2_.modelExt = this;
 
-                if (s != null && this.startsWithHash(s))
-                {
-                    s = p_178302_2_.model.resolveTextureName(s, p_178302_2_);
-                }
+			if (s != null && this.startsWithHash(s))
+			{
+				s = p_178302_2_.model.resolveTextureName(s, p_178302_2_);
+			}
 
-                return s != null && !this.startsWithHash(s) ? s : "missingno";
-            }
-        }
-        else
-        {
-            return textureName;
-        }
-    }
+			return s != null && !this.startsWithHash(s) ? s : "missingno";
+		}
+		return textureName;
+	}
 
     private boolean startsWithHash(String hash)
     {
@@ -226,25 +220,22 @@ public class ModelBlock
             {
                 throw new JsonParseException("BlockModel requires either elements or parent, found neither");
             }
-            else if (!flag && !flag1)
-            {
-                throw new JsonParseException("BlockModel requires either elements or parent, found both");
-            }
-            else
-            {
-                Map<String, String> map = this.getTextures(jsonobject);
-                boolean flag2 = this.getAmbientOcclusionEnabled(jsonobject);
-                ItemCameraTransforms itemcameratransforms = ItemCameraTransforms.DEFAULT;
+			if (!flag && !flag1)
+			{
+				throw new JsonParseException("BlockModel requires either elements or parent, found both");
+			}
+			Map<String, String> map = this.getTextures(jsonobject);
+			boolean flag2 = this.getAmbientOcclusionEnabled(jsonobject);
+			ItemCameraTransforms itemcameratransforms = ItemCameraTransforms.DEFAULT;
 
-                if (jsonobject.has("display"))
-                {
-                    JsonObject jsonobject1 = JsonUtils.getJsonObject(jsonobject, "display");
-                    itemcameratransforms = (ItemCameraTransforms)p_deserialize_3_.deserialize(jsonobject1, ItemCameraTransforms.class);
-                }
+			if (jsonobject.has("display"))
+			{
+				JsonObject jsonobject1 = JsonUtils.getJsonObject(jsonobject, "display");
+				itemcameratransforms = (ItemCameraTransforms)p_deserialize_3_.deserialize(jsonobject1, ItemCameraTransforms.class);
+			}
 
-                return flag1 ? new ModelBlock(new ResourceLocation(s), map, flag2, true, itemcameratransforms) : new ModelBlock(list, map, flag2, true, itemcameratransforms);
-            }
-        }
+			return flag1 ? new ModelBlock(new ResourceLocation(s), map, flag2, true, itemcameratransforms) : new ModelBlock(list, map, flag2, true, itemcameratransforms);
+		}
 
         private Map<String, String> getTextures(JsonObject p_178329_1_)
         {

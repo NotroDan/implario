@@ -46,26 +46,23 @@ public class CommandServerKick extends CommandBase
             {
                 throw new PlayerNotFoundException();
             }
-            else
-            {
-                if (args.length >= 2)
-                {
-                    s = getChatComponentFromNthArg(sender, args, 1).getUnformattedText();
-                    flag = true;
-                }
+			if (args.length >= 2)
+			{
+				s = getChatComponentFromNthArg(sender, args, 1).getUnformattedText();
+				flag = true;
+			}
 
-                entityplayermp.playerNetServerHandler.kickPlayerFromServer(s);
+			entityplayermp.playerNetServerHandler.kickPlayerFromServer(s);
 
-                if (flag)
-                {
-                    notifyOperators(sender, this, "commands.kick.success.reason", new Object[] {entityplayermp.getName(), s});
-                }
-                else
-                {
-                    notifyOperators(sender, this, "commands.kick.success", new Object[] {entityplayermp.getName()});
-                }
-            }
-        }
+			if (flag)
+			{
+				notifyOperators(sender, this, "commands.kick.success.reason", new Object[] {entityplayermp.getName(), s});
+			}
+			else
+			{
+				notifyOperators(sender, this, "commands.kick.success", new Object[] {entityplayermp.getName()});
+			}
+		}
         else
         {
             throw new WrongUsageException("commands.kick.usage", new Object[0]);

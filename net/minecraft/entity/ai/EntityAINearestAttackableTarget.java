@@ -46,38 +46,35 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                 {
                     return false;
                 }
-                else
-                {
-                    if (p_apply_1_ instanceof EntityPlayer)
-                    {
-                        double d0 = EntityAINearestAttackableTarget.this.getTargetDistance();
+				if (p_apply_1_ instanceof EntityPlayer)
+				{
+					double d0 = EntityAINearestAttackableTarget.this.getTargetDistance();
 
-                        if (p_apply_1_.isSneaking())
-                        {
-                            d0 *= 0.800000011920929D;
-                        }
+					if (p_apply_1_.isSneaking())
+					{
+						d0 *= 0.800000011920929D;
+					}
 
-                        if (p_apply_1_.isInvisible())
-                        {
-                            float f = ((EntityPlayer)p_apply_1_).getArmorVisibility();
+					if (p_apply_1_.isInvisible())
+					{
+						float f = ((EntityPlayer)p_apply_1_).getArmorVisibility();
 
-                            if (f < 0.1F)
-                            {
-                                f = 0.1F;
-                            }
+						if (f < 0.1F)
+						{
+							f = 0.1F;
+						}
 
-                            d0 *= (double)(0.7F * f);
-                        }
+						d0 *= (double)(0.7F * f);
+					}
 
-                        if ((double)p_apply_1_.getDistanceToEntity(EntityAINearestAttackableTarget.this.taskOwner) > d0)
-                        {
-                            return false;
-                        }
-                    }
+					if ((double)p_apply_1_.getDistanceToEntity(EntityAINearestAttackableTarget.this.taskOwner) > d0)
+					{
+						return false;
+					}
+				}
 
-                    return EntityAINearestAttackableTarget.this.isSuitableTarget(p_apply_1_, false);
-                }
-            }
+				return EntityAINearestAttackableTarget.this.isSuitableTarget(p_apply_1_, false);
+			}
         };
     }
 
@@ -90,23 +87,17 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
         {
             return false;
         }
-        else
-        {
-            double d0 = this.getTargetDistance();
-            List<T> list = this.taskOwner.worldObj.<T>getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.<T> and (this.targetEntitySelector, EntitySelectors.NOT_SPECTATING));
-            Collections.sort(list, this.theNearestAttackableTargetSorter);
+		double d0 = this.getTargetDistance();
+		List<T> list = this.taskOwner.worldObj.<T>getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.<T> and (this.targetEntitySelector, EntitySelectors.NOT_SPECTATING));
+		Collections.sort(list, this.theNearestAttackableTargetSorter);
 
-            if (list.isEmpty())
-            {
-                return false;
-            }
-            else
-            {
-                this.targetEntity = (EntityLivingBase)list.get(0);
-                return true;
-            }
-        }
-    }
+		if (list.isEmpty())
+		{
+			return false;
+		}
+		this.targetEntity = (EntityLivingBase)list.get(0);
+		return true;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

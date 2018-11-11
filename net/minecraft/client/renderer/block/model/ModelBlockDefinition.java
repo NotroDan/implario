@@ -53,11 +53,8 @@ public class ModelBlockDefinition
         {
             throw new ModelBlockDefinition.MissingVariantException();
         }
-        else
-        {
-            return modelblockdefinition$variants;
-        }
-    }
+		return modelblockdefinition$variants;
+	}
 
     public boolean equals(Object p_equals_1_)
     {
@@ -65,16 +62,13 @@ public class ModelBlockDefinition
         {
             return true;
         }
-        else if (p_equals_1_ instanceof ModelBlockDefinition)
-        {
-            ModelBlockDefinition modelblockdefinition = (ModelBlockDefinition)p_equals_1_;
-            return this.mapVariants.equals(modelblockdefinition.mapVariants);
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (p_equals_1_ instanceof ModelBlockDefinition)
+		{
+			ModelBlockDefinition modelblockdefinition = (ModelBlockDefinition)p_equals_1_;
+			return this.mapVariants.equals(modelblockdefinition.mapVariants);
+		}
+		return false;
+	}
 
     public int hashCode()
     {
@@ -170,16 +164,13 @@ public class ModelBlockDefinition
             {
                 return true;
             }
-            else if (!(p_equals_1_ instanceof ModelBlockDefinition.Variant))
-            {
-                return false;
-            }
-            else
-            {
-                ModelBlockDefinition.Variant modelblockdefinition$variant = (ModelBlockDefinition.Variant)p_equals_1_;
-                return this.modelLocation.equals(modelblockdefinition$variant.modelLocation) && this.modelRotation == modelblockdefinition$variant.modelRotation && this.uvLock == modelblockdefinition$variant.uvLock;
-            }
-        }
+			if (!(p_equals_1_ instanceof Variant))
+			{
+				return false;
+			}
+			ModelBlockDefinition.Variant modelblockdefinition$variant = (ModelBlockDefinition.Variant)p_equals_1_;
+			return this.modelLocation.equals(modelblockdefinition$variant.modelLocation) && this.modelRotation == modelblockdefinition$variant.modelRotation && this.uvLock == modelblockdefinition$variant.uvLock;
+		}
 
         public int hashCode()
         {
@@ -223,11 +214,8 @@ public class ModelBlockDefinition
                 {
                     throw new JsonParseException("Invalid BlockModelRotation x: " + i + ", y: " + j);
                 }
-                else
-                {
-                    return modelrotation;
-                }
-            }
+				return modelrotation;
+			}
 
             protected String parseModel(JsonObject p_178424_1_)
             {
@@ -263,16 +251,13 @@ public class ModelBlockDefinition
             {
                 return true;
             }
-            else if (!(p_equals_1_ instanceof ModelBlockDefinition.Variants))
-            {
-                return false;
-            }
-            else
-            {
-                ModelBlockDefinition.Variants modelblockdefinition$variants = (ModelBlockDefinition.Variants)p_equals_1_;
-                return !this.name.equals(modelblockdefinition$variants.name) ? false : this.listVariants.equals(modelblockdefinition$variants.listVariants);
-            }
-        }
+			if (!(p_equals_1_ instanceof Variants))
+			{
+				return false;
+			}
+			ModelBlockDefinition.Variants modelblockdefinition$variants = (ModelBlockDefinition.Variants)p_equals_1_;
+			return !this.name.equals(modelblockdefinition$variants.name) ? false : this.listVariants.equals(modelblockdefinition$variants.listVariants);
+		}
 
         public int hashCode()
         {

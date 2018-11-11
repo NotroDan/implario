@@ -151,11 +151,8 @@ public class WorldGenDungeons extends WorldGenerator
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Randomly decides which spawner to use in a dungeon

@@ -46,13 +46,10 @@ public abstract class Container
         {
             throw new IllegalArgumentException("Listener already listening");
         }
-        else
-        {
-            this.crafters.add(listener);
-            listener.updateCraftingInventory(this, this.getInventory());
-            this.detectAndSendChanges();
-        }
-    }
+		this.crafters.add(listener);
+		listener.updateCraftingInventory(this, this.getInventory());
+		this.detectAndSendChanges();
+	}
 
     /**
      * Remove the given Listener. Method name is for legacy.
@@ -777,24 +774,21 @@ public abstract class Container
         {
             return 0;
         }
-        else
-        {
-            int i = 0;
-            float f = 0.0F;
+		int i = 0;
+		float f = 0.0F;
 
-            for (int j = 0; j < inv.getSizeInventory(); ++j)
-            {
-                ItemStack itemstack = inv.getStackInSlot(j);
+		for (int j = 0; j < inv.getSizeInventory(); ++j)
+		{
+			ItemStack itemstack = inv.getStackInSlot(j);
 
-                if (itemstack != null)
-                {
-                    f += (float)itemstack.stackSize / (float)Math.min(inv.getInventoryStackLimit(), itemstack.getMaxStackSize());
-                    ++i;
-                }
-            }
+			if (itemstack != null)
+			{
+				f += (float)itemstack.stackSize / (float)Math.min(inv.getInventoryStackLimit(), itemstack.getMaxStackSize());
+				++i;
+			}
+		}
 
-            f = f / (float)inv.getSizeInventory();
-            return MathHelper.floor_float(f * 14.0F) + (i > 0 ? 1 : 0);
-        }
-    }
+		f = f / (float)inv.getSizeInventory();
+		return MathHelper.floor_float(f * 14.0F) + (i > 0 ? 1 : 0);
+	}
 }

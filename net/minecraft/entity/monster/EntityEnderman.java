@@ -128,16 +128,13 @@ public class EntityEnderman extends EntityMob
         {
             return false;
         }
-        else
-        {
-            Vec3 vec3 = player.getLook(1.0F).normalize();
-            Vec3 vec31 = new Vec3(this.posX - player.posX, this.getEntityBoundingBox().minY + (double)(this.height / 2.0F) - (player.posY + (double)player.getEyeHeight()), this.posZ - player.posZ);
-            double d0 = vec31.lengthVector();
-            vec31 = vec31.normalize();
-            double d1 = vec3.dotProduct(vec31);
-            return d1 > 1.0D - 0.025D / d0 ? player.canEntityBeSeen(this) : false;
-        }
-    }
+		Vec3 vec3 = player.getLook(1.0F).normalize();
+		Vec3 vec31 = new Vec3(this.posX - player.posX, this.getEntityBoundingBox().minY + (double)(this.height / 2.0F) - (player.posY + (double)player.getEyeHeight()), this.posZ - player.posZ);
+		double d0 = vec31.lengthVector();
+		vec31 = vec31.normalize();
+		double d1 = vec3.dotProduct(vec31);
+		return d1 > 1.0D - 0.025D / d0 ? player.canEntityBeSeen(this) : false;
+	}
 
     public float getEyeHeight()
     {
@@ -265,27 +262,24 @@ public class EntityEnderman extends EntityMob
             this.setPosition(d0, d1, d2);
             return false;
         }
-        else
-        {
-            int i = 128;
+		int i = 128;
 
-            for (int j = 0; j < i; ++j)
-            {
-                double d6 = (double)j / ((double)i - 1.0D);
-                float f = (this.rand.nextFloat() - 0.5F) * 0.2F;
-                float f1 = (this.rand.nextFloat() - 0.5F) * 0.2F;
-                float f2 = (this.rand.nextFloat() - 0.5F) * 0.2F;
-                double d3 = d0 + (this.posX - d0) * d6 + (this.rand.nextDouble() - 0.5D) * (double)this.width * 2.0D;
-                double d4 = d1 + (this.posY - d1) * d6 + this.rand.nextDouble() * (double)this.height;
-                double d5 = d2 + (this.posZ - d2) * d6 + (this.rand.nextDouble() - 0.5D) * (double)this.width * 2.0D;
-                this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, d3, d4, d5, (double)f, (double)f1, (double)f2, new int[0]);
-            }
+		for (int j = 0; j < i; ++j)
+		{
+			double d6 = (double)j / ((double)i - 1.0D);
+			float f = (this.rand.nextFloat() - 0.5F) * 0.2F;
+			float f1 = (this.rand.nextFloat() - 0.5F) * 0.2F;
+			float f2 = (this.rand.nextFloat() - 0.5F) * 0.2F;
+			double d3 = d0 + (this.posX - d0) * d6 + (this.rand.nextDouble() - 0.5D) * (double)this.width * 2.0D;
+			double d4 = d1 + (this.posY - d1) * d6 + this.rand.nextDouble() * (double)this.height;
+			double d5 = d2 + (this.posZ - d2) * d6 + (this.rand.nextDouble() - 0.5D) * (double)this.width * 2.0D;
+			this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, d3, d4, d5, (double)f, (double)f1, (double)f2, new int[0]);
+		}
 
-            this.worldObj.playSoundEffect(d0, d1, d2, "mob.endermen.portal", 1.0F, 1.0F);
-            this.playSound("mob.endermen.portal", 1.0F, 1.0F);
-            return true;
-        }
-    }
+		this.worldObj.playSoundEffect(d0, d1, d2, "mob.endermen.portal", 1.0F, 1.0F);
+		this.playSound("mob.endermen.portal", 1.0F, 1.0F);
+		return true;
+	}
 
     /**
      * Returns the sound this mob makes while it's alive.
@@ -359,53 +353,50 @@ public class EntityEnderman extends EntityMob
         {
             return false;
         }
-        else
-        {
-            if (source.getEntity() == null || !(source.getEntity() instanceof EntityEndermite))
-            {
-                if (!this.worldObj.isRemote)
-                {
-                    this.setScreaming(true);
-                }
+		if (source.getEntity() == null || !(source.getEntity() instanceof EntityEndermite))
+		{
+			if (!this.worldObj.isRemote)
+			{
+				this.setScreaming(true);
+			}
 
-                if (source instanceof EntityDamageSource && source.getEntity() instanceof EntityPlayer)
-                {
-                    if (source.getEntity() instanceof EntityPlayerMP && ((EntityPlayerMP)source.getEntity()).theItemInWorldManager.isCreative())
-                    {
-                        this.setScreaming(false);
-                    }
-                    else
-                    {
-                        this.isAggressive = true;
-                    }
-                }
+			if (source instanceof EntityDamageSource && source.getEntity() instanceof EntityPlayer)
+			{
+				if (source.getEntity() instanceof EntityPlayerMP && ((EntityPlayerMP)source.getEntity()).theItemInWorldManager.isCreative())
+				{
+					this.setScreaming(false);
+				}
+				else
+				{
+					this.isAggressive = true;
+				}
+			}
 
-                if (source instanceof EntityDamageSourceIndirect)
-                {
-                    this.isAggressive = false;
+			if (source instanceof EntityDamageSourceIndirect)
+			{
+				this.isAggressive = false;
 
-                    for (int i = 0; i < 64; ++i)
-                    {
-                        if (this.teleportRandomly())
-                        {
-                            return true;
-                        }
-                    }
+				for (int i = 0; i < 64; ++i)
+				{
+					if (this.teleportRandomly())
+					{
+						return true;
+					}
+				}
 
-                    return false;
-                }
-            }
+				return false;
+			}
+		}
 
-            boolean flag = super.attackEntityFrom(source, amount);
+		boolean flag = super.attackEntityFrom(source, amount);
 
-            if (source.isUnblockable() && this.rand.nextInt(10) != 0)
-            {
-                this.teleportRandomly();
-            }
+		if (source.isUnblockable() && this.rand.nextInt(10) != 0)
+		{
+			this.teleportRandomly();
+		}
 
-            return flag;
-        }
-    }
+		return flag;
+	}
 
     public boolean isScreaming()
     {
@@ -458,12 +449,9 @@ public class EntityEnderman extends EntityMob
             {
                 return false;
             }
-            else
-            {
-                this.player = (EntityPlayer)list.get(0);
-                return true;
-            }
-        }
+			this.player = (EntityPlayer)list.get(0);
+			return true;
+		}
 
         public void startExecuting()
         {
@@ -488,18 +476,12 @@ public class EntityEnderman extends EntityMob
                 {
                     return false;
                 }
-                else
-                {
-                    this.enderman.isAggressive = true;
-                    this.enderman.faceEntity(this.player, 10.0F, 10.0F);
-                    return true;
-                }
-            }
-            else
-            {
-                return super.continueExecuting();
-            }
-        }
+				this.enderman.isAggressive = true;
+				this.enderman.faceEntity(this.player, 10.0F, 10.0F);
+				return true;
+			}
+			return super.continueExecuting();
+		}
 
         public void updateTask()
         {

@@ -52,11 +52,8 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
             iblockstate = this.getActualState(iblockstate, worldIn, pos);
             return (BlockDoublePlant.EnumPlantType)iblockstate.getValue(VARIANT);
         }
-        else
-        {
-            return BlockDoublePlant.EnumPlantType.FERN;
-        }
-    }
+		return BlockDoublePlant.EnumPlantType.FERN;
+	}
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
@@ -74,12 +71,9 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         {
             return true;
         }
-        else
-        {
-            BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)this.getActualState(iblockstate, worldIn, pos).getValue(VARIANT);
-            return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN || blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS;
-        }
-    }
+		BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)this.getActualState(iblockstate, worldIn, pos).getValue(VARIANT);
+		return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN || blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS;
+	}
 
     protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state)
     {
@@ -114,12 +108,9 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         {
             return worldIn.getBlockState(pos.down()).getBlock() == this;
         }
-        else
-        {
-            IBlockState iblockstate = worldIn.getBlockState(pos.up());
-            return iblockstate.getBlock() == this && super.canBlockStay(worldIn, pos, iblockstate);
-        }
-    }
+		IBlockState iblockstate = worldIn.getBlockState(pos.up());
+		return iblockstate.getBlock() == this && super.canBlockStay(worldIn, pos, iblockstate);
+	}
 
     /**
      * Get the Item that this Block should drop when harvested.
@@ -130,12 +121,9 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         {
             return null;
         }
-        else
-        {
-            BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)state.getValue(VARIANT);
-            return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? null : blockdoubleplant$enumplanttype == EnumPlantType.GRASS ? rand.nextInt(8) == 0 ? Items.wheat_seeds : null : Item.getItemFromBlock(this);
-        }
-    }
+		BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)state.getValue(VARIANT);
+		return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? null : blockdoubleplant$enumplanttype == EnumPlantType.GRASS ? rand.nextInt(8) == 0 ? Items.wheat_seeds : null : Item.getItemFromBlock(this);
+	}
 
     /**
      * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
@@ -228,14 +216,11 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         {
             return false;
         }
-        else
-        {
-            player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-            int i = (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? BlockTallGrass.EnumType.GRASS : BlockTallGrass.EnumType.FERN).getMeta();
-            spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 2, i));
-            return true;
-        }
-    }
+		player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
+		int i = (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? BlockTallGrass.EnumType.GRASS : BlockTallGrass.EnumType.FERN).getMeta();
+		spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 2, i));
+		return true;
+	}
 
     /**
      * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)

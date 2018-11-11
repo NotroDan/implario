@@ -60,11 +60,8 @@ public class RecipesBanners
             {
                 return false;
             }
-            else
-            {
-                return this.func_179533_c(inv) != null;
-            }
-        }
+			return this.func_179533_c(inv) != null;
+		}
 
         public ItemStack getCraftingResult(InventoryCrafting inv)
         {

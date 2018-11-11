@@ -126,24 +126,21 @@ public class CustomItemProperties
         {
             return 1;
         }
-        else if (p_parseType_1_.equals("item"))
-        {
-            return 1;
-        }
-        else if (p_parseType_1_.equals("enchantment"))
-        {
-            return 2;
-        }
-        else if (p_parseType_1_.equals("armor"))
-        {
-            return 3;
-        }
-        else
-        {
-            Config.warn("Unknown method: " + p_parseType_1_);
-            return 0;
-        }
-    }
+		if (p_parseType_1_.equals("item"))
+		{
+			return 1;
+		}
+		if (p_parseType_1_.equals("enchantment"))
+		{
+			return 2;
+		}
+		if (p_parseType_1_.equals("armor"))
+		{
+			return 3;
+		}
+		Config.warn("Unknown method: " + p_parseType_1_);
+		return 0;
+	}
 
     private int[] parseItems(String p_parseItems_1_, String p_parseItems_2_)
     {
@@ -156,86 +153,83 @@ public class CustomItemProperties
         {
             return null;
         }
-        else
-        {
-            p_parseItems_1_ = p_parseItems_1_.trim();
-            Set set = new TreeSet();
-            String[] astring = Config.tokenize(p_parseItems_1_, " ");
-            label45:
+		p_parseItems_1_ = p_parseItems_1_.trim();
+		Set set = new TreeSet();
+		String[] astring = Config.tokenize(p_parseItems_1_, " ");
+		label45:
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
-                int j = Config.parseInt(s, -1);
+		for (int i = 0; i < astring.length; ++i)
+		{
+			String s = astring[i];
+			int j = Config.parseInt(s, -1);
 
-                if (j >= 0)
-                {
-                    set.add(new Integer(j));
-                }
-                else
-                {
-                    if (s.contains("-"))
-                    {
-                        String[] astring1 = Config.tokenize(s, "-");
+			if (j >= 0)
+			{
+				set.add(new Integer(j));
+			}
+			else
+			{
+				if (s.contains("-"))
+				{
+					String[] astring1 = Config.tokenize(s, "-");
 
-                        if (astring1.length == 2)
-                        {
-                            int k = Config.parseInt(astring1[0], -1);
-                            int l = Config.parseInt(astring1[1], -1);
+					if (astring1.length == 2)
+					{
+						int k = Config.parseInt(astring1[0], -1);
+						int l = Config.parseInt(astring1[1], -1);
 
-                            if (k >= 0 && l >= 0)
-                            {
-                                int i1 = Math.min(k, l);
-                                int j1 = Math.max(k, l);
-                                int k1 = i1;
+						if (k >= 0 && l >= 0)
+						{
+							int i1 = Math.min(k, l);
+							int j1 = Math.max(k, l);
+							int k1 = i1;
 
-                                while (true)
-                                {
-                                    if (k1 > j1)
-                                    {
-                                        continue label45;
-                                    }
+							while (true)
+							{
+								if (k1 > j1)
+								{
+									continue label45;
+								}
 
-                                    set.add(new Integer(k1));
-                                    ++k1;
-                                }
-                            }
-                        }
-                    }
+								set.add(new Integer(k1));
+								++k1;
+							}
+						}
+					}
+				}
 
-                    Item item = Item.getByNameOrId(s);
+				Item item = Item.getByNameOrId(s);
 
-                    if (item == null)
-                    {
-                        Config.warn("Item not found: " + s);
-                    }
-                    else
-                    {
-                        int i2 = Item.getIdFromItem(item);
+				if (item == null)
+				{
+					Config.warn("Item not found: " + s);
+				}
+				else
+				{
+					int i2 = Item.getIdFromItem(item);
 
-                        if (i2 < 0)
-                        {
-                            Config.warn("Item not found: " + s);
-                        }
-                        else
-                        {
-                            set.add(new Integer(i2));
-                        }
-                    }
-                }
-            }
+					if (i2 < 0)
+					{
+						Config.warn("Item not found: " + s);
+					}
+					else
+					{
+						set.add(new Integer(i2));
+					}
+				}
+			}
+		}
 
-            Integer[] ainteger = (Integer[]) (Integer[])set.toArray(new Integer[set.size()]);
-            int[] aint = new int[ainteger.length];
+		Integer[] ainteger = (Integer[]) (Integer[])set.toArray(new Integer[set.size()]);
+		int[] aint = new int[ainteger.length];
 
-            for (int l1 = 0; l1 < aint.length; ++l1)
-            {
-                aint[l1] = ainteger[l1].intValue();
-            }
+		for (int l1 = 0; l1 < aint.length; ++l1)
+		{
+			aint[l1] = ainteger[l1].intValue();
+		}
 
-            return aint;
-        }
-    }
+		return aint;
+	}
 
     private static String parseTexture(String p_parseTexture_0_, String p_parseTexture_1_, String p_parseTexture_2_, String p_parseTexture_3_, String p_parseTexture_4_, int p_parseTexture_5_, Map<String, String> p_parseTexture_6_)
     {
@@ -261,41 +255,38 @@ public class CustomItemProperties
             p_parseTexture_0_ = fixTextureName(p_parseTexture_0_, p_parseTexture_4_);
             return p_parseTexture_0_;
         }
-        else if (p_parseTexture_5_ == 3)
-        {
-            return null;
-        }
-        else
-        {
-            if (p_parseTexture_6_ != null)
-            {
-                String s = (String)p_parseTexture_6_.get("texture.bow_standby");
+		if (p_parseTexture_5_ == 3)
+		{
+			return null;
+		}
+		if (p_parseTexture_6_ != null)
+		{
+			String s = (String)p_parseTexture_6_.get("texture.bow_standby");
 
-                if (s != null)
-                {
-                    return s;
-                }
-            }
+			if (s != null)
+			{
+				return s;
+			}
+		}
 
-            String s1 = p_parseTexture_3_;
-            int i = p_parseTexture_3_.lastIndexOf(47);
+		String s1 = p_parseTexture_3_;
+		int i = p_parseTexture_3_.lastIndexOf(47);
 
-            if (i >= 0)
-            {
-                s1 = p_parseTexture_3_.substring(i + 1);
-            }
+		if (i >= 0)
+		{
+			s1 = p_parseTexture_3_.substring(i + 1);
+		}
 
-            int j = s1.lastIndexOf(46);
+		int j = s1.lastIndexOf(46);
 
-            if (j >= 0)
-            {
-                s1 = s1.substring(0, j);
-            }
+		if (j >= 0)
+		{
+			s1 = s1.substring(0, j);
+		}
 
-            s1 = fixTextureName(s1, p_parseTexture_4_);
-            return s1;
-        }
-    }
+		s1 = fixTextureName(s1, p_parseTexture_4_);
+		return s1;
+	}
 
     private static Map parseTextures(Properties p_parseTextures_0_, String p_parseTextures_1_)
     {
@@ -306,21 +297,18 @@ public class CustomItemProperties
         {
             return null;
         }
-        else
-        {
-            Set set = map.keySet();
-            Map map1 = new LinkedHashMap();
+		Set set = map.keySet();
+		Map map1 = new LinkedHashMap();
 
-            for (Object s1 : set)
-            {
-                String s2 = (String)map.get(s1);
-                s2 = fixTextureName(s2, p_parseTextures_1_);
-                map1.put(s1, s2);
-            }
+		for (Object s1 : set)
+		{
+			String s2 = (String)map.get(s1);
+			s2 = fixTextureName(s2, p_parseTextures_1_);
+			map1.put(s1, s2);
+		}
 
-            return map1;
-        }
-    }
+		return map1;
+	}
 
     private static String fixTextureName(String p_fixTextureName_0_, String p_fixTextureName_1_)
     {
@@ -357,22 +345,16 @@ public class CustomItemProperties
         {
             return p_parseInt_2_;
         }
-        else
-        {
-            p_parseInt_1_ = p_parseInt_1_.trim();
-            int i = Config.parseInt(p_parseInt_1_, Integer.MIN_VALUE);
+		p_parseInt_1_ = p_parseInt_1_.trim();
+		int i = Config.parseInt(p_parseInt_1_, Integer.MIN_VALUE);
 
-            if (i == Integer.MIN_VALUE)
-            {
-                Config.warn("Invalid integer: " + p_parseInt_1_);
-                return p_parseInt_2_;
-            }
-            else
-            {
-                return i;
-            }
-        }
-    }
+		if (i == Integer.MIN_VALUE)
+		{
+			Config.warn("Invalid integer: " + p_parseInt_1_);
+			return p_parseInt_2_;
+		}
+		return i;
+	}
 
     private float parseFloat(String p_parseFloat_1_, float p_parseFloat_2_)
     {
@@ -380,22 +362,16 @@ public class CustomItemProperties
         {
             return p_parseFloat_2_;
         }
-        else
-        {
-            p_parseFloat_1_ = p_parseFloat_1_.trim();
-            float f = Config.parseFloat(p_parseFloat_1_, Float.MIN_VALUE);
+		p_parseFloat_1_ = p_parseFloat_1_.trim();
+		float f = Config.parseFloat(p_parseFloat_1_, Float.MIN_VALUE);
 
-            if (f == Float.MIN_VALUE)
-            {
-                Config.warn("Invalid float: " + p_parseFloat_1_);
-                return p_parseFloat_2_;
-            }
-            else
-            {
-                return f;
-            }
-        }
-    }
+		if (f == Float.MIN_VALUE)
+		{
+			Config.warn("Invalid float: " + p_parseFloat_1_);
+			return p_parseFloat_2_;
+		}
+		return f;
+	}
 
     private RangeListInt parseRangeListInt(String p_parseRangeListInt_1_)
     {
@@ -403,28 +379,25 @@ public class CustomItemProperties
         {
             return null;
         }
-        else
-        {
-            String[] astring = Config.tokenize(p_parseRangeListInt_1_, " ");
-            RangeListInt rangelistint = new RangeListInt();
+		String[] astring = Config.tokenize(p_parseRangeListInt_1_, " ");
+		RangeListInt rangelistint = new RangeListInt();
 
-            for (int i = 0; i < astring.length; ++i)
-            {
-                String s = astring[i];
-                RangeInt rangeint = this.parseRangeInt(s);
+		for (int i = 0; i < astring.length; ++i)
+		{
+			String s = astring[i];
+			RangeInt rangeint = this.parseRangeInt(s);
 
-                if (rangeint == null)
-                {
-                    Config.warn("Invalid range list: " + p_parseRangeListInt_1_);
-                    return null;
-                }
+			if (rangeint == null)
+			{
+				Config.warn("Invalid range list: " + p_parseRangeListInt_1_);
+				return null;
+			}
 
-                rangelistint.addRange(rangeint);
-            }
+			rangelistint.addRange(rangeint);
+		}
 
-            return rangelistint;
-        }
-    }
+		return rangelistint;
+	}
 
     private RangeInt parseRangeInt(String p_parseRangeInt_1_)
     {
@@ -432,66 +405,54 @@ public class CustomItemProperties
         {
             return null;
         }
-        else
-        {
-            p_parseRangeInt_1_ = p_parseRangeInt_1_.trim();
-            int i = p_parseRangeInt_1_.length() - p_parseRangeInt_1_.replace("-", "").length();
+		p_parseRangeInt_1_ = p_parseRangeInt_1_.trim();
+		int i = p_parseRangeInt_1_.length() - p_parseRangeInt_1_.replace("-", "").length();
 
-            if (i > 1)
-            {
-                Config.warn("Invalid range: " + p_parseRangeInt_1_);
-                return null;
-            }
-            else
-            {
-                String[] astring = Config.tokenize(p_parseRangeInt_1_, "- ");
-                int[] aint = new int[astring.length];
+		if (i > 1)
+		{
+			Config.warn("Invalid range: " + p_parseRangeInt_1_);
+			return null;
+		}
+		String[] astring = Config.tokenize(p_parseRangeInt_1_, "- ");
+		int[] aint = new int[astring.length];
 
-                for (int j = 0; j < astring.length; ++j)
-                {
-                    String s = astring[j];
-                    int k = Config.parseInt(s, -1);
+		for (int j = 0; j < astring.length; ++j)
+		{
+			String s = astring[j];
+			int k = Config.parseInt(s, -1);
 
-                    if (k < 0)
-                    {
-                        Config.warn("Invalid range: " + p_parseRangeInt_1_);
-                        return null;
-                    }
+			if (k < 0)
+			{
+				Config.warn("Invalid range: " + p_parseRangeInt_1_);
+				return null;
+			}
 
-                    aint[j] = k;
-                }
+			aint[j] = k;
+		}
 
-                if (aint.length == 1)
-                {
-                    int i1 = aint[0];
+		if (aint.length == 1)
+		{
+			int i1 = aint[0];
 
-                    if (p_parseRangeInt_1_.startsWith("-"))
-                    {
-                        return new RangeInt(0, i1);
-                    }
-                    else if (p_parseRangeInt_1_.endsWith("-"))
-                    {
-                        return new RangeInt(i1, 255);
-                    }
-                    else
-                    {
-                        return new RangeInt(i1, i1);
-                    }
-                }
-                else if (aint.length == 2)
-                {
-                    int l = Math.min(aint[0], aint[1]);
-                    int j1 = Math.max(aint[0], aint[1]);
-                    return new RangeInt(l, j1);
-                }
-                else
-                {
-                    Config.warn("Invalid range: " + p_parseRangeInt_1_);
-                    return null;
-                }
-            }
-        }
-    }
+			if (p_parseRangeInt_1_.startsWith("-"))
+			{
+				return new RangeInt(0, i1);
+			}
+			if (p_parseRangeInt_1_.endsWith("-"))
+			{
+				return new RangeInt(i1, 255);
+			}
+			return new RangeInt(i1, i1);
+		}
+		if (aint.length == 2)
+		{
+			int l = Math.min(aint[0], aint[1]);
+			int j1 = Math.max(aint[0], aint[1]);
+			return new RangeInt(l, j1);
+		}
+		Config.warn("Invalid range: " + p_parseRangeInt_1_);
+		return null;
+	}
 
     private NbtTagValue[] parseNbtTagValues(Properties p_parseNbtTagValues_1_)
     {
@@ -502,22 +463,19 @@ public class CustomItemProperties
         {
             return null;
         }
-        else
-        {
-            List list = new ArrayList();
+		List list = new ArrayList();
 
-            for (Object s1 : map.keySet())
-            {
-                String s2 = (String)map.get(s1);
-                String s3 = ((String) s1).substring(s.length());
-                NbtTagValue nbttagvalue = new NbtTagValue(s3, s2);
-                list.add(nbttagvalue);
-            }
+		for (Object s1 : map.keySet())
+		{
+			String s2 = (String)map.get(s1);
+			String s3 = ((String) s1).substring(s.length());
+			NbtTagValue nbttagvalue = new NbtTagValue(s3, s2);
+			list.add(nbttagvalue);
+		}
 
-            NbtTagValue[] anbttagvalue = (NbtTagValue[]) (NbtTagValue[])list.toArray(new NbtTagValue[list.size()]);
-            return anbttagvalue;
-        }
-    }
+		NbtTagValue[] anbttagvalue = (NbtTagValue[]) (NbtTagValue[])list.toArray(new NbtTagValue[list.size()]);
+		return anbttagvalue;
+	}
 
     private static Map getMatchingProperties(Properties p_getMatchingProperties_0_, String p_getMatchingProperties_1_)
     {
@@ -545,37 +503,31 @@ public class CustomItemProperties
                 Config.warn("No base path found: " + p_isValid_1_);
                 return false;
             }
-            else if (this.type == 0)
-            {
-                Config.warn("No type defined: " + p_isValid_1_);
-                return false;
-            }
-            else if ((this.type == 1 || this.type == 3) && this.items == null)
-            {
-                Config.warn("No items defined: " + p_isValid_1_);
-                return false;
-            }
-            else if (this.texture == null && this.mapTextures == null)
-            {
-                Config.warn("No texture specified: " + p_isValid_1_);
-                return false;
-            }
-            else if (this.type == 2 && this.enchantmentIds == null)
-            {
-                Config.warn("No enchantmentIDs specified: " + p_isValid_1_);
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
-            Config.warn("No name found: " + p_isValid_1_);
-            return false;
-        }
-    }
+			if (this.type == 0)
+			{
+				Config.warn("No type defined: " + p_isValid_1_);
+				return false;
+			}
+			if ((this.type == 1 || this.type == 3) && this.items == null)
+			{
+				Config.warn("No items defined: " + p_isValid_1_);
+				return false;
+			}
+			if (this.texture == null && this.mapTextures == null)
+			{
+				Config.warn("No texture specified: " + p_isValid_1_);
+				return false;
+			}
+			if (this.type == 2 && this.enchantmentIds == null)
+			{
+				Config.warn("No enchantmentIDs specified: " + p_isValid_1_);
+				return false;
+			}
+			return true;
+		}
+		Config.warn("No name found: " + p_isValid_1_);
+		return false;
+	}
 
     public void updateIcons(TextureMap p_updateIcons_1_)
     {
@@ -617,29 +569,26 @@ public class CustomItemProperties
         {
             return null;
         }
-        else
-        {
-            ResourceLocation resourcelocation = new ResourceLocation(p_getTextureLocation_1_);
-            String s = resourcelocation.getResourceDomain();
-            String s1 = resourcelocation.getResourcePath();
+		ResourceLocation resourcelocation = new ResourceLocation(p_getTextureLocation_1_);
+		String s = resourcelocation.getResourceDomain();
+		String s1 = resourcelocation.getResourcePath();
 
-            if (!s1.contains("/"))
-            {
-                s1 = "textures/blocks/" + s1;
-            }
+		if (!s1.contains("/"))
+		{
+			s1 = "textures/blocks/" + s1;
+		}
 
-            String s2 = s1 + ".png";
-            ResourceLocation resourcelocation1 = new ResourceLocation(s, s2);
-            boolean flag = Config.hasResource(resourcelocation1);
+		String s2 = s1 + ".png";
+		ResourceLocation resourcelocation1 = new ResourceLocation(s, s2);
+		boolean flag = Config.hasResource(resourcelocation1);
 
-            if (!flag)
-            {
-                Config.warn("File not found: " + s2);
-            }
+		if (!flag)
+		{
+			Config.warn("File not found: " + s2);
+		}
 
-            return resourcelocation1;
-        }
-    }
+		return resourcelocation1;
+	}
 
     private ResourceLocation getSpriteLocation(ResourceLocation p_getSpriteLocation_1_)
     {
@@ -764,12 +713,9 @@ public class CustomItemProperties
         {
             return p_getMapTexture_3_;
         }
-        else
-        {
-            String s = (String)p_getMapTexture_1_.get(p_getMapTexture_2_);
-            return s == null ? p_getMapTexture_3_ : s;
-        }
-    }
+		String s = (String)p_getMapTexture_1_.get(p_getMapTexture_2_);
+		return s == null ? p_getMapTexture_3_ : s;
+	}
 
     private static ModelBlock makeModelBlock(String[] p_makeModelBlock_0_)
     {

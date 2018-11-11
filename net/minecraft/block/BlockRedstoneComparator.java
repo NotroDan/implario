@@ -104,16 +104,13 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
         {
             return true;
         }
-        else if (i == 0)
-        {
-            return false;
-        }
-        else
-        {
-            int j = this.getPowerOnSides(worldIn, pos, state);
-            return j == 0 ? true : i >= j;
-        }
-    }
+		if (i == 0)
+		{
+			return false;
+		}
+		int j = this.getPowerOnSides(worldIn, pos, state);
+		return j == 0 ? true : i >= j;
+	}
 
     protected int calculateInputStrength(World worldIn, BlockPos pos, IBlockState state)
     {
@@ -167,15 +164,12 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
         {
             return false;
         }
-        else
-        {
-            state = state.cycleProperty(MODE);
-            worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "random.click", 0.3F, state.getValue(MODE) == BlockRedstoneComparator.Mode.SUBTRACT ? 0.55F : 0.5F);
-            worldIn.setBlockState(pos, state, 2);
-            this.onStateChange(worldIn, pos, state);
-            return true;
-        }
-    }
+		state = state.cycleProperty(MODE);
+		worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "random.click", 0.3F, state.getValue(MODE) == BlockRedstoneComparator.Mode.SUBTRACT ? 0.55F : 0.5F);
+		worldIn.setBlockState(pos, state, 2);
+		this.onStateChange(worldIn, pos, state);
+		return true;
+	}
 
     protected void updateState(World worldIn, BlockPos pos, IBlockState state)
     {

@@ -60,11 +60,8 @@ public class NBTTagLong extends NBTBase.NBTPrimitive
             NBTTagLong nbttaglong = (NBTTagLong)p_equals_1_;
             return this.data == nbttaglong.data;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public int hashCode()
     {

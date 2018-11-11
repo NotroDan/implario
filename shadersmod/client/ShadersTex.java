@@ -428,22 +428,16 @@ public class ShadersTex
             {
                 return null;
             }
-            else
-            {
-                InputStream inputstream = Config.getResourceStream(resLoc);
+			InputStream inputstream = Config.getResourceStream(resLoc);
 
-                if (inputstream == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    BufferedImage bufferedimage = ImageIO.read(inputstream);
-                    inputstream.close();
-                    return bufferedimage;
-                }
-            }
-        }
+			if (inputstream == null)
+			{
+				return null;
+			}
+			BufferedImage bufferedimage = ImageIO.read(inputstream);
+			inputstream.close();
+			return bufferedimage;
+		}
         catch (IOException var3)
         {
             return null;
@@ -688,21 +682,18 @@ public class ShadersTex
         {
             return true;
         }
-        else
-        {
-            for (int j = 0; j < i; ++j)
-            {
-                int k = aint[j] >>> 24;
+		for (int j = 0; j < i; ++j)
+		{
+			int k = aint[j] >>> 24;
 
-                if (k != 0 && k != 255)
-                {
-                    return true;
-                }
-            }
+			if (k != 0 && k != 255)
+			{
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static void updateSubTex1(int[] src, int width, int height, int posX, int posY)
     {

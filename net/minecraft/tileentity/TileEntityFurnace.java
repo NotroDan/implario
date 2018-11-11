@@ -76,23 +76,17 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
                 this.furnaceItemStacks[index] = null;
                 return itemstack1;
             }
-            else
-            {
-                ItemStack itemstack = this.furnaceItemStacks[index].splitStack(count);
+			ItemStack itemstack = this.furnaceItemStacks[index].splitStack(count);
 
-                if (this.furnaceItemStacks[index].stackSize == 0)
-                {
-                    this.furnaceItemStacks[index] = null;
-                }
+			if (this.furnaceItemStacks[index].stackSize == 0)
+			{
+				this.furnaceItemStacks[index] = null;
+			}
 
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			return itemstack;
+		}
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -105,11 +99,8 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
             this.furnaceItemStacks[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
@@ -316,12 +307,9 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
         {
             return false;
         }
-        else
-        {
-            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks[0]);
-            return itemstack == null ? false : this.furnaceItemStacks[2] == null ? true : !this.furnaceItemStacks[2].isItemEqual(itemstack) ? false : this.furnaceItemStacks[2].stackSize < this.getInventoryStackLimit() && this.furnaceItemStacks[2].stackSize < this.furnaceItemStacks[2].getMaxStackSize() ? true : this.furnaceItemStacks[2].stackSize < itemstack.getMaxStackSize();
-        }
-    }
+		ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks[0]);
+		return itemstack == null ? false : this.furnaceItemStacks[2] == null ? true : !this.furnaceItemStacks[2].isItemEqual(itemstack) ? false : this.furnaceItemStacks[2].stackSize < this.getInventoryStackLimit() && this.furnaceItemStacks[2].stackSize < this.furnaceItemStacks[2].getMaxStackSize() ? true : this.furnaceItemStacks[2].stackSize < itemstack.getMaxStackSize();
+	}
 
     /**
      * Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack
@@ -365,33 +353,30 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
         {
             return 0;
         }
-        else
-        {
-            Item item = p_145952_0_.getItem();
+		Item item = p_145952_0_.getItem();
 
-            if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
-            {
-                Block block = Block.getBlockFromItem(item);
+		if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
+		{
+			Block block = Block.getBlockFromItem(item);
 
-                if (block == Blocks.wooden_slab)
-                {
-                    return 150;
-                }
+			if (block == Blocks.wooden_slab)
+			{
+				return 150;
+			}
 
-                if (block.getMaterial() == Material.wood)
-                {
-                    return 300;
-                }
+			if (block.getMaterial() == Material.wood)
+			{
+				return 300;
+			}
 
-                if (block == Blocks.coal_block)
-                {
-                    return 16000;
-                }
-            }
+			if (block == Blocks.coal_block)
+			{
+				return 16000;
+			}
+		}
 
-            return item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD") ? 200 : item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD") ? 200 : item instanceof ItemHoe && ((ItemHoe)item).getMaterialName().equals("WOOD") ? 200 : item == Items.stick ? 100 : item == Items.coal ? 1600 : item == Items.lava_bucket ? 20000 : item == Item.getItemFromBlock(Blocks.sapling) ? 100 : item == Items.blaze_rod ? 2400 : 0;
-        }
-    }
+		return item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD") ? 200 : item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD") ? 200 : item instanceof ItemHoe && ((ItemHoe)item).getMaterialName().equals("WOOD") ? 200 : item == Items.stick ? 100 : item == Items.coal ? 1600 : item == Items.lava_bucket ? 20000 : item == Item.getItemFromBlock(Blocks.sapling) ? 100 : item == Items.blaze_rod ? 2400 : 0;
+	}
 
     public static boolean isItemFuel(ItemStack p_145954_0_)
     {

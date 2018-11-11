@@ -48,37 +48,34 @@ public class CommandTestFor extends CommandBase
         {
             throw new WrongUsageException("commands.testfor.usage", new Object[0]);
         }
-        else
-        {
-            Entity entity = func_175768_b(sender, args[0]);
-            NBTTagCompound nbttagcompound = null;
+		Entity entity = func_175768_b(sender, args[0]);
+		NBTTagCompound nbttagcompound = null;
 
-            if (args.length >= 2)
-            {
-                try
-                {
-                    nbttagcompound = JsonToNBT.getTagFromJson(buildString(args, 1));
-                }
-                catch (NBTException nbtexception)
-                {
-                    throw new CommandException("commands.testfor.tagError", new Object[] {nbtexception.getMessage()});
-                }
-            }
+		if (args.length >= 2)
+		{
+			try
+			{
+				nbttagcompound = JsonToNBT.getTagFromJson(buildString(args, 1));
+			}
+			catch (NBTException nbtexception)
+			{
+				throw new CommandException("commands.testfor.tagError", new Object[] {nbtexception.getMessage()});
+			}
+		}
 
-            if (nbttagcompound != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                entity.writeToNBT(nbttagcompound1);
+		if (nbttagcompound != null)
+		{
+			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+			entity.writeToNBT(nbttagcompound1);
 
-                if (!NBTUtil.func_181123_a(nbttagcompound, nbttagcompound1, true))
-                {
-                    throw new CommandException("commands.testfor.failure", new Object[] {entity.getName()});
-                }
-            }
+			if (!NBTUtil.func_181123_a(nbttagcompound, nbttagcompound1, true))
+			{
+				throw new CommandException("commands.testfor.failure", new Object[] {entity.getName()});
+			}
+		}
 
-            notifyOperators(sender, this, "commands.testfor.success", new Object[] {entity.getName()});
-        }
-    }
+		notifyOperators(sender, this, "commands.testfor.success", new Object[] {entity.getName()});
+	}
 
     /**
      * Return whether the specified command parameter index is a username parameter.

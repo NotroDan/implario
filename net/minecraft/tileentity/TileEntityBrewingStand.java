@@ -137,42 +137,36 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
             {
                 return false;
             }
-            else
-            {
-                boolean flag = false;
+			boolean flag = false;
 
-                for (int i = 0; i < 3; ++i)
-                {
-                    if (this.brewingItemStacks[i] != null && this.brewingItemStacks[i].getItem() == Items.potionitem)
-                    {
-                        int j = this.brewingItemStacks[i].getMetadata();
-                        int k = this.getPotionResult(j, itemstack);
+			for (int i = 0; i < 3; ++i)
+			{
+				if (this.brewingItemStacks[i] != null && this.brewingItemStacks[i].getItem() == Items.potionitem)
+				{
+					int j = this.brewingItemStacks[i].getMetadata();
+					int k = this.getPotionResult(j, itemstack);
 
-                        if (!ItemPotion.isSplash(j) && ItemPotion.isSplash(k))
-                        {
-                            flag = true;
-                            break;
-                        }
+					if (!ItemPotion.isSplash(j) && ItemPotion.isSplash(k))
+					{
+						flag = true;
+						break;
+					}
 
-                        List<PotionEffect> list = Items.potionitem.getEffects(j);
-                        List<PotionEffect> list1 = Items.potionitem.getEffects(k);
+					List<PotionEffect> list = Items.potionitem.getEffects(j);
+					List<PotionEffect> list1 = Items.potionitem.getEffects(k);
 
-                        if ((j <= 0 || list != list1) && (list == null || !list.equals(list1) && list1 != null) && j != k)
-                        {
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
+					if ((j <= 0 || list != list1) && (list == null || !list.equals(list1) && list1 != null) && j != k)
+					{
+						flag = true;
+						break;
+					}
+				}
+			}
 
-                return flag;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return flag;
+		}
+		return false;
+	}
 
     private void brewPotions()
     {
@@ -296,11 +290,8 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
             this.brewingItemStacks[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -313,11 +304,8 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
             this.brewingItemStacks[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).

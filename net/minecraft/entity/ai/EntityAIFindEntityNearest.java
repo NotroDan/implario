@@ -61,12 +61,9 @@ public class EntityAIFindEntityNearest extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            this.field_179441_e = (EntityLivingBase)list.get(0);
-            return true;
-        }
-    }
+		this.field_179441_e = (EntityLivingBase)list.get(0);
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
@@ -79,16 +76,13 @@ public class EntityAIFindEntityNearest extends EntityAIBase
         {
             return false;
         }
-        else if (!entitylivingbase.isEntityAlive())
-        {
-            return false;
-        }
-        else
-        {
-            double d0 = this.func_179438_f();
-            return this.field_179442_b.getDistanceSqToEntity(entitylivingbase) > d0 * d0 ? false : !(entitylivingbase instanceof EntityPlayerMP) || !((EntityPlayerMP)entitylivingbase).theItemInWorldManager.isCreative();
-        }
-    }
+		if (!entitylivingbase.isEntityAlive())
+		{
+			return false;
+		}
+		double d0 = this.func_179438_f();
+		return this.field_179442_b.getDistanceSqToEntity(entitylivingbase) > d0 * d0 ? false : !(entitylivingbase instanceof EntityPlayerMP) || !((EntityPlayerMP)entitylivingbase).theItemInWorldManager.isCreative();
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

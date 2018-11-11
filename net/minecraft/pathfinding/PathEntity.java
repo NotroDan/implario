@@ -100,23 +100,20 @@ public class PathEntity
         {
             return false;
         }
-        else if (pathentityIn.points.length != this.points.length)
-        {
-            return false;
-        }
-        else
-        {
-            for (int i = 0; i < this.points.length; ++i)
-            {
-                if (this.points[i].xCoord != pathentityIn.points[i].xCoord || this.points[i].yCoord != pathentityIn.points[i].yCoord || this.points[i].zCoord != pathentityIn.points[i].zCoord)
-                {
-                    return false;
-                }
-            }
+		if (pathentityIn.points.length != this.points.length)
+		{
+			return false;
+		}
+		for (int i = 0; i < this.points.length; ++i)
+		{
+			if (this.points[i].xCoord != pathentityIn.points[i].xCoord || this.points[i].yCoord != pathentityIn.points[i].yCoord || this.points[i].zCoord != pathentityIn.points[i].zCoord)
+			{
+				return false;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Returns true if the final PathPoint in the PathEntity is equal to Vec3D coords.

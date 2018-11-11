@@ -34,9 +34,6 @@ public class LockCode
             String s = nbt.getString("Lock");
             return new LockCode(s);
         }
-        else
-        {
-            return EMPTY_CODE;
-        }
-    }
+		return EMPTY_CODE;
+	}
 }

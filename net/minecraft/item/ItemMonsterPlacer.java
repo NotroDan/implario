@@ -59,60 +59,57 @@ public class ItemMonsterPlacer extends Item
         {
             return true;
         }
-        else if (!playerIn.canPlayerEdit(pos.offset(side), side, stack))
-        {
-            return false;
-        }
-        else
-        {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
+		if (!playerIn.canPlayerEdit(pos.offset(side), side, stack))
+		{
+			return false;
+		}
+		IBlockState iblockstate = worldIn.getBlockState(pos);
 
-            if (iblockstate.getBlock() == Blocks.mob_spawner)
-            {
-                TileEntity tileentity = worldIn.getTileEntity(pos);
+		if (iblockstate.getBlock() == Blocks.mob_spawner)
+		{
+			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-                if (tileentity instanceof TileEntityMobSpawner)
-                {
-                    MobSpawnerBaseLogic mobspawnerbaselogic = ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic();
-                    mobspawnerbaselogic.setEntityName(EntityList.getStringFromID(stack.getMetadata()));
-                    tileentity.markDirty();
-                    worldIn.markBlockForUpdate(pos);
+			if (tileentity instanceof TileEntityMobSpawner)
+			{
+				MobSpawnerBaseLogic mobspawnerbaselogic = ((TileEntityMobSpawner)tileentity).getSpawnerBaseLogic();
+				mobspawnerbaselogic.setEntityName(EntityList.getStringFromID(stack.getMetadata()));
+				tileentity.markDirty();
+				worldIn.markBlockForUpdate(pos);
 
-                    if (!playerIn.capabilities.isCreativeMode)
-                    {
-                        --stack.stackSize;
-                    }
+				if (!playerIn.capabilities.isCreativeMode)
+				{
+					--stack.stackSize;
+				}
 
-                    return true;
-                }
-            }
+				return true;
+			}
+		}
 
-            pos = pos.offset(side);
-            double d0 = 0.0D;
+		pos = pos.offset(side);
+		double d0 = 0.0D;
 
-            if (side == EnumFacing.UP && iblockstate instanceof BlockFence)
-            {
-                d0 = 0.5D;
-            }
+		if (side == EnumFacing.UP && iblockstate instanceof BlockFence)
+		{
+			d0 = 0.5D;
+		}
 
-            Entity entity = spawnCreature(worldIn, stack.getMetadata(), (double)pos.getX() + 0.5D, (double)pos.getY() + d0, (double)pos.getZ() + 0.5D);
+		Entity entity = spawnCreature(worldIn, stack.getMetadata(), (double)pos.getX() + 0.5D, (double)pos.getY() + d0, (double)pos.getZ() + 0.5D);
 
-            if (entity != null)
-            {
-                if (entity instanceof EntityLivingBase && stack.hasDisplayName())
-                {
-                    entity.setCustomNameTag(stack.getDisplayName());
-                }
+		if (entity != null)
+		{
+			if (entity instanceof EntityLivingBase && stack.hasDisplayName())
+			{
+				entity.setCustomNameTag(stack.getDisplayName());
+			}
 
-                if (!playerIn.capabilities.isCreativeMode)
-                {
-                    --stack.stackSize;
-                }
-            }
+			if (!playerIn.capabilities.isCreativeMode)
+			{
+				--stack.stackSize;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
@@ -123,55 +120,49 @@ public class ItemMonsterPlacer extends Item
         {
             return itemStackIn;
         }
-        else
-        {
-            MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
 
-            if (movingobjectposition == null)
-            {
-                return itemStackIn;
-            }
-            else
-            {
-                if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-                {
-                    BlockPos blockpos = movingobjectposition.getBlockPos();
+		if (movingobjectposition == null)
+		{
+			return itemStackIn;
+		}
+		if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+		{
+			BlockPos blockpos = movingobjectposition.getBlockPos();
 
-                    if (!worldIn.isBlockModifiable(playerIn, blockpos))
-                    {
-                        return itemStackIn;
-                    }
+			if (!worldIn.isBlockModifiable(playerIn, blockpos))
+			{
+				return itemStackIn;
+			}
 
-                    if (!playerIn.canPlayerEdit(blockpos, movingobjectposition.sideHit, itemStackIn))
-                    {
-                        return itemStackIn;
-                    }
+			if (!playerIn.canPlayerEdit(blockpos, movingobjectposition.sideHit, itemStackIn))
+			{
+				return itemStackIn;
+			}
 
-                    if (worldIn.getBlockState(blockpos).getBlock() instanceof BlockLiquid)
-                    {
-                        Entity entity = spawnCreature(worldIn, itemStackIn.getMetadata(), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D);
+			if (worldIn.getBlockState(blockpos).getBlock() instanceof BlockLiquid)
+			{
+				Entity entity = spawnCreature(worldIn, itemStackIn.getMetadata(), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.5D, (double)blockpos.getZ() + 0.5D);
 
-                        if (entity != null)
-                        {
-                            if (entity instanceof EntityLivingBase && itemStackIn.hasDisplayName())
-                            {
-                                ((EntityLiving)entity).setCustomNameTag(itemStackIn.getDisplayName());
-                            }
+				if (entity != null)
+				{
+					if (entity instanceof EntityLivingBase && itemStackIn.hasDisplayName())
+					{
+						((EntityLiving)entity).setCustomNameTag(itemStackIn.getDisplayName());
+					}
 
-                            if (!playerIn.capabilities.isCreativeMode)
-                            {
-                                --itemStackIn.stackSize;
-                            }
+					if (!playerIn.capabilities.isCreativeMode)
+					{
+						--itemStackIn.stackSize;
+					}
 
-                            playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-                        }
-                    }
-                }
+					playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+				}
+			}
+		}
 
-                return itemStackIn;
-            }
-        }
-    }
+		return itemStackIn;
+	}
 
     /**
      * Spawns the creature specified by the egg's type in the location specified by the last three parameters.
@@ -183,29 +174,26 @@ public class ItemMonsterPlacer extends Item
         {
             return null;
         }
-        else
-        {
-            Entity entity = null;
+		Entity entity = null;
 
-            for (int i = 0; i < 1; ++i)
-            {
-                entity = EntityList.createEntityByID(entityID, worldIn);
+		for (int i = 0; i < 1; ++i)
+		{
+			entity = EntityList.createEntityByID(entityID, worldIn);
 
-                if (entity instanceof EntityLivingBase)
-                {
-                    EntityLiving entityliving = (EntityLiving)entity;
-                    entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(worldIn.rand.nextFloat() * 360.0F), 0.0F);
-                    entityliving.rotationYawHead = entityliving.rotationYaw;
-                    entityliving.renderYawOffset = entityliving.rotationYaw;
-                    entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), (IEntityLivingData)null);
-                    worldIn.spawnEntityInWorld(entity);
-                    entityliving.playLivingSound();
-                }
-            }
+			if (entity instanceof EntityLivingBase)
+			{
+				EntityLiving entityliving = (EntityLiving)entity;
+				entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(worldIn.rand.nextFloat() * 360.0F), 0.0F);
+				entityliving.rotationYawHead = entityliving.rotationYaw;
+				entityliving.renderYawOffset = entityliving.rotationYaw;
+				entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), (IEntityLivingData)null);
+				worldIn.spawnEntityInWorld(entity);
+				entityliving.playLivingSound();
+			}
+		}
 
-            return entity;
-        }
-    }
+		return entity;
+	}
 
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)

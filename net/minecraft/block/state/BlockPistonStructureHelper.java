@@ -48,31 +48,25 @@ public class BlockPistonStructureHelper
             {
                 return false;
             }
-            else
-            {
-                this.toDestroy.add(this.blockToMove);
-                return true;
-            }
-        }
-        else if (!this.func_177251_a(this.blockToMove))
-        {
-            return false;
-        }
-        else
-        {
-            for (int i = 0; i < this.toMove.size(); ++i)
-            {
-                BlockPos blockpos = (BlockPos)this.toMove.get(i);
+			this.toDestroy.add(this.blockToMove);
+			return true;
+		}
+		if (!this.func_177251_a(this.blockToMove))
+		{
+			return false;
+		}
+		for (int i = 0; i < this.toMove.size(); ++i)
+		{
+			BlockPos blockpos = (BlockPos)this.toMove.get(i);
 
-                if (this.world.getBlockState(blockpos).getBlock() == Blocks.slime_block && !this.func_177250_b(blockpos))
-                {
-                    return false;
-                }
-            }
+			if (this.world.getBlockState(blockpos).getBlock() == Blocks.slime_block && !this.func_177250_b(blockpos))
+			{
+				return false;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     private boolean func_177251_a(BlockPos origin)
     {
@@ -82,108 +76,102 @@ public class BlockPistonStructureHelper
         {
             return true;
         }
-        else if (!BlockPistonBase.canPush(block, this.world, origin, this.moveDirection, false))
-        {
-            return true;
-        }
-        else if (origin.equals(this.pistonPos))
-        {
-            return true;
-        }
-        else if (this.toMove.contains(origin))
-        {
-            return true;
-        }
-        else
-        {
-            int i = 1;
+		if (!BlockPistonBase.canPush(block, this.world, origin, this.moveDirection, false))
+		{
+			return true;
+		}
+		if (origin.equals(this.pistonPos))
+		{
+			return true;
+		}
+		if (this.toMove.contains(origin))
+		{
+			return true;
+		}
+		int i = 1;
 
-            if (i + this.toMove.size() > 12)
-            {
-                return false;
-            }
-            else
-            {
-                while (block == Blocks.slime_block)
-                {
-                    BlockPos blockpos = origin.offset(this.moveDirection.getOpposite(), i);
-                    block = this.world.getBlockState(blockpos).getBlock();
+		if (i + this.toMove.size() > 12)
+		{
+			return false;
+		}
+		while (block == Blocks.slime_block)
+		{
+			BlockPos blockpos = origin.offset(this.moveDirection.getOpposite(), i);
+			block = this.world.getBlockState(blockpos).getBlock();
 
-                    if (block.getMaterial() == Material.air || !BlockPistonBase.canPush(block, this.world, blockpos, this.moveDirection, false) || blockpos.equals(this.pistonPos))
-                    {
-                        break;
-                    }
+			if (block.getMaterial() == Material.air || !BlockPistonBase.canPush(block, this.world, blockpos, this.moveDirection, false) || blockpos.equals(this.pistonPos))
+			{
+				break;
+			}
 
-                    ++i;
+			++i;
 
-                    if (i + this.toMove.size() > 12)
-                    {
-                        return false;
-                    }
-                }
+			if (i + this.toMove.size() > 12)
+			{
+				return false;
+			}
+		}
 
-                int i1 = 0;
+		int i1 = 0;
 
-                for (int j = i - 1; j >= 0; --j)
-                {
-                    this.toMove.add(origin.offset(this.moveDirection.getOpposite(), j));
-                    ++i1;
-                }
+		for (int j = i - 1; j >= 0; --j)
+		{
+			this.toMove.add(origin.offset(this.moveDirection.getOpposite(), j));
+			++i1;
+		}
 
-                int j1 = 1;
+		int j1 = 1;
 
-                while (true)
-                {
-                    BlockPos blockpos1 = origin.offset(this.moveDirection, j1);
-                    int k = this.toMove.indexOf(blockpos1);
+		while (true)
+		{
+			BlockPos blockpos1 = origin.offset(this.moveDirection, j1);
+			int k = this.toMove.indexOf(blockpos1);
 
-                    if (k > -1)
-                    {
-                        this.func_177255_a(i1, k);
+			if (k > -1)
+			{
+				this.func_177255_a(i1, k);
 
-                        for (int l = 0; l <= k + i1; ++l)
-                        {
-                            BlockPos blockpos2 = (BlockPos)this.toMove.get(l);
+				for (int l = 0; l <= k + i1; ++l)
+				{
+					BlockPos blockpos2 = (BlockPos)this.toMove.get(l);
 
-                            if (this.world.getBlockState(blockpos2).getBlock() == Blocks.slime_block && !this.func_177250_b(blockpos2))
-                            {
-                                return false;
-                            }
-                        }
+					if (this.world.getBlockState(blockpos2).getBlock() == Blocks.slime_block && !this.func_177250_b(blockpos2))
+					{
+						return false;
+					}
+				}
 
-                        return true;
-                    }
+				return true;
+			}
 
-                    block = this.world.getBlockState(blockpos1).getBlock();
+			block = this.world.getBlockState(blockpos1).getBlock();
 
-                    if (block.getMaterial() == Material.air)
-                    {
-                        return true;
-                    }
+			if (block.getMaterial() == Material.air)
+			{
+				return true;
+			}
 
-                    if (!BlockPistonBase.canPush(block, this.world, blockpos1, this.moveDirection, true) || blockpos1.equals(this.pistonPos))
-                    {
-                        return false;
-                    }
+			if (!BlockPistonBase.canPush(block, this.world, blockpos1, this.moveDirection, true) || blockpos1.equals(this.pistonPos))
+			{
+				return false;
+			}
 
-                    if (block.getMobilityFlag() == 1)
-                    {
-                        this.toDestroy.add(blockpos1);
-                        return true;
-                    }
+			if (block.getMobilityFlag() == 1)
+			{
+				this.toDestroy.add(blockpos1);
+				return true;
+			}
 
-                    if (this.toMove.size() >= 12)
-                    {
-                        return false;
-                    }
+			if (this.toMove.size() >= 12)
+			{
+				return false;
+			}
 
-                    this.toMove.add(blockpos1);
-                    ++i1;
-                    ++j1;
-                }
-            }
-        }
-    }
+			this.toMove.add(blockpos1);
+			++i1;
+			++j1;
+		}
+	}
 
     private void func_177255_a(int p_177255_1_, int p_177255_2_)
     {

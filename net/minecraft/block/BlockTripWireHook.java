@@ -265,11 +265,8 @@ public class BlockTripWireHook extends Block
             worldIn.setBlockToAir(pos);
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }
+		return true;
+	}
 
     @SuppressWarnings("incomplete-switch")
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)

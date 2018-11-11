@@ -26,12 +26,9 @@ public class ItemShears extends Item
         {
             return super.onBlockDestroyed(stack, worldIn, blockIn, pos, playerIn);
         }
-        else
-        {
-            stack.damageItem(1, playerIn);
-            return true;
-        }
-    }
+		stack.damageItem(1, playerIn);
+		return true;
+	}
 
     /**
      * Check whether this Item can harvest the given Block

@@ -165,11 +165,8 @@ public class EntitySheep extends EntityAnimal
             float f = ((float)(this.sheepTimer - 4) - p_70890_1_) / 32.0F;
             return (float)Math.PI / 5F + ((float)Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
         }
-        else
-        {
-            return this.sheepTimer > 0 ? (float)Math.PI / 5F : this.rotationPitch / (180F / (float)Math.PI);
-        }
-    }
+		return this.sheepTimer > 0 ? (float)Math.PI / 5F : this.rotationPitch / (180F / (float)Math.PI);
+	}
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.

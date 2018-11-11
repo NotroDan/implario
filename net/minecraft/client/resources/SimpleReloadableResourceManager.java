@@ -61,11 +61,8 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
         {
             return iresourcemanager.getResource(location);
         }
-        else
-        {
-            throw new FileNotFoundException(location.toString());
-        }
-    }
+		throw new FileNotFoundException(location.toString());
+	}
 
     public List<IResource> getAllResources(ResourceLocation location) throws IOException
     {
@@ -75,11 +72,8 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
         {
             return iresourcemanager.getAllResources(location);
         }
-        else
-        {
-            throw new FileNotFoundException(location.toString());
-        }
-    }
+		throw new FileNotFoundException(location.toString());
+	}
 
     private void clearResources()
     {

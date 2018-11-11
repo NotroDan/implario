@@ -231,36 +231,33 @@ public class BlockPos extends Vec3i
                             this.lastReturned = blockpos;
                             return this.lastReturned;
                         }
-                        else if (this.lastReturned.equals(blockpos1))
-                        {
-                            return (BlockPos)this.endOfData();
-                        }
-                        else
-                        {
-                            int i = this.lastReturned.getX();
-                            int j = this.lastReturned.getY();
-                            int k = this.lastReturned.getZ();
+						if (this.lastReturned.equals(blockpos1))
+						{
+							return (BlockPos)this.endOfData();
+						}
+						int i = this.lastReturned.getX();
+						int j = this.lastReturned.getY();
+						int k = this.lastReturned.getZ();
 
-                            if (i < blockpos1.getX())
-                            {
-                                ++i;
-                            }
-                            else if (j < blockpos1.getY())
-                            {
-                                i = blockpos.getX();
-                                ++j;
-                            }
-                            else if (k < blockpos1.getZ())
-                            {
-                                i = blockpos.getX();
-                                j = blockpos.getY();
-                                ++k;
-                            }
+						if (i < blockpos1.getX())
+						{
+							++i;
+						}
+						else if (j < blockpos1.getY())
+						{
+							i = blockpos.getX();
+							++j;
+						}
+						else if (k < blockpos1.getZ())
+						{
+							i = blockpos.getX();
+							j = blockpos.getY();
+							++k;
+						}
 
-                            this.lastReturned = new BlockPos(i, j, k);
-                            return this.lastReturned;
-                        }
-                    }
+						this.lastReturned = new BlockPos(i, j, k);
+						return this.lastReturned;
+					}
                 };
             }
         };
@@ -284,38 +281,35 @@ public class BlockPos extends Vec3i
                             this.theBlockPos = new BlockPos.MutableBlockPos(blockpos.getX(), blockpos.getY(), blockpos.getZ());
                             return this.theBlockPos;
                         }
-                        else if (this.theBlockPos.equals(blockpos1))
-                        {
-                            return (BlockPos.MutableBlockPos)this.endOfData();
-                        }
-                        else
-                        {
-                            int i = this.theBlockPos.getX();
-                            int j = this.theBlockPos.getY();
-                            int k = this.theBlockPos.getZ();
+						if (this.theBlockPos.equals(blockpos1))
+						{
+							return (MutableBlockPos)this.endOfData();
+						}
+						int i = this.theBlockPos.getX();
+						int j = this.theBlockPos.getY();
+						int k = this.theBlockPos.getZ();
 
-                            if (i < blockpos1.getX())
-                            {
-                                ++i;
-                            }
-                            else if (j < blockpos1.getY())
-                            {
-                                i = blockpos.getX();
-                                ++j;
-                            }
-                            else if (k < blockpos1.getZ())
-                            {
-                                i = blockpos.getX();
-                                j = blockpos.getY();
-                                ++k;
-                            }
+						if (i < blockpos1.getX())
+						{
+							++i;
+						}
+						else if (j < blockpos1.getY())
+						{
+							i = blockpos.getX();
+							++j;
+						}
+						else if (k < blockpos1.getZ())
+						{
+							i = blockpos.getX();
+							j = blockpos.getY();
+							++k;
+						}
 
-                            this.theBlockPos.x = i;
-                            this.theBlockPos.y = j;
-                            this.theBlockPos.z = k;
-                            return this.theBlockPos;
-                        }
-                    }
+						this.theBlockPos.x = i;
+						this.theBlockPos.y = j;
+						this.theBlockPos.z = k;
+						return this.theBlockPos;
+					}
                 };
             }
         };

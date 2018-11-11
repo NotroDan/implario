@@ -43,30 +43,27 @@ public class CommandGameMode extends CommandBase
         {
             throw new WrongUsageException("commands.gamemode.usage", new Object[0]);
         }
-        else
-        {
-            WorldSettings.GameType worldsettings$gametype = this.getGameModeFromCommand(sender, args[0]);
-            EntityPlayer entityplayer = args.length >= 2 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
-            entityplayer.setGameType(worldsettings$gametype);
-            entityplayer.fallDistance = 0.0F;
+		WorldSettings.GameType worldsettings$gametype = this.getGameModeFromCommand(sender, args[0]);
+		EntityPlayer entityplayer = args.length >= 2 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
+		entityplayer.setGameType(worldsettings$gametype);
+		entityplayer.fallDistance = 0.0F;
 
-            if (sender.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback"))
-            {
-                entityplayer.addChatMessage(new ChatComponentTranslation("gameMode.changed", new Object[0]));
-            }
+		if (sender.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback"))
+		{
+			entityplayer.addChatMessage(new ChatComponentTranslation("gameMode.changed", new Object[0]));
+		}
 
-            IChatComponent ichatcomponent = new ChatComponentTranslation("gameMode." + worldsettings$gametype.getName(), new Object[0]);
+		IChatComponent ichatcomponent = new ChatComponentTranslation("gameMode." + worldsettings$gametype.getName(), new Object[0]);
 
-            if (entityplayer != sender)
-            {
-                notifyOperators(sender, this, 1, "commands.gamemode.success.other", new Object[] {entityplayer.getName(), ichatcomponent});
-            }
-            else
-            {
-                notifyOperators(sender, this, 1, "commands.gamemode.success.self", new Object[] {ichatcomponent});
-            }
-        }
-    }
+		if (entityplayer != sender)
+		{
+			notifyOperators(sender, this, 1, "commands.gamemode.success.other", new Object[] {entityplayer.getName(), ichatcomponent});
+		}
+		else
+		{
+			notifyOperators(sender, this, 1, "commands.gamemode.success.self", new Object[] {ichatcomponent});
+		}
+	}
 
     /**
      * Gets the Game Mode specified in the command.

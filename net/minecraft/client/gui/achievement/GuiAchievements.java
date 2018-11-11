@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C16PacketClientStatus;
@@ -63,7 +63,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 	public void initGui() {
 		this.mc.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.REQUEST_STATS));
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.format("gui.done")));
+		this.buttonList.add(new GuiButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, Lang.format("gui.done")));
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		if (this.loadingAchievements) {
 			this.drawDefaultBackground();
-			this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingStats"), this.width / 2, this.height / 2, 16777215);
+			this.drawCenteredString(this.fontRendererObj, Lang.format("multiplayer.downloadingStats"), this.width / 2, this.height / 2, 16777215);
 			this.drawCenteredString(this.fontRendererObj, lanSearchStates[(int) (Minecraft.getSystemTime() / 150L % (long) lanSearchStates.length)], this.width / 2,
 					this.height / 2 + this.fontRendererObj.FONT_HEIGHT * 2, 16777215);
 		} else {
@@ -201,7 +201,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 	protected void drawTitle() {
 		int i = (this.width - this.field_146555_f) / 2;
 		int j = (this.height - this.field_146557_g) / 2;
-		this.fontRendererObj.drawString(I18n.format("gui.achievements"), i + 15, j + 5, 4210752);
+		this.fontRendererObj.drawString(Lang.format("gui.achievements"), i + 15, j + 5, 4210752);
 	}
 
 	protected void drawAchievementScreen(int p_146552_1_, int p_146552_2_, float p_146552_3_) {
@@ -426,10 +426,10 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 				this.fontRendererObj.drawSplitString(s1, i7, k7 + 12, j8, -6250336);
 
 				if (this.statFileWriter.hasAchievementUnlocked(achievement)) {
-					this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken"), (float) i7, (float) (k7 + i9 + 4), -7302913);
+					this.fontRendererObj.drawStringWithShadow(Lang.format("achievement.taken"), (float) i7, (float) (k7 + i9 + 4), -7302913);
 				}
 			} else if (i8 == 3) {
-				s = I18n.format("achievement.unknown");
+				s = Lang.format("achievement.unknown");
 				int k8 = Math.max(this.fontRendererObj.getStringWidth(s), 120);
 				String s2 = new ChatComponentTranslation("achievement.requires", achievement.parentAchievement.getStatName()).getUnformattedText();
 				int i5 = this.fontRendererObj.splitStringWidth(s2, k8);

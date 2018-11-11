@@ -217,29 +217,27 @@ public class TextureUtil {
 
 		if (bufferedimage == null) {
 			return null;
-		} else {
-			int i = bufferedimage.getWidth();
-			int j = bufferedimage.getHeight();
-			int[] aint = new int[i * j];
-			bufferedimage.getRGB(0, 0, i, j, aint, 0, i);
-			return aint;
 		}
+		int i = bufferedimage.getWidth();
+		int j = bufferedimage.getHeight();
+		int[] aint = new int[i * j];
+		bufferedimage.getRGB(0, 0, i, j, aint, 0, i);
+		return aint;
 	}
 
 	public static BufferedImage readBufferedImage(InputStream imageStream) throws IOException {
 		if (imageStream == null) {
 			return null;
-		} else {
-			BufferedImage bufferedimage;
-
-			try {
-				bufferedimage = ImageIO.read(imageStream);
-			} finally {
-				IOUtils.closeQuietly(imageStream);
-			}
-
-			return bufferedimage;
 		}
+		BufferedImage bufferedimage;
+
+		try {
+			bufferedimage = ImageIO.read(imageStream);
+		} finally {
+			IOUtils.closeQuietly(imageStream);
+		}
+
+		return bufferedimage;
 	}
 
 	public static int anaglyphColor(int p_177054_0_) {

@@ -42,20 +42,14 @@ public class ItemRecord extends Item
             {
                 return true;
             }
-            else
-            {
-                ((BlockJukebox)Blocks.jukebox).insertRecord(worldIn, pos, iblockstate, stack);
-                worldIn.playAuxSFXAtEntity((EntityPlayer)null, 1005, pos, Item.getIdFromItem(this));
-                --stack.stackSize;
-                playerIn.triggerAchievement(StatList.field_181740_X);
-                return true;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			((BlockJukebox)Blocks.jukebox).insertRecord(worldIn, pos, iblockstate, stack);
+			worldIn.playAuxSFXAtEntity((EntityPlayer)null, 1005, pos, Item.getIdFromItem(this));
+			--stack.stackSize;
+			playerIn.triggerAchievement(StatList.field_181740_X);
+			return true;
+		}
+		return false;
+	}
 
     /**
      * allows items to add custom lines of information to the mouseover description

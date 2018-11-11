@@ -216,17 +216,14 @@ public class TextureUtils
         {
             return itextureobject;
         }
-        else if (!Config.hasResource(p_getTexture_0_))
-        {
-            return null;
-        }
-        else
-        {
-            SimpleTexture simpletexture = new SimpleTexture(p_getTexture_0_);
-            Config.getTextureManager().loadTexture(p_getTexture_0_, simpletexture);
-            return simpletexture;
-        }
-    }
+		if (!Config.hasResource(p_getTexture_0_))
+		{
+			return null;
+		}
+		SimpleTexture simpletexture = new SimpleTexture(p_getTexture_0_);
+		Config.getTextureManager().loadTexture(p_getTexture_0_, simpletexture);
+		return simpletexture;
+	}
 
     public static void resourcesReloaded(IResourceManager p_resourcesReloaded_0_)
     {
@@ -311,44 +308,38 @@ public class TextureUtils
             p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(s.length());
             return p_fixResourcePath_0_;
         }
-        else if (p_fixResourcePath_0_.startsWith("./"))
-        {
-            p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
+		if (p_fixResourcePath_0_.startsWith("./"))
+		{
+			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
 
-            if (!p_fixResourcePath_1_.endsWith("/"))
-            {
-                p_fixResourcePath_1_ = p_fixResourcePath_1_ + "/";
-            }
+			if (!p_fixResourcePath_1_.endsWith("/"))
+			{
+				p_fixResourcePath_1_ = p_fixResourcePath_1_ + "/";
+			}
 
-            p_fixResourcePath_0_ = p_fixResourcePath_1_ + p_fixResourcePath_0_;
-            return p_fixResourcePath_0_;
-        }
-        else
-        {
-            if (p_fixResourcePath_0_.startsWith("/~"))
-            {
-                p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(1);
-            }
+			p_fixResourcePath_0_ = p_fixResourcePath_1_ + p_fixResourcePath_0_;
+			return p_fixResourcePath_0_;
+		}
+		if (p_fixResourcePath_0_.startsWith("/~"))
+		{
+			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(1);
+		}
 
-            String s1 = "mcpatcher/";
+		String s1 = "mcpatcher/";
 
-            if (p_fixResourcePath_0_.startsWith("~/"))
-            {
-                p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
-                p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_;
-                return p_fixResourcePath_0_;
-            }
-            else if (p_fixResourcePath_0_.startsWith("/"))
-            {
-                p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_.substring(1);
-                return p_fixResourcePath_0_;
-            }
-            else
-            {
-                return p_fixResourcePath_0_;
-            }
-        }
-    }
+		if (p_fixResourcePath_0_.startsWith("~/"))
+		{
+			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
+			p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_;
+			return p_fixResourcePath_0_;
+		}
+		if (p_fixResourcePath_0_.startsWith("/"))
+		{
+			p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_.substring(1);
+			return p_fixResourcePath_0_;
+		}
+		return p_fixResourcePath_0_;
+	}
 
     public static String getBasePath(String p_getBasePath_0_)
     {
@@ -403,35 +394,29 @@ public class TextureUtils
         {
             return p_scaleToPowerOfTwo_0_;
         }
-        else
-        {
-            int i = p_scaleToPowerOfTwo_0_.getWidth();
-            int j = p_scaleToPowerOfTwo_0_.getHeight();
-            int k = Math.max(i, p_scaleToPowerOfTwo_1_);
-            k = MathHelper.roundUpToPowerOfTwo(k);
+		int i = p_scaleToPowerOfTwo_0_.getWidth();
+		int j = p_scaleToPowerOfTwo_0_.getHeight();
+		int k = Math.max(i, p_scaleToPowerOfTwo_1_);
+		k = MathHelper.roundUpToPowerOfTwo(k);
 
-            if (k == i)
-            {
-                return p_scaleToPowerOfTwo_0_;
-            }
-            else
-            {
-                int l = j * k / i;
-                BufferedImage bufferedimage = new BufferedImage(k, l, 2);
-                Graphics2D graphics2d = bufferedimage.createGraphics();
-                Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+		if (k == i)
+		{
+			return p_scaleToPowerOfTwo_0_;
+		}
+		int l = j * k / i;
+		BufferedImage bufferedimage = new BufferedImage(k, l, 2);
+		Graphics2D graphics2d = bufferedimage.createGraphics();
+		Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
 
-                if (k % i != 0)
-                {
-                    object = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-                }
+		if (k % i != 0)
+		{
+			object = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+		}
 
-                graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
-                graphics2d.drawImage(p_scaleToPowerOfTwo_0_, 0, 0, k, l, (ImageObserver)null);
-                return bufferedimage;
-            }
-        }
-    }
+		graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
+		graphics2d.drawImage(p_scaleToPowerOfTwo_0_, 0, 0, k, l, (ImageObserver)null);
+		return bufferedimage;
+	}
 
     public static BufferedImage scaleMinTo(BufferedImage p_scaleMinTo_0_, int p_scaleMinTo_1_)
     {
@@ -439,34 +424,28 @@ public class TextureUtils
         {
             return p_scaleMinTo_0_;
         }
-        else
-        {
-            int i = p_scaleMinTo_0_.getWidth();
-            int j = p_scaleMinTo_0_.getHeight();
+		int i = p_scaleMinTo_0_.getWidth();
+		int j = p_scaleMinTo_0_.getHeight();
 
-            if (i >= p_scaleMinTo_1_)
-            {
-                return p_scaleMinTo_0_;
-            }
-            else
-            {
-                int k;
+		if (i >= p_scaleMinTo_1_)
+		{
+			return p_scaleMinTo_0_;
+		}
+		int k;
 
-                for (k = i; k < p_scaleMinTo_1_; k *= 2)
-                {
-                    ;
-                }
+		for (k = i; k < p_scaleMinTo_1_; k *= 2)
+		{
+			;
+		}
 
-                int l = j * k / i;
-                BufferedImage bufferedimage = new BufferedImage(k, l, 2);
-                Graphics2D graphics2d = bufferedimage.createGraphics();
-                Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-                graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
-                graphics2d.drawImage(p_scaleMinTo_0_, 0, 0, k, l, (ImageObserver)null);
-                return bufferedimage;
-            }
-        }
-    }
+		int l = j * k / i;
+		BufferedImage bufferedimage = new BufferedImage(k, l, 2);
+		Graphics2D graphics2d = bufferedimage.createGraphics();
+		Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+		graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
+		graphics2d.drawImage(p_scaleMinTo_0_, 0, 0, k, l, (ImageObserver)null);
+		return bufferedimage;
+	}
 
     public static Dimension getImageSize(InputStream p_getImageSize_0_, String p_getImageSize_1_)
     {

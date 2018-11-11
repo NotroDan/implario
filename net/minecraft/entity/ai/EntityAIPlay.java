@@ -28,42 +28,39 @@ public class EntityAIPlay extends EntityAIBase
         {
             return false;
         }
-        else if (this.villagerObj.getRNG().nextInt(400) != 0)
-        {
-            return false;
-        }
-        else
-        {
-            List<EntityVillager> list = this.villagerObj.worldObj.<EntityVillager>getEntitiesWithinAABB(EntityVillager.class, this.villagerObj.getEntityBoundingBox().expand(6.0D, 3.0D, 6.0D));
-            double d0 = Double.MAX_VALUE;
+		if (this.villagerObj.getRNG().nextInt(400) != 0)
+		{
+			return false;
+		}
+		List<EntityVillager> list = this.villagerObj.worldObj.<EntityVillager>getEntitiesWithinAABB(EntityVillager.class, this.villagerObj.getEntityBoundingBox().expand(6.0D, 3.0D, 6.0D));
+		double d0 = Double.MAX_VALUE;
 
-            for (EntityVillager entityvillager : list)
-            {
-                if (entityvillager != this.villagerObj && !entityvillager.isPlaying() && entityvillager.getGrowingAge() < 0)
-                {
-                    double d1 = entityvillager.getDistanceSqToEntity(this.villagerObj);
+		for (EntityVillager entityvillager : list)
+		{
+			if (entityvillager != this.villagerObj && !entityvillager.isPlaying() && entityvillager.getGrowingAge() < 0)
+			{
+				double d1 = entityvillager.getDistanceSqToEntity(this.villagerObj);
 
-                    if (d1 <= d0)
-                    {
-                        d0 = d1;
-                        this.targetVillager = entityvillager;
-                    }
-                }
-            }
+				if (d1 <= d0)
+				{
+					d0 = d1;
+					this.targetVillager = entityvillager;
+				}
+			}
+		}
 
-            if (this.targetVillager == null)
-            {
-                Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
+		if (this.targetVillager == null)
+		{
+			Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
 
-                if (vec3 == null)
-                {
-                    return false;
-                }
-            }
+			if (vec3 == null)
+			{
+				return false;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

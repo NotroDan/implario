@@ -217,31 +217,28 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         {
             return 0.0F;
         }
-        else
-        {
-            int i = (int)(this.worldObj.getTotalWorldTime() - this.beamRenderCounter);
-            this.beamRenderCounter = this.worldObj.getTotalWorldTime();
+		int i = (int)(this.worldObj.getTotalWorldTime() - this.beamRenderCounter);
+		this.beamRenderCounter = this.worldObj.getTotalWorldTime();
 
-            if (i > 1)
-            {
-                this.field_146014_j -= (float)i / 40.0F;
+		if (i > 1)
+		{
+			this.field_146014_j -= (float)i / 40.0F;
 
-                if (this.field_146014_j < 0.0F)
-                {
-                    this.field_146014_j = 0.0F;
-                }
-            }
+			if (this.field_146014_j < 0.0F)
+			{
+				this.field_146014_j = 0.0F;
+			}
+		}
 
-            this.field_146014_j += 0.025F;
+		this.field_146014_j += 0.025F;
 
-            if (this.field_146014_j > 1.0F)
-            {
-                this.field_146014_j = 1.0F;
-            }
+		if (this.field_146014_j > 1.0F)
+		{
+			this.field_146014_j = 1.0F;
+		}
 
-            return this.field_146014_j;
-        }
-    }
+		return this.field_146014_j;
+	}
 
     /**
      * Allows for a specialized description packet to be created. This is often used to sync tile entity data from the
@@ -266,11 +263,8 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
             Potion potion = Potion.potionTypes[p_183001_1_];
             return potion != Potion.moveSpeed && potion != Potion.digSpeed && potion != Potion.resistance && potion != Potion.jump && potion != Potion.damageBoost && potion != Potion.regeneration ? 0 : p_183001_1_;
         }
-        else
-        {
-            return 0;
-        }
-    }
+		return 0;
+	}
 
     public void readFromNBT(NBTTagCompound compound)
     {
@@ -317,17 +311,11 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
                 this.payment = null;
                 return itemstack;
             }
-            else
-            {
-                this.payment.stackSize -= count;
-                return new ItemStack(this.payment.getItem(), count, this.payment.getMetadata());
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			this.payment.stackSize -= count;
+			return new ItemStack(this.payment.getItem(), count, this.payment.getMetadata());
+		}
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -340,11 +328,8 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
             this.payment = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
@@ -472,11 +457,8 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
             this.updateBeacon();
             return true;
         }
-        else
-        {
-            return super.receiveClientEvent(id, type);
-        }
-    }
+		return super.receiveClientEvent(id, type);
+	}
 
     public static class BeamSegment
     {

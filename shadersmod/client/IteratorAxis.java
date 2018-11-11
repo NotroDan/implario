@@ -49,14 +49,11 @@ public class IteratorAxis implements Iterator<BlockPos>
         {
             throw new NoSuchElementException();
         }
-        else
-        {
-            this.pos.setXyz((double)this.xNext, this.yNext, this.zNext);
-            this.nextPos();
-            this.hasNext = this.xNext < this.xEnd && this.yNext < this.yEnd && this.zNext < this.zEnd;
-            return this.pos;
-        }
-    }
+		this.pos.setXyz((double)this.xNext, this.yNext, this.zNext);
+		this.nextPos();
+		this.hasNext = this.xNext < this.xEnd && this.yNext < this.yEnd && this.zNext < this.zEnd;
+		return this.pos;
+	}
 
     private void nextPos()
     {

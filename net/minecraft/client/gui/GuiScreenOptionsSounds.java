@@ -6,7 +6,7 @@ import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -33,8 +33,8 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 	 */
 	public void initGui() {
 		int i = 0;
-		this.title = I18n.format("options.sounds.title");
-		this.disabledCaption = I18n.format("options.off");
+		this.title = Lang.format("options.sounds.title");
+		this.disabledCaption = Lang.format("options.off");
 		this.buttonList.add(
 				new GuiScreenOptionsSounds.Button(SoundCategory.MASTER.getCategoryId(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), SoundCategory.MASTER, true));
 		i = i + 2;
@@ -45,7 +45,7 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 				++i;
 			}
 
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done")));
+		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, Lang.format("gui.done")));
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 		public Button(int p_i45024_2_, int p_i45024_3_, int p_i45024_4_, SoundCategory p_i45024_5_, boolean p_i45024_6_) {
 			super(p_i45024_2_, p_i45024_3_, p_i45024_4_, p_i45024_6_ ? 310 : 150, 20, "");
 			this.field_146153_r = p_i45024_5_;
-			this.field_146152_s = I18n.format("soundCategory." + p_i45024_5_.getCategoryName());
+			this.field_146152_s = Lang.format("soundCategory." + p_i45024_5_.getCategoryName());
 			this.displayString = this.field_146152_s + ": " + GuiScreenOptionsSounds.this.getSoundVolume(p_i45024_5_);
 			this.field_146156_o = Settings.getSoundLevel(p_i45024_5_);
 		}

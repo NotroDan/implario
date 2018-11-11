@@ -40,33 +40,27 @@ public class FactoryBlockPattern
             {
                 throw new IllegalArgumentException("Expected aisle with height of " + this.aisleHeight + ", but was given one with a height of " + aisle.length + ")");
             }
-            else
-            {
-                for (String s : aisle)
-                {
-                    if (s.length() != this.rowWidth)
-                    {
-                        throw new IllegalArgumentException("Not all rows in the given aisle are the correct width (expected " + this.rowWidth + ", found one with " + s.length() + ")");
-                    }
+			for (String s : aisle)
+			{
+				if (s.length() != this.rowWidth)
+				{
+					throw new IllegalArgumentException("Not all rows in the given aisle are the correct width (expected " + this.rowWidth + ", found one with " + s.length() + ")");
+				}
 
-                    for (char c0 : s.toCharArray())
-                    {
-                        if (!this.symbolMap.containsKey(Character.valueOf(c0)))
-                        {
-                            this.symbolMap.put(Character.valueOf(c0), (Predicate<BlockWorldState>)null);
-                        }
-                    }
-                }
+				for (char c0 : s.toCharArray())
+				{
+					if (!this.symbolMap.containsKey(Character.valueOf(c0)))
+					{
+						this.symbolMap.put(Character.valueOf(c0), (Predicate<BlockWorldState>)null);
+					}
+				}
+			}
 
-                this.depth.add(aisle);
-                return this;
-            }
-        }
-        else
-        {
-            throw new IllegalArgumentException("Empty pattern for aisle");
-        }
-    }
+			this.depth.add(aisle);
+			return this;
+		}
+		throw new IllegalArgumentException("Empty pattern for aisle");
+	}
 
     public static FactoryBlockPattern start()
     {

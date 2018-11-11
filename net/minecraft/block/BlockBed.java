@@ -38,72 +38,63 @@ public class BlockBed extends BlockDirectional
         {
             return true;
         }
-        else
-        {
-            if (state.getValue(PART) != BlockBed.EnumPartType.HEAD)
-            {
-                pos = pos.offset((EnumFacing)state.getValue(FACING));
-                state = worldIn.getBlockState(pos);
+		if (state.getValue(PART) != BlockBed.EnumPartType.HEAD)
+		{
+			pos = pos.offset((EnumFacing)state.getValue(FACING));
+			state = worldIn.getBlockState(pos);
 
-                if (state.getBlock() != this)
-                {
-                    return true;
-                }
-            }
+			if (state.getBlock() != this)
+			{
+				return true;
+			}
+		}
 
-            if (worldIn.provider.canRespawnHere() && worldIn.getBiomeGenForCoords(pos) != BiomeGenBase.hell)
-            {
-                if (((Boolean)state.getValue(OCCUPIED)).booleanValue())
-                {
-                    EntityPlayer entityplayer = this.getPlayerInBed(worldIn, pos);
+		if (worldIn.provider.canRespawnHere() && worldIn.getBiomeGenForCoords(pos) != BiomeGenBase.hell)
+		{
+			if (((Boolean)state.getValue(OCCUPIED)).booleanValue())
+			{
+				EntityPlayer entityplayer = this.getPlayerInBed(worldIn, pos);
 
-                    if (entityplayer != null)
-                    {
-                        playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.occupied", new Object[0]));
-                        return true;
-                    }
+				if (entityplayer != null)
+				{
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.occupied", new Object[0]));
+					return true;
+				}
 
-                    state = state.withProperty(OCCUPIED, Boolean.valueOf(false));
-                    worldIn.setBlockState(pos, state, 4);
-                }
+				state = state.withProperty(OCCUPIED, Boolean.valueOf(false));
+				worldIn.setBlockState(pos, state, 4);
+			}
 
-                EntityPlayer.EnumStatus entityplayer$enumstatus = playerIn.trySleep(pos);
+			EntityPlayer.EnumStatus entityplayer$enumstatus = playerIn.trySleep(pos);
 
-                if (entityplayer$enumstatus == EntityPlayer.EnumStatus.OK)
-                {
-                    state = state.withProperty(OCCUPIED, Boolean.valueOf(true));
-                    worldIn.setBlockState(pos, state, 4);
-                    return true;
-                }
-                else
-                {
-                    if (entityplayer$enumstatus == EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW)
-                    {
-                        playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.noSleep", new Object[0]));
-                    }
-                    else if (entityplayer$enumstatus == EntityPlayer.EnumStatus.NOT_SAFE)
-                    {
-                        playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.notSafe", new Object[0]));
-                    }
+			if (entityplayer$enumstatus == EntityPlayer.EnumStatus.OK)
+			{
+				state = state.withProperty(OCCUPIED, Boolean.valueOf(true));
+				worldIn.setBlockState(pos, state, 4);
+				return true;
+			}
+			if (entityplayer$enumstatus == EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW)
+				{
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.noSleep", new Object[0]));
+				}
+				else if (entityplayer$enumstatus == EntityPlayer.EnumStatus.NOT_SAFE)
+				{
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.notSafe", new Object[0]));
+				}
 
-                    return true;
-                }
-            }
-            else
-            {
-                worldIn.setBlockToAir(pos);
-                BlockPos blockpos = pos.offset(((EnumFacing)state.getValue(FACING)).getOpposite());
+			return true;
+		}
+		worldIn.setBlockToAir(pos);
+		BlockPos blockpos = pos.offset(((EnumFacing)state.getValue(FACING)).getOpposite());
 
-                if (worldIn.getBlockState(blockpos).getBlock() == this)
-                {
-                    worldIn.setBlockToAir(blockpos);
-                }
+		if (worldIn.getBlockState(blockpos).getBlock() == this)
+		{
+			worldIn.setBlockToAir(blockpos);
+		}
 
-                worldIn.newExplosion((Entity)null, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, 5.0F, true, true);
-                return true;
-            }
-        }
-    }
+		worldIn.newExplosion((Entity)null, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, 5.0F, true, true);
+		return true;
+	}
 
     private EntityPlayer getPlayerInBed(World worldIn, BlockPos pos)
     {

@@ -53,42 +53,41 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 
 			if (i == -1) {
 				return false;
-			} else {
-				switch (i) {
-					case 1:
-						if (Config.isShaders()) {
-							SVertexBuilder.pushEntity(state, pos, blockAccess, worldRendererIn);
-						}
+			}
+			switch (i) {
+				case 1:
+					if (Config.isShaders()) {
+						SVertexBuilder.pushEntity(state, pos, blockAccess, worldRendererIn);
+					}
 
-						boolean flag1 = this.fluidRenderer.renderFluid(blockAccess, state, pos, worldRendererIn);
+					boolean flag1 = this.fluidRenderer.renderFluid(blockAccess, state, pos, worldRendererIn);
 
-						if (Config.isShaders()) {
-							SVertexBuilder.popEntity(worldRendererIn);
-						}
+					if (Config.isShaders()) {
+						SVertexBuilder.popEntity(worldRendererIn);
+					}
 
-						return flag1;
+					return flag1;
 
-					case 2:
-						return false;
+				case 2:
+					return false;
 
-					case 3:
-						IBakedModel ibakedmodel = this.getModelFromBlockState(state, blockAccess, pos);
+				case 3:
+					IBakedModel ibakedmodel = this.getModelFromBlockState(state, blockAccess, pos);
 
-						if (Config.isShaders()) {
-							SVertexBuilder.pushEntity(state, pos, blockAccess, worldRendererIn);
-						}
+					if (Config.isShaders()) {
+						SVertexBuilder.pushEntity(state, pos, blockAccess, worldRendererIn);
+					}
 
-						boolean flag = this.blockModelRenderer.renderModel(blockAccess, ibakedmodel, state, pos, worldRendererIn);
+					boolean flag = this.blockModelRenderer.renderModel(blockAccess, ibakedmodel, state, pos, worldRendererIn);
 
-						if (Config.isShaders()) {
-							SVertexBuilder.popEntity(worldRendererIn);
-						}
+					if (Config.isShaders()) {
+						SVertexBuilder.popEntity(worldRendererIn);
+					}
 
-						return flag;
+					return flag;
 
-					default:
-						return false;
-				}
+				default:
+					return false;
 			}
 		} catch (Throwable throwable) {
 			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Tesselating block in world");
@@ -152,10 +151,9 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 	public boolean isRenderTypeChest(Block p_175021_1_, int p_175021_2_) {
 		if (p_175021_1_ == null) {
 			return false;
-		} else {
-			int i = p_175021_1_.getRenderType();
-			return i != 3 && i == 2;
 		}
+		int i = p_175021_1_.getRenderType();
+		return i != 3 && i == 2;
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {

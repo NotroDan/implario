@@ -149,11 +149,8 @@ public class AxisAlignedBB
 
             return offsetX;
         }
-        else
-        {
-            return offsetX;
-        }
-    }
+		return offsetX;
+	}
 
     /**
      * if instance and the argument bounding boxes overlap in the X and Z dimensions, calculate the offset between them
@@ -185,11 +182,8 @@ public class AxisAlignedBB
 
             return offsetY;
         }
-        else
-        {
-            return offsetY;
-        }
-    }
+		return offsetY;
+	}
 
     /**
      * if instance and the argument bounding boxes overlap in the Y and X dimensions, calculate the offset between them
@@ -221,11 +215,8 @@ public class AxisAlignedBB
 
             return offsetZ;
         }
-        else
-        {
-            return offsetZ;
-        }
-    }
+		return offsetZ;
+	}
 
     /**
      * Returns whether the given bounding box intersects with this one. Args: axisAlignedBB
@@ -343,38 +334,35 @@ public class AxisAlignedBB
         {
             return null;
         }
-        else
-        {
-            EnumFacing enumfacing = null;
+		EnumFacing enumfacing = null;
 
-            if (vec36 == vec3)
-            {
-                enumfacing = EnumFacing.WEST;
-            }
-            else if (vec36 == vec31)
-            {
-                enumfacing = EnumFacing.EAST;
-            }
-            else if (vec36 == vec32)
-            {
-                enumfacing = EnumFacing.DOWN;
-            }
-            else if (vec36 == vec33)
-            {
-                enumfacing = EnumFacing.UP;
-            }
-            else if (vec36 == vec34)
-            {
-                enumfacing = EnumFacing.NORTH;
-            }
-            else
-            {
-                enumfacing = EnumFacing.SOUTH;
-            }
+		if (vec36 == vec3)
+		{
+			enumfacing = EnumFacing.WEST;
+		}
+		else if (vec36 == vec31)
+		{
+			enumfacing = EnumFacing.EAST;
+		}
+		else if (vec36 == vec32)
+		{
+			enumfacing = EnumFacing.DOWN;
+		}
+		else if (vec36 == vec33)
+		{
+			enumfacing = EnumFacing.UP;
+		}
+		else if (vec36 == vec34)
+		{
+			enumfacing = EnumFacing.NORTH;
+		}
+		else
+		{
+			enumfacing = EnumFacing.SOUTH;
+		}
 
-            return new MovingObjectPosition(vec36, enumfacing);
-        }
-    }
+		return new MovingObjectPosition(vec36, enumfacing);
+	}
 
     /**
      * Checks if the specified vector is within the YZ dimensions of the bounding box. Args: Vec3D

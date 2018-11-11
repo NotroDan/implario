@@ -125,60 +125,57 @@ public class WalkNodeProcessor extends NodeProcessor
         {
             return this.openPoint(x, y, z);
         }
-        else
-        {
-            if (i == 1)
-            {
-                pathpoint = this.openPoint(x, y, z);
-            }
+		if (i == 1)
+		{
+			pathpoint = this.openPoint(x, y, z);
+		}
 
-            if (pathpoint == null && p_176171_5_ > 0 && i != -3 && i != -4 && this.getVerticalOffset(entityIn, x, y + p_176171_5_, z) == 1)
-            {
-                pathpoint = this.openPoint(x, y + p_176171_5_, z);
-                y += p_176171_5_;
-            }
+		if (pathpoint == null && p_176171_5_ > 0 && i != -3 && i != -4 && this.getVerticalOffset(entityIn, x, y + p_176171_5_, z) == 1)
+		{
+			pathpoint = this.openPoint(x, y + p_176171_5_, z);
+			y += p_176171_5_;
+		}
 
-            if (pathpoint != null)
-            {
-                int j = 0;
-                int k;
+		if (pathpoint != null)
+		{
+			int j = 0;
+			int k;
 
-                for (k = 0; y > 0; pathpoint = this.openPoint(x, y, z))
-                {
-                    k = this.getVerticalOffset(entityIn, x, y - 1, z);
+			for (k = 0; y > 0; pathpoint = this.openPoint(x, y, z))
+			{
+				k = this.getVerticalOffset(entityIn, x, y - 1, z);
 
-                    if (this.avoidsWater && k == -1)
-                    {
-                        return null;
-                    }
+				if (this.avoidsWater && k == -1)
+				{
+					return null;
+				}
 
-                    if (k != 1)
-                    {
-                        break;
-                    }
+				if (k != 1)
+				{
+					break;
+				}
 
-                    if (j++ >= entityIn.getMaxFallHeight())
-                    {
-                        return null;
-                    }
+				if (j++ >= entityIn.getMaxFallHeight())
+				{
+					return null;
+				}
 
-                    --y;
+				--y;
 
-                    if (y <= 0)
-                    {
-                        return null;
-                    }
-                }
+				if (y <= 0)
+				{
+					return null;
+				}
+			}
 
-                if (k == -2)
-                {
-                    return null;
-                }
-            }
+			if (k == -2)
+			{
+				return null;
+			}
+		}
 
-            return pathpoint;
-        }
-    }
+		return pathpoint;
+	}
 
     /**
      * Checks if an entity collides with blocks at a position.

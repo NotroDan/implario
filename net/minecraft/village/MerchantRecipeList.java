@@ -29,21 +29,18 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe>
             MerchantRecipe merchantrecipe1 = (MerchantRecipe)this.get(p_77203_3_);
             return !this.func_181078_a(p_77203_1_, merchantrecipe1.getItemToBuy()) || (p_77203_2_ != null || merchantrecipe1.hasSecondItemToBuy()) && (!merchantrecipe1.hasSecondItemToBuy() || !this.func_181078_a(p_77203_2_, merchantrecipe1.getSecondItemToBuy())) || p_77203_1_.stackSize < merchantrecipe1.getItemToBuy().stackSize || merchantrecipe1.hasSecondItemToBuy() && p_77203_2_.stackSize < merchantrecipe1.getSecondItemToBuy().stackSize ? null : merchantrecipe1;
         }
-        else
-        {
-            for (int i = 0; i < this.size(); ++i)
-            {
-                MerchantRecipe merchantrecipe = (MerchantRecipe)this.get(i);
+		for (int i = 0; i < this.size(); ++i)
+		{
+			MerchantRecipe merchantrecipe = (MerchantRecipe)this.get(i);
 
-                if (this.func_181078_a(p_77203_1_, merchantrecipe.getItemToBuy()) && p_77203_1_.stackSize >= merchantrecipe.getItemToBuy().stackSize && (!merchantrecipe.hasSecondItemToBuy() && p_77203_2_ == null || merchantrecipe.hasSecondItemToBuy() && this.func_181078_a(p_77203_2_, merchantrecipe.getSecondItemToBuy()) && p_77203_2_.stackSize >= merchantrecipe.getSecondItemToBuy().stackSize))
-                {
-                    return merchantrecipe;
-                }
-            }
+			if (this.func_181078_a(p_77203_1_, merchantrecipe.getItemToBuy()) && p_77203_1_.stackSize >= merchantrecipe.getItemToBuy().stackSize && (!merchantrecipe.hasSecondItemToBuy() && p_77203_2_ == null || merchantrecipe.hasSecondItemToBuy() && this.func_181078_a(p_77203_2_, merchantrecipe.getSecondItemToBuy()) && p_77203_2_.stackSize >= merchantrecipe.getSecondItemToBuy().stackSize))
+			{
+				return merchantrecipe;
+			}
+		}
 
-            return null;
-        }
-    }
+		return null;
+	}
 
     private boolean func_181078_a(ItemStack p_181078_1_, ItemStack p_181078_2_)
     {

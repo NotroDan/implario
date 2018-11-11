@@ -77,12 +77,9 @@ public class ThreadLanServerPing extends Thread
         {
             return "missing no";
         }
-        else
-        {
-            int j = p_77524_0_.indexOf("[/MOTD]", i + "[MOTD]".length());
-            return j < i ? "missing no" : p_77524_0_.substring(i + "[MOTD]".length(), j);
-        }
-    }
+		int j = p_77524_0_.indexOf("[/MOTD]", i + "[MOTD]".length());
+		return j < i ? "missing no" : p_77524_0_.substring(i + "[MOTD]".length(), j);
+	}
 
     public static String getAdFromPingResponse(String p_77523_0_)
     {
@@ -92,28 +89,19 @@ public class ThreadLanServerPing extends Thread
         {
             return null;
         }
-        else
-        {
-            int j = p_77523_0_.indexOf("[/MOTD]", i + "[/MOTD]".length());
+		int j = p_77523_0_.indexOf("[/MOTD]", i + "[/MOTD]".length());
 
-            if (j >= 0)
-            {
-                return null;
-            }
-            else
-            {
-                int k = p_77523_0_.indexOf("[AD]", i + "[/MOTD]".length());
+		if (j >= 0)
+		{
+			return null;
+		}
+		int k = p_77523_0_.indexOf("[AD]", i + "[/MOTD]".length());
 
-                if (k < 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    int l = p_77523_0_.indexOf("[/AD]", k + "[AD]".length());
-                    return l < k ? null : p_77523_0_.substring(k + "[AD]".length(), l);
-                }
-            }
-        }
-    }
+		if (k < 0)
+		{
+			return null;
+		}
+		int l = p_77523_0_.indexOf("[/AD]", k + "[AD]".length());
+		return l < k ? null : p_77523_0_.substring(k + "[AD]".length(), l);
+	}
 }

@@ -272,65 +272,62 @@ public class ItemInWorldManager
         {
             return false;
         }
-        else
-        {
-            IBlockState iblockstate = this.theWorld.getBlockState(pos);
-            TileEntity tileentity = this.theWorld.getTileEntity(pos);
+		IBlockState iblockstate = this.theWorld.getBlockState(pos);
+		TileEntity tileentity = this.theWorld.getTileEntity(pos);
 
-            if (this.gameType.isAdventure())
-            {
-                if (this.gameType == WorldSettings.GameType.SPECTATOR)
-                {
-                    return false;
-                }
+		if (this.gameType.isAdventure())
+		{
+			if (this.gameType == WorldSettings.GameType.SPECTATOR)
+			{
+				return false;
+			}
 
-                if (!this.thisPlayerMP.isAllowEdit())
-                {
-                    ItemStack itemstack = this.thisPlayerMP.getCurrentEquippedItem();
+			if (!this.thisPlayerMP.isAllowEdit())
+			{
+				ItemStack itemstack = this.thisPlayerMP.getCurrentEquippedItem();
 
-                    if (itemstack == null)
-                    {
-                        return false;
-                    }
+				if (itemstack == null)
+				{
+					return false;
+				}
 
-                    if (!itemstack.canDestroy(iblockstate.getBlock()))
-                    {
-                        return false;
-                    }
-                }
-            }
+				if (!itemstack.canDestroy(iblockstate.getBlock()))
+				{
+					return false;
+				}
+			}
+		}
 
-            this.theWorld.playAuxSFXAtEntity(this.thisPlayerMP, 2001, pos, Block.getStateId(iblockstate));
-            boolean flag1 = this.removeBlock(pos);
+		this.theWorld.playAuxSFXAtEntity(this.thisPlayerMP, 2001, pos, Block.getStateId(iblockstate));
+		boolean flag1 = this.removeBlock(pos);
 
-            if (this.isCreative())
-            {
-                this.thisPlayerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(this.theWorld, pos));
-            }
-            else
-            {
-                ItemStack itemstack1 = this.thisPlayerMP.getCurrentEquippedItem();
-                boolean flag = this.thisPlayerMP.canHarvestBlock(iblockstate.getBlock());
+		if (this.isCreative())
+		{
+			this.thisPlayerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(this.theWorld, pos));
+		}
+		else
+		{
+			ItemStack itemstack1 = this.thisPlayerMP.getCurrentEquippedItem();
+			boolean flag = this.thisPlayerMP.canHarvestBlock(iblockstate.getBlock());
 
-                if (itemstack1 != null)
-                {
-                    itemstack1.onBlockDestroyed(this.theWorld, iblockstate.getBlock(), pos, this.thisPlayerMP);
+			if (itemstack1 != null)
+			{
+				itemstack1.onBlockDestroyed(this.theWorld, iblockstate.getBlock(), pos, this.thisPlayerMP);
 
-                    if (itemstack1.stackSize == 0)
-                    {
-                        this.thisPlayerMP.destroyCurrentEquippedItem();
-                    }
-                }
+				if (itemstack1.stackSize == 0)
+				{
+					this.thisPlayerMP.destroyCurrentEquippedItem();
+				}
+			}
 
-                if (flag1 && flag)
-                {
-                    iblockstate.getBlock().harvestBlock(this.theWorld, this.thisPlayerMP, pos, iblockstate, tileentity);
-                }
-            }
+			if (flag1 && flag)
+			{
+				iblockstate.getBlock().harvestBlock(this.theWorld, this.thisPlayerMP, pos, iblockstate, tileentity);
+			}
+		}
 
-            return flag1;
-        }
-    }
+		return flag1;
+	}
 
     /**
      * Attempts to right-click use an item by the given EntityPlayer in the given World
@@ -341,44 +338,38 @@ public class ItemInWorldManager
         {
             return false;
         }
-        else
-        {
-            int i = stack.stackSize;
-            int j = stack.getMetadata();
-            ItemStack itemstack = stack.useItemRightClick(worldIn, player);
+		int i = stack.stackSize;
+		int j = stack.getMetadata();
+		ItemStack itemstack = stack.useItemRightClick(worldIn, player);
 
-            if (itemstack != stack || itemstack != null && (itemstack.stackSize != i || itemstack.getMaxItemUseDuration() > 0 || itemstack.getMetadata() != j))
-            {
-                player.inventory.mainInventory[player.inventory.currentItem] = itemstack;
+		if (itemstack != stack || itemstack != null && (itemstack.stackSize != i || itemstack.getMaxItemUseDuration() > 0 || itemstack.getMetadata() != j))
+		{
+			player.inventory.mainInventory[player.inventory.currentItem] = itemstack;
 
-                if (this.isCreative())
-                {
-                    itemstack.stackSize = i;
+			if (this.isCreative())
+			{
+				itemstack.stackSize = i;
 
-                    if (itemstack.isItemStackDamageable())
-                    {
-                        itemstack.setItemDamage(j);
-                    }
-                }
+				if (itemstack.isItemStackDamageable())
+				{
+					itemstack.setItemDamage(j);
+				}
+			}
 
-                if (itemstack.stackSize == 0)
-                {
-                    player.inventory.mainInventory[player.inventory.currentItem] = null;
-                }
+			if (itemstack.stackSize == 0)
+			{
+				player.inventory.mainInventory[player.inventory.currentItem] = null;
+			}
 
-                if (!player.isUsingItem())
-                {
-                    ((EntityPlayerMP)player).sendContainerToPlayer(player.inventoryContainer);
-                }
+			if (!player.isUsingItem())
+			{
+				((EntityPlayerMP)player).sendContainerToPlayer(player.inventoryContainer);
+			}
 
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     /**
      * Activate the clicked on block, otherwise use the held item.
@@ -413,37 +404,31 @@ public class ItemInWorldManager
 
             return false;
         }
-        else
-        {
-            if (!player.isSneaking() || player.getHeldItem() == null)
-            {
-                IBlockState iblockstate = worldIn.getBlockState(pos);
+		if (!player.isSneaking() || player.getHeldItem() == null)
+		{
+			IBlockState iblockstate = worldIn.getBlockState(pos);
 
-                if (iblockstate.getBlock().onBlockActivated(worldIn, pos, iblockstate, player, side, offsetX, offsetY, offsetZ))
-                {
-                    return true;
-                }
-            }
+			if (iblockstate.getBlock().onBlockActivated(worldIn, pos, iblockstate, player, side, offsetX, offsetY, offsetZ))
+			{
+				return true;
+			}
+		}
 
-            if (stack == null)
-            {
-                return false;
-            }
-            else if (this.isCreative())
-            {
-                int j = stack.getMetadata();
-                int i = stack.stackSize;
-                boolean flag = stack.onItemUse(player, worldIn, pos, side, offsetX, offsetY, offsetZ);
-                stack.setItemDamage(j);
-                stack.stackSize = i;
-                return flag;
-            }
-            else
-            {
-                return stack.onItemUse(player, worldIn, pos, side, offsetX, offsetY, offsetZ);
-            }
-        }
-    }
+		if (stack == null)
+		{
+			return false;
+		}
+		if (this.isCreative())
+		{
+			int j = stack.getMetadata();
+			int i = stack.stackSize;
+			boolean flag = stack.onItemUse(player, worldIn, pos, side, offsetX, offsetY, offsetZ);
+			stack.setItemDamage(j);
+			stack.stackSize = i;
+			return flag;
+		}
+		return stack.onItemUse(player, worldIn, pos, side, offsetX, offsetY, offsetZ);
+	}
 
     /**
      * Sets the world instance.

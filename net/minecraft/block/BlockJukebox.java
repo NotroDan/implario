@@ -38,11 +38,8 @@ public class BlockJukebox extends BlockContainer
             worldIn.setBlockState(pos, state, 2);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public void insertRecord(World worldIn, BlockPos pos, IBlockState state, ItemStack recordStack)
     {

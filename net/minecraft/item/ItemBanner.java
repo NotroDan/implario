@@ -36,50 +36,44 @@ public class ItemBanner extends ItemBlock
         {
             return false;
         }
-        else if (!worldIn.getBlockState(pos).getBlock().getMaterial().isSolid())
-        {
-            return false;
-        }
-        else
-        {
-            pos = pos.offset(side);
+		if (!worldIn.getBlockState(pos).getBlock().getMaterial().isSolid())
+		{
+			return false;
+		}
+		pos = pos.offset(side);
 
-            if (!playerIn.canPlayerEdit(pos, side, stack))
-            {
-                return false;
-            }
-            else if (!Blocks.standing_banner.canPlaceBlockAt(worldIn, pos))
-            {
-                return false;
-            }
-            else if (worldIn.isRemote)
-            {
-                return true;
-            }
-            else
-            {
-                if (side == EnumFacing.UP)
-                {
-                    int i = MathHelper.floor_double((double)((playerIn.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-                    worldIn.setBlockState(pos, Blocks.standing_banner.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 3);
-                }
-                else
-                {
-                    worldIn.setBlockState(pos, Blocks.wall_banner.getDefaultState().withProperty(BlockWallSign.FACING, side), 3);
-                }
+		if (!playerIn.canPlayerEdit(pos, side, stack))
+		{
+			return false;
+		}
+		if (!Blocks.standing_banner.canPlaceBlockAt(worldIn, pos))
+		{
+			return false;
+		}
+		if (worldIn.isRemote)
+		{
+			return true;
+		}
+		if (side == EnumFacing.UP)
+		{
+			int i = MathHelper.floor_double((double)((playerIn.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+			worldIn.setBlockState(pos, Blocks.standing_banner.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 3);
+		}
+		else
+		{
+			worldIn.setBlockState(pos, Blocks.wall_banner.getDefaultState().withProperty(BlockWallSign.FACING, side), 3);
+		}
 
-                --stack.stackSize;
-                TileEntity tileentity = worldIn.getTileEntity(pos);
+		--stack.stackSize;
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-                if (tileentity instanceof TileEntityBanner)
-                {
-                    ((TileEntityBanner)tileentity).setItemValues(stack);
-                }
+		if (tileentity instanceof TileEntityBanner)
+		{
+			((TileEntityBanner)tileentity).setItemValues(stack);
+		}
 
-                return true;
-            }
-        }
-    }
+		return true;
+	}
 
     public String getItemStackDisplayName(ItemStack stack)
     {
@@ -120,12 +114,9 @@ public class ItemBanner extends ItemBlock
         {
             return 16777215;
         }
-        else
-        {
-            EnumDyeColor enumdyecolor = this.getBaseColor(stack);
-            return enumdyecolor.getMapColor().colorValue;
-        }
-    }
+		EnumDyeColor enumdyecolor = this.getBaseColor(stack);
+		return enumdyecolor.getMapColor().colorValue;
+	}
 
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)

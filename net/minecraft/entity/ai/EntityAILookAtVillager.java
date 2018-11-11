@@ -24,16 +24,13 @@ public class EntityAILookAtVillager extends EntityAIBase
         {
             return false;
         }
-        else if (this.theGolem.getRNG().nextInt(8000) != 0)
-        {
-            return false;
-        }
-        else
-        {
-            this.theVillager = (EntityVillager)this.theGolem.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.theGolem.getEntityBoundingBox().expand(6.0D, 2.0D, 6.0D), this.theGolem);
-            return this.theVillager != null;
-        }
-    }
+		if (this.theGolem.getRNG().nextInt(8000) != 0)
+		{
+			return false;
+		}
+		this.theVillager = (EntityVillager)this.theGolem.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.theGolem.getEntityBoundingBox().expand(6.0D, 2.0D, 6.0D), this.theGolem);
+		return this.theVillager != null;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

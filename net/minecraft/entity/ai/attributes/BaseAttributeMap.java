@@ -33,20 +33,17 @@ public abstract class BaseAttributeMap
         {
             throw new IllegalArgumentException("Attribute is already registered!");
         }
-        else
-        {
-            IAttributeInstance iattributeinstance = this.func_180376_c(attribute);
-            this.attributesByName.put(attribute.getAttributeUnlocalizedName(), iattributeinstance);
-            this.attributes.put(attribute, iattributeinstance);
+		IAttributeInstance iattributeinstance = this.func_180376_c(attribute);
+		this.attributesByName.put(attribute.getAttributeUnlocalizedName(), iattributeinstance);
+		this.attributes.put(attribute, iattributeinstance);
 
-            for (IAttribute iattribute = attribute.func_180372_d(); iattribute != null; iattribute = iattribute.func_180372_d())
-            {
-                this.field_180377_c.put(iattribute, attribute);
-            }
+		for (IAttribute iattribute = attribute.func_180372_d(); iattribute != null; iattribute = iattribute.func_180372_d())
+		{
+			this.field_180377_c.put(iattribute, attribute);
+		}
 
-            return iattributeinstance;
-        }
-    }
+		return iattributeinstance;
+	}
 
     protected abstract IAttributeInstance func_180376_c(IAttribute p_180376_1_);
 

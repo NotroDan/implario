@@ -38,24 +38,21 @@ public class NBTTagCompound extends NBTBase
         {
             throw new RuntimeException("Tried to read NBT tag with too high complexity, depth > 512");
         }
-        else
-        {
-            this.tagMap.clear();
-            byte b0;
+		this.tagMap.clear();
+		byte b0;
 
-            while ((b0 = readType(input, sizeTracker)) != 0)
-            {
-                String s = readKey(input, sizeTracker);
-                sizeTracker.read((long)(224 + 16 * s.length()));
-                NBTBase nbtbase = readNBT(b0, s, input, depth + 1, sizeTracker);
+		while ((b0 = readType(input, sizeTracker)) != 0)
+		{
+			String s = readKey(input, sizeTracker);
+			sizeTracker.read((long)(224 + 16 * s.length()));
+			NBTBase nbtbase = readNBT(b0, s, input, depth + 1, sizeTracker);
 
-                if (this.tagMap.put(s, nbtbase) != null)
-                {
-                    sizeTracker.read(288L);
-                }
-            }
-        }
-    }
+			if (this.tagMap.put(s, nbtbase) != null)
+			{
+				sizeTracker.read(288L);
+			}
+		}
+	}
 
     public Set<String> getKeySet()
     {
@@ -191,20 +188,17 @@ public class NBTTagCompound extends NBTBase
         {
             return true;
         }
-        else if (type != 99)
-        {
-            if (i > 0)
-            {
-                ;
-            }
+		if (type != 99)
+		{
+			if (i > 0)
+			{
+				;
+			}
 
-            return false;
-        }
-        else
-        {
-            return i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6;
-        }
-    }
+			return false;
+		}
+		return i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6;
+	}
 
     /**
      * Retrieves a byte value using the specified key, or 0 if no such key was stored.
@@ -368,12 +362,9 @@ public class NBTTagCompound extends NBTBase
             {
                 return new NBTTagList();
             }
-            else
-            {
-                NBTTagList nbttaglist = (NBTTagList)this.tagMap.get(key);
-                return nbttaglist.tagCount() > 0 && nbttaglist.getTagType() != type ? new NBTTagList() : nbttaglist;
-            }
-        }
+			NBTTagList nbttaglist = (NBTTagList)this.tagMap.get(key);
+			return nbttaglist.tagCount() > 0 && nbttaglist.getTagType() != type ? new NBTTagList() : nbttaglist;
+		}
         catch (ClassCastException classcastexception)
         {
             throw new ReportedException(this.createCrashReport(key, 9, classcastexception));
@@ -469,11 +460,8 @@ public class NBTTagCompound extends NBTBase
             NBTTagCompound nbttagcompound = (NBTTagCompound)p_equals_1_;
             return this.tagMap.entrySet().equals(nbttagcompound.tagMap.entrySet());
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public int hashCode()
     {

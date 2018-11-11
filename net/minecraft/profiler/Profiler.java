@@ -139,59 +139,59 @@ public class Profiler {
 
 		if (!this.profilerLocalEnabled) {
 			return new ArrayList(Arrays.asList(new Result("root", 0.0D, 0.0D)));
-		} else if (!this.profilingEnabled) {
-			return null;
-		} else {
-			long i = this.profilingMap.containsKey("root") ? (Long) this.profilingMap.get("root") : 0L;
-			long j = this.profilingMap.containsKey(p_76321_1_) ? (Long) this.profilingMap.get(p_76321_1_) : -1L;
-			ArrayList arraylist = Lists.newArrayList();
-
-			if (p_76321_1_.length() > 0) {
-				p_76321_1_ = p_76321_1_ + ".";
-			}
-
-			long k = 0L;
-
-			for (Object s : this.profilingMap.keySet()) {
-				if (((String) s).length() > p_76321_1_.length() && ((String) s).startsWith(p_76321_1_) && ((String) s).indexOf(".", p_76321_1_.length() + 1) < 0) {
-					k += (Long) this.profilingMap.get(s);
-				}
-			}
-
-			float f = (float) k;
-
-			if (k < j) {
-				k = j;
-			}
-
-			if (i < k) {
-				i = k;
-			}
-
-			for (Object s10 : this.profilingMap.keySet()) {
-				String s1 = (String) s10;
-
-				if (s1.length() > p_76321_1_.length() && s1.startsWith(p_76321_1_) && s1.indexOf(".", p_76321_1_.length() + 1) < 0) {
-					long l = (Long) this.profilingMap.get(s1);
-					double d0 = (double) l * 100.0D / (double) k;
-					double d1 = (double) l * 100.0D / (double) i;
-					String s2 = s1.substring(p_76321_1_.length());
-					arraylist.add(new Profiler.Result(s2, d0, d1));
-				}
-			}
-
-			for (Object s3 : this.profilingMap.keySet()) {
-				this.profilingMap.put(s3, (Long) this.profilingMap.get(s3) * 950L / 1000L);
-			}
-
-			if ((float) k > f) {
-				arraylist.add(new Profiler.Result("unspecified", (double) ((float) k - f) * 100.0D / (double) k, (double) ((float) k - f) * 100.0D / (double) i));
-			}
-
-			Collections.sort(arraylist);
-			arraylist.add(0, new Profiler.Result(p_76321_1_, 100.0D, (double) k * 100.0D / (double) i));
-			return arraylist;
 		}
+		if (!this.profilingEnabled) {
+			return null;
+		}
+		long i = this.profilingMap.containsKey("root") ? (Long) this.profilingMap.get("root") : 0L;
+		long j = this.profilingMap.containsKey(p_76321_1_) ? (Long) this.profilingMap.get(p_76321_1_) : -1L;
+		ArrayList arraylist = Lists.newArrayList();
+
+		if (p_76321_1_.length() > 0) {
+			p_76321_1_ = p_76321_1_ + ".";
+		}
+
+		long k = 0L;
+
+		for (Object s : this.profilingMap.keySet()) {
+			if (((String) s).length() > p_76321_1_.length() && ((String) s).startsWith(p_76321_1_) && ((String) s).indexOf(".", p_76321_1_.length() + 1) < 0) {
+				k += (Long) this.profilingMap.get(s);
+			}
+		}
+
+		float f = (float) k;
+
+		if (k < j) {
+			k = j;
+		}
+
+		if (i < k) {
+			i = k;
+		}
+
+		for (Object s10 : this.profilingMap.keySet()) {
+			String s1 = (String) s10;
+
+			if (s1.length() > p_76321_1_.length() && s1.startsWith(p_76321_1_) && s1.indexOf(".", p_76321_1_.length() + 1) < 0) {
+				long l = (Long) this.profilingMap.get(s1);
+				double d0 = (double) l * 100.0D / (double) k;
+				double d1 = (double) l * 100.0D / (double) i;
+				String s2 = s1.substring(p_76321_1_.length());
+				arraylist.add(new Profiler.Result(s2, d0, d1));
+			}
+		}
+
+		for (Object s3 : this.profilingMap.keySet()) {
+			this.profilingMap.put(s3, (Long) this.profilingMap.get(s3) * 950L / 1000L);
+		}
+
+		if ((float) k > f) {
+			arraylist.add(new Profiler.Result("unspecified", (double) ((float) k - f) * 100.0D / (double) k, (double) ((float) k - f) * 100.0D / (double) i));
+		}
+
+		Collections.sort(arraylist);
+		arraylist.add(0, new Profiler.Result(p_76321_1_, 100.0D, (double) k * 100.0D / (double) i));
+		return arraylist;
 	}
 
 	/**

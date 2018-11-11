@@ -298,11 +298,8 @@ public class EntityZombie extends EntityMob
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Called to update the entity's position/logic.
@@ -636,11 +633,8 @@ public class EntityZombie extends EntityMob
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Starts converting this zombie into a villager. The zombie converts into a villager after the specified time in

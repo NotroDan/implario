@@ -170,68 +170,56 @@ public class EntityItem extends Entity
         {
             return false;
         }
-        else if (other.isEntityAlive() && this.isEntityAlive())
-        {
-            ItemStack itemstack = this.getEntityItem();
-            ItemStack itemstack1 = other.getEntityItem();
+		if (other.isEntityAlive() && this.isEntityAlive())
+		{
+			ItemStack itemstack = this.getEntityItem();
+			ItemStack itemstack1 = other.getEntityItem();
 
-            if (this.delayBeforeCanPickup != 32767 && other.delayBeforeCanPickup != 32767)
-            {
-                if (this.age != -32768 && other.age != -32768)
-                {
-                    if (itemstack1.getItem() != itemstack.getItem())
-                    {
-                        return false;
-                    }
-                    else if (itemstack1.hasTagCompound() ^ itemstack.hasTagCompound())
-                    {
-                        return false;
-                    }
-                    else if (itemstack1.hasTagCompound() && !itemstack1.getTagCompound().equals(itemstack.getTagCompound()))
-                    {
-                        return false;
-                    }
-                    else if (itemstack1.getItem() == null)
-                    {
-                        return false;
-                    }
-                    else if (itemstack1.getItem().getHasSubtypes() && itemstack1.getMetadata() != itemstack.getMetadata())
-                    {
-                        return false;
-                    }
-                    else if (itemstack1.stackSize < itemstack.stackSize)
-                    {
-                        return other.combineItems(this);
-                    }
-                    else if (itemstack1.stackSize + itemstack.stackSize > itemstack1.getMaxStackSize())
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        itemstack1.stackSize += itemstack.stackSize;
-                        other.delayBeforeCanPickup = Math.max(other.delayBeforeCanPickup, this.delayBeforeCanPickup);
-                        other.age = Math.min(other.age, this.age);
-                        other.setEntityItemStack(itemstack1);
-                        this.setDead();
-                        return true;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
+			if (this.delayBeforeCanPickup != 32767 && other.delayBeforeCanPickup != 32767)
+			{
+				if (this.age != -32768 && other.age != -32768)
+				{
+					if (itemstack1.getItem() != itemstack.getItem())
+					{
+						return false;
+					}
+					if (itemstack1.hasTagCompound() ^ itemstack.hasTagCompound())
+					{
+						return false;
+					}
+					if (itemstack1.hasTagCompound() && !itemstack1.getTagCompound().equals(itemstack.getTagCompound()))
+					{
+						return false;
+					}
+					if (itemstack1.getItem() == null)
+					{
+						return false;
+					}
+					if (itemstack1.getItem().getHasSubtypes() && itemstack1.getMetadata() != itemstack.getMetadata())
+					{
+						return false;
+					}
+					if (itemstack1.stackSize < itemstack.stackSize)
+					{
+						return other.combineItems(this);
+					}
+					if (itemstack1.stackSize + itemstack.stackSize > itemstack1.getMaxStackSize())
+					{
+						return false;
+					}
+					itemstack1.stackSize += itemstack.stackSize;
+					other.delayBeforeCanPickup = Math.max(other.delayBeforeCanPickup, this.delayBeforeCanPickup);
+					other.age = Math.min(other.age, this.age);
+					other.setEntityItemStack(itemstack1);
+					this.setDead();
+					return true;
+				}
+				return false;
+			}
+			return false;
+		}
+		return false;
+	}
 
     /**
      * sets the age of the item so that it'll despawn one minute after it has been dropped (instead of five). Used when
@@ -282,23 +270,20 @@ public class EntityItem extends Entity
         {
             return false;
         }
-        else if (this.getEntityItem() != null && this.getEntityItem().getItem() == Items.nether_star && source.isExplosion())
-        {
-            return false;
-        }
-        else
-        {
-            this.setBeenAttacked();
-            this.health = (int)((float)this.health - amount);
+		if (this.getEntityItem() != null && this.getEntityItem().getItem() == Items.nether_star && source.isExplosion())
+		{
+			return false;
+		}
+		this.setBeenAttacked();
+		this.health = (int)((float)this.health - amount);
 
-            if (this.health <= 0)
-            {
-                this.setDead();
-            }
+		if (this.health <= 0)
+		{
+			this.setDead();
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.

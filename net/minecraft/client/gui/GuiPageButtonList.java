@@ -196,7 +196,7 @@ public class GuiPageButtonList extends GuiListExtended
         {
             GuiPageButtonList.GuiEntry guipagebuttonlist$guientry = this.getListEntry(i);
 
-            if (this.field_178075_A != guipagebuttonlist$guientry.field_178028_d && this.field_178075_A != null && this.field_178075_A instanceof GuiTextField)
+            if (this.field_178075_A != guipagebuttonlist$guientry.field_178028_d && this.field_178075_A instanceof GuiTextField)
             {
                 ((GuiTextField)this.field_178075_A).setFocused(false);
             }
@@ -487,20 +487,17 @@ public class GuiPageButtonList extends GuiListExtended
             {
                 return false;
             }
-            else if (p_178026_1_ instanceof GuiButton)
-            {
-                return this.func_178023_a((GuiButton)p_178026_1_, p_178026_2_, p_178026_3_, p_178026_4_);
-            }
-            else
-            {
-                if (p_178026_1_ instanceof GuiTextField)
-                {
-                    this.func_178018_a((GuiTextField)p_178026_1_, p_178026_2_, p_178026_3_, p_178026_4_);
-                }
+			if (p_178026_1_ instanceof GuiButton)
+			{
+				return this.func_178023_a((GuiButton)p_178026_1_, p_178026_2_, p_178026_3_, p_178026_4_);
+			}
+			if (p_178026_1_ instanceof GuiTextField)
+			{
+				this.func_178018_a((GuiTextField)p_178026_1_, p_178026_2_, p_178026_3_, p_178026_4_);
+			}
 
-                return false;
-            }
-        }
+			return false;
+		}
 
         private boolean func_178023_a(GuiButton p_178023_1_, int p_178023_2_, int p_178023_3_, int p_178023_4_)
         {

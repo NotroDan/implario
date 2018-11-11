@@ -74,16 +74,13 @@ public class VertexFormatElement
         {
             return true;
         }
-        else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
-        {
-            VertexFormatElement vertexformatelement = (VertexFormatElement)p_equals_1_;
-            return this.elementCount != vertexformatelement.elementCount ? false : this.index != vertexformatelement.index ? false : this.type != vertexformatelement.type ? false : this.usage == vertexformatelement.usage;
-        }
-        else
-        {
-            return false;
-        }
-    }
+		if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
+		{
+			VertexFormatElement vertexformatelement = (VertexFormatElement)p_equals_1_;
+			return this.elementCount != vertexformatelement.elementCount ? false : this.index != vertexformatelement.index ? false : this.type != vertexformatelement.type ? false : this.usage == vertexformatelement.usage;
+		}
+		return false;
+	}
 
     public int hashCode()
     {

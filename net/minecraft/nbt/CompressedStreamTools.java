@@ -77,11 +77,8 @@ public class CompressedStreamTools
         {
             throw new IOException("Failed to delete " + p_74793_1_);
         }
-        else
-        {
-            file1.renameTo(p_74793_1_);
-        }
-    }
+		file1.renameTo(p_74793_1_);
+	}
 
     public static void write(NBTTagCompound p_74795_0_, File p_74795_1_) throws IOException
     {
@@ -103,23 +100,20 @@ public class CompressedStreamTools
         {
             return null;
         }
-        else
-        {
-            DataInputStream datainputstream = new DataInputStream(new FileInputStream(p_74797_0_));
-            NBTTagCompound nbttagcompound;
+		DataInputStream datainputstream = new DataInputStream(new FileInputStream(p_74797_0_));
+		NBTTagCompound nbttagcompound;
 
-            try
-            {
-                nbttagcompound = read(datainputstream, NBTSizeTracker.INFINITE);
-            }
-            finally
-            {
-                datainputstream.close();
-            }
+		try
+		{
+			nbttagcompound = read(datainputstream, NBTSizeTracker.INFINITE);
+		}
+		finally
+		{
+			datainputstream.close();
+		}
 
-            return nbttagcompound;
-        }
-    }
+		return nbttagcompound;
+	}
 
     /**
      * Reads from a CompressedStream.
@@ -140,11 +134,8 @@ public class CompressedStreamTools
         {
             return (NBTTagCompound)nbtbase;
         }
-        else
-        {
-            throw new IOException("Root tag must be a named compound tag");
-        }
-    }
+		throw new IOException("Root tag must be a named compound tag");
+	}
 
     public static void write(NBTTagCompound p_74800_0_, DataOutput p_74800_1_) throws IOException
     {
@@ -170,24 +161,21 @@ public class CompressedStreamTools
         {
             return new NBTTagEnd();
         }
-        else
-        {
-            p_152455_0_.readUTF();
-            NBTBase nbtbase = NBTBase.createNewByType(b0);
+		p_152455_0_.readUTF();
+		NBTBase nbtbase = NBTBase.createNewByType(b0);
 
-            try
-            {
-                nbtbase.read(p_152455_0_, p_152455_1_, p_152455_2_);
-                return nbtbase;
-            }
-            catch (IOException ioexception)
-            {
-                CrashReport crashreport = CrashReport.makeCrashReport(ioexception, "Loading NBT data");
-                CrashReportCategory crashreportcategory = crashreport.makeCategory("NBT Tag");
-                crashreportcategory.addCrashSection("Tag name", "[UNNAMED TAG]");
-                crashreportcategory.addCrashSection("Tag type", Byte.valueOf(b0));
-                throw new ReportedException(crashreport);
-            }
-        }
-    }
+		try
+		{
+			nbtbase.read(p_152455_0_, p_152455_1_, p_152455_2_);
+			return nbtbase;
+		}
+		catch (IOException ioexception)
+		{
+			CrashReport crashreport = CrashReport.makeCrashReport(ioexception, "Loading NBT data");
+			CrashReportCategory crashreportcategory = crashreport.makeCategory("NBT Tag");
+			crashreportcategory.addCrashSection("Tag name", "[UNNAMED TAG]");
+			crashreportcategory.addCrashSection("Tag type", Byte.valueOf(b0));
+			throw new ReportedException(crashreport);
+		}
+	}
 }

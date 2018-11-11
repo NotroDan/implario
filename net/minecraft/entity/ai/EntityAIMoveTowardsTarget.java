@@ -37,27 +37,21 @@ public class EntityAIMoveTowardsTarget extends EntityAIBase
         {
             return false;
         }
-        else if (this.targetEntity.getDistanceSqToEntity(this.theEntity) > (double)(this.maxTargetDistance * this.maxTargetDistance))
-        {
-            return false;
-        }
-        else
-        {
-            Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, new Vec3(this.targetEntity.posX, this.targetEntity.posY, this.targetEntity.posZ));
+		if (this.targetEntity.getDistanceSqToEntity(this.theEntity) > (double)(this.maxTargetDistance * this.maxTargetDistance))
+		{
+			return false;
+		}
+		Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, new Vec3(this.targetEntity.posX, this.targetEntity.posY, this.targetEntity.posZ));
 
-            if (vec3 == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.movePosX = vec3.xCoord;
-                this.movePosY = vec3.yCoord;
-                this.movePosZ = vec3.zCoord;
-                return true;
-            }
-        }
-    }
+		if (vec3 == null)
+		{
+			return false;
+		}
+		this.movePosX = vec3.xCoord;
+		this.movePosY = vec3.yCoord;
+		this.movePosZ = vec3.zCoord;
+		return true;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

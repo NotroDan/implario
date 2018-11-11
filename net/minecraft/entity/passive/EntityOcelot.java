@@ -181,12 +181,9 @@ public class EntityOcelot extends EntityTameable
         {
             return false;
         }
-        else
-        {
-            this.aiSit.setSitting(false);
-            return super.attackEntityFrom(source, amount);
-        }
-    }
+		this.aiSit.setSitting(false);
+		return super.attackEntityFrom(source, amount);
+	}
 
     /**
      * Drop 0-2 items of this living's type
@@ -277,20 +274,17 @@ public class EntityOcelot extends EntityTameable
         {
             return false;
         }
-        else if (!this.isTamed())
-        {
-            return false;
-        }
-        else if (!(otherAnimal instanceof EntityOcelot))
-        {
-            return false;
-        }
-        else
-        {
-            EntityOcelot entityocelot = (EntityOcelot)otherAnimal;
-            return !entityocelot.isTamed() ? false : this.isInLove() && entityocelot.isInLove();
-        }
-    }
+		if (!this.isTamed())
+		{
+			return false;
+		}
+		if (!(otherAnimal instanceof EntityOcelot))
+		{
+			return false;
+		}
+		EntityOcelot entityocelot = (EntityOcelot)otherAnimal;
+		return !entityocelot.isTamed() ? false : this.isInLove() && entityocelot.isInLove();
+	}
 
     public int getTameSkin()
     {

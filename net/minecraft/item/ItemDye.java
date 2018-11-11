@@ -46,59 +46,56 @@ public class ItemDye extends Item
         {
             return false;
         }
-        else
-        {
-            EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
+		EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
-            if (enumdyecolor == EnumDyeColor.WHITE)
-            {
-                if (applyBonemeal(stack, worldIn, pos))
-                {
-                    if (!worldIn.isRemote)
-                    {
-                        worldIn.playAuxSFX(2005, pos, 0);
-                    }
+		if (enumdyecolor == EnumDyeColor.WHITE)
+		{
+			if (applyBonemeal(stack, worldIn, pos))
+			{
+				if (!worldIn.isRemote)
+				{
+					worldIn.playAuxSFX(2005, pos, 0);
+				}
 
-                    return true;
-                }
-            }
-            else if (enumdyecolor == EnumDyeColor.BROWN)
-            {
-                IBlockState iblockstate = worldIn.getBlockState(pos);
-                Block block = iblockstate.getBlock();
+				return true;
+			}
+		}
+		else if (enumdyecolor == EnumDyeColor.BROWN)
+		{
+			IBlockState iblockstate = worldIn.getBlockState(pos);
+			Block block = iblockstate.getBlock();
 
-                if (block == Blocks.log && iblockstate.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.JUNGLE)
-                {
-                    if (side == EnumFacing.DOWN)
-                    {
-                        return false;
-                    }
+			if (block == Blocks.log && iblockstate.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.JUNGLE)
+			{
+				if (side == EnumFacing.DOWN)
+				{
+					return false;
+				}
 
-                    if (side == EnumFacing.UP)
-                    {
-                        return false;
-                    }
+				if (side == EnumFacing.UP)
+				{
+					return false;
+				}
 
-                    pos = pos.offset(side);
+				pos = pos.offset(side);
 
-                    if (worldIn.isAirBlock(pos))
-                    {
-                        IBlockState iblockstate1 = Blocks.cocoa.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, 0, playerIn);
-                        worldIn.setBlockState(pos, iblockstate1, 2);
+				if (worldIn.isAirBlock(pos))
+				{
+					IBlockState iblockstate1 = Blocks.cocoa.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, 0, playerIn);
+					worldIn.setBlockState(pos, iblockstate1, 2);
 
-                        if (!playerIn.capabilities.isCreativeMode)
-                        {
-                            --stack.stackSize;
-                        }
-                    }
+					if (!playerIn.capabilities.isCreativeMode)
+					{
+						--stack.stackSize;
+					}
+				}
 
-                    return true;
-                }
-            }
+				return true;
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos target)
     {
@@ -168,11 +165,8 @@ public class ItemDye extends Item
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)

@@ -116,9 +116,6 @@ public class CommandHelp extends CommandBase
             Set<String> set = this.getCommands().keySet();
             return getListOfStringsMatchingLastWord(args, (String[])set.toArray(new String[set.size()]));
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 }

@@ -32,32 +32,23 @@ public class EntityAIDefendVillage extends EntityAITarget
         {
             return false;
         }
-        else
-        {
-            this.villageAgressorTarget = village.findNearestVillageAggressor(this.irongolem);
+		this.villageAgressorTarget = village.findNearestVillageAggressor(this.irongolem);
 
-            if (this.villageAgressorTarget instanceof EntityCreeper)
-            {
-                return false;
-            }
-            else if (!this.isSuitableTarget(this.villageAgressorTarget, false))
-            {
-                if (this.taskOwner.getRNG().nextInt(20) == 0)
-                {
-                    this.villageAgressorTarget = village.getNearestTargetPlayer(this.irongolem);
-                    return this.isSuitableTarget(this.villageAgressorTarget, false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }
-    }
+		if (this.villageAgressorTarget instanceof EntityCreeper)
+		{
+			return false;
+		}
+		if (!this.isSuitableTarget(this.villageAgressorTarget, false))
+		{
+			if (this.taskOwner.getRNG().nextInt(20) == 0)
+			{
+				this.villageAgressorTarget = village.getNearestTargetPlayer(this.irongolem);
+				return this.isSuitableTarget(this.villageAgressorTarget, false);
+			}
+			return false;
+		}
+		return true;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

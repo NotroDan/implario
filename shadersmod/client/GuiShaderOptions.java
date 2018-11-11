@@ -4,11 +4,10 @@ import net.minecraft.Utils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import optifine.Config;
 import optifine.GuiScreenOF;
-import optifine.Lang;
 import optifine.StrUtils;
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class GuiShaderOptions extends GuiScreenOF {
 	 * window resizes, the buttonList is cleared beforehand.
 	 */
 	public void initGui() {
-		this.title = I18n.format("of.options.shaderOptionsTitle");
+		this.title = Lang.format("of.options.shaderOptionsTitle");
 		int i = 100;
 		int j;
 		int k = 30;
@@ -87,8 +86,8 @@ public class GuiShaderOptions extends GuiScreenOF {
 			}
 		}
 
-		this.buttonList.add(new GuiButton(201, this.width / 2 - j1 - 20, this.height / 6 + 168 + 11, j1, k1, I18n.format("controls.reset")));
-		this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, j1, k1, I18n.format("gui.done")));
+		this.buttonList.add(new GuiButton(201, this.width / 2 - j1 - 20, this.height / 6 + 168 + 11, j1, k1, Lang.format("controls.reset")));
+		this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, j1, k1, Lang.format("gui.done")));
 	}
 
 	private String getButtonText(ShaderOption so, int btnWidth) {
@@ -97,16 +96,15 @@ public class GuiShaderOptions extends GuiScreenOF {
 		if (so instanceof ShaderOptionScreen) {
 			ShaderOptionScreen shaderoptionscreen = (ShaderOptionScreen) so;
 			return s + "...";
-		} else {
-			FontRenderer fontrenderer = Config.getMinecraft().fontRendererObj;
-
-			for (int i = fontrenderer.getStringWidth(": " + Lang.getOff()) + 5; fontrenderer.getStringWidth(s) + i >= btnWidth && s.length() > 0; s = s.substring(0, s.length() - 1)) {
-			}
-
-			String s1 = so.isChanged() ? so.getValueColor(so.getValue()) : "";
-			String s2 = so.getValueText(so.getValue());
-			return s + ": " + s1 + s2;
 		}
+		FontRenderer fontrenderer = Config.getMinecraft().fontRendererObj;
+
+		for (int i = fontrenderer.getStringWidth(": " + optifine.Lang.getOff()) + 5; fontrenderer.getStringWidth(s) + i >= btnWidth && s.length() > 0; s = s.substring(0, s.length() - 1)) {
+		}
+
+		String s1 = so.isChanged() ? so.getValueColor(so.getValue()) : "";
+		String s2 = so.getValueText(so.getValue());
+		return s + ": " + s1 + s2;
 	}
 
 	/**
@@ -262,58 +260,54 @@ public class GuiShaderOptions extends GuiScreenOF {
 	private String[] makeTooltipLines(ShaderOption so, int width) {
 		if (so instanceof ShaderOptionProfile)
 			return null;
-		else {
-			String s = so.getNameText();
-			String s1 = Config.normalize(so.getDescriptionText()).trim();
-			String[] astring = this.splitDescription(s1);
-			String s2 = null;
+		String s = so.getNameText();
+		String s1 = Config.normalize(so.getDescriptionText()).trim();
+		String[] astring = this.splitDescription(s1);
+		String s2 = null;
 
-			if (!s.equals(so.getName()) && Settings.ITEM_TOOLTIPS.b())
-				s2 = "\u00a78" + Lang.get("of.general.id") + ": " + so.getName();
+		if (!s.equals(so.getName()) && Settings.ITEM_TOOLTIPS.b())
+			s2 = "\u00a78" + optifine.Lang.get("of.general.id") + ": " + so.getName();
 
-			String s3 = null;
+		String s3 = null;
 
-			if (so.getPaths() != null && Settings.ITEM_TOOLTIPS.b())
-				s3 = "\u00a78" + Lang.get("of.general.from") + ": " + Config.arrayToString(so.getPaths());
+		if (so.getPaths() != null && Settings.ITEM_TOOLTIPS.b())
+			s3 = "\u00a78" + optifine.Lang.get("of.general.from") + ": " + Config.arrayToString(so.getPaths());
 
-			String s4 = null;
+		String s4 = null;
 
-			if (so.getValueDefault() != null && Settings.ITEM_TOOLTIPS.b()) {
-				String s5 = so.isEnabled() ? so.getValueText(so.getValueDefault()) : Lang.get("of.general.ambiguous");
-				s4 = "\u00a78" + Lang.getDefault() + ": " + s5;
-			}
-
-			List<String> list = new ArrayList();
-			list.add(s);
-			list.addAll(Arrays.asList(astring));
-
-			if (s2 != null)
-				list.add(s2);
-
-			if (s3 != null)
-				list.add(s3);
-
-			if (s4 != null)
-				list.add(s4);
-
-			return this.makeTooltipLines(width, list);
+		if (so.getValueDefault() != null && Settings.ITEM_TOOLTIPS.b()) {
+			String s5 = so.isEnabled() ? so.getValueText(so.getValueDefault()) : optifine.Lang.get("of.general.ambiguous");
+			s4 = "\u00a78" + optifine.Lang.getDefault() + ": " + s5;
 		}
+
+		List<String> list = new ArrayList();
+		list.add(s);
+		list.addAll(Arrays.asList(astring));
+
+		if (s2 != null)
+			list.add(s2);
+
+		if (s3 != null)
+			list.add(s3);
+
+		if (s4 != null)
+			list.add(s4);
+
+		return this.makeTooltipLines(width, list);
 	}
 
 	private String[] splitDescription(String desc) {
 		if (desc.length() <= 0)
 			return Utils.STRING;
-		else {
-			desc = StrUtils.removePrefix(desc, "//");
-			String[] astring = desc.split("\\. ");
+		desc = StrUtils.removePrefix(desc, "//");
+		String[] astring = desc.split("\\. ");
 
-			for (int i = 0; i < astring.length; ++i) {
-				astring[i] = "- " + astring[i].trim();
-				astring[i] = StrUtils.removeSuffix(astring[i], ".");
-			}
-
-			return astring;
+		for (int i = 0; i < astring.length; ++i) {
+			astring[i] = "- " + astring[i].trim();
+			astring[i] = StrUtils.removeSuffix(astring[i], ".");
 		}
+
+		return astring;
 	}
 
 	private String[] makeTooltipLines(int width, List<String> args) {

@@ -392,46 +392,42 @@ public class RenderItem implements IResourceManagerReloadListener {
 	 * Renders the stack size and/or damage bar for the given ItemStack.
 	 */
 	public void renderItemOverlayIntoGUI(FontRenderer fr, ItemStack stack, int xPosition, int yPosition, String text) {
-		if (stack != null) {
-			if (stack.stackSize != 1 || text != null) {
-				String s = text == null ? String.valueOf(stack.stackSize) : text;
+		if (stack == null) return;
+		if (stack.stackSize != 1 || text != null) {
+			String s = text == null ? String.valueOf(stack.stackSize) : text;
 
-				if (text == null && stack.stackSize < 1) {
-					s = EnumChatFormatting.RED + String.valueOf(stack.stackSize);
-				}
-
-				GlStateManager.disableLighting();
-				GlStateManager.disableDepth();
-				GlStateManager.disableBlend();
-				fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
-				GlStateManager.enableLighting();
-				GlStateManager.enableDepth();
+			if (text == null && stack.stackSize < 1) {
+				s = EnumChatFormatting.RED + String.valueOf(stack.stackSize);
 			}
 
-			boolean flag = stack.isItemDamaged();
-
-			if (flag) {
-				int i = (int) Math.round(13.0D - (double) stack.getItemDamage() * 13.0D / (double) stack.getMaxDamage());
-				int j = (int) Math.round(255.0D - (double) stack.getItemDamage() * 255.0D / (double) stack.getMaxDamage());
-
-				GlStateManager.disableLighting();
-				GlStateManager.disableDepth();
-				GlStateManager.disableTexture2D();
-				GlStateManager.disableAlpha();
-				GlStateManager.disableBlend();
-				Tessellator tessellator = Tessellator.getInstance();
-				WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 13, 2, 0, 0, 0, 255);
-				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 12, 1, (255 - j) / 4, 64, 0, 255);
-				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, i, 1, 255 - j, j, 0, 255);
-
-				GlStateManager.enableBlend();
-				GlStateManager.enableAlpha();
-				GlStateManager.enableTexture2D();
-				GlStateManager.enableLighting();
-				GlStateManager.enableDepth();
-			}
+			GlStateManager.disableLighting();
+			GlStateManager.disableDepth();
+			GlStateManager.disableBlend();
+			fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
+			GlStateManager.enableLighting();
+			GlStateManager.enableDepth();
 		}
+
+		if (!stack.isItemDamaged()) return;
+		int i = (int) Math.round(13.0D - (double) stack.getItemDamage() * 13.0D / (double) stack.getMaxDamage());
+		int j = (int) Math.round(255.0D - (double) stack.getItemDamage() * 255.0D / (double) stack.getMaxDamage());
+
+		GlStateManager.disableLighting();
+		GlStateManager.disableDepth();
+		GlStateManager.disableTexture2D();
+		GlStateManager.disableAlpha();
+		GlStateManager.disableBlend();
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 13, 2, 0, 0, 0, 255);
+		this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 12, 1, (255 - j) / 4, 64, 0, 255);
+		this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, i, 1, 255 - j, j, 0, 255);
+
+		GlStateManager.enableBlend();
+		GlStateManager.enableAlpha();
+		GlStateManager.enableTexture2D();
+		GlStateManager.enableLighting();
+		GlStateManager.enableDepth();
 	}
 
 	private void func_181565_a(WorldRenderer p_181565_1_, int p_181565_2_, int p_181565_3_, int p_181565_4_, int p_181565_5_, int p_181565_6_, int p_181565_7_, int p_181565_8_, int p_181565_9_) {
@@ -889,13 +885,8 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.ghast_tear, "ghast_tear");
 		this.registerItem(Items.gold_nugget, "gold_nugget");
 		this.registerItem(Items.nether_wart, "nether_wart");
-		this.itemModelMesher.register(Items.potionitem, new ItemMeshDefinition() {
-			private static final String __OBFID = "CL_00002440";
-
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return ItemPotion.isSplash(stack.getMetadata()) ? new ModelResourceLocation("bottle_splash", "inventory") : new ModelResourceLocation("bottle_drinkable", "inventory");
-			}
-		});
+		this.itemModelMesher.register(Items.potionitem,
+				stack -> new ModelResourceLocation(ItemPotion.isSplash(stack.getMetadata()) ? "bottle_splash" : "bottle_drinkable", "inventory"));
 		this.registerItem(Items.glass_bottle, "glass_bottle");
 		this.registerItem(Items.spider_eye, "spider_eye");
 		this.registerItem(Items.fermented_spider_eye, "fermented_spider_eye");
@@ -905,13 +896,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.cauldron, "cauldron");
 		this.registerItem(Items.ender_eye, "ender_eye");
 		this.registerItem(Items.speckled_melon, "speckled_melon");
-		this.itemModelMesher.register(Items.spawn_egg, new ItemMeshDefinition() {
-			private static final String __OBFID = "CL_00002439";
-
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return new ModelResourceLocation("spawn_egg", "inventory");
-			}
-		});
+		this.itemModelMesher.register(Items.spawn_egg, stack -> new ModelResourceLocation("spawn_egg", "inventory"));
 		this.registerItem(Items.experience_bottle, "experience_bottle");
 		this.registerItem(Items.fire_charge, "fire_charge");
 		this.registerItem(Items.writable_book, "writable_book");
@@ -965,20 +950,8 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.record_wait, "record_wait");
 		this.registerItem(Items.prismarine_shard, "prismarine_shard");
 		this.registerItem(Items.prismarine_crystals, "prismarine_crystals");
-		this.itemModelMesher.register(Items.enchanted_book, new ItemMeshDefinition() {
-			private static final String __OBFID = "CL_00002437";
-
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return new ModelResourceLocation("enchanted_book", "inventory");
-			}
-		});
-		this.itemModelMesher.register(Items.filled_map, new ItemMeshDefinition() {
-			private static final String __OBFID = "CL_00002436";
-
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return new ModelResourceLocation("filled_map", "inventory");
-			}
-		});
+		this.itemModelMesher.register(Items.enchanted_book, stack -> new ModelResourceLocation("enchanted_book", "inventory"));
+		this.itemModelMesher.register(Items.filled_map, stack -> new ModelResourceLocation("filled_map", "inventory"));
 		this.registerBlock(Blocks.command_block, "command_block");
 		this.registerItem(Items.fireworks, "fireworks");
 		this.registerItem(Items.command_block_minecart, "command_block_minecart");
@@ -995,12 +968,12 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.itemModelMesher.rebuildCache();
 	}
 
-	public static void forgeHooksClient_putQuadColor(WorldRenderer p_forgeHooksClient_putQuadColor_0_, BakedQuad p_forgeHooksClient_putQuadColor_1_, int p_forgeHooksClient_putQuadColor_2_) {
-		float f = (float) (p_forgeHooksClient_putQuadColor_2_ & 255);
-		float f1 = (float) (p_forgeHooksClient_putQuadColor_2_ >>> 8 & 255);
-		float f2 = (float) (p_forgeHooksClient_putQuadColor_2_ >>> 16 & 255);
-		float f3 = (float) (p_forgeHooksClient_putQuadColor_2_ >>> 24 & 255);
-		int[] aint = p_forgeHooksClient_putQuadColor_1_.getVertexData();
+	public static void forgeHooksClient_putQuadColor(WorldRenderer worldRenderer, BakedQuad quad, int n) {
+		float f = (float) (n & 255);
+		float f1 = (float) (n >>> 8 & 255);
+		float f2 = (float) (n >>> 16 & 255);
+		float f3 = (float) (n >>> 24 & 255);
+		int[] aint = quad.getVertexData();
 		int i = aint.length / 4;
 
 		for (int j = 0; j < 4; ++j) {
@@ -1013,7 +986,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 			int i1 = Math.min(255, (int) (f1 * f5 / 255.0F));
 			int j1 = Math.min(255, (int) (f2 * f6 / 255.0F));
 			int k1 = Math.min(255, (int) (f3 * f7 / 255.0F));
-			p_forgeHooksClient_putQuadColor_0_.putColorRGBA(p_forgeHooksClient_putQuadColor_0_.getColorIndex(4 - j), l, i1, j1, k1);
+			worldRenderer.putColorRGBA(worldRenderer.getColorIndex(4 - j), l, i1, j1, k1);
 		}
 	}
 

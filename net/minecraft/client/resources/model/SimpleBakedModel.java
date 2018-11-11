@@ -145,10 +145,7 @@ public class SimpleBakedModel implements IBakedModel
             {
                 throw new RuntimeException("Missing particle!");
             }
-            else
-            {
-                return new SimpleBakedModel(this.builderGeneralQuads, this.builderFaceQuads, this.builderAmbientOcclusion, this.builderGui3d, this.builderTexture, this.builderCameraTransforms);
-            }
-        }
+			return new SimpleBakedModel(this.builderGeneralQuads, this.builderFaceQuads, this.builderAmbientOcclusion, this.builderGui3d, this.builderTexture, this.builderCameraTransforms);
+		}
     }
 }

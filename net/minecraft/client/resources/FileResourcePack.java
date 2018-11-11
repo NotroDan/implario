@@ -43,11 +43,8 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable
         {
             throw new ResourcePackFileNotFoundException(this.resourcePackFile, name);
         }
-        else
-        {
-            return zipfile.getInputStream(zipentry);
-        }
-    }
+		return zipfile.getInputStream(zipentry);
+	}
 
     public boolean hasResourceName(String name)
     {

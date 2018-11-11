@@ -37,11 +37,8 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
             float f = (float)Math.min(this.field_150068_a, i) / (float)this.field_150068_a;
             return MathHelper.ceiling_float_int(f * 15.0F);
         }
-        else
-        {
-            return 0;
-        }
-    }
+		return 0;
+	}
 
     protected int getRedstoneStrength(IBlockState state)
     {

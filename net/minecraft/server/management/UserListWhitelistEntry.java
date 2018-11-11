@@ -44,9 +44,6 @@ public class UserListWhitelistEntry extends UserListEntry<GameProfile>
 
             return new GameProfile(uuid, p_152646_0_.get("name").getAsString());
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 }

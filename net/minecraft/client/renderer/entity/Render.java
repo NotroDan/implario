@@ -80,10 +80,8 @@ public abstract class Render<T extends Entity> {
 		ResourceLocation resourcelocation = this.getEntityTexture(entity);
 
 		if (resourcelocation == null) return false;
-		else {
-			this.bindTexture(resourcelocation);
-			return true;
-		}
+		this.bindTexture(resourcelocation);
+		return true;
 	}
 
 	public void bindTexture(ResourceLocation location) {

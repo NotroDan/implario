@@ -278,65 +278,59 @@ public class CustomItems
         {
             return null;
         }
-        else if (p_makePotionProperties_0_.equals("empty") && !p_makePotionProperties_1_)
-        {
-            int l = Item.getIdFromItem(Items.glass_bottle);
-            Properties properties = new Properties();
-            properties.put("type", "item");
-            properties.put("items", "" + l);
-            return properties;
-        }
-        else
-        {
-            int i = Item.getIdFromItem(Items.potionitem);
-            int[] aint = (int[]) (int[])getMapPotionIds().get(p_makePotionProperties_0_);
+		if (p_makePotionProperties_0_.equals("empty") && !p_makePotionProperties_1_)
+		{
+			int l = Item.getIdFromItem(Items.glass_bottle);
+			Properties properties = new Properties();
+			properties.put("type", "item");
+			properties.put("items", "" + l);
+			return properties;
+		}
+		int i = Item.getIdFromItem(Items.potionitem);
+		int[] aint = (int[]) (int[])getMapPotionIds().get(p_makePotionProperties_0_);
 
-            if (aint == null)
-            {
-                Config.warn("Potion not found for image: " + p_makePotionProperties_2_);
-                return null;
-            }
-            else
-            {
-                StringBuffer stringbuffer = new StringBuffer();
+		if (aint == null)
+		{
+			Config.warn("Potion not found for image: " + p_makePotionProperties_2_);
+			return null;
+		}
+		StringBuffer stringbuffer = new StringBuffer();
 
-                for (int j = 0; j < aint.length; ++j)
-                {
-                    int k = aint[j];
+		for (int j = 0; j < aint.length; ++j)
+		{
+			int k = aint[j];
 
-                    if (p_makePotionProperties_1_)
-                    {
-                        k |= 16384;
-                    }
+			if (p_makePotionProperties_1_)
+			{
+				k |= 16384;
+			}
 
-                    if (j > 0)
-                    {
-                        stringbuffer.append(" ");
-                    }
+			if (j > 0)
+			{
+				stringbuffer.append(" ");
+			}
 
-                    stringbuffer.append(k);
-                }
+			stringbuffer.append(k);
+		}
 
-                int i1 = 16447;
-                Properties properties1 = new Properties();
-                properties1.put("type", "item");
-                properties1.put("items", "" + i);
-                properties1.put("damage", "" + stringbuffer.toString());
-                properties1.put("damageMask", "" + i1);
+		int i1 = 16447;
+		Properties properties1 = new Properties();
+		properties1.put("type", "item");
+		properties1.put("items", "" + i);
+		properties1.put("damage", "" + stringbuffer.toString());
+		properties1.put("damageMask", "" + i1);
 
-                if (p_makePotionProperties_1_)
-                {
-                    properties1.put("texture.potion_bottle_splash", p_makePotionProperties_0_);
-                }
-                else
-                {
-                    properties1.put("texture.potion_bottle_drinkable", p_makePotionProperties_0_);
-                }
+		if (p_makePotionProperties_1_)
+		{
+			properties1.put("texture.potion_bottle_splash", p_makePotionProperties_0_);
+		}
+		else
+		{
+			properties1.put("texture.potion_bottle_drinkable", p_makePotionProperties_0_);
+		}
 
-                return properties1;
-            }
-        }
-    }
+		return properties1;
+	}
 
     private static Map getMapPotionIds()
     {
@@ -507,16 +501,13 @@ public class CustomItems
         {
             return p_getCustomItemModel_1_;
         }
-        else if (itemProperties == null)
-        {
-            return p_getCustomItemModel_1_;
-        }
-        else
-        {
-            CustomItemProperties customitemproperties = getCustomItemProperties(p_getCustomItemModel_0_, 1);
-            return customitemproperties == null ? p_getCustomItemModel_1_ : customitemproperties.getModel(p_getCustomItemModel_2_);
-        }
-    }
+		if (itemProperties == null)
+		{
+			return p_getCustomItemModel_1_;
+		}
+		CustomItemProperties customitemproperties = getCustomItemProperties(p_getCustomItemModel_0_, 1);
+		return customitemproperties == null ? p_getCustomItemModel_1_ : customitemproperties.getModel(p_getCustomItemModel_2_);
+	}
 
     public static boolean bindCustomArmorTexture(ItemStack p_bindCustomArmorTexture_0_, int p_bindCustomArmorTexture_1_, String p_bindCustomArmorTexture_2_)
     {
@@ -524,21 +515,15 @@ public class CustomItems
         {
             return false;
         }
-        else
-        {
-            ResourceLocation resourcelocation = getCustomArmorLocation(p_bindCustomArmorTexture_0_, p_bindCustomArmorTexture_1_, p_bindCustomArmorTexture_2_);
+		ResourceLocation resourcelocation = getCustomArmorLocation(p_bindCustomArmorTexture_0_, p_bindCustomArmorTexture_1_, p_bindCustomArmorTexture_2_);
 
-            if (resourcelocation == null)
-            {
-                return false;
-            }
-            else
-            {
-                Config.getTextureManager().bindTexture(resourcelocation);
-                return true;
-            }
-        }
-    }
+		if (resourcelocation == null)
+		{
+			return false;
+		}
+		Config.getTextureManager().bindTexture(resourcelocation);
+		return true;
+	}
 
     private static ResourceLocation getCustomArmorLocation(ItemStack p_getCustomArmorLocation_0_, int p_getCustomArmorLocation_1_, String p_getCustomArmorLocation_2_)
     {
@@ -548,40 +533,34 @@ public class CustomItems
         {
             return null;
         }
-        else if (customitemproperties.mapTextureLocations == null)
-        {
-            return null;
-        }
-        else
-        {
-            Item item = p_getCustomArmorLocation_0_.getItem();
+		if (customitemproperties.mapTextureLocations == null)
+		{
+			return null;
+		}
+		Item item = p_getCustomArmorLocation_0_.getItem();
 
-            if (!(item instanceof ItemArmor))
-            {
-                return null;
-            }
-            else
-            {
-                ItemArmor itemarmor = (ItemArmor)item;
-                String s = itemarmor.getArmorMaterial().getName();
-                StringBuffer stringbuffer = new StringBuffer();
-                stringbuffer.append("texture.");
-                stringbuffer.append(s);
-                stringbuffer.append("_layer_");
-                stringbuffer.append(p_getCustomArmorLocation_1_);
+		if (!(item instanceof ItemArmor))
+		{
+			return null;
+		}
+		ItemArmor itemarmor = (ItemArmor)item;
+		String s = itemarmor.getArmorMaterial().getName();
+		StringBuffer stringbuffer = new StringBuffer();
+		stringbuffer.append("texture.");
+		stringbuffer.append(s);
+		stringbuffer.append("_layer_");
+		stringbuffer.append(p_getCustomArmorLocation_1_);
 
-                if (p_getCustomArmorLocation_2_ != null)
-                {
-                    stringbuffer.append("_");
-                    stringbuffer.append(p_getCustomArmorLocation_2_);
-                }
+		if (p_getCustomArmorLocation_2_ != null)
+		{
+			stringbuffer.append("_");
+			stringbuffer.append(p_getCustomArmorLocation_2_);
+		}
 
-                String s1 = stringbuffer.toString();
-                ResourceLocation resourcelocation = (ResourceLocation)customitemproperties.mapTextureLocations.get(s1);
-                return resourcelocation;
-            }
-        }
-    }
+		String s1 = stringbuffer.toString();
+		ResourceLocation resourcelocation = (ResourceLocation)customitemproperties.mapTextureLocations.get(s1);
+		return resourcelocation;
+	}
 
     private static CustomItemProperties getCustomItemProperties(ItemStack p_getCustomItemProperties_0_, int p_getCustomItemProperties_1_)
     {
@@ -589,36 +568,33 @@ public class CustomItems
         {
             return null;
         }
-        else if (p_getCustomItemProperties_0_ == null)
-        {
-            return null;
-        }
-        else
-        {
-            Item item = p_getCustomItemProperties_0_.getItem();
-            int i = Item.getIdFromItem(item);
+		if (p_getCustomItemProperties_0_ == null)
+		{
+			return null;
+		}
+		Item item = p_getCustomItemProperties_0_.getItem();
+		int i = Item.getIdFromItem(item);
 
-            if (i >= 0 && i < itemProperties.length)
-            {
-                CustomItemProperties[] acustomitemproperties = itemProperties[i];
+		if (i >= 0 && i < itemProperties.length)
+		{
+			CustomItemProperties[] acustomitemproperties = itemProperties[i];
 
-                if (acustomitemproperties != null)
-                {
-                    for (int j = 0; j < acustomitemproperties.length; ++j)
-                    {
-                        CustomItemProperties customitemproperties = acustomitemproperties[j];
+			if (acustomitemproperties != null)
+			{
+				for (int j = 0; j < acustomitemproperties.length; ++j)
+				{
+					CustomItemProperties customitemproperties = acustomitemproperties[j];
 
-                        if (customitemproperties.type == p_getCustomItemProperties_1_ && matchesProperties(customitemproperties, p_getCustomItemProperties_0_, (int[][])null))
-                        {
-                            return customitemproperties;
-                        }
-                    }
-                }
-            }
+					if (customitemproperties.type == p_getCustomItemProperties_1_ && matchesProperties(customitemproperties, p_getCustomItemProperties_0_, (int[][])null))
+					{
+						return customitemproperties;
+					}
+				}
+			}
+		}
 
-            return null;
-        }
-    }
+		return null;
+	}
 
     private static boolean matchesProperties(CustomItemProperties p_matchesProperties_0_, ItemStack p_matchesProperties_1_, int[][] p_matchesProperties_2_)
     {
@@ -649,80 +625,77 @@ public class CustomItems
         {
             return false;
         }
-        else
-        {
-            int[][] aint = p_matchesProperties_2_;
+		int[][] aint = p_matchesProperties_2_;
 
-            if (p_matchesProperties_0_.enchantmentIds != null)
-            {
-                if (p_matchesProperties_2_ == null)
-                {
-                    aint = getEnchantmentIdLevels(p_matchesProperties_1_);
-                }
+		if (p_matchesProperties_0_.enchantmentIds != null)
+		{
+			if (p_matchesProperties_2_ == null)
+			{
+				aint = getEnchantmentIdLevels(p_matchesProperties_1_);
+			}
 
-                boolean flag = false;
+			boolean flag = false;
 
-                for (int k = 0; k < aint.length; ++k)
-                {
-                    int l = aint[k][0];
+			for (int k = 0; k < aint.length; ++k)
+			{
+				int l = aint[k][0];
 
-                    if (p_matchesProperties_0_.enchantmentIds.isInRange(l))
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
+				if (p_matchesProperties_0_.enchantmentIds.isInRange(l))
+				{
+					flag = true;
+					break;
+				}
+			}
 
-                if (!flag)
-                {
-                    return false;
-                }
-            }
+			if (!flag)
+			{
+				return false;
+			}
+		}
 
-            if (p_matchesProperties_0_.enchantmentLevels != null)
-            {
-                if (aint == null)
-                {
-                    aint = getEnchantmentIdLevels(p_matchesProperties_1_);
-                }
+		if (p_matchesProperties_0_.enchantmentLevels != null)
+		{
+			if (aint == null)
+			{
+				aint = getEnchantmentIdLevels(p_matchesProperties_1_);
+			}
 
-                boolean flag1 = false;
+			boolean flag1 = false;
 
-                for (int i1 = 0; i1 < aint.length; ++i1)
-                {
-                    int k1 = aint[i1][1];
+			for (int i1 = 0; i1 < aint.length; ++i1)
+			{
+				int k1 = aint[i1][1];
 
-                    if (p_matchesProperties_0_.enchantmentLevels.isInRange(k1))
-                    {
-                        flag1 = true;
-                        break;
-                    }
-                }
+				if (p_matchesProperties_0_.enchantmentLevels.isInRange(k1))
+				{
+					flag1 = true;
+					break;
+				}
+			}
 
-                if (!flag1)
-                {
-                    return false;
-                }
-            }
+			if (!flag1)
+			{
+				return false;
+			}
+		}
 
-            if (p_matchesProperties_0_.nbtTagValues != null)
-            {
-                NBTTagCompound nbttagcompound = p_matchesProperties_1_.getTagCompound();
+		if (p_matchesProperties_0_.nbtTagValues != null)
+		{
+			NBTTagCompound nbttagcompound = p_matchesProperties_1_.getTagCompound();
 
-                for (int j1 = 0; j1 < p_matchesProperties_0_.nbtTagValues.length; ++j1)
-                {
-                    NbtTagValue nbttagvalue = p_matchesProperties_0_.nbtTagValues[j1];
+			for (int j1 = 0; j1 < p_matchesProperties_0_.nbtTagValues.length; ++j1)
+			{
+				NbtTagValue nbttagvalue = p_matchesProperties_0_.nbtTagValues[j1];
 
-                    if (!nbttagvalue.matches(nbttagcompound))
-                    {
-                        return false;
-                    }
-                }
-            }
+				if (!nbttagvalue.matches(nbttagcompound))
+				{
+					return false;
+				}
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     private static int[][] getEnchantmentIdLevels(ItemStack p_getEnchantmentIdLevels_0_)
     {
@@ -744,11 +717,8 @@ public class CustomItems
 
             return aint;
         }
-        else
-        {
-            return EMPTY_INT2_ARRAY;
-        }
-    }
+		return EMPTY_INT2_ARRAY;
+	}
 
     public static boolean renderCustomEffect(RenderItem p_renderCustomEffect_0_, ItemStack p_renderCustomEffect_1_, IBakedModel p_renderCustomEffect_2_)
     {
@@ -756,88 +726,82 @@ public class CustomItems
         {
             return false;
         }
-        else if (p_renderCustomEffect_1_ == null)
-        {
-            return false;
-        }
-        else
-        {
-            int[][] aint = getEnchantmentIdLevels(p_renderCustomEffect_1_);
+		if (p_renderCustomEffect_1_ == null)
+		{
+			return false;
+		}
+		int[][] aint = getEnchantmentIdLevels(p_renderCustomEffect_1_);
 
-            if (aint.length <= 0)
-            {
-                return false;
-            }
-            else
-            {
-                Set set = null;
-                boolean flag = false;
-                TextureManager texturemanager = Config.getTextureManager();
+		if (aint.length <= 0)
+		{
+			return false;
+		}
+		Set set = null;
+		boolean flag = false;
+		TextureManager texturemanager = Config.getTextureManager();
 
-                for (int i = 0; i < aint.length; ++i)
-                {
-                    int j = aint[i][0];
+		for (int i = 0; i < aint.length; ++i)
+		{
+			int j = aint[i][0];
 
-                    if (j >= 0 && j < enchantmentProperties.length)
-                    {
-                        CustomItemProperties[] acustomitemproperties = enchantmentProperties[j];
+			if (j >= 0 && j < enchantmentProperties.length)
+			{
+				CustomItemProperties[] acustomitemproperties = enchantmentProperties[j];
 
-                        if (acustomitemproperties != null)
-                        {
-                            for (int k = 0; k < acustomitemproperties.length; ++k)
-                            {
-                                CustomItemProperties customitemproperties = acustomitemproperties[k];
+				if (acustomitemproperties != null)
+				{
+					for (int k = 0; k < acustomitemproperties.length; ++k)
+					{
+						CustomItemProperties customitemproperties = acustomitemproperties[k];
 
-                                if (set == null)
-                                {
-                                    set = new HashSet();
-                                }
+						if (set == null)
+						{
+							set = new HashSet();
+						}
 
-                                if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, p_renderCustomEffect_1_, aint) && customitemproperties.textureLocation != null)
-                                {
-                                    texturemanager.bindTexture(customitemproperties.textureLocation);
-                                    float f = customitemproperties.getTextureWidth(texturemanager);
+						if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, p_renderCustomEffect_1_, aint) && customitemproperties.textureLocation != null)
+						{
+							texturemanager.bindTexture(customitemproperties.textureLocation);
+							float f = customitemproperties.getTextureWidth(texturemanager);
 
-                                    if (!flag)
-                                    {
-                                        flag = true;
-                                        GlStateManager.depthMask(false);
-                                        GlStateManager.depthFunc(514);
-                                        GlStateManager.disableLighting();
-                                        GlStateManager.matrixMode(5890);
-                                    }
+							if (!flag)
+							{
+								flag = true;
+								GlStateManager.depthMask(false);
+								GlStateManager.depthFunc(514);
+								GlStateManager.disableLighting();
+								GlStateManager.matrixMode(5890);
+							}
 
-                                    Blender.setupBlend(customitemproperties.blend, 1.0F);
-                                    GlStateManager.pushMatrix();
-                                    GlStateManager.scale(f / 2.0F, f / 2.0F, f / 2.0F);
-                                    float f1 = customitemproperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-                                    GlStateManager.translate(f1, 0.0F, 0.0F);
-                                    GlStateManager.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
-                                    p_renderCustomEffect_0_.renderModel(p_renderCustomEffect_2_, -1);
-                                    GlStateManager.popMatrix();
-                                }
-                            }
-                        }
-                    }
-                }
+							Blender.setupBlend(customitemproperties.blend, 1.0F);
+							GlStateManager.pushMatrix();
+							GlStateManager.scale(f / 2.0F, f / 2.0F, f / 2.0F);
+							float f1 = customitemproperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+							GlStateManager.translate(f1, 0.0F, 0.0F);
+							GlStateManager.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
+							p_renderCustomEffect_0_.renderModel(p_renderCustomEffect_2_, -1);
+							GlStateManager.popMatrix();
+						}
+					}
+				}
+			}
+		}
 
-                if (flag)
-                {
-                    GlStateManager.enableAlpha();
-                    GlStateManager.enableBlend();
-                    GlStateManager.blendFunc(770, 771);
-                    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                    GlStateManager.matrixMode(5888);
-                    GlStateManager.enableLighting();
-                    GlStateManager.depthFunc(515);
-                    GlStateManager.depthMask(true);
-                    texturemanager.bindTexture(TextureMap.locationBlocksTexture);
-                }
+		if (flag)
+		{
+			GlStateManager.enableAlpha();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(770, 771);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.matrixMode(5888);
+			GlStateManager.enableLighting();
+			GlStateManager.depthFunc(515);
+			GlStateManager.depthMask(true);
+			texturemanager.bindTexture(TextureMap.locationBlocksTexture);
+		}
 
-                return flag;
-            }
-        }
-    }
+		return flag;
+	}
 
     public static boolean renderCustomArmorEffect(EntityLivingBase p_renderCustomArmorEffect_0_, ItemStack p_renderCustomArmorEffect_1_, ModelBase p_renderCustomArmorEffect_2_, float p_renderCustomArmorEffect_3_, float p_renderCustomArmorEffect_4_, float p_renderCustomArmorEffect_5_, float p_renderCustomArmorEffect_6_, float p_renderCustomArmorEffect_7_, float p_renderCustomArmorEffect_8_, float p_renderCustomArmorEffect_9_)
     {
@@ -845,107 +809,101 @@ public class CustomItems
         {
             return false;
         }
-        else if (Config.isShaders() && Shaders.isShadowPass)
-        {
-            return false;
-        }
-        else if (p_renderCustomArmorEffect_1_ == null)
-        {
-            return false;
-        }
-        else
-        {
-            int[][] aint = getEnchantmentIdLevels(p_renderCustomArmorEffect_1_);
+		if (Config.isShaders() && Shaders.isShadowPass)
+		{
+			return false;
+		}
+		if (p_renderCustomArmorEffect_1_ == null)
+		{
+			return false;
+		}
+		int[][] aint = getEnchantmentIdLevels(p_renderCustomArmorEffect_1_);
 
-            if (aint.length <= 0)
-            {
-                return false;
-            }
-            else
-            {
-                Set set = null;
-                boolean flag = false;
-                TextureManager texturemanager = Config.getTextureManager();
+		if (aint.length <= 0)
+		{
+			return false;
+		}
+		Set set = null;
+		boolean flag = false;
+		TextureManager texturemanager = Config.getTextureManager();
 
-                for (int i = 0; i < aint.length; ++i)
-                {
-                    int j = aint[i][0];
+		for (int i = 0; i < aint.length; ++i)
+		{
+			int j = aint[i][0];
 
-                    if (j >= 0 && j < enchantmentProperties.length)
-                    {
-                        CustomItemProperties[] acustomitemproperties = enchantmentProperties[j];
+			if (j >= 0 && j < enchantmentProperties.length)
+			{
+				CustomItemProperties[] acustomitemproperties = enchantmentProperties[j];
 
-                        if (acustomitemproperties != null)
-                        {
-                            for (int k = 0; k < acustomitemproperties.length; ++k)
-                            {
-                                CustomItemProperties customitemproperties = acustomitemproperties[k];
+				if (acustomitemproperties != null)
+				{
+					for (int k = 0; k < acustomitemproperties.length; ++k)
+					{
+						CustomItemProperties customitemproperties = acustomitemproperties[k];
 
-                                if (set == null)
-                                {
-                                    set = new HashSet();
-                                }
+						if (set == null)
+						{
+							set = new HashSet();
+						}
 
-                                if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, p_renderCustomArmorEffect_1_, aint) && customitemproperties.textureLocation != null)
-                                {
-                                    texturemanager.bindTexture(customitemproperties.textureLocation);
-                                    float f = customitemproperties.getTextureWidth(texturemanager);
+						if (set.add(Integer.valueOf(j)) && matchesProperties(customitemproperties, p_renderCustomArmorEffect_1_, aint) && customitemproperties.textureLocation != null)
+						{
+							texturemanager.bindTexture(customitemproperties.textureLocation);
+							float f = customitemproperties.getTextureWidth(texturemanager);
 
-                                    if (!flag)
-                                    {
-                                        flag = true;
+							if (!flag)
+							{
+								flag = true;
 
-                                        if (Config.isShaders())
-                                        {
-                                            ShadersRender.renderEnchantedGlintBegin();
-                                        }
+								if (Config.isShaders())
+								{
+									ShadersRender.renderEnchantedGlintBegin();
+								}
 
-                                        GlStateManager.enableBlend();
-                                        GlStateManager.depthFunc(514);
-                                        GlStateManager.depthMask(false);
-                                    }
+								GlStateManager.enableBlend();
+								GlStateManager.depthFunc(514);
+								GlStateManager.depthMask(false);
+							}
 
-                                    Blender.setupBlend(customitemproperties.blend, 1.0F);
-                                    GlStateManager.disableLighting();
-                                    GlStateManager.matrixMode(5890);
-                                    GlStateManager.loadIdentity();
-                                    GlStateManager.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
-                                    float f1 = f / 8.0F;
-                                    GlStateManager.scale(f1, f1 / 2.0F, f1);
-                                    float f2 = customitemproperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-                                    GlStateManager.translate(0.0F, f2, 0.0F);
-                                    GlStateManager.matrixMode(5888);
-                                    p_renderCustomArmorEffect_2_.render(p_renderCustomArmorEffect_0_, p_renderCustomArmorEffect_3_, p_renderCustomArmorEffect_4_, p_renderCustomArmorEffect_6_, p_renderCustomArmorEffect_7_, p_renderCustomArmorEffect_8_, p_renderCustomArmorEffect_9_);
-                                }
-                            }
-                        }
-                    }
-                }
+							Blender.setupBlend(customitemproperties.blend, 1.0F);
+							GlStateManager.disableLighting();
+							GlStateManager.matrixMode(5890);
+							GlStateManager.loadIdentity();
+							GlStateManager.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
+							float f1 = f / 8.0F;
+							GlStateManager.scale(f1, f1 / 2.0F, f1);
+							float f2 = customitemproperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+							GlStateManager.translate(0.0F, f2, 0.0F);
+							GlStateManager.matrixMode(5888);
+							p_renderCustomArmorEffect_2_.render(p_renderCustomArmorEffect_0_, p_renderCustomArmorEffect_3_, p_renderCustomArmorEffect_4_, p_renderCustomArmorEffect_6_, p_renderCustomArmorEffect_7_, p_renderCustomArmorEffect_8_, p_renderCustomArmorEffect_9_);
+						}
+					}
+				}
+			}
+		}
 
-                if (flag)
-                {
-                    GlStateManager.enableAlpha();
-                    GlStateManager.enableBlend();
-                    GlStateManager.blendFunc(770, 771);
-                    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                    GlStateManager.matrixMode(5890);
-                    GlStateManager.loadIdentity();
-                    GlStateManager.matrixMode(5888);
-                    GlStateManager.enableLighting();
-                    GlStateManager.depthMask(true);
-                    GlStateManager.depthFunc(515);
-                    GlStateManager.disableBlend();
+		if (flag)
+		{
+			GlStateManager.enableAlpha();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(770, 771);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.matrixMode(5890);
+			GlStateManager.loadIdentity();
+			GlStateManager.matrixMode(5888);
+			GlStateManager.enableLighting();
+			GlStateManager.depthMask(true);
+			GlStateManager.depthFunc(515);
+			GlStateManager.disableBlend();
 
-                    if (Config.isShaders())
-                    {
-                        ShadersRender.renderEnchantedGlintEnd();
-                    }
-                }
+			if (Config.isShaders())
+			{
+				ShadersRender.renderEnchantedGlintEnd();
+			}
+		}
 
-                return flag;
-            }
-        }
-    }
+		return flag;
+	}
 
     public static boolean isUseGlint()
     {

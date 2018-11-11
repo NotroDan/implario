@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.network.NetHandlerLoginClient;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.NetworkManager;
@@ -133,7 +133,7 @@ public class GuiConnecting extends GuiScreen {
 	 */
 	public void initGui() {
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.cancel")));
+		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, Lang.format("gui.cancel")));
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class GuiConnecting extends GuiScreen {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 
-		String s = this.networkManager == null ? I18n.format("connect.connecting") : I18n.format("connect.authorizing");
+		String s = this.networkManager == null ? Lang.format("connect.connecting") : Lang.format("connect.authorizing");
 		if (authorizing) s = "Авторизация в крутой системе гугла...";
 		this.drawCenteredString(this.fontRendererObj, s, this.width / 2, this.height / 2 - 50, 16777215);
 

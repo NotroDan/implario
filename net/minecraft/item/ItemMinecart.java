@@ -120,9 +120,6 @@ public class ItemMinecart extends Item
             --stack.stackSize;
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 }

@@ -51,11 +51,8 @@ public class RandomMobsProperties
             int k = j % this.resourceLocations.length;
             return this.resourceLocations[k];
         }
-        else
-        {
-            return p_getTextureLocation_1_;
-        }
-    }
+		return p_getTextureLocation_1_;
+	}
 
     private RandomMobsRule[] parseRules(Properties p_parseRules_1_, ResourceLocation p_parseRules_2_, ConnectedParser p_parseRules_3_)
     {
@@ -97,47 +94,41 @@ public class RandomMobsProperties
         {
             return null;
         }
-        else
-        {
-            int i = 0;
+		int i = 0;
 
-            if (s != null)
-            {
-                i = Config.parseInt(s, -1);
+		if (s != null)
+		{
+			i = Config.parseInt(s, -1);
 
-                if (i < 0)
-                {
-                    Config.warn("Invalid minHeight: " + s);
-                    return null;
-                }
-            }
+			if (i < 0)
+			{
+				Config.warn("Invalid minHeight: " + s);
+				return null;
+			}
+		}
 
-            int j = 256;
+		int j = 256;
 
-            if (s1 != null)
-            {
-                j = Config.parseInt(s1, -1);
+		if (s1 != null)
+		{
+			j = Config.parseInt(s1, -1);
 
-                if (j < 0)
-                {
-                    Config.warn("Invalid maxHeight: " + s1);
-                    return null;
-                }
-            }
+			if (j < 0)
+			{
+				Config.warn("Invalid maxHeight: " + s1);
+				return null;
+			}
+		}
 
-            if (j < 0)
-            {
-                Config.warn("Invalid minHeight, maxHeight: " + s + ", " + s1);
-                return null;
-            }
-            else
-            {
-                RangeListInt rangelistint = new RangeListInt();
-                rangelistint.addRange(new RangeInt(i, j));
-                return rangelistint;
-            }
-        }
-    }
+		if (j < 0)
+		{
+			Config.warn("Invalid minHeight, maxHeight: " + s + ", " + s1);
+			return null;
+		}
+		RangeListInt rangelistint = new RangeListInt();
+		rangelistint.addRange(new RangeInt(i, j));
+		return rangelistint;
+	}
 
     public boolean isValid(String p_isValid_1_)
     {
@@ -146,36 +137,33 @@ public class RandomMobsProperties
             Config.warn("No skins specified: " + p_isValid_1_);
             return false;
         }
-        else
-        {
-            if (this.rules != null)
-            {
-                for (int i = 0; i < this.rules.length; ++i)
-                {
-                    RandomMobsRule randommobsrule = this.rules[i];
+		if (this.rules != null)
+		{
+			for (int i = 0; i < this.rules.length; ++i)
+			{
+				RandomMobsRule randommobsrule = this.rules[i];
 
-                    if (!randommobsrule.isValid(p_isValid_1_))
-                    {
-                        return false;
-                    }
-                }
-            }
+				if (!randommobsrule.isValid(p_isValid_1_))
+				{
+					return false;
+				}
+			}
+		}
 
-            if (this.resourceLocations != null)
-            {
-                for (int j = 0; j < this.resourceLocations.length; ++j)
-                {
-                    ResourceLocation resourcelocation = this.resourceLocations[j];
+		if (this.resourceLocations != null)
+		{
+			for (int j = 0; j < this.resourceLocations.length; ++j)
+			{
+				ResourceLocation resourcelocation = this.resourceLocations[j];
 
-                    if (!Config.hasResource(resourcelocation))
-                    {
-                        Config.warn("Texture not found: " + resourcelocation.getResourcePath());
-                        return false;
-                    }
-                }
-            }
+				if (!Config.hasResource(resourcelocation))
+				{
+					Config.warn("Texture not found: " + resourcelocation.getResourcePath());
+					return false;
+				}
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 }

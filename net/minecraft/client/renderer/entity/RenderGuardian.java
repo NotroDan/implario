@@ -34,27 +34,24 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
         {
             return true;
         }
-        else
-        {
-            if (livingEntity.hasTargetedEntity())
-            {
-                EntityLivingBase entitylivingbase = livingEntity.getTargetedEntity();
+		if (livingEntity.hasTargetedEntity())
+		{
+			EntityLivingBase entitylivingbase = livingEntity.getTargetedEntity();
 
-                if (entitylivingbase != null)
-                {
-                    Vec3 vec3 = this.func_177110_a(entitylivingbase, (double)entitylivingbase.height * 0.5D, 1.0F);
-                    Vec3 vec31 = this.func_177110_a(livingEntity, (double)livingEntity.getEyeHeight(), 1.0F);
+			if (entitylivingbase != null)
+			{
+				Vec3 vec3 = this.func_177110_a(entitylivingbase, (double)entitylivingbase.height * 0.5D, 1.0F);
+				Vec3 vec31 = this.func_177110_a(livingEntity, (double)livingEntity.getEyeHeight(), 1.0F);
 
-                    if (camera.isBoundingBoxInFrustum(AxisAlignedBB.fromBounds(vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord, vec3.zCoord)))
-                    {
-                        return true;
-                    }
-                }
-            }
+				if (camera.isBoundingBoxInFrustum(AxisAlignedBB.fromBounds(vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord, vec3.zCoord)))
+				{
+					return true;
+				}
+			}
+		}
 
-            return false;
-        }
-    }
+		return false;
+	}
 
     private Vec3 func_177110_a(EntityLivingBase entityLivingBaseIn, double p_177110_2_, float p_177110_4_)
     {

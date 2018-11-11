@@ -169,29 +169,26 @@ public class VillageSiege
         {
             return false;
         }
-        else
-        {
-            EntityZombie entityzombie;
+		EntityZombie entityzombie;
 
-            try
-            {
-                entityzombie = new EntityZombie(this.worldObj);
-                entityzombie.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)), (IEntityLivingData)null);
-                entityzombie.setVillager(false);
-            }
-            catch (Exception exception)
-            {
-                exception.printStackTrace();
-                return false;
-            }
+		try
+		{
+			entityzombie = new EntityZombie(this.worldObj);
+			entityzombie.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)), (IEntityLivingData)null);
+			entityzombie.setVillager(false);
+		}
+		catch (Exception exception)
+		{
+			exception.printStackTrace();
+			return false;
+		}
 
-            entityzombie.setLocationAndAngles(vec3.xCoord, vec3.yCoord, vec3.zCoord, this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
-            this.worldObj.spawnEntityInWorld(entityzombie);
-            BlockPos blockpos = this.theVillage.getCenter();
-            entityzombie.setHomePosAndDistance(blockpos, this.theVillage.getVillageRadius());
-            return true;
-        }
-    }
+		entityzombie.setLocationAndAngles(vec3.xCoord, vec3.yCoord, vec3.zCoord, this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
+		this.worldObj.spawnEntityInWorld(entityzombie);
+		BlockPos blockpos = this.theVillage.getCenter();
+		entityzombie.setHomePosAndDistance(blockpos, this.theVillage.getVillageRadius());
+		return true;
+	}
 
     private Vec3 func_179867_a(BlockPos p_179867_1_)
     {

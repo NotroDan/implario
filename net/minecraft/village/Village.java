@@ -117,28 +117,25 @@ public class Village
         {
             return false;
         }
-        else
-        {
-            int i = p_179861_2_.getX() - p_179861_1_.getX() / 2;
-            int j = p_179861_2_.getZ() - p_179861_1_.getZ() / 2;
+		int i = p_179861_2_.getX() - p_179861_1_.getX() / 2;
+		int j = p_179861_2_.getZ() - p_179861_1_.getZ() / 2;
 
-            for (int k = i; k < i + p_179861_1_.getX(); ++k)
-            {
-                for (int l = p_179861_2_.getY(); l < p_179861_2_.getY() + p_179861_1_.getY(); ++l)
-                {
-                    for (int i1 = j; i1 < j + p_179861_1_.getZ(); ++i1)
-                    {
-                        if (this.worldObj.getBlockState(new BlockPos(k, l, i1)).getBlock().isNormalCube())
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
+		for (int k = i; k < i + p_179861_1_.getX(); ++k)
+		{
+			for (int l = p_179861_2_.getY(); l < p_179861_2_.getY() + p_179861_1_.getY(); ++l)
+			{
+				for (int i1 = j; i1 < j + p_179861_1_.getZ(); ++i1)
+				{
+					if (this.worldObj.getBlockState(new BlockPos(k, l, i1)).getBlock().isNormalCube())
+					{
+						return false;
+					}
+				}
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     private void updateNumIronGolems()
     {
@@ -255,19 +252,16 @@ public class Village
         {
             return null;
         }
-        else
-        {
-            for (VillageDoorInfo villagedoorinfo : this.villageDoorInfoList)
-            {
-                if (villagedoorinfo.getDoorBlockPos().getX() == doorBlock.getX() && villagedoorinfo.getDoorBlockPos().getZ() == doorBlock.getZ() && Math.abs(villagedoorinfo.getDoorBlockPos().getY() - doorBlock.getY()) <= 1)
-                {
-                    return villagedoorinfo;
-                }
-            }
+		for (VillageDoorInfo villagedoorinfo : this.villageDoorInfoList)
+		{
+			if (villagedoorinfo.getDoorBlockPos().getX() == doorBlock.getX() && villagedoorinfo.getDoorBlockPos().getZ() == doorBlock.getZ() && Math.abs(villagedoorinfo.getDoorBlockPos().getY() - doorBlock.getY()) <= 1)
+			{
+				return villagedoorinfo;
+			}
+		}
 
-            return null;
-        }
-    }
+		return null;
+	}
 
     public void addVillageDoorInfo(VillageDoorInfo doorInfo)
     {

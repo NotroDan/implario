@@ -68,46 +68,37 @@ public abstract class EntityAITarget extends EntityAIBase
         {
             return false;
         }
-        else if (!entitylivingbase.isEntityAlive())
-        {
-            return false;
-        }
-        else
-        {
-            Team team = this.taskOwner.getTeam();
-            Team team1 = entitylivingbase.getTeam();
+		if (!entitylivingbase.isEntityAlive())
+		{
+			return false;
+		}
+		Team team = this.taskOwner.getTeam();
+		Team team1 = entitylivingbase.getTeam();
 
-            if (team != null && team1 == team)
-            {
-                return false;
-            }
-            else
-            {
-                double d0 = this.getTargetDistance();
+		if (team != null && team1 == team)
+		{
+			return false;
+		}
+		double d0 = this.getTargetDistance();
 
-                if (this.taskOwner.getDistanceSqToEntity(entitylivingbase) > d0 * d0)
-                {
-                    return false;
-                }
-                else
-                {
-                    if (this.shouldCheckSight)
-                    {
-                        if (this.taskOwner.getEntitySenses().canSee(entitylivingbase))
-                        {
-                            this.targetUnseenTicks = 0;
-                        }
-                        else if (++this.targetUnseenTicks > 60)
-                        {
-                            return false;
-                        }
-                    }
+		if (this.taskOwner.getDistanceSqToEntity(entitylivingbase) > d0 * d0)
+		{
+			return false;
+		}
+		if (this.shouldCheckSight)
+		{
+			if (this.taskOwner.getEntitySenses().canSee(entitylivingbase))
+			{
+				this.targetUnseenTicks = 0;
+			}
+			else if (++this.targetUnseenTicks > 60)
+			{
+				return false;
+			}
+		}
 
-                    return !(entitylivingbase instanceof EntityPlayer) || !((EntityPlayer)entitylivingbase).capabilities.disableDamage;
-                }
-            }
-        }
-    }
+		return !(entitylivingbase instanceof EntityPlayer) || !((EntityPlayer)entitylivingbase).capabilities.disableDamage;
+	}
 
     protected double getTargetDistance()
     {
@@ -142,50 +133,44 @@ public abstract class EntityAITarget extends EntityAIBase
         {
             return false;
         }
-        else if (target == attacker)
-        {
-            return false;
-        }
-        else if (!target.isEntityAlive())
-        {
-            return false;
-        }
-        else if (!attacker.canAttackClass(target.getClass()))
-        {
-            return false;
-        }
-        else
-        {
-            Team team = attacker.getTeam();
-            Team team1 = target.getTeam();
+		if (target == attacker)
+		{
+			return false;
+		}
+		if (!target.isEntityAlive())
+		{
+			return false;
+		}
+		if (!attacker.canAttackClass(target.getClass()))
+		{
+			return false;
+		}
+		Team team = attacker.getTeam();
+		Team team1 = target.getTeam();
 
-            if (team != null && team1 == team)
-            {
-                return false;
-            }
-            else
-            {
-                if (attacker instanceof IEntityOwnable && StringUtils.isNotEmpty(((IEntityOwnable)attacker).getOwnerId()))
-                {
-                    if (target instanceof IEntityOwnable && ((IEntityOwnable)attacker).getOwnerId().equals(((IEntityOwnable)target).getOwnerId()))
-                    {
-                        return false;
-                    }
+		if (team != null && team1 == team)
+		{
+			return false;
+		}
+		if (attacker instanceof IEntityOwnable && StringUtils.isNotEmpty(((IEntityOwnable)attacker).getOwnerId()))
+		{
+			if (target instanceof IEntityOwnable && ((IEntityOwnable)attacker).getOwnerId().equals(((IEntityOwnable)target).getOwnerId()))
+			{
+				return false;
+			}
 
-                    if (target == ((IEntityOwnable)attacker).getOwner())
-                    {
-                        return false;
-                    }
-                }
-                else if (target instanceof EntityPlayer && !includeInvincibles && ((EntityPlayer)target).capabilities.disableDamage)
-                {
-                    return false;
-                }
+			if (target == ((IEntityOwnable)attacker).getOwner())
+			{
+				return false;
+			}
+		}
+		else if (target instanceof EntityPlayer && !includeInvincibles && ((EntityPlayer)target).capabilities.disableDamage)
+		{
+			return false;
+		}
 
-                return !checkSight || attacker.getEntitySenses().canSee(target);
-            }
-        }
-    }
+		return !checkSight || attacker.getEntitySenses().canSee(target);
+	}
 
     /**
      * A method used to see if an entity is a suitable target through a number of checks. Args : entity,
@@ -197,33 +182,30 @@ public abstract class EntityAITarget extends EntityAIBase
         {
             return false;
         }
-        else if (!this.taskOwner.isWithinHomeDistanceFromPosition(new BlockPos(target)))
-        {
-            return false;
-        }
-        else
-        {
-            if (this.nearbyOnly)
-            {
-                if (--this.targetSearchDelay <= 0)
-                {
-                    this.targetSearchStatus = 0;
-                }
+		if (!this.taskOwner.isWithinHomeDistanceFromPosition(new BlockPos(target)))
+		{
+			return false;
+		}
+		if (this.nearbyOnly)
+		{
+			if (--this.targetSearchDelay <= 0)
+			{
+				this.targetSearchStatus = 0;
+			}
 
-                if (this.targetSearchStatus == 0)
-                {
-                    this.targetSearchStatus = this.canEasilyReach(target) ? 1 : 2;
-                }
+			if (this.targetSearchStatus == 0)
+			{
+				this.targetSearchStatus = this.canEasilyReach(target) ? 1 : 2;
+			}
 
-                if (this.targetSearchStatus == 2)
-                {
-                    return false;
-                }
-            }
+			if (this.targetSearchStatus == 2)
+			{
+				return false;
+			}
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Checks to see if this entity can find a short path to the given target.
@@ -237,20 +219,14 @@ public abstract class EntityAITarget extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            PathPoint pathpoint = pathentity.getFinalPathPoint();
+		PathPoint pathpoint = pathentity.getFinalPathPoint();
 
-            if (pathpoint == null)
-            {
-                return false;
-            }
-            else
-            {
-                int i = pathpoint.xCoord - MathHelper.floor_double(p_75295_1_.posX);
-                int j = pathpoint.zCoord - MathHelper.floor_double(p_75295_1_.posZ);
-                return (double)(i * i + j * j) <= 2.25D;
-            }
-        }
-    }
+		if (pathpoint == null)
+		{
+			return false;
+		}
+		int i = pathpoint.xCoord - MathHelper.floor_double(p_75295_1_.posX);
+		int j = pathpoint.zCoord - MathHelper.floor_double(p_75295_1_.posZ);
+		return (double)(i * i + j * j) <= 2.25D;
+	}
 }

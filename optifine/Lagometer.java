@@ -191,12 +191,11 @@ public class Lagometer {
 
 		if (i < 3L) {
 			return 0L;
-		} else {
-			p_renderTime_7_.pos((double) ((float) p_renderTime_0_ + 0.5F), (double) (p_renderTime_6_ - (float) i + 0.5F), 0.0D).color(p_renderTime_3_, p_renderTime_4_, p_renderTime_5_,
-					255).endVertex();
-			p_renderTime_7_.pos((double) ((float) p_renderTime_0_ + 0.5F), (double) (p_renderTime_6_ + 0.5F), 0.0D).color(p_renderTime_3_, p_renderTime_4_, p_renderTime_5_, 255).endVertex();
-			return i;
 		}
+		p_renderTime_7_.pos((double) ((float) p_renderTime_0_ + 0.5F), (double) (p_renderTime_6_ - (float) i + 0.5F), 0.0D).color(p_renderTime_3_, p_renderTime_4_, p_renderTime_5_,
+				255).endVertex();
+		p_renderTime_7_.pos((double) ((float) p_renderTime_0_ + 0.5F), (double) (p_renderTime_6_ + 0.5F), 0.0D).color(p_renderTime_3_, p_renderTime_4_, p_renderTime_5_, 255).endVertex();
+		return i;
 	}
 
 	private static long renderTimeDivider(int p_renderTimeDivider_0_, int p_renderTimeDivider_1_, long p_renderTimeDivider_2_, int p_renderTimeDivider_4_, int p_renderTimeDivider_5_,
@@ -205,13 +204,12 @@ public class Lagometer {
 
 		if (i < 3L) {
 			return 0L;
-		} else {
-			p_renderTimeDivider_8_.pos((double) ((float) p_renderTimeDivider_0_ + 0.5F), (double) (p_renderTimeDivider_7_ - (float) i + 0.5F), 0.0D).color(p_renderTimeDivider_4_,
-					p_renderTimeDivider_5_, p_renderTimeDivider_6_, 255).endVertex();
-			p_renderTimeDivider_8_.pos((double) ((float) p_renderTimeDivider_1_ + 0.5F), (double) (p_renderTimeDivider_7_ - (float) i + 0.5F), 0.0D).color(p_renderTimeDivider_4_,
-					p_renderTimeDivider_5_, p_renderTimeDivider_6_, 255).endVertex();
-			return i;
 		}
+		p_renderTimeDivider_8_.pos((double) ((float) p_renderTimeDivider_0_ + 0.5F), (double) (p_renderTimeDivider_7_ - (float) i + 0.5F), 0.0D).color(p_renderTimeDivider_4_,
+				p_renderTimeDivider_5_, p_renderTimeDivider_6_, 255).endVertex();
+		p_renderTimeDivider_8_.pos((double) ((float) p_renderTimeDivider_1_ + 0.5F), (double) (p_renderTimeDivider_7_ - (float) i + 0.5F), 0.0D).color(p_renderTimeDivider_4_,
+				p_renderTimeDivider_5_, p_renderTimeDivider_6_, 255).endVertex();
+		return i;
 	}
 
 	public static boolean isActive() {

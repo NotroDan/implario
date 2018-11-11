@@ -62,9 +62,6 @@ public class WorldGenSpikes extends WorldGenerator
             worldIn.setBlockState(position.up(i), Blocks.bedrock.getDefaultState(), 2);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 }

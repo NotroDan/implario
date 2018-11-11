@@ -66,11 +66,8 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
             this.listTickables.add(textureObj);
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj)
     {

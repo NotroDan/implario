@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class GuiDownloadTerrain extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawBackground(0);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingTerrain"), this.width / 2, this.height / 2 - 50, 16777215);
+        this.drawCenteredString(this.fontRendererObj, Lang.format("multiplayer.downloadingTerrain"), this.width / 2, this.height / 2 - 50, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

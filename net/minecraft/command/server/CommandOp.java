@@ -50,12 +50,9 @@ public class CommandOp extends CommandBase
             {
                 throw new CommandException("commands.op.failed", new Object[] {args[0]});
             }
-            else
-            {
-                minecraftserver.getConfigurationManager().addOp(gameprofile);
-                notifyOperators(sender, this, "commands.op.success", new Object[] {args[0]});
-            }
-        }
+			minecraftserver.getConfigurationManager().addOp(gameprofile);
+			notifyOperators(sender, this, "commands.op.success", new Object[] {args[0]});
+		}
         else
         {
             throw new WrongUsageException("commands.op.usage", new Object[0]);
@@ -79,9 +76,6 @@ public class CommandOp extends CommandBase
 
             return list;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 }

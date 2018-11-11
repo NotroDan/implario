@@ -240,16 +240,13 @@ public abstract class CommandBlockLogic implements ICommandSender
         {
             return false;
         }
-        else
-        {
-            if (playerIn.getEntityWorld().isRemote)
-            {
-                playerIn.openEditCommandBlock(this);
-            }
+		if (playerIn.getEntityWorld().isRemote)
+		{
+			playerIn.openEditCommandBlock(this);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     public CommandResultStats getCommandResultStats()
     {

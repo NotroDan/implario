@@ -89,24 +89,18 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
                 this.markDirty();
                 return itemstack1;
             }
-            else
-            {
-                ItemStack itemstack = this.chestContents[index].splitStack(count);
+			ItemStack itemstack = this.chestContents[index].splitStack(count);
 
-                if (this.chestContents[index].stackSize == 0)
-                {
-                    this.chestContents[index] = null;
-                }
+			if (this.chestContents[index].stackSize == 0)
+			{
+				this.chestContents[index] = null;
+			}
 
-                this.markDirty();
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			this.markDirty();
+			return itemstack;
+		}
+		return null;
+	}
 
     /**
      * Removes a stack from the given slot and returns it.
@@ -119,11 +113,8 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
             this.chestContents[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
@@ -314,12 +305,9 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
         {
             return false;
         }
-        else
-        {
-            Block block = this.worldObj.getBlockState(posIn).getBlock();
-            return block instanceof BlockChest && ((BlockChest)block).chestType == this.getChestType();
-        }
-    }
+		Block block = this.worldObj.getBlockState(posIn).getBlock();
+		return block instanceof BlockChest && ((BlockChest)block).chestType == this.getChestType();
+	}
 
     /**
      * Like the old updateEntity(), except more generic.
@@ -424,11 +412,8 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
             this.numPlayersUsing = type;
             return true;
         }
-        else
-        {
-            return super.receiveClientEvent(id, type);
-        }
-    }
+		return super.receiveClientEvent(id, type);
+	}
 
     public void openInventory(EntityPlayer player)
     {

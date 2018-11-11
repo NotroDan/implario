@@ -23,24 +23,21 @@ public class EntityAITradePlayer extends EntityAIBase
         {
             return false;
         }
-        else if (this.villager.isInWater())
-        {
-            return false;
-        }
-        else if (!this.villager.onGround)
-        {
-            return false;
-        }
-        else if (this.villager.velocityChanged)
-        {
-            return false;
-        }
-        else
-        {
-            EntityPlayer entityplayer = this.villager.getCustomer();
-            return entityplayer == null ? false : this.villager.getDistanceSqToEntity(entityplayer) > 16.0D ? false : entityplayer.openContainer instanceof Container;
-        }
-    }
+		if (this.villager.isInWater())
+		{
+			return false;
+		}
+		if (!this.villager.onGround)
+		{
+			return false;
+		}
+		if (this.villager.velocityChanged)
+		{
+			return false;
+		}
+		EntityPlayer entityplayer = this.villager.getCustomer();
+		return entityplayer == null ? false : this.villager.getDistanceSqToEntity(entityplayer) > 16.0D ? false : entityplayer.openContainer instanceof Container;
+	}
 
     /**
      * Execute a one shot task or start executing a continuous task

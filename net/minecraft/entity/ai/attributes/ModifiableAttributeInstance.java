@@ -92,22 +92,19 @@ public class ModifiableAttributeInstance implements IAttributeInstance
         {
             throw new IllegalArgumentException("Modifier is already applied on this attribute!");
         }
-        else
-        {
-            Set<AttributeModifier> set = (Set)this.mapByName.get(modifier.getName());
+		Set<AttributeModifier> set = (Set)this.mapByName.get(modifier.getName());
 
-            if (set == null)
-            {
-                set = Sets.<AttributeModifier>newHashSet();
-                this.mapByName.put(modifier.getName(), set);
-            }
+		if (set == null)
+		{
+			set = Sets.<AttributeModifier>newHashSet();
+			this.mapByName.put(modifier.getName(), set);
+		}
 
-            ((Set)this.mapByOperation.get(Integer.valueOf(modifier.getOperation()))).add(modifier);
-            set.add(modifier);
-            this.mapByUUID.put(modifier.getID(), modifier);
-            this.flagForUpdate();
-        }
-    }
+		((Set)this.mapByOperation.get(Integer.valueOf(modifier.getOperation()))).add(modifier);
+		set.add(modifier);
+		this.mapByUUID.put(modifier.getID(), modifier);
+		this.flagForUpdate();
+	}
 
     protected void flagForUpdate()
     {

@@ -37,12 +37,9 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase
             --this.runDelay;
             return false;
         }
-        else
-        {
-            this.runDelay = 200 + this.theEntity.getRNG().nextInt(200);
-            return this.searchForDestination();
-        }
-    }
+		this.runDelay = 200 + this.theEntity.getRNG().nextInt(200);
+		return this.searchForDestination();
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

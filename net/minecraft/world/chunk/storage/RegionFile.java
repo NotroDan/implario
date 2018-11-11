@@ -113,68 +113,53 @@ public class RegionFile
         {
             return null;
         }
-        else
-        {
-            try
-            {
-                int i = this.getOffset(x, z);
+		try
+		{
+			int i = this.getOffset(x, z);
 
-                if (i == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    int j = i >> 8;
-                    int k = i & 255;
+			if (i == 0)
+			{
+				return null;
+			}
+			int j = i >> 8;
+			int k = i & 255;
 
-                    if (j + k > this.sectorFree.size())
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        this.dataFile.seek((long)(j * 4096));
-                        int l = this.dataFile.readInt();
+			if (j + k > this.sectorFree.size())
+				{
+					return null;
+				}
+			this.dataFile.seek((long)(j * 4096));
+			int l = this.dataFile.readInt();
 
-                        if (l > 4096 * k)
-                        {
-                            return null;
-                        }
-                        else if (l <= 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            byte b0 = this.dataFile.readByte();
+			if (l > 4096 * k)
+					{
+						return null;
+					}
+			if (l <= 0)
+					{
+						return null;
+					}
+			byte b0 = this.dataFile.readByte();
 
-                            if (b0 == 1)
-                            {
-                                byte[] abyte1 = new byte[l - 1];
-                                this.dataFile.read(abyte1);
-                                return new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(abyte1))));
-                            }
-                            else if (b0 == 2)
-                            {
-                                byte[] abyte = new byte[l - 1];
-                                this.dataFile.read(abyte);
-                                return new DataInputStream(new BufferedInputStream(new InflaterInputStream(new ByteArrayInputStream(abyte))));
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (IOException var9)
-            {
-                return null;
-            }
-        }
-    }
+			if (b0 == 1)
+						{
+							byte[] abyte1 = new byte[l - 1];
+							this.dataFile.read(abyte1);
+							return new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(abyte1))));
+						}
+			if (b0 == 2)
+						{
+							byte[] abyte = new byte[l - 1];
+							this.dataFile.read(abyte);
+							return new DataInputStream(new BufferedInputStream(new InflaterInputStream(new ByteArrayInputStream(abyte))));
+						}
+			return null;
+		}
+		catch (IOException var9)
+		{
+			return null;
+		}
+	}
 
     /**
      * Returns an output stream used to write chunk data. Data is on disk when the returned stream is closed.

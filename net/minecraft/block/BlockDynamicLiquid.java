@@ -261,21 +261,18 @@ public class BlockDynamicLiquid extends BlockLiquid
         {
             return currentMinLevel;
         }
-        else
-        {
-            if (i == 0)
-            {
-                ++this.adjacentSourceBlocks;
-            }
+		if (i == 0)
+		{
+			++this.adjacentSourceBlocks;
+		}
 
-            if (i >= 8)
-            {
-                i = 0;
-            }
+		if (i >= 8)
+		{
+			i = 0;
+		}
 
-            return currentMinLevel >= 0 && i >= currentMinLevel ? currentMinLevel : i;
-        }
-    }
+		return currentMinLevel >= 0 && i >= currentMinLevel ? currentMinLevel : i;
+	}
 
     private boolean canFlowInto(World worldIn, BlockPos pos, IBlockState state)
     {

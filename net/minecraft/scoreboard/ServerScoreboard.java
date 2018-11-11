@@ -97,11 +97,8 @@ public class ServerScoreboard extends Scoreboard
             this.func_96551_b();
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Removes the given username from the given ScorePlayerTeam. If the player is not on the team then an

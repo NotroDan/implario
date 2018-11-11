@@ -49,23 +49,20 @@ public class CommandMessageRaw extends CommandBase
         {
             throw new WrongUsageException("commands.tellraw.usage", new Object[0]);
         }
-        else
-        {
-            EntityPlayer entityplayer = getPlayer(sender, args[0]);
-            String s = buildString(args, 1);
+		EntityPlayer entityplayer = getPlayer(sender, args[0]);
+		String s = buildString(args, 1);
 
-            try
-            {
-                IChatComponent ichatcomponent = IChatComponent.Serializer.jsonToComponent(s);
-                entityplayer.addChatMessage(ChatComponentProcessor.processComponent(sender, ichatcomponent, entityplayer));
-            }
-            catch (JsonParseException jsonparseexception)
-            {
-                Throwable throwable = ExceptionUtils.getRootCause(jsonparseexception);
-                throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] {throwable == null ? "" : throwable.getMessage()});
-            }
-        }
-    }
+		try
+		{
+			IChatComponent ichatcomponent = IChatComponent.Serializer.jsonToComponent(s);
+			entityplayer.addChatMessage(ChatComponentProcessor.processComponent(sender, ichatcomponent, entityplayer));
+		}
+		catch (JsonParseException jsonparseexception)
+		{
+			Throwable throwable = ExceptionUtils.getRootCause(jsonparseexception);
+			throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] {throwable == null ? "" : throwable.getMessage()});
+		}
+	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {

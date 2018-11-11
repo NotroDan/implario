@@ -866,132 +866,126 @@ public abstract class EntityLivingBase extends Entity
         {
             return false;
         }
-        else if (this.worldObj.isRemote)
-        {
-            return false;
-        }
-        else
-        {
-            this.entityAge = 0;
+		if (this.worldObj.isRemote)
+		{
+			return false;
+		}
+		this.entityAge = 0;
 
-            if (this.getHealth() <= 0.0F)
-            {
-                return false;
-            }
-            else if (source.isFireDamage() && this.isPotionActive(Potion.fireResistance))
-            {
-                return false;
-            }
-            else
-            {
-                if ((source == DamageSource.anvil || source == DamageSource.fallingBlock) && this.getEquipmentInSlot(4) != null)
-                {
-                    this.getEquipmentInSlot(4).damageItem((int)(amount * 4.0F + this.rand.nextFloat() * amount * 2.0F), this);
-                    amount *= 0.75F;
-                }
+		if (this.getHealth() <= 0.0F)
+		{
+			return false;
+		}
+		if (source.isFireDamage() && this.isPotionActive(Potion.fireResistance))
+		{
+			return false;
+		}
+		if ((source == DamageSource.anvil || source == DamageSource.fallingBlock) && this.getEquipmentInSlot(4) != null)
+		{
+			this.getEquipmentInSlot(4).damageItem((int)(amount * 4.0F + this.rand.nextFloat() * amount * 2.0F), this);
+			amount *= 0.75F;
+		}
 
-                this.limbSwingAmount = 1.5F;
-                boolean flag = true;
+		this.limbSwingAmount = 1.5F;
+		boolean flag = true;
 
-                if ((float)this.hurtResistantTime > (float)this.maxHurtResistantTime / 2.0F)
-                {
-                    if (amount <= this.lastDamage)
-                    {
-                        return false;
-                    }
+		if ((float)this.hurtResistantTime > (float)this.maxHurtResistantTime / 2.0F)
+		{
+			if (amount <= this.lastDamage)
+			{
+				return false;
+			}
 
-                    this.damageEntity(source, amount - this.lastDamage);
-                    this.lastDamage = amount;
-                    flag = false;
-                }
-                else
-                {
-                    this.lastDamage = amount;
-                    this.hurtResistantTime = this.maxHurtResistantTime;
-                    this.damageEntity(source, amount);
-                    this.hurtTime = this.maxHurtTime = 10;
-                }
+			this.damageEntity(source, amount - this.lastDamage);
+			this.lastDamage = amount;
+			flag = false;
+		}
+		else
+		{
+			this.lastDamage = amount;
+			this.hurtResistantTime = this.maxHurtResistantTime;
+			this.damageEntity(source, amount);
+			this.hurtTime = this.maxHurtTime = 10;
+		}
 
-                this.attackedAtYaw = 0.0F;
-                Entity entity = source.getEntity();
+		this.attackedAtYaw = 0.0F;
+		Entity entity = source.getEntity();
 
-                if (entity != null)
-                {
-                    if (entity instanceof EntityLivingBase)
-                    {
-                        this.setRevengeTarget((EntityLivingBase)entity);
-                    }
+		if (entity != null)
+		{
+			if (entity instanceof EntityLivingBase)
+			{
+				this.setRevengeTarget((EntityLivingBase)entity);
+			}
 
-                    if (entity instanceof EntityPlayer)
-                    {
-                        this.recentlyHit = 100;
-                        this.attackingPlayer = (EntityPlayer)entity;
-                    }
-                    else if (entity instanceof EntityWolf)
-                    {
-                        EntityWolf entitywolf = (EntityWolf)entity;
+			if (entity instanceof EntityPlayer)
+			{
+				this.recentlyHit = 100;
+				this.attackingPlayer = (EntityPlayer)entity;
+			}
+			else if (entity instanceof EntityWolf)
+			{
+				EntityWolf entitywolf = (EntityWolf)entity;
 
-                        if (entitywolf.isTamed())
-                        {
-                            this.recentlyHit = 100;
-                            this.attackingPlayer = null;
-                        }
-                    }
-                }
+				if (entitywolf.isTamed())
+				{
+					this.recentlyHit = 100;
+					this.attackingPlayer = null;
+				}
+			}
+		}
 
-                if (flag)
-                {
-                    this.worldObj.setEntityState(this, (byte)2);
+		if (flag)
+		{
+			this.worldObj.setEntityState(this, (byte)2);
 
-                    if (source != DamageSource.drown)
-                    {
-                        this.setBeenAttacked();
-                    }
+			if (source != DamageSource.drown)
+			{
+				this.setBeenAttacked();
+			}
 
-                    if (entity != null)
-                    {
-                        double d1 = entity.posX - this.posX;
-                        double d0;
+			if (entity != null)
+			{
+				double d1 = entity.posX - this.posX;
+				double d0;
 
-                        for (d0 = entity.posZ - this.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D)
-                        {
-                            d1 = (Math.random() - Math.random()) * 0.01D;
-                        }
+				for (d0 = entity.posZ - this.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D)
+				{
+					d1 = (Math.random() - Math.random()) * 0.01D;
+				}
 
-                        this.attackedAtYaw = (float)(MathHelper.func_181159_b(d0, d1) * 180.0D / Math.PI - (double)this.rotationYaw);
-                        this.knockBack(entity, amount, d1, d0);
-                    }
-                    else
-                    {
-                        this.attackedAtYaw = (float)((int)(Math.random() * 2.0D) * 180);
-                    }
-                }
+				this.attackedAtYaw = (float)(MathHelper.func_181159_b(d0, d1) * 180.0D / Math.PI - (double)this.rotationYaw);
+				this.knockBack(entity, amount, d1, d0);
+			}
+			else
+			{
+				this.attackedAtYaw = (float)((int)(Math.random() * 2.0D) * 180);
+			}
+		}
 
-                if (this.getHealth() <= 0.0F)
-                {
-                    String s = this.getDeathSound();
+		if (this.getHealth() <= 0.0F)
+		{
+			String s = this.getDeathSound();
 
-                    if (flag && s != null)
-                    {
-                        this.playSound(s, this.getSoundVolume(), this.getSoundPitch());
-                    }
+			if (flag && s != null)
+			{
+				this.playSound(s, this.getSoundVolume(), this.getSoundPitch());
+			}
 
-                    this.onDeath(source);
-                }
-                else
-                {
-                    String s1 = this.getHurtSound();
+			this.onDeath(source);
+		}
+		else
+		{
+			String s1 = this.getHurtSound();
 
-                    if (flag && s1 != null)
-                    {
-                        this.playSound(s1, this.getSoundVolume(), this.getSoundPitch());
-                    }
-                }
+			if (flag && s1 != null)
+			{
+				this.playSound(s1, this.getSoundVolume(), this.getSoundPitch());
+			}
+		}
 
-                return true;
-            }
-        }
-    }
+		return true;
+	}
 
     /**
      * Renders broken item particles using the given ItemStack
@@ -1226,40 +1220,34 @@ public abstract class EntityLivingBase extends Entity
         {
             return damage;
         }
-        else
-        {
-            if (this.isPotionActive(Potion.resistance) && source != DamageSource.outOfWorld)
-            {
-                int i = (this.getActivePotionEffect(Potion.resistance).getAmplifier() + 1) * 5;
-                int j = 25 - i;
-                float f = damage * (float)j;
-                damage = f / 25.0F;
-            }
+		if (this.isPotionActive(Potion.resistance) && source != DamageSource.outOfWorld)
+		{
+			int i = (this.getActivePotionEffect(Potion.resistance).getAmplifier() + 1) * 5;
+			int j = 25 - i;
+			float f = damage * (float)j;
+			damage = f / 25.0F;
+		}
 
-            if (damage <= 0.0F)
-            {
-                return 0.0F;
-            }
-            else
-            {
-                int k = EnchantmentHelper.getEnchantmentModifierDamage(this.getInventory(), source);
+		if (damage <= 0.0F)
+		{
+			return 0.0F;
+		}
+		int k = EnchantmentHelper.getEnchantmentModifierDamage(this.getInventory(), source);
 
-                if (k > 20)
-                {
-                    k = 20;
-                }
+		if (k > 20)
+		{
+			k = 20;
+		}
 
-                if (k > 0 && k <= 20)
-                {
-                    int l = 25 - k;
-                    float f1 = damage * (float)l;
-                    damage = f1 / 25.0F;
-                }
+		if (k > 0 && k <= 20)
+		{
+			int l = 25 - k;
+			float f1 = damage * (float)l;
+			damage = f1 / 25.0F;
+		}
 
-                return damage;
-            }
-        }
-    }
+		return damage;
+	}
 
     /**
      * Deals damage to the entity. If its a EntityPlayer then will take damage from the armor first and then health
@@ -2163,13 +2151,10 @@ public abstract class EntityLivingBase extends Entity
         {
             return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
         }
-        else
-        {
-            float f = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
-            float f1 = this.prevRotationYawHead + (this.rotationYawHead - this.prevRotationYawHead) * partialTicks;
-            return this.getVectorForRotation(f, f1);
-        }
-    }
+		float f = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
+		float f1 = this.prevRotationYawHead + (this.rotationYawHead - this.prevRotationYawHead) * partialTicks;
+		return this.getVectorForRotation(f, f1);
+	}
 
     /**
      * Returns where in the swing animation the living entity is (from 0 to 1).  Args: partialTickTime

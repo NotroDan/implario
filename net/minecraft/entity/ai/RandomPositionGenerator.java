@@ -121,9 +121,6 @@ public class RandomPositionGenerator
         {
             return new Vec3((double)i, (double)j, (double)k);
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 }

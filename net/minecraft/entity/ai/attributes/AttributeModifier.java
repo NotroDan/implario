@@ -76,29 +76,26 @@ public class AttributeModifier
         {
             return true;
         }
-        else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
-        {
-            AttributeModifier attributemodifier = (AttributeModifier)p_equals_1_;
+		if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
+		{
+			AttributeModifier attributemodifier = (AttributeModifier)p_equals_1_;
 
-            if (this.id != null)
-            {
-                if (!this.id.equals(attributemodifier.id))
-                {
-                    return false;
-                }
-            }
-            else if (attributemodifier.id != null)
-            {
-                return false;
-            }
+			if (this.id != null)
+			{
+				if (!this.id.equals(attributemodifier.id))
+				{
+					return false;
+				}
+			}
+			else if (attributemodifier.id != null)
+			{
+				return false;
+			}
 
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return true;
+		}
+		return false;
+	}
 
     public int hashCode()
     {

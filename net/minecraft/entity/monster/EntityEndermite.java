@@ -181,11 +181,8 @@ public class EntityEndermite extends EntityMob
             EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
             return entityplayer == null;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Get this Entity's EnumCreatureAttribute

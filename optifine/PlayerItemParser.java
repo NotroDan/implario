@@ -49,68 +49,65 @@ public class PlayerItemParser
         {
             throw new JsonParseException("Unknown model type: " + s);
         }
-        else
-        {
-            int[] aint = Json.parseIntArray(p_parseItemModel_0_.get("textureSize"), 2);
-            checkNull(aint, "Missing texture size");
-            Dimension dimension = new Dimension(aint[0], aint[1]);
-            boolean flag = Json.getBoolean(p_parseItemModel_0_, "usePlayerTexture", false);
-            JsonArray jsonarray = (JsonArray)p_parseItemModel_0_.get("models");
-            checkNull(jsonarray, "Missing elements");
-            Map map = new HashMap();
-            List list = new ArrayList();
-            new ArrayList();
+		int[] aint = Json.parseIntArray(p_parseItemModel_0_.get("textureSize"), 2);
+		checkNull(aint, "Missing texture size");
+		Dimension dimension = new Dimension(aint[0], aint[1]);
+		boolean flag = Json.getBoolean(p_parseItemModel_0_, "usePlayerTexture", false);
+		JsonArray jsonarray = (JsonArray)p_parseItemModel_0_.get("models");
+		checkNull(jsonarray, "Missing elements");
+		Map map = new HashMap();
+		List list = new ArrayList();
+		new ArrayList();
 
-            for (int i = 0; i < jsonarray.size(); ++i)
-            {
-                JsonObject jsonobject = (JsonObject)jsonarray.get(i);
-                String s1 = Json.getString(jsonobject, "baseId");
+		for (int i = 0; i < jsonarray.size(); ++i)
+		{
+			JsonObject jsonobject = (JsonObject)jsonarray.get(i);
+			String s1 = Json.getString(jsonobject, "baseId");
 
-                if (s1 != null)
-                {
-                    JsonObject jsonobject1 = (JsonObject)map.get(s1);
+			if (s1 != null)
+			{
+				JsonObject jsonobject1 = (JsonObject)map.get(s1);
 
-                    if (jsonobject1 == null)
-                    {
-                        Config.warn("BaseID not found: " + s1);
-                        continue;
-                    }
+				if (jsonobject1 == null)
+				{
+					Config.warn("BaseID not found: " + s1);
+					continue;
+				}
 
-                    for (Entry<String, JsonElement> entry : jsonobject1.entrySet())
-                    {
-                        if (!jsonobject.has((String)entry.getKey()))
-                        {
-                            jsonobject.add((String)entry.getKey(), (JsonElement)entry.getValue());
-                        }
-                    }
-                }
+				for (Entry<String, JsonElement> entry : jsonobject1.entrySet())
+				{
+					if (!jsonobject.has((String)entry.getKey()))
+					{
+						jsonobject.add((String)entry.getKey(), (JsonElement)entry.getValue());
+					}
+				}
+			}
 
-                String s2 = Json.getString(jsonobject, "id");
+			String s2 = Json.getString(jsonobject, "id");
 
-                if (s2 != null)
-                {
-                    if (!map.containsKey(s2))
-                    {
-                        map.put(s2, jsonobject);
-                    }
-                    else
-                    {
-                        Config.warn("Duplicate model ID: " + s2);
-                    }
-                }
+			if (s2 != null)
+			{
+				if (!map.containsKey(s2))
+				{
+					map.put(s2, jsonobject);
+				}
+				else
+				{
+					Config.warn("Duplicate model ID: " + s2);
+				}
+			}
 
-                PlayerItemRenderer playeritemrenderer = parseItemRenderer(jsonobject, dimension);
+			PlayerItemRenderer playeritemrenderer = parseItemRenderer(jsonobject, dimension);
 
-                if (playeritemrenderer != null)
-                {
-                    list.add(playeritemrenderer);
-                }
-            }
+			if (playeritemrenderer != null)
+			{
+				list.add(playeritemrenderer);
+			}
+		}
 
-            PlayerItemRenderer[] aplayeritemrenderer = (PlayerItemRenderer[]) (PlayerItemRenderer[])list.toArray(new PlayerItemRenderer[list.size()]);
-            return new PlayerItemModel(dimension, flag, aplayeritemrenderer);
-        }
-    }
+		PlayerItemRenderer[] aplayeritemrenderer = (PlayerItemRenderer[]) (PlayerItemRenderer[])list.toArray(new PlayerItemRenderer[list.size()]);
+		return new PlayerItemModel(dimension, flag, aplayeritemrenderer);
+	}
 
     private static void checkNull(Object p_checkNull_0_, String p_checkNull_1_)
     {
@@ -128,13 +125,10 @@ public class PlayerItemParser
         {
             return new ResourceLocation(p_makeResourceLocation_0_);
         }
-        else
-        {
-            String s = p_makeResourceLocation_0_.substring(0, i);
-            String s1 = p_makeResourceLocation_0_.substring(i + 1);
-            return new ResourceLocation(s, s1);
-        }
-    }
+		String s = p_makeResourceLocation_0_.substring(0, i);
+		String s1 = p_makeResourceLocation_0_.substring(i + 1);
+		return new ResourceLocation(s, s1);
+	}
 
     private static int parseAttachModel(String p_parseAttachModel_0_)
     {
@@ -142,40 +136,37 @@ public class PlayerItemParser
         {
             return 0;
         }
-        else if (p_parseAttachModel_0_.equals("body"))
-        {
-            return 0;
-        }
-        else if (p_parseAttachModel_0_.equals("head"))
-        {
-            return 1;
-        }
-        else if (p_parseAttachModel_0_.equals("leftArm"))
-        {
-            return 2;
-        }
-        else if (p_parseAttachModel_0_.equals("rightArm"))
-        {
-            return 3;
-        }
-        else if (p_parseAttachModel_0_.equals("leftLeg"))
-        {
-            return 4;
-        }
-        else if (p_parseAttachModel_0_.equals("rightLeg"))
-        {
-            return 5;
-        }
-        else if (p_parseAttachModel_0_.equals("cape"))
-        {
-            return 6;
-        }
-        else
-        {
-            Config.warn("Unknown attachModel: " + p_parseAttachModel_0_);
-            return 0;
-        }
-    }
+		if (p_parseAttachModel_0_.equals("body"))
+		{
+			return 0;
+		}
+		if (p_parseAttachModel_0_.equals("head"))
+		{
+			return 1;
+		}
+		if (p_parseAttachModel_0_.equals("leftArm"))
+		{
+			return 2;
+		}
+		if (p_parseAttachModel_0_.equals("rightArm"))
+		{
+			return 3;
+		}
+		if (p_parseAttachModel_0_.equals("leftLeg"))
+		{
+			return 4;
+		}
+		if (p_parseAttachModel_0_.equals("rightLeg"))
+		{
+			return 5;
+		}
+		if (p_parseAttachModel_0_.equals("cape"))
+		{
+			return 6;
+		}
+		Config.warn("Unknown attachModel: " + p_parseAttachModel_0_);
+		return 0;
+	}
 
     private static PlayerItemRenderer parseItemRenderer(JsonObject p_parseItemRenderer_0_, Dimension p_parseItemRenderer_1_)
     {
@@ -186,19 +177,16 @@ public class PlayerItemParser
             Config.warn("Unknown model type: " + s);
             return null;
         }
-        else
-        {
-            String s1 = Json.getString(p_parseItemRenderer_0_, "attachTo");
-            int i = parseAttachModel(s1);
-            float f = Json.getFloat(p_parseItemRenderer_0_, "scale", 1.0F);
-            ModelBase modelbase = new ModelPlayerItem();
-            modelbase.textureWidth = p_parseItemRenderer_1_.width;
-            modelbase.textureHeight = p_parseItemRenderer_1_.height;
-            ModelRenderer modelrenderer = parseModelRenderer(p_parseItemRenderer_0_, modelbase);
-            PlayerItemRenderer playeritemrenderer = new PlayerItemRenderer(i, f, modelrenderer);
-            return playeritemrenderer;
-        }
-    }
+		String s1 = Json.getString(p_parseItemRenderer_0_, "attachTo");
+		int i = parseAttachModel(s1);
+		float f = Json.getFloat(p_parseItemRenderer_0_, "scale", 1.0F);
+		ModelBase modelbase = new ModelPlayerItem();
+		modelbase.textureWidth = p_parseItemRenderer_1_.width;
+		modelbase.textureHeight = p_parseItemRenderer_1_.height;
+		ModelRenderer modelrenderer = parseModelRenderer(p_parseItemRenderer_0_, modelbase);
+		PlayerItemRenderer playeritemrenderer = new PlayerItemRenderer(i, f, modelrenderer);
+		return playeritemrenderer;
+	}
 
     private static ModelRenderer parseModelRenderer(JsonObject p_parseModelRenderer_0_, ModelBase p_parseModelRenderer_1_)
     {

@@ -338,19 +338,16 @@ public class EntityWolf extends EntityTameable
         {
             return false;
         }
-        else
-        {
-            Entity entity = source.getEntity();
-            this.aiSit.setSitting(false);
+		Entity entity = source.getEntity();
+		this.aiSit.setSitting(false);
 
-            if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
-            {
-                amount = (amount + 1.0F) / 2.0F;
-            }
+		if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
+		{
+			amount = (amount + 1.0F) / 2.0F;
+		}
 
-            return super.attackEntityFrom(source, amount);
-        }
-    }
+		return super.attackEntityFrom(source, amount);
+	}
 
     public boolean attackEntityAsMob(Entity entityIn)
     {
@@ -582,20 +579,17 @@ public class EntityWolf extends EntityTameable
         {
             return false;
         }
-        else if (!this.isTamed())
-        {
-            return false;
-        }
-        else if (!(otherAnimal instanceof EntityWolf))
-        {
-            return false;
-        }
-        else
-        {
-            EntityWolf entitywolf = (EntityWolf)otherAnimal;
-            return !entitywolf.isTamed() ? false : entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove();
-        }
-    }
+		if (!this.isTamed())
+		{
+			return false;
+		}
+		if (!(otherAnimal instanceof EntityWolf))
+		{
+			return false;
+		}
+		EntityWolf entitywolf = (EntityWolf)otherAnimal;
+		return !entitywolf.isTamed() ? false : entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove();
+	}
 
     public boolean isBegging()
     {
@@ -626,11 +620,8 @@ public class EntityWolf extends EntityTameable
 
             return p_142018_1_ instanceof EntityPlayer && p_142018_2_ instanceof EntityPlayer && !((EntityPlayer)p_142018_2_).canAttackPlayer((EntityPlayer)p_142018_1_) ? false : !(p_142018_1_ instanceof EntityHorse) || !((EntityHorse)p_142018_1_).isTame();
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public boolean allowLeashing()
     {

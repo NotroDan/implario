@@ -199,25 +199,22 @@ public abstract class StructureComponent
         {
             return x;
         }
-        else
-        {
-            switch (this.coordBaseMode)
-            {
-                case NORTH:
-                case SOUTH:
-                    return this.boundingBox.minX + x;
+		switch (this.coordBaseMode)
+		{
+			case NORTH:
+			case SOUTH:
+				return this.boundingBox.minX + x;
 
-                case WEST:
-                    return this.boundingBox.maxX - z;
+			case WEST:
+				return this.boundingBox.maxX - z;
 
-                case EAST:
-                    return this.boundingBox.minX + z;
+			case EAST:
+				return this.boundingBox.minX + z;
 
-                default:
-                    return x;
-            }
-        }
-    }
+			default:
+				return x;
+		}
+	}
 
     protected int getYWithOffset(int y)
     {
@@ -230,25 +227,22 @@ public abstract class StructureComponent
         {
             return z;
         }
-        else
-        {
-            switch (this.coordBaseMode)
-            {
-                case NORTH:
-                    return this.boundingBox.maxZ - z;
+		switch (this.coordBaseMode)
+		{
+			case NORTH:
+				return this.boundingBox.maxZ - z;
 
-                case SOUTH:
-                    return this.boundingBox.minZ + z;
+			case SOUTH:
+				return this.boundingBox.minZ + z;
 
-                case WEST:
-                case EAST:
-                    return this.boundingBox.minZ + x;
+			case WEST:
+			case EAST:
+				return this.boundingBox.minZ + x;
 
-                default:
-                    return z;
-            }
-        }
-    }
+			default:
+				return z;
+		}
+	}
 
     /**
      * Returns the direction-shifted metadata for blocks that require orientation, e.g. doors, stairs, ladders.
@@ -793,11 +787,8 @@ public abstract class StructureComponent
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     protected boolean generateDispenserContents(World worldIn, StructureBoundingBox boundingBoxIn, Random rand, int x, int y, int z, int meta, List<WeightedRandomChestContent> listIn, int max)
     {
@@ -815,11 +806,8 @@ public abstract class StructureComponent
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * Places door on given position

@@ -127,20 +127,17 @@ public abstract class BlockSlab extends Block
         {
             return super.shouldSideBeRendered(worldIn, pos, side);
         }
-        else if (side != EnumFacing.UP && side != EnumFacing.DOWN && !super.shouldSideBeRendered(worldIn, pos, side))
-        {
-            return false;
-        }
-        else
-        {
-            BlockPos blockpos = pos.offset(side.getOpposite());
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            IBlockState iblockstate1 = worldIn.getBlockState(blockpos);
-            boolean flag = isSlab(iblockstate.getBlock()) && iblockstate.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP;
-            boolean flag1 = isSlab(iblockstate1.getBlock()) && iblockstate1.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP;
-            return flag1 ? side == EnumFacing.DOWN ? true : side == EnumFacing.UP && super.shouldSideBeRendered(worldIn, pos, side) ? true : !isSlab(iblockstate.getBlock()) || !flag : side == EnumFacing.UP ? true : side == EnumFacing.DOWN && super.shouldSideBeRendered(worldIn, pos, side) ? true : !isSlab(iblockstate.getBlock()) || flag;
-        }
-    }
+		if (side != EnumFacing.UP && side != EnumFacing.DOWN && !super.shouldSideBeRendered(worldIn, pos, side))
+		{
+			return false;
+		}
+		BlockPos blockpos = pos.offset(side.getOpposite());
+		IBlockState iblockstate = worldIn.getBlockState(pos);
+		IBlockState iblockstate1 = worldIn.getBlockState(blockpos);
+		boolean flag = isSlab(iblockstate.getBlock()) && iblockstate.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP;
+		boolean flag1 = isSlab(iblockstate1.getBlock()) && iblockstate1.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP;
+		return flag1 ? side == EnumFacing.DOWN ? true : side == EnumFacing.UP && super.shouldSideBeRendered(worldIn, pos, side) ? true : !isSlab(iblockstate.getBlock()) || !flag : side == EnumFacing.UP ? true : side == EnumFacing.DOWN && super.shouldSideBeRendered(worldIn, pos, side) ? true : !isSlab(iblockstate.getBlock()) || flag;
+	}
 
     protected static boolean isSlab(Block blockIn)
     {

@@ -126,24 +126,21 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         {
             return -1.0F;
         }
-        else
-        {
-            float f = (float)this.heightLimit / 2.0F;
-            float f1 = f - (float)p_76490_1_;
-            float f2 = MathHelper.sqrt_float(f * f - f1 * f1);
+		float f = (float)this.heightLimit / 2.0F;
+		float f1 = f - (float)p_76490_1_;
+		float f2 = MathHelper.sqrt_float(f * f - f1 * f1);
 
-            if (f1 == 0.0F)
-            {
-                f2 = f;
-            }
-            else if (Math.abs(f1) >= f)
-            {
-                return 0.0F;
-            }
+		if (f1 == 0.0F)
+		{
+			f2 = f;
+		}
+		else if (Math.abs(f1) >= f)
+		{
+			return 0.0F;
+		}
 
-            return f2 * 0.5F;
-        }
-    }
+		return f2 * 0.5F;
+	}
 
     float leafSize(int p_76495_1_)
     {
@@ -281,21 +278,18 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         {
             return -1;
         }
-        else
-        {
-            for (int j = 0; j <= i; ++j)
-            {
-                BlockPos blockpos1 = posOne.add((double)(0.5F + (float)j * f), (double)(0.5F + (float)j * f1), (double)(0.5F + (float)j * f2));
+		for (int j = 0; j <= i; ++j)
+		{
+			BlockPos blockpos1 = posOne.add((double)(0.5F + (float)j * f), (double)(0.5F + (float)j * f1), (double)(0.5F + (float)j * f2));
 
-                if (!this.func_150523_a(this.world.getBlockState(blockpos1).getBlock()))
-                {
-                    return j;
-                }
-            }
+			if (!this.func_150523_a(this.world.getBlockState(blockpos1).getBlock()))
+			{
+				return j;
+			}
+		}
 
-            return -1;
-        }
-    }
+		return -1;
+	}
 
     public void func_175904_e()
     {
@@ -317,15 +311,12 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         {
             return false;
         }
-        else
-        {
-            this.generateLeafNodeList();
-            this.generateLeaves();
-            this.generateTrunk();
-            this.generateLeafNodeBases();
-            return true;
-        }
-    }
+		this.generateLeafNodeList();
+		this.generateLeaves();
+		this.generateTrunk();
+		this.generateLeafNodeBases();
+		return true;
+	}
 
     /**
      * Returns a boolean indicating whether or not the current location for the tree, spanning basePos to to the height
@@ -339,25 +330,19 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         {
             return false;
         }
-        else
-        {
-            int i = this.checkBlockLine(this.basePos, this.basePos.up(this.heightLimit - 1));
+		int i = this.checkBlockLine(this.basePos, this.basePos.up(this.heightLimit - 1));
 
-            if (i == -1)
-            {
-                return true;
-            }
-            else if (i < 6)
-            {
-                return false;
-            }
-            else
-            {
-                this.heightLimit = i;
-                return true;
-            }
-        }
-    }
+		if (i == -1)
+		{
+			return true;
+		}
+		if (i < 6)
+		{
+			return false;
+		}
+		this.heightLimit = i;
+		return true;
+	}
 
     static class FoliageCoordinates extends BlockPos
     {

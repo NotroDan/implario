@@ -49,16 +49,13 @@ public class Vec4b
         {
             return true;
         }
-        else if (!(p_equals_1_ instanceof Vec4b))
-        {
-            return false;
-        }
-        else
-        {
-            Vec4b vec4b = (Vec4b)p_equals_1_;
-            return this.field_176117_a != vec4b.field_176117_a ? false : this.field_176114_d != vec4b.field_176114_d ? false : this.field_176115_b != vec4b.field_176115_b ? false : this.field_176116_c == vec4b.field_176116_c;
-        }
-    }
+		if (!(p_equals_1_ instanceof Vec4b))
+		{
+			return false;
+		}
+		Vec4b vec4b = (Vec4b)p_equals_1_;
+		return this.field_176117_a != vec4b.field_176117_a ? false : this.field_176114_d != vec4b.field_176114_d ? false : this.field_176115_b != vec4b.field_176115_b ? false : this.field_176116_c == vec4b.field_176116_c;
+	}
 
     public int hashCode()
     {

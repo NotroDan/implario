@@ -31,16 +31,13 @@ public class ItemTransformVec3f
         {
             return true;
         }
-        else if (this.getClass() != p_equals_1_.getClass())
-        {
-            return false;
-        }
-        else
-        {
-            ItemTransformVec3f itemtransformvec3f = (ItemTransformVec3f)p_equals_1_;
-            return !this.rotation.equals(itemtransformvec3f.rotation) ? false : !this.scale.equals(itemtransformvec3f.scale) ? false : this.translation.equals(itemtransformvec3f.translation);
-        }
-    }
+		if (this.getClass() != p_equals_1_.getClass())
+		{
+			return false;
+		}
+		ItemTransformVec3f itemtransformvec3f = (ItemTransformVec3f)p_equals_1_;
+		return !this.rotation.equals(itemtransformvec3f.rotation) ? false : !this.scale.equals(itemtransformvec3f.scale) ? false : this.translation.equals(itemtransformvec3f.translation);
+	}
 
     public int hashCode()
     {
@@ -78,26 +75,20 @@ public class ItemTransformVec3f
             {
                 return defaultValue;
             }
-            else
-            {
-                JsonArray jsonarray = JsonUtils.getJsonArray(jsonObject, key);
+			JsonArray jsonarray = JsonUtils.getJsonArray(jsonObject, key);
 
-                if (jsonarray.size() != 3)
-                {
-                    throw new JsonParseException("Expected 3 " + key + " values, found: " + jsonarray.size());
-                }
-                else
-                {
-                    float[] afloat = new float[3];
+			if (jsonarray.size() != 3)
+			{
+				throw new JsonParseException("Expected 3 " + key + " values, found: " + jsonarray.size());
+			}
+			float[] afloat = new float[3];
 
-                    for (int i = 0; i < afloat.length; ++i)
-                    {
-                        afloat[i] = JsonUtils.getFloat(jsonarray.get(i), key + "[" + i + "]");
-                    }
+			for (int i = 0; i < afloat.length; ++i)
+			{
+				afloat[i] = JsonUtils.getFloat(jsonarray.get(i), key + "[" + i + "]");
+			}
 
-                    return new Vector3f(afloat[0], afloat[1], afloat[2]);
-                }
-            }
-        }
+			return new Vector3f(afloat[0], afloat[1], afloat[2]);
+		}
     }
 }

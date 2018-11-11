@@ -118,22 +118,19 @@ public class RecipesArmorDyes implements IRecipe
         {
             return null;
         }
-        else
-        {
-            int i1 = aint[0] / j;
-            int j1 = aint[1] / j;
-            int k1 = aint[2] / j;
-            float f3 = (float)i / (float)j;
-            float f4 = (float)Math.max(i1, Math.max(j1, k1));
-            i1 = (int)((float)i1 * f3 / f4);
-            j1 = (int)((float)j1 * f3 / f4);
-            k1 = (int)((float)k1 * f3 / f4);
-            int lvt_12_3_ = (i1 << 8) + j1;
-            lvt_12_3_ = (lvt_12_3_ << 8) + k1;
-            itemarmor.setColor(itemstack, lvt_12_3_);
-            return itemstack;
-        }
-    }
+		int i1 = aint[0] / j;
+		int j1 = aint[1] / j;
+		int k1 = aint[2] / j;
+		float f3 = (float)i / (float)j;
+		float f4 = (float)Math.max(i1, Math.max(j1, k1));
+		i1 = (int)((float)i1 * f3 / f4);
+		j1 = (int)((float)j1 * f3 / f4);
+		k1 = (int)((float)k1 * f3 / f4);
+		int lvt_12_3_ = (i1 << 8) + j1;
+		lvt_12_3_ = (lvt_12_3_ << 8) + k1;
+		itemarmor.setColor(itemstack, lvt_12_3_);
+		return itemstack;
+	}
 
     /**
      * Returns the size of the recipe area

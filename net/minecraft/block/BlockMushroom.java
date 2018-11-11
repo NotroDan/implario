@@ -76,11 +76,8 @@ public class BlockMushroom extends BlockBush implements IGrowable
             IBlockState iblockstate = worldIn.getBlockState(pos.down());
             return iblockstate.getBlock() == Blocks.mycelium ? true : iblockstate.getBlock() == Blocks.dirt && iblockstate.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.PODZOL ? true : worldIn.getLight(pos) < 13 && this.canPlaceBlockOn(iblockstate.getBlock());
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     public boolean generateBigMushroom(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
@@ -100,12 +97,9 @@ public class BlockMushroom extends BlockBush implements IGrowable
         {
             return true;
         }
-        else
-        {
-            worldIn.setBlockState(pos, state, 3);
-            return false;
-        }
-    }
+		worldIn.setBlockState(pos, state, 3);
+		return false;
+	}
 
     /**
      * Whether this IGrowable can grow

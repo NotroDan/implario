@@ -70,11 +70,8 @@ public class EntityMooshroom extends EntityCow
 
             return true;
         }
-        else
-        {
-            return super.interact(player);
-        }
-    }
+		return super.interact(player);
+	}
 
     public EntityMooshroom createChild(EntityAgeable ageable)
     {

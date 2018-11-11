@@ -59,20 +59,17 @@ public class EntityAIAttackOnCollide extends EntityAIBase
         {
             return false;
         }
-        else if (!entitylivingbase.isEntityAlive())
-        {
-            return false;
-        }
-        else if (this.classTarget != null && !this.classTarget.isAssignableFrom(entitylivingbase.getClass()))
-        {
-            return false;
-        }
-        else
-        {
-            this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(entitylivingbase);
-            return this.entityPathEntity != null;
-        }
-    }
+		if (!entitylivingbase.isEntityAlive())
+		{
+			return false;
+		}
+		if (this.classTarget != null && !this.classTarget.isAssignableFrom(entitylivingbase.getClass()))
+		{
+			return false;
+		}
+		this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(entitylivingbase);
+		return this.entityPathEntity != null;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

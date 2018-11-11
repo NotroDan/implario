@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
@@ -27,21 +27,21 @@ public class GuiShareToLan extends GuiScreen {
 	 */
 	public void initGui() {
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("lanServer.start")));
-		this.buttonList.add(new GuiButton(102, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel")));
-		this.buttonList.add(this.field_146597_g = new GuiButton(104, this.width / 2 - 155, 100, 150, 20, I18n.format("selectWorld.gameMode")));
-		this.buttonList.add(this.field_146596_f = new GuiButton(103, this.width / 2 + 5, 100, 150, 20, I18n.format("selectWorld.allowCommands")));
+		this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height - 28, 150, 20, Lang.format("lanServer.start")));
+		this.buttonList.add(new GuiButton(102, this.width / 2 + 5, this.height - 28, 150, 20, Lang.format("gui.cancel")));
+		this.buttonList.add(this.field_146597_g = new GuiButton(104, this.width / 2 - 155, 100, 150, 20, Lang.format("selectWorld.gameMode")));
+		this.buttonList.add(this.field_146596_f = new GuiButton(103, this.width / 2 + 5, 100, 150, 20, Lang.format("selectWorld.allowCommands")));
 		this.func_146595_g();
 	}
 
 	private void func_146595_g() {
-		this.field_146597_g.displayString = I18n.format("selectWorld.gameMode") + " " + I18n.format("selectWorld.gameMode." + this.field_146599_h);
-		this.field_146596_f.displayString = I18n.format("selectWorld.allowCommands") + " ";
+		this.field_146597_g.displayString = Lang.format("selectWorld.gameMode") + " " + Lang.format("selectWorld.gameMode." + this.field_146599_h);
+		this.field_146596_f.displayString = Lang.format("selectWorld.allowCommands") + " ";
 
 		if (this.field_146600_i) {
-			this.field_146596_f.displayString = this.field_146596_f.displayString + I18n.format("options.on");
+			this.field_146596_f.displayString = this.field_146596_f.displayString + Lang.format("options.on");
 		} else {
-			this.field_146596_f.displayString = this.field_146596_f.displayString + I18n.format("options.off");
+			this.field_146596_f.displayString = this.field_146596_f.displayString + Lang.format("options.off");
 		}
 	}
 
@@ -91,8 +91,8 @@ public class GuiShareToLan extends GuiScreen {
 	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("lanServer.title"), this.width / 2, 50, 16777215);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("lanServer.otherPlayers"), this.width / 2, 82, 16777215);
+		this.drawCenteredString(this.fontRendererObj, Lang.format("lanServer.title"), this.width / 2, 50, 16777215);
+		this.drawCenteredString(this.fontRendererObj, Lang.format("lanServer.otherPlayers"), this.width / 2, 82, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

@@ -48,67 +48,61 @@ public class ItemBoat extends Item
         {
             return itemStackIn;
         }
-        else
-        {
-            Vec3 vec32 = playerIn.getLook(f);
-            boolean flag = false;
-            float f9 = 1.0F;
-            List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn, playerIn.getEntityBoundingBox().addCoord(vec32.xCoord * d3, vec32.yCoord * d3, vec32.zCoord * d3).expand((double)f9, (double)f9, (double)f9));
+		Vec3 vec32 = playerIn.getLook(f);
+		boolean flag = false;
+		float f9 = 1.0F;
+		List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn, playerIn.getEntityBoundingBox().addCoord(vec32.xCoord * d3, vec32.yCoord * d3, vec32.zCoord * d3).expand((double)f9, (double)f9, (double)f9));
 
-            for (int i = 0; i < list.size(); ++i)
-            {
-                Entity entity = (Entity)list.get(i);
+		for (int i = 0; i < list.size(); ++i)
+		{
+			Entity entity = (Entity)list.get(i);
 
-                if (entity.canBeCollidedWith())
-                {
-                    float f10 = entity.getCollisionBorderSize();
-                    AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand((double)f10, (double)f10, (double)f10);
+			if (entity.canBeCollidedWith())
+			{
+				float f10 = entity.getCollisionBorderSize();
+				AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand((double)f10, (double)f10, (double)f10);
 
-                    if (axisalignedbb.isVecInside(vec3))
-                    {
-                        flag = true;
-                    }
-                }
-            }
+				if (axisalignedbb.isVecInside(vec3))
+				{
+					flag = true;
+				}
+			}
+		}
 
-            if (flag)
-            {
-                return itemStackIn;
-            }
-            else
-            {
-                if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-                {
-                    BlockPos blockpos = movingobjectposition.getBlockPos();
+		if (flag)
+		{
+			return itemStackIn;
+		}
+		if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+		{
+			BlockPos blockpos = movingobjectposition.getBlockPos();
 
-                    if (worldIn.getBlockState(blockpos).getBlock() == Blocks.snow_layer)
-                    {
-                        blockpos = blockpos.down();
-                    }
+			if (worldIn.getBlockState(blockpos).getBlock() == Blocks.snow_layer)
+			{
+				blockpos = blockpos.down();
+			}
 
-                    EntityBoat entityboat = new EntityBoat(worldIn, (double)((float)blockpos.getX() + 0.5F), (double)((float)blockpos.getY() + 1.0F), (double)((float)blockpos.getZ() + 0.5F));
-                    entityboat.rotationYaw = (float)(((MathHelper.floor_double((double)(playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) - 1) * 90);
+			EntityBoat entityboat = new EntityBoat(worldIn, (double)((float)blockpos.getX() + 0.5F), (double)((float)blockpos.getY() + 1.0F), (double)((float)blockpos.getZ() + 0.5F));
+			entityboat.rotationYaw = (float)(((MathHelper.floor_double((double)(playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) - 1) * 90);
 
-                    if (!worldIn.getCollidingBoundingBoxes(entityboat, entityboat.getEntityBoundingBox().expand(-0.1D, -0.1D, -0.1D)).isEmpty())
-                    {
-                        return itemStackIn;
-                    }
+			if (!worldIn.getCollidingBoundingBoxes(entityboat, entityboat.getEntityBoundingBox().expand(-0.1D, -0.1D, -0.1D)).isEmpty())
+			{
+				return itemStackIn;
+			}
 
-                    if (!worldIn.isRemote)
-                    {
-                        worldIn.spawnEntityInWorld(entityboat);
-                    }
+			if (!worldIn.isRemote)
+			{
+				worldIn.spawnEntityInWorld(entityboat);
+			}
 
-                    if (!playerIn.capabilities.isCreativeMode)
-                    {
-                        --itemStackIn.stackSize;
-                    }
+			if (!playerIn.capabilities.isCreativeMode)
+			{
+				--itemStackIn.stackSize;
+			}
 
-                    playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-                }
+			playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+		}
 
-                return itemStackIn;
-            }
-        }
-    }
+		return itemStackIn;
+	}
 }

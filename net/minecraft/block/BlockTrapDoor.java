@@ -130,14 +130,11 @@ public class BlockTrapDoor extends Block
         {
             return true;
         }
-        else
-        {
-            state = state.cycleProperty(OPEN);
-            worldIn.setBlockState(pos, state, 2);
-            worldIn.playAuxSFXAtEntity(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? 1003 : 1006, pos, 0);
-            return true;
-        }
-    }
+		state = state.cycleProperty(OPEN);
+		worldIn.setBlockState(pos, state, 2);
+		worldIn.playAuxSFXAtEntity(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? 1003 : 1006, pos, 0);
+		return true;
+	}
 
     /**
      * Called when a neighboring block changes.

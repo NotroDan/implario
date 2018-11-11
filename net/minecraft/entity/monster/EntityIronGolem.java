@@ -311,42 +311,39 @@ public class EntityIronGolem extends EntityGolem
                     {
                         return false;
                     }
-                    else if (p_apply_1_ instanceof EntityCreeper)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        if (p_apply_1_ instanceof EntityPlayer)
-                        {
-                            double d0 = AINearestAttackableTargetNonCreeper.this.getTargetDistance();
+					if (p_apply_1_ instanceof EntityCreeper)
+					{
+						return false;
+					}
+					if (p_apply_1_ instanceof EntityPlayer)
+					{
+						double d0 = AINearestAttackableTargetNonCreeper.this.getTargetDistance();
 
-                            if (p_apply_1_.isSneaking())
-                            {
-                                d0 *= 0.800000011920929D;
-                            }
+						if (p_apply_1_.isSneaking())
+						{
+							d0 *= 0.800000011920929D;
+						}
 
-                            if (p_apply_1_.isInvisible())
-                            {
-                                float f = ((EntityPlayer)p_apply_1_).getArmorVisibility();
+						if (p_apply_1_.isInvisible())
+						{
+							float f = ((EntityPlayer)p_apply_1_).getArmorVisibility();
 
-                                if (f < 0.1F)
-                                {
-                                    f = 0.1F;
-                                }
+							if (f < 0.1F)
+							{
+								f = 0.1F;
+							}
 
-                                d0 *= (double)(0.7F * f);
-                            }
+							d0 *= (double)(0.7F * f);
+						}
 
-                            if ((double)p_apply_1_.getDistanceToEntity(creature) > d0)
-                            {
-                                return false;
-                            }
-                        }
+						if ((double)p_apply_1_.getDistanceToEntity(creature) > d0)
+						{
+							return false;
+						}
+					}
 
-                        return AINearestAttackableTargetNonCreeper.this.isSuitableTarget(p_apply_1_, false);
-                    }
-                }
+					return AINearestAttackableTargetNonCreeper.this.isSuitableTarget(p_apply_1_, false);
+				}
             };
         }
     }

@@ -3,9 +3,8 @@ package shadersmod.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import optifine.Config;
-import optifine.Lang;
 import org.lwjgl.Sys;
 
 import java.io.File;
@@ -42,7 +41,7 @@ public class GuiShaders extends GuiScreen
      */
     public void initGui()
     {
-        this.screenTitle = I18n.format("of.options.shadersTitle");
+        this.screenTitle = Lang.format("of.options.shadersTitle");
 
         if (Shaders.shadersConfig == null)
         {
@@ -66,9 +65,9 @@ public class GuiShaders extends GuiScreen
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_HAND_LIGHT, k, 6 * i1 + l, i, j));
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_LIGHTING, k, 7 * i1 + l, i, j));
         int k1 = Math.min(150, j1 / 2 - 10);
-        this.buttonList.add(new GuiButton(201, j1 / 4 - k1 / 2, this.height - 25, k1, j, Lang.get("of.options.shaders.shadersFolder")));
-        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, I18n.format("gui.done")));
-        this.buttonList.add(new GuiButton(203, k, this.height - 25, i, j, Lang.get("of.options.shaders.shaderOptions")));
+        this.buttonList.add(new GuiButton(201, j1 / 4 - k1 / 2, this.height - 25, k1, j, optifine.Lang.get("of.options.shaders.shadersFolder")));
+        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, Lang.format("gui.done")));
+        this.buttonList.add(new GuiButton(203, k, this.height - 25, i, j, optifine.Lang.get("of.options.shaders.shaderOptions")));
         this.updateButtons();
     }
 
@@ -391,14 +390,14 @@ public class GuiShaders extends GuiScreen
 
     public static String toStringOnOff(boolean value)
     {
-        String s = Lang.getOn();
-        String s1 = Lang.getOff();
+        String s = optifine.Lang.getOn();
+        String s1 = optifine.Lang.getOff();
         return value ? s : s1;
     }
 
     public static String toStringAa(int value)
     {
-        return value == 2 ? "FXAA 2x" : value == 4 ? "FXAA 4x" : Lang.getOff();
+        return value == 2 ? "FXAA 2x" : value == 4 ? "FXAA 4x" : optifine.Lang.getOff();
     }
 
     public static String toStringValue(float val, float[] values, String[] names)

@@ -122,19 +122,16 @@ public class BlockHopper extends BlockContainer
         {
             return true;
         }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityHopper)
-            {
-                playerIn.displayGUIChest((TileEntityHopper)tileentity);
-                playerIn.triggerAchievement(StatList.field_181732_P);
-            }
+		if (tileentity instanceof TileEntityHopper)
+		{
+			playerIn.displayGUIChest((TileEntityHopper)tileentity);
+			playerIn.triggerAchievement(StatList.field_181732_P);
+		}
 
-            return true;
-        }
-    }
+		return true;
+	}
 
     /**
      * Called when a neighboring block changes.

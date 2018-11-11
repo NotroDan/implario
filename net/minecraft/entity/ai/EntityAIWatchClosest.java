@@ -44,25 +44,22 @@ public class EntityAIWatchClosest extends EntityAIBase
         {
             return false;
         }
-        else
-        {
-            if (this.theWatcher.getAttackTarget() != null)
-            {
-                this.closestEntity = this.theWatcher.getAttackTarget();
-            }
+		if (this.theWatcher.getAttackTarget() != null)
+		{
+			this.closestEntity = this.theWatcher.getAttackTarget();
+		}
 
-            if (this.watchedClass == EntityPlayer.class)
-            {
-                this.closestEntity = this.theWatcher.worldObj.getClosestPlayerToEntity(this.theWatcher, (double)this.maxDistanceForPlayer);
-            }
-            else
-            {
-                this.closestEntity = this.theWatcher.worldObj.findNearestEntityWithinAABB(this.watchedClass, this.theWatcher.getEntityBoundingBox().expand((double)this.maxDistanceForPlayer, 3.0D, (double)this.maxDistanceForPlayer), this.theWatcher);
-            }
+		if (this.watchedClass == EntityPlayer.class)
+		{
+			this.closestEntity = this.theWatcher.worldObj.getClosestPlayerToEntity(this.theWatcher, (double)this.maxDistanceForPlayer);
+		}
+		else
+		{
+			this.closestEntity = this.theWatcher.worldObj.findNearestEntityWithinAABB(this.watchedClass, this.theWatcher.getEntityBoundingBox().expand((double)this.maxDistanceForPlayer, 3.0D, (double)this.maxDistanceForPlayer), this.theWatcher);
+		}
 
-            return this.closestEntity != null;
-        }
-    }
+		return this.closestEntity != null;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

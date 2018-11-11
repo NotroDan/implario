@@ -7,7 +7,7 @@ import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerBeacon;
@@ -18,7 +18,6 @@ import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 
 public class GuiBeacon extends GuiContainer
@@ -175,8 +174,8 @@ public class GuiBeacon extends GuiContainer
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         RenderHelper.disableStandardItemLighting();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.primary", new Object[0]), 62, 10, 14737632);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.secondary", new Object[0]), 169, 10, 14737632);
+        this.drawCenteredString(this.fontRendererObj, Lang.format("tile.beacon.primary", new Object[0]), 62, 10, 14737632);
+        this.drawCenteredString(this.fontRendererObj, Lang.format("tile.beacon.secondary", new Object[0]), 169, 10, 14737632);
 
         for (GuiButton guibutton : this.buttonList)
         {
@@ -277,7 +276,7 @@ public class GuiBeacon extends GuiContainer
 
         public void drawButtonForegroundLayer(int mouseX, int mouseY)
         {
-            GuiBeacon.this.drawCreativeTabHoveringText(I18n.format("gui.cancel", new Object[0]), mouseX, mouseY);
+            GuiBeacon.this.drawCreativeTabHoveringText(Lang.format("gui.cancel", new Object[0]), mouseX, mouseY);
         }
     }
 
@@ -290,7 +289,7 @@ public class GuiBeacon extends GuiContainer
 
         public void drawButtonForegroundLayer(int mouseX, int mouseY)
         {
-            GuiBeacon.this.drawCreativeTabHoveringText(I18n.format("gui.done", new Object[0]), mouseX, mouseY);
+            GuiBeacon.this.drawCreativeTabHoveringText(Lang.format("gui.done", new Object[0]), mouseX, mouseY);
         }
     }
 
@@ -308,7 +307,7 @@ public class GuiBeacon extends GuiContainer
 
         public void drawButtonForegroundLayer(int mouseX, int mouseY)
         {
-            String s = I18n.format(Potion.potionTypes[this.field_146149_p].getName(), new Object[0]);
+            String s = Lang.format(Potion.potionTypes[this.field_146149_p].getName(), new Object[0]);
 
             if (this.field_146148_q >= 3 && this.field_146149_p != Potion.regeneration.id)
             {

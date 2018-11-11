@@ -76,17 +76,14 @@ public class EntityGhast extends EntityFlying implements IMob
         {
             return false;
         }
-        else if ("fireball".equals(source.getDamageType()) && source.getEntity() instanceof EntityPlayer)
-        {
-            super.attackEntityFrom(source, 1000.0F);
-            ((EntityPlayer)source.getEntity()).triggerAchievement(AchievementList.ghast);
-            return true;
-        }
-        else
-        {
-            return super.attackEntityFrom(source, amount);
-        }
-    }
+		if ("fireball".equals(source.getDamageType()) && source.getEntity() instanceof EntityPlayer)
+		{
+			super.attackEntityFrom(source, 1000.0F);
+			((EntityPlayer)source.getEntity()).triggerAchievement(AchievementList.ghast);
+			return true;
+		}
+		return super.attackEntityFrom(source, amount);
+	}
 
     protected void entityInit()
     {
@@ -321,15 +318,12 @@ public class EntityGhast extends EntityFlying implements IMob
             {
                 return true;
             }
-            else
-            {
-                double d0 = entitymovehelper.getX() - this.parentEntity.posX;
-                double d1 = entitymovehelper.getY() - this.parentEntity.posY;
-                double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
-                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-                return d3 < 1.0D || d3 > 3600.0D;
-            }
-        }
+			double d0 = entitymovehelper.getX() - this.parentEntity.posX;
+			double d1 = entitymovehelper.getY() - this.parentEntity.posY;
+			double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
+			double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+			return d3 < 1.0D || d3 > 3600.0D;
+		}
 
         public boolean continueExecuting()
         {

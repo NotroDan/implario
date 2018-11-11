@@ -140,24 +140,21 @@ public class ChatComponentTranslation extends ChatComponentStyle
         {
             throw new ChatComponentTranslationFormatException(this, index);
         }
-        else
-        {
-            Object object = this.formatArgs[index];
-            IChatComponent ichatcomponent;
+		Object object = this.formatArgs[index];
+		IChatComponent ichatcomponent;
 
-            if (object instanceof IChatComponent)
-            {
-                ichatcomponent = (IChatComponent)object;
-            }
-            else
-            {
-                ichatcomponent = new ChatComponentText(object == null ? "null" : object.toString());
-                ichatcomponent.getChatStyle().setParentStyle(this.getChatStyle());
-            }
+		if (object instanceof IChatComponent)
+		{
+			ichatcomponent = (IChatComponent)object;
+		}
+		else
+		{
+			ichatcomponent = new ChatComponentText(object == null ? "null" : object.toString());
+			ichatcomponent.getChatStyle().setParentStyle(this.getChatStyle());
+		}
 
-            return ichatcomponent;
-        }
-    }
+		return ichatcomponent;
+	}
 
     public IChatComponent setChatStyle(ChatStyle style)
     {
@@ -241,16 +238,13 @@ public class ChatComponentTranslation extends ChatComponentStyle
         {
             return true;
         }
-        else if (!(p_equals_1_ instanceof ChatComponentTranslation))
-        {
-            return false;
-        }
-        else
-        {
-            ChatComponentTranslation chatcomponenttranslation = (ChatComponentTranslation)p_equals_1_;
-            return Arrays.equals(this.formatArgs, chatcomponenttranslation.formatArgs) && this.key.equals(chatcomponenttranslation.key) && super.equals(p_equals_1_);
-        }
-    }
+		if (!(p_equals_1_ instanceof ChatComponentTranslation))
+		{
+			return false;
+		}
+		ChatComponentTranslation chatcomponenttranslation = (ChatComponentTranslation)p_equals_1_;
+		return Arrays.equals(this.formatArgs, chatcomponenttranslation.formatArgs) && this.key.equals(chatcomponenttranslation.key) && super.equals(p_equals_1_);
+	}
 
     public int hashCode()
     {

@@ -3,7 +3,6 @@ package optifine;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import net.minecraft.Utils;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.ResourceLocation;
@@ -23,7 +22,7 @@ public class Lang {
 	private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
 
 	public static void resourcesReloaded() {
-		Map map = I18n.getLocaleProperties();
+		Map map = net.minecraft.client.resources.Lang.getLocaleProperties();
 		List<String> list = new ArrayList();
 		String s = "optifine/lang/";
 		String s1 = "en_US";
@@ -70,32 +69,32 @@ public class Lang {
 	}
 
 	public static String get(String p_get_0_) {
-		return I18n.format(p_get_0_);
+		return net.minecraft.client.resources.Lang.format(p_get_0_);
 	}
 
 	public static String get(String p_get_0_, String p_get_1_) {
-		String s = I18n.format(p_get_0_);
+		String s = net.minecraft.client.resources.Lang.format(p_get_0_);
 		return s != null && !s.equals(p_get_0_) ? s : p_get_1_;
 	}
 
 	public static String getOn() {
-		return I18n.format("options.on");
+		return net.minecraft.client.resources.Lang.format("options.on");
 	}
 
 	public static String getOff() {
-		return I18n.format("options.off");
+		return net.minecraft.client.resources.Lang.format("options.off");
 	}
 
 	public static String getFast() {
-		return I18n.format("options.graphics.fast");
+		return net.minecraft.client.resources.Lang.format("options.graphics.fast");
 	}
 
 	public static String getFancy() {
-		return I18n.format("options.graphics.fancy");
+		return net.minecraft.client.resources.Lang.format("options.graphics.fancy");
 	}
 
 	public static String getDefault() {
-		return I18n.format("generator.default");
+		return net.minecraft.client.resources.Lang.format("generator.default");
 	}
 
 }

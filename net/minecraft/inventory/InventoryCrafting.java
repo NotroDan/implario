@@ -88,11 +88,8 @@ public class InventoryCrafting implements IInventory
             this.stackList[index] = null;
             return itemstack;
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
@@ -108,24 +105,18 @@ public class InventoryCrafting implements IInventory
                 this.eventHandler.onCraftMatrixChanged(this);
                 return itemstack1;
             }
-            else
-            {
-                ItemStack itemstack = this.stackList[index].splitStack(count);
+			ItemStack itemstack = this.stackList[index].splitStack(count);
 
-                if (this.stackList[index].stackSize == 0)
-                {
-                    this.stackList[index] = null;
-                }
+			if (this.stackList[index].stackSize == 0)
+			{
+				this.stackList[index] = null;
+			}
 
-                this.eventHandler.onCraftMatrixChanged(this);
-                return itemstack;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
+			this.eventHandler.onCraftMatrixChanged(this);
+			return itemstack;
+		}
+		return null;
+	}
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).

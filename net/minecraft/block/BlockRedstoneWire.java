@@ -65,11 +65,8 @@ public class BlockRedstoneWire extends Block
             Block block1 = worldIn.getBlockState(pos.up()).getBlock();
             return !block1.isBlockNormalCube() && block.isBlockNormalCube() && canConnectUpwardsTo(worldIn.getBlockState(blockpos.up())) ? BlockRedstoneWire.EnumAttachPosition.UP : BlockRedstoneWire.EnumAttachPosition.NONE;
         }
-        else
-        {
-            return BlockRedstoneWire.EnumAttachPosition.SIDE;
-        }
-    }
+		return BlockRedstoneWire.EnumAttachPosition.SIDE;
+	}
 
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
     {
@@ -283,12 +280,9 @@ public class BlockRedstoneWire extends Block
         {
             return strength;
         }
-        else
-        {
-            int i = ((Integer)worldIn.getBlockState(pos).getValue(POWER)).intValue();
-            return i > strength ? i : strength;
-        }
-    }
+		int i = ((Integer)worldIn.getBlockState(pos).getValue(POWER)).intValue();
+		return i > strength ? i : strength;
+	}
 
     /**
      * Called when a neighboring block changes.
@@ -328,45 +322,36 @@ public class BlockRedstoneWire extends Block
         {
             return 0;
         }
-        else
-        {
-            int i = ((Integer)state.getValue(POWER)).intValue();
+		int i = ((Integer)state.getValue(POWER)).intValue();
 
-            if (i == 0)
-            {
-                return 0;
-            }
-            else if (side == EnumFacing.UP)
-            {
-                return i;
-            }
-            else
-            {
-                EnumSet<EnumFacing> enumset = EnumSet.<EnumFacing>noneOf(EnumFacing.class);
+		if (i == 0)
+		{
+			return 0;
+		}
+		if (side == EnumFacing.UP)
+		{
+			return i;
+		}
+		EnumSet<EnumFacing> enumset = EnumSet.<EnumFacing>noneOf(EnumFacing.class);
 
-                for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
-                {
-                    if (this.func_176339_d(worldIn, pos, (EnumFacing) enumfacing))
-                    {
-                        enumset.add((EnumFacing) enumfacing);
-                    }
-                }
+		for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
+		{
+			if (this.func_176339_d(worldIn, pos, (EnumFacing) enumfacing))
+			{
+				enumset.add((EnumFacing) enumfacing);
+			}
+		}
 
-                if (side.getAxis().isHorizontal() && enumset.isEmpty())
-                {
-                    return i;
-                }
-                else if (enumset.contains(side) && !enumset.contains(side.rotateYCCW()) && !enumset.contains(side.rotateY()))
-                {
-                    return i;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-    }
+		if (side.getAxis().isHorizontal() && enumset.isEmpty())
+		{
+			return i;
+		}
+		if (enumset.contains(side) && !enumset.contains(side.rotateYCCW()) && !enumset.contains(side.rotateY()))
+		{
+			return i;
+		}
+		return 0;
+	}
 
     private boolean func_176339_d(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
@@ -396,16 +381,13 @@ public class BlockRedstoneWire extends Block
         {
             return true;
         }
-        else if (Blocks.unpowered_repeater.isAssociated(block))
-        {
-            EnumFacing enumfacing = (EnumFacing)blockState.getValue(BlockRedstoneRepeater.FACING);
-            return enumfacing == side || enumfacing.getOpposite() == side;
-        }
-        else
-        {
-            return block.canProvidePower() && side != null;
-        }
-    }
+		if (Blocks.unpowered_repeater.isAssociated(block))
+		{
+			EnumFacing enumfacing = (EnumFacing)blockState.getValue(BlockRedstoneRepeater.FACING);
+			return enumfacing == side || enumfacing.getOpposite() == side;
+		}
+		return block.canProvidePower() && side != null;
+	}
 
     /**
      * Can this block provide power. Only wire currently seems to have this change based on its state.

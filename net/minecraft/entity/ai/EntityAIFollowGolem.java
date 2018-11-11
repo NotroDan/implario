@@ -26,33 +26,27 @@ public class EntityAIFollowGolem extends EntityAIBase
         {
             return false;
         }
-        else if (!this.theVillager.worldObj.isDaytime())
-        {
-            return false;
-        }
-        else
-        {
-            List<EntityIronGolem> list = this.theVillager.worldObj.<EntityIronGolem>getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.getEntityBoundingBox().expand(6.0D, 2.0D, 6.0D));
+		if (!this.theVillager.worldObj.isDaytime())
+		{
+			return false;
+		}
+		List<EntityIronGolem> list = this.theVillager.worldObj.<EntityIronGolem>getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.getEntityBoundingBox().expand(6.0D, 2.0D, 6.0D));
 
-            if (list.isEmpty())
-            {
-                return false;
-            }
-            else
-            {
-                for (EntityIronGolem entityirongolem : list)
-                {
-                    if (entityirongolem.getHoldRoseTick() > 0)
-                    {
-                        this.theGolem = entityirongolem;
-                        break;
-                    }
-                }
+		if (list.isEmpty())
+		{
+			return false;
+		}
+		for (EntityIronGolem entityirongolem : list)
+		{
+			if (entityirongolem.getHoldRoseTick() > 0)
+			{
+				this.theGolem = entityirongolem;
+				break;
+			}
+		}
 
-                return this.theGolem != null;
-            }
-        }
-    }
+		return this.theGolem != null;
+	}
 
     /**
      * Returns whether an in-progress EntityAIBase should continue executing

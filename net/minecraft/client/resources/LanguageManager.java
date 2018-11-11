@@ -10,7 +10,6 @@ import java.util.SortedSet;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.client.resources.data.LanguageMetadataSection;
 import net.minecraft.util.StringTranslate;
-import net.minecraft.client.LogManager;
 import net.minecraft.client.Logger;
 
 public class LanguageManager implements IResourceManagerReloadListener
@@ -25,7 +24,7 @@ public class LanguageManager implements IResourceManagerReloadListener
     {
         this.theMetadataSerializer = theMetadataSerializerIn;
         this.currentLanguage = currentLanguageIn;
-        I18n.setLocale(currentLocale);
+        Lang.setLocale(currentLocale);
     }
 
     public void parseLanguageMetadata(List<IResourcePack> p_135043_1_)

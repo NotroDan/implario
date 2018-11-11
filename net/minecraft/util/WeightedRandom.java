@@ -26,12 +26,9 @@ public class WeightedRandom
         {
             throw new IllegalArgumentException();
         }
-        else
-        {
-            int i = random.nextInt(totalWeight);
-            return getRandomItem(collection, i);
-        }
-    }
+		int i = random.nextInt(totalWeight);
+		return getRandomItem(collection, i);
+	}
 
     public static <T extends WeightedRandom.Item> T getRandomItem(Collection<T> collection, int weight)
     {

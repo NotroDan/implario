@@ -49,12 +49,9 @@ public class CommandDeOp extends CommandBase
             {
                 throw new CommandException("commands.deop.failed", new Object[] {args[0]});
             }
-            else
-            {
-                minecraftserver.getConfigurationManager().removeOp(gameprofile);
-                notifyOperators(sender, this, "commands.deop.success", new Object[] {args[0]});
-            }
-        }
+			minecraftserver.getConfigurationManager().removeOp(gameprofile);
+			notifyOperators(sender, this, "commands.deop.success", new Object[] {args[0]});
+		}
         else
         {
             throw new WrongUsageException("commands.deop.usage", new Object[0]);

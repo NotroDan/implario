@@ -240,11 +240,8 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
             player.triggerAchievement(StatList.timesTalkedToVillagerStat);
             return true;
         }
-        else
-        {
-            return super.interact(player);
-        }
-    }
+		return super.interact(player);
+	}
 
     protected void entityInit()
     {
@@ -619,85 +616,79 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
             chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
             return chatcomponenttext;
         }
-        else
-        {
-            if (this.buyingList == null)
-            {
-                this.populateBuyingList();
-            }
+		if (this.buyingList == null)
+		{
+			this.populateBuyingList();
+		}
 
-            String s1 = null;
+		String s1 = null;
 
-            switch (this.getProfession())
-            {
-                case 0:
-                    if (this.careerId == 1)
-                    {
-                        s1 = "farmer";
-                    }
-                    else if (this.careerId == 2)
-                    {
-                        s1 = "fisherman";
-                    }
-                    else if (this.careerId == 3)
-                    {
-                        s1 = "shepherd";
-                    }
-                    else if (this.careerId == 4)
-                    {
-                        s1 = "fletcher";
-                    }
+		switch (this.getProfession())
+		{
+			case 0:
+				if (this.careerId == 1)
+				{
+					s1 = "farmer";
+				}
+				else if (this.careerId == 2)
+				{
+					s1 = "fisherman";
+				}
+				else if (this.careerId == 3)
+				{
+					s1 = "shepherd";
+				}
+				else if (this.careerId == 4)
+				{
+					s1 = "fletcher";
+				}
 
-                    break;
+				break;
 
-                case 1:
-                    s1 = "librarian";
-                    break;
+			case 1:
+				s1 = "librarian";
+				break;
 
-                case 2:
-                    s1 = "cleric";
-                    break;
+			case 2:
+				s1 = "cleric";
+				break;
 
-                case 3:
-                    if (this.careerId == 1)
-                    {
-                        s1 = "armor";
-                    }
-                    else if (this.careerId == 2)
-                    {
-                        s1 = "weapon";
-                    }
-                    else if (this.careerId == 3)
-                    {
-                        s1 = "tool";
-                    }
+			case 3:
+				if (this.careerId == 1)
+				{
+					s1 = "armor";
+				}
+				else if (this.careerId == 2)
+				{
+					s1 = "weapon";
+				}
+				else if (this.careerId == 3)
+				{
+					s1 = "tool";
+				}
 
-                    break;
+				break;
 
-                case 4:
-                    if (this.careerId == 1)
-                    {
-                        s1 = "butcher";
-                    }
-                    else if (this.careerId == 2)
-                    {
-                        s1 = "leather";
-                    }
-            }
+			case 4:
+				if (this.careerId == 1)
+				{
+					s1 = "butcher";
+				}
+				else if (this.careerId == 2)
+				{
+					s1 = "leather";
+				}
+		}
 
-            if (s1 != null)
-            {
-                ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("entity.Villager." + s1, new Object[0]);
-                chatcomponenttranslation.getChatStyle().setChatHoverEvent(this.getHoverEvent());
-                chatcomponenttranslation.getChatStyle().setInsertion(this.getUniqueID().toString());
-                return chatcomponenttranslation;
-            }
-            else
-            {
-                return super.getDisplayName();
-            }
-        }
-    }
+		if (s1 != null)
+		{
+			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("entity.Villager." + s1, new Object[0]);
+			chatcomponenttranslation.getChatStyle().setChatHoverEvent(this.getHoverEvent());
+			chatcomponenttranslation.getChatStyle().setInsertion(this.getUniqueID().toString());
+			return chatcomponenttranslation;
+		}
+		return super.getDisplayName();
+	}
 
     public float getEyeHeight()
     {
@@ -900,21 +891,15 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         {
             return true;
         }
-        else
-        {
-            int i = inventorySlot - 300;
+		int i = inventorySlot - 300;
 
-            if (i >= 0 && i < this.villagerInventory.getSizeInventory())
-            {
-                this.villagerInventory.setInventorySlotContents(i, itemStackIn);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+		if (i >= 0 && i < this.villagerInventory.getSizeInventory())
+		{
+			this.villagerInventory.setInventorySlotContents(i, itemStackIn);
+			return true;
+		}
+		return false;
+	}
 
     static class EmeraldForItems implements EntityVillager.ITradeList
     {

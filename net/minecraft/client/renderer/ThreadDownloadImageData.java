@@ -195,12 +195,9 @@ public class ThreadDownloadImageData extends SimpleTexture
         {
             return false;
         }
-        else
-        {
-            Proxy proxy = Minecraft.getMinecraft().getProxy();
-            return proxy.type() != Type.DIRECT && proxy.type() != Type.SOCKS ? false : this.imageUrl.startsWith("http://");
-        }
-    }
+		Proxy proxy = Minecraft.getMinecraft().getProxy();
+		return proxy.type() != Type.DIRECT && proxy.type() != Type.SOCKS ? false : this.imageUrl.startsWith("http://");
+	}
 
     private void loadPipelined()
     {

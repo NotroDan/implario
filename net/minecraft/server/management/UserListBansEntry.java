@@ -50,9 +50,6 @@ public class UserListBansEntry extends BanEntry<GameProfile>
 
             return new GameProfile(uuid, p_152648_0_.get("name").getAsString());
         }
-        else
-        {
-            return null;
-        }
-    }
+		return null;
+	}
 }

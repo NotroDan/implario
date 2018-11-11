@@ -30,11 +30,8 @@ public class ItemFirework extends Item
 
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
+		return false;
+	}
 
     /**
      * allows items to add custom lines of information to the mouseover description
