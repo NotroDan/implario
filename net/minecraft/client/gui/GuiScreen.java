@@ -380,11 +380,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	}
 
 	public void showFile(File f) {
-		if (Util.getOSType() != Util.OS.WINDOWS) openFile(f);
-		try {
-			Runtime.getRuntime().exec("explorer.exe /select," + f.getAbsolutePath());
-		} catch (IOException e) {
-			MC.i().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText("§cПри открытии скриншота произошла ошибка."));
+		if (Util.getOSType() != Util.OS.WINDOWS) openFile(f.getParentFile());
+		else {
+			try {
+				Runtime.getRuntime().exec("explorer.exe /select," + f.getAbsolutePath());
+			} catch (IOException e) {
+				MC.i().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText("§cПри открытии скриншота произошла ошибка."));
+			}
 		}
 	}
 
