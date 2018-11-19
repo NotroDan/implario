@@ -20,7 +20,7 @@ import net.minecraft.world.chunk.Chunk;
 public final class SpawnerAnimals
 {
     private static final int MOB_COUNT_DIV = (int)Math.pow(17.0D, 2.0D);
-    private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.<ChunkCoordIntPair>newHashSet();
+    private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.newHashSet();
 
     /**
      * adds all chunks within the spawn radius of the players to eligibleChunksForSpawning. pars: the world,

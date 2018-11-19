@@ -21,7 +21,7 @@ public class PropertyInteger extends PropertyHelper<Integer>
 		{
 			throw new IllegalArgumentException("Max value of " + name + " must be greater than min (" + min + ")");
 		}
-		Set<Integer> set = Sets.<Integer>newHashSet();
+		Set<Integer> set = Sets.newHashSet();
 
 		for (int i = min; i <= max; ++i)
 		{

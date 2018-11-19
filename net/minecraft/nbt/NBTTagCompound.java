@@ -14,7 +14,7 @@ import net.minecraft.util.ReportedException;
 
 public class NBTTagCompound extends NBTBase
 {
-    private Map<String, NBTBase> tagMap = Maps.<String, NBTBase>newHashMap();
+    private Map<String, NBTBase> tagMap = Maps.newHashMap();
 
     /**
      * Write the actual data contents of the tag, implemented in NBT extension classes

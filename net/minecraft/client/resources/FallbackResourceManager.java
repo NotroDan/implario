@@ -16,7 +16,7 @@ import net.minecraft.client.Logger;
 public class FallbackResourceManager implements IResourceManager
 {
     private static final Logger logger = Logger.getInstance();
-    protected final List<IResourcePack> resourcePacks = Lists.<IResourcePack>newArrayList();
+    protected final List<IResourcePack> resourcePacks = Lists.newArrayList();
     private final IMetadataSerializer frmMetadataSerializer;
 
     public FallbackResourceManager(IMetadataSerializer frmMetadataSerializerIn)
@@ -72,7 +72,7 @@ public class FallbackResourceManager implements IResourceManager
 
     public List<IResource> getAllResources(ResourceLocation location) throws IOException
     {
-        List<IResource> list = Lists.<IResource>newArrayList();
+        List<IResource> list = Lists.newArrayList();
         ResourceLocation resourcelocation = getLocationMcmeta(location);
 
         for (IResourcePack iresourcepack : this.resourcePacks)

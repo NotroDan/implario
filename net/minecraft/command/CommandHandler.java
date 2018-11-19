@@ -17,8 +17,8 @@ import net.minecraft.client.Logger;
 public class CommandHandler implements ICommandManager
 {
     private static final Logger logger = Logger.getInstance();
-    private final Map<String, ICommand> commandMap = Maps.<String, ICommand>newHashMap();
-    private final Set<ICommand> commandSet = Sets.<ICommand>newHashSet();
+    private final Map<String, ICommand> commandMap = Maps.newHashMap();
+    private final Set<ICommand> commandSet = Sets.newHashSet();
 
     public int executeCommand(ICommandSender sender, String rawCommand)
     {
@@ -46,7 +46,7 @@ public class CommandHandler implements ICommandManager
         {
             if (i > -1)
             {
-                List<Entity> list = PlayerSelector.<Entity>matchEntities(sender, astring[i], Entity.class);
+                List<Entity> list = PlayerSelector.matchEntities(sender, astring[i], Entity.class);
                 String s1 = astring[i];
                 sender.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, list.size());
 
@@ -151,7 +151,7 @@ public class CommandHandler implements ICommandManager
 
         if (astring.length == 1)
         {
-            List<String> list = Lists.<String>newArrayList();
+            List<String> list = Lists.newArrayList();
 
             for (Entry<String, ICommand> entry : this.commandMap.entrySet())
             {
@@ -178,7 +178,7 @@ public class CommandHandler implements ICommandManager
 
     public List<ICommand> getPossibleCommands(ICommandSender sender)
     {
-        List<ICommand> list = Lists.<ICommand>newArrayList();
+        List<ICommand> list = Lists.newArrayList();
 
         for (ICommand icommand : this.commandSet)
         {

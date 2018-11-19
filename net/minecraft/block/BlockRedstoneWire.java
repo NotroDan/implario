@@ -27,13 +27,13 @@ import net.minecraft.world.World;
 
 public class BlockRedstoneWire extends Block
 {
-    public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> NORTH = PropertyEnum.<BlockRedstoneWire.EnumAttachPosition>create("north", BlockRedstoneWire.EnumAttachPosition.class);
-    public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> EAST = PropertyEnum.<BlockRedstoneWire.EnumAttachPosition>create("east", BlockRedstoneWire.EnumAttachPosition.class);
-    public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> SOUTH = PropertyEnum.<BlockRedstoneWire.EnumAttachPosition>create("south", BlockRedstoneWire.EnumAttachPosition.class);
-    public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> WEST = PropertyEnum.<BlockRedstoneWire.EnumAttachPosition>create("west", BlockRedstoneWire.EnumAttachPosition.class);
+    public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> NORTH = PropertyEnum.create("north", BlockRedstoneWire.EnumAttachPosition.class);
+    public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> EAST = PropertyEnum.create("east", BlockRedstoneWire.EnumAttachPosition.class);
+    public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> SOUTH = PropertyEnum.create("south", BlockRedstoneWire.EnumAttachPosition.class);
+    public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> WEST = PropertyEnum.create("west", BlockRedstoneWire.EnumAttachPosition.class);
     public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
     private boolean canProvidePower = true;
-    private final Set<BlockPos> blocksNeedingUpdate = Sets.<BlockPos>newHashSet();
+    private final Set<BlockPos> blocksNeedingUpdate = Sets.newHashSet();
 
     public BlockRedstoneWire()
     {
@@ -332,7 +332,7 @@ public class BlockRedstoneWire extends Block
 		{
 			return i;
 		}
-		EnumSet<EnumFacing> enumset = EnumSet.<EnumFacing>noneOf(EnumFacing.class);
+		EnumSet<EnumFacing> enumset = EnumSet.noneOf(EnumFacing.class);
 
 		for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
 		{

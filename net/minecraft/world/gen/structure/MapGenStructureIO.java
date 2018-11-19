@@ -10,10 +10,10 @@ import net.minecraft.client.Logger;
 public class MapGenStructureIO
 {
     private static final Logger logger = Logger.getInstance();
-    private static Map < String, Class <? extends StructureStart >> startNameToClassMap = Maps. < String, Class <? extends StructureStart >> newHashMap();
-    private static Map < Class <? extends StructureStart > , String > startClassToNameMap = Maps. < Class <? extends StructureStart > , String > newHashMap();
-    private static Map < String, Class <? extends StructureComponent >> componentNameToClassMap = Maps. < String, Class <? extends StructureComponent >> newHashMap();
-    private static Map < Class <? extends StructureComponent > , String > componentClassToNameMap = Maps. < Class <? extends StructureComponent > , String > newHashMap();
+    private static Map < String, Class <? extends StructureStart >> startNameToClassMap = Maps.newHashMap();
+    private static Map < Class <? extends StructureStart > , String > startClassToNameMap = Maps.newHashMap();
+    private static Map < String, Class <? extends StructureComponent >> componentNameToClassMap = Maps.newHashMap();
+    private static Map < Class <? extends StructureComponent > , String > componentClassToNameMap = Maps.newHashMap();
 
     private static void registerStructure(Class <? extends StructureStart > startClass, String structureName)
     {

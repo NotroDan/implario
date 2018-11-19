@@ -33,7 +33,7 @@ public class InventoryBasic implements IInventory
     {
         if (this.field_70480_d == null)
         {
-            this.field_70480_d = Lists.<IInvBasic>newArrayList();
+            this.field_70480_d = Lists.newArrayList();
         }
 
         this.field_70480_d.add(p_110134_1_);

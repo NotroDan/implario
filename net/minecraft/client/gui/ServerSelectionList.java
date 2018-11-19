@@ -1,97 +1,77 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 
-public class ServerSelectionList extends GuiListExtended
-{
-    private final GuiMultiplayer owner;
-    private final List<ServerListEntryNormal> field_148198_l = Lists.<ServerListEntryNormal>newArrayList();
-    private final List<ServerListEntryLanDetected> field_148199_m = Lists.<ServerListEntryLanDetected>newArrayList();
-    private final GuiListExtended.IGuiListEntry lanScanEntry = new ServerListEntryLanScan();
-    private int selectedSlotIndex = -1;
+import java.util.List;
 
-    public ServerSelectionList(GuiMultiplayer ownerIn, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn)
-    {
-        super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
-        this.owner = ownerIn;
-    }
+public class ServerSelectionList extends GuiListExtended {
 
-    /**
-     * Gets the IGuiListEntry object for the given index
-     */
-    public GuiListExtended.IGuiListEntry getListEntry(int index)
-    {
-        if (index < this.field_148198_l.size())
-        {
-            return (GuiListExtended.IGuiListEntry)this.field_148198_l.get(index);
-        }
-		index = index - this.field_148198_l.size();
+	private final GuiMultiplayer owner;
+	private final List<ServerListEntryNormal> servers = Lists.newArrayList();
+	private final List<ServerListEntryLanDetected> lan = Lists.newArrayList();
+	private final GuiListExtended.IGuiListEntry lanScanEntry = new ServerListEntryLanScan();
+	private int selectedSlotIndex = -1;
 
-		if (index == 0)
-		{
-			return this.lanScanEntry;
-		}
-		--index;
-		return (GuiListExtended.IGuiListEntry)this.field_148199_m.get(index);
+	public ServerSelectionList(GuiMultiplayer ownerIn, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn) {
+		super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
+		this.owner = ownerIn;
 	}
 
-    protected int getSize()
-    {
-        return this.field_148198_l.size() + 1 + this.field_148199_m.size();
-    }
+	/**
+	 * Gets the IGuiListEntry object for the given index
+	 */
+	public GuiListExtended.IGuiListEntry getListEntry(int index) {
+		if (index < this.servers.size()) return this.servers.get(index);
+		index = index - this.servers.size();
 
-    public void setSelectedSlotIndex(int selectedSlotIndexIn)
-    {
-        this.selectedSlotIndex = selectedSlotIndexIn;
-    }
+		if (index == 0) return this.lanScanEntry;
+		--index;
+		return this.lan.get(index);
+	}
 
-    /**
-     * Returns true if the element passed in is currently selected
-     */
-    protected boolean isSelected(int slotIndex)
-    {
-        return slotIndex == this.selectedSlotIndex;
-    }
+	protected int getSize() {
+		return this.servers.size() + 1 + this.lan.size();
+	}
 
-    public int func_148193_k()
-    {
-        return this.selectedSlotIndex;
-    }
+	public void setSelectedSlotIndex(int selectedSlotIndexIn) {
+		this.selectedSlotIndex = selectedSlotIndexIn;
+	}
 
-    public void func_148195_a(ServerList p_148195_1_)
-    {
-        this.field_148198_l.clear();
+	/**
+	 * Returns true if the element passed in is currently selected
+	 */
+	protected boolean isSelected(int slotIndex) {
+		return slotIndex == this.selectedSlotIndex;
+	}
 
-        for (int i = 0; i < p_148195_1_.countServers(); ++i)
-        {
-            this.field_148198_l.add(new ServerListEntryNormal(this.owner, p_148195_1_.getServerData(i)));
-        }
-    }
+	public int getSelected() {
+		return this.selectedSlotIndex;
+	}
 
-    public void func_148194_a(List<LanServerDetector.LanServer> p_148194_1_)
-    {
-        this.field_148199_m.clear();
+	public void copy(ServerList list) {
+		this.servers.clear();
+		for (int i = 0; i < list.countServers(); ++i)
+			this.servers.add(new ServerListEntryNormal(this.owner, list.getServerData(i)));
+	}
 
-        for (LanServerDetector.LanServer lanserverdetector$lanserver : p_148194_1_)
-        {
-            this.field_148199_m.add(new ServerListEntryLanDetected(this.owner, lanserverdetector$lanserver));
-        }
-    }
+	public void copyLan(List<LanServerDetector.LanServer> list) {
+		this.lan.clear();
+		for (LanServerDetector.LanServer lanserverdetector$lanserver : list)
+			this.lan.add(new ServerListEntryLanDetected(this.owner, lanserverdetector$lanserver));
+	}
 
-    protected int getScrollBarX()
-    {
-        return super.getScrollBarX() + 30;
-    }
+	protected int getScrollBarX() {
+		return super.getScrollBarX() + 30;
+	}
 
-    /**
-     * Gets the width of the list
-     */
-    public int getListWidth()
-    {
-        return super.getListWidth() + 85;
-    }
+	/**
+	 * Gets the width of the list
+	 */
+	public int getListWidth() {
+		return super.getListWidth() + 85;
+	}
+
 }

@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class BlockLever extends Block
 {
-    public static final PropertyEnum<BlockLever.EnumOrientation> FACING = PropertyEnum.<BlockLever.EnumOrientation>create("facing", BlockLever.EnumOrientation.class);
+    public static final PropertyEnum<BlockLever.EnumOrientation> FACING = PropertyEnum.create("facing", BlockLever.EnumOrientation.class);
     public static final PropertyBool POWERED = PropertyBool.create("powered");
 
     protected BlockLever()

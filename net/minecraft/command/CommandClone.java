@@ -104,10 +104,10 @@ public class CommandClone extends CommandBase
 					}
 				}
 
-				List<CommandClone.StaticCloneData> list = Lists.<CommandClone.StaticCloneData>newArrayList();
-				List<CommandClone.StaticCloneData> list1 = Lists.<CommandClone.StaticCloneData>newArrayList();
-				List<CommandClone.StaticCloneData> list2 = Lists.<CommandClone.StaticCloneData>newArrayList();
-				LinkedList<BlockPos> linkedlist = Lists.<BlockPos>newLinkedList();
+				List<CommandClone.StaticCloneData> list = Lists.newArrayList();
+				List<CommandClone.StaticCloneData> list1 = Lists.newArrayList();
+				List<CommandClone.StaticCloneData> list2 = Lists.newArrayList();
+				LinkedList<BlockPos> linkedlist = Lists.newLinkedList();
 				BlockPos blockpos3 = new BlockPos(structureboundingbox1.minX - structureboundingbox.minX, structureboundingbox1.minY - structureboundingbox.minY, structureboundingbox1.minZ - structureboundingbox.minZ);
 
 				for (int k = structureboundingbox.minZ; k <= structureboundingbox.maxZ; ++k)
@@ -166,11 +166,11 @@ public class CommandClone extends CommandBase
 					}
 				}
 
-				List<CommandClone.StaticCloneData> list3 = Lists.<CommandClone.StaticCloneData>newArrayList();
+				List<CommandClone.StaticCloneData> list3 = Lists.newArrayList();
 				list3.addAll(list);
 				list3.addAll(list1);
 				list3.addAll(list2);
-				List<CommandClone.StaticCloneData> list4 = Lists.<CommandClone.StaticCloneData>reverse(list3);
+				List<CommandClone.StaticCloneData> list4 = Lists.reverse(list3);
 
 				for (CommandClone.StaticCloneData commandclone$staticclonedata : list4)
 				{

@@ -28,7 +28,7 @@ public class StatisticsFile extends StatFileWriter
     private static final Logger logger = Logger.getInstance();
     private final MinecraftServer mcServer;
     private final File statsFile;
-    private final Set<StatBase> field_150888_e = Sets.<StatBase>newHashSet();
+    private final Set<StatBase> field_150888_e = Sets.newHashSet();
     private int field_150885_f = -300;
     private boolean field_150886_g = false;
 
@@ -114,10 +114,10 @@ public class StatisticsFile extends StatFileWriter
 
         if (!jsonelement.isJsonObject())
         {
-            return Maps.<StatBase, TupleIntJsonSerializable>newHashMap();
+            return Maps.newHashMap();
         }
 		JsonObject jsonobject = jsonelement.getAsJsonObject();
-		Map<StatBase, TupleIntJsonSerializable> map = Maps.<StatBase, TupleIntJsonSerializable>newHashMap();
+		Map<StatBase, TupleIntJsonSerializable> map = Maps.newHashMap();
 
 		for (Entry<String, JsonElement> entry : jsonobject.entrySet())
 		{
@@ -209,7 +209,7 @@ public class StatisticsFile extends StatFileWriter
     public void func_150876_a(EntityPlayerMP p_150876_1_)
     {
         int i = this.mcServer.getTickCounter();
-        Map<StatBase, Integer> map = Maps.<StatBase, Integer>newHashMap();
+        Map<StatBase, Integer> map = Maps.newHashMap();
 
         if (this.field_150886_g || i - this.field_150885_f > 300)
         {
@@ -226,7 +226,7 @@ public class StatisticsFile extends StatFileWriter
 
     public void sendAchievements(EntityPlayerMP player)
     {
-        Map<StatBase, Integer> map = Maps.<StatBase, Integer>newHashMap();
+        Map<StatBase, Integer> map = Maps.newHashMap();
 
         for (Achievement achievement : AchievementList.achievementList)
         {

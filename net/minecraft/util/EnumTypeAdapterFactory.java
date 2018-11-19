@@ -22,7 +22,7 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory
         {
             return null;
         }
-		final Map<String, T> map = Maps.<String, T>newHashMap();
+		final Map<String, T> map = Maps.newHashMap();
 
 		for (T t : oclass.getEnumConstants())
 		{

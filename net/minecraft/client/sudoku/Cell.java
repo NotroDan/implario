@@ -19,10 +19,14 @@ public class Cell {
 		this.parent = parent;
 	}
 
-	public void render(GuiScreen gui, int baseX, int baseY, int gap, int size, int largeGap) {
+	public void render(GuiScreen gui, int baseX, int baseY, int gap, int size, int largeGap, Cell focused, int highlightVar) {
 		int ax = baseX + x * (size + gap) + largeGap * (x / 3);
 		int ay = baseY + y * (size + gap) + largeGap * (y / 3);
-		Gui.drawRect(ax, ay, ax + size, ay + size, parent.focused == this ? 0xc0a0a020 : 0xc0302020);
+		int color = 0xc0302020;
+		if (value == 0 && highlightVar != 0 && variants[highlightVar - 1]) color = 0x408ee9f9;
+		if (focused.getValue() == value && value != 0) color = 0xc0504040;
+		if (parent.focused == this) color = 0xc0a0a020;
+		Gui.drawRect(ax, ay, ax + size, ay + size, color);
 		if (value == 0) {
 			int w = size / 3;
 			for (int v = 0; v < variants.length; v++) {

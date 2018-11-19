@@ -782,7 +782,7 @@ public class TextureAtlasSprite
             }
             else
             {
-                List<AnimationFrame> list = Lists.<AnimationFrame>newArrayList();
+                List<AnimationFrame> list = Lists.newArrayList();
 
                 for (int k = 0; k < i; ++k)
                 {

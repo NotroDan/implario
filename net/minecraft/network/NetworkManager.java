@@ -32,7 +32,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 {
     private static final Logger logger = Logger.getInstance();
-    public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey.<EnumConnectionState>valueOf("protocol");
+    public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey.valueOf("protocol");
     public static final LazyLoadBase<NioEventLoopGroup> CLIENT_NIO_EVENTLOOP = new LazyLoadBase<NioEventLoopGroup>()
     {
         protected NioEventLoopGroup load()
@@ -55,7 +55,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         }
     };
     private final EnumPacketDirection direction;
-    private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.<NetworkManager.InboundHandlerTuplePacketListener>newConcurrentLinkedQueue();
+    private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
     private final ReentrantReadWriteLock field_181680_j = new ReentrantReadWriteLock();
 
     /** The active channel */

@@ -11,7 +11,7 @@ import net.minecraft.client.Logger;
 public class NBTTagList extends NBTBase
 {
     private static final Logger LOGGER = Logger.getInstance();
-    private List<NBTBase> tagList = Lists.<NBTBase>newArrayList();
+    private List<NBTBase> tagList = Lists.newArrayList();
 
     /**
      * The type byte for the tags in the list - they must all be of the same type.
@@ -57,7 +57,7 @@ public class NBTTagList extends NBTBase
 			throw new RuntimeException("Missing type on ListTag");
 		}
 		sizeTracker.read(32L * (long)i);
-		this.tagList = Lists.<NBTBase>newArrayListWithCapacity(i);
+		this.tagList = Lists.newArrayListWithCapacity(i);
 
 		for (int j = 0; j < i; ++j)
 		{

@@ -79,7 +79,7 @@ public class CommandTeleport extends CommandBase
 
 				if (entity instanceof EntityPlayerMP)
 				{
-					Set<S08PacketPlayerPosLook.EnumFlags> set = EnumSet.<S08PacketPlayerPosLook.EnumFlags>noneOf(S08PacketPlayerPosLook.EnumFlags.class);
+					Set<S08PacketPlayerPosLook.EnumFlags> set = EnumSet.noneOf(S08PacketPlayerPosLook.EnumFlags.class);
 
 					if (commandbase$coordinatearg.func_179630_c())
 					{

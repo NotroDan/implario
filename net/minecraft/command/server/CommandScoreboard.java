@@ -304,7 +304,7 @@ public class CommandScoreboard extends CommandBase
         }
 		List<String> list1 = Lists.newArrayList(this.getScoreboard().getObjectiveNames());
 		String s = p_175780_2_[i];
-		List<String> list = Lists.<String>newArrayList();
+		List<String> list = Lists.newArrayList();
 
 		for (String s1 : list1)
 		{
@@ -609,8 +609,8 @@ public class CommandScoreboard extends CommandBase
     {
         Scoreboard scoreboard = this.getScoreboard();
         String s = p_147190_2_[p_147190_3_++];
-        Set<String> set = Sets.<String>newHashSet();
-        Set<String> set1 = Sets.<String>newHashSet();
+        Set<String> set = Sets.newHashSet();
+        Set<String> set1 = Sets.newHashSet();
 
         if (p_147190_1_ instanceof EntityPlayer && p_147190_3_ == p_147190_2_.length)
         {
@@ -678,8 +678,8 @@ public class CommandScoreboard extends CommandBase
     protected void leaveTeam(ICommandSender p_147199_1_, String[] p_147199_2_, int p_147199_3_) throws CommandException
     {
         Scoreboard scoreboard = this.getScoreboard();
-        Set<String> set = Sets.<String>newHashSet();
-        Set<String> set1 = Sets.<String>newHashSet();
+        Set<String> set = Sets.newHashSet();
+        Set<String> set1 = Sets.newHashSet();
 
         if (p_147199_1_ instanceof EntityPlayer && p_147199_3_ == p_147199_2_.length)
         {
@@ -1252,7 +1252,7 @@ public class CommandScoreboard extends CommandBase
     protected List<String> func_147184_a(boolean p_147184_1_)
     {
         Collection<ScoreObjective> collection = this.getScoreboard().getScoreObjectives();
-        List<String> list = Lists.<String>newArrayList();
+        List<String> list = Lists.newArrayList();
 
         for (ScoreObjective scoreobjective : collection)
         {
@@ -1268,7 +1268,7 @@ public class CommandScoreboard extends CommandBase
     protected List<String> func_175782_e()
     {
         Collection<ScoreObjective> collection = this.getScoreboard().getScoreObjectives();
-        List<String> list = Lists.<String>newArrayList();
+        List<String> list = Lists.newArrayList();
 
         for (ScoreObjective scoreobjective : collection)
         {

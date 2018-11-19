@@ -18,9 +18,9 @@ import net.minecraft.world.WorldSavedData;
 public class MapStorage
 {
     private ISaveHandler saveHandler;
-    protected Map<String, WorldSavedData> loadedDataMap = Maps.<String, WorldSavedData>newHashMap();
-    private List<WorldSavedData> loadedDataList = Lists.<WorldSavedData>newArrayList();
-    private Map<String, Short> idCounts = Maps.<String, Short>newHashMap();
+    protected Map<String, WorldSavedData> loadedDataMap = Maps.newHashMap();
+    private List<WorldSavedData> loadedDataList = Lists.newArrayList();
+    private Map<String, Short> idCounts = Maps.newHashMap();
 
     public MapStorage(ISaveHandler saveHandlerIn)
     {

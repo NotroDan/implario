@@ -16,7 +16,7 @@ public class RegistrySimple<K, V> implements IRegistry<K, V>
 
     protected Map<K, V> createUnderlyingMap()
     {
-        return Maps.<K, V>newHashMap();
+        return Maps.newHashMap();
     }
 
     public V getObject(K name)
@@ -42,7 +42,7 @@ public class RegistrySimple<K, V> implements IRegistry<K, V>
 
     public Set<K> getKeys()
     {
-        return Collections.<K>unmodifiableSet(this.registryObjects.keySet());
+        return Collections.unmodifiableSet(this.registryObjects.keySet());
     }
 
     /**

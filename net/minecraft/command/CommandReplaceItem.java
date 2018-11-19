@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 public class CommandReplaceItem extends CommandBase
 {
-    private static final Map<String, Integer> SHORTCUTS = Maps.<String, Integer>newHashMap();
+    private static final Map<String, Integer> SHORTCUTS = Maps.newHashMap();
 
     /**
      * Gets the name of the command

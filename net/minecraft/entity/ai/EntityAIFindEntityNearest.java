@@ -54,7 +54,7 @@ public class EntityAIFindEntityNearest extends EntityAIBase
     public boolean shouldExecute()
     {
         double d0 = this.func_179438_f();
-        List<EntityLivingBase> list = this.field_179442_b.worldObj.<EntityLivingBase>getEntitiesWithinAABB(this.field_179439_f, this.field_179442_b.getEntityBoundingBox().expand(d0, 4.0D, d0), this.field_179443_c);
+        List<EntityLivingBase> list = this.field_179442_b.worldObj.getEntitiesWithinAABB(this.field_179439_f, this.field_179442_b.getEntityBoundingBox().expand(d0, 4.0D, d0), this.field_179443_c);
         Collections.sort(list, this.field_179440_d);
 
         if (list.isEmpty())

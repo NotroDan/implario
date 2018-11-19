@@ -65,7 +65,7 @@ public class EnchantmentHelper
 
     public static Map<Integer, Integer> getEnchantments(ItemStack stack)
     {
-        Map<Integer, Integer> map = Maps.<Integer, Integer>newLinkedHashMap();
+        Map<Integer, Integer> map = Maps.newLinkedHashMap();
         NBTTagList nbttaglist = stack.getItem() == Items.enchanted_book ? Items.enchanted_book.getEnchantments(stack) : stack.getEnchantmentTagList();
 
         if (nbttaglist != null)
@@ -425,7 +425,7 @@ public class EnchantmentHelper
 
 			if (enchantmentdata != null)
 			{
-				list = Lists.<EnchantmentData>newArrayList();
+				list = Lists.newArrayList();
 				list.add(enchantmentdata);
 
 				for (int l = k; randomIn.nextInt(50) <= l; l >>= 1)
@@ -480,7 +480,7 @@ public class EnchantmentHelper
                     {
                         if (map == null)
                         {
-                            map = Maps.<Integer, EnchantmentData>newHashMap();
+                            map = Maps.newHashMap();
                         }
 
                         map.put(Integer.valueOf(enchantment.effectId), new EnchantmentData(enchantment, i));

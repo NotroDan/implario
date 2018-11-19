@@ -75,7 +75,7 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase
     public boolean shouldExecute()
     {
         double d0 = this.func_179431_f();
-        List<EntityPlayer> list = this.field_179434_b.worldObj.<EntityPlayer>getEntitiesWithinAABB(EntityPlayer.class, this.field_179434_b.getEntityBoundingBox().expand(d0, 4.0D, d0), this.field_179435_c);
+        List<EntityPlayer> list = this.field_179434_b.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.field_179434_b.getEntityBoundingBox().expand(d0, 4.0D, d0), this.field_179435_c);
         Collections.sort(list, this.field_179432_d);
 
         if (list.isEmpty())

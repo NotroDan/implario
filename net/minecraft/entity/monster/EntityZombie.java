@@ -553,7 +553,7 @@ public class EntityZombie extends EntityMob
 
                 if ((double)this.worldObj.rand.nextFloat() < 0.05D)
                 {
-                    List<EntityChicken> list = this.worldObj.<EntityChicken>getEntitiesWithinAABB(EntityChicken.class, this.getEntityBoundingBox().expand(5.0D, 3.0D, 5.0D), EntitySelectors.IS_STANDALONE);
+                    List<EntityChicken> list = this.worldObj.getEntitiesWithinAABB(EntityChicken.class, this.getEntityBoundingBox().expand(5.0D, 3.0D, 5.0D), EntitySelectors.IS_STANDALONE);
 
                     if (!list.isEmpty())
                     {

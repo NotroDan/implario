@@ -1217,7 +1217,7 @@ public class StructureNetherBridgePieces
         public StructureNetherBridgePieces.PieceWeight theNetherBridgePieceWeight;
         public List<StructureNetherBridgePieces.PieceWeight> primaryWeights;
         public List<StructureNetherBridgePieces.PieceWeight> secondaryWeights;
-        public List<StructureComponent> field_74967_d = Lists.<StructureComponent>newArrayList();
+        public List<StructureComponent> field_74967_d = Lists.newArrayList();
 
         public Start()
         {
@@ -1226,7 +1226,7 @@ public class StructureNetherBridgePieces
         public Start(Random p_i2059_1_, int p_i2059_2_, int p_i2059_3_)
         {
             super(p_i2059_1_, p_i2059_2_, p_i2059_3_);
-            this.primaryWeights = Lists.<StructureNetherBridgePieces.PieceWeight>newArrayList();
+            this.primaryWeights = Lists.newArrayList();
 
             for (StructureNetherBridgePieces.PieceWeight structurenetherbridgepieces$pieceweight : StructureNetherBridgePieces.primaryComponents)
             {
@@ -1234,7 +1234,7 @@ public class StructureNetherBridgePieces
                 this.primaryWeights.add(structurenetherbridgepieces$pieceweight);
             }
 
-            this.secondaryWeights = Lists.<StructureNetherBridgePieces.PieceWeight>newArrayList();
+            this.secondaryWeights = Lists.newArrayList();
 
             for (StructureNetherBridgePieces.PieceWeight structurenetherbridgepieces$pieceweight1 : StructureNetherBridgePieces.secondaryComponents)
             {

@@ -52,7 +52,7 @@ public class ModelBlock
 
     protected ModelBlock(ResourceLocation p_i46226_1_, Map<String, String> p_i46226_2_, boolean p_i46226_3_, boolean p_i46226_4_, ItemCameraTransforms p_i46226_5_)
     {
-        this(p_i46226_1_, Collections.<BlockPart>emptyList(), p_i46226_2_, p_i46226_3_, p_i46226_4_, p_i46226_5_);
+        this(p_i46226_1_, Collections.emptyList(), p_i46226_2_, p_i46226_3_, p_i46226_4_, p_i46226_5_);
     }
 
     private ModelBlock(ResourceLocation parentLocationIn, List<BlockPart> elementsIn, Map<String, String> texturesIn, boolean ambientOcclusionIn, boolean gui3dIn, ItemCameraTransforms cameraTransformsIn)
@@ -239,7 +239,7 @@ public class ModelBlock
 
         private Map<String, String> getTextures(JsonObject p_178329_1_)
         {
-            Map<String, String> map = Maps.<String, String>newHashMap();
+            Map<String, String> map = Maps.newHashMap();
 
             if (p_178329_1_.has("textures"))
             {
@@ -266,7 +266,7 @@ public class ModelBlock
 
         protected List<BlockPart> getModelElements(JsonDeserializationContext p_178325_1_, JsonObject p_178325_2_)
         {
-            List<BlockPart> list = Lists.<BlockPart>newArrayList();
+            List<BlockPart> list = Lists.newArrayList();
 
             if (p_178325_2_.has("elements"))
             {

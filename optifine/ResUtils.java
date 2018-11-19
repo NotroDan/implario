@@ -31,7 +31,7 @@ public class ResUtils
         {
             IResourcePack iresourcepack = airesourcepack[i];
             String[] astring = collectFiles(iresourcepack, (String[])p_collectFiles_0_, (String[])p_collectFiles_1_, (String[])null);
-            set.addAll(Arrays.<String>asList(astring));
+            set.addAll(Arrays.asList(astring));
         }
 
         String[] astring1 = (String[])set.toArray(new String[set.size()]);

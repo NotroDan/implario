@@ -47,7 +47,7 @@ public class StructureVillagePieces
 
     public static List<StructureVillagePieces.PieceWeight> getStructureVillageWeightedPieceList(Random random, int p_75084_1_)
     {
-        List<StructureVillagePieces.PieceWeight> list = Lists.<StructureVillagePieces.PieceWeight>newArrayList();
+        List<StructureVillagePieces.PieceWeight> list = Lists.newArrayList();
         list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House4Garden.class, 4, MathHelper.getRandomIntegerInRange(random, 2 + p_75084_1_, 4 + p_75084_1_ * 2)));
         list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Church.class, 20, MathHelper.getRandomIntegerInRange(random, 0 + p_75084_1_, 1 + p_75084_1_)));
         list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House1.class, 20, MathHelper.getRandomIntegerInRange(random, 0 + p_75084_1_, 2 + p_75084_1_)));
@@ -1399,8 +1399,8 @@ public class StructureVillagePieces
         public int terrainType;
         public StructureVillagePieces.PieceWeight structVillagePieceWeight;
         public List<StructureVillagePieces.PieceWeight> structureVillageWeightedPieceList;
-        public List<StructureComponent> field_74932_i = Lists.<StructureComponent>newArrayList();
-        public List<StructureComponent> field_74930_j = Lists.<StructureComponent>newArrayList();
+        public List<StructureComponent> field_74932_i = Lists.newArrayList();
+        public List<StructureComponent> field_74930_j = Lists.newArrayList();
 
         public Start()
         {

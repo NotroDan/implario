@@ -27,12 +27,12 @@ public class ChunkRenderDispatcher
 {
     private static final Logger logger = Logger.getInstance();
     private static final ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("Chunk Batcher %d").setDaemon(true).build();
-    private final List<ChunkRenderWorker> listThreadedWorkers = Lists.<ChunkRenderWorker>newArrayList();
-    private final BlockingQueue<ChunkCompileTaskGenerator> queueChunkUpdates = Queues.<ChunkCompileTaskGenerator>newArrayBlockingQueue(100);
-    private final BlockingQueue<RegionRenderCacheBuilder> queueFreeRenderBuilders = Queues.<RegionRenderCacheBuilder>newArrayBlockingQueue(5);
+    private final List<ChunkRenderWorker> listThreadedWorkers = Lists.newArrayList();
+    private final BlockingQueue<ChunkCompileTaskGenerator> queueChunkUpdates = Queues.newArrayBlockingQueue(100);
+    private final BlockingQueue<RegionRenderCacheBuilder> queueFreeRenderBuilders = Queues.newArrayBlockingQueue(5);
     private final WorldVertexBufferUploader worldVertexUploader = new WorldVertexBufferUploader();
     private final VertexBufferUploader vertexUploader = new VertexBufferUploader();
-    private final Queue < ListenableFutureTask<? >> queueChunkUploads = Queues. < ListenableFutureTask<? >> newArrayDeque();
+    private final Queue < ListenableFutureTask<? >> queueChunkUploads = Queues.newArrayDeque();
     private final ChunkRenderWorker renderWorker;
 
     public ChunkRenderDispatcher()
@@ -161,7 +161,7 @@ public class ChunkRenderDispatcher
             ;
         }
 
-        List<RegionRenderCacheBuilder> list = Lists.<RegionRenderCacheBuilder>newArrayList();
+        List<RegionRenderCacheBuilder> list = Lists.newArrayList();
 
         while (((List)list).size() != 5)
         {
@@ -239,9 +239,9 @@ public class ChunkRenderDispatcher
             }
 
             p_178503_2_.setTranslation(0.0D, 0.0D, 0.0D);
-            return Futures.<Object>immediateFuture((Object)null);
+            return Futures.immediateFuture((Object)null);
         }
-		ListenableFutureTask<Object> listenablefuturetask = ListenableFutureTask.<Object>create(new Runnable()
+		ListenableFutureTask<Object> listenablefuturetask = ListenableFutureTask.create(new Runnable()
 		{
 			public void run()
 			{

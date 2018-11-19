@@ -10,8 +10,8 @@ import net.minecraft.client.Logger;
 public class EntityAITasks
 {
     private static final Logger logger = Logger.getInstance();
-    private List<EntityAITasks.EntityAITaskEntry> taskEntries = Lists.<EntityAITasks.EntityAITaskEntry>newArrayList();
-    private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.<EntityAITasks.EntityAITaskEntry>newArrayList();
+    private List<EntityAITasks.EntityAITaskEntry> taskEntries = Lists.newArrayList();
+    private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.newArrayList();
 
     /** Instance of Profiler. */
     private final Profiler theProfiler;

@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class ItemRecord extends Item
 {
-    private static final Map<String, ItemRecord> RECORDS = Maps.<String, ItemRecord>newHashMap();
+    private static final Map<String, ItemRecord> RECORDS = Maps.newHashMap();
 
     /** The name of the record. */
     public final String recordName;

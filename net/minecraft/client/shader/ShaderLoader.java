@@ -105,7 +105,7 @@ public class ShaderLoader
         private final String shaderName;
         private final String shaderExtension;
         private final int shaderMode;
-        private final Map<String, ShaderLoader> loadedShaders = Maps.<String, ShaderLoader>newHashMap();
+        private final Map<String, ShaderLoader> loadedShaders = Maps.newHashMap();
 
         private ShaderType(String p_i45090_3_, String p_i45090_4_, int p_i45090_5_)
         {

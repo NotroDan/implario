@@ -10,7 +10,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 
 public abstract class StateMapperBase implements IStateMapper
 {
-    protected Map<IBlockState, ModelResourceLocation> mapStateModelLocations = Maps.<IBlockState, ModelResourceLocation>newLinkedHashMap();
+    protected Map<IBlockState, ModelResourceLocation> mapStateModelLocations = Maps.newLinkedHashMap();
 
     public String getPropertyString(Map<IProperty, Comparable> p_178131_1_)
     {

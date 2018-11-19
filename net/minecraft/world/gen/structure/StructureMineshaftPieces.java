@@ -572,7 +572,7 @@ public class StructureMineshaftPieces
 
     public static class Room extends StructureComponent
     {
-        private List<StructureBoundingBox> roomsLinkedToTheRoom = Lists.<StructureBoundingBox>newLinkedList();
+        private List<StructureBoundingBox> roomsLinkedToTheRoom = Lists.newLinkedList();
 
         public Room()
         {

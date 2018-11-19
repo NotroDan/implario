@@ -13,7 +13,7 @@ import net.minecraft.util.IStringSerializable;
 
 public class BlockSand extends BlockFalling
 {
-    public static final PropertyEnum<BlockSand.EnumType> VARIANT = PropertyEnum.<BlockSand.EnumType>create("variant", BlockSand.EnumType.class);
+    public static final PropertyEnum<BlockSand.EnumType> VARIANT = PropertyEnum.create("variant", BlockSand.EnumType.class);
 
     public BlockSand()
     {

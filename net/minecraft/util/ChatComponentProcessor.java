@@ -20,7 +20,7 @@ public class ChatComponentProcessor
 
             if (PlayerSelector.hasArguments(s))
             {
-                List<Entity> list = PlayerSelector.<Entity>matchEntities(commandSender, s, Entity.class);
+                List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);
 
                 if (list.size() != 1)
                 {

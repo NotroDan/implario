@@ -20,6 +20,7 @@ import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShaderOption;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class Utils {
 
@@ -184,6 +185,30 @@ public class Utils {
 		T[] copy = Arrays.copyOf(array, offset);
 		System.arraycopy(array, offset, array, 0, array.length - offset);
 		System.arraycopy(copy, 0, array, array.length - offset, offset);
+	}
+
+
+	public static void shuffleArray(Object[] array) {
+		int index;
+		Object temp;
+		Random random = new Random();
+		for (int i = array.length - 1; i > 0; i--) {
+			index = random.nextInt(i + 1);
+			temp = array[index];
+			array[index] = array[i];
+			array[i] = temp;
+		}
+	}
+
+	public static void shuffleArray(int[] array) {
+		int index, temp;
+		Random random = new Random();
+		for (int i = array.length - 1; i > 0; i--) {
+			index = random.nextInt(i + 1);
+			temp = array[index];
+			array[index] = array[i];
+			array[i] = temp;
+		}
 	}
 
 }

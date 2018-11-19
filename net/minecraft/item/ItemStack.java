@@ -935,7 +935,7 @@ public final class ItemStack
 
         if (this.hasTagCompound() && this.stackTagCompound.hasKey("AttributeModifiers", 9))
         {
-            multimap = HashMultimap.<String, AttributeModifier>create();
+            multimap = HashMultimap.create();
             NBTTagList nbttaglist = this.stackTagCompound.getTagList("AttributeModifiers", 10);
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i)

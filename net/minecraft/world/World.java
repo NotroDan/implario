@@ -41,14 +41,14 @@ public abstract class World implements IBlockAccess
      * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
      */
     protected boolean scheduledUpdatesAreImmediate;
-    public final List<Entity> loadedEntityList = Lists.<Entity>newArrayList();
-    protected final List<Entity> unloadedEntityList = Lists.<Entity>newArrayList();
-    public final List<TileEntity> loadedTileEntityList = Lists.<TileEntity>newArrayList();
-    public final List<TileEntity> tickableTileEntities = Lists.<TileEntity>newArrayList();
-    private final List<TileEntity> addedTileEntityList = Lists.<TileEntity>newArrayList();
-    private final List<TileEntity> tileEntitiesToBeRemoved = Lists.<TileEntity>newArrayList();
-    public final List<EntityPlayer> playerEntities = Lists.<EntityPlayer>newArrayList();
-    public final List<Entity> weatherEffects = Lists.<Entity>newArrayList();
+    public final List<Entity> loadedEntityList = Lists.newArrayList();
+    protected final List<Entity> unloadedEntityList = Lists.newArrayList();
+    public final List<TileEntity> loadedTileEntityList = Lists.newArrayList();
+    public final List<TileEntity> tickableTileEntities = Lists.newArrayList();
+    private final List<TileEntity> addedTileEntityList = Lists.newArrayList();
+    private final List<TileEntity> tileEntitiesToBeRemoved = Lists.newArrayList();
+    public final List<EntityPlayer> playerEntities = Lists.newArrayList();
+    public final List<Entity> weatherEffects = Lists.newArrayList();
     protected final IntHashMap<Entity> entitiesById = new IntHashMap();
     private long cloudColour = 16777215L;
 
@@ -82,7 +82,7 @@ public abstract class World implements IBlockAccess
 
     /** The WorldProvider instance that World uses. */
     public final WorldProvider provider;
-    protected List<IWorldAccess> worldAccesses = Lists.<IWorldAccess>newArrayList();
+    protected List<IWorldAccess> worldAccesses = Lists.newArrayList();
 
     /** Handles chunk operations and caching */
     protected IChunkProvider chunkProvider;
@@ -109,7 +109,7 @@ public abstract class World implements IBlockAccess
      * server worlds have this set to false, client worlds have this set to true.
      */
     public final boolean isRemote;
-    protected Set<ChunkCoordIntPair> activeChunkSet = Sets.<ChunkCoordIntPair>newHashSet();
+    protected Set<ChunkCoordIntPair> activeChunkSet = Sets.newHashSet();
 
     /** number of ticks until the next random ambients play */
     private int ambientTickCountdown;
@@ -1184,7 +1184,7 @@ public abstract class World implements IBlockAccess
 
     public List<AxisAlignedBB> getCollidingBoundingBoxes(Entity entityIn, AxisAlignedBB bb)
     {
-        List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
+        List<AxisAlignedBB> list = Lists.newArrayList();
         int i = MathHelper.floor_double(bb.minX);
         int j = MathHelper.floor_double(bb.maxX + 1.0D);
         int k = MathHelper.floor_double(bb.minY);
@@ -1282,7 +1282,7 @@ public abstract class World implements IBlockAccess
 
     public List<AxisAlignedBB> func_147461_a(AxisAlignedBB bb)
     {
-        List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
+        List<AxisAlignedBB> list = Lists.newArrayList();
         int i = MathHelper.floor_double(bb.minX);
         int j = MathHelper.floor_double(bb.maxX + 1.0D);
         int k = MathHelper.floor_double(bb.minY);
@@ -2884,7 +2884,7 @@ public abstract class World implements IBlockAccess
 
     public List<Entity> getEntitiesInAABBexcluding(Entity entityIn, AxisAlignedBB boundingBox, Predicate <? super Entity > predicate)
     {
-        List<Entity> list = Lists.<Entity>newArrayList();
+        List<Entity> list = Lists.newArrayList();
         int i = MathHelper.floor_double((boundingBox.minX - 2.0D) / 16.0D);
         int j = MathHelper.floor_double((boundingBox.maxX + 2.0D) / 16.0D);
         int k = MathHelper.floor_double((boundingBox.minZ - 2.0D) / 16.0D);
@@ -2906,7 +2906,7 @@ public abstract class World implements IBlockAccess
 
     public <T extends Entity> List<T> getEntities(Class <? extends T > entityType, Predicate <? super T > filter)
     {
-        List<T> list = Lists.<T>newArrayList();
+        List<T> list = Lists.newArrayList();
 
         for (Entity entity : this.loadedEntityList)
         {
@@ -2921,7 +2921,7 @@ public abstract class World implements IBlockAccess
 
     public <T extends Entity> List<T> getPlayers(Class <? extends T > playerType, Predicate <? super T > filter)
     {
-        List<T> list = Lists.<T>newArrayList();
+        List<T> list = Lists.newArrayList();
 
         for (Entity entity : this.playerEntities)
         {
@@ -2936,7 +2936,7 @@ public abstract class World implements IBlockAccess
 
     public <T extends Entity> List<T> getEntitiesWithinAABB(Class <? extends T > classEntity, AxisAlignedBB bb)
     {
-        return this.<T>getEntitiesWithinAABB(classEntity, bb, EntitySelectors.NOT_SPECTATING);
+        return this.getEntitiesWithinAABB(classEntity, bb, EntitySelectors.NOT_SPECTATING);
     }
 
     public <T extends Entity> List<T> getEntitiesWithinAABB(Class <? extends T > clazz, AxisAlignedBB aabb, Predicate <? super T > filter)
@@ -2945,7 +2945,7 @@ public abstract class World implements IBlockAccess
         int j = MathHelper.floor_double((aabb.maxX + 2.0D) / 16.0D);
         int k = MathHelper.floor_double((aabb.minZ - 2.0D) / 16.0D);
         int l = MathHelper.floor_double((aabb.maxZ + 2.0D) / 16.0D);
-        List<T> list = Lists.<T>newArrayList();
+        List<T> list = Lists.newArrayList();
 
         for (int i1 = i; i1 <= j; ++i1)
         {
@@ -2963,7 +2963,7 @@ public abstract class World implements IBlockAccess
 
     public <T extends Entity> T findNearestEntityWithinAABB(Class <? extends T > entityType, AxisAlignedBB aabb, T closestTo)
     {
-        List<T> list = this.<T>getEntitiesWithinAABB(entityType, aabb);
+        List<T> list = this.getEntitiesWithinAABB(entityType, aabb);
         T t = null;
         double d0 = Double.MAX_VALUE;
 

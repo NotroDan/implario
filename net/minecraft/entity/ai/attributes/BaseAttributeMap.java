@@ -10,9 +10,9 @@ import net.minecraft.server.management.LowerStringMap;
 
 public abstract class BaseAttributeMap
 {
-    protected final Map<IAttribute, IAttributeInstance> attributes = Maps.<IAttribute, IAttributeInstance>newHashMap();
+    protected final Map<IAttribute, IAttributeInstance> attributes = Maps.newHashMap();
     protected final Map<String, IAttributeInstance> attributesByName = new LowerStringMap();
-    protected final Multimap<IAttribute, IAttribute> field_180377_c = HashMultimap.<IAttribute, IAttribute>create();
+    protected final Multimap<IAttribute, IAttribute> field_180377_c = HashMultimap.create();
 
     public IAttributeInstance getAttributeInstance(IAttribute attribute)
     {

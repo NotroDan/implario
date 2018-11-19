@@ -301,7 +301,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
                     }
                     else
                     {
-                        List<EntityLivingBase> list = this.worldObj.<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(20.0D, 8.0D, 20.0D), Predicates.<EntityLivingBase> and (attackEntitySelector, EntitySelectors.NOT_SPECTATING));
+                        List<EntityLivingBase> list = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(20.0D, 8.0D, 20.0D), Predicates.and(attackEntitySelector, EntitySelectors.NOT_SPECTATING));
 
                         for (int j2 = 0; j2 < 10 && !list.isEmpty(); ++j2)
                         {

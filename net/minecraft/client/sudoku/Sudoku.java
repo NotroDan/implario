@@ -2,7 +2,10 @@ package net.minecraft.client.sudoku;
 
 import net.minecraft.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class Sudoku {
 
@@ -10,6 +13,7 @@ public class Sudoku {
 	public static final int S = B * B;
 
 
+	public Random random = new Random();
 	public final Row[] rows = new Row[S];
 	public final Column[] columns = new Column[S];
 	public final Square[] squares = new Square[S];
@@ -18,15 +22,22 @@ public class Sudoku {
 	public Sudoku() {
 		Cell[][] cells = new Cell[9][9];
 		for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) cells[x][y] = new Cell(x, y, this);
+		focused = cells[0][0];
 		for (int x = 0; x < 9; x++) columns[x] = Column.fromGrid(cells, x);
 		for (int y = 0; y < 9; y++) rows[y] = Row.fromGrid(cells, y);
 		for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) squares[y * 3 + x] = Square.fromGrid(cells, x, y);
 		System.out.println("Генерируем судоку...");
-		long start = System.nanoTime();
-		baseGrid();
+		long start = System.currentTimeMillis();
+		read(Base.SUDOKUS[random.nextInt(Base.SUDOKUS.length)]);
 		randomize(2000);
-		long end = System.nanoTime();
-		System.out.println("Генерация успешно завершена за " + (float) (end - start) / 1000000000f + " сек.");
+		unsolve(30);
+		long end = System.currentTimeMillis();
+		System.out.println("Генерация успешно завершена за " + (float) (end - start) + " мс.");
+	}
+
+	private void read(String s) {
+		char[] a = s.toCharArray();
+		for (int x = 0; x < S; x++) for (int y = 0; y < S; y++) getCell(x, y).setValue(Integer.parseInt(String.valueOf(a[x * S + y])));
 	}
 
 	private void baseGrid() {
@@ -61,10 +72,10 @@ public class Sudoku {
 		}
 	}
 	public void swapPillars(int x1, int x2) {
-		for (int i = 0; i < 3; i++) swapColumns(x1 * 3, x2 * 3);
+		for (int i = 0; i < 3; i++) swapColumns(x1 * 3 + i, x2 * 3 + i);
 	}
 	public void swapRacks(int y1, int y2) {
-		for (int i = 0; i < 3; i++) swapRows(y1 * 3, y2 * 3);
+		for (int i = 0; i < 3; i++) swapRows(y1 * 3 + i, y2 * 3 + i);
 	}
 
 	public int[][] getValues() {
@@ -80,8 +91,26 @@ public class Sudoku {
 		try {
 			return columns[x].cells[y];
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			ex.printStackTrace();
 			return null;
+		}
+	}
+
+	public void removeVariants() {
+		List<Integer> list = new ArrayList<>();
+		for (Row row : rows) {
+			for (Cell cell : row.cells) if (cell.value != 0) list.add(cell.value);
+			for (Cell cell : row.cells) if (cell.value == 0) for (Integer i : list) if (i != null) cell.variants[i - 1] = false;
+			list.clear();
+		}
+		for (Square row : squares) {
+			for (Cell cell : row.cells) if (cell.value != 0) list.add(cell.value);
+			for (Cell cell : row.cells) if (cell.value == 0) for (Integer i : list) if (i != null) cell.variants[i - 1] = false;
+			list.clear();
+		}
+		for (Column row : columns) {
+			for (Cell cell : row.cells) if (cell.value != 0) list.add(cell.value);
+			for (Cell cell : row.cells) if (cell.value == 0) for (Integer i : list) if (i != null) cell.variants[i - 1] = false;
+			list.clear();
 		}
 	}
 
@@ -110,8 +139,31 @@ public class Sudoku {
 
 	}
 
+	public void updateVariants() {
+		for (Row row : rows) {
+			for (Cell cell : row.cells) {
+				for (int i = 0; i < 9; i++) {
+					cell.variants[i] = true;
+				}
+			}
+		}
+		removeVariants();
+	}
+
+	public void unsolve(int opened) {
+		int[] numbers = IntStream.range(0, S * S - 1).toArray();
+		System.out.println(numbers.length);
+		Utils.shuffleArray(numbers);
+		System.out.println(numbers.length);
+		List<Integer> list = new ArrayList<>(opened);
+		for (int i = 0; i < opened; i++) list.add(numbers[i]);
+		for (int x = 0; x < S; x++) for (int y = 0; y < S; y++) {
+			if (!list.contains(x * S + y)) getCell(x, y).setValue(0);
+			else getCell(x, y).preset = true;
+		}
+	}
+
 	public void randomize(int iterations) {
-		Random random = new Random();
 		boolean transposed = false;
 		for (int i = 0; i < iterations; i++) {
 			int r = random.nextInt(5);
@@ -125,10 +177,12 @@ public class Sudoku {
 					transpose();
 					break;
 				case 1:
-					swapColumns(random.nextInt(S), random.nextInt(S));
+					int pillar = random.nextInt(B);
+					swapColumns(pillar * B + random.nextInt(B), pillar * B + random.nextInt(B));
 					break;
 				case 2:
-					swapRows(random.nextInt(S), random.nextInt(S));
+					int rack = random.nextInt(B);
+					swapRows(rack * B + random.nextInt(B), rack * B + random.nextInt(B));
 					break;
 				case 3:
 					swapRacks(random.nextInt(B), random.nextInt(B));

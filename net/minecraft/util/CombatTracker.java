@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 
 public class CombatTracker
 {
-    private final List<CombatEntry> combatEntries = Lists.<CombatEntry>newArrayList();
+    private final List<CombatEntry> combatEntries = Lists.newArrayList();
 
     /** The entity tracked. */
     private final EntityLivingBase fighter;

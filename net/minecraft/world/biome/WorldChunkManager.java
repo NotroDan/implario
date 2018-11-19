@@ -28,7 +28,7 @@ public class WorldChunkManager
     {
         this.biomeCache = new BiomeCache(this);
         this.field_180301_f = "";
-        this.biomesToSpawnIn = Lists.<BiomeGenBase>newArrayList();
+        this.biomesToSpawnIn = Lists.newArrayList();
         this.biomesToSpawnIn.add(BiomeGenBase.forest);
         this.biomesToSpawnIn.add(BiomeGenBase.plains);
         this.biomesToSpawnIn.add(BiomeGenBase.taiga);

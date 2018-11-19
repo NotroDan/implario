@@ -25,7 +25,7 @@ public class StringTranslate
 
     /** Is the private singleton instance of StringTranslate. */
     private static StringTranslate instance = new StringTranslate();
-    private final Map<String, String> languageList = Maps.<String, String>newHashMap();
+    private final Map<String, String> languageList = Maps.newHashMap();
 
     /**
      * The time, in milliseconds since epoch, that this instance was last updated

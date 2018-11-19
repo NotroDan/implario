@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class JsonException extends IOException
 {
-    private final List<JsonException.Entry> field_151383_a = Lists.<JsonException.Entry>newArrayList();
+    private final List<JsonException.Entry> field_151383_a = Lists.newArrayList();
     private final String field_151382_b;
 
     public JsonException(String p_i45279_1_)
@@ -64,7 +64,7 @@ public class JsonException extends IOException
         private Entry()
         {
             this.field_151376_a = null;
-            this.field_151375_b = Lists.<String>newArrayList();
+            this.field_151375_b = Lists.newArrayList();
         }
 
         private void func_151373_a(String p_151373_1_)

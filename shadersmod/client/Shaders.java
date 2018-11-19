@@ -897,7 +897,7 @@ public class Shaders {
 			if (shaderoption == null) list.add((ShaderOption) null);
 			else if (shaderoption instanceof ShaderOptionRest) {
 				ShaderOption[] ashaderoption2 = getShaderOptionsRest(shaderPackGuiScreens, ashaderoption);
-				list.addAll(Arrays.<ShaderOption>asList(ashaderoption2));
+				list.addAll(Arrays.asList(ashaderoption2));
 			} else list.add(shaderoption);
 		}
 

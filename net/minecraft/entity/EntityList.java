@@ -77,12 +77,12 @@ import net.minecraft.client.Logger;
 public class EntityList
 {
     private static final Logger logger = Logger.getInstance();
-    private static final Map < String, Class <? extends Entity >> stringToClassMapping = Maps. < String, Class <? extends Entity >> newHashMap();
-    private static final Map < Class <? extends Entity > , String > classToStringMapping = Maps. < Class <? extends Entity > , String > newHashMap();
-    private static final Map < Integer, Class <? extends Entity >> idToClassMapping = Maps. < Integer, Class <? extends Entity >> newHashMap();
-    private static final Map < Class <? extends Entity > , Integer > classToIDMapping = Maps. < Class <? extends Entity > , Integer > newHashMap();
-    private static final Map<String, Integer> stringToIDMapping = Maps.<String, Integer>newHashMap();
-    public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = Maps.<Integer, EntityList.EntityEggInfo>newLinkedHashMap();
+    private static final Map < String, Class <? extends Entity >> stringToClassMapping = Maps.newHashMap();
+    private static final Map < Class <? extends Entity > , String > classToStringMapping = Maps.newHashMap();
+    private static final Map < Integer, Class <? extends Entity >> idToClassMapping = Maps.newHashMap();
+    private static final Map < Class <? extends Entity > , Integer > classToIDMapping = Maps.newHashMap();
+    private static final Map<String, Integer> stringToIDMapping = Maps.newHashMap();
+    public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = Maps.newLinkedHashMap();
 
     /**
      * adds a mapping between Entity classes and both a string representation and an ID
@@ -259,7 +259,7 @@ public class EntityList
     public static List<String> getEntityNameList()
     {
         Set<String> set = stringToClassMapping.keySet();
-        List<String> list = Lists.<String>newArrayList();
+        List<String> list = Lists.newArrayList();
 
         for (String s : set)
         {

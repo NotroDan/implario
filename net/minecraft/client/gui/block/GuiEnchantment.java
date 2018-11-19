@@ -246,7 +246,7 @@ public class GuiEnchantment extends GuiContainer
 
             if (this.isPointInRegion(60, 14 + 19 * j, 108, 17, mouseX, mouseY) && k > 0 && l >= 0)
             {
-                List<String> list = Lists.<String>newArrayList();
+                List<String> list = Lists.newArrayList();
 
                 if (l >= 0 && Enchantment.getEnchantmentById(l & 255) != null)
                 {

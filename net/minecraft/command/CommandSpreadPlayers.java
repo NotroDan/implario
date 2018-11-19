@@ -59,7 +59,7 @@ public class CommandSpreadPlayers extends CommandBase
 		double d2 = parseDouble(args[i++], 0.0D);
 		double d3 = parseDouble(args[i++], d2 + 1.0D);
 		boolean flag = parseBoolean(args[i++]);
-		List<Entity> list = Lists.<Entity>newArrayList();
+		List<Entity> list = Lists.newArrayList();
 
 		while (i < args.length)
 		{
@@ -67,7 +67,7 @@ public class CommandSpreadPlayers extends CommandBase
 
 			if (PlayerSelector.hasArguments(s))
 			{
-				List<Entity> list1 = PlayerSelector.<Entity>matchEntities(sender, s, Entity.class);
+				List<Entity> list1 = PlayerSelector.matchEntities(sender, s, Entity.class);
 
 				if (list1.size() == 0)
 				{
@@ -119,7 +119,7 @@ public class CommandSpreadPlayers extends CommandBase
 
     private int func_110667_a(List<Entity> p_110667_1_)
     {
-        Set<Team> set = Sets.<Team>newHashSet();
+        Set<Team> set = Sets.newHashSet();
 
         for (Entity entity : p_110667_1_)
         {
@@ -219,7 +219,7 @@ public class CommandSpreadPlayers extends CommandBase
     {
         double d0 = 0.0D;
         int i = 0;
-        Map<Team, CommandSpreadPlayers.Position> map = Maps.<Team, CommandSpreadPlayers.Position>newHashMap();
+        Map<Team, CommandSpreadPlayers.Position> map = Maps.newHashMap();
 
         for (int j = 0; j < p_110671_1_.size(); ++j)
         {

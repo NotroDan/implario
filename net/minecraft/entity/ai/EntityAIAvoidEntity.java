@@ -31,7 +31,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
 
     public EntityAIAvoidEntity(EntityCreature p_i46404_1_, Class<T> p_i46404_2_, float p_i46404_3_, double p_i46404_4_, double p_i46404_6_)
     {
-        this(p_i46404_1_, p_i46404_2_, Predicates.<T>alwaysTrue(), p_i46404_3_, p_i46404_4_, p_i46404_6_);
+        this(p_i46404_1_, p_i46404_2_, Predicates.alwaysTrue(), p_i46404_3_, p_i46404_4_, p_i46404_6_);
     }
 
     public EntityAIAvoidEntity(EntityCreature p_i46405_1_, Class<T> p_i46405_2_, Predicate <? super T > p_i46405_3_, float p_i46405_4_, double p_i46405_5_, double p_i46405_7_)
@@ -58,7 +58,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        List<T> list = this.theEntity.worldObj.<T>getEntitiesWithinAABB(this.field_181064_i, this.theEntity.getEntityBoundingBox().expand((double)this.avoidDistance, 3.0D, (double)this.avoidDistance), Predicates.and(new Predicate[] {EntitySelectors.NOT_SPECTATING, this.canBeSeenSelector, this.avoidTargetSelector}));
+        List<T> list = this.theEntity.worldObj.getEntitiesWithinAABB(this.field_181064_i, this.theEntity.getEntityBoundingBox().expand((double)this.avoidDistance, 3.0D, (double)this.avoidDistance), Predicates.and(new Predicate[] {EntitySelectors.NOT_SPECTATING, this.canBeSeenSelector, this.avoidTargetSelector}));
 
         if (list.isEmpty())
         {

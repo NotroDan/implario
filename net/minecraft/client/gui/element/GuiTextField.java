@@ -59,7 +59,7 @@ public class GuiTextField extends Gui
     /** True if this textbox is visible */
     private boolean visible = true;
     private GuiPageButtonList.GuiResponder field_175210_x;
-    private Predicate<String> field_175209_y = Predicates.<String>alwaysTrue();
+    private Predicate<String> field_175209_y = Predicates.alwaysTrue();
 
     public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height)
     {

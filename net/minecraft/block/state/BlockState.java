@@ -36,12 +36,12 @@ public class BlockState
             }
         });
         this.properties = ImmutableList.copyOf(properties);
-        Map<Map<IProperty, Comparable>, BlockState.StateImplementation> map = Maps.<Map<IProperty, Comparable>, BlockState.StateImplementation>newLinkedHashMap();
-        List<BlockState.StateImplementation> list = Lists.<BlockState.StateImplementation>newArrayList();
+        Map<Map<IProperty, Comparable>, BlockState.StateImplementation> map = Maps.newLinkedHashMap();
+        List<BlockState.StateImplementation> list = Lists.newArrayList();
 
         for (List<Comparable> list1 : Cartesian.cartesianProduct(this.getAllowedValues()))
         {
-            Map<IProperty, Comparable> map1 = MapPopulator.<IProperty, Comparable>createMap(this.properties, list1);
+            Map<IProperty, Comparable> map1 = MapPopulator.createMap(this.properties, list1);
             BlockState.StateImplementation blockstate$stateimplementation = new BlockState.StateImplementation(blockIn, ImmutableMap.copyOf(map1));
             map.put(map1, blockstate$stateimplementation);
             list.add(blockstate$stateimplementation);
@@ -52,7 +52,7 @@ public class BlockState
             blockstate$stateimplementation1.buildPropertyValueTable(map);
         }
 
-        this.validStates = ImmutableList.<IBlockState>copyOf(list);
+        this.validStates = ImmutableList.copyOf(list);
     }
 
     public ImmutableList<IBlockState> getValidStates()
@@ -62,7 +62,7 @@ public class BlockState
 
     private List<Iterable<Comparable>> getAllowedValues()
     {
-        List<Iterable<Comparable>> list = Lists.<Iterable<Comparable>>newArrayList();
+        List<Iterable<Comparable>> list = Lists.newArrayList();
 
         for (int i = 0; i < this.properties.size(); ++i)
         {
@@ -106,7 +106,7 @@ public class BlockState
 
         public Collection<IProperty> getPropertyNames()
         {
-            return Collections.<IProperty>unmodifiableCollection(this.properties.keySet());
+            return Collections.unmodifiableCollection(this.properties.keySet());
         }
 
         public <T extends Comparable<T>> T getValue(IProperty<T> property)
@@ -157,7 +157,7 @@ public class BlockState
             {
                 throw new IllegalStateException();
             }
-			Table<IProperty, Comparable, IBlockState> table = HashBasedTable.<IProperty, Comparable, IBlockState>create();
+			Table<IProperty, Comparable, IBlockState> table = HashBasedTable.create();
 
 			for (IProperty <? extends Comparable > iproperty : this.properties.keySet())
 			{
@@ -170,12 +170,12 @@ public class BlockState
 				}
 			}
 
-			this.propertyValueTable = ImmutableTable.<IProperty, Comparable, IBlockState>copyOf(table);
+			this.propertyValueTable = ImmutableTable.copyOf(table);
 		}
 
         private Map<IProperty, Comparable> getPropertiesWithValue(IProperty property, Comparable value)
         {
-            Map<IProperty, Comparable> map = Maps.<IProperty, Comparable>newHashMap(this.properties);
+            Map<IProperty, Comparable> map = Maps.newHashMap(this.properties);
             map.put(property, value);
             return map;
         }

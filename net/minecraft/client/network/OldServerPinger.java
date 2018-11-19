@@ -47,7 +47,7 @@ public class OldServerPinger
 {
     private static final Splitter PING_RESPONSE_SPLITTER = Splitter.on('\u0000').limit(6);
     private static final Logger logger = Logger.getInstance();
-    private final List<NetworkManager> pingDestinations = Collections.<NetworkManager>synchronizedList(Lists.<NetworkManager>newArrayList());
+    private final List<NetworkManager> pingDestinations = Collections.synchronizedList(Lists.newArrayList());
 
     public void ping(final ServerData server) throws UnknownHostException
     {

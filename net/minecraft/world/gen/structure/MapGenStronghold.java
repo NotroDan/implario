@@ -28,7 +28,7 @@ public class MapGenStronghold extends MapGenStructure
         this.structureCoords = new ChunkCoordIntPair[3];
         this.field_82671_h = 32.0D;
         this.field_82672_i = 3;
-        this.field_151546_e = Lists.<BiomeGenBase>newArrayList();
+        this.field_151546_e = Lists.newArrayList();
 
         for (BiomeGenBase biomegenbase : BiomeGenBase.getBiomeGenArray())
         {
@@ -113,7 +113,7 @@ public class MapGenStronghold extends MapGenStructure
 
     protected List<BlockPos> getCoordList()
     {
-        List<BlockPos> list = Lists.<BlockPos>newArrayList();
+        List<BlockPos> list = Lists.newArrayList();
 
         for (ChunkCoordIntPair chunkcoordintpair : this.structureCoords)
         {

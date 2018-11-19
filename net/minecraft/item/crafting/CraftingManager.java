@@ -24,7 +24,7 @@ public class CraftingManager
 {
     /** The static instance of this class */
     private static final CraftingManager instance = new CraftingManager();
-    private final List<IRecipe> recipes = Lists.<IRecipe>newArrayList();
+    private final List<IRecipe> recipes = Lists.newArrayList();
 
     /**
      * Returns the static instance of this class
@@ -228,7 +228,7 @@ public class CraftingManager
 
         Map<Character, ItemStack> map;
 
-        for (map = Maps.<Character, ItemStack>newHashMap(); i < recipeComponents.length; i += 2)
+        for (map = Maps.newHashMap(); i < recipeComponents.length; i += 2)
         {
             Character character = (Character)recipeComponents[i];
             ItemStack itemstack = null;
@@ -275,7 +275,7 @@ public class CraftingManager
      */
     public void addShapelessRecipe(ItemStack stack, Object... recipeComponents)
     {
-        List<ItemStack> list = Lists.<ItemStack>newArrayList();
+        List<ItemStack> list = Lists.newArrayList();
 
         for (Object object : recipeComponents)
         {

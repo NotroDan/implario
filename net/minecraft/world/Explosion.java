@@ -54,8 +54,8 @@ public class Explosion
     public Explosion(World worldIn, Entity p_i45754_2_, double p_i45754_3_, double p_i45754_5_, double p_i45754_7_, float size, boolean p_i45754_10_, boolean p_i45754_11_)
     {
         this.explosionRNG = new Random();
-        this.affectedBlockPositions = Lists.<BlockPos>newArrayList();
-        this.playerKnockbackMap = Maps.<EntityPlayer, Vec3>newHashMap();
+        this.affectedBlockPositions = Lists.newArrayList();
+        this.playerKnockbackMap = Maps.newHashMap();
         this.worldObj = worldIn;
         this.exploder = p_i45754_2_;
         this.explosionSize = size;
@@ -71,7 +71,7 @@ public class Explosion
      */
     public void doExplosionA()
     {
-        Set<BlockPos> set = Sets.<BlockPos>newHashSet();
+        Set<BlockPos> set = Sets.newHashSet();
         int i = 16;
 
         for (int j = 0; j < 16; ++j)

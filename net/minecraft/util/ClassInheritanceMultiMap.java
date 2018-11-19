@@ -12,11 +12,11 @@ import java.util.Set;
 
 public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
 {
-    private static final Set < Class<? >> field_181158_a = Sets. < Class<? >> newHashSet();
-    private final Map < Class<?>, List<T >> map = Maps. < Class<?>, List<T >> newHashMap();
-    private final Set < Class<? >> knownKeys = Sets. < Class<? >> newIdentityHashSet();
+    private static final Set < Class<? >> field_181158_a = Sets.newHashSet();
+    private final Map < Class<?>, List<T >> map = Maps.newHashMap();
+    private final Set < Class<? >> knownKeys = Sets.newIdentityHashSet();
     private final Class<T> baseClass;
-    private final List<T> field_181745_e = Lists.<T>newArrayList();
+    private final List<T> field_181745_e = Lists.newArrayList();
 
     public ClassInheritanceMultiMap(Class<T> baseClassIn)
     {
@@ -122,7 +122,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
 
                 if (list == null)
                 {
-                    return Iterators.<S>emptyIterator();
+                    return Iterators.emptyIterator();
                 }
 				Iterator<T> iterator = list.iterator();
 				return Iterators.filter(iterator, clazz);
@@ -132,7 +132,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
 
     public Iterator<T> iterator()
     {
-        return this.field_181745_e.isEmpty() ? Iterators.<T>emptyIterator() : Iterators.unmodifiableIterator(this.field_181745_e.iterator());
+        return this.field_181745_e.isEmpty() ? Iterators.emptyIterator() : Iterators.unmodifiableIterator(this.field_181745_e.iterator());
     }
 
     public int size()

@@ -32,7 +32,7 @@ public enum EnumChatFormatting
     ITALIC("ITALIC", 'o', true),
     RESET("RESET", 'r', -1);
 
-    private static final Map<String, EnumChatFormatting> nameMapping = Maps.<String, EnumChatFormatting>newHashMap();
+    private static final Map<String, EnumChatFormatting> nameMapping = Maps.newHashMap();
 
     /**
      * Matches formatting codes that indicate that the client should treat the following text as bold, recolored,
@@ -152,7 +152,7 @@ public enum EnumChatFormatting
 
     public static Collection<String> getValidValues(boolean p_96296_0_, boolean p_96296_1_)
     {
-        List<String> list = Lists.<String>newArrayList();
+        List<String> list = Lists.newArrayList();
 
         for (EnumChatFormatting enumchatformatting : values())
         {
