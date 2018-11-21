@@ -288,7 +288,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
 	private ResourceLocation getUnicodePageLocation(int p_111271_1_) {
 		if (unicodePageLocations[p_111271_1_] == null) {
-			unicodePageLocations[p_111271_1_] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", new Object[] {Integer.valueOf(p_111271_1_)}));
+			unicodePageLocations[p_111271_1_] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", new Object[] {p_111271_1_}));
 			unicodePageLocations[p_111271_1_] = FontUtils.getHdFontLocation(unicodePageLocations[p_111271_1_]);
 		}
 

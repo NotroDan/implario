@@ -124,7 +124,7 @@ public class Teleporter
             if (flag)
             {
                 this.destinationCoordinateCache.add(l, new Teleporter.PortalPosition(blockpos, this.worldServerInstance.getTotalWorldTime()));
-                this.destinationCoordinateKeys.add(Long.valueOf(l));
+                this.destinationCoordinateKeys.add(l);
             }
 
             double d5 = (double)blockpos.getX() + 0.5D;

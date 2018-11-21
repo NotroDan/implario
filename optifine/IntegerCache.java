@@ -11,7 +11,7 @@ public class IntegerCache
 
         for (int i = 0; i < p_makeCache_0_; ++i)
         {
-            ainteger[i] = new Integer(i);
+            ainteger[i] = i;
         }
 
         return ainteger;

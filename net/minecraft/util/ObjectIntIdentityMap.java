@@ -15,7 +15,7 @@ public class ObjectIntIdentityMap implements IObjectIntIterable
 
     public void put(Object key, int value)
     {
-        this.identityMap.put(key, Integer.valueOf(value));
+        this.identityMap.put(key, value);
 
         while (this.objectList.size() <= value)
         {

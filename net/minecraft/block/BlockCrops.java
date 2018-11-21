@@ -20,7 +20,7 @@ public class BlockCrops extends BlockBush implements IGrowable
 
     protected BlockCrops()
     {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
         this.setTickRandomly(true);
         float f = 0.5F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
@@ -52,7 +52,7 @@ public class BlockCrops extends BlockBush implements IGrowable
 
                 if (rand.nextInt((int)(25.0F / f) + 1) == 0)
                 {
-                    worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(i + 1)), 2);
+                    worldIn.setBlockState(pos, state.withProperty(AGE, i + 1), 2);
                 }
             }
         }
@@ -67,7 +67,7 @@ public class BlockCrops extends BlockBush implements IGrowable
             i = 7;
         }
 
-        worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(i)), 2);
+        worldIn.setBlockState(pos, state.withProperty(AGE, i), 2);
     }
 
     protected static float getGrowthChance(Block blockIn, World worldIn, BlockPos pos)
@@ -202,7 +202,7 @@ public class BlockCrops extends BlockBush implements IGrowable
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(AGE, meta);
     }
 
     /**

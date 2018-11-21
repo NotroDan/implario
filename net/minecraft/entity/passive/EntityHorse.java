@@ -106,16 +106,16 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Integer.valueOf(0));
-        this.dataWatcher.addObject(19, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(20, Integer.valueOf(0));
+        this.dataWatcher.addObject(16, 0);
+        this.dataWatcher.addObject(19, (byte) 0);
+        this.dataWatcher.addObject(20, 0);
         this.dataWatcher.addObject(21, String.valueOf((Object)""));
-        this.dataWatcher.addObject(22, Integer.valueOf(0));
+        this.dataWatcher.addObject(22, 0);
     }
 
     public void setHorseType(int type)
     {
-        this.dataWatcher.updateObject(19, Byte.valueOf((byte)type));
+        this.dataWatcher.updateObject(19, (byte) type);
         this.resetTexturePrefix();
     }
 
@@ -129,7 +129,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
     public void setHorseVariant(int variant)
     {
-        this.dataWatcher.updateObject(20, Integer.valueOf(variant));
+        this.dataWatcher.updateObject(20, variant);
         this.resetTexturePrefix();
     }
 
@@ -180,11 +180,11 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
         if (p_110208_2_)
         {
-            this.dataWatcher.updateObject(16, Integer.valueOf(i | p_110208_1_));
+            this.dataWatcher.updateObject(16, i | p_110208_1_);
         }
         else
         {
-            this.dataWatcher.updateObject(16, Integer.valueOf(i & ~p_110208_1_));
+            this.dataWatcher.updateObject(16, i & ~p_110208_1_);
         }
     }
 
@@ -315,7 +315,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
      */
     public void setHorseArmorStack(ItemStack itemStackIn)
     {
-        this.dataWatcher.updateObject(22, Integer.valueOf(this.getHorseArmorIndex(itemStackIn)));
+        this.dataWatcher.updateObject(22, this.getHorseArmorIndex(itemStackIn));
         this.resetTexturePrefix();
     }
 

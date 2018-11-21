@@ -11,6 +11,7 @@ import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiLabel;
 import net.minecraft.client.gui.element.VolumeSlider;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -171,7 +172,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 		int k = 8;
 		if (list.size() > 1) k += 2 + (list.size() - 1) * 10;
 		if (Settings.ITEM_TOOLTIPS.b())
-			drawHoveringText(Collections.singletonList(advanced), x, y + k + 7, width, 0xd7124f20, 0xff217b91);
+			drawHoveringText(Collections.singletonList(advanced), x, y + k + 7, width, 0xd7000000, 0xd7ffa114);
 	}
 
 
@@ -189,7 +190,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	public void drawHoveringText(List<String> textLines, int x, int y, int textWidth, int backgroundColor, int stripColor) {
 		if (textLines.isEmpty()) return;
 		GlStateManager.disableDepth();
-
+		GlStateManager.disableRescaleNormal();
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.disableLighting();
 		// Ширина рамки по самой длинной строке
 		if (textWidth < 0) for (String s : textLines) {
 			int j = this.fontRendererObj.getStringWidth(s);
@@ -234,6 +237,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 		this.zLevel = 0.0F;
 		this.itemRender.zLevel = 0.0F;
+//		GlStateManager.enableLighting();
+//		RenderHelper.enableStandardItemLighting();
+//		GlStateManager.enableRescaleNormal();
 		GlStateManager.enableDepth();
 	}
 
@@ -242,7 +248,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	}
 
 	protected void drawHoveringText(List<String> textLines, int x, int y, int width) {
-		drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
+//		drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
+		drawHoveringText(textLines, x, y, width, 0xe7252525, 0xd7ffa114);
 	}
 
 	/**

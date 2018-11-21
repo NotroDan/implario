@@ -46,7 +46,7 @@ public class S37PacketStatistics implements Packet<INetHandlerPlayClient>
 
             if (statbase != null)
             {
-                this.field_148976_a.put(statbase, Integer.valueOf(k));
+                this.field_148976_a.put(statbase, k);
             }
         }
     }

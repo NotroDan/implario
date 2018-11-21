@@ -26,7 +26,7 @@ public class EntityBat extends EntityAmbientCreature
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte)0));
+        this.dataWatcher.addObject(16, (byte) 0);
     }
 
     /**
@@ -102,11 +102,11 @@ public class EntityBat extends EntityAmbientCreature
 
         if (isHanging)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
+            this.dataWatcher.updateObject(16, (byte) (b0 | 1));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
+            this.dataWatcher.updateObject(16, (byte) (b0 & -2));
         }
     }
 
@@ -233,7 +233,7 @@ public class EntityBat extends EntityAmbientCreature
     public void readEntityFromNBT(NBTTagCompound tagCompund)
     {
         super.readEntityFromNBT(tagCompund);
-        this.dataWatcher.updateObject(16, Byte.valueOf(tagCompund.getByte("BatFlags")));
+        this.dataWatcher.updateObject(16, tagCompund.getByte("BatFlags"));
     }
 
     /**

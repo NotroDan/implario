@@ -129,7 +129,7 @@ public class RecipeFireworks implements IRecipe
 					{
 						if (itemstack2.getItem() == Items.dye)
 						{
-							list.add(Integer.valueOf(ItemDye.dyeColors[itemstack2.getMetadata() & 15]));
+							list.add(ItemDye.dyeColors[itemstack2.getMetadata() & 15]);
 						}
 						else if (itemstack2.getItem() == Items.glowstone_dust)
 						{
@@ -183,7 +183,7 @@ public class RecipeFireworks implements IRecipe
 					{
 						if (itemstack1.getItem() == Items.dye)
 						{
-							list1.add(Integer.valueOf(ItemDye.dyeColors[itemstack1.getMetadata() & 15]));
+							list1.add(ItemDye.dyeColors[itemstack1.getMetadata() & 15]);
 						}
 						else if (itemstack1.getItem() == Items.firework_charge)
 						{

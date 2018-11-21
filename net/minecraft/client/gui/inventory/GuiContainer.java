@@ -147,7 +147,7 @@ public abstract class GuiContainer extends GuiScreen {
 				int j1 = slot.xDisplayPosition;
 				int k1 = slot.yDisplayPosition;
 				GlStateManager.colorMask(true, true, true, false);
-				this.drawGradientRect(j1, k1, j1 + 16, k1 + 16, -2130706433, -2130706433);
+				this.drawGradientRect(j1, k1, j1 + 16, k1 + 16, 0x80ffffff, 0x80ffffff);
 				GlStateManager.colorMask(true, true, true, true);
 				GlStateManager.enableLighting();
 				GlStateManager.enableDepth();
@@ -172,9 +172,7 @@ public abstract class GuiContainer extends GuiScreen {
 				itemstack = itemstack.copy();
 				itemstack.stackSize = this.dragSplittingRemnant;
 
-				if (itemstack.stackSize == 0) {
-					s = "" + EnumChatFormatting.YELLOW + "0";
-				}
+				if (itemstack.stackSize == 0) s = "§e0";
 			}
 
 			drawItemStack(itemstack, mouseX - i - j2, mouseY - j - k2, s);
@@ -332,10 +330,7 @@ public abstract class GuiContainer extends GuiScreen {
 	private Slot getSlotAtPosition(int x, int y) {
 		for (int i = 0; i < this.inventorySlots.inventorySlots.size(); ++i) {
 			Slot slot = this.inventorySlots.inventorySlots.get(i);
-
-			if (this.isMouseOverSlot(slot, x, y)) {
-				return slot;
-			}
+			if (this.isMouseOverSlot(slot, x, y)) return slot;
 		}
 
 		return null;
@@ -366,21 +361,7 @@ public abstract class GuiContainer extends GuiScreen {
 				l = -999;
 			}
 
-//			if (this.mc.gameSettings.touchscreen && flag1 && this.mc.thePlayer.inventory.getItemStack() == null) {
-//				this.mc.displayGuiScreen((GuiScreen) null);
-//				return;
-//			}
-
 			if (l != -1) {
-//				if (this.mc.gameSettings.touchscreen) {
-//					if (slot != null && slot.getHasStack()) {
-//						this.clickedSlot = slot;
-//						this.draggedStack = null;
-//						this.isRightMouseClick = mouseButton == 1;
-//					} else {
-//						this.clickedSlot = null;
-//					}
-//				} else
 				if (!this.dragSplitting) {
 					if (this.mc.thePlayer.inventory.getItemStack() == null) {
 						if (mouseButton == KeyBinding.PICK.getKeyCode() + 100) {
@@ -430,30 +411,6 @@ public abstract class GuiContainer extends GuiScreen {
 		Slot slot = this.getSlotAtPosition(mouseX, mouseY);
 		ItemStack itemstack = this.mc.thePlayer.inventory.getItemStack();
 
-//		if (this.clickedSlot != null && this.mc.gameSettings.touchscreen) {
-//			if (clickedMouseButton == 0 || clickedMouseButton == 1) {
-//				if (this.draggedStack == null) {
-//					if (slot != this.clickedSlot && this.clickedSlot.getStack() != null) {
-//						this.draggedStack = this.clickedSlot.getStack().copy();
-//					}
-//				} else if (this.draggedStack.stackSize > 1 && slot != null && Container.canAddItemToSlot(slot, this.draggedStack, false)) {
-//					long i = Minecraft.getSystemTime();
-//
-//					if (this.currentDragTargetSlot == slot) {
-//						if (i - this.dragItemDropDelay > 500L) {
-//							this.handleMouseClick(this.clickedSlot, this.clickedSlot.slotNumber, 0, 0);
-//							this.handleMouseClick(slot, slot.slotNumber, 1, 0);
-//							this.handleMouseClick(this.clickedSlot, this.clickedSlot.slotNumber, 0, 0);
-//							this.dragItemDropDelay = i + 750L;
-//							--this.draggedStack.stackSize;
-//						}
-//					} else {
-//						this.currentDragTargetSlot = slot;
-//						this.dragItemDropDelay = i;
-//					}
-//				}
-//			}
-//		} else
 		if (this.dragSplitting && slot != null && itemstack != null && itemstack.stackSize > this.dragSplittingSlots.size() && Container.canAddItemToSlot(slot, itemstack,
 				true) && slot.isItemValid(itemstack) && this.inventorySlots.canDragIntoSlot(slot)) {
 			this.dragSplittingSlots.add(slot);
@@ -471,13 +428,8 @@ public abstract class GuiContainer extends GuiScreen {
 		boolean flag = mouseX < i || mouseY < j || mouseX >= i + this.xSize || mouseY >= j + this.ySize;
 		int k = -1;
 
-		if (slot != null) {
-			k = slot.slotNumber;
-		}
-
-		if (flag) {
-			k = -999;
-		}
+		if (slot != null) k = slot.slotNumber;
+		if (flag) k = -999;
 
 		if (this.doubleClick && slot != null && state == 0 && this.inventorySlots.canMergeSlot(null, slot)) {
 			if (isShiftKeyDown()) {
@@ -507,50 +459,6 @@ public abstract class GuiContainer extends GuiScreen {
 				this.ignoreMouseUp = false;
 				return;
 			}
-			//
-			//            if (this.clickedSlot != null && this.mc.gameSettings.touchscreen)
-			//            {
-			//                if (state == 0 || state == 1)
-			//                {
-			//                    if (this.draggedStack == null && slot != this.clickedSlot)
-			//                    {
-			//                        this.draggedStack = this.clickedSlot.getStack();
-			//                    }
-			//
-			//                    boolean flag2 = Container.canAddItemToSlot(slot, this.draggedStack, false);
-			//
-			//                    if (k != -1 && this.draggedStack != null && flag2)
-			//                    {
-			//                        this.handleMouseClick(this.clickedSlot, this.clickedSlot.slotNumber, state, 0);
-			//                        this.handleMouseClick(slot, k, 0, 0);
-			//
-			//                        if (this.mc.thePlayer.inventory.getItemStack() != null)
-			//                        {
-			//                            this.handleMouseClick(this.clickedSlot, this.clickedSlot.slotNumber, state, 0);
-			//                            this.touchUpX = mouseX - i;
-			//                            this.touchUpY = mouseY - j;
-			//                            this.returningStackDestSlot = this.clickedSlot;
-			//                            this.returningStack = this.draggedStack;
-			//                            this.returningStackTime = Minecraft.getSystemTime();
-			//                        }
-			//                        else
-			//                        {
-			//                            this.returningStack = null;
-			//                        }
-			//                    }
-			//                    else if (this.draggedStack != null)
-			//                    {
-			//                        this.touchUpX = mouseX - i;
-			//                        this.touchUpY = mouseY - j;
-			//                        this.returningStackDestSlot = this.clickedSlot;
-			//                        this.returningStack = this.draggedStack;
-			//                        this.returningStackTime = Minecraft.getSystemTime();
-			//                    }
-			//
-			//                    this.draggedStack = null;
-			//                    this.clickedSlot = null;
-			//                }
-			//            }
 			if (this.dragSplitting && !this.dragSplittingSlots.isEmpty()) {
 				this.handleMouseClick(null, -999, Container.func_94534_d(0, this.dragSplittingLimit), 5);
 
@@ -662,6 +570,16 @@ public abstract class GuiContainer extends GuiScreen {
 
 		if (!this.mc.thePlayer.isEntityAlive() || this.mc.thePlayer.isDead) {
 			this.mc.thePlayer.closeScreen();
+		}
+	}
+
+	public static void drawModernSlotGrid(int x, int y, int columns, int rows, int color) {
+		for (int row = 0; row < rows; row++) {
+			int x1 = x;
+			for (int col = 0; col < columns; col++) {
+				int y1 = y + row * 18;
+				drawRect(x1, y1, (x1 += 18) - 2, y1 + 16, color);
+			}
 		}
 	}
 

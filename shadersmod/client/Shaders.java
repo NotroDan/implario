@@ -683,7 +683,7 @@ public class Shaders {
 		for (int i = -128; i <= 128; ++i) {
 			String s = "/shaders/world" + i;
 
-			if (shaderPack.hasDirectory(s)) shaderPackDimensions.add(Integer.valueOf(i));
+			if (shaderPack.hasDirectory(s)) shaderPackDimensions.add(i);
 		}
 
 		if (shaderPackDimensions.size() > 0) {
@@ -1078,7 +1078,7 @@ public class Shaders {
 	public static int checkFramebufferStatus(String location) {
 		int i = EXTFramebufferObject.glCheckFramebufferStatusEXT(36160);
 
-		if (i != 36053) System.err.format("FramebufferStatus 0x%04X at %s\n", new Object[] {Integer.valueOf(i), location});
+		if (i != 36053) System.err.format("FramebufferStatus 0x%04X at %s\n", new Object[] {i, location});
 
 		return i;
 	}
@@ -1091,8 +1091,8 @@ public class Shaders {
 
 			if (!flag) if (i == 1286) {
 				int j = EXTFramebufferObject.glCheckFramebufferStatusEXT(36160);
-				System.err.format("GL error 0x%04X: %s (Fb status 0x%04X) at %s\n", new Object[] {Integer.valueOf(i), GLU.gluErrorString(i), Integer.valueOf(j), location});
-			} else System.err.format("GL error 0x%04X: %s at %s\n", new Object[] {Integer.valueOf(i), GLU.gluErrorString(i), location});
+				System.err.format("GL error 0x%04X: %s (Fb status 0x%04X) at %s\n", new Object[] {i, GLU.gluErrorString(i), j, location});
+			} else System.err.format("GL error 0x%04X: %s at %s\n", new Object[] {i, GLU.gluErrorString(i), location});
 		}
 
 		return i;
@@ -1101,7 +1101,7 @@ public class Shaders {
 	public static int checkGLError(String location, String info) {
 		int i = GL11.glGetError();
 
-		if (i != 0) System.err.format("GL error 0x%04x: %s at %s %s\n", new Object[] {Integer.valueOf(i), GLU.gluErrorString(i), location, info});
+		if (i != 0) System.err.format("GL error 0x%04x: %s at %s %s\n", new Object[] {i, GLU.gluErrorString(i), location, info});
 
 		return i;
 	}
@@ -1109,7 +1109,7 @@ public class Shaders {
 	public static int checkGLError(String location, String info1, String info2) {
 		int i = GL11.glGetError();
 
-		if (i != 0) System.err.format("GL error 0x%04x: %s at %s %s %s\n", new Object[] {Integer.valueOf(i), GLU.gluErrorString(i), location, info1, info2});
+		if (i != 0) System.err.format("GL error 0x%04x: %s at %s %s %s\n", new Object[] {i, GLU.gluErrorString(i), location, info1, info2});
 
 		return i;
 	}
@@ -1277,7 +1277,7 @@ public class Shaders {
 			if (currentWorld != null) {
 				int i = currentWorld.provider.getDimensionId();
 
-				if (shaderPackDimensions.contains(Integer.valueOf(i))) s = "world" + i + "/";
+				if (shaderPackDimensions.contains(i)) s = "world" + i + "/";
 			}
 
 			if (saveFinalShaders) clearDirectory(new File(shaderpacksdir, "debug"));
@@ -2215,7 +2215,7 @@ public class Shaders {
 		if (mapBlockToEntityData.isEmpty()) for (ResourceLocation resourcelocation : Block.blockRegistry.getKeys()) {
 			Block block = (Block) Block.blockRegistry.getObject(resourcelocation);
 			int i = Block.blockRegistry.getIDForObject(block);
-			mapBlockToEntityData.put(block, Integer.valueOf(i));
+			mapBlockToEntityData.put(block, i);
 		}
 
 		BufferedReader bufferedreader = null;
@@ -2239,7 +2239,7 @@ public class Shaders {
 						int j = Integer.parseInt(s);
 						Block block1 = Block.getBlockFromName(s2);
 
-						if (block1 != null) mapBlockToEntityData.put(block1, Integer.valueOf(j));
+						if (block1 != null) mapBlockToEntityData.put(block1, j);
 						else SMCLog.warning("Unknown block name %s", new Object[] {s2});
 					} else SMCLog.warning("unmatched %s\n", new Object[] {s1});
 				}
@@ -2659,8 +2659,8 @@ public class Shaders {
 			if (world != null && worldd != null) {
 				int i = world.provider.getDimensionId();
 				int j = worldd.provider.getDimensionId();
-				boolean flag = shaderPackDimensions.contains(Integer.valueOf(i));
-				boolean flag1 = shaderPackDimensions.contains(Integer.valueOf(j));
+				boolean flag = shaderPackDimensions.contains(i);
+				boolean flag1 = shaderPackDimensions.contains(j);
 
 				if (flag || flag1) uninit();
 			}

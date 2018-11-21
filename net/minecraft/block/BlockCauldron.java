@@ -32,7 +32,7 @@ public class BlockCauldron extends Block
     public BlockCauldron()
     {
         super(Material.iron, MapColor.stoneColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LEVEL, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(LEVEL, 0));
     }
 
     /**
@@ -205,7 +205,7 @@ public class BlockCauldron extends Block
 
     public void setWaterLevel(World worldIn, BlockPos pos, IBlockState state, int level)
     {
-        worldIn.setBlockState(pos, state.withProperty(LEVEL, Integer.valueOf(MathHelper.clamp_int(level, 0, 3))), 2);
+        worldIn.setBlockState(pos, state.withProperty(LEVEL, MathHelper.clamp_int(level, 0, 3)), 2);
         worldIn.updateComparatorOutputLevel(pos, this);
     }
 
@@ -253,7 +253,7 @@ public class BlockCauldron extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(LEVEL, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(LEVEL, meta);
     }
 
     /**

@@ -1,113 +1,133 @@
 package net.minecraft.client.renderer;
 
-import java.util.Collection;
+import net.minecraft.client.MC;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.inventory.Container;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Textifier;
 
-public abstract class InventoryEffectRenderer extends GuiContainer
-{
-    /** True if there is some potion effect to display */
-    private boolean hasActivePotionEffects;
+import java.util.Collection;
 
-    public InventoryEffectRenderer(Container inventorySlotsIn)
-    {
-        super(inventorySlotsIn);
-    }
+public abstract class InventoryEffectRenderer extends GuiContainer {
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-     * window resizes, the buttonList is cleared beforehand.
-     */
-    public void initGui()
-    {
-        super.initGui();
-        this.updateActivePotionEffects();
-    }
+	/**
+	 * True if there is some potion effect to display
+	 */
+	private boolean hasActivePotionEffects;
 
-    protected void updateActivePotionEffects()
-    {
-        if (!this.mc.thePlayer.getActivePotionEffects().isEmpty())
-        {
-            this.guiLeft = 160 + (this.width - this.xSize - 200) / 2;
-            this.hasActivePotionEffects = true;
-        }
-        else
-        {
-            this.guiLeft = (this.width - this.xSize) / 2;
-            this.hasActivePotionEffects = false;
-        }
-    }
+	public InventoryEffectRenderer(Container inventorySlotsIn) {
+		super(inventorySlotsIn);
+	}
 
-    /**
-     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
-        super.drawScreen(mouseX, mouseY, partialTicks);
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+	 * window resizes, the buttonList is cleared beforehand.
+	 */
+	public void initGui() {
+		super.initGui();
+		this.updateActivePotionEffects();
+	}
 
-        if (this.hasActivePotionEffects)
-        {
-            this.drawActivePotionEffects();
-        }
-    }
+	protected void updateActivePotionEffects() {
 
-    /**
-     * Display the potion effects list
-     */
-    private void drawActivePotionEffects()
-    {
-        int i = this.guiLeft - 124;
-        int j = this.guiTop;
-        int k = 166;
-        Collection<PotionEffect> collection = this.mc.thePlayer.getActivePotionEffects();
+		hasActivePotionEffects = !MC.getPlayer().getActivePotionEffects().isEmpty();
 
-        if (!collection.isEmpty())
-        {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.disableLighting();
-            int l = 33;
+		if (hasActivePotionEffects && !Settings.FINE_EFFECTS.b()) this.guiLeft = 160 + (this.width - this.xSize - 200) / 2;
+		else this.guiLeft = (this.width - this.xSize) / 2;
+	}
 
-            if (collection.size() > 5)
-            {
-                l = 132 / (collection.size() - 1);
-            }
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+	 */
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		if (this.hasActivePotionEffects) this.drawActivePotionEffects();
 
-            for (PotionEffect potioneffect : this.mc.thePlayer.getActivePotionEffects())
-            {
-                Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                this.mc.getTextureManager().bindTexture(inventoryBackground);
-                this.drawTexturedModalRect(i, j, 0, 166, 140, 32);
+	}
 
-                if (potion.hasStatusIcon())
-                {
-                    int i1 = potion.getStatusIconIndex();
-                    this.drawTexturedModalRect(i + 6, j + 7, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
-                }
+	/**
+	 * Display the potion effects list
+	 */
+	private void drawActivePotionEffects() {
+		Collection<PotionEffect> collection = this.mc.thePlayer.getActivePotionEffects();
 
-                String s1 = Lang.format(potion.getName(), new Object[0]);
+		if (collection.isEmpty()) return;
+//		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+//		GlStateManager.disableLighting();
 
-                if (potioneffect.getAmplifier() == 1)
-                {
-                    s1 = s1 + " " + Lang.format("enchantment.level.2", new Object[0]);
-                }
-                else if (potioneffect.getAmplifier() == 2)
-                {
-                    s1 = s1 + " " + Lang.format("enchantment.level.3", new Object[0]);
-                }
-                else if (potioneffect.getAmplifier() == 3)
-                {
-                    s1 = s1 + " " + Lang.format("enchantment.level.4", new Object[0]);
-                }
+		if (Settings.FINE_EFFECTS.b()) {
+			drawPEnew(collection);
+			return;
+		}
 
-                this.fontRendererObj.drawStringWithShadow(s1, (float)(i + 10 + 18), (float)(j + 6), 16777215);
-                String s = Potion.getDurationString(potioneffect);
-                this.fontRendererObj.drawStringWithShadow(s, (float)(i + 10 + 18), (float)(j + 6 + 10), 8355711);
-                j += l;
-            }
-        }
-    }
+		int i = this.guiLeft - 124;
+		int j = this.guiTop;
+		int k = 166;
+		int l = 33;
+
+		if (collection.size() > 5) {
+			l = 132 / (collection.size() - 1);
+		}
+
+		for (PotionEffect potioneffect : this.mc.thePlayer.getActivePotionEffects()) {
+			Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.mc.getTextureManager().bindTexture(inventoryBackground);
+			this.drawTexturedModalRect(i, j, 0, 166, 140, 32);
+
+			if (potion.hasStatusIcon()) {
+				int i1 = potion.getStatusIconIndex();
+				this.drawTexturedModalRect(i + 6, j + 7, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+			}
+
+			String amplifier = "";
+			if (potioneffect.getAmplifier() > 0) amplifier = ' ' + Textifier.romanianNotation(potioneffect.getAmplifier() + 1);
+			String s1 = Lang.format(potion.getName()) + amplifier;
+
+			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
+			String s = Potion.getDurationString(potioneffect);
+			this.fontRendererObj.drawStringWithShadow(s, (float) (i + 10 + 18), (float) (j + 6 + 10), 8355711);
+			j += l;
+		}
+	}
+
+	private void drawPEnew(Collection<PotionEffect> effects) {
+
+		RenderHelper.enableGUIStandardItemLighting();
+		int y = 5;
+
+		for (PotionEffect e : effects) {
+			Potion potion = Potion.potionTypes[e.getPotionID()];
+			GlStateManager.disableBlend();
+			GlStateManager.enableAlpha();
+			drawRect(0, y, 80, y + 22, 0xd0202020);
+			drawRect(80, y, 82, y + 22, 0xd0f9c404);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.mc.getTextureManager().bindTexture(inventoryBackground);
+
+			if (potion.hasStatusIcon()) {
+				int i1 = potion.getStatusIconIndex();
+				this.drawTexturedModalRect(4, y + 2, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+			}
+
+			String amplifier = "";
+			if (e.getAmplifier() > 0) amplifier = ' ' + Textifier.romanianNotation(e.getAmplifier() + 1);
+			String s1 = Lang.format(potion.getName()) + amplifier;
+
+			GlStateManager.scale(2, 2, 2);
+//			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
+			String s = Potion.getDurationString(e);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.fontRendererObj.drawStringWithShadow(s, 16, (float) y / 2f + 1f, -1);
+			GlStateManager.scale(0.5, 0.5, 0.5);
+			y += 27;
+		}
+
+		RenderHelper.disableStandardItemLighting();
+
+	}
+
 }

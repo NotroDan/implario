@@ -28,7 +28,7 @@ public class BlockNewLeaf extends BlockLeaves
 
     public BlockNewLeaf()
     {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockPlanks.EnumType.ACACIA).withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockPlanks.EnumType.ACACIA).withProperty(CHECK_DECAY, Boolean.TRUE).withProperty(DECAYABLE, Boolean.TRUE));
     }
 
     protected void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance)
@@ -73,7 +73,7 @@ public class BlockNewLeaf extends BlockLeaves
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(VARIANT, this.getWoodType(meta)).withProperty(DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
+        return this.getDefaultState().withProperty(VARIANT, this.getWoodType(meta)).withProperty(DECAYABLE, (meta & 4) == 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
     }
 
     /**

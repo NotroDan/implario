@@ -210,10 +210,10 @@ public abstract class EntityLivingBase extends Entity
 
     protected void entityInit()
     {
-        this.dataWatcher.addObject(7, Integer.valueOf(0));
-        this.dataWatcher.addObject(8, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(9, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(6, Float.valueOf(1.0F));
+        this.dataWatcher.addObject(7, 0);
+        this.dataWatcher.addObject(8, (byte) 0);
+        this.dataWatcher.addObject(9, (byte) 0);
+        this.dataWatcher.addObject(6, 1.0F);
     }
 
     protected void applyEntityAttributes()
@@ -574,7 +574,7 @@ public abstract class EntityLivingBase extends Entity
 
                 if (potioneffect != null)
                 {
-                    this.activePotionsMap.put(Integer.valueOf(potioneffect.getPotionID()), potioneffect);
+                    this.activePotionsMap.put(potioneffect.getPotionID(), potioneffect);
                 }
             }
         }
@@ -684,8 +684,8 @@ public abstract class EntityLivingBase extends Entity
         else
         {
             int i = PotionHelper.calcPotionLiquidColor(this.activePotionsMap.values());
-            this.dataWatcher.updateObject(8, Byte.valueOf((byte)(PotionHelper.getAreAmbient(this.activePotionsMap.values()) ? 1 : 0)));
-            this.dataWatcher.updateObject(7, Integer.valueOf(i));
+            this.dataWatcher.updateObject(8, (byte) (PotionHelper.getAreAmbient(this.activePotionsMap.values()) ? 1 : 0));
+            this.dataWatcher.updateObject(7, i);
             this.setInvisible(this.isPotionActive(Potion.invisibility.id));
         }
     }
@@ -695,8 +695,8 @@ public abstract class EntityLivingBase extends Entity
      */
     protected void resetPotionEffectMetadata()
     {
-        this.dataWatcher.updateObject(8, Byte.valueOf((byte)0));
-        this.dataWatcher.updateObject(7, Integer.valueOf(0));
+        this.dataWatcher.updateObject(8, (byte) 0);
+        this.dataWatcher.updateObject(7, 0);
     }
 
     public void clearActivePotions()
@@ -723,12 +723,12 @@ public abstract class EntityLivingBase extends Entity
 
     public boolean isPotionActive(int potionId)
     {
-        return this.activePotionsMap.containsKey(Integer.valueOf(potionId));
+        return this.activePotionsMap.containsKey(potionId);
     }
 
     public boolean isPotionActive(Potion potionIn)
     {
-        return this.activePotionsMap.containsKey(Integer.valueOf(potionIn.id));
+        return this.activePotionsMap.containsKey(potionIn.id);
     }
 
     /**
@@ -736,7 +736,7 @@ public abstract class EntityLivingBase extends Entity
      */
     public PotionEffect getActivePotionEffect(Potion potionIn)
     {
-        return (PotionEffect)this.activePotionsMap.get(Integer.valueOf(potionIn.id));
+        return (PotionEffect)this.activePotionsMap.get(potionIn.id);
     }
 
     /**
@@ -746,14 +746,14 @@ public abstract class EntityLivingBase extends Entity
     {
         if (this.isPotionApplicable(potioneffectIn))
         {
-            if (this.activePotionsMap.containsKey(Integer.valueOf(potioneffectIn.getPotionID())))
+            if (this.activePotionsMap.containsKey(potioneffectIn.getPotionID()))
             {
-                ((PotionEffect)this.activePotionsMap.get(Integer.valueOf(potioneffectIn.getPotionID()))).combine(potioneffectIn);
-                this.onChangedPotionEffect((PotionEffect)this.activePotionsMap.get(Integer.valueOf(potioneffectIn.getPotionID())), true);
+                ((PotionEffect)this.activePotionsMap.get(potioneffectIn.getPotionID())).combine(potioneffectIn);
+                this.onChangedPotionEffect((PotionEffect)this.activePotionsMap.get(potioneffectIn.getPotionID()), true);
             }
             else
             {
-                this.activePotionsMap.put(Integer.valueOf(potioneffectIn.getPotionID()), potioneffectIn);
+                this.activePotionsMap.put(potioneffectIn.getPotionID(), potioneffectIn);
                 this.onNewPotionEffect(potioneffectIn);
             }
         }
@@ -787,7 +787,7 @@ public abstract class EntityLivingBase extends Entity
      */
     public void removePotionEffectClient(int potionId)
     {
-        this.activePotionsMap.remove(Integer.valueOf(potionId));
+        this.activePotionsMap.remove(potionId);
     }
 
     /**
@@ -795,7 +795,7 @@ public abstract class EntityLivingBase extends Entity
      */
     public void removePotionEffect(int potionId)
     {
-        PotionEffect potioneffect = (PotionEffect)this.activePotionsMap.remove(Integer.valueOf(potionId));
+        PotionEffect potioneffect = (PotionEffect)this.activePotionsMap.remove(potionId);
 
         if (potioneffect != null)
         {
@@ -854,7 +854,7 @@ public abstract class EntityLivingBase extends Entity
 
     public void setHealth(float health)
     {
-        this.dataWatcher.updateObject(6, Float.valueOf(MathHelper.clamp_float(health, 0.0F, this.getMaxHealth())));
+        this.dataWatcher.updateObject(6, MathHelper.clamp_float(health, 0.0F, this.getMaxHealth()));
     }
 
     /**
@@ -1301,7 +1301,7 @@ public abstract class EntityLivingBase extends Entity
      */
     public final void setArrowCountInEntity(int count)
     {
-        this.dataWatcher.updateObject(9, Byte.valueOf((byte)count));
+        this.dataWatcher.updateObject(9, (byte) count);
     }
 
     /**

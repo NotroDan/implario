@@ -616,7 +616,7 @@ public class PlayerSelector
         {
             if (s.startsWith("score_") && s.length() > "score_".length())
             {
-                map.put(s.substring("score_".length()), Integer.valueOf(MathHelper.parseIntWithDefault((String)p_96560_0_.get(s), 1)));
+                map.put(s.substring("score_".length()), MathHelper.parseIntWithDefault((String) p_96560_0_.get(s), 1));
             }
         }
 

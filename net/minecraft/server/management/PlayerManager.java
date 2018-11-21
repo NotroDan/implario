@@ -369,7 +369,7 @@ public class PlayerManager
         {
             if (this.playersWatchingChunk.contains(player))
             {
-                PlayerManager.pmLogger.debug("Failed to add player. {} already is in chunk {}, {}", new Object[] {player, Integer.valueOf(this.chunkCoords.chunkXPos), Integer.valueOf(this.chunkCoords.chunkZPos)});
+                PlayerManager.pmLogger.debug("Failed to add player. {} already is in chunk {}, {}", new Object[] {player, this.chunkCoords.chunkXPos, this.chunkCoords.chunkZPos});
             }
             else
             {

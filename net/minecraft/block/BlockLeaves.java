@@ -70,7 +70,7 @@ public abstract class BlockLeaves extends BlockLeavesBase
 
                         if (iblockstate.getBlock().getMaterial() == Material.leaves && !((Boolean)iblockstate.getValue(CHECK_DECAY)).booleanValue())
                         {
-                            worldIn.setBlockState(blockpos, iblockstate.withProperty(CHECK_DECAY, Boolean.valueOf(true)), 4);
+                            worldIn.setBlockState(blockpos, iblockstate.withProperty(CHECK_DECAY, Boolean.TRUE), 4);
                         }
                     }
                 }
@@ -179,7 +179,7 @@ public abstract class BlockLeaves extends BlockLeavesBase
 
                 if (l2 >= 0)
                 {
-                    worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, Boolean.valueOf(false)), 4);
+                    worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, Boolean.FALSE), 4);
                 }
                 else
                 {

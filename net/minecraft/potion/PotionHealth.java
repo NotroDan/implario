@@ -20,8 +20,8 @@ public class PotionHealth extends Potion
     /**
      * checks if Potion effect is ready to be applied this tick.
      */
-    public boolean isReady(int p_76397_1_, int p_76397_2_)
+    public boolean isReady(int a, int b)
     {
-        return p_76397_1_ >= 1;
+        return a >= 1;
     }
 }

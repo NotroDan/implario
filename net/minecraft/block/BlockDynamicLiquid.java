@@ -100,7 +100,7 @@ public class BlockDynamicLiquid extends BlockLiquid
                 }
                 else
                 {
-                    state = state.withProperty(LEVEL, Integer.valueOf(i1));
+                    state = state.withProperty(LEVEL, i1);
                     worldIn.setBlockState(pos, state, 2);
                     worldIn.scheduleUpdate(pos, this, k);
                     worldIn.notifyNeighborsOfStateChange(pos, this);
@@ -170,7 +170,7 @@ public class BlockDynamicLiquid extends BlockLiquid
                 }
             }
 
-            worldIn.setBlockState(pos, this.getDefaultState().withProperty(LEVEL, Integer.valueOf(level)), 3);
+            worldIn.setBlockState(pos, this.getDefaultState().withProperty(LEVEL, level), 3);
         }
     }
 

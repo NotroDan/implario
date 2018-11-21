@@ -602,7 +602,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
         }
         else
         {
-            ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("build.tooHigh", new Object[] {Integer.valueOf(this.serverController.getBuildLimit())});
+            ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("build.tooHigh", new Object[] {this.serverController.getBuildLimit()});
             chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
             this.playerEntity.playerNetServerHandler.sendPacket(new S02PacketChat(chatcomponenttranslation));
             flag = true;
@@ -1033,7 +1033,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
                 }
                 else
                 {
-                    this.field_147372_n.addKey(this.playerEntity.openContainer.windowId, Short.valueOf(packetIn.getActionNumber()));
+                    this.field_147372_n.addKey(this.playerEntity.openContainer.windowId, packetIn.getActionNumber());
                     this.playerEntity.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(packetIn.getWindowId(), packetIn.getActionNumber(), false));
                     this.playerEntity.openContainer.setCanCraft(this.playerEntity, false);
                     List<ItemStack> list1 = Lists.newArrayList();

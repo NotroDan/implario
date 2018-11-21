@@ -73,7 +73,7 @@ public class JsonToNBT
                         ++i;
                     }
 
-                    stack.push(Character.valueOf(c0));
+                    stack.push(c0);
                 }
             }
         }
@@ -257,7 +257,7 @@ public class JsonToNBT
                 }
                 else
                 {
-                    stack.push(Character.valueOf(c0));
+                    stack.push(c0);
                 }
             }
 

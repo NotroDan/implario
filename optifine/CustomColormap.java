@@ -508,7 +508,7 @@ public class CustomColormap implements CustomColors.IColorizer
 
 			if (matchblock.getBlockId() >= 0)
 			{
-				set.add(Integer.valueOf(matchblock.getBlockId()));
+				set.add(matchblock.getBlockId());
 			}
 		}
 

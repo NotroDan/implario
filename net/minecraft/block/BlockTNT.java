@@ -25,7 +25,7 @@ public class BlockTNT extends Block
     public BlockTNT()
     {
         super(Material.tnt);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(EXPLODE, Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(EXPLODE, Boolean.FALSE));
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }
 
@@ -35,7 +35,7 @@ public class BlockTNT extends Block
 
         if (worldIn.isBlockPowered(pos))
         {
-            this.onBlockDestroyedByPlayer(worldIn, pos, state.withProperty(EXPLODE, Boolean.valueOf(true)));
+            this.onBlockDestroyedByPlayer(worldIn, pos, state.withProperty(EXPLODE, Boolean.TRUE));
             worldIn.setBlockToAir(pos);
         }
     }
@@ -47,7 +47,7 @@ public class BlockTNT extends Block
     {
         if (worldIn.isBlockPowered(pos))
         {
-            this.onBlockDestroyedByPlayer(worldIn, pos, state.withProperty(EXPLODE, Boolean.valueOf(true)));
+            this.onBlockDestroyedByPlayer(worldIn, pos, state.withProperty(EXPLODE, Boolean.TRUE));
             worldIn.setBlockToAir(pos);
         }
     }
@@ -94,7 +94,7 @@ public class BlockTNT extends Block
 
             if (item == Items.flint_and_steel || item == Items.fire_charge)
             {
-                this.explode(worldIn, pos, state.withProperty(EXPLODE, Boolean.valueOf(true)), playerIn);
+                this.explode(worldIn, pos, state.withProperty(EXPLODE, Boolean.TRUE), playerIn);
                 worldIn.setBlockToAir(pos);
 
                 if (item == Items.flint_and_steel)
@@ -124,7 +124,8 @@ public class BlockTNT extends Block
 
             if (entityarrow.isBurning())
             {
-                this.explode(worldIn, pos, worldIn.getBlockState(pos).withProperty(EXPLODE, Boolean.valueOf(true)), entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
+                this.explode(worldIn, pos, worldIn.getBlockState(pos).withProperty(EXPLODE,
+						Boolean.TRUE), entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
                 worldIn.setBlockToAir(pos);
             }
         }
@@ -143,7 +144,7 @@ public class BlockTNT extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(EXPLODE, Boolean.valueOf((meta & 1) > 0));
+        return this.getDefaultState().withProperty(EXPLODE, (meta & 1) > 0);
     }
 
     /**

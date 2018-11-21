@@ -58,7 +58,7 @@ public class VertexFormat
             return this;
         }
 		this.elements.add(p_181721_1_);
-		this.offsets.add(Integer.valueOf(this.nextOffset));
+		this.offsets.add(this.nextOffset);
 
 		switch (p_181721_1_.getUsage())
 		{
@@ -71,7 +71,7 @@ public class VertexFormat
 				break;
 
 			case UV:
-				this.uvOffsetsById.add(p_181721_1_.getIndex(), Integer.valueOf(this.nextOffset));
+				this.uvOffsetsById.add(p_181721_1_.getIndex(), this.nextOffset);
 		}
 
 		this.nextOffset += p_181721_1_.getSize();

@@ -24,7 +24,7 @@ public class BlockLever extends Block
     protected BlockLever()
     {
         super(Material.circuits);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, BlockLever.EnumOrientation.NORTH).withProperty(POWERED, Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, BlockLever.EnumOrientation.NORTH).withProperty(POWERED, Boolean.FALSE));
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }
 
@@ -78,7 +78,7 @@ public class BlockLever extends Block
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        IBlockState iblockstate = this.getDefaultState().withProperty(POWERED, Boolean.valueOf(false));
+        IBlockState iblockstate = this.getDefaultState().withProperty(POWERED, Boolean.FALSE);
 
         if (func_181090_a(worldIn, pos, facing.getOpposite()))
         {
@@ -234,7 +234,7 @@ public class BlockLever extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(FACING, BlockLever.EnumOrientation.byMetadata(meta & 7)).withProperty(POWERED, Boolean.valueOf((meta & 8) > 0));
+        return this.getDefaultState().withProperty(FACING, BlockLever.EnumOrientation.byMetadata(meta & 7)).withProperty(POWERED, (meta & 8) > 0);
     }
 
     /**

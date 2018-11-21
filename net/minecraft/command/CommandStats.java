@@ -132,7 +132,7 @@ public class CommandStats extends CommandBase
 
 			if (tileentity == null)
 			{
-				throw new CommandException("commands.stats.noCompatibleBlock", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
+				throw new CommandException("commands.stats.noCompatibleBlock", new Object[] {blockpos.getX(), blockpos.getY(), blockpos.getZ()});
 			}
 
 			if (tileentity instanceof TileEntityCommandBlock)
@@ -143,7 +143,7 @@ public class CommandStats extends CommandBase
 			{
 				if (!(tileentity instanceof TileEntitySign))
 				{
-					throw new CommandException("commands.stats.noCompatibleBlock", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
+					throw new CommandException("commands.stats.noCompatibleBlock", new Object[] {blockpos.getX(), blockpos.getY(), blockpos.getZ()});
 				}
 
 				commandresultstats = ((TileEntitySign)tileentity).getStats();

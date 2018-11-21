@@ -115,7 +115,7 @@ public class ContainerRepair extends Container
                     }
                     else
                     {
-                        worldIn.setBlockState(blockPosIn, iblockstate.withProperty(BlockAnvil.DAMAGE, Integer.valueOf(l)), 2);
+                        worldIn.setBlockState(blockPosIn, iblockstate.withProperty(BlockAnvil.DAMAGE, l), 2);
                         worldIn.playAuxSFX(1021, blockPosIn, 0);
                     }
                 }
@@ -251,8 +251,8 @@ public class ContainerRepair extends Container
 
                         if (enchantment != null)
                         {
-                            int k5 = map.containsKey(Integer.valueOf(i5)) ? ((Integer)map.get(Integer.valueOf(i5))).intValue() : 0;
-                            int l3 = ((Integer)map1.get(Integer.valueOf(i5))).intValue();
+                            int k5 = map.containsKey(i5) ? ((Integer)map.get(i5)).intValue() : 0;
+                            int l3 = ((Integer)map1.get(i5)).intValue();
                             int i6;
 
                             if (k5 == l3)
@@ -293,7 +293,7 @@ public class ContainerRepair extends Container
                                     l3 = enchantment.getMaxLevel();
                                 }
 
-                                map.put(Integer.valueOf(i5), Integer.valueOf(l3));
+                                map.put(i5, l3);
                                 int l5 = 0;
 
                                 switch (enchantment.getWeight())

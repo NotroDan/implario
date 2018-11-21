@@ -33,7 +33,7 @@ public class BlockStem extends BlockBush implements IGrowable
 
     protected BlockStem(Block crop)
     {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)).withProperty(FACING, EnumFacing.UP));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0).withProperty(FACING, EnumFacing.UP));
         this.crop = crop;
         this.setTickRandomly(true);
         float f = 0.125F;
@@ -83,7 +83,7 @@ public class BlockStem extends BlockBush implements IGrowable
 
                 if (i < 7)
                 {
-                    state = state.withProperty(AGE, Integer.valueOf(i + 1));
+                    state = state.withProperty(AGE, i + 1);
                     worldIn.setBlockState(pos, state, 2);
                 }
                 else
@@ -111,7 +111,7 @@ public class BlockStem extends BlockBush implements IGrowable
     public void growStem(World worldIn, BlockPos pos, IBlockState state)
     {
         int i = ((Integer)state.getValue(AGE)).intValue() + MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
-        worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(Math.min(7, i))), 2);
+        worldIn.setBlockState(pos, state.withProperty(AGE, Math.min(7, i)), 2);
     }
 
     public int getRenderColor(IBlockState state)
@@ -216,7 +216,7 @@ public class BlockStem extends BlockBush implements IGrowable
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(AGE, meta);
     }
 
     /**

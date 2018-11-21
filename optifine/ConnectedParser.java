@@ -284,7 +284,7 @@ public class ConnectedParser
 
 				if (this.matchState(iblockstate1, map))
 				{
-					list1.add(Integer.valueOf(l));
+					list1.add(l);
 				}
 			}
 			catch (IllegalArgumentException var18)
@@ -498,7 +498,7 @@ public class ConnectedParser
 					{
 						for (int i1 = k; i1 <= l; ++i1)
 						{
-							list.add(Integer.valueOf(i1));
+							list.add(i1);
 						}
 					}
 					else
@@ -517,7 +517,7 @@ public class ConnectedParser
 				}
 				else
 				{
-					list.add(Integer.valueOf(j));
+					list.add(j);
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 package net.minecraft.item;
 
-import java.util.List;
 import net.minecraft.block.BlockStandingSign;
 import net.minecraft.block.BlockWallSign;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,6 +14,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemBanner extends ItemBlock
 {
@@ -57,7 +58,7 @@ public class ItemBanner extends ItemBlock
 		if (side == EnumFacing.UP)
 		{
 			int i = MathHelper.floor_double((double)((playerIn.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-			worldIn.setBlockState(pos, Blocks.standing_banner.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 3);
+			worldIn.setBlockState(pos, Blocks.standing_banner.getDefaultState().withProperty(BlockStandingSign.ROTATION, i), 3);
 		}
 		else
 		{

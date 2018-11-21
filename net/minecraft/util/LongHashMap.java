@@ -283,8 +283,8 @@ public class LongHashMap
                 return false;
             }
 			LongHashMap.Entry longhashmap$entry = (LongHashMap.Entry)p_equals_1_;
-			Long olong = Long.valueOf(this.getKey());
-			Long olong1 = Long.valueOf(longhashmap$entry.getKey());
+			Long olong = this.getKey();
+			Long olong1 = longhashmap$entry.getKey();
 
 			if (olong == olong1 || olong != null && olong.equals(olong1))
 			{

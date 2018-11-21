@@ -34,7 +34,8 @@ public class BlockDoor extends Block
     protected BlockDoor(Material materialIn)
     {
         super(materialIn);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(OPEN, Boolean.valueOf(false)).withProperty(HINGE, BlockDoor.EnumHingePosition.LEFT).withProperty(POWERED, Boolean.valueOf(false)).withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(OPEN, Boolean.FALSE).withProperty(HINGE, BlockDoor.EnumHingePosition.LEFT).withProperty(POWERED,
+				Boolean.FALSE).withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER));
     }
 
     /**
@@ -184,7 +185,7 @@ public class BlockDoor extends Block
 
             if (iblockstate1.getBlock() == this && ((Boolean)iblockstate1.getValue(OPEN)).booleanValue() != open)
             {
-                worldIn.setBlockState(blockpos, iblockstate1.withProperty(OPEN, Boolean.valueOf(open)), 2);
+                worldIn.setBlockState(blockpos, iblockstate1.withProperty(OPEN, open), 2);
                 worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
                 worldIn.playAuxSFXAtEntity((EntityPlayer)null, open ? 1003 : 1006, pos, 0);
             }
@@ -246,11 +247,11 @@ public class BlockDoor extends Block
 
                 if ((flag || neighborBlock.canProvidePower()) && neighborBlock != this && flag != ((Boolean)iblockstate1.getValue(POWERED)).booleanValue())
                 {
-                    worldIn.setBlockState(blockpos1, iblockstate1.withProperty(POWERED, Boolean.valueOf(flag)), 2);
+                    worldIn.setBlockState(blockpos1, iblockstate1.withProperty(POWERED, flag), 2);
 
                     if (flag != ((Boolean)state.getValue(OPEN)).booleanValue())
                     {
-                        worldIn.setBlockState(pos, state.withProperty(OPEN, Boolean.valueOf(flag)), 2);
+                        worldIn.setBlockState(pos, state.withProperty(OPEN, flag), 2);
                         worldIn.markBlockRangeForRenderUpdate(pos, pos);
                         worldIn.playAuxSFXAtEntity((EntityPlayer)null, flag ? 1003 : 1006, pos, 0);
                     }
@@ -360,7 +361,9 @@ public class BlockDoor extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return (meta & 8) > 0 ? this.getDefaultState().withProperty(HALF, BlockDoor.EnumDoorHalf.UPPER).withProperty(HINGE, (meta & 1) > 0 ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT).withProperty(POWERED, Boolean.valueOf((meta & 2) > 0)) : this.getDefaultState().withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER).withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW()).withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
+        return (meta & 8) > 0 ? this.getDefaultState().withProperty(HALF, BlockDoor.EnumDoorHalf.UPPER).withProperty(HINGE, (meta & 1) > 0 ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT).withProperty(POWERED,
+				(meta & 2) > 0) : this.getDefaultState().withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER).withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW()).withProperty(OPEN,
+				(meta & 4) > 0);
     }
 
     /**

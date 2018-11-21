@@ -160,7 +160,10 @@ public enum Settings {
 	HIDE_SERVER_ADDRESS("Скрыть IP серверов", false),
 	RENDER_FIRE("Огонь", 0, "Стандартный", "Иконка", "Отключён"),
 	SUDOKU_SEPARATORS("Разделители", false),
-	FAST_PLACE("Быстрый ПКМ", false);
+	FAST_PLACE("Быстрый ПКМ", false),
+	FINE_EFFECTS("Новые эффекты", true),
+	MODERN_INVENTORIES("Улучшенные инвентари", true),
+	SLOT_GRID("Сетка слотов", 0, "С боксом", "§cВыкл", "Без бокса");
 
 	private static final Settings[] SOUNDS;
 	private static final Settings[] MODELPARTS;

@@ -286,33 +286,30 @@ public class RenderManager {
 		try {
 			render = this.getEntityRenderObject(entity);
 
-			if (render != null && this.renderEngine != null) {
+			if (render == null || this.renderEngine == null) return this.renderEngine == null;
+			try {
+				if (render instanceof RendererLivingEntity) ((RendererLivingEntity) render).setRenderOutlines(this.renderOutlines);
+
+				render.doRender(entity, x, y, z, entityYaw, partialTicks);
+			} catch (Throwable throwable2) {
+				throw new ReportedException(CrashReport.makeCrashReport(throwable2, "Rendering entity in world"));
+			}
+
+			try {
+				if (!this.renderOutlines) {
+					render.doRenderShadowAndFire(entity, x, y, z, entityYaw, partialTicks);
+				}
+			} catch (Throwable throwable1) {
+				throw new ReportedException(CrashReport.makeCrashReport(throwable1, "Post-rendering entity in world"));
+			}
+
+			if (this.debugBoundingBox && !entity.isInvisible() && !p_147939_10_) {
 				try {
-					if (render instanceof RendererLivingEntity) {
-						((RendererLivingEntity) render).setRenderOutlines(this.renderOutlines);
-					}
-
-					render.doRender(entity, x, y, z, entityYaw, partialTicks);
-				} catch (Throwable throwable2) {
-					throw new ReportedException(CrashReport.makeCrashReport(throwable2, "Rendering entity in world"));
+					this.renderDebugBoundingBox(entity, x, y, z, entityYaw, partialTicks);
+				} catch (Throwable throwable) {
+					throw new ReportedException(CrashReport.makeCrashReport(throwable, "Rendering entity hitbox in world"));
 				}
-
-				try {
-					if (!this.renderOutlines) {
-						render.doRenderShadowAndFire(entity, x, y, z, entityYaw, partialTicks);
-					}
-				} catch (Throwable throwable1) {
-					throw new ReportedException(CrashReport.makeCrashReport(throwable1, "Post-rendering entity in world"));
-				}
-
-				if (this.debugBoundingBox && !entity.isInvisible() && !p_147939_10_) {
-					try {
-						this.renderDebugBoundingBox(entity, x, y, z, entityYaw, partialTicks);
-					} catch (Throwable throwable) {
-						throw new ReportedException(CrashReport.makeCrashReport(throwable, "Rendering entity hitbox in world"));
-					}
-				}
-			} else return this.renderEngine == null;
+			}
 
 			return true;
 		} catch (Throwable throwable3) {

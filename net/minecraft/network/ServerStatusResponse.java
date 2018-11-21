@@ -94,7 +94,7 @@ public class ServerStatusResponse
             {
                 JsonObject jsonobject = new JsonObject();
                 jsonobject.addProperty("name", p_serialize_1_.getName());
-                jsonobject.addProperty("protocol", (Number)Integer.valueOf(p_serialize_1_.getProtocol()));
+                jsonobject.addProperty("protocol", (Number) p_serialize_1_.getProtocol());
                 return jsonobject;
             }
         }
@@ -164,8 +164,8 @@ public class ServerStatusResponse
             public JsonElement serialize(ServerStatusResponse.PlayerCountData p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_)
             {
                 JsonObject jsonobject = new JsonObject();
-                jsonobject.addProperty("max", (Number)Integer.valueOf(p_serialize_1_.getMaxPlayers()));
-                jsonobject.addProperty("online", (Number)Integer.valueOf(p_serialize_1_.getOnlinePlayerCount()));
+                jsonobject.addProperty("max", (Number) p_serialize_1_.getMaxPlayers());
+                jsonobject.addProperty("online", (Number) p_serialize_1_.getOnlinePlayerCount());
 
                 if (p_serialize_1_.getPlayers() != null && p_serialize_1_.getPlayers().length > 0)
                 {

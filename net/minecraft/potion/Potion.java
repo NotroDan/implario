@@ -1,10 +1,6 @@
 package net.minecraft.potion;
 
 import com.google.common.collect.Maps;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.Map.Entry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,6 +12,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.UUID;
 
 public class Potion
 {
@@ -227,22 +228,22 @@ public class Potion
     /**
      * checks if Potion effect is ready to be applied this tick.
      */
-    public boolean isReady(int p_76397_1_, int p_76397_2_)
+    public boolean isReady(int a, int b)
     {
         if (this.id == regeneration.id)
         {
-            int k = 50 >> p_76397_2_;
-            return k > 0 ? p_76397_1_ % k == 0 : true;
+            int k = 50 >> b;
+            return k <= 0 || a % k == 0;
         }
 		if (this.id == poison.id)
 		{
-			int j = 25 >> p_76397_2_;
-			return j > 0 ? p_76397_1_ % j == 0 : true;
+			int j = 25 >> b;
+			return j <= 0 || a % j == 0;
 		}
 		if (this.id == wither.id)
 		{
-			int i = 40 >> p_76397_2_;
-			return i > 0 ? p_76397_1_ % i == 0 : true;
+			int i = 40 >> b;
+			return i <= 0 || a % i == 0;
 		}
 		return this.id == hunger.id;
 	}
@@ -290,10 +291,7 @@ public class Potion
 
     public static String getDurationString(PotionEffect effect)
     {
-        if (effect.getIsPotionDurationMax())
-        {
-            return "**:**";
-        }
+        if (effect.getIsPotionDurationMax()) return "**:**";
 		int i = effect.getDuration();
 		return StringUtils.ticksToElapsedTime(i);
 	}

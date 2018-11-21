@@ -76,7 +76,7 @@ public class ThreadDownloadImageData extends SimpleTexture
             this.imageBuffer.skinAvailable();
         }
 
-        this.imageFound = Boolean.valueOf(this.bufferedImage != null);
+        this.imageFound = this.bufferedImage != null;
     }
 
     public void loadTexture(IResourceManager resourceManager) throws IOException
@@ -101,7 +101,7 @@ public class ThreadDownloadImageData extends SimpleTexture
                         this.setBufferedImage(this.imageBuffer.parseUserSkin(this.bufferedImage));
                     }
 
-                    this.imageFound = Boolean.valueOf(this.bufferedImage != null);
+                    this.imageFound = this.bufferedImage != null;
                 }
                 catch (IOException ioexception)
                 {
@@ -180,7 +180,7 @@ public class ThreadDownloadImageData extends SimpleTexture
                             httpurlconnection.disconnect();
                         }
 
-                        ThreadDownloadImageData.this.imageFound = Boolean.valueOf(ThreadDownloadImageData.this.bufferedImage != null);
+                        ThreadDownloadImageData.this.imageFound = ThreadDownloadImageData.this.bufferedImage != null;
                     }
                 }
             }
@@ -239,7 +239,7 @@ public class ThreadDownloadImageData extends SimpleTexture
         }
         finally
         {
-            this.imageFound = Boolean.valueOf(this.bufferedImage != null);
+            this.imageFound = this.bufferedImage != null;
         }
     }
 }

@@ -15,7 +15,7 @@ public class IntegerCache
 
         for (int j = field_181757_a.length; i < j; ++i)
         {
-            field_181757_a[i] = Integer.valueOf(i);
+            field_181757_a[i] = i;
         }
     }
 }

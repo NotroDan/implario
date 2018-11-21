@@ -30,7 +30,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
 
         for (int i = 0; i < 3; ++i)
         {
-            this.mapByOperation.put(Integer.valueOf(i), Sets.newHashSet());
+            this.mapByOperation.put(i, Sets.newHashSet());
         }
     }
 
@@ -58,7 +58,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
 
     public Collection<AttributeModifier> getModifiersByOperation(int operation)
     {
-        return (Collection)this.mapByOperation.get(Integer.valueOf(operation));
+        return (Collection)this.mapByOperation.get(operation);
     }
 
     public Collection<AttributeModifier> func_111122_c()
@@ -100,7 +100,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
 			this.mapByName.put(modifier.getName(), set);
 		}
 
-		((Set)this.mapByOperation.get(Integer.valueOf(modifier.getOperation()))).add(modifier);
+		((Set)this.mapByOperation.get(modifier.getOperation())).add(modifier);
 		set.add(modifier);
 		this.mapByUUID.put(modifier.getID(), modifier);
 		this.flagForUpdate();
@@ -116,7 +116,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
     {
         for (int i = 0; i < 3; ++i)
         {
-            Set<AttributeModifier> set = (Set)this.mapByOperation.get(Integer.valueOf(i));
+            Set<AttributeModifier> set = (Set)this.mapByOperation.get(i);
             set.remove(modifier);
         }
 

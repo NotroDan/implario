@@ -28,7 +28,7 @@ public class BlockBed extends BlockDirectional
     public BlockBed()
     {
         super(Material.cloth);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(PART, BlockBed.EnumPartType.FOOT).withProperty(OCCUPIED, Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(PART, BlockBed.EnumPartType.FOOT).withProperty(OCCUPIED, Boolean.FALSE));
         this.setBedBounds();
     }
 
@@ -61,7 +61,7 @@ public class BlockBed extends BlockDirectional
 					return true;
 				}
 
-				state = state.withProperty(OCCUPIED, Boolean.valueOf(false));
+				state = state.withProperty(OCCUPIED, Boolean.FALSE);
 				worldIn.setBlockState(pos, state, 4);
 			}
 
@@ -69,7 +69,7 @@ public class BlockBed extends BlockDirectional
 
 			if (entityplayer$enumstatus == EntityPlayer.EnumStatus.OK)
 			{
-				state = state.withProperty(OCCUPIED, Boolean.valueOf(true));
+				state = state.withProperty(OCCUPIED, Boolean.TRUE);
 				worldIn.setBlockState(pos, state, 4);
 				return true;
 			}
@@ -254,7 +254,8 @@ public class BlockBed extends BlockDirectional
     public IBlockState getStateFromMeta(int meta)
     {
         EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
-        return (meta & 8) > 0 ? this.getDefaultState().withProperty(PART, BlockBed.EnumPartType.HEAD).withProperty(FACING, enumfacing).withProperty(OCCUPIED, Boolean.valueOf((meta & 4) > 0)) : this.getDefaultState().withProperty(PART, BlockBed.EnumPartType.FOOT).withProperty(FACING, enumfacing);
+        return (meta & 8) > 0 ? this.getDefaultState().withProperty(PART, BlockBed.EnumPartType.HEAD).withProperty(FACING, enumfacing).withProperty(OCCUPIED,
+				(meta & 4) > 0) : this.getDefaultState().withProperty(PART, BlockBed.EnumPartType.FOOT).withProperty(FACING, enumfacing);
     }
 
     /**

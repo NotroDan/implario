@@ -3,9 +3,6 @@ package net.minecraft.entity.player;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
@@ -13,14 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityMultiPart;
-import net.minecraft.entity.IMerchant;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityBoat;
@@ -39,41 +29,23 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryEnderChest;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.potion.Potion;
-import net.minecraft.scoreboard.IScoreObjectiveCriteria;
-import net.minecraft.scoreboard.Score;
-import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.scoreboard.Team;
+import net.minecraft.scoreboard.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.FoodStats;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.IInteractionObject;
-import net.minecraft.world.LockCode;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
+import net.minecraft.util.*;
+import net.minecraft.world.*;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("incomplete-switch")
 public abstract class EntityPlayer extends EntityLivingBase
@@ -196,10 +168,10 @@ public abstract class EntityPlayer extends EntityLivingBase
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(17, Float.valueOf(0.0F));
-        this.dataWatcher.addObject(18, Integer.valueOf(0));
-        this.dataWatcher.addObject(10, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, (byte) 0);
+        this.dataWatcher.addObject(17, 0.0F);
+        this.dataWatcher.addObject(18, 0);
+        this.dataWatcher.addObject(10, (byte) 0);
     }
 
     /**
@@ -695,7 +667,7 @@ public abstract class EntityPlayer extends EntityLivingBase
      */
     public void setScore(int p_85040_1_)
     {
-        this.dataWatcher.updateObject(18, Integer.valueOf(p_85040_1_));
+        this.dataWatcher.updateObject(18, p_85040_1_);
     }
 
     /**
@@ -704,7 +676,7 @@ public abstract class EntityPlayer extends EntityLivingBase
     public void addScore(int p_85039_1_)
     {
         int i = this.getScore();
-        this.dataWatcher.updateObject(18, Integer.valueOf(i + p_85039_1_));
+        this.dataWatcher.updateObject(18, i + p_85039_1_);
     }
 
     /**
@@ -1593,7 +1565,7 @@ public abstract class EntityPlayer extends EntityLivingBase
 
         if (this.playerLocation != null && iblockstate.getBlock() == Blocks.bed)
         {
-            this.worldObj.setBlockState(this.playerLocation, iblockstate.withProperty(BlockBed.OCCUPIED, Boolean.valueOf(false)), 4);
+            this.worldObj.setBlockState(this.playerLocation, iblockstate.withProperty(BlockBed.OCCUPIED, Boolean.FALSE), 4);
             BlockPos blockpos = BlockBed.getSafeExitLocation(this.worldObj, this.playerLocation, 0);
 
             if (blockpos == null)
@@ -1941,7 +1913,7 @@ public abstract class EntityPlayer extends EntityLivingBase
             this.triggerAchievement(AchievementList.killEnemy);
         }
 
-        EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.entityEggs.get(Integer.valueOf(EntityList.getEntityID(entityLivingIn)));
+        EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.entityEggs.get(EntityList.getEntityID(entityLivingIn));
 
         if (entitylist$entityegginfo != null)
         {
@@ -2165,7 +2137,7 @@ public abstract class EntityPlayer extends EntityLivingBase
 
         this.xpSeed = oldPlayer.xpSeed;
         this.theInventoryEnderChest = oldPlayer.theInventoryEnderChest;
-        this.getDataWatcher().updateObject(10, Byte.valueOf(oldPlayer.getDataWatcher().getWatchableObjectByte(10)));
+        this.getDataWatcher().updateObject(10, oldPlayer.getDataWatcher().getWatchableObjectByte(10));
     }
 
     /**
@@ -2314,7 +2286,7 @@ public abstract class EntityPlayer extends EntityLivingBase
             amount = 0.0F;
         }
 
-        this.getDataWatcher().updateObject(17, Float.valueOf(amount));
+        this.getDataWatcher().updateObject(17, amount);
     }
 
     public float getAbsorptionAmount()

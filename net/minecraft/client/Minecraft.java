@@ -276,6 +276,7 @@ public class Minecraft implements IThreadListener {
 		this.fullscreen = gameConfig.displayInfo.fullscreen;
 		this.jvm64bit = isJvm64bit();
 		this.theIntegratedServer = new IntegratedServer(this);
+		Textifier.class.getCanonicalName();
 
 		if (gameConfig.serverInfo.serverName != null) {
 			this.serverName = gameConfig.serverInfo.serverName;
@@ -1081,13 +1082,10 @@ label53:
 	 * Displays the ingame menu
 	 */
 	public void displayInGameMenu() {
-		if (this.currentScreen == null) {
-			this.displayGuiScreen(new GuiIngameMenu());
+		if (this.currentScreen != null) return;
+		this.displayGuiScreen(new GuiIngameMenu());
 
-			if (this.isSingleplayer() && !this.theIntegratedServer.getPublic()) {
-				this.mcSoundHandler.pauseSounds();
-			}
-		}
+		if (this.isSingleplayer() && !this.theIntegratedServer.getPublic()) this.mcSoundHandler.pauseSounds();
 	}
 
 	private void sendClickBlockToController(boolean leftClick) {

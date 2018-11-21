@@ -221,7 +221,7 @@ public class BlockBanner extends BlockContainer
     {
         public BlockBannerStanding()
         {
-            this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
+            this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, 0));
         }
 
         public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
@@ -237,7 +237,7 @@ public class BlockBanner extends BlockContainer
 
         public IBlockState getStateFromMeta(int meta)
         {
-            return this.getDefaultState().withProperty(ROTATION, Integer.valueOf(meta));
+            return this.getDefaultState().withProperty(ROTATION, meta);
         }
 
         public int getMetaFromState(IBlockState state)

@@ -37,7 +37,7 @@ public class BlockLeavesBase extends Block
     {
         if (!mapOriginalOpacity.containsKey(p_setLightOpacity_0_))
         {
-            mapOriginalOpacity.put(p_setLightOpacity_0_, Integer.valueOf(p_setLightOpacity_0_.getLightOpacity()));
+            mapOriginalOpacity.put(p_setLightOpacity_0_, p_setLightOpacity_0_.getLightOpacity());
         }
 
         p_setLightOpacity_0_.setLightOpacity(p_setLightOpacity_1_);

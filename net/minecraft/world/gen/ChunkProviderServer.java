@@ -75,12 +75,12 @@ public class ChunkProviderServer implements IChunkProvider
         {
             if (!this.worldObj.isSpawnChunk(p_73241_1_, p_73241_2_))
             {
-                this.droppedChunksSet.add(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(p_73241_1_, p_73241_2_)));
+                this.droppedChunksSet.add(ChunkCoordIntPair.chunkXZ2Int(p_73241_1_, p_73241_2_));
             }
         }
         else
         {
-            this.droppedChunksSet.add(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(p_73241_1_, p_73241_2_)));
+            this.droppedChunksSet.add(ChunkCoordIntPair.chunkXZ2Int(p_73241_1_, p_73241_2_));
         }
     }
 
@@ -101,7 +101,7 @@ public class ChunkProviderServer implements IChunkProvider
     public Chunk loadChunk(int p_73158_1_, int p_73158_2_)
     {
         long i = ChunkCoordIntPair.chunkXZ2Int(p_73158_1_, p_73158_2_);
-        this.droppedChunksSet.remove(Long.valueOf(i));
+        this.droppedChunksSet.remove(i);
         Chunk chunk = (Chunk)this.id2ChunkMap.getValueByKey(i);
 
         if (chunk == null)
@@ -124,8 +124,8 @@ public class ChunkProviderServer implements IChunkProvider
                     {
                         CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception generating new chunk");
                         CrashReportCategory crashreportcategory = crashreport.makeCategory("Chunk to be generated");
-                        crashreportcategory.addCrashSection("Location", String.format("%d,%d", new Object[] {Integer.valueOf(p_73158_1_), Integer.valueOf(p_73158_2_)}));
-                        crashreportcategory.addCrashSection("Position hash", Long.valueOf(i));
+                        crashreportcategory.addCrashSection("Location", String.format("%d,%d", new Object[] {p_73158_1_, p_73158_2_}));
+                        crashreportcategory.addCrashSection("Position hash", i);
                         crashreportcategory.addCrashSection("Generator", this.serverChunkGenerator.makeString());
                         throw new ReportedException(crashreport);
                     }

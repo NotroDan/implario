@@ -93,7 +93,7 @@ public class EntityList
         {
             throw new IllegalArgumentException("ID is already registered: " + entityName);
         }
-		if (idToClassMapping.containsKey(Integer.valueOf(id)))
+		if (idToClassMapping.containsKey(id))
 		{
 			throw new IllegalArgumentException("ID is already registered: " + id);
 		}
@@ -107,9 +107,9 @@ public class EntityList
 		}
 		stringToClassMapping.put(entityName, entityClass);
 		classToStringMapping.put(entityClass, entityName);
-		idToClassMapping.put(Integer.valueOf(id), entityClass);
-		classToIDMapping.put(entityClass, Integer.valueOf(id));
-		stringToIDMapping.put(entityName, Integer.valueOf(id));
+		idToClassMapping.put(id, entityClass);
+		classToIDMapping.put(entityClass, id);
+		stringToIDMapping.put(entityName, id);
 	}
 
     /**
@@ -118,7 +118,7 @@ public class EntityList
     private static void addMapping(Class <? extends Entity > entityClass, String entityName, int entityID, int baseColor, int spotColor)
     {
         addMapping(entityClass, entityName, entityID);
-        entityEggs.put(Integer.valueOf(entityID), new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
+        entityEggs.put(entityID, new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
     }
 
     /**
@@ -224,7 +224,7 @@ public class EntityList
 
     public static Class <? extends Entity > getClassFromID(int entityID)
     {
-        return (Class)idToClassMapping.get(Integer.valueOf(entityID));
+        return (Class)idToClassMapping.get(entityID);
     }
 
     /**

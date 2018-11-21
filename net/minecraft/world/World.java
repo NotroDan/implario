@@ -511,7 +511,7 @@ public abstract class World implements IBlockAccess
                     {
                         try
                         {
-                            return String.format("ID #%d (%s // %s)", new Object[] {Integer.valueOf(Block.getIdFromBlock(blockIn)), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName()});
+                            return String.format("ID #%d (%s // %s)", new Object[] {Block.getIdFromBlock(blockIn), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName()});
                         }
                         catch (Throwable var2)
                         {
@@ -3517,8 +3517,8 @@ public abstract class World implements IBlockAccess
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Level event being played");
             crashreportcategory.addCrashSection("Block coordinates", CrashReportCategory.getCoordinateInfo(pos));
             crashreportcategory.addCrashSection("Event source", player);
-            crashreportcategory.addCrashSection("Event type", Integer.valueOf(sfxType));
-            crashreportcategory.addCrashSection("Event data", Integer.valueOf(p_180498_4_));
+            crashreportcategory.addCrashSection("Event type", sfxType);
+            crashreportcategory.addCrashSection("Event data", p_180498_4_);
             throw new ReportedException(crashreport);
         }
     }

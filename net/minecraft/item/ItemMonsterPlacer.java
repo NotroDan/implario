@@ -46,7 +46,7 @@ public class ItemMonsterPlacer extends Item
 
     public int getColorFromItemStack(ItemStack stack, int renderPass)
     {
-        EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.entityEggs.get(Integer.valueOf(stack.getMetadata()));
+        EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.entityEggs.get(stack.getMetadata());
         return entitylist$entityegginfo != null ? renderPass == 0 ? entitylist$entityegginfo.primaryColor : entitylist$entityegginfo.secondaryColor : 16777215;
     }
 
@@ -170,7 +170,7 @@ public class ItemMonsterPlacer extends Item
      */
     public static Entity spawnCreature(World worldIn, int entityID, double x, double y, double z)
     {
-        if (!EntityList.entityEggs.containsKey(Integer.valueOf(entityID)))
+        if (!EntityList.entityEggs.containsKey(entityID))
         {
             return null;
         }
