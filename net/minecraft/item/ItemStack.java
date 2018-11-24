@@ -494,6 +494,7 @@ public final class ItemStack {
 
 	public String getAdvancedToolTip() {
 		String description = "§7" + Item.getIdFromItem(this.item);
+		if (itemDamage != 0) description += ":" + itemDamage;
 		description += " - " + Item.itemRegistry.getNameForObject(this.item);
 		return description;
 	}

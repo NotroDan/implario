@@ -19,6 +19,7 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.achievement.GuiAchievement;
+import net.minecraft.client.gui.inventory.GuiContainerItems;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.main.GameConfiguration;
 import net.minecraft.client.multiplayer.GuiConnecting;
@@ -39,7 +40,10 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.*;
 import net.minecraft.client.resources.data.*;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.client.settings.*;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.settings.SelectorSetting;
+import net.minecraft.client.settings.Settings;
+import net.minecraft.client.settings.SliderSetting;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -102,10 +106,12 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
+import static net.minecraft.client.keystrokes.Key.*;
 import static net.minecraft.client.settings.KeyBinding.*;
 import static net.minecraft.util.Util.OS.OSX;
 
 public class Minecraft implements IThreadListener {
+
 	private static final Logger logger = new Logger();
 	private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
 	public static final boolean isRunningOnMac = Util.getOSType() == OSX;
@@ -344,10 +350,9 @@ public class Minecraft implements IThreadListener {
 		this.defaultResourcePacks.add(this.mcDefaultResourcePack);
 		this.startTimerHackThread();
 
-		logger.info("Используемая версия LWJGL: " + Sys.getVersion());
+		logger.info("Используемая версия LWJGL: " + Sys.getVersion() + " (Вау, почти как новая)");
 		this.setWindowIcon();
 		this.setInitialDisplayMode();
-		System.out.println("Преинициализация завершена за " + (System.currentTimeMillis() - start) + " мс.");
 
 		this.createDisplay();
 		OpenGlHelper.initializeTextures();
@@ -375,7 +380,7 @@ public class Minecraft implements IThreadListener {
 		}
 
 		long end = System.currentTimeMillis();
-		System.out.println("Инициализация завершена за " + (end - start) + " мс.");
+		System.out.println("# Преинициализация завершена за " + (end - start) + " мс.");
 
 		this.standardGalacticFontRenderer = new FontRenderer(new ResourceLocation("textures/font/ascii_sga.png"), this.renderEngine, false);
 		this.mcResourceManager.registerReloadListener(this.fontRendererObj);
@@ -764,7 +769,7 @@ label53:
 	 */
 	public void shutdownMinecraftApplet() {
 		try {
-			logger.info("Прекращаем работу апплета Minecraft...");
+			logger.info("Завершаем работу Minecraft...");
 			try {
 				this.loadWorld(null);
 			} catch (Throwable ignored) {}
@@ -888,24 +893,17 @@ label53:
 	}
 
 	protected void checkWindowResize() {
-		if (!this.fullscreen && Display.wasResized()) {
-			int i = this.displayWidth;
-			int j = this.displayHeight;
-			this.displayWidth = Display.getWidth();
-			this.displayHeight = Display.getHeight();
+		if (this.fullscreen || !Display.wasResized()) return;
+		int i = this.displayWidth;
+		int j = this.displayHeight;
+		this.displayWidth = Display.getWidth();
+		this.displayHeight = Display.getHeight();
 
-			if (this.displayWidth != i || this.displayHeight != j) {
-				if (this.displayWidth <= 0) {
-					this.displayWidth = 1;
-				}
+		if (this.displayWidth == i && this.displayHeight == j) return;
+		if (this.displayWidth <= 0) this.displayWidth = 1;
+		if (this.displayHeight <= 0) this.displayHeight = 1;
 
-				if (this.displayHeight <= 0) {
-					this.displayHeight = 1;
-				}
-
-				this.resize(this.displayWidth, this.displayHeight);
-			}
-		}
+		this.resize(this.displayWidth, this.displayHeight);
 	}
 
 	public int getLimitFramerate() {
@@ -1057,25 +1055,22 @@ label53:
 	 * currently displayed
 	 */
 	public void setIngameFocus() {
-		if (Display.isActive()) {
-			if (!this.inGameHasFocus) {
-				this.inGameHasFocus = true;
-				this.mouseHelper.grabMouseCursor();
-				this.displayGuiScreen(null);
-				this.leftClickCounter = 10000;
-			}
-		}
+		if (!Display.isActive()) return;
+		if (this.inGameHasFocus) return;
+		this.inGameHasFocus = true;
+		this.mouseHelper.grabMouseCursor();
+		this.displayGuiScreen(null);
+		this.leftClickCounter = 10000;
 	}
 
 	/**
 	 * Resets the player keystate, disables the ingame focus, and ungrabs the mouse cursor.
 	 */
 	public void setIngameNotInFocus() {
-		if (this.inGameHasFocus) {
-			KeyBinding.unPressAllKeys();
-			this.inGameHasFocus = false;
-			this.mouseHelper.ungrabMouseCursor();
-		}
+		if (!this.inGameHasFocus) return;
+		KeyBinding.unPressAllKeys();
+		this.inGameHasFocus = false;
+		this.mouseHelper.ungrabMouseCursor();
 	}
 
 	/**
@@ -1108,93 +1103,71 @@ label53:
 	}
 
 	private void clickMouse() {
-		if (this.leftClickCounter <= 0) {
-			this.thePlayer.swingItem();
+		if (this.leftClickCounter > 0) return;
+		this.thePlayer.swingItem();
 
-			if (this.objectMouseOver == null) {
-				logger.error("Null returned as \'hitResult\', this shouldn\'t happen!");
-
-				if (this.playerController.isNotCreative()) {
-					this.leftClickCounter = 10;
+		if (this.objectMouseOver == null) {
+			logger.error("Null returned as \'hitResult\', this shouldn\'t happen!");
+			if (this.playerController.isNotCreative()) this.leftClickCounter = 10;
+			return;
+		}
+		switch (this.objectMouseOver.typeOfHit) {
+			case ENTITY:
+				this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
+				break;
+			case BLOCK:
+				BlockPos blockpos = this.objectMouseOver.getBlockPos();
+				if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
+					this.playerController.clickBlock(blockpos, this.objectMouseOver.sideHit);
+					break;
 				}
-			} else {
-				switch (this.objectMouseOver.typeOfHit) {
-					case ENTITY:
-						this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
-						break;
-
-					case BLOCK:
-						BlockPos blockpos = this.objectMouseOver.getBlockPos();
-
-						if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
-							this.playerController.clickBlock(blockpos, this.objectMouseOver.sideHit);
-							break;
-						}
-
-					case MISS:
-					default:
-						if (this.playerController.isNotCreative()) {
-							this.leftClickCounter = 10;
-						}
-				}
-			}
+			default:
+				if (this.playerController.isNotCreative()) this.leftClickCounter = 10;
 		}
 	}
-
-	@SuppressWarnings("incomplete-switch")
 
 	/*
 	  Called when user clicked he's mouse right button (place)
 	 */
 	private void rightClickMouse() {
-		if (!this.playerController.func_181040_m()) {
-			this.rightClickDelayTimer = Settings.FAST_PLACE.b() ? 0 : 4;
-			boolean flag = true;
-			ItemStack itemstack = this.thePlayer.inventory.getCurrentItem();
+		if (this.playerController.func_181040_m()) return;
+		this.rightClickDelayTimer = Settings.FAST_PLACE.b() ? 0 : 4;
+		boolean flag = true;
+		ItemStack itemstack = this.thePlayer.inventory.getCurrentItem();
 
-			if (this.objectMouseOver == null) {
-				logger.warn("Null returned as \'hitResult\', this shouldn\'t happen!");
-			} else {
-				switch (this.objectMouseOver.typeOfHit) {
-					case ENTITY:
-						if (this.playerController.func_178894_a(this.thePlayer, this.objectMouseOver.entityHit, this.objectMouseOver)) {
-							flag = false;
-						} else if (this.playerController.interactWithEntitySendPacket(this.thePlayer, this.objectMouseOver.entityHit)) {
-							flag = false;
-						}
+		if (this.objectMouseOver == null) {
+			logger.warn("Null returned as \'hitResult\', this shouldn\'t happen!");
+			return;
+		}
+		switch (this.objectMouseOver.typeOfHit) {
+			case ENTITY:
+				if (this.playerController.func_178894_a(this.thePlayer, this.objectMouseOver.entityHit, this.objectMouseOver)) flag = false;
+				else if (this.playerController.interactWithEntitySendPacket(this.thePlayer, this.objectMouseOver.entityHit)) flag = false;
 
-						break;
+				break;
 
-					case BLOCK:
-						BlockPos blockpos = this.objectMouseOver.getBlockPos();
+			case BLOCK:
+				BlockPos blockpos = this.objectMouseOver.getBlockPos();
 
-						if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
-							int i = itemstack != null ? itemstack.stackSize : 0;
+				if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() == Material.air) break;
+				int i = itemstack != null ? itemstack.stackSize : 0;
 
-							if (this.playerController.onPlayerRightClick(this.thePlayer, this.theWorld, itemstack, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec)) {
-								flag = false;
-								this.thePlayer.swingItem();
-							}
-
-							if (itemstack == null) {
-								return;
-							}
-
-							if (itemstack.stackSize == 0) {
-								this.thePlayer.inventory.mainInventory[this.thePlayer.inventory.currentItem] = null;
-							} else if (itemstack.stackSize != i || this.playerController.isInCreativeMode()) {
-								this.entityRenderer.itemRenderer.resetEquippedProgress();
-							}
-						}
+				if (this.playerController.onPlayerRightClick(this.thePlayer, this.theWorld, itemstack, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec)) {
+					flag = false;
+					this.thePlayer.swingItem();
 				}
-			}
 
-			if (flag) {
-				ItemStack itemstack1 = this.thePlayer.inventory.getCurrentItem();
+				if (itemstack == null) return;
 
-				if (itemstack1 != null && this.playerController.sendUseItem(this.thePlayer, this.theWorld, itemstack1)) {
-					this.entityRenderer.itemRenderer.resetEquippedProgress2();
-				}
+				if (itemstack.stackSize == 0) this.thePlayer.inventory.mainInventory[this.thePlayer.inventory.currentItem] = null;
+				else if (itemstack.stackSize != i || this.playerController.isInCreativeMode()) this.entityRenderer.itemRenderer.resetEquippedProgress();
+		}
+
+		if (flag) {
+			ItemStack itemstack1 = this.thePlayer.inventory.getCurrentItem();
+
+			if (itemstack1 != null && this.playerController.sendUseItem(this.thePlayer, this.theWorld, itemstack1)) {
+				this.entityRenderer.itemRenderer.resetEquippedProgress2();
 			}
 		}
 	}
@@ -1271,29 +1244,23 @@ label53:
 	 * Runs the current tick.
 	 */
 	public void runTick() throws IOException {
-		if (this.rightClickDelayTimer > 0) {
-			--this.rightClickDelayTimer;
-		}
+		if (this.rightClickDelayTimer > 0) --this.rightClickDelayTimer;
 
 		this.mcProfiler.startSection("gui");
 
-		if (!this.isGamePaused) {
-			this.ingameGUI.updateTick();
-		}
+		if (!this.isGamePaused) this.ingameGUI.updateTick();
 
 		this.mcProfiler.endSection();
 		this.entityRenderer.getMouseOver(1.0F);
-		this.mcProfiler.startSection("gameMode");
 
-		if (!this.isGamePaused && this.theWorld != null) {
-			this.playerController.updateController();
-		}
+		// Передвижение игрока
+		this.mcProfiler.startSection("gameMode");
+		if (!this.isGamePaused && this.theWorld != null) this.playerController.updateController();
 
 		this.mcProfiler.endStartSection("textures");
 
-		if (!this.isGamePaused) {
-			this.renderEngine.tick();
-		}
+		// Рендер мира
+		if (!this.isGamePaused) this.renderEngine.tick();
 
 		if (this.currentScreen == null && this.thePlayer != null) {
 			if (this.thePlayer.getHealth() <= 0.0F) {
@@ -1305,9 +1272,7 @@ label53:
 			this.displayGuiScreen(null);
 		}
 
-		if (this.currentScreen != null) {
-			this.leftClickCounter = 10000;
-		}
+		if (this.currentScreen != null) this.leftClickCounter = 10000;
 
 		if (this.currentScreen != null) {
 			try {
@@ -1405,62 +1370,40 @@ label53:
 				this.dispatchKeypresses();
 
 				if (Keyboard.getEventKeyState()) {
-					if (k == 62 && this.entityRenderer != null) {
+					if (k == F4 && this.entityRenderer != null)
 						this.entityRenderer.switchUseShader();
-					}
 
-					if (this.currentScreen != null) {
-						this.currentScreen.handleKeyboardInput();
-					} else {
-						if (k == 1) {
-							this.displayInGameMenu();
+					if (this.currentScreen != null) this.currentScreen.handleKeyboardInput();
+					else {
+						if (k == ESC) this.displayInGameMenu();
+
+						if (Keyboard.isKeyDown(F3)) switch (k) {
+							case 32:
+								MC.clearChat();
+								break; // D
+							case 31:
+							case 20:
+								refreshResources();
+								break; // S & T
+							case 30:
+								renderGlobal.loadRenderers();
+								break; // A
+							case 35:
+								Settings.ITEM_TOOLTIPS.toggle();
+								Settings.saveOptions();
+								break; // H
+							case 48:
+								MC.toggleHitboxes();
+								break; // B
+							case 25:
+								Settings.PAUSE_FOCUS.toggle();
+								Settings.saveOptions();
+								break; // P
 						}
 
-						if (k == 32 && Keyboard.isKeyDown(61) && this.ingameGUI != null) {
-							this.ingameGUI.getChatGUI().clearChatMessages();
-						}
+						if (k == F1) Settings.HIDE_GUI.toggle();
 
-						if (k == 31 && Keyboard.isKeyDown(61)) {
-							this.refreshResources();
-						}
-
-						if (k == 17 && Keyboard.isKeyDown(61)) {
-						}
-
-						if (k == 18 && Keyboard.isKeyDown(61)) {
-						}
-
-						if (k == 47 && Keyboard.isKeyDown(61)) {
-						}
-
-						if (k == 38 && Keyboard.isKeyDown(61)) {
-						}
-
-						if (k == 22 && Keyboard.isKeyDown(61)) {
-						}
-
-						if (k == 20 && Keyboard.isKeyDown(61)) {
-							this.refreshResources();
-						}
-						if (k == 30 && Keyboard.isKeyDown(61)) {
-							this.renderGlobal.loadRenderers();
-						}
-
-						if (k == 35 && Keyboard.isKeyDown(61)) {
-							Settings.ITEM_TOOLTIPS.toggle();
-							Settings.saveOptions();
-						}
-
-						if (k == 48 && Keyboard.isKeyDown(61)) this.renderManager.setDebugBoundingBox(!this.renderManager.isDebugBoundingBox());
-
-						if (k == 25 && Keyboard.isKeyDown(61)) {
-							Settings.PAUSE_FOCUS.toggle();
-							Settings.saveOptions();
-						}
-
-						if (k == 59) Settings.HIDE_GUI.toggle();
-
-						if (k == 61) {
+						if (k == F3) {
 							Settings.SHOW_DEBUG.toggle();
 							Settings.PROFILER.set(GuiScreen.isShiftKeyDown());
 							Settings.LAGOMETER.set(GuiScreen.isAltKeyDown());
@@ -1502,6 +1445,13 @@ label53:
 				else {
 					this.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
 					this.displayGuiScreen(new GuiInventory(this.thePlayer));
+				}
+			}
+			while (KeyBinding.ITEMS.isPressed()) {
+				if (this.playerController.isRidingHorse()) this.thePlayer.sendHorseInventory();
+				else {
+					this.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+					this.displayGuiScreen(new GuiContainerItems(this.thePlayer));
 				}
 			}
 
@@ -1589,15 +1539,12 @@ label53:
 
 			this.mcProfiler.endStartSection("animateTick");
 
-			if (!this.isGamePaused && this.theWorld != null) {
+			if (!this.isGamePaused && this.theWorld != null)
 				this.theWorld.doVoidFogParticles(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ));
-			}
 
 			this.mcProfiler.endStartSection("particles");
 
-			if (!this.isGamePaused) {
-				this.effectRenderer.updateEffects();
-			}
+			if (!this.isGamePaused) this.effectRenderer.updateEffects();
 		} else if (this.myNetworkManager != null) {
 			this.mcProfiler.endStartSection("pendingConnection");
 			this.myNetworkManager.processReceivedPackets();

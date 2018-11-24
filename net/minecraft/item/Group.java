@@ -1,6 +1,6 @@
 package net.minecraft.item;
 
-import net.minecraft.block.Block;
+import net.minecraft.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,10 +13,6 @@ public class Group {
 	private final int width, height;
 	private final String name;
 
-	public Group(String name, int width, int height, Block... blocks) {
-		this(name, width, height, toUnitArray(blocks));
-	}
-
 	public Group(String name, int width, int height, String... items) {
 		this(name, width, height, toUnitArray(items));
 	}
@@ -24,22 +20,16 @@ public class Group {
 	private static Unit[] toUnitArray(String[] items) {
 		List<Unit> list = new ArrayList<>();
 		for (String s : items) {
+			if (s == null || s.length() == 0 || s.equals("0")) {
+				list.add(new Unit(null));
+				continue;
+			}
 			String[] a = s.split(":");
-			Item item = Item.itemRegistry.getObjectById(Integer.parseInt(a[0]));
-			ItemStack i;
-			if (a.length > 1) i = new ItemStack(item, Integer.parseInt(a[1]));
-			else i = new ItemStack(item);
+			int data = a.length > 1 ? Integer.parseInt(a[1]) : 0;
+			ItemStack i = Utils.createItemStack(Integer.parseInt(a[0]), data);
 			list.add(new Unit(i));
 		}
 		return list.toArray(new Unit[0]);
-	}
-
-	private static Unit[] toUnitArray(Block[] blocks) {
-		Unit[] u = new Unit[blocks.length];
-		for (int i = 0; i < blocks.length; i++) {
-			u[i] = new Unit(new ItemStack(blocks[i]));
-		}
-		return u;
 	}
 
 	public Group(String name, int width, int height, Unit... elements) {
@@ -47,6 +37,14 @@ public class Group {
 		this.height = height;
 		this.name = name;
 		add(elements);
+	}
+
+	public static Unit[] every(int id, int amount) {
+		Unit[] u = new Unit[amount];
+		for (int i = 0; i < amount; i++) {
+			u[i] = new Unit(Utils.createItemStack(id, i));
+		}
+		return u;
 	}
 
 	public void add(Unit... elements) {
@@ -78,6 +76,10 @@ public class Group {
 		public Unit(ItemStack item, Unit... alternative) {
 			this.item = item;
 			this.alternative = alternative;
+		}
+
+		public ItemStack getItem() {
+			return item;
 		}
 
 	}

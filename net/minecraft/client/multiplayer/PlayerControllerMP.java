@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.inventory.ClickType;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityHorse;
@@ -493,7 +494,7 @@ public class PlayerControllerMP
     public ItemStack windowClick(int windowId, int slotId, int mouseButtonClicked, int mode, EntityPlayer playerIn)
     {
         short short1 = playerIn.openContainer.getNextTransactionID(playerIn.inventory);
-        ItemStack itemstack = playerIn.openContainer.slotClick(slotId, mouseButtonClicked, mode, playerIn);
+        ItemStack itemstack = playerIn.openContainer.slotClick(slotId, mouseButtonClicked, ClickType.values()[mode], playerIn);
         this.netClientHandler.addToSendQueue(new C0EPacketClickWindow(windowId, slotId, mouseButtonClicked, mode, itemstack, short1));
         return itemstack;
     }

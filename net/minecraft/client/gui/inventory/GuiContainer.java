@@ -22,6 +22,8 @@ import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 import java.util.Set;
 
+import static net.minecraft.client.gui.inventory.ClickType.*;
+
 public abstract class GuiContainer extends GuiScreen {
 
 	/**
@@ -365,16 +367,16 @@ public abstract class GuiContainer extends GuiScreen {
 				if (!this.dragSplitting) {
 					if (this.mc.thePlayer.inventory.getItemStack() == null) {
 						if (mouseButton == KeyBinding.PICK.getKeyCode() + 100) {
-							this.handleMouseClick(slot, l, mouseButton, 3);
+							this.handleMouseClick(slot, l, mouseButton, PICK);
 						} else {
 							boolean flag2 = l != -999 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54));
-							int i1 = 0;
+							ClickType i1 = CLICK;
 
 							if (flag2) {
 								this.shiftClickedSlot = slot != null && slot.getHasStack() ? slot.getStack() : null;
-								i1 = 1;
+								i1 = SHIFT;
 							} else if (l == -999) {
-								i1 = 4;
+								i1 = DROP;
 							}
 
 							this.handleMouseClick(slot, l, mouseButton, i1);
@@ -437,12 +439,12 @@ public abstract class GuiContainer extends GuiScreen {
 					for (Slot slot2 : this.inventorySlots.inventorySlots) {
 						if (slot2 != null && slot2.canTakeStack(this.mc.thePlayer) && slot2.getHasStack() && slot2.inventory == slot.inventory && Container.canAddItemToSlot(slot2,
 								this.shiftClickedSlot, true)) {
-							this.handleMouseClick(slot2, slot2.slotNumber, state, 1);
+							this.handleMouseClick(slot2, slot2.slotNumber, state, SHIFT);
 						}
 					}
 				}
 			} else {
-				this.handleMouseClick(slot, k, state, 6);
+				this.handleMouseClick(slot, k, state, COLLECT);
 			}
 
 			this.doubleClick = false;
@@ -460,21 +462,21 @@ public abstract class GuiContainer extends GuiScreen {
 				return;
 			}
 			if (this.dragSplitting && !this.dragSplittingSlots.isEmpty()) {
-				this.handleMouseClick(null, -999, Container.func_94534_d(0, this.dragSplittingLimit), 5);
+				this.handleMouseClick(null, -999, Container.func_94534_d(0, this.dragSplittingLimit),  DRAG);
 
 				for (Slot slot1 : this.dragSplittingSlots) {
-					this.handleMouseClick(slot1, slot1.slotNumber, Container.func_94534_d(1, this.dragSplittingLimit), 5);
+					this.handleMouseClick(slot1, slot1.slotNumber, Container.func_94534_d(1, this.dragSplittingLimit), DRAG);
 				}
 
-				this.handleMouseClick(null, -999, Container.func_94534_d(2, this.dragSplittingLimit), 5);
+				this.handleMouseClick(null, -999, Container.func_94534_d(2, this.dragSplittingLimit), DRAG);
 			} else if (this.mc.thePlayer.inventory.getItemStack() != null) {
-				if (state == KeyBinding.PICK.getKeyCode() + 100) this.handleMouseClick(slot, k, state, 3);
+				if (state == KeyBinding.PICK.getKeyCode() + 100) this.handleMouseClick(slot, k, state, PICK);
 				else {
 					boolean flag1 = k != -999 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54));
 
 					if (flag1) this.shiftClickedSlot = slot != null && slot.getHasStack() ? slot.getStack() : null;
 
-					this.handleMouseClick(slot, k, state, flag1 ? 1 : 0);
+					this.handleMouseClick(slot, k, state, flag1 ? SHIFT : CLICK);
 				}
 			}
 		}
@@ -508,12 +510,12 @@ public abstract class GuiContainer extends GuiScreen {
 	/**
 	 * Called when the mouse is clicked over a slot or outside the gui.
 	 */
-	protected void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType) {
+	protected void handleMouseClick(Slot slotIn, int slotId, int clickedButton, ClickType clickType) {
 		if (slotIn != null) {
 			slotId = slotIn.slotNumber;
 		}
 
-		this.mc.playerController.windowClick(this.inventorySlots.windowId, slotId, clickedButton, clickType, this.mc.thePlayer);
+		this.mc.playerController.windowClick(this.inventorySlots.windowId, slotId, clickedButton, clickType.ordinal(), this.mc.thePlayer);
 	}
 
 	/**
@@ -527,9 +529,9 @@ public abstract class GuiContainer extends GuiScreen {
 
 		if (this.theSlot != null && this.theSlot.getHasStack())
 			if (keyCode == KeyBinding.PICK.getKeyCode())
-				this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, 0, 3);
+				this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, 0, PICK);
 			else if (keyCode == KeyBinding.DROP.getKeyCode())
-				this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, isCtrlKeyDown() ? 1 : 0, 4);
+				this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, isCtrlKeyDown() ? 1 : 0, DROP);
 	}
 
 	/**
@@ -540,7 +542,7 @@ public abstract class GuiContainer extends GuiScreen {
 		if (this.mc.thePlayer.inventory.getItemStack() == null && this.theSlot != null)
 			for (int i = 0; i < 9; ++i) {
 				if (keyCode != KeyBinding.HOTBAR[i].getKeyCode()) continue;
-				this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, i, 2);
+				this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, i, HOTBAR);
 				return true;
 			}
 		return false;

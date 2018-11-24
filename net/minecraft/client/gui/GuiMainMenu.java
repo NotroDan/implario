@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Skybox;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.opengl.GLContext;
@@ -32,39 +33,25 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	private static final Logger logger = Logger.getInstance();
 	private static final Random RANDOM = new Random();
 	private final long openedAt;
-	/**
-	 * Timer used to rotate the panorama, increases every tick.
-	 */
-	private int panoramaTimer;
 
-	/**
-	 * Texture allocated for the current viewport of the main menu's panorama background.
-	 */
-	private DynamicTexture viewportTexture;
 	private boolean field_175375_v = true;
 
 	/**
 	 * The Object object utilized as a thread lock when performing non thread-safe operations
 	 */
 	private final Object threadLock = new Object();
-
-	/**
-	 * OpenGL graphics card warning.
-	 */
 	private String openGLWarning1;
-
-	/**
-	 * OpenGL graphics card warning.
-	 */
 	private String openGLWarning2;
-
-	/**
-	 * Link to the Mojang Support about minimum requirements
-	 */
 	private String openGLWarningLink;
-	private static final ResourceLocation splashTexts = new ResourceLocation("texts/splashes.txt");
-	private static final ResourceLocation minecraftTitleTextures = new ResourceLocation("textures/gui/title/minecraft.png");
 
+	private static final ResourceLocation[] skyboxTiles = new ResourceLocation[] {
+			new ResourceLocation("textures/gui/title/background/panorama_0.png"),
+			new ResourceLocation("textures/gui/title/background/panorama_1.png"),
+			new ResourceLocation("textures/gui/title/background/panorama_2.png"),
+			new ResourceLocation("textures/gui/title/background/panorama_3.png"),
+			new ResourceLocation("textures/gui/title/background/panorama_4.png"),
+			new ResourceLocation("textures/gui/title/background/panorama_5.png")
+	};
 	public static final String openGLWarning = "Нажмите " + EnumChatFormatting.UNDERLINE + "здесь" + EnumChatFormatting.RESET + ", чтобы узнать больше.";
 	private int field_92024_r;
 	private int field_92023_s;
@@ -72,8 +59,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	private int field_92021_u;
 	private int field_92020_v;
 	private int field_92019_w;
-	private ResourceLocation backgroundTexture;
 	private Random random = new Random(31100);
+
+	private Skybox skybox;
 
 	public GuiMainMenu() {
 		this.openGLWarning2 = openGLWarning;
@@ -87,15 +75,18 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
-	public void updateScreen() {++this.panoramaTimer;}
+	public void updateScreen() {
+		if (skybox != null) skybox.updateScreen();
+	}
 	public boolean doesGuiPauseGame() {return false;}
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {}
 
 	public void initGui() {
-		this.viewportTexture = new DynamicTexture(256, 256);
-		this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
+		DynamicTexture viewport = new DynamicTexture(256, 256);
+		ResourceLocation background = this.mc.getTextureManager().getDynamicTextureLocation("background", viewport);
+		if (skybox == null) skybox = new Skybox(skyboxTiles, background, viewport, this);
+		else skybox.update(background, viewport);
 
-		int i = 24;
 		int j = this.height / 4 + 12;
 		this.addSingleplayerMultiplayerButtons(j + 36, 24);
 
@@ -168,6 +159,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		GlStateManager.disableAlpha();
+		if (skybox != null) skybox.render(partialTicks);
+		else renderBackground(mouseX, mouseY);
 		GlStateManager.enableAlpha();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -175,7 +168,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 		//        drawRect(0, 0, width, height, 0xff202020);
 
-		renderBackground(mouseX, mouseY);
 		renderTitle();
 		String s = "Implario Client";
 

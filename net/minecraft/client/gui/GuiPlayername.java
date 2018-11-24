@@ -10,7 +10,7 @@ import java.io.IOException;
 public class GuiPlayername extends GuiScreen {
 
 	private GuiScreen parentScreen;
-	private GuiTextField inputField;
+	private GuiTextField inputField, token, uuid;
 
 	public GuiPlayername(GuiScreen parentScreenIn) {
 		this.parentScreen = parentScreenIn;
@@ -36,8 +36,12 @@ public class GuiPlayername extends GuiScreen {
 		buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + 12, "Отмена"));
 		String s = mc.getSession().username;
 		inputField = new GuiTextField(2, fontRendererObj, width / 2 - 100, 60, 200, 20);
+		token = new GuiTextField(3, fontRendererObj, width / 2 - 100, 90, 200, 20);
+		uuid = new GuiTextField(4, fontRendererObj, width / 2 - 100, 120, 200, 20);
 		inputField.setFocused(true);
 		inputField.setText(s);
+		token.setText(mc.getSession().token);
+		uuid.setText(mc.getSession().playerID);
 	}
 
 	/**
@@ -56,6 +60,8 @@ public class GuiPlayername extends GuiScreen {
 			if (button.id == 1) this.mc.displayGuiScreen(this.parentScreen);
 			else if (button.id == 0) {
 				mc.getSession().username = inputField.getText().trim();
+				mc.getSession().token = token.getText().trim();
+				mc.getSession().playerID = uuid.getText().trim();
 				this.mc.displayGuiScreen(this.parentScreen);
 			}
 		}
@@ -67,6 +73,8 @@ public class GuiPlayername extends GuiScreen {
 	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (inputField.isFocused()) this.inputField.textboxKeyTyped(typedChar, keyCode);
+		if (token.isFocused()) this.token.textboxKeyTyped(typedChar, keyCode);
+		if (uuid.isFocused()) this.uuid.textboxKeyTyped(typedChar, keyCode);
 		this.buttonList.get(0).enabled = this.inputField.getText().trim().length() > 0;
 		if (keyCode == 28 || keyCode == 156) {
 			this.actionPerformed(this.buttonList.get(0));
@@ -79,6 +87,8 @@ public class GuiPlayername extends GuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
+		this.uuid.mouseClicked(mouseX, mouseY, mouseButton);
+		this.token.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	/**
@@ -89,6 +99,8 @@ public class GuiPlayername extends GuiScreen {
 		this.drawCenteredString(this.fontRendererObj, Lang.format("Сменить никнейм"), this.width / 2, 20, 16777215);
 		this.drawString(this.fontRendererObj, Lang.format("Введите ник"), this.width / 2 - 100, 47, 10526880);
 		this.inputField.drawTextBox();
+		this.uuid.drawTextBox();
+		this.token.drawTextBox();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

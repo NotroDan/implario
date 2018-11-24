@@ -10,8 +10,8 @@ import java.util.UUID;
 public class Session
 {
     public String username;
-    private final String playerID;
-    private final String token;
+    public String playerID;
+    public String token;
     private final Session.Type sessionType;
 	public String defaultName;
 

@@ -12,8 +12,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.datatransfer.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.nio.IntBuffer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -106,6 +109,11 @@ public class ScreenShotHelper {
 			ichatcomponent.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_FILE, new ChatComponentText(file2.getName())));
 //			ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file1.getAbsolutePath()));
 			ichatcomponent.getChatStyle().setUnderlined(Boolean.TRUE);
+
+			TransferableImage image = new TransferableImage(bufferedimage);
+			Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+			c.setContents(image, (cb, t) -> {System.out.println("Управление буфером обмена потеряно.");});
+
 			return new ChatComponentTranslation("screenshot.success", ichatcomponent);
 		} catch (Exception exception) {
 			logger.warn("Couldn\'t save screenshot", exception);
@@ -127,6 +135,35 @@ public class ScreenShotHelper {
 			File file1 = new File(gameDirectory, s + (i == 1 ? "" : " (" + i + ")") + ".png");
 			if (!file1.exists()) return file1;
 			++i;
+		}
+	}
+
+	private static class TransferableImage implements Transferable {
+
+		Image i;
+
+		public TransferableImage( Image i ) {
+			this.i = i;
+		}
+
+		@Override
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+			if ( flavor.equals( DataFlavor.imageFlavor ) && i != null ) return i;
+			throw new UnsupportedFlavorException( flavor );
+		}
+
+		@Override
+		public DataFlavor[] getTransferDataFlavors() {
+			DataFlavor[] flavors = new DataFlavor[ 1 ];
+			flavors[ 0 ] = DataFlavor.imageFlavor;
+			return flavors;
+		}
+
+		@Override
+		public boolean isDataFlavorSupported(DataFlavor flavor) {
+			DataFlavor[] flavors = getTransferDataFlavors();
+			for ( int i = 0; i < flavors.length; i++ ) if (flavor.equals(flavors[i])) return true;
+			return false;
 		}
 	}
 

@@ -2,6 +2,7 @@ package net.minecraft.client;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ChatComponentText;
@@ -34,6 +35,21 @@ public final class MC {
 
 	public static void chat(String s) {
 		MC.i().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(s));
+	}
+
+	public static int getWidth() {
+		return new ScaledResolution(i()).getScaledWidth();
+	}
+	public static int getHeight() {
+		return new ScaledResolution(i()).getScaledHeight();
+	}
+
+	public static void clearChat() {
+		if (i().ingameGUI != null) i().ingameGUI.getChatGUI().clearChatMessages();
+	}
+
+	public static void toggleHitboxes() {
+		i().getRenderManager().setDebugBoundingBox(!i().getRenderManager().isDebugBoundingBox());
 	}
 
 }

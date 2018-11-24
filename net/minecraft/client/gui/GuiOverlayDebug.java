@@ -187,7 +187,9 @@ public class GuiOverlayDebug extends Gui
 
 			if (this.mc.theWorld.getWorldType() != WorldType.DEBUG_WORLD)
 				iblockstate = iblockstate.getBlock().getActualState(iblockstate, this.mc.theWorld, blockpos1);
-			arraylist.add(String.valueOf(Block.blockRegistry.getNameForObject(iblockstate.getBlock())));
+			Block b = iblockstate.getBlock();
+			RegistryNamespacedDefaultedByKey<ResourceLocation, Block> r = Block.blockRegistry;
+			arraylist.add(String.valueOf(r.getNameForObject(b)) + " §e" + r.getIDForObject(b) + "§f:§e" + b.getMetaFromState(iblockstate));
 
 			if (isReducedDebug()) return arraylist;
 			for (Map.Entry<IProperty, Comparable> e : iblockstate.getProperties().entrySet()) {

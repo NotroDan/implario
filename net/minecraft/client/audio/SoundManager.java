@@ -70,7 +70,7 @@ public class SoundManager {
 			SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
 			SoundSystemConfig.setCodec("ogg", CodecJOrbis.class);
 		} catch (SoundSystemException soundsystemexception) {
-			logger.error("Error linking with the LibraryJavaSound plug-in", soundsystemexception);
+			logger.error("При сцеплении с плагином LibraryJavaSound произошла ошибка.", soundsystemexception);
 		} catch (Throwable t) {
 			System.out.println("ашыбко");
 		}
@@ -104,7 +104,7 @@ public class SoundManager {
 
 						public void errorMessage(String p_errorMessage_1_, String p_errorMessage_2_, int p_errorMessage_3_) {
 							if (!p_errorMessage_2_.isEmpty()) {
-								SoundManager.logger.error("Error in class \'" + p_errorMessage_1_ + "\'");
+								SoundManager.logger.error("Ошибка в классе \'" + p_errorMessage_1_ + "\'");
 								SoundManager.logger.error(p_errorMessage_2_);
 							}
 						}
@@ -112,10 +112,10 @@ public class SoundManager {
 					this.sndSystem = this.new SoundSystemStarterThread();
 					this.loaded = true;
 					this.sndSystem.setMasterVolume(Settings.SOUND_MASTER.f());
-					SoundManager.logger.info("Sound engine started");
+					SoundManager.logger.info("Аудиодвижок успешно запущен.");
 				}, "Sound Library Loader").start();
 			} catch (RuntimeException runtimeexception) {
-				logger.error("Error starting SoundSystem. Turning off sounds & music", runtimeexception);
+				logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c", runtimeexception);
 				Settings.SOUND_MASTER.set(0);
 				Settings.saveOptions();
 			}

@@ -4,6 +4,7 @@ import __google_.crypt.async.RSA;
 import __google_.net.Response;
 import __google_.net.client.Client;
 import __google_.util.ByteZip;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.keystrokes.KeyStrokes;
@@ -13,6 +14,8 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import optifine.CustomColormap;
 import optifine.CustomSkyLayer;
 import org.lwjgl.opengl.DisplayMode;
@@ -208,6 +211,16 @@ public class Utils {
 			temp = array[index];
 			array[index] = array[i];
 			array[i] = temp;
+		}
+	}
+
+	public static ItemStack createItemStack(int id, int data) {
+		try {
+			Item i = Item.itemRegistry.getObjectById(id);
+			return new ItemStack(i, 1, data);
+		} catch (NullPointerException e) {
+			Block b = Block.blockRegistry.getObjectById(id);
+			return new ItemStack(b, 1, data);
 		}
 	}
 

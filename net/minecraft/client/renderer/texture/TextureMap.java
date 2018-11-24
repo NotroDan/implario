@@ -295,7 +295,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
 		stitcher.doStitch();
 
-		logger.info("Created: {}x{} {}-atlas", stitcher.getCurrentWidth(), stitcher.getCurrentHeight(), this.basePath);
+		logger.info("Сгенерирован атлас спрайтов типа '" + basePath + "' с разрешением " + stitcher.getCurrentWidth() + "x" + stitcher.getCurrentHeight() + ".");
         TextureUtil.allocateTextureImpl(this.getGlTextureId(), this.mipmapLevels, stitcher.getCurrentWidth(), stitcher.getCurrentHeight());
         HashMap hashmap = Maps.newHashMap(this.mapRegisteredSprites);
 
