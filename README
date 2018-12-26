@@ -1,0 +1,1 @@
+Add VM option -Djava.security.egd=/dev/zrandom for stable random in linux

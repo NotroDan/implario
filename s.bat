@@ -1,0 +1,2 @@
+java -Xmx1G -Djava.library.path=natives -cp libraries\libs.jar;libraries\log4j.jar;libraries\log4jAPI.jar;Implario.jar net.minecraft.client.main.Main --username DelfikPro --version 1.8 --gameDir .\ --assetsDir assets\ --assetIndex 1.8 --uuid 1a2b3c4d5e6f7g8h9i0g --accessToken 1a2b3c4d5e6f7g8h9i0g --userProperties {"twitch_access_token":["1a2b3c4d5e6f7g8h9i0g"]} --userType mojang --server lmaomc.ru --port 25565 --height 480 --width 854
+pause
