@@ -11,20 +11,20 @@ import java.io.IOException;
 
 public class GuiScreenServerList extends GuiScreen {
 
-	private final GuiScreen field_146303_a;
-	private final ServerData field_146301_f;
-	private GuiTextField field_146302_g;
+	private final GuiScreen parent;
+	private final ServerData selected;
+	private GuiTextField textField;
 
 	public GuiScreenServerList(GuiScreen p_i1031_1_, ServerData p_i1031_2_) {
-		this.field_146303_a = p_i1031_1_;
-		this.field_146301_f = p_i1031_2_;
+		this.parent = p_i1031_1_;
+		this.selected = p_i1031_2_;
 	}
 
 	/**
 	 * Called from the main game loop to update the screen.
 	 */
 	public void updateScreen() {
-		this.field_146302_g.updateCursorCounter();
+		this.textField.updateCursorCounter();
 	}
 
 	/**
@@ -36,11 +36,11 @@ public class GuiScreenServerList extends GuiScreen {
 		this.buttonList.clear();
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 12, Lang.format("selectServer.select")));
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 12, Lang.format("gui.cancel")));
-		this.field_146302_g = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 100, 116, 200, 20);
-		this.field_146302_g.setMaxStringLength(128);
-		this.field_146302_g.setFocused(true);
-		this.field_146302_g.setText(Settings.lastServer);
-		this.buttonList.get(0).enabled = this.field_146302_g.getText().length() > 0 && this.field_146302_g.getText().split(":").length > 0;
+		this.textField = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 100, 116, 200, 20);
+		this.textField.setMaxStringLength(128);
+		this.textField.setFocused(true);
+		this.textField.setText(Settings.lastServer);
+		this.buttonList.get(0).enabled = this.textField.getText().length() > 0 && this.textField.getText().split(":").length > 0;
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class GuiScreenServerList extends GuiScreen {
 	 */
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
-		Settings.lastServer = this.field_146302_g.getText();
+		Settings.lastServer = this.textField.getText();
 		Settings.saveOptions();
 	}
 
@@ -58,10 +58,10 @@ public class GuiScreenServerList extends GuiScreen {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.enabled) {
 			if (button.id == 1) {
-				this.field_146303_a.confirmClicked(false, 0);
+				this.parent.confirmClicked(false, 0);
 			} else if (button.id == 0) {
-				this.field_146301_f.serverIP = this.field_146302_g.getText();
-				this.field_146303_a.confirmClicked(true, 0);
+				this.selected.serverIP = this.textField.getText();
+				this.parent.confirmClicked(true, 0);
 			}
 		}
 	}
@@ -71,8 +71,8 @@ public class GuiScreenServerList extends GuiScreen {
 	 * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
 	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
-		if (this.field_146302_g.textboxKeyTyped(typedChar, keyCode)) {
-			this.buttonList.get(0).enabled = this.field_146302_g.getText().length() > 0 && this.field_146302_g.getText().split(":").length > 0;
+		if (this.textField.textboxKeyTyped(typedChar, keyCode)) {
+			this.buttonList.get(0).enabled = this.textField.getText().length() > 0 && this.textField.getText().split(":").length > 0;
 		} else if (keyCode == 28 || keyCode == 156) {
 			this.actionPerformed(this.buttonList.get(0));
 		}
@@ -83,7 +83,7 @@ public class GuiScreenServerList extends GuiScreen {
 	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		this.field_146302_g.mouseClicked(mouseX, mouseY, mouseButton);
+		this.textField.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class GuiScreenServerList extends GuiScreen {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, Lang.format("selectServer.direct"), this.width / 2, 20, 16777215);
 		this.drawString(this.fontRendererObj, Lang.format("addServer.enterIp"), this.width / 2 - 100, 100, 10526880);
-		this.field_146302_g.drawTextBox();
+		this.textField.drawTextBox();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

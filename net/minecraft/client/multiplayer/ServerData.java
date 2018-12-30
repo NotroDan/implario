@@ -36,7 +36,7 @@ public class ServerData {
 	private ServerData.ServerResourceMode resourceMode = ServerData.ServerResourceMode.PROMPT;
 	private String serverIcon;
 	private boolean field_181042_l;
-
+	
 	public ServerData(String p_i46420_1_, String p_i46420_2_, boolean p_i46420_3_) {
 		this.serverName = p_i46420_1_;
 		this.serverIP = p_i46420_2_;

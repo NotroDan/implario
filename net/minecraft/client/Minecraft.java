@@ -229,6 +229,7 @@ public class Minecraft implements IThreadListener {
 	private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
 	private final Thread mcThread = Thread.currentThread();
 	private ModelManager modelManager;
+	private Preloader preloader;
 
 	/**
 	 * The BlockRenderDispatcher instance that will be used based off gamesettings
@@ -313,16 +314,13 @@ public class Minecraft implements IThreadListener {
 
 		try {
 			while (this.running) {
-				if (!this.hasCrashed || this.crashReporter == null) {
-					try {
-						this.runGameLoop();
-					} catch (OutOfMemoryError var10) {
-						this.freeMemory();
-						this.displayGuiScreen(new GuiMemoryErrorScreen());
-						System.gc();
-					}
-				} else {
-					this.displayCrashReport(this.crashReporter);
+				if (this.hasCrashed && this.crashReporter != null) this.displayCrashReport(this.crashReporter);
+				else try {
+					this.runGameLoop();
+				} catch (OutOfMemoryError var10) {
+					this.freeMemory();
+					this.displayGuiScreen(new GuiMemoryErrorScreen());
+					System.gc();
 				}
 			}
 		} catch (MinecraftError ignored) {
@@ -367,17 +365,24 @@ public class Minecraft implements IThreadListener {
 		this.renderEngine = new TextureManager(this.mcResourceManager);
 		this.mcResourceManager.registerReloadListener(this.renderEngine);
 		this.skinManager = new SkinManager(this.renderEngine, new File(this.fileAssets, "skins"), this.sessionService);
-		this.drawMojangLogo(this.renderEngine);
-		this.saveLoader = new AnvilSaveConverter(new File(this.mcDataDir, "saves"));
-		this.mcSoundHandler = new SoundHandler(this.mcResourceManager);
-		this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
-		this.mcMusicTicker = new MusicTicker(this);
 		this.fontRendererObj = new FontRenderer(new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
-
 		if (Settings.language != null) {
 			this.fontRendererObj.setUnicodeFlag(this.isUnicode());
 			this.fontRendererObj.setBidiFlag(this.mcLanguageManager.isCurrentLanguageBidirectional());
 		}
+		
+		preloader = new Preloader(new ScaledResolution(this), mcDefaultResourcePack, renderEngine);
+		preloader.drawLogo();
+		
+		this.saveLoader = new AnvilSaveConverter(new File(this.mcDataDir, "saves"));
+		preloader.nextState();
+		
+		this.mcSoundHandler = new SoundHandler(this.mcResourceManager);
+		this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
+		preloader.nextState();
+		
+		this.mcMusicTicker = new MusicTicker(this);
+		preloader.nextState();
 
 		long end = System.currentTimeMillis();
 		System.out.println("# Преинициализация завершена за " + (end - start) + " мс.");
@@ -389,7 +394,36 @@ public class Minecraft implements IThreadListener {
 		this.mcResourceManager.registerReloadListener(new FoliageColorReloadListener());
 		AchievementList.openInventory.setStatStringFormatter(s -> String.format(s, "E"));
 		this.mouseHelper = new MouseHelper();
+		preloader.nextState();
 		this.checkGLError("Pre startup");
+		this.checkGLError("Startup");
+		this.textureMapBlocks = new TextureMap("textures");
+		this.textureMapBlocks.setMipmapLevels((int) Settings.MIPMAP_LEVELS.f());
+		preloader.nextState();
+		this.renderEngine.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
+		this.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+		preloader.nextState();
+		this.textureMapBlocks.setBlurMipmapDirect(false, Settings.MIPMAP_LEVELS.i() > 0);
+		this.modelManager = new ModelManager(this.textureMapBlocks);
+		this.mcResourceManager.registerReloadListener(this.modelManager);
+		preloader.nextState();
+		this.renderItem = new RenderItem(this.renderEngine, this.modelManager);
+		this.renderManager = new RenderManager(this.renderEngine, this.renderItem);
+		this.itemRenderer = new ItemRenderer(this);
+		this.mcResourceManager.registerReloadListener(this.renderItem);
+		preloader.nextState();
+		this.entityRenderer = new EntityRenderer(this, this.mcResourceManager);
+		this.mcResourceManager.registerReloadListener(this.entityRenderer);
+		preloader.nextState();
+		this.blockRenderDispatcher = new BlockRendererDispatcher(this.modelManager.getBlockModelShapes());
+		this.mcResourceManager.registerReloadListener(this.blockRenderDispatcher);
+		preloader.nextState();
+		this.renderGlobal = new RenderGlobal(this);
+		this.mcResourceManager.registerReloadListener(this.renderGlobal);
+		preloader.nextState();
+		this.guiAchievement = new GuiAchievement(this);
+		preloader.nextState();
+		preloader.nextState();
 		GlStateManager.enableTexture2D();
 		GlStateManager.shadeModel(7425);
 		GlStateManager.clearDepth(1.0D);
@@ -401,25 +435,6 @@ public class Minecraft implements IThreadListener {
 		GlStateManager.matrixMode(5889);
 		GlStateManager.loadIdentity();
 		GlStateManager.matrixMode(5888);
-		this.checkGLError("Startup");
-		this.textureMapBlocks = new TextureMap("textures");
-		this.textureMapBlocks.setMipmapLevels((int) Settings.MIPMAP_LEVELS.f());
-		this.renderEngine.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
-		this.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-		this.textureMapBlocks.setBlurMipmapDirect(false, Settings.MIPMAP_LEVELS.i() > 0);
-		this.modelManager = new ModelManager(this.textureMapBlocks);
-		this.mcResourceManager.registerReloadListener(this.modelManager);
-		this.renderItem = new RenderItem(this.renderEngine, this.modelManager);
-		this.renderManager = new RenderManager(this.renderEngine, this.renderItem);
-		this.itemRenderer = new ItemRenderer(this);
-		this.mcResourceManager.registerReloadListener(this.renderItem);
-		this.entityRenderer = new EntityRenderer(this, this.mcResourceManager);
-		this.mcResourceManager.registerReloadListener(this.entityRenderer);
-		this.blockRenderDispatcher = new BlockRendererDispatcher(this.modelManager.getBlockModelShapes());
-		this.mcResourceManager.registerReloadListener(this.blockRenderDispatcher);
-		this.renderGlobal = new RenderGlobal(this);
-		this.mcResourceManager.registerReloadListener(this.renderGlobal);
-		this.guiAchievement = new GuiAchievement(this);
 		GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		this.checkGLError("Post startup");

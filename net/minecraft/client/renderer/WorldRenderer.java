@@ -239,10 +239,10 @@ public class WorldRenderer {
 		}
 	}
 
-	public WorldRenderer tex(double p_181673_1_, double p_181673_3_) {
+	public WorldRenderer tex(double x, double y) {
 		if (this.quadSprite != null && this.quadSprites != null) {
-			p_181673_1_ = (double) this.quadSprite.toSingleU((float) p_181673_1_);
-			p_181673_3_ = (double) this.quadSprite.toSingleV((float) p_181673_3_);
+			x = (double) this.quadSprite.toSingleU((float) x);
+			y = (double) this.quadSprite.toSingleV((float) y);
 			this.quadSprites[this.vertexCount / 4] = this.quadSprite;
 		}
 
@@ -250,26 +250,26 @@ public class WorldRenderer {
 
 		switch (WorldRenderer.WorldRenderer$2.field_181661_a[this.field_181677_f.getType().ordinal()]) {
 			case 1:
-				this.byteBuffer.putFloat(i, (float) p_181673_1_);
-				this.byteBuffer.putFloat(i + 4, (float) p_181673_3_);
+				this.byteBuffer.putFloat(i, (float) x);
+				this.byteBuffer.putFloat(i + 4, (float) y);
 				break;
 
 			case 2:
 			case 3:
-				this.byteBuffer.putInt(i, (int) p_181673_1_);
-				this.byteBuffer.putInt(i + 4, (int) p_181673_3_);
+				this.byteBuffer.putInt(i, (int) x);
+				this.byteBuffer.putInt(i + 4, (int) y);
 				break;
 
 			case 4:
 			case 5:
-				this.byteBuffer.putShort(i, (short) (int) p_181673_3_);
-				this.byteBuffer.putShort(i + 2, (short) (int) p_181673_1_);
+				this.byteBuffer.putShort(i, (short) (int) y);
+				this.byteBuffer.putShort(i + 2, (short) (int) x);
 				break;
 
 			case 6:
 			case 7:
-				this.byteBuffer.put(i, (byte) (int) p_181673_3_);
-				this.byteBuffer.put(i + 1, (byte) (int) p_181673_1_);
+				this.byteBuffer.put(i, (byte) (int) y);
+				this.byteBuffer.put(i + 1, (byte) (int) x);
 		}
 
 		this.func_181667_k();
@@ -395,46 +395,46 @@ public class WorldRenderer {
 		return this.color((int) (p_181666_1_ * 255.0F), (int) (p_181666_2_ * 255.0F), (int) (p_181666_3_ * 255.0F), (int) (p_181666_4_ * 255.0F));
 	}
 
-	public WorldRenderer color(int p_181669_1_, int p_181669_2_, int p_181669_3_, int p_181669_4_) {
+	public WorldRenderer color(int r, int g, int b, int a) {
 		if (this.needsUpdate) return this;
 		int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.func_181720_d(this.field_181678_g);
 
 		switch (WorldRenderer.WorldRenderer$2.field_181661_a[this.field_181677_f.getType().ordinal()]) {
 			case 1:
-				this.byteBuffer.putFloat(i, (float) p_181669_1_ / 255.0F);
-				this.byteBuffer.putFloat(i + 4, (float) p_181669_2_ / 255.0F);
-				this.byteBuffer.putFloat(i + 8, (float) p_181669_3_ / 255.0F);
-				this.byteBuffer.putFloat(i + 12, (float) p_181669_4_ / 255.0F);
+				this.byteBuffer.putFloat(i, (float) r / 255.0F);
+				this.byteBuffer.putFloat(i + 4, (float) g / 255.0F);
+				this.byteBuffer.putFloat(i + 8, (float) b / 255.0F);
+				this.byteBuffer.putFloat(i + 12, (float) a / 255.0F);
 				break;
 
 			case 2:
 			case 3:
-				this.byteBuffer.putFloat(i, (float) p_181669_1_);
-				this.byteBuffer.putFloat(i + 4, (float) p_181669_2_);
-				this.byteBuffer.putFloat(i + 8, (float) p_181669_3_);
-				this.byteBuffer.putFloat(i + 12, (float) p_181669_4_);
+				this.byteBuffer.putFloat(i, (float) r);
+				this.byteBuffer.putFloat(i + 4, (float) g);
+				this.byteBuffer.putFloat(i + 8, (float) b);
+				this.byteBuffer.putFloat(i + 12, (float) a);
 				break;
 
 			case 4:
 			case 5:
-				this.byteBuffer.putShort(i, (short) p_181669_1_);
-				this.byteBuffer.putShort(i + 2, (short) p_181669_2_);
-				this.byteBuffer.putShort(i + 4, (short) p_181669_3_);
-				this.byteBuffer.putShort(i + 6, (short) p_181669_4_);
+				this.byteBuffer.putShort(i, (short) r);
+				this.byteBuffer.putShort(i + 2, (short) g);
+				this.byteBuffer.putShort(i + 4, (short) b);
+				this.byteBuffer.putShort(i + 6, (short) a);
 				break;
 
 			case 6:
 			case 7:
 				if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN) {
-					this.byteBuffer.put(i, (byte) p_181669_1_);
-					this.byteBuffer.put(i + 1, (byte) p_181669_2_);
-					this.byteBuffer.put(i + 2, (byte) p_181669_3_);
-					this.byteBuffer.put(i + 3, (byte) p_181669_4_);
+					this.byteBuffer.put(i, (byte) r);
+					this.byteBuffer.put(i + 1, (byte) g);
+					this.byteBuffer.put(i + 2, (byte) b);
+					this.byteBuffer.put(i + 3, (byte) a);
 				} else {
-					this.byteBuffer.put(i, (byte) p_181669_4_);
-					this.byteBuffer.put(i + 1, (byte) p_181669_3_);
-					this.byteBuffer.put(i + 2, (byte) p_181669_2_);
-					this.byteBuffer.put(i + 3, (byte) p_181669_1_);
+					this.byteBuffer.put(i, (byte) a);
+					this.byteBuffer.put(i + 1, (byte) b);
+					this.byteBuffer.put(i + 2, (byte) g);
+					this.byteBuffer.put(i + 3, (byte) r);
 				}
 		}
 
@@ -462,37 +462,37 @@ public class WorldRenderer {
 		if (Config.isShaders()) SVertexBuilder.endAddVertex(this);
 	}
 
-	public WorldRenderer pos(double p_181662_1_, double p_181662_3_, double p_181662_5_) {
+	public WorldRenderer pos(double x, double y, double z) {
 		if (Config.isShaders()) SVertexBuilder.beginAddVertex(this);
 
 		int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.func_181720_d(this.field_181678_g);
 
 		switch (WorldRenderer.WorldRenderer$2.field_181661_a[this.field_181677_f.getType().ordinal()]) {
 			case 1:
-				this.byteBuffer.putFloat(i, (float) (p_181662_1_ + this.xOffset));
-				this.byteBuffer.putFloat(i + 4, (float) (p_181662_3_ + this.yOffset));
-				this.byteBuffer.putFloat(i + 8, (float) (p_181662_5_ + this.zOffset));
+				this.byteBuffer.putFloat(i, (float) (x + this.xOffset));
+				this.byteBuffer.putFloat(i + 4, (float) (y + this.yOffset));
+				this.byteBuffer.putFloat(i + 8, (float) (z + this.zOffset));
 				break;
 
 			case 2:
 			case 3:
-				this.byteBuffer.putInt(i, Float.floatToRawIntBits((float) (p_181662_1_ + this.xOffset)));
-				this.byteBuffer.putInt(i + 4, Float.floatToRawIntBits((float) (p_181662_3_ + this.yOffset)));
-				this.byteBuffer.putInt(i + 8, Float.floatToRawIntBits((float) (p_181662_5_ + this.zOffset)));
+				this.byteBuffer.putInt(i, Float.floatToRawIntBits((float) (x + this.xOffset)));
+				this.byteBuffer.putInt(i + 4, Float.floatToRawIntBits((float) (y + this.yOffset)));
+				this.byteBuffer.putInt(i + 8, Float.floatToRawIntBits((float) (z + this.zOffset)));
 				break;
 
 			case 4:
 			case 5:
-				this.byteBuffer.putShort(i, (short) (int) (p_181662_1_ + this.xOffset));
-				this.byteBuffer.putShort(i + 2, (short) (int) (p_181662_3_ + this.yOffset));
-				this.byteBuffer.putShort(i + 4, (short) (int) (p_181662_5_ + this.zOffset));
+				this.byteBuffer.putShort(i, (short) (int) (x + this.xOffset));
+				this.byteBuffer.putShort(i + 2, (short) (int) (y + this.yOffset));
+				this.byteBuffer.putShort(i + 4, (short) (int) (z + this.zOffset));
 				break;
 
 			case 6:
 			case 7:
-				this.byteBuffer.put(i, (byte) (int) (p_181662_1_ + this.xOffset));
-				this.byteBuffer.put(i + 1, (byte) (int) (p_181662_3_ + this.yOffset));
-				this.byteBuffer.put(i + 2, (byte) (int) (p_181662_5_ + this.zOffset));
+				this.byteBuffer.put(i, (byte) (int) (x + this.xOffset));
+				this.byteBuffer.put(i + 1, (byte) (int) (y + this.yOffset));
+				this.byteBuffer.put(i + 2, (byte) (int) (z + this.zOffset));
 		}
 
 		this.func_181667_k();

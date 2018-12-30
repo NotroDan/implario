@@ -11,7 +11,7 @@ public class ServerListEntryLanScan implements GuiListExtended.IGuiListEntry
     {
         int i = y + slotHeight / 2 - this.mc.fontRendererObj.FONT_HEIGHT / 2;
         this.mc.fontRendererObj.drawString(
-				Lang.format("lanServer.scanning", new Object[0]), this.mc.currentScreen.width / 2 - this.mc.fontRendererObj.getStringWidth(Lang.format("lanServer.scanning", new Object[0])) / 2, i, 16777215);
+				Lang.format("lanServer.scanning"), this.mc.currentScreen.width / 2 - this.mc.fontRendererObj.getStringWidth(Lang.format("lanServer.scanning", new Object[0])) / 2, i, 16777215);
         String s;
 
         switch ((int)(Minecraft.getSystemTime() / 300L % 4L))

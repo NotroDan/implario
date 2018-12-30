@@ -54,9 +54,8 @@ public class ServerList {
 		try {
 			NBTTagList nbttaglist = new NBTTagList();
 
-			for (ServerData serverdata : this.servers) {
+			for (ServerData serverdata : this.servers)
 				nbttaglist.appendTag(serverdata.getNBTCompound());
-			}
 
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
 			nbttagcompound.setTag("servers", nbttaglist);
@@ -104,8 +103,8 @@ public class ServerList {
 		this.saveServerList();
 	}
 
-	public void func_147413_a(int p_147413_1_, ServerData p_147413_2_) {
-		this.servers.set(p_147413_1_, p_147413_2_);
+	public void put(int id, ServerData serverData) {
+		this.servers.set(id, serverData);
 	}
 
 	public static void func_147414_b(ServerData p_147414_0_) {
@@ -116,12 +115,15 @@ public class ServerList {
 			ServerData serverdata = serverlist.getServerData(i);
 
 			if (serverdata.serverName.equals(p_147414_0_.serverName) && serverdata.serverIP.equals(p_147414_0_.serverIP)) {
-				serverlist.func_147413_a(i, p_147414_0_);
+				serverlist.put(i, p_147414_0_);
 				break;
 			}
 		}
 
 		serverlist.saveServerList();
 	}
-
+	
+	public List<ServerData> getServers() {
+		return servers;
+	}
 }

@@ -16,9 +16,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.Validate;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -57,10 +55,10 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 					this.gui.getOldServerPinger().ping(this.serverData);
 				} catch (UnknownHostException var2) {
 					this.serverData.pingToServer = -1L;
-					this.serverData.serverMOTD = EnumChatFormatting.DARK_RED + "Can\'t resolve hostname";
+					this.serverData.serverMOTD = EnumChatFormatting.DARK_RED + "Ты ввёл неразборчивую херню вместо IP-адреса.";
 				} catch (Exception var3) {
 					this.serverData.pingToServer = -1L;
-					this.serverData.serverMOTD = EnumChatFormatting.DARK_RED + "Can\'t connect to server.";
+					this.serverData.serverMOTD = EnumChatFormatting.DARK_RED + "Не удалось получить данные о сервере.";
 				}
 			});
 		}
@@ -85,7 +83,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 
 		if (flag2) {
 			l = 5;
-			s1 = flag ? "Client out of date!" : "Server out of date!";
+			s1 = flag ? "Клиент не поддерживает сервера версий 1.9 и выше" : "Сервер слишком старый!";
 			s = this.serverData.playerList;
 		} else if (this.serverData.field_78841_f && this.serverData.pingToServer != -2L) {
 			if (this.serverData.pingToServer < 0L) {
@@ -103,9 +101,9 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 			}
 
 			if (this.serverData.pingToServer < 0L) {
-				s1 = "(no connection)";
+				s1 = "§cПинг неизвестен";
 			} else {
-				s1 = this.serverData.pingToServer + "ms";
+				s1 = this.serverData.pingToServer + "мс";
 				s = this.serverData.playerList;
 			}
 		} else {
@@ -116,7 +114,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 				l = 8 - l;
 			}
 
-			s1 = "Pinging...";
+			s1 = "Пингуем...";
 		}
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -202,9 +200,6 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 					bufferedimage = TextureUtil.readBufferedImage(new ByteBufInputStream(bytebuf1));
 					Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide");
 					Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high");
-					File f = new File(serverData.serverIP + ".png");
-					if (!f.exists()) f.createNewFile();
-					ImageIO.write(bufferedimage, "png", f);
 					break label101;
 				} catch (Throwable throwable) {
 					logger.error("Invalid icon for server " + this.serverData.serverName + " (" + this.serverData.serverIP + ")", throwable);

@@ -1,6 +1,5 @@
 package net.minecraft.client.shader;
 
-import java.nio.ByteBuffer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,6 +7,8 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
+
+import java.nio.ByteBuffer;
 
 public class Framebuffer
 {
@@ -22,7 +23,7 @@ public class Framebuffer
     public float[] framebufferColor;
     public int framebufferFilter;
 
-    public Framebuffer(int p_i45078_1_, int p_i45078_2_, boolean p_i45078_3_)
+    public Framebuffer(int width, int height, boolean p_i45078_3_)
     {
         this.useDepth = p_i45078_3_;
         this.framebufferObject = -1;
@@ -33,7 +34,7 @@ public class Framebuffer
         this.framebufferColor[1] = 1.0F;
         this.framebufferColor[2] = 1.0F;
         this.framebufferColor[3] = 0.0F;
-        this.createBindFramebuffer(p_i45078_1_, p_i45078_2_);
+        this.createBindFramebuffer(width, height);
     }
 
     public void createBindFramebuffer(int width, int height)

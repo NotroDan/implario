@@ -93,6 +93,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, Lang.format("menu.options")));
 		this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, Lang.format("menu.quit")));
 		this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Авторизация"));
+		this.buttonList.add(new GuiButton(6, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Не нажимать!"));
 		this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12)); // j + 72 + 12
 		this.buttonList.add(new GuiButtonChangeName(99, this.width / 2 - 124, j + 72 + 12 + 24));
 
@@ -111,13 +112,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 	private void addSingleplayerMultiplayerButtons(int y, int offset) {
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, y, Lang.format("menu.singleplayer")));
-		this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + offset * 1, Lang.format("menu.multiplayer")));
+		this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + offset, Lang.format("menu.multiplayer")));
 	}
 
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions(this));
 
 		if (button.id == 5) this.mc.displayGuiScreen(new GuiSudoku());
+		if (button.id == 6) this.mc.displayGuiScreen(new GuiServers(this));
 
 		if (button.id == 1) this.mc.displayGuiScreen(new GuiSelectWorld(this));
 

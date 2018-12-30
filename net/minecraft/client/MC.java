@@ -10,8 +10,10 @@ import net.minecraft.util.ChatComponentText;
 import static net.minecraft.client.Minecraft.theMinecraft;
 
 public final class MC {
+	
+	public static FontRenderer FR;
 
-	private MC() {throw null;}
+	private MC() {throw new Error("Ну ты чо совсем шоле ебанулся");}
 
 	public static FontRenderer getFontRenderer() {
 		return theMinecraft.fontRendererObj;
@@ -51,5 +53,9 @@ public final class MC {
 	public static void toggleHitboxes() {
 		i().getRenderManager().setDebugBoundingBox(!i().getRenderManager().isDebugBoundingBox());
 	}
-
+	
+	public static void frame() {
+		i().updateDisplay();
+		if (FR == null) FR = getFontRenderer();
+	}
 }
