@@ -10,6 +10,7 @@ import joptsimple.OptionSpec;
 import net.minecraft.Auth;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
+import org.lwjgl.Sys;
 
 import java.io.File;
 import java.net.Authenticator;

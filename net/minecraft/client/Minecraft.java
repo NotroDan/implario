@@ -12,7 +12,6 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import net.minecraft.Auth;
-import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -67,8 +66,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import net.minecraft.server.Profiler;
-import net.minecraft.server.Todo;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
@@ -108,7 +106,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
-import static net.minecraft.client.ClientProfiler.in;
 import static net.minecraft.client.keystrokes.Key.*;
 import static net.minecraft.client.settings.KeyBinding.*;
 import static net.minecraft.util.Util.OS.OSX;
@@ -208,6 +205,11 @@ public class Minecraft implements IThreadListener {
 	private boolean integratedServerIsRunning;
 
 	/**
+	 * The profiler instance
+	 */
+	public final Profiler mcProfiler = new Profiler();
+
+	/**
 	 * Keeps track of how long the debug crash keycombo (F3+C) has been pressed for, in order to crash after 10 seconds.
 	 */
 	private long debugCrashKeyPressTime = -1L;
@@ -227,7 +229,6 @@ public class Minecraft implements IThreadListener {
 	private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
 	private final Thread mcThread = Thread.currentThread();
 	private ModelManager modelManager;
-	private Preloader preloader;
 
 	/**
 	 * The BlockRenderDispatcher instance that will be used based off gamesettings
@@ -263,8 +264,6 @@ public class Minecraft implements IThreadListener {
 
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
-		Profiler.in = new ClientProfiler();
-		Todo.instance = new TodoClient();
 		this.mcDataDir = gameConfig.folderInfo.mcDataDir;
 		this.fileAssets = gameConfig.folderInfo.assetsDir;
 		this.fileResourcepacks = gameConfig.folderInfo.resourcePacksDir;
@@ -314,13 +313,16 @@ public class Minecraft implements IThreadListener {
 
 		try {
 			while (this.running) {
-				if (this.hasCrashed && this.crashReporter != null) this.displayCrashReport(this.crashReporter);
-				else try {
-					this.runGameLoop();
-				} catch (OutOfMemoryError var10) {
-					this.freeMemory();
-					this.displayGuiScreen(new GuiMemoryErrorScreen());
-					System.gc();
+				if (!this.hasCrashed || this.crashReporter == null) {
+					try {
+						this.runGameLoop();
+					} catch (OutOfMemoryError var10) {
+						this.freeMemory();
+						this.displayGuiScreen(new GuiMemoryErrorScreen());
+						System.gc();
+					}
+				} else {
+					this.displayCrashReport(this.crashReporter);
 				}
 			}
 		} catch (MinecraftError ignored) {
@@ -365,24 +367,17 @@ public class Minecraft implements IThreadListener {
 		this.renderEngine = new TextureManager(this.mcResourceManager);
 		this.mcResourceManager.registerReloadListener(this.renderEngine);
 		this.skinManager = new SkinManager(this.renderEngine, new File(this.fileAssets, "skins"), this.sessionService);
+		this.drawMojangLogo(this.renderEngine);
+		this.saveLoader = new AnvilSaveConverter(new File(this.mcDataDir, "saves"));
+		this.mcSoundHandler = new SoundHandler(this.mcResourceManager);
+		this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
+		this.mcMusicTicker = new MusicTicker(this);
 		this.fontRendererObj = new FontRenderer(new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
+
 		if (Settings.language != null) {
 			this.fontRendererObj.setUnicodeFlag(this.isUnicode());
 			this.fontRendererObj.setBidiFlag(this.mcLanguageManager.isCurrentLanguageBidirectional());
 		}
-		
-		preloader = new Preloader(new ScaledResolution(this), mcDefaultResourcePack, renderEngine);
-		preloader.drawLogo();
-		
-		this.saveLoader = new AnvilSaveConverter(new File(this.mcDataDir, "saves"));
-		preloader.nextState();
-		
-		this.mcSoundHandler = new SoundHandler(this.mcResourceManager);
-		this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
-		preloader.nextState();
-		
-		this.mcMusicTicker = new MusicTicker(this);
-		preloader.nextState();
 
 		long end = System.currentTimeMillis();
 		System.out.println("# Преинициализация завершена за " + (end - start) + " мс.");
@@ -394,36 +389,7 @@ public class Minecraft implements IThreadListener {
 		this.mcResourceManager.registerReloadListener(new FoliageColorReloadListener());
 		AchievementList.openInventory.setStatStringFormatter(s -> String.format(s, "E"));
 		this.mouseHelper = new MouseHelper();
-		preloader.nextState();
 		this.checkGLError("Pre startup");
-		this.checkGLError("Startup");
-		this.textureMapBlocks = new TextureMap("textures");
-		this.textureMapBlocks.setMipmapLevels((int) Settings.MIPMAP_LEVELS.f());
-		preloader.nextState();
-		this.renderEngine.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
-		this.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-		preloader.nextState();
-		this.textureMapBlocks.setBlurMipmapDirect(false, Settings.MIPMAP_LEVELS.i() > 0);
-		this.modelManager = new ModelManager(this.textureMapBlocks);
-		this.mcResourceManager.registerReloadListener(this.modelManager);
-		preloader.nextState();
-		this.renderItem = new RenderItem(this.renderEngine, this.modelManager);
-		this.renderManager = new RenderManager(this.renderEngine, this.renderItem);
-		this.itemRenderer = new ItemRenderer(this);
-		this.mcResourceManager.registerReloadListener(this.renderItem);
-		preloader.nextState();
-		this.entityRenderer = new EntityRenderer(this, this.mcResourceManager);
-		this.mcResourceManager.registerReloadListener(this.entityRenderer);
-		preloader.nextState();
-		this.blockRenderDispatcher = new BlockRendererDispatcher(this.modelManager.getBlockModelShapes());
-		this.mcResourceManager.registerReloadListener(this.blockRenderDispatcher);
-		preloader.nextState();
-		this.renderGlobal = new RenderGlobal(this);
-		this.mcResourceManager.registerReloadListener(this.renderGlobal);
-		preloader.nextState();
-		this.guiAchievement = new GuiAchievement(this);
-		preloader.nextState();
-		preloader.nextState();
 		GlStateManager.enableTexture2D();
 		GlStateManager.shadeModel(7425);
 		GlStateManager.clearDepth(1.0D);
@@ -435,6 +401,25 @@ public class Minecraft implements IThreadListener {
 		GlStateManager.matrixMode(5889);
 		GlStateManager.loadIdentity();
 		GlStateManager.matrixMode(5888);
+		this.checkGLError("Startup");
+		this.textureMapBlocks = new TextureMap("textures");
+		this.textureMapBlocks.setMipmapLevels((int) Settings.MIPMAP_LEVELS.f());
+		this.renderEngine.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
+		this.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+		this.textureMapBlocks.setBlurMipmapDirect(false, Settings.MIPMAP_LEVELS.i() > 0);
+		this.modelManager = new ModelManager(this.textureMapBlocks);
+		this.mcResourceManager.registerReloadListener(this.modelManager);
+		this.renderItem = new RenderItem(this.renderEngine, this.modelManager);
+		this.renderManager = new RenderManager(this.renderEngine, this.renderItem);
+		this.itemRenderer = new ItemRenderer(this);
+		this.mcResourceManager.registerReloadListener(this.renderItem);
+		this.entityRenderer = new EntityRenderer(this, this.mcResourceManager);
+		this.mcResourceManager.registerReloadListener(this.entityRenderer);
+		this.blockRenderDispatcher = new BlockRendererDispatcher(this.modelManager.getBlockModelShapes());
+		this.mcResourceManager.registerReloadListener(this.blockRenderDispatcher);
+		this.renderGlobal = new RenderGlobal(this);
+		this.mcResourceManager.registerReloadListener(this.renderGlobal);
+		this.guiAchievement = new GuiAchievement(this);
 		GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		this.checkGLError("Post startup");
@@ -804,7 +789,7 @@ label53:
 	 */
 	private void runGameLoop() throws IOException {
 		long i = System.nanoTime();
-		in.startSection("root");
+		this.mcProfiler.startSection("root");
 
 		if (Display.isCreated() && Display.isCloseRequested()) this.shutdown();
 
@@ -815,50 +800,50 @@ label53:
 			this.timer.renderPartialTicks = f;
 		}
 
-		in.startSection("scheduledExecutables");
+		this.mcProfiler.startSection("scheduledExecutables");
 
 		synchronized (this.scheduledTasks) {
 			while (!this.scheduledTasks.isEmpty()) Util.schedule((FutureTask) this.scheduledTasks.poll(), logger);
 		}
 
-		in.endSection();
+		this.mcProfiler.endSection();
 		long l = System.nanoTime();
-		in.startSection("tick");
+		this.mcProfiler.startSection("tick");
 
 		for (int j = 0; j < this.timer.elapsedTicks; ++j) this.runTick();
 
-		in.endStartSection("preRenderErrors");
+		this.mcProfiler.endStartSection("preRenderErrors");
 		long i1 = System.nanoTime() - l;
 		this.checkGLError("Pre render");
-		in.endStartSection("sound");
+		this.mcProfiler.endStartSection("sound");
 		this.mcSoundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
-		in.endSection();
-		in.startSection("render");
+		this.mcProfiler.endSection();
+		this.mcProfiler.startSection("render");
 		GlStateManager.pushMatrix();
 		GlStateManager.clear(16640);
 		this.framebufferMc.bindFramebuffer(true);
-		in.startSection("display");
+		this.mcProfiler.startSection("display");
 		GlStateManager.enableTexture2D();
 
 		if (this.thePlayer != null && this.thePlayer.isEntityInsideOpaqueBlock()) Settings.PERSPECTIVE.set(0);
 
-		in.endSection();
+		this.mcProfiler.endSection();
 
 		if (!this.skipRenderWorld) {
-			in.endStartSection("gameRenderer");
+			this.mcProfiler.endStartSection("gameRenderer");
 			this.entityRenderer.func_181560_a(this.timer.renderPartialTicks, i);
-			in.endSection();
+			this.mcProfiler.endSection();
 		}
 
-		in.endSection();
+		this.mcProfiler.endSection();
 
 		if (Settings.SHOW_DEBUG.b() && Settings.PROFILER.b() && !Settings.HIDE_GUI.b()) {
-			if (!in.profilingEnabled) in.clearProfiling();
+			if (!this.mcProfiler.profilingEnabled) this.mcProfiler.clearProfiling();
 
-			in.profilingEnabled = true;
+			this.mcProfiler.profilingEnabled = true;
 			this.displayDebugInfo(i1);
 		} else {
-			in.profilingEnabled = false;
+			this.mcProfiler.profilingEnabled = false;
 			this.prevFrameTime = System.nanoTime();
 		}
 
@@ -868,14 +853,14 @@ label53:
 		GlStateManager.pushMatrix();
 		this.framebufferMc.framebufferRender(this.displayWidth, this.displayHeight);
 		GlStateManager.popMatrix();
-		in.startSection("root");
+		this.mcProfiler.startSection("root");
 		this.updateDisplay();
 		Thread.yield();
-		in.startSection("stream");
-		in.startSection("update");
-		in.endStartSection("submit");
-		in.endSection();
-		in.endSection();
+		this.mcProfiler.startSection("stream");
+		this.mcProfiler.startSection("update");
+		this.mcProfiler.endStartSection("submit");
+		this.mcProfiler.endSection();
+		this.mcProfiler.endSection();
 		this.checkGLError("Post render");
 		++this.fpsCounter;
 		this.isGamePaused = this.isSingleplayer() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame() && !this.theIntegratedServer.getPublic();
@@ -892,18 +877,18 @@ label53:
 		}
 
 		if (this.isFramerateLimitBelowMax()) {
-			in.startSection("fpslimit_wait");
+			this.mcProfiler.startSection("fpslimit_wait");
 			Display.sync(this.getLimitFramerate());
-			in.endSection();
+			this.mcProfiler.endSection();
 		}
 
-		in.endSection();
+		this.mcProfiler.endSection();
 	}
 
 	public void updateDisplay() {
-		in.startSection("display_update");
+		this.mcProfiler.startSection("display_update");
 		Display.update();
-		in.endSection();
+		this.mcProfiler.endSection();
 		this.checkWindowResize();
 	}
 
@@ -946,25 +931,25 @@ label53:
 	 * Update debugProfilerName in response to number keys in debug screen
 	 */
 	private void updateDebugProfilerName(int keyCount) {
-		List<Profiler.Result> list = in.getProfilingData(this.debugProfilerName);
+		List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
 
 		if (list == null || list.isEmpty()) return;
-		Profiler.Result res = list.remove(0);
+		Profiler.Result profiler$result = list.remove(0);
 
 		if (keyCount == 0) {
-			if (res.s.length() > 0) {
+			if (profiler$result.field_76331_c.length() > 0) {
 				int i = this.debugProfilerName.lastIndexOf(".");
 				if (i >= 0) this.debugProfilerName = this.debugProfilerName.substring(0, i);
 			}
 		} else {
 			--keyCount;
 
-			if (keyCount < list.size() && !list.get(keyCount).s.equals("unspecified")) {
+			if (keyCount < list.size() && !list.get(keyCount).field_76331_c.equals("unspecified")) {
 				if (this.debugProfilerName.length() > 0) {
 					this.debugProfilerName = this.debugProfilerName + ".";
 				}
 
-				this.debugProfilerName = this.debugProfilerName + list.get(keyCount).s;
+				this.debugProfilerName = this.debugProfilerName + list.get(keyCount).field_76331_c;
 			}
 		}
 	}
@@ -973,8 +958,8 @@ label53:
 	 * Parameter appears to be unused
 	 */
 	private void displayDebugInfo(long elapsedTicksTime) {
-		if (!in.profilingEnabled) return;
-		List<Profiler.Result> list = in.getProfilingData(this.debugProfilerName);
+		if (!this.mcProfiler.profilingEnabled) return;
+		List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
 		Profiler.Result profiler$result = list.remove(0);
 		GlStateManager.clear(256);
 		GlStateManager.matrixMode(5889);
@@ -1001,17 +986,17 @@ label53:
 		GlStateManager.disableBlend();
 		double d0 = 0.0D;
 
-		for (Profiler.Result res : list) {
-			int i1 = MathHelper.floor_double(res.a / 4.0D) + 1;
+		for (Profiler.Result profiler$result1 : list) {
+			int i1 = MathHelper.floor_double(profiler$result1.field_76332_a / 4.0D) + 1;
 			worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-			int j1 = res.hash();
+			int j1 = profiler$result1.func_76329_a();
 			int k1 = j1 >> 16 & 255;
 			int l1 = j1 >> 8 & 255;
 			int i2 = j1 & 255;
 			worldrenderer.pos((double) j, (double) k, 0.0D).color(k1, l1, i2, 255).endVertex();
 
 			for (int j2 = i1; j2 >= 0; --j2) {
-				float f = (float) ((d0 + res.a * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
+				float f = (float) ((d0 + profiler$result1.field_76332_a * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
 				float f1 = MathHelper.sin(f) * (float) i;
 				float f2 = MathHelper.cos(f) * (float) i * 0.5F;
 				worldrenderer.pos((double) ((float) j + f1), (double) ((float) k - f2), 0.0D).color(k1, l1, i2, 255).endVertex();
@@ -1021,7 +1006,7 @@ label53:
 			worldrenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
 
 			for (int i3 = i1; i3 >= 0; --i3) {
-				float f3 = (float) ((d0 + res.a * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
+				float f3 = (float) ((d0 + profiler$result1.field_76332_a * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
 				float f4 = MathHelper.sin(f3) * (float) i;
 				float f5 = MathHelper.cos(f3) * (float) i * 0.5F;
 				worldrenderer.pos((double) ((float) j + f4), (double) ((float) k - f5), 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
@@ -1029,34 +1014,32 @@ label53:
 			}
 
 			tessellator.draw();
-			d0 += res.a;
+			d0 += profiler$result1.field_76332_a;
 		}
 
 		DecimalFormat decimalformat = new DecimalFormat("##0.00");
 		GlStateManager.enableTexture2D();
 		String s = "";
 
-		if (!profiler$result.s.equals("unspecified")) s = s + "[0] ";
-		if (profiler$result.s.length() == 0) s = s + "ROOT ";
-		else s = s + profiler$result.s + " ";
+		if (!profiler$result.field_76331_c.equals("unspecified")) s = s + "[0] ";
+		if (profiler$result.field_76331_c.length() == 0) s = s + "ROOT ";
+		else s = s + profiler$result.field_76331_c + " ";
 
 		int l2 = 16777215;
 		this.fontRendererObj.drawStringWithShadow(s, (float) (j - i), (float) (k - i / 2 - 16), l2);
-		this.fontRendererObj.drawStringWithShadow(s = decimalformat.format(profiler$result.b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s)), (float) (k - i / 2 - 16), l2);
+		this.fontRendererObj.drawStringWithShadow(s = decimalformat.format(profiler$result.field_76330_b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s)), (float) (k - i / 2 - 16), l2);
 
 		for (int k2 = 0; k2 < list.size(); k2++) {
 			Profiler.Result profiler$result2 = list.get(k2);
 			String s1 = "";
 
-			if (profiler$result2.s.equals("unspecified")) s1 = s1 + "[?] ";
+			if (profiler$result2.field_76331_c.equals("unspecified")) s1 = s1 + "[?] ";
 			else s1 = s1 + "[" + (k2 + 1) + "] ";
 
-			s1 = s1 + profiler$result2.s;
-			this.fontRendererObj.drawStringWithShadow(s1, (float) (j - i), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
-			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.a) + "%", (float) (j + i - 50 - this.fontRendererObj.getStringWidth(s1)),
-					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
-			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s1)),
-					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
+			s1 = s1 + profiler$result2.field_76331_c;
+			this.fontRendererObj.drawStringWithShadow(s1, (float) (j - i), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
+			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.field_76332_a) + "%", (float) (j + i - 50 - this.fontRendererObj.getStringWidth(s1)), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
+			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.field_76330_b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s1)), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
 		}
 	}
 
@@ -1263,18 +1246,18 @@ label53:
 	public void runTick() throws IOException {
 		if (this.rightClickDelayTimer > 0) --this.rightClickDelayTimer;
 
-		in.startSection("gui");
+		this.mcProfiler.startSection("gui");
 
 		if (!this.isGamePaused) this.ingameGUI.updateTick();
 
-		in.endSection();
+		this.mcProfiler.endSection();
 		this.entityRenderer.getMouseOver(1.0F);
 
 		// Передвижение игрока
-		in.startSection("gameMode");
+		this.mcProfiler.startSection("gameMode");
 		if (!this.isGamePaused && this.theWorld != null) this.playerController.updateController();
 
-		in.endStartSection("textures");
+		this.mcProfiler.endStartSection("textures");
 
 		// Рендер мира
 		if (!this.isGamePaused) this.renderEngine.tick();
@@ -1314,7 +1297,7 @@ label53:
 		}
 
 		if (this.currentScreen == null || this.currentScreen.allowUserInput) {
-			in.endStartSection("mouse");
+			this.mcProfiler.endStartSection("mouse");
 
 			while (Mouse.next()) {
 				int i = Mouse.getEventButton();
@@ -1362,7 +1345,7 @@ label53:
 				--this.leftClickCounter;
 			}
 
-			in.endStartSection("keyboard");
+			this.mcProfiler.endStartSection("keyboard");
 
 			while (Keyboard.next()) {
 				int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
@@ -1504,19 +1487,19 @@ label53:
 				}
 			}
 
-			in.endStartSection("gameRenderer");
+			this.mcProfiler.endStartSection("gameRenderer");
 
 			if (!this.isGamePaused) {
 				this.entityRenderer.updateRenderer();
 			}
 
-			in.endStartSection("levelRenderer");
+			this.mcProfiler.endStartSection("levelRenderer");
 
 			if (!this.isGamePaused) {
 				this.renderGlobal.updateClouds();
 			}
 
-			in.endStartSection("level");
+			this.mcProfiler.endStartSection("level");
 
 			if (!this.isGamePaused) {
 				if (this.theWorld.getLastLightningBolt() > 0) {
@@ -1554,20 +1537,20 @@ label53:
 				}
 			}
 
-			in.endStartSection("animateTick");
+			this.mcProfiler.endStartSection("animateTick");
 
 			if (!this.isGamePaused && this.theWorld != null)
 				this.theWorld.doVoidFogParticles(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ));
 
-			in.endStartSection("particles");
+			this.mcProfiler.endStartSection("particles");
 
 			if (!this.isGamePaused) this.effectRenderer.updateEffects();
 		} else if (this.myNetworkManager != null) {
-			in.endStartSection("pendingConnection");
+			this.mcProfiler.endStartSection("pendingConnection");
 			this.myNetworkManager.processReceivedPackets();
 		}
 
-		in.endSection();
+		this.mcProfiler.endSection();
 		this.systemTime = getSystemTime();
 	}
 
@@ -1916,7 +1899,7 @@ label53:
 		theCrash.getCategory().addCrashSectionCallable("Current Language",
 				() -> this.mcLanguageManager.getCurrentLanguage().toString());
 		theCrash.getCategory().addCrashSectionCallable("Profiler Position",
-				() -> in.profilingEnabled ? in.getNameOfLastSection() : "N/A (disabled)");
+				() -> this.mcProfiler.profilingEnabled ? this.mcProfiler.getNameOfLastSection() : "N/A (disabled)");
 		theCrash.getCategory().addCrashSectionCallable("CPU", OpenGlHelper::func_183029_j);
 
 		if (this.theWorld != null) {
