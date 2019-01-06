@@ -300,13 +300,15 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 	}
 
 	public void connectToSelected() {
-		GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.getSelected() < 0 ? null : this.serverListSelector.getListEntry(
+		GuiListExtended.IGuiListEntry e = this.serverListSelector.getSelected() < 0 ? null : this.serverListSelector.getListEntry(
 				this.serverListSelector.getSelected());
 
-		if (guilistextended$iguilistentry instanceof ServerListEntryNormal) {
-			this.connectToServer(((ServerListEntryNormal) guilistextended$iguilistentry).getServerData());
-		} else if (guilistextended$iguilistentry instanceof ServerListEntryLanDetected) {
-			LanServerDetector.LanServer lanserverdetector$lanserver = ((ServerListEntryLanDetected) guilistextended$iguilistentry).getLanServer();
+		if (e instanceof ServerListEntryNormal) {
+			ServerData data = ((ServerListEntryNormal) e).getServerData();
+			System.out.println(data.serverMOTD);
+			this.connectToServer(data);
+		} else if (e instanceof ServerListEntryLanDetected) {
+			LanServerDetector.LanServer lanserverdetector$lanserver = ((ServerListEntryLanDetected) e).getLanServer();
 			this.connectToServer(new ServerData(lanserverdetector$lanserver.getServerMotd(), lanserverdetector$lanserver.getServerIpPort(), true));
 		}
 	}

@@ -58,4 +58,8 @@ public final class MC {
 		i().updateDisplay();
 		if (FR == null) FR = getFontRenderer();
 	}
+	
+	public static int sqd(int a, int b) {
+		return a * a + b * b;
+	}
 }

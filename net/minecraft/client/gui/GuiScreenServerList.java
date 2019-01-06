@@ -56,13 +56,11 @@ public class GuiScreenServerList extends GuiScreen {
 	 * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
 	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
-		if (button.enabled) {
-			if (button.id == 1) {
-				this.parent.confirmClicked(false, 0);
-			} else if (button.id == 0) {
-				this.selected.serverIP = this.textField.getText();
-				this.parent.confirmClicked(true, 0);
-			}
+		if (!button.enabled) return;
+		if (button.id == 1) this.parent.confirmClicked(false, 0);
+		else if (button.id == 0) {
+			this.selected.serverIP = this.textField.getText();
+			this.parent.confirmClicked(true, 0);
 		}
 	}
 
