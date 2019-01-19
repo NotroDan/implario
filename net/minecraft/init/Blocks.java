@@ -124,6 +124,7 @@ public class Blocks
     public static final Block snow_layer;
     public static final Block ice;
     public static final Block snow;
+    public static final Block someBlock;
     public static final BlockCactus cactus;
     public static final Block clay;
     public static final BlockReed reeds;
@@ -243,12 +244,8 @@ public class Blocks
         return (Block)Block.blockRegistry.getObject(new ResourceLocation(p_180383_0_));
     }
 
-    static
-    {
-        if (!Bootstrap.isRegistered())
-        {
-            throw new RuntimeException("Accessed Blocks before Bootstrap!");
-        }
+    static {
+        if (!Bootstrap.isRegistered()) throw new RuntimeException("Accessed Blocks before Bootstrap!");
 		air = getRegisteredBlock("air");
 		stone = getRegisteredBlock("stone");
 		grass = (BlockGrass)getRegisteredBlock("grass");
@@ -337,6 +334,7 @@ public class Blocks
 		snow_layer = getRegisteredBlock("snow_layer");
 		ice = getRegisteredBlock("ice");
 		snow = getRegisteredBlock("snow");
+		someBlock = getRegisteredBlock("some_block");
 		cactus = (BlockCactus)getRegisteredBlock("cactus");
 		clay = getRegisteredBlock("clay");
 		reeds = (BlockReed)getRegisteredBlock("reeds");

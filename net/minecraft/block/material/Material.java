@@ -18,7 +18,7 @@ public class Material
     public static final Material cloth = new Material(MapColor.clothColor).setBurning();
     public static final Material fire = new MaterialTransparent(MapColor.airColor).setNoPushMobility();
     public static final Material sand = new Material(MapColor.sandColor);
-    public static final Material circuits = new MaterialLogic(MapColor.airColor).setNoPushMobility();
+    public static final Material circuits = new MaterialLogic(MapColor.airColor);//.setNoPushMobility();
     public static final Material carpet = new MaterialLogic(MapColor.clothColor).setBurning();
     public static final Material glass = new Material(MapColor.airColor).setTranslucent().setAdventureModeExempt();
     public static final Material redstoneLight = new Material(MapColor.airColor).setAdventureModeExempt();
@@ -27,8 +27,6 @@ public class Material
     public static final Material ice = new Material(MapColor.iceColor).setTranslucent().setAdventureModeExempt();
     public static final Material packedIce = new Material(MapColor.iceColor).setAdventureModeExempt();
     public static final Material snow = new MaterialLogic(MapColor.snowColor).setReplaceable().setTranslucent().setRequiresTool().setNoPushMobility();
-
-    /** The material for crafted snow. */
     public static final Material craftedSnow = new Material(MapColor.snowColor).setRequiresTool();
     public static final Material cactus = new Material(MapColor.foliageColor).setTranslucent().setNoPushMobility();
     public static final Material clay = new Material(MapColor.clayColor);
@@ -207,9 +205,6 @@ public class Material
         return this;
     }
 
-    /**
-     * @see #isAdventureModeExempt()
-     */
     protected Material setAdventureModeExempt()
     {
         this.isAdventureModeExempt = true;

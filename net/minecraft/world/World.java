@@ -235,7 +235,7 @@ public abstract class World implements IBlockAccess
 
     public boolean isBlockLoaded(BlockPos pos, boolean allowEmpty)
     {
-        return !this.isValid(pos) ? false : this.isChunkLoaded(pos.getX() >> 4, pos.getZ() >> 4, allowEmpty);
+        return this.isValid(pos) && this.isChunkLoaded(pos.getX() >> 4, pos.getZ() >> 4, allowEmpty);
     }
 
     public boolean isAreaLoaded(BlockPos center, int radius)

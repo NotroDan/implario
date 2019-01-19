@@ -630,6 +630,7 @@ public class Item
         registerItemBlock(Blocks.spruce_fence);
         registerItemBlock(Blocks.birch_fence);
         registerItemBlock(Blocks.jungle_fence);
+        registerItemBlock(Blocks.someBlock);
         registerItemBlock(Blocks.dark_oak_fence);
         registerItemBlock(Blocks.acacia_fence);
         registerItemBlock(Blocks.pumpkin);

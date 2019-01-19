@@ -23,7 +23,7 @@ public class BlockFenceGate extends BlockDirectional
 
     public BlockFenceGate(BlockPlanks.EnumType p_i46394_1_)
     {
-        super(Material.wood, p_i46394_1_.func_181070_c());
+        super(Material.wood, p_i46394_1_.getMapColor());
         this.setDefaultState(this.blockState.getBaseState().withProperty(OPEN, Boolean.FALSE).withProperty(POWERED, Boolean.FALSE).withProperty(IN_WALL, Boolean.FALSE));
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }

@@ -25,7 +25,7 @@ import java.util.Date;
 public class ScreenShotHelper {
 
 	private static final Logger logger = Logger.getInstance();
-	private static final DateFormat dateFormat = new SimpleDateFormat("yy MMM dd HH.mm.ss");
+	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 	/**
 	 * A buffer to hold pixel values returned by OpenGL.
@@ -132,7 +132,7 @@ public class ScreenShotHelper {
 		int i = 1;
 
 		while (true) {
-			File file1 = new File(gameDirectory, s + (i == 1 ? "" : " (" + i + ")") + ".png");
+			File file1 = new File(gameDirectory, s + (i == 1 ? "" : " - " + i) + ".png");
 			if (!file1.exists()) return file1;
 			++i;
 		}
