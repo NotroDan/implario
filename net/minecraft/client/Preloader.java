@@ -1,5 +1,6 @@
 package net.minecraft.client;
 
+import net.minecraft.Logger;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -38,7 +39,7 @@ public class Preloader {
 	};
 	
 	private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
-	
+
 	private final ScaledResolution res;
 	private final ResourceLocation logo;
 	private final Minecraft mc = MC.i();
@@ -108,7 +109,7 @@ public class Preloader {
 	
 	private void drawInfo() {
 		for (int i = 0; i < states.length; i++) {
-			String state = i < this.state ? "§a§l\u2714§7 " + states[i] : ("§f   " + states[i]);
+			String state = i < this.state ? "§a§l\u2714§7 " + states[i] : "§f   " + states[i];
 			if (i == this.state) state = "§e>  " + states[i] + "...";
 			drawText(state, 5, 10 + i * 9, 0);
 		}

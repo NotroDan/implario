@@ -7,7 +7,7 @@ import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -47,6 +47,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemRecord;
+import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySign;
@@ -802,7 +803,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 			this.postRenderDamagedBlocks();
 			this.mc.entityRenderer.disableLightmap();
-			this.mc.mcProfiler.endSection();
+			Profiler.in.endSection();
 		}
 	}
 
@@ -870,7 +871,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			camera = frustum;
 		}
 
-		this.mc.mcProfiler.endStartSection("culling");
+		Profiler.in.endStartSection("culling");
 		BlockPos blockpos2 = new BlockPos(d3, d4 + (double) viewEntity.getEyeHeight(), d5);
 		RenderChunk renderchunk = this.viewFrustum.getRenderChunk(blockpos2);
 		BlockPos blockpos = new BlockPos(MathHelper.floor_double(d3 / 16.0D) * 16, MathHelper.floor_double(d4 / 16.0D) * 16, MathHelper.floor_double(d5 / 16.0D) * 16);
@@ -1038,10 +1039,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 						if (!renderchunk5.isPlayerUpdate()) {
 							this.chunksToUpdateForced.add(renderchunk5);
 						} else {
-							this.mc.mcProfiler.startSection("build near");
+							Profiler.in.startSection("build near");
 							this.renderDispatcher.updateChunkNow(renderchunk5);
 							renderchunk5.setNeedsUpdate(false);
-							this.mc.mcProfiler.endSection();
+							Profiler.in.endSection();
 						}
 					} else {
 						this.chunksToUpdate.add(renderchunk5);
@@ -1051,7 +1052,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 			Lagometer.timerChunkUpdate.end();
 			this.chunksToUpdate.addAll(set);
-			this.mc.mcProfiler.endSection();
+			Profiler.in.endSection();
 		}
 	}
 
@@ -1147,7 +1148,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		RenderHelper.disableStandardItemLighting();
 
 		if (blockLayerIn == EnumWorldBlockLayer.TRANSLUCENT) {
-			this.mc.mcProfiler.startSection("translucent_sort");
+			Profiler.in.startSection("translucent_sort");
 			double d0 = entityIn.posX - this.prevRenderSortX;
 			double d1 = entityIn.posY - this.prevRenderSortY;
 			double d2 = entityIn.posZ - this.prevRenderSortZ;
@@ -1169,10 +1170,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				}
 			}
 
-			this.mc.mcProfiler.endSection();
+			Profiler.in.endSection();
 		}
 
-		this.mc.mcProfiler.startSection("filterempty");
+		Profiler.in.startSection("filterempty");
 		int l = 0;
 		boolean flag = blockLayerIn == EnumWorldBlockLayer.TRANSLUCENT;
 		int i1 = flag ? this.renderInfos.size() - 1 : 0;
@@ -1189,16 +1190,16 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		}
 
 		if (l == 0) {
-			this.mc.mcProfiler.endSection();
+			Profiler.in.endSection();
 			return l;
 		}
 		if (Config.isFogOff() && this.mc.entityRenderer.fogStandard) {
 			GlStateManager.disableFog();
 		}
 
-		this.mc.mcProfiler.endStartSection("render_" + blockLayerIn);
+		Profiler.in.endStartSection("render_" + blockLayerIn);
 		this.renderBlockLayer(blockLayerIn);
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 		return l;
 	}
 

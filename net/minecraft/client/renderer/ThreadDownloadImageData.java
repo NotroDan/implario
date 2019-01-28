@@ -21,8 +21,8 @@ import optifine.HttpRequest;
 import optifine.HttpResponse;
 
 import org.apache.commons.io.FileUtils;
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 
 public class ThreadDownloadImageData extends SimpleTexture
 {

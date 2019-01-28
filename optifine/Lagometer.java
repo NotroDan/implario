@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.profiler.Profiler;
+import net.minecraft.server.Profiler;
 import org.lwjgl.opengl.GL11;
 
 public class Lagometer {
@@ -80,7 +80,7 @@ public class Lagometer {
 	public static void updateLagometer() {
 		if (mc == null) {
 			mc = Minecraft.getMinecraft();
-			profiler = mc.mcProfiler;
+			profiler = Profiler.in;
 		}
 
 		if (Settings.SHOW_DEBUG.b() && Settings.LAGOMETER.b()) {

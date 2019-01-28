@@ -3,8 +3,8 @@ package net.minecraft.client.shader;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Matrix4f;
 

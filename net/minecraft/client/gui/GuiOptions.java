@@ -88,7 +88,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.RAINBOW_SHIT, x2, y),
 				createButton(Settings.GUI_SCALE, x1, y += 22),
 				createButton(Settings.SLOT_GRID, x2, y),
-				createButton(Settings.MODERN_INVENTORIES, x1, y += 22)
+				createButton(Settings.MODERN_INVENTORIES, x1, y += 22),
+				createButton(Settings.FINE_EFFECTS, x2, y)
 				);
 
 		y = tabs.y;

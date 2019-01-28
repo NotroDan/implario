@@ -11,8 +11,8 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 
 public class LayeredColorMaskTexture extends AbstractTexture
 {

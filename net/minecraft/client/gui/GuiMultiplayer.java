@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;

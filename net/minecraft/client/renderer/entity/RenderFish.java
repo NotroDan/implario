@@ -1,11 +1,10 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.settings.Settings;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -55,32 +54,33 @@ public class RenderFish extends Render<EntityFishHook>
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
 
-        if (entity.angler != null)
+		EntityPlayer player = entity.angler;
+		if (player != null)
         {
-            float f7 = entity.angler.getSwingProgress(partialTicks);
+            float f7 = player.getSwingProgress(partialTicks);
             float f8 = MathHelper.sin(MathHelper.sqrt_float(f7) * (float)Math.PI);
             Vec3 vec3 = new Vec3(-0.36D, 0.03D, 0.35D);
-            vec3 = vec3.rotatePitch(-(entity.angler.prevRotationPitch + (entity.angler.rotationPitch - entity.angler.prevRotationPitch) * partialTicks) * (float)Math.PI / 180.0F);
-            vec3 = vec3.rotateYaw(-(entity.angler.prevRotationYaw + (entity.angler.rotationYaw - entity.angler.prevRotationYaw) * partialTicks) * (float)Math.PI / 180.0F);
+            vec3 = vec3.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * (float)Math.PI / 180.0F);
+            vec3 = vec3.rotateYaw(-(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks) * (float)Math.PI / 180.0F);
             vec3 = vec3.rotateYaw(f8 * 0.5F);
             vec3 = vec3.rotatePitch(-f8 * 0.7F);
-            double d0 = entity.angler.prevPosX + (entity.angler.posX - entity.angler.prevPosX) * (double)partialTicks + vec3.xCoord;
-            double d1 = entity.angler.prevPosY + (entity.angler.posY - entity.angler.prevPosY) * (double)partialTicks + vec3.yCoord;
-            double d2 = entity.angler.prevPosZ + (entity.angler.posZ - entity.angler.prevPosZ) * (double)partialTicks + vec3.zCoord;
-            double d3 = (double)entity.angler.getEyeHeight();
+            double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double)partialTicks + vec3.xCoord;
+            double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double)partialTicks + vec3.yCoord;
+            double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double)partialTicks + vec3.zCoord;
+            double d3 = (double) player.getEyeHeight();
 
-            if (Settings.getPerspective() > 0 || entity.angler != Minecraft.getMinecraft().thePlayer)
-            {
-                float f9 = (entity.angler.prevRenderYawOffset + (entity.angler.renderYawOffset - entity.angler.prevRenderYawOffset) * partialTicks) * (float)Math.PI / 180.0F;
-                double d4 = (double)MathHelper.sin(f9);
-                double d6 = (double)MathHelper.cos(f9);
-                double d8 = 0.35D;
-                double d10 = 0.8D;
-                d0 = entity.angler.prevPosX + (entity.angler.posX - entity.angler.prevPosX) * (double)partialTicks - d6 * 0.35D - d4 * 0.8D;
-                d1 = entity.angler.prevPosY + d3 + (entity.angler.posY - entity.angler.prevPosY) * (double)partialTicks - 0.45D;
-                d2 = entity.angler.prevPosZ + (entity.angler.posZ - entity.angler.prevPosZ) * (double)partialTicks - d4 * 0.35D + d6 * 0.8D;
-                d3 = entity.angler.isSneaking() ? -0.1875D : 0.0D;
-            }
+//            if (Settings.getPerspective() > 0 || entity.angler != Minecraft.getMinecraft().thePlayer)
+//            {
+//                float f9 = (entity.angler.prevRenderYawOffset + (entity.angler.renderYawOffset - entity.angler.prevRenderYawOffset) * partialTicks) * (float)Math.PI / 180.0F;
+//                double d4 = (double)MathHelper.sin(f9);
+//                double d6 = (double)MathHelper.cos(f9);
+//                double d8 = 0.35D;
+//                double d10 = 0.8D;
+//                d0 = entity.angler.prevPosX + (entity.angler.posX - entity.angler.prevPosX) * (double)partialTicks - d6 * 0.35D - d4 * 0.8D;
+//                d1 = entity.angler.prevPosY + d3 + (entity.angler.posY - entity.angler.prevPosY) * (double)partialTicks - 0.45D;
+//                d2 = entity.angler.prevPosZ + (entity.angler.posZ - entity.angler.prevPosZ) * (double)partialTicks - d4 * 0.35D + d6 * 0.8D;
+//                d3 = entity.angler.isSneaking() ? -0.1875D : 0.0D;
+//            }
 
             double d13 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double)partialTicks;
             double d5 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double)partialTicks + 0.25D;

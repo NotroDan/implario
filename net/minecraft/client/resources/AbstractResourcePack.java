@@ -16,8 +16,8 @@ import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 
 public abstract class AbstractResourcePack implements IResourcePack
 {

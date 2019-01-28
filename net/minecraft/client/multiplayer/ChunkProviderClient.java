@@ -12,8 +12,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.EmptyChunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 
 public class ChunkProviderClient implements IChunkProvider
 {

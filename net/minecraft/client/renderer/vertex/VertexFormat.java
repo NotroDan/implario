@@ -2,8 +2,8 @@ package net.minecraft.client.renderer.vertex;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 
 public class VertexFormat
 {

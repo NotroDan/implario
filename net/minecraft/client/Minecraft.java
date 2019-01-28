@@ -12,6 +12,7 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import net.minecraft.Auth;
+import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -66,7 +67,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import net.minecraft.profiler.Profiler;
+import net.minecraft.server.Profiler;
+import net.minecraft.server.Todo;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
@@ -106,6 +108,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
+import static net.minecraft.client.ClientProfiler.in;
 import static net.minecraft.client.keystrokes.Key.*;
 import static net.minecraft.client.settings.KeyBinding.*;
 import static net.minecraft.util.Util.OS.OSX;
@@ -205,11 +208,6 @@ public class Minecraft implements IThreadListener {
 	private boolean integratedServerIsRunning;
 
 	/**
-	 * The profiler instance
-	 */
-	public final Profiler mcProfiler = new Profiler();
-
-	/**
 	 * Keeps track of how long the debug crash keycombo (F3+C) has been pressed for, in order to crash after 10 seconds.
 	 */
 	private long debugCrashKeyPressTime = -1L;
@@ -265,6 +263,8 @@ public class Minecraft implements IThreadListener {
 
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
+		Profiler.in = new ClientProfiler();
+		Todo.instance = new TodoClient();
 		this.mcDataDir = gameConfig.folderInfo.mcDataDir;
 		this.fileAssets = gameConfig.folderInfo.assetsDir;
 		this.fileResourcepacks = gameConfig.folderInfo.resourcePacksDir;
@@ -804,7 +804,7 @@ label53:
 	 */
 	private void runGameLoop() throws IOException {
 		long i = System.nanoTime();
-		this.mcProfiler.startSection("root");
+		in.startSection("root");
 
 		if (Display.isCreated() && Display.isCloseRequested()) this.shutdown();
 
@@ -815,50 +815,50 @@ label53:
 			this.timer.renderPartialTicks = f;
 		}
 
-		this.mcProfiler.startSection("scheduledExecutables");
+		in.startSection("scheduledExecutables");
 
 		synchronized (this.scheduledTasks) {
 			while (!this.scheduledTasks.isEmpty()) Util.schedule((FutureTask) this.scheduledTasks.poll(), logger);
 		}
 
-		this.mcProfiler.endSection();
+		in.endSection();
 		long l = System.nanoTime();
-		this.mcProfiler.startSection("tick");
+		in.startSection("tick");
 
 		for (int j = 0; j < this.timer.elapsedTicks; ++j) this.runTick();
 
-		this.mcProfiler.endStartSection("preRenderErrors");
+		in.endStartSection("preRenderErrors");
 		long i1 = System.nanoTime() - l;
 		this.checkGLError("Pre render");
-		this.mcProfiler.endStartSection("sound");
+		in.endStartSection("sound");
 		this.mcSoundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
-		this.mcProfiler.endSection();
-		this.mcProfiler.startSection("render");
+		in.endSection();
+		in.startSection("render");
 		GlStateManager.pushMatrix();
 		GlStateManager.clear(16640);
 		this.framebufferMc.bindFramebuffer(true);
-		this.mcProfiler.startSection("display");
+		in.startSection("display");
 		GlStateManager.enableTexture2D();
 
 		if (this.thePlayer != null && this.thePlayer.isEntityInsideOpaqueBlock()) Settings.PERSPECTIVE.set(0);
 
-		this.mcProfiler.endSection();
+		in.endSection();
 
 		if (!this.skipRenderWorld) {
-			this.mcProfiler.endStartSection("gameRenderer");
+			in.endStartSection("gameRenderer");
 			this.entityRenderer.func_181560_a(this.timer.renderPartialTicks, i);
-			this.mcProfiler.endSection();
+			in.endSection();
 		}
 
-		this.mcProfiler.endSection();
+		in.endSection();
 
 		if (Settings.SHOW_DEBUG.b() && Settings.PROFILER.b() && !Settings.HIDE_GUI.b()) {
-			if (!this.mcProfiler.profilingEnabled) this.mcProfiler.clearProfiling();
+			if (!in.profilingEnabled) in.clearProfiling();
 
-			this.mcProfiler.profilingEnabled = true;
+			in.profilingEnabled = true;
 			this.displayDebugInfo(i1);
 		} else {
-			this.mcProfiler.profilingEnabled = false;
+			in.profilingEnabled = false;
 			this.prevFrameTime = System.nanoTime();
 		}
 
@@ -868,14 +868,14 @@ label53:
 		GlStateManager.pushMatrix();
 		this.framebufferMc.framebufferRender(this.displayWidth, this.displayHeight);
 		GlStateManager.popMatrix();
-		this.mcProfiler.startSection("root");
+		in.startSection("root");
 		this.updateDisplay();
 		Thread.yield();
-		this.mcProfiler.startSection("stream");
-		this.mcProfiler.startSection("update");
-		this.mcProfiler.endStartSection("submit");
-		this.mcProfiler.endSection();
-		this.mcProfiler.endSection();
+		in.startSection("stream");
+		in.startSection("update");
+		in.endStartSection("submit");
+		in.endSection();
+		in.endSection();
 		this.checkGLError("Post render");
 		++this.fpsCounter;
 		this.isGamePaused = this.isSingleplayer() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame() && !this.theIntegratedServer.getPublic();
@@ -892,18 +892,18 @@ label53:
 		}
 
 		if (this.isFramerateLimitBelowMax()) {
-			this.mcProfiler.startSection("fpslimit_wait");
+			in.startSection("fpslimit_wait");
 			Display.sync(this.getLimitFramerate());
-			this.mcProfiler.endSection();
+			in.endSection();
 		}
 
-		this.mcProfiler.endSection();
+		in.endSection();
 	}
 
 	public void updateDisplay() {
-		this.mcProfiler.startSection("display_update");
+		in.startSection("display_update");
 		Display.update();
-		this.mcProfiler.endSection();
+		in.endSection();
 		this.checkWindowResize();
 	}
 
@@ -946,25 +946,25 @@ label53:
 	 * Update debugProfilerName in response to number keys in debug screen
 	 */
 	private void updateDebugProfilerName(int keyCount) {
-		List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
+		List<Profiler.Result> list = in.getProfilingData(this.debugProfilerName);
 
 		if (list == null || list.isEmpty()) return;
-		Profiler.Result profiler$result = list.remove(0);
+		Profiler.Result res = list.remove(0);
 
 		if (keyCount == 0) {
-			if (profiler$result.field_76331_c.length() > 0) {
+			if (res.s.length() > 0) {
 				int i = this.debugProfilerName.lastIndexOf(".");
 				if (i >= 0) this.debugProfilerName = this.debugProfilerName.substring(0, i);
 			}
 		} else {
 			--keyCount;
 
-			if (keyCount < list.size() && !list.get(keyCount).field_76331_c.equals("unspecified")) {
+			if (keyCount < list.size() && !list.get(keyCount).s.equals("unspecified")) {
 				if (this.debugProfilerName.length() > 0) {
 					this.debugProfilerName = this.debugProfilerName + ".";
 				}
 
-				this.debugProfilerName = this.debugProfilerName + list.get(keyCount).field_76331_c;
+				this.debugProfilerName = this.debugProfilerName + list.get(keyCount).s;
 			}
 		}
 	}
@@ -973,8 +973,8 @@ label53:
 	 * Parameter appears to be unused
 	 */
 	private void displayDebugInfo(long elapsedTicksTime) {
-		if (!this.mcProfiler.profilingEnabled) return;
-		List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
+		if (!in.profilingEnabled) return;
+		List<Profiler.Result> list = in.getProfilingData(this.debugProfilerName);
 		Profiler.Result profiler$result = list.remove(0);
 		GlStateManager.clear(256);
 		GlStateManager.matrixMode(5889);
@@ -1001,17 +1001,17 @@ label53:
 		GlStateManager.disableBlend();
 		double d0 = 0.0D;
 
-		for (Profiler.Result profiler$result1 : list) {
-			int i1 = MathHelper.floor_double(profiler$result1.field_76332_a / 4.0D) + 1;
+		for (Profiler.Result res : list) {
+			int i1 = MathHelper.floor_double(res.a / 4.0D) + 1;
 			worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-			int j1 = profiler$result1.func_76329_a();
+			int j1 = res.hash();
 			int k1 = j1 >> 16 & 255;
 			int l1 = j1 >> 8 & 255;
 			int i2 = j1 & 255;
 			worldrenderer.pos((double) j, (double) k, 0.0D).color(k1, l1, i2, 255).endVertex();
 
 			for (int j2 = i1; j2 >= 0; --j2) {
-				float f = (float) ((d0 + profiler$result1.field_76332_a * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
+				float f = (float) ((d0 + res.a * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
 				float f1 = MathHelper.sin(f) * (float) i;
 				float f2 = MathHelper.cos(f) * (float) i * 0.5F;
 				worldrenderer.pos((double) ((float) j + f1), (double) ((float) k - f2), 0.0D).color(k1, l1, i2, 255).endVertex();
@@ -1021,7 +1021,7 @@ label53:
 			worldrenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
 
 			for (int i3 = i1; i3 >= 0; --i3) {
-				float f3 = (float) ((d0 + profiler$result1.field_76332_a * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
+				float f3 = (float) ((d0 + res.a * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
 				float f4 = MathHelper.sin(f3) * (float) i;
 				float f5 = MathHelper.cos(f3) * (float) i * 0.5F;
 				worldrenderer.pos((double) ((float) j + f4), (double) ((float) k - f5), 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
@@ -1029,32 +1029,34 @@ label53:
 			}
 
 			tessellator.draw();
-			d0 += profiler$result1.field_76332_a;
+			d0 += res.a;
 		}
 
 		DecimalFormat decimalformat = new DecimalFormat("##0.00");
 		GlStateManager.enableTexture2D();
 		String s = "";
 
-		if (!profiler$result.field_76331_c.equals("unspecified")) s = s + "[0] ";
-		if (profiler$result.field_76331_c.length() == 0) s = s + "ROOT ";
-		else s = s + profiler$result.field_76331_c + " ";
+		if (!profiler$result.s.equals("unspecified")) s = s + "[0] ";
+		if (profiler$result.s.length() == 0) s = s + "ROOT ";
+		else s = s + profiler$result.s + " ";
 
 		int l2 = 16777215;
 		this.fontRendererObj.drawStringWithShadow(s, (float) (j - i), (float) (k - i / 2 - 16), l2);
-		this.fontRendererObj.drawStringWithShadow(s = decimalformat.format(profiler$result.field_76330_b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s)), (float) (k - i / 2 - 16), l2);
+		this.fontRendererObj.drawStringWithShadow(s = decimalformat.format(profiler$result.b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s)), (float) (k - i / 2 - 16), l2);
 
 		for (int k2 = 0; k2 < list.size(); k2++) {
 			Profiler.Result profiler$result2 = list.get(k2);
 			String s1 = "";
 
-			if (profiler$result2.field_76331_c.equals("unspecified")) s1 = s1 + "[?] ";
+			if (profiler$result2.s.equals("unspecified")) s1 = s1 + "[?] ";
 			else s1 = s1 + "[" + (k2 + 1) + "] ";
 
-			s1 = s1 + profiler$result2.field_76331_c;
-			this.fontRendererObj.drawStringWithShadow(s1, (float) (j - i), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
-			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.field_76332_a) + "%", (float) (j + i - 50 - this.fontRendererObj.getStringWidth(s1)), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
-			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.field_76330_b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s1)), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.func_76329_a());
+			s1 = s1 + profiler$result2.s;
+			this.fontRendererObj.drawStringWithShadow(s1, (float) (j - i), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
+			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.a) + "%", (float) (j + i - 50 - this.fontRendererObj.getStringWidth(s1)),
+					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
+			this.fontRendererObj.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.b) + "%", (float) (j + i - this.fontRendererObj.getStringWidth(s1)),
+					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
 		}
 	}
 
@@ -1261,18 +1263,18 @@ label53:
 	public void runTick() throws IOException {
 		if (this.rightClickDelayTimer > 0) --this.rightClickDelayTimer;
 
-		this.mcProfiler.startSection("gui");
+		in.startSection("gui");
 
 		if (!this.isGamePaused) this.ingameGUI.updateTick();
 
-		this.mcProfiler.endSection();
+		in.endSection();
 		this.entityRenderer.getMouseOver(1.0F);
 
 		// Передвижение игрока
-		this.mcProfiler.startSection("gameMode");
+		in.startSection("gameMode");
 		if (!this.isGamePaused && this.theWorld != null) this.playerController.updateController();
 
-		this.mcProfiler.endStartSection("textures");
+		in.endStartSection("textures");
 
 		// Рендер мира
 		if (!this.isGamePaused) this.renderEngine.tick();
@@ -1312,7 +1314,7 @@ label53:
 		}
 
 		if (this.currentScreen == null || this.currentScreen.allowUserInput) {
-			this.mcProfiler.endStartSection("mouse");
+			in.endStartSection("mouse");
 
 			while (Mouse.next()) {
 				int i = Mouse.getEventButton();
@@ -1360,7 +1362,7 @@ label53:
 				--this.leftClickCounter;
 			}
 
-			this.mcProfiler.endStartSection("keyboard");
+			in.endStartSection("keyboard");
 
 			while (Keyboard.next()) {
 				int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
@@ -1502,19 +1504,19 @@ label53:
 				}
 			}
 
-			this.mcProfiler.endStartSection("gameRenderer");
+			in.endStartSection("gameRenderer");
 
 			if (!this.isGamePaused) {
 				this.entityRenderer.updateRenderer();
 			}
 
-			this.mcProfiler.endStartSection("levelRenderer");
+			in.endStartSection("levelRenderer");
 
 			if (!this.isGamePaused) {
 				this.renderGlobal.updateClouds();
 			}
 
-			this.mcProfiler.endStartSection("level");
+			in.endStartSection("level");
 
 			if (!this.isGamePaused) {
 				if (this.theWorld.getLastLightningBolt() > 0) {
@@ -1552,20 +1554,20 @@ label53:
 				}
 			}
 
-			this.mcProfiler.endStartSection("animateTick");
+			in.endStartSection("animateTick");
 
 			if (!this.isGamePaused && this.theWorld != null)
 				this.theWorld.doVoidFogParticles(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ));
 
-			this.mcProfiler.endStartSection("particles");
+			in.endStartSection("particles");
 
 			if (!this.isGamePaused) this.effectRenderer.updateEffects();
 		} else if (this.myNetworkManager != null) {
-			this.mcProfiler.endStartSection("pendingConnection");
+			in.endStartSection("pendingConnection");
 			this.myNetworkManager.processReceivedPackets();
 		}
 
-		this.mcProfiler.endSection();
+		in.endSection();
 		this.systemTime = getSystemTime();
 	}
 
@@ -1914,7 +1916,7 @@ label53:
 		theCrash.getCategory().addCrashSectionCallable("Current Language",
 				() -> this.mcLanguageManager.getCurrentLanguage().toString());
 		theCrash.getCategory().addCrashSectionCallable("Profiler Position",
-				() -> this.mcProfiler.profilingEnabled ? this.mcProfiler.getNameOfLastSection() : "N/A (disabled)");
+				() -> in.profilingEnabled ? in.getNameOfLastSection() : "N/A (disabled)");
 		theCrash.getCategory().addCrashSectionCallable("CPU", OpenGlHelper::func_183029_j);
 
 		if (this.theWorld != null) {

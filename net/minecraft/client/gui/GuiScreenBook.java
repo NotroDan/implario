@@ -24,7 +24,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import org.lwjgl.input.Keyboard;
 
 public class GuiScreenBook extends GuiScreen

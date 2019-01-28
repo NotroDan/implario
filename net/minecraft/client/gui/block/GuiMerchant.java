@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 
 public class GuiMerchant extends GuiContainer
 {

@@ -1,10 +1,10 @@
 package net.minecraft.client.gui.inventory;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -17,10 +17,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -34,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static net.minecraft.client.gui.inventory.ClickType.*;
+import static net.minecraft.inventory.ClickType.*;
 
 public class GuiContainerCreative extends InventoryEffectRenderer {
 

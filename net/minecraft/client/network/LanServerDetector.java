@@ -1,7 +1,7 @@
 package net.minecraft.client.network;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ThreadLanServerPing;
 

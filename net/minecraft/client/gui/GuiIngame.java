@@ -33,6 +33,7 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.server.Profiler;
 import net.minecraft.util.*;
 import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
@@ -210,9 +211,9 @@ public class GuiIngame extends Gui {
 		GlStateManager.disableAlpha();
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0.0F, (float) (height - 48), 0.0F);
-		this.mc.mcProfiler.startSection("chat");
+		Profiler.in.startSection("chat");
 		this.persistantChatGUI.drawChat(this.updateCounter);
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 		GlStateManager.popMatrix();
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -244,7 +245,7 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderSleeping(int width, int height) {
-		this.mc.mcProfiler.startSection("sleep");
+		Profiler.in.startSection("sleep");
 		GlStateManager.disableDepth();
 		GlStateManager.disableAlpha();
 		int l = this.mc.thePlayer.getSleepTimer();
@@ -258,7 +259,7 @@ public class GuiIngame extends Gui {
 		drawRect(0, 0, width, height, k);
 		GlStateManager.enableAlpha();
 		GlStateManager.enableDepth();
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 	}
 
 	private void renderPortal(ScaledResolution scaledresolution, float partialTicks) {
@@ -269,6 +270,7 @@ public class GuiIngame extends Gui {
 	private void renderFireIcon(int width, int height) {
 		TextureAtlasSprite textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite("minecraft:blocks/fire_layer_1");
 		this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+		GlStateManager.color(1, 1, 1, 1);
 		drawTexturedModalRect(width / 2 - 16, height / 2, textureatlassprite, 16, 16);
 	}
 
@@ -299,7 +301,7 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderRecord(float partialTicks, int width, int height) {
-		this.mc.mcProfiler.startSection("overlayMessage");
+		Profiler.in.startSection("overlayMessage");
 		float f3 = (float) this.recordPlayingUpFor - partialTicks;
 		int k1 = (int) (f3 * 255.0F / 20.0F);
 
@@ -323,11 +325,11 @@ public class GuiIngame extends Gui {
 			GlStateManager.popMatrix();
 		}
 
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 	}
 
 	public void renderTitle(float partialTicks, int width, int height) {
-		this.mc.mcProfiler.startSection("titleAndSubtitle");
+		Profiler.in.startSection("titleAndSubtitle");
 		float f4 = (float) this.titleTicks - partialTicks;
 		int opacity = 0xff;
 
@@ -358,7 +360,7 @@ public class GuiIngame extends Gui {
 			GlStateManager.popMatrix();
 		}
 
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 	}
 
 	protected void renderTooltip(ScaledResolution sr, float partialTicks) {
@@ -390,7 +392,7 @@ public class GuiIngame extends Gui {
 	}
 
 	public void renderHorseJumpBar(ScaledResolution p_175186_1_, int p_175186_2_) {
-		this.mc.mcProfiler.startSection("jumpBar");
+		Profiler.in.startSection("jumpBar");
 		this.mc.getTextureManager().bindTexture(Gui.icons);
 		float f = this.mc.thePlayer.getHorseJumpPower();
 		short short1 = 182;
@@ -402,11 +404,11 @@ public class GuiIngame extends Gui {
 			this.drawTexturedModalRect(p_175186_2_, j, 0, 89, i, 5);
 		}
 
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 	}
 
 	public void renderExpBar(ScaledResolution p_175176_1_, int p_175176_2_) {
-		this.mc.mcProfiler.startSection("expBar");
+		Profiler.in.startSection("expBar");
 		this.mc.getTextureManager().bindTexture(Gui.icons);
 		int i = this.mc.thePlayer.xpBarCap();
 
@@ -421,10 +423,10 @@ public class GuiIngame extends Gui {
 			}
 		}
 
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 
 		if (this.mc.thePlayer.experienceLevel > 0) {
-			this.mc.mcProfiler.startSection("expLevel");
+			Profiler.in.startSection("expLevel");
 			int j1 = 8453920;
 
 			if (Config.isCustomColors()) {
@@ -440,13 +442,13 @@ public class GuiIngame extends Gui {
 			this.getFontRenderer().drawString(s, i1, l + 1, 0);
 			this.getFontRenderer().drawString(s, i1, l - 1, 0);
 			this.getFontRenderer().drawString(s, i1, l, j1);
-			this.mc.mcProfiler.endSection();
+			Profiler.in.endSection();
 		}
 	}
 
 	public void renderTooltip(ScaledResolution res) {
 		if (this.remainingHighlightTicks <= 0 || this.highlightingItemStack == null) return;
-		this.mc.mcProfiler.startSection("selectedItemName");
+		Profiler.in.startSection("selectedItemName");
 
 		String s = this.highlightingItemStack.getDisplayName();
 
@@ -466,7 +468,7 @@ public class GuiIngame extends Gui {
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 		}
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 
 	}
 
@@ -590,7 +592,7 @@ public class GuiIngame extends Gui {
 				l2 = this.updateCounter % MathHelper.ceiling_float_int(f + 5.0F);
 			}
 
-			this.mc.mcProfiler.startSection("armor");
+			Profiler.in.startSection("armor");
 
 			for (int i3 = 0; i3 < 10; ++i3) {
 				if (k2 > 0) {
@@ -610,7 +612,7 @@ public class GuiIngame extends Gui {
 				}
 			}
 
-			this.mc.mcProfiler.endStartSection("health");
+			Profiler.in.endStartSection("health");
 
 			for (int j5 = MathHelper.ceiling_float_int((f + f1) / 2.0F) - 1; j5 >= 0; --j5) {
 				int k5 = 16;
@@ -679,7 +681,7 @@ public class GuiIngame extends Gui {
 			Entity entity = entityplayer.ridingEntity;
 
 			if (entity == null) {
-				this.mc.mcProfiler.endStartSection("food");
+				Profiler.in.endStartSection("food");
 
 				for (int l5 = 0; l5 < 10; ++l5) {
 					int i8 = k1;
@@ -721,7 +723,7 @@ public class GuiIngame extends Gui {
 					}
 				}
 			} else if (entity instanceof EntityLivingBase) {
-				this.mc.mcProfiler.endStartSection("mountHealth");
+				Profiler.in.endStartSection("mountHealth");
 				EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
 				int l7 = (int) Math.ceil((double) entitylivingbase.getHealth());
 				float f3 = entitylivingbase.getMaxHealth();
@@ -761,7 +763,7 @@ public class GuiIngame extends Gui {
 				}
 			}
 
-			this.mc.mcProfiler.endStartSection("air");
+			Profiler.in.endStartSection("air");
 
 			if (entityplayer.isInsideOfMaterial(Material.water)) {
 				int i6 = this.mc.thePlayer.getAir();
@@ -777,7 +779,7 @@ public class GuiIngame extends Gui {
 				}
 			}
 
-			this.mc.mcProfiler.endSection();
+			Profiler.in.endSection();
 		}
 	}
 
@@ -785,7 +787,7 @@ public class GuiIngame extends Gui {
 	 * Renders dragon's (boss) health on the HUD
 	 */
 	private void renderBossHealth() {
-		this.mc.mcProfiler.startSection("bossHealth");
+		Profiler.in.startSection("bossHealth");
 		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
 			--BossStatus.statusBarTime;
 			FontRenderer fontrenderer = this.mc.fontRendererObj;
@@ -808,7 +810,7 @@ public class GuiIngame extends Gui {
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(icons);
 		}
-		this.mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 	}
 
 	private void renderPumpkinOverlay(ScaledResolution p_180476_1_) {

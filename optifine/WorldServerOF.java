@@ -1,8 +1,8 @@
 package optifine;
 
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.profiler.Profiler;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.Profiler;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;

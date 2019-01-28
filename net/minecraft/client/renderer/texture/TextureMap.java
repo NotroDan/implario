@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.ConnectedTextures;
 import optifine.TextureUtils;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import shadersmod.client.ShadersTex;
 
 import java.awt.*;

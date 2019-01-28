@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.CyclicIterator;
 import net.minecraft.Utils;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiButtonChangeName;

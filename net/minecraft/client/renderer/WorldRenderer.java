@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer;
 
-import net.minecraft.client.LogManager;
+import net.minecraft.LogManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;

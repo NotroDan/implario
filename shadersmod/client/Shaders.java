@@ -19,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -2490,7 +2491,7 @@ public class Shaders {
 		checkGLError("pre beginRender");
 		checkWorldChanged(mc.theWorld);
 		mc = minecraft;
-		mc.mcProfiler.startSection("init");
+		Profiler.in.startSection("init");
 		entityRenderer = mc.entityRenderer;
 
 		if (!isShaderPackInitialized) try {
@@ -2640,7 +2641,7 @@ public class Shaders {
 		modelView.position(0);
 		checkGLError("beginRender");
 		ShadersRender.renderShadowMap(entityRenderer, 0, partialTicks, finishTimeNano);
-		mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 		EXTFramebufferObject.glBindFramebufferEXT(36160, dfb);
 
 		for (int i1 = 0; i1 < usedColorBuffers; ++i1) {
@@ -3493,7 +3494,7 @@ public class Shaders {
 	}
 
 	public static void mcProfilerEndSection() {
-		mc.mcProfiler.endSection();
+		Profiler.in.endSection();
 	}
 
 	public static String getShaderPackName() {
@@ -3533,7 +3534,7 @@ public class Shaders {
 		if (shaderPackLoaded) {
 			List<String> list = new ArrayList();
 			String s = "/shaders/lang/";
-			String s1 = "en_US";
+			String s1 = "ru_RU";
 			String s2 = ".lang";
 			list.add(s + s1 + s2);
 

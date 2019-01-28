@@ -7,7 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.util.JsonUtils;
 import org.apache.commons.io.IOUtils;
 

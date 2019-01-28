@@ -1,7 +1,7 @@
 package shadersmod.common;
 
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 
 public abstract class SMCLog
 {

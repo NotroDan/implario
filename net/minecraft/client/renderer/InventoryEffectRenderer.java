@@ -87,7 +87,9 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			if (potioneffect.getAmplifier() > 0) amplifier = ' ' + Textifier.romanianNotation(potioneffect.getAmplifier() + 1);
 			String s1 = Lang.format(potion.getName()) + amplifier;
 
-			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
+			GlStateManager.disableLighting();
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 0xffffff);
 			String s = Potion.getDurationString(potioneffect);
 			this.fontRendererObj.drawStringWithShadow(s, (float) (i + 10 + 18), (float) (j + 6 + 10), 8355711);
 			j += l;
@@ -103,8 +105,8 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			Potion potion = Potion.potionTypes[e.getPotionID()];
 			GlStateManager.disableBlend();
 			GlStateManager.enableAlpha();
-			drawRect(0, y, 80, y + 22, 0xd0202020);
-			drawRect(80, y, 82, y + 22, 0xd0f9c404);
+			drawRect(0, y, 80, y + 22 + 10, 0xd0202020);
+			drawRect(80, y, 82, y + 22 + 10, 0xd0f9c404);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(inventoryBackground);
 
@@ -117,13 +119,15 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			if (e.getAmplifier() > 0) amplifier = ' ' + Textifier.romanianNotation(e.getAmplifier() + 1);
 			String s1 = Lang.format(potion.getName()) + amplifier;
 
-			GlStateManager.scale(2, 2, 2);
 //			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
 			String s = Potion.getDurationString(e);
+			GlStateManager.disableLighting();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.fontRendererObj.drawStringWithShadow(s, 16, (float) y / 2f + 1f, -1);
+			this.fontRendererObj.drawStringWithShadow(s1, 4, y + 20, 0xffffff);
+			GlStateManager.scale(2, 2, 2);
+			this.fontRendererObj.drawStringWithShadow(s, 16, (float) y / 2f + 1f, 0xffffff);
 			GlStateManager.scale(0.5, 0.5, 0.5);
-			y += 27;
+			y += 27 + 10;
 		}
 
 		RenderHelper.disableStandardItemLighting();

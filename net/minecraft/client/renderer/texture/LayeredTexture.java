@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.util.List;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 
 public class LayeredTexture extends AbstractTexture
 {

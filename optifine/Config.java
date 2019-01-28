@@ -2,7 +2,7 @@ package optifine;
 
 import net.minecraft.Utils;
 import net.minecraft.client.LoadingScreenRenderer;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;

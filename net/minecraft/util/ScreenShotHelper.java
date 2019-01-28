@@ -1,6 +1,6 @@
 package net.minecraft.util;
 
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -25,7 +25,7 @@ import java.util.Date;
 public class ScreenShotHelper {
 
 	private static final Logger logger = Logger.getInstance();
-	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH-mm-ss");
 
 	/**
 	 * A buffer to hold pixel values returned by OpenGL.

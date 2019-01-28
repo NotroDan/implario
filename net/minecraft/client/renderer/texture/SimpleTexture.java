@@ -9,8 +9,8 @@ import net.minecraft.client.resources.data.TextureMetadataSection;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 
-import net.minecraft.client.LogManager;
-import net.minecraft.client.Logger;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 import shadersmod.client.ShadersTex;
 
 public class SimpleTexture extends AbstractTexture

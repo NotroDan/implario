@@ -25,7 +25,7 @@ public class Lang {
 		Map map = net.minecraft.client.resources.Lang.getLocaleProperties();
 		List<String> list = new ArrayList();
 		String s = "optifine/lang/";
-		String s1 = "en_US";
+		String s1 = "ru_RU";
 		String s2 = ".lang";
 		list.add(s + s1 + s2);
 

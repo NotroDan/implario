@@ -630,6 +630,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerBlock(Blocks.brown_mushroom, "brown_mushroom");
 		this.registerBlock(Blocks.cactus, "cactus");
 		this.registerBlock(Blocks.clay, "clay");
+		this.registerBlock(Blocks.someBlock, "some_block");
 		this.registerBlock(Blocks.coal_block, "coal_block");
 		this.registerBlock(Blocks.coal_ore, "coal_ore");
 		this.registerBlock(Blocks.cobblestone, "cobblestone");

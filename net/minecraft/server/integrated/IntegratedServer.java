@@ -3,7 +3,7 @@ package net.minecraft.server.integrated;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
 import net.minecraft.client.ClientBrandRetriever;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ThreadLanServerPing;
 import net.minecraft.client.settings.Settings;
@@ -11,6 +11,7 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.Profiler;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.HttpUtil;
 import net.minecraft.util.Util;
@@ -88,11 +89,11 @@ public class IntegratedServer extends MinecraftServer {
 			}
 
 			if (l == 0) {
-				this.worldServers[l] = (WorldServer) new WorldServerOF(this, isavehandler, worldinfo, b0, this.theProfiler).init();
+				this.worldServers[l] = (WorldServer) new WorldServerOF(this, isavehandler, worldinfo, b0, Profiler.in).init();
 
 				this.worldServers[l].initialize(this.theWorldSettings);
 			} else {
-				this.worldServers[l] = (WorldServer) new WorldServerMulti(this, isavehandler, b0, this.worldServers[0], this.theProfiler).init();
+				this.worldServers[l] = (WorldServer) new WorldServerMulti(this, isavehandler, b0, this.worldServers[0], Profiler.in).init();
 			}
 
 			this.worldServers[l].addWorldAccess(new WorldManager(this, this.worldServers[l]));
@@ -204,7 +205,7 @@ public class IntegratedServer extends MinecraftServer {
 		return true;
 	}
 
-	public boolean func_183002_r() {
+	public boolean opsSeeConsole() {
 		return true;
 	}
 

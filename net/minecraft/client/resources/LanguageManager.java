@@ -3,14 +3,15 @@ package net.minecraft.client.resources;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import net.minecraft.Logger;
+import net.minecraft.client.resources.data.IMetadataSerializer;
+import net.minecraft.client.resources.data.LanguageMetadataSection;
+import net.minecraft.util.StringTranslate;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
-import net.minecraft.client.resources.data.IMetadataSerializer;
-import net.minecraft.client.resources.data.LanguageMetadataSection;
-import net.minecraft.util.StringTranslate;
-import net.minecraft.client.Logger;
 
 public class LanguageManager implements IResourceManagerReloadListener
 {
@@ -61,9 +62,9 @@ public class LanguageManager implements IResourceManagerReloadListener
 
     public void onResourceManagerReload(IResourceManager resourceManager)
     {
-        List<String> list = Lists.newArrayList(new String[] {"en_US"});
+        List<String> list = Lists.newArrayList("ru_RU");
 
-        if (!"en_US".equals(this.currentLanguage))
+        if (!"ru_RU".equals(this.currentLanguage))
         {
             list.add(this.currentLanguage);
         }
@@ -89,7 +90,7 @@ public class LanguageManager implements IResourceManagerReloadListener
 
     public Language getCurrentLanguage()
     {
-        return this.languageMap.containsKey(this.currentLanguage) ? (Language)this.languageMap.get(this.currentLanguage) : (Language)this.languageMap.get("en_US");
+        return this.languageMap.containsKey(this.currentLanguage) ? (Language)this.languageMap.get(this.currentLanguage) : (Language)this.languageMap.get("ru_RU");
     }
 
     public SortedSet<Language> getLanguages()

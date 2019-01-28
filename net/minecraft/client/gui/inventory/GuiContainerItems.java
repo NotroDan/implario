@@ -7,10 +7,7 @@ import net.minecraft.client.resources.Lang;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerCreativeItems;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.Groups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -20,7 +17,7 @@ import org.lwjgl.input.Mouse;
 import java.io.IOException;
 import java.util.List;
 
-import static net.minecraft.client.gui.inventory.ClickType.*;
+import static net.minecraft.inventory.ClickType.*;
 import static net.minecraft.inventory.ContainerCreativeItems.DUMMY;
 
 public class GuiContainerItems extends InventoryEffectRenderer {

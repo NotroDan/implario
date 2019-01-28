@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -22,7 +23,7 @@ import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 import java.util.Set;
 
-import static net.minecraft.client.gui.inventory.ClickType.*;
+import static net.minecraft.inventory.ClickType.*;
 
 public abstract class GuiContainer extends GuiScreen {
 

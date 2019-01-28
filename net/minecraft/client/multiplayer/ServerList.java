@@ -1,7 +1,7 @@
 package net.minecraft.client.multiplayer;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;

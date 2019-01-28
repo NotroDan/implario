@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.Mipmaps;
 import org.apache.commons.io.IOUtils;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

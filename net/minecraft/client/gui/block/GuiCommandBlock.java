@@ -11,7 +11,7 @@ import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 import org.lwjgl.input.Keyboard;
 
 public class GuiCommandBlock extends GuiScreen

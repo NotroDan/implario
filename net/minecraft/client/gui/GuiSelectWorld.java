@@ -5,7 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
-import net.minecraft.client.AnvilConverterException;
+import net.minecraft.world.AnvilConverterException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;
@@ -16,7 +16,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveFormatComparator;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.lang3.StringUtils;
-import net.minecraft.client.Logger;
+import net.minecraft.Logger;
 
 public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
 {
