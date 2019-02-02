@@ -174,6 +174,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 //				createButton(Settings.GUI_SCALE, x1, y += 22)
 				);
 
+		tabs.add("Текстуры");
+
 
 		tabs.init(buttonList, width);
 		if (tabs.current >= 0) tabs.select(tabs.current);
@@ -260,6 +262,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		if (button.id >= 1000) {
 			if (button.id == 1007) {
 				mc.displayGuiScreen(new GuiControls(this));
+			} else if (button.id == 1009) {
+				mc.displayGuiScreen(new GuiScreenResourcePacks(this));
 			}
 			tabs.select(button.id - 1000);
 		}

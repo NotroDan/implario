@@ -250,7 +250,7 @@ public class RenderManager {
 		int i = entity.getBrightnessForRender(partialTicks);
 
 		if (entity.isBurning()) {
-			i = 15728880;
+			i = 0b111100000000000011110000;
 		}
 
 		int j = i % 65536;
@@ -328,7 +328,7 @@ public class RenderManager {
 	/**
 	 * Renders the bounding box around an entity when F3+B is pressed
 	 */
-	private void renderDebugBoundingBox(Entity entityIn, double p_85094_2_, double p_85094_4_, double p_85094_6_, float p_85094_8_, float p_85094_9_) {
+	public void renderDebugBoundingBox(Entity entityIn, double p_85094_2_, double p_85094_4_, double p_85094_6_, float p_85094_8_, float p_85094_9_) {
 		GlStateManager.depthMask(false);
 		GlStateManager.disableTexture2D();
 		GlStateManager.disableLighting();

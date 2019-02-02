@@ -163,7 +163,8 @@ public enum Settings {
 	FAST_PLACE("Быстрый ПКМ", false),
 	FINE_EFFECTS("Новые эффекты", true),
 	MODERN_INVENTORIES("Улучшенные инвентари", true),
-	SLOT_GRID("Сетка слотов", 0, "С боксом", "§cВыкл", "Без бокса");
+	SLOT_GRID("Сетка слотов", 0, "С боксом", "§cВыкл", "Без бокса"),
+	ROMANIAN_NOTATION("Римские цифры", true);
 
 	private static final Settings[] SOUNDS;
 	private static final Settings[] MODELPARTS;

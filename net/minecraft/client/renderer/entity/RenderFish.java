@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import net.minecraft.client.renderer.BowPathRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -91,12 +92,13 @@ public class RenderFish extends Render<EntityFishHook>
             GlStateManager.disableTexture2D();
             GlStateManager.disableLighting();
             worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
-            int k = 16;
+            int k = 2;
 
-            for (int l = 0; l <= 16; ++l)
+            for (int l = 0; l <= k; ++l)
             {
-                float f10 = (float)l / 16.0F;
-                worldrenderer.pos(x + d9 * (double)f10, y + d11 * (double)(f10 * f10 + f10) * 0.5D + 0.25D, z + d12 * (double)f10).color(0, 0, 0, 255).endVertex();
+                float f10 = (float)l / (float) k;
+//				System.out.println((x + d9 * (double)f10) + "    " + (y + d11 * (double)(f10 * f10 + f10) * 0.5D + 0.25D) + "    " + (z + d12 * (double)f10));
+                worldrenderer.pos(x + d9 * (double)f10, y + d11 * (double)(f10 * f10 + f10) * 0.5D + 0.25D, z + d12 * (double)f10).color(127, 0, 0, 255).endVertex();
             }
 
             tessellator.draw();

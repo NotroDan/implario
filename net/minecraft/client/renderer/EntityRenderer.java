@@ -1546,6 +1546,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			Profiler.in.endStartSection("aboveClouds");
 			this.renderCloudsCheck(renderglobal, partialTicks, pass);
 		}
+		BowPathRenderer.render(partialTicks);
 
 		Profiler.in.endStartSection("hand");
 

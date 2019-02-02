@@ -1,5 +1,6 @@
 package net.minecraft.client;
 
+import net.minecraft.client.settings.Settings;
 import net.minecraft.world.World;
 import optifine.BlockPosM;
 import optifine.Config;
@@ -37,6 +38,11 @@ public class TodoClient extends net.minecraft.server.Todo {
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean shouldUseRomanianNotation() {
+		return Settings.ROMANIAN_NOTATION.b();
 	}
 
 }

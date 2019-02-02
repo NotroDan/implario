@@ -7,10 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.keystrokes.KeyStroke;
 import net.minecraft.client.keystrokes.KeyStrokes;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -199,6 +196,8 @@ public class GuiIngame extends Gui {
 		renderChat(height);
 
 		renderKeyStrokes();
+
+		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
 	}
 
 	private void renderKeyStrokes() {
