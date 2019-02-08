@@ -1,9 +1,8 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.CyclicIterator;
-import net.minecraft.Utils;
 import net.minecraft.Logger;
-import net.minecraft.client.Minecraft;
+import net.minecraft.Utils;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiButtonChangeName;
 import net.minecraft.client.gui.element.GuiButtonLanguage;
@@ -12,7 +11,6 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.tileentity.TileEntityEndPortalRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.util.EnumChatFormatting;
@@ -43,6 +41,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	private String openGLWarning1;
 	private String openGLWarning2;
 	private String openGLWarningLink;
+
+	private static final ResourceLocation iconsHd = new ResourceLocation("textures/gui/icons_hd.png");
 
 	private static final ResourceLocation[] skyboxTiles = new ResourceLocation[] {
 			new ResourceLocation("textures/gui/title/background/panorama_0.png"),
@@ -161,8 +161,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		GlStateManager.disableAlpha();
-		if (skybox != null) skybox.render(partialTicks);
-		else renderBackground(mouseX, mouseY);
+//		if (skybox != null) skybox.render(partialTicks);
+//		else
+			renderBackground(mouseX, mouseY);
 		GlStateManager.enableAlpha();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -190,45 +191,59 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	}
 
 	private void renderBackground(int mouseX, int mouseY) {
-		mc.getTextureManager().bindTexture(TileEntityEndPortalRenderer.END_PORTAL_TEXTURE);
-		drawRect(0, 0, width, height, 0xff101010);
-
+		GlStateManager.disableLighting();
+		GlStateManager.disableFog();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		float offset = (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F;
-		random.setSeed(31100L);
-		GlStateManager.enableAlpha();
-		GlStateManager.enableBlend();
-
-		for (int layer = 15; layer >= 0; layer--) {
-			GlStateManager.pushMatrix();
-			float f = 0.00390625F * (1 + (float) layer / 3);
-
-
-			float r = random.nextFloat() * 0.5F + 0.1F;
-			float g = random.nextFloat() * 0.5F + 0.4F;
-			float b = random.nextFloat() * 0.5F + 0.5F;
-			GlStateManager.color(r, g, b, 0.5f);
-			GlStateManager.translate(width / 2, height / 2, 0);
-			float mouseOffsetX = (float) mouseX / (float) width * (16 - layer) * 5;
-			float mouseOffsetY = (float) mouseY / (float) width * (16 - layer) * 10;
-			GlStateManager.translate(mouseOffsetX, mouseOffsetY, 0);
-			GlStateManager.rotate((float) (layer * layer * 4321 + layer * 9) * 2.0F, 0, 0, 1);
-
-			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-
-			float x1 = (float) width * -1.5f, x2 = (float) width * 1.5f;
-			float y1 = x1 + offset * x1, y2 = x2 - offset * x2;
-
-			worldrenderer.pos(width * -1.5, y2, zLevel).tex(0d, (double) (255 * f)).endVertex();
-			worldrenderer.pos(x2, y2, zLevel).tex((double) (255 * f), (double) (255 * f)).endVertex();
-			worldrenderer.pos(x2, y1, zLevel).tex((double) (255 * f), 0d).endVertex();
-			worldrenderer.pos(x1, y1, zLevel).tex(0d, 0d).endVertex();
-
-			tessellator.draw();
-			GlStateManager.popMatrix();
-			drawRect(0, 0, width, height, 0x25101010);
-		}
+		this.mc.getTextureManager().bindTexture(modernBackground);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		float f = 32.0F;
+		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+		worldrenderer.pos(0.0D, (double) this.height, 0.0D).tex(0.0D, (double) ((float) this.height / 32.0F)).color(64, 64, 64, 255).endVertex();
+		worldrenderer.pos((double) this.width, (double) this.height, 0.0D).tex((double) ((float) this.width / 32.0F), (double) ((float) this.height / 32.0F)).color(64, 64, 64,
+				255).endVertex();
+		worldrenderer.pos((double) this.width, 0.0D, 0.0D).tex((double) ((float) this.width / 32.0F), 0).color(64, 64, 64, 255).endVertex();
+		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, 0).color(64, 64, 64, 255).endVertex();
+		tessellator.draw();
+//		mc.getTextureManager().bindTexture(TileEntityEndPortalRenderer.END_PORTAL_TEXTURE);
+//		drawRect(0, 0, width, height, 0xff101010);
+//
+//		Tessellator tessellator = Tessellator.getInstance();
+//		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+//		float offset = (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F;
+//		random.setSeed(31100L);
+//		GlStateManager.enableAlpha();
+//		GlStateManager.enableBlend();
+//
+//		for (int layer = 15; layer >= 0; layer--) {
+//			GlStateManager.pushMatrix();
+//			float f = 0.00390625F * (1 + (float) layer / 3);
+//
+//
+//			float r = random.nextFloat() * 0.5F + 0.1F;
+//			float g = random.nextFloat() * 0.5F + 0.4F;
+//			float b = random.nextFloat() * 0.5F + 0.5F;
+//			GlStateManager.color(r, g, b, 0.5f);
+//			GlStateManager.translate(width / 2, height / 2, 0);
+//			float mouseOffsetX = (float) mouseX / (float) width * (16 - layer) * 5;
+//			float mouseOffsetY = (float) mouseY / (float) width * (16 - layer) * 10;
+//			GlStateManager.translate(mouseOffsetX, mouseOffsetY, 0);
+//			GlStateManager.rotate((float) (layer * layer * 4321 + layer * 9) * 2.0F, 0, 0, 1);
+//
+//			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+//
+//			float x1 = (float) width * -1.5f, x2 = (float) width * 1.5f;
+//			float y1 = x1 + offset * x1, y2 = x2 - offset * x2;
+//
+//			worldrenderer.pos(width * -1.5, y2, zLevel).tex(0d, (double) (255 * f)).endVertex();
+//			worldrenderer.pos(x2, y2, zLevel).tex((double) (255 * f), (double) (255 * f)).endVertex();
+//			worldrenderer.pos(x2, y1, zLevel).tex((double) (255 * f), 0d).endVertex();
+//			worldrenderer.pos(x1, y1, zLevel).tex(0d, 0d).endVertex();
+//
+//			tessellator.draw();
+//			GlStateManager.popMatrix();
+//			drawRect(0, 0, width, height, 0x25101010);
+//		}
 
 
 	}
