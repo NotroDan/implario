@@ -6,7 +6,9 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityGiparrow;
+import net.minecraft.entity.projectile.simulant.Simulant;
+import net.minecraft.entity.projectile.simulant.SimulantArrow;
+import net.minecraft.entity.projectile.simulant.SimulantSimpleProjectile;
 import net.minecraft.init.Items;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
@@ -14,7 +16,7 @@ import net.minecraft.util.Vec3i;
 
 public class BowPathRenderer {
 
-	private static volatile EntityGiparrow lastParsed;
+	private static volatile Simulant lastParsed;
 
 	public static void render(float partialTicks) {
 		EntityPlayer player = MC.getPlayer();
@@ -22,14 +24,40 @@ public class BowPathRenderer {
 			lastParsed = null;
 			return;
 		}
-		if (player.getHeldItem().getItem() != Items.bow) {
+
+		Simulant g, s;
+		float f = 1;
+
+		if (player.getHeldItem().getItem() == Items.bow) {
+
+			int ik = 72000 - player.itemInUseCount;
+			f = (float) ik / 20.0F;
+			f = (f * f + f * 2.0F) / 3.0F;
+
+			if ((double) f < 0.1D) {
+				lastParsed = null;
+				return;
+			}
+
+			if (f > 1.0F) f = 1.0F;
+
+			g = new SimulantArrow(player.worldObj, player, f * 2, 0);
+			s = new SimulantArrow(player.worldObj, player, f * 2, 1);
+
+		} else if (player.getHeldItem().getItem() == Items.snowball ||
+					player.getHeldItem().getItem() == Items.ender_pearl ||
+					player.getHeldItem().getItem() == Items.egg) {
+			g = new SimulantSimpleProjectile(player.worldObj, player, 0);
+			s = new SimulantSimpleProjectile(player.worldObj, player, 1);
+			f = 0.3F;
+		} else {
 			lastParsed = null;
 			return;
 		}
 
+
 		double x = player.posX;
 		double y = player.posY;
-		// + player.getEyeHeight();
 		double z = player.posZ;
 
 		if (player == null) {
@@ -44,32 +72,6 @@ public class BowPathRenderer {
 		double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) partialTicks + vec3.zCoord;
 		double d3 = (double) player.getEyeHeight();
 
-		//            if (Settings.getPerspective() > 0 || entity.angler != Minecraft.getMinecraft().thePlayer)
-		//            {
-		//                float f9 = (entity.angler.prevRenderYawOffset + (entity.angler.renderYawOffset - entity.angler.prevRenderYawOffset) * partialTicks) * (float)Math.PI / 180.0F;
-		//                double d4 = (double)MathHelper.sin(f9);
-		//                double d6 = (double)MathHelper.cos(f9);
-		//                double d8 = 0.35D;
-		//                double d10 = 0.8D;
-		//                d0 = entity.angler.prevPosX + (entity.angler.posX - entity.angler.prevPosX) * (double)partialTicks - d6 * 0.35D - d4 * 0.8D;
-		//                d1 = entity.angler.prevPosY + d3 + (entity.angler.posY - entity.angler.prevPosY) * (double)partialTicks - 0.45D;
-		//                d2 = entity.angler.prevPosZ + (entity.angler.posZ - entity.angler.prevPosZ) * (double)partialTicks - d4 * 0.35D + d6 * 0.8D;
-		//                d3 = entity.angler.isSneaking() ? -0.1875D : 0.0D;
-		//            }
-
-		int ik = 72000 - player.itemInUseCount;
-		float f = (float) ik / 20.0F;
-		f = (f * f + f * 2.0F) / 3.0F;
-
-		if ((double) f < 0.1D) {
-			lastParsed = null;
-			return;
-		}
-
-		if (f > 1.0F) f = 1.0F;
-
-		EntityGiparrow g = new EntityGiparrow(player.worldObj, player, f * 2);
-
 		GlStateManager.disableTexture2D();
 		GlStateManager.disableLighting();
 
@@ -83,8 +85,14 @@ public class BowPathRenderer {
 			double aX = g.posX, aY = g.posY, aZ = g.posZ;
 			worldrenderer.pos(aX - x, aY - y, aZ - z).color((int) (200 * f), (int) (200 * (1 - f)), 0, 255).endVertex();
 			g.onUpdate();
+			s.onUpdate();
 			if (g.destinated) break;
 		}
+
+		double dx = g.posX - s.posX;
+		double dy = g.posY - s.posY;
+		double dz = g.posZ - s.posZ;
+		g.inacc = (short) (Math.sqrt(dx * dx + dy * dy + dz * dz) * 10);
 
 		tessellator.draw();
 		Entity e = g.entityHit;
@@ -130,6 +138,7 @@ public class BowPathRenderer {
 		String target = lastParsed.entityHit == null ? lastParsed.inTile == null ? "§7-" : "§e" + lastParsed.inTile.getLocalizedName() : "§a" + lastParsed.entityHit.getName();
 		GlStateManager.scale(0.5, 0.5, 0.5);
 		f.drawString("Цель: " + target, x * 2, y * 2 + 19, 0xffffff);
+		f.drawString("Точность: §e" + (float) lastParsed.inacc / 10F, x * 2, y * 2 + 28, 0xffffff);
 	}
 
 }
