@@ -126,7 +126,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
 
 		if (button.id == 99) this.mc.displayGuiScreen(new GuiPlayername(this));
-		if (button.id == 97) this.mc.displayGuiScreen(new GuiAuth(this));
 
 		if (button.id == 4) this.mc.shutdown();
 

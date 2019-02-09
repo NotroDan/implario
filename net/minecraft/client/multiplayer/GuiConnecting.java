@@ -1,6 +1,5 @@
 package net.minecraft.client.multiplayer;
 
-import net.minecraft.Auth;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -28,7 +27,6 @@ public class GuiConnecting extends GuiScreen {
 	private NetworkManager networkManager;
 	private boolean cancel;
 	private final GuiScreen previousGuiScreen;
-	private volatile boolean authorizing;
 
 	public GuiConnecting(GuiScreen p_i1181_1_, Minecraft mcIn, ServerData p_i1181_3_) {
 		this.mc = mcIn;
@@ -50,22 +48,6 @@ public class GuiConnecting extends GuiScreen {
 		logger.info("Connecting to " + ip + ", " + port);
 		new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
 			public void run() {
-
-				if (ip.equalsIgnoreCase("lmaomc.ru") && Auth.password != null) {
-					authorizing = true;
-					try {
-						Auth.log();
-						authorizing = false;
-					} catch (Throwable t) {
-						mc.displayGuiScreen(
-								new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed",
-										new ChatComponentTranslation("disconnect.genericReason", "Не удалось авторизоваться.\nИспользуем стандартную авторизацию.")));
-						try {
-							sleep(1000);
-						} catch (InterruptedException ignored) {}
-						t.printStackTrace();
-					}
-				}
 
 				InetAddress inetaddress = null;
 
@@ -158,7 +140,6 @@ public class GuiConnecting extends GuiScreen {
 		this.drawDefaultBackground();
 
 		String s = this.networkManager == null ? Lang.format("connect.connecting") : Lang.format("connect.authorizing");
-		if (authorizing) s = "Авторизация в крутой системе гугла...";
 		this.drawCenteredString(this.fontRendererObj, s, this.width / 2, this.height / 2 - 50, 16777215);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);

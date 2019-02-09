@@ -11,7 +11,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import net.minecraft.Auth;
 import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -300,8 +299,6 @@ public class Minecraft implements IThreadListener {
 
 	public void run() {
 		this.running = true;
-
-		Auth.loadPassword();
 
 		try {
 			this.startGame();
@@ -789,7 +786,6 @@ label53:
 				this.loadWorld(null);
 			} catch (Throwable ignored) {}
 
-			Auth.savePassword();
 			this.mcSoundHandler.unloadSounds();
 		} finally {
 			Display.destroy();
