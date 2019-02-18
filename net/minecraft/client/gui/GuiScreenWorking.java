@@ -9,6 +9,9 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
 	private int progress;
 	private boolean doneWorking;
 
+	@Override
+	public void initGui() {}
+
 	/**
 	 * Shows the 'Saving level' string.
 	 */

@@ -26,7 +26,7 @@ public class SpectatorMenu
         {
             return new ChatComponentText("");
         }
-        public void func_178663_a(float p_178663_1_, int alpha)
+        public void render(float p_178663_1_, int alpha)
         {
         }
         public boolean func_178662_A_()
@@ -121,7 +121,7 @@ public class SpectatorMenu
             return new ChatComponentText("Закрыть меню");
         }
 
-        public void func_178663_a(float p_178663_1_, int alpha)
+        public void render(float p_178663_1_, int alpha)
         {
             Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
             Gui.drawModalRectWithCustomSizedTexture(0, 0, 128.0F, 0.0F, 16, 16, 256.0F, 256.0F);
@@ -154,7 +154,7 @@ public class SpectatorMenu
             return this.field_178666_a < 0 ? new ChatComponentText("Предыдущая страница") : new ChatComponentText("Следующая страница");
         }
 
-        public void func_178663_a(float p_178663_1_, int alpha)
+        public void render(float p_178663_1_, int alpha)
         {
             Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
 

@@ -4,6 +4,8 @@ import net.minecraft.client.MC;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.simulant.Simulant;
@@ -43,6 +45,7 @@ public class BowPathRenderer {
 
 			g = new SimulantArrow(player.worldObj, player, f * 2, 0);
 			s = new SimulantArrow(player.worldObj, player, f * 2, 1);
+			g.power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, player.getHeldItem());
 
 		} else if (player.getHeldItem().getItem() == Items.snowball ||
 					player.getHeldItem().getItem() == Items.ender_pearl ||
@@ -138,7 +141,8 @@ public class BowPathRenderer {
 		String target = lastParsed.entityHit == null ? lastParsed.inTile == null ? "§7-" : "§e" + lastParsed.inTile.getLocalizedName() : "§a" + lastParsed.entityHit.getName();
 		GlStateManager.scale(0.5, 0.5, 0.5);
 		f.drawString("Цель: " + target, x * 2, y * 2 + 19, 0xffffff);
-		f.drawString("Точность: §e" + (float) lastParsed.inacc / 10F, x * 2, y * 2 + 28, 0xffffff);
+		f.drawString("Отклонение: §e" + (float) lastParsed.inacc / 10F, x * 2, y * 2 + 28, 0xffffff);
+		if (lastParsed.damage != 0) f.drawString("Базовый урон: §e" + lastParsed.damage, x * 2, y * 2 + 37, 0xffffff);
 	}
 
 }

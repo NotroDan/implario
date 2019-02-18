@@ -37,25 +37,23 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 		return MathHelper.clamp_float((float) i / 2000.0F, 0.0F, 1.0F);
 	}
 
-	public void renderTooltip(ScaledResolution p_175264_1_, float p_175264_2_) {
-		if (this.spectatorMenu != null) {
-			float f = this.func_175265_c();
+	public void renderTooltip(ScaledResolution res, float partialTicks) {
+		if (this.spectatorMenu == null) return;
+		float f = this.func_175265_c();
 
-			if (f <= 0.0F) {
-				this.spectatorMenu.func_178641_d();
-			} else {
-				int i = p_175264_1_.getScaledWidth() / 2;
-				float f1 = this.zLevel;
-				this.zLevel = -90.0F;
-				float f2 = (float) p_175264_1_.getScaledHeight() - 22.0F * f;
-				SpectatorDetails spectatordetails = this.spectatorMenu.func_178646_f();
-				this.func_175258_a(p_175264_1_, f, i, f2, spectatordetails);
-				this.zLevel = f1;
-			}
+		if (f <= 0.0F) this.spectatorMenu.func_178641_d();
+		else {
+			int i = res.getScaledWidth() / 2;
+			float f1 = this.zLevel;
+			this.zLevel = -90.0F;
+			float f2 = (float) res.getScaledHeight() - 22.0F * f;
+			SpectatorDetails spectatordetails = this.spectatorMenu.func_178646_f();
+			this.func_175258_a(res, f, i, f2, spectatordetails);
+			this.zLevel = f1;
 		}
 	}
 
-	protected void func_175258_a(ScaledResolution p_175258_1_, float p_175258_2_, int p_175258_3_, float p_175258_4_, SpectatorDetails p_175258_5_) {
+	protected void func_175258_a(ScaledResolution res, float p_175258_2_, int p_175258_3_, float p_175258_4_, SpectatorDetails details) {
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.enableBlend();
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -63,14 +61,14 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 		this.minecraft.getTextureManager().bindTexture(widgetsResource);
 		this.drawTexturedModalRect((float) (p_175258_3_ - 91), p_175258_4_, 0, 0, 182, 22);
 
-		if (p_175258_5_.func_178681_b() >= 0) {
-			this.drawTexturedModalRect((float) (p_175258_3_ - 91 - 1 + p_175258_5_.func_178681_b() * 20), p_175258_4_ - 1.0F, 0, 22, 24, 22);
+		if (details.func_178681_b() >= 0) {
+			this.drawTexturedModalRect((float) (p_175258_3_ - 91 - 1 + details.func_178681_b() * 20), p_175258_4_ - 1.0F, 0, 22, 24, 22);
 		}
 
 		RenderHelper.enableGUIStandardItemLighting();
 
 		for (int i = 0; i < 9; ++i) {
-			this.func_175266_a(i, p_175258_1_.getScaledWidth() / 2 - 90 + i * 20 + 2, p_175258_4_ + 3.0F, p_175258_2_, p_175258_5_.func_178680_a(i));
+			this.func_175266_a(i, res.getScaledWidth() / 2 - 90 + i * 20 + 2, p_175258_4_ + 3.0F, p_175258_2_, details.func_178680_a(i));
 		}
 
 		RenderHelper.disableStandardItemLighting();
@@ -78,26 +76,64 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 		GlStateManager.disableBlend();
 	}
 
-	private void func_175266_a(int key, int p_175266_2_, float p_175266_3_, float p_175266_4_, ISpectatorMenuObject p_175266_5_) {
+	private void func_175266_a(int key, int p_175266_2_, float p_175266_3_, float p_175266_4_, ISpectatorMenuObject menuObj) {
 		this.minecraft.getTextureManager().bindTexture(swidgetsResource);
 
-		if (p_175266_5_ != SpectatorMenu.field_178657_a) {
+		if (menuObj != SpectatorMenu.field_178657_a) {
 			int i = (int) (p_175266_4_ * 255.0F);
 			GlStateManager.pushMatrix();
 			GlStateManager.translate((float) p_175266_2_, p_175266_3_, 0.0F);
-			float f = p_175266_5_.func_178662_A_() ? 1.0F : 0.25F;
+			float f = menuObj.func_178662_A_() ? 1.0F : 0.25F;
 			GlStateManager.color(f, f, f, p_175266_4_);
-			p_175266_5_.func_178663_a(f, i);
+			menuObj.render(f, i);
 			GlStateManager.popMatrix();
 			String s = KeyBinding.HOTBAR[key].getKeyDisplayString();
 
-			if (i > 3 && p_175266_5_.func_178662_A_()) {
+			if (i > 3 && menuObj.func_178662_A_()) {
 				this.minecraft.fontRendererObj.drawStringWithShadow(s, (float) (p_175266_2_ + 19 - 2 - this.minecraft.fontRendererObj.getStringWidth(s)), p_175266_3_ + 6.0F + 3.0F, 16777215 + (i << 24));
 			}
 		}
 	}
 
-	public void render(ScaledResolution p_175263_1_) {
+	public void render(ScaledResolution res) {
+//
+//		NetHandlerPlayClient nhpc = MC.getPlayer().sendQueue;
+//		Collection<NetworkPlayerInfo> list = nhpc.getPlayerInfoMap();
+//
+//		Map<ScorePlayerTeam, List<NetworkPlayerInfo>> teams = new HashMap<>();
+//		Collection<ScorePlayerTeam> ts = MC.getWorld().getScoreboard().getTeams();
+//
+//		for (ScorePlayerTeam t : ts) teams.put(t, new ArrayList<>());
+//		for (NetworkPlayerInfo playerInfo : list) {
+//			if (playerInfo.getPlayerTeam() != null && teams.containsKey(playerInfo.getPlayerTeam()))
+//				teams.get(playerInfo.getPlayerTeam()).add(playerInfo);
+//		}
+//
+//
+//		for (ScorePlayerTeam team : teams.keySet()) {
+//			String s = FontRenderer.getFormatFromString(team.getColorPrefix());
+//			int i = -1;
+//			if (s.length() >= 2) i = Minecraft.getMinecraft().fontRendererObj.getColorCode(s.charAt(1));
+//			drawRect(0, 2, 100, 8, i);
+//
+//			for (NetworkPlayerInfo player : teams.get(team)) {
+//
+//
+//				GameProfile gameprofile = player.getGameProfile();
+//
+//				EntityPlayer entityplayer = MC.getWorld().getPlayerEntityByUUID(gameprofile.getId());
+//				MC.i().getTextureManager().bindTexture(player.getLocationSkin());
+//				Gui.drawScaledCustomSizeModalRect(100, 100, 8.0F, (float) 8, 8, 8, 8, 8, 64.0F, 64.0F);
+//
+//				if (entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.HAT)) {
+//					Gui.drawScaledCustomSizeModalRect(100, 100, 40.0F, (float) 8, 8, 8, 8, 8, 64.0F, 64.0F);
+//				}
+//
+//			}
+//
+//		}
+
+
 		int i = (int) (this.func_175265_c() * 255.0F);
 
 		if (i > 3 && this.spectatorMenu != null) {
@@ -105,8 +141,8 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 			String s = ispectatormenuobject != SpectatorMenu.field_178657_a ? ispectatormenuobject.getSpectatorName().getFormattedText() : this.spectatorMenu.func_178650_c().func_178670_b().getFormattedText();
 
 			if (s != null) {
-				int j = (p_175263_1_.getScaledWidth() - this.minecraft.fontRendererObj.getStringWidth(s)) / 2;
-				int k = p_175263_1_.getScaledHeight() - 35;
+				int j = (res.getScaledWidth() - this.minecraft.fontRendererObj.getStringWidth(s)) / 2;
+				int k = res.getScaledHeight() - 35;
 				GlStateManager.pushMatrix();
 				GlStateManager.enableBlend();
 				GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

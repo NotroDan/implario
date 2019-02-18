@@ -63,7 +63,7 @@ public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObjec
         return new ChatComponentText("Teleport to player");
     }
 
-    public void func_178663_a(float p_178663_1_, int alpha)
+    public void render(float p_178663_1_, int alpha)
     {
         Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0F, 0.0F, 16, 16, 256.0F, 256.0F);
