@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity.layers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderSnowMan;
 import net.minecraft.entity.monster.EntitySnowman;
@@ -21,14 +21,14 @@ public class LayerSnowmanHead implements LayerRenderer<EntitySnowman>
     {
         if (!entitylivingbaseIn.isInvisible())
         {
-            GlStateManager.pushMatrix();
+            G.pushMatrix();
             this.snowManRenderer.getMainModel().head.postRender(0.0625F);
             float f = 0.625F;
-            GlStateManager.translate(0.0F, -0.34375F, 0.0F);
-            GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-            GlStateManager.scale(f, -f, -f);
+            G.translate(0.0F, -0.34375F, 0.0F);
+            G.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+            G.scale(f, -f, -f);
             Minecraft.getMinecraft().getItemRenderer().renderItem(entitylivingbaseIn, new ItemStack(Blocks.pumpkin, 1), ItemCameraTransforms.TransformType.HEAD);
-            GlStateManager.popMatrix();
+            G.popMatrix();
         }
     }
 

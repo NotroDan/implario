@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
 
 import java.util.List;
@@ -58,8 +58,8 @@ public class GuiLabel extends Gui {
 
 	public void drawLabel(Minecraft mc, int mouseX, int mouseY) {
 		if (visible) {
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 771, 1, 0);
 			drawLabelBackground(mc, mouseX, mouseY);
 			int i = field_146174_h + field_146161_f / 2 + field_146163_s / 2;
 			int j = i - lines.size() * 10 / 2;

@@ -2,7 +2,7 @@ package net.minecraft.client.gui.element;
 
 import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.client.settings.SliderSetting;
 import net.minecraft.util.MathHelper;
@@ -46,7 +46,7 @@ public class SettingSlider extends SettingButton {
 		}
 
 		mc.getTextureManager().bindTexture(buttonTextures);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		int sliderX = xPosition + (int) (sliderValue * (width - 8));
 		if (Settings.FANCY_BUTTONS.b()) {
 			boolean hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;

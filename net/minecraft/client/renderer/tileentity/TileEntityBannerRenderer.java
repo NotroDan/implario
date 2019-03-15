@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBanner;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.LayeredColorMaskTexture;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -28,14 +28,14 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
         boolean flag1 = !flag || te.getBlockType() == Blocks.standing_banner;
         int i = flag ? te.getBlockMetadata() : 0;
         long j = flag ? te.getWorld().getTotalWorldTime() : 0L;
-        GlStateManager.pushMatrix();
+        G.pushMatrix();
         float f = 0.6666667F;
 
         if (flag1)
         {
-            GlStateManager.translate((float)x + 0.5F, (float)y + 0.75F * f, (float)z + 0.5F);
+            G.translate((float)x + 0.5F, (float)y + 0.75F * f, (float)z + 0.5F);
             float f1 = (float)(i * 360) / 16.0F;
-            GlStateManager.rotate(-f1, 0.0F, 1.0F, 0.0F);
+            G.rotate(-f1, 0.0F, 1.0F, 0.0F);
             this.bannerModel.bannerStand.showModel = true;
         }
         else
@@ -57,29 +57,29 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
                 f2 = -90.0F;
             }
 
-            GlStateManager.translate((float)x + 0.5F, (float)y - 0.25F * f, (float)z + 0.5F);
-            GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
-            GlStateManager.translate(0.0F, -0.3125F, -0.4375F);
+            G.translate((float)x + 0.5F, (float)y - 0.25F * f, (float)z + 0.5F);
+            G.rotate(-f2, 0.0F, 1.0F, 0.0F);
+            G.translate(0.0F, -0.3125F, -0.4375F);
             this.bannerModel.bannerStand.showModel = false;
         }
 
         BlockPos blockpos = te.getPos();
         float f3 = (float)(blockpos.getX() * 7 + blockpos.getY() * 9 + blockpos.getZ() * 13) + (float)j + partialTicks;
         this.bannerModel.bannerSlate.rotateAngleX = (-0.0125F + 0.01F * MathHelper.cos(f3 * (float)Math.PI * 0.02F)) * (float)Math.PI;
-        GlStateManager.enableRescaleNormal();
+        G.enableRescaleNormal();
         ResourceLocation resourcelocation = this.func_178463_a(te);
 
         if (resourcelocation != null)
         {
             this.bindTexture(resourcelocation);
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(f, -f, -f);
+            G.pushMatrix();
+            G.scale(f, -f, -f);
             this.bannerModel.renderBanner();
-            GlStateManager.popMatrix();
+            G.popMatrix();
         }
 
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.popMatrix();
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.popMatrix();
     }
 
     private ResourceLocation func_178463_a(TileEntityBanner bannerObj)

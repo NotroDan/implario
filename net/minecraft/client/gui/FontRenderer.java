@@ -4,7 +4,7 @@ import com.ibm.icu.text.ArabicShaping;
 import com.ibm.icu.text.ArabicShapingException;
 import com.ibm.icu.text.Bidi;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -355,12 +355,9 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		this.resetStyles();
 		int i;
 
-		if (dropShadow) {
-			i = this.renderString(text, x + 1.0F, y + 1.0F, color, true);
-			i = Math.max(i, this.renderString(text, x, y, color, false));
-		} else {
-			i = this.renderString(text, x, y, color, false);
-		}
+		if (dropShadow) i = Math.max(renderString(text, x + 1, y + 1, color, true),
+								this.renderString(text, x, y, color, false));
+		else i = this.renderString(text, x, y, color, false);
 
 		return i;
 	}
@@ -390,49 +387,46 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	}
 
 	/**
-	 * Render a single line string at the current (posX,posY) and update posX
+	 * Рендерит строку (без переноса) на текущей позиции GL, сдвигая её по оси X.
 	 */
-	private void renderStringAtPos(String s, boolean p_78255_2_) {
+	private void renderStringAtPos(String s, boolean dropShadow) {
 		for (int i = 0; i < s.length(); ++i) {
-			char c0 = s.charAt(i);
+			char c = s.charAt(i);
 
-			if (c0 == 167 && i + 1 < s.length()) {
-				int i1 = "0123456789abcdefklmnor".indexOf(s.toLowerCase().charAt(i + 1));
+			// Обработка кодов форматирования
+			if (c == '§' && i + 1 < s.length()) {
+				// Номер формата
+				int format = "0123456789abcdefklmnor".indexOf(s.toLowerCase().charAt(i + 1));
 
-				if (i1 < 16) {
+				// Обработка цвета
+				if (format < 16) {
+
+					// Сбрасываем все стили
 					this.randomStyle = false;
 					this.boldStyle = false;
 					this.strikethroughStyle = false;
 					this.underlineStyle = false;
 					this.italicStyle = false;
 
-					if (i1 < 0 || i1 > 15) {
-						i1 = 15;
-					}
+					if (format < 0 || format > 15) format = 15;
 
-					if (p_78255_2_) {
-						i1 += 16;
-					}
+					// Тёмный аналог цвета n имеет номер n + 1
+					if (dropShadow) format += 16;
 
-					int j1 = this.colorCode[i1];
+					int color = this.colorCode[format];
 
-					if (Config.isCustomColors()) {
-						j1 = CustomColors.getTextColor(i1, j1);
-					}
+					if (Config.isCustomColors()) color = CustomColors.getTextColor(format, color);
 
-					this.textColor = j1;
-					this.setColor((float) (j1 >> 16) / 255.0F, (float) (j1 >> 8 & 255) / 255.0F, (float) (j1 & 255) / 255.0F, this.alpha);
-				} else if (i1 == 16) {
-					this.randomStyle = true;
-				} else if (i1 == 17) {
-					this.boldStyle = true;
-				} else if (i1 == 18) {
-					this.strikethroughStyle = true;
-				} else if (i1 == 19) {
-					this.underlineStyle = true;
-				} else if (i1 == 20) {
-					this.italicStyle = true;
-				} else if (i1 == 21) {
+					this.textColor = color;
+					this.setColor((float) (color >> 16) / 255.0F, (float) (color >> 8 & 255) / 255.0F, (float) (color & 255) / 255.0F, this.alpha);
+				}
+				// Стили текста
+				else if (format == 16) this.randomStyle = true;
+				else if (format == 17) this.boldStyle = true;
+				else if (format == 18) this.strikethroughStyle = true;
+				else if (format == 19) this.underlineStyle = true;
+				else if (format == 20) this.italicStyle = true;
+				else if (format == 21) {
 					this.randomStyle = false;
 					this.boldStyle = false;
 					this.strikethroughStyle = false;
@@ -444,10 +438,10 @@ public class FontRenderer implements IResourceManagerReloadListener {
 				++i;
 			} else {
 				int j = "\u00c0\u00c1\u00c2\u00c8\u00ca\u00cb\u00cd\u00d3\u00d4\u00d5\u00da\u00df\u00e3\u00f5\u011f\u0130\u0131\u0152\u0153\u015e\u015f\u0174\u0175\u017e\u0207\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000\u00c7\u00fc\u00e9\u00e2\u00e4\u00e0\u00e5\u00e7\u00ea\u00eb\u00e8\u00ef\u00ee\u00ec\u00c4\u00c5\u00c9\u00e6\u00c6\u00f4\u00f6\u00f2\u00fb\u00f9\u00ff\u00d6\u00dc\u00f8\u00a3\u00d8\u00d7\u0192\u00e1\u00ed\u00f3\u00fa\u00f1\u00d1\u00aa\u00ba\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000".indexOf(
-						c0);
+						c);
 
 				if (this.randomStyle && j != -1) {
-					int k = this.getCharWidth(c0);
+					int k = this.getCharWidth(c);
 					char c1;
 					
 					do {
@@ -458,18 +452,18 @@ public class FontRenderer implements IResourceManagerReloadListener {
 						
 					} while (k != this.getCharWidth(c1));
 
-					c0 = c1;
+					c = c1;
 				}
 
 				float f1 = j != -1 && !this.unicodeFlag ? this.offsetBold : 0.5F;
-				boolean flag = (c0 == 0 || j == -1 || this.unicodeFlag) && p_78255_2_;
+				boolean flag = (c == 0 || j == -1 || this.unicodeFlag) && dropShadow;
 
 				if (flag) {
 					this.posX -= f1;
 					this.posY -= f1;
 				}
 
-				float f = this.func_181559_a(c0, this.italicStyle);
+				float f = this.func_181559_a(c, this.italicStyle);
 
 				if (flag) {
 					this.posX += f1;
@@ -484,7 +478,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 						this.posY -= f1;
 					}
 
-					this.func_181559_a(c0, this.italicStyle);
+					this.func_181559_a(c, this.italicStyle);
 					this.posX -= f1;
 
 					if (flag) {
@@ -498,20 +492,20 @@ public class FontRenderer implements IResourceManagerReloadListener {
 				if (this.strikethroughStyle) {
 					Tessellator tessellator = Tessellator.getInstance();
 					WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-					GlStateManager.disableTexture2D();
+					G.disableTexture2D();
 					worldrenderer.begin(7, DefaultVertexFormats.POSITION);
 					worldrenderer.pos((double) this.posX, (double) (this.posY + (float) (this.FONT_HEIGHT / 2)), 0.0D).endVertex();
 					worldrenderer.pos((double) (this.posX + f), (double) (this.posY + (float) (this.FONT_HEIGHT / 2)), 0.0D).endVertex();
 					worldrenderer.pos((double) (this.posX + f), (double) (this.posY + (float) (this.FONT_HEIGHT / 2) - 1.0F), 0.0D).endVertex();
 					worldrenderer.pos((double) this.posX, (double) (this.posY + (float) (this.FONT_HEIGHT / 2) - 1.0F), 0.0D).endVertex();
 					tessellator.draw();
-					GlStateManager.enableTexture2D();
+					G.enableTexture2D();
 				}
 
 				if (this.underlineStyle) {
 					Tessellator tessellator1 = Tessellator.getInstance();
 					WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
-					GlStateManager.disableTexture2D();
+					G.disableTexture2D();
 					worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
 					int l = this.underlineStyle ? -1 : 0;
 					worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.FONT_HEIGHT), 0.0D).endVertex();
@@ -519,7 +513,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					worldrenderer1.pos((double) (this.posX + f), (double) (this.posY + (float) this.FONT_HEIGHT - 1.0F), 0.0D).endVertex();
 					worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.FONT_HEIGHT - 1.0F), 0.0D).endVertex();
 					tessellator1.draw();
-					GlStateManager.enableTexture2D();
+					G.enableTexture2D();
 				}
 
 				this.posX += f;
@@ -550,13 +544,8 @@ public class FontRenderer implements IResourceManagerReloadListener {
 			text = this.bidiReorder(text);
 		}
 
-		if ((color & 0xfc000000) == 0) {
-			color |= 0xff000000;
-		}
-
-		if (dropShadow) {
-			color = (color & 0xfcfcfc) >> 2 | color & 0xff000000;
-		}
+		if ((color & 0xfc000000) == 0) color |= 0xff000000;
+		if (dropShadow) color = (color & 0xfcfcfc) >> 2 | color & 0xff000000;
 
 		this.red = (float) (color >> 16 & 255) / 255.0F;
 		this.blue = (float) (color >> 8 & 255) / 255.0F;
@@ -887,12 +876,12 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		return 16777215;
 	}
 
-	protected void setColor(float p_setColor_1_, float p_setColor_2_, float p_setColor_3_, float p_setColor_4_) {
-		GlStateManager.color(p_setColor_1_, p_setColor_2_, p_setColor_3_, p_setColor_4_);
+	protected void setColor(float r, float b, float g, float a) {
+		G.color(r, b, g, a);
 	}
 
 	protected void enableAlpha() {
-		GlStateManager.enableAlpha();
+		G.enableAlpha();
 	}
 
 	protected void bindTexture(ResourceLocation p_bindTexture_1_) {

@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity.layers;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderWolf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySheep;
@@ -34,7 +34,7 @@ public class LayerWolfCollar implements LayerRenderer
                 afloat = CustomColors.getWolfCollarColors(enumdyecolor, afloat);
             }
 
-            GlStateManager.color(afloat[0], afloat[1], afloat[2]);
+            G.color(afloat[0], afloat[1], afloat[2]);
             this.wolfRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
         }
     }

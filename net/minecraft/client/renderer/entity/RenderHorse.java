@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelHorse;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.LayeredTexture;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.util.ResourceLocation;
@@ -41,7 +41,7 @@ public class RenderHorse extends RenderLiving<EntityHorse>
             f *= 0.92F;
         }
 
-        GlStateManager.scale(f, f, f);
+        G.scale(f, f, f);
         super.preRenderCallback(entitylivingbaseIn, partialTickTime);
     }
 

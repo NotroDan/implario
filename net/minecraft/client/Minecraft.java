@@ -33,7 +33,6 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -227,10 +226,6 @@ public class Minecraft implements IThreadListener {
 	private final Thread mcThread = Thread.currentThread();
 	private ModelManager modelManager;
 	private Preloader preloader;
-
-	/**
-	 * The BlockRenderDispatcher instance that will be used based off gamesettings
-	 */
 	private BlockRendererDispatcher blockRenderDispatcher;
 
 	/**
@@ -399,9 +394,10 @@ public class Minecraft implements IThreadListener {
 		preloader.nextState();
 		this.renderEngine.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
 		this.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-		preloader.nextState();
 		this.textureMapBlocks.setBlurMipmapDirect(false, Settings.MIPMAP_LEVELS.i() > 0);
+		preloader.nextState();
 		this.modelManager = new ModelManager(this.textureMapBlocks);
+		preloader.nextState();
 		this.mcResourceManager.registerReloadListener(this.modelManager);
 		preloader.nextState();
 		this.renderItem = new RenderItem(this.renderEngine, this.modelManager);
@@ -421,18 +417,18 @@ public class Minecraft implements IThreadListener {
 		this.guiAchievement = new GuiAchievement(this);
 		preloader.nextState();
 		preloader.nextState();
-		GlStateManager.enableTexture2D();
-		GlStateManager.shadeModel(7425);
-		GlStateManager.clearDepth(1.0D);
-		GlStateManager.enableDepth();
-		GlStateManager.depthFunc(515);
-		GlStateManager.enableAlpha();
-		GlStateManager.alphaFunc(516, 0.1F);
-		GlStateManager.cullFace(1029);
-		GlStateManager.matrixMode(5889);
-		GlStateManager.loadIdentity();
-		GlStateManager.matrixMode(5888);
-		GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
+		net.minecraft.client.renderer.G.enableTexture2D();
+		net.minecraft.client.renderer.G.shadeModel(7425);
+		net.minecraft.client.renderer.G.clearDepth(1.0D);
+		net.minecraft.client.renderer.G.enableDepth();
+		net.minecraft.client.renderer.G.depthFunc(515);
+		net.minecraft.client.renderer.G.enableAlpha();
+		net.minecraft.client.renderer.G.alphaFunc(516, 0.1F);
+		net.minecraft.client.renderer.G.cullFace(1029);
+		net.minecraft.client.renderer.G.matrixMode(5889);
+		net.minecraft.client.renderer.G.loadIdentity();
+		net.minecraft.client.renderer.G.matrixMode(5888);
+		net.minecraft.client.renderer.G.viewport(0, 0, this.displayWidth, this.displayHeight);
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
@@ -665,66 +661,6 @@ label53:
 		this.displayHeight = displaymode.getHeight();
 	}
 
-	private void drawMojangLogo(TextureManager txtmgr) {
-		ScaledResolution scaledresolution = new ScaledResolution(this);
-		int i = scaledresolution.getScaleFactor();
-		Framebuffer framebuffer = new Framebuffer(scaledresolution.getScaledWidth() * i, scaledresolution.getScaledHeight() * i, true);
-		framebuffer.bindFramebuffer(false);
-		GlStateManager.matrixMode(5889);
-		GlStateManager.loadIdentity();
-		GlStateManager.ortho(0.0D, (double) scaledresolution.getScaledWidth(), (double) scaledresolution.getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
-		GlStateManager.matrixMode(5888);
-		GlStateManager.loadIdentity();
-		GlStateManager.translate(0.0F, 0.0F, -2000.0F);
-		GlStateManager.disableLighting();
-		GlStateManager.disableFog();
-		GlStateManager.disableDepth();
-		GlStateManager.enableTexture2D();
-		InputStream inputstream = null;
-
-		try {
-			inputstream = this.mcDefaultResourcePack.getInputStream(locationMojangPng);
-			this.mojangLogo = txtmgr.getDynamicTextureLocation("logo", new DynamicTexture(ImageIO.read(inputstream)));
-			txtmgr.bindTexture(this.mojangLogo);
-		} catch (IOException ioexception) {
-			logger.error("Unable to load logo: " + locationMojangPng, ioexception);
-		} finally {
-			IOUtils.closeQuietly(inputstream);
-		}
-
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-		worldrenderer.pos(0.0D, (double) this.displayHeight, 0.0D).tex(0.0D, 0.0D).color(255, 255, 255, 255).endVertex();
-		worldrenderer.pos((double) this.displayWidth, (double) this.displayHeight, 0.0D).tex(0.0D, 0.0D).color(255, 255, 255, 255).endVertex();
-		worldrenderer.pos((double) this.displayWidth, 0.0D, 0.0D).tex(0.0D, 0.0D).color(255, 255, 255, 255).endVertex();
-		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, 0.0D).color(255, 255, 255, 255).endVertex();
-		tessellator.draw();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		int j = 256;
-		int k = 256;
-		this.func_181536_a((scaledresolution.getScaledWidth() - j) / 2, (scaledresolution.getScaledHeight() - k) / 2, 0, 0, j, k, 255, 255, 255, 255);
-		GlStateManager.disableLighting();
-		GlStateManager.disableFog();
-		framebuffer.unbindFramebuffer();
-		framebuffer.framebufferRender(scaledresolution.getScaledWidth() * i, scaledresolution.getScaledHeight() * i);
-		GlStateManager.enableAlpha();
-		GlStateManager.alphaFunc(516, 0.1F);
-		this.updateDisplay();
-	}
-
-	public void func_181536_a(int p_181536_1_, int p_181536_2_, int p_181536_3_, int p_181536_4_, int p_181536_5_, int p_181536_6_, int p_181536_7_, int p_181536_8_, int p_181536_9_, int p_181536_10_) {
-		float f = 0.00390625F;
-		float f1 = 0.00390625F;
-		WorldRenderer worldrenderer = Tessellator.getInstance().getWorldRenderer();
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-		worldrenderer.pos((double) p_181536_1_, (double) (p_181536_2_ + p_181536_6_), 0.0D).tex((double) ((float) p_181536_3_ * f), (double) ((float) (p_181536_4_ + p_181536_6_) * f1)).color(p_181536_7_, p_181536_8_, p_181536_9_, p_181536_10_).endVertex();
-		worldrenderer.pos((double) (p_181536_1_ + p_181536_5_), (double) (p_181536_2_ + p_181536_6_), 0.0D).tex((double) ((float) (p_181536_3_ + p_181536_5_) * f), (double) ((float) (p_181536_4_ + p_181536_6_) * f1)).color(p_181536_7_, p_181536_8_, p_181536_9_, p_181536_10_).endVertex();
-		worldrenderer.pos((double) (p_181536_1_ + p_181536_5_), (double) p_181536_2_, 0.0D).tex((double) ((float) (p_181536_3_ + p_181536_5_) * f), (double) ((float) p_181536_4_ * f1)).color(p_181536_7_, p_181536_8_, p_181536_9_, p_181536_10_).endVertex();
-		worldrenderer.pos((double) p_181536_1_, (double) p_181536_2_, 0.0D).tex((double) ((float) p_181536_3_ * f), (double) ((float) p_181536_4_ * f1)).color(p_181536_7_, p_181536_8_, p_181536_9_, p_181536_10_).endVertex();
-		Tessellator.getInstance().draw();
-	}
-
 	/**
 	 * Returns the save loader that is currently being used
 	 */
@@ -789,6 +725,7 @@ label53:
 			this.mcSoundHandler.unloadSounds();
 		} finally {
 			Display.destroy();
+			Logger.MAIN.close();
 			if (!this.hasCrashed) System.exit(0);
 		}
 
@@ -830,11 +767,11 @@ label53:
 		this.mcSoundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
 		in.endSection();
 		in.startSection("render");
-		GlStateManager.pushMatrix();
-		GlStateManager.clear(16640);
+		net.minecraft.client.renderer.G.pushMatrix();
+		net.minecraft.client.renderer.G.clear(16640);
 		this.framebufferMc.bindFramebuffer(true);
 		in.startSection("display");
-		GlStateManager.enableTexture2D();
+		net.minecraft.client.renderer.G.enableTexture2D();
 
 		if (this.thePlayer != null && this.thePlayer.isEntityInsideOpaqueBlock()) Settings.PERSPECTIVE.set(0);
 
@@ -860,10 +797,10 @@ label53:
 
 		this.guiAchievement.updateAchievementWindow();
 		this.framebufferMc.unbindFramebuffer();
-		GlStateManager.popMatrix();
-		GlStateManager.pushMatrix();
+		net.minecraft.client.renderer.G.popMatrix();
+		net.minecraft.client.renderer.G.pushMatrix();
 		this.framebufferMc.framebufferRender(this.displayWidth, this.displayHeight);
-		GlStateManager.popMatrix();
+		net.minecraft.client.renderer.G.popMatrix();
 		in.startSection("root");
 		this.updateDisplay();
 		Thread.yield();
@@ -972,29 +909,29 @@ label53:
 		if (!in.profilingEnabled) return;
 		List<Profiler.Result> list = in.getProfilingData(this.debugProfilerName);
 		Profiler.Result profiler$result = list.remove(0);
-		GlStateManager.clear(256);
-		GlStateManager.matrixMode(5889);
-		GlStateManager.enableColorMaterial();
-		GlStateManager.loadIdentity();
-		GlStateManager.ortho(0.0D, (double) this.displayWidth, (double) this.displayHeight, 0.0D, 1000.0D, 3000.0D);
-		GlStateManager.matrixMode(5888);
-		GlStateManager.loadIdentity();
-		GlStateManager.translate(0.0F, 0.0F, -2000.0F);
+		net.minecraft.client.renderer.G.clear(256);
+		net.minecraft.client.renderer.G.matrixMode(5889);
+		net.minecraft.client.renderer.G.enableColorMaterial();
+		net.minecraft.client.renderer.G.loadIdentity();
+		net.minecraft.client.renderer.G.ortho(0.0D, (double) this.displayWidth, (double) this.displayHeight, 0.0D, 1000.0D, 3000.0D);
+		net.minecraft.client.renderer.G.matrixMode(5888);
+		net.minecraft.client.renderer.G.loadIdentity();
+		net.minecraft.client.renderer.G.translate(0.0F, 0.0F, -2000.0F);
 		GL11.glLineWidth(1.0F);
-		GlStateManager.disableTexture2D();
+		net.minecraft.client.renderer.G.disableTexture2D();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		int i = 160;
 		int j = this.displayWidth - i - 10;
 		int k = this.displayHeight - i * 2;
-		GlStateManager.enableBlend();
+		net.minecraft.client.renderer.G.enableBlend();
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 		worldrenderer.pos((double) ((float) j - (float) i * 1.1F), (double) ((float) k - (float) i * 0.6F - 16.0F), 0.0D).color(200, 0, 0, 0).endVertex();
 		worldrenderer.pos((double) ((float) j - (float) i * 1.1F), (double) (k + i * 2), 0.0D).color(200, 0, 0, 0).endVertex();
 		worldrenderer.pos((double) ((float) j + (float) i * 1.1F), (double) (k + i * 2), 0.0D).color(200, 0, 0, 0).endVertex();
 		worldrenderer.pos((double) ((float) j + (float) i * 1.1F), (double) ((float) k - (float) i * 0.6F - 16.0F), 0.0D).color(200, 0, 0, 0).endVertex();
 		tessellator.draw();
-		GlStateManager.disableBlend();
+		net.minecraft.client.renderer.G.disableBlend();
 		double d0 = 0.0D;
 
 		for (Profiler.Result res : list) {
@@ -1029,7 +966,7 @@ label53:
 		}
 
 		DecimalFormat decimalformat = new DecimalFormat("##0.00");
-		GlStateManager.enableTexture2D();
+		net.minecraft.client.renderer.G.enableTexture2D();
 		String s = "";
 
 		if (!profiler$result.s.equals("unspecified")) s = s + "[0] ";

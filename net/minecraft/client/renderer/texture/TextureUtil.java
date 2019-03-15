@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.texture;
 
 import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
@@ -30,11 +30,11 @@ public class TextureUtil {
 	private static final String __OBFID = "CL_00001067";
 
 	public static int glGenTextures() {
-		return GlStateManager.generateTexture();
+		return G.generateTexture();
 	}
 
 	public static void deleteTexture(int textureId) {
-		GlStateManager.deleteTexture(textureId);
+		G.deleteTexture(textureId);
 	}
 
 	public static int uploadTextureImage(int p_110987_0_, BufferedImage p_110987_1_) {
@@ -209,7 +209,7 @@ public class TextureUtil {
 	}
 
 	static void bindTexture(int p_94277_0_) {
-		GlStateManager.bindTexture(p_94277_0_);
+		G.bindTexture(p_94277_0_);
 	}
 
 	public static int[] readImageData(IResourceManager resourceManager, ResourceLocation imageLocation) throws IOException {

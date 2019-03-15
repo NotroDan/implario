@@ -1,7 +1,7 @@
 package net.minecraft.util;
 
 import net.minecraft.Logger;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.shader.Framebuffer;
@@ -71,7 +71,7 @@ public class ScreenShotHelper {
 			pixelBuffer.clear();
 
 			if (OpenGlHelper.isFramebufferEnabled()) {
-				GlStateManager.bindTexture(buffer.framebufferTexture);
+				G.bindTexture(buffer.framebufferTexture);
 				GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
 			} else {
 				GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);

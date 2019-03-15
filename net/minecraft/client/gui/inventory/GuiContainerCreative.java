@@ -5,7 +5,7 @@ import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.Lang;
@@ -324,7 +324,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 		CreativeTabs creativetabs = CreativeTabs.creativeTabArray[selectedTabIndex];
 
 		if (creativetabs.drawInForegroundOfTab()) {
-			GlStateManager.disableBlend();
+			G.disableBlend();
 			this.fontRendererObj.drawString(Lang.format(creativetabs.getTranslatedTabLabel()), 8, 6, 4210752);
 		}
 	}
@@ -496,8 +496,8 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			this.drawCreativeTabHoveringText(Lang.format("inventory.binSlot"), mouseX, mouseY);
 		}
 
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.disableLighting();
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.disableLighting();
 	}
 
 	protected void renderToolTip(ItemStack stack, int x, int y) {
@@ -537,7 +537,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 	 * Args : renderPartialTicks, mouseX, mouseY
 	 */
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderHelper.enableGUIStandardItemLighting();
 		CreativeTabs creativetabs = CreativeTabs.creativeTabArray[selectedTabIndex];
 
@@ -552,7 +552,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/creative_inventory/tab_" + creativetabs.getBackgroundImageName()));
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		this.searchField.drawTextBox();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		int i = this.guiLeft + 175;
 		int j = this.guiTop + 18;
 		int k = j + 112;
@@ -644,18 +644,18 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			i1 = i1 + this.ySize - 4;
 		}
 
-		GlStateManager.disableLighting();
+		G.disableLighting();
 		this.drawTexturedModalRect(l, i1, j, k, 28, j1);
 		this.zLevel = 100.0F;
 		this.itemRender.zLevel = 100.0F;
 		l = l + 6;
 		i1 = i1 + 8 + (flag1 ? 1 : -1);
-		GlStateManager.enableLighting();
-		GlStateManager.enableRescaleNormal();
+		G.enableLighting();
+		G.enableRescaleNormal();
 		ItemStack itemstack = p_147051_1_.getIconItemStack();
 		this.itemRender.renderItemAndEffectIntoGUI(itemstack, l, i1);
 		this.itemRender.renderItemOverlays(this.fontRendererObj, itemstack, l, i1);
-		GlStateManager.disableLighting();
+		G.disableLighting();
 		this.itemRender.zLevel = 0.0F;
 		this.zLevel = 0.0F;
 	}

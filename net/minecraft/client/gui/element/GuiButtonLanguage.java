@@ -3,7 +3,7 @@ package net.minecraft.client.gui.element;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.HoverButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class GuiButtonLanguage extends GuiButton implements HoverButton {
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (this.visible) {
 			mc.getTextureManager().bindTexture(GuiButton.buttonTextures);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			boolean flag = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 			int i = 106;
 

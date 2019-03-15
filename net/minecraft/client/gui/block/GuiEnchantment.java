@@ -9,7 +9,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.model.ModelBook;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.enchantment.Enchantment;
@@ -108,34 +108,34 @@ public class GuiEnchantment extends GuiContainer
      */
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(ENCHANTMENT_TABLE_GUI_TEXTURE);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        GlStateManager.pushMatrix();
-        GlStateManager.matrixMode(5889);
-        GlStateManager.pushMatrix();
-        GlStateManager.loadIdentity();
+        G.pushMatrix();
+        G.matrixMode(5889);
+        G.pushMatrix();
+        G.loadIdentity();
         ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-        GlStateManager.viewport((scaledresolution.getScaledWidth() - 320) / 2 * scaledresolution.getScaleFactor(), (scaledresolution.getScaledHeight() - 240) / 2 * scaledresolution.getScaleFactor(), 320 * scaledresolution.getScaleFactor(), 240 * scaledresolution.getScaleFactor());
-        GlStateManager.translate(-0.34F, 0.23F, 0.0F);
+        G.viewport((scaledresolution.getScaledWidth() - 320) / 2 * scaledresolution.getScaleFactor(), (scaledresolution.getScaledHeight() - 240) / 2 * scaledresolution.getScaleFactor(), 320 * scaledresolution.getScaleFactor(), 240 * scaledresolution.getScaleFactor());
+        G.translate(-0.34F, 0.23F, 0.0F);
         Project.gluPerspective(90.0F, 1.3333334F, 9.0F, 80.0F);
         float f = 1.0F;
-        GlStateManager.matrixMode(5888);
-        GlStateManager.loadIdentity();
+        G.matrixMode(5888);
+        G.loadIdentity();
         RenderHelper.enableStandardItemLighting();
-        GlStateManager.translate(0.0F, 3.3F, -16.0F);
-        GlStateManager.scale(f, f, f);
+        G.translate(0.0F, 3.3F, -16.0F);
+        G.scale(f, f, f);
         float f1 = 5.0F;
-        GlStateManager.scale(f1, f1, f1);
-        GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+        G.scale(f1, f1, f1);
+        G.rotate(180.0F, 0.0F, 0.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(ENCHANTMENT_TABLE_BOOK_TEXTURE);
-        GlStateManager.rotate(20.0F, 1.0F, 0.0F, 0.0F);
+        G.rotate(20.0F, 1.0F, 0.0F, 0.0F);
         float f2 = this.field_147076_A + (this.field_147080_z - this.field_147076_A) * partialTicks;
-        GlStateManager.translate((1.0F - f2) * 0.2F, (1.0F - f2) * 0.1F, (1.0F - f2) * 0.25F);
-        GlStateManager.rotate(-(1.0F - f2) * 90.0F - 90.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
+        G.translate((1.0F - f2) * 0.2F, (1.0F - f2) * 0.1F, (1.0F - f2) * 0.25F);
+        G.rotate(-(1.0F - f2) * 90.0F - 90.0F, 0.0F, 1.0F, 0.0F);
+        G.rotate(180.0F, 1.0F, 0.0F, 0.0F);
         float f3 = this.field_147069_w + (this.field_147071_v - this.field_147069_w) * partialTicks + 0.25F;
         float f4 = this.field_147069_w + (this.field_147071_v - this.field_147069_w) * partialTicks + 0.75F;
         f3 = (f3 - (float)MathHelper.truncateDoubleToInt((double)f3)) * 1.6F - 0.3F;
@@ -161,17 +161,17 @@ public class GuiEnchantment extends GuiContainer
             f4 = 1.0F;
         }
 
-        GlStateManager.enableRescaleNormal();
+        G.enableRescaleNormal();
         MODEL_BOOK.render((Entity)null, 0.0F, f3, f4, f2, 0.0F, 0.0625F);
-        GlStateManager.disableRescaleNormal();
+        G.disableRescaleNormal();
         RenderHelper.disableStandardItemLighting();
-        GlStateManager.matrixMode(5889);
-        GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-        GlStateManager.popMatrix();
-        GlStateManager.matrixMode(5888);
-        GlStateManager.popMatrix();
+        G.matrixMode(5889);
+        G.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
+        G.popMatrix();
+        G.matrixMode(5888);
+        G.popMatrix();
         RenderHelper.disableStandardItemLighting();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
         EnchantmentNameParts.getInstance().reseedRandomGenerator((long)this.container.xpSeed);
         int k = this.container.getLapisAmount();
 
@@ -184,7 +184,7 @@ public class GuiEnchantment extends GuiContainer
             this.zLevel = 0.0F;
             this.mc.getTextureManager().bindTexture(ENCHANTMENT_TABLE_GUI_TEXTURE);
             int l1 = this.container.enchantLevels[l];
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            G.color(1.0F, 1.0F, 1.0F, 1.0F);
 
             if (l1 == 0)
             {

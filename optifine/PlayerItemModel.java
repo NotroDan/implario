@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
@@ -61,15 +61,15 @@ public class PlayerItemModel
         for (int i = 0; i < this.modelRenderers.length; ++i)
         {
             PlayerItemRenderer playeritemrenderer = this.modelRenderers[i];
-            GlStateManager.pushMatrix();
+            G.pushMatrix();
 
             if (p_render_2_.isSneaking())
             {
-                GlStateManager.translate(0.0F, 0.2F, 0.0F);
+                G.translate(0.0F, 0.2F, 0.0F);
             }
 
             playeritemrenderer.render(p_render_1_, p_render_3_);
-            GlStateManager.popMatrix();
+            G.popMatrix();
         }
     }
 

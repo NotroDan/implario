@@ -3,7 +3,7 @@ package net.minecraft.client.gui;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -149,7 +149,7 @@ public class GuiCreateFlatWorld extends GuiScreen
         private void func_148225_a(int p_148225_1_, int p_148225_2_, ItemStack p_148225_3_)
         {
             this.func_148226_e(p_148225_1_ + 1, p_148225_2_ + 1);
-            GlStateManager.enableRescaleNormal();
+            G.enableRescaleNormal();
 
             if (p_148225_3_ != null && p_148225_3_.getItem() != null)
             {
@@ -158,7 +158,7 @@ public class GuiCreateFlatWorld extends GuiScreen
                 RenderHelper.disableStandardItemLighting();
             }
 
-            GlStateManager.disableRescaleNormal();
+            G.disableRescaleNormal();
         }
 
         private void func_148226_e(int p_148226_1_, int p_148226_2_)
@@ -168,7 +168,7 @@ public class GuiCreateFlatWorld extends GuiScreen
 
         private void func_148224_c(int p_148224_1_, int p_148224_2_, int p_148224_3_, int p_148224_4_)
         {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            G.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(Gui.statIcons);
             float f = 0.0078125F;
             float f1 = 0.0078125F;

@@ -5,7 +5,7 @@ import java.io.IOException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -194,7 +194,7 @@ public class GuiBeacon extends GuiContainer
      */
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(beaconGuiTextures);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
@@ -227,7 +227,7 @@ public class GuiBeacon extends GuiContainer
             if (this.visible)
             {
                 mc.getTextureManager().bindTexture(GuiBeacon.beaconGuiTextures);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                G.color(1.0F, 1.0F, 1.0F, 1.0F);
                 this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
                 int i = 219;
                 int j = 0;

@@ -1,14 +1,13 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelDragon;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerEnderDragonDeath;
 import net.minecraft.client.renderer.entity.layers.LayerEnderDragonEyes;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.util.MathHelper;
@@ -35,9 +34,9 @@ public class RenderDragon extends RenderLiving<EntityDragon>
     {
         float f = (float)bat.getMovementOffsets(7, partialTicks)[0];
         float f1 = (float)(bat.getMovementOffsets(5, partialTicks)[1] - bat.getMovementOffsets(10, partialTicks)[1]);
-        GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(f1 * 10.0F, 1.0F, 0.0F, 0.0F);
-        GlStateManager.translate(0.0F, 0.0F, 1.0F);
+        G.rotate(-f, 0.0F, 1.0F, 0.0F);
+        G.rotate(f1 * 10.0F, 1.0F, 0.0F, 0.0F);
+        G.translate(0.0F, 0.0F, 1.0F);
 
         if (bat.deathTime > 0)
         {
@@ -49,7 +48,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
                 f2 = 1.0F;
             }
 
-            GlStateManager.rotate(f2 * this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
+            G.rotate(f2 * this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
         }
     }
 
@@ -61,13 +60,13 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         if (entitylivingbaseIn.deathTicks > 0)
         {
             float f = (float)entitylivingbaseIn.deathTicks / 200.0F;
-            GlStateManager.depthFunc(515);
-            GlStateManager.enableAlpha();
-            GlStateManager.alphaFunc(516, f);
+            G.depthFunc(515);
+            G.enableAlpha();
+            G.alphaFunc(516, f);
             this.bindTexture(enderDragonExplodingTextures);
             this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, p_77036_7_);
-            GlStateManager.alphaFunc(516, 0.1F);
-            GlStateManager.depthFunc(514);
+            G.alphaFunc(516, 0.1F);
+            G.depthFunc(514);
         }
 
         this.bindEntityTexture(entitylivingbaseIn);
@@ -75,15 +74,15 @@ public class RenderDragon extends RenderLiving<EntityDragon>
 
         if (entitylivingbaseIn.hurtTime > 0)
         {
-            GlStateManager.depthFunc(514);
-            GlStateManager.disableTexture2D();
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(770, 771);
-            GlStateManager.color(1.0F, 0.0F, 0.0F, 0.5F);
+            G.depthFunc(514);
+            G.disableTexture2D();
+            G.enableBlend();
+            G.blendFunc(770, 771);
+            G.color(1.0F, 0.0F, 0.0F, 0.5F);
             this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, p_77036_7_);
-            GlStateManager.enableTexture2D();
-            GlStateManager.disableBlend();
-            GlStateManager.depthFunc(515);
+            G.enableTexture2D();
+            G.disableBlend();
+            G.depthFunc(515);
         }
     }
 
@@ -117,16 +116,16 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         float f4 = (float)(dragon.healingEnderCrystal.posZ - dragon.posZ - (dragon.prevPosZ - dragon.posZ) * (double)(1.0F - p_180574_8_));
         float f5 = MathHelper.sqrt_float(f2 * f2 + f4 * f4);
         float f6 = MathHelper.sqrt_float(f2 * f2 + f3 * f3 + f4 * f4);
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float)p_180574_2_, (float)p_180574_4_ + 2.0F, (float)p_180574_6_);
-        GlStateManager.rotate((float) -Math.atan2((double)f4, (double)f2) * 180.0F / (float)Math.PI - 90.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate((float) -Math.atan2((double)f5, (double)f3) * 180.0F / (float)Math.PI - 90.0F, 1.0F, 0.0F, 0.0F);
+        G.pushMatrix();
+        G.translate((float)p_180574_2_, (float)p_180574_4_ + 2.0F, (float)p_180574_6_);
+        G.rotate((float) -Math.atan2((double)f4, (double)f2) * 180.0F / (float)Math.PI - 90.0F, 0.0F, 1.0F, 0.0F);
+        G.rotate((float) -Math.atan2((double)f5, (double)f3) * 180.0F / (float)Math.PI - 90.0F, 1.0F, 0.0F, 0.0F);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableCull();
+        G.disableCull();
         this.bindTexture(enderDragonCrystalBeamTextures);
-        GlStateManager.shadeModel(7425);
+        G.shadeModel(7425);
         float f7 = 0.0F - ((float)dragon.ticksExisted + p_180574_8_) * 0.01F;
         float f8 = MathHelper.sqrt_float(f2 * f2 + f3 * f3 + f4 * f4) / 32.0F - ((float)dragon.ticksExisted + p_180574_8_) * 0.01F;
         worldrenderer.begin(5, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -142,10 +141,10 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         }
 
         tessellator.draw();
-        GlStateManager.enableCull();
-        GlStateManager.shadeModel(7424);
+        G.enableCull();
+        G.shadeModel(7424);
         RenderHelper.enableStandardItemLighting();
-        GlStateManager.popMatrix();
+        G.popMatrix();
     }
 
     /**

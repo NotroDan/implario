@@ -2,7 +2,6 @@ package net.minecraft.client.renderer;
 
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -75,8 +74,10 @@ public class BowPathRenderer {
 		double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) partialTicks + vec3.zCoord;
 		double d3 = (double) player.getEyeHeight();
 
-		GlStateManager.disableTexture2D();
-		GlStateManager.disableLighting();
+		G.pushMatrix();
+
+		G.disableTexture2D();
+		G.disableLighting();
 
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -124,8 +125,9 @@ public class BowPathRenderer {
 			tessellator.draw();
 		}
 		lastParsed = g;
-		GlStateManager.enableLighting();
-		GlStateManager.enableTexture2D();
+//		GlStateManager.enableLighting();
+		G.enableTexture2D();
+		G.popMatrix();
 	}
 
 	public static void renderOverlay(int x, int y) {
@@ -134,15 +136,16 @@ public class BowPathRenderer {
 		FontRenderer f = MC.getFontRenderer();
 		BlockPos l = MC.getPlayer().getPosition();
 		if (f == null || l == null) return;
-		GlStateManager.scale(2, 2, 2);
+		G.scale(2, 2, 2);
 		double sqrt = Math.sqrt(l.distanceSq(new Vec3i(lastParsed.posX, lastParsed.posY, lastParsed.posZ)));
-		Gui.drawRect(x - 2, y - 1, x + 65, y + 15, 0x50202020);
+//		Gui.drawRect(x - 2, y - 1, x + 65, y + 15, 0x50202020);
 		f.drawString("Расстояние: §a" + (double) (int) (sqrt * 10) / 10, x, y, 0xffffff);
 		String target = lastParsed.entityHit == null ? lastParsed.inTile == null ? "§7-" : "§e" + lastParsed.inTile.getLocalizedName() : "§a" + lastParsed.entityHit.getName();
-		GlStateManager.scale(0.5, 0.5, 0.5);
+		G.scale(0.5, 0.5, 0.5);
 		f.drawString("Цель: " + target, x * 2, y * 2 + 19, 0xffffff);
 		f.drawString("Отклонение: §e" + (float) lastParsed.inacc / 10F, x * 2, y * 2 + 28, 0xffffff);
-		if (lastParsed.damage != 0) f.drawString("Базовый урон: §e" + lastParsed.damage, x * 2, y * 2 + 37, 0xffffff);
+		f.drawString("Время полёта: §e" + (float) lastParsed.ticksInAir / 20F, x * 2, y * 2 + 37, 0xffffff);
+		if (lastParsed.damage != 0) f.drawString("Базовый урон: §e" + lastParsed.damage, x * 2, y * 2 + 46, 0xffffff);
 	}
 
 }

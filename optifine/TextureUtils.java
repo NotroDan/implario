@@ -15,7 +15,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.ITickableTextureObject;
 import net.minecraft.client.renderer.texture.SimpleTexture;
@@ -360,7 +360,7 @@ public class TextureUtils
 
     public static void bindTexture(int p_bindTexture_0_)
     {
-        GlStateManager.bindTexture(p_bindTexture_0_);
+        G.bindTexture(p_bindTexture_0_);
     }
 
     public static boolean isPowerOfTwo(int p_isPowerOfTwo_0_)

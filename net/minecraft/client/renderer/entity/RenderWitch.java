@@ -1,9 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelWitch;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItemWitch;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.util.ResourceLocation;
 
@@ -39,7 +38,7 @@ public class RenderWitch extends RenderLiving<EntityWitch>
 
     public void transformHeldFull3DItemLayer()
     {
-        GlStateManager.translate(0.0F, 0.1875F, 0.0F);
+        G.translate(0.0F, 0.1875F, 0.0F);
     }
 
     /**
@@ -49,6 +48,6 @@ public class RenderWitch extends RenderLiving<EntityWitch>
     protected void preRenderCallback(EntityWitch entitylivingbaseIn, float partialTickTime)
     {
         float f = 0.9375F;
-        GlStateManager.scale(f, f, f);
+        G.scale(f, f, f);
     }
 }

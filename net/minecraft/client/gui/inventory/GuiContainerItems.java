@@ -1,7 +1,7 @@
 package net.minecraft.client.gui.inventory;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.creativetab.CreativeTabs;
@@ -285,8 +285,8 @@ public class GuiContainerItems extends InventoryEffectRenderer {
 
 		drawGradientRect(0, 0, width, 150, 0xd0000000, 0);
 
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.disableLighting();
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.disableLighting();
 	}
 
 	/**

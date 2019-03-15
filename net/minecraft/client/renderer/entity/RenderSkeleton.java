@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelSkeleton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -34,13 +34,13 @@ public class RenderSkeleton extends RenderBiped<EntitySkeleton>
     {
         if (entitylivingbaseIn.getSkeletonType() == 1)
         {
-            GlStateManager.scale(1.2F, 1.2F, 1.2F);
+            G.scale(1.2F, 1.2F, 1.2F);
         }
     }
 
     public void transformHeldFull3DItemLayer()
     {
-        GlStateManager.translate(0.09375F, 0.1875F, 0.0F);
+        G.translate(0.09375F, 0.1875F, 0.0F);
     }
 
     /**

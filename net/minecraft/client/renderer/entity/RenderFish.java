@@ -1,7 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.renderer.BowPathRenderer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -28,10 +27,10 @@ public class RenderFish extends Render<EntityFishHook>
      */
     public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x, (float)y, (float)z);
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.scale(0.5F, 0.5F, 0.5F);
+        G.pushMatrix();
+        G.translate((float)x, (float)y, (float)z);
+        G.enableRescaleNormal();
+        G.scale(0.5F, 0.5F, 0.5F);
         this.bindEntityTexture(entity);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -44,16 +43,16 @@ public class RenderFish extends Render<EntityFishHook>
         float f4 = 1.0F;
         float f5 = 0.5F;
         float f6 = 0.5F;
-        GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        G.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        G.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
         worldrenderer.pos(-0.5D, -0.5D, 0.0D).tex(0.0625D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
         worldrenderer.pos(0.5D, -0.5D, 0.0D).tex(0.125D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
         worldrenderer.pos(0.5D, 0.5D, 0.0D).tex(0.125D, 0.125D).normal(0.0F, 1.0F, 0.0F).endVertex();
         worldrenderer.pos(-0.5D, 0.5D, 0.0D).tex(0.0625D, 0.125D).normal(0.0F, 1.0F, 0.0F).endVertex();
         tessellator.draw();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.popMatrix();
+        G.disableRescaleNormal();
+        G.popMatrix();
 
 		EntityPlayer player = entity.angler;
 		if (player != null)
@@ -89,8 +88,8 @@ public class RenderFish extends Render<EntityFishHook>
             double d9 = (double) (float)(d0 - d13);
             double d11 = (double) (float)(d1 - d5) + d3;
             double d12 = (double) (float)(d2 - d7);
-            GlStateManager.disableTexture2D();
-            GlStateManager.disableLighting();
+            G.disableTexture2D();
+            G.disableLighting();
             worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
             int k = 2;
 
@@ -102,8 +101,8 @@ public class RenderFish extends Render<EntityFishHook>
             }
 
             tessellator.draw();
-            GlStateManager.enableLighting();
-            GlStateManager.enableTexture2D();
+            G.enableLighting();
+            G.enableTexture2D();
             super.doRender(entity, x, y, z, entityYaw, partialTicks);
         }
     }

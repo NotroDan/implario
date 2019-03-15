@@ -74,7 +74,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 
 		for (PotionEffect potioneffect : this.mc.thePlayer.getActivePotionEffects()) {
 			Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(inventoryBackground);
 			this.drawTexturedModalRect(i, j, 0, 166, 140, 32);
 
@@ -87,8 +87,8 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			if (potioneffect.getAmplifier() > 0) amplifier = ' ' + Textifier.romanianNotation(potioneffect.getAmplifier() + 1);
 			String s1 = Lang.format(potion.getName()) + amplifier;
 
-			GlStateManager.disableLighting();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.disableLighting();
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 0xffffff);
 			String s = Potion.getDurationString(potioneffect);
 			this.fontRendererObj.drawStringWithShadow(s, (float) (i + 10 + 18), (float) (j + 6 + 10), 8355711);
@@ -103,11 +103,11 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 
 		for (PotionEffect e : effects) {
 			Potion potion = Potion.potionTypes[e.getPotionID()];
-			GlStateManager.disableBlend();
-			GlStateManager.enableAlpha();
+			G.disableBlend();
+			G.enableAlpha();
 			drawRect(0, y, 80, y + 22 + 10, 0xd0202020);
 			drawRect(80, y, 82, y + 22 + 10, 0xd0f9c404);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(inventoryBackground);
 
 			if (potion.hasStatusIcon()) {
@@ -121,12 +121,12 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 
 //			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
 			String s = Potion.getDurationString(e);
-			GlStateManager.disableLighting();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.disableLighting();
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.fontRendererObj.drawStringWithShadow(s1, 4, y + 20, 0xffffff);
-			GlStateManager.scale(2, 2, 2);
+			G.scale(2, 2, 2);
 			this.fontRendererObj.drawStringWithShadow(s, 16, (float) y / 2f + 1f, 0xffffff);
-			GlStateManager.scale(0.5, 0.5, 0.5);
+			G.scale(0.5, 0.5, 0.5);
 			y += 27 + 10;
 		}
 

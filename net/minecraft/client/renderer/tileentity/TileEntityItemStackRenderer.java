@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.tileentity;
 import com.mojang.authlib.GameProfile;
 import java.util.UUID;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -54,13 +54,13 @@ public class TileEntityItemStackRenderer
 
             if (TileEntitySkullRenderer.instance != null)
             {
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(-0.5F, 0.0F, -0.5F);
-                GlStateManager.scale(2.0F, 2.0F, 2.0F);
-                GlStateManager.disableCull();
+                G.pushMatrix();
+                G.translate(-0.5F, 0.0F, -0.5F);
+                G.scale(2.0F, 2.0F, 2.0F);
+                G.disableCull();
                 TileEntitySkullRenderer.instance.renderSkull(0.0F, 0.0F, 0.0F, EnumFacing.UP, 0.0F, itemStackIn.getMetadata(), gameprofile, -1);
-                GlStateManager.enableCull();
-                GlStateManager.popMatrix();
+                G.enableCull();
+                G.popMatrix();
             }
         }
         else

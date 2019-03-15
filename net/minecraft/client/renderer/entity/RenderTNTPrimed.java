@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.init.Blocks;
@@ -26,8 +26,8 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed>
     public void doRender(EntityTNTPrimed entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x, (float)y + 0.5F, (float)z);
+        G.pushMatrix();
+        G.translate((float)x, (float)y + 0.5F, (float)z);
 
         if ((float)entity.fuse - partialTicks + 1.0F < 10.0F)
         {
@@ -36,34 +36,34 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed>
             f = f * f;
             f = f * f;
             float f1 = 1.0F + f * 0.3F;
-            GlStateManager.scale(f1, f1, f1);
+            G.scale(f1, f1, f1);
         }
 
         float f2 = (1.0F - ((float)entity.fuse - partialTicks + 1.0F) / 100.0F) * 0.8F;
         this.bindEntityTexture(entity);
-        GlStateManager.translate(-0.5F, -0.5F, 0.5F);
+        G.translate(-0.5F, -0.5F, 0.5F);
         blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), entity.getBrightness(partialTicks));
-        GlStateManager.translate(0.0F, 0.0F, 1.0F);
+        G.translate(0.0F, 0.0F, 1.0F);
 
         if (entity.fuse / 5 % 2 == 0)
         {
-            GlStateManager.disableTexture2D();
-            GlStateManager.disableLighting();
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(770, 772);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, f2);
-            GlStateManager.doPolygonOffset(-3.0F, -3.0F);
-            GlStateManager.enablePolygonOffset();
+            G.disableTexture2D();
+            G.disableLighting();
+            G.enableBlend();
+            G.blendFunc(770, 772);
+            G.color(1.0F, 1.0F, 1.0F, f2);
+            G.doPolygonOffset(-3.0F, -3.0F);
+            G.enablePolygonOffset();
             blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), 1.0F);
-            GlStateManager.doPolygonOffset(0.0F, 0.0F);
-            GlStateManager.disablePolygonOffset();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.disableBlend();
-            GlStateManager.enableLighting();
-            GlStateManager.enableTexture2D();
+            G.doPolygonOffset(0.0F, 0.0F);
+            G.disablePolygonOffset();
+            G.color(1.0F, 1.0F, 1.0F, 1.0F);
+            G.disableBlend();
+            G.enableLighting();
+            G.enableTexture2D();
         }
 
-        GlStateManager.popMatrix();
+        G.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 

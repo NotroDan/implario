@@ -3,7 +3,7 @@ package net.minecraft.client.gui;
 import com.google.common.collect.Lists;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -11,7 +11,6 @@ import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.Charsets;
-import net.minecraft.LogManager;
 import net.minecraft.Logger;
 
 import java.io.BufferedReader;
@@ -190,10 +189,10 @@ public class GuiWinGame extends GuiScreen
         int j = this.width / 2 - i / 2;
         int k = this.height + 50;
         float f = -((float)this.field_146581_h + partialTicks) * this.field_146578_s;
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0.0F, f, 0.0F);
+        G.pushMatrix();
+        G.translate(0.0F, f, 0.0F);
         this.mc.getTextureManager().bindTexture(MINECRAFT_LOGO);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.drawTexturedModalRect(j, k, 0, 0, 155, 44);
         this.drawTexturedModalRect(j + 155, k, 0, 45, 155, 44);
         int l = k + 200;
@@ -206,7 +205,7 @@ public class GuiWinGame extends GuiScreen
 
                 if (f1 < 0.0F)
                 {
-                    GlStateManager.translate(0.0F, -f1, 0.0F);
+                    G.translate(0.0F, -f1, 0.0F);
                 }
             }
 
@@ -228,10 +227,10 @@ public class GuiWinGame extends GuiScreen
             l += 12;
         }
 
-        GlStateManager.popMatrix();
+        G.popMatrix();
         this.mc.getTextureManager().bindTexture(VIGNETTE_TEXTURE);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(0, 769);
+        G.enableBlend();
+        G.blendFunc(0, 769);
         int j1 = this.width;
         int k1 = this.height;
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -240,7 +239,7 @@ public class GuiWinGame extends GuiScreen
         worldrenderer.pos((double)j1, 0.0D, (double)this.zLevel).tex(1.0D, 0.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
         worldrenderer.pos(0.0D, 0.0D, (double)this.zLevel).tex(0.0D, 0.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
         tessellator.draw();
-        GlStateManager.disableBlend();
+        G.disableBlend();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

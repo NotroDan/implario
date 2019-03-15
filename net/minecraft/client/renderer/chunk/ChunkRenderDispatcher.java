@@ -11,7 +11,7 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RegionRenderCacheBuilder;
 import net.minecraft.client.renderer.VertexBufferUploader;
@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.LogManager;
 import net.minecraft.Logger;
 import org.lwjgl.opengl.GL11;
 
@@ -262,10 +261,10 @@ public class ChunkRenderDispatcher
     private void uploadDisplayList(WorldRenderer p_178510_1_, int p_178510_2_, RenderChunk chunkRenderer)
     {
         GL11.glNewList(p_178510_2_, GL11.GL_COMPILE);
-        GlStateManager.pushMatrix();
+        G.pushMatrix();
         chunkRenderer.multModelviewMatrix();
         this.worldVertexUploader.func_181679_a(p_178510_1_);
-        GlStateManager.popMatrix();
+        G.popMatrix();
         GL11.glEndList();
     }
 

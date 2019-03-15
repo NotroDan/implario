@@ -3,7 +3,7 @@ package net.minecraft.client.gui.achievement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.Lang;
@@ -49,23 +49,23 @@ public class GuiAchievement extends Gui
 
     private void updateAchievementWindowScale()
     {
-        GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-        GlStateManager.matrixMode(5889);
-        GlStateManager.loadIdentity();
-        GlStateManager.matrixMode(5888);
-        GlStateManager.loadIdentity();
+        G.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
+        G.matrixMode(5889);
+        G.loadIdentity();
+        G.matrixMode(5888);
+        G.loadIdentity();
         this.width = this.mc.displayWidth;
         this.height = this.mc.displayHeight;
         ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         this.width = scaledresolution.getScaledWidth();
         this.height = scaledresolution.getScaledHeight();
-        GlStateManager.clear(256);
-        GlStateManager.matrixMode(5889);
-        GlStateManager.loadIdentity();
-        GlStateManager.ortho(0.0D, (double)this.width, (double)this.height, 0.0D, 1000.0D, 3000.0D);
-        GlStateManager.matrixMode(5888);
-        GlStateManager.loadIdentity();
-        GlStateManager.translate(0.0F, 0.0F, -2000.0F);
+        G.clear(256);
+        G.matrixMode(5889);
+        G.loadIdentity();
+        G.ortho(0.0D, (double)this.width, (double)this.height, 0.0D, 1000.0D, 3000.0D);
+        G.matrixMode(5888);
+        G.loadIdentity();
+        G.translate(0.0F, 0.0F, -2000.0F);
     }
 
     public void updateAchievementWindow()
@@ -88,8 +88,8 @@ public class GuiAchievement extends Gui
             }
 
             this.updateAchievementWindowScale();
-            GlStateManager.disableDepth();
-            GlStateManager.depthMask(false);
+            G.disableDepth();
+            G.depthMask(false);
             double d1 = d0 * 2.0D;
 
             if (d1 > 1.0D)
@@ -109,10 +109,10 @@ public class GuiAchievement extends Gui
             d1 = d1 * d1;
             int i = this.width - 160;
             int j = 0 - (int)(d1 * 36.0D);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.enableTexture2D();
+            G.color(1.0F, 1.0F, 1.0F, 1.0F);
+            G.enableTexture2D();
             this.mc.getTextureManager().bindTexture(achievementBg);
-            GlStateManager.disableLighting();
+            G.disableLighting();
             this.drawTexturedModalRect(i, j, 96, 202, 160, 32);
 
             if (this.permanentNotification)
@@ -126,14 +126,14 @@ public class GuiAchievement extends Gui
             }
 
             RenderHelper.enableGUIStandardItemLighting();
-            GlStateManager.disableLighting();
-            GlStateManager.enableRescaleNormal();
-            GlStateManager.enableColorMaterial();
-            GlStateManager.enableLighting();
+            G.disableLighting();
+            G.enableRescaleNormal();
+            G.enableColorMaterial();
+            G.enableLighting();
             this.renderItem.renderItemAndEffectIntoGUI(this.theAchievement.theItemStack, i + 8, j + 8);
-            GlStateManager.disableLighting();
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepth();
+            G.disableLighting();
+            G.depthMask(true);
+            G.enableDepth();
         }
     }
 

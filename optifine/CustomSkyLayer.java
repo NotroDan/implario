@@ -1,7 +1,7 @@
 package optifine;
 
 import java.util.Properties;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -227,34 +227,34 @@ public class CustomSkyLayer
 
         if (f >= 1.0E-4F)
         {
-            GlStateManager.bindTexture(this.textureId);
+            G.bindTexture(this.textureId);
             Blender.setupBlend(this.blend, f);
-            GlStateManager.pushMatrix();
+            G.pushMatrix();
 
             if (this.rotate)
             {
-                GlStateManager.rotate(p_render_2_ * 360.0F * this.speed, this.axis[0], this.axis[1], this.axis[2]);
+                G.rotate(p_render_2_ * 360.0F * this.speed, this.axis[0], this.axis[1], this.axis[2]);
             }
 
             Tessellator tessellator = Tessellator.getInstance();
-            GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotate(-90.0F, 0.0F, 0.0F, 1.0F);
+            G.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+            G.rotate(-90.0F, 0.0F, 0.0F, 1.0F);
             this.renderSide(tessellator, 4);
-            GlStateManager.pushMatrix();
-            GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+            G.pushMatrix();
+            G.rotate(90.0F, 1.0F, 0.0F, 0.0F);
             this.renderSide(tessellator, 1);
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
-            GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
+            G.popMatrix();
+            G.pushMatrix();
+            G.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
             this.renderSide(tessellator, 0);
-            GlStateManager.popMatrix();
-            GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+            G.popMatrix();
+            G.rotate(90.0F, 0.0F, 0.0F, 1.0F);
             this.renderSide(tessellator, 5);
-            GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+            G.rotate(90.0F, 0.0F, 0.0F, 1.0F);
             this.renderSide(tessellator, 2);
-            GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+            G.rotate(90.0F, 0.0F, 0.0F, 1.0F);
             this.renderSide(tessellator, 3);
-            GlStateManager.popMatrix();
+            G.popMatrix();
         }
     }
 

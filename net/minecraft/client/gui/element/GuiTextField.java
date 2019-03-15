@@ -6,7 +6,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPageButtonList;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -501,18 +501,18 @@ public class GuiTextField extends Gui {
 		
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		GlStateManager.color(0.0F, 0.0F, 255.0F, 255.0F);
-		GlStateManager.disableTexture2D();
-		GlStateManager.enableColorLogic();
-		GlStateManager.colorLogicOp(5387);
+		G.color(0.0F, 0.0F, 255.0F, 255.0F);
+		G.disableTexture2D();
+		G.enableColorLogic();
+		G.colorLogicOp(5387);
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION);
 		worldrenderer.pos((double) p_146188_1_, (double) p_146188_4_, 0.0D).endVertex();
 		worldrenderer.pos((double) p_146188_3_, (double) p_146188_4_, 0.0D).endVertex();
 		worldrenderer.pos((double) p_146188_3_, (double) p_146188_2_, 0.0D).endVertex();
 		worldrenderer.pos((double) p_146188_1_, (double) p_146188_2_, 0.0D).endVertex();
 		tessellator.draw();
-		GlStateManager.disableColorLogic();
-		GlStateManager.enableTexture2D();
+		G.disableColorLogic();
+		G.enableTexture2D();
 	}
 	
 	public void setMaxStringLength(int p_146203_1_) {

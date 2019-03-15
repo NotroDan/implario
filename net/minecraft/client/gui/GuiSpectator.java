@@ -5,7 +5,7 @@ import net.minecraft.client.gui.spectator.ISpectatorMenuObject;
 import net.minecraft.client.gui.spectator.ISpectatorMenuRecipient;
 import net.minecraft.client.gui.spectator.SpectatorMenu;
 import net.minecraft.client.gui.spectator.categories.SpectatorDetails;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.MathHelper;
@@ -54,10 +54,10 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 	}
 
 	protected void func_175258_a(ScaledResolution res, float p_175258_2_, int p_175258_3_, float p_175258_4_, SpectatorDetails details) {
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, p_175258_2_);
+		G.enableRescaleNormal();
+		G.enableBlend();
+		G.tryBlendFuncSeparate(770, 771, 1, 0);
+		G.color(1.0F, 1.0F, 1.0F, p_175258_2_);
 		this.minecraft.getTextureManager().bindTexture(widgetsResource);
 		this.drawTexturedModalRect((float) (p_175258_3_ - 91), p_175258_4_, 0, 0, 182, 22);
 
@@ -72,8 +72,8 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 		}
 
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.disableBlend();
+		G.disableRescaleNormal();
+		G.disableBlend();
 	}
 
 	private void func_175266_a(int key, int p_175266_2_, float p_175266_3_, float p_175266_4_, ISpectatorMenuObject menuObj) {
@@ -81,12 +81,12 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 
 		if (menuObj != SpectatorMenu.field_178657_a) {
 			int i = (int) (p_175266_4_ * 255.0F);
-			GlStateManager.pushMatrix();
-			GlStateManager.translate((float) p_175266_2_, p_175266_3_, 0.0F);
+			G.pushMatrix();
+			G.translate((float) p_175266_2_, p_175266_3_, 0.0F);
 			float f = menuObj.func_178662_A_() ? 1.0F : 0.25F;
-			GlStateManager.color(f, f, f, p_175266_4_);
+			G.color(f, f, f, p_175266_4_);
 			menuObj.render(f, i);
-			GlStateManager.popMatrix();
+			G.popMatrix();
 			String s = KeyBinding.HOTBAR[key].getKeyDisplayString();
 
 			if (i > 3 && menuObj.func_178662_A_()) {
@@ -143,12 +143,12 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 			if (s != null) {
 				int j = (res.getScaledWidth() - this.minecraft.fontRendererObj.getStringWidth(s)) / 2;
 				int k = res.getScaledHeight() - 35;
-				GlStateManager.pushMatrix();
-				GlStateManager.enableBlend();
-				GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+				G.pushMatrix();
+				G.enableBlend();
+				G.tryBlendFuncSeparate(770, 771, 1, 0);
 				this.minecraft.fontRendererObj.drawStringWithShadow(s, (float) j, (float) k, 16777215 + (i << 24));
-				GlStateManager.disableBlend();
-				GlStateManager.popMatrix();
+				G.disableBlend();
+				G.popMatrix();
 			}
 		}
 	}

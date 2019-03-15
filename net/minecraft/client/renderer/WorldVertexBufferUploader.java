@@ -81,7 +81,7 @@ public class WorldVertexBufferUploader {
 
 					case 3:
 						GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-						GlStateManager.resetColor();
+						G.resetColor();
 						break;
 
 					case 4:

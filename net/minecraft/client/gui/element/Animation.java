@@ -1,7 +1,7 @@
 package net.minecraft.client.gui.element;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.Normalizer;
+import net.minecraft.client.renderer.G;
+import net.minecraft.util.Easings;
 
 public class Animation {
 	
@@ -35,31 +35,27 @@ public class Animation {
 		dC = finalC - startC;
 	}
 
+	public long getTime() {
+		return time;
+	}
+
 	float getPercentage(long start, long t) {
 		float f = (float) (t - start) / (float) time;
-		if (quadEase) return f >= 1 ? f : Normalizer.exp(f, 3);
-		else return f;
+		if (quadEase) return f >= 1 ? f : (float) Easings.bothQuad(f);
+		return f;
 	}
+
 	
-	public static float quadEase(float t) {
-		if(t <= 0.5) return 2 * t * t;
-		t -= 0.5;
-		return 2 * t * (1 - t) + 0.5f;
-	}
-	
-	boolean draw(float f) {
-		if (f <= 0) f = 0;
-		if (f >= 1) return true;
+	void draw(float f) {
 		int x = startX + (int) ((float) dX * f);
 		int y = startY + (int) ((float) dY * f);
-		GlStateManager.translate(x, y, 0);
+		G.translate(x, y, 0);
 		player.draw(f);
-		GlStateManager.translate(-x, -y, 0);
-		return false;
+		G.translate(-x, -y, 0);
 	}
 	
-	public boolean draw(long start, long t) {
-		return draw(getPercentage(start, t));
+	public void draw(long start, long t) {
+		draw(getPercentage(start, t));
 	}
 	
 	@FunctionalInterface

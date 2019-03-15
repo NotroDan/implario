@@ -6,7 +6,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
@@ -116,10 +116,10 @@ public class GuiPlayerTabOverlay extends Gui {
 			int j2 = j1 + l4 * i1 + l4 * 5;
 			int k2 = k1 + i5 * 9;
 			drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.enableAlpha();
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.enableAlpha();
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 771, 1, 0);
 
 			if (k4 < list.size()) {
 				NetworkPlayerInfo networkplayerinfo1 = list.get(k4);
@@ -172,7 +172,7 @@ public class GuiPlayerTabOverlay extends Gui {
 	}
 
 	protected void drawPing(int p_175245_1_, int p_175245_2_, int p_175245_3_, NetworkPlayerInfo networkPlayerInfoIn) {
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(icons);
 		int i = 0;
 		int j;

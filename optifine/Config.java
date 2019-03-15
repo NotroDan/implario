@@ -5,7 +5,7 @@ import net.minecraft.client.LoadingScreenRenderer;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -1358,7 +1358,7 @@ public class Config {
 				updateFramebufferSize();
 				Display.setFullscreen(true);
 				Settings.updateVSync();
-				GlStateManager.enableTexture2D();
+				G.enableTexture2D();
 			} else {
 				if (desktopModeChecked) {
 					return;
@@ -1368,7 +1368,7 @@ public class Config {
 				fullscreenModeChecked = false;
 				Settings.updateVSync();
 				Display.update();
-				GlStateManager.enableTexture2D();
+				G.enableTexture2D();
 				Display.setResizable(false);
 				Display.setResizable(true);
 			}

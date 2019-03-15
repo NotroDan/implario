@@ -1,9 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelWither;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerWitherAura;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.util.ResourceLocation;
@@ -54,6 +53,6 @@ public class RenderWither extends RenderLiving<EntityWither>
             f -= ((float)i - partialTickTime) / 220.0F * 0.5F;
         }
 
-        GlStateManager.scale(f, f, f);
+        G.scale(f, f, f);
     }
 }

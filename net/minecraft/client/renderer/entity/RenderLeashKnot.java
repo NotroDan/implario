@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelLeashKnot;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.entity.EntityLeashKnot;
 import net.minecraft.util.ResourceLocation;
 
@@ -23,16 +23,16 @@ public class RenderLeashKnot extends Render<EntityLeashKnot>
      */
     public void doRender(EntityLeashKnot entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        GlStateManager.pushMatrix();
-        GlStateManager.disableCull();
-        GlStateManager.translate((float)x, (float)y, (float)z);
+        G.pushMatrix();
+        G.disableCull();
+        G.translate((float)x, (float)y, (float)z);
         float f = 0.0625F;
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        GlStateManager.enableAlpha();
+        G.enableRescaleNormal();
+        G.scale(-1.0F, -1.0F, 1.0F);
+        G.enableAlpha();
         this.bindEntityTexture(entity);
         this.leashKnotModel.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, f);
-        GlStateManager.popMatrix();
+        G.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 

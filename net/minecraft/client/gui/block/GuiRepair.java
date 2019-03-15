@@ -4,7 +4,7 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
@@ -66,8 +66,8 @@ public class GuiRepair extends GuiContainer implements ICrafting
      */
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        GlStateManager.disableLighting();
-        GlStateManager.disableBlend();
+        G.disableLighting();
+        G.disableBlend();
         this.fontRendererObj.drawString(Lang.format("container.repair", new Object[0]), 60, 6, 4210752);
 
         if (this.anvil.maximumCost > 0)
@@ -112,7 +112,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
             }
         }
 
-        GlStateManager.enableLighting();
+        G.enableLighting();
     }
 
     /**
@@ -160,8 +160,8 @@ public class GuiRepair extends GuiContainer implements ICrafting
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        GlStateManager.disableLighting();
-        GlStateManager.disableBlend();
+        G.disableLighting();
+        G.disableBlend();
         this.nameField.drawTextBox();
     }
 
@@ -170,7 +170,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
      */
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(anvilResource);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;

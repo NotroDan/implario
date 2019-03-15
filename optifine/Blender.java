@@ -1,6 +1,6 @@
 package optifine;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 
 public class Blender
 {
@@ -68,75 +68,75 @@ public class Blender
         switch (p_setupBlend_0_)
         {
             case 0:
-                GlStateManager.disableAlpha();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(770, 771);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, p_setupBlend_1_);
+                G.disableAlpha();
+                G.enableBlend();
+                G.blendFunc(770, 771);
+                G.color(1.0F, 1.0F, 1.0F, p_setupBlend_1_);
                 break;
 
             case 1:
-                GlStateManager.disableAlpha();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(770, 1);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, p_setupBlend_1_);
+                G.disableAlpha();
+                G.enableBlend();
+                G.blendFunc(770, 1);
+                G.color(1.0F, 1.0F, 1.0F, p_setupBlend_1_);
                 break;
 
             case 2:
-                GlStateManager.disableAlpha();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(775, 0);
-                GlStateManager.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
+                G.disableAlpha();
+                G.enableBlend();
+                G.blendFunc(775, 0);
+                G.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
                 break;
 
             case 3:
-                GlStateManager.disableAlpha();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(774, 771);
-                GlStateManager.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_);
+                G.disableAlpha();
+                G.enableBlend();
+                G.blendFunc(774, 771);
+                G.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_);
                 break;
 
             case 4:
-                GlStateManager.disableAlpha();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(1, 1);
-                GlStateManager.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
+                G.disableAlpha();
+                G.enableBlend();
+                G.blendFunc(1, 1);
+                G.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
                 break;
 
             case 5:
-                GlStateManager.disableAlpha();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(0, 769);
-                GlStateManager.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
+                G.disableAlpha();
+                G.enableBlend();
+                G.blendFunc(0, 769);
+                G.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
                 break;
 
             case 6:
-                GlStateManager.disableAlpha();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(1, 769);
-                GlStateManager.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
+                G.disableAlpha();
+                G.enableBlend();
+                G.blendFunc(1, 769);
+                G.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
                 break;
 
             case 7:
-                GlStateManager.disableAlpha();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(774, 768);
-                GlStateManager.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
+                G.disableAlpha();
+                G.enableBlend();
+                G.blendFunc(774, 768);
+                G.color(p_setupBlend_1_, p_setupBlend_1_, p_setupBlend_1_, 1.0F);
                 break;
 
             case 8:
-                GlStateManager.enableAlpha();
-                GlStateManager.disableBlend();
-                GlStateManager.color(1.0F, 1.0F, 1.0F, p_setupBlend_1_);
+                G.enableAlpha();
+                G.disableBlend();
+                G.color(1.0F, 1.0F, 1.0F, p_setupBlend_1_);
         }
 
-        GlStateManager.enableTexture2D();
+        G.enableTexture2D();
     }
 
     public static void clearBlend(float p_clearBlend_0_)
     {
-        GlStateManager.disableAlpha();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(770, 1);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, p_clearBlend_0_);
+        G.disableAlpha();
+        G.enableBlend();
+        G.blendFunc(770, 1);
+        G.color(1.0F, 1.0F, 1.0F, p_clearBlend_0_);
     }
 }

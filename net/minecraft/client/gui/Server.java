@@ -8,7 +8,7 @@ import io.netty.handler.codec.base64.Base64;
 import net.minecraft.Logger;
 import net.minecraft.client.MC;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.ResourceLocation;
@@ -71,16 +71,16 @@ public class Server {
 	static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
 	
 	void drawFavicon(int x, int y) {
-		GlStateManager.pushMatrix();
-		GlStateManager.color(1, 1, 1, 1);
+		G.pushMatrix();
+		G.color(1, 1, 1, 1);
 		MC.getTextureManager().bindTexture(texture == null ? UNKNOWN_SERVER : iconLoc);
-		GlStateManager.enableBlend();
-		GlStateManager.scale(2, 2, 2);
-		if (x % 2 == 1) GlStateManager.translate(0.5, 0,0);
+		G.enableBlend();
+		G.scale(2, 2, 2);
+		if (x % 2 == 1) G.translate(0.5, 0,0);
 		Gui.drawModalRectWithCustomSizedTexture(x / 2, y / 2, 0.0F, 0.0F, 32, 32, 32.0F, 32.0F);
-		GlStateManager.scale(0.5, 0.5, 0.5);
-		GlStateManager.disableBlend();
-		GlStateManager.popMatrix();
+		G.scale(0.5, 0.5, 0.5);
+		G.disableBlend();
+		G.popMatrix();
 	}
 	
 	public String getTitle() {

@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.culling;
 
 import java.nio.FloatBuffer;
 import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.util.MathHelper;
 
 public class ClippingHelperImpl extends ClippingHelper
@@ -35,8 +35,8 @@ public class ClippingHelperImpl extends ClippingHelper
         this.projectionMatrixBuffer.clear();
         this.modelviewMatrixBuffer.clear();
         this.field_78564_h.clear();
-        GlStateManager.getFloat(2983, this.projectionMatrixBuffer);
-        GlStateManager.getFloat(2982, this.modelviewMatrixBuffer);
+        G.getFloat(2983, this.projectionMatrixBuffer);
+        G.getFloat(2982, this.modelviewMatrixBuffer);
         float[] afloat = this.projectionMatrix;
         float[] afloat1 = this.modelviewMatrix;
         this.projectionMatrixBuffer.flip().limit(16);

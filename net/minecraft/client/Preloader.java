@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import net.minecraft.Logger;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -30,6 +30,7 @@ public class Preloader {
 			"Загрузка текстур блоков",
 			"Запуск движка рендеринга",
 			"Загрузка моделей блоков",
+			"Обработка моделей блоков",
 			"Рендер предметов",
 			"Рендер мобов",
 			"Рендер блоков",
@@ -66,7 +67,7 @@ public class Preloader {
 	public void drawLogo() {
 		int i = res.getScaleFactor();
 		
-		GlStateManager.disableAlpha();
+		G.disableAlpha();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -75,16 +76,16 @@ public class Preloader {
 		worldrenderer.pos(mc.displayWidth, 0.0D, 0.0D).tex(0.0D, 0.0D).color(32, 32, 32, 255).endVertex();
 		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, 0.0D).color(32, 32, 32, 255).endVertex();
 		tessellator.draw();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		int j = 256;
 		int k = 256;
 //		this.draw((res.getScaledWidth() - j) / 2, (res.getScaledHeight() - k) / 2, 0, 0, j, k, 255, 0, 255, 255);
-		GlStateManager.disableLighting();
-		GlStateManager.disableFog();
+		G.disableLighting();
+		G.disableFog();
 		framebuffer.unbindFramebuffer();
 		framebuffer.framebufferRender(res.getScaledWidth() * i, res.getScaledHeight() * i);
-		GlStateManager.enableAlpha();
-		GlStateManager.alphaFunc(516, 0.1F);
+		G.enableAlpha();
+		G.alphaFunc(516, 0.1F);
 		drawInfo();
 		MC.frame();
 	}
@@ -93,16 +94,16 @@ public class Preloader {
 		int i = res.getScaleFactor();
 		framebuffer = new Framebuffer(res.getScaledWidth() * i, res.getScaledHeight() * i, true);
 		framebuffer.bindFramebuffer(false);
-		GlStateManager.matrixMode(5889);
-		GlStateManager.loadIdentity();
-		GlStateManager.ortho(0.0D, res.getScaledWidth(), res.getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
-		GlStateManager.matrixMode(5888);
-		GlStateManager.loadIdentity();
-		GlStateManager.translate(0.0F, 0.0F, -2000.0F);
-		GlStateManager.disableLighting();
-		GlStateManager.disableFog();
-		GlStateManager.disableDepth();
-		GlStateManager.enableTexture2D();
+		G.matrixMode(5889);
+		G.loadIdentity();
+		G.ortho(0.0D, res.getScaledWidth(), res.getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
+		G.matrixMode(5888);
+		G.loadIdentity();
+		G.translate(0.0F, 0.0F, -2000.0F);
+		G.disableLighting();
+		G.disableFog();
+		G.disableDepth();
+		G.enableTexture2D();
 		
 		mc.getTextureManager().bindTexture(logo);
 	}
@@ -113,9 +114,9 @@ public class Preloader {
 			if (i == this.state) state = "§e>  " + states[i] + "...";
 			drawText(state, 5, 10 + i * 9, 0);
 		}
-		GlStateManager.scale(4, 4, 4);
+		G.scale(4, 4, 4);
 		drawText("Загрузка...", res.getScaledWidth() / 8 - 12, res.getScaledHeight() / 4 - 10, 0x36f746);
-		GlStateManager.scale(0.25, 0.25, 0.25);
+		G.scale(0.25, 0.25, 0.25);
 	}
 	
 	public void nextState() {
@@ -128,10 +129,10 @@ public class Preloader {
 		float f1 = 0.00390625F;
 		WorldRenderer worldrenderer = Tessellator.getInstance().getWorldRenderer();
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-		worldrenderer.pos(x0, (y0 + height), 0).tex(((float) texX * f), ((float) (texY + height) * f1)).color(r, g, b, a).endVertex();
-		worldrenderer.pos((x0 + width), (y0 + height), 0.0D).tex(((float) (texX + width) * f), ((float) (texY + height) * f1)).color(r, g, b, a).endVertex();
-		worldrenderer.pos((x0 + width), y0, 0).tex(((float) (texX + width) * f), ((float) texY * f1)).color(r, g, b, a).endVertex();
-		worldrenderer.pos(x0, y0, 0).tex(((float) texX * f), ((float) texY * f1)).color(r, g, b, a).endVertex();
+		worldrenderer.pos(x0, y0 + height, 0).tex((float) texX * f, (float) (texY + height) * f1).color(r, g, b, a).endVertex();
+		worldrenderer.pos(x0 + width, y0 + height, 0.0D).tex((float) (texX + width) * f, (float) (texY + height) * f1).color(r, g, b, a).endVertex();
+		worldrenderer.pos(x0 + width, y0, 0).tex((float) (texX + width) * f, (float) texY * f1).color(r, g, b, a).endVertex();
+		worldrenderer.pos(x0, y0, 0).tex((float) texX * f, (float) texY * f1).color(r, g, b, a).endVertex();
 		Tessellator.getInstance().draw();
 	}
 	

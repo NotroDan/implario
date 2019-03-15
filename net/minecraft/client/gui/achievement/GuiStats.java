@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.IProgressMeter;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -130,11 +130,11 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
 	private void drawStatsScreen(int p_146521_1_, int p_146521_2_, Item p_146521_3_) {
 		this.drawButtonBackground(p_146521_1_ + 1, p_146521_2_ + 1);
-		GlStateManager.enableRescaleNormal();
+		G.enableRescaleNormal();
 		RenderHelper.enableGUIStandardItemLighting();
 		this.itemRender.renderItemIntoGUI(new ItemStack(p_146521_3_, 1, 0), p_146521_1_ + 2, p_146521_2_ + 2);
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableRescaleNormal();
+		G.disableRescaleNormal();
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 	 * Draws a sprite from assets/textures/gui/container/stats_icons.png
 	 */
 	private void drawSprite(int x1, int y1, int x2, int y2) {
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(statIcons);
 		float k = 0.0078125F;
 		int i = 18;

@@ -7,6 +7,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 
 import static net.minecraft.client.Minecraft.theMinecraft;
 
@@ -66,6 +67,10 @@ public final class MC {
 
 	public static WorldClient getWorld() {
 		return i().theWorld;
+	}
+
+	public static void bindTexture(ResourceLocation resourceLocation) {
+		getTextureManager().bindTexture(resourceLocation);
 	}
 
 }

@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.tileentity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -56,13 +56,13 @@ public class RenderItemFrame extends Render {
 	 * double d2, float f, float f1). But JAD is pre 1.5 so doe
 	 */
 	public void doRender(EntityItemFrame entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		GlStateManager.pushMatrix();
+		G.pushMatrix();
 		BlockPos blockpos = entity.getHangingPosition();
 		double d0 = (double) blockpos.getX() - entity.posX + x;
 		double d1 = (double) blockpos.getY() - entity.posY + y;
 		double d2 = (double) blockpos.getZ() - entity.posZ + z;
-		GlStateManager.translate(d0 + 0.5D, d1 + 0.5D, d2 + 0.5D);
-		GlStateManager.rotate(180.0F - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
+		G.translate(d0 + 0.5D, d1 + 0.5D, d2 + 0.5D);
+		G.rotate(180.0F - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
 		this.renderManager.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 		BlockRendererDispatcher blockrendererdispatcher = this.mc.getBlockRendererDispatcher();
 		ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
@@ -74,13 +74,13 @@ public class RenderItemFrame extends Render {
 			ibakedmodel = modelmanager.getModel(this.itemFrameModel);
 		}
 
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+		G.pushMatrix();
+		G.translate(-0.5F, -0.5F, -0.5F);
 		blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(ibakedmodel, 1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.popMatrix();
-		GlStateManager.translate(0.0F, 0.0F, 0.4375F);
+		G.popMatrix();
+		G.translate(0.0F, 0.0F, 0.4375F);
 		this.renderItem(entity);
-		GlStateManager.popMatrix();
+		G.popMatrix();
 		this.renderName(entity, x + (double) ((float) entity.facingDirection.getFrontOffsetX() * 0.3F), y - 0.25D, z + (double) ((float) entity.facingDirection.getFrontOffsetZ() * 0.3F));
 	}
 
@@ -99,24 +99,24 @@ public class RenderItemFrame extends Render {
 			Item item = entityitem.getEntityItem().getItem();
 			entityitem.getEntityItem().stackSize = 1;
 			entityitem.hoverStart = 0.0F;
-			GlStateManager.pushMatrix();
-			GlStateManager.disableLighting();
+			G.pushMatrix();
+			G.disableLighting();
 			int i = itemFrame.getRotation();
 
 			if (item instanceof ItemMap) {
 				i = i % 4 * 2;
 			}
 
-			GlStateManager.rotate((float) i * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
+			G.rotate((float) i * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
 
 			if (item instanceof ItemMap) {
 				this.renderManager.renderEngine.bindTexture(mapBackgroundTextures);
-				GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+				G.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 				float f = 0.0078125F;
-				GlStateManager.scale(f, f, f);
-				GlStateManager.translate(-64.0F, -64.0F, 0.0F);
+				G.scale(f, f, f);
+				G.translate(-64.0F, -64.0F, 0.0F);
 				MapData mapdata = Items.filled_map.getMapData(entityitem.getEntityItem(), itemFrame.worldObj);
-				GlStateManager.translate(0.0F, 0.0F, -1.0F);
+				G.translate(0.0F, 0.0F, -1.0F);
 
 				if (mapdata != null) {
 					this.mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
@@ -148,24 +148,24 @@ public class RenderItemFrame extends Render {
 					}
 				}
 
-				GlStateManager.scale(0.5F, 0.5F, 0.5F);
+				G.scale(0.5F, 0.5F, 0.5F);
 
 				if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull) {
-					GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+					G.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 				}
 
-				GlStateManager.pushAttrib();
+				G.pushAttrib();
 				RenderHelper.enableStandardItemLighting();
 				this.itemRenderer.func_181564_a(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
 				RenderHelper.disableStandardItemLighting();
-				GlStateManager.popAttrib();
+				G.popAttrib();
 
 				if (textureatlassprite != null && textureatlassprite.getFrameCount() > 0) {
 					textureatlassprite.updateAnimation();
 				}
 			}
-			GlStateManager.enableLighting();
-			GlStateManager.popMatrix();
+			G.enableLighting();
+			G.popMatrix();
 		}
 	}
 
@@ -181,34 +181,34 @@ public class RenderItemFrame extends Render {
 
 				if (entity.isSneaking()) {
 					FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
-					GlStateManager.pushMatrix();
-					GlStateManager.translate((float) x + 0.0F, (float) y + entity.height + 0.5F, (float) z);
+					G.pushMatrix();
+					G.translate((float) x + 0.0F, (float) y + entity.height + 0.5F, (float) z);
 					GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-					GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-					GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-					GlStateManager.scale(-f1, -f1, f1);
-					GlStateManager.disableLighting();
-					GlStateManager.translate(0.0F, 0.25F / f1, 0.0F);
-					GlStateManager.depthMask(false);
-					GlStateManager.enableBlend();
-					GlStateManager.blendFunc(770, 771);
+					G.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+					G.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+					G.scale(-f1, -f1, f1);
+					G.disableLighting();
+					G.translate(0.0F, 0.25F / f1, 0.0F);
+					G.depthMask(false);
+					G.enableBlend();
+					G.blendFunc(770, 771);
 					Tessellator tessellator = Tessellator.getInstance();
 					WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 					int i = fontrenderer.getStringWidth(s) / 2;
-					GlStateManager.disableTexture2D();
+					G.disableTexture2D();
 					worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 					worldrenderer.pos((double) (-i - 1), -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
 					worldrenderer.pos((double) (-i - 1), 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
 					worldrenderer.pos((double) (i + 1), 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
 					worldrenderer.pos((double) (i + 1), -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
 					tessellator.draw();
-					GlStateManager.enableTexture2D();
-					GlStateManager.depthMask(true);
+					G.enableTexture2D();
+					G.depthMask(true);
 					fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, 0, 553648127);
-					GlStateManager.enableLighting();
-					GlStateManager.disableBlend();
-					GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-					GlStateManager.popMatrix();
+					G.enableLighting();
+					G.disableBlend();
+					G.color(1.0F, 1.0F, 1.0F, 1.0F);
+					G.popMatrix();
 				} else {
 					this.renderLivingLabel(entity, s, x, y, z, 64);
 				}

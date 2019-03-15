@@ -3,7 +3,7 @@ package net.minecraft.client.gui.inventory;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -122,21 +122,21 @@ public abstract class GuiContainer extends GuiScreen {
 		int i = this.guiLeft;
 		int j = this.guiTop;
 		this.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-		GlStateManager.disableRescaleNormal();
+		G.disableRescaleNormal();
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableLighting();
-		GlStateManager.disableDepth();
+		G.disableLighting();
+		G.disableDepth();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		RenderHelper.enableGUIStandardItemLighting();
-		GlStateManager.pushMatrix();
-		GlStateManager.translate((float) i, (float) j, 0.0F);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.enableRescaleNormal();
+		G.pushMatrix();
+		G.translate((float) i, (float) j, 0.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.enableRescaleNormal();
 		this.theSlot = null;
 		int k = 240;
 		int l = 240;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) k / 1.0F, (float) l / 1.0F);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		for (int i1 = 0; i1 < this.inventorySlots.inventorySlots.size(); ++i1) {
 			Slot slot = this.inventorySlots.inventorySlots.get(i1);
@@ -144,15 +144,15 @@ public abstract class GuiContainer extends GuiScreen {
 
 			if (this.isMouseOverSlot(slot, mouseX, mouseY) && slot.canBeHovered()) {
 				this.theSlot = slot;
-				GlStateManager.disableLighting();
-				GlStateManager.disableDepth();
+				G.disableLighting();
+				G.disableDepth();
 				int j1 = slot.xDisplayPosition;
 				int k1 = slot.yDisplayPosition;
-				GlStateManager.colorMask(true, true, true, false);
+				G.colorMask(true, true, true, false);
 				this.drawGradientRect(j1, k1, j1 + 16, k1 + 16, 0x80ffffff, 0x80ffffff);
-				GlStateManager.colorMask(true, true, true, true);
-				GlStateManager.enableLighting();
-				GlStateManager.enableDepth();
+				G.colorMask(true, true, true, true);
+				G.enableLighting();
+				G.enableDepth();
 			}
 		}
 
@@ -195,15 +195,15 @@ public abstract class GuiContainer extends GuiScreen {
 			drawItemStack(this.returningStack, l1, i2, null);
 		}
 
-		GlStateManager.popMatrix();
+		G.popMatrix();
 
 		if (inventoryplayer.getItemStack() == null && this.theSlot != null && this.theSlot.getHasStack()) {
 			ItemStack itemstack1 = this.theSlot.getStack();
 			this.renderToolTip(itemstack1, mouseX, mouseY);
 		}
 
-		GlStateManager.enableLighting();
-		GlStateManager.enableDepth();
+		G.enableLighting();
+		G.enableDepth();
 		RenderHelper.enableStandardItemLighting();
 	}
 
@@ -218,7 +218,7 @@ public abstract class GuiContainer extends GuiScreen {
 	 * Render an ItemStack. Args : stack, x, y, format
 	 */
 	public void drawItemStack0(GuiScreen screen, ItemStack stack, int x, int y, String altText) {
-		GlStateManager.translate(0.0F, 0.0F, 32.0F);
+		G.translate(0.0F, 0.0F, 32.0F);
 		ItemRenderer r = Minecraft.getMinecraft().getItemRenderer();
 		screen.itemRender.zLevel = 200.0F;
 		screen.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
@@ -282,10 +282,10 @@ public abstract class GuiContainer extends GuiScreen {
 
 			if (s1 != null) {
 				TextureAtlasSprite textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite(s1);
-				GlStateManager.disableLighting();
+				G.disableLighting();
 				this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 				this.drawTexturedModalRect(i, j, textureatlassprite, 16, 16);
-				GlStateManager.enableLighting();
+				G.enableLighting();
 				flag1 = true;
 			}
 		}
@@ -293,7 +293,7 @@ public abstract class GuiContainer extends GuiScreen {
 		if (!flag1) {
 			if (flag) drawRect(i, j, i + 16, j + 16, -2130706433);
 
-			GlStateManager.enableDepth();
+			G.enableDepth();
 			this.itemRender.renderItemAndEffectIntoGUI(itemstack, i, j);
 			this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, itemstack, i, j, s);
 		}

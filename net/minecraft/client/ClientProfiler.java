@@ -1,6 +1,6 @@
 package net.minecraft.client;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.server.Profiler;
 import optifine.Config;
 import optifine.Lagometer;
@@ -57,9 +57,9 @@ public class ClientProfiler extends Profiler {
 			int j = name.hashCode();
 
 			if (j == HASH_RENDER && name.equals("render")) {
-				GlStateManager.clearEnabled = false;
+				G.clearEnabled = false;
 			} else if (j == HASH_DISPLAY && name.equals("display")) {
-				GlStateManager.clearEnabled = true;
+				G.clearEnabled = true;
 			}
 		}
 

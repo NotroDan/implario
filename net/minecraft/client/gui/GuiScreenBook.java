@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
@@ -408,7 +408,7 @@ public class GuiScreenBook extends GuiScreen
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(bookGuiTextures);
         int i = (this.width - this.bookImageWidth) / 2;
         int j = 2;
@@ -637,7 +637,7 @@ public class GuiScreenBook extends GuiScreen
             if (this.visible)
             {
                 boolean flag = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                G.color(1.0F, 1.0F, 1.0F, 1.0F);
                 mc.getTextureManager().bindTexture(GuiScreenBook.bookGuiTextures);
                 int i = 0;
                 int j = 192;

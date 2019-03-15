@@ -1,9 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerWolfCollar;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.util.ResourceLocation;
 
@@ -38,7 +37,7 @@ public class RenderWolf extends RenderLiving<EntityWolf>
         if (entity.isWolfWet())
         {
             float f = entity.getBrightness(partialTicks) * entity.getShadingWhileWet(partialTicks);
-            GlStateManager.color(f, f, f);
+            G.color(f, f, f);
         }
 
         super.doRender(entity, x, y, z, entityYaw, partialTicks);

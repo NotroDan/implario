@@ -23,18 +23,18 @@ public class RenderList extends ChunkRenderContainer
             for (RenderChunk renderchunk : this.renderChunks)
             {
                 ListedRenderChunk listedrenderchunk = (ListedRenderChunk)renderchunk;
-                GlStateManager.pushMatrix();
+                G.pushMatrix();
                 this.preRenderChunk(renderchunk);
                 GL11.glCallList(listedrenderchunk.getDisplayList(layer, listedrenderchunk.getCompiledChunk()));
-                GlStateManager.popMatrix();
+                G.popMatrix();
             }
 
             if (Config.isMultiTexture())
             {
-                GlStateManager.bindCurrentTexture();
+                G.bindCurrentTexture();
             }
 
-            GlStateManager.resetColor();
+            G.resetColor();
             this.renderChunks.clear();
         }
     }

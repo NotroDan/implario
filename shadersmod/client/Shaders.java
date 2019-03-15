@@ -856,9 +856,9 @@ public class Shaders {
 
 	private static void bindCustomTextures(CustomTexture[] cts) {
 		if (cts != null) for (CustomTexture customtexture : cts) {
-			GlStateManager.setActiveTexture(33984 + customtexture.getTextureUnit());
+			G.setActiveTexture(33984 + customtexture.getTextureUnit());
 			ITextureObject itextureobject = customtexture.getTexture();
-			GlStateManager.bindTexture(itextureobject.getGlTextureId());
+			G.bindTexture(itextureobject.getGlTextureId());
 		}
 	}
 
@@ -1409,11 +1409,11 @@ public class Shaders {
 
 			if (defaultTexture == null) defaultTexture = ShadersTex.createDefaultTexture();
 
-			GlStateManager.pushMatrix();
-			GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+			G.pushMatrix();
+			G.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
 			preCelestialRotate();
 			postCelestialRotate();
-			GlStateManager.popMatrix();
+			G.popMatrix();
 			isShaderPackInitialized = true;
 			loadEntityDataMap();
 			resetDisplayList();
@@ -2294,25 +2294,25 @@ public class Shaders {
 			}
 
 			if (dfbDepthTextures != null) {
-				GlStateManager.deleteTextures(dfbDepthTextures);
+				G.deleteTextures(dfbDepthTextures);
 				fillIntBufferZero(dfbDepthTextures);
 				checkGLError("del dfbDepthTextures");
 			}
 
 			if (dfbColorTextures != null) {
-				GlStateManager.deleteTextures(dfbColorTextures);
+				G.deleteTextures(dfbColorTextures);
 				fillIntBufferZero(dfbColorTextures);
 				checkGLError("del dfbTextures");
 			}
 
 			if (sfbDepthTextures != null) {
-				GlStateManager.deleteTextures(sfbDepthTextures);
+				G.deleteTextures(sfbDepthTextures);
 				fillIntBufferZero(sfbDepthTextures);
 				checkGLError("del shadow depth");
 			}
 
 			if (sfbColorTextures != null) {
-				GlStateManager.deleteTextures(sfbColorTextures);
+				G.deleteTextures(sfbColorTextures);
 				fillIntBufferZero(sfbColorTextures);
 				checkGLError("del shadow color");
 			}
@@ -2358,8 +2358,8 @@ public class Shaders {
 	private static void setupFrameBuffer() {
 		if (dfb != 0) {
 			EXTFramebufferObject.glDeleteFramebuffersEXT(dfb);
-			GlStateManager.deleteTextures(dfbDepthTextures);
-			GlStateManager.deleteTextures(dfbColorTextures);
+			G.deleteTextures(dfbDepthTextures);
+			G.deleteTextures(dfbColorTextures);
 		}
 
 		dfb = EXTFramebufferObject.glGenFramebuffersEXT();
@@ -2373,7 +2373,7 @@ public class Shaders {
 		GL11.glReadBuffer(0);
 
 		for (int i = 0; i < usedDepthBuffers; ++i) {
-			GlStateManager.bindTexture(dfbDepthTextures.get(i));
+			G.bindTexture(dfbDepthTextures.get(i));
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
@@ -2388,7 +2388,7 @@ public class Shaders {
 		checkGLError("FT d");
 
 		for (int k = 0; k < usedColorBuffers; ++k) {
-			GlStateManager.bindTexture(dfbColorTexturesA[k]);
+			G.bindTexture(dfbColorTexturesA[k]);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
@@ -2399,7 +2399,7 @@ public class Shaders {
 		}
 
 		for (int l = 0; l < usedColorBuffers; ++l) {
-			GlStateManager.bindTexture(dfbColorTexturesA[8 + l]);
+			G.bindTexture(dfbColorTexturesA[8 + l]);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
@@ -2414,7 +2414,7 @@ public class Shaders {
 			printChatAndLogError("[Shaders] Error: Failed framebuffer incomplete formats");
 
 			for (int j = 0; j < usedColorBuffers; ++j) {
-				GlStateManager.bindTexture(dfbColorTextures.get(j));
+				G.bindTexture(dfbColorTextures.get(j));
 				GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, renderWidth, renderHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) (ByteBuffer) null);
 				EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36064 + j, 3553, dfbColorTextures.get(j), 0);
 				checkGLError("FT c");
@@ -2425,7 +2425,7 @@ public class Shaders {
 			if (i1 == 36053) SMCLog.info("complete");
 		}
 
-		GlStateManager.bindTexture(0);
+		G.bindTexture(0);
 
 		if (i1 != 36053) printChatAndLogError("[Shaders] Error: Failed creating framebuffer! (Status " + i1 + ")");
 		else SMCLog.info("Framebuffer created.");
@@ -2435,8 +2435,8 @@ public class Shaders {
 		if (usedShadowDepthBuffers != 0) {
 			if (sfb != 0) {
 				EXTFramebufferObject.glDeleteFramebuffersEXT(sfb);
-				GlStateManager.deleteTextures(sfbDepthTextures);
-				GlStateManager.deleteTextures(sfbColorTextures);
+				G.deleteTextures(sfbDepthTextures);
+				G.deleteTextures(sfbColorTextures);
 			}
 
 			sfb = EXTFramebufferObject.glGenFramebuffersEXT();
@@ -2449,7 +2449,7 @@ public class Shaders {
 			sfbColorTextures.position(0);
 
 			for (int i = 0; i < usedShadowDepthBuffers; ++i) {
-				GlStateManager.bindTexture(sfbDepthTextures.get(i));
+				G.bindTexture(sfbDepthTextures.get(i));
 				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10496.0F);
 				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10496.0F);
 				int j = shadowFilterNearest[i] ? 9728 : 9729;
@@ -2465,7 +2465,7 @@ public class Shaders {
 			checkGLError("FT sd");
 
 			for (int k = 0; k < usedShadowColorBuffers; ++k) {
-				GlStateManager.bindTexture(sfbColorTextures.get(k));
+				G.bindTexture(sfbColorTextures.get(k));
 				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10496.0F);
 				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10496.0F);
 				int i1 = shadowColorFilterNearest[k] ? 9728 : 9729;
@@ -2476,7 +2476,7 @@ public class Shaders {
 				checkGLError("FT sc");
 			}
 
-			GlStateManager.bindTexture(0);
+			G.bindTexture(0);
 
 			if (usedShadowColorBuffers > 0) GL20.glDrawBuffers(sfbDrawBuffers);
 
@@ -2570,54 +2570,54 @@ public class Shaders {
 		isHandRenderedMain = false;
 
 		if (usedShadowDepthBuffers >= 1) {
-			GlStateManager.setActiveTexture(33988);
-			GlStateManager.bindTexture(sfbDepthTextures.get(0));
+			G.setActiveTexture(33988);
+			G.bindTexture(sfbDepthTextures.get(0));
 
 			if (usedShadowDepthBuffers >= 2) {
-				GlStateManager.setActiveTexture(33989);
-				GlStateManager.bindTexture(sfbDepthTextures.get(1));
+				G.setActiveTexture(33989);
+				G.bindTexture(sfbDepthTextures.get(1));
 			}
 		}
 
-		GlStateManager.setActiveTexture(33984);
+		G.setActiveTexture(33984);
 
 		for (int j = 0; j < usedColorBuffers; ++j) {
-			GlStateManager.bindTexture(dfbColorTexturesA[j]);
+			G.bindTexture(dfbColorTexturesA[j]);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-			GlStateManager.bindTexture(dfbColorTexturesA[8 + j]);
+			G.bindTexture(dfbColorTexturesA[8 + j]);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
 		}
 
-		GlStateManager.bindTexture(0);
+		G.bindTexture(0);
 
 		for (int k = 0; k < 4 && 4 + k < usedColorBuffers; ++k) {
-			GlStateManager.setActiveTexture(33991 + k);
-			GlStateManager.bindTexture(dfbColorTextures.get(4 + k));
+			G.setActiveTexture(33991 + k);
+			G.bindTexture(dfbColorTextures.get(4 + k));
 		}
 
-		GlStateManager.setActiveTexture(33990);
-		GlStateManager.bindTexture(dfbDepthTextures.get(0));
+		G.setActiveTexture(33990);
+		G.bindTexture(dfbDepthTextures.get(0));
 
 		if (usedDepthBuffers >= 2) {
-			GlStateManager.setActiveTexture(33995);
-			GlStateManager.bindTexture(dfbDepthTextures.get(1));
+			G.setActiveTexture(33995);
+			G.bindTexture(dfbDepthTextures.get(1));
 
 			if (usedDepthBuffers >= 3) {
-				GlStateManager.setActiveTexture(33996);
-				GlStateManager.bindTexture(dfbDepthTextures.get(2));
+				G.setActiveTexture(33996);
+				G.bindTexture(dfbDepthTextures.get(2));
 			}
 		}
 
 		for (int l = 0; l < usedShadowColorBuffers; ++l) {
-			GlStateManager.setActiveTexture(33997 + l);
-			GlStateManager.bindTexture(sfbColorTextures.get(l));
+			G.setActiveTexture(33997 + l);
+			G.bindTexture(sfbColorTextures.get(l));
 		}
 
 		if (noiseTextureEnabled) {
-			GlStateManager.setActiveTexture(33984 + noiseTexture.textureUnit);
-			GlStateManager.bindTexture(noiseTexture.getID());
+			G.setActiveTexture(33984 + noiseTexture.textureUnit);
+			G.bindTexture(noiseTexture.getID());
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
@@ -2625,7 +2625,7 @@ public class Shaders {
 		}
 
 		bindCustomTextures(customTexturesGbuffers);
-		GlStateManager.setActiveTexture(33984);
+		G.setActiveTexture(33984);
 		previousCameraPositionX = cameraPositionX;
 		previousCameraPositionY = cameraPositionY;
 		previousCameraPositionZ = cameraPositionZ;
@@ -2680,15 +2680,15 @@ public class Shaders {
 	}
 
 	public static void setViewport(int vx, int vy, int vw, int vh) {
-		GlStateManager.colorMask(true, true, true, true);
+		G.colorMask(true, true, true, true);
 
 		if (isShadowPass) GL11.glViewport(0, 0, shadowMapWidth, shadowMapHeight);
 		else {
 			GL11.glViewport(0, 0, renderWidth, renderHeight);
 			EXTFramebufferObject.glBindFramebufferEXT(36160, dfb);
 			isRenderingDfb = true;
-			GlStateManager.enableCull();
-			GlStateManager.enableDepth();
+			G.enableCull();
+			G.enableDepth();
 			setDrawBuffers(drawBuffersNone);
 			useProgram(2);
 			checkGLError("beginRenderPass");
@@ -2707,7 +2707,7 @@ public class Shaders {
 	}
 
 	public static void setClearColor(float red, float green, float blue, float alpha) {
-		GlStateManager.clearColor(red, green, blue, alpha);
+		G.clearColor(red, green, blue, alpha);
 		clearColorR = red;
 		clearColorG = green;
 		clearColorB = blue;
@@ -2888,12 +2888,12 @@ public class Shaders {
 		if (hasGlGenMipmap) {
 			for (int i = 0; i < usedColorBuffers; ++i)
 				if ((activeCompositeMipmapSetting & 1 << i) != 0) {
-					GlStateManager.setActiveTexture(33984 + colorTextureTextureImageUnit[i]);
+					G.setActiveTexture(33984 + colorTextureTextureImageUnit[i]);
 					GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
 					GL30.glGenerateMipmap(3553);
 				}
 
-			GlStateManager.setActiveTexture(33984);
+			G.setActiveTexture(33984);
 		}
 	}
 
@@ -2921,50 +2921,50 @@ public class Shaders {
 			GL11.glLoadIdentity();
 			GL11.glOrtho(0.0D, 1.0D, 0.0D, 1.0D, 0.0D, 1.0D);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.enableTexture2D();
-			GlStateManager.disableAlpha();
-			GlStateManager.disableBlend();
-			GlStateManager.enableDepth();
-			GlStateManager.depthFunc(519);
-			GlStateManager.depthMask(false);
-			GlStateManager.disableLighting();
+			G.enableTexture2D();
+			G.disableAlpha();
+			G.disableBlend();
+			G.enableDepth();
+			G.depthFunc(519);
+			G.depthMask(false);
+			G.disableLighting();
 
 			if (usedShadowDepthBuffers >= 1) {
-				GlStateManager.setActiveTexture(33988);
-				GlStateManager.bindTexture(sfbDepthTextures.get(0));
+				G.setActiveTexture(33988);
+				G.bindTexture(sfbDepthTextures.get(0));
 
 				if (usedShadowDepthBuffers >= 2) {
-					GlStateManager.setActiveTexture(33989);
-					GlStateManager.bindTexture(sfbDepthTextures.get(1));
+					G.setActiveTexture(33989);
+					G.bindTexture(sfbDepthTextures.get(1));
 				}
 			}
 
 			for (int i = 0; i < usedColorBuffers; ++i) {
-				GlStateManager.setActiveTexture(33984 + colorTextureTextureImageUnit[i]);
-				GlStateManager.bindTexture(dfbColorTexturesA[i]);
+				G.setActiveTexture(33984 + colorTextureTextureImageUnit[i]);
+				G.bindTexture(dfbColorTexturesA[i]);
 			}
 
-			GlStateManager.setActiveTexture(33990);
-			GlStateManager.bindTexture(dfbDepthTextures.get(0));
+			G.setActiveTexture(33990);
+			G.bindTexture(dfbDepthTextures.get(0));
 
 			if (usedDepthBuffers >= 2) {
-				GlStateManager.setActiveTexture(33995);
-				GlStateManager.bindTexture(dfbDepthTextures.get(1));
+				G.setActiveTexture(33995);
+				G.bindTexture(dfbDepthTextures.get(1));
 
 				if (usedDepthBuffers >= 3) {
-					GlStateManager.setActiveTexture(33996);
-					GlStateManager.bindTexture(dfbDepthTextures.get(2));
+					G.setActiveTexture(33996);
+					G.bindTexture(dfbDepthTextures.get(2));
 				}
 			}
 
 			for (int j1 = 0; j1 < usedShadowColorBuffers; ++j1) {
-				GlStateManager.setActiveTexture(33997 + j1);
-				GlStateManager.bindTexture(sfbColorTextures.get(j1));
+				G.setActiveTexture(33997 + j1);
+				G.bindTexture(sfbColorTextures.get(j1));
 			}
 
 			if (noiseTextureEnabled) {
-				GlStateManager.setActiveTexture(33984 + noiseTexture.textureUnit);
-				GlStateManager.bindTexture(noiseTexture.getID());
+				G.setActiveTexture(33984 + noiseTexture.textureUnit);
+				G.bindTexture(noiseTexture.getID());
 				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
 				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
 				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
@@ -2972,7 +2972,7 @@ public class Shaders {
 			}
 
 			bindCustomTextures(customTexturesComposite);
-			GlStateManager.setActiveTexture(33984);
+			G.setActiveTexture(33984);
 			boolean flag = true;
 
 			for (int j = 0; j < usedColorBuffers; ++j) EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36064 + j, 3553, dfbColorTexturesA[8 + j], 0);
@@ -2994,12 +2994,12 @@ public class Shaders {
 						if (programsToggleColorTextures[21 + k1][k]) {
 							int l = colorTexturesToggle[k];
 							int i1 = colorTexturesToggle[k] = 8 - l;
-							GlStateManager.setActiveTexture(33984 + colorTextureTextureImageUnit[k]);
-							GlStateManager.bindTexture(dfbColorTexturesA[i1 + k]);
+							G.setActiveTexture(33984 + colorTextureTextureImageUnit[k]);
+							G.bindTexture(dfbColorTexturesA[i1 + k]);
 							EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36064 + k, 3553, dfbColorTexturesA[l + k], 0);
 						}
 
-					GlStateManager.setActiveTexture(33984);
+					G.setActiveTexture(33984);
 				}
 
 			checkGLError("composite");
@@ -3008,16 +3008,16 @@ public class Shaders {
 			OpenGlHelper.glFramebufferTexture2D(OpenGlHelper.GL_FRAMEBUFFER, OpenGlHelper.GL_COLOR_ATTACHMENT0, 3553, mc.getFramebuffer().framebufferTexture, 0);
 			GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
 
-			GlStateManager.depthMask(true);
+			G.depthMask(true);
 			GL11.glClearColor(clearColorR, clearColorG, clearColorB, 1.0F);
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.enableTexture2D();
-			GlStateManager.disableAlpha();
-			GlStateManager.disableBlend();
-			GlStateManager.enableDepth();
-			GlStateManager.depthFunc(519);
-			GlStateManager.depthMask(false);
+			G.enableTexture2D();
+			G.disableAlpha();
+			G.disableBlend();
+			G.enableDepth();
+			G.depthFunc(519);
+			G.depthMask(false);
 			checkGLError("pre-final");
 			useProgram(29);
 			checkGLError("final");
@@ -3027,12 +3027,12 @@ public class Shaders {
 			drawComposite();
 			checkGLError("renderCompositeFinal");
 			isCompositeRendered = true;
-			GlStateManager.enableLighting();
-			GlStateManager.enableTexture2D();
-			GlStateManager.enableAlpha();
-			GlStateManager.enableBlend();
-			GlStateManager.depthFunc(515);
-			GlStateManager.depthMask(true);
+			G.enableLighting();
+			G.enableTexture2D();
+			G.enableAlpha();
+			G.enableBlend();
+			G.depthFunc(515);
+			G.depthMask(true);
 			GL11.glPopMatrix();
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glPopMatrix();
@@ -3046,7 +3046,7 @@ public class Shaders {
 			if (!isCompositeRendered) renderCompositeFinal();
 
 			isRenderingWorld = false;
-			GlStateManager.colorMask(true, true, true, true);
+			G.colorMask(true, true, true, true);
 			useProgram(0);
 			RenderHelper.disableStandardItemLighting();
 			checkGLError("endRender end");
@@ -3189,9 +3189,9 @@ public class Shaders {
 	public static void beginSpiderEyes() {
 		if (isRenderingWorld && programsID[18] != programsID[0]) {
 			useProgram(18);
-			GlStateManager.enableAlpha();
-			GlStateManager.alphaFunc(516, 0.0F);
-			GlStateManager.blendFunc(770, 771);
+			G.enableAlpha();
+			G.alphaFunc(516, 0.0F);
+			G.blendFunc(770, 771);
 		}
 	}
 
@@ -3272,31 +3272,31 @@ public class Shaders {
 	public static void beginWeather() {
 		if (!isShadowPass) {
 			if (usedDepthBuffers >= 3) {
-				GlStateManager.setActiveTexture(33996);
+				G.setActiveTexture(33996);
 				GL11.glCopyTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 0, 0, renderWidth, renderHeight);
-				GlStateManager.setActiveTexture(33984);
+				G.setActiveTexture(33984);
 			}
 
-			GlStateManager.enableDepth();
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(770, 771);
-			GlStateManager.enableAlpha();
+			G.enableDepth();
+			G.enableBlend();
+			G.blendFunc(770, 771);
+			G.enableAlpha();
 			useProgram(20);
 		}
 	}
 
 	public static void endWeather() {
-		GlStateManager.disableBlend();
+		G.disableBlend();
 		useProgram(3);
 	}
 
 	public static void preWater() {
 		if (usedDepthBuffers >= 2) {
-			GlStateManager.setActiveTexture(33995);
+			G.setActiveTexture(33995);
 			checkGLError("pre copy depth");
 			GL11.glCopyTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 0, 0, renderWidth, renderHeight);
 			checkGLError("copy depth");
-			GlStateManager.setActiveTexture(33984);
+			G.setActiveTexture(33984);
 		}
 
 		ShadersTex.bindNSTextures(defaultTexture.getMultiTexID());
@@ -3305,9 +3305,9 @@ public class Shaders {
 	public static void beginWater() {
 		if (isRenderingWorld) if (!isShadowPass) {
 			useProgram(12);
-			GlStateManager.enableBlend();
-			GlStateManager.depthMask(true);
-		} else GlStateManager.depthMask(true);
+			G.enableBlend();
+			G.depthMask(true);
+		} else G.depthMask(true);
 	}
 
 	public static void endWater() {
@@ -3348,13 +3348,13 @@ public class Shaders {
 		GL11.glPopMatrix();
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glPopMatrix();
-		GlStateManager.blendFunc(770, 771);
+		G.blendFunc(770, 771);
 		checkGLError("endHand");
 	}
 
 	public static void beginFPOverlay() {
-		GlStateManager.disableLighting();
-		GlStateManager.disableBlend();
+		G.disableLighting();
+		G.disableBlend();
 	}
 
 	public static void endFPOverlay() {
@@ -3423,7 +3423,7 @@ public class Shaders {
 	}
 
 	public static void setFog(int fogMode) {
-		GlStateManager.setFog(fogMode);
+		G.setFog(fogMode);
 		fogMode = fogMode;
 
 		if (fogEnabled) setProgramUniform1i("fogMode", fogMode);

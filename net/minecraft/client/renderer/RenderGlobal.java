@@ -208,7 +208,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		this.renderEngine.bindTexture(locationForcefieldPng);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
-		GlStateManager.bindTexture(0);
+		G.bindTexture(0);
 		this.updateDestroyBlockIcons();
 		this.vboEnabled = OpenGlHelper.useVbo();
 
@@ -267,10 +267,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 	public void renderEntityOutlineFramebuffer() {
 		if (this.isRenderEntityOutlines()) {
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 771, 0, 1);
 			this.entityOutlineFramebuffer.framebufferRenderExt(this.mc.displayWidth, this.mc.displayHeight, false);
-			GlStateManager.disableBlend();
+			G.disableBlend();
 		}
 	}
 
@@ -385,12 +385,12 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			this.starVBO.func_181722_a(worldrenderer.getByteBuffer());
 		} else {
 			this.starGLCallList = GLAllocation.generateDisplayLists(1);
-			GlStateManager.pushMatrix();
+			G.pushMatrix();
 			GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
 			this.renderStars(worldrenderer);
 			tessellator.draw();
 			GL11.glEndList();
-			GlStateManager.popMatrix();
+			G.popMatrix();
 		}
 	}
 
@@ -578,7 +578,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			}
 
 			if (Config.isFogOff() && this.mc.entityRenderer.fogStandard) {
-				GlStateManager.disableFog();
+				G.disableFog();
 			}
 
 			for (int j = 0; j < this.theWorld.weatherEffects.size(); ++j) {
@@ -592,8 +592,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			}
 
 			if (this.isRenderEntityOutlines()) {
-				GlStateManager.depthFunc(519);
-				GlStateManager.disableFog();
+				G.depthFunc(519);
+				G.disableFog();
 				this.entityOutlineFramebuffer.framebufferClear();
 				this.entityOutlineFramebuffer.bindFramebuffer(false);
 				this.theWorld.theProfiler.endStartSection("entityOutlines");
@@ -614,17 +614,17 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 				this.renderManager.setRenderOutlines(false);
 				RenderHelper.enableStandardItemLighting();
-				GlStateManager.depthMask(false);
+				G.depthMask(false);
 				this.entityOutlineShader.loadShaderGroup(partialTicks);
-				GlStateManager.enableLighting();
-				GlStateManager.depthMask(true);
+				G.enableLighting();
+				G.depthMask(true);
 				this.mc.getFramebuffer().bindFramebuffer(false);
-				GlStateManager.enableFog();
-				GlStateManager.enableBlend();
-				GlStateManager.enableColorMaterial();
-				GlStateManager.depthFunc(515);
-				GlStateManager.enableDepth();
-				GlStateManager.enableAlpha();
+				G.enableFog();
+				G.enableBlend();
+				G.enableColorMaterial();
+				G.depthFunc(515);
+				G.enableDepth();
+				G.enableAlpha();
 			}
 
 			this.theWorld.theProfiler.endStartSection("entities");
@@ -1194,7 +1194,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			return l;
 		}
 		if (Config.isFogOff() && this.mc.entityRenderer.fogStandard) {
-			GlStateManager.disableFog();
+			G.disableFog();
 		}
 
 		Profiler.in.endStartSection("render_" + blockLayerIn);
@@ -1245,7 +1245,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 					case 3:
 						GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-						GlStateManager.resetColor();
+						G.resetColor();
 				}
 			}
 		}
@@ -1279,37 +1279,37 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 	private void renderSkyEnd() {
 		if (Config.isSkyEnabled()) {
-			GlStateManager.disableFog();
-			GlStateManager.disableAlpha();
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			G.disableFog();
+			G.disableAlpha();
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 771, 1, 0);
 			RenderHelper.disableStandardItemLighting();
-			GlStateManager.depthMask(false);
+			G.depthMask(false);
 			this.renderEngine.bindTexture(locationEndSkyPng);
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
 			for (int i = 0; i < 6; ++i) {
-				GlStateManager.pushMatrix();
+				G.pushMatrix();
 
 				if (i == 1) {
-					GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+					G.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 				}
 
 				if (i == 2) {
-					GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
+					G.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
 				}
 
 				if (i == 3) {
-					GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
+					G.rotate(180.0F, 1.0F, 0.0F, 0.0F);
 				}
 
 				if (i == 4) {
-					GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+					G.rotate(90.0F, 0.0F, 0.0F, 1.0F);
 				}
 
 				if (i == 5) {
-					GlStateManager.rotate(-90.0F, 0.0F, 0.0F, 1.0F);
+					G.rotate(-90.0F, 0.0F, 0.0F, 1.0F);
 				}
 
 				worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -1318,12 +1318,12 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				worldrenderer.pos(100.0D, -100.0D, 100.0D).tex(16.0D, 16.0D).color(40, 40, 40, 255).endVertex();
 				worldrenderer.pos(100.0D, -100.0D, -100.0D).tex(16.0D, 0.0D).color(40, 40, 40, 255).endVertex();
 				tessellator.draw();
-				GlStateManager.popMatrix();
+				G.popMatrix();
 			}
 
-			GlStateManager.depthMask(true);
-			GlStateManager.enableTexture2D();
-			GlStateManager.enableAlpha();
+			G.depthMask(true);
+			G.enableTexture2D();
+			G.enableAlpha();
 		}
 	}
 
@@ -1331,7 +1331,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		if (this.mc.theWorld.provider.getDimensionId() == 1) {
 			this.renderSkyEnd();
 		} else if (this.mc.theWorld.provider.isSurfaceWorld()) {
-			GlStateManager.disableTexture2D();
+			G.disableTexture2D();
 			boolean flag1 = Config.isShaders();
 
 			if (flag1) {
@@ -1358,17 +1358,17 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				f2 = f5;
 			}
 
-			GlStateManager.color(f, f1, f2);
+			G.color(f, f1, f2);
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-			GlStateManager.depthMask(false);
-			GlStateManager.enableFog();
+			G.depthMask(false);
+			G.enableFog();
 
 			if (flag1) {
 				Shaders.enableFog();
 			}
 
-			GlStateManager.color(f, f1, f2);
+			G.color(f, f1, f2);
 
 			if (flag1) {
 				Shaders.preSkyList();
@@ -1383,34 +1383,34 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					this.skyVBO.unbindBuffer();
 					GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 				} else {
-					GlStateManager.callList(this.glSkyList);
+					G.callList(this.glSkyList);
 				}
 			}
 
-			GlStateManager.disableFog();
+			G.disableFog();
 
 			if (flag1) {
 				Shaders.disableFog();
 			}
 
-			GlStateManager.disableAlpha();
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			G.disableAlpha();
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 771, 1, 0);
 			RenderHelper.disableStandardItemLighting();
 			float[] afloat = this.theWorld.provider.calcSunriseSunsetColors(this.theWorld.getCelestialAngle(partialTicks), partialTicks);
 
 			if (afloat != null && Config.isSunMoonEnabled()) {
-				GlStateManager.disableTexture2D();
+				G.disableTexture2D();
 
 				if (flag1) {
 					Shaders.disableTexture2D();
 				}
 
-				GlStateManager.shadeModel(7425);
-				GlStateManager.pushMatrix();
-				GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-				GlStateManager.rotate(MathHelper.sin(this.theWorld.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
-				GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+				G.shadeModel(7425);
+				G.pushMatrix();
+				G.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+				G.rotate(MathHelper.sin(this.theWorld.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
+				G.rotate(90.0F, 0.0F, 0.0F, 1.0F);
 				float f6 = afloat[0];
 				float f7 = afloat[1];
 				float f8 = afloat[2];
@@ -1436,28 +1436,28 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				}
 
 				tessellator.draw();
-				GlStateManager.popMatrix();
-				GlStateManager.shadeModel(7424);
+				G.popMatrix();
+				G.shadeModel(7424);
 			}
 
-			GlStateManager.enableTexture2D();
+			G.enableTexture2D();
 
 			if (flag1) {
 				Shaders.enableTexture2D();
 			}
 
-			GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
-			GlStateManager.pushMatrix();
+			G.tryBlendFuncSeparate(770, 1, 1, 0);
+			G.pushMatrix();
 			float f15 = 1.0F - this.theWorld.getRainStrength(partialTicks);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, f15);
-			GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+			G.color(1.0F, 1.0F, 1.0F, f15);
+			G.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
 			CustomSky.renderSky(this.theWorld, this.renderEngine, this.theWorld.getCelestialAngle(partialTicks), f15);
 
 			if (flag1) {
 				Shaders.preCelestialRotate();
 			}
 
-			GlStateManager.rotate(this.theWorld.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+			G.rotate(this.theWorld.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
 
 			if (flag1) {
 				Shaders.postCelestialRotate();
@@ -1494,7 +1494,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				tessellator.draw();
 			}
 
-			GlStateManager.disableTexture2D();
+			G.disableTexture2D();
 
 			if (flag1) {
 				Shaders.disableTexture2D();
@@ -1503,7 +1503,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			float f24 = this.theWorld.getStarBrightness(partialTicks) * f15;
 
 			if (f24 > 0.0F && Config.isStarsEnabled() && !CustomSky.hasSkyLayers(this.theWorld)) {
-				GlStateManager.color(f24, f24, f24, f24);
+				G.color(f24, f24, f24, f24);
 
 				if (this.vboEnabled) {
 					this.starVBO.bindBuffer();
@@ -1513,32 +1513,32 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					this.starVBO.unbindBuffer();
 					GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 				} else {
-					GlStateManager.callList(this.starGLCallList);
+					G.callList(this.starGLCallList);
 				}
 			}
 
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.disableBlend();
-			GlStateManager.enableAlpha();
-			GlStateManager.enableFog();
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.disableBlend();
+			G.enableAlpha();
+			G.enableFog();
 
 			if (flag1) {
 				Shaders.enableFog();
 			}
 
-			GlStateManager.popMatrix();
-			GlStateManager.disableTexture2D();
+			G.popMatrix();
+			G.disableTexture2D();
 
 			if (flag1) {
 				Shaders.disableTexture2D();
 			}
 
-			GlStateManager.color(0.0F, 0.0F, 0.0F);
+			G.color(0.0F, 0.0F, 0.0F);
 			double d0 = this.mc.thePlayer.getPositionEyes(partialTicks).yCoord - this.theWorld.getHorizon();
 
 			if (d0 < 0.0D) {
-				GlStateManager.pushMatrix();
-				GlStateManager.translate(0.0F, 12.0F, 0.0F);
+				G.pushMatrix();
+				G.translate(0.0F, 12.0F, 0.0F);
 
 				if (this.vboEnabled) {
 					this.sky2VBO.bindBuffer();
@@ -1548,10 +1548,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					this.sky2VBO.unbindBuffer();
 					GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 				} else {
-					GlStateManager.callList(this.glSkyList2);
+					G.callList(this.glSkyList2);
 				}
 
-				GlStateManager.popMatrix();
+				G.popMatrix();
 				float f17 = 1.0F;
 				float f18 = -((float) (d0 + 65.0D));
 				float f19 = -1.0F;
@@ -1580,30 +1580,30 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			}
 
 			if (this.theWorld.provider.isSkyColored()) {
-				GlStateManager.color(f * 0.2F + 0.04F, f1 * 0.2F + 0.04F, f2 * 0.6F + 0.1F);
+				G.color(f * 0.2F + 0.04F, f1 * 0.2F + 0.04F, f2 * 0.6F + 0.1F);
 			} else {
-				GlStateManager.color(f, f1, f2);
+				G.color(f, f1, f2);
 			}
 
 			if (Settings.RENDER_DISTANCE.f() <= 4) {
-				GlStateManager.color(this.mc.entityRenderer.fogColorRed, this.mc.entityRenderer.fogColorGreen, this.mc.entityRenderer.fogColorBlue);
+				G.color(this.mc.entityRenderer.fogColorRed, this.mc.entityRenderer.fogColorGreen, this.mc.entityRenderer.fogColorBlue);
 			}
 
-			GlStateManager.pushMatrix();
-			GlStateManager.translate(0.0F, -((float) (d0 - 16.0D)), 0.0F);
+			G.pushMatrix();
+			G.translate(0.0F, -((float) (d0 - 16.0D)), 0.0F);
 
 			if (Config.isSkyEnabled()) {
-				GlStateManager.callList(this.glSkyList2);
+				G.callList(this.glSkyList2);
 			}
 
-			GlStateManager.popMatrix();
-			GlStateManager.enableTexture2D();
+			G.popMatrix();
+			G.enableTexture2D();
 
 			if (flag1) {
 				Shaders.enableTexture2D();
 			}
 
-			GlStateManager.depthMask(true);
+			G.depthMask(true);
 		}
 	}
 
@@ -1619,15 +1619,15 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				} else {
 					this.cloudRenderer.prepareToRender(false, this.cloudTickCounter, partialTicks);
 					partialTicks = 0.0F;
-					GlStateManager.disableCull();
+					G.disableCull();
 					float f9 = (float) (this.mc.getRenderViewEntity().lastTickPosY + (this.mc.getRenderViewEntity().posY - this.mc.getRenderViewEntity().lastTickPosY) * (double) partialTicks);
 					boolean flag = true;
 					boolean flag1 = true;
 					Tessellator tessellator = Tessellator.getInstance();
 					WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 					this.renderEngine.bindTexture(locationCloudsPng);
-					GlStateManager.enableBlend();
-					GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+					G.enableBlend();
+					G.tryBlendFuncSeparate(770, 771, 1, 0);
 
 					if (this.cloudRenderer.shouldUpdateGlList()) {
 						this.cloudRenderer.startUpdateGlList();
@@ -1677,9 +1677,9 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					}
 
 					this.cloudRenderer.renderGlList();
-					GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-					GlStateManager.disableBlend();
-					GlStateManager.enableCull();
+					G.color(1.0F, 1.0F, 1.0F, 1.0F);
+					G.disableBlend();
+					G.enableCull();
 				}
 
 				if (Config.isShaders()) {
@@ -1699,7 +1699,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	private void renderCloudsFancy(float partialTicks, int pass) {
 		this.cloudRenderer.prepareToRender(true, this.cloudTickCounter, partialTicks);
 		partialTicks = 0.0F;
-		GlStateManager.disableCull();
+		G.disableCull();
 		float f = (float) (this.mc.getRenderViewEntity().lastTickPosY + (this.mc.getRenderViewEntity().posY - this.mc.getRenderViewEntity().lastTickPosY) * (double) partialTicks);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -1715,8 +1715,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		d1 -= (double) (i * 2048);
 		d2 -= (double) (j * 2048);
 		this.renderEngine.bindTexture(locationCloudsPng);
-		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		G.enableBlend();
+		G.tryBlendFuncSeparate(770, 771, 1, 0);
 		Vec3 vec3 = this.theWorld.getCloudColour(partialTicks);
 		float f4 = (float) vec3.xCoord;
 		float f5 = (float) vec3.yCoord;
@@ -1748,23 +1748,23 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		boolean flag = true;
 		boolean flag1 = true;
 		float f21 = 9.765625E-4F;
-		GlStateManager.scale(12.0F, 1.0F, 12.0F);
+		G.scale(12.0F, 1.0F, 12.0F);
 
 		for (int k = 0; k < 2; ++k) {
 			if (k == 0) {
-				GlStateManager.colorMask(false, false, false, false);
+				G.colorMask(false, false, false, false);
 			} else {
 				switch (pass) {
 					case 0:
-						GlStateManager.colorMask(false, true, true, true);
+						G.colorMask(false, true, true, true);
 						break;
 
 					case 1:
-						GlStateManager.colorMask(true, false, false, true);
+						G.colorMask(true, false, false, true);
 						break;
 
 					case 2:
-						GlStateManager.colorMask(true, true, true, true);
+						G.colorMask(true, true, true, true);
 				}
 			}
 
@@ -1867,9 +1867,9 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			this.cloudRenderer.endUpdateGlList();
 		}
 
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.disableBlend();
-		GlStateManager.enableCull();
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.disableBlend();
+		G.enableCull();
 	}
 
 	public void updateChunks(long finishTimeNano) {
@@ -1944,21 +1944,21 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			double d2 = p_180449_1_.lastTickPosX + (p_180449_1_.posX - p_180449_1_.lastTickPosX) * (double) partialTicks;
 			double d3 = p_180449_1_.lastTickPosY + (p_180449_1_.posY - p_180449_1_.lastTickPosY) * (double) partialTicks;
 			double d4 = p_180449_1_.lastTickPosZ + (p_180449_1_.posZ - p_180449_1_.lastTickPosZ) * (double) partialTicks;
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 1, 1, 0);
 			this.renderEngine.bindTexture(locationForcefieldPng);
-			GlStateManager.depthMask(false);
-			GlStateManager.pushMatrix();
+			G.depthMask(false);
+			G.pushMatrix();
 			int i = worldborder.getStatus().getID();
 			float f = (float) (i >> 16 & 255) / 255.0F;
 			float f1 = (float) (i >> 8 & 255) / 255.0F;
 			float f2 = (float) (i & 255) / 255.0F;
-			GlStateManager.color(f, f1, f2, (float) d1);
-			GlStateManager.doPolygonOffset(-3.0F, -3.0F);
-			GlStateManager.enablePolygonOffset();
-			GlStateManager.alphaFunc(516, 0.1F);
-			GlStateManager.enableAlpha();
-			GlStateManager.disableCull();
+			G.color(f, f1, f2, (float) d1);
+			G.doPolygonOffset(-3.0F, -3.0F);
+			G.enablePolygonOffset();
+			G.alphaFunc(516, 0.1F);
+			G.enableAlpha();
+			G.disableCull();
 			float f3 = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F;
 			float f4 = 0.0F;
 			float f5 = 0.0F;
@@ -2029,26 +2029,26 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 			tessellator.draw();
 			worldrenderer.setTranslation(0.0D, 0.0D, 0.0D);
-			GlStateManager.enableCull();
-			GlStateManager.disableAlpha();
-			GlStateManager.doPolygonOffset(0.0F, 0.0F);
-			GlStateManager.disablePolygonOffset();
-			GlStateManager.enableAlpha();
-			GlStateManager.disableBlend();
-			GlStateManager.popMatrix();
-			GlStateManager.depthMask(true);
+			G.enableCull();
+			G.disableAlpha();
+			G.doPolygonOffset(0.0F, 0.0F);
+			G.disablePolygonOffset();
+			G.enableAlpha();
+			G.disableBlend();
+			G.popMatrix();
+			G.depthMask(true);
 		}
 	}
 
 	private void preRenderDamagedBlocks() {
-		GlStateManager.tryBlendFuncSeparate(774, 768, 1, 0);
-		GlStateManager.enableBlend();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.5F);
-		GlStateManager.doPolygonOffset(-3.0F, -3.0F);
-		GlStateManager.enablePolygonOffset();
-		GlStateManager.alphaFunc(516, 0.1F);
-		GlStateManager.enableAlpha();
-		GlStateManager.pushMatrix();
+		G.tryBlendFuncSeparate(774, 768, 1, 0);
+		G.enableBlend();
+		G.color(1.0F, 1.0F, 1.0F, 0.5F);
+		G.doPolygonOffset(-3.0F, -3.0F);
+		G.enablePolygonOffset();
+		G.alphaFunc(516, 0.1F);
+		G.enableAlpha();
+		G.pushMatrix();
 
 		if (Config.isShaders()) {
 			ShadersRender.beginBlockDamage();
@@ -2056,12 +2056,12 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	}
 
 	private void postRenderDamagedBlocks() {
-		GlStateManager.disableAlpha();
-		GlStateManager.doPolygonOffset(0.0F, 0.0F);
-		GlStateManager.disablePolygonOffset();
-		GlStateManager.enableAlpha();
-		GlStateManager.depthMask(true);
-		GlStateManager.popMatrix();
+		G.disableAlpha();
+		G.doPolygonOffset(0.0F, 0.0F);
+		G.disablePolygonOffset();
+		G.enableAlpha();
+		G.depthMask(true);
+		G.popMatrix();
 
 		if (Config.isShaders()) {
 			ShadersRender.endBlockDamage();
@@ -2119,17 +2119,17 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	 */
 	public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int p_72731_3_, float partialTicks) {
 		if (p_72731_3_ == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-			GlStateManager.color(0.0F, 0.0F, 0.0F, 0.4F);
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 771, 1, 0);
+			G.color(0.0F, 0.0F, 0.0F, 0.4F);
 			GL11.glLineWidth(2.0F);
-			GlStateManager.disableTexture2D();
+			G.disableTexture2D();
 
 			if (Config.isShaders()) {
 				Shaders.disableTexture2D();
 			}
 
-			GlStateManager.depthMask(false);
+			G.depthMask(false);
 			float f = 0.002F;
 			BlockPos blockpos = movingObjectPositionIn.getBlockPos();
 			Block block = this.theWorld.getBlockState(blockpos).getBlock();
@@ -2142,14 +2142,14 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				func_181561_a(block.getSelectedBoundingBox(this.theWorld, blockpos).expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D).offset(-d0, -d1, -d2));
 			}
 
-			GlStateManager.depthMask(true);
-			GlStateManager.enableTexture2D();
+			G.depthMask(true);
+			G.enableTexture2D();
 
 			if (Config.isShaders()) {
 				Shaders.enableTexture2D();
 			}
 
-			GlStateManager.disableBlend();
+			G.disableBlend();
 		}
 	}
 

@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.texture;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.MultiTexID;
 import shadersmod.client.ShadersTex;
@@ -35,7 +35,7 @@ public abstract class AbstractTexture implements ITextureObject
             short1 = 9728;
         }
 
-        GlStateManager.bindTexture(this.getGlTextureId());
+        G.bindTexture(this.getGlTextureId());
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, i);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, short1);
     }

@@ -275,18 +275,18 @@ public class RenderChunk {
 	}
 
 	private void initModelviewMatrix() {
-		GlStateManager.pushMatrix();
-		GlStateManager.loadIdentity();
+		G.pushMatrix();
+		G.loadIdentity();
 		float f = 1.000001f;
-		GlStateManager.translate(-8.0F, -8.0F, -8.0F);
-		GlStateManager.scale(f, f, f);
-		GlStateManager.translate(8.0F, 8.0F, 8.0F);
-		GlStateManager.getFloat(2982, this.modelviewMatrix);
-		GlStateManager.popMatrix();
+		G.translate(-8.0F, -8.0F, -8.0F);
+		G.scale(f, f, f);
+		G.translate(8.0F, 8.0F, 8.0F);
+		G.getFloat(2982, this.modelviewMatrix);
+		G.popMatrix();
 	}
 
 	public void multModelviewMatrix() {
-		GlStateManager.multMatrix(this.modelviewMatrix);
+		G.multMatrix(this.modelviewMatrix);
 	}
 
 	public CompiledChunk getCompiledChunk() {

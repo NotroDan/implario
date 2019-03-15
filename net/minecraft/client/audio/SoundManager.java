@@ -2,7 +2,7 @@ package net.minecraft.client.audio;
 
 import com.google.common.collect.*;
 import io.netty.util.internal.ThreadLocalRandom;
-import net.minecraft.Logger;
+import net.minecraft.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +28,7 @@ public class SoundManager {
 	/**
 	 * The marker used for logging
 	 */
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.SOUND;
 
 	/**
 	 * A reference to the sound handler.
@@ -70,7 +70,8 @@ public class SoundManager {
 			SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
 			SoundSystemConfig.setCodec("ogg", CodecJOrbis.class);
 		} catch (SoundSystemException soundsystemexception) {
-			logger.error("При сцеплении с плагином LibraryJavaSound произошла ошибка.", soundsystemexception);
+			logger.error("При сцеплении с плагином LibraryJavaSound произошла ошибка.");
+			logger.error(soundsystemexception.toString());
 		} catch (Throwable t) {
 			System.out.println("ашыбко");
 		}
@@ -90,9 +91,9 @@ public class SoundManager {
 			try {
 				new Thread(() -> {
 					SoundSystemConfig.setLogger(new SoundSystemLogger() {
-						public void message(String p_message_1_, int p_message_2_) {
-							if (!p_message_1_.isEmpty()) {
-								SoundManager.logger.info(p_message_1_);
+						public void message(String m, int p_message_2_) {
+							if (!m.isEmpty()) {
+								SoundManager.logger.info(m);
 							}
 						}
 
@@ -115,7 +116,7 @@ public class SoundManager {
 					SoundManager.logger.info("Аудиодвижок успешно запущен.");
 				}, "Sound Library Loader").start();
 			} catch (RuntimeException runtimeexception) {
-				logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c", runtimeexception);
+				logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c");//, runtimeexception);
 				Settings.SOUND_MASTER.set(0);
 				Settings.saveOptions();
 			}
@@ -215,7 +216,7 @@ public class SoundManager {
 					}
 
 					iterator.remove();
-					logger.debug("Removed channel {} because it\'s not playing anymore", s1);
+//					logger.debug("Removed channel {} because it\'s not playing anymore", s1);
 					this.sndSystem.removeSource(s1);
 					this.playingSoundsStopTime.remove(s1);
 					this.playingSoundPoolEntries.remove(isound);
@@ -273,17 +274,17 @@ public class SoundManager {
 	public void playSound(ISound sound) {
 		if (this.loaded) {
 			if (this.sndSystem.getMasterVolume() <= 0.0F) {
-				logger.debug("Skipped playing soundEvent: {}, master volume was zero", sound.getSoundLocation());
+//				logger.debug("Skipped playing soundEvent: {}, master volume was zero", sound.getSoundLocation());
 			} else {
 				SoundEventAccessorComposite soundeventaccessorcomposite = this.sndHandler.getSound(sound.getSoundLocation());
 
 				if (soundeventaccessorcomposite == null) {
-					logger.warn("Unable to play unknown soundEvent: {}", sound.getSoundLocation());
+//					logger.warn("Unable to play unknown soundEvent: {}", sound.getSoundLocation());
 				} else {
 					SoundPoolEntry soundpoolentry = soundeventaccessorcomposite.cloneEntry();
 
 					if (soundpoolentry == SoundHandler.missing_sound) {
-						logger.warn("Unable to play empty soundEvent: {}", soundeventaccessorcomposite.getSoundEventLocation());
+//						logger.warn("Unable to play empty soundEvent: {}", soundeventaccessorcomposite.getSoundEventLocation());
 					} else {
 						float f = sound.getVolume();
 						float f1 = 16.0F;
@@ -298,7 +299,7 @@ public class SoundManager {
 						ResourceLocation resourcelocation = soundpoolentry.getSoundPoolEntryLocation();
 
 						if (f2 == 0.0F) {
-							logger.debug("Skipped playing sound {}, volume was zero.", resourcelocation);
+//							logger.debug("Skipped playing sound {}, volume was zero.", resourcelocation);
 						} else {
 							boolean flag = sound.canRepeat() && sound.getRepeatDelay() == 0;
 							String s = MathHelper.getRandomUuid(ThreadLocalRandom.current()).toString();
@@ -311,7 +312,7 @@ public class SoundManager {
 										sound.getAttenuationType().getTypeInt(), f1);
 							}
 
-							logger.debug("Playing sound {} for event {} as channel {}", soundpoolentry.getSoundPoolEntryLocation(), soundeventaccessorcomposite.getSoundEventLocation(), s);
+//							logger.debug("Playing sound {} for event {} as channel {}", soundpoolentry.getSoundPoolEntryLocation(), soundeventaccessorcomposite.getSoundEventLocation(), s);
 							this.sndSystem.setPitch(s, (float) d0);
 							this.sndSystem.setVolume(s, f2);
 							this.sndSystem.play(s);
@@ -352,7 +353,7 @@ public class SoundManager {
 	 */
 	public void pauseAllSounds() {
 		for (String s : this.playingSounds.keySet()) {
-			logger.debug("Pausing channel {}", s);
+//			logger.debug("Pausing channel {}", s);
 			this.sndSystem.pause(s);
 		}
 	}
@@ -362,7 +363,7 @@ public class SoundManager {
 	 */
 	public void resumeAllSounds() {
 		for (String s : this.playingSounds.keySet()) {
-			logger.debug( "Resuming channel {}", s);
+//			logger.debug( "Resuming channel {}", s);
 			this.sndSystem.play(s);
 		}
 	}

@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelVillager;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
@@ -71,6 +71,6 @@ public class RenderVillager extends RenderLiving<EntityVillager>
             this.shadowSize = 0.5F;
         }
 
-        GlStateManager.scale(f, f, f);
+        G.scale(f, f, f);
     }
 }

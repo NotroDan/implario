@@ -3,7 +3,7 @@ package net.minecraft.client.gui.element;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.HoverButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.Settings;
 
@@ -50,7 +50,7 @@ public class VolumeSlider extends SettingSlider implements HoverButton {
 		int slider = (int) (yPosition + height * (1 - sliderPosition));
 		int y = yPosition + height;
 
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		drawHorizontalLine(xPosition, xPosition + 9, slider, -1);
 		drawHorizontalLine(xPosition, xPosition + 9, slider + 1, -1);
 	}
@@ -87,12 +87,12 @@ public class VolumeSlider extends SettingSlider implements HoverButton {
 		if (!this.visible) return;
 		FontRenderer fontrenderer = mc.fontRendererObj;
 		mc.getTextureManager().bindTexture(buttonTextures);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.hovered = superPressed(mc, mouseX, mouseY);
 		int i = this.getHoverState(this.hovered);
-		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-		GlStateManager.blendFunc(770, 771);
+		G.enableBlend();
+		G.tryBlendFuncSeparate(770, 771, 1, 0);
+		G.blendFunc(770, 771);
 
 		int slider = (int) (yPosition + height * (1 - sliderPosition));
 		int y = yPosition + height;

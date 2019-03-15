@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.culling.ICamera;
@@ -92,23 +92,23 @@ public abstract class Render<T extends Entity> {
 	 * Renders fire on top of the entity. Args: entity, x, y, z, partialTickTime
 	 */
 	private void renderEntityOnFire(Entity entity, double x, double y, double z, float partialTicks) {
-		GlStateManager.disableLighting();
+		G.disableLighting();
 		TextureMap texturemap = Minecraft.getMinecraft().getTextureMapBlocks();
 		TextureAtlasSprite textureatlassprite = texturemap.getAtlasSprite("minecraft:blocks/fire_layer_0");
 		TextureAtlasSprite textureatlassprite1 = texturemap.getAtlasSprite("minecraft:blocks/fire_layer_1");
-		GlStateManager.pushMatrix();
-		GlStateManager.translate((float) x, (float) y, (float) z);
+		G.pushMatrix();
+		G.translate((float) x, (float) y, (float) z);
 		float f = entity.width * 1.4F;
-		GlStateManager.scale(f, f, f);
+		G.scale(f, f, f);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		float f1 = 0.5F;
 		float f2 = 0.0F;
 		float f3 = entity.height / f;
 		float f4 = (float) (entity.posY - entity.getEntityBoundingBox().minY);
-		GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		GlStateManager.translate(0.0F, 0.0F, -0.3F + (float) (int) f3 * 0.02F);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+		G.translate(0.0F, 0.0F, -0.3F + (float) (int) f3 * 0.02F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		float f5 = 0.0F;
 		int i = 0;
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -139,8 +139,8 @@ public abstract class Render<T extends Entity> {
 		}
 
 		tessellator.draw();
-		GlStateManager.popMatrix();
-		GlStateManager.enableLighting();
+		G.popMatrix();
+		G.enableLighting();
 	}
 
 	/**
@@ -149,11 +149,11 @@ public abstract class Render<T extends Entity> {
 	 */
 	private void renderShadow(Entity entityIn, double x, double y, double z, float shadowAlpha, float partialTicks) {
 		if (!Config.isShaders() || !Shaders.shouldSkipDefaultShadow) {
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(770, 771);
+			G.enableBlend();
+			G.blendFunc(770, 771);
 			this.renderManager.renderEngine.bindTexture(shadowTextures);
 			World world = this.getWorldFromRenderManager();
-			GlStateManager.depthMask(false);
+			G.depthMask(false);
 			float f = this.shadowSize;
 
 			if (entityIn instanceof EntityLiving) {
@@ -186,9 +186,9 @@ public abstract class Render<T extends Entity> {
 			}
 
 			tessellator.draw();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.disableBlend();
-			GlStateManager.depthMask(true);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.disableBlend();
+			G.depthMask(true);
 		}
 	}
 
@@ -230,10 +230,10 @@ public abstract class Render<T extends Entity> {
 	 * Renders a white box with the bounds of the AABB translated by the offset. Args: aabb, x, y, z
 	 */
 	public static void renderOffsetAABB(AxisAlignedBB boundingBox, double x, double y, double z) {
-		GlStateManager.disableTexture2D();
+		G.disableTexture2D();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		worldrenderer.setTranslation(x, y, z);
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_NORMAL);
 		worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).normal(0.0F, 0.0F, -1.0F).endVertex();
@@ -262,7 +262,7 @@ public abstract class Render<T extends Entity> {
 		worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).normal(1.0F, 0.0F, 0.0F).endVertex();
 		tessellator.draw();
 		worldrenderer.setTranslation(0.0D, 0.0D, 0.0D);
-		GlStateManager.enableTexture2D();
+		G.enableTexture2D();
 	}
 
 	/**
@@ -296,17 +296,17 @@ public abstract class Render<T extends Entity> {
 			FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
 			float f = 1.6F;
 			float f1 = 0.016666668F * f;
-			GlStateManager.pushMatrix();
-			GlStateManager.translate((float) x + 0.0F, (float) y + entityIn.height + 0.5F, (float) z);
+			G.pushMatrix();
+			G.translate((float) x + 0.0F, (float) y + entityIn.height + 0.5F, (float) z);
 			GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-			GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-			GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-			GlStateManager.scale(-f1, -f1, f1);
-			GlStateManager.disableLighting();
-			GlStateManager.depthMask(false);
-			GlStateManager.disableDepth();
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			G.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+			G.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+			G.scale(-f1, -f1, f1);
+			G.disableLighting();
+			G.depthMask(false);
+			G.disableDepth();
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 771, 1, 0);
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 			byte b0 = 0;
@@ -314,22 +314,22 @@ public abstract class Render<T extends Entity> {
 			if (str.equals("deadmau5")) b0 = -10;
 
 			int i = fontrenderer.getStringWidth(str) / 2;
-			GlStateManager.disableTexture2D();
+			G.disableTexture2D();
 			worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 			worldrenderer.pos((double) (-i - 1), (double) (-1 + b0), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
 			worldrenderer.pos((double) (-i - 1), (double) (8 + b0), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
 			worldrenderer.pos((double) (i + 1), (double) (8 + b0), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
 			worldrenderer.pos((double) (i + 1), (double) (-1 + b0), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
 			tessellator.draw();
-			GlStateManager.enableTexture2D();
+			G.enableTexture2D();
 			fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, b0, 553648127);
-			GlStateManager.enableDepth();
-			GlStateManager.depthMask(true);
+			G.enableDepth();
+			G.depthMask(true);
 			fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, b0, -1);
-			GlStateManager.enableLighting();
-			GlStateManager.disableBlend();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.popMatrix();
+			G.enableLighting();
+			G.disableBlend();
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.popMatrix();
 		}
 	}
 

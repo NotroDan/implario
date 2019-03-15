@@ -16,8 +16,8 @@ public enum Key {
 
 	MINUS(12, "-", "Минус"),
 	EQUALS(13, "=", "Равно"),
-	BACKSPACE(14, ""),
-	TAB(15, "Tab"),
+	BACKSPACE(14, "\u232b", "Backspace"),
+	TAB(15, "\u21c6", "Tab"),
 
 	Q(16),
 	W(17),
@@ -51,12 +51,15 @@ public enum Key {
 	RCONTROL(157, "Ctrl", "Правый Ctrl"),
 	LALT(56, "Alt", "Левый Alt"),
 	RALT(184, "Alt", "Правый Alt"),
-	LSHIFT(42, "Shift", "Левый Shift"),
-	RSHIFT(54, "Shift", "Правый Shift"),
+	LSHIFT(42, "⇧", "Левый Shift"),
+	RSHIFT(54, "⇧", "Правый Shift"),
+	LWIN(219, "\uF8FF", "Левый Win"),
 	SPACE(57, " ", "Пробел"),
-	CAPS_LOCK(58, "Caps", "Caps Lock"),
-	NUM_LOCK(69, "Num", "Num Lock"),
-	SCROLL_LOCK(70, "Scroll", "Scroll Lock"),
+	CAPS_LOCK(58, "\u21ea", "Caps Lock"),
+	NUM_LOCK(69, "Num", "Num Lock", "num"),
+	SCROLL_LOCK(70, "Scroll", "Scroll Lock", "sl"),
+	MENU(184, "\u2263", "Menu"),
+	PRINTSCREEN(183, "ps", "PrintScreen"),
 
 	LEFT_BRACKET(26, "[", "Левая квадратная скобка"),
 	RIGHT_BRACKET(27, "]", "Правая квадратная скобка"),
@@ -81,8 +84,21 @@ public enum Key {
 	F11(87),
 	F12(88),
 
-	NUMPAD_MULTIPLY(55, "*", "NumPad-Умножение")
+	NUMPAD_MULTIPLY(55, "*", "NumPad-Умножение"),
 
+
+	INSERT(210, "ins", "Insert"),
+	HOME(199, "home", "Home", "hm"),
+	PAGE_UP(201, "pgup", "Page Up", "pgu"),
+	PAGE_DOWN(209, "pgdn", "Page Down", "pgd"),
+	DELETE(211, "del", "Delete"),
+	END(207, "end", "End"),
+	PAUSE(197, "pause", "Pause", "pb"),
+
+	ARROW_UP(200, "\u2191", "Вверх"),
+	ARROW_RIGHT(205, "\u2192", "Вправо"),
+	ARROW_LEFT(203, "\u2190", "Влево"),
+	ARROW_DOWN(208, "\u2193", "Вниз"),
 
 
 
@@ -91,11 +107,19 @@ public enum Key {
 
 	private final int key;
 	private final String caption, name;
+	private String shortAlternative;
 
 	Key(int key) {
 		this.key = key;
 		this.caption = toString();
 		this.name = toString();
+	}
+
+	Key(int key, String caption, String name, String shortAlternative) {
+		this.key = key;
+		this.caption = caption;
+		this.name = name;
+		this.shortAlternative = shortAlternative;
 	}
 
 	Key(int key, String caption) {
@@ -118,5 +142,9 @@ public enum Key {
 
 	public String getCaption() {
 		return caption;
+	}
+
+	public String getShortAlternative() {
+		return shortAlternative == null ? caption : shortAlternative;
 	}
 }

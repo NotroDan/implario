@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelGhast;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.util.ResourceLocation;
 
@@ -32,7 +32,7 @@ public class RenderGhast extends RenderLiving<EntityGhast>
         float f = 1.0F;
         float f1 = (8.0F + f) / 2.0F;
         float f2 = (8.0F + 1.0F / f) / 2.0F;
-        GlStateManager.scale(f2, f1, f2);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.scale(f2, f1, f2);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }

@@ -8,7 +8,7 @@ import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -274,10 +274,10 @@ public class GuiServers extends GuiScreen {
 		serverIp.drawTextBox();
 		MC.FR.drawString("IP-адрес сервера§c *", cw - 100, ch - 50, -1);
 		MC.FR.drawString("Название", cw - 100, ch - 15, -1);
-		GlStateManager.scale(2, 2, 2);
+		G.scale(2, 2, 2);
 		MC.FR.drawString("Добавить сервер", (cw - MC.FR.getStringWidth("Добавить сервер")) / 2,
 				(ch + addY) / 2 + 2, 0xffffe0e0);
-		GlStateManager.scale(0.5, 0.5, 0.5);
+		G.scale(0.5, 0.5, 0.5);
 	}
 	
 	private void drawForm(float p) {
@@ -370,7 +370,7 @@ public class GuiServers extends GuiScreen {
 			addBtnAnim = null;
 			openAdddingServerGui();
 		}
-		GlStateManager.color(1, 1, 1, 1);
+		G.color(1, 1, 1, 1);
 		if (addingServer) drawAddingServerGUI();
 	}
 	

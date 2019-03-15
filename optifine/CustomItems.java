@@ -15,7 +15,7 @@ import java.util.Properties;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -767,20 +767,20 @@ public class CustomItems
 							if (!flag)
 							{
 								flag = true;
-								GlStateManager.depthMask(false);
-								GlStateManager.depthFunc(514);
-								GlStateManager.disableLighting();
-								GlStateManager.matrixMode(5890);
+								G.depthMask(false);
+								G.depthFunc(514);
+								G.disableLighting();
+								G.matrixMode(5890);
 							}
 
 							Blender.setupBlend(customitemproperties.blend, 1.0F);
-							GlStateManager.pushMatrix();
-							GlStateManager.scale(f / 2.0F, f / 2.0F, f / 2.0F);
+							G.pushMatrix();
+							G.scale(f / 2.0F, f / 2.0F, f / 2.0F);
 							float f1 = customitemproperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-							GlStateManager.translate(f1, 0.0F, 0.0F);
-							GlStateManager.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
+							G.translate(f1, 0.0F, 0.0F);
+							G.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
 							p_renderCustomEffect_0_.renderModel(p_renderCustomEffect_2_, -1);
-							GlStateManager.popMatrix();
+							G.popMatrix();
 						}
 					}
 				}
@@ -789,14 +789,14 @@ public class CustomItems
 
 		if (flag)
 		{
-			GlStateManager.enableAlpha();
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(770, 771);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.matrixMode(5888);
-			GlStateManager.enableLighting();
-			GlStateManager.depthFunc(515);
-			GlStateManager.depthMask(true);
+			G.enableAlpha();
+			G.enableBlend();
+			G.blendFunc(770, 771);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.matrixMode(5888);
+			G.enableLighting();
+			G.depthFunc(515);
+			G.depthMask(true);
 			texturemanager.bindTexture(TextureMap.locationBlocksTexture);
 		}
 
@@ -860,21 +860,21 @@ public class CustomItems
 									ShadersRender.renderEnchantedGlintBegin();
 								}
 
-								GlStateManager.enableBlend();
-								GlStateManager.depthFunc(514);
-								GlStateManager.depthMask(false);
+								G.enableBlend();
+								G.depthFunc(514);
+								G.depthMask(false);
 							}
 
 							Blender.setupBlend(customitemproperties.blend, 1.0F);
-							GlStateManager.disableLighting();
-							GlStateManager.matrixMode(5890);
-							GlStateManager.loadIdentity();
-							GlStateManager.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
+							G.disableLighting();
+							G.matrixMode(5890);
+							G.loadIdentity();
+							G.rotate(customitemproperties.rotation, 0.0F, 0.0F, 1.0F);
 							float f1 = f / 8.0F;
-							GlStateManager.scale(f1, f1 / 2.0F, f1);
+							G.scale(f1, f1 / 2.0F, f1);
 							float f2 = customitemproperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-							GlStateManager.translate(0.0F, f2, 0.0F);
-							GlStateManager.matrixMode(5888);
+							G.translate(0.0F, f2, 0.0F);
+							G.matrixMode(5888);
 							p_renderCustomArmorEffect_2_.render(p_renderCustomArmorEffect_0_, p_renderCustomArmorEffect_3_, p_renderCustomArmorEffect_4_, p_renderCustomArmorEffect_6_, p_renderCustomArmorEffect_7_, p_renderCustomArmorEffect_8_, p_renderCustomArmorEffect_9_);
 						}
 					}
@@ -884,17 +884,17 @@ public class CustomItems
 
 		if (flag)
 		{
-			GlStateManager.enableAlpha();
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(770, 771);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.matrixMode(5890);
-			GlStateManager.loadIdentity();
-			GlStateManager.matrixMode(5888);
-			GlStateManager.enableLighting();
-			GlStateManager.depthMask(true);
-			GlStateManager.depthFunc(515);
-			GlStateManager.disableBlend();
+			G.enableAlpha();
+			G.enableBlend();
+			G.blendFunc(770, 771);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.matrixMode(5890);
+			G.loadIdentity();
+			G.matrixMode(5888);
+			G.enableLighting();
+			G.depthMask(true);
+			G.depthFunc(515);
+			G.disableBlend();
 
 			if (Config.isShaders())
 			{

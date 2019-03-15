@@ -3,7 +3,7 @@ package optifine;
 import java.nio.ByteBuffer;
 import java.util.Properties;
 import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -148,7 +148,7 @@ public class TextureAnimation
 			return false;
 		}
 		this.imageData.position(j);
-		GlStateManager.bindTexture(this.dstTextId);
+		G.bindTexture(this.dstTextId);
 		GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)this.imageData);
 		return true;
 	}

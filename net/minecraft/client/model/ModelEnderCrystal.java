@@ -1,6 +1,6 @@
 package net.minecraft.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.entity.Entity;
 
 public class ModelEnderCrystal extends ModelBase
@@ -32,28 +32,28 @@ public class ModelEnderCrystal extends ModelBase
      */
     public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale)
     {
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(2.0F, 2.0F, 2.0F);
-        GlStateManager.translate(0.0F, -0.5F, 0.0F);
+        G.pushMatrix();
+        G.scale(2.0F, 2.0F, 2.0F);
+        G.translate(0.0F, -0.5F, 0.0F);
 
         if (this.base != null)
         {
             this.base.render(scale);
         }
 
-        GlStateManager.rotate(p_78088_3_, 0.0F, 1.0F, 0.0F);
-        GlStateManager.translate(0.0F, 0.8F + p_78088_4_, 0.0F);
-        GlStateManager.rotate(60.0F, 0.7071F, 0.0F, 0.7071F);
+        G.rotate(p_78088_3_, 0.0F, 1.0F, 0.0F);
+        G.translate(0.0F, 0.8F + p_78088_4_, 0.0F);
+        G.rotate(60.0F, 0.7071F, 0.0F, 0.7071F);
         this.glass.render(scale);
         float f = 0.875F;
-        GlStateManager.scale(f, f, f);
-        GlStateManager.rotate(60.0F, 0.7071F, 0.0F, 0.7071F);
-        GlStateManager.rotate(p_78088_3_, 0.0F, 1.0F, 0.0F);
+        G.scale(f, f, f);
+        G.rotate(60.0F, 0.7071F, 0.0F, 0.7071F);
+        G.rotate(p_78088_3_, 0.0F, 1.0F, 0.0F);
         this.glass.render(scale);
-        GlStateManager.scale(f, f, f);
-        GlStateManager.rotate(60.0F, 0.7071F, 0.0F, 0.7071F);
-        GlStateManager.rotate(p_78088_3_, 0.0F, 1.0F, 0.0F);
+        G.scale(f, f, f);
+        G.rotate(60.0F, 0.7071F, 0.0F, 0.7071F);
+        G.rotate(p_78088_3_, 0.0F, 1.0F, 0.0F);
         this.cube.render(scale);
-        GlStateManager.popMatrix();
+        G.popMatrix();
     }
 }

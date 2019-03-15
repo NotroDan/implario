@@ -9,7 +9,7 @@ import io.netty.handler.codec.base64.Base64;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.EnumChatFormatting;
@@ -119,7 +119,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 			s1 = "Пингуем...";
 		}
 
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(Gui.icons);
 		Gui.drawModalRectWithCustomSizedTexture(x + listWidth - 15, y, (float) (k * 10), (float) (176 + l * 8), 10, 8, 256.0F, 256.0F);
 
@@ -147,7 +147,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 		if (isSelected) {
 			this.mc.getTextureManager().bindTexture(SERVER_SELECTION_BUTTONS);
 			Gui.drawRect(x, y, x + 32, y + 32, -1601138544);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			int k1 = mouseX - x;
 			int l1 = mouseY - y;
 
@@ -179,9 +179,9 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 
 	protected void func_178012_a(int p_178012_1_, int p_178012_2_, ResourceLocation p_178012_3_) {
 		this.mc.getTextureManager().bindTexture(p_178012_3_);
-		GlStateManager.enableBlend();
+		G.enableBlend();
 		Gui.drawModalRectWithCustomSizedTexture(p_178012_1_, p_178012_2_, 0.0F, 0.0F, 32, 32, 32.0F, 32.0F);
-		GlStateManager.disableBlend();
+		G.disableBlend();
 	}
 
 	private boolean func_178013_b() {

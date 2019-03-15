@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -224,12 +224,12 @@ public abstract class GuiSlot {
 		int i = this.getScrollBarX();
 		int j = i + 6;
 		this.bindAmountScrolled();
-		GlStateManager.disableLighting();
-		GlStateManager.disableFog();
+		G.disableLighting();
+		G.disableFog();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 //		float f = 32.0F;
 //		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 //		int scrolled = (int) this.amountScrolled;
@@ -246,15 +246,15 @@ public abstract class GuiSlot {
 		if (this.hasListHeader) this.drawListHeader(k, l, tessellator);
 
 		this.drawSelectionBox(k, l, mX, mY);
-		GlStateManager.disableDepth();
+		G.disableDepth();
 		int i1 = 4;
 		this.overlayBackground(0, this.top, 255, 255);
 		this.overlayBackground(this.bottom, this.height, 255, 255);
-		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
-		GlStateManager.disableAlpha();
-		GlStateManager.shadeModel(7425);
-		GlStateManager.disableTexture2D();
+		G.enableBlend();
+		G.tryBlendFuncSeparate(770, 771, 0, 1);
+		G.disableAlpha();
+		G.shadeModel(7425);
+		G.disableTexture2D();
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		worldrenderer.pos((double) this.left, (double) (this.top + i1), 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 0).endVertex();
 		worldrenderer.pos((double) this.right, (double) (this.top + i1), 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 0).endVertex();
@@ -299,10 +299,10 @@ public abstract class GuiSlot {
 		}
 
 		this.func_148142_b(mX, mY);
-		GlStateManager.enableTexture2D();
-		GlStateManager.shadeModel(7424);
-		GlStateManager.enableAlpha();
-		GlStateManager.disableBlend();
+		G.enableTexture2D();
+		G.shadeModel(7424);
+		G.enableAlpha();
+		G.disableBlend();
 	}
 
 	public void handleMouseInput() {
@@ -419,8 +419,8 @@ public abstract class GuiSlot {
 			if (this.showSelectionBox && this.isSelected(j)) {
 				int i1 = this.left + this.width / 2 - this.getListWidth() / 2;
 				int j1 = this.left + this.width / 2 + this.getListWidth() / 2;
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-				GlStateManager.disableTexture2D();
+				G.color(1.0F, 1.0F, 1.0F, 1.0F);
+				G.disableTexture2D();
 				worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 				worldrenderer.pos((double) i1, (double) (k + l + 2), 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
 				worldrenderer.pos((double) j1, (double) (k + l + 2), 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
@@ -431,7 +431,7 @@ public abstract class GuiSlot {
 				worldrenderer.pos((double) (j1 - 1), (double) (k - 1), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
 				worldrenderer.pos((double) (i1 + 1), (double) (k - 1), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
 				tessellator.draw();
-				GlStateManager.enableTexture2D();
+				G.enableTexture2D();
 			}
 
 			this.drawSlot(j, p_148120_1_, k, l, mouseXIn, mouseYIn);
@@ -449,7 +449,7 @@ public abstract class GuiSlot {
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		float f = 32.0F;
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		worldrenderer.pos((double) this.left, (double) endY, 0.0D).tex(0.0D, (double) ((float) endY / 32.0F)).color(64, 64, 64, endAlpha).endVertex();

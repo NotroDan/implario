@@ -1,6 +1,6 @@
 package net.minecraft.client.shader;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -46,7 +46,7 @@ public class Framebuffer
         }
         else
         {
-            GlStateManager.enableDepth();
+            G.enableDepth();
 
             if (this.framebufferObject >= 0)
             {
@@ -109,7 +109,7 @@ public class Framebuffer
             }
 
             this.setFramebufferFilter(9728);
-            GlStateManager.bindTexture(this.framebufferTexture);
+            G.bindTexture(this.framebufferTexture);
             GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, this.framebufferTextureWidth, this.framebufferTextureHeight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) (ByteBuffer)null);
             OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, this.framebufferObject);
             OpenGlHelper.glFramebufferTexture2D(OpenGlHelper.GL_FRAMEBUFFER, OpenGlHelper.GL_COLOR_ATTACHMENT0, 3553, this.framebufferTexture, 0);
@@ -131,12 +131,12 @@ public class Framebuffer
         if (OpenGlHelper.isFramebufferEnabled())
         {
             this.framebufferFilter = p_147607_1_;
-            GlStateManager.bindTexture(this.framebufferTexture);
+            G.bindTexture(this.framebufferTexture);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, (float)p_147607_1_);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, (float)p_147607_1_);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10496.0F);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10496.0F);
-            GlStateManager.bindTexture(0);
+            G.bindTexture(0);
         }
     }
 
@@ -170,7 +170,7 @@ public class Framebuffer
     {
         if (OpenGlHelper.isFramebufferEnabled())
         {
-            GlStateManager.bindTexture(this.framebufferTexture);
+            G.bindTexture(this.framebufferTexture);
         }
     }
 
@@ -178,7 +178,7 @@ public class Framebuffer
     {
         if (OpenGlHelper.isFramebufferEnabled())
         {
-            GlStateManager.bindTexture(0);
+            G.bindTexture(0);
         }
     }
 
@@ -190,7 +190,7 @@ public class Framebuffer
 
             if (p_147610_1_)
             {
-                GlStateManager.viewport(0, 0, this.framebufferWidth, this.framebufferHeight);
+                G.viewport(0, 0, this.framebufferWidth, this.framebufferHeight);
             }
         }
     }
@@ -220,27 +220,27 @@ public class Framebuffer
     {
         if (OpenGlHelper.isFramebufferEnabled())
         {
-            GlStateManager.colorMask(true, true, true, false);
-            GlStateManager.disableDepth();
-            GlStateManager.depthMask(false);
-            GlStateManager.matrixMode(5889);
-            GlStateManager.loadIdentity();
-            GlStateManager.ortho(0.0D, (double)p_178038_1_, (double)p_178038_2_, 0.0D, 1000.0D, 3000.0D);
-            GlStateManager.matrixMode(5888);
-            GlStateManager.loadIdentity();
-            GlStateManager.translate(0.0F, 0.0F, -2000.0F);
-            GlStateManager.viewport(0, 0, p_178038_1_, p_178038_2_);
-            GlStateManager.enableTexture2D();
-            GlStateManager.disableLighting();
-            GlStateManager.disableAlpha();
+            G.colorMask(true, true, true, false);
+            G.disableDepth();
+            G.depthMask(false);
+            G.matrixMode(5889);
+            G.loadIdentity();
+            G.ortho(0.0D, (double)p_178038_1_, (double)p_178038_2_, 0.0D, 1000.0D, 3000.0D);
+            G.matrixMode(5888);
+            G.loadIdentity();
+            G.translate(0.0F, 0.0F, -2000.0F);
+            G.viewport(0, 0, p_178038_1_, p_178038_2_);
+            G.enableTexture2D();
+            G.disableLighting();
+            G.disableAlpha();
 
             if (p_178038_3_)
             {
-                GlStateManager.disableBlend();
-                GlStateManager.enableColorMaterial();
+                G.disableBlend();
+                G.enableColorMaterial();
             }
 
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            G.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.bindFramebufferTexture();
             float f = (float)p_178038_1_;
             float f1 = (float)p_178038_2_;
@@ -255,24 +255,24 @@ public class Framebuffer
             worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, (double)f3).color(255, 255, 255, 255).endVertex();
             tessellator.draw();
             this.unbindFramebufferTexture();
-            GlStateManager.depthMask(true);
-            GlStateManager.colorMask(true, true, true, true);
+            G.depthMask(true);
+            G.colorMask(true, true, true, true);
         }
     }
 
     public void framebufferClear()
     {
         this.bindFramebuffer(true);
-        GlStateManager.clearColor(this.framebufferColor[0], this.framebufferColor[1], this.framebufferColor[2], this.framebufferColor[3]);
+        G.clearColor(this.framebufferColor[0], this.framebufferColor[1], this.framebufferColor[2], this.framebufferColor[3]);
         int i = 16384;
 
         if (this.useDepth)
         {
-            GlStateManager.clearDepth(1.0D);
+            G.clearDepth(1.0D);
             i |= 256;
         }
 
-        GlStateManager.clear(i);
+        G.clear(i);
         this.unbindFramebuffer();
     }
 }

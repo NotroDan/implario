@@ -8,7 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.Logger;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.resources.IResourceManager;
@@ -153,8 +153,8 @@ public class ShaderManager {
 
 		for (int i = 0; i < this.shaderSamplerLocations.size(); ++i) {
 			if (this.shaderSamplers.get(this.samplerNames.get(i)) != null) {
-				GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit + i);
-				GlStateManager.bindTexture(0);
+				G.setActiveTexture(OpenGlHelper.defaultTexUnit + i);
+				G.bindTexture(0);
 			}
 		}
 	}
@@ -170,15 +170,15 @@ public class ShaderManager {
 		}
 
 		if (this.useFaceCulling) {
-			GlStateManager.enableCull();
+			G.enableCull();
 		} else {
-			GlStateManager.disableCull();
+			G.disableCull();
 		}
 
 		for (int i = 0; i < this.shaderSamplerLocations.size(); ++i) {
 			if (this.shaderSamplers.get(this.samplerNames.get(i)) != null) {
-				GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit + i);
-				GlStateManager.enableTexture2D();
+				G.setActiveTexture(OpenGlHelper.defaultTexUnit + i);
+				G.enableTexture2D();
 				Object object = this.shaderSamplers.get(this.samplerNames.get(i));
 				int j = -1;
 
@@ -191,7 +191,7 @@ public class ShaderManager {
 				}
 
 				if (j != -1) {
-					GlStateManager.bindTexture(j);
+					G.bindTexture(j);
 					OpenGlHelper.glUniform1i(OpenGlHelper.glGetUniformLocation(this.program, this.samplerNames.get(i)), i);
 				}
 			}

@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.texture;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.data.AnimationMetadataSection;
@@ -722,7 +722,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
     public boolean isTextureBound()
     {
-        int i = GlStateManager.getBoundTexture();
+        int i = G.getBoundTexture();
         int j = this.getGlTextureId();
         return i == j;
     }

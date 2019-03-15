@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.tileentity;
 
 import net.minecraft.client.model.ModelSkeletonHead;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.projectile.EntityWitherSkull;
@@ -45,18 +45,18 @@ public class RenderWitherSkull extends Render<EntityWitherSkull>
      */
     public void doRender(EntityWitherSkull entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        GlStateManager.pushMatrix();
-        GlStateManager.disableCull();
+        G.pushMatrix();
+        G.disableCull();
         float f = this.func_82400_a(entity.prevRotationYaw, entity.rotationYaw, partialTicks);
         float f1 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
-        GlStateManager.translate((float)x, (float)y, (float)z);
+        G.translate((float)x, (float)y, (float)z);
         float f2 = 0.0625F;
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        GlStateManager.enableAlpha();
+        G.enableRescaleNormal();
+        G.scale(-1.0F, -1.0F, 1.0F);
+        G.enableAlpha();
         this.bindEntityTexture(entity);
         this.skeletonHeadModel.render(entity, 0.0F, 0.0F, 0.0F, f, f1, f2);
-        GlStateManager.popMatrix();
+        G.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 

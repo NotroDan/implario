@@ -1,6 +1,6 @@
 package net.minecraft.client.gui.element;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,10 +45,12 @@ public class Animator {
 				if (reverse) f = 1 - f;
 				float x = (1 - f) * startX;
 				float y = (1 - f) * startY;
-				GlStateManager.translate(x, y, 0);
-				boolean expired = anim.draw(f);
+				G.translate(x, y, 0);
+				float rawF = (float) (currentTime - startTime) / (float) anim.getTime();
+				boolean expired = rawF >= 1;
+				anim.draw(f);
 				if (expired) e = true;
-				GlStateManager.translate(-x, -y, 0);
+				G.translate(-x, -y, 0);
 			}
 			return e;
 		}

@@ -109,7 +109,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 
 		if (flag1) {
 			worldrenderer.setBlockLayer(null);
-			GlStateManager.bindCurrentTexture();
+			G.bindCurrentTexture();
 		}
 	}
 
@@ -118,21 +118,21 @@ public class RenderItem implements IResourceManagerReloadListener {
 	}
 	public void renderItem(ItemStack stack, IBakedModel model, float scale) {
 		if (stack != null) {
-			GlStateManager.pushMatrix();
-			GlStateManager.scale(scale, scale, scale);
+			G.pushMatrix();
+			G.scale(scale, scale, scale);
 
 			if (model.isBuiltInRenderer()) {
-				GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-				GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-				GlStateManager.enableRescaleNormal();
+				G.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+				G.translate(-0.5F, -0.5F, -0.5F);
+				G.color(1.0F, 1.0F, 1.0F, 1.0F);
+				G.enableRescaleNormal();
 				TileEntityItemStackRenderer.instance.renderByItem(stack);
 			} else {
 				if (Config.isCustomItems()) {
 					model = CustomItems.getCustomItemModel(stack, model, this.modelLocation);
 				}
 
-				GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+				G.translate(-0.5F, -0.5F, -0.5F);
 				this.renderModel(model, stack);
 
 				if (stack.hasEffect() && (!Config.isCustomItems() || !CustomItems.renderCustomEffect(this, stack, model))) {
@@ -140,43 +140,43 @@ public class RenderItem implements IResourceManagerReloadListener {
 				}
 			}
 
-			GlStateManager.popMatrix();
+			G.popMatrix();
 		}
 	}
 
 	private void renderEffect(IBakedModel model) {
 		if (!Config.isCustomItems() || CustomItems.isUseGlint()) {
 			if (!Config.isShaders() || !Shaders.isShadowPass) {
-				GlStateManager.depthMask(false);
-				GlStateManager.depthFunc(514);
-				GlStateManager.disableLighting();
-				GlStateManager.blendFunc(768, 1);
+				G.depthMask(false);
+				G.depthFunc(514);
+				G.disableLighting();
+				G.blendFunc(768, 1);
 				this.textureManager.bindTexture(RES_ITEM_GLINT);
 
 				if (Config.isShaders() && !this.renderItemGui) {
 					ShadersRender.renderEnchantedGlintBegin();
 				}
 
-				GlStateManager.matrixMode(5890);
-				GlStateManager.pushMatrix();
-				GlStateManager.scale(8.0F, 8.0F, 8.0F);
+				G.matrixMode(5890);
+				G.pushMatrix();
+				G.scale(8.0F, 8.0F, 8.0F);
 				float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-				GlStateManager.translate(f, 0.0F, 0.0F);
-				GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
+				G.translate(f, 0.0F, 0.0F);
+				G.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
 				this.renderModel(model, -8372020);
-				GlStateManager.popMatrix();
-				GlStateManager.pushMatrix();
-				GlStateManager.scale(8.0F, 8.0F, 8.0F);
+				G.popMatrix();
+				G.pushMatrix();
+				G.scale(8.0F, 8.0F, 8.0F);
 				float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
-				GlStateManager.translate(-f1, 0.0F, 0.0F);
-				GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
+				G.translate(-f1, 0.0F, 0.0F);
+				G.rotate(10.0F, 0.0F, 0.0F, 1.0F);
 				this.renderModel(model, -8372020);
-				GlStateManager.popMatrix();
-				GlStateManager.matrixMode(5888);
-				GlStateManager.blendFunc(770, 771);
-				GlStateManager.enableLighting();
-				GlStateManager.depthFunc(515);
-				GlStateManager.depthMask(true);
+				G.popMatrix();
+				G.matrixMode(5888);
+				G.blendFunc(770, 771);
+				G.enableLighting();
+				G.depthFunc(515);
+				G.depthMask(true);
 				this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
 
 				if (Config.isShaders() && !this.renderItemGui) {
@@ -239,10 +239,10 @@ public class RenderItem implements IResourceManagerReloadListener {
 			boolean flag = ibakedmodel.isGui3d();
 
 			if (!flag) {
-				GlStateManager.scale(2.0F, 2.0F, 2.0F);
+				G.scale(2.0F, 2.0F, 2.0F);
 			}
 
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		}
 	}
 
@@ -292,24 +292,24 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
 		this.textureManager.getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
 		this.preTransform(stack);
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.alphaFunc(516, 0.1F);
-		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-		GlStateManager.pushMatrix();
+		G.enableRescaleNormal();
+		G.alphaFunc(516, 0.1F);
+		G.enableBlend();
+		G.tryBlendFuncSeparate(770, 771, 1, 0);
+		G.pushMatrix();
 
 		ItemCameraTransforms itemcameratransforms = model.getItemCameraTransforms();
 		itemcameratransforms.applyTransform(cameraTransformType);
 
 		if (this.func_183005_a(itemcameratransforms.getTransform(cameraTransformType))) {
-			GlStateManager.cullFace(1028);
+			G.cullFace(1028);
 		}
 
 		this.renderItem(stack, model);
-		GlStateManager.cullFace(1029);
-		GlStateManager.popMatrix();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.disableBlend();
+		G.cullFace(1029);
+		G.popMatrix();
+		G.disableRescaleNormal();
+		G.disableBlend();
 		this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
 		this.textureManager.getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
 	}
@@ -324,43 +324,43 @@ public class RenderItem implements IResourceManagerReloadListener {
 	public void renderItemIntoGUI(ItemStack stack, int x, int y, float scale) {
 		this.renderItemGui = true;
 		IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);
-		GlStateManager.pushMatrix();
+		G.pushMatrix();
 		this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
 		this.textureManager.getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableAlpha();
-		GlStateManager.alphaFunc(0x204, 0.1f);
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(0x302, 0x303);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.enableRescaleNormal();
+		G.enableAlpha();
+		G.alphaFunc(0x204, 0.1f);
+		G.enableBlend();
+		G.blendFunc(0x302, 0x303);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
 		ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
 
 		this.renderItem(stack, ibakedmodel, scale);
-		GlStateManager.disableAlpha();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.disableLighting();
-		GlStateManager.popMatrix();
+		G.disableAlpha();
+		G.disableRescaleNormal();
+		G.disableLighting();
+		G.popMatrix();
 		this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
 		this.textureManager.getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
 		this.renderItemGui = false;
 	}
 
 	private void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d) {
-		GlStateManager.translate((float) xPosition, (float) yPosition, 100.0F + this.zLevel);
-		GlStateManager.translate(8.0F, 8.0F, 0.0F);
-		GlStateManager.scale(1.0F, 1.0F, -1.0F);
-		GlStateManager.scale(0.5F, 0.5F, 0.5F);
+		G.translate((float) xPosition, (float) yPosition, 100.0F + this.zLevel);
+		G.translate(8.0F, 8.0F, 0.0F);
+		G.scale(1.0F, 1.0F, -1.0F);
+		G.scale(0.5F, 0.5F, 0.5F);
 
 		if (isGui3d) {
-			GlStateManager.scale(40.0F, 40.0F, 40.0F);
-			GlStateManager.rotate(210.0F, 1.0F, 0.0F, 0.0F);
-			GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-			GlStateManager.enableLighting();
+			G.scale(40.0F, 40.0F, 40.0F);
+			G.rotate(210.0F, 1.0F, 0.0F, 0.0F);
+			G.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
+			G.enableLighting();
 		} else {
-			GlStateManager.scale(64.0F, 64.0F, 64.0F);
-			GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
-			GlStateManager.disableLighting();
+			G.scale(64.0F, 64.0F, 64.0F);
+			G.rotate(180.0F, 1.0F, 0.0F, 0.0F);
+			G.disableLighting();
 		}
 	}
 
@@ -400,34 +400,34 @@ public class RenderItem implements IResourceManagerReloadListener {
 				s = EnumChatFormatting.RED + String.valueOf(stack.stackSize);
 			}
 
-			GlStateManager.disableLighting();
-			GlStateManager.disableDepth();
-			GlStateManager.disableBlend();
+			G.disableLighting();
+			G.disableDepth();
+			G.disableBlend();
 			fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
-			GlStateManager.enableLighting();
-			GlStateManager.enableDepth();
+			G.enableLighting();
+			G.enableDepth();
 		}
 
 		if (!stack.isItemDamaged()) return;
 		int i = (int) Math.round(13.0D - (double) stack.getItemDamage() * 13.0D / (double) stack.getMaxDamage());
 		int j = (int) Math.round(255.0D - (double) stack.getItemDamage() * 255.0D / (double) stack.getMaxDamage());
 
-		GlStateManager.disableLighting();
-		GlStateManager.disableDepth();
-		GlStateManager.disableTexture2D();
-		GlStateManager.disableAlpha();
-		GlStateManager.disableBlend();
+		G.disableLighting();
+		G.disableDepth();
+		G.disableTexture2D();
+		G.disableAlpha();
+		G.disableBlend();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 13, 2, 0, 0, 0, 255);
 		this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 12, 1, (255 - j) / 4, 64, 0, 255);
 		this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, i, 1, 255 - j, j, 0, 255);
 
-		GlStateManager.enableBlend();
-		GlStateManager.enableAlpha();
-		GlStateManager.enableTexture2D();
-		GlStateManager.enableLighting();
-		GlStateManager.enableDepth();
+		G.enableBlend();
+		G.enableAlpha();
+		G.enableTexture2D();
+		G.enableLighting();
+		G.enableDepth();
 	}
 
 	private void func_181565_a(WorldRenderer p_181565_1_, int p_181565_2_, int p_181565_3_, int p_181565_4_, int p_181565_5_, int p_181565_6_, int p_181565_7_, int p_181565_8_, int p_181565_9_) {

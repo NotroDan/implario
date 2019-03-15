@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiLabel;
 import net.minecraft.client.gui.element.VolumeSlider;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -189,10 +189,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 */
 	public void drawHoveringText(List<String> textLines, int x, int y, int textWidth, int backgroundColor, int stripColor) {
 		if (textLines.isEmpty()) return;
-		GlStateManager.disableDepth();
-		GlStateManager.disableRescaleNormal();
+		G.disableDepth();
+		G.disableRescaleNormal();
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableLighting();
+		G.disableLighting();
 		// Ширина рамки по самой длинной строке
 		if (textWidth < 0) for (String s : textLines) {
 			int j = this.fontRendererObj.getStringWidth(s);
@@ -240,7 +240,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 //		GlStateManager.enableLighting();
 //		RenderHelper.enableStandardItemLighting();
 //		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableDepth();
+		G.enableDepth();
 	}
 
 	protected void drawHoveringText(List<String> textLines, int x, int y) {
@@ -319,7 +319,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 				break;
 		}
 
-		GlStateManager.disableLighting();
+		G.disableLighting();
 	}
 
 	/**
@@ -545,12 +545,12 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 * Draws the background (i is always 0 as of 1.2.2)
 	 */
 	public void drawBackground(int tint) {
-		GlStateManager.disableLighting();
-		GlStateManager.disableFog();
+		G.disableLighting();
+		G.disableFog();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		this.mc.getTextureManager().bindTexture(optionsBackground);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		float f = 32.0F;
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		worldrenderer.pos(0.0D, (double) this.height, 0.0D).tex(0.0D, (double) ((float) this.height / 32.0F + (float) tint)).color(64, 64, 64, 255).endVertex();

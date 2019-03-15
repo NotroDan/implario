@@ -5,7 +5,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.MathHelper;
@@ -102,7 +102,7 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 					this.displayString = this.field_146152_s + ": " + GuiScreenOptionsSounds.this.getSoundVolume(this.field_146153_r);
 				}
 
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				G.color(1.0F, 1.0F, 1.0F, 1.0F);
 				this.drawTexturedModalRect(this.xPosition + (int) (this.field_146156_o * (float) (this.width - 8)), this.yPosition, 0, 66, 4, 20);
 				this.drawTexturedModalRect(this.xPosition + (int) (this.field_146156_o * (float) (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
 			}

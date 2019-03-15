@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import optifine.Config;
 import shadersmod.client.Shaders;
 
@@ -109,9 +108,9 @@ public abstract class RenderLiving<T extends EntityLiving> extends RendererLivin
                 double d13 = (double) (float)(d6 - d10);
                 double d14 = (double) (float)(d7 - d11);
                 double d15 = (double) (float)(d8 - d12);
-                GlStateManager.disableTexture2D();
-                GlStateManager.disableLighting();
-                GlStateManager.disableCull();
+                G.disableTexture2D();
+                G.disableLighting();
+                G.disableCull();
 
                 if (Config.isShaders())
                 {
@@ -168,9 +167,9 @@ public abstract class RenderLiving<T extends EntityLiving> extends RendererLivin
                     Shaders.endLeash();
                 }
 
-                GlStateManager.enableLighting();
-                GlStateManager.enableTexture2D();
-                GlStateManager.enableCull();
+                G.enableLighting();
+                G.enableTexture2D();
+                G.enableCull();
             }
         }
     }

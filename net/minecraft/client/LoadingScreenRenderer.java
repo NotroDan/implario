@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -60,21 +60,21 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 		this.currentlyDisplayedText = message;
 		
 		if (isStateInvalid()) return;
-		GlStateManager.clear(256);
-		GlStateManager.matrixMode(5889);
-		GlStateManager.loadIdentity();
+		G.clear(256);
+		G.matrixMode(5889);
+		G.loadIdentity();
 		
 		if (OpenGlHelper.isFramebufferEnabled()) {
 			int i = this.scaledResolution.getScaleFactor();
-			GlStateManager.ortho(0.0D, (double) (this.scaledResolution.getScaledWidth() * i), (double) (this.scaledResolution.getScaledHeight() * i), 0.0D, 100.0D, 300.0D);
+			G.ortho(0.0D, (double) (this.scaledResolution.getScaledWidth() * i), (double) (this.scaledResolution.getScaledHeight() * i), 0.0D, 100.0D, 300.0D);
 		} else {
 			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-			GlStateManager.ortho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
+			G.ortho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
 		}
 		
-		GlStateManager.matrixMode(5888);
-		GlStateManager.loadIdentity();
-		GlStateManager.translate(0.0F, 0.0F, -200.0F);
+		G.matrixMode(5888);
+		G.loadIdentity();
+		G.translate(0.0F, 0.0F, -200.0F);
 	}
 	
 	/**
@@ -105,19 +105,19 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 			if (OpenGlHelper.isFramebufferEnabled()) {
 				this.framebuffer.framebufferClear();
 			} else {
-				GlStateManager.clear(256);
+				G.clear(256);
 			}
 			
 			this.framebuffer.bindFramebuffer(false);
-			GlStateManager.matrixMode(5889);
-			GlStateManager.loadIdentity();
-			GlStateManager.ortho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
-			GlStateManager.matrixMode(5888);
-			GlStateManager.loadIdentity();
-			GlStateManager.translate(0.0F, 0.0F, -200.0F);
+			G.matrixMode(5889);
+			G.loadIdentity();
+			G.ortho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
+			G.matrixMode(5888);
+			G.loadIdentity();
+			G.translate(0.0F, 0.0F, -200.0F);
 			
 			if (!OpenGlHelper.isFramebufferEnabled()) {
-				GlStateManager.clear(16640);
+				G.clear(16640);
 			}
 			
 			Tessellator tessellator = Tessellator.getInstance();
@@ -136,7 +136,7 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 				int j1 = 2;
 				int k1 = k / 2 - i1 / 2;
 				int l1 = l / 2 + 16;
-				GlStateManager.disableTexture2D();
+				G.disableTexture2D();
 				worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 				worldrenderer.pos((double) k1, (double) l1, 0.0D).color(128, 128, 128, 255).endVertex();
 				worldrenderer.pos((double) k1, (double) (l1 + j1), 0.0D).color(128, 128, 128, 255).endVertex();
@@ -147,11 +147,11 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 				worldrenderer.pos((double) (k1 + progress), (double) (l1 + j1), 0.0D).color(128, 255, 128, 255).endVertex();
 				worldrenderer.pos((double) (k1 + progress), (double) l1, 0.0D).color(128, 255, 128, 255).endVertex();
 				tessellator.draw();
-				GlStateManager.enableTexture2D();
+				G.enableTexture2D();
 			}
 			
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			G.enableBlend();
+			G.tryBlendFuncSeparate(770, 771, 1, 0);
 			this.mc.fontRendererObj.drawStringWithShadow(this.currentlyDisplayedText, (float) ((k - this.mc.fontRendererObj.getStringWidth(this.currentlyDisplayedText)) / 2), (float) (l / 2 - 4 - 16), 16777215);
 			this.mc.fontRendererObj.drawStringWithShadow(this.message, (float) ((k - this.mc.fontRendererObj.getStringWidth(this.message)) / 2), (float) (l / 2 - 4 + 8), 16777215);
 			this.framebuffer.unbindFramebuffer();

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockPart;
 import net.minecraft.client.renderer.block.model.BlockPartFace;
@@ -794,10 +794,10 @@ public class CustomItemProperties
             {
                 ITextureObject itextureobject = p_getTextureWidth_1_.getTexture(this.textureLocation);
                 int i = itextureobject.getGlTextureId();
-                int j = GlStateManager.getBoundTexture();
-                GlStateManager.bindTexture(i);
+                int j = G.getBoundTexture();
+                G.bindTexture(i);
                 this.textureWidth = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
-                GlStateManager.bindTexture(j);
+                G.bindTexture(j);
             }
 
             if (this.textureWidth <= 0)
@@ -817,10 +817,10 @@ public class CustomItemProperties
             {
                 ITextureObject itextureobject = p_getTextureHeight_1_.getTexture(this.textureLocation);
                 int i = itextureobject.getGlTextureId();
-                int j = GlStateManager.getBoundTexture();
-                GlStateManager.bindTexture(i);
+                int j = G.getBoundTexture();
+                G.bindTexture(i);
                 this.textureHeight = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
-                GlStateManager.bindTexture(j);
+                G.bindTexture(j);
             }
 
             if (this.textureHeight <= 0)

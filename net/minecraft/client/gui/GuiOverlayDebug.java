@@ -7,7 +7,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
@@ -39,11 +39,11 @@ public class GuiOverlayDebug extends Gui
 	public void renderDebugInfo(ScaledResolution scaledResolutionIn)
 	{
 		Profiler.in.startSection("debug");
-		GlStateManager.pushMatrix();
+		G.pushMatrix();
 		this.renderDebugInfoLeft();
 		this.renderDebugInfoRight(scaledResolutionIn);
 		this.renderDebugInfoCenter(scaledResolutionIn);
-		GlStateManager.popMatrix();
+		G.popMatrix();
 		Profiler.in.endSection();
 	}
 
@@ -230,7 +230,7 @@ public class GuiOverlayDebug extends Gui
 
 	private void func_181554_e()
 	{
-		GlStateManager.disableDepth();
+		G.disableDepth();
 		FrameTimer frametimer = this.mc.func_181539_aj();
 		int i = frametimer.func_181749_a();
 		int j = frametimer.func_181750_b();
@@ -262,7 +262,7 @@ public class GuiOverlayDebug extends Gui
 		if (Settings.FRAMERATE_LIMIT.f() <= 120)
 			this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 60 + (int) Settings.FRAMERATE_LIMIT.f() / 2, -16711681);
 
-		GlStateManager.enableDepth();
+		G.enableDepth();
 	}
 
 	private int func_181552_c(int p_181552_1_, int p_181552_2_, int p_181552_3_, int p_181552_4_)

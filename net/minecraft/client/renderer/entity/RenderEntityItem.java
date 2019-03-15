@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.model.IBakedModel;
@@ -36,21 +36,21 @@ public class RenderEntityItem extends Render<EntityItem> {
 		float f = 0.25F;
 		float f1 = MathHelper.sin(((float) itemIn.getAge() + p_177077_8_) / 10.0F + itemIn.hoverStart) * 0.1F + 0.1F;
 		float f2 = p_177077_9_.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
-		GlStateManager.translate((float) p_177077_2_, (float) p_177077_4_ + f1 + 0.25F * f2, (float) p_177077_6_);
+		G.translate((float) p_177077_2_, (float) p_177077_4_ + f1 + 0.25F * f2, (float) p_177077_6_);
 
 		if (flag) {
 			float f3 = (((float) itemIn.getAge() + p_177077_8_) / 20.0F + itemIn.hoverStart) * (180F / (float) Math.PI);
-			GlStateManager.rotate(f3, 0.0F, 1.0F, 0.0F);
+			G.rotate(f3, 0.0F, 1.0F, 0.0F);
 		}
 
 		if (!flag) {
 			float f6 = -0.0F * (float) (i - 1) * 0.5F;
 			float f4 = -0.0F * (float) (i - 1) * 0.5F;
 			float f5 = -0.046875F * (float) (i - 1) * 0.5F;
-			GlStateManager.translate(f6, f4, f5);
+			G.translate(f6, f4, f5);
 		}
 
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		return i;
 	}
 
@@ -86,44 +86,44 @@ public class RenderEntityItem extends Render<EntityItem> {
 			flag = true;
 		}
 
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.alphaFunc(516, 0.1F);
-		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-		GlStateManager.pushMatrix();
+		G.enableRescaleNormal();
+		G.alphaFunc(516, 0.1F);
+		G.enableBlend();
+		G.tryBlendFuncSeparate(770, 771, 1, 0);
+		G.pushMatrix();
 		IBakedModel ibakedmodel = this.itemRenderer.getItemModelMesher().getItemModel(itemstack);
 		int i = this.func_177077_a(entity, x, y, z, partialTicks, ibakedmodel);
 
 		for (int j = 0; j < i; ++j) {
 			if (ibakedmodel.isGui3d()) {
-				GlStateManager.pushMatrix();
+				G.pushMatrix();
 
 				if (j > 0) {
 					float f = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
 					float f1 = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
 					float f2 = (this.field_177079_e.nextFloat() * 2.0F - 1.0F) * 0.15F;
-					GlStateManager.translate(f, f1, f2);
+					G.translate(f, f1, f2);
 				}
 
-				GlStateManager.scale(0.5F, 0.5F, 0.5F);
+				G.scale(0.5F, 0.5F, 0.5F);
 				ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
 				this.itemRenderer.renderItem(itemstack, ibakedmodel);
-				GlStateManager.popMatrix();
+				G.popMatrix();
 			} else {
-				GlStateManager.pushMatrix();
+				G.pushMatrix();
 				ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GROUND);
 				this.itemRenderer.renderItem(itemstack, ibakedmodel);
-				GlStateManager.popMatrix();
+				G.popMatrix();
 				float f3 = ibakedmodel.getItemCameraTransforms().ground.scale.x;
 				float f4 = ibakedmodel.getItemCameraTransforms().ground.scale.y;
 				float f5 = ibakedmodel.getItemCameraTransforms().ground.scale.z;
-				GlStateManager.translate(0.0F * f3, 0.0F * f4, 0.046875F * f5);
+				G.translate(0.0F * f3, 0.0F * f4, 0.046875F * f5);
 			}
 		}
 
-		GlStateManager.popMatrix();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.disableBlend();
+		G.popMatrix();
+		G.disableRescaleNormal();
+		G.disableBlend();
 		this.bindEntityTexture(entity);
 
 		if (flag) {

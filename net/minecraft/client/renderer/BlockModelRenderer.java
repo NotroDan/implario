@@ -408,7 +408,7 @@ public class BlockModelRenderer {
 	public void renderModelBrightness(IBakedModel p_178266_1_, IBlockState p_178266_2_, float p_178266_3_, boolean p_178266_4_) {
 		Block block = p_178266_2_.getBlock();
 		block.setBlockBoundsForItemRender();
-		GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
+		G.rotate(90.0F, 0.0F, 1.0F, 0.0F);
 		int i = block.getRenderColor(block.getStateForEntityRender(p_178266_2_));
 
 		float f = (float) (i >> 16 & 255) / 255.0F;
@@ -416,7 +416,7 @@ public class BlockModelRenderer {
 		float f2 = (float) (i & 255) / 255.0F;
 
 		if (!p_178266_4_) {
-			GlStateManager.color(p_178266_3_, p_178266_3_, p_178266_3_, 1.0F);
+			G.color(p_178266_3_, p_178266_3_, p_178266_3_, 1.0F);
 		}
 
 		this.renderModelBrightnessColor(p_178266_1_, p_178266_3_, f, f1, f2);

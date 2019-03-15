@@ -3,7 +3,7 @@ package net.minecraft.client.sudoku;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 
 public class Cell {
 
@@ -34,9 +34,9 @@ public class Cell {
 				gui.drawCenteredString(MC.getFontRenderer(), String.valueOf(v + 1), ax + w * (v % 3) + 5, ay + w * (v / 3), 0xffa0a0a0);
 			}
 		} else {
-			GlStateManager.scale(4, 4, 4);
+			G.scale(4, 4, 4);
 			gui.drawCenteredString(MC.getFontRenderer(), String.valueOf(value), (int) ((float) ax / 4 + (float) size / 8f + 1f), ay / 4, preset ? -1 : 0x30ee30);
-			GlStateManager.scale(0.25, 0.25, 0.25);
+			G.scale(0.25, 0.25, 0.25);
 		}
 	}
 

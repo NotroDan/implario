@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelHumanoidHead;
 import net.minecraft.client.model.ModelSkeletonHead;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,11 +46,11 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
         if (p_180543_8_ >= 0)
         {
             this.bindTexture(DESTROY_STAGES[p_180543_8_]);
-            GlStateManager.matrixMode(5890);
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(4.0F, 2.0F, 1.0F);
-            GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
-            GlStateManager.matrixMode(5888);
+            G.matrixMode(5890);
+            G.pushMatrix();
+            G.scale(4.0F, 2.0F, 1.0F);
+            G.translate(0.0625F, 0.0625F, 0.0625F);
+            G.matrixMode(5888);
         }
         else
         {
@@ -98,50 +98,50 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
             }
         }
 
-        GlStateManager.pushMatrix();
-        GlStateManager.disableCull();
+        G.pushMatrix();
+        G.disableCull();
 
         if (p_180543_4_ != EnumFacing.UP)
         {
             switch (p_180543_4_)
             {
                 case NORTH:
-                    GlStateManager.translate(p_180543_1_ + 0.5F, p_180543_2_ + 0.25F, p_180543_3_ + 0.74F);
+                    G.translate(p_180543_1_ + 0.5F, p_180543_2_ + 0.25F, p_180543_3_ + 0.74F);
                     break;
 
                 case SOUTH:
-                    GlStateManager.translate(p_180543_1_ + 0.5F, p_180543_2_ + 0.25F, p_180543_3_ + 0.26F);
+                    G.translate(p_180543_1_ + 0.5F, p_180543_2_ + 0.25F, p_180543_3_ + 0.26F);
                     p_180543_5_ = 180.0F;
                     break;
 
                 case WEST:
-                    GlStateManager.translate(p_180543_1_ + 0.74F, p_180543_2_ + 0.25F, p_180543_3_ + 0.5F);
+                    G.translate(p_180543_1_ + 0.74F, p_180543_2_ + 0.25F, p_180543_3_ + 0.5F);
                     p_180543_5_ = 270.0F;
                     break;
 
                 case EAST:
                 default:
-                    GlStateManager.translate(p_180543_1_ + 0.26F, p_180543_2_ + 0.25F, p_180543_3_ + 0.5F);
+                    G.translate(p_180543_1_ + 0.26F, p_180543_2_ + 0.25F, p_180543_3_ + 0.5F);
                     p_180543_5_ = 90.0F;
             }
         }
         else
         {
-            GlStateManager.translate(p_180543_1_ + 0.5F, p_180543_2_, p_180543_3_ + 0.5F);
+            G.translate(p_180543_1_ + 0.5F, p_180543_2_, p_180543_3_ + 0.5F);
         }
 
         float f = 0.0625F;
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        GlStateManager.enableAlpha();
+        G.enableRescaleNormal();
+        G.scale(-1.0F, -1.0F, 1.0F);
+        G.enableAlpha();
         modelbase.render((Entity)null, 0.0F, 0.0F, 0.0F, p_180543_5_, 0.0F, f);
-        GlStateManager.popMatrix();
+        G.popMatrix();
 
         if (p_180543_8_ >= 0)
         {
-            GlStateManager.matrixMode(5890);
-            GlStateManager.popMatrix();
-            GlStateManager.matrixMode(5888);
+            G.matrixMode(5890);
+            G.popMatrix();
+            G.matrixMode(5888);
         }
     }
 }

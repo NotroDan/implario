@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.*;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -89,7 +89,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.GUI_SCALE, x1, y += 22),
 				createButton(Settings.SLOT_GRID, x2, y),
 				createButton(Settings.MODERN_INVENTORIES, x1, y += 22),
-				createButton(Settings.FINE_EFFECTS, x2, y)
+				createButton(Settings.FINE_EFFECTS, x2, y),
+				createButton(Settings.USE_FULLSCREEN, x1, y += 22)
 				);
 
 		y = tabs.y;
@@ -294,21 +295,21 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 	}
 
 	public void drawPlayer(int posX, int posY, int scale, float mouseX, float mouseY, EntityLivingBase ent) {
-		GlStateManager.enableColorMaterial();
-		GlStateManager.pushMatrix();
-		GlStateManager.translate((float) posX, (float) posY, 100.0F);
-		GlStateManager.scale((float) -scale, (float) scale, (float) scale);
+		G.enableColorMaterial();
+		G.pushMatrix();
+		G.translate((float) posX, (float) posY, 100.0F);
+		G.scale((float) -scale, (float) scale, (float) scale);
 //		GlStateManager.rotate(-30, 1, 0, 1);
-		GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-		GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
+		G.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+		G.rotate(90.0F, 0.0F, 1.0F, 0.0F);
 		float f = ent.renderYawOffset;
 		float f1 = ent.rotationYaw;
 		float f2 = ent.rotationPitch;
 		float f3 = ent.prevRotationYawHead;
 		float f4 = ent.rotationYawHead;
-		GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
+		G.rotate(135.0F, 0.0F, 1.0F, 0.0F);
 		RenderHelper.enableStandardItemLighting();
-		GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
+		G.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
 //		GlStateManager.rotate(-((float) Math.atan((double) (mouseY / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
 		ent.renderYawOffset = mouseX % 360.0F;
 //		ent.renderYawOffset = (float) Math.atan((double) (mouseX / 40.0F)) * 20.0F;
@@ -317,7 +318,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		ent.rotationPitch = -((float) Math.atan((double) (mouseY / 40.0F))) * 20.0F;
 		ent.rotationYawHead = ent.rotationYaw;
 		ent.prevRotationYawHead = ent.rotationYaw;
-		GlStateManager.translate(0.0F, 0.0F, 0.0F);
+		G.translate(0.0F, 0.0F, 0.0F);
 		RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
 		rendermanager.setPlayerViewY(180.0F);
 		rendermanager.setRenderShadow(false);
@@ -328,12 +329,12 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		ent.rotationPitch = f2;
 		ent.prevRotationYawHead = f3;
 		ent.rotationYawHead = f4;
-		GlStateManager.popMatrix();
+		G.popMatrix();
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-		GlStateManager.disableTexture2D();
-		GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+		G.disableRescaleNormal();
+		G.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+		G.disableTexture2D();
+		G.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
 	}
 

@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.init.Blocks;
@@ -128,19 +128,19 @@ public class GuiEditSign extends GuiScreen
     {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, Lang.format("sign.edit", new Object[0]), this.width / 2, 40, 16777215);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float)(this.width / 2), 0.0F, 50.0F);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.pushMatrix();
+        G.translate((float)(this.width / 2), 0.0F, 50.0F);
         float f = 93.75F;
-        GlStateManager.scale(-f, -f, -f);
-        GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+        G.scale(-f, -f, -f);
+        G.rotate(180.0F, 0.0F, 1.0F, 0.0F);
         Block block = this.tileSign.getBlockType();
 
         if (block == Blocks.standing_sign)
         {
             float f1 = (float)(this.tileSign.getBlockMetadata() * 360) / 16.0F;
-            GlStateManager.rotate(f1, 0.0F, 1.0F, 0.0F);
-            GlStateManager.translate(0.0F, -1.0625F, 0.0F);
+            G.rotate(f1, 0.0F, 1.0F, 0.0F);
+            G.translate(0.0F, -1.0625F, 0.0F);
         }
         else
         {
@@ -162,8 +162,8 @@ public class GuiEditSign extends GuiScreen
                 f2 = -90.0F;
             }
 
-            GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
-            GlStateManager.translate(0.0F, -1.0625F, 0.0F);
+            G.rotate(f2, 0.0F, 1.0F, 0.0F);
+            G.translate(0.0F, -1.0625F, 0.0F);
         }
 
         if (this.updateCounter / 6 % 2 == 0)
@@ -173,7 +173,7 @@ public class GuiEditSign extends GuiScreen
 
         TileEntityRendererDispatcher.instance.renderTileEntityAt(this.tileSign, -0.5D, -0.75D, -0.5D, 0.0F);
         this.tileSign.lineBeingEdited = -1;
-        GlStateManager.popMatrix();
+        G.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

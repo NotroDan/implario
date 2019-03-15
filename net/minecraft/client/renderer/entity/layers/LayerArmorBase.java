@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity.layers;
 
 import com.google.common.collect.Maps;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -69,7 +69,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 					float f = (float) (i >> 16 & 255) / 255.0F;
 					float f1 = (float) (i >> 8 & 255) / 255.0F;
 					float f2 = (float) (i & 255) / 255.0F;
-					GlStateManager.color(this.colorR * f, this.colorG * f1, this.colorB * f2, this.alpha);
+					G.color(this.colorR * f, this.colorG * f1, this.colorB * f2, this.alpha);
 					modelbase.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
 
 					if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemstack, flag ? 2 : 1, "overlay")) {
@@ -80,7 +80,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 				case 3:
 				case 4:
 				case 5:
-					GlStateManager.color(this.colorR, this.colorG, this.colorB, this.alpha);
+					G.color(this.colorR, this.colorG, this.colorB, this.alpha);
 					modelbase.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
 			}
 
@@ -114,34 +114,34 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 					ShadersRender.renderEnchantedGlintBegin();
 				}
 
-				GlStateManager.enableBlend();
-				GlStateManager.depthFunc(514);
-				GlStateManager.depthMask(false);
+				G.enableBlend();
+				G.depthFunc(514);
+				G.depthMask(false);
 				float f1 = 0.5F;
-				GlStateManager.color(f1, f1, f1, 1.0F);
+				G.color(f1, f1, f1, 1.0F);
 
 				for (int i = 0; i < 2; ++i) {
-					GlStateManager.disableLighting();
-					GlStateManager.blendFunc(768, 1);
+					G.disableLighting();
+					G.blendFunc(768, 1);
 					float f2 = 0.76F;
-					GlStateManager.color(0.5F * f2, 0.25F * f2, 0.8F * f2, 1.0F);
-					GlStateManager.matrixMode(5890);
-					GlStateManager.loadIdentity();
+					G.color(0.5F * f2, 0.25F * f2, 0.8F * f2, 1.0F);
+					G.matrixMode(5890);
+					G.loadIdentity();
 					float f3 = 0.33333334F;
-					GlStateManager.scale(f3, f3, f3);
-					GlStateManager.rotate(30.0F - (float) i * 60.0F, 0.0F, 0.0F, 1.0F);
-					GlStateManager.translate(0.0F, f * (0.001F + (float) i * 0.003F) * 20.0F, 0.0F);
-					GlStateManager.matrixMode(5888);
+					G.scale(f3, f3, f3);
+					G.rotate(30.0F - (float) i * 60.0F, 0.0F, 0.0F, 1.0F);
+					G.translate(0.0F, f * (0.001F + (float) i * 0.003F) * 20.0F, 0.0F);
+					G.matrixMode(5888);
 					modelbaseIn.render(entitylivingbaseIn, p_177183_3_, p_177183_4_, p_177183_6_, p_177183_7_, p_177183_8_, p_177183_9_);
 				}
 
-				GlStateManager.matrixMode(5890);
-				GlStateManager.loadIdentity();
-				GlStateManager.matrixMode(5888);
-				GlStateManager.enableLighting();
-				GlStateManager.depthMask(true);
-				GlStateManager.depthFunc(515);
-				GlStateManager.disableBlend();
+				G.matrixMode(5890);
+				G.loadIdentity();
+				G.matrixMode(5888);
+				G.enableLighting();
+				G.depthMask(true);
+				G.depthFunc(515);
+				G.disableBlend();
 
 				if (Config.isShaders()) {
 					ShadersRender.renderEnchantedGlintEnd();

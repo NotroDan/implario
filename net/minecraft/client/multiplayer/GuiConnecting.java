@@ -16,6 +16,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,6 +28,7 @@ public class GuiConnecting extends GuiScreen {
 	private NetworkManager networkManager;
 	private boolean cancel;
 	private final GuiScreen previousGuiScreen;
+	private volatile long connectionStart = System.currentTimeMillis(), connectionMs = -1;
 
 	public GuiConnecting(GuiScreen p_i1181_1_, Minecraft mcIn, ServerData p_i1181_3_) {
 		this.mc = mcIn;
@@ -58,29 +60,36 @@ public class GuiConnecting extends GuiScreen {
 
 					inetaddress = InetAddress.getByName(ip);
 					GuiConnecting.this.networkManager = NetworkManager.func_181124_a(inetaddress, port, Settings.USE_NATIVE_CONNECTION.b());
+					connectionMs = System.currentTimeMillis() - connectionStart;
+					connectionStart = System.currentTimeMillis();
 					GuiConnecting.this.networkManager.setNetHandler(new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.this.mc, GuiConnecting.this.previousGuiScreen));
 					GuiConnecting.this.networkManager.sendPacket(new C00Handshake(47, ip, port, EnumConnectionState.LOGIN));
 					GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
 				} catch (UnknownHostException unknownhostexception) {
-					if (GuiConnecting.this.cancel) {
-						return;
-					}
-
+					if (GuiConnecting.this.cancel) return;
 					GuiConnecting.logger.error("Couldn\'t connect to server", unknownhostexception);
 					GuiConnecting.this.mc.displayGuiScreen(
-							new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", "Unknown host")));
+							new GuiDisconnected(previousGuiScreen, "connect.failed",
+									new ChatComponentTranslation("disconnect.genericReason", "Невозможно распознать IP-адрес")));
 				} catch (Exception exception) {
-					if (GuiConnecting.this.cancel) {
-						return;
+					if (GuiConnecting.this.cancel) return;
+
+					String s = exception.toString();
+
+					if (exception instanceof ConnectException) {
+						ConnectException e = (ConnectException) exception;
+						if (e.getMessage().toLowerCase().contains("connection refused")) s = "§cНа данном IP-адресе нет запущенного сервера Minecraft.";
+						else if (e.getMessage().contains("timed out")) s = "§cСервер не отвечает на ваше подключение.";
+						else s = "§cПроизошла неизвестная ошибка. Попробуйте переподключится или проверить логи.";
+					} else {
+						if (inetaddress != null) {
+							String s1 = inetaddress.toString() + ":" + port;
+							s = s.replaceAll(s1, "");
+						}
+
 					}
 
 					GuiConnecting.logger.error("Couldn\'t connect to server", exception);
-					String s = exception.toString();
-
-					if (inetaddress != null) {
-						String s1 = inetaddress.toString() + ":" + port;
-						s = s.replaceAll(s1, "");
-					}
 
 					GuiConnecting.this.mc.displayGuiScreen(
 							new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", s)));
@@ -141,6 +150,11 @@ public class GuiConnecting extends GuiScreen {
 
 		String s = this.networkManager == null ? Lang.format("connect.connecting") : Lang.format("connect.authorizing");
 		this.drawCenteredString(this.fontRendererObj, s, this.width / 2, this.height / 2 - 50, 16777215);
+		long connecting = System.currentTimeMillis() - connectionStart;
+		String conn = "Соединение с сервером: §e" + (connectionMs == -1 ? connecting + " ms..." : connectionMs + " ms. §a\u2714");
+		this.drawCenteredString(this.fontRendererObj, conn, this.width / 2, this.height / 2 - 30, 16777215);
+		String login = "Выполнение входа: " + (connectionMs == -1 ? "§7-" : "§e" + connecting + " ms...");
+		this.drawCenteredString(this.fontRendererObj, login, this.width / 2, this.height / 2 - 21, 16777215);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

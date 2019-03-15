@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.util.ResourceLocation;
 
@@ -20,7 +20,7 @@ public class RenderCaveSpider extends RenderSpider<EntityCaveSpider>
      */
     protected void preRenderCallback(EntityCaveSpider entitylivingbaseIn, float partialTickTime)
     {
-        GlStateManager.scale(0.7F, 0.7F, 0.7F);
+        G.scale(0.7F, 0.7F, 0.7F);
     }
 
     /**

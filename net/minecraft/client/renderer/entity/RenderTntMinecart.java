@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.entity.item.EntityMinecartTNT;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
@@ -26,7 +26,7 @@ public class RenderTntMinecart extends RenderMinecart<EntityMinecartTNT>
             f = f * f;
             f = f * f;
             float f1 = 1.0F + f * 0.3F;
-            GlStateManager.scale(f1, f1, f1);
+            G.scale(f1, f1, f1);
         }
 
         super.func_180560_a(minecart, partialTicks, state);
@@ -34,18 +34,18 @@ public class RenderTntMinecart extends RenderMinecart<EntityMinecartTNT>
         if (i > -1 && i / 5 % 2 == 0)
         {
             BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-            GlStateManager.disableTexture2D();
-            GlStateManager.disableLighting();
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(770, 772);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, (1.0F - ((float)i - partialTicks + 1.0F) / 100.0F) * 0.8F);
-            GlStateManager.pushMatrix();
+            G.disableTexture2D();
+            G.disableLighting();
+            G.enableBlend();
+            G.blendFunc(770, 772);
+            G.color(1.0F, 1.0F, 1.0F, (1.0F - ((float)i - partialTicks + 1.0F) / 100.0F) * 0.8F);
+            G.pushMatrix();
             blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), 1.0F);
-            GlStateManager.popMatrix();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.disableBlend();
-            GlStateManager.enableLighting();
-            GlStateManager.enableTexture2D();
+            G.popMatrix();
+            G.color(1.0F, 1.0F, 1.0F, 1.0F);
+            G.disableBlend();
+            G.enableLighting();
+            G.enableTexture2D();
         }
     }
 }

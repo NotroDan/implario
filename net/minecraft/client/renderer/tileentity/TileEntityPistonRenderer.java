@@ -7,7 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -34,17 +34,17 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             this.bindTexture(TextureMap.locationBlocksTexture);
             RenderHelper.disableStandardItemLighting();
-            GlStateManager.blendFunc(770, 771);
-            GlStateManager.enableBlend();
-            GlStateManager.disableCull();
+            G.blendFunc(770, 771);
+            G.enableBlend();
+            G.disableCull();
 
             if (Minecraft.isAmbientOcclusionEnabled())
             {
-                GlStateManager.shadeModel(7425);
+                G.shadeModel(7425);
             }
             else
             {
-                GlStateManager.shadeModel(7424);
+                G.shadeModel(7424);
             }
 
             worldrenderer.begin(7, DefaultVertexFormats.BLOCK);

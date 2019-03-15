@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.item.EnumAction;
@@ -97,7 +97,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 	}
 
 	public void transformHeldFull3DItemLayer() {
-		GlStateManager.translate(0.0F, 0.1875F, 0.0F);
+		G.translate(0.0F, 0.1875F, 0.0F);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 	 */
 	protected void preRenderCallback(AbstractClientPlayer entitylivingbaseIn, float partialTickTime) {
 		float f = 0.9375F;
-		GlStateManager.scale(f, f, f);
+		G.scale(f, f, f);
 	}
 
 	protected void renderOffsetLivingLabel(AbstractClientPlayer entityIn, double x, double y, double z, String str, float p_177069_9_, double p_177069_10_) {
@@ -128,7 +128,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 
 	public void renderRightArm(AbstractClientPlayer clientPlayer) {
 		float f = 1.0F;
-		GlStateManager.color(f, f, f);
+		G.color(f, f, f);
 		ModelPlayer modelplayer = this.getMainModel();
 		this.setModelVisibilities(clientPlayer);
 		modelplayer.swingProgress = 0.0F;
@@ -139,7 +139,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 
 	public void renderLeftArm(AbstractClientPlayer clientPlayer) {
 		float f = 1.0F;
-		GlStateManager.color(f, f, f);
+		G.color(f, f, f);
 		ModelPlayer modelplayer = this.getMainModel();
 		this.setModelVisibilities(clientPlayer);
 		modelplayer.isSneak = false;
@@ -159,9 +159,9 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 
 	protected void rotateCorpse(AbstractClientPlayer bat, float p_77043_2_, float p_77043_3_, float partialTicks) {
 		if (bat.isEntityAlive() && bat.isPlayerSleeping()) {
-			GlStateManager.rotate(bat.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
-			GlStateManager.rotate(this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
-			GlStateManager.rotate(270.0F, 0.0F, 1.0F, 0.0F);
+			G.rotate(bat.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
+			G.rotate(this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
+			G.rotate(270.0F, 0.0F, 1.0F, 0.0F);
 		} else super.rotateCorpse(bat, p_77043_2_, p_77043_3_, partialTicks);
 	}
 

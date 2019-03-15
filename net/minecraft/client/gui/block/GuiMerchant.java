@@ -5,7 +5,7 @@ import java.io.IOException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.IMerchant;
@@ -137,7 +137,7 @@ public class GuiMerchant extends GuiContainer
      */
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        G.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(MERCHANT_GUI_TEXTURE);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
@@ -158,8 +158,8 @@ public class GuiMerchant extends GuiContainer
             if (merchantrecipe.isRecipeDisabled())
             {
                 this.mc.getTextureManager().bindTexture(MERCHANT_GUI_TEXTURE);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                GlStateManager.disableLighting();
+                G.color(1.0F, 1.0F, 1.0F, 1.0F);
+                G.disableLighting();
                 this.drawTexturedModalRect(this.guiLeft + 83, this.guiTop + 21, 212, 0, 28, 21);
                 this.drawTexturedModalRect(this.guiLeft + 83, this.guiTop + 51, 212, 0, 28, 21);
             }
@@ -183,12 +183,12 @@ public class GuiMerchant extends GuiContainer
             ItemStack itemstack = merchantrecipe.getItemToBuy();
             ItemStack itemstack1 = merchantrecipe.getSecondItemToBuy();
             ItemStack itemstack2 = merchantrecipe.getItemToSell();
-            GlStateManager.pushMatrix();
+            G.pushMatrix();
             RenderHelper.enableGUIStandardItemLighting();
-            GlStateManager.disableLighting();
-            GlStateManager.enableRescaleNormal();
-            GlStateManager.enableColorMaterial();
-            GlStateManager.enableLighting();
+            G.disableLighting();
+            G.enableRescaleNormal();
+            G.enableColorMaterial();
+            G.enableLighting();
             this.itemRender.zLevel = 100.0F;
             this.itemRender.renderItemAndEffectIntoGUI(itemstack, i + 36, j + 24);
             this.itemRender.renderItemOverlays(this.fontRendererObj, itemstack, i + 36, j + 24);
@@ -202,7 +202,7 @@ public class GuiMerchant extends GuiContainer
             this.itemRender.renderItemAndEffectIntoGUI(itemstack2, i + 120, j + 24);
             this.itemRender.renderItemOverlays(this.fontRendererObj, itemstack2, i + 120, j + 24);
             this.itemRender.zLevel = 0.0F;
-            GlStateManager.disableLighting();
+            G.disableLighting();
 
             if (this.isPointInRegion(36, 24, 16, 16, mouseX, mouseY) && itemstack != null)
             {
@@ -221,9 +221,9 @@ public class GuiMerchant extends GuiContainer
                 this.drawCreativeTabHoveringText(Lang.format("merchant.deprecated", new Object[0]), mouseX, mouseY);
             }
 
-            GlStateManager.popMatrix();
-            GlStateManager.enableLighting();
-            GlStateManager.enableDepth();
+            G.popMatrix();
+            G.enableLighting();
+            G.enableDepth();
             RenderHelper.enableStandardItemLighting();
         }
     }
@@ -248,7 +248,7 @@ public class GuiMerchant extends GuiContainer
             if (this.visible)
             {
                 mc.getTextureManager().bindTexture(GuiMerchant.MERCHANT_GUI_TEXTURE);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                G.color(1.0F, 1.0F, 1.0F, 1.0F);
                 boolean flag = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
                 int i = 0;
                 int j = 176;

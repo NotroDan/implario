@@ -1,13 +1,12 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelGuardian;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.util.AxisAlignedBB;
@@ -86,18 +85,18 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
             this.bindTexture(GUARDIAN_BEAM_TEXTURE);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
-            GlStateManager.disableLighting();
-            GlStateManager.disableCull();
-            GlStateManager.disableBlend();
-            GlStateManager.depthMask(true);
+            G.disableLighting();
+            G.disableCull();
+            G.disableBlend();
+            G.depthMask(true);
             float f1 = 240.0F;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, f1, f1);
-            GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
+            G.tryBlendFuncSeparate(770, 1, 1, 0);
             float f2 = (float)entity.worldObj.getTotalWorldTime() + partialTicks;
             float f3 = f2 * 0.5F % 1.0F;
             float f4 = entity.getEyeHeight();
-            GlStateManager.pushMatrix();
-            GlStateManager.translate((float)x, (float)y + f4, (float)z);
+            G.pushMatrix();
+            G.translate((float)x, (float)y + f4, (float)z);
             Vec3 vec3 = this.func_177110_a(entitylivingbase, (double)entitylivingbase.height * 0.5D, partialTicks);
             Vec3 vec31 = this.func_177110_a(entity, (double)f4, partialTicks);
             Vec3 vec32 = vec3.subtract(vec31);
@@ -105,8 +104,8 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
             vec32 = vec32.normalize();
             float f5 = (float)Math.acos(vec32.yCoord);
             float f6 = (float)Math.atan2(vec32.zCoord, vec32.xCoord);
-            GlStateManager.rotate(((float)Math.PI / 2F + -f6) * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(f5 * (180F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+            G.rotate(((float)Math.PI / 2F + -f6) * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+            G.rotate(f5 * (180F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
             int i = 1;
             double d1 = (double)f2 * 0.05D * (1.0D - (double)(i & 1) * 2.5D);
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -156,7 +155,7 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
             worldrenderer.pos(d10, d0, d11).tex(1.0D, d24).color(j, k, l, 255).endVertex();
             worldrenderer.pos(d8, d0, d9).tex(0.5D, d24).color(j, k, l, 255).endVertex();
             tessellator.draw();
-            GlStateManager.popMatrix();
+            G.popMatrix();
         }
     }
 
@@ -168,7 +167,7 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
     {
         if (entitylivingbaseIn.isElder())
         {
-            GlStateManager.scale(2.35F, 2.35F, 2.35F);
+            G.scale(2.35F, 2.35F, 2.35F);
         }
     }
 

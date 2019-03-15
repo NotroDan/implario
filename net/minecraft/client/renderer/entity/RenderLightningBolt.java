@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import java.util.Random;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -25,10 +25,10 @@ public class RenderLightningBolt extends Render<EntityLightningBolt>
     {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        GlStateManager.disableTexture2D();
-        GlStateManager.disableLighting();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(770, 1);
+        G.disableTexture2D();
+        G.disableLighting();
+        G.enableBlend();
+        G.blendFunc(770, 1);
         double[] adouble = new double[8];
         double[] adouble1 = new double[8];
         double d0 = 0.0D;
@@ -137,9 +137,9 @@ public class RenderLightningBolt extends Render<EntityLightningBolt>
             }
         }
 
-        GlStateManager.disableBlend();
-        GlStateManager.enableLighting();
-        GlStateManager.enableTexture2D();
+        G.disableBlend();
+        G.enableLighting();
+        G.enableTexture2D();
     }
 
     /**

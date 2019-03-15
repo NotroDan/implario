@@ -305,7 +305,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 
 		if (e instanceof ServerListEntryNormal) {
 			ServerData data = ((ServerListEntryNormal) e).getServerData();
-			System.out.println(data.serverMOTD);
 			this.connectToServer(data);
 		} else if (e instanceof ServerListEntryLanDetected) {
 			LanServerDetector.LanServer lanserverdetector$lanserver = ((ServerListEntryLanDetected) e).getLanServer();

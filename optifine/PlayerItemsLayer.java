@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,12 +30,12 @@ public class PlayerItemsLayer implements LayerRenderer
             if (p_renderEquippedItems_1_ instanceof AbstractClientPlayer)
             {
                 AbstractClientPlayer abstractclientplayer = (AbstractClientPlayer)p_renderEquippedItems_1_;
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                GlStateManager.disableRescaleNormal();
-                GlStateManager.enableCull();
+                G.color(1.0F, 1.0F, 1.0F, 1.0F);
+                G.disableRescaleNormal();
+                G.enableCull();
                 ModelBiped modelbiped = (ModelBiped)this.renderPlayer.getMainModel();
                 PlayerConfigurations.renderPlayerItems(modelbiped, abstractclientplayer, p_renderEquippedItems_2_, p_renderEquippedItems_3_);
-                GlStateManager.disableCull();
+                G.disableCull();
             }
         }
     }

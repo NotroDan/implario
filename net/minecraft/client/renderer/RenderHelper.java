@@ -17,10 +17,10 @@ public class RenderHelper
      */
     public static void disableStandardItemLighting()
     {
-        GlStateManager.disableLighting();
-        GlStateManager.disableLight(0);
-        GlStateManager.disableLight(1);
-        GlStateManager.disableColorMaterial();
+        G.disableLighting();
+        G.disableLight(0);
+        G.disableLight(1);
+        G.disableColorMaterial();
     }
 
     /**
@@ -28,11 +28,11 @@ public class RenderHelper
      */
     public static void enableStandardItemLighting()
     {
-        GlStateManager.enableLighting();
-        GlStateManager.enableLight(0);
-        GlStateManager.enableLight(1);
-        GlStateManager.enableColorMaterial();
-        GlStateManager.colorMaterial(1032, 5634);
+        G.enableLighting();
+        G.enableLight(0);
+        G.enableLight(1);
+        G.enableColorMaterial();
+        G.colorMaterial(1032, 5634);
         float f = 0.4F;
         float f1 = 0.6F;
         float f2 = 0.0F;
@@ -44,7 +44,7 @@ public class RenderHelper
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, setColorBuffer(f1, f1, f1, 1.0F));
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPECULAR, setColorBuffer(f2, f2, f2, 1.0F));
-        GlStateManager.shadeModel(7424);
+        G.shadeModel(7424);
         GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(f, f, f, 1.0F));
     }
 
@@ -72,10 +72,10 @@ public class RenderHelper
      */
     public static void enableGUIStandardItemLighting()
     {
-        GlStateManager.pushMatrix();
-        GlStateManager.rotate(-30.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(165.0F, 1.0F, 0.0F, 0.0F);
+        G.pushMatrix();
+        G.rotate(-30.0F, 0.0F, 1.0F, 0.0F);
+        G.rotate(165.0F, 1.0F, 0.0F, 0.0F);
         enableStandardItemLighting();
-        GlStateManager.popMatrix();
+        G.popMatrix();
     }
 }

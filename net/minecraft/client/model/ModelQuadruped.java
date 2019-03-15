@@ -1,6 +1,6 @@
 package net.minecraft.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.G;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
@@ -46,19 +46,19 @@ public class ModelQuadruped extends ModelBase
         if (this.isChild)
         {
             float f = 2.0F;
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(0.0F, this.childYOffset * scale, this.childZOffset * scale);
+            G.pushMatrix();
+            G.translate(0.0F, this.childYOffset * scale, this.childZOffset * scale);
             this.head.render(scale);
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(1.0F / f, 1.0F / f, 1.0F / f);
-            GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
+            G.popMatrix();
+            G.pushMatrix();
+            G.scale(1.0F / f, 1.0F / f, 1.0F / f);
+            G.translate(0.0F, 24.0F * scale, 0.0F);
             this.body.render(scale);
             this.leg1.render(scale);
             this.leg2.render(scale);
             this.leg3.render(scale);
             this.leg4.render(scale);
-            GlStateManager.popMatrix();
+            G.popMatrix();
         }
         else
         {

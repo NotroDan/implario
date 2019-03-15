@@ -6,7 +6,8 @@ import net.minecraft.Utils;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiButtonChangeName;
 import net.minecraft.client.gui.element.GuiButtonLanguage;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.keymap.GuiKeymap;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -118,7 +119,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions(this));
 
-		if (button.id == 5) this.mc.displayGuiScreen(new GuiSudoku());
+		if (button.id == 5) this.mc.displayGuiScreen(new GuiKeymap());
 		if (button.id == 6) this.mc.displayGuiScreen(new GuiServers(this));
 
 		if (button.id == 1) this.mc.displayGuiScreen(new GuiSelectWorld(this));
@@ -159,11 +160,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		GlStateManager.disableAlpha();
+		G.disableAlpha();
 //		if (skybox != null) skybox.render(partialTicks);
 //		else
 			renderBackground(mouseX, mouseY);
-		GlStateManager.enableAlpha();
+		G.enableAlpha();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		float j = width / 16 - 21;
@@ -190,12 +191,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	}
 
 	private void renderBackground(int mouseX, int mouseY) {
-		GlStateManager.disableLighting();
-		GlStateManager.disableFog();
+		G.disableLighting();
+		G.disableFog();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		this.mc.getTextureManager().bindTexture(modernBackground);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		float f = 32.0F;
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		worldrenderer.pos(0.0D, (double) this.height, 0.0D).tex(0.0D, (double) ((float) this.height / 32.0F)).color(64, 64, 64, 255).endVertex();
@@ -273,7 +274,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			render = "§7> §f" + title.substring(0, (int) ((float) d / 500 * (title.length() + 1)));
 		} else render = "§7> §f" + title + (d % 500 > 250 ? "§7_" : "");
 
-		GlStateManager.scale(8, 8, 8);
+		G.scale(8, 8, 8);
 		if (d > 4000 && d < 4200) {
 			int a;
 			a = Math.abs(Math.abs((int) d - 4100) - 50) / 25;
@@ -281,9 +282,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			fontRendererObj.drawString("§b> " + title, width / 16 - 21 + a, 2.5f - a, 0xff00ffff, false);
 		}
 		fontRendererObj.drawString(render, width / 16 - 21, 2.5f, -1, false);
-		GlStateManager.scale(0.25, 0.25, 0.25);
+		G.scale(0.25, 0.25, 0.25);
 		renderHeader(d);
-		GlStateManager.scale(0.5, 0.5, 0.5);
+		G.scale(0.5, 0.5, 0.5);
 	}
 
 	private void renderHeader(long deltaTime) {
