@@ -1,9 +1,10 @@
 package net.minecraft.client.gui;
 
 public class GuiMP extends GuiScreen {
+    @Override
+    public void initGui() {
 
-
-
+    }
 
 //	private static final Logger logger = Logger.getInstance();
 //	private final OldServerPinger oldServerPinger = new OldServerPinger();

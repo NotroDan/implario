@@ -1,9 +1,5 @@
 package net.minecraft;
 
-import __google_.crypt.async.RSA;
-import __google_.net.Response;
-import __google_.net.client.Client;
-import __google_.util.ByteZip;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -81,33 +77,6 @@ public class Utils {
 		G.disableBlend();
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		G.popMatrix();
-	}
-
-	public static void connect() {
-
-		Client client = new Client("lmaomc.ru", 1424);
-		client.connect();
-		client.getCertificate();
-
-	}
-
-	public static void log(String pass, String nick){
-		RSA rsa = RSA.generate(pass, 2048, 12);
-		Client client = new Client("lmaomc.ru", 1424);
-		client.connect();
-		client.getCertificate();
-		byte decoded[] = rsa.decodeByte(client.apply(new Response(2, new ByteZip().add(nick).build())).getContent());
-		client.apply(new Response(0, new ByteZip().add(nick).add(decoded).build()));
-		client.close();
-	}
-
-	public static void reg(String pass, String nick){
-		RSA rsa = RSA.generate(pass, 2048, 12);
-		Client client = new Client("lmaomc.ru", 1424);
-		client.connect();
-		client.getCertificate();
-		client.apply(new Response(1, new ByteZip().add(nick).add(rsa.getBytePublicKey()).build()));
-		client.close();
 	}
 
 	public static void processCommand(String line) {
