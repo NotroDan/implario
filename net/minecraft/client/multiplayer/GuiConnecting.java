@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import net.minecraft.Log;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -47,7 +48,7 @@ public class GuiConnecting extends GuiScreen {
 	}
 
 	private void connect(final String ip, final int port) {
-		logger.info("Connecting to " + ip + ", " + port);
+		Log.CHAT.warn("Подключение к серверу " + ip + ":" + port);
 		new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
 			public void run() {
 
@@ -67,7 +68,7 @@ public class GuiConnecting extends GuiScreen {
 					GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
 				} catch (UnknownHostException unknownhostexception) {
 					if (GuiConnecting.this.cancel) return;
-					GuiConnecting.logger.error("Couldn\'t connect to server", unknownhostexception);
+					GuiConnecting.logger.error("Не удалось подключиться к серверу.", unknownhostexception);
 					GuiConnecting.this.mc.displayGuiScreen(
 							new GuiDisconnected(previousGuiScreen, "connect.failed",
 									new ChatComponentTranslation("disconnect.genericReason", "Невозможно распознать IP-адрес")));

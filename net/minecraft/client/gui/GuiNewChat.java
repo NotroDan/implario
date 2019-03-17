@@ -1,6 +1,7 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import net.minecraft.Log;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.ChatLine;
@@ -119,7 +120,7 @@ public class GuiNewChat extends Gui {
 	 */
 	public void printChatMessageWithOptionalDeletion(IChatComponent component, int line) {
 		this.setChatLine(component, line, this.mc.ingameGUI.getUpdateCounter(), false);
-		logger.info("[CHAT] " + component.getUnformattedText().replaceAll("§.", ""));
+		Log.CHAT.info(component.getUnformattedText().replaceAll("§.", ""));
 	}
 
 	private void setChatLine(IChatComponent p_146237_1_, int p_146237_2_, int p_146237_3_, boolean p_146237_4_) {

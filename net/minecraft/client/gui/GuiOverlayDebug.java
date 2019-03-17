@@ -25,19 +25,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GuiOverlayDebug extends Gui
-{
+public class GuiOverlayDebug extends Gui {
+
 	private final Minecraft mc;
 	private final FontRenderer fontRenderer;
 
-	public GuiOverlayDebug(Minecraft mc)
-	{
+	public GuiOverlayDebug(Minecraft mc) {
 		this.mc = mc;
 		this.fontRenderer = mc.fontRendererObj;
 	}
 
-	public void renderDebugInfo(ScaledResolution scaledResolutionIn)
-	{
+	public void renderDebugInfo(ScaledResolution scaledResolutionIn) {
+		if (!Settings.SHOW_DEBUG.b()) return;
 		Profiler.in.startSection("debug");
 		G.pushMatrix();
 		this.renderDebugInfoLeft();
@@ -51,16 +50,13 @@ public class GuiOverlayDebug extends Gui
 		return this.mc.thePlayer.hasReducedDebug() || Settings.REDUCED_DEBUG_INFO.i() == 1;
 	}
 
-	protected void renderDebugInfoLeft()
-	{
+	protected void renderDebugInfoLeft() {
 		List list = this.call();
 
-		for (int i = 0; i < list.size(); ++i)
-		{
-			String s = (String)list.get(i);
+		for (int i = 0; i < list.size(); ++i) {
+			String s = (String) list.get(i);
 
-			if (!Strings.isNullOrEmpty(s))
-			{
+			if (!Strings.isNullOrEmpty(s)) {
 				int j = this.fontRenderer.FONT_HEIGHT;
 				int k = this.fontRenderer.getStringWidth(s);
 				boolean flag = true;
@@ -70,14 +66,14 @@ public class GuiOverlayDebug extends Gui
 			}
 		}
 	}
+
 	private void renderDebugInfoCenter(ScaledResolution resolution) {
 		List list = this.getDebugInfoCenter();
 
 		for (int i = 0; i < list.size(); ++i) {
-			String s = (String)list.get(i);
+			String s = (String) list.get(i);
 
-			if (!Strings.isNullOrEmpty(s))
-			{
+			if (!Strings.isNullOrEmpty(s)) {
 				int j = this.fontRenderer.FONT_HEIGHT;
 				int k = this.fontRenderer.getStringWidth(s);
 				int l = resolution.getScaledWidth() / 2 - k / 2;
@@ -89,16 +85,13 @@ public class GuiOverlayDebug extends Gui
 	}
 
 
-	protected void renderDebugInfoRight(ScaledResolution resolution)
-	{
+	protected void renderDebugInfoRight(ScaledResolution resolution) {
 		List list = this.getDebugInfoRight();
 
-		for (int i = 0; i < list.size(); ++i)
-		{
-			String s = (String)list.get(i);
+		for (int i = 0; i < list.size(); ++i) {
+			String s = (String) list.get(i);
 
-			if (!Strings.isNullOrEmpty(s))
-			{
+			if (!Strings.isNullOrEmpty(s)) {
 				int j = this.fontRenderer.FONT_HEIGHT;
 				int k = this.fontRenderer.getStringWidth(s);
 				int l = resolution.getScaledWidth() - 2 - k;
@@ -109,9 +102,8 @@ public class GuiOverlayDebug extends Gui
 		}
 	}
 
-	protected List call()
-	{
-		if(Settings.REDUCED_DEBUG_INFO.i() == 2)return Lists.newArrayList(this.mc.debug);
+	protected List call() {
+		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return Lists.newArrayList(this.mc.debug);
 		BlockPos blockpos = new BlockPos(this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
 		Entity entity = this.mc.getRenderViewEntity();
 		EnumFacing enumfacing = entity.getHorizontalFacing();
@@ -137,14 +129,14 @@ public class GuiOverlayDebug extends Gui
 			arraylist = Lists.newArrayList("Клиент §dImplario §f(Minecraft 1.8.8)", mc.debug);
 		else
 			arraylist = Lists.newArrayList(
-				"Клиент §dImplario §f(" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
-				this.mc.debug,
-				this.mc.renderGlobal.getDebugInfoRenders(),
-				this.mc.renderGlobal.getDebugInfoEntities(),
-				"P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities(),
-				this.mc.theWorld.getProviderName(),
-				""
-			);
+					"Клиент §dImplario §f(" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
+					this.mc.debug,
+					this.mc.renderGlobal.getDebugInfoRenders(),
+					this.mc.renderGlobal.getDebugInfoEntities(),
+					"P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities(),
+					this.mc.theWorld.getProviderName(),
+					""
+										  );
 
 
 		arraylist.add(String.format("Координаты: §a%.3f §f/ §a%.5f §f/ §a%.3f", this.mc.getRenderViewEntity().posX,
@@ -166,7 +158,7 @@ public class GuiOverlayDebug extends Gui
 				DifficultyInstance difficultyinstance = this.mc.theWorld.getDifficultyForLocation(blockpos);
 				if (this.mc.isIntegratedServerRunning() && this.mc.getIntegratedServer() != null) {
 					EntityPlayerMP entityplayermp = this.mc.getIntegratedServer().getConfigurationManager().getPlayerByUUID(this.mc.thePlayer.getUniqueID());
-					if (entityplayermp != null)	difficultyinstance = entityplayermp.worldObj.getDifficultyForLocation(new BlockPos(entityplayermp));
+					if (entityplayermp != null) difficultyinstance = entityplayermp.worldObj.getDifficultyForLocation(new BlockPos(entityplayermp));
 				}
 				arraylist.add(String.format("Local Difficulty: %.2f (Day %d)", difficultyinstance.getAdditionalDifficulty(), this.mc.theWorld.getWorldTime() / 24000L));
 			}
@@ -179,7 +171,7 @@ public class GuiOverlayDebug extends Gui
 	}
 
 	protected List getDebugInfoCenter() {
-		if(Settings.REDUCED_DEBUG_INFO.i() == 2)return new ArrayList();
+		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList();
 		if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.mc.objectMouseOver.getBlockPos() != null) {
 			List<String> arraylist = new ArrayList<>();
 			BlockPos blockpos1 = this.mc.objectMouseOver.getBlockPos();
@@ -204,18 +196,18 @@ public class GuiOverlayDebug extends Gui
 		return new ArrayList<>();
 	}
 
-	protected List getDebugInfoRight()
-	{
-		if(Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList();
+	protected List getDebugInfoRight() {
+		func_181554_e();
+		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList();
 		long i = Runtime.getRuntime().maxMemory();
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
 		if (isReducedDebug()) return Lists.newArrayList(
 				"Версия Java: §a" + System.getProperty("java.version") + "§fx" + (this.mc.isJava64bit() ? 64 : 32),
-				"Память: §a" + l * 100L / i + "% " +  bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ",
+				"Память: §a" + l * 100L / i + "% " + bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ",
 				"Выделено: §a" + j * 100L / i + "% " + bytesToMb(j) + " §fМБ"
-		);
+													   );
 
 		return Lists.newArrayList(
 				String.format("Версия Java: §a%s§fx%d", System.getProperty("java.version"), this.mc.isJava64bit() ? 64 : 32),
@@ -228,8 +220,7 @@ public class GuiOverlayDebug extends Gui
 				"Версия GL: §a" + GL11.glGetString(GL11.GL_VERSION));
 	}
 
-	private void func_181554_e()
-	{
+	private void func_181554_e() {
 		G.disableDepth();
 		FrameTimer frametimer = this.mc.func_181539_aj();
 		int i = frametimer.func_181749_a();
@@ -240,8 +231,7 @@ public class GuiOverlayDebug extends Gui
 		int l = 0;
 		drawRect(0, scaledresolution.getScaledHeight() - 60, 240, scaledresolution.getScaledHeight(), -1873784752);
 
-		while (k != j)
-		{
+		while (k != j) {
 			int i1 = frametimer.func_181748_a(along[k], 30);
 			int j1 = this.func_181552_c(MathHelper.clamp_int(i1, 0, 60), 0, 30, 60);
 			this.drawVerticalLine(l, scaledresolution.getScaledHeight(), scaledresolution.getScaledHeight() - i1, j1);
@@ -265,13 +255,12 @@ public class GuiOverlayDebug extends Gui
 		G.enableDepth();
 	}
 
-	private int func_181552_c(int p_181552_1_, int p_181552_2_, int p_181552_3_, int p_181552_4_)
-	{
-		return p_181552_1_ < p_181552_3_ ? this.func_181553_a(-16711936, -256, (float)p_181552_1_ / (float)p_181552_3_) : this.func_181553_a(-256, -65536, (float)(p_181552_1_ - p_181552_3_) / (float)(p_181552_4_ - p_181552_3_));
+	private int func_181552_c(int p_181552_1_, int p_181552_2_, int p_181552_3_, int p_181552_4_) {
+		return p_181552_1_ < p_181552_3_ ? this.func_181553_a(-16711936, -256, (float) p_181552_1_ / (float) p_181552_3_) : this.func_181553_a(-256, -65536,
+				(float) (p_181552_1_ - p_181552_3_) / (float) (p_181552_4_ - p_181552_3_));
 	}
 
-	private int func_181553_a(int p_181553_1_, int p_181553_2_, float p_181553_3_)
-	{
+	private int func_181553_a(int p_181553_1_, int p_181553_2_, float p_181553_3_) {
 		int i = p_181553_1_ >> 24 & 255;
 		int j = p_181553_1_ >> 16 & 255;
 		int k = p_181553_1_ >> 8 & 255;
@@ -280,23 +269,21 @@ public class GuiOverlayDebug extends Gui
 		int j1 = p_181553_2_ >> 16 & 255;
 		int k1 = p_181553_2_ >> 8 & 255;
 		int l1 = p_181553_2_ & 255;
-		int i2 = MathHelper.clamp_int((int)((float)i + (float)(i1 - i) * p_181553_3_), 0, 255);
-		int j2 = MathHelper.clamp_int((int)((float)j + (float)(j1 - j) * p_181553_3_), 0, 255);
-		int k2 = MathHelper.clamp_int((int)((float)k + (float)(k1 - k) * p_181553_3_), 0, 255);
-		int l2 = MathHelper.clamp_int((int)((float)l + (float)(l1 - l) * p_181553_3_), 0, 255);
+		int i2 = MathHelper.clamp_int((int) ((float) i + (float) (i1 - i) * p_181553_3_), 0, 255);
+		int j2 = MathHelper.clamp_int((int) ((float) j + (float) (j1 - j) * p_181553_3_), 0, 255);
+		int k2 = MathHelper.clamp_int((int) ((float) k + (float) (k1 - k) * p_181553_3_), 0, 255);
+		int l2 = MathHelper.clamp_int((int) ((float) l + (float) (l1 - l) * p_181553_3_), 0, 255);
 		return i2 << 24 | j2 << 16 | k2 << 8 | l2;
 	}
 
-	private static long bytesToMb(long bytes)
-	{
+	private static long bytesToMb(long bytes) {
 		return bytes / 1024L / 1024L;
 	}
 
-	static final class GuiOverlayDebug$1
-	{
+	static final class GuiOverlayDebug$1 {
+
 		static final int[] field_178907_a = new int[EnumFacing.values().length];
-		static
-		{
+		static {
 			try {
 				field_178907_a[EnumFacing.NORTH.ordinal()] = 1;
 			} catch (NoSuchFieldError ignored) {}
@@ -309,9 +296,10 @@ public class GuiOverlayDebug extends Gui
 				field_178907_a[EnumFacing.WEST.ordinal()] = 3;
 			} catch (NoSuchFieldError ignored) {}
 
-			try	{
+			try {
 				field_178907_a[EnumFacing.EAST.ordinal()] = 4;
 			} catch (NoSuchFieldError ignored) {}
 		}
 	}
+
 }

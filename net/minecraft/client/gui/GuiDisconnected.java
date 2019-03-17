@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import net.minecraft.Log;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;
@@ -20,6 +21,7 @@ public class GuiDisconnected extends GuiScreen {
 		this.parentScreen = screen;
 		this.reason = Lang.format(reasonLocalizationKey);
 		this.message = chatComp;
+		Log.CHAT.warn("Подключение к серверу разорвано: " + chatComp.getUnformattedText().replaceAll("§.", ""));
 	}
 
 	/**

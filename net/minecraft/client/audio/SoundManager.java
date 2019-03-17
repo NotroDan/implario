@@ -92,15 +92,11 @@ public class SoundManager {
 				new Thread(() -> {
 					SoundSystemConfig.setLogger(new SoundSystemLogger() {
 						public void message(String m, int p_message_2_) {
-							if (!m.isEmpty()) {
-								SoundManager.logger.info(m);
-							}
+							if (!m.isEmpty()) SoundManager.logger.info(m);
 						}
 
 						public void importantMessage(String p_importantMessage_1_, int p_importantMessage_2_) {
-							if (!p_importantMessage_1_.isEmpty()) {
-								SoundManager.logger.warn(p_importantMessage_1_);
-							}
+							if (!p_importantMessage_1_.isEmpty()) SoundManager.logger.warn(p_importantMessage_1_);
 						}
 
 						public void errorMessage(String p_errorMessage_1_, String p_errorMessage_2_, int p_errorMessage_3_) {
@@ -116,7 +112,8 @@ public class SoundManager {
 					SoundManager.logger.info("Аудиодвижок успешно запущен.");
 				}, "Sound Library Loader").start();
 			} catch (RuntimeException runtimeexception) {
-				logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c");//, runtimeexception);
+				logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c");
+				logger.exception(runtimeexception);
 				Settings.SOUND_MASTER.set(0);
 				Settings.saveOptions();
 			}
@@ -216,7 +213,7 @@ public class SoundManager {
 					}
 
 					iterator.remove();
-//					logger.debug("Removed channel {} because it\'s not playing anymore", s1);
+					logger.debug("Отключаем канал " + s1 + ", поскольку в нём больше ничего не воспроизводится");
 					this.sndSystem.removeSource(s1);
 					this.playingSoundsStopTime.remove(s1);
 					this.playingSoundPoolEntries.remove(isound);
@@ -274,17 +271,17 @@ public class SoundManager {
 	public void playSound(ISound sound) {
 		if (this.loaded) {
 			if (this.sndSystem.getMasterVolume() <= 0.0F) {
-//				logger.debug("Skipped playing soundEvent: {}, master volume was zero", sound.getSoundLocation());
+				logger.debug("Пропуск SoundEvent: " + sound.getSoundLocation() + ", общая громкость была нулевой.");
 			} else {
 				SoundEventAccessorComposite soundeventaccessorcomposite = this.sndHandler.getSound(sound.getSoundLocation());
 
 				if (soundeventaccessorcomposite == null) {
-//					logger.warn("Unable to play unknown soundEvent: {}", sound.getSoundLocation());
+					logger.warn("Сервер прислал неизвестный SoundEvent: " + sound.getSoundLocation());
 				} else {
 					SoundPoolEntry soundpoolentry = soundeventaccessorcomposite.cloneEntry();
 
 					if (soundpoolentry == SoundHandler.missing_sound) {
-//						logger.warn("Unable to play empty soundEvent: {}", soundeventaccessorcomposite.getSoundEventLocation());
+						logger.warn("Сервер прислал пустой SoundEvent: " + soundeventaccessorcomposite.getSoundEventLocation());
 					} else {
 						float f = sound.getVolume();
 						float f1 = 16.0F;
@@ -299,7 +296,7 @@ public class SoundManager {
 						ResourceLocation resourcelocation = soundpoolentry.getSoundPoolEntryLocation();
 
 						if (f2 == 0.0F) {
-//							logger.debug("Skipped playing sound {}, volume was zero.", resourcelocation);
+							logger.debug("Пропуск SoundEvent: " + resourcelocation + ", громкость была нулевой.");
 						} else {
 							boolean flag = sound.canRepeat() && sound.getRepeatDelay() == 0;
 							String s = MathHelper.getRandomUuid(ThreadLocalRandom.current()).toString();
@@ -312,7 +309,8 @@ public class SoundManager {
 										sound.getAttenuationType().getTypeInt(), f1);
 							}
 
-//							logger.debug("Playing sound {} for event {} as channel {}", soundpoolentry.getSoundPoolEntryLocation(), soundeventaccessorcomposite.getSoundEventLocation(), s);
+							logger.debug("Воспроизводим " + soundpoolentry.getSoundPoolEntryLocation() + " для события " +
+									soundeventaccessorcomposite.getSoundEventLocation() + " в канале " + s);
 							this.sndSystem.setPitch(s, (float) d0);
 							this.sndSystem.setVolume(s, f2);
 							this.sndSystem.play(s);
@@ -353,7 +351,7 @@ public class SoundManager {
 	 */
 	public void pauseAllSounds() {
 		for (String s : this.playingSounds.keySet()) {
-//			logger.debug("Pausing channel {}", s);
+			logger.debug("Ставим канал " + s + " на паузу.");
 			this.sndSystem.pause(s);
 		}
 	}
@@ -363,7 +361,7 @@ public class SoundManager {
 	 */
 	public void resumeAllSounds() {
 		for (String s : this.playingSounds.keySet()) {
-//			logger.debug( "Resuming channel {}", s);
+			logger.debug( "Возобновляем канал " + s);
 			this.sndSystem.play(s);
 		}
 	}

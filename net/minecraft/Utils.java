@@ -3,6 +3,7 @@ package net.minecraft;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
@@ -84,6 +85,14 @@ public class Utils {
 			Minecraft.getMinecraft().ingameGUI.setLoading(5000, "Тестовая загрузка");
 		}
 		if (line.equals("key")) KeyStrokes.addKeyStroke(KeyBinding.FORWARD, 10, 10, 2f);
+		if (line.equals("chunk")) chunkInfo();
+		if (line.equals("s")) {
+			String[] split = line.split(" ");
+			if (split.length >= 2) GuiIngame.currentServer = split[1];
+		}
+	}
+
+	private static void chunkInfo() {
 	}
 
 	public static int easeIn(int t,int b , int c, int d) {
@@ -191,6 +200,50 @@ public class Utils {
 			Block b = Block.blockRegistry.getObjectById(id);
 			return new ItemStack(b, 1, data);
 		}
+	}
+
+	private static double sqrt3 = Math.sqrt(3) / 2d;
+
+	public static void drawHexagonOutline(double r) {
+		Tessellator t = Tessellator.getInstance();
+		WorldRenderer ren = t.getWorldRenderer();
+		GL11.glLineWidth(2);
+		double s = r / 2;
+		double c = r * sqrt3;
+
+		ren.begin(3, DefaultVertexFormats.POSITION);
+		ren.pos(r, 0, 0).endVertex();
+		ren.pos(s, -c, 0).endVertex();
+		ren.pos(-s, -c, 0).endVertex();
+		ren.pos(-r, 0,0).endVertex();
+		ren.pos(-s, c, 0).endVertex();
+		ren.pos(s, c, 0).endVertex();
+		ren.pos(r, 0, 0).endVertex();
+		t.draw();
+		GL11.glLineWidth(1);
+	}
+
+	public static void drawHexagon(double r) {
+		Tessellator t = Tessellator.getInstance();
+		WorldRenderer ren = t.getWorldRenderer();
+		double s = r / 2;
+		double c = r * sqrt3;
+
+		ren.begin(7, DefaultVertexFormats.POSITION);
+		ren.pos(r, 0, 0).endVertex();
+		ren.pos(s, -c, 0).endVertex();
+		ren.pos(-s, -c, 0).endVertex();
+		ren.pos(-r, 0,0).endVertex();
+		ren.pos(r, 0, 0).endVertex();
+		t.draw();
+
+		ren.begin(7, DefaultVertexFormats.POSITION);
+		ren.pos(r, 0, 0).endVertex();
+		ren.pos(-r, 0, 0).endVertex();
+		ren.pos(-s, c, 0).endVertex();
+		ren.pos(s, c, 0).endVertex();
+		ren.pos(r, 0, 0).endVertex();
+		t.draw();
 	}
 
 }

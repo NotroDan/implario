@@ -11,6 +11,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import net.minecraft.Log;
 import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -725,7 +726,14 @@ label53:
 			this.mcSoundHandler.unloadSounds();
 		} finally {
 			Display.destroy();
-			Logger.MAIN.close();
+			Date date = new Date();
+			String end = "Конец сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date);
+			Log.SOUND.comment(end);
+			Log.MAIN.comment(end);
+			Log.CHAT.comment(end);
+			Log.SOUND.close();
+			Log.CHAT.close();
+			Log.MAIN.close();
 			if (!this.hasCrashed) System.exit(0);
 		}
 

@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.keystrokes.KeyStroke;
 import net.minecraft.client.keystrokes.KeyStrokes;
@@ -108,6 +109,8 @@ public class GuiIngame extends Gui {
 	 * Used with updateCounter to make the heart bar flash
 	 */
 	private long healthUpdateCounter = 0L;
+	public static volatile String currentServer = "LOBBY_5";
+	public static long launchTime = System.currentTimeMillis();
 
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
@@ -132,22 +135,111 @@ public class GuiIngame extends Gui {
 		this.mc.entityRenderer.setupOverlayRendering();
 		G.enableBlend();
 
-		if (Config.isVignetteEnabled()) renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
-		else {
-			G.enableDepth();
-			G.tryBlendFuncSeparate(770, 771, 1, 0);
+
+		// Затемнение по краям экрана
+		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
+
+		// Рисунок тыквы, надетой на голову
+		renderPumpkinOverlay(scaledresolution);
+
+		// Фиолетовый эффект портала
+		renderPortal(scaledresolution, partialTicks);
+
+		// Текст над инвентарём
+		renderTooltip1(scaledresolution, partialTicks);
+
+		// Крестик в центре экрана
+		renderCrosshair(width, height);
+
+		// Боссбар
+		renderBossHealth();
+
+		// Броня, еда, здоровье
+		renderPlayerStats(scaledresolution);
+
+		G.disableBlend();
+
+		// Затемнение экрана на кровати
+		renderSleeping(width, height);
+
+		// Полоска с опытом / силой прыжка на лошади
+		renderBar(scaledresolution, width);
+
+		// Интерфейс наблюдателя
+		renderTooltip0(scaledresolution);
+
+		// Загрузка (Таймер из текстерии)
+		renderLoading(scaledresolution);
+
+		// Экран отладки (F3)
+		overlayDebug.renderDebugInfo(scaledresolution);
+
+		// Название играющей пластинки
+		renderRecord(partialTicks, width, height);
+
+		// Иконка огня
+		renderFireIcon(width, height);
+
+		// Тайтл
+		renderTitle(partialTicks, width, height);
+
+		// Скорборд
+		renderScoreboard(scaledresolution);
+
+		// Чат
+		renderChat(height);
+
+		// Кейстроксы
+		renderKeyStrokes();
+
+		// Информация о траектории полёта стрелы
+		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
+
+		renderFakeVime(scaledresolution, width, height);
+	}
+
+	private void renderFakeVime(ScaledResolution scaledresolution, int width, int height) {
+
+		MC.FR.drawString("§f[§e41§f] §f" + MC.getPlayer().getName(), 2, 2, 0xffffff, true);
+		MC.FR.drawString(currentServer, 2, 4 + MC.FR.FONT_HEIGHT, 0xffffff, true);
+		MC.FR.drawString("§e[§dx4.4§e] §fКоличество коинов: §e45649", 2, height - 16 - MC.FR.FONT_HEIGHT, 0xffffff, true);
+
+		long time = System.currentTimeMillis();
+		int duration = 3600 - (int) (time - launchTime) / 1000;
+		if (duration > 3600 || duration < 0) {
+			launchTime = time;
+			duration = 0;
 		}
+		double progress = (double) duration / 3600;
+		G.translate(0.5, 0, 0);
+		drawProgressBar(width / 2 - 100, 13, 200, 3, progress);
+		G.translate(-0.5, 0, 0);
+		int minutes = duration / 60;
+		int seconds = duration % 60;
+		drawCenteredString(MC.FR, "До конца игры: §e" + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds) , width / 2, 3, 0xffffff);
 
-		ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
+	}
 
-		if (Settings.getPerspective() == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))
-			this.renderPumpkinOverlay(scaledresolution);
+	private void drawProgressBar(int x, int y, int width, int height, double progress) {
+		int x1 = x + (int) ((double) width * progress);
 
-		if (!this.mc.thePlayer.isPotionActive(Potion.confusion)) renderPortal(scaledresolution, partialTicks);
+		drawRect(x, y, x1, y + height, 0xc0009cff);
+		drawRect(x1, y, x + width, y + height, 0xc0ffffff);
 
-		if (this.mc.playerController.isSpectator()) this.spectatorGui.renderTooltip(scaledresolution, partialTicks);
-		else this.renderTooltip(scaledresolution, partialTicks);
+	}
 
+	private void renderBar(ScaledResolution scaledresolution, int width) {
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
+		int i2 = width / 2 - 91;
+
+		if (this.mc.thePlayer.isRidingHorse()) {
+			this.renderHorseJumpBar(scaledresolution, i2);
+		} else if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
+			this.renderExpBar(scaledresolution, i2);
+		}
+	}
+
+	private void renderCrosshair(int width, int height) {
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(icons);
 		G.enableBlend();
@@ -159,45 +251,16 @@ public class GuiIngame extends Gui {
 		}
 
 		G.tryBlendFuncSeparate(770, 771, 1, 0);
-		this.renderBossHealth();
+	}
 
-		if (this.mc.playerController.shouldDrawHUD()) {
-			this.renderPlayerStats(scaledresolution);
-		}
+	private void renderTooltip1(ScaledResolution scaledresolution, float partialTicks) {
+		if (this.mc.playerController.isSpectator()) this.spectatorGui.renderTooltip(scaledresolution, partialTicks);
+		else this.renderTooltip(scaledresolution, partialTicks);
+	}
 
-		G.disableBlend();
-
-		if (this.mc.thePlayer.getSleepTimer() > 0) renderSleeping(width, height);
-
-		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-		int i2 = width / 2 - 91;
-
-		if (this.mc.thePlayer.isRidingHorse()) {
-			this.renderHorseJumpBar(scaledresolution, i2);
-		} else if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
-			this.renderExpBar(scaledresolution, i2);
-		}
-
+	private void renderTooltip0(ScaledResolution scaledresolution) {
 		if (Settings.HELD_ITEM_TOOLTIPS.b() && !this.mc.playerController.isSpectator()) this.renderTooltip(scaledresolution);
 		else if (this.mc.thePlayer.isSpectator()) this.spectatorGui.render(scaledresolution);
-
-		if (this.loading != null) renderLoading(scaledresolution);
-
-		if (Settings.SHOW_DEBUG.b()) this.overlayDebug.renderDebugInfo(scaledresolution);
-
-		if (this.recordPlayingUpFor > 0) renderRecord(partialTicks, width, height);
-
-		if (mc.thePlayer.isBurning() && Settings.RENDER_FIRE.i() == 1) renderFireIcon(width, height);
-
-		if (this.titleTicks > 0) renderTitle(partialTicks, width, height);
-
-		renderScoreboard(scaledresolution);
-
-		renderChat(height);
-
-		renderKeyStrokes();
-
-		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
 	}
 
 	private void renderKeyStrokes() {
@@ -244,6 +307,7 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderSleeping(int width, int height) {
+		if (this.mc.thePlayer.getSleepTimer() <= 0) return;
 		Profiler.in.startSection("sleep");
 		G.disableDepth();
 		G.disableAlpha();
@@ -262,11 +326,14 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderPortal(ScaledResolution scaledresolution, float partialTicks) {
+		if (this.mc.thePlayer.isPotionActive(Potion.confusion)) return;
 		float f = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * partialTicks;
 		if (f > 0) this.func_180474_b(f, scaledresolution);
 	}
 
 	private void renderFireIcon(int width, int height) {
+		if (!mc.thePlayer.isBurning() || Settings.RENDER_FIRE.i() != 1) return;
+
 		TextureAtlasSprite textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite("minecraft:blocks/fire_layer_1");
 		this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		G.color(1, 1, 1, 1);
@@ -274,6 +341,7 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderLoading(ScaledResolution scaledresolution) {
+		if (this.loading == null) return;
 		long time = System.currentTimeMillis();
 		float percentage = (float) (time - loadingStarted) / loadingTime;
 		if (percentage > 1.1) {
@@ -286,7 +354,7 @@ public class GuiIngame extends Gui {
 			int x = (int) (x1 + percentage * 200);
 			int y = scaledresolution.getScaledHeight() - 64;
 
-			int opacity = 0b000000000000000011000000;
+			int opacity = 0xc0;
 			if (percentage < 0.1) opacity *= percentage * 10;
 			if (percentage > 1.0) opacity *= (0.1 - (percentage - 1)) * 10;
 
@@ -300,6 +368,7 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderRecord(float partialTicks, int width, int height) {
+		if (this.recordPlayingUpFor <= 0) return;
 		Profiler.in.startSection("overlayMessage");
 		float f3 = (float) this.recordPlayingUpFor - partialTicks;
 		int k1 = (int) (f3 * 255.0F / 20.0F);
@@ -328,6 +397,7 @@ public class GuiIngame extends Gui {
 	}
 
 	public void renderTitle(float partialTicks, int width, int height) {
+		if (titleTicks <= 0) return;
 		Profiler.in.startSection("titleAndSubtitle");
 		float f4 = (float) this.titleTicks - partialTicks;
 		int opacity = 0xff;
@@ -363,31 +433,30 @@ public class GuiIngame extends Gui {
 	}
 
 	protected void renderTooltip(ScaledResolution sr, float partialTicks) {
-		if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.mc.getTextureManager().bindTexture(widgetsTexPath);
-			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
-			int i = sr.getScaledWidth() / 2;
-			float f = this.zLevel;
-			this.zLevel = -90.0F;
-			this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
-			this.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
-			this.zLevel = f;
-			G.enableRescaleNormal();
-			G.enableBlend();
-			G.tryBlendFuncSeparate(770, 771, 1, 0);
-			RenderHelper.enableGUIStandardItemLighting();
+		if (!(this.mc.getRenderViewEntity() instanceof EntityPlayer)) return;
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
+		this.mc.getTextureManager().bindTexture(widgetsTexPath);
+		EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+		int i = sr.getScaledWidth() / 2;
+		float f = this.zLevel;
+		this.zLevel = -90.0F;
+		this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
+		this.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
+		this.zLevel = f;
+		G.enableRescaleNormal();
+		G.enableBlend();
+		G.tryBlendFuncSeparate(770, 771, 1, 0);
+		RenderHelper.enableGUIStandardItemLighting();
 
-			for (int j = 0; j < 9; ++j) {
-				int k = sr.getScaledWidth() / 2 - 90 + j * 20 + 2;
-				int l = sr.getScaledHeight() - 16 - 3;
-				this.renderHotbarItem(j, k, l, partialTicks, entityplayer);
-			}
-
-			RenderHelper.disableStandardItemLighting();
-			G.disableRescaleNormal();
-			G.disableBlend();
+		for (int j = 0; j < 9; ++j) {
+			int k = sr.getScaledWidth() / 2 - 90 + j * 20 + 2;
+			int l = sr.getScaledHeight() - 16 - 3;
+			this.renderHotbarItem(j, k, l, partialTicks, entityplayer);
 		}
+
+		RenderHelper.disableStandardItemLighting();
+		G.disableRescaleNormal();
+		G.disableBlend();
 	}
 
 	public void renderHorseJumpBar(ScaledResolution p_175186_1_, int p_175186_2_) {
@@ -548,238 +617,238 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderPlayerStats(ScaledResolution p_180477_1_) {
-		if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
-			int i = MathHelper.ceiling_float_int(entityplayer.getHealth());
-			boolean flag = this.healthUpdateCounter > (long) this.updateCounter && (this.healthUpdateCounter - (long) this.updateCounter) / 3L % 2L == 1L;
+		if (!this.mc.playerController.shouldDrawHUD()) return;
+		if (!(this.mc.getRenderViewEntity() instanceof EntityPlayer)) return;
+		EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+		int i = MathHelper.ceiling_float_int(entityplayer.getHealth());
+		boolean flag = this.healthUpdateCounter > (long) this.updateCounter && (this.healthUpdateCounter - (long) this.updateCounter) / 3L % 2L == 1L;
 
-			if (i < this.playerHealth && entityplayer.hurtResistantTime > 0) {
-				this.lastSystemTime = Minecraft.getSystemTime();
-				this.healthUpdateCounter = (long) (this.updateCounter + 20);
-			} else if (i > this.playerHealth && entityplayer.hurtResistantTime > 0) {
-				this.lastSystemTime = Minecraft.getSystemTime();
-				this.healthUpdateCounter = (long) (this.updateCounter + 10);
-			}
-
-			if (Minecraft.getSystemTime() - this.lastSystemTime > 1000L) {
-				this.playerHealth = i;
-				this.lastPlayerHealth = i;
-				this.lastSystemTime = Minecraft.getSystemTime();
-			}
-
-			this.playerHealth = i;
-			int j = this.lastPlayerHealth;
-			this.rand.setSeed((long) (this.updateCounter * 312871));
-			boolean flag1 = false;
-			FoodStats foodstats = entityplayer.getFoodStats();
-			int k = foodstats.getFoodLevel();
-			int l = foodstats.getPrevFoodLevel();
-			IAttributeInstance iattributeinstance = entityplayer.getEntityAttribute(SharedMonsterAttributes.maxHealth);
-			int i1 = p_180477_1_.getScaledWidth() / 2 - 91;
-			int j1 = p_180477_1_.getScaledWidth() / 2 + 91;
-			int k1 = p_180477_1_.getScaledHeight() - 39;
-			float f = (float) iattributeinstance.getAttributeValue();
-			float f1 = entityplayer.getAbsorptionAmount();
-			int l1 = MathHelper.ceiling_float_int((f + f1) / 2.0F / 10.0F);
-			int i2 = Math.max(10 - (l1 - 2), 3);
-			int j2 = k1 - (l1 - 1) * i2 - 10;
-			float f2 = f1;
-			int k2 = entityplayer.getTotalArmorValue();
-			int l2 = -1;
-
-			if (entityplayer.isPotionActive(Potion.regeneration)) {
-				l2 = this.updateCounter % MathHelper.ceiling_float_int(f + 5.0F);
-			}
-
-			Profiler.in.startSection("armor");
-
-			for (int i3 = 0; i3 < 10; ++i3) {
-				if (k2 > 0) {
-					int j3 = i1 + i3 * 8;
-
-					if (i3 * 2 + 1 < k2) {
-						this.drawTexturedModalRect(j3, j2, 34, 9, 9, 9);
-					}
-
-					if (i3 * 2 + 1 == k2) {
-						this.drawTexturedModalRect(j3, j2, 25, 9, 9, 9);
-					}
-
-					if (i3 * 2 + 1 > k2) {
-						this.drawTexturedModalRect(j3, j2, 16, 9, 9, 9);
-					}
-				}
-			}
-
-			Profiler.in.endStartSection("health");
-
-			for (int j5 = MathHelper.ceiling_float_int((f + f1) / 2.0F) - 1; j5 >= 0; --j5) {
-				int k5 = 16;
-
-				if (entityplayer.isPotionActive(Potion.poison)) {
-					k5 += 36;
-				} else if (entityplayer.isPotionActive(Potion.wither)) {
-					k5 += 72;
-				}
-
-				byte b0 = 0;
-
-				if (flag) {
-					b0 = 1;
-				}
-
-				int k3 = MathHelper.ceiling_float_int((float) (j5 + 1) / 10.0F) - 1;
-				int l3 = i1 + j5 % 10 * 8;
-				int i4 = k1 - k3 * i2;
-
-				if (i <= 4) {
-					i4 += this.rand.nextInt(2);
-				}
-
-				if (j5 == l2) {
-					i4 -= 2;
-				}
-
-				byte b1 = 0;
-
-				if (entityplayer.worldObj.getWorldInfo().isHardcoreModeEnabled()) {
-					b1 = 5;
-				}
-
-				this.drawTexturedModalRect(l3, i4, 16 + b0 * 9, 9 * b1, 9, 9);
-
-				if (flag) {
-					if (j5 * 2 + 1 < j) {
-						this.drawTexturedModalRect(l3, i4, k5 + 54, 9 * b1, 9, 9);
-					}
-
-					if (j5 * 2 + 1 == j) {
-						this.drawTexturedModalRect(l3, i4, k5 + 63, 9 * b1, 9, 9);
-					}
-				}
-
-				if (f2 <= 0.0F) {
-					if (j5 * 2 + 1 < i) {
-						this.drawTexturedModalRect(l3, i4, k5 + 36, 9 * b1, 9, 9);
-					}
-
-					if (j5 * 2 + 1 == i) {
-						this.drawTexturedModalRect(l3, i4, k5 + 45, 9 * b1, 9, 9);
-					}
-				} else {
-					if (f2 == f1 && f1 % 2.0F == 1.0F) {
-						this.drawTexturedModalRect(l3, i4, k5 + 153, 9 * b1, 9, 9);
-					} else {
-						this.drawTexturedModalRect(l3, i4, k5 + 144, 9 * b1, 9, 9);
-					}
-
-					f2 -= 2.0F;
-				}
-			}
-
-			Entity entity = entityplayer.ridingEntity;
-
-			if (entity == null) {
-				Profiler.in.endStartSection("food");
-
-				for (int l5 = 0; l5 < 10; ++l5) {
-					int i8 = k1;
-					int j6 = 16;
-					byte b4 = 0;
-
-					if (entityplayer.isPotionActive(Potion.hunger)) {
-						j6 += 36;
-						b4 = 13;
-					}
-
-					if (entityplayer.getFoodStats().getSaturationLevel() <= 0.0F && this.updateCounter % (k * 3 + 1) == 0) {
-						i8 = k1 + this.rand.nextInt(3) - 1;
-					}
-
-					if (flag1) {
-						b4 = 1;
-					}
-
-					int k7 = j1 - l5 * 8 - 9;
-					this.drawTexturedModalRect(k7, i8, 16 + b4 * 9, 27, 9, 9);
-
-					if (flag1) {
-						if (l5 * 2 + 1 < l) {
-							this.drawTexturedModalRect(k7, i8, j6 + 54, 27, 9, 9);
-						}
-
-						if (l5 * 2 + 1 == l) {
-							this.drawTexturedModalRect(k7, i8, j6 + 63, 27, 9, 9);
-						}
-					}
-
-					if (l5 * 2 + 1 < k) {
-						this.drawTexturedModalRect(k7, i8, j6 + 36, 27, 9, 9);
-					}
-
-					if (l5 * 2 + 1 == k) {
-						this.drawTexturedModalRect(k7, i8, j6 + 45, 27, 9, 9);
-					}
-				}
-			} else if (entity instanceof EntityLivingBase) {
-				Profiler.in.endStartSection("mountHealth");
-				EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
-				int l7 = (int) Math.ceil((double) entitylivingbase.getHealth());
-				float f3 = entitylivingbase.getMaxHealth();
-				int l6 = (int) (f3 + 0.5F) / 2;
-
-				if (l6 > 30) {
-					l6 = 30;
-				}
-
-				int j7 = k1;
-
-				for (int j4 = 0; l6 > 0; j4 += 20) {
-					int k4 = Math.min(l6, 10);
-					l6 -= k4;
-
-					for (int l4 = 0; l4 < k4; ++l4) {
-						byte b2 = 52;
-						byte b3 = 0;
-
-						if (flag1) {
-							b3 = 1;
-						}
-
-						int i5 = j1 - l4 * 8 - 9;
-						this.drawTexturedModalRect(i5, j7, b2 + b3 * 9, 9, 9, 9);
-
-						if (l4 * 2 + 1 + j4 < l7) {
-							this.drawTexturedModalRect(i5, j7, b2 + 36, 9, 9, 9);
-						}
-
-						if (l4 * 2 + 1 + j4 == l7) {
-							this.drawTexturedModalRect(i5, j7, b2 + 45, 9, 9, 9);
-						}
-					}
-
-					j7 -= 10;
-				}
-			}
-
-			Profiler.in.endStartSection("air");
-
-			if (entityplayer.isInsideOfMaterial(Material.water)) {
-				int i6 = this.mc.thePlayer.getAir();
-				int j8 = MathHelper.ceiling_double_int((double) (i6 - 2) * 10.0D / 300.0D);
-				int k6 = MathHelper.ceiling_double_int((double) i6 * 10.0D / 300.0D) - j8;
-
-				for (int i7 = 0; i7 < j8 + k6; ++i7) {
-					if (i7 < j8) {
-						this.drawTexturedModalRect(j1 - i7 * 8 - 9, j2, 16, 18, 9, 9);
-					} else {
-						this.drawTexturedModalRect(j1 - i7 * 8 - 9, j2, 25, 18, 9, 9);
-					}
-				}
-			}
-
-			Profiler.in.endSection();
+		if (i < this.playerHealth && entityplayer.hurtResistantTime > 0) {
+			this.lastSystemTime = Minecraft.getSystemTime();
+			this.healthUpdateCounter = (long) (this.updateCounter + 20);
+		} else if (i > this.playerHealth && entityplayer.hurtResistantTime > 0) {
+			this.lastSystemTime = Minecraft.getSystemTime();
+			this.healthUpdateCounter = (long) (this.updateCounter + 10);
 		}
+
+		if (Minecraft.getSystemTime() - this.lastSystemTime > 1000L) {
+			this.playerHealth = i;
+			this.lastPlayerHealth = i;
+			this.lastSystemTime = Minecraft.getSystemTime();
+		}
+
+		this.playerHealth = i;
+		int j = this.lastPlayerHealth;
+		this.rand.setSeed((long) (this.updateCounter * 312871));
+		boolean flag1 = false;
+		FoodStats foodstats = entityplayer.getFoodStats();
+		int k = foodstats.getFoodLevel();
+		int l = foodstats.getPrevFoodLevel();
+		IAttributeInstance iattributeinstance = entityplayer.getEntityAttribute(SharedMonsterAttributes.maxHealth);
+		int i1 = p_180477_1_.getScaledWidth() / 2 - 91;
+		int j1 = p_180477_1_.getScaledWidth() / 2 + 91;
+		int k1 = p_180477_1_.getScaledHeight() - 39;
+		float f = (float) iattributeinstance.getAttributeValue();
+		float f1 = entityplayer.getAbsorptionAmount();
+		int l1 = MathHelper.ceiling_float_int((f + f1) / 2.0F / 10.0F);
+		int i2 = Math.max(10 - (l1 - 2), 3);
+		int j2 = k1 - (l1 - 1) * i2 - 10;
+		float f2 = f1;
+		int k2 = entityplayer.getTotalArmorValue();
+		int l2 = -1;
+
+		if (entityplayer.isPotionActive(Potion.regeneration)) {
+			l2 = this.updateCounter % MathHelper.ceiling_float_int(f + 5.0F);
+		}
+
+		Profiler.in.startSection("armor");
+
+		for (int i3 = 0; i3 < 10; ++i3) {
+			if (k2 > 0) {
+				int j3 = i1 + i3 * 8;
+
+				if (i3 * 2 + 1 < k2) {
+					this.drawTexturedModalRect(j3, j2, 34, 9, 9, 9);
+				}
+
+				if (i3 * 2 + 1 == k2) {
+					this.drawTexturedModalRect(j3, j2, 25, 9, 9, 9);
+				}
+
+				if (i3 * 2 + 1 > k2) {
+					this.drawTexturedModalRect(j3, j2, 16, 9, 9, 9);
+				}
+			}
+		}
+
+		Profiler.in.endStartSection("health");
+
+		for (int j5 = MathHelper.ceiling_float_int((f + f1) / 2.0F) - 1; j5 >= 0; --j5) {
+			int k5 = 16;
+
+			if (entityplayer.isPotionActive(Potion.poison)) {
+				k5 += 36;
+			} else if (entityplayer.isPotionActive(Potion.wither)) {
+				k5 += 72;
+			}
+
+			byte b0 = 0;
+
+			if (flag) {
+				b0 = 1;
+			}
+
+			int k3 = MathHelper.ceiling_float_int((float) (j5 + 1) / 10.0F) - 1;
+			int l3 = i1 + j5 % 10 * 8;
+			int i4 = k1 - k3 * i2;
+
+			if (i <= 4) {
+				i4 += this.rand.nextInt(2);
+			}
+
+			if (j5 == l2) {
+				i4 -= 2;
+			}
+
+			byte b1 = 0;
+
+			if (entityplayer.worldObj.getWorldInfo().isHardcoreModeEnabled()) {
+				b1 = 5;
+			}
+
+			this.drawTexturedModalRect(l3, i4, 16 + b0 * 9, 9 * b1, 9, 9);
+
+			if (flag) {
+				if (j5 * 2 + 1 < j) {
+					this.drawTexturedModalRect(l3, i4, k5 + 54, 9 * b1, 9, 9);
+				}
+
+				if (j5 * 2 + 1 == j) {
+					this.drawTexturedModalRect(l3, i4, k5 + 63, 9 * b1, 9, 9);
+				}
+			}
+
+			if (f2 <= 0.0F) {
+				if (j5 * 2 + 1 < i) {
+					this.drawTexturedModalRect(l3, i4, k5 + 36, 9 * b1, 9, 9);
+				}
+
+				if (j5 * 2 + 1 == i) {
+					this.drawTexturedModalRect(l3, i4, k5 + 45, 9 * b1, 9, 9);
+				}
+			} else {
+				if (f2 == f1 && f1 % 2.0F == 1.0F) {
+					this.drawTexturedModalRect(l3, i4, k5 + 153, 9 * b1, 9, 9);
+				} else {
+					this.drawTexturedModalRect(l3, i4, k5 + 144, 9 * b1, 9, 9);
+				}
+
+				f2 -= 2.0F;
+			}
+		}
+
+		Entity entity = entityplayer.ridingEntity;
+
+		if (entity == null) {
+			Profiler.in.endStartSection("food");
+
+			for (int l5 = 0; l5 < 10; ++l5) {
+				int i8 = k1;
+				int j6 = 16;
+				byte b4 = 0;
+
+				if (entityplayer.isPotionActive(Potion.hunger)) {
+					j6 += 36;
+					b4 = 13;
+				}
+
+				if (entityplayer.getFoodStats().getSaturationLevel() <= 0.0F && this.updateCounter % (k * 3 + 1) == 0) {
+					i8 = k1 + this.rand.nextInt(3) - 1;
+				}
+
+				if (flag1) {
+					b4 = 1;
+				}
+
+				int k7 = j1 - l5 * 8 - 9;
+				this.drawTexturedModalRect(k7, i8, 16 + b4 * 9, 27, 9, 9);
+
+				if (flag1) {
+					if (l5 * 2 + 1 < l) {
+						this.drawTexturedModalRect(k7, i8, j6 + 54, 27, 9, 9);
+					}
+
+					if (l5 * 2 + 1 == l) {
+						this.drawTexturedModalRect(k7, i8, j6 + 63, 27, 9, 9);
+					}
+				}
+
+				if (l5 * 2 + 1 < k) {
+					this.drawTexturedModalRect(k7, i8, j6 + 36, 27, 9, 9);
+				}
+
+				if (l5 * 2 + 1 == k) {
+					this.drawTexturedModalRect(k7, i8, j6 + 45, 27, 9, 9);
+				}
+			}
+		} else if (entity instanceof EntityLivingBase) {
+			Profiler.in.endStartSection("mountHealth");
+			EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
+			int l7 = (int) Math.ceil((double) entitylivingbase.getHealth());
+			float f3 = entitylivingbase.getMaxHealth();
+			int l6 = (int) (f3 + 0.5F) / 2;
+
+			if (l6 > 30) {
+				l6 = 30;
+			}
+
+			int j7 = k1;
+
+			for (int j4 = 0; l6 > 0; j4 += 20) {
+				int k4 = Math.min(l6, 10);
+				l6 -= k4;
+
+				for (int l4 = 0; l4 < k4; ++l4) {
+					byte b2 = 52;
+					byte b3 = 0;
+
+					if (flag1) {
+						b3 = 1;
+					}
+
+					int i5 = j1 - l4 * 8 - 9;
+					this.drawTexturedModalRect(i5, j7, b2 + b3 * 9, 9, 9, 9);
+
+					if (l4 * 2 + 1 + j4 < l7) {
+						this.drawTexturedModalRect(i5, j7, b2 + 36, 9, 9, 9);
+					}
+
+					if (l4 * 2 + 1 + j4 == l7) {
+						this.drawTexturedModalRect(i5, j7, b2 + 45, 9, 9, 9);
+					}
+				}
+
+				j7 -= 10;
+			}
+		}
+
+		Profiler.in.endStartSection("air");
+
+		if (entityplayer.isInsideOfMaterial(Material.water)) {
+			int i6 = this.mc.thePlayer.getAir();
+			int j8 = MathHelper.ceiling_double_int((double) (i6 - 2) * 10.0D / 300.0D);
+			int k6 = MathHelper.ceiling_double_int((double) i6 * 10.0D / 300.0D) - j8;
+
+			for (int i7 = 0; i7 < j8 + k6; ++i7) {
+				if (i7 < j8) {
+					this.drawTexturedModalRect(j1 - i7 * 8 - 9, j2, 16, 18, 9, 9);
+				} else {
+					this.drawTexturedModalRect(j1 - i7 * 8 - 9, j2, 25, 18, 9, 9);
+				}
+			}
+		}
+
+		Profiler.in.endSection();
 	}
 
 	/**
@@ -813,6 +882,9 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderPumpkinOverlay(ScaledResolution p_180476_1_) {
+		ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
+		if (Settings.getPerspective() != 0 || itemstack == null || itemstack.getItem() != Item.getItemFromBlock(Blocks.pumpkin)) return;
+
 		G.disableDepth();
 		G.depthMask(false);
 		G.tryBlendFuncSeparate(770, 771, 1, 0);
