@@ -86,10 +86,28 @@ public class Utils {
 		}
 		if (line.equals("key")) KeyStrokes.addKeyStroke(KeyBinding.FORWARD, 10, 10, 2f);
 		if (line.equals("chunk")) chunkInfo();
-		if (line.equals("s")) {
+		if (line.startsWith("s")) {
 			String[] split = line.split(" ");
 			if (split.length >= 2) GuiIngame.currentServer = split[1];
 		}
+	}
+
+	public static void glColor(int color) {
+
+		float f3 = (float) (color >> 24 & 255) / 255.0F;
+		float f = (float) (color >> 16 & 255) / 255.0F;
+		float f1 = (float) (color >> 8 & 255) / 255.0F;
+		float f2 = (float) (color & 255) / 255.0F;
+
+		G.color(f, f1, f2, f3);
+	}
+	public static void glColorNoAlpha(int color) {
+
+		float f = (float) (color >> 16 & 255) / 255.0F;
+		float f1 = (float) (color >> 8 & 255) / 255.0F;
+		float f2 = (float) (color & 255) / 255.0F;
+
+		G.color(f, f1, f2, 1);
 	}
 
 	private static void chunkInfo() {

@@ -6,7 +6,6 @@ import net.minecraft.Utils;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiButtonChangeName;
 import net.minecraft.client.gui.element.GuiButtonLanguage;
-import net.minecraft.client.gui.keymap.GuiKeymap;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -95,7 +94,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, Lang.format("menu.quit")));
 		this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Авторизация"));
 		this.buttonList.add(new GuiButton(6, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Не нажимать!"));
-		this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12)); // j + 72 + 12
+		this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 132 + 12)); // j + 72 + 12
 		this.buttonList.add(new GuiButtonChangeName(99, this.width / 2 - 124, j + 72 + 12 + 24));
 
 		synchronized (this.threadLock) {
@@ -119,7 +118,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions(this));
 
-		if (button.id == 5) this.mc.displayGuiScreen(new GuiKeymap());
+		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
 		if (button.id == 6) this.mc.displayGuiScreen(new GuiServers(this));
 
 		if (button.id == 1) this.mc.displayGuiScreen(new GuiSelectWorld(this));

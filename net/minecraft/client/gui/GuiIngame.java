@@ -109,7 +109,7 @@ public class GuiIngame extends Gui {
 	 * Used with updateCounter to make the heart bar flash
 	 */
 	private long healthUpdateCounter = 0L;
-	public static volatile String currentServer = "LOBBY_5";
+	public static String currentServer = "LOBBY_5";
 	public static long launchTime = System.currentTimeMillis();
 
 	public GuiIngame(Minecraft mcIn) {
@@ -195,7 +195,7 @@ public class GuiIngame extends Gui {
 		// Информация о траектории полёта стрелы
 		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
 
-		renderFakeVime(scaledresolution, width, height);
+//		renderFakeVime(scaledresolution, width, height);
 	}
 
 	private void renderFakeVime(ScaledResolution scaledresolution, int width, int height) {

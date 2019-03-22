@@ -48,7 +48,7 @@ public class GuiConnecting extends GuiScreen {
 	}
 
 	private void connect(final String ip, final int port) {
-		Log.CHAT.warn("Подключение к серверу " + ip + ":" + port);
+		Log.CHAT.important("Подключение к серверу " + ip + ":" + port);
 		new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
 			public void run() {
 

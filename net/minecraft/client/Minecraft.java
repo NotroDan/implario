@@ -463,7 +463,7 @@ public class Minecraft implements IThreadListener {
 
 	private void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle("Implario Client");
+		Display.setTitle("VimeWorld.ru");
 
 		try {
 			Display.create(new PixelFormat().withDepthBits(24));
@@ -727,7 +727,7 @@ label53:
 		} finally {
 			Display.destroy();
 			Date date = new Date();
-			String end = "Конец сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date);
+			String end = "Конец сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date) + "\n";
 			Log.SOUND.comment(end);
 			Log.MAIN.comment(end);
 			Log.CHAT.comment(end);
@@ -2014,6 +2014,10 @@ label53:
 		}
 	}
 
+	public ModelManager getModelManager() {
+		return modelManager;
+	}
+
 	public MinecraftSessionService getSessionService() {
 		return this.sessionService;
 	}
@@ -2097,5 +2101,6 @@ label53:
 	public void func_181537_a(boolean value) {
 		this.field_181541_X = value;
 	}
+
 }
 //
