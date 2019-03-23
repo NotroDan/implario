@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "some_block" }
+    }
+}
