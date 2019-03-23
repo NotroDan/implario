@@ -38,12 +38,12 @@
 Создайте новую конфигурацию Application.
 В поле Main class укажите главный класс ImplarioClient - Start
 В поле VM options вставьте следующее:
-> -Djava.library.path=natives/ 
+`-Djava.library.path=natives/` 
 
 Поле Program arguments заполните этим:
-> --username YOUR_NAME --gameDir .\ --uuid 1a2b3c4d5e6f7d8d9d0d1a2b3c4d5e6d --userType mojang
+`--username YOUR_NAME --gameDir .\ --uuid 1a2b3c4d5e6f7d8d9d0d1a2b3c4d5e6d --userType mojang`
 
-YOUR_NAME замените на свой игровой ник.
+`YOUR_NAME` замените на свой игровой ник.
 Поскольку Implario Client пока не поддерживает лицензионные сервера, UUID может быть любым.
 
 В Working directory пропишите путь к папке project/ImplarioClient/env, в ней находятся нативные библиотеки для Windows, а также некоторые другие файлы игры, например звуки.
