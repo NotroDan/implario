@@ -1,7 +1,8 @@
 env/*
 client.iml
-desktop.ini
-env/desktop.ini
-resources/desktop.ini
-src/desktop.ini
-tests/desktop.ini
+# desktop.ini
+# env/desktop.ini
+# resources/desktop.ini
+# src/desktop.ini
+# tests/desktop.ini
+**/desktop.ini
