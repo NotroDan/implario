@@ -1,4 +1,8 @@
 env/*
+!env/natives
+!env/natives/*
+!env/assets
+!env/assets/*
 client.iml
 # desktop.ini
 # env/desktop.ini
