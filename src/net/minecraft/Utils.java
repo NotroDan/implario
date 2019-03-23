@@ -24,14 +24,12 @@ import java.util.Random;
 
 public class Utils {
 
-	public static final Object[] OBJECT = new Object[0];
 	public static final ShaderOption[] SHADEROPTION = new ShaderOption[0];
 	public static final CustomColormap[] CUSTOMCOLORMAP = new CustomColormap[0];
 	public static final String[] STRING = new String[0];
 	public static final Integer[] INTEGER = new Integer[0];
 	public static final Class[] CLASS = new Class[0];
 	public static final CustomSkyLayer[] CUSTOMSKYLAYER = new CustomSkyLayer[0];
-	public static final StackTraceElement[] STACKTRACEELEMENT = new StackTraceElement[0];
 	public static final IResourcePack[] IRESOURCEPACK = new IResourcePack[0];
 	public static final DisplayMode[] DISPLAYMODE = new DisplayMode[0];
 

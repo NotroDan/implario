@@ -112,7 +112,7 @@ public class ScreenShotHelper {
 
 			TransferableImage image = new TransferableImage(bufferedimage);
 			Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-			c.setContents(image, (cb, t) -> {System.out.println("Управление буфером обмена потеряно.");});
+			c.setContents(image, (cb, t) -> {});
 
 			return new ChatComponentTranslation("screenshot.success", ichatcomponent);
 		} catch (Exception exception) {
