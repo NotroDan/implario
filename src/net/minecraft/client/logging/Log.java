@@ -5,6 +5,8 @@ import net.minecraft.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +23,7 @@ public class Log {
 	private final boolean console;
 	private final String extension, prefix;
 	protected File file;
-	private FileOutputStream stream;
+	private OutputStreamWriter stream;
 	private volatile int day;
 	private List<ILogInterceptor> interceptors = new ArrayList<>();
 
@@ -68,17 +70,16 @@ public class Log {
 			close();
 		}
 		file = f;
-		stream = new FileOutputStream(file, true);
+		stream = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
 		if (continued) append("-- Продолжение предыдущей сессии\n");
 	}
 
 	public File getFile(Date date) throws IOException {
 		String name = extension + "_" + DAY.format(date) + ".log";
-		File f = new File("logs/" + name);
-		if (!f.exists()) {
-			f.mkdirs();
-			f.createNewFile();
-		}
+		File logsDir = new File("gamedata/logs");
+		if (!logsDir.exists()) logsDir.mkdir();
+		File f = new File(logsDir, name);
+		if (!f.exists()) f.createNewFile();
 		return f;
 	}
 
@@ -145,7 +146,7 @@ public class Log {
 
 	private void append(String s) {
 		try {
-			stream.write(s.getBytes());
+			stream.write(s);
 			stream.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

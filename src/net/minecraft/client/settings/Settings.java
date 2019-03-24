@@ -227,7 +227,7 @@ public enum Settings {
 
 	public static void loadOptions() {
 		try {
-			File file = new File("settings.txt");
+			File file = new File("gamedata/settings.txt");
 			if (!file.exists()) return;
 			BufferedReader bufferedreader = new BufferedReader(new FileReader(file));
 			String s;
@@ -267,7 +267,7 @@ public enum Settings {
 
 	public static void saveOptions() {
 		try {
-			PrintWriter w = new PrintWriter(new FileWriter(new File("settings.txt")));
+			PrintWriter w = new PrintWriter(new FileWriter(new File("gamedata/settings.txt")));
 
 			for (KeyBinding key : KeyBinding.values()) w.println("key_" + key.name() + ": " + key.getKeyCode());
 			w.println("resourcePacks: " + gson.toJson(resourcePacks));

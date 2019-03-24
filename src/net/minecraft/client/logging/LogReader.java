@@ -1,10 +1,9 @@
 package net.minecraft.client.logging;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +25,9 @@ public class LogReader implements ILogInterceptor {
 
 	private void read() {
 		try {
-			BufferedReader r = new BufferedReader(new FileReader(file));
+			FileInputStream is = new FileInputStream(file);
+			InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+			BufferedReader r = new BufferedReader(isr);
 			String s;
 			while ((s = r.readLine()) != null)
 				lines.add(constructLine(s));
@@ -90,7 +91,7 @@ public class LogReader implements ILogInterceptor {
 		public boolean equals(Object o) {
 			if (!(o instanceof Line)) return false;
 			Line l = (Line) o;
-			return l.getTime() == getTime() && l.getMessage() == getMessage() && l.level == level;
+			return Arrays.equals(l.getTime(), getTime()) && Arrays.equals(l.getMessage(), getMessage()) && l.level == level;
 		}
 
 	}

@@ -120,7 +120,6 @@ public class Minecraft implements IThreadListener {
 
 	private static final List<DisplayMode> macDisplayModes = Lists.newArrayList(new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
 	private final File fileResourcepacks;
-	private final PropertyMap twitchDetails;
 	private final PropertyMap field_181038_N;
 	private ServerData currentServerData;
 
@@ -172,7 +171,6 @@ public class Minecraft implements IThreadListener {
 
 	public MouseHelper mouseHelper;
 	public final File mcDataDir;
-	private final File fileAssets;
 	private final String launchedVersion;
 	private final Proxy proxy;
 	private ISaveFormat saveLoader;
@@ -261,12 +259,10 @@ public class Minecraft implements IThreadListener {
 		Profiler.in = new ClientProfiler();
 		Todo.instance = new TodoClient();
 		this.mcDataDir = gameConfig.folderInfo.mcDataDir;
-		this.fileAssets = gameConfig.folderInfo.assetsDir;
 		this.fileResourcepacks = gameConfig.folderInfo.resourcePacksDir;
 		this.launchedVersion = gameConfig.gameInfo.version;
-		this.twitchDetails = gameConfig.userInfo.userProperties;
 		this.field_181038_N = gameConfig.userInfo.field_181172_c;
-		this.mcDefaultResourcePack = new DefaultResourcePack(new ResourceIndex(gameConfig.folderInfo.assetsDir, gameConfig.folderInfo.assetIndex).getResourceMap());
+		this.mcDefaultResourcePack = new DefaultResourcePack();
 		this.proxy = gameConfig.userInfo.proxy == null ? Proxy.NO_PROXY : gameConfig.userInfo.proxy;
 		this.sessionService = new YggdrasilAuthenticationService(gameConfig.userInfo.proxy, UUID.randomUUID().toString()).createMinecraftSessionService();
 		this.session = gameConfig.userInfo.session;
@@ -358,7 +354,7 @@ public class Minecraft implements IThreadListener {
 		this.refreshResources();
 		this.renderEngine = new TextureManager(this.mcResourceManager);
 		this.mcResourceManager.registerReloadListener(this.renderEngine);
-		this.skinManager = new SkinManager(this.renderEngine, new File(this.fileAssets, "skins"), this.sessionService);
+		this.skinManager = new SkinManager(this.renderEngine, new File("gamedata/defaultresourcepack/skins"), this.sessionService);
 		this.fontRendererObj = new FontRenderer(new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
 		if (Settings.language != null) {
 			this.fontRendererObj.setUnicodeFlag(this.isUnicode());
@@ -501,8 +497,8 @@ public class Minecraft implements IThreadListener {
 			inputstream = Minecraft.class.getResourceAsStream("/icon16.png");
 			inputstream1 = Minecraft.class.getResourceAsStream("/icon32.png");
 
-//				inputstream = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_16x16.png"));
-//				inputstream1 = this.mcDefaultResourcePack.getInputStreamAssets(new ResourceLocation("icons/icon_32x32.png"));
+//				inputstream = this.mcDefaultResourcePack.getExternalInputStream(new ResourceLocation("icons/icon_16x16.png"));
+//				inputstream1 = this.mcDefaultResourcePack.getExternalInputStream(new ResourceLocation("icons/icon_32x32.png"));
 
 			if (inputstream != null && inputstream1 != null) {
 				Display.setIcon(new ByteBuffer[] {this.readImageToBuffer(inputstream), this.readImageToBuffer(inputstream1)});
@@ -557,7 +553,7 @@ public class Minecraft implements IThreadListener {
 	 * Wrapper around displayCrashReportInternal
 	 */
 	public void displayCrashReport(CrashReport crashReportIn) {
-		File file1 = new File(getMinecraft().mcDataDir, "crash-reports");
+		File file1 = new File(getMinecraft().mcDataDir, "gamedata/logs/crash-reports");
 		File file2 = new File(file1, "crash-" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + "-client.txt");
 		Bootstrap.print(crashReportIn.getCompleteReport());
 
@@ -1947,10 +1943,6 @@ label53:
 
 	public Session getSession() {
 		return this.session;
-	}
-
-	public PropertyMap getTwitchDetails() {
-		return this.twitchDetails;
 	}
 
 	public PropertyMap func_181037_M() {

@@ -1,8 +1,11 @@
 env/*
-!env/natives
-!env/natives/*
-!env/assets
-!env/assets/*
+!env/gamedata/
+env/gamedata/logs/*
+env/gamedata/defaultresourcepack/skins/*
+env/gamedata/*.txt
+env/gamedata/servers.dat
+env/gamedata/usercache.json
+
 client.iml
 # desktop.ini
 # env/desktop.ini

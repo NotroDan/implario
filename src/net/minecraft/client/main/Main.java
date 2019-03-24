@@ -9,6 +9,7 @@ import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
+import net.minecraft.util.Textifier;
 
 import java.io.File;
 import java.net.Authenticator;
@@ -35,13 +36,12 @@ public class Main {
 		OptionSpec<Integer> optionspec6 = optionparser.accepts("proxyPort").withRequiredArg().defaultsTo("8080", new String[0]).ofType(Integer.class);
 		OptionSpec<String> optionspec7 = optionparser.accepts("proxyUser").withRequiredArg();
 		OptionSpec<String> optionspec8 = optionparser.accepts("proxyPass").withRequiredArg();
-		OptionSpec<String> optionspec9 = optionparser.accepts("username").withRequiredArg().defaultsTo("Player" + Minecraft.getSystemTime() % 1000L);
+		OptionSpec<String> optionspec9 = optionparser.accepts("username").withRequiredArg().defaultsTo(Textifier.getWittyName());
 		OptionSpec<String> optionspec10 = optionparser.accepts("uuid").withRequiredArg();
 		OptionSpec<String> optionspec11 = optionparser.accepts("accessToken").withRequiredArg().required();
 		OptionSpec<String> optionspec12 = optionparser.accepts("version").withRequiredArg().required();
 		OptionSpec<Integer> optionspec13 = optionparser.accepts("width").withRequiredArg().ofType(Integer.class).defaultsTo(854);
 		OptionSpec<Integer> optionspec14 = optionparser.accepts("height").withRequiredArg().ofType(Integer.class).defaultsTo(480);
-		OptionSpec<String> optionspec15 = optionparser.accepts("userProperties").withRequiredArg().defaultsTo("{}");
 		OptionSpec<String> optionspec16 = optionparser.accepts("profileProperties").withRequiredArg().defaultsTo("{}");
 		OptionSpec<String> optionspec17 = optionparser.accepts("assetIndex").withRequiredArg();
 		OptionSpec<String> optionspec18 = optionparser.accepts("userType").withRequiredArg().defaultsTo("legacy");
@@ -74,7 +74,6 @@ public class Main {
 		boolean flag1 = optionset.has("checkGlErrors");
 		String s3 = optionset.valueOf(optionspec12);
 		Gson gson = new GsonBuilder().registerTypeAdapter(PropertyMap.class, new Serializer()).create();
-		PropertyMap propertymap = gson.fromJson(optionset.valueOf(optionspec15), PropertyMap.class);
 		PropertyMap propertymap1 = gson.fromJson(optionset.valueOf(optionspec16), PropertyMap.class);
 		File file1 = optionset.valueOf(optionspec2);
 		File file2 = optionset.has(optionspec3) ? optionset.valueOf(optionspec3) : new File(file1, "assets/");
@@ -85,7 +84,7 @@ public class Main {
 		Integer integer = optionset.valueOf(optionspec1);
 		Session session = new Session(optionspec9.value(optionset), s4, optionspec11.value(optionset), optionspec18.value(optionset));
 		GameConfiguration gameconfiguration = new GameConfiguration(
-				new GameConfiguration.UserInformation(session, propertymap, propertymap1, proxy),
+				new GameConfiguration.UserInformation(session, propertymap1, proxy),
 				new GameConfiguration.DisplayInformation(i, j, flag, flag1),
 				new GameConfiguration.FolderInformation(file1, file3, file2, s5),
 				new GameConfiguration.GameInformation(s3),

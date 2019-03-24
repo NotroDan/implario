@@ -32,7 +32,7 @@ public class ServerList {
 	public void loadServerList() {
 		try {
 			this.servers.clear();
-			NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
+			NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "gamedata/servers.dat"));
 
 			if (nbttagcompound == null) return;
 
@@ -59,7 +59,7 @@ public class ServerList {
 
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
 			nbttagcompound.setTag("servers", nbttaglist);
-			CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "servers.dat"));
+			CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "gamedata/servers.dat"));
 		} catch (Exception exception) {
 			logger.error("Couldn\'t save server list", exception);
 		}

@@ -102,7 +102,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private void func_146314_g() {
 		this.field_146336_i = this.field_146333_g.getText().trim();
 
-		for (char c0 : ChatAllowedCharacters.allowedCharactersArray) {
+		for (char c0 : ChatAllowedCharacters.disallowedChars) {
 			this.field_146336_i = this.field_146336_i.replace(c0, '_');
 		}
 

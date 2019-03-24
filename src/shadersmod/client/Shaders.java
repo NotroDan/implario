@@ -263,7 +263,7 @@ public class Shaders {
 	public static String packNameNone = "OFF";
 	static String packNameDefault = "(internal)";
 	static String shaderpacksdirname = "shaderpacks";
-	static String optionsfilename = "optionsshaders.txt";
+	static String optionsfilename = "gamedata/optionsshaders.txt";
 	static File shadersdir;
 	static File shaderpacksdir;
 	static File configFile;

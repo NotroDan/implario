@@ -80,13 +80,11 @@ public class GameConfiguration {
 	public static class UserInformation {
 
 		public final Session session;
-		public final PropertyMap userProperties;
 		public final PropertyMap field_181172_c;
 		public final Proxy proxy;
 
-		public UserInformation(Session session, PropertyMap userProperties, PropertyMap properties, Proxy proxy) {
+		public UserInformation(Session session, PropertyMap properties, Proxy proxy) {
 			this.session = session;
-			this.userProperties = userProperties;
 			this.field_181172_c = properties;
 			this.proxy = proxy;
 		}
