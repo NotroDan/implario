@@ -213,7 +213,7 @@ public class Minecraft implements IThreadListener {
 	private final List<IResourcePack> defaultResourcePacks = Lists.newArrayList();
 	private final DefaultResourcePack mcDefaultResourcePack;
 	private ResourcePackRepository mcResourcePackRepository;
-	private LanguageManager mcLanguageManager;
+	public LanguageManager mcLanguageManager;
 	private Framebuffer framebufferMc;
 	private TextureMap textureMapBlocks;
 	private SoundHandler mcSoundHandler;
