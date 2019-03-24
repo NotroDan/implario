@@ -38,7 +38,7 @@
 Создайте новую конфигурацию Application.
 В поле Main class укажите главный класс ImplarioClient - Start
 В поле VM options вставьте следующее:
-`-Djava.library.path=natives/` 
+`-Djava.library.path=/gamedata/natives/` 
 
 Поле Program arguments заполните этим:
 `--username YOUR_NAME --gameDir .\ --uuid 1a2b3c4d5e6f7d8d9d0d1a2b3c4d5e6d --userType mojang`
