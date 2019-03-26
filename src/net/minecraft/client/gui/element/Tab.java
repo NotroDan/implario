@@ -1,7 +1,7 @@
 package net.minecraft.client.gui.element;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class Tab {
 	public Tab(String title, int id, int x, int y) {
 		this.title = title;
 		this.id = id;
-		FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+		AssetsFontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 		button = new GuiButton(id, x, y, fr.getStringWidth(title) + 12, 18, title);
 	}
 

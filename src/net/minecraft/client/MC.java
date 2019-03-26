@@ -1,7 +1,7 @@
 package net.minecraft.client;
 
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -13,11 +13,11 @@ import static net.minecraft.client.Minecraft.theMinecraft;
 
 public final class MC {
 	
-	public static FontRenderer FR;
+	public static AssetsFontRenderer FR;
 
 	private MC() {throw new Error("Ну ты чо совсем шоле ебанулся");}
 
-	public static FontRenderer getFontRenderer() {
+	public static AssetsFontRenderer getFontRenderer() {
 		return theMinecraft.fontRendererObj;
 	}
 

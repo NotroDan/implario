@@ -7,6 +7,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.settings.Settings;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class GuiOverlayDebug extends Gui {
 
 	private final Minecraft mc;
-	private final FontRenderer fontRenderer;
+	private final AssetsFontRenderer fontRenderer;
 
 	public GuiOverlayDebug(Minecraft mc) {
 		this.mc = mc;
@@ -57,7 +58,7 @@ public class GuiOverlayDebug extends Gui {
 			String s = (String) list.get(i);
 
 			if (!Strings.isNullOrEmpty(s)) {
-				int j = this.fontRenderer.FONT_HEIGHT;
+				int j = this.fontRenderer.getFontHeight();
 				int k = this.fontRenderer.getStringWidth(s);
 				boolean flag = true;
 				int l = 2 + j * i;
@@ -74,7 +75,7 @@ public class GuiOverlayDebug extends Gui {
 			String s = (String) list.get(i);
 
 			if (!Strings.isNullOrEmpty(s)) {
-				int j = this.fontRenderer.FONT_HEIGHT;
+				int j = this.fontRenderer.getFontHeight();
 				int k = this.fontRenderer.getStringWidth(s);
 				int l = resolution.getScaledWidth() / 2 - k / 2;
 				int i1 = resolution.getScaledHeight() / 2 + 10 + j * i;
@@ -92,7 +93,7 @@ public class GuiOverlayDebug extends Gui {
 			String s = (String) list.get(i);
 
 			if (!Strings.isNullOrEmpty(s)) {
-				int j = this.fontRenderer.FONT_HEIGHT;
+				int j = this.fontRenderer.getFontHeight();
 				int k = this.fontRenderer.getStringWidth(s);
 				int l = resolution.getScaledWidth() - 2 - k;
 				int i1 = 2 + j * i;

@@ -1,7 +1,7 @@
 package net.minecraft.client.gui.element;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.HoverButton;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
@@ -85,7 +85,7 @@ public class VolumeSlider extends SettingSlider implements HoverButton {
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
-		FontRenderer fontrenderer = mc.fontRendererObj;
+		AssetsFontRenderer fontrenderer = mc.fontRendererObj;
 		mc.getTextureManager().bindTexture(buttonTextures);
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.hovered = superPressed(mc, mouseX, mouseY);

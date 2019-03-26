@@ -2,7 +2,7 @@ package net.minecraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.G;
@@ -39,7 +39,7 @@ public class Utils {
 	}
 
 	private static void drawFloatingText0(String text, float x, float y, float z, boolean back) {
-		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+		AssetsFontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
 		float f = 1.6F;
 		float f1 = 0.016666668F * f;
 		G.pushMatrix();

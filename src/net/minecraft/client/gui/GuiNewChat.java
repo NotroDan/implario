@@ -83,7 +83,7 @@ public class GuiNewChat extends Gui {
 			}
 
 			if (flag) {
-				int k2 = this.mc.fontRendererObj.FONT_HEIGHT;
+				int k2 = this.mc.fontRendererObj.getFontHeight();
 				G.translate(-3.0F, 0.0F, 0.0F);
 				int l2 = k * k2 + k;
 				int i3 = j * k2 + j;
@@ -220,8 +220,8 @@ public class GuiNewChat extends Gui {
 		if (j >= 0 && k >= 0) {
 			int l = Math.min(this.getLineCount(), this.field_146253_i.size());
 
-			if (j <= MathHelper.floor_float((float) this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l) {
-				int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
+			if (j <= MathHelper.floor_float((float) this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.getFontHeight() * l + l) {
+				int i1 = k / this.mc.fontRendererObj.getFontHeight() + this.scrollPos;
 
 				if (i1 >= 0 && i1 < this.field_146253_i.size()) {
 					ChatLine chatline = this.field_146253_i.get(i1);

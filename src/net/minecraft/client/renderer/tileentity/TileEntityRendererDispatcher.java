@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.tileentity;
 
 import com.google.common.collect.Maps;
 import java.util.Map;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -28,7 +28,7 @@ public class TileEntityRendererDispatcher
 {
     private Map < Class <? extends TileEntity > , TileEntitySpecialRenderer <? extends TileEntity >> mapSpecialRenderers = Maps.newHashMap();
     public static TileEntityRendererDispatcher instance = new TileEntityRendererDispatcher();
-    private FontRenderer fontRenderer;
+    private AssetsFontRenderer fontRenderer;
 
     /** The player's current X position (same as playerX) */
     public static double staticPlayerX;
@@ -84,7 +84,7 @@ public class TileEntityRendererDispatcher
         return (TileEntitySpecialRenderer<T>)(tileEntityIn == null ? null : this.getSpecialRendererByClass(tileEntityIn.getClass()));
     }
 
-    public void cacheActiveRenderInfo(World worldIn, TextureManager textureManagerIn, FontRenderer fontrendererIn, Entity entityIn, float partialTicks)
+    public void cacheActiveRenderInfo(World worldIn, TextureManager textureManagerIn, AssetsFontRenderer fontrendererIn, Entity entityIn, float partialTicks)
     {
         if (this.worldObj != worldIn)
         {
@@ -148,7 +148,7 @@ public class TileEntityRendererDispatcher
         this.worldObj = worldIn;
     }
 
-    public FontRenderer getFontRenderer()
+    public AssetsFontRenderer getFontRenderer()
     {
         return this.fontRenderer;
     }

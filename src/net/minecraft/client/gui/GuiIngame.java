@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.keystrokes.KeyStroke;
 import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.*;
@@ -201,8 +202,8 @@ public class GuiIngame extends Gui {
 	private void renderFakeVime(ScaledResolution scaledresolution, int width, int height) {
 
 		MC.FR.drawString("§f[§e41§f] §f" + MC.getPlayer().getName(), 2, 2, 0xffffff, true);
-		MC.FR.drawString(currentServer, 2, 4 + MC.FR.FONT_HEIGHT, 0xffffff, true);
-		MC.FR.drawString("§e[§dx4.4§e] §fКоличество коинов: §e45649", 2, height - 16 - MC.FR.FONT_HEIGHT, 0xffffff, true);
+		MC.FR.drawString(currentServer, 2, 4 + MC.FR.getFontHeight(), 0xffffff, true);
+		MC.FR.drawString("§e[§dx4.4§e] §fКоличество коинов: §e45649", 2, height - 16 - MC.FR.getFontHeight(), 0xffffff, true);
 
 		long time = System.currentTimeMillis();
 		int duration = 3600 - (int) (time - launchTime) / 1000;
@@ -590,7 +591,7 @@ public class GuiIngame extends Gui {
 			i = Math.max(i, this.getFontRenderer().getStringWidth(s));
 		}
 
-		int j1 = arraylist1.size() * this.getFontRenderer().FONT_HEIGHT;
+		int j1 = arraylist1.size() * this.getFontRenderer().getFontHeight();
 		int k1 = p_180475_2_.getScaledHeight() / 2 + j1 / 3;
 		byte b0 = 3;
 		int j = p_180475_2_.getScaledWidth() - i - b0;
@@ -601,17 +602,17 @@ public class GuiIngame extends Gui {
 			ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(((Score) score1).getPlayerName());
 			String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, ((Score) score1).getPlayerName());
 			String s2 = EnumChatFormatting.RED + "" + ((Score) score1).getScorePoints();
-			int l = k1 - k * this.getFontRenderer().FONT_HEIGHT;
+			int l = k1 - k * this.getFontRenderer().getFontHeight();
 			int i1 = p_180475_2_.getScaledWidth() - b0 + 2;
-			drawRect(j - 2, l, i1, l + this.getFontRenderer().FONT_HEIGHT, 1342177280);
+			drawRect(j - 2, l, i1, l + this.getFontRenderer().getFontHeight(), 1342177280);
 			this.getFontRenderer().drawString(s1, j, l, 553648127);
 			this.getFontRenderer().drawString(s2, i1 - this.getFontRenderer().getStringWidth(s2), l, 553648127);
 
 			if (k == arraylist1.size()) {
 				String s3 = p_180475_1_.getDisplayName();
-				drawRect(j - 2, l - this.getFontRenderer().FONT_HEIGHT - 1, i1, l - 1, 1610612736);
+				drawRect(j - 2, l - this.getFontRenderer().getFontHeight() - 1, i1, l - 1, 1610612736);
 				drawRect(j - 2, l - 1, i1, l, 1342177280);
-				this.getFontRenderer().drawString(s3, j + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, l - this.getFontRenderer().FONT_HEIGHT, 553648127);
+				this.getFontRenderer().drawString(s3, j + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, l - this.getFontRenderer().getFontHeight(), 553648127);
 			}
 		}
 	}
@@ -858,7 +859,7 @@ public class GuiIngame extends Gui {
 		Profiler.in.startSection("bossHealth");
 		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
 			--BossStatus.statusBarTime;
-			FontRenderer fontrenderer = this.mc.fontRendererObj;
+			AssetsFontRenderer fontrenderer = this.mc.fontRendererObj;
 			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
 			int i = scaledresolution.getScaledWidth();
 			short short1 = 182;
@@ -1084,7 +1085,7 @@ public class GuiIngame extends Gui {
 		return this.updateCounter;
 	}
 
-	public FontRenderer getFontRenderer() {
+	public AssetsFontRenderer getFontRenderer() {
 		return this.mc.fontRendererObj;
 	}
 

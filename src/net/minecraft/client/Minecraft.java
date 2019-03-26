@@ -11,6 +11,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.logging.Log;
 import net.minecraft.Logger;
 import net.minecraft.block.Block;
@@ -148,8 +149,8 @@ public class Minecraft implements IThreadListener {
 	public EffectRenderer effectRenderer;
 	private final Session session;
 	private boolean isGamePaused;
-	public FontRenderer fontRendererObj;
-	public FontRenderer standardGalacticFontRenderer;
+	public AssetsFontRenderer fontRendererObj;
+	public AssetsFontRenderer standardGalacticFontRenderer;
 	public GuiScreen currentScreen;
 	public LoadingScreenRenderer loadingScreen;
 	public EntityRenderer entityRenderer;
@@ -355,11 +356,8 @@ public class Minecraft implements IThreadListener {
 		this.renderEngine = new TextureManager(this.mcResourceManager);
 		this.mcResourceManager.registerReloadListener(this.renderEngine);
 		this.skinManager = new SkinManager(this.renderEngine, new File("gamedata/defaultresourcepack/skins"), this.sessionService);
-		this.fontRendererObj = new FontRenderer(new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
-		if (Settings.language != null) {
-			this.fontRendererObj.setUnicodeFlag(this.isUnicode());
-			this.fontRendererObj.setBidiFlag(this.mcLanguageManager.isCurrentLanguageBidirectional());
-		}
+		this.fontRendererObj = new AssetsFontRenderer(new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
+		if (Settings.language != null) this.fontRendererObj.setUnicodeFlag(this.isUnicode());
 		
 		preloader = new Preloader(new ScaledResolution(this), mcDefaultResourcePack, renderEngine);
 		preloader.drawLogo();
@@ -377,7 +375,7 @@ public class Minecraft implements IThreadListener {
 		long end = System.currentTimeMillis();
 		System.out.println("# Преинициализация завершена за " + (end - start) + " мс.");
 
-		this.standardGalacticFontRenderer = new FontRenderer(new ResourceLocation("textures/font/ascii_sga.png"), this.renderEngine, false);
+		this.standardGalacticFontRenderer = new AssetsFontRenderer(new ResourceLocation("textures/font/ascii_sga.png"), this.renderEngine, false);
 		this.mcResourceManager.registerReloadListener(this.fontRendererObj);
 		this.mcResourceManager.registerReloadListener(this.standardGalacticFontRenderer);
 		this.mcResourceManager.registerReloadListener(new GrassColorReloadListener());

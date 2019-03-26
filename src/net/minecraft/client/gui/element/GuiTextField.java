@@ -2,7 +2,7 @@ package net.minecraft.client.gui.element;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPageButtonList;
 import net.minecraft.client.gui.GuiScreen;
@@ -15,7 +15,7 @@ import net.minecraft.util.MathHelper;
 
 public class GuiTextField extends Gui {
 	private final int id;
-	private final FontRenderer fontRendererInstance;
+	private final AssetsFontRenderer fontRendererInstance;
 	public int xPosition;
 	public int yPosition;
 	
@@ -68,7 +68,7 @@ public class GuiTextField extends Gui {
 	private GuiPageButtonList.GuiResponder field_175210_x;
 	private Predicate<String> field_175209_y = Predicates.alwaysTrue();
 	
-	public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
+	public GuiTextField(int componentId, AssetsFontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
 		this.id = componentId;
 		this.fontRendererInstance = fontrendererObj;
 		this.xPosition = x;
@@ -463,7 +463,7 @@ public class GuiTextField extends Gui {
 		
 		if (flag1) {
 			if (flag2) {
-				Gui.drawRect(k1, i1 - 1, k1 + 1, i1 + 1 + this.fontRendererInstance.FONT_HEIGHT, -3092272);
+				Gui.drawRect(k1, i1 - 1, k1 + 1, i1 + 1 + this.fontRendererInstance.getFontHeight(), -3092272);
 			} else {
 				this.fontRendererInstance.drawStringWithShadow("_", (float) k1, (float) i1, i);
 			}
@@ -471,7 +471,7 @@ public class GuiTextField extends Gui {
 		
 		if (k != j) {
 			int l1 = l + this.fontRendererInstance.getStringWidth(s.substring(0, k));
-			this.drawCursorVertical(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRendererInstance.FONT_HEIGHT);
+			this.drawCursorVertical(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRendererInstance.getFontHeight());
 		}
 	}
 	

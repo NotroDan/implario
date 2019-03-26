@@ -108,7 +108,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 			this.drawDefaultBackground();
 			this.drawCenteredString(this.fontRendererObj, Lang.format("multiplayer.downloadingStats"), this.width / 2, this.height / 2, 16777215);
 			this.drawCenteredString(this.fontRendererObj, lanSearchStates[(int) (Minecraft.getSystemTime() / 150L % (long) lanSearchStates.length)], this.width / 2,
-					this.height / 2 + this.fontRendererObj.FONT_HEIGHT * 2, 16777215);
+					this.height / 2 + this.fontRendererObj.getFontHeight() * 2, 16777215);
 		} else {
 			this.displaySlot.drawScreen(mouseX, mouseY, partialTicks);
 			this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 20, 16777215);
@@ -508,7 +508,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		private final List<EntityList.EntityEggInfo> field_148222_l = Lists.newArrayList();
 
 		public StatsMobsList(Minecraft mcIn) {
-			super(mcIn, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, GuiStats.this.fontRendererObj.FONT_HEIGHT * 4);
+			super(mcIn, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, GuiStats.this.fontRendererObj.getFontHeight() * 4);
 			this.setShowSelectionBox(false);
 
 			for (EntityList.EntityEggInfo entitylist$entityegginfo : EntityList.entityEggs.values())
@@ -528,7 +528,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		}
 
 		protected int getContentHeight() {
-			return this.getSize() * GuiStats.this.fontRendererObj.FONT_HEIGHT * 4;
+			return this.getSize() * GuiStats.this.fontRendererObj.getFontHeight() * 4;
 		}
 
 		protected void drawBackground() {
@@ -547,8 +547,8 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 			if (j == 0) s2 = Lang.format("stat.entityKilledBy.none", s);
 
 			GuiStats.this.drawString(GuiStats.this.fontRendererObj, s, p_180791_2_ + 2 - 10, p_180791_3_ + 1, 16777215);
-			GuiStats.this.drawString(GuiStats.this.fontRendererObj, s1, p_180791_2_ + 2, p_180791_3_ + 1 + GuiStats.this.fontRendererObj.FONT_HEIGHT, i == 0 ? 6316128 : 9474192);
-			GuiStats.this.drawString(GuiStats.this.fontRendererObj, s2, p_180791_2_ + 2, p_180791_3_ + 1 + GuiStats.this.fontRendererObj.FONT_HEIGHT * 2, j == 0 ? 6316128 : 9474192);
+			GuiStats.this.drawString(GuiStats.this.fontRendererObj, s1, p_180791_2_ + 2, p_180791_3_ + 1 + GuiStats.this.fontRendererObj.getFontHeight(), i == 0 ? 6316128 : 9474192);
+			GuiStats.this.drawString(GuiStats.this.fontRendererObj, s2, p_180791_2_ + 2, p_180791_3_ + 1 + GuiStats.this.fontRendererObj.getFontHeight() * 2, j == 0 ? 6316128 : 9474192);
 		}
 
 	}

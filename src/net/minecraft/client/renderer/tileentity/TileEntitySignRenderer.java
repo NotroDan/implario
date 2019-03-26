@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.tileentity;
 
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.GuiUtilRenderComponents;
 import net.minecraft.client.model.ModelSign;
 import net.minecraft.client.renderer.G;
@@ -82,7 +82,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
         G.scale(f, -f, -f);
         this.model.renderSign();
         G.popMatrix();
-        FontRenderer fontrenderer = this.getFontRenderer();
+        AssetsFontRenderer fontrenderer = this.getFontRenderer();
         float f3 = 0.015625F * f;
         G.translate(0.0F, 0.5F * f, 0.07F * f);
         G.scale(f3, -f3, f3);

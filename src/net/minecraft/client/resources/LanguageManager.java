@@ -13,88 +13,67 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
-public class LanguageManager implements IResourceManagerReloadListener
-{
-    private static final Logger logger = Logger.getInstance();
-    private final IMetadataSerializer theMetadataSerializer;
-    private String currentLanguage;
-    protected static final Locale currentLocale = new Locale();
-    private Map<String, Language> languageMap = Maps.newHashMap();
+public class LanguageManager implements IResourceManagerReloadListener {
 
-    public LanguageManager(IMetadataSerializer theMetadataSerializerIn, String currentLanguageIn)
-    {
-        this.theMetadataSerializer = theMetadataSerializerIn;
-        this.currentLanguage = currentLanguageIn;
-        Lang.setLocale(currentLocale);
-    }
+	private static final Logger logger = Logger.getInstance();
+	private final IMetadataSerializer theMetadataSerializer;
+	private String currentLanguage;
+	protected static final Locale currentLocale = new Locale();
+	private Map<String, Language> languageMap = Maps.newHashMap();
 
-    public void parseLanguageMetadata(List<IResourcePack> p_135043_1_)
-    {
-        this.languageMap.clear();
+	public LanguageManager(IMetadataSerializer theMetadataSerializerIn, String currentLanguageIn) {
+		this.theMetadataSerializer = theMetadataSerializerIn;
+		this.currentLanguage = currentLanguageIn;
+		Lang.setLocale(currentLocale);
+	}
 
-        for (IResourcePack iresourcepack : p_135043_1_)
-        {
-            try
-            {
-                LanguageMetadataSection languagemetadatasection = (LanguageMetadataSection)iresourcepack.getPackMetadata(this.theMetadataSerializer, "language");
+	public void parseLanguageMetadata(List<IResourcePack> p_135043_1_) {
+		this.languageMap.clear();
 
-                if (languagemetadatasection != null)
-                {
-                    for (Language language : languagemetadatasection.getLanguages())
-                    {
-                        if (!this.languageMap.containsKey(language.getLanguageCode()))
-                        {
-                            this.languageMap.put(language.getLanguageCode(), language);
-                        }
-                    }
-                }
-            }
-            catch (RuntimeException runtimeexception)
-            {
-                logger.warn((String)("Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName()), (Throwable)runtimeexception);
-            }
-            catch (IOException ioexception)
-            {
-                logger.warn((String)("Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName()), (Throwable)ioexception);
-            }
-        }
-    }
+		for (IResourcePack iresourcepack : p_135043_1_) {
+			try {
+				LanguageMetadataSection languagemetadatasection = iresourcepack.getPackMetadata(this.theMetadataSerializer, "language");
 
-    public void onResourceManagerReload(IResourceManager resourceManager)
-    {
-        List<String> list = Lists.newArrayList("ru_RU");
+				if (languagemetadatasection != null) {
+					for (Language language : languagemetadatasection.getLanguages()) {
+						if (!this.languageMap.containsKey(language.getLanguageCode())) {
+							this.languageMap.put(language.getLanguageCode(), language);
+						}
+					}
+				}
+			} catch (RuntimeException runtimeexception) {
+				logger.warn(("Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName()), runtimeexception);
+			} catch (IOException ioexception) {
+				logger.warn(("Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName()), ioexception);
+			}
+		}
+	}
 
-        if (!"ru_RU".equals(this.currentLanguage))
-        {
-            list.add(this.currentLanguage);
-        }
+	public void onResourceManagerReload(IResourceManager resourceManager) {
+		List<String> list = Lists.newArrayList("ru_RU");
 
-        currentLocale.loadLocaleDataFiles(resourceManager, list);
-        StringTranslate.replaceWith(currentLocale.properties);
-    }
+		if (!"ru_RU".equals(this.currentLanguage)) {
+			list.add(this.currentLanguage);
+		}
 
-    public boolean isCurrentLocaleUnicode()
-    {
-        return currentLocale.isUnicode();
-    }
+		currentLocale.loadLocaleDataFiles(resourceManager, list);
+		StringTranslate.replaceWith(currentLocale.properties);
+	}
 
-    public boolean isCurrentLanguageBidirectional()
-    {
-        return this.getCurrentLanguage() != null && this.getCurrentLanguage().isBidirectional();
-    }
+	public boolean isCurrentLocaleUnicode() {
+		return currentLocale.isUnicode();
+	}
 
-    public void setCurrentLanguage(Language currentLanguageIn)
-    {
-        this.currentLanguage = currentLanguageIn.getLanguageCode();
-    }
+	public void setCurrentLanguage(Language currentLanguageIn) {
+		this.currentLanguage = currentLanguageIn.getLanguageCode();
+	}
 
-    public Language getCurrentLanguage()
-    {
-        return this.languageMap.containsKey(this.currentLanguage) ? (Language)this.languageMap.get(this.currentLanguage) : (Language)this.languageMap.get("ru_RU");
-    }
+	public Language getCurrentLanguage() {
+		return this.languageMap.containsKey(this.currentLanguage) ? this.languageMap.get(this.currentLanguage) : this.languageMap.get("ru_RU");
+	}
 
-    public SortedSet<Language> getLanguages()
-    {
-        return Sets.newTreeSet(this.languageMap.values());
-    }
+	public SortedSet<Language> getLanguages() {
+		return Sets.newTreeSet(this.languageMap.values());
+	}
+
 }

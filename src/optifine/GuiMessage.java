@@ -56,7 +56,7 @@ public class GuiMessage extends GuiScreen
         for (Object s : this.listLines2)
         {
             this.drawCenteredString(this.fontRendererObj, (String) s, this.width / 2, i, 16777215);
-            i += this.fontRendererObj.FONT_HEIGHT;
+            i += this.fontRendererObj.getFontHeight();
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);

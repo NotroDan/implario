@@ -4,7 +4,7 @@ import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
@@ -81,7 +81,7 @@ public class GuiButton extends Gui {
 	 */
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
-		FontRenderer fontrenderer = mc.fontRendererObj;
+		AssetsFontRenderer fontrenderer = mc.fontRendererObj;
 		mc.getTextureManager().bindTexture(buttonTextures);
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;

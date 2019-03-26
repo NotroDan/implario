@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -112,17 +113,17 @@ public class Gui {
 	/**
 	 * Renders the specified text to the screen, center-aligned. Args : renderer, string, x, y, color
 	 */
-	public void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+	public void drawCenteredString(AssetsFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		fontRendererIn.drawStringWithShadow(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color);
 	}
-	public void drawShadowlessCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+	public void drawShadowlessCenteredString(AssetsFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		fontRendererIn.drawString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color, false);
 	}
 
 	/**
 	 * Renders the specified text to the screen. Args : renderer, string, x, y, color
 	 */
-	public void drawString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+	public void drawString(AssetsFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		fontRendererIn.drawStringWithShadow(text, (float) x, (float) y, color);
 	}
 

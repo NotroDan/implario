@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -282,7 +282,7 @@ public abstract class Render<T extends Entity> {
 	/**
 	 * Returns the font renderer from the set render manager
 	 */
-	public FontRenderer getFontRendererFromRenderManager() {
+	public AssetsFontRenderer getFontRendererFromRenderManager() {
 		return this.renderManager.getFontRenderer();
 	}
 
@@ -293,7 +293,7 @@ public abstract class Render<T extends Entity> {
 		double d0 = entityIn.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
 		if (d0 <= (double) (maxDistance * maxDistance)) {
-			FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
+			AssetsFontRenderer fontrenderer = this.getFontRendererFromRenderManager();
 			float f = 1.6F;
 			float f1 = 0.016666668F * f;
 			G.pushMatrix();

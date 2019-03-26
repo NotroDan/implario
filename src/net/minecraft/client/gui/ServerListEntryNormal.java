@@ -72,7 +72,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 				TextExtractor.extractLetters(this.serverData.serverMOTD), listWidth - 32 - 2);
 
 		for (int i = 0; i < Math.min(list.size(), 2); ++i) {
-			this.mc.fontRendererObj.drawString(list.get(i), x + 32 + 3, y + 12 + this.mc.fontRendererObj.FONT_HEIGHT * i, 8421504);
+			this.mc.fontRendererObj.drawString(list.get(i), x + 32 + 3, y + 12 + this.mc.fontRendererObj.getFontHeight() * i, 8421504);
 		}
 
 		String s2 = flag2 ? EnumChatFormatting.DARK_RED + this.serverData.gameVersion : this.serverData.populationInfo;

@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer;
 
 import net.minecraft.client.MC;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -133,7 +133,7 @@ public class BowPathRenderer {
 	public static void renderOverlay(int x, int y) {
 		if (lastParsed == null) return;
 		if (MC.getPlayer() == null) return;
-		FontRenderer f = MC.getFontRenderer();
+		AssetsFontRenderer f = MC.getFontRenderer();
 		BlockPos l = MC.getPlayer().getPosition();
 		if (f == null || l == null) return;
 		G.scale(2, 2, 2);

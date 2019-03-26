@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiLabel;
 import net.minecraft.client.gui.element.VolumeSlider;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -77,7 +78,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	/**
 	 * The FontRenderer used by GuiScreen
 	 */
-	protected FontRenderer fontRendererObj;
+	protected AssetsFontRenderer fontRendererObj;
 
 	/**
 	 * The button that was just pressed.

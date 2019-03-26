@@ -179,7 +179,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		Date date = new Date();
 		String today = "Сегодня §a" + DATE_FORMAT.format(date);
 		String time = "Сейчас §a" + TIME_FORMAT.format(date);
-		this.drawString(this.fontRendererObj, today, this.width - this.fontRendererObj.getStringWidth(today) - 6, this.height - 10 - fontRendererObj.FONT_HEIGHT, -1);
+		this.drawString(this.fontRendererObj, today, this.width - this.fontRendererObj.getStringWidth(today) - 6, this.height - 10 - fontRendererObj.getFontHeight(), -1);
 		this.drawString(this.fontRendererObj, time, this.width - this.fontRendererObj.getStringWidth(time) - 6, this.height - 10, -1);
 
 		if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0) {

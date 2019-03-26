@@ -98,7 +98,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 			this.drawDefaultBackground();
 			this.drawCenteredString(this.fontRendererObj, Lang.format("multiplayer.downloadingStats"), this.width / 2, this.height / 2, 16777215);
 			this.drawCenteredString(this.fontRendererObj, lanSearchStates[(int) (Minecraft.getSystemTime() / 150L % (long) lanSearchStates.length)], this.width / 2,
-					this.height / 2 + this.fontRendererObj.FONT_HEIGHT * 2, 16777215);
+					this.height / 2 + this.fontRendererObj.getFontHeight() * 2, 16777215);
 		} else {
 			if (Mouse.isButtonDown(0)) {
 				int i = (this.width - this.field_146555_f) / 2;

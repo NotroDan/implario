@@ -156,15 +156,15 @@ public class GuiCommandBlock extends GuiScreen
         this.commandTextField.drawTextBox();
         int i = 75;
         int j = 0;
-        this.drawString(this.fontRendererObj, Lang.format("advMode.nearestPlayer", new Object[0]), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRendererObj, Lang.format("advMode.randomPlayer", new Object[0]), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRendererObj, Lang.format("advMode.allPlayers", new Object[0]), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRendererObj, Lang.format("advMode.allEntities", new Object[0]), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRendererObj, "", this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+        this.drawString(this.fontRendererObj, Lang.format("advMode.nearestPlayer", new Object[0]), this.width / 2 - 150, i + j++ * this.fontRendererObj.getFontHeight(), 10526880);
+        this.drawString(this.fontRendererObj, Lang.format("advMode.randomPlayer", new Object[0]), this.width / 2 - 150, i + j++ * this.fontRendererObj.getFontHeight(), 10526880);
+        this.drawString(this.fontRendererObj, Lang.format("advMode.allPlayers", new Object[0]), this.width / 2 - 150, i + j++ * this.fontRendererObj.getFontHeight(), 10526880);
+        this.drawString(this.fontRendererObj, Lang.format("advMode.allEntities", new Object[0]), this.width / 2 - 150, i + j++ * this.fontRendererObj.getFontHeight(), 10526880);
+        this.drawString(this.fontRendererObj, "", this.width / 2 - 150, i + j++ * this.fontRendererObj.getFontHeight(), 10526880);
 
         if (this.previousOutputTextField.getText().length() > 0)
         {
-            i = i + j * this.fontRendererObj.FONT_HEIGHT + 16;
+            i = i + j * this.fontRendererObj.getFontHeight() + 16;
             this.drawString(this.fontRendererObj, Lang.format("advMode.previousOutput", new Object[0]), this.width / 2 - 150, i, 10526880);
             this.previousOutputTextField.drawTextBox();
         }
