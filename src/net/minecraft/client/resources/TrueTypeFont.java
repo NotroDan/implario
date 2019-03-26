@@ -1,10 +1,11 @@
 package net.minecraft.client.resources;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import net.minecraft.client.logging.Log;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
@@ -14,12 +15,6 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
-import java.awt.GraphicsEnvironment;
-
-import net.minecraft.client.logging.Log;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
 
 
 /**
@@ -34,6 +29,11 @@ import org.lwjgl.util.glu.GLU;
 public class TrueTypeFont {
 
 	public static final char[] RUSSIAN = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя".toCharArray();
+
+	public final static int
+			ALIGN_LEFT = 0,
+			ALIGN_RIGHT = 1,
+			ALIGN_CENTER = 2;
 	/**
 	 * Array that holds necessary information about the font characters
 	 */
@@ -235,13 +235,13 @@ public class TrueTypeFont {
 		float RenderHeight = SrcHeight / textureHeight;
 
 		GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
-		GL11.glVertex2f(drawX, drawY);
+		GL11.glVertex3f(drawX, drawY, 0);
 		GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
-		GL11.glVertex2f(drawX, drawY + DrawHeight);
+		GL11.glVertex3f(drawX, drawY + DrawHeight, 0);
 		GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight);
-		GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
+		GL11.glVertex3f(drawX + DrawWidth, drawY + DrawHeight, 0);
 		GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
-		GL11.glVertex2f(drawX + DrawWidth, drawY);
+		GL11.glVertex3f(drawX + DrawWidth, drawY, 0);
 	}
 
 	public int getStringWidth(String whatchars) {
@@ -258,15 +258,19 @@ public class TrueTypeFont {
 		return io;
 	}
 
+	public Font getFont() {
+		return font;
+	}
+
 	public int getHeight() {
 		return fontHeight;
 	}
 
 	public int drawString(float x, float y, String whatchars) {
-		return drawString(x, y, whatchars, 0, whatchars.length() - 1);
+		return drawString(x, y, whatchars.toCharArray(), 0, whatchars.length() - 1);
 	}
 
-	public int drawString(float x, float y, String whatchars, int startIndex, int endIndex) {
+	public int drawString(float x, float y, char[] whatchars, int startIndex, int endIndex) {
 
 		IntObject intObject;
 		char charCurrent;
@@ -274,35 +278,19 @@ public class TrueTypeFont {
 
 		int totalwidth = 0;
 		int i = startIndex;
-		float startY = 0;
-
-
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
 		GL11.glBegin(GL11.GL_QUADS);
 
 		while (i >= startIndex && i <= endIndex) {
 
-			charCurrent = whatchars.charAt(i);
+			charCurrent = whatchars[i];
 			intObject = getIntObject(charCurrent);
 
+
 			if (intObject != null) {
-				if (charCurrent == '\n') {
-					startY -= fontHeight;
-					totalwidth = 0;
-				} else {
-					drawQuad(
-							totalwidth + x,
-							startY + intObject.height + y,
-							(totalwidth + intObject.width) + x,
-							startY + y,
-							intObject.storedX,
-							intObject.storedY,
-							intObject.storedX + intObject.width,
-							intObject.storedY + intObject.height
-							);
-					totalwidth += intObject.width;
-				}
+				renderChar(intObject, totalwidth + x, y);
+				totalwidth += intObject.width - correctL;
 			}
 			i++;
 		}
@@ -310,11 +298,34 @@ public class TrueTypeFont {
 		return totalwidth;
 	}
 
+	public void glHeader() {
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
+		GL11.glBegin(GL11.GL_QUADS);
+	}
+
+	public void glFooter() {
+		GL11.glEnd();
+	}
+
+	public int drawChar(char c, float x, float y) {
+
+		IntObject io = getIntObject(c);
+		renderChar(io, x, y);
+		return io.width - correctL;
+	}
+
+	private void renderChar(IntObject intObject, float x, float y) {
+		drawQuad(intObject.width + x, y,
+				x,
+				(float) intObject.height + y, intObject.storedX + intObject.width,
+				intObject.storedY + intObject.height, intObject.storedX,
+				intObject.storedY);
+	}
+
 	public static int loadImage(BufferedImage bufferedImage) {
 		try {
 			short width = (short) bufferedImage.getWidth();
 			short height = (short) bufferedImage.getHeight();
-			//textureLoader.bpp = bufferedImage.getColorModel().hasAlpha() ? (byte)32 : (byte)24;
 			int bpp = (byte) bufferedImage.getColorModel().getPixelSize();
 			ByteBuffer byteBuffer;
 			DataBuffer db = bufferedImage.getData().getDataBuffer();

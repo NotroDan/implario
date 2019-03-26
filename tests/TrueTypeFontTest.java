@@ -1,4 +1,5 @@
-import net.minecraft.client.resources.TrueTypeFont;
+import net.minecraft.client.gui.font.TrueTypeFontRenderer;
+import net.minecraft.client.renderer.G;
 import org.junit.Test;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -8,11 +9,9 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import java.awt.Font;
-
 public class TrueTypeFontTest {
 
-	public static int width = 800, height = 600;
+	public static int width = 1000, height = 600;
 	protected static final String TITLE = "Template v1";
 	static boolean running = true;
 	final public static int FRAME_RATE = 60;
@@ -66,7 +65,7 @@ public class TrueTypeFontTest {
 
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glEnable(GL11.GL_TEXTURE_2D); // Enable Texture Mapping
-		GL11.glClearColor(0.5f, 0.5f, 0.5f, 0f); // Black Background
+		GL11.glClearColor(0.1f, 0.1f, 0.1f, 0f); // Black Background
 		GL11.glDisable(GL11.GL_DITHER);
 		GL11.glDepthFunc(GL11.GL_LESS); // Depth function less or equal
 		GL11.glEnable(GL11.GL_NORMALIZE); // calculated normals when scaling
@@ -78,7 +77,7 @@ public class TrueTypeFontTest {
 		GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST); // High quality visuals
 		GL11.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST); //  Really Nice Perspective Calculations
 		GL11.glShadeModel(GL11.GL_SMOOTH); // Enable Smooth Shading
-		GL11.glViewport(0, 0, 800, 600);
+		GL11.glViewport(0, 0, 1000, 600);
 		GL11.glMatrixMode(GL11.GL_PROJECTION); // Select The Projection Matrix
 		GL11.glLoadIdentity(); // Reset The Projection Matrix
 		GLU.gluPerspective(30, width / (float) height, 1f, 300f);  //Aspect Ratio Of The Window
@@ -86,15 +85,23 @@ public class TrueTypeFontTest {
 		GL11.glDepthMask(true);                             // Enable Depth Mask
 	}
 
-	static TrueTypeFont trueTypeFont;
+//	static TrueTypeFont trueTypeFont;
+	static TrueTypeFontRenderer t;
+	static TrueTypeFontRenderer t2;
 
 	private static void loadResources() {
 		Keyboard.enableRepeatEvents(false);
 		// initialise the font
-		String fontName = "Segoe UI";
-		if (!TrueTypeFont.isSupported(fontName)) fontName = "Arial";
-		Font font = new Font(fontName, Font.BOLD + Font.ITALIC, 22);
-		trueTypeFont = new TrueTypeFont(font, true);
+
+		String font = "Verdana";
+		t2 = new TrueTypeFontRenderer(font, 18);
+		t = new TrueTypeFontRenderer(font, 22);
+
+
+//		String fontName = "Segoe UI";
+//		if (!TrueTypeFont.isSupported(fontName)) fontName = "Arial";
+//		Font font = new Font(fontName, Font.BOLD + Font.ITALIC, 22);
+//		trueTypeFont = new TrueTypeFont(font, true);
 		fpsCounter = new FPSCounter();
 		fpsCounter.init();
 		// render some text to the screen
@@ -179,25 +186,30 @@ public class TrueTypeFontTest {
 		set2DMode(0, width, 0, height);
 
 
-		trueTypeFont.drawString(0, 0, "Тестовая строка");
-
-		trueTypeFont.drawString(0, trueTypeFont.getHeight() * 10, "I wrote this song about you!\nIsn't that cliche of me, to do?");
-
-		trueTypeFont.drawString(width, trueTypeFont.getHeight() * 6, "But its nothing for you,\n" +
-						"the band just needed something more to play.\n" +
-						"So dont blush or hooray,\n");
-
-		trueTypeFont.drawString(width / 2, trueTypeFont.getHeight() * 3,
-				"at the possible sound of your name.\n" +
-						"No I wouldnt go that far.\n" +
-						"No.");
+		G.color(1, 1, 1, 1);
+		String text = "§3§l[Гл. Админ] xtrafrancyz§7: §aНастоящие пираты не боятся красного плавания?";
+		t2.drawString(text, 0, t2.getPlainFont().getHeight(), 0, false);
+		t.drawString(text, 0, t.getPlainFont().getHeight() * 1.5f, 0, false);
+//		int error = GL11.glGetError();
+//		if (error != 0) System.out.println(error);
+//
+//		trueTypeFont.drawString(0, trueTypeFont.getHeight() * 10, "I wrote this song about you!\nIsn't that cliche of me, to do?");
+//
+//		trueTypeFont.drawString(0, trueTypeFont.getHeight() * 6, "But its nothing for you,\n" +
+//						"the band just needed something more to play.\n" +
+//						"So dont blush or hooray,\n");
+//
+//		trueTypeFont.drawString(0, trueTypeFont.getHeight() * 3,
+//				"at the possible sound of your name.\n" +
+//						"No I wouldnt go that far.\n" +
+//						"No.");
 
 		//End 2D Render Code
 		set3DMode();
 	}
 
 	public static void cleanup() {
-		trueTypeFont.destroy();
+//		trueTypeFont.destroy();
 		Keyboard.destroy();
 		Mouse.destroy();
 		Display.destroy();
@@ -253,7 +265,7 @@ class FPSCounter {
 		fc++;
 
 		if ((elapsedTime = currentTime - lastTime) >= updateFrequency) {
-			FPS = (fc / elapsedTime) * updateFrequency * 2;
+			FPS = fc / elapsedTime * updateFrequency * 2;
 			fc = 0;
 			lastTime = currentTime;
 			elapsedTime = 0;

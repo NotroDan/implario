@@ -29,7 +29,7 @@ public class SimpleTTFontRenderer implements IFontRenderer {
 	@Override
 	public int drawString(String s, float x, float y, int color, boolean shadow) {
 		Utils.glColor(color);
-		return font.drawString(x, y, s, 1, 1);
+		return font.drawString(x, y, s);
 	}
 
 }
