@@ -128,8 +128,7 @@ public class TrueTypeFont {
 		if (charheight <= 0) charheight = fontSize;
 
 		// Create another image holding the character we are creating
-		BufferedImage fontImage;
-		fontImage = new BufferedImage(charwidth, charheight,
+		BufferedImage fontImage = new BufferedImage(charwidth, charheight,
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D gt = (Graphics2D) fontImage.getGraphics();
 		if (antiAlias) {
@@ -152,10 +151,19 @@ public class TrueTypeFont {
 		// If there are custom chars then I expand the font texture twice
 		if (customCharsArray != null && customCharsArray.length > 0) textureWidth *= 2;
 
+
+
 		// In any case this should be done in other way. Texture with size 512x512
 		// can maintain only 256 characters with resolution of 32x32. The texture
 		// size should be calculated dynamicaly by looking at character sizes.
+		int customCharsLength = customCharsArray != null ? customCharsArray.length : 0;
 
+		for (int i = 0; i < 256 + customCharsLength; i++) {
+
+			// get 0-255 characters and then custom characters
+			char ch = i < 256 ? (char) i : customCharsArray[i - 256];
+
+		}
 		try {
 
 			BufferedImage imgTemp = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
@@ -168,7 +176,6 @@ public class TrueTypeFont {
 			int positionX = 0;
 			int positionY = 0;
 
-			int customCharsLength = customCharsArray != null ? customCharsArray.length : 0;
 
 			for (int i = 0; i < 256 + customCharsLength; i++) {
 
@@ -181,6 +188,7 @@ public class TrueTypeFont {
 
 				newIntObject.width = fontImage.getWidth();
 				newIntObject.height = fontImage.getHeight();
+
 
 				if (positionX + newIntObject.width >= textureWidth) {
 					positionX = 0;
@@ -211,6 +219,8 @@ public class TrueTypeFont {
 				}
 
 			}
+
+//			ImageIO.write(imgTemp, "PNG", new File(font.getFamily() + "_" + font.getStyle() + "_" + font.getSize() + ".png"));
 
 			fontTextureID = loadImage(imgTemp);
 

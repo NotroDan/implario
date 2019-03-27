@@ -83,6 +83,8 @@ public class TrueTypeFontTest {
 		GLU.gluPerspective(30, width / (float) height, 1f, 300f);  //Aspect Ratio Of The Window
 		GL11.glMatrixMode(GL11.GL_MODELVIEW); // Select The Modelview Matrix
 		GL11.glDepthMask(true);                             // Enable Depth Mask
+
+
 	}
 
 //	static TrueTypeFont trueTypeFont;
@@ -134,6 +136,12 @@ public class TrueTypeFontTest {
 		int x = Mouse.getX();
 		int y = Mouse.getY();
 
+		int wheel = Mouse.getDWheel();
+		if (wheel != 0) {
+			boolean b = wheel >>> 31 == 1;
+			t = new TrueTypeFontRenderer(t.getFontname(), t.getSize() + (b ? 1 : -1));
+			System.out.println("switched to size " + t.getSize());
+		}
 
 		while (Mouse.next()) {
 			if (Mouse.getEventButtonState()) {
@@ -188,7 +196,7 @@ public class TrueTypeFontTest {
 
 		G.color(1, 1, 1, 1);
 		String text = "§3§l[Гл. Админ] xtrafrancyz§7: §aНастоящие пираты не боятся красного плавания?";
-		t2.drawString(text, 0, t2.getPlainFont().getHeight(), 0, false);
+//		t2.drawString(text, 0, t2.getPlainFont().getHeight(), 0, false);
 		t.drawString(text, 0, t.getPlainFont().getHeight() * 1.5f, 0, false);
 //		int error = GL11.glGetError();
 //		if (error != 0) System.out.println(error);
