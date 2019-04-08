@@ -3,8 +3,8 @@ package net.minecraft.client.gui;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import net.minecraft.Utils;
 import net.minecraft.Logger;
+import net.minecraft.Utils;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
@@ -29,19 +29,13 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
-import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -133,30 +127,6 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 		}
 	}
 
-	/**
-	 * Returns a string stored in the system clipboard.
-	 */
-	public static String getClipboardString() {
-		try {
-			Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-
-			if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.stringFlavor))
-				return (String) transferable.getTransferData(DataFlavor.stringFlavor);
-		} catch (Exception ignored) {}
-
-		return "";
-	}
-
-	/**
-	 * Stores the given string in the system clipboard
-	 */
-	public static void setClipboardString(String copyText) {
-		if (!StringUtils.isEmpty(copyText)) try {
-			StringSelection stringselection = new StringSelection(copyText);
-			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringselection, null);
-		} catch (Exception ignored) {}
-	}
-
 	protected void renderToolTip(ItemStack stack, int x, int y) {
 		List<String> list = stack.getTooltip(MC.getPlayer(), false);
 		String advanced = stack.getAdvancedToolTip();
@@ -182,7 +152,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 * mouse x position, current mouse y position.
 	 */
 	protected void drawCreativeTabHoveringText(String tabName, int mouseX, int mouseY) {
-		this.drawHoveringText(Arrays.asList(tabName), mouseX, mouseY);
+		this.drawHoveringText(Collections.singletonList(tabName), mouseX, mouseY);
 	}
 
 	/**
@@ -369,6 +339,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 				}
 			} else if (clickevent.getAction() == ClickEvent.Action.OPEN_FILE) {
 				File f = new File(clickevent.getValue());
+				System.out.println(f.getName());
 				if (isCtrlKeyDown()) showFile(f);
 				else openFile(f);
 //				URI uri1 = new File(clickevent.getValue()).toURI();

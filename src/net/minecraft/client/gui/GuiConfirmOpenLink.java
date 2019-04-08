@@ -2,6 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.util.Clipboard;
 
 import java.io.IOException;
 
@@ -56,8 +57,8 @@ public class GuiConfirmOpenLink extends GuiYesNo
      */
     public void copyLinkToClipboard()
     {
-        setClipboardString(this.linkText);
-    }
+		Clipboard.push(this.linkText);
+	}
 
     /**
      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks

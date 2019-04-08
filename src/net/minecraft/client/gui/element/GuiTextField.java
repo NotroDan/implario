@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.Clipboard;
 import net.minecraft.util.MathHelper;
 
 public class GuiTextField extends Gui {
@@ -301,15 +302,15 @@ public class GuiTextField extends Gui {
 			return true;
 		}
 		if (GuiScreen.isKeyComboCtrlC(key)) {
-			GuiScreen.setClipboardString(this.getSelectedText());
+			Clipboard.push(this.getSelectedText());
 			return true;
 		}
 		if (GuiScreen.isKeyComboCtrlV(key)) {
-			if (this.isEnabled) this.writeText(GuiScreen.getClipboardString());
+			if (this.isEnabled) this.writeText(Clipboard.pullString());
 			return true;
 		}
 		if (GuiScreen.isKeyComboCtrlX(key)) {
-			GuiScreen.setClipboardString(this.getSelectedText());
+			Clipboard.push(this.getSelectedText());
 			if (this.isEnabled) this.writeText("");
 			return true;
 		}

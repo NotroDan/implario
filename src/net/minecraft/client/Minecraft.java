@@ -1995,14 +1995,13 @@ label53:
 	public void dispatchKeypresses() {
 		int i = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() : Keyboard.getEventKey();
 
-		if (i != 0 && !Keyboard.isRepeatEvent()) {
-			if (!(this.currentScreen instanceof GuiControls) || ((GuiControls) this.currentScreen).time <= getSystemTime() - 20L) {
-				if (Keyboard.getEventKeyState())
-					if (i == KeyBinding.FULLSCREEN.getKeyCode()) this.toggleFullscreen();
-					else if (i == KeyBinding.SCREENSHOT.getKeyCode())
-						this.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
-			}
-		}
+		if (i == 0 || Keyboard.isRepeatEvent()) return;
+		if (this.currentScreen instanceof GuiControls && ((GuiControls) this.currentScreen).time > getSystemTime() - 20L) return;
+		if (!Keyboard.getEventKeyState()) return;
+
+		if (i == KeyBinding.FULLSCREEN.getKeyCode()) this.toggleFullscreen();
+		else if (i == KeyBinding.SCREENSHOT.getKeyCode())
+			this.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
 	}
 
 	public ModelManager getModelManager() {

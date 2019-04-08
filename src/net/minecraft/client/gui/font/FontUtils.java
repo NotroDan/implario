@@ -8,10 +8,10 @@ public class FontUtils {
 	static {
 
 		for (int i = 0; i < 32; ++i) {
-			int j = (i >> 3 & 1) * 85;
-			int k = (i >> 2 & 1) * 170 + j;
-			int l = (i >> 1 & 1) * 170 + j;
-			int i1 = (i >> 0 & 1) * 170 + j;
+			int j = (i / 8 & 1) * 85;
+			int k = (i / 4 & 1) * 170 + j;
+			int l = (i / 2 & 1) * 170 + j;
+			int i1 = (i & 1) * 170 + j;
 
 			if (i == 6) {
 				k += 85;

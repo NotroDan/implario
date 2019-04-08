@@ -2,17 +2,25 @@ package net.minecraft.client.gui.font;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrueTypeBaker {
 
 
-	private boolean antiAlias;
-	private Font font;
-	private FontMetrics metrics;
+	private final boolean antiAlias;
+	private final Font font;
+	private final FontMetrics metrics;
+	private final FontRenderContext ctx;// = new FontRenderContext(null, true, true);
+	private int height;
 
 	public TrueTypeBaker(Font font, boolean antiAlias) {
 		BufferedImage tempfontImage = new BufferedImage(1, 1,
@@ -24,7 +32,10 @@ public class TrueTypeBaker {
 
 		if (antiAlias) g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setFont(font);
-		metrics = g.getFontMetrics();
+		metrics = g.getFontMetrics(font);
+		height = metrics.getHeight() + 3;
+		if (height <= 0) height = font.getSize();
+		ctx = g.getFontRenderContext();
 	}
 
 	public void bake() {
@@ -35,6 +46,7 @@ public class TrueTypeBaker {
 		for (char c = 0; c < 0xFFFF; c++) {
 			if (!font.canDisplay(c)) continue;
 			Glyph g = getGlyph(font, c);
+			if (g == null) continue;
 			if (g.width > maxWidth) maxWidth = g.width;
 			glyphs[c] = g;
 		}
@@ -48,7 +60,7 @@ public class TrueTypeBaker {
 			BufferedImage buffer = new BufferedImage(1024, 1024, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g = (Graphics2D) buffer.getGraphics();
 
-			g.setColor(new Color(0, 0, 0, 1));
+			g.setColor(new Color(0, 0, 0, 0));
 			g.fillRect(0, 0, 1024, 1024);
 
 			int positionX = 0;
@@ -62,10 +74,10 @@ public class TrueTypeBaker {
 
 				if (positionX + glyph.width >= 1024) {
 					positionX = 0;
-					positionY += glyph.height;
+					positionY += height;
 				}
 
-				if (positionY + glyph.height >= 1024) {
+				if (positionY + height >= 1024) {
 					pages.add(buffer);
 					buffer = new BufferedImage(1024, 1024, BufferedImage.TYPE_INT_ARGB);
 					g = (Graphics2D) buffer.getGraphics();
@@ -98,11 +110,28 @@ public class TrueTypeBaker {
 			e.printStackTrace();
 		}
 
+		try {
+			FileOutputStream s = new FileOutputStream("glyphs.bin");
+
+			for (char c = 0; c < 0xFFFF; c++) {
+				Glyph g = glyphs[c];
+				if (g == null) {
+					s.write(new byte[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+				} else {
+					s.write(g.zip());
+				}
+			}
+			s.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private BufferedImage getFontImage(Glyph glyph) {
 
-		BufferedImage fontImage = new BufferedImage(glyph.getWidth(), glyph.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage fontImage = new BufferedImage(glyph.getWidth(), height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D gt = (Graphics2D) fontImage.getGraphics();
 		if (antiAlias) gt.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		gt.setFont(font);
@@ -119,13 +148,32 @@ public class TrueTypeBaker {
 
 	private Glyph getGlyph(Font font, char c) {
 
-		int charwidth = metrics.charWidth(c) + 8;
-		if (charwidth <= 0) charwidth = 7;
+//		GlyphVector glyphVector = font.createGlyphVector(ctx, new char[] {c});
+//		System.out.println(glyphVector);
+//		glyphVector.getVisualBounds().setFrame(0, 0, 400, 400);
+//		int width = glyphVector.getPixelBounds(ctx, 1, 1).width;
 
-		int charheight = metrics.getHeight() + 3;
-		if (charheight <= 0) charheight = font.getSize();
 
-		return new Glyph(c, charwidth, charheight);
+		TextLayout layout = new TextLayout(String.valueOf(c), font, ctx);
+		Rectangle2D vBounds = layout.getBounds();
+		Rectangle2D lBounds = new Rectangle2D.Float(0f,
+				-layout.getAscent() - layout.getLeading(),
+				layout.getAdvance(),
+				layout.getAscent() + layout.getDescent() + 2f * layout.getLeading());
+		Rectangle2D bounds = lBounds.createUnion(vBounds);
+		int width = (int) Math.ceil(bounds.getWidth());
+		(width == 0 ? System.err : System.out).println("char " + (int) c + " '" + c + "': width = " + width);
+
+
+
+		if (width == 0) return null;
+
+
+		//		int charwidth = metrics.charWidth(c) + 8;
+//		if (charwidth <= 0) charwidth = 7;
+
+
+		return new Glyph(c, (int) Math.ceil(width));
 
 	}
 
@@ -213,20 +261,15 @@ public class TrueTypeBaker {
 //	}
 
 
-	private class Glyph {
+	private static class Glyph {
 
-		private final int width, height;
+		private final int width;
 		private final char c;
-		public int texX, texY;
+		public float texX, texY;
 
-		private Glyph(char c, int width, int height) {
+		private Glyph(char c, int width) {
 			this.c = c;
 			this.width = width;
-			this.height = height;
-		}
-
-		public int getHeight() {
-			return height;
 		}
 
 		public char getChar() {
@@ -239,7 +282,28 @@ public class TrueTypeBaker {
 
 		@Override
 		public String toString() {
-			return "G[" + height + "*" + width + "]";
+			return "G[width=" +  width + "]";
+		}
+
+		public byte[] zip() {
+
+			ByteBuffer bb = ByteBuffer.allocate(12);
+			bb.putFloat(texX);
+			bb.putFloat(texY);
+			bb.putInt(width);
+			return bb.array();
+
+		}
+
+		public static Glyph unzip(char c, byte[] array) {
+			ByteBuffer b = ByteBuffer.wrap(array);
+			float texX = b.getFloat();
+			float texY = b.getFloat();
+			int width = b.getInt();
+			Glyph g = new Glyph(c, width);
+			g.texX = texX;
+			g.texY = texY;
+			return g;
 		}
 
 	}

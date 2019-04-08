@@ -574,6 +574,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	public void handleChat(S02PacketChat packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 
+		System.out.println(packetIn.getChatComponent());
+
 		if (packetIn.getType() == 2)
 			this.gameController.ingameGUI.setRecordPlaying(packetIn.getChatComponent(), false);
 		else

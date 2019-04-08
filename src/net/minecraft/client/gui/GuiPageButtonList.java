@@ -10,6 +10,7 @@ import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiLabel;
 import net.minecraft.client.gui.element.GuiSlider;
 import net.minecraft.client.gui.element.GuiTextField;
+import net.minecraft.util.Clipboard;
 import net.minecraft.util.IntHashMap;
 
 public class GuiPageButtonList extends GuiListExtended
@@ -305,7 +306,7 @@ public class GuiPageButtonList extends GuiListExtended
             }
             else
             {
-                String s = GuiScreen.getClipboardString();
+				String s = Clipboard.pullString();
                 String[] astring = s.split(";");
                 int i = this.field_178072_w.indexOf(this.field_178075_A);
                 int j = i;
