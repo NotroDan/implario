@@ -302,15 +302,15 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	/**
 	 * Executes the click event specified by the given chat component
 	 */
-	protected boolean handleComponentClick(IChatComponent p_175276_1_) {
-		if (p_175276_1_ == null) {
+	protected boolean handleComponentClick(IChatComponent c) {
+		if (c == null) {
 			return false;
 		}
-		ClickEvent clickevent = p_175276_1_.getChatStyle().getChatClickEvent();
+		ClickEvent clickevent = c.getChatStyle().getChatClickEvent();
 
 		if (isShiftKeyDown()) {
-			if (p_175276_1_.getChatStyle().getInsertion() != null) {
-				this.setText(p_175276_1_.getChatStyle().getInsertion(), false);
+			if (c.getChatStyle().getInsertion() != null) {
+				this.setText(c.getChatStyle().getInsertion(), false);
 			}
 		} else if (clickevent != null) {
 			if (clickevent.getAction() == ClickEvent.Action.OPEN_URL) {

@@ -449,8 +449,8 @@ public class GuiScreenBook extends GuiScreen {
 	/**
 	 * Executes the click event specified by the given chat component
 	 */
-	protected boolean handleComponentClick(IChatComponent p_175276_1_) {
-		ClickEvent clickevent = p_175276_1_ == null ? null : p_175276_1_.getChatStyle().getChatClickEvent();
+	protected boolean handleComponentClick(IChatComponent c) {
+		ClickEvent clickevent = c == null ? null : c.getChatStyle().getChatClickEvent();
 
 		if (clickevent == null) {
 			return false;
@@ -470,7 +470,7 @@ public class GuiScreenBook extends GuiScreen {
 
 			return false;
 		}
-		boolean flag = super.handleComponentClick(p_175276_1_);
+		boolean flag = super.handleComponentClick(c);
 
 		if (flag && clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
 			this.mc.displayGuiScreen(null);
