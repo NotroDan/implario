@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderList extends ChunkRenderContainer
 {
-    private static final String __OBFID = "CL_00000957";
+
 
     public void renderChunkLayer(EnumWorldBlockLayer layer)
     {

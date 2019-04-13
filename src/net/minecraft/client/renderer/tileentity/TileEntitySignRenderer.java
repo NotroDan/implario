@@ -22,7 +22,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 
     /** The ModelSign instance for use in this renderer */
     private final ModelSign model = new ModelSign();
-    private static final String __OBFID = "CL_00000970";
+
 
     public void renderTileEntityAt(TileEntitySign te, double x, double y, double z, float partialTicks, int destroyStage)
     {

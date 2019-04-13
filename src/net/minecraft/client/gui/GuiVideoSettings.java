@@ -11,7 +11,7 @@ public class GuiVideoSettings extends GuiScreen
 {
     private GuiScreen parentGuiScreen;
     protected String screenTitle = "Video Settings";
-    private static final String __OBFID = "CL_00000718";
+
 
     public GuiVideoSettings(GuiScreen parentScreenIn)
     {

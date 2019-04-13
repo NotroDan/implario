@@ -33,7 +33,7 @@ public abstract class Render<T extends Entity> {
 	 * Determines the darkness of the object's shadow. Higher value makes a darker shadow.
 	 */
 	protected float shadowOpaque = 1.0F;
-	private static final String __OBFID = "CL_00000992";
+
 
 	protected Render(RenderManager renderManager) {
 		this.renderManager = renderManager;

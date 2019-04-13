@@ -13,7 +13,7 @@ public class LayerSpiderEyes implements LayerRenderer
 {
     private static final ResourceLocation SPIDER_EYES = new ResourceLocation("textures/entity/spider_eyes.png");
     private final RenderSpider spiderRenderer;
-    private static final String __OBFID = "CL_00002410";
+
 
     public LayerSpiderEyes(RenderSpider spiderRendererIn)
     {

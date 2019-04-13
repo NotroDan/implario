@@ -43,7 +43,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	public float zLevel;
 	private final ItemModelMesher itemModelMesher;
 	private final TextureManager textureManager;
-	private static final String __OBFID = "CL_00001003";
+
 	private ModelResourceLocation modelLocation = null;
 	private boolean renderItemGui = false;
 	public ModelManager modelManager;
@@ -117,31 +117,30 @@ public class RenderItem implements IResourceManagerReloadListener {
 		renderItem(stack, model, 0.5f);
 	}
 	public void renderItem(ItemStack stack, IBakedModel model, float scale) {
-		if (stack != null) {
-			G.pushMatrix();
-			G.scale(scale, scale, scale);
+		if (stack == null) return;
+		G.pushMatrix();
+		G.scale(scale, scale, scale);
 
-			if (model.isBuiltInRenderer()) {
-				G.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-				G.translate(-0.5F, -0.5F, -0.5F);
-				G.color(1.0F, 1.0F, 1.0F, 1.0F);
-				G.enableRescaleNormal();
-				TileEntityItemStackRenderer.instance.renderByItem(stack);
-			} else {
-				if (Config.isCustomItems()) {
-					model = CustomItems.getCustomItemModel(stack, model, this.modelLocation);
-				}
-
-				G.translate(-0.5F, -0.5F, -0.5F);
-				this.renderModel(model, stack);
-
-				if (stack.hasEffect() && (!Config.isCustomItems() || !CustomItems.renderCustomEffect(this, stack, model))) {
-					this.renderEffect(model);
-				}
+		if (model.isBuiltInRenderer()) {
+			G.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+			G.translate(-0.5F, -0.5F, -0.5F);
+			G.color(1.0F, 1.0F, 1.0F, 1.0F);
+			G.enableRescaleNormal();
+			TileEntityItemStackRenderer.instance.renderByItem(stack);
+		} else {
+			if (Config.isCustomItems()) {
+				model = CustomItems.getCustomItemModel(stack, model, this.modelLocation);
 			}
 
-			G.popMatrix();
+			G.translate(-0.5F, -0.5F, -0.5F);
+			this.renderModel(model, stack);
+
+			if (stack.hasEffect() && (!Config.isCustomItems() || !CustomItems.renderCustomEffect(this, stack, model))) {
+				this.renderEffect(model);
+			}
 		}
+
+		G.popMatrix();
 	}
 
 	private void renderEffect(IBakedModel model) {
@@ -163,14 +162,15 @@ public class RenderItem implements IResourceManagerReloadListener {
 				float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
 				G.translate(f, 0.0F, 0.0F);
 				G.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-				this.renderModel(model, -8372020);
+				// ToDo: Кастомизация цвета отблеска зачарованных предметов.
+				this.renderModel(model, 0xff8040cc);
 				G.popMatrix();
 				G.pushMatrix();
 				G.scale(8.0F, 8.0F, 8.0F);
 				float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
 				G.translate(-f1, 0.0F, 0.0F);
 				G.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-				this.renderModel(model, -8372020);
+				this.renderModel(model, 0xff8040cc);
 				G.popMatrix();
 				G.matrixMode(5888);
 				G.blendFunc(770, 771);
@@ -931,7 +931,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.lead, "lead");
 		this.registerItem(Items.name_tag, "name_tag");
 		this.itemModelMesher.register(Items.banner, new ItemMeshDefinition() {
-			private static final String __OBFID = "CL_00002438";
+
 
 			public ModelResourceLocation getModelLocation(ItemStack stack) {
 				return new ModelResourceLocation("banner", "inventory");

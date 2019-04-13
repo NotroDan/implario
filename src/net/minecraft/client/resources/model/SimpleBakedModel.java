@@ -1,13 +1,14 @@
 package net.minecraft.client.resources.model;
 
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BreakingFour;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ModelBlock;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
+
+import java.util.List;
 
 public class SimpleBakedModel implements IBakedModel
 {
@@ -18,12 +19,12 @@ public class SimpleBakedModel implements IBakedModel
     protected final TextureAtlasSprite texture;
     protected final ItemCameraTransforms cameraTransforms;
 
-    public SimpleBakedModel(List<BakedQuad> p_i46077_1_, List<List<BakedQuad>> p_i46077_2_, boolean p_i46077_3_, boolean p_i46077_4_, TextureAtlasSprite p_i46077_5_, ItemCameraTransforms p_i46077_6_)
+    public SimpleBakedModel(List<BakedQuad> p_i46077_1_, List<List<BakedQuad>> p_i46077_2_, boolean p_i46077_3_, boolean isGui3d, TextureAtlasSprite p_i46077_5_, ItemCameraTransforms p_i46077_6_)
     {
         this.generalQuads = p_i46077_1_;
         this.faceQuads = p_i46077_2_;
         this.ambientOcclusion = p_i46077_3_;
-        this.gui3d = p_i46077_4_;
+        this.gui3d = isGui3d;
         this.texture = p_i46077_5_;
         this.cameraTransforms = p_i46077_6_;
     }

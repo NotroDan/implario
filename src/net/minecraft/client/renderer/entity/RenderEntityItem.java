@@ -24,22 +24,21 @@ public class RenderEntityItem extends Render<EntityItem> {
 		this.shadowOpaque = 0.75F;
 	}
 
-	private int func_177077_a(EntityItem itemIn, double p_177077_2_, double p_177077_4_, double p_177077_6_, float p_177077_8_, IBakedModel p_177077_9_) {
-		ItemStack itemstack = itemIn.getEntityItem();
+	private int func_177077_a(EntityItem entity, double x, double y, double z, float partialTicks, IBakedModel model) {
+		ItemStack itemstack = entity.getEntityItem();
 		Item item = itemstack.getItem();
 
-		if (item == null) {
-			return 0;
-		}
-		boolean flag = p_177077_9_.isGui3d();
+		if (item == null) return 0;
+		boolean flag = true; //model.isGui3d();
+
 		int i = this.func_177078_a(itemstack);
 		float f = 0.25F;
-		float f1 = MathHelper.sin(((float) itemIn.getAge() + p_177077_8_) / 10.0F + itemIn.hoverStart) * 0.1F + 0.1F;
-		float f2 = p_177077_9_.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
-		G.translate((float) p_177077_2_, (float) p_177077_4_ + f1 + 0.25F * f2, (float) p_177077_6_);
+		float f1 = MathHelper.sin(((float) entity.getAge() + partialTicks) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
+		float f2 = model.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
+		G.translate((float) x, (float) y + f1 + 0.25F * f2, (float) z);
 
 		if (flag) {
-			float f3 = (((float) itemIn.getAge() + p_177077_8_) / 20.0F + itemIn.hoverStart) * (180F / (float) Math.PI);
+			float f3 = (((float) entity.getAge() + partialTicks) / 20.0F + entity.hoverStart) * (180F / (float) Math.PI);
 			G.rotate(f3, 0.0F, 1.0F, 0.0F);
 		}
 

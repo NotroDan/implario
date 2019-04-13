@@ -17,7 +17,7 @@ public class VisGraph
     private final BitSet field_178612_d = new BitSet(4096);
     private static final int[] field_178613_e = new int[1352];
     private int field_178611_f = 4096;
-    private static final String __OBFID = "CL_00002450";
+
 
     public void func_178606_a(BlockPos pos)
     {
@@ -210,7 +210,7 @@ public class VisGraph
     static final class VisGraph$1
     {
         static final int[] field_178617_a = new int[EnumFacing.values().length];
-        private static final String __OBFID = "CL_00002449";
+
 
         static
         {

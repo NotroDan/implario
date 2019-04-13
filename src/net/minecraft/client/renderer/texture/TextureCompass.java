@@ -15,7 +15,7 @@ public class TextureCompass extends TextureAtlasSprite
     /** Speed and direction of compass rotation */
     public double angleDelta;
     public static String field_176608_l;
-    private static final String __OBFID = "CL_00001071";
+
 
     public TextureCompass(String iconName)
     {

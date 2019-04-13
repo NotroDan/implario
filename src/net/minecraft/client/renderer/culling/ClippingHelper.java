@@ -6,7 +6,7 @@ public class ClippingHelper
     public float[] projectionMatrix = new float[16];
     public float[] modelviewMatrix = new float[16];
     public float[] clippingMatrix = new float[16];
-    private static final String __OBFID = "CL_00000977";
+
 
     private float dot(float[] p_dot_1_, float p_dot_2_, float p_dot_3_, float p_dot_4_)
     {

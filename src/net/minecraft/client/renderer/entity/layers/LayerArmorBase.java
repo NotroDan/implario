@@ -28,7 +28,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 	private float colorB = 1.0F;
 	private boolean field_177193_i;
 	private static final Map ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
-	private static final String __OBFID = "CL_00002428";
+
 
 	public LayerArmorBase(RendererLivingEntity rendererIn) {
 		this.renderer = rendererIn;
@@ -197,7 +197,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 	static final class LayerArmorBase$1 {
 
 		static final int[] field_178747_a = new int[ItemArmor.ArmorMaterial.values().length];
-		private static final String __OBFID = "CL_00002427";
+
 
 		static {
 			try {

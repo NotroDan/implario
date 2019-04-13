@@ -570,7 +570,7 @@ public class G {
 		public double field_179205_a;
 		public G.Color field_179203_b;
 		public int field_179204_c;
-		private static final String __OBFID = "CL_00002553";
+
 
 		private ClearState() {
 			this.field_179205_a = 1.0D;
@@ -590,7 +590,7 @@ public class G {
 		public float green = 1.0F;
 		public float blue = 1.0F;
 		public float alpha = 1.0F;
-		private static final String __OBFID = "CL_00002552";
+
 
 		public Color() {
 		}
@@ -608,7 +608,7 @@ public class G {
 
 		public G.BooleanState field_179197_a;
 		public int field_179196_b;
-		private static final String __OBFID = "CL_00002551";
+
 
 		private ColorLogicState() {
 			this.field_179197_a = new G.BooleanState(3058);
@@ -627,7 +627,7 @@ public class G {
 		public boolean green;
 		public boolean blue;
 		public boolean alpha;
-		private static final String __OBFID = "CL_00002550";
+
 
 		private ColorMask() {
 			this.red = true;
@@ -647,7 +647,7 @@ public class G {
 		public G.BooleanState field_179191_a;
 		public int field_179189_b;
 		public int field_179190_c;
-		private static final String __OBFID = "CL_00002549";
+
 
 		private ColorMaterialState() {
 			this.field_179191_a = new G.BooleanState(2903);
@@ -665,7 +665,7 @@ public class G {
 
 		public G.BooleanState field_179054_a;
 		public int field_179053_b;
-		private static final String __OBFID = "CL_00002548";
+
 
 		private CullState() {
 			this.field_179054_a = new G.BooleanState(2884);
@@ -683,7 +683,7 @@ public class G {
 		public G.BooleanState depthTest;
 		public boolean maskEnabled;
 		public int depthFunc;
-		private static final String __OBFID = "CL_00002547";
+
 
 		private DepthState() {
 			this.depthTest = new G.BooleanState(2929);
@@ -704,7 +704,7 @@ public class G {
 		public float field_179048_c;
 		public float field_179045_d;
 		public float field_179046_e;
-		private static final String __OBFID = "CL_00002546";
+
 
 		private FogState() {
 			this.field_179049_a = new G.BooleanState(2912);
@@ -726,7 +726,7 @@ public class G {
 		public G.BooleanState field_179042_b;
 		public float field_179043_c;
 		public float field_179041_d;
-		private static final String __OBFID = "CL_00002545";
+
 
 		private PolygonOffsetState() {
 			this.field_179044_a = new G.BooleanState(32823);
@@ -746,7 +746,7 @@ public class G {
 		public int field_179081_a;
 		public int field_179079_b;
 		public int field_179080_c;
-		private static final String __OBFID = "CL_00002544";
+
 
 		private StencilFunc() {
 			this.field_179081_a = 519;
@@ -767,7 +767,7 @@ public class G {
 		public int field_179077_c;
 		public int field_179074_d;
 		public int field_179075_e;
-		private static final String __OBFID = "CL_00002543";
+
 
 		private StencilState() {
 			this.field_179078_a = new G.StencilFunc(null);
@@ -790,7 +790,7 @@ public class G {
 		Q("Q", 3);
 
 		private static final G.TexGen[] $VALUES = new G.TexGen[] {S, T, R, Q};
-		private static final String __OBFID = "CL_00002542";
+
 
 		TexGen(String p_i3_3_, int p_i3_4_) {
 		}
@@ -801,7 +801,7 @@ public class G {
 		public G.BooleanState field_179067_a;
 		public int field_179065_b;
 		public int field_179066_c = -1;
-		private static final String __OBFID = "CL_00002541";
+
 
 		public TexGenCoord(int p_i46254_1_, int p_i46254_2_) {
 			this.field_179065_b = p_i46254_1_;
@@ -816,7 +816,7 @@ public class G {
 		public G.TexGenCoord field_179062_b;
 		public G.TexGenCoord field_179063_c;
 		public G.TexGenCoord field_179061_d;
-		private static final String __OBFID = "CL_00002540";
+
 
 		private TexGenState() {
 			this.field_179064_a = new G.TexGenCoord(8192, 3168);
@@ -835,7 +835,7 @@ public class G {
 
 		public G.BooleanState texture2DState;
 		public int textureName;
-		private static final String __OBFID = "CL_00002539";
+
 
 		private TextureState() {
 			this.texture2DState = new G.BooleanState(3553);

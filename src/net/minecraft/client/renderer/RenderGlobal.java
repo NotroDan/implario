@@ -221,7 +221,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		}
 
 		this.vertexBufferFormat = new VertexFormat();
-		this.vertexBufferFormat.func_181721_a(new VertexFormatElement(0, VertexFormatElement.EnumType.FLOAT, VertexFormatElement.EnumUsage.POSITION, 3));
+		this.vertexBufferFormat.addElement(new VertexFormatElement(0, VertexFormatElement.EnumType.FLOAT, VertexFormatElement.EnumUsage.POSITION, 3));
 		this.generateStars();
 		this.generateSky();
 		this.generateSky2();
@@ -2288,7 +2288,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			}
 
 			crashreportcategory.addCrashSectionCallable("Position", new Callable() {
-				private static final String __OBFID = "CL_00000955";
+
 
 				public String call() throws Exception {
 					return CrashReportCategory.getCoordinateInfo(xCoord, yCoord, zCoord);
@@ -2735,7 +2735,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	static final class RenderGlobal$2 {
 
 		static final int[] field_178037_a = new int[VertexFormatElement.EnumUsage.values().length];
-		private static final String __OBFID = "CL_00002535";
+
 
 		static {
 			try {
@@ -2761,7 +2761,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		final EnumFacing facing;
 		final Set setFacing;
 		final int counter;
-		private static final String __OBFID = "CL_00002534";
+
 
 		public ContainerLocalRenderInformation(RenderChunk p_i4_1_, EnumFacing p_i4_2_, int p_i4_3_) {
 			this.setFacing = EnumSet.noneOf(EnumFacing.class);

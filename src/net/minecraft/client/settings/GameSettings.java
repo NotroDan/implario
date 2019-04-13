@@ -156,7 +156,7 @@ public class GameSettings {
 	 */
 	public String language;
 	public boolean forceUnicodeFont;
-	private static final String __OBFID = "CL_00000650";
+
 	public int ofFogType = 1;
 	public float ofFogStart = 0.8F;
 	public int ofMipmapType = 0;
@@ -2252,7 +2252,7 @@ public class GameSettings {
 	static final class GameSettings$2 {
 
 		static final int[] field_151477_a = new int[GameSettings.Options.values().length];
-		private static final String __OBFID = "CL_00000652";
+
 
 		static {
 			try {
@@ -2450,7 +2450,7 @@ public class GameSettings {
 				STREAM_CHAT_ENABLED, STREAM_CHAT_USER_FILTER, STREAM_MIC_TOGGLE_BEHAVIOR, BLOCK_ALTERNATIVES,
 				REDUCED_DEBUG_INFO, ENTITY_SHADOWS
 		};
-		private static final String __OBFID = "CL_00000653";
+
 
 		public static GameSettings.Options getEnumOptions(int p_74379_0_) {
 			for (GameSettings.Options gamesettings$options : values()) {

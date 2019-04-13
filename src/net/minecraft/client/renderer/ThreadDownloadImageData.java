@@ -34,7 +34,7 @@ public class ThreadDownloadImageData extends SimpleTexture
     private BufferedImage bufferedImage;
     private Thread imageThread;
     private boolean textureUploaded;
-    private static final String __OBFID = "CL_00001049";
+
     public Boolean imageFound = null;
     public boolean pipeline = false;
 
@@ -120,7 +120,7 @@ public class ThreadDownloadImageData extends SimpleTexture
     {
         this.imageThread = new Thread("Texture Downloader #" + threadDownloadCounter.incrementAndGet())
         {
-            private static final String __OBFID = "CL_00001050";
+
             public void run()
             {
                 HttpURLConnection httpurlconnection = null;

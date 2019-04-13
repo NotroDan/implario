@@ -60,7 +60,7 @@ public class WorldClient extends World {
 	private final Set entitySpawnQueue = Sets.newHashSet();
 	private final Minecraft mc = Minecraft.getMinecraft();
 	private final Set previousActiveChunkSet = Sets.newHashSet();
-	private static final String __OBFID = "CL_00000882";
+
 	private BlockPosM randomTickPosM = new BlockPosM(0, 0, 0, 3);
 	private boolean playerUpdate = false;
 

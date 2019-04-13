@@ -236,7 +236,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	private int shaderIndex;
 	private boolean useShader;
 	public int frameCount;
-	private static final String __OBFID = "CL_00000947";
+
 	private boolean initialized = false;
 	private World updatedWorld = null;
 	private boolean showDebugInfo = false;
@@ -1169,14 +1169,14 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
 					crashreportcategory.addCrashSectionCallable("Screen name", () -> Minecraft.getMinecraft().currentScreen.getClass().getCanonicalName());
 					crashreportcategory.addCrashSectionCallable("Mouse location", new Callable() {
-						private static final String __OBFID = "CL_00000950";
+
 
 						public String call() {
 							return String.format("Scaled: (%d, %d). Absolute: (%d, %d)", j1, k1, Mouse.getX(), Mouse.getY());
 						}
 					});
 					crashreportcategory.addCrashSectionCallable("Screen size", new Callable() {
-						private static final String __OBFID = "CL_00000951";
+
 
 						public String call() {
 							return String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(),

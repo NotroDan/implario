@@ -5,7 +5,7 @@ import java.util.Map;
 public class Lang
 {
     private static Locale i18nLocale;
-    private static final String __OBFID = "CL_00001094";
+
 
     static void setLocale(Locale i18nLocaleIn)
     {

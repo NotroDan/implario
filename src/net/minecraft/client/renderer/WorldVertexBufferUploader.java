@@ -11,7 +11,7 @@ import java.util.List;
 
 public class WorldVertexBufferUploader {
 
-	private static final String __OBFID = "CL_00002567";
+
 
 	public void func_181679_a(WorldRenderer p_181679_1_) {
 		if (p_181679_1_.getVertexCount() > 0) {
@@ -96,7 +96,7 @@ public class WorldVertexBufferUploader {
 	static final class WorldVertexBufferUploader$1 {
 
 		static final int[] field_178958_a = new int[VertexFormatElement.EnumUsage.values().length];
-		private static final String __OBFID = "CL_00002566";
+
 
 		static {
 			try {

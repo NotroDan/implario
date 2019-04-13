@@ -7,7 +7,7 @@ import net.minecraft.util.EnumFacing;
 public class BreakingFour extends BakedQuad
 {
     private final TextureAtlasSprite texture;
-    private static final String __OBFID = "CL_00002492";
+
 
     public BreakingFour(BakedQuad p_i46217_1_, TextureAtlasSprite textureIn)
     {
@@ -73,7 +73,7 @@ public class BreakingFour extends BakedQuad
     static final class BreakingFour$1
     {
         static final int[] field_178419_a = new int[EnumFacing.values().length];
-        private static final String __OBFID = "CL_00002491";
+
 
         static
         {

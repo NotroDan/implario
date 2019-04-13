@@ -213,13 +213,13 @@ public class WorldRenderer {
 		this.quadSprite = null;
 	}
 
-	public void begin(int p_181668_1_, VertexFormat p_181668_2_) {
+	public void begin(int drawMode, VertexFormat vertexFormat) {
 		if (this.isDrawing) throw new IllegalStateException("Already building!");
 		this.isDrawing = true;
 		this.reset();
-		this.drawMode = p_181668_1_;
-		this.vertexFormat = p_181668_2_;
-		this.field_181677_f = p_181668_2_.getElement(this.field_181678_g);
+		this.drawMode = drawMode;
+		this.vertexFormat = vertexFormat;
+		this.field_181677_f = vertexFormat.getElement(this.field_181678_g);
 		this.needsUpdate = false;
 		this.byteBuffer.limit(this.byteBuffer.capacity());
 
@@ -708,7 +708,7 @@ public class WorldRenderer {
 	static final class WorldRenderer$2 {
 
 		static final int[] field_181661_a = new int[VertexFormatElement.EnumType.values().length];
-		private static final String __OBFID = "CL_00002569";
+
 
 		static {
 			try {
@@ -752,7 +752,7 @@ public class WorldRenderer {
 
 		private final int[] stateRawBuffer;
 		private final VertexFormat stateVertexFormat;
-		private static final String __OBFID = "CL_00002568";
+
 		private TextureAtlasSprite[] stateQuadSprites;
 
 		public State(int[] p_i2_2_, VertexFormat p_i2_3_, TextureAtlasSprite[] p_i2_4_) {

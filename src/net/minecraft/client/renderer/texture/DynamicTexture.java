@@ -15,7 +15,7 @@ public class DynamicTexture extends AbstractTexture
 
     /** height of this icon in pixels */
     private final int height;
-    private static final String __OBFID = "CL_00001048";
+
     private boolean shadersInitialized;
 
     public DynamicTexture(BufferedImage bufferedImage)
