@@ -51,9 +51,7 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 		try {
 			int i = state.getBlock().getRenderType();
 
-			if (i == -1) {
-				return false;
-			}
+			if (i == -1) return false;
 			switch (i) {
 				case 1:
 					if (Config.isShaders()) {

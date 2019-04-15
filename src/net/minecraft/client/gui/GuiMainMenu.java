@@ -3,7 +3,6 @@ package net.minecraft.client.gui;
 import net.minecraft.CyclicIterator;
 import net.minecraft.Logger;
 import net.minecraft.Utils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiButtonChangeName;
 import net.minecraft.client.gui.element.GuiButtonLanguage;
@@ -20,6 +19,7 @@ import net.minecraft.util.Skybox;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.opengl.GLContext;
+import shadersmod.client.GuiShaders;
 
 import java.io.IOException;
 import java.net.URI;
@@ -120,7 +120,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions(this));
 
 //		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
-		if (button.id == 5) this.mc.displayGuiScreen(new GuiLanguage(this, Minecraft.getMinecraft().mcLanguageManager));
+		if (button.id == 5) this.mc.displayGuiScreen(new GuiShaders(this));
 		if (button.id == 6) this.mc.displayGuiScreen(new GuiServers(this));
 
 		if (button.id == 1) this.mc.displayGuiScreen(new GuiSelectWorld(this));

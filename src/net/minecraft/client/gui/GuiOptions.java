@@ -62,7 +62,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.USE_VBO, x1, y += 22).updateGraphics(),
 				createButton(Settings.VIEW_BOBBING, x2, y),
 				createButton(Settings.FRAMERATE_LIMIT, x1, y += 22).updateGraphics(),
-				createButton(Settings.FAST_RENDER, x2, y).updateGraphics(),
+				createButton(Settings.FAST_RENDER, x2, y).updateGraphics().refreshResources(),
 				createButton(Settings.AA_LEVEL, x1, y += 22).updateGraphics(),
 				createButton(Settings.AO_LEVEL, x2, y).updateGraphics(),
 				createButton(Settings.AF_LEVEL, x1, y += 22).updateGraphics(),

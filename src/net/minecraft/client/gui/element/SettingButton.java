@@ -1,12 +1,14 @@
 package net.minecraft.client.gui.element;
 
 import net.minecraft.Utils;
+import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.SelectorSetting;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.client.settings.SliderSetting;
 import net.minecraft.client.settings.ToggleSetting;
+import optifine.Config;
 
 import java.text.DecimalFormat;
 
@@ -14,6 +16,7 @@ public class SettingButton extends GuiButton {
 
 	public Settings settings;
 	public boolean updateGraphics = false;
+	public boolean reloadRP = false;
 
 	public SettingButton(Settings settings, int x, int y) {
 		super(settings.ordinal(), x, y, getCaption(settings));
@@ -27,6 +30,10 @@ public class SettingButton extends GuiButton {
 
 	public SettingButton updateGraphics() {
 		updateGraphics = true;
+		return this;
+	}
+	public SettingButton refreshResources() {
+		reloadRP = true;
 		return this;
 	}
 
@@ -51,6 +58,7 @@ public class SettingButton extends GuiButton {
 	public void click() {
 		if (settings.getBase() instanceof ToggleSetting) settings.toggle();
 		else if (settings.getBase() instanceof SelectorSetting) ((SelectorSetting) settings.getBase()).next();
+		settings.change();
 		displayString = getCaption(settings);
 		if (updateGraphics) {
 			ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
@@ -59,6 +67,13 @@ public class SettingButton extends GuiButton {
 					scaledresolution.getScaledWidth() / 2, scaledresolution.getScaledHeight() / 2, -1);
 			Minecraft.getMinecraft().renderGlobal.loadRenderers();
 		}
-		settings.change();
+		if (reloadRP) {
+
+			MC.i().entityRenderer.removeShaderGroup();
+			Config.updateFramebufferSize();
+
+
+//			MC.i().scheduleResourcesRefresh();
+		}
 	}
 }

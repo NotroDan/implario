@@ -2,8 +2,9 @@ package net.minecraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
@@ -21,6 +22,8 @@ import shadersmod.client.ShaderOption;
 
 import java.util.Arrays;
 import java.util.Random;
+
+import static net.minecraft.client.gui.GuiIngame.map;
 
 public class Utils {
 
@@ -87,6 +90,20 @@ public class Utils {
 		if (line.startsWith("s")) {
 			String[] split = line.split(" ");
 			if (split.length >= 2) GuiIngame.currentServer = split[1];
+		}
+		if (line.equals("mm")) {
+			map = Minimap.getMiniMap(5);
+//			for (IBlockState[] states : map) {
+//				if (states == null) continue;
+//				for (IBlockState state : states) {
+//					if (state == null) continue;
+//					if (state.getBlock() != Blocks.acacia_fence) continue;
+//					IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
+//					for (BakedQuad quad : model.getGeneralQuads()) System.out.println(quad);
+//				}
+//			}
+//			System.out.println(Arrays.deepToString(map));
+
 		}
 	}
 

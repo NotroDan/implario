@@ -13,427 +13,369 @@ import java.net.URI;
 
 import static net.minecraft.Utils.CLASS;
 
-public class GuiShaders extends GuiScreen
-{
-    protected GuiScreen parentGui;
-    protected String screenTitle = "Shaders";
-    private int updateTimer = -1;
-    private GuiSlotShaders shaderList;
-    private boolean saved = false;
-    private static float[] QUALITY_MULTIPLIERS = new float[] {0.5F, 0.70710677F, 1.0F, 1.4142135F, 2.0F};
-    private static String[] QUALITY_MULTIPLIER_NAMES = new String[] {"0.5x", "0.7x", "1x", "1.5x", "2x"};
-    private static float[] HAND_DEPTH_VALUES = new float[] {0.0625F, 0.125F, 0.25F};
-    private static String[] HAND_DEPTH_NAMES = new String[] {"0.5x", "1x", "2x"};
-    public static final int EnumOS_UNKNOWN = 0;
-    public static final int EnumOS_WINDOWS = 1;
-    public static final int EnumOS_OSX = 2;
-    public static final int EnumOS_SOLARIS = 3;
-    public static final int EnumOS_LINUX = 4;
+public class GuiShaders extends GuiScreen {
 
-    public GuiShaders(GuiScreen par1GuiScreen)
-    {
-        this.parentGui = par1GuiScreen;
-    }
+	protected GuiScreen parentGui;
+	protected String screenTitle = "Shaders";
+	private int updateTimer = -1;
+	private GuiSlotShaders shaderList;
+	private boolean saved = false;
+	private static float[] QUALITY_MULTIPLIERS = new float[] {0.5F, 0.70710677F, 1.0F, 1.4142135F, 2.0F};
+	private static String[] QUALITY_MULTIPLIER_NAMES = new String[] {"0.5x", "0.7x", "1x", "1.5x", "2x"};
+	private static float[] HAND_DEPTH_VALUES = new float[] {0.0625F, 0.125F, 0.25F};
+	private static String[] HAND_DEPTH_NAMES = new String[] {"0.5x", "1x", "2x"};
+	public static final int EnumOS_UNKNOWN = 0;
+	public static final int EnumOS_WINDOWS = 1;
+	public static final int EnumOS_OSX = 2;
+	public static final int EnumOS_SOLARIS = 3;
+	public static final int EnumOS_LINUX = 4;
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-     * window resizes, the buttonList is cleared beforehand.
-     */
-    public void initGui()
-    {
-        this.screenTitle = Lang.format("of.options.shadersTitle");
+	public GuiShaders(GuiScreen par1GuiScreen) {
+		this.parentGui = par1GuiScreen;
+	}
 
-        if (Shaders.shadersConfig == null)
-        {
-            Shaders.loadConfig();
-        }
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+	 * window resizes, the buttonList is cleared beforehand.
+	 */
+	public void initGui() {
+		this.screenTitle = Lang.format("of.options.shadersTitle");
 
-        int i = 120;
-        int j = 20;
-        int k = this.width - i - 10;
-        int l = 30;
-        int i1 = 20;
-        int j1 = this.width - i - 20;
-        this.shaderList = new GuiSlotShaders(this, j1, this.height, l, this.height - 50, 16);
-        this.shaderList.registerScrollButtons(7, 8);
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, k, 0 * i1 + l, i, j));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, k, 1 * i1 + l, i, j));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SPECULAR_MAP, k, 2 * i1 + l, i, j));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.RENDER_RES_MUL, k, 3 * i1 + l, i, j));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SHADOW_RES_MUL, k, 4 * i1 + l, i, j));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.HAND_DEPTH_MUL, k, 5 * i1 + l, i, j));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_HAND_LIGHT, k, 6 * i1 + l, i, j));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_LIGHTING, k, 7 * i1 + l, i, j));
-        int k1 = Math.min(150, j1 / 2 - 10);
-        this.buttonList.add(new GuiButton(201, j1 / 4 - k1 / 2, this.height - 25, k1, j, optifine.Lang.get("of.options.shaders.shadersFolder")));
-        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, Lang.format("gui.done")));
-        this.buttonList.add(new GuiButton(203, k, this.height - 25, i, j, optifine.Lang.get("of.options.shaders.shaderOptions")));
-        this.updateButtons();
-    }
+		if (Shaders.shadersConfig == null) {
+			Shaders.loadConfig();
+		}
 
-    public void updateButtons()
-    {
-        boolean flag = Config.isShaders();
+		int i = 120;
+		int j = 20;
+		int k = this.width - i - 10;
+		int l = 30;
+		int i1 = 20;
+		int j1 = this.width - i - 20;
+		this.shaderList = new GuiSlotShaders(this, j1, this.height, l, this.height - 50, 16);
+		this.shaderList.registerScrollButtons(7, 8);
+		this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, k, 0 * i1 + l, i, j));
+		this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, k, 1 * i1 + l, i, j));
+		this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SPECULAR_MAP, k, 2 * i1 + l, i, j));
+		this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.RENDER_RES_MUL, k, 3 * i1 + l, i, j));
+		this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SHADOW_RES_MUL, k, 4 * i1 + l, i, j));
+		this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.HAND_DEPTH_MUL, k, 5 * i1 + l, i, j));
+		this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_HAND_LIGHT, k, 6 * i1 + l, i, j));
+		this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_LIGHTING, k, 7 * i1 + l, i, j));
+		int k1 = Math.min(150, j1 / 2 - 10);
+		this.buttonList.add(new GuiButton(201, j1 / 4 - k1 / 2, this.height - 25, k1, j, optifine.Lang.get("of.options.shaders.shadersFolder")));
+		this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, Lang.format("gui.done")));
+		this.buttonList.add(new GuiButton(203, k, this.height - 25, i, j, optifine.Lang.get("of.options.shaders.shaderOptions")));
+		this.updateButtons();
+	}
 
-        for (GuiButton guibutton : this.buttonList)
-        {
-            if (guibutton.id != 201 && guibutton.id != 202 && guibutton.id != EnumShaderOption.ANTIALIASING.ordinal())
-            {
-                guibutton.enabled = flag;
-            }
-        }
-    }
+	public void updateButtons() {
+		boolean flag = Config.isShaders();
 
-    /**
-     * Handles mouse input.
-     */
-    public void handleMouseInput() throws IOException
-    {
-        super.handleMouseInput();
-        this.shaderList.handleMouseInput();
-    }
+		for (GuiButton guibutton : this.buttonList) {
+			if (guibutton.id != 201 && guibutton.id != 202 && guibutton.id != EnumShaderOption.ANTIALIASING.ordinal()) {
+				guibutton.enabled = flag;
+			}
+		}
+	}
 
-    /**
-     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
-     */
-    protected void actionPerformed(GuiButton button)
-    {
-        if (button.enabled)
-        {
-            if (button instanceof GuiButtonEnumShaderOption)
-            {
-                GuiButtonEnumShaderOption guibuttonenumshaderoption = (GuiButtonEnumShaderOption)button;
+	/**
+	 * Handles mouse input.
+	 */
+	public void handleMouseInput() throws IOException {
+		super.handleMouseInput();
+		this.shaderList.handleMouseInput();
+	}
 
-                switch (guibuttonenumshaderoption.getEnumShaderOption())
-                {
-                    case ANTIALIASING:
-                        Shaders.nextAntialiasingLevel();
-                        Shaders.uninit();
-                        break;
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+	 */
+	protected void actionPerformed(GuiButton button) {
+		if (button.enabled) {
+			if (button instanceof GuiButtonEnumShaderOption) {
+				GuiButtonEnumShaderOption guibuttonenumshaderoption = (GuiButtonEnumShaderOption) button;
 
-                    case NORMAL_MAP:
-                        Shaders.configNormalMap = !Shaders.configNormalMap;
-                        this.mc.scheduleResourcesRefresh();
-                        break;
+				switch (guibuttonenumshaderoption.getEnumShaderOption()) {
+					case ANTIALIASING:
+						Shaders.nextAntialiasingLevel();
+						Shaders.uninit();
+						break;
 
-                    case SPECULAR_MAP:
-                        Shaders.configSpecularMap = !Shaders.configSpecularMap;
-                        this.mc.scheduleResourcesRefresh();
-                        break;
+					case NORMAL_MAP:
+						Shaders.configNormalMap = !Shaders.configNormalMap;
+						this.mc.scheduleResourcesRefresh();
+						break;
 
-                    case RENDER_RES_MUL:
-                        float f2 = Shaders.configRenderResMul;
-                        float[] afloat2 = QUALITY_MULTIPLIERS;
-                        String[] astring2 = QUALITY_MULTIPLIER_NAMES;
-                        int k = getValueIndex(f2, afloat2);
+					case SPECULAR_MAP:
+						Shaders.configSpecularMap = !Shaders.configSpecularMap;
+						this.mc.scheduleResourcesRefresh();
+						break;
 
-                        if (isShiftKeyDown())
-                        {
-                            --k;
+					case RENDER_RES_MUL:
+						float f2 = Shaders.configRenderResMul;
+						float[] afloat2 = QUALITY_MULTIPLIERS;
+						String[] astring2 = QUALITY_MULTIPLIER_NAMES;
+						int k = getValueIndex(f2, afloat2);
 
-                            if (k < 0)
-                            {
-                                k = afloat2.length - 1;
-                            }
-                        }
-                        else
-                        {
-                            ++k;
+						if (isShiftKeyDown()) {
+							--k;
 
-                            if (k >= afloat2.length)
-                            {
-                                k = 0;
-                            }
-                        }
+							if (k < 0) {
+								k = afloat2.length - 1;
+							}
+						} else {
+							++k;
 
-                        Shaders.configRenderResMul = afloat2[k];
-                        Shaders.scheduleResize();
-                        break;
+							if (k >= afloat2.length) {
+								k = 0;
+							}
+						}
 
-                    case SHADOW_RES_MUL:
-                        float f1 = Shaders.configShadowResMul;
-                        float[] afloat1 = QUALITY_MULTIPLIERS;
-                        String[] astring1 = QUALITY_MULTIPLIER_NAMES;
-                        int j = getValueIndex(f1, afloat1);
+						Shaders.configRenderResMul = afloat2[k];
+						Shaders.scheduleResize();
+						break;
 
-                        if (isShiftKeyDown())
-                        {
-                            --j;
+					case SHADOW_RES_MUL:
+						float f1 = Shaders.configShadowResMul;
+						float[] afloat1 = QUALITY_MULTIPLIERS;
+						String[] astring1 = QUALITY_MULTIPLIER_NAMES;
+						int j = getValueIndex(f1, afloat1);
 
-                            if (j < 0)
-                            {
-                                j = afloat1.length - 1;
-                            }
-                        }
-                        else
-                        {
-                            ++j;
+						if (isShiftKeyDown()) {
+							--j;
 
-                            if (j >= afloat1.length)
-                            {
-                                j = 0;
-                            }
-                        }
+							if (j < 0) {
+								j = afloat1.length - 1;
+							}
+						} else {
+							++j;
 
-                        Shaders.configShadowResMul = afloat1[j];
-                        Shaders.scheduleResizeShadow();
-                        break;
+							if (j >= afloat1.length) {
+								j = 0;
+							}
+						}
 
-                    case HAND_DEPTH_MUL:
-                        float f = Shaders.configHandDepthMul;
-                        float[] afloat = HAND_DEPTH_VALUES;
-                        String[] astring = HAND_DEPTH_NAMES;
-                        int i = getValueIndex(f, afloat);
+						Shaders.configShadowResMul = afloat1[j];
+						Shaders.scheduleResizeShadow();
+						break;
 
-                        if (isShiftKeyDown())
-                        {
-                            --i;
+					case HAND_DEPTH_MUL:
+						float f = Shaders.configHandDepthMul;
+						float[] afloat = HAND_DEPTH_VALUES;
+						String[] astring = HAND_DEPTH_NAMES;
+						int i = getValueIndex(f, afloat);
 
-                            if (i < 0)
-                            {
-                                i = afloat.length - 1;
-                            }
-                        }
-                        else
-                        {
-                            ++i;
+						if (isShiftKeyDown()) {
+							--i;
 
-                            if (i >= afloat.length)
-                            {
-                                i = 0;
-                            }
-                        }
+							if (i < 0) {
+								i = afloat.length - 1;
+							}
+						} else {
+							++i;
 
-                        Shaders.configHandDepthMul = afloat[i];
-                        break;
+							if (i >= afloat.length) {
+								i = 0;
+							}
+						}
 
-                    case CLOUD_SHADOW:
-                        Shaders.configCloudShadow = !Shaders.configCloudShadow;
-                        break;
+						Shaders.configHandDepthMul = afloat[i];
+						break;
 
-                    case OLD_HAND_LIGHT:
-                        Shaders.configOldHandLight.nextValue();
-                        break;
+					case CLOUD_SHADOW:
+						Shaders.configCloudShadow = !Shaders.configCloudShadow;
+						break;
 
-                    case OLD_LIGHTING:
-                        Shaders.configOldLighting.nextValue();
-                        Shaders.updateBlockLightLevel();
-                        this.mc.scheduleResourcesRefresh();
-                        break;
+					case OLD_HAND_LIGHT:
+						Shaders.configOldHandLight.nextValue();
+						break;
 
-                    case TWEAK_BLOCK_DAMAGE:
-                        Shaders.configTweakBlockDamage = !Shaders.configTweakBlockDamage;
-                        break;
+					case OLD_LIGHTING:
+						Shaders.configOldLighting.nextValue();
+						Shaders.updateBlockLightLevel();
+						this.mc.scheduleResourcesRefresh();
+						break;
 
-                    case TEX_MIN_FIL_B:
-                        Shaders.configTexMinFilB = (Shaders.configTexMinFilB + 1) % 3;
-                        Shaders.configTexMinFilN = Shaders.configTexMinFilS = Shaders.configTexMinFilB;
-                        button.displayString = "Tex Min: " + Shaders.texMinFilDesc[Shaders.configTexMinFilB];
-                        ShadersTex.updateTextureMinMagFilter();
-                        break;
+					case TWEAK_BLOCK_DAMAGE:
+						Shaders.configTweakBlockDamage = !Shaders.configTweakBlockDamage;
+						break;
 
-                    case TEX_MAG_FIL_N:
-                        Shaders.configTexMagFilN = (Shaders.configTexMagFilN + 1) % 2;
-                        button.displayString = "Tex_n Mag: " + Shaders.texMagFilDesc[Shaders.configTexMagFilN];
-                        ShadersTex.updateTextureMinMagFilter();
-                        break;
+					case TEX_MIN_FIL_B:
+						Shaders.configTexMinFilB = (Shaders.configTexMinFilB + 1) % 3;
+						Shaders.configTexMinFilN = Shaders.configTexMinFilS = Shaders.configTexMinFilB;
+						button.displayString = "Tex Min: " + Shaders.texMinFilDesc[Shaders.configTexMinFilB];
+						ShadersTex.updateTextureMinMagFilter();
+						break;
 
-                    case TEX_MAG_FIL_S:
-                        Shaders.configTexMagFilS = (Shaders.configTexMagFilS + 1) % 2;
-                        button.displayString = "Tex_s Mag: " + Shaders.texMagFilDesc[Shaders.configTexMagFilS];
-                        ShadersTex.updateTextureMinMagFilter();
-                        break;
+					case TEX_MAG_FIL_N:
+						Shaders.configTexMagFilN = (Shaders.configTexMagFilN + 1) % 2;
+						button.displayString = "Tex_n Mag: " + Shaders.texMagFilDesc[Shaders.configTexMagFilN];
+						ShadersTex.updateTextureMinMagFilter();
+						break;
 
-                    case SHADOW_CLIP_FRUSTRUM:
-                        Shaders.configShadowClipFrustrum = !Shaders.configShadowClipFrustrum;
-                        button.displayString = "ShadowClipFrustrum: " + toStringOnOff(Shaders.configShadowClipFrustrum);
-                        ShadersTex.updateTextureMinMagFilter();
-                }
+					case TEX_MAG_FIL_S:
+						Shaders.configTexMagFilS = (Shaders.configTexMagFilS + 1) % 2;
+						button.displayString = "Tex_s Mag: " + Shaders.texMagFilDesc[Shaders.configTexMagFilS];
+						ShadersTex.updateTextureMinMagFilter();
+						break;
 
-                guibuttonenumshaderoption.updateButtonText();
-            }
-            else
-            {
-                switch (button.id)
-                {
-                    case 201:
-                        switch (getOSType())
-                        {
-                            case 1:
-                                String s = String.format("cmd.exe /C start \"Open file\" \"%s\"", Shaders.shaderpacksdir.getAbsolutePath());
+					case SHADOW_CLIP_FRUSTRUM:
+						Shaders.configShadowClipFrustrum = !Shaders.configShadowClipFrustrum;
+						button.displayString = "ShadowClipFrustrum: " + toStringOnOff(Shaders.configShadowClipFrustrum);
+						ShadersTex.updateTextureMinMagFilter();
+				}
 
-                                try
-                                {
-                                    Runtime.getRuntime().exec(s);
-                                    return;
-                                }
-                                catch (IOException ioexception)
-                                {
-                                    ioexception.printStackTrace();
-                                    break;
-                                }
+				guibuttonenumshaderoption.updateButtonText();
+			} else {
+				switch (button.id) {
+					case 201:
+						switch (getOSType()) {
+							case 1:
+								String s = String.format("cmd.exe /C start \"Open file\" \"%s\"", Shaders.shaderpacksdir.getAbsolutePath());
 
-                            case 2:
-                                try
-                                {
-                                    Runtime.getRuntime().exec(new String[] {"/usr/bin/open", Shaders.shaderpacksdir.getAbsolutePath()});
-                                    return;
-                                }
-                                catch (IOException ioexception1)
-                                {
-                                    ioexception1.printStackTrace();
-                                }
-                        }
+								try {
+									Runtime.getRuntime().exec(s);
+									return;
+								} catch (IOException ioexception) {
+									ioexception.printStackTrace();
+									break;
+								}
 
-                        boolean flag = false;
+							case 2:
+								try {
+									Runtime.getRuntime().exec(new String[] {"/usr/bin/open", Shaders.shaderpacksdir.getAbsolutePath()});
+									return;
+								} catch (IOException ioexception1) {
+									ioexception1.printStackTrace();
+								}
+						}
 
-                        try
-                        {
-                            Class oclass = Class.forName("java.awt.Desktop");
-                            Object object = oclass.getMethod("getDesktop", CLASS).invoke(null);
-                            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new File(this.mc.mcDataDir, Shaders.shaderpacksdirname).toURI());
-                        }
-                        catch (Throwable throwable)
-                        {
-                            throwable.printStackTrace();
-                            flag = true;
-                        }
+						boolean flag = false;
 
-                        if (flag)
-                        {
-                            Config.dbg("Opening via system class!");
-                            Sys.openURL("file://" + Shaders.shaderpacksdir.getAbsolutePath());
-                        }
+						try {
+							Class oclass = Class.forName("java.awt.Desktop");
+							Object object = oclass.getMethod("getDesktop", CLASS).invoke(null);
+							oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new File(this.mc.mcDataDir, Shaders.shaderpacksdirname).toURI());
+						} catch (Throwable throwable) {
+							throwable.printStackTrace();
+							flag = true;
+						}
 
-                        break;
+						if (flag) {
+							Config.dbg("Opening via system class!");
+							Sys.openURL("file://" + Shaders.shaderpacksdir.getAbsolutePath());
+						}
 
-                    case 202:
-                        new File(Shaders.shadersdir, "current.cfg");
-                        Shaders.storeConfig();
-                        this.saved = true;
-                        this.mc.displayGuiScreen(this.parentGui);
-                        break;
+						break;
 
-                    case 203:
-                        GuiShaderOptions guishaderoptions = new GuiShaderOptions(this);
-                        Config.getMinecraft().displayGuiScreen(guishaderoptions);
-                        break;
+					case 202:
+						new File(Shaders.shadersdir, "current.cfg");
+						Shaders.storeConfig();
+						this.saved = true;
+						this.mc.displayGuiScreen(this.parentGui);
+						break;
 
-                    default:
-                        this.shaderList.actionPerformed(button);
-                }
-            }
-        }
-    }
+					case 203:
+						GuiShaderOptions guishaderoptions = new GuiShaderOptions(this);
+						Config.getMinecraft().displayGuiScreen(guishaderoptions);
+						break;
 
-    /**
-     * Called when the screen is unloaded. Used to disable keyboard repeat events
-     */
-    public void onGuiClosed()
-    {
-        super.onGuiClosed();
+					default:
+						this.shaderList.actionPerformed(button);
+				}
+			}
+		}
+	}
 
-        if (!this.saved)
-        {
-            Shaders.storeConfig();
-        }
-    }
+	/**
+	 * Called when the screen is unloaded. Used to disable keyboard repeat events
+	 */
+	public void onGuiClosed() {
+		super.onGuiClosed();
 
-    /**
-     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
-        this.drawDefaultBackground();
-        this.shaderList.drawScreen(mouseX, mouseY, partialTicks);
+		if (!this.saved) {
+			Shaders.storeConfig();
+		}
+	}
 
-        if (this.updateTimer <= 0)
-        {
-            this.shaderList.updateList();
-            this.updateTimer += 20;
-        }
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+	 */
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		this.shaderList.drawScreen(mouseX, mouseY, partialTicks);
 
-        this.drawCenteredString(this.fontRendererObj, this.screenTitle + " ", this.width / 2, 15, 16777215);
-        String s = "OpenGL: " + Shaders.glVersionString + ", " + Shaders.glVendorString + ", " + Shaders.glRendererString;
-        int i = this.fontRendererObj.getStringWidth(s);
+		if (this.updateTimer <= 0) {
+			this.shaderList.updateList();
+			this.updateTimer += 20;
+		}
 
-        if (i < this.width - 5)
-        {
-            this.drawCenteredString(this.fontRendererObj, s, this.width / 2, this.height - 40, 8421504);
-        }
-        else
-        {
-            this.drawString(this.fontRendererObj, s, 5, this.height - 40, 8421504);
-        }
+		this.drawCenteredString(this.fontRendererObj, this.screenTitle + " ", this.width / 2, 15, 16777215);
+		String s = "OpenGL: " + Shaders.glVersionString + ", " + Shaders.glVendorString + ", " + Shaders.glRendererString;
+		int i = this.fontRendererObj.getStringWidth(s);
 
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
+		if (i < this.width - 5) {
+			this.drawCenteredString(this.fontRendererObj, s, this.width / 2, this.height - 40, 8421504);
+		} else {
+			this.drawString(this.fontRendererObj, s, 5, this.height - 40, 8421504);
+		}
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        super.updateScreen();
-        --this.updateTimer;
-    }
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
 
-    public Minecraft getMc()
-    {
-        return this.mc;
-    }
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
+	public void updateScreen() {
+		super.updateScreen();
+		--this.updateTimer;
+	}
 
-    public void drawCenteredString(String text, int x, int y, int color)
-    {
-        this.drawCenteredString(this.fontRendererObj, text, x, y, color);
-    }
+	public Minecraft getMc() {
+		return this.mc;
+	}
 
-    public static String toStringOnOff(boolean value)
-    {
-        String s = optifine.Lang.getOn();
-        String s1 = optifine.Lang.getOff();
-        return value ? s : s1;
-    }
+	public void drawCenteredString(String text, int x, int y, int color) {
+		this.drawCenteredString(this.fontRendererObj, text, x, y, color);
+	}
 
-    public static String toStringAa(int value)
-    {
-        return value == 2 ? "FXAA 2x" : value == 4 ? "FXAA 4x" : optifine.Lang.getOff();
-    }
+	public static String toStringOnOff(boolean value) {
+		String s = optifine.Lang.getOn();
+		String s1 = optifine.Lang.getOff();
+		return value ? s : s1;
+	}
 
-    public static String toStringValue(float val, float[] values, String[] names)
-    {
-        int i = getValueIndex(val, values);
-        return names[i];
-    }
+	public static String toStringAa(int value) {
+		return value == 2 ? "FXAA 2x" : value == 4 ? "FXAA 4x" : optifine.Lang.getOff();
+	}
 
-    public static int getValueIndex(float val, float[] values)
-    {
-        for (int i = 0; i < values.length; ++i)
-        {
-            float f = values[i];
+	public static String toStringValue(float val, float[] values, String[] names) {
+		int i = getValueIndex(val, values);
+		return names[i];
+	}
 
-            if (f >= val)
-            {
-                return i;
-            }
-        }
+	public static int getValueIndex(float val, float[] values) {
+		for (int i = 0; i < values.length; ++i) {
+			float f = values[i];
 
-        return values.length - 1;
-    }
+			if (f >= val) {
+				return i;
+			}
+		}
 
-    public static String toStringQuality(float val)
-    {
-        return toStringValue(val, QUALITY_MULTIPLIERS, QUALITY_MULTIPLIER_NAMES);
-    }
+		return values.length - 1;
+	}
 
-    public static String toStringHandDepth(float val)
-    {
-        return toStringValue(val, HAND_DEPTH_VALUES, HAND_DEPTH_NAMES);
-    }
+	public static String toStringQuality(float val) {
+		return toStringValue(val, QUALITY_MULTIPLIERS, QUALITY_MULTIPLIER_NAMES);
+	}
 
-    public static int getOSType()
-    {
-        String s = System.getProperty("os.name").toLowerCase();
-        return s.contains("win") ? 1 : s.contains("mac") ? 2 : s.contains("solaris") ? 3 : s.contains("sunos") ? 3 : s.contains("linux") ? 4 : s.contains("unix") ? 4 : 0;
-    }
+	public static String toStringHandDepth(float val) {
+		return toStringValue(val, HAND_DEPTH_VALUES, HAND_DEPTH_NAMES);
+	}
+
+	public static int getOSType() {
+		String s = System.getProperty("os.name").toLowerCase();
+		return s.contains("win") ? 1 : s.contains("mac") ? 2 : s.contains("solaris") ? 3 : s.contains("sunos") ? 3 : s.contains("linux") ? 4 : s.contains("unix") ? 4 : 0;
+	}
+
 }

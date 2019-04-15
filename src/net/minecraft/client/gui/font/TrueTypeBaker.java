@@ -162,7 +162,7 @@ public class TrueTypeBaker {
 				layout.getAscent() + layout.getDescent() + 2f * layout.getLeading());
 		Rectangle2D bounds = lBounds.createUnion(vBounds);
 		int width = (int) Math.ceil(bounds.getWidth());
-		(width == 0 ? System.err : System.out).println("char " + (int) c + " '" + c + "': width = " + width);
+//		(width == 0 ? System.err : System.out).println("char " + (int) c + " '" + c + "': width = " + width);
 
 
 

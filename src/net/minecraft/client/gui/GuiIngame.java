@@ -3,18 +3,26 @@ package net.minecraft.client.gui;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import net.minecraft.Utils;
+import net.minecraft.block.BlockGrass;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockOldLeaf;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.keystrokes.KeyStroke;
 import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
@@ -34,12 +42,15 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.Profiler;
 import net.minecraft.util.*;
+import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
 import optifine.CustomColors;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 public class GuiIngame extends Gui {
@@ -196,7 +207,128 @@ public class GuiIngame extends Gui {
 		// Информация о траектории полёта стрелы
 		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
 
+		renderMinimap();
+
 //		renderFakeVime(scaledresolution, width, height);
+	}
+
+
+	public static IBlockState[][][] map;
+	public static BlockPos[][][] mapblocks;
+
+	private void renderMinimap() {
+
+		if (map == null) return;
+
+
+		WorldRenderer r = Tessellator.getInstance().getWorldRenderer();
+
+
+//		IBlockState state = Blocks.clay.getDefaultState();
+//		IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
+//		BakedQuad quad = model.getFaceQuads(EnumFacing.UP).get(0);
+//		MC.bindTexture(TextureMap.locationBlocksTexture);
+//		int[] vertexData = quad.getVertexData();
+//
+//		r.begin(7, DefaultVertexFormats.POSITION_TEX);
+//		for (int i = 0; i < 4; i++) {
+//			int j = i * 7;
+//			r.pos(toFloat(vertexData[j]) * 16, toFloat(vertexData[j + 2]) * 16, 0).tex(toFloat(vertexData[j + 4]), toFloat(vertexData[j + 5])).endVertex();
+//			System.out.print("\n");
+//		}
+//
+//		Tessellator.getInstance().draw();
+
+		int factor = 16;
+		float antifactor = 1F / factor;
+
+		GlStateManager.pushMatrix();
+
+		MC.bindTexture(TextureMap.locationBlocksTexture);
+		G.enableBlend();
+		GlStateManager.scale(factor, factor, 0);
+		for (int x = 0; x < map.length; x++) {
+			IBlockState[][] is = map[x];
+			int height = 0;
+			if (is != null) for (int z = 0; z < (height = is.length); z++) {
+				IBlockState[] states = is[z];
+				if (states != null) {
+
+					for (int y = 0; y < states.length; y++) {
+						IBlockState state = states[y];
+
+						BlockPos pos = mapblocks[x][z][y];
+						IBakedModel model = MC.i().getBlockRendererDispatcher().getModelFromBlockState(state, MC.getWorld(), pos);
+						List<BakedQuad> faceQuads = model.getFaceQuads(EnumFacing.UP);
+						List<BakedQuad> generalQuads = model.getGeneralQuads();
+						List<BakedQuad> quads = new ArrayList<>();
+						quads.addAll(generalQuads);
+						quads.addAll(faceQuads);
+						int color = -1;
+						if (state.getBlock() instanceof BlockGrass) color = MC.getWorld().getWorldChunkManager().getBiomeGenerator(pos).getGrassColorAtPos(pos);
+						if (state.getBlock() instanceof BlockLeaves) {
+							BlockPlanks.EnumType type = state.getValue(BlockOldLeaf.VARIANT);
+							if (type == BlockPlanks.EnumType.BIRCH) color = ColorizerFoliage.getFoliageColorBirch();
+							else if (type == BlockPlanks.EnumType.SPRUCE) color = ColorizerFoliage.getFoliageColorPine();
+							else color = MC.getWorld().getWorldChunkManager().getBiomeGenerator(pos).getFoliageColorAtPos(pos);
+						}
+						float shadowLong = 0;
+						for (BakedQuad quad : quads) {
+
+							int[] vertexData = quad.getVertexData();
+							for (int i = 0; i < 4; i++) {
+								float delta = toFloat(vertexData[i * 7 + 1]);
+								if (delta > shadowLong) shadowLong = delta;
+							}
+
+
+						}
+
+						shadowLong *= antifactor * 4;
+
+						for (BakedQuad quad : quads) {
+
+							int[] vertexData = quad.getVertexData();
+							for (int s = 0; s < 2; s++) {
+								GlStateManager.pushMatrix();
+								if (s == 0) {
+									GlStateManager.color(0, 0, 0, 0.3f);
+									GlStateManager.translate(shadowLong, shadowLong, 0);
+								}
+								else Utils.glColorNoAlpha(color);
+								r.begin(7, DefaultVertexFormats.POSITION_TEX);
+								if (quad.getSprite().glSpriteTextureId != -1) quad.getSprite().bindSpriteTexture();
+								for (int i = 0; i < 4; i++) {
+									int j = i * 7;
+									r.pos(toFloat(vertexData[j]), toFloat(vertexData[j + 2]), 0)
+											.tex(toFloat(vertexData[j + 4]), toFloat(vertexData[j + 5])).endVertex();
+								}
+								Tessellator.getInstance().draw();
+								GlStateManager.popMatrix();
+
+							}
+
+					}
+
+					}
+				}
+				G.translate(0, 1, 0);
+
+			}
+			G.translate(1, -height, 0);
+		}
+		GlStateManager.popMatrix();
+
+	}
+
+	static ByteBuffer fourbytebuffer = ByteBuffer.allocate(4);
+	public float toFloat(int i) {
+		fourbytebuffer.putInt(i);
+		fourbytebuffer.position(0);
+		float f = fourbytebuffer.asFloatBuffer().get();
+		fourbytebuffer.clear();
+//		System.out.print(f + "  ");
+		return f;
 	}
 
 	private void renderFakeVime(ScaledResolution scaledresolution, int width, int height) {

@@ -1248,7 +1248,7 @@ public class GameSettings {
 			this.ofFastRender = !this.ofFastRender;
 
 			if (this.ofFastRender) {
-				this.mc.entityRenderer.func_181022_b();
+				this.mc.entityRenderer.removeShaderGroup();
 			}
 
 			Config.updateFramebufferSize();

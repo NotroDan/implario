@@ -24,13 +24,8 @@ public class FaceBakery {
 		int[] aint = this.makeQuadVertexData(face, sprite, facing, this.getPositionsDiv16(posFrom, posTo), modelRotationIn, partRotation, uvLocked, shade);
 		EnumFacing enumfacing = getFacingFromVertexData(aint);
 
-		if (uvLocked) {
-			this.func_178409_a(aint, enumfacing, face.blockFaceUV, sprite);
-		}
-
-		if (partRotation == null) {
-			this.applyFacing(aint, enumfacing);
-		}
+		if (uvLocked) this.func_178409_a(aint, enumfacing, face.blockFaceUV, sprite);
+		if (partRotation == null) this.applyFacing(aint, enumfacing);
 
 		return new BakedQuad(aint, face.tintIndex, enumfacing, sprite);
 	}
@@ -41,29 +36,23 @@ public class FaceBakery {
 				p_makeBakedQuad_7_, p_makeBakedQuad_8_, p_makeBakedQuad_9_);
 		EnumFacing enumfacing = getFacingFromVertexData(aint);
 
-		if (p_makeBakedQuad_8_) {
-			this.func_178409_a(aint, enumfacing, p_makeBakedQuad_3_.blockFaceUV, p_makeBakedQuad_4_);
-		}
+		if (p_makeBakedQuad_8_) this.func_178409_a(aint, enumfacing, p_makeBakedQuad_3_.blockFaceUV, p_makeBakedQuad_4_);
 
-		if (p_makeBakedQuad_7_ == null) {
-			this.applyFacing(aint, enumfacing);
-		}
+		if (p_makeBakedQuad_7_ == null) this.applyFacing(aint, enumfacing);
 
 		return new BakedQuad(aint, p_makeBakedQuad_3_.tintIndex, enumfacing, p_makeBakedQuad_4_);
 	}
 
-	private int[] makeQuadVertexData(BlockPartFace p_makeQuadVertexData_1_, TextureAtlasSprite p_makeQuadVertexData_2_, EnumFacing p_makeQuadVertexData_3_, float[] p_makeQuadVertexData_4_,
-									 ITransformation p_makeQuadVertexData_5_, BlockPartRotation p_makeQuadVertexData_6_, boolean p_makeQuadVertexData_7_, boolean p_makeQuadVertexData_8_) {
+	private int[] makeQuadVertexData(BlockPartFace part, TextureAtlasSprite sprite, EnumFacing face, float[] floats,
+									 ITransformation transformation, BlockPartRotation rotation, boolean p_makeQuadVertexData_7_, boolean p_makeQuadVertexData_8_) {
 		int i = 28;
 
-		if (Config.isShaders()) {
-			i = 56;
-		}
+		if (Config.isShaders()) i = 56;
 
 		int[] aint = new int[i];
 
 		for (int j = 0; j < 4; ++j) {
-			this.fillVertexData(aint, j, p_makeQuadVertexData_3_, p_makeQuadVertexData_1_, p_makeQuadVertexData_4_, p_makeQuadVertexData_2_, p_makeQuadVertexData_5_, p_makeQuadVertexData_6_,
+			this.fillVertexData(aint, j, face, part, floats, sprite, transformation, rotation,
 					p_makeQuadVertexData_7_, p_makeQuadVertexData_8_);
 		}
 
@@ -120,17 +109,17 @@ public class FaceBakery {
 		return afloat;
 	}
 
-	private void fillVertexData(int[] p_fillVertexData_1_, int p_fillVertexData_2_, EnumFacing p_fillVertexData_3_, BlockPartFace p_fillVertexData_4_, float[] p_fillVertexData_5_,
-								TextureAtlasSprite p_fillVertexData_6_, ITransformation p_fillVertexData_7_, BlockPartRotation p_fillVertexData_8_, boolean p_fillVertexData_9_,
+	private void fillVertexData(int[] p_fillVertexData_1_, int p_fillVertexData_2_, EnumFacing face, BlockPartFace part, float[] floats,
+								TextureAtlasSprite sprite, ITransformation trans, BlockPartRotation rot, boolean p_fillVertexData_9_,
 								boolean p_fillVertexData_10_) {
-		EnumFacing enumfacing = p_fillVertexData_7_.rotate(p_fillVertexData_3_);
+		EnumFacing enumfacing = trans.rotate(face);
 		int i = p_fillVertexData_10_ ? this.getFaceShadeColor(enumfacing) : -1;
-		EnumFaceDirection.VertexInformation enumfacedirection$vertexinformation = EnumFaceDirection.getFacing(p_fillVertexData_3_).func_179025_a(p_fillVertexData_2_);
-		Vector3f vector3f = new Vector3f(p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179184_a], p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179182_b],
-				p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179183_c]);
-		this.func_178407_a(vector3f, p_fillVertexData_8_);
-		int j = this.rotateVertex(vector3f, p_fillVertexData_3_, p_fillVertexData_2_, p_fillVertexData_7_, p_fillVertexData_9_);
-		this.storeVertexData(p_fillVertexData_1_, j, p_fillVertexData_2_, vector3f, i, p_fillVertexData_6_, p_fillVertexData_4_.blockFaceUV);
+		EnumFaceDirection.VertexInformation enumfacedirection$vertexinformation = EnumFaceDirection.getFacing(face).func_179025_a(p_fillVertexData_2_);
+		Vector3f vector3f = new Vector3f(floats[enumfacedirection$vertexinformation.field_179184_a], floats[enumfacedirection$vertexinformation.field_179182_b],
+				floats[enumfacedirection$vertexinformation.field_179183_c]);
+		this.func_178407_a(vector3f, rot);
+		int j = this.rotateVertex(vector3f, face, p_fillVertexData_2_, trans, p_fillVertexData_9_);
+		this.storeVertexData(p_fillVertexData_1_, j, p_fillVertexData_2_, vector3f, i, sprite, part.blockFaceUV);
 	}
 
 	private void storeVertexData(int[] faceData, int storeIndex, int vertexIndex, Vector3f position, int shadeColor, TextureAtlasSprite sprite, BlockFaceUV faceUV) {

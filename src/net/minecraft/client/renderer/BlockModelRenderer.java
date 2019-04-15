@@ -113,13 +113,13 @@ public class BlockModelRenderer {
 		return this.renderModelStandard(blockAccessIn, modelIn, blockIn, blockAccessIn.getBlockState(blockPosIn), blockPosIn, worldRendererIn, checkSides);
 	}
 
-	public boolean renderModelStandard(IBlockAccess p_renderModelStandard_1_, IBakedModel p_renderModelStandard_2_, Block p_renderModelStandard_3_, IBlockState p_renderModelStandard_4_,
+	public boolean renderModelStandard(IBlockAccess p_renderModelStandard_1_, IBakedModel model, Block p_renderModelStandard_3_, IBlockState p_renderModelStandard_4_,
 									   BlockPos p_renderModelStandard_5_, WorldRenderer p_renderModelStandard_6_, boolean p_renderModelStandard_7_) {
 		boolean flag = false;
 		RenderEnv renderenv = null;
 
 		for (EnumFacing enumfacing : EnumFacing.VALUES) {
-			List list = p_renderModelStandard_2_.getFaceQuads(enumfacing);
+			List list = model.getFaceQuads(enumfacing);
 
 			if (!list.isEmpty()) {
 				BlockPos blockpos = p_renderModelStandard_5_.offset(enumfacing);
@@ -140,7 +140,7 @@ public class BlockModelRenderer {
 			}
 		}
 
-		List list1 = p_renderModelStandard_2_.getGeneralQuads();
+		List list1 = model.getGeneralQuads();
 
 		if (list1.size() > 0) {
 			if (renderenv == null) {

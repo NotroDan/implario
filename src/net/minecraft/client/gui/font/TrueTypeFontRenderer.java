@@ -20,9 +20,8 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 		load(Font.BOLD, 1);
 		load(Font.ITALIC, 2);
 		load(Font.BOLD + Font.ITALIC, 3);
-		for (TrueTypeFont basis : bases) {
-			System.out.println(basis.getFont());
-		}
+//		for (TrueTypeFont basis : bases) System.out.println(basis.getFont());
+
 
 	}
 

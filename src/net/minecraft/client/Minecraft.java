@@ -1462,7 +1462,7 @@ label53:
 				this.theWorld.updateEntities();
 			}
 		} else if (this.entityRenderer.isShaderActive()) {
-			this.entityRenderer.func_181022_b();
+			this.entityRenderer.removeShaderGroup();
 		}
 
 		if (!this.isGamePaused) {

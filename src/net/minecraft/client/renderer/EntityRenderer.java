@@ -75,14 +75,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	private static final ResourceLocation locationRainPng = new ResourceLocation("textures/environment/rain.png");
 	private static final ResourceLocation locationSnowPng = new ResourceLocation("textures/environment/snow.png");
 
-	// ToDo: Выпилить 3D-Анаглиф
-	public static boolean anaglyphEnable;
-
-	/**
-	 * Anaglyph field (0=R, 1=GB)
-	 */
-	public static int anaglyphField;
-
 	/**
 	 * A reference to the Minecraft object.
 	 */
@@ -279,7 +271,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		return OpenGlHelper.shadersSupported && this.theShaderGroup != null;
 	}
 
-	public void func_181022_b() {
+	public void removeShaderGroup() {
 		if (this.theShaderGroup != null) {
 			this.theShaderGroup.deleteShaderGroup();
 		}

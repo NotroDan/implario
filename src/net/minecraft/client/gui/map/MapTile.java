@@ -33,7 +33,6 @@ public class MapTile {
 	}
 
 	public void draw() {
-//		MC.i().getModelManager().getBlockModelShapes().getModelForState(Blocks.clay.getDefaultState()).getFaceQuads(EnumFacing.UP).get(0).getSprite()
 	}
 
 }

@@ -402,7 +402,7 @@ public class TrueTypeFont {
 	public static boolean isSupported(String fontname) {
 		Font font[] = getFonts();
 		for (int i = font.length - 1; i >= 0; i--) {
-			System.out.print(font[i].getName() + "  ");
+//			System.out.print(font[i].getName() + "  ");
 			if (font[i].getName().equalsIgnoreCase(fontname))
 				return true;
 		}
