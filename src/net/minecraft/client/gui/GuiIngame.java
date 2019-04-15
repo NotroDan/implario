@@ -240,7 +240,7 @@ public class GuiIngame extends Gui {
 //		Tessellator.getInstance().draw();
 
 		int factor = 16;
-		float antifactor = 1F / factor;
+		float antifactor = 2F / factor;
 
 		GlStateManager.pushMatrix();
 
@@ -272,19 +272,7 @@ public class GuiIngame extends Gui {
 							else if (type == BlockPlanks.EnumType.SPRUCE) color = ColorizerFoliage.getFoliageColorPine();
 							else color = MC.getWorld().getWorldChunkManager().getBiomeGenerator(pos).getFoliageColorAtPos(pos);
 						}
-						float shadowLong = 0;
-						for (BakedQuad quad : quads) {
 
-							int[] vertexData = quad.getVertexData();
-							for (int i = 0; i < 4; i++) {
-								float delta = toFloat(vertexData[i * 7 + 1]);
-								if (delta > shadowLong) shadowLong = delta;
-							}
-
-
-						}
-
-						shadowLong *= antifactor * 4;
 
 						for (BakedQuad quad : quads) {
 
@@ -293,7 +281,7 @@ public class GuiIngame extends Gui {
 								GlStateManager.pushMatrix();
 								if (s == 0) {
 									GlStateManager.color(0, 0, 0, 0.3f);
-									GlStateManager.translate(shadowLong, shadowLong, 0);
+									GlStateManager.translate(antifactor, antifactor, 0);
 								}
 								else Utils.glColorNoAlpha(color);
 								r.begin(7, DefaultVertexFormats.POSITION_TEX);
