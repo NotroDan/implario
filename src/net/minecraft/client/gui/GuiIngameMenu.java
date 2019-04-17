@@ -63,7 +63,7 @@ public class GuiIngameMenu extends GuiScreen {
 
 			case 4:
 				this.mc.displayGuiScreen(null);
-				this.mc.setIngameFocus();
+				this.mc.inputHandler.setIngameFocus();
 				break;
 
 			case 5:

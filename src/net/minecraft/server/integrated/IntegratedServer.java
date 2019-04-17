@@ -2,7 +2,6 @@ package net.minecraft.server.integrated;
 
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
-import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ThreadLanServerPing;
@@ -26,6 +25,8 @@ import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
+import static net.minecraft.logging.Log.MAIN;
+
 public class IntegratedServer extends MinecraftServer {
 
 	private static final Logger logger = Logger.getInstance();
@@ -41,13 +42,13 @@ public class IntegratedServer extends MinecraftServer {
 
 
 	public IntegratedServer(Minecraft mcIn) {
-		super(mcIn.getProxy(), new File(mcIn.mcDataDir, USER_CACHE_FILE.getName()));
+		super(mcIn.getProxy(), USER_CACHE_FILE);
 		this.mc = mcIn;
 		this.theWorldSettings = null;
 	}
 
 	public IntegratedServer(Minecraft mcIn, String folderName, String worldName, WorldSettings settings) {
-		super(new File(mcIn.mcDataDir, "saves"), mcIn.getProxy(), new File(mcIn.mcDataDir, USER_CACHE_FILE.getName()));
+		super(new File(mcIn.mcDataDir, "saves"), mcIn.getProxy(), USER_CACHE_FILE);
 		this.setServerOwner(mcIn.getSession().getUsername());
 		this.setFolderName(folderName);
 		this.setWorldName(worldName);
@@ -138,7 +139,7 @@ public class IntegratedServer extends MinecraftServer {
 		this.isGamePaused = Minecraft.getMinecraft().getNetHandler() != null && Minecraft.getMinecraft().isGamePaused();
 
 		if (!flag && this.isGamePaused) {
-			logger.info("Saving and pausing game...");
+			logger.info("Сохраняем мир и ставим игру на паузу...");
 			this.getConfigurationManager().saveAllPlayerData();
 			this.saveAllWorlds(false);
 		}
@@ -148,32 +149,28 @@ public class IntegratedServer extends MinecraftServer {
 
 			synchronized (this.futureTaskQueue) {
 				while (!this.futureTaskQueue.isEmpty()) {
-					Util.schedule((FutureTask) this.futureTaskQueue.poll(), logger);
+					Util.schedule((FutureTask) this.futureTaskQueue.poll(), MAIN);
 				}
 			}
 		} else {
 			super.tick();
 
 			if (Settings.RENDER_DISTANCE.f() != this.getConfigurationManager().getViewDistance()) {
-				logger.info("Changing view distance to {}, from {}", Settings.RENDER_DISTANCE.f(), this.getConfigurationManager().getViewDistance());
+				logger.info("Изменяем дальность прорисовки с " + getConfigurationManager().getViewDistance() + " на " + Settings.RENDER_DISTANCE.f());
 				this.getConfigurationManager().setViewDistance((int) Settings.RENDER_DISTANCE.f());
 			}
 
 			if (this.mc.theWorld != null) {
-				WorldInfo worldinfo = this.worldServers[0].getWorldInfo();
-				WorldInfo worldinfo1 = this.mc.theWorld.getWorldInfo();
+				WorldInfo server = this.worldServers[0].getWorldInfo();
+				WorldInfo client = this.mc.theWorld.getWorldInfo();
 
-				if (!worldinfo.isDifficultyLocked() && worldinfo1.getDifficulty() != worldinfo.getDifficulty()) {
-					logger.info("Changing difficulty to {}, from {}", worldinfo1.getDifficulty(), worldinfo.getDifficulty());
-					this.setDifficultyForAllWorlds(worldinfo1.getDifficulty());
-				} else if (worldinfo1.isDifficultyLocked() && !worldinfo.isDifficultyLocked()) {
-					logger.info("Locking difficulty to {}", worldinfo1.getDifficulty());
-
-					for (WorldServer worldserver : this.worldServers) {
-						if (worldserver != null) {
-							worldserver.getWorldInfo().setDifficultyLocked(true);
-						}
-					}
+				if (!server.isDifficultyLocked() && client.getDifficulty() != server.getDifficulty()) {
+					MAIN.info("Изменяем сложность с " + server.getDifficulty() + " на " + client.getDifficulty());
+					this.setDifficultyForAllWorlds(client.getDifficulty());
+				} else if (client.isDifficultyLocked() && !server.isDifficultyLocked()) {
+					MAIN.info("Закрепляем сложность " + client.getDifficulty());
+					for (WorldServer worldserver : this.worldServers)
+						if (worldserver != null) worldserver.getWorldInfo().setDifficultyLocked(true);
 				}
 			}
 		}
@@ -233,27 +230,7 @@ public class IntegratedServer extends MinecraftServer {
 	 */
 	public CrashReport addServerInfoToCrashReport(CrashReport report) {
 		report = super.addServerInfoToCrashReport(report);
-		report.getCategory().addCrashSectionCallable("Type", new Callable() {
-
-
-			public String call() {
-				return "Integrated Server (map_client.txt)";
-			}
-		});
-		report.getCategory().addCrashSectionCallable("Is Modded", new Callable() {
-
-
-			public String call() {
-				String s = ClientBrandRetriever.getClientModName();
-
-				if (!s.equals("vanilla")) {
-					return "Definitely; Client brand changed to \'" + s + "\'";
-				}
-				s = IntegratedServer.this.getServerModName();
-				return !s.equals(
-						"vanilla") ? "Definitely; Server brand changed to \'" + s + "\'" : Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.";
-			}
-		});
+		report.getCategory().addCrashSectionCallable("Type", (Callable) () -> "Integrated Server (map_client.txt)");
 		return report;
 	}
 
@@ -307,13 +284,9 @@ public class IntegratedServer extends MinecraftServer {
 	 * Sets the serverRunning variable to false, in order to get the server to shut down.
 	 */
 	public void initiateShutdown() {
-		Futures.getUnchecked(this.addScheduledTask(new Runnable() {
-
-
-			public void run() {
-				for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().func_181057_v())) {
-					IntegratedServer.this.getConfigurationManager().playerLoggedOut(entityplayermp);
-				}
+		Futures.getUnchecked(this.addScheduledTask(() -> {
+			for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().func_181057_v())) {
+				IntegratedServer.this.getConfigurationManager().playerLoggedOut(entityplayermp);
 			}
 		}));
 		super.initiateShutdown();

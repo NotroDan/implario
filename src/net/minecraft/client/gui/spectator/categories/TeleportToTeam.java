@@ -2,7 +2,7 @@ package net.minecraft.client.gui.spectator.categories;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.game.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;

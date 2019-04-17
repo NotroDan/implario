@@ -2,8 +2,8 @@ package optifine;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.game.entity.AbstractClientPlayer;
+import net.minecraft.client.game.model.ModelBiped;
 
 public class PlayerConfigurations
 {

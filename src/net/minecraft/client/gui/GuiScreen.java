@@ -122,7 +122,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 			this.mc.displayGuiScreen(null);
 
 			if (this.mc.currentScreen == null) {
-				this.mc.setIngameFocus();
+				this.mc.inputHandler.setIngameFocus();
 			}
 		}
 	}
@@ -486,7 +486,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 			this.keyTyped(Keyboard.getEventCharacter(), Keyboard.getEventKey());
 		}
 
-		this.mc.dispatchKeypresses();
+		this.mc.inputHandler.dispatchKeypresses();
 	}
 
 	/**

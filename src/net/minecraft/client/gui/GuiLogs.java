@@ -1,10 +1,9 @@
 package net.minecraft.client.gui;
 
-import net.minecraft.client.logging.Log;
-import net.minecraft.client.logging.LogReader;
+import net.minecraft.logging.Log;
+import net.minecraft.logging.LogReader;
 import net.minecraft.Utils;
 import net.minecraft.client.MC;
-import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;

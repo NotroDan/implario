@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecart;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.particle.EntityFirework;
+import net.minecraft.client.game.particle.EntityFirework;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;

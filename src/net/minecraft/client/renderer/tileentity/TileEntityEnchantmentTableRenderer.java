@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
-import net.minecraft.client.model.ModelBook;
+import net.minecraft.client.game.model.ModelBook;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntityEnchantmentTable;

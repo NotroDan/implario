@@ -2,6 +2,7 @@ package net.minecraft.client.settings;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.gui.ScaledResolution;
@@ -249,6 +250,8 @@ public enum Settings {
 					} else if (s.startsWith("lang")) {
 						String[] args = s.split(": ");
 						language = args[1];
+					} else if (s.startsWith("username")) {
+						Minecraft.getMinecraft().getSession().username = s.substring(10);
 					} else Setting.fromString(s);
 
 				} catch (Exception exception) {
@@ -269,6 +272,7 @@ public enum Settings {
 		try {
 			PrintWriter w = new PrintWriter(new FileWriter(new File("gamedata/settings.txt")));
 
+			w.println("username: " + MC.i().getSession().username);
 			for (KeyBinding key : KeyBinding.values()) w.println("key_" + key.name() + ": " + key.getKeyCode());
 			w.println("resourcePacks: " + gson.toJson(resourcePacks));
 			w.println("incompatibleResourcePacks: " + gson.toJson(incompatibleResourcePacks));

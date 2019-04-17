@@ -5,17 +5,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.map.Minimap;
-import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import optifine.CustomColormap;
 import optifine.CustomSkyLayer;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShaderOption;
@@ -81,18 +80,27 @@ public class Utils {
 		G.popMatrix();
 	}
 
+	public static void sleep(long ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException ignored) {}
+	}
+
 	public static void processCommand(String line) {
 		if (line.equals("c")) {
 			Minecraft.getMinecraft().ingameGUI.setLoading(5000, "Тестовая загрузка");
 		}
-		if (line.equals("key")) KeyStrokes.addKeyStroke(KeyBinding.FORWARD, 10, 10, 2f);
 		if (line.equals("chunk")) chunkInfo();
 		if (line.startsWith("s")) {
 			String[] split = line.split(" ");
 			if (split.length >= 2) GuiIngame.currentServer = split[1];
 		}
+		if (line.startsWith("title")) {
+			String[] split = line.split(" ");
+			if (split.length >= 2) Display.setTitle(split[1]);
+		}
 		if (line.equals("mm")) {
-			map = Minimap.getMiniMap(5);
+			map = Minimap.getMiniMap(20);
 //			for (IBlockState[] states : map) {
 //				if (states == null) continue;
 //				for (IBlockState state : states) {
@@ -105,6 +113,7 @@ public class Utils {
 //			System.out.println(Arrays.deepToString(map));
 
 		}
+
 	}
 
 	public static void glColor(int color) {
@@ -126,19 +135,6 @@ public class Utils {
 	}
 
 	private static void chunkInfo() {
-	}
-
-	public static int easeIn(int t,int b , int c, int d) {
-		return c*(t/=d)*t + b;
-	}
-
-	public static int  easeOut(int t,int b , int c, int d) {
-		return -c *(t/=d)*(t-2) + b;
-	}
-
-	public static int  easeInOut(int t,int b , int c, int d) {
-		if ((t/=d/2) < 1) return c/2*t*t + b;
-		return -c/2 * (--t *(t-2) - 1) + b;
 	}
 
 

@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.entity.layers.LayerSaddle;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.util.ResourceLocation;

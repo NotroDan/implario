@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity;
 import com.google.common.collect.Maps;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelHorse;
+import net.minecraft.client.game.model.ModelHorse;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.LayeredTexture;
 import net.minecraft.entity.passive.EntityHorse;

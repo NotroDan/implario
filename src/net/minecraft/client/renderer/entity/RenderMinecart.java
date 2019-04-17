@@ -2,8 +2,8 @@ package net.minecraft.client.renderer.entity;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelMinecart;
+import net.minecraft.client.game.model.ModelBase;
+import net.minecraft.client.game.model.ModelMinecart;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityMinecart;

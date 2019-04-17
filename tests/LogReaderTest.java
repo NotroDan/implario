@@ -1,5 +1,5 @@
-import net.minecraft.client.logging.LogLevel;
-import net.minecraft.client.logging.LogReader;
+import net.minecraft.logging.LogLevel;
+import net.minecraft.logging.LogReader;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.client.settings.Settings;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class GuiPlayername extends GuiScreen {
 				mc.getSession().username = inputField.getText().trim();
 				mc.getSession().token = token.getText().trim();
 				mc.getSession().playerID = uuid.getText().trim();
+				Settings.saveOptions();
 				this.mc.displayGuiScreen(this.parentScreen);
 			}
 		}

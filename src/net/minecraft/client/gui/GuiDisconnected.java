@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import net.minecraft.client.logging.Log;
+import net.minecraft.logging.Log;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;

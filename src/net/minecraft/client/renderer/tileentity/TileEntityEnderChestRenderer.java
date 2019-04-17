@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
-import net.minecraft.client.model.ModelChest;
+import net.minecraft.client.game.model.ModelChest;
 import net.minecraft.client.renderer.G;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.ResourceLocation;

@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.logging.Log;
+import net.minecraft.logging.Log;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.ChatLine;

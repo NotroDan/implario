@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.model.ModelWitch;
+import net.minecraft.client.game.model.ModelWitch;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItemWitch;
 import net.minecraft.entity.monster.EntityWitch;

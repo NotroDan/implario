@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.tileentity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelEnderCrystal;
+import net.minecraft.client.game.model.ModelBase;
+import net.minecraft.client.game.model.ModelEnderCrystal;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;

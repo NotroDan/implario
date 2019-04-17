@@ -1,7 +1,7 @@
 package optifine;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.game.model.ModelBiped;
+import net.minecraft.client.game.model.ModelRenderer;
 
 public class PlayerItemRenderer
 {

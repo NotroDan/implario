@@ -1,6 +1,6 @@
 package net.minecraft.client;
 
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.EntityPlayerSP;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;

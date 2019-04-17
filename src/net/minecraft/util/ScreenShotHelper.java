@@ -1,11 +1,11 @@
 package net.minecraft.util;
 
-import net.minecraft.client.logging.Log;
+import net.minecraft.logging.Log;
 import net.minecraft.client.network.services.imgur.ImgurAPI;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.client.game.shader.Framebuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

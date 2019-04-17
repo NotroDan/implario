@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.model.ModelBlaze;
+import net.minecraft.client.game.model.ModelBlaze;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.util.ResourceLocation;
 

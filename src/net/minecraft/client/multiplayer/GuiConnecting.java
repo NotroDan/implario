@@ -1,6 +1,6 @@
 package net.minecraft.client.multiplayer;
 
-import net.minecraft.client.logging.Log;
+import net.minecraft.logging.Log;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;

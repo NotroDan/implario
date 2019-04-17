@@ -1,7 +1,7 @@
 package optifine;
 
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.game.entity.AbstractClientPlayer;
+import net.minecraft.client.game.model.ModelBiped;
 
 public class PlayerConfiguration
 {

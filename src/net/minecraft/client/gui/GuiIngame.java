@@ -4,17 +4,12 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import net.minecraft.Utils;
-import net.minecraft.block.BlockGrass;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockOldLeaf;
-import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
-import net.minecraft.client.keystrokes.KeyStroke;
-import net.minecraft.client.keystrokes.KeyStrokes;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -45,7 +40,9 @@ import net.minecraft.util.*;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
+import optifine.ConnectedTextures;
 import optifine.CustomColors;
+import optifine.RenderEnv;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -201,8 +198,6 @@ public class GuiIngame extends Gui {
 		// Чат
 		renderChat(height);
 
-		// Кейстроксы
-		renderKeyStrokes();
 
 		// Информация о траектории полёта стрелы
 		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
@@ -239,7 +234,7 @@ public class GuiIngame extends Gui {
 //
 //		Tessellator.getInstance().draw();
 
-		int factor = 16;
+		int factor = 1;
 		float antifactor = 2F / factor;
 
 		GlStateManager.pushMatrix();
@@ -258,7 +253,11 @@ public class GuiIngame extends Gui {
 						IBlockState state = states[y];
 
 						BlockPos pos = mapblocks[x][z][y];
-						IBakedModel model = MC.i().getBlockRendererDispatcher().getModelFromBlockState(state, MC.getWorld(), pos);
+						BlockRendererDispatcher d = MC.i().getBlockRendererDispatcher();
+						IBakedModel model = d.getModelFromBlockState(state, MC.getWorld(), pos);
+
+
+						//						IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
 						List<BakedQuad> faceQuads = model.getFaceQuads(EnumFacing.UP);
 						List<BakedQuad> generalQuads = model.getGeneralQuads();
 						List<BakedQuad> quads = new ArrayList<>();
@@ -271,9 +270,10 @@ public class GuiIngame extends Gui {
 							if (type == BlockPlanks.EnumType.BIRCH) color = ColorizerFoliage.getFoliageColorBirch();
 							else if (type == BlockPlanks.EnumType.SPRUCE) color = ColorizerFoliage.getFoliageColorPine();
 							else color = MC.getWorld().getWorldChunkManager().getBiomeGenerator(pos).getFoliageColorAtPos(pos);
+
 						}
 
-
+						RenderEnv env = RenderEnv.getInstance(MC.getWorld(), state, pos);
 						for (BakedQuad quad : quads) {
 
 							int[] vertexData = quad.getVertexData();
@@ -284,8 +284,15 @@ public class GuiIngame extends Gui {
 									GlStateManager.translate(antifactor, antifactor, 0);
 								}
 								else Utils.glColorNoAlpha(color);
+								if (state.getBlock() instanceof BlockStainedGlass) {
+
+									quad = ConnectedTextures.getConnectedTexture(MC.getWorld(), state, pos, quad, env);
+								} else {
+//									MC.bindTexture(TextureMap.locationBlocksTexture);
+								}
+								r.putSprite(quad.getSprite());
 								r.begin(7, DefaultVertexFormats.POSITION_TEX);
-								if (quad.getSprite().glSpriteTextureId != -1) quad.getSprite().bindSpriteTexture();
+//								if (quad.getSprite().glSpriteTextureId != -1) quad.getSprite().bindSpriteTexture();
 								for (int i = 0; i < 4; i++) {
 									int j = i * 7;
 									r.pos(toFloat(vertexData[j]), toFloat(vertexData[j + 2]), 0)
@@ -382,10 +389,6 @@ public class GuiIngame extends Gui {
 	private void renderTooltip0(ScaledResolution scaledresolution) {
 		if (Settings.HELD_ITEM_TOOLTIPS.b() && !this.mc.playerController.isSpectator()) this.renderTooltip(scaledresolution);
 		else if (this.mc.thePlayer.isSpectator()) this.spectatorGui.render(scaledresolution);
-	}
-
-	private void renderKeyStrokes() {
-		for (KeyStroke stroke : KeyStrokes.strokes) stroke.render(this);
 	}
 
 	private void renderChat(int height) {

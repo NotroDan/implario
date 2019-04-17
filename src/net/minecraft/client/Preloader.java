@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.DefaultResourcePack;
-import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.client.game.shader.Framebuffer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
 

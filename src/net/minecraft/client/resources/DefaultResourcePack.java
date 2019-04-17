@@ -1,7 +1,7 @@
 package net.minecraft.client.resources;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.client.logging.Log;
+import net.minecraft.logging.Log;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Map;
 import java.util.Set;
 
 public class DefaultResourcePack implements IResourcePack {

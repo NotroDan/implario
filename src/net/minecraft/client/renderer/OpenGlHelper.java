@@ -71,7 +71,7 @@ public class OpenGlHelper {
 	public static boolean openGL21;
 	public static boolean shadersSupported;
 	private static String logText = "";
-	private static String field_183030_aa;
+	private static String cpu;
 	public static boolean vboSupported;
 	public static boolean field_181062_Q;
 	private static boolean arbVbo;
@@ -257,7 +257,7 @@ public class OpenGlHelper {
 
 		try {
 			Processor[] aprocessor = new SystemInfo().getHardware().getProcessors();
-			field_183030_aa = String.format("%dx %s", aprocessor.length, aprocessor[0]).replaceAll("\\s+", " ");
+			cpu = String.format("%dx %s", aprocessor.length, aprocessor[0]).replaceAll("\\s+", " ");
 		} catch (Throwable ignored) {}
 	}
 
@@ -721,8 +721,8 @@ public class OpenGlHelper {
 		return !Config.isFastRender() && !Config.isAntialiasing() && framebufferSupported && Settings.FBO_ENABLE.b();
 	}
 
-	public static String func_183029_j() {
-		return field_183030_aa == null ? "<unknown>" : field_183030_aa;
+	public static String getCPU() {
+		return cpu == null ? "<unknown>" : cpu;
 	}
 
 }

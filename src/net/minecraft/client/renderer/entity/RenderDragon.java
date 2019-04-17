@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.model.ModelDragon;
+import net.minecraft.client.game.model.ModelDragon;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;

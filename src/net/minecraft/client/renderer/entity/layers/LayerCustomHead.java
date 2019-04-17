@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity.layers;
 import com.mojang.authlib.GameProfile;
 import java.util.UUID;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.game.model.ModelRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;

@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBoat;
+import net.minecraft.client.game.model.ModelBase;
+import net.minecraft.client.game.model.ModelBoat;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.util.MathHelper;

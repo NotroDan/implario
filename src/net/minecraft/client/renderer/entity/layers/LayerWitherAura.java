@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity.layers;
 
-import net.minecraft.client.model.ModelWither;
+import net.minecraft.client.game.model.ModelWither;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderWither;
 import net.minecraft.entity.boss.EntityWither;

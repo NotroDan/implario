@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.model.ModelArmorStand;
-import net.minecraft.client.model.ModelArmorStandArmor;
+import net.minecraft.client.game.model.ModelArmorStand;
+import net.minecraft.client.game.model.ModelArmorStandArmor;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;

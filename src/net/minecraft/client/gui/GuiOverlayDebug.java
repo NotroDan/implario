@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.ClientBrandRetriever;
+import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
@@ -130,7 +130,7 @@ public class GuiOverlayDebug extends Gui {
 			arraylist = Lists.newArrayList("Клиент §dImplario §f(Minecraft 1.8.8)", mc.debug);
 		else
 			arraylist = Lists.newArrayList(
-					"Клиент §dImplario §f(" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
+					"Клиент Implario (1.8.8), §a" + MC.getPlayer().getName(),
 					this.mc.debug,
 					this.mc.renderGlobal.getDebugInfoRenders(),
 					this.mc.renderGlobal.getDebugInfoEntities(),
@@ -215,7 +215,7 @@ public class GuiOverlayDebug extends Gui {
 				String.format("Память:§a% 2d%% %03d§f/§a%03d§f МБ", l * 100L / i, bytesToMb(l), bytesToMb(i)),
 				String.format("Выделено:§a% 2d%% %03d§f МБ", j * 100L / i, bytesToMb(j)),
 				"",
-				String.format("Процессор: §a%s", OpenGlHelper.func_183029_j()),
+				String.format("Процессор: §a%s", OpenGlHelper.getCPU()),
 				String.format("Видеокарта: §a%d§fx§a%d §f(§a%s§f)", Display.getWidth(), Display.getHeight(), GL11.glGetString(GL11.GL_VENDOR)),
 				"GL-Рендерер: §a" + GL11.glGetString(GL11.GL_RENDERER),
 				"Версия GL: §a" + GL11.glGetString(GL11.GL_VERSION));

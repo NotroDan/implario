@@ -2,8 +2,8 @@ package optifine;
 
 import java.util.Map;
 import java.util.Set;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.game.entity.AbstractClientPlayer;
+import net.minecraft.client.game.model.ModelBiped;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;

@@ -2,9 +2,9 @@ package net.minecraft.client.renderer.entity;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.model.ModelZombieVillager;
+import net.minecraft.client.game.model.ModelBiped;
+import net.minecraft.client.game.model.ModelZombie;
+import net.minecraft.client.game.model.ModelZombieVillager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;

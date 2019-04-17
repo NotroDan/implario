@@ -47,22 +47,18 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 		}
 	}
 
-	public boolean renderBlock(IBlockState state, BlockPos pos, IBlockAccess blockAccess, WorldRenderer worldRendererIn) {
+	public boolean renderBlock(IBlockState state, BlockPos pos, IBlockAccess world, WorldRenderer worldRendererIn) {
 		try {
 			int i = state.getBlock().getRenderType();
 
 			if (i == -1) return false;
 			switch (i) {
 				case 1:
-					if (Config.isShaders()) {
-						SVertexBuilder.pushEntity(state, pos, blockAccess, worldRendererIn);
-					}
+					if (Config.isShaders()) SVertexBuilder.pushEntity(state, pos, world, worldRendererIn);
 
-					boolean flag1 = this.fluidRenderer.renderFluid(blockAccess, state, pos, worldRendererIn);
+					boolean flag1 = this.fluidRenderer.renderFluid(world, state, pos, worldRendererIn);
 
-					if (Config.isShaders()) {
-						SVertexBuilder.popEntity(worldRendererIn);
-					}
+					if (Config.isShaders()) SVertexBuilder.popEntity(worldRendererIn);
 
 					return flag1;
 
@@ -70,17 +66,13 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 					return false;
 
 				case 3:
-					IBakedModel ibakedmodel = this.getModelFromBlockState(state, blockAccess, pos);
+					IBakedModel ibakedmodel = this.getModelFromBlockState(state, world, pos);
 
-					if (Config.isShaders()) {
-						SVertexBuilder.pushEntity(state, pos, blockAccess, worldRendererIn);
-					}
+					if (Config.isShaders()) SVertexBuilder.pushEntity(state, pos, world, worldRendererIn);
 
-					boolean flag = this.blockModelRenderer.renderModel(blockAccess, ibakedmodel, state, pos, worldRendererIn);
+					boolean flag = this.blockModelRenderer.renderModel(world, ibakedmodel, state, pos, worldRendererIn);
 
-					if (Config.isShaders()) {
-						SVertexBuilder.popEntity(worldRendererIn);
-					}
+					if (Config.isShaders()) SVertexBuilder.popEntity(worldRendererIn);
 
 					return flag;
 

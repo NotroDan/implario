@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.client.renderer.entity.RenderItem;

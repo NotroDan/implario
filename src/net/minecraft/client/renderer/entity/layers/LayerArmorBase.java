@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity.layers;
 
 import com.google.common.collect.Maps;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;

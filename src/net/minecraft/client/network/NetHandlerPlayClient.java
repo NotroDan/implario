@@ -5,13 +5,12 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
-import net.minecraft.block.Block;
-import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.Logger;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.GuardianSound;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.EntityOtherPlayerMP;
+import net.minecraft.client.game.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.block.GuiMerchant;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
@@ -19,9 +18,9 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.particle.EntityPickupFX;
-import net.minecraft.client.player.inventory.ContainerLocalMenu;
-import net.minecraft.client.player.inventory.LocalBlockIntercommunication;
+import net.minecraft.client.game.particle.EntityPickupFX;
+import net.minecraft.client.game.inventory.ContainerLocalMenu;
+import net.minecraft.client.game.inventory.LocalBlockIntercommunication;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.creativetab.CreativeTabs;
@@ -144,7 +143,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		this.gameController.thePlayer.setReducedDebug(packetIn.isReducedDebugInfo());
 		this.gameController.playerController.setGameType(packetIn.getGameType());
 		Settings.sendSettingsToServer();
-		this.netManager.sendPacket(new C17PacketCustomPayload("MC|Brand", new PacketBuffer(Unpooled.buffer()).writeString(ClientBrandRetriever.getClientModName())));
+		this.netManager.sendPacket(new C17PacketCustomPayload("MC|Brand", new PacketBuffer(Unpooled.buffer()).writeString("Implario")));
 	}
 
 	/**

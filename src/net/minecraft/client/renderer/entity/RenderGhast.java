@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.model.ModelGhast;
+import net.minecraft.client.game.model.ModelGhast;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.util.ResourceLocation;

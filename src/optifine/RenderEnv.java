@@ -34,15 +34,15 @@ public class RenderEnv {
 		this.blockPos = p_i94_3_;
 	}
 
-	public static RenderEnv getInstance(IBlockAccess p_getInstance_0_, IBlockState p_getInstance_1_, BlockPos p_getInstance_2_) {
+	public static RenderEnv getInstance(IBlockAccess world, IBlockState state, BlockPos block) {
 		RenderEnv renderenv = (RenderEnv) threadLocalInstance.get();
 
 		if (renderenv == null) {
-			renderenv = new RenderEnv(p_getInstance_0_, p_getInstance_1_, p_getInstance_2_);
+			renderenv = new RenderEnv(world, state, block);
 			threadLocalInstance.set(renderenv);
 			return renderenv;
 		}
-		renderenv.reset(p_getInstance_0_, p_getInstance_1_, p_getInstance_2_);
+		renderenv.reset(world, state, block);
 		return renderenv;
 	}
 

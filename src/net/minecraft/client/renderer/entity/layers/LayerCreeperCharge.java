@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity.layers;
 
-import net.minecraft.client.model.ModelCreeper;
+import net.minecraft.client.game.model.ModelCreeper;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderCreeper;
 import net.minecraft.entity.monster.EntityCreeper;

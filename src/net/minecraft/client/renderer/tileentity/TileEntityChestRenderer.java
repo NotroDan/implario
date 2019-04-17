@@ -2,8 +2,8 @@ package net.minecraft.client.renderer.tileentity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.client.model.ModelChest;
-import net.minecraft.client.model.ModelLargeChest;
+import net.minecraft.client.game.model.ModelChest;
+import net.minecraft.client.game.model.ModelLargeChest;
 import net.minecraft.client.renderer.G;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;

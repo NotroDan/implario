@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity.layers;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelSlime;
+import net.minecraft.client.game.model.ModelBase;
+import net.minecraft.client.game.model.ModelSlime;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderSlime;
 import net.minecraft.entity.monster.EntitySlime;

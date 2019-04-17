@@ -2,7 +2,7 @@ package net.minecraft.client.audio;
 
 import com.google.common.collect.*;
 import io.netty.util.internal.ThreadLocalRandom;
-import net.minecraft.client.logging.Log;
+import net.minecraft.logging.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.EntityPlayer;

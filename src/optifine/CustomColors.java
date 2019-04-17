@@ -10,7 +10,7 @@ import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.game.particle.EntityFX;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;

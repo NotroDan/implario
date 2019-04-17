@@ -4,7 +4,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.GuiUtilRenderComponents;
-import net.minecraft.client.model.ModelSign;
+import net.minecraft.client.game.model.ModelSign;
 import net.minecraft.client.renderer.G;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;

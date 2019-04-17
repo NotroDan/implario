@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelZombie;
+import net.minecraft.client.game.model.ModelBase;
+import net.minecraft.client.game.model.ModelZombie;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;

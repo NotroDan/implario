@@ -36,7 +36,7 @@ public class Main {
 		OptionSpec<Integer> optionspec6 = optionparser.accepts("proxyPort").withRequiredArg().defaultsTo("8080", new String[0]).ofType(Integer.class);
 		OptionSpec<String> optionspec7 = optionparser.accepts("proxyUser").withRequiredArg();
 		OptionSpec<String> optionspec8 = optionparser.accepts("proxyPass").withRequiredArg();
-		OptionSpec<String> optionspec9 = optionparser.accepts("username").withRequiredArg().defaultsTo(Textifier.getWittyName());
+//		OptionSpec<String> optionspec9 = optionparser.accepts("username").withRequiredArg().defaultsTo(Textifier.getWittyName());
 		OptionSpec<String> optionspec10 = optionparser.accepts("uuid").withRequiredArg();
 		OptionSpec<String> optionspec11 = optionparser.accepts("accessToken").withRequiredArg().required();
 		OptionSpec<String> optionspec12 = optionparser.accepts("version").withRequiredArg().required();
@@ -78,11 +78,12 @@ public class Main {
 		File file1 = optionset.valueOf(optionspec2);
 		File file2 = optionset.has(optionspec3) ? optionset.valueOf(optionspec3) : new File(file1, "assets/");
 		File file3 = optionset.has(optionspec4) ? optionset.valueOf(optionspec4) : new File(file1, "resourcepacks/");
-		String s4 = optionset.has(optionspec10) ? optionspec10.value(optionset) : optionspec9.value(optionset);
+		String playername = Textifier.getWittyName();
+		String s4 = optionset.has(optionspec10) ? optionspec10.value(optionset) : playername;
 		String s5 = optionset.has(optionspec17) ? optionspec17.value(optionset) : null;
 		String s6 = optionset.valueOf(optionspec);
 		Integer integer = optionset.valueOf(optionspec1);
-		Session session = new Session(optionspec9.value(optionset), s4, optionspec11.value(optionset), optionspec18.value(optionset));
+		Session session = new Session(playername, s4, optionspec11.value(optionset), optionspec18.value(optionset));
 		GameConfiguration gameconfiguration = new GameConfiguration(
 				new GameConfiguration.UserInformation(session, propertymap1, proxy),
 				new GameConfiguration.DisplayInformation(i, j, flag, flag1),

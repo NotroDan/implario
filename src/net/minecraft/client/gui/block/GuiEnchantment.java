@@ -8,7 +8,7 @@ import java.util.Random;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.model.ModelBook;
+import net.minecraft.client.game.model.ModelBook;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.Lang;

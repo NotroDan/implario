@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.game.model.ModelBase;
+import net.minecraft.client.game.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 
 public class PlayerItemParser
