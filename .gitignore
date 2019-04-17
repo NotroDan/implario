@@ -5,6 +5,8 @@ env/gamedata/defaultresourcepack/skins/*
 env/gamedata/*.txt
 env/gamedata/servers.dat
 env/gamedata/usercache.json
+!env/console.bat
+!env/launcher.vbs
 
 client.iml
 # desktop.ini
