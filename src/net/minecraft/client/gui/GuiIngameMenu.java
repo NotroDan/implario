@@ -47,7 +47,7 @@ public class GuiIngameMenu extends GuiScreen {
 				boolean flag1 = this.mc.func_181540_al();
 				button.enabled = false;
 				this.mc.theWorld.sendQuittingDisconnectingPacket();
-				this.mc.loadWorld(null);
+				this.mc.worldController.loadWorld(null, this.mc);
 
 				if (flag) {
 					this.mc.displayGuiScreen(new GuiMainMenu());

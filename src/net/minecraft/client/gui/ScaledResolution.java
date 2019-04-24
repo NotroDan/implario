@@ -25,15 +25,10 @@ public class ScaledResolution
             i = 1000;
         }
 
-        while (this.scaleFactor < i && this.scaledWidth / (this.scaleFactor + 1) >= 320 && this.scaledHeight / (this.scaleFactor + 1) >= 240)
-        {
-            ++this.scaleFactor;
-        }
+        while (this.scaleFactor < i && this.scaledWidth / this.scaleFactor >= 320 && this.scaledHeight / this.scaleFactor >= 240)
+			++this.scaleFactor;
 
-        if (flag && this.scaleFactor % 2 != 0 && this.scaleFactor != 1)
-        {
-            --this.scaleFactor;
-        }
+        if (i == 1000) --this.scaleFactor;
 
         this.scaledWidthD = (double)this.scaledWidth / (double)this.scaleFactor;
         this.scaledHeightD = (double)this.scaledHeight / (double)this.scaleFactor;

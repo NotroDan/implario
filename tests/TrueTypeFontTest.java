@@ -187,7 +187,6 @@ public class TrueTypeFontTest {
 
 	public static void render() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);     // Clear Screen And Depth Buffer
-		//3D Render Code
 
 
 		//2D Render Code

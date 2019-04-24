@@ -26,7 +26,7 @@ public class TabSet {
 	}
 
 	public Tab add(String title, GuiButton... btns) {
-		AssetsFontRenderer r = Minecraft.getMinecraft().fontRendererObj;
+		AssetsFontRenderer r = Minecraft.getMinecraft().fontRenderer;
 		Tab tab = new Tab(title, 1000 + (tabs.isEmpty() ? 0 : tabs.size()), 0, y);
 		tab.add(btns);
 		tabs.add(tab);

@@ -114,13 +114,13 @@ public class IntegratedServer extends MinecraftServer {
 	 * Initialises the server and starts it.
 	 */
 	protected boolean startServer() {
-		logger.info("Starting integrated minecraft server version 1.8.8");
+		logger.info("Запуск виртуального сервера...");
 		this.setOnlineMode(true);
 		this.setCanSpawnAnimals(true);
 		this.setCanSpawnNPCs(true);
 		this.setAllowPvp(true);
 		this.setAllowFlight(true);
-		logger.info("Generating keypair");
+		logger.info("Генерация ключей шифрования...");
 		this.setKeyPair(CryptManager.generateKeyPair());
 
 
@@ -210,7 +210,7 @@ public class IntegratedServer extends MinecraftServer {
 		return this.mc.mcDataDir;
 	}
 
-	public boolean func_181035_ah() {
+	public boolean useEpoll() {
 		return false;
 	}
 

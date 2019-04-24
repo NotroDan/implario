@@ -54,7 +54,7 @@ public class IconButton extends SettingButton implements HoverButton {
 			else hoverTime = 0;
 		}
 		drawRect(xPosition, yPosition, xPosition + width, yPosition + height, i);
-		this.drawCenteredString(Minecraft.getMinecraft().fontRendererObj, this.displayString, this.xPosition + this.width / 2, this.yPosition + this.height - 13,
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + this.height - 13,
 				hovered ? 0xffffa0 : 0xffffffff);
 		G.disableBlend();
 		RenderHelper.enableGUIStandardItemLighting();
