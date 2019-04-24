@@ -48,7 +48,6 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 		boolean coloring = false;
 		float strikeStart = -1, underStart = -1;
 		byte style = 0;
-		int offset = 0;
 		char[] charArray = s.toCharArray();
 		for (int i = 0; i < charArray.length; i++) {
 			char c = charArray[i];
@@ -76,13 +75,12 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 			TrueTypeFont font = bases[style];
 			font.glHeader();
 			int translate = font.drawChar(c, x, y);
-			offset += translate;
 			font.glFooter();
 			G.translate(translate, 0, 0);
 
 		}
 		GlStateManager.popMatrix();
-		return offset;
+		return 0;
 	}
 
 

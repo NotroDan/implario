@@ -487,7 +487,7 @@ public class GuiIngame extends Gui {
 
 			drawRect(x1, y, x2, y + 10, 0xffffff | opacity);
 			drawRect(x1, y, x, y + 10, 0xf93eed | opacity);
-			drawCenteredString(mc.fontRenderer, loading, x1 + 100, y - 15, 0xffffff | opacity);
+			drawCenteredString(mc.fontRendererObj, loading, x1 + 100, y - 15, 0xffffff | opacity);
 		}
 	}
 
@@ -982,7 +982,7 @@ public class GuiIngame extends Gui {
 		Profiler.in.startSection("bossHealth");
 		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
 			--BossStatus.statusBarTime;
-			AssetsFontRenderer fontrenderer = this.mc.fontRenderer;
+			AssetsFontRenderer fontrenderer = this.mc.fontRendererObj;
 			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
 			int i = scaledresolution.getScaledWidth();
 			short short1 = 182;
@@ -1123,7 +1123,7 @@ public class GuiIngame extends Gui {
 				G.popMatrix();
 			}
 
-			this.itemRenderer.renderItemOverlays(this.mc.fontRenderer, itemstack, xPos, yPos);
+			this.itemRenderer.renderItemOverlays(this.mc.fontRendererObj, itemstack, xPos, yPos);
 		}
 	}
 
@@ -1209,7 +1209,7 @@ public class GuiIngame extends Gui {
 	}
 
 	public AssetsFontRenderer getFontRenderer() {
-		return this.mc.fontRenderer;
+		return this.mc.fontRendererObj;
 	}
 
 	public GuiSpectator getSpectatorGui() {

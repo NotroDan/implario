@@ -63,7 +63,7 @@ public class SettingButton extends GuiButton {
 		if (updateGraphics) {
 			ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
 			drawRect(0, 0, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 0xd0202020);
-			drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Применение настроек...",
+			drawCenteredString(Minecraft.getMinecraft().fontRendererObj, "Применение настроек...",
 					scaledresolution.getScaledWidth() / 2, scaledresolution.getScaledHeight() / 2, -1);
 			Minecraft.getMinecraft().renderGlobal.loadRenderers();
 		}

@@ -132,7 +132,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 4) this.mc.shutdown();
 
 		if (button.id == 12) {
-			ISaveFormat isaveformat = this.mc.worldController.getSaveLoader();
+			ISaveFormat isaveformat = this.mc.getSaveLoader();
 			WorldInfo worldinfo = isaveformat.getWorldInfo("Demo_World");
 
 			if (worldinfo != null) {

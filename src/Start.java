@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Start {
 
 	public static void main(String[] args) {
-		Main.main(concat(new String[]{"--accessToken", "0", "--assetsDir", "assets",
+		Main.main(concat(new String[]{"--version", "Implario", "--accessToken", "0", "--assetsDir", "assets",
 				"--height", "600", "--width", "1000", "--assetIndex", "1.8"}, args));
 	}
 

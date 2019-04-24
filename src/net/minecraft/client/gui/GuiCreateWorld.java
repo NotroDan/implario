@@ -110,7 +110,7 @@ public class GuiCreateWorld extends GuiScreen {
 			this.field_146336_i = "World";
 		}
 
-		this.field_146336_i = func_146317_a(this.mc.worldController.getSaveLoader(), this.field_146336_i);
+		this.field_146336_i = func_146317_a(this.mc.getSaveLoader(), this.field_146336_i);
 	}
 
 	private void func_146319_h() {
@@ -209,7 +209,7 @@ public class GuiCreateWorld extends GuiScreen {
 					worldsettings.enableCommands();
 				}
 
-				this.mc.worldController.launchIntegratedServer(this.field_146336_i, this.field_146333_g.getText().trim(), worldsettings, this.mc);
+				this.mc.launchIntegratedServer(this.field_146336_i, this.field_146333_g.getText().trim(), worldsettings);
 			} else if (button.id == 3) {
 				this.func_146315_i();
 			} else if (button.id == 2) {

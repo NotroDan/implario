@@ -223,7 +223,7 @@ public class GuiEnchantment extends GuiContainer
                     i2 = 8453920;
                 }
 
-                fontrenderer = this.mc.fontRenderer;
+                fontrenderer = this.mc.fontRendererObj;
                 fontrenderer.drawStringWithShadow(s1, (float)(j1 + 86 - fontrenderer.getStringWidth(s1)), (float)(j + 16 + 19 * l + 7), i2);
             }
         }

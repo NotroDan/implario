@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class TrueTypeFont {
 
-	public static final char[] RUSSIAN = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя\u2714".toCharArray();
+	public static final char[] RUSSIAN = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя".toCharArray();
 
 	public final static int
 			ALIGN_LEFT = 0,
@@ -328,8 +328,8 @@ public class TrueTypeFont {
 		drawQuad(intObject.width + x, y,
 				x,
 				(float) intObject.height + y, intObject.storedX + intObject.width,
-				intObject.storedY, intObject.storedX,
-				intObject.storedY + intObject.height);
+				intObject.storedY + intObject.height, intObject.storedX,
+				intObject.storedY);
 	}
 
 	public static int loadImage(BufferedImage bufferedImage) {

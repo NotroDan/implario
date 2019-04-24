@@ -11,13 +11,15 @@ public class GameConfiguration {
 	public final GameConfiguration.UserInformation userInfo;
 	public final GameConfiguration.DisplayInformation displayInfo;
 	public final GameConfiguration.FolderInformation folderInfo;
+	public final GameConfiguration.GameInformation gameInfo;
 	public final GameConfiguration.ServerInformation serverInfo;
 
 	public GameConfiguration(GameConfiguration.UserInformation userInfoIn, GameConfiguration.DisplayInformation displayInfoIn, GameConfiguration.FolderInformation folderInfoIn,
-							 GameConfiguration.ServerInformation serverInfoIn) {
+							 GameConfiguration.GameInformation gameInfoIn, GameConfiguration.ServerInformation serverInfoIn) {
 		this.userInfo = userInfoIn;
 		this.displayInfo = displayInfoIn;
 		this.folderInfo = folderInfoIn;
+		this.gameInfo = gameInfoIn;
 		this.serverInfo = serverInfoIn;
 	}
 
@@ -42,11 +44,23 @@ public class GameConfiguration {
 		public final File mcDataDir;
 		public final File resourcePacksDir;
 		public final File assetsDir;
+		public final String assetIndex;
 
-		public FolderInformation(File mcDataDirIn, File resourcePacksDirIn, File assetsDirIn) {
+		public FolderInformation(File mcDataDirIn, File resourcePacksDirIn, File assetsDirIn, String assetIndexIn) {
 			this.mcDataDir = mcDataDirIn;
 			this.resourcePacksDir = resourcePacksDirIn;
 			this.assetsDir = assetsDirIn;
+			this.assetIndex = assetIndexIn;
+		}
+
+	}
+
+	public static class GameInformation {
+
+		public final String version;
+
+		public GameInformation(String versionIn) {
+			this.version = versionIn;
 		}
 
 	}

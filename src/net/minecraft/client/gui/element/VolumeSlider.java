@@ -85,7 +85,7 @@ public class VolumeSlider extends SettingSlider implements HoverButton {
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
-		AssetsFontRenderer fontrenderer = mc.fontRenderer;
+		AssetsFontRenderer fontrenderer = mc.fontRendererObj;
 		mc.getTextureManager().bindTexture(buttonTextures);
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.hovered = superPressed(mc, mouseX, mouseY);
@@ -107,7 +107,7 @@ public class VolumeSlider extends SettingSlider implements HoverButton {
 			int total = yPosition + (int) (height * (1 - sliderPosition * Settings.SOUND_MASTER.f()));
 			drawRect(xPosition, total, xPosition + 10, total + 1, 0xfff3ff77);
 		}
-		drawCenteredString(Minecraft.getMinecraft().fontRenderer, (int) (sliderPosition * 100) + "%", xPosition + 5, yPosition - 10, -1);
+		drawCenteredString(Minecraft.getMinecraft().fontRendererObj, (int) (sliderPosition * 100) + "%", xPosition + 5, yPosition - 10, -1);
 		RenderHelper.enableGUIStandardItemLighting();
 		Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(settings.getSoundCategory().getItem(), xPosition - 3, yPosition + height + 8);
 		RenderHelper.disableStandardItemLighting();

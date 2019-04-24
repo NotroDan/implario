@@ -81,7 +81,7 @@ public class GuiButton extends Gui {
 	 */
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
-		AssetsFontRenderer fontrenderer = mc.fontRenderer;
+		AssetsFontRenderer fontrenderer = mc.fontRendererObj;
 		mc.getTextureManager().bindTexture(buttonTextures);
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;

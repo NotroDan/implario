@@ -1,7 +1,7 @@
 package optifine;
 
 import net.minecraft.Utils;
-import net.minecraft.client.gui.LoadingScreenRenderer;
+import net.minecraft.client.LoadingScreenRenderer;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -1315,7 +1315,7 @@ public class Config {
 
 	public static void checkDisplayMode() {
 		try {
-			if (minecraft.displayGuy.fullscreen) {
+			if (minecraft.isFullScreen()) {
 				if (fullscreenModeChecked) return;
 
 				fullscreenModeChecked = true;
@@ -1425,7 +1425,7 @@ public class Config {
 		int k = minecraft.renderGlobal.getCountEntitiesRendered();
 		int l = minecraft.renderGlobal.getCountTileEntitiesRendered();
 		String s1 = "" + i + " fps, C: " + j + ", E: " + k + "+" + l + ", U: " + s;
-		minecraft.fontRenderer.drawString(s1, 2, 2, -2039584);
+		minecraft.fontRendererObj.drawString(s1, 2, 2, -2039584);
 	}
 
 	private static String getUpdates(String s) {

@@ -84,7 +84,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
 
     private void func_146627_h() throws AnvilConverterException
     {
-        ISaveFormat isaveformat = this.mc.worldController.getSaveLoader();
+        ISaveFormat isaveformat = this.mc.getSaveLoader();
         this.field_146639_s = isaveformat.getSaveList();
         Collections.sort(this.field_146639_s);
         this.field_146640_r = -1;
@@ -158,7 +158,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
             else if (button.id == 7)
             {
                 GuiCreateWorld guicreateworld = new GuiCreateWorld(this);
-                ISaveHandler isavehandler = this.mc.worldController.getSaveLoader().getSaveLoader(this.func_146621_a(this.field_146640_r), false);
+                ISaveHandler isavehandler = this.mc.getSaveLoader().getSaveLoader(this.func_146621_a(this.field_146640_r), false);
                 WorldInfo worldinfo = isavehandler.loadWorldInfo();
                 isavehandler.flush();
                 guicreateworld.func_146318_a(worldinfo);
@@ -192,9 +192,9 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
                 s1 = "World" + p_146615_1_;
             }
 
-            if (this.mc.worldController.getSaveLoader().canLoadWorld(s))
+            if (this.mc.getSaveLoader().canLoadWorld(s))
             {
-                this.mc.worldController.launchIntegratedServer(s, s1, (WorldSettings)null, this.mc);
+                this.mc.launchIntegratedServer(s, s1, (WorldSettings)null);
             }
         }
     }
@@ -207,7 +207,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
 
             if (result)
             {
-                ISaveFormat isaveformat = this.mc.worldController.getSaveLoader();
+                ISaveFormat isaveformat = this.mc.getSaveLoader();
                 isaveformat.flushCache();
                 isaveformat.deleteWorldDirectory(this.func_146621_a(id));
 

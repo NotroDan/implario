@@ -119,7 +119,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			if (e.getAmplifier() > 0) amplifier = ' ' + Textifier.romanianNotation(e.getAmplifier() + 1);
 			String s1 = Lang.format(potion.getName()) + amplifier;
 
-//			this.fontRenderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
+//			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
 			String s = Potion.getDurationString(e);
 			G.disableLighting();
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);

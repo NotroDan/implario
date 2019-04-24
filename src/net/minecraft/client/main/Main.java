@@ -39,9 +39,11 @@ public class Main {
 //		OptionSpec<String> optionspec9 = optionparser.accepts("username").withRequiredArg().defaultsTo(Textifier.getWittyName());
 		OptionSpec<String> optionspec10 = optionparser.accepts("uuid").withRequiredArg();
 		OptionSpec<String> optionspec11 = optionparser.accepts("accessToken").withRequiredArg().required();
+		OptionSpec<String> optionspec12 = optionparser.accepts("version").withRequiredArg().required();
 		OptionSpec<Integer> optionspec13 = optionparser.accepts("width").withRequiredArg().ofType(Integer.class).defaultsTo(854);
 		OptionSpec<Integer> optionspec14 = optionparser.accepts("height").withRequiredArg().ofType(Integer.class).defaultsTo(480);
 		OptionSpec<String> optionspec16 = optionparser.accepts("profileProperties").withRequiredArg().defaultsTo("{}");
+		OptionSpec<String> optionspec17 = optionparser.accepts("assetIndex").withRequiredArg();
 		OptionSpec<String> optionspec18 = optionparser.accepts("userType").withRequiredArg().defaultsTo("legacy");
 		OptionSpec<String> optionspec19 = optionparser.nonOptions();
 		OptionSet optionset = optionparser.parse(args);
@@ -70,6 +72,7 @@ public class Main {
 		int j = optionset.valueOf(optionspec14);
 		boolean flag = optionset.has("fullscreen");
 		boolean flag1 = optionset.has("checkGlErrors");
+		String s3 = optionset.valueOf(optionspec12);
 		Gson gson = new GsonBuilder().registerTypeAdapter(PropertyMap.class, new Serializer()).create();
 		PropertyMap propertymap1 = gson.fromJson(optionset.valueOf(optionspec16), PropertyMap.class);
 		File file1 = optionset.valueOf(optionspec2);
@@ -77,13 +80,15 @@ public class Main {
 		File file3 = optionset.has(optionspec4) ? optionset.valueOf(optionspec4) : new File(file1, "resourcepacks/");
 		String playername = Textifier.getWittyName();
 		String s4 = optionset.has(optionspec10) ? optionspec10.value(optionset) : playername;
+		String s5 = optionset.has(optionspec17) ? optionspec17.value(optionset) : null;
 		String s6 = optionset.valueOf(optionspec);
 		Integer integer = optionset.valueOf(optionspec1);
 		Session session = new Session(playername, s4, optionspec11.value(optionset), optionspec18.value(optionset));
 		GameConfiguration gameconfiguration = new GameConfiguration(
 				new GameConfiguration.UserInformation(session, propertymap1, proxy),
 				new GameConfiguration.DisplayInformation(i, j, flag, flag1),
-				new GameConfiguration.FolderInformation(file1, file3, file2),
+				new GameConfiguration.FolderInformation(file1, file3, file2, s5),
+				new GameConfiguration.GameInformation(s3),
 				new GameConfiguration.ServerInformation(s6, integer)
 		);
 		Runtime.getRuntime().addShutdownHook(new Thread("Client Shutdown Thread") {

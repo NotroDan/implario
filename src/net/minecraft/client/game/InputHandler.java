@@ -406,7 +406,7 @@ public final class InputHandler {
 		if (mc.currentScreen instanceof GuiControls && ((GuiControls) mc.currentScreen).time > getSystemTime() - 20L) return;
 		if (!Keyboard.getEventKeyState()) return;
 
-		if (i == KeyBinding.FULLSCREEN.getKeyCode()) mc.displayGuy.toggleFullscreen();
+		if (i == KeyBinding.FULLSCREEN.getKeyCode()) mc.toggleFullscreen();
 		else if (i == KeyBinding.SCREENSHOT.getKeyCode())
 			mc.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(mc.mcDataDir, mc.displayWidth, mc.displayHeight, mc.getFramebuffer()));
 	}

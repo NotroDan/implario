@@ -268,7 +268,7 @@ public class GuiMP extends GuiScreen {
 //		this.hoveringText = null;
 //		this.drawDefaultBackground();
 //		this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
-//		this.drawCenteredString(this.fontRenderer, Lang.format("multiplayer.title"), this.width / 2, 20, 16777215);
+//		this.drawCenteredString(this.fontRendererObj, Lang.format("multiplayer.title"), this.width / 2, 20, 16777215);
 //		super.drawScreen(mouseX, mouseY, partialTicks);
 //
 //		if (this.hoveringText != null) {

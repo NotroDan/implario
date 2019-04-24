@@ -1,8 +1,8 @@
 package net.minecraft.client;
 
 import net.minecraft.client.game.entity.EntityPlayerSP;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -18,7 +18,7 @@ public final class MC {
 	private MC() {throw new Error("Ну ты чо совсем шоле ебанулся");}
 
 	public static AssetsFontRenderer getFontRenderer() {
-		return theMinecraft.fontRenderer;
+		return theMinecraft.fontRendererObj;
 	}
 
 	public static TextureManager getTextureManager() {
@@ -57,7 +57,7 @@ public final class MC {
 	}
 	
 	public static void frame() {
-		i().displayGuy.updateDisplay(i());
+		i().updateDisplay();
 		if (FR == null) FR = getFontRenderer();
 	}
 	

@@ -18,7 +18,7 @@ public class Tab {
 	public Tab(String title, int id, int x, int y) {
 		this.title = title;
 		this.id = id;
-		AssetsFontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+		AssetsFontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 		button = new GuiButton(id, x, y, fr.getStringWidth(title) + 12, 18, title);
 	}
 

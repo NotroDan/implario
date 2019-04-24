@@ -33,7 +33,7 @@ public class GuiOverlayDebug extends Gui {
 
 	public GuiOverlayDebug(Minecraft mc) {
 		this.mc = mc;
-		this.fontRenderer = mc.fontRenderer;
+		this.fontRenderer = mc.fontRendererObj;
 	}
 
 	public void renderDebugInfo(ScaledResolution scaledResolutionIn) {

@@ -112,7 +112,7 @@ public class GuiWinGame extends GuiScreen
                         s3 = s.substring(j + s1.length());
                     }
 
-                    this.field_146582_i.addAll(this.mc.fontRenderer.listFormattedStringToWidth(s, i));
+                    this.field_146582_i.addAll(this.mc.fontRendererObj.listFormattedStringToWidth(s, i));
                     this.field_146582_i.add("");
                 }
 
@@ -130,7 +130,7 @@ public class GuiWinGame extends GuiScreen
                 {
                     s = s.replaceAll("PLAYERNAME", this.mc.getSession().getUsername());
                     s = s.replaceAll("\t", "    ");
-                    this.field_146582_i.addAll(this.mc.fontRenderer.listFormattedStringToWidth(s, i));
+                    this.field_146582_i.addAll(this.mc.fontRendererObj.listFormattedStringToWidth(s, i));
                     this.field_146582_i.add("");
                 }
 

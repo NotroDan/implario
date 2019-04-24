@@ -35,7 +35,7 @@ public class GuiConnecting extends GuiScreen {
 		this.mc = mcIn;
 		this.previousGuiScreen = p_i1181_1_;
 		ServerAddress serveraddress = ServerAddress.func_78860_a(p_i1181_3_.serverIP);
-		mcIn.worldController.loadWorld(null, mcIn);
+		mcIn.loadWorld(null);
 		mcIn.setServerData(p_i1181_3_);
 		this.connect(serveraddress.getIP(), serveraddress.getPort());
 	}
@@ -43,7 +43,7 @@ public class GuiConnecting extends GuiScreen {
 	public GuiConnecting(GuiScreen p_i1182_1_, Minecraft mcIn, String hostName, int port) {
 		this.mc = mcIn;
 		this.previousGuiScreen = p_i1182_1_;
-		mcIn.worldController.loadWorld(null, mcIn);
+		mcIn.loadWorld(null);
 		this.connect(hostName, port);
 	}
 

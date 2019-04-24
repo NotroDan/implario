@@ -489,8 +489,8 @@ public class GuiScreenBook extends GuiScreen {
 		if (i >= 0 && j >= 0) {
 			int k = Math.min(128 / this.fontRendererObj.getFontHeight(), this.field_175386_A.size());
 
-			if (i <= 116 && j < this.mc.fontRenderer.getFontHeight() * k + k) {
-				int l = j / this.mc.fontRenderer.getFontHeight();
+			if (i <= 116 && j < this.mc.fontRendererObj.getFontHeight() * k + k) {
+				int l = j / this.mc.fontRendererObj.getFontHeight();
 
 				if (l >= 0 && l < this.field_175386_A.size()) {
 					IChatComponent ichatcomponent = this.field_175386_A.get(l);
@@ -498,7 +498,7 @@ public class GuiScreenBook extends GuiScreen {
 
 					for (IChatComponent ichatcomponent1 : ichatcomponent) {
 						if (ichatcomponent1 instanceof ChatComponentText) {
-							i1 += this.mc.fontRenderer.getStringWidth(((ChatComponentText) ichatcomponent1).getChatComponentText_TextValue());
+							i1 += this.mc.fontRendererObj.getStringWidth(((ChatComponentText) ichatcomponent1).getChatComponentText_TextValue());
 
 							if (i1 > i) {
 								return ichatcomponent1;

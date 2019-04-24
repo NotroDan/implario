@@ -2,6 +2,7 @@ package net.minecraft.client.renderer.texture;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
@@ -16,14 +17,12 @@ import optifine.Config;
 import optifine.ConnectedTextures;
 import optifine.TextureUtils;
 import net.minecraft.Logger;
-import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShadersTex;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.List;
 import java.util.Map.Entry;
@@ -90,20 +89,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         this.skipFirst = p_i11_3_ && ENABLE_SKIP;
     }
 
-	/**
-	 * Used in the usage snooper.
-	 */
-	public static int getGLMaximumTextureSize() {
-		for (int i = 16384; i > 0; i >>= 1) {
-			GL11.glTexImage2D(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_RGBA, i, i, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			int j = GL11.glGetTexLevelParameteri(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
-			if (j != 0) return i;
-		}
-
-		return -1;
-	}
-
-	private void initMissingImage()
+    private void initMissingImage()
     {
         int i = this.getMinSpriteSize();
         int[] aint = this.getMissingImageData(i);
@@ -154,7 +140,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         }
 
         ConnectedTextures.updateIcons(this);
-        int l1 = getGLMaximumTextureSize();
+        int l1 = Minecraft.getGLMaximumTextureSize();
         Stitcher stitcher = new Stitcher(l1, l1, true, 0, this.mipmapLevels);
         this.mapUploadedSprites.clear();
         this.listAnimatedSprites.clear();

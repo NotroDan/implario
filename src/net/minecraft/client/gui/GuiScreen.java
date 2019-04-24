@@ -427,7 +427,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	public void setWorldAndResolution(Minecraft mc, int width, int height) {
 		this.mc = mc;
 		this.itemRender = mc.getRenderItem();
-		this.fontRendererObj = mc.fontRenderer;
+		this.fontRendererObj = mc.fontRendererObj;
 		this.width = width;
 		this.height = height;
 		this.buttonList.clear();

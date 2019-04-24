@@ -222,7 +222,7 @@ public abstract class GuiContainer extends GuiScreen {
 		ItemRenderer r = Minecraft.getMinecraft().getItemRenderer();
 		screen.itemRender.zLevel = 200.0F;
 		screen.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
-		screen.itemRender.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, stack, x, y - (this.draggedStack == null ? 0 : 8), altText);
+		screen.itemRender.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj, stack, x, y - (this.draggedStack == null ? 0 : 8), altText);
 		screen.itemRender.zLevel = 0.0F;
 	}
 
