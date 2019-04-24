@@ -27,6 +27,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.*;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
+import net.minecraft.entity.player.EntityBot;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -144,6 +145,7 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityFishHook.class, new RenderFish(this));
 		this.entityRenderMap.put(EntityHorse.class, new RenderHorse(this, new ModelHorse(), 0.75F));
 		this.entityRenderMap.put(EntityLightningBolt.class, new RenderLightningBolt(this));
+		this.entityRenderMap.put(EntityBot.class, new RenderBot(this));
 		this.playerRenderer = new RenderPlayer(this);
 		this.skinMap.put("default", this.playerRenderer);
 		this.skinMap.put("slim", new RenderPlayer(this, true));

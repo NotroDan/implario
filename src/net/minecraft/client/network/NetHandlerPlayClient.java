@@ -135,7 +135,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		this.clientWorldController = new WorldClient(this, new WorldSettings(0L, packetIn.getGameType(), false, packetIn.isHardcoreMode(), packetIn.getWorldType()), packetIn.getDimension(),
 				packetIn.getDifficulty(), Profiler.in);
 		Settings.difficulty = packetIn.getDifficulty();
-		this.gameController.loadWorld(this.clientWorldController);
+		this.gameController.worldController.loadWorld(this.clientWorldController, this.gameController);
 		this.gameController.thePlayer.dimension = packetIn.getDimension();
 		this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
 		this.gameController.thePlayer.setEntityId(packetIn.getEntityId());
@@ -323,28 +323,26 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handleSpawnPlayer(S0CPacketSpawnPlayer packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		double d0 = (double) packetIn.getX() / 32.0D;
-		double d1 = (double) packetIn.getY() / 32.0D;
-		double d2 = (double) packetIn.getZ() / 32.0D;
-		float f = (float) (packetIn.getYaw() * 360) / 256.0F;
-		float f1 = (float) (packetIn.getPitch() * 360) / 256.0F;
-		EntityOtherPlayerMP entityotherplayermp = new EntityOtherPlayerMP(this.gameController.theWorld, this.getPlayerInfo(packetIn.getPlayer()).getGameProfile());
-		entityotherplayermp.prevPosX = entityotherplayermp.lastTickPosX = (double) (entityotherplayermp.serverPosX = packetIn.getX());
-		entityotherplayermp.prevPosY = entityotherplayermp.lastTickPosY = (double) (entityotherplayermp.serverPosY = packetIn.getY());
-		entityotherplayermp.prevPosZ = entityotherplayermp.lastTickPosZ = (double) (entityotherplayermp.serverPosZ = packetIn.getZ());
+		double x = (double) packetIn.getX() / 32.0D;
+		double y = (double) packetIn.getY() / 32.0D;
+		double z = (double) packetIn.getZ() / 32.0D;
+		float yaw = (float) (packetIn.getYaw() * 360) / 256.0F;
+		float pitch = (float) (packetIn.getPitch() * 360) / 256.0F;
+		EntityOtherPlayerMP p = new EntityOtherPlayerMP(this.gameController.theWorld, this.getPlayerInfo(packetIn.getPlayer()).getGameProfile());
+		p.prevPosX = p.lastTickPosX = (double) (p.serverPosX = packetIn.getX());
+		p.prevPosY = p.lastTickPosY = (double) (p.serverPosY = packetIn.getY());
+		p.prevPosZ = p.lastTickPosZ = (double) (p.serverPosZ = packetIn.getZ());
 		int i = packetIn.getCurrentItemID();
 
-		if (i == 0)
-			entityotherplayermp.inventory.mainInventory[entityotherplayermp.inventory.currentItem] = null;
-		else
-			entityotherplayermp.inventory.mainInventory[entityotherplayermp.inventory.currentItem] = new ItemStack(Item.getItemById(i), 1, 0);
+		p.inventory.mainInventory[p.inventory.currentItem] =
+				i == 0 ? null : new ItemStack(Item.getItemById(i), 1, 0);
 
-		entityotherplayermp.setPositionAndRotation(d0, d1, d2, f, f1);
-		this.clientWorldController.addEntityToWorld(packetIn.getEntityID(), entityotherplayermp);
-		List<DataWatcher.WatchableObject> list = packetIn.func_148944_c();
+		p.setPositionAndRotation(x, y, z, yaw, pitch);
+		this.clientWorldController.addEntityToWorld(packetIn.getEntityID(), p);
+		List<DataWatcher.WatchableObject> list = packetIn.getWatchedList();
 
 		if (list != null)
-			entityotherplayermp.getDataWatcher().updateWatchedObjectsFromList(list);
+			p.getDataWatcher().updateWatchedObjectsFromList(list);
 	}
 
 	/**
@@ -536,7 +534,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
 	 */
 	public void onDisconnect(IChatComponent reason) {
-		this.gameController.loadWorld(null);
+		this.gameController.worldController.loadWorld(null, this.gameController);
 
 		if (this.guiScreenServer != null)
 			this.gameController.displayGuiScreen(new GuiDisconnected(this.guiScreenServer, "disconnect.lost", reason));
@@ -729,12 +727,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			this.clientWorldController = new WorldClient(this, new WorldSettings(0L, packetIn.getGameType(), false, this.gameController.theWorld.getWorldInfo().isHardcoreModeEnabled(),
 					packetIn.getWorldType()), packetIn.getDimensionID(), packetIn.getDifficulty(), Profiler.in);
 			this.clientWorldController.setWorldScoreboard(scoreboard);
-			this.gameController.loadWorld(this.clientWorldController);
+			this.gameController.worldController.loadWorld(this.clientWorldController, this.gameController);
 			this.gameController.thePlayer.dimension = packetIn.getDimensionID();
 			this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
 		}
 
-		this.gameController.setDimensionAndSpawnPlayer(packetIn.getDimensionID());
+		this.gameController.worldController.setDimensionAndSpawnPlayer(packetIn.getDimensionID(), this.gameController);
 		this.gameController.playerController.setGameType(packetIn.getGameType());
 	}
 

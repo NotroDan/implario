@@ -551,8 +551,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			double d1 = renderViewEntity.prevPosY + (renderViewEntity.posY - renderViewEntity.prevPosY) * (double) partialTicks;
 			double d2 = renderViewEntity.prevPosZ + (renderViewEntity.posZ - renderViewEntity.prevPosZ) * (double) partialTicks;
 			this.theWorld.theProfiler.startSection("prepare");
-			TileEntityRendererDispatcher.instance.cacheActiveRenderInfo(this.theWorld, this.mc.getTextureManager(), this.mc.fontRendererObj, this.mc.getRenderViewEntity(), partialTicks);
-			this.renderManager.cacheActiveRenderInfo(this.theWorld, this.mc.fontRendererObj, this.mc.getRenderViewEntity(), this.mc.pointedEntity, partialTicks);
+			TileEntityRendererDispatcher.instance.cacheActiveRenderInfo(this.theWorld, this.mc.getTextureManager(), this.mc.fontRenderer, this.mc.getRenderViewEntity(), partialTicks);
+			this.renderManager.cacheActiveRenderInfo(this.theWorld, this.mc.fontRenderer, this.mc.getRenderViewEntity(), this.mc.pointedEntity, partialTicks);
 
 			if (i == 0) {
 				this.countEntitiesTotal = 0;

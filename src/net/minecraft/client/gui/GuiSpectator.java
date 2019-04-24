@@ -90,7 +90,7 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 			String s = KeyBinding.HOTBAR[key].getKeyDisplayString();
 
 			if (i > 3 && menuObj.func_178662_A_()) {
-				this.minecraft.fontRendererObj.drawStringWithShadow(s, (float) (p_175266_2_ + 19 - 2 - this.minecraft.fontRendererObj.getStringWidth(s)), p_175266_3_ + 6.0F + 3.0F, 16777215 + (i << 24));
+				this.minecraft.fontRenderer.drawStringWithShadow(s, (float) (p_175266_2_ + 19 - 2 - this.minecraft.fontRenderer.getStringWidth(s)), p_175266_3_ + 6.0F + 3.0F, 16777215 + (i << 24));
 			}
 		}
 	}
@@ -113,7 +113,7 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 //		for (ScorePlayerTeam team : teams.keySet()) {
 //			String s = FontRenderer.getFormatFromString(team.getColorPrefix());
 //			int i = -1;
-//			if (s.length() >= 2) i = Minecraft.getMinecraft().fontRendererObj.getColorCode(s.charAt(1));
+//			if (s.length() >= 2) i = Minecraft.getMinecraft().fontRenderer.getColorCode(s.charAt(1));
 //			drawRect(0, 2, 100, 8, i);
 //
 //			for (NetworkPlayerInfo player : teams.get(team)) {
@@ -141,12 +141,12 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 			String s = ispectatormenuobject != SpectatorMenu.field_178657_a ? ispectatormenuobject.getSpectatorName().getFormattedText() : this.spectatorMenu.func_178650_c().func_178670_b().getFormattedText();
 
 			if (s != null) {
-				int j = (res.getScaledWidth() - this.minecraft.fontRendererObj.getStringWidth(s)) / 2;
+				int j = (res.getScaledWidth() - this.minecraft.fontRenderer.getStringWidth(s)) / 2;
 				int k = res.getScaledHeight() - 35;
 				G.pushMatrix();
 				G.enableBlend();
 				G.tryBlendFuncSeparate(770, 771, 1, 0);
-				this.minecraft.fontRendererObj.drawStringWithShadow(s, (float) j, (float) k, 16777215 + (i << 24));
+				this.minecraft.fontRenderer.drawStringWithShadow(s, (float) j, (float) k, 16777215 + (i << 24));
 				G.disableBlend();
 				G.popMatrix();
 			}

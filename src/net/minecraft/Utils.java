@@ -41,7 +41,7 @@ public class Utils {
 	}
 
 	private static void drawFloatingText0(String text, float x, float y, float z, boolean back) {
-		AssetsFontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+		AssetsFontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
 		float f = 1.6F;
 		float f1 = 0.016666668F * f;
 		G.pushMatrix();
@@ -84,6 +84,11 @@ public class Utils {
 		try {
 			Thread.sleep(ms);
 		} catch (InterruptedException ignored) {}
+	}
+	public static void yield() {
+		try {
+			Thread.yield();
+		} catch (Exception ignored) {}
 	}
 
 	public static void processCommand(String line) {
@@ -233,21 +238,20 @@ public class Utils {
 
 	private static double sqrt3 = Math.sqrt(3) / 2d;
 
-	public static void drawHexagonOutline(double r) {
-		Tessellator t = Tessellator.getInstance();
-		WorldRenderer ren = t.getWorldRenderer();
+	public static void drawHexagonOutline(Tessellator t, double r) {
 		GL11.glLineWidth(2);
 		double s = r / 2;
 		double c = r * sqrt3;
+		WorldRenderer ren = t.getWorldRenderer();
 
 		ren.begin(3, DefaultVertexFormats.POSITION);
-		ren.pos(r, 0, 0).endVertex();
-		ren.pos(s, -c, 0).endVertex();
-		ren.pos(-s, -c, 0).endVertex();
-		ren.pos(-r, 0,0).endVertex();
-		ren.pos(-s, c, 0).endVertex();
-		ren.pos(s, c, 0).endVertex();
-		ren.pos(r, 0, 0).endVertex();
+		ren.pos(r, 0, 0.5).endVertex();
+		ren.pos(s, -c, 0.5).endVertex();
+		ren.pos(-s, -c, 0.5).endVertex();
+		ren.pos(-r, 0,0.5).endVertex();
+		ren.pos(-s, c, 0.5).endVertex();
+		ren.pos(s, c, 0.5).endVertex();
+		ren.pos(r, 0, 0.5).endVertex();
 		t.draw();
 		GL11.glLineWidth(1);
 	}
@@ -273,6 +277,19 @@ public class Utils {
 		ren.pos(s, c, 0).endVertex();
 		ren.pos(r, 0, 0).endVertex();
 		t.draw();
+	}
+
+	public static void drawCircle(Tessellator t, float radius, float step, float degrees) {
+
+		WorldRenderer r = t.getWorldRenderer();
+
+		r.begin(3, DefaultVertexFormats.POSITION);
+		for (double a = 0; a < degrees; a += step) {
+			double b = Math.PI * a / 180.0;
+			r.pos(Math.cos(b) * radius, Math.sin(b) * radius, 0).endVertex();
+		}
+		t.draw();
+
 	}
 
 }

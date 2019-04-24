@@ -391,7 +391,7 @@ public class GameSettings {
 
 		if (p_74306_1_ == GameSettings.Options.FORCE_UNICODE_FONT) {
 			this.forceUnicodeFont = !this.forceUnicodeFont;
-			this.mc.fontRendererObj.setUnicodeFlag(this.mc.getLanguageManager().isCurrentLocaleUnicode() || this.forceUnicodeFont);
+			this.mc.fontRenderer.setUnicodeFlag(this.mc.getLanguageManager().isCurrentLocaleUnicode() || this.forceUnicodeFont);
 		}
 
 		if (p_74306_1_ == GameSettings.Options.FBO_ENABLE) {
@@ -446,9 +446,9 @@ public class GameSettings {
 		if (p_74306_1_ == GameSettings.Options.USE_FULLSCREEN) {
 			this.fullScreen = !this.fullScreen;
 
-			if (this.mc.isFullScreen() != this.fullScreen) {
-				this.mc.toggleFullscreen();
-			}
+//			if (this.mc.isFullScreen() != this.fullScreen) {
+//				this.mc.displayGuy.toggleFullscreen(this.mc);
+//			}
 		}
 
 		if (p_74306_1_ == GameSettings.Options.ENABLE_VSYNC) {
@@ -1204,7 +1204,7 @@ public class GameSettings {
 
 		if (p_setOptionValueOF_1_ == GameSettings.Options.CUSTOM_FONTS) {
 			this.ofCustomFonts = !this.ofCustomFonts;
-			this.mc.fontRendererObj.onResourceManagerReload(Config.getResourceManager());
+			this.mc.fontRenderer.onResourceManagerReload(Config.getResourceManager());
 			this.mc.standardGalacticFontRenderer.onResourceManagerReload(Config.getResourceManager());
 		}
 

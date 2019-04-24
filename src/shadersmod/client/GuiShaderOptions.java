@@ -97,7 +97,7 @@ public class GuiShaderOptions extends GuiScreenOF {
 			ShaderOptionScreen shaderoptionscreen = (ShaderOptionScreen) so;
 			return s + "...";
 		}
-		AssetsFontRenderer fontrenderer = Config.getMinecraft().fontRendererObj;
+		AssetsFontRenderer fontrenderer = Config.getMinecraft().fontRenderer;
 
 		for (int i = fontrenderer.getStringWidth(": " + optifine.Lang.getOff()) + 5; fontrenderer.getStringWidth(s) + i >= btnWidth && s.length() > 0; s = s.substring(0, s.length() - 1)) {
 		}
@@ -311,7 +311,7 @@ public class GuiShaderOptions extends GuiScreenOF {
 	}
 
 	private String[] makeTooltipLines(int width, List<String> args) {
-		AssetsFontRenderer fontrenderer = Config.getMinecraft().fontRendererObj;
+		AssetsFontRenderer fontrenderer = Config.getMinecraft().fontRenderer;
 		List<String> list = new ArrayList();
 
 		for (String s : args) {

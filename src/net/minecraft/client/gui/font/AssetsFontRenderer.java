@@ -1,6 +1,5 @@
 package net.minecraft.client.gui.font;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -23,6 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+
+import static net.minecraft.client.Minecraft.getMinecraft;
 
 public class AssetsFontRenderer implements IResourceManagerReloadListener, IFontRenderer {
 
@@ -217,8 +218,9 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 	/**
 	 * Load one of the /font/glyph_XX.png into a new GL texture and store the texture ID in glyphTextureName array.
 	 */
-	private void loadGlyphTexture(int p_78257_1_) {
-		this.bindTexture(this.getUnicodePageLocation(p_78257_1_));
+	private void loadGlyphTexture(int page) {
+		ResourceLocation unicodePageLocation = this.getUnicodePageLocation(page);
+		this.bindTexture(unicodePageLocation);
 	}
 
 	/**
@@ -235,6 +237,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		float tx = (float) (c % 16 * 16) + rightOffset;
 		float ty = (float) (c & 0xf0);
 		float tw = width - rightOffset;
+//		System.out.print(c + "-" + tx + "x" + ty + "  ");
 
 		// Сдвиг верхней границы текста вправо, а нижней влево для создания эффекта курсива
 		float italicness = italic ? 1.0F : 0.0F;
@@ -393,7 +396,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 			}
 
 			if (this.underlineStyle) {
-				Tessellator tessellator1 = Tessellator.getInstance();
+				Tessellator tessellator1 = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
 				WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
 				G.disableTexture2D();
 				worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
@@ -724,7 +727,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 	}
 
 	protected InputStream getResourceInputStream(ResourceLocation p_getResourceInputStream_1_) throws IOException {
-		return Minecraft.getMinecraft().getResourceManager().getResource(p_getResourceInputStream_1_).getInputStream();
+		return getMinecraft().getResourceManager().getResource(p_getResourceInputStream_1_).getInputStream();
 	}
 
 }

@@ -15,18 +15,12 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 
-	/**
-	 * this field is used to indicate the 3-pixel wide arms
-	 */
-	private boolean smallArms;
-
 	public RenderPlayer(RenderManager renderManager) {
 		this(renderManager, false);
 	}
 
 	public RenderPlayer(RenderManager renderManager, boolean useSmallArms) {
 		super(renderManager, new ModelPlayer(0.0F, useSmallArms), 0.5F);
-		this.smallArms = useSmallArms;
 		this.addLayer(new LayerBipedArmor(this));
 		this.addLayer(new LayerHeldItem(this));
 		this.addLayer(new LayerArrow(this));
@@ -157,12 +151,12 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 		else super.renderLivingAt(entityLivingBaseIn, x, y, z);
 	}
 
-	protected void rotateCorpse(AbstractClientPlayer bat, float p_77043_2_, float p_77043_3_, float partialTicks) {
-		if (bat.isEntityAlive() && bat.isPlayerSleeping()) {
-			G.rotate(bat.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
-			G.rotate(this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
+	protected void rotateCorpse(AbstractClientPlayer e, float p_77043_2_, float p_77043_3_, float partialTicks) {
+		if (e.isEntityAlive() && e.isPlayerSleeping()) {
+			G.rotate(e.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
+			G.rotate(this.getDeathMaxRotation(e), 0.0F, 0.0F, 1.0F);
 			G.rotate(270.0F, 0.0F, 1.0F, 0.0F);
-		} else super.rotateCorpse(bat, p_77043_2_, p_77043_3_, partialTicks);
+		} else super.rotateCorpse(e, p_77043_2_, p_77043_3_, partialTicks);
 	}
 
 }

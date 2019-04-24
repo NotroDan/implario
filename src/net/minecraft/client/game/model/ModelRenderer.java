@@ -127,10 +127,10 @@ public class ModelRenderer {
 		this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, x, y, z, width, height, depth, scaleFactor));
 	}
 
-	public void setRotationPoint(float rotationPointXIn, float rotationPointYIn, float rotationPointZIn) {
-		this.rotationPointX = rotationPointXIn;
-		this.rotationPointY = rotationPointYIn;
-		this.rotationPointZ = rotationPointZIn;
+	public void setRotationPoint(float x, float y, float z) {
+		this.rotationPointX = x;
+		this.rotationPointY = y;
+		this.rotationPointZ = z;
 	}
 
 	public void render(float p_78785_1_) {
