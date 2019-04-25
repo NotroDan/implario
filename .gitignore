@@ -15,3 +15,5 @@ client.iml
 # src/desktop.ini
 # tests/desktop.ini
 **/desktop.ini
+out/
+.idea/
