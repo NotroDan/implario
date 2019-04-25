@@ -19,6 +19,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.EnumDifficulty;
+import optifine.Config;
+import shadersmod.client.GuiShaderOptions;
+import shadersmod.client.GuiShaders;
 
 import java.io.IOException;
 
@@ -72,7 +75,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.DYNAMIC_FOV, x1, y += 22),
 				createButton(Settings.MIPMAP_LEVELS, x2, y).updateGraphics(),
 				createButton(Settings.MIPMAP_TYPE, x1, y += 22).updateGraphics()
-//				createButton(Settings., x1, y += 22),
+//				createButton(Settings., x1, y += 22)
 //				createButton(Settings., x2, y),
 //				createButton(Settings., x1, y += 22),
 //				createButton(Settings., x2, y),
@@ -176,6 +179,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				);
 
 		tabs.add("Текстуры");
+		tabs.add("Шейдеры");
 
 
 		tabs.init(buttonList, width);
@@ -265,8 +269,12 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				mc.displayGuiScreen(new GuiControls(this));
 			} else if (button.id == 1009) {
 				mc.displayGuiScreen(new GuiScreenResourcePacks(this));
-			}
-			tabs.select(button.id - 1000);
+			} else if (button.id == 1010){
+				if(Settings.FAST_RENDER.b())
+					Config.showGuiMessage(optifine.Lang.get("Шейдеры не могут быть включены при быстром рендере"),
+									optifine.Lang.get("Выключите быстрый рендер если хотите шейдеров"));
+				else mc.displayGuiScreen(new GuiShaders(this));
+			}else tabs.select(button.id - 1000);
 		}
 
 		if (button instanceof SettingButton) ((SettingButton) button).click();
