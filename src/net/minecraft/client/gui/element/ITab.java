@@ -1,7 +1,6 @@
 package net.minecraft.client.gui.element;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public interface ITab {
@@ -15,7 +14,9 @@ public interface ITab {
 
     GuiButton getButton();
 
-    default void addTo(List<GuiButton> buttonList){}
+    default void addTo(List<GuiButton> buttonList){
+        buttonList.add(getButton());
+    }
 
     default void unfocus(){}
 }

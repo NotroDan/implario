@@ -148,7 +148,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				new VolumeSlider(Settings.SOUND_PLAYERS, x1 += 28, y)
 				);
 
-		tabs.add("Управление");
+		tabs.add("Управление", () -> mc.displayGuiScreen(new GuiControls(this)));
 
 
 		x1 = width / 2 - 151;
@@ -156,7 +156,12 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		y = tabs.y;
 
 		tabs.add("Текстуры", () -> mc.displayGuiScreen(new GuiScreenResourcePacks(this)));
-		tabs.add("Шейдеры");
+		tabs.add("Шейдеры", () -> {
+			if(Settings.FAST_RENDER.b())
+				Config.showGuiMessage(optifine.Lang.get("Шейдеры не могут быть включены при быстром рендере"),
+						optifine.Lang.get("Выключите быстрый рендер если хотите шейдеров"));
+			else mc.displayGuiScreen(new GuiShaders(this));
+		});
 
 
 		tabs.init(buttonList, width);
@@ -188,14 +193,11 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		if (button.id >= 1000) {
 			if (button.id == 1007) {
-				mc.displayGuiScreen(new GuiControls(this));
+				;
 			} else if (button.id == 1009) {
 				;
 			} else if (button.id == 1010){
-				if(Settings.FAST_RENDER.b())
-					Config.showGuiMessage(optifine.Lang.get("Шейдеры не могут быть включены при быстром рендере"),
-									optifine.Lang.get("Выключите быстрый рендер если хотите шейдеров"));
-				else mc.displayGuiScreen(new GuiShaders(this));
+
 			}else tabs.select(button.id - 1000);
 		}
 

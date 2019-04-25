@@ -11,7 +11,6 @@ public class RunnableTab implements ITab {
         AssetsFontRenderer fr = Minecraft.getMinecraft().fontRenderer;
         this.button = new GuiButton(id, x, y, fr.getStringWidth(name) + 12, 18, name);
         this.runnable = runnable;
-        button.enabled = true;
     }
 
     @Override
