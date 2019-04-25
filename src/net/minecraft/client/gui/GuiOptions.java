@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.SelectorSetting;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.client.settings.SliderSetting;
@@ -15,35 +14,17 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.world.EnumDifficulty;
 import optifine.Config;
-import shadersmod.client.GuiShaderOptions;
 import shadersmod.client.GuiShaders;
 
 import java.io.IOException;
 
 public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
-
-	private final GuiScreen parent;
-	private GuiButton difficultyBtn;
-	private GuiLockIconButton difficultyLock;
-
-	public TabSet tabs = new TabSet(0);
-
-	public GuiOptions(GuiScreen parent) {
-		this.parent = parent;
-	}
-
-	static {
-
-	}
+	private final TabSet tabs = new TabSet(0);
 
 	@SuppressWarnings ("UnusedAssignment")
+    @Override
 	public void initGui() {
-
 		buttonList.clear();
 		tabs.reset();
 		tabs.y = 15;
@@ -55,7 +36,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.FOV, x1, y += 22),
 				createButton(Settings.REDUCED_DEBUG_INFO, x2, y),
 				createButton(Settings.RENDER_FIRE, x1, y += 22),
-				createButton(Settings.FAST_PLACE, x2, y)
+				createButton(Settings.FAST_PLACE, x2, y),
+                createButton(Settings.DEBUG, x1, y += 22)
 				);
 
 		y = tabs.y;
@@ -172,64 +154,14 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		x1 = width / 2 - 151;
 		x2 = width / 2 + 1;
 		y = tabs.y;
-		tabs.add("Судоку",
-				createButton(Settings.SUDOKU_SEPARATORS, x1, y += 22)
-//				createButton(Settings.RAINBOW_SHIT, x2, y),
-//				createButton(Settings.GUI_SCALE, x1, y += 22)
-				);
 
-		tabs.add("Текстуры");
+		tabs.add("Текстуры", () -> mc.displayGuiScreen(new GuiScreenResourcePacks(this)));
 		tabs.add("Шейдеры");
 
 
 		tabs.init(buttonList, width);
 		if (tabs.current >= 0) tabs.select(tabs.current);
 		else tabs.select(0);
-
-
-		boolean b = true;
-		if (b) return;
-
-
-		if (this.mc.theWorld != null) {
-			EnumDifficulty enumdifficulty = this.mc.theWorld.getDifficulty();
-			this.difficultyBtn = new GuiButton(108, this.width / 2 - 155, this.height / 6 - 12 + 0, 150, 20, this.func_175355_a(enumdifficulty));
-			this.buttonList.add(this.difficultyBtn);
-
-			if (this.mc.isSingleplayer() && !this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
-				this.difficultyBtn.setWidth(this.difficultyBtn.getButtonWidth() - 20);
-				this.difficultyLock = new GuiLockIconButton(109, this.difficultyBtn.xPosition + this.difficultyBtn.getButtonWidth(), this.difficultyBtn.yPosition);
-				this.buttonList.add(this.difficultyLock);
-				this.difficultyLock.func_175229_b(this.mc.theWorld.getWorldInfo().isDifficultyLocked());
-				this.difficultyLock.enabled = !this.difficultyLock.isLocked();
-				this.difficultyBtn.enabled = !this.difficultyLock.isLocked();
-			} else this.difficultyBtn.enabled = false;
-		}
-
-		this.buttonList.add(new GuiButton(110, this.width / 2 - 155, this.height / 6 + 48 - 6, 150, 20, Lang.format("options.skinCustomisation")));
-		this.buttonList.add(new GuiButton(990, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Вид кнопок"));
-		//        this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Super Secret Settings...")
-		//        {
-		//            public void playPressSound(SoundHandler soundHandlerIn)
-		//            {
-		//                SoundEventAccessorComposite composite = soundHandlerIn.getRandomSoundFromCategories
-		//						(SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER);
-		//
-		//                if (composite != null)
-		//                {
-		//                    soundHandlerIn.playSound(PositionedSoundRecord.create(composite.getSoundEventLocation(), 0.5F));
-		//                }
-		//            }
-		//        });
-		this.buttonList.add(new GuiButton(106, this.width / 2 - 155, this.height / 6 + 72 - 6, 150, 20, Lang.format("options.sounds")));
-		this.buttonList.add(new GuiButton(107, this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, Lang.format("options.stream")));
-		this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height / 6 + 96 - 6, 150, 20, Lang.format("options.video")));
-		this.buttonList.add(new GuiButton(100, this.width / 2 + 5, this.height / 6 + 96 - 6, 150, 20, Lang.format("options.controls")));
-		this.buttonList.add(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 120 - 6, 150, 20, Lang.format("options.language")));
-		this.buttonList.add(new GuiButton(103, this.width / 2 + 5, this.height / 6 + 120 - 6, 150, 20, Lang.format("options.chat.title")));
-		this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, Lang.format("options.resourcepack")));
-		//        this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.snooper.view")));
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, Lang.format("gui.done")));
 	}
 
 	private SettingButton createButton(Settings s, int x, int y) {
@@ -239,28 +171,18 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		throw new IllegalArgumentException("Что вы вообще делали?");
 	}
 
-	public String func_175355_a(EnumDifficulty p_175355_1_) {
-		IChatComponent ichatcomponent = new ChatComponentText("");
-		ichatcomponent.appendSibling(new ChatComponentTranslation("options.difficulty"));
-		ichatcomponent.appendText(": ");
-		ichatcomponent.appendSibling(new ChatComponentTranslation(p_175355_1_.getDifficultyResourceKey()));
-		return ichatcomponent.getFormattedText();
-	}
-
+	@Override
 	public void confirmClicked(boolean result, int id) {
 		this.mc.displayGuiScreen(this);
 
-		if (id == 109 && result && this.mc.theWorld != null) {
+		if (id == 109 && result && this.mc.theWorld != null)
 			this.mc.theWorld.getWorldInfo().setDifficultyLocked(true);
-			this.difficultyLock.func_175229_b(true);
-			this.difficultyLock.enabled = false;
-			this.difficultyBtn.enabled = false;
-		}
 	}
 
 	/**
 	 * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
 	 */
+	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (!button.enabled || !button.visible) return;
 
@@ -268,7 +190,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 			if (button.id == 1007) {
 				mc.displayGuiScreen(new GuiControls(this));
 			} else if (button.id == 1009) {
-				mc.displayGuiScreen(new GuiScreenResourcePacks(this));
+				;
 			} else if (button.id == 1010){
 				if(Settings.FAST_RENDER.b())
 					Config.showGuiMessage(optifine.Lang.get("Шейдеры не могут быть включены при быстром рендере"),
@@ -298,16 +220,15 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		if (tabs.current == 4 && mc.thePlayer != null) drawPlayer(
-				width / 2 + 80, 200, 80, width / 2 + 80 - mouseX, 100 - mouseY, mc.thePlayer);
+				width / 2 + 80, 200, 80, width / 2F + 80 - mouseX, 100 - mouseY, mc.thePlayer);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void drawPlayer(int posX, int posY, int scale, float mouseX, float mouseY, EntityLivingBase ent) {
+	private void drawPlayer(int posX, int posY, int scale, float mouseX, float mouseY, EntityLivingBase ent) {
 		G.enableColorMaterial();
 		G.pushMatrix();
 		G.translate((float) posX, (float) posY, 100.0F);
 		G.scale((float) -scale, (float) scale, (float) scale);
-//		GlStateManager.rotate(-30, 1, 0, 1);
 		G.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 		G.rotate(90.0F, 0.0F, 1.0F, 0.0F);
 		float f = ent.renderYawOffset;
@@ -318,11 +239,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		G.rotate(135.0F, 0.0F, 1.0F, 0.0F);
 		RenderHelper.enableStandardItemLighting();
 		G.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-//		GlStateManager.rotate(-((float) Math.atan((double) (mouseY / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
 		ent.renderYawOffset = mouseX % 360.0F;
-//		ent.renderYawOffset = (float) Math.atan((double) (mouseX / 40.0F)) * 20.0F;
 		ent.rotationYaw = ent.renderYawOffset;
-//		ent.rotationYaw = (float) Math.atan((double) (mouseX / 40.0F)) * 40.0F;
 		ent.rotationPitch = -((float) Math.atan((double) (mouseY / 40.0F))) * 20.0F;
 		ent.rotationYawHead = ent.rotationYaw;
 		ent.prevRotationYawHead = ent.rotationYaw;

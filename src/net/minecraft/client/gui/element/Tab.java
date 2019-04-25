@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Tab {
+public class Tab implements ITab{
 
 	private final List<GuiButton> buttons = new ArrayList<>();
 	public final String title;

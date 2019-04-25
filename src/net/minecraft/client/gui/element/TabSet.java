@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TabSet {
 
-	public final List<Tab> tabs = new ArrayList<>();
+	public final List<ITab> tabs = new ArrayList<>();
 	public int current = -1;
 	public int y;
 
@@ -17,17 +17,22 @@ public class TabSet {
 	}
 
 	public void reset() {
-		for (Tab tab : tabs) tab.getButtons().clear();
+		for (ITab tab : tabs) tab.getButtons().clear();
 		tabs.clear();
 	}
 
-	public void add(Tab tab) {
+	public void add(ITab tab) {
 		tabs.add(tab);
 	}
 
-	public Tab add(String title, GuiButton... btns) {
-		AssetsFontRenderer r = Minecraft.getMinecraft().fontRenderer;
-		Tab tab = new Tab(title, 1000 + (tabs.isEmpty() ? 0 : tabs.size()), 0, y);
+	public ITab add(String title, Runnable runnable){
+		ITab tab = new RunnableTab(title, runnable, 1000 + (tabs.isEmpty() ? 0 : tabs.size()), 0, y);
+		tabs.add(tab);
+		return tab;
+	}
+
+	public ITab add(String title, GuiButton... btns) {
+		ITab tab = new Tab(title, 1000 + (tabs.isEmpty() ? 0 : tabs.size()), 0, y);
 		tab.add(btns);
 		tabs.add(tab);
 		return tab;
@@ -36,14 +41,14 @@ public class TabSet {
 	public void recountPositions(int screenWidth) {
 		int w = tabWidth();
 		w = screenWidth / 2 - w / 2;
-		for (Tab tab : tabs) {
+		for (ITab tab : tabs) {
 			tab.getButton().xPosition = w;
 			w += tab.getButton().width;
 		}
 	}
 
 	public void init(List<GuiButton> baseList, int width) {
-		for (Tab tab : tabs) tab.addTo(baseList);
+		for (ITab tab : tabs) tab.addTo(baseList);
 		recountPositions(width);
 	}
 
@@ -54,7 +59,7 @@ public class TabSet {
 
 	public int tabWidth() {
 		int w = 0;
-		for (Tab tab : tabs) w += tab.getButton().width;
+		for (ITab tab : tabs) w += tab.getButton().width;
 		return w;
 	}
 
@@ -62,7 +67,7 @@ public class TabSet {
 		return current;
 	}
 
-	public List<Tab> getTabs() {
+	public List<ITab> getTabs() {
 		return tabs;
 	}
 

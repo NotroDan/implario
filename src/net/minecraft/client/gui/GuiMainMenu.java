@@ -115,7 +115,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	}
 
 	protected void actionPerformed(GuiButton button) throws IOException {
-		if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions(this));
+		if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions());
 
 //		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
 		if (button.id == 5) this.mc.displayGuiScreen(new GuiShaders(this));

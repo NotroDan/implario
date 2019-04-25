@@ -39,7 +39,7 @@ public class GuiIngameMenu extends GuiScreen {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		switch (button.id) {
 			case 0:
-				this.mc.displayGuiScreen(new GuiOptions(this));
+				this.mc.displayGuiScreen(new GuiOptions());
 				break;
 
 			case 1:

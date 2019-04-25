@@ -60,6 +60,7 @@ public class SettingButton extends GuiButton {
 		else if (settings.getBase() instanceof SelectorSetting) ((SelectorSetting) settings.getBase()).next();
 		settings.change();
 		displayString = getCaption(settings);
+
 		if (updateGraphics) {
 			ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
 			drawRect(0, 0, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 0xd0202020);
@@ -67,13 +68,10 @@ public class SettingButton extends GuiButton {
 					scaledresolution.getScaledWidth() / 2, scaledresolution.getScaledHeight() / 2, -1);
 			Minecraft.getMinecraft().renderGlobal.loadRenderers();
 		}
-		if (reloadRP) {
 
+		if (reloadRP) {
 			MC.i().entityRenderer.removeShaderGroup();
 			Config.updateFramebufferSize();
-
-
-//			MC.i().scheduleResourcesRefresh();
 		}
 	}
 }
