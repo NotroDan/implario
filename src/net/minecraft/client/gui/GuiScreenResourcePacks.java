@@ -42,8 +42,8 @@ public class GuiScreenResourcePacks extends GuiScreen {
 	 * window resizes, the buttonList is cleared beforehand.
 	 */
 	public void initGui() {
-		this.buttonList.add(new GuiButton(2, this.width / 2 - 154, this.height - 48, Lang.format("resourcePack.openFolder")));
-		this.buttonList.add(new GuiButton(1, this.width / 2 + 4, this.height - 48, Lang.format("gui.done")));
+		this.buttonList.add(new GuiButton(2, this.width / 2 - 154, this.height - 48, 150, 20, Lang.format("resourcePack.openFolder")));
+		this.buttonList.add(new GuiButton(1, this.width / 2 + 4, this.height - 48, 150, 20, Lang.format("gui.done")));
 
 		if (!this.changed) {
 			this.availableResourcePacks = Lists.newArrayList();

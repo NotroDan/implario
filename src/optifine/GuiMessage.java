@@ -31,7 +31,7 @@ public class GuiMessage extends GuiScreen
      */
     public void initGui()
     {
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 74, this.height / 6 + 96, this.confirmButtonText));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 74, this.height / 6 + 96, 74 * 2, 20, this.confirmButtonText));
         this.listLines2.clear();
         this.listLines2.addAll(this.fontRendererObj.listFormattedStringToWidth(this.messageLine2, this.width - 50));
     }
