@@ -191,15 +191,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (!button.enabled || !button.visible) return;
 
-		if (button.id >= 1000) {
-			if (button.id == 1007) {
-				;
-			} else if (button.id == 1009) {
-				;
-			} else if (button.id == 1010){
-
-			}else tabs.select(button.id - 1000);
-		}
+		if (button.id >= 1000)
+			tabs.select(button.id - 1000);
 
 		if (button instanceof SettingButton) ((SettingButton) button).click();
 

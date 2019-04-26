@@ -13,11 +13,9 @@ public class Tab implements ITab{
 	public final String title;
 	private final GuiButton button;
 	private boolean focused = false;
-	private final int id;
 
 	public Tab(String title, int id, int x, int y) {
 		this.title = title;
-		this.id = id;
 		AssetsFontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 		button = new GuiButton(id, x, y, fr.getStringWidth(title) + 12, 18, title);
 	}
@@ -31,37 +29,33 @@ public class Tab implements ITab{
 		for (GuiButton button : buttons) button.visible = this.focused;
 	}
 
+	@Override
 	public List<GuiButton> getButtons() {
 		return buttons;
 	}
 
+	@Override
 	public GuiButton getButton() {
 		return button;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public int getId() {
-		return id;
-	}
-
+	@Override
 	public void focus() {
 		focused = true;
 		button.enabled = false;
 		for (GuiButton button : buttons) button.visible = true;
 	}
 
+	@Override
 	public void unfocus() {
 		focused = false;
 		button.enabled = true;
 		for (GuiButton button : buttons) button.visible = false;
 	}
 
+	@Override
 	public void addTo(List<GuiButton> buttonList) {
 		buttonList.add(button);
 		buttonList.addAll(buttons);
 	}
-
 }

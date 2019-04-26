@@ -1,8 +1,5 @@
 package net.minecraft.client.gui.element;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
-
 import java.util.ArrayList;
 import java.util.List;
 
