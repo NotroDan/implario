@@ -1,9 +1,17 @@
 package net.minecraft.client.gui.font;
 
+import optifine.Config;
+import optifine.CustomColors;
+
 public class FontUtils {
 
 	// Массив со значениями цветовых кодов от 0 до f, а также теней этих кодов
-	public static int[] colorCodes = new int[32];
+	static int[] colorCodes = new int[32];
+
+	public static int getColorCode(char c) {
+		int code = "0123456789abcdef".indexOf(c);
+		return code < 0 ? 0xffffff : Config.isCustomColors() ? CustomColors.getTextColor(code, colorCodes[code]) : colorCodes[code];
+	}
 
 	static {
 

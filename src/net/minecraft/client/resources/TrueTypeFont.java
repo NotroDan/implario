@@ -1,5 +1,6 @@
 package net.minecraft.client.resources;
 
+import net.minecraft.client.renderer.G;
 import net.minecraft.logging.Log;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -289,7 +290,7 @@ public class TrueTypeFont {
 		int totalwidth = 0;
 		int i = startIndex;
 
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
+		G.bindTexture(fontTextureID);
 		GL11.glBegin(GL11.GL_QUADS);
 
 		while (i >= startIndex && i <= endIndex) {
@@ -309,7 +310,7 @@ public class TrueTypeFont {
 	}
 
 	public void glHeader() {
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
+		G.bindTexture(fontTextureID);
 		GL11.glBegin(GL11.GL_QUADS);
 	}
 

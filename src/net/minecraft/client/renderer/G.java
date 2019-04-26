@@ -418,6 +418,15 @@ public class G {
 		}
 	}
 
+	public static void colorNoAlpha(int color) {
+
+		float f = (float) (color >> 16 & 255) / 255.0F;
+		float f1 = (float) (color >> 8 & 255) / 255.0F;
+		float f2 = (float) (color & 255) / 255.0F;
+
+		color(f, f1, f2, 1);
+	}
+
 	public static void color(float colorRed, float colorGreen, float colorBlue) {
 		color(colorRed, colorGreen, colorBlue, 1.0F);
 	}

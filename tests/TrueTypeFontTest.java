@@ -107,7 +107,7 @@ public class TrueTypeFontTest {
 		fpsCounter = new FPSCounter();
 		fpsCounter.init();
 		// render some text to the screen
-		//trueTypeFont.drawString(20.0f, 20.0f, "Slick displaying True Type Fonts", Color.green);
+		//trueTypeFont.render(20.0f, 20.0f, "Slick displaying True Type Fonts", Color.green);
 
 	}
 
@@ -195,18 +195,18 @@ public class TrueTypeFontTest {
 
 		G.color(1, 1, 1, 1);
 		String text = "§3§l[Гл. Админ] xtrafrancyz§7: §aНастоящие пираты не боятся красного плавания?";
-//		t2.drawString(text, 0, t2.getPlainFont().getHeight(), 0, false);
-		t.drawString(text, 0, t.getPlainFont().getHeight() * 1.5f, 0, false);
+//		t2.render(text, 0, t2.getPlainFont().getHeight(), 0, false);
+		t.renderString(text, 0, t.getPlainFont().getHeight() * 1.5f, false);
 //		int error = GL11.glGetError();
 //		if (error != 0) System.out.println(error);
 //
-//		trueTypeFont.drawString(0, trueTypeFont.getHeight() * 10, "I wrote this song about you!\nIsn't that cliche of me, to do?");
+//		trueTypeFont.render(0, trueTypeFont.getHeight() * 10, "I wrote this song about you!\nIsn't that cliche of me, to do?");
 //
-//		trueTypeFont.drawString(0, trueTypeFont.getHeight() * 6, "But its nothing for you,\n" +
+//		trueTypeFont.render(0, trueTypeFont.getHeight() * 6, "But its nothing for you,\n" +
 //						"the band just needed something more to play.\n" +
 //						"So dont blush or hooray,\n");
 //
-//		trueTypeFont.drawString(0, trueTypeFont.getHeight() * 3,
+//		trueTypeFont.render(0, trueTypeFont.getHeight() * 3,
 //				"at the possible sound of your name.\n" +
 //						"No I wouldnt go that far.\n" +
 //						"No.");

@@ -171,6 +171,12 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		}
 	}
 
+
+	@Override
+	public float renderChar(char c, boolean bold, boolean italic) {
+		return 0;
+	}
+
 	public float renderChar(char c, boolean italic) {
 		if (c == 32) return !this.unicodeFlag ? this.charWidth[c] : 4.0F;
 
@@ -441,6 +447,9 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		return (int) this.posX;
 	}
 
+
+
+
 	/**
 	 * Returns the width of this string. Equivalent of FontMetrics.stringWidth(String s).
 	 */
@@ -703,21 +712,6 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		return s.toString();
 	}
 
-	public int getColorCode(char character) {
-		int i = "0123456789abcdef".indexOf(character);
-
-		if (i >= 0 && i < net.minecraft.client.gui.font.FontUtils.colorCodes.length) {
-			int j = net.minecraft.client.gui.font.FontUtils.colorCodes[i];
-
-			if (Config.isCustomColors()) {
-				j = CustomColors.getTextColor(i, j);
-			}
-
-			return j;
-		}
-		return 16777215;
-	}
-
 	protected void setColor(float r, float b, float g, float a) {
 		G.color(r, b, g, a);
 	}
@@ -728,6 +722,12 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 	protected InputStream getResourceInputStream(ResourceLocation p_getResourceInputStream_1_) throws IOException {
 		return getMinecraft().getResourceManager().getResource(p_getResourceInputStream_1_).getInputStream();
+	}
+
+
+	@Override
+	public int getShadowOffset() {
+		return 1;
 	}
 
 }

@@ -50,7 +50,7 @@ public class LetterButtonRender implements IButtonRender {
 		}
 		G.scale(2, 2, 2);
 		if (width % 2 != 1) G.translate(0.5f,0, 0);
-//		MC.FR.drawString(text, (float) (btn.getWidth() / 4 - width / 2),
+//		MC.FR.render(text, (float) (btn.getWidth() / 4 - width / 2),
 //				btn.getRenderY() + 2, 0xeeeeee, false);
 		gui.drawShadowlessCenteredString(MC.FR, text, btn.getWidth() / 4, btn.getRenderY() + 2, color);
 		if (width % 2 == 1) G.translate(-0.5f,0, 0);

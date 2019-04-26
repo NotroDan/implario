@@ -4,8 +4,9 @@ import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.EntityPlayerSP;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.game.model.ModelBase;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.FontUtils;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -188,7 +189,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 				String s = AssetsFontRenderer.getFormatFromString(scoreplayerteam.getColorPrefix());
 
 				if (s.length() >= 2) {
-					i = this.getFontRendererFromRenderManager().getColorCode(s.charAt(1));
+					i = FontUtils.getColorCode(s.charAt(1));
 				}
 			}
 		}

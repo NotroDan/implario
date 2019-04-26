@@ -138,19 +138,21 @@ public class Preloader {
 			int y = 10 + i * BakedFont.VERDANA.getRenderer().getFontHeight();
 			if (i < this.state) {
 				state = "§7 " + states[i];
-				offset = BakedFont.ARIAL.getRenderer().drawString("§a\u2714 ", 5, y, 0xffffffff, false);
+				offset = BakedFont.ARIAL.getRenderer().renderString("§a\u2714 ", 5, y, true);
 			}
 			else {
 				state = "§f   " + states[i];
 			}
 			if (i == this.state) state = "§e>  " + states[i] + "...";
-			BakedFont.VERDANA.getRenderer().drawString(state, 5 + offset, y, 0xffffffff, false);
+			BakedFont.VERDANA.getRenderer().renderString(state, 5 + offset, y, true);
 
 //			drawText(state, 5, 10 + i * BakedFont.VERDANA.getRenderer().getFontHeight(), 0);
 		}
+//		G.disableFog();
+//		G.disableDepth();
 		GlStateManager.pushMatrix();
 		G.scale(16, 16, 16);
-		MC.getFontRenderer().drawString("§f§l§n§o" + System.currentTimeMillis() + "", 3, 3, 0xffff0000);
+//		MC.getFontRenderer().drawString("§f§l§n§o" + System.currentTimeMillis() + "", 3, 3, 0xffff0000);
 		GlStateManager.popMatrix();
 //		drawText("Загрузка...", res.getScaledWidth() / 8 - 12, res.getScaledHeight() / 4 - 10, 0x36f746);
 	}

@@ -1,7 +1,6 @@
 package net.minecraft.client.gui.font;
 
 import net.minecraft.client.renderer.G;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.TrueTypeFont;
 
 import java.awt.*;
@@ -43,46 +42,22 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 	}
 
 	@Override
-	public int drawString(String s, float x, float y, int color, boolean shadow) {
-		GlStateManager.pushMatrix();
-		boolean coloring = false;
-		float strikeStart = -1, underStart = -1;
-		byte style = 0;
-		int offset = 0;
-		char[] charArray = s.toCharArray();
-		for (int i = 0; i < charArray.length; i++) {
-			char c = charArray[i];
-			if (c == '§' && !coloring) {
-				coloring = true;
-				continue;
-			}
-			if (coloring) {
-				coloring = false;
-				int colorCode = "0123456789abcdef".indexOf(c);
-				if (colorCode < 0) {
-					switch (c) {
-						case 'l': style ^= Font.BOLD; break;
-						case 'o': style ^= Font.ITALIC; break;
-						case 'r': style = 0; G.color(1, 1, 1); break;
-					}
-				} else {
-					style = 0;
-					color = FontUtils.colorCodes[colorCode];
-					glColorNoAlpha(color);
-				}
-				continue;
-			}
+	public float renderChar(char c, boolean bold, boolean italic) {
 
-			TrueTypeFont font = bases[style];
-			font.glHeader();
-			int translate = font.drawChar(c, x, y);
-			offset += translate;
-			font.glFooter();
-			G.translate(translate, 0, 0);
+		TrueTypeFont font = bases[getType(bold, italic)];
+		font.glHeader();
+		int translate = font.drawChar(c, 0, 0);
+		font.glFooter();
 
-		}
-		GlStateManager.popMatrix();
-		return offset;
+		return translate;
+
+	}
+
+	private static int getType(boolean bold, boolean italic) {
+		int style = 0;
+		if (bold) style += Font.BOLD;
+		if (italic) style += Font.ITALIC;
+		return style;
 	}
 
 
@@ -106,6 +81,11 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 
 	public TrueTypeFont getPlainFont() {
 		return bases[0];
+	}
+
+	@Override
+	public int getShadowOffset() {
+		return 2;
 	}
 
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.game.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;
+import net.minecraft.client.gui.font.FontUtils;
 import net.minecraft.client.gui.spectator.ISpectatorMenuObject;
 import net.minecraft.client.gui.spectator.ISpectatorMenuView;
 import net.minecraft.client.gui.spectator.SpectatorMenu;
@@ -100,7 +101,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
 			String s = AssetsFontRenderer.getFormatFromString(this.team.getColorPrefix());
 
 			if (s.length() >= 2) {
-				i = Minecraft.getMinecraft().fontRenderer.getColorCode(s.charAt(1));
+				i = FontUtils.getColorCode(s.charAt(1));
 			}
 
 			if (i >= 0) {
