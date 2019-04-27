@@ -16,6 +16,7 @@ public class TabSet {
 	public void reset() {
 		for (ITab tab : tabs) tab.getButtons().clear();
 		tabs.clear();
+		current = -1;
 	}
 
 	public void add(ITab tab) {

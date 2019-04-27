@@ -6,7 +6,7 @@ import net.minecraft.client.gui.font.AssetsFontRenderer;
 public class RunnableTab implements ITab {
     private final GuiButton button;
     private final Runnable runnable;
-    private static boolean enabled = false;
+    private boolean enabled = false;
 
     public RunnableTab(String name, Runnable runnable, int id, int x, int y){
         AssetsFontRenderer fr = Minecraft.getMinecraft().fontRenderer;
@@ -16,12 +16,14 @@ public class RunnableTab implements ITab {
 
     @Override
     public void focus() {
-        if(enabled){
-            enabled = false;
-            return;
-        }
+        if(enabled) return;
         runnable.run();
         enabled = true;
+    }
+
+    @Override
+    public void unfocus(){
+        enabled = false;
     }
 
     @Override

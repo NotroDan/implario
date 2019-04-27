@@ -18,5 +18,5 @@ public interface ITab {
         buttonList.add(getButton());
     }
 
-    default void unfocus(){}
+    void unfocus();
 }
