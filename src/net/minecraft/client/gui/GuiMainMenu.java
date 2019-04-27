@@ -3,9 +3,9 @@ package net.minecraft.client.gui;
 import net.minecraft.CyclicIterator;
 import net.minecraft.Logger;
 import net.minecraft.Utils;
+import net.minecraft.client.MC;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.gui.element.GuiButtonChangeName;
-import net.minecraft.client.gui.element.GuiButtonLanguage;
+import net.minecraft.client.gui.settings.GuiSettings;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -83,6 +83,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {}
 
 	public void initGui() {
+		try {
+			MC.FR.dlyaLogana();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		DynamicTexture viewport = new DynamicTexture(256, 256);
 		ResourceLocation background = this.mc.getTextureManager().getDynamicTextureLocation("background", viewport);
 		if (skybox == null) skybox = new Skybox(skyboxTiles, background, viewport, this);
@@ -95,6 +100,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, Lang.format("menu.quit")));
 		this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Смена ника"));
 		this.buttonList.add(new GuiButton(6, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Не нажимать!"));
+		this.buttonList.add(new GuiButton(54, this.width / 2 + 2, j + 72 + 12 + 24 + 24, 98, 20, "Бета настроек"));
 
 		synchronized (this.threadLock) {
 			this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
@@ -126,6 +132,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
 
 		if (button.id == 97) this.mc.displayGuiScreen(new GuiPlayername(this));
+		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
 
 		if (button.id == 4) this.mc.shutdown();
 

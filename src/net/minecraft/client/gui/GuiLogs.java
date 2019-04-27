@@ -42,14 +42,14 @@ public class GuiLogs extends GuiScreen {
 			G.translate(0, 10, 0);
 			GlStateManager.pushMatrix();
 			for (char c : line.getTime()) {
-				float f = MC.FR.renderChar(c, false);
+				float f = MC.FR.renderChar(c, false, false);
 				GlStateManager.translate(0.5, 0, 0);
-				MC.FR.renderChar(c, false);
+				MC.FR.renderChar(c, false, false);
 				GlStateManager.translate(f, 0, 0);
 			}
 			if (line.getTime().length != 0) G.translate(5, 0, 0);
 			for (char c : line.getMessage()) {
-				float f = MC.FR.renderChar(c, false);
+				float f = MC.FR.renderChar(c, false, false);
 				GlStateManager.translate(f, 0, 0);
 			}
 			GlStateManager.popMatrix();

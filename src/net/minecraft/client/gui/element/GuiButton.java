@@ -158,4 +158,9 @@ public class GuiButton extends Gui {
 		this.width = width;
 	}
 
+	@Override
+	public String toString() {
+		return "GuiButton[" + id + " - '" + displayString + "': " + xPosition + ", " + yPosition + "]";
+	}
+
 }

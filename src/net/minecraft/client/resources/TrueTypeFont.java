@@ -124,6 +124,8 @@ public class TrueTypeFont {
 		FontMetrics fontMetrics = g.getFontMetrics();
 		int charwidth = fontMetrics.charWidth(ch) + 8;
 
+//		System.out.println("Width of '" + ch + "' is " + charwidth);
+
 		if (charwidth <= 0) charwidth = 7;
 		int charheight = fontMetrics.getHeight() + 3;
 		if (charheight <= 0) charheight = fontSize;

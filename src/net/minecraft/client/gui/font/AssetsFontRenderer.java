@@ -1,11 +1,8 @@
 package net.minecraft.client.gui.font;
 
 import net.minecraft.client.renderer.G;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
@@ -16,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -172,16 +170,22 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 	}
 
 
-	@Override
 	public float renderChar(char c, boolean bold, boolean italic) {
-		return 0;
-	}
+		if (c == 32) return this.unicodeFlag ? 4.0F : this.charWidth[c];
 
-	public float renderChar(char c, boolean italic) {
-		if (c == 32) return !this.unicodeFlag ? this.charWidth[c] : 4.0F;
 
 		int i = allChars.indexOf(c);
-		return i != -1 && !this.unicodeFlag ? this.renderDefaultChar(i, italic) : this.renderUnicodeChar(c, italic);
+		boolean unicode = i == -1 || unicodeFlag;
+		float f = unicode ? renderUnicodeChar(c, italic) : renderDefaultChar(i, italic);
+		float w = 0;
+		if (bold) {
+			float offsetBold = unicode ? 0.5F : this.offsetBold;
+			this.posX += offsetBold;
+			renderChar(c, false, this.italicStyle);
+			this.posX -= offsetBold;
+			w += offsetBold;
+		}
+		return f + w;
 	}
 
 	@Override
@@ -366,54 +370,33 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 			}
 
-			float offsetBold = index != -1 && !this.unicodeFlag ? this.offsetBold : 0.5F;
+			float offsetBold = index == -1 || this.unicodeFlag ? 0.5F : this.offsetBold;
 			dropShadow &= c == 0 || index == -1 || this.unicodeFlag;
 
 			if (dropShadow) offset(-offsetBold);
-			float charWidth = this.renderChar(c, this.italicStyle);
+			float charWidth = this.renderChar(c, boldStyle, this.italicStyle);
 			if (dropShadow) offset(offsetBold);
 
 
-			if (this.boldStyle) {
 
-				this.posX += offsetBold;
-				if (dropShadow) offset(-offsetBold);
+			G.translate(posX, posY, 0);
+			if (strikethroughStyle)	net.minecraft.client.gui.font.FontUtils.strike(charWidth, 9);
+			if (underlineStyle) net.minecraft.client.gui.font.FontUtils.underline(charWidth, 9, 0);
+			G.translate(-posX, -posY, 0);
 
-				this.renderChar(c, this.italicStyle);
-
-				this.posX -= offsetBold;
-				if (dropShadow) offset(offsetBold);
-
-				charWidth += offsetBold;
-			}
-
-			if (this.strikethroughStyle) {
-				Tessellator tessellator = Tessellator.getInstance();
-				WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-				G.disableTexture2D();
-				worldrenderer.begin(7, DefaultVertexFormats.POSITION);
-				float h = this.getFontHeight() / 2f;
-				worldrenderer.pos(posX, this.posY + h, 0).endVertex();
-				worldrenderer.pos(this.posX + charWidth, this.posY + h, 0).endVertex();
-				worldrenderer.pos(this.posX + charWidth, this.posY + h - 1.0F, 0).endVertex();
-				worldrenderer.pos(this.posX, this.posY + h - 1.0F, 0).endVertex();
-				tessellator.draw();
-				G.enableTexture2D();
-			}
-
-			if (this.underlineStyle) {
-				Tessellator tessellator1 = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
-				WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
-				G.disableTexture2D();
-				worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
-				int l = this.underlineStyle ? -1 : 0;
-				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
-				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
-				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
-				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
-				tessellator1.draw();
-				G.enableTexture2D();
-			}
+//			if (this.underlineStyle) {
+//				Tessellator tessellator1 = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
+//				WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
+//				G.disableTexture2D();
+//				worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
+//				int l = this.underlineStyle ? -1 : 0;
+//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
+//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
+//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
+//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
+//				tessellator1.draw();
+//				G.enableTexture2D();
+//			}
 
 			this.posX += charWidth;
 		}
@@ -498,6 +481,31 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 			return (float) (width - rightOffset) / 2F + 1F;
 		}
 		return 0.0F;
+	}
+
+	public void dlyaLogana() throws IOException {
+		FileOutputStream s = new FileOutputStream("lolkek");
+
+		for (char c = 0; c < 65535; c++) {
+
+			int w = 0, o = 0;
+			if (c == 32) w = (int) this.charWidth[32];
+
+
+			int i = allChars.indexOf(c);
+
+//			if (c > 0 && i != -1 && !this.unicodeFlag) return this.charWidth[i];
+
+			if (this.glyphWidth[c] != 0) {
+				o = this.glyphWidth[c] >>> 4;
+				w = this.glyphWidth[c] & 15;
+				o = o & 15;
+			}
+			String s1 = (int) c + "-" + w + "-" + o + "\n";
+			s.write(s1.getBytes());
+		}
+		s.flush();
+		s.close();
 	}
 
 	/**

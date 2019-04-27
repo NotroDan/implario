@@ -30,10 +30,11 @@ public interface IFontRenderer {
 
 	default float renderString0(String s, float x, float y, boolean dark) {
 		GlStateManager.pushMatrix();
+		renderHeader();
 		G.translate(x, y, 0);
 		boolean coloring = false;
 		float strikeStart = -1, underStart = -1;
-		boolean bold = false, italic = false;
+		boolean bold = false, italic = false, strike = false, under = false, magic = false;
 		float offset = 0;
 		int color;
 		char[] charArray = s.toCharArray();
@@ -48,15 +49,18 @@ public interface IFontRenderer {
 				int colorCode = "0123456789abcdef".indexOf(c);
 				if (colorCode < 0) {
 					switch (c) {
+						case 'k': magic = true; break;
 						case 'l': bold = true; break;
+						case 'm': strike = true; break;
+						case 'n': under = true; break;
 						case 'o': italic = true; break;
 						case 'r':
-							bold = italic = false;
+							bold = italic = magic = strike = under = false;
 							G.color(1, 1, 1);
 							break;
 					}
 				} else {
-					bold = italic = false;
+					bold = italic = magic = strike = under = false;
 					color = FontUtils.colorCodes[dark ? colorCode + 16 : colorCode];
 					G.colorNoAlpha(color);
 				}
@@ -64,6 +68,8 @@ public interface IFontRenderer {
 			}
 
 			float translate = renderChar(c, bold, italic);
+			if (under) FontUtils.underline(translate, getFontHeight(), 0);
+			if (strike) FontUtils.strike(translate, getFontHeight());
 
 			offset += translate;
 			G.translate(translate, 0, 0);
@@ -73,6 +79,11 @@ public interface IFontRenderer {
 		return offset;
 	}
 
+	/**
+	 * Заголовок рендера. Выполняет операции, которые необходимо
+	 * применить ко всей строке, перед её обработкой.
+	 */
+	default void renderHeader() {}
 
 
 	float renderChar(char c, boolean bold, boolean italic);
