@@ -83,11 +83,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {}
 
 	public void initGui() {
-		try {
-			MC.FR.dlyaLogana();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		DynamicTexture viewport = new DynamicTexture(256, 256);
 		ResourceLocation background = this.mc.getTextureManager().getDynamicTextureLocation("background", viewport);
 		if (skybox == null) skybox = new Skybox(skyboxTiles, background, viewport, this);
