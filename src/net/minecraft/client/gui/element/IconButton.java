@@ -37,6 +37,7 @@ public class IconButton extends SettingButton implements HoverButton {
 		if (!this.visible) return;
 		G.enableAlpha();
 		G.enableBlend();
+		G.enableDepth();
 		G.color(1, 1, 1, 1);
 		boolean hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 		if (this.hovered != hovered) {
