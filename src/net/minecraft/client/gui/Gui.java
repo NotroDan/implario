@@ -58,16 +58,18 @@ public class Gui {
 			bottom = j;
 		}
 
-		float f3 = (float) (color >> 24 & 255) / 255.0F;
-		float f = (float) (color >> 16 & 255) / 255.0F;
-		float f1 = (float) (color >> 8 & 255) / 255.0F;
-		float f2 = (float) (color & 255) / 255.0F;
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		G.enableBlend();
 		G.disableTexture2D();
 		G.tryBlendFuncSeparate(770, 771, 1, 0);
-		G.color(f, f1, f2, f3);
+		if (color != -2) {
+			float f3 = (float) (color >> 24 & 255) / 255.0F;
+			float f = (float) (color >> 16 & 255) / 255.0F;
+			float f1 = (float) (color >> 8 & 255) / 255.0F;
+			float f2 = (float) (color & 255) / 255.0F;
+			G.color(f, f1, f2, f3);
+		}
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION);
 		worldrenderer.pos((double) left, (double) bottom, 0.0D).endVertex();
 		worldrenderer.pos((double) right, (double) bottom, 0.0D).endVertex();

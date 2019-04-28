@@ -10,6 +10,7 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,12 @@ public class GuiSettings extends GuiScreen {
 		TexQuad iconShaders = new TexQuad(112, 0, 16, 16, 256, 256);
 
 		BasicTabScreen graphics = new BasicTabScreen().add(
-				new Checkbox("Покачивание камеры", Settings.SMOOTH_CAMERA)
+				new Checkbox("Покачивание камеры", Settings.SMOOTH_CAMERA),
+				new Checkbox("Быстрый рендер", Settings.FAST_RENDER),
+				new Checkbox("Динамическое освещение", Settings.DYNAMIC_LIGHTS),
+				new Checkbox("Динамические чанки", Settings.CHUNK_UPDATES_DYNAMIC),
+				new Checkbox("Использовать FBO", Settings.FBO_ENABLE),
+				new Checkbox("Использовать VBO", Settings.USE_VBO)
 														  );
 
 		List<Tab> tabs = new ArrayList<>();
@@ -49,8 +55,8 @@ public class GuiSettings extends GuiScreen {
 	}
 
 	public static final int SIDEBARW = 230, SELECTIONOFFSET = -9, CELLHEIGHT = 80,
-	COLOR1 = 0xFF_1F2E54, COLOR2 = 0xf0_12171a, COLOR3 = 0xFF_121F3E,
-	COLUMNHEIGHT = 400;
+	COLOR1 = 0xFF_1F2E54, COLOR2 = 0xf0_12171a, COLOR3 = 0xFF_121F3E, COLORF = 0xFF_1F542E,
+	COLUMNWIDTH = 400;
 
 	@Override
 	public void drawScreen(int mx, int my, float ticks) {
@@ -99,5 +105,20 @@ public class GuiSettings extends GuiScreen {
 		active.getRender().render(mx, my, ticks,mc.displayWidth - SIDEBARW);
 	}
 
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		active.getRender().mouseDown(mouseX * 2 - SIDEBARW, mouseY * 2, mouseButton);
+	}
+
+	@Override
+	protected void mouseReleased(int mouseX, int mouseY, int state) {
+		active.getRender().mouseUp(mouseX * 2 - SIDEBARW, mouseY * 2, state);
+	}
+
+	@Override
+	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+		active.getRender().mouseDrag(mouseX * 2 - SIDEBARW, mouseY * 2, clickedMouseButton, timeSinceLastClick);
+	}
 
 }

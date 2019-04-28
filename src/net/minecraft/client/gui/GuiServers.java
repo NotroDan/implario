@@ -9,6 +9,7 @@ import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.renderer.G;
+import net.minecraft.util.Easing;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -206,23 +207,23 @@ public class GuiServers extends GuiScreen {
 	
 	public final Animator addButton = new Animator(0, 0,
 			new Animation(-W/2 + 2, -H/2 + 2, 0x0, addX, addY, 0x0, 500,
-					this::drawForm, true),
+					this::drawForm, Easing.QUAD_B),
 			new Animation(0, 0, 0xff20ff20, -addX, -addY, 0xffd02030, 500,
-					p -> drawRect(cw - 24, ch - 3, cw, ch, 0xff20ff20), true),
+					p -> drawRect(cw - 24, ch - 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
 			new Animation(0, 0, 0xff20ff20, -addX, -addY, 0xffd02030, 500,
-					p -> drawRect(cw - 3, ch - 24, cw, ch, 0xff20ff20), true),
+					p -> drawRect(cw - 3, ch - 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
 			new Animation(0, 0, 0xff20ff20, addX, -addY, 0xffd02030, 500,
-					p -> drawRect(cw + 24, ch - 3, cw, ch, 0xff20ff20), true),
+					p -> drawRect(cw + 24, ch - 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
 			new Animation(0, 0, 0xff20ff20, addX, -addY, 0xffd02030, 500,
-					p -> drawRect(cw + 3, ch - 24, cw, ch, 0xff20ff20), true),
+					p -> drawRect(cw + 3, ch - 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
 			new Animation(0, 0, 0xff20ff20, addX, addY, 0xffd02030, 500,
-					p -> drawRect(cw + 24, ch + 3, cw, ch, 0xff20ff20), true),
+					p -> drawRect(cw + 24, ch + 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
 			new Animation(0, 0, 0xff20ff20, addX, addY, 0xffd02030, 500,
-					p -> drawRect(cw + 3, ch + 24, cw, ch, 0xff20ff20), true),
+					p -> drawRect(cw + 3, ch + 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
 			new Animation(0, 0, 0xff20ff20, -addX, addY, 0xffd02030, 500,
-					p -> drawRect(cw - 24, ch + 3, cw, ch, 0xff20ff20), true),
+					p -> drawRect(cw - 24, ch + 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
 			new Animation(0, 0, 0xff20ff20, -addX, addY, 0xffd02030, 500,
-					p -> drawRect(cw - 3, ch + 24, cw, ch, 0xff20ff20), true)
+					p -> drawRect(cw - 3, ch + 24, cw, ch, 0xff20ff20), Easing.QUAD_B)
 	);
 	
 	
