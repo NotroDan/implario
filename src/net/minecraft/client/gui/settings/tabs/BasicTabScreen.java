@@ -18,11 +18,13 @@ public class BasicTabScreen implements TabScreen {
 	private int lastReportedColumns;
 
 	@Override
-	public void render(float mx, float my, float ticks, int width) {
+	public void render(int mx, int my, float ticks, int width) {
 		int columns = width / COLUMNWIDTH;
 		lastReportedColumns = columns;
 //		System.out.println(columns);
 		if (columns < 1) columns = 1;
+
+		Element hover = getHoverElement(mx, my);
 
 		Iterator<Element> iterator = elements.iterator();
 		c: while (iterator.hasNext()) {
@@ -33,7 +35,7 @@ public class BasicTabScreen implements TabScreen {
 					break c;
 				}
 				Element e = iterator.next();
-				e.render();
+				e.render(mx, my);
 				G.translate(COLUMNWIDTH, 0, 0);
 			}
 			G.popMatrix();
@@ -47,15 +49,12 @@ public class BasicTabScreen implements TabScreen {
 	}
 
 	public Element getHoverElement(int mouseX, int mouseY) {
+		if (mouseX < 0 || mouseY < 0) return null;
 		int columns = lastReportedColumns;
 		int col = mouseX / COLUMNWIDTH;
-		System.out.println("column: " + col);
 		if (col < 0 || col > columns) return null;
 		int row = mouseY / ELEMENTHEIGHT;
-		System.out.println("row: " + row);
-
 		int e = row * columns + col;
-		System.out.println("element #" + e);
 		if (e < 0 || e >= elements.size()) return null;
 		return elements.get(e);
 

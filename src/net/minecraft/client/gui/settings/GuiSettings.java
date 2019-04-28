@@ -52,11 +52,12 @@ public class GuiSettings extends GuiScreen {
 	@Override
 	public void initGui() {
 		resolution = new ScaledResolution(mc);
+		parent.initGui();
 	}
 
 	public static final int SIDEBARW = 230, SELECTIONOFFSET = -9, CELLHEIGHT = 80,
 	COLOR1 = 0xFF_1F2E54, COLOR2 = 0xf0_12171a, COLOR3 = 0xFF_121F3E, COLORF = 0xFF_1F542E,
-	COLUMNWIDTH = 400;
+	COLUMNWIDTH = 300;
 
 	@Override
 	public void drawScreen(int mx, int my, float ticks) {

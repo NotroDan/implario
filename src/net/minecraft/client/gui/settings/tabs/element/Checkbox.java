@@ -47,7 +47,7 @@ public class Checkbox implements Element {
 		G.popMatrix();
 	}
 
-	public void render() {
+	public void render(float mx, float my) {
 
 		int color = setting.b() ? 0xFF_aaffaa : 0xFF_aaaaaa;
 		if (anim != null) {

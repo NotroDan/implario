@@ -122,7 +122,8 @@ public class Preloader {
 		GL11.glEnable(GL11.GL_ALPHA_TEST); // allows alpha channels or transperancy
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1f); // sets aplha function
 
-
+		BakedFont.CALIBRI_SMALL.getRenderer();
+		BakedFont.CALIBRI.getRenderer();
 
 		mc.getTextureManager().bindTexture(logo);
 	}
