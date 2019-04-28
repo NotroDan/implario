@@ -4,7 +4,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.font.BakedFont;
 import net.minecraft.client.gui.settings.tabs.BasicTabScreen;
-import net.minecraft.client.gui.settings.tabs.element.Checkbox;
+import net.minecraft.client.gui.settings.tabs.element.Slider;
+import net.minecraft.client.gui.settings.tabs.element.Switch;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.ResourceLocation;
@@ -30,12 +31,16 @@ public class GuiSettings extends GuiScreen {
 		TexQuad iconShaders = new TexQuad(112, 0, 16, 16, 256, 256);
 
 		BasicTabScreen graphics = new BasicTabScreen().add(
-				new Checkbox("Покачивание камеры", Settings.SMOOTH_CAMERA),
-				new Checkbox("Быстрый рендер", Settings.FAST_RENDER),
-				new Checkbox("Динамическое освещение", Settings.DYNAMIC_LIGHTS),
-				new Checkbox("Динамические чанки", Settings.CHUNK_UPDATES_DYNAMIC),
-				new Checkbox("Использовать FBO", Settings.FBO_ENABLE),
-				new Checkbox("Использовать VBO", Settings.USE_VBO)
+				new Switch("Покачивание камеры", Settings.SMOOTH_CAMERA),
+				new Switch("Быстрый рендер", Settings.FAST_RENDER),
+				new Switch("Динамическое освещение", Settings.DYNAMIC_LIGHTS),
+				new Switch("Динамические чанки", Settings.CHUNK_UPDATES_DYNAMIC),
+				new Switch("Использовать FBO", Settings.FBO_ENABLE),
+				new Switch("Использовать VBO", Settings.USE_VBO),
+				new Slider(Settings.RENDER_DISTANCE),
+				new Slider(Settings.RENDER_DISTANCE),
+				new Slider(Settings.RENDER_DISTANCE),
+				new Slider(Settings.RENDER_DISTANCE)
 														  );
 
 		List<Tab> tabs = new ArrayList<>();
@@ -109,17 +114,17 @@ public class GuiSettings extends GuiScreen {
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		active.getRender().mouseDown(mouseX * 2 - SIDEBARW, mouseY * 2, mouseButton);
+		active.getRender().mouseDown(mouseX * 2 - SIDEBARW - 20, mouseY * 2, mouseButton);
 	}
 
 	@Override
 	protected void mouseReleased(int mouseX, int mouseY, int state) {
-		active.getRender().mouseUp(mouseX * 2 - SIDEBARW, mouseY * 2, state);
+		active.getRender().mouseUp(mouseX * 2 - SIDEBARW - 20, mouseY * 2, state);
 	}
 
 	@Override
 	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-		active.getRender().mouseDrag(mouseX * 2 - SIDEBARW, mouseY * 2, clickedMouseButton, timeSinceLastClick);
+		active.getRender().mouseDrag(mouseX * 2 - SIDEBARW - 20, mouseY * 2, clickedMouseButton, timeSinceLastClick);
 	}
 
 }

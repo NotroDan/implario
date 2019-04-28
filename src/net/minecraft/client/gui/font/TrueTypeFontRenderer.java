@@ -97,4 +97,9 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1f); // sets aplha function
 	}
 
+	public int getStringWidth(String text) {
+		// ToDo: Поддержка цветов и форматирования
+		return bases[0].getStringWidth(text);
+	}
+
 }

@@ -8,6 +8,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+
 public class Gui {
 
 	public static final ResourceLocation optionsBackground = new ResourceLocation("textures/gui/options_background.png");
@@ -75,6 +77,30 @@ public class Gui {
 		worldrenderer.pos((double) right, (double) bottom, 0.0D).endVertex();
 		worldrenderer.pos((double) right, (double) top, 0.0D).endVertex();
 		worldrenderer.pos((double) left, (double) top, 0.0D).endVertex();
+		tessellator.draw();
+		G.enableTexture2D();
+		G.disableBlend();
+	}
+
+
+	public static void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int color) {
+
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		G.enableBlend();
+		G.disableTexture2D();
+		G.tryBlendFuncSeparate(770, 771, 1, 0);
+		if (color != -2) {
+			float f3 = (float) (color >> 24 & 255) / 255.0F;
+			float f = (float) (color >> 16 & 255) / 255.0F;
+			float f1 = (float) (color >> 8 & 255) / 255.0F;
+			float f2 = (float) (color & 255) / 255.0F;
+			G.color(f, f1, f2, f3);
+		}
+		worldrenderer.begin(GL_TRIANGLES, DefaultVertexFormats.POSITION);
+		worldrenderer.pos((double) x1, (double) y1, 0.0D).endVertex();
+		worldrenderer.pos((double) x2, (double) y2, 0.0D).endVertex();
+		worldrenderer.pos((double) x3, (double) y3, 0.0D).endVertex();
 		tessellator.draw();
 		G.enableTexture2D();
 		G.disableBlend();

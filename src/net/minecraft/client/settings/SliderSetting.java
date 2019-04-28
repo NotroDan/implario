@@ -71,4 +71,8 @@ public class SliderSetting extends Setting {
 		this.max = v;
 	}
 
+	public float getPercents() {
+		return (value - getMin()) / (getMax() - getMin());
+	}
+
 }

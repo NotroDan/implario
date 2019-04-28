@@ -11,14 +11,14 @@ import static net.minecraft.client.gui.Gui.drawRect;
 import static net.minecraft.client.gui.settings.GuiSettings.COLOR1;
 import static net.minecraft.client.gui.settings.GuiSettings.COLORF;
 
-public class Checkbox implements Element {
+public class Switch implements Element {
 
-	private static final long TIME = 200;
+	private static final long TIME = 150;
 	public final String caption;
 	public final Settings setting;
 
 
-	public Checkbox(String caption, Settings setting) {
+	public Switch(String caption, Settings setting) {
 		this.caption = caption;
 		this.setting = setting;
 	}
