@@ -37,7 +37,7 @@ public enum Settings {
 	FRAMERATE_LIMIT(new FpsSetting("FRAMERATE_LIMIT")) {
 		@Override
 		public String getCaption() {
-			return f() == 0 ? "Верт. синх." : f() == 260 ? "Неогранич." : (int) f() + " FPS";
+			return f() == 0 ? "sync" : f() == 260 ? "max" : (int) f() + "";
 		}
 	}, //0, 260, 5, 260),
 	FBO_ENABLE("Использовать FBO", false),
@@ -375,7 +375,7 @@ public enum Settings {
 	}
 
 	public String getCaption() {
-		return null;
+		return base instanceof SliderSetting ? ((SliderSetting) base).getCaption() : null;
 	}
 
 	public SoundCategory getSoundCategory() {

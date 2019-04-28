@@ -19,8 +19,6 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.lwjgl.opengl.GL14.*;
-
 public class Preloader {
 	
 	public static final String[] states = {
@@ -103,10 +101,6 @@ public class Preloader {
 		framebuffer = new Framebuffer(res.getScaledWidth() * i, res.getScaledHeight() * i, true);
 		framebuffer.bindFramebuffer(false);
 
-		System.out.println(GL11.glGetInteger(GL_BLEND_SRC_RGB));
-		System.out.println(GL11.glGetInteger(GL_BLEND_DST_RGB));
-		System.out.println(GL11.glGetInteger(GL_BLEND_SRC_ALPHA));
-		System.out.println(GL11.glGetInteger(GL_BLEND_DST_ALPHA));
 		G.matrixMode(GL11.GL_PROJECTION);                        // Select The Projection Matrix
 		G.loadIdentity();                                   // Reset The Projection Matrix
 		G.ortho(0.0D, mc.displayWidth, mc.displayHeight, 0.0D, -1, 1);//1000.0D, 3000.0D);

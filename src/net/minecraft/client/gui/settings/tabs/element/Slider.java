@@ -19,6 +19,7 @@ public class Slider implements Element {
 	private final float step;
 	private final int length;
 	private final String caption;
+	private final int captionW;
 
 	public Slider(Settings setting, String caption) {
 		this.setting = setting;
@@ -27,6 +28,7 @@ public class Slider implements Element {
 		splits = (s.getMax() - s.getMin()) / s.step;
 		step = length / splits;
 		this.caption = caption;
+		this.captionW = BakedFont.CALIBRI.getRenderer().getStringWidth(caption) / 2;
 	}
 
 	@Override
@@ -45,14 +47,16 @@ public class Slider implements Element {
 		drawTriangle(pos + 1, 14, pos - ts, 14 + ts, pos + ts + 2, 14 + ts, 0xffbbbbbb);
 
 		G.color(1, 1, 1, 1);
-		String text = (int) s.value + "";
+		String text = setting.getCaption();
 
 		G.translate(pos, 0, 0);
 		G.scale(2, 2, 1);
 		MC.FR.drawString(text, -MC.FR.getStringWidth(text) / 2F + 1, 11, -1, false);
 		G.scale(0.5, 0.5, 1);
 		TrueTypeFontRenderer rb = BakedFont.CALIBRI.getRenderer();
-		rb.renderString(caption, 10, 13, false);
+		boolean b = false;
+		if (pos + captionW + 40 > COLUMNWIDTH) b = true;
+		rb.renderString(caption, b ? - 25 - captionW : 15, 13, false);
 		G.translate(-pos, 0, 0);
 
 
@@ -76,10 +80,9 @@ public class Slider implements Element {
 
 	private void set(int mx) {
 		mx -= 3;
-		if (mx < 0 || mx > COLUMNWIDTH - 26) return;
+		if (mx < 0) return;
 		float l = s.getMax() - s.getMin();
-		System.out.println(mx + "  -  " + l + "  -  ");
-		setting.set(s.getMin() + (float) (int) ((float) mx / (float) length * l / s.step) * s.step);
+		s.set(s.denormalizeValue((float) mx / (float) length));
 	}
 
 }

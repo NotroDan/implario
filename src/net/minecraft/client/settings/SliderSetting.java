@@ -75,4 +75,9 @@ public class SliderSetting extends Setting {
 		return (value - getMin()) / (getMax() - getMin());
 	}
 
+	public String getCaption() {
+		// ToDo: Кэш
+		return String.valueOf((int) value);
+	}
+
 }
