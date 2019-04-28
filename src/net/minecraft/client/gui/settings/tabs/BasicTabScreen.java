@@ -24,8 +24,6 @@ public class BasicTabScreen implements TabScreen {
 //		System.out.println(columns);
 		if (columns < 1) columns = 1;
 
-		Element hover = getHoverElement(x, y);
-
 		Iterator<Element> iterator = elements.iterator();
 		c: while (iterator.hasNext()) {
 			G.pushMatrix();
@@ -48,15 +46,15 @@ public class BasicTabScreen implements TabScreen {
 		return this;
 	}
 
-	public Element getHoverElement(int mouseX, int mouseY) {
-		if (mouseX < 0 || mouseY < 0) return null;
+	public int getHoverElement(int mouseX, int mouseY) {
+		if (mouseX < 0 || mouseY < 0) return -1;
 		int columns = lastReportedColumns;
 		int col = mouseX / COLUMNWIDTH;
-		if (col < 0 || col > columns) return null;
+		if (col < 0 || col > columns) return -1;
 		int row = mouseY / ELEMENTHEIGHT;
 		int e = row * columns + col;
-		if (e < 0 || e >= elements.size()) return null;
-		return elements.get(e);
+		if (e < 0 || e >= elements.size()) return -1;
+		return e;
 
 	}
 
@@ -67,28 +65,35 @@ public class BasicTabScreen implements TabScreen {
 
 	@Override
 	public void mouseDown(int mouseX, int mouseY, int mouseButton) {
-		System.out.println("click " + mouseX + " " + mouseY);
+//		System.out.println("click " + mouseX + " " + mouseY);
 
-		Element e = getHoverElement(mouseX, mouseY);
+		int id = getHoverElement(mouseX, mouseY);
+		if (id == -1) return;
+		Element e = elements.get(id);
 		if (e == null) return;
-		e.mouseDown(mouseX, mouseY, mouseButton);
+		e.mouseDown(mouseX - id % lastReportedColumns * COLUMNWIDTH, mouseY - id / lastReportedColumns * ELEMENTHEIGHT, mouseButton);
 
 	}
 
 	@Override
 	public void mouseUp(int mx, int my, int button) {
 
-		Element e = getHoverElement(mx, my);
+		int id = getHoverElement(mx, my);
+		if (id == -1) return;
+		Element e = elements.get(id);
 		if (e == null) return;
-		e.mouseUp(mx, my, button);
+		e.mouseUp(mx - id % lastReportedColumns * COLUMNWIDTH, my - id / lastReportedColumns * ELEMENTHEIGHT, button);
 
 	}
 
 	@Override
 	public void mouseDrag(int mx, int my, int button, long timeSinceLastClick) {
-		Element e = getHoverElement(mx, my);
+
+		int id = getHoverElement(mx, my);
+		if (id == -1) return;
+		Element e = elements.get(id);
 		if (e == null) return;
-		e.mouseDrag(mx, my, button, timeSinceLastClick);
+		e.mouseDrag(mx - id % lastReportedColumns * COLUMNWIDTH, my - id / lastReportedColumns * ELEMENTHEIGHT, button, timeSinceLastClick);
 
 	}
 

@@ -18,13 +18,15 @@ public class Slider implements Element {
 	private final float splits;
 	private final float step;
 	private final int length;
+	private final String caption;
 
-	public Slider(Settings setting) {
+	public Slider(Settings setting, String caption) {
 		this.setting = setting;
 		s = (SliderSetting) setting.getBase();
 		length = COLUMNWIDTH - 23;
 		splits = (s.getMax() - s.getMin()) / s.step;
 		step = length / splits;
+		this.caption = caption;
 	}
 
 	@Override
@@ -33,7 +35,6 @@ public class Slider implements Element {
 			int x = (int) (step * i);
 			int r = i % 2;
 			drawRect(x+ 3, r * 2, x + 4, -r * 2 + 12, r == 0 ? 0xffffffff : 0xff808080);
-//			G.translate(step, 0, 0);
 		}
 		drawRect(3, 5, 3 + length, 7, -1);
 		int pos = (int) (3 + length * s.getPercents());
@@ -51,10 +52,9 @@ public class Slider implements Element {
 		MC.FR.drawString(text, -MC.FR.getStringWidth(text) / 2F + 1, 11, -1, false);
 		G.scale(0.5, 0.5, 1);
 		TrueTypeFontRenderer rb = BakedFont.CALIBRI.getRenderer();
-		rb.renderString("Прорисовка", 10, 13, false);
+		rb.renderString(caption, 10, 13, false);
 		G.translate(-pos, 0, 0);
 
-//		drawRect(pos - 2, 14, pos + 3, 19, 0xffbbbbbb);
 
 
 	}

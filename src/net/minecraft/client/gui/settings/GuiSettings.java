@@ -37,10 +37,8 @@ public class GuiSettings extends GuiScreen {
 				new Switch("Динамические чанки", Settings.CHUNK_UPDATES_DYNAMIC),
 				new Switch("Использовать FBO", Settings.FBO_ENABLE),
 				new Switch("Использовать VBO", Settings.USE_VBO),
-				new Slider(Settings.RENDER_DISTANCE),
-				new Slider(Settings.RENDER_DISTANCE),
-				new Slider(Settings.RENDER_DISTANCE),
-				new Slider(Settings.RENDER_DISTANCE)
+				new Slider(Settings.RENDER_DISTANCE, "Прорисовка"),
+				new Slider(Settings.FRAMERATE_LIMIT, "FPS")
 														  );
 
 		List<Tab> tabs = new ArrayList<>();
