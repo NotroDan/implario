@@ -9,6 +9,7 @@ public class SliderSetting extends Setting {
 	private final float defaultValue;
 	public final float step;
 	public float value;
+	private final boolean percents, whole;
 
 	public SliderSetting(String name, String caption, float min, float max, float defaultValue, float step) {
 		super(name, caption);
@@ -17,6 +18,8 @@ public class SliderSetting extends Setting {
 		this.min = min;
 		this.max = max;
 		this.step = step;
+		percents = max <= 1;
+		whole = step == Math.floor(step);
 	}
 
 	public float getMax() {return max;}
@@ -71,13 +74,11 @@ public class SliderSetting extends Setting {
 		this.max = v;
 	}
 
-	public float getPercents() {
-		return (value - getMin()) / (getMax() - getMin());
-	}
-
 	public String getCaption() {
 		// ToDo: Кэш
-		return String.valueOf((int) value);
+		if (percents) return (int) (value * 100) + "%";
+		if (whole) return String.valueOf((int) value);
+		return String.valueOf(value);
 	}
 
 }

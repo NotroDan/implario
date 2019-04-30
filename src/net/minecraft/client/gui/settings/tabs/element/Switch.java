@@ -13,7 +13,7 @@ import static net.minecraft.client.gui.settings.GuiSettings.COLORF;
 
 public class Switch implements Element {
 
-	private static final long TIME = 150;
+	private static final long TIME = 100;
 	public final String caption;
 	public final Settings setting;
 
@@ -23,7 +23,7 @@ public class Switch implements Element {
 		this.setting = setting;
 	}
 
-	private final Animator animator = new Animator(0, 0,
+	private static final Animator animator = new Animator(0, 0,
 			new Animation(0, 0, 0xFF_aaaaaa, 0, 0, 0xFF_aaffaa, TIME,
 					p -> drawRect(3, 3, 47, 27, -2)),
 			new Animation(0, 0, COLOR1, 0, 0, COLORF, TIME,
@@ -47,8 +47,11 @@ public class Switch implements Element {
 		G.popMatrix();
 	}
 
-	public void render(float mx, float my) {
+	private boolean hovered;
 
+	public void render(float mx, float my, boolean hovered) {
+
+		this.hovered = hovered;
 		int color = setting.b() ? 0xFF_aaffaa : 0xFF_aaaaaa;
 		if (anim != null) {
 			boolean b = anim.draw(System.currentTimeMillis());
@@ -57,9 +60,12 @@ public class Switch implements Element {
 		if (anim == null) {
 			Gui.drawRect(3, 3, 47, 27, color);
 			Gui.drawRect(4, 4, 46, 26, setting.b() ? COLORF : COLOR1);
-			Gui.drawRect(setting.b() ? 26 : 6, 6, setting.b() ? 26 + 18 : 24, 24, 0xffeeeeee);
+			if (hovered) G.color(1, 1, 0.6F);
+			int x = setting.b() ? 26 : 6;
+			Gui.drawRect(x, 6, x + 18, 6 + 18, 0xffeeeeee);
 		}
 
+		if (hovered) G.color(1, 1, 0.6F);
 		BakedFont.CALIBRI.getRenderer().renderString(caption, 57, 1, false);
 
 	}

@@ -416,14 +416,17 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		}
 
 		//		if ((color & 0xfc000000) == 0) color |= 0xff000000;
-		if (dropShadow) color = (color & 0xfcfcfc) >> 2 | color & 0xff000000;
+		if (color != -2) {
 
-		this.red = (float) (color >> 16 & 255) / 255.0F;
-		this.blue = (float) (color >> 8 & 255) / 255.0F;
-		this.green = (float) (color & 255) / 255.0F;
-		this.alpha = (float) (color >> 24 & 255) / 255.0F;
-		if (alpha == 0) alpha = 1;
-		this.setColor(this.red, this.blue, this.green, this.alpha);
+			if (dropShadow) color = (color & 0xfcfcfc) >> 2 | color & 0xff000000;
+
+			this.red = (float) (color >> 16 & 255) / 255.0F;
+			this.blue = (float) (color >> 8 & 255) / 255.0F;
+			this.green = (float) (color & 255) / 255.0F;
+			this.alpha = (float) (color >> 24 & 255) / 255.0F;
+			if (alpha == 0) alpha = 1;
+			this.setColor(this.red, this.blue, this.green, this.alpha);
+		}
 		this.posX = x;
 		this.posY = y;
 		this.renderStringAtPos(text, dropShadow);

@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.font.BakedFont;
 import net.minecraft.client.gui.settings.tabs.BasicTabScreen;
+import net.minecraft.client.gui.settings.tabs.element.Selector;
 import net.minecraft.client.gui.settings.tabs.element.Slider;
 import net.minecraft.client.gui.settings.tabs.element.Switch;
 import net.minecraft.client.renderer.G;
@@ -22,6 +23,7 @@ public class GuiSettings extends GuiScreen {
 	private final Tab[] tabs;
 	private ScaledResolution resolution;
 	private Tab active;
+	private int factor;
 
 	public GuiSettings(GuiScreen parent) {
 		this.parent = parent;
@@ -34,11 +36,16 @@ public class GuiSettings extends GuiScreen {
 				new Switch("Покачивание камеры", Settings.SMOOTH_CAMERA),
 				new Switch("Быстрый рендер", Settings.FAST_RENDER),
 				new Switch("Динамическое освещение", Settings.DYNAMIC_LIGHTS),
+				new Selector(Settings.MIPMAP_TYPE, "Уровень сглаживания"),
 				new Switch("Динамические чанки", Settings.CHUNK_UPDATES_DYNAMIC),
 				new Switch("Использовать FBO", Settings.FBO_ENABLE),
 				new Switch("Использовать VBO", Settings.USE_VBO),
 				new Slider(Settings.RENDER_DISTANCE, "Прорисовка"),
-				new Slider(Settings.FRAMERATE_LIMIT, "FPS")
+				new Slider(Settings.FRAMERATE_LIMIT, "FPS"),
+				new Slider(Settings.MIPMAP_LEVELS, "MipMaps"),
+				new Slider(Settings.AA_LEVEL, "Сглаживание"),
+				new Slider(Settings.AF_LEVEL, "Чёткость"),
+				new Slider(Settings.AO_LEVEL, "Мягкий свет")
 														  );
 
 		List<Tab> tabs = new ArrayList<>();
@@ -55,6 +62,7 @@ public class GuiSettings extends GuiScreen {
 	@Override
 	public void initGui() {
 		resolution = new ScaledResolution(mc);
+		factor = resolution.getScaleFactor();
 		parent.initGui();
 	}
 
@@ -106,23 +114,23 @@ public class GuiSettings extends GuiScreen {
 		G.popMatrix();
 
 		G.translate(SIDEBARW + 20, 20, 0);
-		active.getRender().render(mx, my, ticks,mc.displayWidth - SIDEBARW);
+		active.getRender().render(mx * factor - SIDEBARW - 20, my * factor, ticks,mc.displayWidth - SIDEBARW - 20);
 	}
 
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		active.getRender().mouseDown(mouseX * 2 - SIDEBARW - 20, mouseY * 2, mouseButton);
+		active.getRender().mouseDown(mouseX * factor - SIDEBARW - 20, mouseY * factor, mouseButton);
 	}
 
 	@Override
 	protected void mouseReleased(int mouseX, int mouseY, int state) {
-		active.getRender().mouseUp(mouseX * 2 - SIDEBARW - 20, mouseY * 2, state);
+		active.getRender().mouseUp(mouseX * factor - SIDEBARW - 20, mouseY * factor, state);
 	}
 
 	@Override
 	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-		active.getRender().mouseDrag(mouseX * 2 - SIDEBARW - 20, mouseY * 2, clickedMouseButton, timeSinceLastClick);
+		active.getRender().mouseDrag(mouseX * factor - SIDEBARW - 20, mouseY * factor, clickedMouseButton, timeSinceLastClick);
 	}
 
 }

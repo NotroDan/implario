@@ -16,13 +16,16 @@ public class BasicTabScreen implements TabScreen {
 	private static final int ELEMENTHEIGHT = 50;
 	private final List<Element> elements = new ArrayList<>();
 	private int lastReportedColumns;
+	private int active;
 
 	@Override
 	public void render(int x, int y, float ticks, int width) {
 		int columns = width / COLUMNWIDTH;
-		lastReportedColumns = columns;
-//		System.out.println(columns);
 		if (columns < 1) columns = 1;
+		lastReportedColumns = columns;
+
+		int id = getHoverElement(x, y);
+		Element hover = id == -1 ? null : elements.get(id);
 
 		Iterator<Element> iterator = elements.iterator();
 		c: while (iterator.hasNext()) {
@@ -33,7 +36,7 @@ public class BasicTabScreen implements TabScreen {
 					break c;
 				}
 				Element e = iterator.next();
-				e.render(x, y);
+				e.render(x, y, e == hover);
 				G.translate(COLUMNWIDTH, 0, 0);
 			}
 			G.popMatrix();
@@ -71,14 +74,19 @@ public class BasicTabScreen implements TabScreen {
 		if (id == -1) return;
 		Element e = elements.get(id);
 		if (e == null) return;
+		active = id;
 		e.mouseDown(mouseX - id % lastReportedColumns * COLUMNWIDTH, mouseY - id / lastReportedColumns * ELEMENTHEIGHT, mouseButton);
 
 	}
 
 	@Override
 	public void mouseUp(int mx, int my, int button) {
-
 		int id = getHoverElement(mx, my);
+		if (id != active) {
+			active = -1;
+			return;
+		}
+		active = -1;
 		if (id == -1) return;
 		Element e = elements.get(id);
 		if (e == null) return;
@@ -89,11 +97,13 @@ public class BasicTabScreen implements TabScreen {
 	@Override
 	public void mouseDrag(int mx, int my, int button, long timeSinceLastClick) {
 
-		int id = getHoverElement(mx, my);
-		if (id == -1) return;
-		Element e = elements.get(id);
-		if (e == null) return;
-		e.mouseDrag(mx - id % lastReportedColumns * COLUMNWIDTH, my - id / lastReportedColumns * ELEMENTHEIGHT, button, timeSinceLastClick);
+		if (active == -1) return;
+//		int id = getHoverElement(mx, my);
+//		if (id == -1) return;
+//		Element e = elements.get(id);
+//		if (e == null) return;
+		elements.get(active).mouseDrag(mx - active % lastReportedColumns * COLUMNWIDTH,
+				my - active / lastReportedColumns * ELEMENTHEIGHT, button, timeSinceLastClick);
 
 	}
 
