@@ -2,32 +2,33 @@ package net.minecraft.client.renderer;
 
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.AbstractClientPlayer;
+import net.minecraft.client.game.particle.EffectRenderer;
+import net.minecraft.client.game.shader.ShaderGroup;
+import net.minecraft.client.game.shader.ShaderLinkHelper;
+import net.minecraft.client.game.worldedit.WorldEditUI;
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.MapItemRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.game.particle.EffectRenderer;
 import net.minecraft.client.renderer.culling.ClippingHelperImpl;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.Lang;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.client.game.shader.ShaderGroup;
-import net.minecraft.client.game.shader.ShaderLinkHelper;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -1539,6 +1540,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.renderCloudsCheck(renderglobal, partialTicks, pass);
 		}
 		BowPathRenderer.render(partialTicks);
+		WorldEditUI.render(partialTicks);
 
 		Profiler.in.endStartSection("hand");
 

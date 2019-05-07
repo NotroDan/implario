@@ -7,7 +7,7 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.inventory.Container;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.Textifier;
+import net.minecraft.util.StringUtils;
 
 import java.util.Collection;
 
@@ -84,7 +84,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			}
 
 			String amplifier = "";
-			if (potioneffect.getAmplifier() > 0) amplifier = ' ' + Textifier.romanianNotation(potioneffect.getAmplifier() + 1);
+			if (potioneffect.getAmplifier() > 0) amplifier = ' ' + StringUtils.romanianNotation(potioneffect.getAmplifier() + 1);
 			String s1 = Lang.format(potion.getName()) + amplifier;
 
 			G.disableLighting();
@@ -116,7 +116,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			}
 
 			String amplifier = "";
-			if (e.getAmplifier() > 0) amplifier = ' ' + Textifier.romanianNotation(e.getAmplifier() + 1);
+			if (e.getAmplifier() > 0) amplifier = ' ' + StringUtils.romanianNotation(e.getAmplifier() + 1);
 			String s1 = Lang.format(potion.getName()) + amplifier;
 
 //			this.fontRenderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);

@@ -15,8 +15,9 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.game.DisplayGuy;
 import net.minecraft.client.game.ErrorGuy;
 import net.minecraft.client.game.GameWorldController;
-import net.minecraft.client.game.InputHandler;
+import net.minecraft.client.game.input.InputHandler;
 import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.input.MouseHelper;
 import net.minecraft.client.game.particle.EffectRenderer;
 import net.minecraft.client.game.shader.Framebuffer;
 import net.minecraft.client.gui.*;
@@ -213,7 +214,7 @@ public class Minecraft implements IThreadListener {
 		this.displayGuy = new DisplayGuy(this, gameConfig.displayInfo);
 		this.jvm64bit = FileUtil.is64bit();
 		this.theIntegratedServer = new IntegratedServer(this);
-		Textifier.class.getCanonicalName();
+		StringUtils.class.getCanonicalName();
 
 		if (gameConfig.serverInfo.serverName != null) {
 			this.serverName = gameConfig.serverInfo.serverName;
@@ -602,11 +603,6 @@ public class Minecraft implements IThreadListener {
 		in.startSection("root");
 		this.displayGuy.updateDisplay(this);
 		Thread.yield();
-		in.startSection("stream");
-		in.startSection("update");
-		in.endStartSection("submit");
-		in.endSection();
-		in.endSection();
 		this.errorGuy.checkGLError("Post render");
 		++this.fpsCounter;
 		this.isGamePaused = this.isSingleplayer() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame() && !this.theIntegratedServer.getPublic();

@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer;
 
+import com.google.common.primitives.Floats;
 import net.minecraft.LogManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -84,17 +85,17 @@ public class WorldRenderer {
 
 	public void func_181674_a(float p_181674_1_, float p_181674_2_, float p_181674_3_) {
 		int i = this.vertexCount / 4;
-		float[] afloat = new float[i];
+		float[] floatBuf = new float[i];
 
 		for (int j = 0; j < i; ++j)
-			afloat[j] = func_181665_a(this.rawFloatBuffer, (float) ((double) p_181674_1_ + this.xOffset), (float) ((double) p_181674_2_ + this.yOffset), (float) ((double) p_181674_3_ + this.zOffset),
+			floatBuf[j] = func_181665_a(this.rawFloatBuffer, (float) ((double) p_181674_1_ + this.xOffset), (float) ((double) p_181674_2_ + this.yOffset), (float) ((double) p_181674_3_ + this.zOffset),
 					this.vertexFormat.func_181719_f(), j * this.vertexFormat.getNextOffset());
 
 		Integer[] ainteger = new Integer[i];
 
 		for (int k = 0; k < ainteger.length; ++k) ainteger[k] = k;
 
-		Arrays.sort(ainteger, new WorldRenderer$1(this, afloat));
+		Arrays.sort(ainteger, (a, b) -> Floats.compare(floatBuf[a], floatBuf[b]));
 		BitSet bitset = new BitSet();
 		int l = this.vertexFormat.getNextOffset();
 		int[] aint = new int[l];

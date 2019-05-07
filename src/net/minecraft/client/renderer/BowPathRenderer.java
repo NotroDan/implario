@@ -12,7 +12,6 @@ import net.minecraft.entity.projectile.simulant.SimulantArrow;
 import net.minecraft.entity.projectile.simulant.SimulantSimpleProjectile;
 import net.minecraft.init.Items;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
 import net.minecraft.util.Vec3i;
 
 public class BowPathRenderer {
@@ -66,13 +65,6 @@ public class BowPathRenderer {
 			lastParsed = null;
 			return;
 		}
-		Vec3 vec3 = new Vec3(-0.36D, 0.03D, 0.35D);
-		vec3 = vec3.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * (float) Math.PI / 180.0F);
-		vec3 = vec3.rotateYaw(-(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks) * (float) Math.PI / 180.0F);
-		double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double) partialTicks + vec3.xCoord;
-		double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double) partialTicks + vec3.yCoord;
-		double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) partialTicks + vec3.zCoord;
-		double d3 = (double) player.getEyeHeight();
 
 		G.pushMatrix();
 

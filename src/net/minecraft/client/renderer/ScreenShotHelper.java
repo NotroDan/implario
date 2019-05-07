@@ -1,4 +1,4 @@
-package net.minecraft.util;
+package net.minecraft.client.renderer;
 
 import net.minecraft.logging.Log;
 import net.minecraft.client.network.services.imgur.ImgurAPI;
@@ -6,6 +6,9 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.game.shader.Framebuffer;
+import net.minecraft.util.ChatComponentBuilder;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.IChatComponent;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

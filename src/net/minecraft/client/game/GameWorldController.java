@@ -2,6 +2,7 @@ package net.minecraft.client.game;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.input.MovementInputFromOptions;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerLoginClient;
@@ -17,7 +18,6 @@ import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.FileUtil;
-import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.storage.AnvilSaveConverter;

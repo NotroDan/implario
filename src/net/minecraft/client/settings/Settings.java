@@ -165,7 +165,7 @@ public enum Settings {
 	FINE_EFFECTS("Новые эффекты", true),
 	MODERN_INVENTORIES("Улучшенные инвентари", true),
 	SLOT_GRID("Сетка слотов", 0, "С боксом", "§cВыкл", "Без бокса"),
-	ROMANIAN_NOTATION("Римские цифры", true),
+	ROMANIAN_NOTATION("Римские цифры", 0, "До сотни", "Всегда", "Никогда"),
 	DEBUG("Дебаг", false);
 
 	private static final Settings[] SOUNDS;

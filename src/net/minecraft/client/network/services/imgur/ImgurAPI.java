@@ -3,7 +3,7 @@ package net.minecraft.client.network.services.imgur;
 
 import net.minecraft.client.network.services.Method;
 import net.minecraft.client.network.services.Request;
-import net.minecraft.util.Textifier;
+import net.minecraft.util.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +23,7 @@ public class ImgurAPI {
 	public static String postImage(BufferedImage image) {
 
 		try {
-			String base64 = Textifier.imageToBase64(image);
+			String base64 = StringUtils.imageToBase64(image);
 			String json = request("3/upload", POST).body("image", base64).execute();
 			JSONObject j = new JSONObject(json);
 			JSONObject data = j.getJSONObject("data");

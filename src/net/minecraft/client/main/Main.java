@@ -9,7 +9,7 @@ import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
-import net.minecraft.util.Textifier;
+import net.minecraft.util.StringUtils;
 
 import java.io.File;
 import java.net.Authenticator;
@@ -75,7 +75,7 @@ public class Main {
 		File file1 = optionset.valueOf(optionspec2);
 		File file2 = optionset.has(optionspec3) ? optionset.valueOf(optionspec3) : new File(file1, "assets/");
 		File file3 = optionset.has(optionspec4) ? optionset.valueOf(optionspec4) : new File(file1, "resourcepacks/");
-		String playername = Textifier.getWittyName();
+		String playername = StringUtils.getWittyName();
 		String s4 = optionset.has(optionspec10) ? optionspec10.value(optionset) : playername;
 		String s6 = optionset.valueOf(optionspec);
 		Integer integer = optionset.valueOf(optionspec1);

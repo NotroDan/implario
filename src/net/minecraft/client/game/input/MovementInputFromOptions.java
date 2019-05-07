@@ -1,4 +1,6 @@
-package net.minecraft.util;
+package net.minecraft.client.game.input;
+
+import net.minecraft.util.MovementInput;
 
 import static net.minecraft.client.settings.KeyBinding.*;
 

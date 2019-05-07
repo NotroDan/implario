@@ -13,7 +13,7 @@ import static net.minecraft.client.gui.settings.GuiSettings.COLUMNWIDTH;
 
 public class BasicTabScreen implements TabScreen {
 
-	private static final int ELEMENTHEIGHT = 50;
+	private static final int ELEMENTHEIGHT = 70;
 	private final List<Element> elements = new ArrayList<>();
 	private int lastReportedColumns;
 	private int active;

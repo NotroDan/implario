@@ -1,14 +1,16 @@
-package net.minecraft.client.game;
+package net.minecraft.client.game.input;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.game.worldedit.WorldEdit;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiControls;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainerItems;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.renderer.ScreenShotHelper;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.SelectorSetting;
 import net.minecraft.client.settings.Settings;
@@ -95,6 +97,8 @@ public final class InputHandler {
 				BlockPos blockpos = mc.objectMouseOver.getBlockPos();
 
 				if (mc.theWorld.getBlockState(blockpos).getBlock().getMaterial() == Material.air) break;
+				if (WorldEdit.rightClick(blockpos)) break;
+
 				int i = itemstack != null ? itemstack.stackSize : 0;
 
 				if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, itemstack, blockpos, mc.objectMouseOver.sideHit, mc.objectMouseOver.hitVec)) {
@@ -427,7 +431,7 @@ public final class InputHandler {
 			case BLOCK:
 				BlockPos blockpos = mc.objectMouseOver.getBlockPos();
 				if (mc.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
-					mc.playerController.clickBlock(blockpos, mc.objectMouseOver.sideHit);
+					if (!WorldEdit.leftClick(blockpos)) mc.playerController.clickBlock(blockpos, mc.objectMouseOver.sideHit);
 					break;
 				}
 			default:
@@ -467,11 +471,12 @@ public final class InputHandler {
 		else {
 			BlockPos blockpos = mc.objectMouseOver.getBlockPos();
 
-			if (mc.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air &&
-					mc.playerController.onPlayerDamageBlock(blockpos, mc.objectMouseOver.sideHit)) {
-				mc.effectRenderer.addBlockHitEffects(blockpos, mc.objectMouseOver.sideHit);
-				mc.thePlayer.swingItem();
-			}
+			if (mc.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air)
+				if (!WorldEdit.leftClick(blockpos))
+					if (mc.playerController.onPlayerDamageBlock(blockpos, mc.objectMouseOver.sideHit)) {
+						mc.effectRenderer.addBlockHitEffects(blockpos, mc.objectMouseOver.sideHit);
+						mc.thePlayer.swingItem();
+				}
 		}
 	}
 

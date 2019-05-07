@@ -49,12 +49,13 @@ public class GuiChat extends GuiScreen {
 	 */
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
+		String text = inputField == null ? defaultInputFieldText : inputField.getText();
 		this.sentHistoryCursor = this.mc.ingameGUI.getChatGUI().getSentMessages().size();
 		this.inputField = new GuiTextField(0, this.fontRendererObj, 4, this.height - 12, this.width - 4, 12);
 		this.inputField.setMaxStringLength(255);
 		this.inputField.setEnableBackgroundDrawing(false);
 		this.inputField.setFocused(true);
-		this.inputField.setText(this.defaultInputFieldText);
+		this.inputField.setText(text);
 		this.inputField.setCanLoseFocus(false);
 	}
 

@@ -116,7 +116,7 @@ public class ShaderManager {
 				}
 			}
 
-			this.field_148016_p = JsonBlendingMode.func_148110_a(JsonUtils.getJsonObject(jsonobject, "blend", null));
+			this.field_148016_p = JsonBlendingMode.deserialize(JsonUtils.getJsonObject(jsonobject, "blend", null));
 			this.useFaceCulling = JsonUtils.getBoolean(jsonobject, "cull", true);
 			this.vertexShaderLoader = ShaderLoader.loadShader(resourceManager, ShaderLoader.ShaderType.VERTEX, s);
 			this.fragmentShaderLoader = ShaderLoader.loadShader(resourceManager, ShaderLoader.ShaderType.FRAGMENT, s1);

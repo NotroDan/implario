@@ -194,7 +194,7 @@ label53:
 			else updateFramebufferSize();
 
 			Display.setFullscreen(fullscreen);
-			Display.setVSyncEnabled(Settings.ENABLE_VSYNC.b());
+			Display.setVSyncEnabled(false);//Settings.ENABLE_VSYNC.b());
 			updateDisplay(mc);
 		} catch (Exception ex) {
 			MAIN.error("Не удалось переключить полноэкранный режим");
@@ -247,8 +247,9 @@ label53:
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		int i = 160;
-		int j = mc.displayWidth - i - 10;
-		int k = mc.displayHeight - i * 2;
+		G.scale(2, 2, 2);
+		int j = mc.displayWidth / 2 - i - 10;
+		int k = mc.displayHeight / 2 - i * 2;
 		G.enableBlend();
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 		worldrenderer.pos((double) ((float) j - (float) i * 1.1F), (double) ((float) k - (float) i * 0.6F - 16.0F), 0.0D).color(200, 0, 0, 0).endVertex();
@@ -316,6 +317,7 @@ label53:
 			mc.fontRenderer.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.b) + "%", (float) (j + i - mc.fontRenderer.getStringWidth(s1)),
 					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
 		}
+		G.scale(0.5, 0.5, 0.5);
 	}
 
 }

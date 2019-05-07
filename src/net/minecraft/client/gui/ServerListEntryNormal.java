@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.TextExtractor;
+import net.minecraft.util.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.awt.image.BufferedImage;
@@ -69,7 +69,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 		boolean flag2 = flag || flag1;
 		this.mc.fontRenderer.drawString(this.serverData.serverName, x + 32 + 3, y + 1, 16777215);
 		List<String> list = this.mc.fontRenderer.listFormattedStringToWidth(
-				TextExtractor.extractLetters(this.serverData.serverMOTD), listWidth - 32 - 2);
+				StringUtils.extractLetters(this.serverData.serverMOTD), listWidth - 32 - 2);
 
 		for (int i = 0; i < Math.min(list.size(), 2); ++i) {
 			this.mc.fontRenderer.drawString(list.get(i), x + 32 + 3, y + 12 + this.mc.fontRenderer.getFontHeight() * i, 8421504);

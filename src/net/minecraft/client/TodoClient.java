@@ -41,8 +41,8 @@ public class TodoClient extends net.minecraft.server.Todo {
 	}
 
 	@Override
-	public boolean shouldUseRomanianNotation() {
-		return Settings.ROMANIAN_NOTATION.b();
+	public boolean shouldUseRomanianNotation(int level) {
+		return Settings.ROMANIAN_NOTATION.i() == 0 ? level <= 100 : Settings.ROMANIAN_NOTATION.i() == 1;
 	}
 
 }
