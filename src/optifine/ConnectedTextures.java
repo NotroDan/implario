@@ -17,7 +17,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -300,7 +300,7 @@ public class ConnectedTextures {
 
 		if (i1 >= p_getConnectedTexture_0_.minHeight && i1 <= p_getConnectedTexture_0_.maxHeight) {
 			if (p_getConnectedTexture_0_.biomes != null) {
-				BiomeGenBase biomegenbase = p_getConnectedTexture_1_.getBiomeGenForCoords(p_getConnectedTexture_3_);
+				Biome biomegenbase = p_getConnectedTexture_1_.getBiomeGenForCoords(p_getConnectedTexture_3_);
 
 				if (!p_getConnectedTexture_0_.matchesBiome(biomegenbase)) {
 					return null;

@@ -50,7 +50,7 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import optifine.*;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -1612,7 +1612,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 			for (int k = 0; k < j; ++k) {
 				BlockPos blockpos1 = worldclient.getPrecipitationHeight(blockpos.add(this.random.nextInt(b0) - this.random.nextInt(b0), 0, this.random.nextInt(b0) - this.random.nextInt(b0)));
-				BiomeGenBase biomegenbase = worldclient.getBiomeGenForCoords(blockpos1);
+				Biome biomegenbase = worldclient.getBiomeGenForCoords(blockpos1);
 				BlockPos blockpos2 = blockpos1.down();
 				Block block = worldclient.getBlockState(blockpos2).getBlock();
 
@@ -1703,7 +1703,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					double d3 = (double) this.rainXCoords[k1] * 0.5D;
 					double d4 = (double) this.rainYCoords[k1] * 0.5D;
 					blockpos$mutableblockpos.func_181079_c(j1, 0, i1);
-					BiomeGenBase biomegenbase = worldclient.getBiomeGenForCoords(blockpos$mutableblockpos);
+					Biome biomegenbase = worldclient.getBiomeGenForCoords(blockpos$mutableblockpos);
 
 					if (biomegenbase.canSpawnLightningBolt() || biomegenbase.getEnableSnow()) {
 						int l1 = worldclient.getPrecipitationHeight(blockpos$mutableblockpos).getY();

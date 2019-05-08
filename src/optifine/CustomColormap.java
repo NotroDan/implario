@@ -1,5 +1,15 @@
 package optifine;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockStateBase;
+import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeGenBase;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,14 +18,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockStateBase;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.biome.BiomeGenBase;
 
 public class CustomColormap implements CustomColors.IColorizer
 {
@@ -339,7 +341,7 @@ public class CustomColormap implements CustomColors.IColorizer
 
     public int getColor(IBlockAccess p_getColor_1_, BlockPos p_getColor_2_)
     {
-        BiomeGenBase biomegenbase = CustomColors.getColorBiome(p_getColor_1_, p_getColor_2_);
+        Biome biomegenbase = CustomColors.getColorBiome(p_getColor_1_, p_getColor_2_);
         return this.getColor(biomegenbase, p_getColor_2_);
     }
 
@@ -348,7 +350,7 @@ public class CustomColormap implements CustomColors.IColorizer
         return this.format == 2;
     }
 
-    public int getColor(BiomeGenBase p_getColor_1_, BlockPos p_getColor_2_)
+    public int getColor(Biome p_getColor_1_, BlockPos p_getColor_2_)
     {
         return this.format == 0 ? this.getColorVanilla(p_getColor_1_, p_getColor_2_) : this.format == 1 ? this.getColorGrid(p_getColor_1_, p_getColor_2_) : this.color;
     }
@@ -387,7 +389,7 @@ public class CustomColormap implements CustomColors.IColorizer
 		return k2 << 16 | l2 << 8 | i3;
 	}
 
-    private int getColorVanilla(BiomeGenBase p_getColorVanilla_1_, BlockPos p_getColorVanilla_2_)
+    private int getColorVanilla(Biome p_getColorVanilla_1_, BlockPos p_getColorVanilla_2_)
     {
         double d0 = (double)MathHelper.clamp_float(p_getColorVanilla_1_.getFloatTemperature(p_getColorVanilla_2_), 0.0F, 1.0F);
         double d1 = (double)MathHelper.clamp_float(p_getColorVanilla_1_.getFloatRainfall(), 0.0F, 1.0F);
@@ -397,9 +399,9 @@ public class CustomColormap implements CustomColors.IColorizer
         return this.getColor(i, j);
     }
 
-    private int getColorGrid(BiomeGenBase p_getColorGrid_1_, BlockPos p_getColorGrid_2_)
+    private int getColorGrid(Biome p_getColorGrid_1_, BlockPos p_getColorGrid_2_)
     {
-        int i = p_getColorGrid_1_.biomeID;
+        int i = p_getColorGrid_1_.getLegacyId();
         int j = p_getColorGrid_2_.getY() - this.yOffset;
 
         if (this.yVariance > 0)

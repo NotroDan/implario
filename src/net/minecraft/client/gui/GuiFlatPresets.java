@@ -152,7 +152,7 @@ public class GuiFlatPresets extends GuiScreen {
 			flatgeneratorinfo.getFlatLayers().add(p_175354_5_[i]);
 		}
 
-		flatgeneratorinfo.setBiome(p_175354_3_.biomeID);
+		flatgeneratorinfo.setBiome(p_175354_3_.getLegacyId());
 		flatgeneratorinfo.func_82645_d();
 
 		if (p_175354_4_ != null) {
