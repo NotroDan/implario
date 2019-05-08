@@ -47,6 +47,10 @@ public class DynamicTexture extends AbstractTexture
     {
     }
 
+    public void writeBufferedImage(BufferedImage bufferedImage){
+        bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), this.dynamicTextureData, 0, bufferedImage.getWidth());
+    }
+
     public void updateDynamicTexture()
     {
         if (Config.isShaders())

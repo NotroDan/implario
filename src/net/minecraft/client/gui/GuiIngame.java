@@ -5,14 +5,17 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import net.minecraft.Utils;
 import net.minecraft.block.*;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -39,11 +42,15 @@ import net.minecraft.server.Profiler;
 import net.minecraft.util.*;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.border.WorldBorder;
+import net.minecraft.world.storage.MapData;
 import optifine.Config;
 import optifine.ConnectedTextures;
 import optifine.CustomColors;
 import optifine.RenderEnv;
+import org.lwjgl.Sys;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -209,14 +216,24 @@ public class GuiIngame extends Gui {
 
 
 	public static IBlockState[][][] map;
+	public static DynamicTexture texture;
 	public static BlockPos[][][] mapblocks;
+	private static long lastUpdatedTexture;
+
+	private void generateTexture(){
+		for(int x = MC.getPlayer().chunkCoordX - 2; x < MC.getPlayer().chunkCoordX + 3; x++)
+			for(int z = MC.getPlayer().chunkCoordZ - 2; z < MC.getPlayer().chunkCoordZ + 3; z++)
+				Minimap.initChunk(MC.getWorld().getChunkFromChunkCoords(x, z));
+		lastUpdatedTexture = System.currentTimeMillis() + 100;
+	}
 
 	private void renderMinimap() {
+		if(true)return;
+		if (lastUpdatedTexture < System.currentTimeMillis()) generateTexture();
 
-		if (map == null) return;
-
-
-		WorldRenderer r = Tessellator.getInstance().getWorldRenderer();
+		Minimap.renderMinimap();
+		//G.bindTexture(texture.getGlTextureId());
+		//drawScaledCustomSizeModalRect(5, 5, 0, 0, 16, 16, 64, 64, 16, 16);
 
 
 //		IBlockState state = Blocks.clay.getDefaultState();
@@ -233,7 +250,7 @@ public class GuiIngame extends Gui {
 //		}
 //
 //		Tessellator.getInstance().draw();
-
+		/*
 		int factor = 1;
 		float antifactor = 2F / factor;
 
@@ -313,7 +330,7 @@ public class GuiIngame extends Gui {
 			G.translate(1, -height, 0);
 		}
 		GlStateManager.popMatrix();
-
+		*/
 	}
 
 	static ByteBuffer fourbytebuffer = ByteBuffer.allocate(4);
