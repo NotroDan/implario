@@ -807,36 +807,28 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		this.renderHand(partialTicks, xOffset, true, true, false);
 	}
 
-	public void renderHand(float p_renderHand_1_, int p_renderHand_2_, boolean p_renderHand_3_, boolean p_renderHand_4_, boolean p_renderHand_5_) {
+	public void renderHand(float partialTicks, int xOffset, boolean p_renderHand_3_, boolean p_renderHand_4_, boolean p_renderHand_5_) {
 		if (!this.debugView) {
 			G.matrixMode(5889);
 			G.loadIdentity();
 			float f = 0.07F;
 
-			//			if (this.mc.gameSettings.anaglyph) {
-			//				GlStateManager.translate((float) (-(p_renderHand_2_ * 2 - 1)) * f, 0.0F, 0.0F);
-			//			}
-
 			if (Config.isShaders()) {
 				Shaders.applyHandDepth();
 			}
 
-			Project.gluPerspective(this.getFOVModifier(p_renderHand_1_, false), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
+			Project.gluPerspective(this.getFOVModifier(partialTicks, false), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
 			G.matrixMode(5888);
 			G.loadIdentity();
-
-			//			if (this.mc.gameSettings.anaglyph) {
-			//				GlStateManager.translate((float) (p_renderHand_2_ * 2 - 1) * 0.1F, 0.0F, 0.0F);
-			//			}
 
 			boolean flag = false;
 
 			if (p_renderHand_3_) {
 				G.pushMatrix();
-				this.hurtCameraEffect(p_renderHand_1_);
+				this.hurtCameraEffect(partialTicks);
 
 				if (Settings.VIEW_BOBBING.b()) {
-					this.setupViewBobbing(p_renderHand_1_);
+					this.setupViewBobbing(partialTicks);
 				}
 
 				flag = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) this.mc.getRenderViewEntity()).isPlayerSleeping();
@@ -845,9 +837,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					this.enableLightmap();
 
 					if (Config.isShaders()) {
-						ShadersRender.renderItemFP(this.itemRenderer, p_renderHand_1_, p_renderHand_5_);
+						ShadersRender.renderItemFP(this.itemRenderer, partialTicks, p_renderHand_5_);
 					} else {
-						this.itemRenderer.renderItemInFirstPerson(p_renderHand_1_);
+						this.itemRenderer.renderItemInFirstPerson(partialTicks);
 					}
 
 					this.disableLightmap();
@@ -863,12 +855,12 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.disableLightmap();
 
 			if (Settings.PERSPECTIVE.i() == 0 && !flag) {
-				this.itemRenderer.renderOverlays(p_renderHand_1_);
-				this.hurtCameraEffect(p_renderHand_1_);
+				this.itemRenderer.renderOverlays(partialTicks);
+				this.hurtCameraEffect(partialTicks);
 			}
 
 			if (Settings.VIEW_BOBBING.b()) {
-				this.setupViewBobbing(p_renderHand_1_);
+				this.setupViewBobbing(partialTicks);
 			}
 		}
 	}
@@ -1490,15 +1482,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		G.enableCull();
 		Profiler.in.endStartSection("weather");
 
-		if (flag) {
-			Shaders.beginWeather();
-		}
-
+		if (flag) Shaders.beginWeather();
 		this.renderRainSnow(partialTicks);
-
-		if (flag) {
-			Shaders.endWeather();
-		}
+		if (flag) Shaders.endWeather();
 
 		G.depthMask(true);
 		renderglobal.renderWorldBorder(entity, partialTicks);

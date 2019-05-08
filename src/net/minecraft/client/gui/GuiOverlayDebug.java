@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -151,7 +152,8 @@ public class GuiOverlayDebug extends Gui {
 		if (this.mc.theWorld != null && this.mc.theWorld.isBlockLoaded(blockpos)) {
 
 			Chunk chunk = this.mc.theWorld.getChunkFromBlockCoords(blockpos);
-			arraylist.add("Биом: §a" + chunk.getBiome(blockpos, this.mc.theWorld.getWorldChunkManager()).getName());
+			String biome = chunk.getBiome(blockpos, this.mc.theWorld.getWorldChunkManager()).getAddress();
+			arraylist.add("Биом: §a" + Lang.format(biome));
 			arraylist.add("Свет: §a" + chunk.getLightSubtracted(blockpos, 0) + " §7§o(" + chunk.getLightFor(EnumSkyBlock.SKY, blockpos) + " от неба, " +
 					chunk.getLightFor(EnumSkyBlock.BLOCK, blockpos) + " от блоков)");
 
