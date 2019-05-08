@@ -6,7 +6,7 @@ import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 
 import static net.minecraft.client.Minecraft.theMinecraft;

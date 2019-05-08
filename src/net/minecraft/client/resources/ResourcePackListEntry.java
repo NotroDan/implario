@@ -3,7 +3,7 @@ package net.minecraft.client.resources;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.G;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 

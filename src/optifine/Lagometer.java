@@ -1,7 +1,7 @@
 package optifine;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;

@@ -5,8 +5,8 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.inventory.Container;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.potion.Potion;
+import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.util.StringUtils;
 
 import java.util.Collection;

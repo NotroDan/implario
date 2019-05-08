@@ -9,6 +9,7 @@ import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.game.model.*;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.culling.ICamera;
+import net.minecraft.client.renderer.entity.vanilla.*;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
 import net.minecraft.client.renderer.tileentity.RenderItemFrame;

@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.model.ModelQuadruped;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.G;
-import net.minecraft.client.renderer.entity.RenderMooshroom;
+import net.minecraft.client.renderer.entity.vanilla.RenderMooshroom;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.init.Blocks;

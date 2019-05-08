@@ -5,6 +5,7 @@ import net.minecraft.Logger;
 import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.util.*;
+import net.minecraft.util.chat.ChatComponentText;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

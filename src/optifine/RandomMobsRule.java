@@ -1,6 +1,6 @@
 package optifine;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.VanillaEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 
@@ -114,7 +114,7 @@ public class RandomMobsRule
 		return true;
 	}
 
-    public boolean matches(EntityLiving e)
+    public boolean matches(VanillaEntity e)
     {
         return Matches.biome(e.spawnBiome, this.biomes) && (this.heights == null || e.spawnPosition == null || this.heights.isInRange(e.spawnPosition.getY()));
     }

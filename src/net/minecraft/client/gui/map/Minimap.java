@@ -2,11 +2,10 @@ package net.minecraft.client.gui.map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.init.Blocks;

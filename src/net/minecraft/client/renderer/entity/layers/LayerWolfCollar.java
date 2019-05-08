@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity.layers;
 
 import net.minecraft.client.renderer.G;
-import net.minecraft.client.renderer.entity.RenderWolf;
+import net.minecraft.client.renderer.entity.vanilla.RenderWolf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;

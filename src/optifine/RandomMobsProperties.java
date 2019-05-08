@@ -1,6 +1,6 @@
 package optifine;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.VanillaEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 
@@ -31,7 +31,7 @@ public class RandomMobsProperties
         this.rules = this.parseRules(p_i78_1_, p_i78_3_, connectedparser);
     }
 
-    public ResourceLocation getTextureLocation(ResourceLocation p_getTextureLocation_1_, EntityLiving p_getTextureLocation_2_)
+    public ResourceLocation getTextureLocation(ResourceLocation p_getTextureLocation_1_, VanillaEntity p_getTextureLocation_2_)
     {
         if (this.rules != null)
         {

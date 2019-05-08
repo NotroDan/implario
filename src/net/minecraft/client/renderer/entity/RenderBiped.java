@@ -4,10 +4,10 @@ import net.minecraft.client.game.model.ModelBiped;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.VanillaEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBiped<T extends EntityLiving> extends RenderLiving<T>
+public class RenderBiped<T extends VanillaEntity> extends RenderLiving<T>
 {
     private static final ResourceLocation DEFAULT_RES_LOC = new ResourceLocation("textures/entity/steve.png");
     protected ModelBiped modelBipedMain;

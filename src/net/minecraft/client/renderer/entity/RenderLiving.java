@@ -9,11 +9,11 @@ import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.VanillaEntity;
 import optifine.Config;
 import shadersmod.client.Shaders;
 
-public abstract class RenderLiving<T extends EntityLiving> extends RendererLivingEntity<T>
+public abstract class RenderLiving<T extends VanillaEntity> extends RendererLivingEntity<T>
 {
 
 

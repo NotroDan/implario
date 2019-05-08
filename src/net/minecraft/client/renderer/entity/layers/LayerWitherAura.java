@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity.layers;
 
 import net.minecraft.client.game.model.ModelWither;
 import net.minecraft.client.renderer.G;
-import net.minecraft.client.renderer.entity.RenderWither;
+import net.minecraft.client.renderer.entity.vanilla.RenderWither;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;

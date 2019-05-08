@@ -23,6 +23,7 @@ import net.minecraft.client.game.shader.Framebuffer;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.achievement.GuiAchievement;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.main.GameConfiguration;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.PlayerControllerMP;

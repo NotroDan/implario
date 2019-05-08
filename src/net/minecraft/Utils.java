@@ -2,7 +2,7 @@ package net.minecraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.G;
@@ -22,7 +22,7 @@ import shadersmod.client.ShaderOption;
 import java.util.Arrays;
 import java.util.Random;
 
-import static net.minecraft.client.gui.GuiIngame.map;
+import static net.minecraft.client.gui.ingame.GuiIngame.map;
 
 public class Utils {
 

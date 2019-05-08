@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity.layers;
 
 import net.minecraft.client.game.model.ModelPig;
-import net.minecraft.client.renderer.entity.RenderPig;
+import net.minecraft.client.renderer.entity.vanilla.RenderPig;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.util.ResourceLocation;
 

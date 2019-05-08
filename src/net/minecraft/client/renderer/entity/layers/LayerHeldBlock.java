@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.entity.RenderEnderman;
+import net.minecraft.client.renderer.entity.vanilla.RenderEnderman;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.monster.EntityEnderman;
 

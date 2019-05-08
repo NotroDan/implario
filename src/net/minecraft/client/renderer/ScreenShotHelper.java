@@ -4,8 +4,8 @@ import net.minecraft.client.game.shader.Framebuffer;
 import net.minecraft.client.network.services.imgur.ImgurAPI;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.logging.Log;
-import net.minecraft.util.ChatComponentBuilder;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.chat.ChatComponentBuilder;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -19,8 +19,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static net.minecraft.event.ClickEvent.Action.OPEN_FILE;
-import static net.minecraft.event.HoverEvent.Action.SHOW_FILE;
+import static net.minecraft.util.chat.event.ClickEvent.Action.OPEN_FILE;
+import static net.minecraft.util.chat.event.HoverEvent.Action.SHOW_FILE;
 
 public class ScreenShotHelper {
 

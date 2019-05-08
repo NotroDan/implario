@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import net.minecraft.client.gui.spectator.categories.TeleportToPlayer;
 import net.minecraft.client.gui.spectator.categories.TeleportToTeam;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
 public class BaseSpectatorGroup implements ISpectatorMenuView

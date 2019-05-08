@@ -12,7 +12,7 @@ import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.event.ClickEvent;
+import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEditableBook;
 import net.minecraft.item.ItemStack;
@@ -23,6 +23,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.*;
 import net.minecraft.Logger;
+import net.minecraft.util.chat.ChatAllowedCharacters;
+import net.minecraft.util.chat.ChatComponentText;
 import org.lwjgl.input.Keyboard;
 
 public class GuiScreenBook extends GuiScreen {

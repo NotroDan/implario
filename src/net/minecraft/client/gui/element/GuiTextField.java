@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.chat.ChatAllowedCharacters;
 import net.minecraft.util.Clipboard;
 import net.minecraft.util.MathHelper;
 

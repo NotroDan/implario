@@ -30,7 +30,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.Potion;
+import net.minecraft.item.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;

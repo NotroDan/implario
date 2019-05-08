@@ -3,7 +3,7 @@ package net.minecraft.client.gui;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.resources.Lang;
-import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.chat.ChatAllowedCharacters;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.storage.ISaveFormat;

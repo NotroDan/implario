@@ -23,7 +23,7 @@ import net.minecraft.client.game.inventory.ContainerLocalMenu;
 import net.minecraft.client.game.inventory.LocalBlockIntercommunication;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
@@ -50,14 +50,16 @@ import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.scoreboard.*;
 import net.minecraft.server.Profiler;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatBase;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
-import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.world.gen.feature.village.MerchantRecipeList;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldSettings;
@@ -682,11 +684,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 			if (flag) this.gameController.ingameGUI.setRecordPlaying(Lang.format("mount.onboard",
 					"SHIFT"), false);
-		} else if (packetIn.getLeash() == 1 && entity instanceof EntityLiving)
+		} else if (packetIn.getLeash() == 1 && entity instanceof VanillaEntity)
 			if (entity1 != null)
-				((EntityLiving) entity).setLeashedToEntity(entity1, false);
+				((VanillaEntity) entity).setLeashedToEntity(entity1, false);
 			else
-				((EntityLiving) entity).clearLeashed(false, false);
+				((VanillaEntity) entity).clearLeashed(false, false);
 	}
 
 	/**

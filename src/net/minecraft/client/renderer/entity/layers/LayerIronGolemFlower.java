@@ -5,7 +5,7 @@ import net.minecraft.client.game.model.ModelIronGolem;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.entity.RenderIronGolem;
+import net.minecraft.client.renderer.entity.vanilla.RenderIronGolem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.init.Blocks;

@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.UUID;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.VanillaEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -32,11 +32,11 @@ public class RandomMobs
 
     public static void entityLoaded(Entity p_entityLoaded_0_, World p_entityLoaded_1_)
     {
-        if (p_entityLoaded_0_ instanceof EntityLiving)
+        if (p_entityLoaded_0_ instanceof VanillaEntity)
         {
             if (p_entityLoaded_1_ != null)
             {
-                EntityLiving entityliving = (EntityLiving)p_entityLoaded_0_;
+                VanillaEntity entityliving = (VanillaEntity)p_entityLoaded_0_;
                 entityliving.spawnPosition = entityliving.getPosition();
                 entityliving.spawnBiome = p_entityLoaded_1_.getBiomeGenForCoords(entityliving.spawnPosition);
                 WorldServer worldserver = Config.getWorldServer();
@@ -45,9 +45,9 @@ public class RandomMobs
                 {
                     Entity entity = worldserver.getEntityByID(p_entityLoaded_0_.getEntityId());
 
-                    if (entity instanceof EntityLiving)
+                    if (entity instanceof VanillaEntity)
                     {
-                        EntityLiving entityliving1 = (EntityLiving)entity;
+                        VanillaEntity entityliving1 = (VanillaEntity)entity;
                         UUID uuid = entityliving1.getUniqueID();
                         long i = uuid.getLeastSignificantBits();
                         int j = (int)(i & 2147483647L);
@@ -93,13 +93,13 @@ public class RandomMobs
 			{
 				Entity entity1 = renderGlobal.renderedEntity;
 
-				if (!(entity1 instanceof EntityLiving))
+				if (!(entity1 instanceof VanillaEntity))
 				{
 					ResourceLocation resourcelocation2 = p_getTextureLocation_0_;
 					return resourcelocation2;
 				}
 
-				EntityLiving entityliving = (EntityLiving)entity1;
+				VanillaEntity entityliving = (VanillaEntity)entity1;
 				String s = p_getTextureLocation_0_.getResourcePath();
 
 				if (!s.startsWith("textures/entity/"))

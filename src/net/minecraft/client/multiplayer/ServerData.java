@@ -1,7 +1,7 @@
 package net.minecraft.client.multiplayer;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 public class ServerData {

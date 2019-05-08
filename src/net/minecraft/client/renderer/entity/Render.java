@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.VanillaEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -156,8 +156,8 @@ public abstract class Render<T extends Entity> {
 			G.depthMask(false);
 			float f = this.shadowSize;
 
-			if (entityIn instanceof EntityLiving) {
-				EntityLiving entityliving = (EntityLiving) entityIn;
+			if (entityIn instanceof VanillaEntity) {
+				VanillaEntity entityliving = (VanillaEntity) entityIn;
 				f *= entityliving.getRenderSizeModifier();
 
 				if (entityliving.isChild()) f *= 0.5F;

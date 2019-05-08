@@ -2,8 +2,8 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldSettings;
 

@@ -3,8 +3,8 @@ package net.minecraft.client.renderer;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.simulant.Simulant;
@@ -43,7 +43,7 @@ public class BowPathRenderer {
 
 			g = new SimulantArrow(player.worldObj, player, f * 2, 0);
 			s = new SimulantArrow(player.worldObj, player, f * 2, 1);
-			g.power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, player.getHeldItem());
+			g.power = EnchantmentHelper.getEnchantmentLevel(Enchantments.power.effectId, player.getHeldItem());
 
 		} else if (player.getHeldItem().getItem() == Items.snowball ||
 					player.getHeldItem().getItem() == Items.ender_pearl ||
