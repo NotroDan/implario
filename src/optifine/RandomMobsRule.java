@@ -2,20 +2,20 @@ package optifine;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 
 public class RandomMobsRule
 {
-    private ResourceLocation baseResLoc = null;
-    private int[] skins = null;
+    private ResourceLocation baseResLoc;
+    private int[] skins;
     private ResourceLocation[] resourceLocations = null;
-    private int[] weights = null;
-    private BiomeGenBase[] biomes = null;
-    private RangeListInt heights = null;
+    private int[] weights;
+    private Biome[] biomes;
+    private RangeListInt heights;
     public int[] sumWeights = null;
     public int sumAllWeights = 1;
 
-    public RandomMobsRule(ResourceLocation p_i79_1_, int[] p_i79_2_, int[] p_i79_3_, BiomeGenBase[] p_i79_4_, RangeListInt p_i79_5_)
+    public RandomMobsRule(ResourceLocation p_i79_1_, int[] p_i79_2_, int[] p_i79_3_, Biome[] p_i79_4_, RangeListInt p_i79_5_)
     {
         this.baseResLoc = p_i79_1_;
         this.skins = p_i79_2_;
@@ -114,9 +114,9 @@ public class RandomMobsRule
 		return true;
 	}
 
-    public boolean matches(EntityLiving p_matches_1_)
+    public boolean matches(EntityLiving e)
     {
-        return !Matches.biome(p_matches_1_.spawnBiome, this.biomes) ? false : this.heights != null && p_matches_1_.spawnPosition != null ? this.heights.isInRange(p_matches_1_.spawnPosition.getY()) : true;
+        return Matches.biome(e.spawnBiome, this.biomes) && (this.heights == null || e.spawnPosition == null || this.heights.isInRange(e.spawnPosition.getY()));
     }
 
     public ResourceLocation getTextureLocation(ResourceLocation p_getTextureLocation_1_, int p_getTextureLocation_2_)

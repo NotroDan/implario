@@ -151,7 +151,7 @@ public class GuiOverlayDebug extends Gui {
 		if (this.mc.theWorld != null && this.mc.theWorld.isBlockLoaded(blockpos)) {
 
 			Chunk chunk = this.mc.theWorld.getChunkFromBlockCoords(blockpos);
-			arraylist.add("Биом: §a" + chunk.getBiome(blockpos, this.mc.theWorld.getWorldChunkManager()).biomeName);
+			arraylist.add("Биом: §a" + chunk.getBiome(blockpos, this.mc.theWorld.getWorldChunkManager()).getName());
 			arraylist.add("Свет: §a" + chunk.getLightSubtracted(blockpos, 0) + " §7§o(" + chunk.getLightFor(EnumSkyBlock.SKY, blockpos) + " от неба, " +
 					chunk.getLightFor(EnumSkyBlock.BLOCK, blockpos) + " от блоков)");
 

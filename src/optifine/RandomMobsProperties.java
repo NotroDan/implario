@@ -1,11 +1,12 @@
 package optifine;
 
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.BiomeGenBase;
 
 public class RandomMobsProperties
 {
@@ -68,7 +69,7 @@ public class RandomMobsProperties
             {
                 int[] aint = p_parseRules_3_.parseIntList(s);
                 int[] aint1 = p_parseRules_3_.parseIntList(p_parseRules_1_.getProperty("weights." + k));
-                BiomeGenBase[] abiomegenbase = p_parseRules_3_.parseBiomes(p_parseRules_1_.getProperty("biomes." + k));
+                Biome[] biomes = p_parseRules_3_.parseBiomes(p_parseRules_1_.getProperty("biomes." + k));
                 RangeListInt rangelistint = p_parseRules_3_.parseRangeListInt(p_parseRules_1_.getProperty("heights." + k));
 
                 if (rangelistint == null)
@@ -76,7 +77,7 @@ public class RandomMobsProperties
                     rangelistint = this.parseMinMaxHeight(p_parseRules_1_, k);
                 }
 
-                RandomMobsRule randommobsrule = new RandomMobsRule(p_parseRules_2_, aint, aint1, abiomegenbase, rangelistint);
+                RandomMobsRule randommobsrule = new RandomMobsRule(p_parseRules_2_, aint, aint1, biomes, rangelistint);
                 list.add(randommobsrule);
             }
         }

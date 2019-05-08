@@ -1,15 +1,16 @@
 package optifine;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
 
 public class ConnectedProperties
 {
@@ -22,7 +23,7 @@ public class ConnectedProperties
     public String[] tiles = null;
     public int connect = 0;
     public int faces = 63;
-    public BiomeGenBase[] biomes = null;
+    public Biome[] biomes = null;
     public int minHeight = 0;
     public int maxHeight = 1024;
     public int renderPass = 0;
@@ -809,7 +810,7 @@ public class ConnectedProperties
         return "CTM name: " + this.name + ", basePath: " + this.basePath + ", matchBlocks: " + Config.arrayToString((Object[])this.matchBlocks) + ", matchTiles: " + Config.arrayToString((Object[])this.matchTiles);
     }
 
-    public boolean matchesBiome(BiomeGenBase p_matchesBiome_1_)
+    public boolean matchesBiome(Biome p_matchesBiome_1_)
     {
         return Matches.biome(p_matchesBiome_1_, this.biomes);
     }
