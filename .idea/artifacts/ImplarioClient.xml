@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ImplarioClient">
+    <output-path>$PROJECT_DIR$/client/env</output-path>
+    <root id="archive" name="ImplarioClient.jar">
+      <element id="module-output" name="client" />
+      <element id="module-output" name="core" />
+    </root>
+  </artifact>
+</component>
