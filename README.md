@@ -11,8 +11,18 @@
 
 ## Для программистов
 Проект разрабатывается в IntelliJ IDEA, поэтому рекомендуем использовать именно её.
+
+### Установка
 * В IDEA зайдите в меню `File` | `New...` | `Project from version control` | `Git`
 * В URL укажите `https://github.com/DelfikPro/Implario`
 * Нажмите ОК.
 
-Конфигурации запуска уже готовы.
+В Меню `Build` | `Build Atrifacts...` есть клиент и сервер.
+
+### Запуск из IDEA
+* Создайте новую конфигурацию с типом Application.
+* Заполните её как показано на скриншоте для клиента:
+
+![](https://i.imgur.com/UnPgv65.png)
+
+* Для сервера достаточно просто установить Working Directory на `server/env`
