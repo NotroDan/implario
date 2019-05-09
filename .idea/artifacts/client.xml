@@ -1,0 +1,26 @@
+<component name="ArtifactManager">
+  <artifact name="client">
+    <output-path>$PROJECT_DIR$/production</output-path>
+    <root id="root">
+      <element id="file-copy" path="$PROJECT_DIR$/client/env/launcher.vbs" />
+      <element id="file-copy" path="$PROJECT_DIR$/client/env/console.bat" />
+      <element id="directory" name="gamedata">
+        <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/Что это за папка.html" />
+        <element id="archive" name="client-back.jar">
+          <element id="module-output" name="client" />
+          <element id="module-output" name="core" />
+        </element>
+        <element id="directory" name="natives">
+          <element id="dir-copy" path="$PROJECT_DIR$/client/env/gamedata/natives" />
+        </element>
+        <element id="archive" name="client-libs.jar">
+          <element id="extracted-dir" path="$PROJECT_DIR$/client/libs_client.jar" path-in-jar="/" />
+          <element id="extracted-dir" path="$PROJECT_DIR$/core/libs.jar" path-in-jar="/" />
+        </element>
+        <element id="archive" name="client-front.jar">
+          <element id="module-output" name="resources" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

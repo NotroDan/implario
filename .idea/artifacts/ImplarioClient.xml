@@ -4,6 +4,10 @@
     <root id="archive" name="ImplarioClient.jar">
       <element id="module-output" name="client" />
       <element id="module-output" name="core" />
+      <element id="archive" name="archive.jar">
+        <element id="archive" name="archive.jar" />
+      </element>
+      <element id="directory" name="folder" />
     </root>
   </artifact>
 </component>
