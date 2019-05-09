@@ -16,5 +16,6 @@
     <orderEntry type="library" name="libs_core" level="project" />
     <orderEntry type="library" name="junit" level="project" />
     <orderEntry type="library" name="libs_client" level="project" />
+    <orderEntry type="module" module-name="resources" />
   </component>
 </module>
