@@ -12,6 +12,7 @@ client/env/gamedata/usercache.json
 !client/env/console.bat
 !client/env/launcher.vbs
 server/env/*
+production/*
 
 **/desktop.ini
 
