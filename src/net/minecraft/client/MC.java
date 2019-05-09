@@ -4,6 +4,7 @@ import net.minecraft.client.game.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.chat.ChatComponentText;
@@ -73,5 +74,9 @@ public final class MC {
 		getTextureManager().bindTexture(resourceLocation);
 	}
 
+
+	public static BlockRendererDispatcher getBlockRendererDispatcher() {
+		return i().getBlockRendererDispatcher();
+	}
 
 }

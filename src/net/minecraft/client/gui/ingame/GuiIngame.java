@@ -10,12 +10,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.map.Minimap;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.BowPathRenderer;
+import net.minecraft.client.renderer.G;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
@@ -25,9 +26,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.scoreboard.Score;
@@ -36,7 +35,6 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.Profiler;
 import net.minecraft.util.*;
-import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
 import optifine.CustomColors;
 
@@ -46,9 +44,7 @@ import java.util.Collection;
 import java.util.Random;
 
 public class GuiIngame extends Gui {
-	private static final ResourceLocation vignetteTexPath = new ResourceLocation("textures/misc/vignette.png");
 	private static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
-	private static final ResourceLocation pumpkinBlurTexPath = new ResourceLocation("textures/misc/pumpkinblur.png");
 	private final Random rand = new Random();
 	private final Minecraft mc;
 	private final RenderItem itemRenderer;
@@ -70,10 +66,6 @@ public class GuiIngame extends Gui {
 	private int recordPlayingUpFor;
 	private boolean recordIsPlaying;
 
-	/**
-	 * Previous frame vignette brightness (slowly changes by 1% each frame)
-	 */
-	public float prevVignetteBrightness = 1.0F;
 
 	/**
 	 * Remaining ticks the item highlight should be visible
@@ -141,13 +133,13 @@ public class GuiIngame extends Gui {
 
 
 		// Затемнение по краям экрана
-		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
+//		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
 
 		// Рисунок тыквы, надетой на голову
-		renderPumpkinOverlay(scaledresolution);
+//		renderPumpkinOverlay(scaledresolution);
 
 		// Фиолетовый эффект портала
-		renderPortal(scaledresolution, partialTicks);
+//		renderPortal(scaledresolution, partialTicks);
 
 		// Текст над инвентарём
 		renderTooltip1(scaledresolution, partialTicks);
@@ -452,12 +444,6 @@ public class GuiIngame extends Gui {
 		G.enableAlpha();
 		G.enableDepth();
 		Profiler.in.endSection();
-	}
-
-	private void renderPortal(ScaledResolution scaledresolution, float partialTicks) {
-		if (this.mc.thePlayer.isPotionActive(Potion.confusion)) return;
-		float f = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * partialTicks;
-		if (f > 0) this.func_180474_b(f, scaledresolution);
 	}
 
 	private void renderFireIcon(int width, int height) {
@@ -1008,104 +994,6 @@ public class GuiIngame extends Gui {
 			this.mc.getTextureManager().bindTexture(icons);
 		}
 		Profiler.in.endSection();
-	}
-
-	private void renderPumpkinOverlay(ScaledResolution p_180476_1_) {
-		ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
-		if (Settings.getPerspective() != 0 || itemstack == null || itemstack.getItem() != Item.getItemFromBlock(Blocks.pumpkin)) return;
-
-		G.disableDepth();
-		G.depthMask(false);
-		G.tryBlendFuncSeparate(770, 771, 1, 0);
-		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-		G.disableAlpha();
-		this.mc.getTextureManager().bindTexture(pumpkinBlurTexPath);
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos(0.0D, (double) p_180476_1_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-		worldrenderer.pos((double) p_180476_1_.getScaledWidth(), (double) p_180476_1_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-		worldrenderer.pos((double) p_180476_1_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
-		worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
-		tessellator.draw();
-		G.depthMask(true);
-		G.enableDepth();
-		G.enableAlpha();
-		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-	}
-
-	/**
-	 * Renders a Vignette arount the entire screen that changes with light level.
-	 */
-	private void renderVignette(float brightness, ScaledResolution resolution) {
-		if (!Config.isVignetteEnabled()) {
-			G.enableDepth();
-			G.tryBlendFuncSeparate(770, 771, 1, 0);
-		} else {
-			brightness = 1.0F - brightness;
-			brightness = MathHelper.clamp_float(brightness, 0.0F, 1.0F);
-			WorldBorder worldborder = this.mc.theWorld.getWorldBorder();
-			float f = (float) worldborder.getClosestDistance(this.mc.thePlayer);
-			double d0 = Math.min(worldborder.getResizeSpeed() * (double) worldborder.getWarningTime() * 1000.0D, Math.abs(worldborder.getTargetSize() - worldborder.getDiameter()));
-			double d1 = Math.max((double) worldborder.getWarningDistance(), d0);
-
-			if ((double) f < d1) f = 1.0F - (float) ((double) f / d1);
-			else f = 0.0F;
-
-			this.prevVignetteBrightness = (float) ((double) this.prevVignetteBrightness + (double) (brightness - this.prevVignetteBrightness) * 0.01D);
-			G.disableDepth();
-			G.depthMask(false);
-			G.tryBlendFuncSeparate(0, 769, 1, 0);
-
-			if (f > 0.0F) G.color(0.0F, f, f, 1.0F);
-			else G.color(prevVignetteBrightness, prevVignetteBrightness, prevVignetteBrightness, 1.0F);
-
-			this.mc.getTextureManager().bindTexture(vignetteTexPath);
-			Tessellator tessellator = Tessellator.getInstance();
-			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			worldrenderer.pos(0.0D, (double) resolution.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-			worldrenderer.pos((double) resolution.getScaledWidth(), (double) resolution.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-			worldrenderer.pos((double) resolution.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
-			worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
-			tessellator.draw();
-			G.depthMask(true);
-			G.enableDepth();
-			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			G.tryBlendFuncSeparate(770, 771, 1, 0);
-		}
-	}
-
-	private void func_180474_b(float p_180474_1_, ScaledResolution p_180474_2_) {
-		if (p_180474_1_ < 1.0F) {
-			p_180474_1_ = p_180474_1_ * p_180474_1_;
-			p_180474_1_ = p_180474_1_ * p_180474_1_;
-			p_180474_1_ = p_180474_1_ * 0.8F + 0.2F;
-		}
-
-		G.disableAlpha();
-		G.disableDepth();
-		G.depthMask(false);
-		G.tryBlendFuncSeparate(770, 771, 1, 0);
-		G.color(1.0F, 1.0F, 1.0F, p_180474_1_);
-		this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-		TextureAtlasSprite textureatlassprite = this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(Blocks.portal.getDefaultState());
-		float f = textureatlassprite.getMinU();
-		float f1 = textureatlassprite.getMinV();
-		float f2 = textureatlassprite.getMaxU();
-		float f3 = textureatlassprite.getMaxV();
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos(0.0D, (double) p_180474_2_.getScaledHeight(), -90.0D).tex((double) f, (double) f3).endVertex();
-		worldrenderer.pos((double) p_180474_2_.getScaledWidth(), (double) p_180474_2_.getScaledHeight(), -90.0D).tex((double) f2, (double) f3).endVertex();
-		worldrenderer.pos((double) p_180474_2_.getScaledWidth(), 0.0D, -90.0D).tex((double) f2, (double) f1).endVertex();
-		worldrenderer.pos(0.0D, 0.0D, -90.0D).tex((double) f, (double) f1).endVertex();
-		tessellator.draw();
-		G.depthMask(true);
-		G.enableDepth();
-		G.enableAlpha();
-		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	private void renderHotbarItem(int index, int xPos, int yPos, float partialTicks, EntityPlayer p_175184_5_) {
