@@ -6,7 +6,6 @@ import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3i;
-import net.minecraftforge.client.model.ITransformation;
 import optifine.Config;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
@@ -30,21 +29,8 @@ public class FaceBakery {
 		return new BakedQuad(aint, face.tintIndex, enumfacing, sprite);
 	}
 
-	public BakedQuad makeBakedQuad(Vector3f p_makeBakedQuad_1_, Vector3f p_makeBakedQuad_2_, BlockPartFace p_makeBakedQuad_3_, TextureAtlasSprite p_makeBakedQuad_4_, EnumFacing p_makeBakedQuad_5_,
-								   ITransformation p_makeBakedQuad_6_, BlockPartRotation p_makeBakedQuad_7_, boolean p_makeBakedQuad_8_, boolean p_makeBakedQuad_9_) {
-		int[] aint = this.makeQuadVertexData(p_makeBakedQuad_3_, p_makeBakedQuad_4_, p_makeBakedQuad_5_, this.getPositionsDiv16(p_makeBakedQuad_1_, p_makeBakedQuad_2_), p_makeBakedQuad_6_,
-				p_makeBakedQuad_7_, p_makeBakedQuad_8_, p_makeBakedQuad_9_);
-		EnumFacing enumfacing = getFacingFromVertexData(aint);
-
-		if (p_makeBakedQuad_8_) this.func_178409_a(aint, enumfacing, p_makeBakedQuad_3_.blockFaceUV, p_makeBakedQuad_4_);
-
-		if (p_makeBakedQuad_7_ == null) this.applyFacing(aint, enumfacing);
-
-		return new BakedQuad(aint, p_makeBakedQuad_3_.tintIndex, enumfacing, p_makeBakedQuad_4_);
-	}
-
 	private int[] makeQuadVertexData(BlockPartFace part, TextureAtlasSprite sprite, EnumFacing face, float[] floats,
-									 ITransformation transformation, BlockPartRotation rotation, boolean p_makeQuadVertexData_7_, boolean p_makeQuadVertexData_8_) {
+									 ModelRotation transformation, BlockPartRotation rotation, boolean p_makeQuadVertexData_7_, boolean p_makeQuadVertexData_8_) {
 		int i = 28;
 
 		if (Config.isShaders()) i = 56;
@@ -110,7 +96,7 @@ public class FaceBakery {
 	}
 
 	private void fillVertexData(int[] p_fillVertexData_1_, int p_fillVertexData_2_, EnumFacing face, BlockPartFace part, float[] floats,
-								TextureAtlasSprite sprite, ITransformation trans, BlockPartRotation rot, boolean p_fillVertexData_9_,
+								TextureAtlasSprite sprite, ModelRotation trans, BlockPartRotation rot, boolean p_fillVertexData_9_,
 								boolean p_fillVertexData_10_) {
 		EnumFacing enumfacing = trans.rotate(face);
 		int i = p_fillVertexData_10_ ? this.getFaceShadeColor(enumfacing) : -1;
@@ -170,7 +156,7 @@ public class FaceBakery {
 		}
 	}
 
-	public int rotateVertex(Vector3f p_rotateVertex_1_, EnumFacing p_rotateVertex_2_, int p_rotateVertex_3_, ITransformation p_rotateVertex_4_, boolean p_rotateVertex_5_) {
+	public int rotateVertex(Vector3f p_rotateVertex_1_, EnumFacing p_rotateVertex_2_, int p_rotateVertex_3_, ModelRotation p_rotateVertex_4_, boolean p_rotateVertex_5_) {
 		if (p_rotateVertex_4_ == ModelRotation.X0_Y0) {
 			return p_rotateVertex_3_;
 		}

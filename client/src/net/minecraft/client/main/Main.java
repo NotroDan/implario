@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.properties.PropertyMap.Serializer;
+import com.mojang.util.UUIDTypeAdapter;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
@@ -18,6 +19,7 @@ import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 import java.util.List;
+import java.util.UUID;
 
 public class Main {
 
@@ -36,7 +38,6 @@ public class Main {
 		OptionSpec<Integer> optionspec6 = optionparser.accepts("proxyPort").withRequiredArg().defaultsTo("8080", new String[0]).ofType(Integer.class);
 		OptionSpec<String> optionspec7 = optionparser.accepts("proxyUser").withRequiredArg();
 		OptionSpec<String> optionspec8 = optionparser.accepts("proxyPass").withRequiredArg();
-//		OptionSpec<String> optionspec9 = optionparser.accepts("username").withRequiredArg().defaultsTo(Textifier.getWittyName());
 		OptionSpec<String> optionspec10 = optionparser.accepts("uuid").withRequiredArg();
 		OptionSpec<String> optionspec11 = optionparser.accepts("accessToken").withRequiredArg().required();
 		OptionSpec<Integer> optionspec13 = optionparser.accepts("width").withRequiredArg().ofType(Integer.class).defaultsTo(854);
@@ -76,10 +77,10 @@ public class Main {
 		File file2 = optionset.has(optionspec3) ? optionset.valueOf(optionspec3) : new File(file1, "assets/");
 		File file3 = optionset.has(optionspec4) ? optionset.valueOf(optionspec4) : new File(file1, "resourcepacks/");
 		String playername = StringUtils.getWittyName();
-		String s4 = optionset.has(optionspec10) ? optionspec10.value(optionset) : playername;
+		String uuid = optionset.has(optionspec10) ? optionspec10.value(optionset) : UUIDTypeAdapter.fromUUID(UUID.randomUUID());
 		String s6 = optionset.valueOf(optionspec);
 		Integer integer = optionset.valueOf(optionspec1);
-		Session session = new Session(playername, s4, optionspec11.value(optionset), optionspec18.value(optionset));
+		Session session = new Session(playername, uuid, optionspec11.value(optionset), optionspec18.value(optionset));
 		GameConfiguration gameconfiguration = new GameConfiguration(
 				new GameConfiguration.UserInformation(session, propertymap1, proxy),
 				new GameConfiguration.DisplayInformation(i, j, flag, flag1),

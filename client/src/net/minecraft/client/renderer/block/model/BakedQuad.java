@@ -3,11 +3,9 @@ package net.minecraft.client.renderer.block.model;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.client.model.pipeline.IVertexConsumer;
-import net.minecraftforge.client.model.pipeline.IVertexProducer;
 import optifine.Config;
 
-public class BakedQuad implements IVertexProducer {
+public class BakedQuad {
 
 	/**
 	 * Joined 4 vertex records, each has 7 fields (x, y, z, shadeColor, u, v, <unused>), see
@@ -90,9 +88,6 @@ public class BakedQuad implements IVertexProducer {
 		}
 
 		return aint;
-	}
-
-	public void pipe(IVertexConsumer p_pipe_1_) {
 	}
 
 	private static TextureAtlasSprite getSpriteByUv(int[] p_getSpriteByUv_0_) {
