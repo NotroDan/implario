@@ -13,6 +13,7 @@ public abstract class Enchantment {
 
     protected static final Enchantment[] enchantmentsList = new Enchantment[256];
     public static final Enchantment[] enchantmentsBookList;
+    static {Enchantments.class.getCanonicalName();}
     private static final Map<ResourceLocation, Enchantment> locationEnchantments = new HashMap<>();
 
 
