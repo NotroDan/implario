@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
-import net.minecraft.entity.monster.EntitySkeleton;
+import vanilla.entity.monster.EntitySkeleton;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderSkeleton extends RenderBiped<EntitySkeleton>

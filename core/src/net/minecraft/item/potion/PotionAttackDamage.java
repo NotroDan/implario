@@ -1,6 +1,6 @@
 package net.minecraft.item.potion;
 
-import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.util.ResourceLocation;
 
 public class PotionAttackDamage extends Potion

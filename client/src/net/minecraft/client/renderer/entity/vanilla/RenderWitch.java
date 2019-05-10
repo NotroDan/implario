@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItemWitch;
-import net.minecraft.entity.monster.EntityWitch;
+import vanilla.entity.monster.EntityWitch;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderWitch extends RenderLiving<EntityWitch>

@@ -8,6 +8,7 @@ import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.AnvilConverterException;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.IChunkManager;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.storage.ISaveHandler;
@@ -119,13 +120,7 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		int i = list.size() + list1.size() + list2.size();
 		logger.info("Total conversion count is " + i);
 		WorldInfo worldinfo = this.getWorldInfo(filename);
-		WorldChunkManager worldchunkmanager = null;
-
-		if (worldinfo.getTerrainType() == WorldType.FLAT) {
-			worldchunkmanager = new WorldChunkManagerHell(BiomeGenBase.plains, 0.5F);
-		} else {
-			worldchunkmanager = new WorldChunkManager(worldinfo.getSeed(), worldinfo.getTerrainType(), worldinfo.getGeneratorOptions());
-		}
+		IChunkManager worldchunkmanager = worldinfo.getTerrainType().createChunkManager(worldinfo.getSeed(), worldinfo.getGeneratorOptions());
 
 		this.convertFile(new File(file1, "region"), list, worldchunkmanager, 0, i, progressCallback);
 		this.convertFile(new File(file2, "region"), list1, new WorldChunkManagerHell(BiomeGenBase.hell, 0.0F), list.size(), i, progressCallback);
@@ -165,7 +160,7 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		}
 	}
 
-	private void convertFile(File p_75813_1_, Iterable<File> p_75813_2_, WorldChunkManager p_75813_3_, int p_75813_4_, int p_75813_5_, IProgressUpdate p_75813_6_) {
+	private void convertFile(File p_75813_1_, Iterable<File> p_75813_2_, IChunkManager p_75813_3_, int p_75813_4_, int p_75813_5_, IProgressUpdate p_75813_6_) {
 		for (File file1 : p_75813_2_) {
 			this.convertChunks(p_75813_1_, file1, p_75813_3_, p_75813_4_, p_75813_5_, p_75813_6_);
 			++p_75813_4_;
@@ -177,7 +172,7 @@ public class AnvilSaveConverter extends SaveFormatOld {
 	/**
 	 * copies a 32x32 chunk set from par2File to par1File, via AnvilConverterData
 	 */
-	private void convertChunks(File p_75811_1_, File p_75811_2_, WorldChunkManager p_75811_3_, int p_75811_4_, int p_75811_5_, IProgressUpdate progressCallback) {
+	private void convertChunks(File p_75811_1_, File p_75811_2_, IChunkManager p_75811_3_, int p_75811_4_, int p_75811_5_, IProgressUpdate progressCallback) {
 		try {
 			String s = p_75811_2_.getName();
 			RegionFile regionfile = new RegionFile(p_75811_2_);

@@ -13,7 +13,7 @@ import net.minecraft.client.resources.Lang;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.gen.provider.ChunkProviderSettings;
+import vanilla.world.gen.provider.ChunkProviderSettings;
 
 import java.io.IOException;
 import java.util.Random;

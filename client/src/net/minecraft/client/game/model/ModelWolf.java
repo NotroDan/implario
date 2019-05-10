@@ -3,7 +3,7 @@ package net.minecraft.client.game.model;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityWolf;
+import vanilla.entity.passive.EntityWolf;
 import net.minecraft.util.MathHelper;
 
 public class ModelWolf extends ModelBase {

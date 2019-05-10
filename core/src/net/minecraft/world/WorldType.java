@@ -1,156 +1,183 @@
 package net.minecraft.world;
 
-public class WorldType
-{
-    /** List of world types. */
-    public static final WorldType[] worldTypes = new WorldType[16];
+import net.minecraft.util.Util;
+import net.minecraft.world.biome.BasicChunkManager;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.chunk.ChunkProviderDebug;
+import net.minecraft.world.chunk.ChunkProviderVoid;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.datapacks.ChunkManagerFactory;
+import net.minecraft.world.datapacks.ChunkProviderFactory;
 
-    /** Default world type. */
-    public static final WorldType DEFAULT = new WorldType(0, "default", 1).setVersioned();
+public class WorldType {
 
-    /** Flat world type. */
-    public static final WorldType FLAT = new WorldType(1, "flat");
+	/**
+	 * List of world types.
+	 */
+	public static final WorldType[] worldTypes = new WorldType[16];
 
-    /** Large Biome world Type. */
-    public static final WorldType LARGE_BIOMES = new WorldType(2, "largeBiomes");
 
-    /** amplified world type */
-    public static final WorldType AMPLIFIED = new WorldType(3, "amplified").setNotificationData();
-    public static final WorldType CUSTOMIZED = new WorldType(4, "customized");
-    public static final WorldType DEBUG_WORLD = new WorldType(5, "debug_all_block_states");
-    public static final WorldType EMPTY = new WorldType(6, "empty");
 
-    /** Default (1.1) world type. */
-    public static final WorldType DEFAULT_1_1 = new WorldType(8, "default_1_1", 0).setCanBeCreated(false);
+//	public static final WorldType DEFAULT = new WorldType(0, "default").setVersioned();
+//	public static final WorldType FLAT = new WorldType(1, "flat");
+//	public static final WorldType LARGE_BIOMES = new WorldType(2, "largeBiomes");
+//	public static final WorldType AMPLIFIED = new WorldType(3, "amplified").setNotificationData();
+//	public static final WorldType CUSTOMIZED = new WorldType(4, "customized");
+//	public static final WorldType DEBUG_WORLD = new WorldType(5, "debug_all_block_states");
+	public static final WorldType EMPTY = new WorldType("empty",
+		(p, s, v, c) -> new BasicChunkManager(Biome.VOID),
+		p -> new ChunkProviderVoid(p.getWorld())).weakFog();
+	private static final ChunkManagerFactory factoryDebugCM = (p, s, v, c) -> new BasicChunkManager(Biome.VOID);
+	private static final ChunkProviderFactory factoryDebugCP = p -> new ChunkProviderDebug(p.getWorld());
+	public static final WorldType DEBUG = new WorldType("debug_all_block_states", factoryDebugCM, factoryDebugCP).disableMobs().disallowModification();
 
-    /** ID for this world type. */
-    private final int worldTypeId;
-    private final String worldType;
+	//	public static final WorldType DEFAULT_1_1 = new WorldType(8, "default_1_1").setCanBeCreated(false);
 
-    /** The int version of the ChunkProvider that generated this world. */
-    private final int generatorVersion;
+	/**
+	 * ID for this world type.
+	 */
+	private final int id;
+	private final String worldType;
+	private final ChunkManagerFactory chunkManagerFactory;
+	private final ChunkProviderFactory chunkProviderFactory;
 
-    /**
-     * Whether this world type can be generated. Normally true; set to false for out-of-date generator versions.
-     */
-    private boolean canBeCreated;
+	/**
+	 * Whether this world type can be generated. Normally true; set to false for out-of-date generator versions.
+	 */
+	private boolean canBeCreated = true;
 
-    /** Whether this WorldType has a version or not. */
-    private boolean isWorldTypeVersioned;
-    private boolean hasNotificationData;
+ 	/**
+	 * Whether this WorldType has a version or not.
+	 */
+	private boolean isWorldTypeVersioned;
+	private boolean hasNotificationData;
+	private boolean weakFog;
+	private boolean doMobSpawning = true;
+	private boolean modificationAllowed = true;
 
-    private WorldType(int id, String name)
-    {
-        this(id, name, 0);
-    }
+	public WorldType(String name, ChunkManagerFactory manager, ChunkProviderFactory provider) {
+		this.worldType = name;
+		this.id = Util.firstEmpty(worldTypes);
+		this.chunkManagerFactory = manager;
+		this.chunkProviderFactory = provider;
+		worldTypes[id] = this;
+	}
 
-    private WorldType(int id, String name, int version)
-    {
-        this.worldType = name;
-        this.generatorVersion = version;
-        this.canBeCreated = true;
-        this.worldTypeId = id;
-        worldTypes[id] = this;
-    }
+	public String getWorldTypeName() {
+		return this.worldType;
+	}
 
-    public String getWorldTypeName()
-    {
-        return this.worldType;
-    }
+	/**
+	 * Gets the translation key for the name of this world type.
+	 */
+	public String getTranslateName() {
+		return "generator." + this.worldType;
+	}
 
-    /**
-     * Gets the translation key for the name of this world type.
-     */
-    public String getTranslateName()
-    {
-        return "generator." + this.worldType;
-    }
+	public String func_151359_c() {
+		return this.getTranslateName() + ".info";
+	}
 
-    public String func_151359_c()
-    {
-        return this.getTranslateName() + ".info";
-    }
+	/**
+	 * Returns generatorVersion.
+	 */
+	public int getGeneratorVersion() {
+		return isWorldTypeVersioned ? 1 : 0;
+	}
 
-    /**
-     * Returns generatorVersion.
-     */
-    public int getGeneratorVersion()
-    {
-        return this.generatorVersion;
-    }
+	public boolean isWeakFog() {
+		return weakFog;
+	}
 
-    public WorldType getWorldTypeForGeneratorVersion(int version)
-    {
-        return this == DEFAULT && version == 0 ? DEFAULT_1_1 : this;
-    }
+	public WorldType weakFog() {
+		this.weakFog = true;
+		return this;
+	}
 
-    /**
-     * Sets canBeCreated to the provided value, and returns this.
-     */
-    private WorldType setCanBeCreated(boolean enable)
-    {
-        this.canBeCreated = enable;
-        return this;
-    }
 
-    /**
-     * Gets whether this WorldType can be used to generate a new world.
-     */
-    public boolean getCanBeCreated()
-    {
-        return this.canBeCreated;
-    }
+	/**
+	 * Gets whether this WorldType can be used to generate a new world.
+	 */
+	public boolean getCanBeCreated() {
+		return this.canBeCreated;
+	}
 
-    /**
-     * Flags this world type as having an associated version.
-     */
-    private WorldType setVersioned()
-    {
-        this.isWorldTypeVersioned = true;
-        return this;
-    }
+	/**
+	 * Flags this world type as having an associated version.
+	 */
+	private WorldType setVersioned() {
 
-    /**
-     * Returns true if this world Type has a version associated with it.
-     */
-    public boolean isVersioned()
-    {
-        return this.isWorldTypeVersioned;
-    }
+		this.isWorldTypeVersioned = true;
+		return this;
+	}
 
-    public static WorldType parseWorldType(String type)
-    {
-        for (int i = 0; i < worldTypes.length; ++i)
-        {
-            if (worldTypes[i] != null && worldTypes[i].worldType.equalsIgnoreCase(type))
-            {
-                return worldTypes[i];
-            }
-        }
+	/**
+	 * Returns true if this world Type has a version associated with it.
+	 */
+	public boolean isVersioned() {
+		return this.isWorldTypeVersioned;
+	}
 
-        return null;
-    }
+	public static WorldType parseWorldType(String type) {
+		for (WorldType t : worldTypes)
+			if (t != null && t.worldType.equalsIgnoreCase(type)) return t;
 
-    public int getWorldTypeID()
-    {
-        return this.worldTypeId;
-    }
+		return null;
+	}
 
-    /**
-     * returns true if selecting this worldtype from the customize menu should display the generator.[worldtype].info
-     * message
-     */
-    public boolean showWorldInfoNotice()
-    {
-        return this.hasNotificationData;
-    }
+	public int getWorldTypeID() {
+		return this.id;
+	}
 
-    /**
-     * enables the display of generator.[worldtype].info message on the customize world menu
-     */
-    private WorldType setNotificationData()
-    {
-        this.hasNotificationData = true;
-        return this;
-    }
+	/**
+	 * returns true if selecting this worldtype from the customize menu should display the generator.[worldtype].info
+	 * message
+	 */
+	public boolean showWorldInfoNotice() {
+		return this.hasNotificationData;
+	}
+
+	/**
+	 * enables the display of generator.[worldtype].info message on the customize world menu
+	 */
+	private WorldType setNotificationData() {
+		this.hasNotificationData = true;
+		return this;
+	}
+
+	public IChunkManager createChunkManager(WorldProvider w) {
+		return chunkManagerFactory.generate(w, 0, this, w.getGeneratorSettings());
+	}
+	public IChunkManager createChunkManager(long seed, String settings) {
+		return chunkManagerFactory.generate(null, seed, this, settings);
+	}
+
+	public WorldType invisible() {
+		canBeCreated = false;
+		return this;
+	}
+
+	public IChunkProvider createChunkProvider(WorldProvider worldProvider) {
+		return chunkProviderFactory.generate(worldProvider);
+	}
+
+	public boolean doMobSpawning() {
+		return doMobSpawning;
+	}
+
+	public WorldType disableMobs() {
+		doMobSpawning = false;
+		return this;
+	}
+
+	public boolean isModificationAllowed() {
+		return modificationAllowed;
+	}
+
+	public WorldType disallowModification() {
+		modificationAllowed = false;
+		return this;
+	}
+
 }

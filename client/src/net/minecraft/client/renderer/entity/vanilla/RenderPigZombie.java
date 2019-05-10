@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
-import net.minecraft.entity.monster.EntityPigZombie;
+import vanilla.entity.monster.EntityPigZombie;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderPigZombie extends RenderBiped<EntityPigZombie>

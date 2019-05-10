@@ -7,10 +7,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.ai.attributes.*;
+import net.minecraft.entity.attributes.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -18,13 +17,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.potion.Potion;
+import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.item.potion.PotionHelper;
 import net.minecraft.nbt.*;
 import net.minecraft.network.play.server.S04PacketEntityEquipment;
 import net.minecraft.network.play.server.S0BPacketAnimation;
 import net.minecraft.network.play.server.S0DPacketCollectItem;
-import net.minecraft.item.potion.Potion;
-import net.minecraft.item.potion.PotionEffect;
-import net.minecraft.item.potion.PotionHelper;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -801,10 +800,9 @@ public abstract class EntityLivingBase extends Entity {
 			if (entity instanceof EntityPlayer) {
 				this.recentlyHit = 100;
 				this.attackingPlayer = (EntityPlayer) entity;
-			} else if (entity instanceof EntityWolf) {
-				EntityWolf entitywolf = (EntityWolf) entity;
-
-				if (entitywolf.isTamed()) {
+			} else if (entity instanceof EntityLivingBase) {
+				EntityLivingBase e = (EntityLivingBase) entity;
+				if (e.shouldOverridePlayerAttack()) {
 					this.recentlyHit = 100;
 					this.attackingPlayer = null;
 				}
@@ -850,6 +848,10 @@ public abstract class EntityLivingBase extends Entity {
 		}
 
 		return true;
+	}
+
+	protected boolean shouldOverridePlayerAttack() {
+		return false;
 	}
 
 	/**

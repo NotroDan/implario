@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerIronGolemFlower;
-import net.minecraft.entity.monster.EntityIronGolem;
+import vanilla.entity.monster.EntityIronGolem;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderIronGolem extends RenderLiving<EntityIronGolem>

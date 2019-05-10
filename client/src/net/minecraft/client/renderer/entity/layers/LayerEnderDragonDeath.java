@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.boss.EntityDragon;
+import vanilla.entity.boss.EntityDragon;
 
 public class LayerEnderDragonDeath implements LayerRenderer<EntityDragon>
 {

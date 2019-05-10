@@ -103,7 +103,7 @@ attribute.name.generic.movementSpeed=Скорость
 attribute.name.horse.jumpStrength=Сила прыжка лошади
 attribute.name.zombie.spawnReinforcements=Подкрепление зомби
 
-biome.void=Мечта
+biome.void=Служебный
 biome.ocean=Океан
 biome.plains=Поле
 biome.desert=Пустыня

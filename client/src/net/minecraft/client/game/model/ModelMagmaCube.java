@@ -2,7 +2,7 @@ package net.minecraft.client.game.model;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMagmaCube;
+import vanilla.entity.monster.EntityMagmaCube;
 
 public class ModelMagmaCube extends ModelBase
 {

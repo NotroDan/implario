@@ -19,10 +19,8 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.WorldChunkManager;
+import net.minecraft.world.biome.IChunkManager;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import net.minecraft.world.gen.provider.ChunkProviderDebug;
 
 import java.util.Arrays;
 import java.util.List;
@@ -509,7 +507,7 @@ public class Chunk {
 	}
 
 	public IBlockState getBlockState(final BlockPos pos) {
-		if (this.worldObj.getWorldType() == WorldType.DEBUG_WORLD) {
+		if (this.worldObj.getWorldType() == WorldType.DEBUG) {
 			IBlockState iblockstate = null;
 
 			if (pos.getY() == 60) {
@@ -1136,19 +1134,19 @@ public class Chunk {
 		}
 	}
 
-	public Biome getBiome(BlockPos pos, WorldChunkManager chunkManager) {
+	public Biome getBiome(BlockPos pos, IChunkManager chunkManager) {
 		int x = pos.getX() & 15;
 		int z = pos.getZ() & 15;
 		int k = this.blockBiomeArray[z << 4 | x] & 255;
 
 		if (k == 255) {
-			Biome biome = chunkManager.getBiomeGenerator(pos, BiomeGenBase.plains);
+			Biome biome = chunkManager.getBiome(pos, Biome.VOID);
 			k = biome.getLegacyId();
 			this.blockBiomeArray[z << 4 | x] = (byte) (k & 255);
 		}
 
 		Biome biome = Biome.getBiome(k);
-		return biome == null ? BiomeGenBase.plains : biome;
+		return biome == null ? Biome.VOID : biome;
 	}
 
 	/**

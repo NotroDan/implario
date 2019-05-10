@@ -16,8 +16,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.feature.village.MerchantRecipe;
-import net.minecraft.world.gen.feature.village.MerchantRecipeList;
+import vanilla.world.gen.feature.village.MerchantRecipe;
+import vanilla.world.gen.feature.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraft.Logger;
 

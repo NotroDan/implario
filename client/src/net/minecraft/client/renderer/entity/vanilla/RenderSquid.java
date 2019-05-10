@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.passive.EntitySquid;
+import vanilla.entity.passive.EntitySquid;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderSquid extends RenderLiving<EntitySquid>

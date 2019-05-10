@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity.layers;
 
 import net.minecraft.client.game.model.ModelPig;
 import net.minecraft.client.renderer.entity.vanilla.RenderPig;
-import net.minecraft.entity.passive.EntityPig;
+import vanilla.entity.passive.EntityPig;
 import net.minecraft.util.ResourceLocation;
 
 public class LayerSaddle implements LayerRenderer<EntityPig>

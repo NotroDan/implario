@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
+import vanilla.world.gen.structure.StructureBoundingBox;
 
 public class CommandCompare extends CommandBase
 {

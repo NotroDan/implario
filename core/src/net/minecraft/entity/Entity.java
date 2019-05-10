@@ -1567,12 +1567,12 @@ public abstract class Entity implements ICommandSender {
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
 		for (int i = 0; i < 8; ++i) {
-			int j = MathHelper.floor_double(this.posY + (double) (((float) ((i >> 0) % 2) - 0.5F) * 0.1F) + (double) this.getEyeHeight());
-			int k = MathHelper.floor_double(this.posX + (double) (((float) ((i >> 1) % 2) - 0.5F) * this.width * 0.8F));
-			int l = MathHelper.floor_double(this.posZ + (double) (((float) ((i >> 2) % 2) - 0.5F) * this.width * 0.8F));
+			int y = MathHelper.floor_double(this.posY + (double) (((float) ((i >> 0) % 2) - 0.5F) * 0.1F) + (double) this.getEyeHeight());
+			int x = MathHelper.floor_double(this.posX + (double) (((float) ((i >> 1) % 2) - 0.5F) * this.width * 0.8F));
+			int z = MathHelper.floor_double(this.posZ + (double) (((float) ((i >> 2) % 2) - 0.5F) * this.width * 0.8F));
 
-			if (blockpos$mutableblockpos.getX() != k || blockpos$mutableblockpos.getY() != j || blockpos$mutableblockpos.getZ() != l) {
-				blockpos$mutableblockpos.func_181079_c(k, j, l);
+			if (blockpos$mutableblockpos.getX() != x || blockpos$mutableblockpos.getY() != y || blockpos$mutableblockpos.getZ() != z) {
+				blockpos$mutableblockpos.func_181079_c(x, y, z);
 
 				if (this.worldObj.getBlockState(blockpos$mutableblockpos).getBlock().isVisuallyOpaque()) {
 					return true;

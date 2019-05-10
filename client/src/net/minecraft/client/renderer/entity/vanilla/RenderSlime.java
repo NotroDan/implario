@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerSlimeGel;
-import net.minecraft.entity.monster.EntitySlime;
+import vanilla.entity.monster.EntitySlime;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderSlime extends RenderLiving<EntitySlime>

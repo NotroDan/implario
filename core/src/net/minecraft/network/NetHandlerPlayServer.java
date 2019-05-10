@@ -15,7 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityMinecartCommandBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.passive.EntityHorse;
+import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;

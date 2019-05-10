@@ -32,4 +32,9 @@ public class Util {
 		UNKNOWN
 	}
 
+	public static int firstEmpty(Object[] o) {
+		for (int i = 0; i < o.length; i++) if (o[i] == null) return i;
+		return -1;
+	}
+
 }

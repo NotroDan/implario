@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerVillagerArmor;
-import net.minecraft.entity.monster.EntityZombie;
+import vanilla.entity.monster.EntityZombie;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderZombie extends RenderBiped<EntityZombie>

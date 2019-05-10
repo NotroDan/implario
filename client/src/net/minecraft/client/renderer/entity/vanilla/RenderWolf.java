@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerWolfCollar;
-import net.minecraft.entity.passive.EntityWolf;
+import vanilla.entity.passive.EntityWolf;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderWolf extends RenderLiving<EntityWolf>

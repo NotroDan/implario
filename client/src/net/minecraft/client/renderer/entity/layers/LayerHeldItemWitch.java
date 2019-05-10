@@ -6,7 +6,7 @@ import net.minecraft.client.game.model.ModelWitch;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.vanilla.RenderWitch;
-import net.minecraft.entity.monster.EntityWitch;
+import vanilla.entity.monster.EntityWitch;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;

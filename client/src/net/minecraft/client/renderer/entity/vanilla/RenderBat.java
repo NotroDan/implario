@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelBat;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.passive.EntityBat;
+import vanilla.entity.passive.EntityBat;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 

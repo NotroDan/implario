@@ -3,7 +3,7 @@ package net.minecraft.world.pathfinder;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.pathfinding.PathPoint;
+import vanilla.entity.ai.pathfinding.PathPoint;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;

@@ -2,7 +2,7 @@ package net.minecraft.client.game.model;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityIronGolem;
+import vanilla.entity.monster.EntityIronGolem;
 
 public class ModelIronGolem extends ModelBase
 {

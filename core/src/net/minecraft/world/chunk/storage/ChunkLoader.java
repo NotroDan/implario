@@ -3,8 +3,7 @@ package net.minecraft.world.chunk.storage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.WorldChunkManager;
+import net.minecraft.world.biome.IChunkManager;
 import net.minecraft.world.chunk.NibbleArray;
 
 public class ChunkLoader
@@ -36,7 +35,7 @@ public class ChunkLoader
         return chunkloader$anvilconverterdata;
     }
 
-    public static void convertToAnvilFormat(ChunkLoader.AnvilConverterData p_76690_0_, NBTTagCompound p_76690_1_, WorldChunkManager p_76690_2_)
+    public static void convertToAnvilFormat(ChunkLoader.AnvilConverterData p_76690_0_, NBTTagCompound p_76690_1_, IChunkManager p_76690_2_)
     {
         p_76690_1_.setInteger("xPos", p_76690_0_.x);
         p_76690_1_.setInteger("zPos", p_76690_0_.z);
@@ -116,7 +115,7 @@ public class ChunkLoader
             for (int i3 = 0; i3 < 16; ++i3)
             {
                 blockpos$mutableblockpos.func_181079_c(p_76690_0_.x << 4 | l2, 0, p_76690_0_.z << 4 | i3);
-                abyte[i3 << 4 | l2] = (byte)(p_76690_2_.getBiomeGenerator(blockpos$mutableblockpos, BiomeGenBase.ocean).getLegacyId() & 255);
+                abyte[i3 << 4 | l2] = (byte)(p_76690_2_.getBiome(blockpos$mutableblockpos).getLegacyId() & 255);
             }
         }
 

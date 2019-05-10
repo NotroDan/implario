@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelSnowMan;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerSnowmanHead;
-import net.minecraft.entity.monster.EntitySnowman;
+import vanilla.entity.monster.EntitySnowman;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderSnowMan extends RenderLiving<EntitySnowman>

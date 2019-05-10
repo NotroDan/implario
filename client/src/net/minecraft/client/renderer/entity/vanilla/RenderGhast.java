@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelGhast;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.monster.EntityGhast;
+import vanilla.entity.monster.EntityGhast;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderGhast extends RenderLiving<EntityGhast>

@@ -5,8 +5,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenBigMushroom;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import vanilla.world.gen.feature.WorldGenBigMushroom;
+import vanilla.world.gen.feature.WorldGenerator;
 
 public class BlockMushroom extends BlockBush implements IGrowable
 {

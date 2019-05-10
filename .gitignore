@@ -13,6 +13,7 @@ client/env/gamedata/usercache.json
 !client/env/launcher.vbs
 server/env/*
 production/*
+vanilla/*
 
 **/desktop.ini
 

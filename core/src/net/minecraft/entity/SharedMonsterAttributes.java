@@ -1,7 +1,7 @@
 package net.minecraft.entity;
 
 import net.minecraft.Logger;
-import net.minecraft.entity.ai.attributes.*;
+import net.minecraft.entity.attributes.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 

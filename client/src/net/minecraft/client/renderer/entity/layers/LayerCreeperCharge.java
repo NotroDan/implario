@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity.layers;
 import net.minecraft.client.game.model.ModelCreeper;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.vanilla.RenderCreeper;
-import net.minecraft.entity.monster.EntityCreeper;
+import vanilla.entity.monster.EntityCreeper;
 import net.minecraft.util.ResourceLocation;
 
 public class LayerCreeperCharge implements LayerRenderer<EntityCreeper>

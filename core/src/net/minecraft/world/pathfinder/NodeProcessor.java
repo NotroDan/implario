@@ -1,7 +1,7 @@
 package net.minecraft.world.pathfinder;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.pathfinding.PathPoint;
+import vanilla.entity.ai.pathfinding.PathPoint;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;

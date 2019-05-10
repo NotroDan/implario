@@ -2,7 +2,7 @@ package net.minecraft.world;
 
 import net.minecraft.server.Profiler;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.gen.feature.village.VillageCollection;
+import vanilla.world.gen.feature.village.VillageCollection;
 import net.minecraft.world.border.IBorderListener;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.storage.DerivedWorldInfo;

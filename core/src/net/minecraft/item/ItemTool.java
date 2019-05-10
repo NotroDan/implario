@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 

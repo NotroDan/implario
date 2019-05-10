@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.passive.EntitySheep;
+import vanilla.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;

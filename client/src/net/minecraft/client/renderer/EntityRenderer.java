@@ -34,12 +34,12 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.BossStatus;
+import vanilla.entity.boss.BossStatus;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.passive.EntityAnimal;
+import vanilla.entity.monster.EntityCreeper;
+import vanilla.entity.monster.EntityEnderman;
+import vanilla.entity.monster.EntitySpider;
+import vanilla.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -1716,7 +1716,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 							blockpos$mutableblockpos.func_181079_c(j1, i2, i1);
 							float f1 = biomegenbase.getFloatTemperature(blockpos$mutableblockpos);
 
-							if (worldclient.getWorldChunkManager().getTemperatureAtHeight(f1, l1) >= 0.15F) {
+							if (f1 >= 0.15F) {
 								if (b1 != 0) {
 									if (b1 >= 0) {
 										tessellator.draw();

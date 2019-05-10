@@ -13,7 +13,7 @@ import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.block.state.pattern.BlockStateHelper;
 import net.minecraft.block.state.pattern.FactoryBlockPattern;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityWither;
+import vanilla.entity.boss.EntityWither;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

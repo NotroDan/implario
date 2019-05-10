@@ -2,7 +2,7 @@ package net.minecraft.client.gui.inventory;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
-import net.minecraft.entity.passive.EntityHorse;
+import vanilla.entity.passive.EntityHorse;
 import net.minecraft.inventory.ContainerHorseInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;

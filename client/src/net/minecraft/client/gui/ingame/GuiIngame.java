@@ -23,8 +23,8 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.boss.BossStatus;
+import net.minecraft.entity.attributes.IAttributeInstance;
+import vanilla.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -261,12 +261,12 @@ public class GuiIngame extends Gui {
 						quads.addAll(generalQuads);
 						quads.addAll(faceQuads);
 						int color = -1;
-						if (state.getBlock() instanceof BlockGrass) color = MC.getWorld().getWorldChunkManager().getBiomeGenerator(pos).getGrassColorAtPos(pos);
+						if (state.getBlock() instanceof BlockGrass) color = MC.getWorld().getWorldChunkManager().getBiome(pos).getGrassColorAtPos(pos);
 						if (state.getBlock() instanceof BlockLeaves) {
 							BlockPlanks.EnumType type = state.getValue(BlockOldLeaf.VARIANT);
 							if (type == BlockPlanks.EnumType.BIRCH) color = ColorizerFoliage.getFoliageColorBirch();
 							else if (type == BlockPlanks.EnumType.SPRUCE) color = ColorizerFoliage.getFoliageColorPine();
-							else color = MC.getWorld().getWorldChunkManager().getBiomeGenerator(pos).getFoliageColorAtPos(pos);
+							else color = MC.getWorld().getWorldChunkManager().getBiome(pos).getFoliageColorAtPos(pos);
 
 						}
 

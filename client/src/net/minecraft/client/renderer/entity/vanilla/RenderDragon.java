@@ -10,8 +10,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerEnderDragonDeath;
 import net.minecraft.client.renderer.entity.layers.LayerEnderDragonEyes;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.entity.boss.EntityDragon;
+import vanilla.entity.boss.BossStatus;
+import vanilla.entity.boss.EntityDragon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 

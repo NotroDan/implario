@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerSaddle;
-import net.minecraft.entity.passive.EntityPig;
+import vanilla.entity.passive.EntityPig;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderPig extends RenderLiving<EntityPig>

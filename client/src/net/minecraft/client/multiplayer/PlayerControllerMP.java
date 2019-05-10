@@ -9,7 +9,7 @@ import net.minecraft.client.game.entity.EntityPlayerSP;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityHorse;
+import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;

@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
-import net.minecraft.entity.monster.EntityGiantZombie;
+import vanilla.entity.monster.EntityGiantZombie;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderGiantZombie extends RenderLiving<EntityGiantZombie>

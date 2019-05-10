@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.provider.ChunkProviderSettings;
+import vanilla.world.gen.provider.ChunkProviderSettings;
 import org.lwjgl.input.Keyboard;
 
 public class GuiScreenCustomizePresets extends GuiScreen

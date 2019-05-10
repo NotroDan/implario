@@ -3,7 +3,7 @@ package net.minecraft.client.game.model;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityRabbit;
+import vanilla.entity.passive.EntityRabbit;
 import net.minecraft.util.MathHelper;
 
 public class ModelRabbit extends ModelBase

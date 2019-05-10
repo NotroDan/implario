@@ -2,7 +2,7 @@ package net.minecraft.client.game.model;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityGuardian;
+import vanilla.entity.monster.EntityGuardian;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 

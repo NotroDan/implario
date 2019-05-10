@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.game.model.ModelSlime;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.vanilla.RenderSlime;
-import net.minecraft.entity.monster.EntitySlime;
+import vanilla.entity.monster.EntitySlime;
 
 public class LayerSlimeGel implements LayerRenderer<EntitySlime>
 {

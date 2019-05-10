@@ -1,11 +1,11 @@
 package net.minecraft.entity;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAmbientCreature;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityWaterMob;
-import net.minecraft.entity.passive.IAnimals;
+import vanilla.entity.monster.IMob;
+import vanilla.entity.passive.EntityAmbientCreature;
+import vanilla.entity.passive.EntityAnimal;
+import vanilla.entity.passive.EntityWaterMob;
+import vanilla.entity.passive.IAnimals;
 
 public enum EnumCreatureType
 {

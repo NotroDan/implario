@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity.vanilla;
 import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.passive.EntityRabbit;
+import vanilla.entity.passive.EntityRabbit;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 

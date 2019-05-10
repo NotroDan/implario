@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.vanilla.RenderSpider;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntitySpider;
+import vanilla.entity.monster.EntitySpider;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import shadersmod.client.Shaders;

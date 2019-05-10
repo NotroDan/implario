@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerMooshroomMushroom;
-import net.minecraft.entity.passive.EntityMooshroom;
+import vanilla.entity.passive.EntityMooshroom;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderMooshroom extends RenderLiving<EntityMooshroom>

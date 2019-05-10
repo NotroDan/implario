@@ -26,3 +26,7 @@
 ![](https://i.imgur.com/UnPgv65.png)
 
 * Для сервера достаточно просто установить Working Directory на `server/env`
+
+Для стабильного рандома на Linux добавьте VM-option 
+
+`-Djava.security.egd=/dev/zrandom`

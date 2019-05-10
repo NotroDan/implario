@@ -7,7 +7,7 @@ import net.minecraft.block.*;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.item.EntityPainting;

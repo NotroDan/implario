@@ -64,10 +64,10 @@ public class WorldClient extends World {
 	private BlockPosM randomTickPosM = new BlockPosM(0, 0, 0, 3);
 	private boolean playerUpdate = false;
 
-	public WorldClient(NetHandlerPlayClient p_i45063_1_, WorldSettings p_i45063_2_, int p_i45063_3_, EnumDifficulty p_i45063_4_, Profiler p_i45063_5_) {
-		super(new SaveHandlerMP(), new WorldInfo(p_i45063_2_, "MpServer"), WorldProvider.getProviderForDimension(p_i45063_3_), p_i45063_5_, true);
-		this.sendQueue = p_i45063_1_;
-		this.getWorldInfo().setDifficulty(p_i45063_4_);
+	public WorldClient(NetHandlerPlayClient netHandler, WorldSettings settings, int dim, EnumDifficulty difficulty, Profiler profiler) {
+		super(new SaveHandlerMP(), new WorldInfo(settings, "MpServer"), dimensionManager.generate(dim), profiler, true);
+		this.sendQueue = netHandler;
+		this.getWorldInfo().setDifficulty(difficulty);
 		this.provider.registerWorld(this);
 		this.setSpawnPoint(new BlockPos(8, 64, 8));
 		this.chunkProvider = this.createChunkProvider();
@@ -76,7 +76,7 @@ public class WorldClient extends World {
 		this.calculateInitialWeather();
 
 		if (this.mc.playerController != null && this.mc.playerController.getClass() == PlayerControllerMP.class) {
-			this.mc.playerController = new PlayerControllerOF(this.mc, p_i45063_1_);
+			this.mc.playerController = new PlayerControllerOF(this.mc, netHandler);
 		}
 	}
 

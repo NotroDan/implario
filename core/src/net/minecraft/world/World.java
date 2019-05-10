@@ -9,38 +9,39 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.VanillaEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.resources.Additions;
+import net.minecraft.resources.Label;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
-import net.minecraft.world.gen.feature.village.VillageCollection;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.WorldChunkManager;
+import net.minecraft.world.biome.IChunkManager;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.datapacks.DimensionManager;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 
 import java.util.*;
-import java.util.concurrent.Callable;
 
 public abstract class World implements IBlockAccess {
 
+	public static DimensionManager dimensionManager = DimensionManager.SIMPLE;
 	private int seaLevel = 63;
 
 	/**
 	 * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
 	 */
 	protected boolean scheduledUpdatesAreImmediate;
+	protected Additions additions = new Additions();
 	public final List<Entity> loadedEntityList = Lists.newArrayList();
 	protected final List<Entity> unloadedEntityList = Lists.newArrayList();
 	public final List<TileEntity> loadedTileEntityList = Lists.newArrayList();
@@ -107,7 +108,6 @@ public abstract class World implements IBlockAccess {
 	 */
 	protected boolean findingSpawnPoint;
 	protected MapStorage mapStorage;
-	protected VillageCollection villageCollectionObj;
 	public final Profiler theProfiler;
 	private final Calendar theCalendar = Calendar.getInstance();
 	protected Scoreboard worldScoreboard = new Scoreboard();
@@ -174,10 +174,10 @@ public abstract class World implements IBlockAccess {
 				throw new ReportedException(crashreport);
 			}
 		}
-		return this.provider.getWorldChunkManager().getBiomeGenerator(pos, Biome.empty);
+		return this.provider.getWorldChunkManager().getBiome(pos, Biome.VOID);
 	}
 
-	public WorldChunkManager getWorldChunkManager() {
+	public IChunkManager getWorldChunkManager() {
 		return this.provider.getWorldChunkManager();
 	}
 
@@ -297,7 +297,7 @@ public abstract class World implements IBlockAccess {
 		if (!this.isValid(pos)) {
 			return false;
 		}
-		if (!this.isRemote && this.worldInfo.getTerrainType() == WorldType.DEBUG_WORLD) {
+		if (!this.isRemote && this.worldInfo.getTerrainType().isModificationAllowed()) {
 			return false;
 		}
 		Chunk chunk = this.getChunkFromBlockCoords(pos);
@@ -367,7 +367,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void notifyNeighborsRespectDebug(BlockPos pos, Block blockType) {
-		if (this.worldInfo.getTerrainType() != WorldType.DEBUG_WORLD) {
+		if (this.worldInfo.getTerrainType().isModificationAllowed()) {
 			this.notifyNeighborsOfStateChange(pos, blockType);
 		}
 	}
@@ -445,13 +445,11 @@ public abstract class World implements IBlockAccess {
 			} catch (Throwable throwable) {
 				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception while updating neighbours");
 				CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being updated");
-				crashreportcategory.addCrashSectionCallable("Source block type", new Callable<String>() {
-					public String call() throws Exception {
-						try {
-							return String.format("ID #%d (%s // %s)", Block.getIdFromBlock(blockIn), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
-						} catch (Throwable var2) {
-							return "ID #" + Block.getIdFromBlock(blockIn);
-						}
+				crashreportcategory.addCrashSectionCallable("Source block type", () -> {
+					try {
+						return String.format("ID #%d (%s // %s)", Block.getIdFromBlock(blockIn), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
+					} catch (Throwable var2) {
+						return "ID #" + Block.getIdFromBlock(blockIn);
 					}
 				});
 				CrashReportCategory.addBlockInfo(crashreportcategory, pos, iblockstate);
@@ -2604,9 +2602,13 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean isBlockPowered(BlockPos pos) {
-		return this.getRedstonePower(pos.down(), EnumFacing.DOWN) > 0 || (this.getRedstonePower(pos.up(), EnumFacing.UP) > 0 || (this.getRedstonePower(pos.north(),
-				EnumFacing.NORTH) > 0 || (this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 || (this.getRedstonePower(pos.west(), EnumFacing.WEST) > 0 || this.getRedstonePower(
-				pos.east(), EnumFacing.EAST) > 0))));
+		return
+				this.getRedstonePower(pos.down(),  EnumFacing.DOWN ) > 0 ||
+				this.getRedstonePower(pos.up(),    EnumFacing.UP   ) > 0 ||
+				this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0 ||
+				this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 ||
+				this.getRedstonePower(pos.west(),  EnumFacing.WEST ) > 0 ||
+				this.getRedstonePower(pos.east(),  EnumFacing.EAST ) > 0;
 	}
 
 	/**
@@ -2981,7 +2983,7 @@ public abstract class World implements IBlockAccess {
 	 * Returns horizon height for use in rendering the sky.
 	 */
 	public double getHorizon() {
-		return this.worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
+		return this.worldInfo.getTerrainType().isWeakFog() ? 0.0D : 63.0D;
 	}
 
 	/**
@@ -2990,16 +2992,8 @@ public abstract class World implements IBlockAccess {
 	public CrashReportCategory addWorldInfoToCrashReport(CrashReport report) {
 		CrashReportCategory crashreportcategory = report.makeCategoryDepth("Affected level", 1);
 		crashreportcategory.addCrashSection("Level name", this.worldInfo == null ? "????" : this.worldInfo.getWorldName());
-		crashreportcategory.addCrashSectionCallable("All players", new Callable<String>() {
-			public String call() {
-				return World.this.playerEntities.size() + " total; " + World.this.playerEntities.toString();
-			}
-		});
-		crashreportcategory.addCrashSectionCallable("Chunk stats", new Callable<String>() {
-			public String call() {
-				return World.this.chunkProvider.makeString();
-			}
-		});
+		crashreportcategory.addCrashSectionCallable("All players", () -> World.this.playerEntities.size() + " total; " + World.this.playerEntities.toString());
+		crashreportcategory.addCrashSectionCallable("Chunk stats", () -> World.this.chunkProvider.makeString());
 
 		try {
 			this.worldInfo.addToCrashReport(crashreportcategory);
@@ -3092,10 +3086,6 @@ public abstract class World implements IBlockAccess {
 		return this.findingSpawnPoint;
 	}
 
-	public VillageCollection getVillageCollection() {
-		return this.villageCollectionObj;
-	}
-
 	public WorldBorder getWorldBorder() {
 		return this.worldBorder;
 	}
@@ -3109,6 +3099,10 @@ public abstract class World implements IBlockAccess {
 		int j = z * 16 + 8 - blockpos.getZ();
 		int k = 128;
 		return i >= -k && i <= k && j >= -k && j <= k;
+	}
+
+	public <T> T getAddition(Label<T> label) {
+		return additions.get(label);
 	}
 
 }

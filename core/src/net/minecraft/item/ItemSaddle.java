@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityPig;
+import vanilla.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ItemSaddle extends Item

@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerEndermanEyes;
 import net.minecraft.client.renderer.entity.layers.LayerHeldBlock;
-import net.minecraft.entity.monster.EntityEnderman;
+import vanilla.entity.monster.EntityEnderman;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderEnderman extends RenderLiving<EntityEnderman>

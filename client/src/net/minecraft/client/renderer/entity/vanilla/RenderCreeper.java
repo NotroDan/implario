@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerCreeperCharge;
-import net.minecraft.entity.monster.EntityCreeper;
+import vanilla.entity.monster.EntityCreeper;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 

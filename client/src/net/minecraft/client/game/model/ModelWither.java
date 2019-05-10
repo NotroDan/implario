@@ -2,7 +2,7 @@ package net.minecraft.client.game.model;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityWither;
+import vanilla.entity.boss.EntityWither;
 import net.minecraft.util.MathHelper;
 
 public class ModelWither extends ModelBase

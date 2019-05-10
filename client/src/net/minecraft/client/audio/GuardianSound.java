@@ -1,6 +1,6 @@
 package net.minecraft.client.audio;
 
-import net.minecraft.entity.monster.EntityGuardian;
+import vanilla.entity.monster.EntityGuardian;
 import net.minecraft.util.ResourceLocation;
 
 public class GuardianSound extends MovingSound

@@ -2,7 +2,6 @@ package net.minecraft.crash;
 
 import net.minecraft.Logger;
 import net.minecraft.util.ReportedException;
-import net.minecraft.world.gen.layer.IntCache;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -74,7 +73,6 @@ public class CrashReport {
                 }
             return String.format("%d total; %s", i, stringbuilder.toString());
         });
-        this.theReportCategory.addCrashSectionCallable("IntCache", IntCache::getCacheSizes);
 
     }
 

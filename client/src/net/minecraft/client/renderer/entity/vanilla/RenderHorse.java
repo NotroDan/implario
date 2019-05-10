@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.LayeredTexture;
-import net.minecraft.entity.passive.EntityHorse;
+import vanilla.entity.passive.EntityHorse;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderHorse extends RenderLiving<EntityHorse>

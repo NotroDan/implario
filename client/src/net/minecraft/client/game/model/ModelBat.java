@@ -1,7 +1,7 @@
 package net.minecraft.client.game.model;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityBat;
+import vanilla.entity.passive.EntityBat;
 import net.minecraft.util.MathHelper;
 
 public class ModelBat extends ModelBase

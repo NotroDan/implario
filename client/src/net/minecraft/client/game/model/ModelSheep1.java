@@ -2,7 +2,7 @@ package net.minecraft.client.game.model;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntitySheep;
+import vanilla.entity.passive.EntitySheep;
 
 public class ModelSheep1 extends ModelQuadruped
 {

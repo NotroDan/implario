@@ -1,22 +1,23 @@
 package net.minecraft.world;
 
 import com.google.common.collect.Sets;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
 import net.minecraft.block.Block;
-import net.minecraft.entity.VanillaEntity;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.VanillaEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandom;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
+
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public final class SpawnerAnimals
 {
@@ -203,15 +204,15 @@ public final class SpawnerAnimals
     /**
      * Called during chunk generation to spawn initial creatures.
      */
-    public static void performWorldGenSpawning(World worldIn, BiomeGenBase p_77191_1_, int p_77191_2_, int p_77191_3_, int p_77191_4_, int p_77191_5_, Random p_77191_6_)
+    public static void performWorldGenSpawning(World worldIn, Biome biome, int p_77191_2_, int p_77191_3_, int p_77191_4_, int p_77191_5_, Random p_77191_6_)
     {
-        List<SpawnListEntry> list = p_77191_1_.getSpawnableList(EnumCreatureType.CREATURE);
+        List<SpawnListEntry> list = biome.getSpawnableList(EnumCreatureType.CREATURE);
 
         if (!list.isEmpty())
         {
-            while (p_77191_6_.nextFloat() < p_77191_1_.getSpawningChance())
+            while (p_77191_6_.nextFloat() < biome.getSpawningChance())
             {
-                SpawnListEntry biomegenbase$spawnlistentry = (SpawnListEntry)WeightedRandom.getRandomItem(worldIn.rand, list);
+                SpawnListEntry biomegenbase$spawnlistentry = WeightedRandom.getRandomItem(worldIn.rand, list);
                 int i = biomegenbase$spawnlistentry.minGroupCount + p_77191_6_.nextInt(1 + biomegenbase$spawnlistentry.maxGroupCount - biomegenbase$spawnlistentry.minGroupCount);
                 IEntityLivingData ientitylivingdata = null;
                 int j = p_77191_2_ + p_77191_6_.nextInt(p_77191_4_);

@@ -4,17 +4,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.WorldChunkManager;
-import net.minecraft.world.biome.WorldChunkManagerHell;
+import net.minecraft.world.biome.IChunkManager;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.*;
-import net.minecraft.world.gen.provider.ChunkProviderDebug;
-import net.minecraft.world.gen.provider.ChunkProviderFlat;
-import net.minecraft.world.gen.provider.ChunkProviderGenerate;
-import net.minecraft.world.gen.provider.ChunkProviderVoid;
+
+import java.io.File;
 
 public abstract class WorldProvider {
 
@@ -30,7 +24,7 @@ public abstract class WorldProvider {
 	/**
 	 * World chunk manager being used to generate chunks
 	 */
-	protected WorldChunkManager worldChunkMgr;
+	protected IChunkManager worldChunkMgr;
 
 	/**
 	 * States whether the Hell world provider is used(true) or if the normal world provider is used(false)
@@ -85,24 +79,15 @@ public abstract class WorldProvider {
 	 */
 	protected void registerWorldChunkManager() {
 		WorldType worldtype = this.worldObj.getWorldInfo().getTerrainType();
-
-		if (worldtype == WorldType.FLAT) {
-			FlatGeneratorInfo flatgeneratorinfo = FlatGeneratorInfo.createFlatGeneratorFromString(this.worldObj.getWorldInfo().getGeneratorOptions());
-			this.worldChunkMgr = new WorldChunkManagerHell(Biome.getBiomeFromBiomeList(flatgeneratorinfo.getBiome(), BiomeGenBase.ocean).toGenBase(), 0.5F);
-		} else if (worldtype == WorldType.DEBUG_WORLD) {
-			this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.plains, 0.0F);
-		} else this.worldChunkMgr = new WorldChunkManager(this.worldObj);
+		this.worldChunkMgr = worldtype.createChunkManager(this, worldinfo.getSeed(), worldinfo.getTerrainType(), worldinfo.getGeneratorOptions());
 	}
 
 	/**
 	 * Returns a new chunk provider which generates chunks for this world
 	 */
 	public IChunkProvider createChunkGenerator() {
-		if (this.terrainType == WorldType.FLAT) return new ChunkProviderFlat(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings);
-		if (this.terrainType == WorldType.DEBUG_WORLD) return new ChunkProviderDebug(this.worldObj);
-		if (this.terrainType == WorldType.CUSTOMIZED) return new ChunkProviderGenerate(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings);
-		if (this.terrainType == WorldType.EMPTY) return new ChunkProviderVoid(worldObj);
-		return new ChunkProviderGenerate(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings);
+		WorldType type = worldObj.getWorldInfo().getTerrainType();
+		return type.createChunkProvider(this);
 	}
 
 	/**
@@ -186,10 +171,6 @@ public abstract class WorldProvider {
 		return true;
 	}
 
-	public static WorldProvider getProviderForDimension(int dimension) {
-		return (WorldProvider) (dimension == -1 ? new WorldProviderHell() : dimension == 0 ? new WorldProviderSurface() : dimension == 1 ? new WorldProviderEnd() : null);
-	}
-
 	/**
 	 * the y level at which clouds are rendered.
 	 */
@@ -206,7 +187,7 @@ public abstract class WorldProvider {
 	}
 
 	public int getAverageGroundLevel() {
-		return this.terrainType == WorldType.FLAT ? 4 : this.worldObj.getSeaLevel() + 1;
+		return this.terrainType.isWeakFog() ? 4 : this.worldObj.getSeaLevel() + 1;
 	}
 
 	/**
@@ -215,7 +196,7 @@ public abstract class WorldProvider {
 	 * (256*0.03125), or 8.
 	 */
 	public double getVoidFogYFactor() {
-		return this.terrainType == WorldType.FLAT ? 1.0D : 0.03125D;
+		return this.terrainType.isWeakFog() ? 1.0D : 0x1p-5;
 	}
 
 	/**
@@ -232,7 +213,7 @@ public abstract class WorldProvider {
 
 	public abstract String getInternalNameSuffix();
 
-	public WorldChunkManager getWorldChunkManager() {
+	public IChunkManager getWorldChunkManager() {
 		return this.worldChunkMgr;
 	}
 
@@ -257,6 +238,18 @@ public abstract class WorldProvider {
 
 	public WorldBorder getWorldBorder() {
 		return new WorldBorder();
+	}
+
+	public World getWorld() {
+		return worldObj;
+	}
+
+	public String getGeneratorSettings() {
+		return generatorSettings;
+	}
+
+	public File getDimensionDir(File worldDir) {
+		return worldDir;
 	}
 
 }

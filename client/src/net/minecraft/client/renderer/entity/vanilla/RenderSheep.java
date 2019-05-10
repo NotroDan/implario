@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerSheepWool;
-import net.minecraft.entity.passive.EntitySheep;
+import vanilla.entity.passive.EntitySheep;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderSheep extends RenderLiving<EntitySheep>

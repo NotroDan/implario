@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity.vanilla;
 import net.minecraft.client.game.model.ModelEnderMite;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.monster.EntityEndermite;
+import vanilla.entity.monster.EntityEndermite;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderEndermite extends RenderLiving<EntityEndermite>

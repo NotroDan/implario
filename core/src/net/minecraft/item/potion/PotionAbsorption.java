@@ -1,7 +1,7 @@
 package net.minecraft.item.potion;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.attributes.BaseAttributeMap;
+import net.minecraft.entity.attributes.BaseAttributeMap;
 import net.minecraft.util.ResourceLocation;
 
 public class PotionAbsorption extends Potion

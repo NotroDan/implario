@@ -11,17 +11,15 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFishHook;
+import net.minecraft.resources.event.DamageByEntityEvent;
+import net.minecraft.resources.event.Event;
+import net.minecraft.resources.event.EventManager;
 import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -1182,13 +1180,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 						ItemStack itemstack = this.getCurrentEquippedItem();
 						Entity entity = targetEntity;
 
-						if (targetEntity instanceof EntityDragonPart) {
-							IEntityMultiPart ientitymultipart = ((EntityDragonPart) targetEntity).entityDragonObj;
+						DamageByEntityEvent event = EventManager.callEvent(new DamageByEntityEvent(entity, this));
+						entity = event.getDamagedEntity();
 
-							if (ientitymultipart instanceof EntityLivingBase) {
-								entity = (EntityLivingBase) ientitymultipart;
-							}
-						}
 
 						if (itemstack != null && entity instanceof EntityLivingBase) {
 							itemstack.hitEntity((EntityLivingBase) entity, this);
@@ -1641,7 +1635,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			this.triggerAchievement(AchievementList.killEnemy);
 		}
 
-		EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo) EntityList.entityEggs.get(EntityList.getEntityID(entityLivingIn));
+		EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs.get(EntityList.getEntityID(entityLivingIn));
 
 		if (entitylist$entityegginfo != null) {
 			this.triggerAchievement(entitylist$entityegginfo.field_151512_d);
@@ -1990,7 +1984,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			return true;
 		}
 		ItemStack itemstack = this.getCurrentEquippedItem();
-		return itemstack != null && itemstack.hasDisplayName() ? itemstack.getDisplayName().equals(code.getLock()) : false;
+		return itemstack != null && itemstack.hasDisplayName() && itemstack.getDisplayName().equals(code.getLock());
 	}
 
 	public boolean isWearing(EnumPlayerModelParts p_175148_1_) {
@@ -2047,7 +2041,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		this.hasReducedDebug = reducedDebug;
 	}
 
-	public static enum EnumChatVisibility {
+	public enum EnumChatVisibility {
 		FULL(0, "options.chat.visibility.full"),
 		SYSTEM(1, "options.chat.visibility.system"),
 		HIDDEN(2, "options.chat.visibility.hidden");
@@ -2056,7 +2050,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		private final int chatVisibility;
 		private final String resourceKey;
 
-		private EnumChatVisibility(int id, String resourceKey) {
+		EnumChatVisibility(int id, String resourceKey) {
 			this.chatVisibility = id;
 			this.resourceKey = resourceKey;
 		}

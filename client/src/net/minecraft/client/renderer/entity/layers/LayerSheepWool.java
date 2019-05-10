@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelSheep1;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.vanilla.RenderSheep;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntitySheep;
+import vanilla.entity.passive.EntitySheep;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;

@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelSpider;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerSpiderEyes;
-import net.minecraft.entity.monster.EntitySpider;
+import vanilla.entity.monster.EntitySpider;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderSpider<T extends EntitySpider> extends RenderLiving<T>

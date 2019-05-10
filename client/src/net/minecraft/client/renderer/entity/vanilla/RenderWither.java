@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerWitherAura;
-import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.entity.boss.EntityWither;
+import vanilla.entity.boss.BossStatus;
+import vanilla.entity.boss.EntityWither;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderWither extends RenderLiving<EntityWither>

@@ -3,7 +3,7 @@ package net.minecraft.entity.projectile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityWither;
+import vanilla.entity.boss.EntityWither;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.util.BlockPos;

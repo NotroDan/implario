@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
-import net.minecraft.entity.passive.EntityVillager;
+import vanilla.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderVillager extends RenderLiving<EntityVillager>

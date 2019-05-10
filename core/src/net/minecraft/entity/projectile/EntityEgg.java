@@ -1,7 +1,7 @@
 package net.minecraft.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityChicken;
+import vanilla.entity.passive.EntityChicken;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;

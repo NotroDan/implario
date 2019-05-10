@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.vanilla.RenderSnowMan;
-import net.minecraft.entity.monster.EntitySnowman;
+import vanilla.entity.monster.EntitySnowman;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 

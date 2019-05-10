@@ -17,7 +17,7 @@ import java.util.Set;
 public abstract class Biome {
 
 	public static final Biome[] biomeList = new Biome[256];
-	public static final BiomeVoid empty = new BiomeVoid();
+	public static final BiomeVoid VOID = new BiomeVoid();
 	public static final Set<Biome> explorationBiomesList = Sets.newHashSet();
 
 	protected final Domain domain;
@@ -40,13 +40,13 @@ public abstract class Biome {
 		return getBiomeFromBiomeList(id, null);
 	}
 
-	public static Biome getBiomeFromBiomeList(int biomeId, BiomeGenBase biome) {
+	public static Biome getBiomeFromBiomeList(int biomeId, Biome biome) {
 		if (biomeId >= 0 && biomeId <= biomeList.length) {
 			Biome biomegenbase = biomeList[biomeId];
 			return biomegenbase == null ? biome : biomegenbase;
 		}
 		Log.MAIN.warn("Biome ID is out of bounds: " + biomeId + ", defaulting to 0 (Ocean)");
-		return BiomeGenBase.ocean;
+		return Biome.VOID;
 	}
 
 
@@ -96,12 +96,8 @@ public abstract class Biome {
 		return rand.nextInt(3) > 0 ? BlockFlower.EnumFlowerType.DANDELION : BlockFlower.EnumFlowerType.POPPY;
 	}
 
-	public BiomeGenBase.TempCategory getTempCategory() {
-		return BiomeGenBase.TempCategory.MEDIUM;
-	}
-
-	public BiomeGenBase toGenBase() {
-		return BiomeGenBase.plains;
+	public TempCategory getTempCategory() {
+		return TempCategory.MEDIUM;
 	}
 
 	public int getIntRainfall() {
@@ -120,6 +116,10 @@ public abstract class Biome {
 
 	public int getWaterColorMultiplier() {
 		return 16777215;
+	}
+
+	public float getSpawningChance() {
+		return 0.1F;
 	}
 
 }

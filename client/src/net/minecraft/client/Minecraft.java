@@ -44,7 +44,7 @@ import net.minecraft.client.settings.SliderSetting;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.BossStatus;
+import vanilla.entity.boss.BossStatus;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;

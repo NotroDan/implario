@@ -4,7 +4,7 @@ import net.minecraft.client.game.model.ModelMagmaCube;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.monster.EntityMagmaCube;
+import vanilla.entity.monster.EntityMagmaCube;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderMagmaCube extends RenderLiving<EntityMagmaCube>

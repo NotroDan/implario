@@ -9,7 +9,7 @@ import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.entity.ai.pathfinding.PathPoint;
+import vanilla.entity.ai.pathfinding.PathPoint;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;

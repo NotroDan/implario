@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity.vanilla;
 import net.minecraft.client.game.model.ModelBlaze;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.monster.EntityBlaze;
+import vanilla.entity.monster.EntityBlaze;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderBlaze extends RenderLiving<EntityBlaze>

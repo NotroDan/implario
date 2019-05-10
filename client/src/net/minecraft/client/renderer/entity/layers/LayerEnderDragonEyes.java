@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.vanilla.RenderDragon;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragon;
+import vanilla.entity.boss.EntityDragon;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import shadersmod.client.Shaders;
