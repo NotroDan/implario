@@ -1,21 +1,16 @@
 package net.minecraft.resources.event;
 
-import net.minecraft.util.TokenMap;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EventManager {
-
-	public static final Map<Class<? extends Event>, List<Listener<? extends Event>>> LISTENERS = new HashMap<>();
+	public static final List<contol> list = new ArrayList<>();
 
 	public static <T extends Event> T callEvent(T event) {
-		List<Listener<? extends Event>> listeners = LISTENERS.get(event.getClass());
-		if (listeners == null) return event;
-		for (Listener<? extends Event> listener : listeners)
-			listener.handle(event);
+		for(contol contol : list){
+			if(contol.clazz == event.getClass())
+				contol.invoke(event);
+		}
 		return event;
 	}
 
@@ -28,4 +23,21 @@ public class EventManager {
 		if (listeners != null) listeners.remove(l);
 	}
 
+	private static class contol<T extends Event>{
+		private final Class<T> clazz;
+		private final List<Listener<T>> listeners = new ArrayList<>();
+
+		public contol(Class<T> clazz){
+			this.clazz = clazz;
+		}
+
+		private void invoke(T event){
+			for(Listener<T> listener : listeners)
+				listener.handle(event);
+		}
+
+		private void add(Listener<T> listener){
+			listeners.add(listener);
+		}
+	}
 }
