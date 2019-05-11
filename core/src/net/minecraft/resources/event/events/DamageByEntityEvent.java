@@ -1,6 +1,7 @@
-package net.minecraft.resources.event;
+package net.minecraft.resources.event.events;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.resources.event.Event;
 
 public class DamageByEntityEvent extends Event {
 

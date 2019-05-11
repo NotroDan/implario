@@ -1,13 +1,13 @@
 package net.minecraft.util;
 
 import com.google.common.collect.Maps;
+import net.minecraft.Logger;
+import org.apache.commons.lang3.Validate;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.lang3.Validate;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 
 public class RegistrySimple<K, V> implements IRegistry<K, V>
 {
@@ -19,7 +19,11 @@ public class RegistrySimple<K, V> implements IRegistry<K, V>
         return Maps.newHashMap();
     }
 
-    public V getObject(K name)
+	public Map<K, V> getRegistryObjects() {
+		return registryObjects;
+	}
+
+	public V getObject(K name)
     {
         return this.registryObjects.get(name);
     }

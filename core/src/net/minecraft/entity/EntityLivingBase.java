@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -201,6 +202,29 @@ public abstract class EntityLivingBase extends Entity {
 	 */
 	private int jumpTicks;
 	private float absorptionAmount;
+
+	public static int getArmorPosition(ItemStack stack) {
+		if (stack.getItem() != Item.getItemFromBlock(Blocks.pumpkin) && stack.getItem() != Items.skull) {
+			if (stack.getItem() instanceof ItemArmor) {
+				switch (((ItemArmor) stack.getItem()).armorType) {
+					case 0:
+						return 4;
+
+					case 1:
+						return 3;
+
+					case 2:
+						return 2;
+
+					case 3:
+						return 1;
+				}
+			}
+
+			return 0;
+		}
+		return 4;
+	}
 
 	/**
 	 * Called by the /kill command.

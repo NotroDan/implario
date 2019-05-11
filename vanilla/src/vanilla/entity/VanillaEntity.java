@@ -11,7 +11,6 @@ import vanilla.entity.monster.EntityMob;
 import vanilla.entity.monster.IMob;
 import vanilla.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
@@ -765,29 +764,6 @@ public abstract class VanillaEntity extends EntityLivingBase {
 				}
 			}
 		}
-	}
-
-	public static int getArmorPosition(ItemStack stack) {
-		if (stack.getItem() != Item.getItemFromBlock(Blocks.pumpkin) && stack.getItem() != Items.skull) {
-			if (stack.getItem() instanceof ItemArmor) {
-				switch (((ItemArmor) stack.getItem()).armorType) {
-					case 0:
-						return 4;
-
-					case 1:
-						return 3;
-
-					case 2:
-						return 2;
-
-					case 3:
-						return 1;
-				}
-			}
-
-			return 0;
-		}
-		return 4;
 	}
 
 	/**

@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import vanilla.tileentity.TileEntityMobSpawner;
 
 import java.util.Map;
 

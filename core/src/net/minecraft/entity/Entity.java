@@ -14,7 +14,6 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,9 +22,12 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.resources.Domain;
+import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.events.EntityKilledEntityEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -1912,6 +1914,7 @@ public abstract class Entity implements ICommandSender {
 	 * This method gets called when the entity kills another one.
 	 */
 	public void onKillEntity(EntityLivingBase entityLivingIn) {
+		E.call(new EntityKilledEntityEvent(this, entityLivingIn));
 	}
 
 	protected boolean pushOutOfBlocks(double x, double y, double z) {

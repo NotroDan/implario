@@ -8,9 +8,9 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.stats.StatList;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
+import vanilla.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
+import vanilla.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 

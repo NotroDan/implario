@@ -12,6 +12,7 @@ import net.minecraft.tileentity.*;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
+import vanilla.tileentity.TileEntityMobSpawner;
 
 import java.util.Map;
 

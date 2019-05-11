@@ -6,8 +6,8 @@ import com.google.common.primitives.Floats;
 import com.google.common.util.concurrent.Futures;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.minecraft.block.material.Material;
 import net.minecraft.Logger;
+import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -15,7 +15,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityMinecartCommandBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -30,6 +29,8 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
+import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.events.PlayerEntityActionEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Profiler;
 import net.minecraft.server.management.UserListBansEntry;
@@ -703,17 +704,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 				break;
 
 			case RIDING_JUMP:
-				if (this.playerEntity.ridingEntity instanceof EntityHorse) {
-					((EntityHorse) this.playerEntity.ridingEntity).setJumpPower(packetIn.getAuxData());
-				}
-
-				break;
-
 			case OPEN_INVENTORY:
-				if (this.playerEntity.ridingEntity instanceof EntityHorse) {
-					((EntityHorse) this.playerEntity.ridingEntity).openGUI(this.playerEntity);
-				}
-
+				E.call(new PlayerEntityActionEvent(playerEntity, packetIn.getAction(), packetIn.getAuxData()));
 				break;
 
 			default:
@@ -1078,18 +1070,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 			return;
 		}
-		if ("MC|TrSel".equals(packetIn.getChannelName())) {
-			try {
-				int i = packetIn.getBufferData().readInt();
-				Container container = this.playerEntity.openContainer;
-
-				if (container instanceof ContainerMerchant) {
-					((ContainerMerchant) container).setCurrentRecipeIndex(i);
-				}
-			} catch (Exception exception2) {
-				logger.error((String) "Couldn\'t select trade", (Throwable) exception2);
-			}
-		} else if ("MC|AdvCdm".equals(packetIn.getChannelName())) {
+		if ("MC|AdvCdm".equals(packetIn.getChannelName())) {
 			if (!this.serverController.isCommandBlockEnabled()) {
 				this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notEnabled", new Object[0]));
 			} else if (this.playerEntity.canCommandSenderUseCommand(2, "") && this.playerEntity.capabilities.isCreativeMode) {
@@ -1161,12 +1142,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 			if (packetIn.getBufferData() != null && packetIn.getBufferData().readableBytes() >= 1) {
 				String s = ChatAllowedCharacters.filterAllowedCharacters(packetIn.getBufferData().readStringFromBuffer(32767));
 
-				if (s.length() <= 30) {
-					containerrepair.updateItemName(s);
-				}
-			} else {
-				containerrepair.updateItemName("");
-			}
+				if (s.length() <= 30) containerrepair.updateItemName(s);
+			} else containerrepair.updateItemName("");
 		}
 	}
 

@@ -3,8 +3,8 @@ package net.minecraft.client.renderer.tileentity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.tileentity.TileEntityMobSpawner;
+import vanilla.tileentity.MobSpawnerBaseLogic;
+import vanilla.tileentity.TileEntityMobSpawner;
 
 public class TileEntityMobSpawnerRenderer extends TileEntitySpecialRenderer<TileEntityMobSpawner>
 {

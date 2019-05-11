@@ -17,10 +17,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.resources.event.DamageByEntityEvent;
-import net.minecraft.resources.event.Event;
-import net.minecraft.resources.event.EventManager;
-import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
@@ -28,10 +24,13 @@ import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.*;
+import net.minecraft.item.potion.Potion;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.item.potion.Potion;
+import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.events.DamageByEntityEvent;
+import net.minecraft.resources.event.events.TrySleepEvent;
 import net.minecraft.scoreboard.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
@@ -40,6 +39,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.world.*;
 
 import java.util.Collection;
@@ -407,10 +407,10 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 				if (itemStackIn.getHasSubtypes()) {
 					this.worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord,
-							new int[] {Item.getIdFromItem(itemStackIn.getItem()), itemStackIn.getMetadata()});
+							Item.getIdFromItem(itemStackIn.getItem()), itemStackIn.getMetadata());
 				} else {
 					this.worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord,
-							new int[] {Item.getIdFromItem(itemStackIn.getItem())});
+							Item.getIdFromItem(itemStackIn.getItem()));
 				}
 			}
 
@@ -470,7 +470,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 */
 	public void updateRidden() {
 		if (!this.worldObj.isRemote && this.isSneaking()) {
-			this.mountEntity((Entity) null);
+			this.mountEntity(null);
 			this.setSneaking(false);
 		} else {
 			double d0 = this.posX;
@@ -573,7 +573,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, axisalignedbb);
 
 			for (int i = 0; i < list.size(); ++i) {
-				Entity entity = (Entity) list.get(i);
+				Entity entity = list.get(i);
 
 				if (!entity.isDead) {
 					this.collideWithPlayer(entity);
@@ -941,7 +941,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	public boolean canAttackPlayer(EntityPlayer other) {
 		Team team = this.getTeam();
 		Team team1 = other.getTeam();
-		return team == null ? true : !team.isSameTeam(team1) ? true : team.getAllowFriendlyFire();
+		return team == null || (!team.isSameTeam(team1) || team.getAllowFriendlyFire());
 	}
 
 	protected void damageArmor(float p_70675_1_) {
@@ -1086,7 +1086,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Destroys the currently equipped item from the player's inventory.
 	 */
 	public void destroyCurrentEquippedItem() {
-		this.inventory.setInventorySlotContents(this.inventory.currentItem, (ItemStack) null);
+		this.inventory.setInventorySlotContents(this.inventory.currentItem, null);
 	}
 
 	/**
@@ -1180,7 +1180,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 						ItemStack itemstack = this.getCurrentEquippedItem();
 						Entity entity = targetEntity;
 
-						DamageByEntityEvent event = EventManager.callEvent(new DamageByEntityEvent(entity, this));
+						DamageByEntityEvent event = E.call(new DamageByEntityEvent(entity, this));
 						entity = event.getDamagedEntity();
 
 
@@ -1274,23 +1274,19 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 			double d0 = 8.0D;
 			double d1 = 5.0D;
-			List<EntityMob> list = this.worldObj.getEntitiesWithinAABB(EntityMob.class,
-					new AxisAlignedBB((double) bedLocation.getX() - d0, (double) bedLocation.getY() - d1, (double) bedLocation.getZ() - d0, (double) bedLocation.getX() + d0,
-							(double) bedLocation.getY() + d1, (double) bedLocation.getZ() + d0));
 
-			if (!list.isEmpty()) {
-				return EntityPlayer.EnumStatus.NOT_SAFE;
-			}
+			TrySleepEvent event = E.call(new TrySleepEvent(this, bedLocation));
+			if (event.getStatus() != null) return event.getStatus();
 		}
 
 		if (this.isRiding()) {
-			this.mountEntity((Entity) null);
+			this.mountEntity(null);
 		}
 
 		this.setSize(0.2F, 0.2F);
 
 		if (this.worldObj.isBlockLoaded(bedLocation)) {
-			EnumFacing enumfacing = (EnumFacing) this.worldObj.getBlockState(bedLocation).getValue(BlockDirectional.FACING);
+			EnumFacing enumfacing = this.worldObj.getBlockState(bedLocation).getValue(BlockDirectional.FACING);
 			float f = 0.5F;
 			float f1 = 0.5F;
 
@@ -1408,7 +1404,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 */
 	public float getBedOrientationInDegrees() {
 		if (this.playerLocation != null) {
-			EnumFacing enumfacing = (EnumFacing) this.worldObj.getBlockState(this.playerLocation).getValue(BlockDirectional.FACING);
+			EnumFacing enumfacing = this.worldObj.getBlockState(this.playerLocation).getValue(BlockDirectional.FACING);
 
 			switch (enumfacing) {
 				case SOUTH:
@@ -1630,12 +1626,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	/**
 	 * This method gets called when the entity kills another one.
 	 */
-	public void onKillEntity(EntityLivingBase entityLivingIn) {
-		if (entityLivingIn instanceof IMob) {
-			this.triggerAchievement(AchievementList.killEnemy);
-		}
-
-		EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs.get(EntityList.getEntityID(entityLivingIn));
+	public void onKillEntity(EntityLivingBase e) {
+		super.onKillEntity(e);
+		EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs.get(EntityList.getEntityID(e));
 
 		if (entitylist$entityegginfo != null) {
 			this.triggerAchievement(entitylist$entityegginfo.field_151512_d);
@@ -2010,7 +2003,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 			if (itemStackIn != null && itemStackIn.getItem() != null) {
 				if (itemStackIn.getItem() instanceof ItemArmor) {
-					if (VanillaEntity.getArmorPosition(itemStackIn) != k) {
+					if (EntityLivingBase.getArmorPosition(itemStackIn) != k) {
 						return false;
 					}
 				} else if (k != 4 || itemStackIn.getItem() != Items.skull && !(itemStackIn.getItem() instanceof ItemBlock)) {
@@ -2074,13 +2067,13 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		}
 	}
 
-	public static enum EnumStatus {
+	public enum EnumStatus {
 		OK,
 		NOT_POSSIBLE_HERE,
 		NOT_POSSIBLE_NOW,
 		TOO_FAR_AWAY,
 		OTHER_PROBLEM,
-		NOT_SAFE;
+		NOT_SAFE
 	}
 
 }

@@ -1,21 +1,24 @@
 package net.minecraft.network;
 
+import net.minecraft.resources.event.Listenable;
+
 import java.io.IOException;
 
-public interface Packet<T extends INetHandler>
-{
-    /**
-     * Reads the raw packet data from the data stream.
-     */
-    void readPacketData(PacketBuffer buf) throws IOException;
+public interface Packet<T extends INetHandler> extends Listenable {
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
-    void writePacketData(PacketBuffer buf) throws IOException;
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
+	void readPacketData(PacketBuffer buf) throws IOException;
 
-    /**
-     * Passes this Packet on to the NetHandler for processing.
-     */
-    void processPacket(T handler);
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
+	void writePacketData(PacketBuffer buf) throws IOException;
+
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	void processPacket(T handler);
+
 }

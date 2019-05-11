@@ -1,10 +1,10 @@
 package vanilla.inventory;
 
-import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
+import vanilla.entity.IMerchant;
 import vanilla.world.gen.feature.village.MerchantRecipe;
 
 public class SlotMerchantResult extends Slot

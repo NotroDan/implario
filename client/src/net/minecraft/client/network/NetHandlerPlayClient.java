@@ -59,6 +59,7 @@ import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import vanilla.tileentity.TileEntityMobSpawner;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.WorldProviderSurface;

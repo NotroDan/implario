@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.SpawnerAnimals;
+import vanilla.world.SpawnerAnimals;
 import net.minecraft.world.World;
 
 public class VillageSiege
