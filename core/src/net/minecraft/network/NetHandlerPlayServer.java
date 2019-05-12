@@ -560,6 +560,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	public void handleResourcePackStatus(C19PacketResourcePackStatus packetIn) {
 	}
 
+	@Override
+	public EntityPlayer getPlayer() {
+		return playerEntity;
+	}
+
 	/**
 	 * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
 	 */

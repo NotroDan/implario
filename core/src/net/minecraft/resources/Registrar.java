@@ -1,5 +1,6 @@
 package net.minecraft.resources;
 
+import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.resources.event.*;
 
@@ -16,10 +17,10 @@ public class Registrar {
 	}
 
 	public <T extends Event> void regListener(Class<T> c, Handler<Event, T> listener) {
-		E.getEventLib().LIB.register(domain, c, listener);
+		E.getEventLib().registerListener(domain, c, listener);
 	}
-	public <T extends Packet> void regInterceptor(Class<T> c, Handler<Packet, T> listener) {
-		E.getPacketLib().LIB.register(domain, c, listener);
+	public <L extends INetHandler, T extends Packet<L>> void regInterceptor(Class<T> c, PacketInterceptor<L, T> listener) {
+		E.getPacketLib().registerListener(domain, c, listener);
 	}
 
 	public void unregister() {

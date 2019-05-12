@@ -3104,5 +3104,8 @@ public abstract class World implements IBlockAccess {
 	public <T> T getAddition(Label<T> label) {
 		return additions.get(label);
 	}
+	public <T> void setAddition(Label<T> label, T value) {
+		additions.put(label, value);
+	}
 
 }
