@@ -197,7 +197,7 @@ public abstract class Entity implements ICommandSender {
 	 * Reduces the velocity applied by entity collisions by the specified percent.
 	 */
 	public float entityCollisionReduction;
-	protected Random rand;
+	public Random rand;
 
 	/**
 	 * How many ticks has this entity had ran since being alive
@@ -2383,6 +2383,10 @@ public abstract class Entity implements ICommandSender {
 		}
 
 		EnchantmentHelper.applyArthropodEnchantments(entityLivingBaseIn, entityIn);
+	}
+
+	public boolean suckInMinecarts() {
+		return false;
 	}
 
 }

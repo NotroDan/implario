@@ -1,6 +1,5 @@
 package net.minecraft.world;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -22,7 +21,6 @@ import net.minecraft.item.Item;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.Event;
 import net.minecraft.resources.event.events.WorldServerInitEvent;
 import net.minecraft.resources.event.events.WorldTickEvent;
 import net.minecraft.scoreboard.ScoreboardSaveData;

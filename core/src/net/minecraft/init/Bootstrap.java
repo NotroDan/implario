@@ -26,16 +26,15 @@ public class Bootstrap {
 	 * Registers blocks, items, stats, etc.
 	 */
 	public static void register() {
-		if (!alreadyRegistered) {
-			alreadyRegistered = true;
-			//if (LOGGER.isDebugEnabled())
-//				redirectOutputToLog();
+		if (alreadyRegistered) return;
 
-			Block.registerBlocks();
-			BlockFire.init();
-			Item.registerItems();
-			StatList.init();
-		}
+		alreadyRegistered = true;
+
+		Block.registerBlocks();
+		BlockFire.init();
+		Item.registerItems();
+		StatList.init();
+		// ToDo: Datapack preinit
 	}
 
 	/**

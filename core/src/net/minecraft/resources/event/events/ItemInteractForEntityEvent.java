@@ -4,8 +4,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resources.event.Event;
 
-public class ItemInteractForEntityEvent {
+public class ItemInteractForEntityEvent extends Event {
 
 	private final Item item;
 	private final ItemStack stack;

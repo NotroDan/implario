@@ -3,7 +3,6 @@ package net.minecraft.entity.item;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.VanillaEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
@@ -140,7 +139,7 @@ public class EntityArmorStand extends EntityLivingBase
             }
         }
 
-        if (itemStackIn != null && VanillaEntity.getArmorPosition(itemStackIn) != i && (i != 4 || !(itemStackIn.getItem() instanceof ItemBlock)))
+        if (itemStackIn != null && EntityLivingBase.getArmorPosition(itemStackIn) != i && (i != 4 || !(itemStackIn.getItem() instanceof ItemBlock)))
         {
             return false;
         }

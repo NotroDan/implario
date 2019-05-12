@@ -1046,6 +1046,11 @@ public abstract class VanillaEntity extends EntityLivingBase {
 		return false;
 	}
 
+	@Override
+	protected boolean suckInMinecarts() {
+		return true;
+	}
+
 	/**
 	 * Returns whether the entity is in a server world
 	 */

@@ -2,40 +2,26 @@ package vanilla.entity.boss;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import vanilla.entity.VanillaEntity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.SharedMonsterAttributes;
-import vanilla.entity.ai.tasks.EntityAIArrowAttack;
-import vanilla.entity.ai.tasks.EntityAIHurtByTarget;
-import vanilla.entity.ai.tasks.EntityAILookIdle;
-import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
-import vanilla.entity.ai.tasks.EntityAISwimming;
-import vanilla.entity.ai.tasks.EntityAIWander;
-import vanilla.entity.ai.tasks.EntityAIWatchClosest;
+import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityItem;
-import vanilla.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityWitherSkull;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.nbt.NBTTagCompound;
-import vanilla.entity.ai.pathfinding.PathNavigateGround;
 import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import vanilla.entity.VanillaEntity;
+import vanilla.entity.ai.pathfinding.PathNavigateGround;
+import vanilla.entity.ai.tasks.*;
+import vanilla.entity.monster.EntityMob;
+
+import java.util.List;
 
 public class EntityWither extends EntityMob implements IBossDisplayData, IRangedAttackMob
 {
@@ -362,7 +348,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
                                 BlockPos blockpos = new BlockPos(i3, k, l);
                                 Block block = this.worldObj.getBlockState(blockpos).getBlock();
 
-                                if (block.getMaterial() != Material.air && func_181033_a(block))
+                                if (block.getMaterial() != Material.air && EntityWitherSkull.canPass(block))
                                 {
                                     flag = this.worldObj.destroyBlock(blockpos, true) || flag;
                                 }
@@ -384,12 +370,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
         }
     }
 
-    public static boolean func_181033_a(Block p_181033_0_)
-    {
-        return p_181033_0_ != Blocks.bedrock && p_181033_0_ != Blocks.end_portal && p_181033_0_ != Blocks.end_portal_frame && p_181033_0_ != Blocks.command_block && p_181033_0_ != Blocks.barrier;
-    }
-
-    public void func_82206_m()
+	public void func_82206_m()
     {
         this.setInvulTime(220);
         this.setHealth(this.getMaxHealth() / 3.0F);

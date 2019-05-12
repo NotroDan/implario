@@ -1,21 +1,12 @@
 package net.minecraft.item;
 
-import com.google.common.base.Predicates;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.block.dispenser.BehaviorDefaultDispenseItem;
-import net.minecraft.block.dispenser.IBehaviorDispenseItem;
-import net.minecraft.block.dispenser.IBlockSource;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.VanillaEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -167,7 +158,7 @@ public class ItemArmor extends Item {
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		int i = VanillaEntity.getArmorPosition(itemStackIn) - 1;
+		int i = EntityLivingBase.getArmorPosition(itemStackIn) - 1;
 		ItemStack itemstack = playerIn.getCurrentArmor(i);
 
 		if (itemstack == null) {

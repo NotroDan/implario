@@ -7,7 +7,7 @@ import net.minecraft.block.BlockSand;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EnumCreatureType;
+import vanilla.entity.EnumCreatureType;
 import vanilla.Vanilla;
 import vanilla.entity.monster.*;
 import vanilla.entity.passive.*;

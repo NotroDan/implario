@@ -5,6 +5,7 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import vanilla.entity.EntityAgeable;
+import vanilla.entity.INpc;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.ai.tasks.*;
 import vanilla.entity.ai.tasks.village.*;

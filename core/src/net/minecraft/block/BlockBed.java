@@ -8,11 +8,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
 
 import java.util.Random;
 
@@ -40,8 +42,8 @@ public class BlockBed extends BlockDirectional {
 			}
 		}
 
-		if (worldIn.provider.canRespawnHere() && worldIn.getBiomeGenForCoords(pos) != BiomeGenBase.hell) {
-			if (state.getValue(OCCUPIED).booleanValue()) {
+		if (worldIn.provider.canRespawnHere()) {
+			if (state.getValue(OCCUPIED)) {
 				EntityPlayer entityplayer = this.getPlayerInBed(worldIn, pos);
 
 				if (entityplayer != null) {

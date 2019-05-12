@@ -14,6 +14,8 @@ public abstract class Datapack {
 		return domain;
 	}
 
+	public abstract void preinit();
+
 	public abstract void load();
 
 	public void disable() {

@@ -1,7 +1,7 @@
 package vanilla.entity.monster;
 
 import vanilla.entity.EntityCreature;
-import vanilla.entity.passive.IAnimals;
+import net.minecraft.entity.IAnimals;
 import net.minecraft.world.World;
 
 public abstract class EntityGolem extends EntityCreature implements IAnimals
