@@ -169,7 +169,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 			vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			Entity entity = null;
 			List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 			double d0 = 0.0D;

@@ -230,7 +230,7 @@ public class BlockVine extends Block
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote && !this.recheckGrownSides(worldIn, pos, state))
+        if (!worldIn.isClientSide && !this.recheckGrownSides(worldIn, pos, state))
         {
             this.dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);
@@ -239,7 +239,7 @@ public class BlockVine extends Block
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (worldIn.rand.nextInt(4) == 0)
             {
@@ -414,7 +414,7 @@ public class BlockVine extends Block
 
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te)
     {
-        if (!worldIn.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears)
+        if (!worldIn.isClientSide && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears)
         {
             player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
             spawnAsEntity(worldIn, pos, new ItemStack(Blocks.vine, 1, 0));

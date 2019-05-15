@@ -15,8 +15,6 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IMerchant;
-import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.*;
@@ -24,13 +22,13 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMapBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.network.play.server.*;
-import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -46,7 +44,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentTranslation;
-import vanilla.world.gen.feature.village.MerchantRecipeList;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -124,7 +121,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	/**
 	 * The currently in use window ID. Incremented every time a window is opened.
 	 */
-	private int currentWindowId;
+	public int currentWindowId;
 
 	/**
 	 * set to true when player is moving quantity of items from one inventory to another(crafting) but item in either
@@ -239,7 +236,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 
 		this.openContainer.detectAndSendChanges();
 
-		if (!this.worldObj.isRemote && !this.openContainer.canInteractWith(this)) {
+		if (!this.worldObj.isClientSide && !this.openContainer.canInteractWith(this)) {
 			this.closeScreen();
 			this.openContainer = this.inventoryContainer;
 		}
@@ -251,7 +248,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			int j = 0;
 
 			while (iterator.hasNext() && j < i) {
-				aint[j++] = ((Integer) iterator.next()).intValue();
+				aint[j++] = iterator.next();
 				iterator.remove();
 			}
 
@@ -603,7 +600,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	/**
 	 * get the next window id to use
 	 */
-	private void getNextWindowId() {
+	public void getNextWindowId() {
 		this.currentWindowId = this.currentWindowId % 100 + 1;
 	}
 
@@ -644,36 +641,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			this.openContainer = new ContainerChest(this.inventory, chestInventory, this);
 		}
 
-		this.openContainer.windowId = this.currentWindowId;
-		this.openContainer.onCraftGuiOpened(this);
-	}
-
-	public void displayVillagerTradeGui(IMerchant villager) {
-		this.getNextWindowId();
-		this.openContainer = new ContainerMerchant(this.inventory, villager, this.worldObj);
-		this.openContainer.windowId = this.currentWindowId;
-		this.openContainer.onCraftGuiOpened(this);
-		IInventory iinventory = ((ContainerMerchant) this.openContainer).getMerchantInventory();
-		IChatComponent ichatcomponent = villager.getDisplayName();
-		this.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(this.currentWindowId, "minecraft:villager", ichatcomponent, iinventory.getSizeInventory()));
-		MerchantRecipeList merchantrecipelist = villager.getRecipes(this);
-
-		if (merchantrecipelist != null) {
-			PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
-			packetbuffer.writeInt(this.currentWindowId);
-			merchantrecipelist.writeToBuf(packetbuffer);
-			this.playerNetServerHandler.sendPacket(new S3FPacketCustomPayload("MC|TrList", packetbuffer));
-		}
-	}
-
-	public void displayGUIHorse(EntityHorse horse, IInventory horseInventory) {
-		if (this.openContainer != this.inventoryContainer) {
-			this.closeScreen();
-		}
-
-		this.getNextWindowId();
-		this.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(this.currentWindowId, "EntityHorse", horseInventory.getDisplayName(), horseInventory.getSizeInventory(), horse.getEntityId()));
-		this.openContainer = new ContainerHorseInventory(this.inventory, horseInventory, horse, this);
 		this.openContainer.windowId = this.currentWindowId;
 		this.openContainer.onCraftGuiOpened(this);
 	}

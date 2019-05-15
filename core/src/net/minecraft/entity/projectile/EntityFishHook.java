@@ -191,7 +191,7 @@ public class EntityFishHook extends Entity
         }
         else
         {
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 ItemStack itemstack = this.angler.getCurrentEquippedItem();
 
@@ -358,7 +358,7 @@ public class EntityFishHook extends Entity
                     }
                 }
 
-                if (!this.worldObj.isRemote && d10 > 0.0D)
+                if (!this.worldObj.isClientSide && d10 > 0.0D)
                 {
                     WorldServer worldserver = (WorldServer)this.worldObj;
                     int l = 1;
@@ -528,7 +528,7 @@ public class EntityFishHook extends Entity
 
     public int handleHookRetraction()
     {
-        if (this.worldObj.isRemote)
+        if (this.worldObj.isClientSide)
         {
             return 0;
         }

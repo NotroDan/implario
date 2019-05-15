@@ -58,7 +58,7 @@ public class EntityGhast extends EntityFlying implements IMob
     {
         super.onUpdate();
 
-        if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
+        if (!this.worldObj.isClientSide && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
         {
             this.setDead();
         }

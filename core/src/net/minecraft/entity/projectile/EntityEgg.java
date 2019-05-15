@@ -35,7 +35,7 @@ public class EntityEgg extends EntityThrowable {
 					((double) this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(Items.egg));
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			this.setDead();
 		}
 	}

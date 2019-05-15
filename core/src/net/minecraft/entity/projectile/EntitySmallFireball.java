@@ -28,7 +28,7 @@ public class EntitySmallFireball extends EntityFireball {
 	 * Called when this EntityFireball hits a block or entity.
 	 */
 	protected void onImpact(MovingObjectPosition movingObject) {
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			if (movingObject.entityHit != null) {
 				boolean flag = movingObject.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 5.0F);
 

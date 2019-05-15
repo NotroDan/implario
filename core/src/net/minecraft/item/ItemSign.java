@@ -43,7 +43,7 @@ public class ItemSign extends Item
 		{
 			return false;
 		}
-		if (worldIn.isRemote)
+		if (worldIn.isClientSide)
 		{
 			return true;
 		}

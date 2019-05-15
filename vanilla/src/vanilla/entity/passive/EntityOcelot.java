@@ -201,7 +201,7 @@ public class EntityOcelot extends EntityTameable
 
         if (this.isTamed())
         {
-            if (this.isOwner(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack))
+            if (this.isOwner(player) && !this.worldObj.isClientSide && !this.isBreedingItem(itemstack))
             {
                 this.aiSit.setSitting(!this.isSitting());
             }
@@ -218,7 +218,7 @@ public class EntityOcelot extends EntityTameable
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
             }
 
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 if (this.rand.nextInt(3) == 0)
                 {

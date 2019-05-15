@@ -139,7 +139,7 @@ public class BlockTripWire extends Block
 
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears)
             {
@@ -180,7 +180,7 @@ public class BlockTripWire extends Block
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (!((Boolean)state.getValue(POWERED)).booleanValue())
             {
@@ -198,7 +198,7 @@ public class BlockTripWire extends Block
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (((Boolean)worldIn.getBlockState(pos).getValue(POWERED)).booleanValue())
             {

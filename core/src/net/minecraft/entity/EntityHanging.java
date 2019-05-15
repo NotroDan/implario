@@ -103,7 +103,7 @@ public abstract class EntityHanging extends Entity
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        if (this.tickCounter1++ == 100 && !this.worldObj.isRemote)
+        if (this.tickCounter1++ == 100 && !this.worldObj.isClientSide)
         {
             this.tickCounter1 = 0;
 
@@ -184,7 +184,7 @@ public abstract class EntityHanging extends Entity
         {
             return false;
         }
-		if (!this.isDead && !this.worldObj.isRemote)
+		if (!this.isDead && !this.worldObj.isClientSide)
 		{
 			this.setDead();
 			this.setBeenAttacked();
@@ -199,7 +199,7 @@ public abstract class EntityHanging extends Entity
      */
     public void moveEntity(double x, double y, double z)
     {
-        if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D)
+        if (!this.worldObj.isClientSide && !this.isDead && x * x + y * y + z * z > 0.0D)
         {
             this.setDead();
             this.onBroken((Entity)null);
@@ -211,7 +211,7 @@ public abstract class EntityHanging extends Entity
      */
     public void addVelocity(double x, double y, double z)
     {
-        if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D)
+        if (!this.worldObj.isClientSide && !this.isDead && x * x + y * y + z * z > 0.0D)
         {
             this.setDead();
             this.onBroken((Entity)null);

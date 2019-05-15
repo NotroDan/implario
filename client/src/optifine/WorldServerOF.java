@@ -59,26 +59,22 @@ public class WorldServerOF extends WorldServer {
 
 	private void fixWorldTime() {
 		if (this.worldInfo.getGameType().getID() == 1) {
-			long i = this.getWorldTime();
-			long j = i % 24000L;
+			long time = this.getWorldTime();
+			long daytime = time % 24000L;
+			long dt = time - daytime;
 
 			if (Config.isTimeDayOnly()) {
-				if (j <= 1000L) {
-					this.setWorldTime(i - j + 1001L);
-				}
-
-				if (j >= 11000L) {
-					this.setWorldTime(i - j + 24001L);
-				}
+				if (daytime <= 1000L) this.setWorldTime(dt + 1001L);
+				if (daytime >= 11000L) this.setWorldTime(dt + 24001L);
 			}
 
 			if (Config.isTimeNightOnly()) {
-				if (j <= 14000L) {
-					this.setWorldTime(i - j + 14001L);
+				if (daytime <= 14000L) {
+					this.setWorldTime(dt + 14001L);
 				}
 
-				if (j >= 22000L) {
-					this.setWorldTime(i - j + 24000L + 14001L);
+				if (daytime >= 22000L) {
+					this.setWorldTime(dt + 24000L + 14001L);
 				}
 			}
 		}

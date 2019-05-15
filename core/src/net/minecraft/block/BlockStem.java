@@ -155,7 +155,7 @@ public class BlockStem extends BlockBush implements IGrowable
     {
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             Item item = this.getSeedItem();
 

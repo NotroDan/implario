@@ -28,7 +28,7 @@ public class EntitySnowball extends EntityThrowable {
 			this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			this.setDead();
 		}
 	}

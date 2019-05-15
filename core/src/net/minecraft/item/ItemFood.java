@@ -67,7 +67,7 @@ public class ItemFood extends Item
 
     protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
     {
-        if (!worldIn.isRemote && this.potionId > 0 && worldIn.rand.nextFloat() < this.potionEffectProbability)
+        if (!worldIn.isClientSide && this.potionId > 0 && worldIn.rand.nextFloat() < this.potionEffectProbability)
         {
             player.addPotionEffect(new PotionEffect(this.potionId, this.potionDuration * 20, this.potionAmplifier));
         }

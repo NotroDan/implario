@@ -534,7 +534,7 @@ public class Block {
 	 * Spawns this Block's drops into the World as EntityItems.
 	 */
 	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			int i = this.quantityDroppedWithBonus(fortune, worldIn.rand);
 
 			for (int j = 0; j < i; ++j) {
@@ -553,7 +553,7 @@ public class Block {
 	 * Spawns the given ItemStack as an EntityItem into the World at the given position
 	 */
 	public static void spawnAsEntity(World worldIn, BlockPos pos, ItemStack stack) {
-		if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doTileDrops")) {
+		if (!worldIn.isClientSide && worldIn.getGameRules().getBoolean("doTileDrops")) {
 			float f = 0.5F;
 			double d0 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 			double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
@@ -568,7 +568,7 @@ public class Block {
 	 * Spawns the given amount of experience into the World as XP orb entities
 	 */
 	protected void dropXpOnBlockBreak(World worldIn, BlockPos pos, int amount) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			while (amount > 0) {
 				int i = EntityXPOrb.getXPSplit(amount);
 				amount -= i;

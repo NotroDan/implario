@@ -1,24 +1,20 @@
 package net.minecraft.block;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import vanilla.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.InventoryLargeChest;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
@@ -143,7 +139,7 @@ public class BlockChest extends BlockContainer {
 	}
 
 	public IBlockState checkForSurroundingChests(World worldIn, BlockPos pos, IBlockState state) {
-		if (worldIn.isRemote) {
+		if (worldIn.isClientSide) {
 			return state;
 		}
 		IBlockState iblockstate = worldIn.getBlockState(pos.north());
@@ -341,7 +337,7 @@ public class BlockChest extends BlockContainer {
 	}
 
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (worldIn.isRemote) {
+		if (worldIn.isClientSide) {
 			return true;
 		}
 		ILockableContainer ilockablecontainer = this.getLockableContainer(worldIn, pos);
@@ -427,24 +423,11 @@ public class BlockChest extends BlockContainer {
 	}
 
 	private boolean isBlocked(World worldIn, BlockPos pos) {
-		return this.isBelowSolidBlock(worldIn, pos) || this.isOcelotSittingOnChest(worldIn, pos);
+		return this.isBelowSolidBlock(worldIn, pos);
 	}
 
 	private boolean isBelowSolidBlock(World worldIn, BlockPos pos) {
 		return worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
-	}
-
-	private boolean isOcelotSittingOnChest(World worldIn, BlockPos pos) {
-		for (Entity entity : worldIn.getEntitiesWithinAABB(EntityOcelot.class,
-				new AxisAlignedBB((double) pos.getX(), (double) (pos.getY() + 1), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 2), (double) (pos.getZ() + 1)))) {
-			EntityOcelot entityocelot = (EntityOcelot) entity;
-
-			if (entityocelot.isSitting()) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	public boolean hasComparatorInputOverride() {
@@ -476,7 +459,7 @@ public class BlockChest extends BlockContainer {
 	}
 
 	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] {FACING});
+		return new BlockState(this, FACING);
 	}
 
 }

@@ -116,7 +116,7 @@ public abstract class World implements IBlockAccess {
 	 * True if the world is a 'slave' client; changes will not be saved or propagated from this world. For example,
 	 * server worlds have this set to false, client worlds have this set to true.
 	 */
-	public final boolean isRemote;
+	public final boolean isClientSide;
 	protected Set<ChunkCoordIntPair> activeChunkSet = Sets.newHashSet();
 
 	/**
@@ -153,7 +153,7 @@ public abstract class World implements IBlockAccess {
 		this.theProfiler = profilerIn;
 		this.worldInfo = info;
 		this.provider = providerIn;
-		this.isRemote = client;
+		this.isClientSide = client;
 		this.worldBorder = providerIn.getWorldBorder();
 	}
 
@@ -297,7 +297,7 @@ public abstract class World implements IBlockAccess {
 		if (!this.isValid(pos)) {
 			return false;
 		}
-		if (!this.isRemote && this.worldInfo.getTerrainType().isModificationAllowed()) {
+		if (!this.isClientSide && this.worldInfo.getTerrainType().isModificationAllowed()) {
 			return false;
 		}
 		Chunk chunk = this.getChunkFromBlockCoords(pos);
@@ -315,11 +315,11 @@ public abstract class World implements IBlockAccess {
 			this.theProfiler.endSection();
 		}
 
-		if ((flags & 2) != 0 && (!this.isRemote || (flags & 4) == 0) && chunk.isPopulated()) {
+		if ((flags & 2) != 0 && (!this.isClientSide || (flags & 4) == 0) && chunk.isPopulated()) {
 			this.markBlockForUpdate(pos);
 		}
 
-		if (!this.isRemote && (flags & 1) != 0) {
+		if (!this.isClientSide && (flags & 1) != 0) {
 			this.notifyNeighborsRespectDebug(pos, iblockstate.getBlock());
 
 			if (block.hasComparatorInputOverride()) {
@@ -437,7 +437,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void notifyBlockOfStateChange(BlockPos pos, final Block blockIn) {
-		if (!this.isRemote) {
+		if (!this.isClientSide) {
 			IBlockState iblockstate = this.getBlockState(pos);
 
 			try {
@@ -2015,7 +2015,7 @@ public abstract class World implements IBlockAccess {
 	 */
 	protected void updateWeather() {
 		if (!this.provider.getHasNoSky()) {
-			if (!this.isRemote) {
+			if (!this.isClientSide) {
 				int i = this.worldInfo.getCleanWeatherTime();
 
 				if (i > 0) {
@@ -2123,7 +2123,7 @@ public abstract class World implements IBlockAccess {
 	protected void playMoodSoundAndCheckLight(int p_147467_1_, int p_147467_2_, Chunk chunkIn) {
 		this.theProfiler.endStartSection("moodSound");
 
-		if (this.ambientTickCountdown == 0 && !this.isRemote) {
+		if (this.ambientTickCountdown == 0 && !this.isClientSide) {
 			this.updateLCG = this.updateLCG * 3 + 1013904223;
 			int i = this.updateLCG >> 2;
 			int j = i & 15;

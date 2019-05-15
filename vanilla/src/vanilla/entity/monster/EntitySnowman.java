@@ -50,7 +50,7 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
     {
         super.onLivingUpdate();
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             int i = MathHelper.floor_double(this.posX);
             int j = MathHelper.floor_double(this.posY);

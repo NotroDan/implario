@@ -141,7 +141,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 	 * Called when the entity is attacked.
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if (!this.worldObj.isRemote && !this.isDead) {
+		if (!this.worldObj.isClientSide && !this.isDead) {
 			if (this.isEntityInvulnerable(source)) {
 				return false;
 			}
@@ -221,7 +221,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 			this.kill();
 		}
 
-		if (!this.worldObj.isRemote && this.worldObj instanceof WorldServer) {
+		if (!this.worldObj.isClientSide && this.worldObj instanceof WorldServer) {
 			this.worldObj.theProfiler.startSection("portal");
 			MinecraftServer minecraftserver = ((WorldServer) this.worldObj).getMinecraftServer();
 			int i = this.getMaxInPortalTime();
@@ -261,7 +261,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 			this.worldObj.theProfiler.endSection();
 		}
 
-		if (this.worldObj.isRemote) {
+		if (this.worldObj.isClientSide) {
 			if (this.turnProgress > 0) {
 				double d4 = this.posX + (this.minecartX - this.posX) / (double) this.turnProgress;
 				double d5 = this.posY + (this.minecartY - this.posY) / (double) this.turnProgress;
@@ -727,7 +727,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 	 * Applies a velocity to each of the entities pushing them away from each other. Args: entity
 	 */
 	public void applyEntityCollision(Entity entityIn) {
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			if (!entityIn.noClip && !this.noClip) {
 				if (entityIn != this.riddenByEntity) {
 					if (entityIn.suckInMinecarts() && this.getMinecartType() == EntityMinecart.EnumMinecartType.RIDEABLE &&

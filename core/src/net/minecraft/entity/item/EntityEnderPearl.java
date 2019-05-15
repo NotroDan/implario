@@ -47,7 +47,7 @@ public class EntityEnderPearl extends EntityThrowable {
 					this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			if (entitylivingbase instanceof EntityPlayerMP) {
 				EntityPlayerMP entityplayermp = (EntityPlayerMP) entitylivingbase;
 

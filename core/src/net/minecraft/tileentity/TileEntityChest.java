@@ -320,7 +320,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
         int k = this.pos.getZ();
         ++this.ticksSinceSync;
 
-        if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0)
+        if (!this.worldObj.isClientSide && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0)
         {
             this.numPlayersUsing = 0;
             float f = 5.0F;

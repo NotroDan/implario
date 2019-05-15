@@ -30,14 +30,14 @@ public class ItemAppleGold extends ItemFood
 
     protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             player.addPotionEffect(new PotionEffect(Potion.absorption.id, 2400, 0));
         }
 
         if (stack.getMetadata() > 0)
         {
-            if (!worldIn.isRemote)
+            if (!worldIn.isClientSide)
             {
                 player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 4));
                 player.addPotionEffect(new PotionEffect(Potion.resistance.id, 6000, 0));

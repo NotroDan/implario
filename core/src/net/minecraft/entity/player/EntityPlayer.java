@@ -168,7 +168,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		super(worldIn);
 		this.entityUniqueID = getUUID(gameProfileIn);
 		this.gameProfile = gameProfileIn;
-		this.inventoryContainer = new ContainerPlayer(this.inventory, !worldIn.isRemote, this);
+		this.inventoryContainer = new ContainerPlayer(this.inventory, !worldIn.isClientSide, this);
 		this.openContainer = this.inventoryContainer;
 		BlockPos blockpos = worldIn.getSpawnPoint();
 		this.setLocationAndAngles((double) blockpos.getX() + 0.5D, (double) (blockpos.getY() + 1), (double) blockpos.getZ() + 0.5D, 0.0F, 0.0F);
@@ -230,7 +230,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		this.itemInUse = null;
 		this.itemInUseCount = 0;
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			this.setEating(false);
 		}
 	}
@@ -257,7 +257,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 					this.updateItemUse(itemstack, 5);
 				}
 
-				if (--this.itemInUseCount == 0 && !this.worldObj.isRemote) {
+				if (--this.itemInUseCount == 0 && !this.worldObj.isClientSide) {
 					this.onItemUseFinish();
 				}
 			} else {
@@ -276,7 +276,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 				this.sleepTimer = 100;
 			}
 
-			if (!this.worldObj.isRemote) {
+			if (!this.worldObj.isClientSide) {
 				if (!this.isInBed()) {
 					this.wakeUpPlayer(true, true, false);
 				} else if (this.worldObj.isDaytime()) {
@@ -293,7 +293,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 		super.onUpdate();
 
-		if (!this.worldObj.isRemote && this.openContainer != null && !this.openContainer.canInteractWith(this)) {
+		if (!this.worldObj.isClientSide && this.openContainer != null && !this.openContainer.canInteractWith(this)) {
 			this.closeScreen();
 			this.openContainer = this.inventoryContainer;
 		}
@@ -342,7 +342,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			this.startMinecartRidingCoordinate = null;
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			this.foodStats.onUpdate(this);
 			this.triggerAchievement(StatList.minutesPlayedStat);
 
@@ -469,7 +469,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Handles updating while being ridden by an entity
 	 */
 	public void updateRidden() {
-		if (!this.worldObj.isRemote && this.isSneaking()) {
+		if (!this.worldObj.isClientSide && this.isSneaking()) {
 			this.mountEntity(null);
 			this.setSneaking(false);
 		} else {
@@ -532,7 +532,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		super.onLivingUpdate();
 		IAttributeInstance iattributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			iattributeinstance.setBaseValue((double) this.capabilities.getWalkSpeed());
 		}
 
@@ -908,7 +908,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		if (this.getHealth() <= 0.0F) {
 			return false;
 		}
-		if (this.isPlayerSleeping() && !this.worldObj.isRemote) {
+		if (this.isPlayerSleeping() && !this.worldObj.isClientSide) {
 			this.wakeUpPlayer(true, true, false);
 		}
 
@@ -1255,7 +1255,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	}
 
 	public EntityPlayer.EnumStatus trySleep(BlockPos bedLocation) {
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			if (this.isPlayerSleeping() || !this.isEntityAlive()) {
 				return EntityPlayer.EnumStatus.OTHER_PROBLEM;
 			}
@@ -1318,7 +1318,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		this.playerLocation = bedLocation;
 		this.motionX = this.motionZ = this.motionY = 0.0D;
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			this.worldObj.updateAllPlayersSleepingFlag();
 		}
 
@@ -1367,7 +1367,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 		this.sleeping = false;
 
-		if (!this.worldObj.isRemote && updateWorldFlag) {
+		if (!this.worldObj.isClientSide && updateWorldFlag) {
 			this.worldObj.updateAllPlayersSleepingFlag();
 		}
 
@@ -1715,7 +1715,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 */
 	public void addExhaustion(float p_71020_1_) {
 		if (!this.capabilities.disableDamage) {
-			if (!this.worldObj.isRemote) {
+			if (!this.worldObj.isClientSide) {
 				this.foodStats.addExhaustion(p_71020_1_);
 			}
 		}
@@ -1747,7 +1747,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			this.itemInUse = stack;
 			this.itemInUseCount = duration;
 
-			if (!this.worldObj.isRemote) {
+			if (!this.worldObj.isClientSide) {
 				this.setEating(true);
 			}
 		}

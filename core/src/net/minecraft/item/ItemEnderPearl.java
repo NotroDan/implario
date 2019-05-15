@@ -21,7 +21,7 @@ public class ItemEnderPearl extends Item {
 		--itemStackIn.stackSize;
 		worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-		if (!worldIn.isRemote) worldIn.spawnEntityInWorld(new EntityEnderPearl(worldIn, playerIn));
+		if (!worldIn.isClientSide) worldIn.spawnEntityInWorld(new EntityEnderPearl(worldIn, playerIn));
 
 		playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 		return itemStackIn;

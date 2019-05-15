@@ -279,7 +279,7 @@ public class EntityArrow extends Entity implements IProjectile {
 						if (movingobjectposition.entityHit instanceof EntityLivingBase) {
 							EntityLivingBase entitylivingbase = (EntityLivingBase) movingobjectposition.entityHit;
 
-							if (!this.worldObj.isRemote) {
+							if (!this.worldObj.isClientSide) {
 								entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
 							}
 
@@ -450,7 +450,7 @@ public class EntityArrow extends Entity implements IProjectile {
 	 * Called by a player entity when they collide with an entity
 	 */
 	public void onCollideWithPlayer(EntityPlayer entityIn) {
-		if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0) {
+		if (!this.worldObj.isClientSide && this.inGround && this.arrowShake <= 0) {
 			boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && entityIn.capabilities.isCreativeMode;
 
 			if (this.canBePickedUp == 1 && !entityIn.inventory.addItemStackToInventory(new ItemStack(Items.arrow, 1))) {

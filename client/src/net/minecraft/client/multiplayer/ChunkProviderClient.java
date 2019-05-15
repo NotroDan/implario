@@ -108,7 +108,7 @@ public class ChunkProviderClient implements IChunkProvider
 
         for (Chunk chunk : this.chunkListing)
         {
-            chunk.func_150804_b(System.currentTimeMillis() - i > 5L);
+            chunk.tick(System.currentTimeMillis() - i > 5L);
         }
 
         if (System.currentTimeMillis() - i > 100L)

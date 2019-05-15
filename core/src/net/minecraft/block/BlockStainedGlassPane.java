@@ -83,7 +83,7 @@ public class BlockStainedGlassPane extends BlockPane
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             BlockBeacon.updateColorAsync(worldIn, pos);
         }
@@ -91,7 +91,7 @@ public class BlockStainedGlassPane extends BlockPane
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             BlockBeacon.updateColorAsync(worldIn, pos);
         }

@@ -61,7 +61,7 @@ public class ItemSkull extends Item
 		{
 			return false;
 		}
-		if (!worldIn.isRemote)
+		if (!worldIn.isClientSide)
 		{
 			worldIn.setBlockState(pos, Blocks.skull.getDefaultState().withProperty(BlockSkull.FACING, side), 3);
 			int i = 0;

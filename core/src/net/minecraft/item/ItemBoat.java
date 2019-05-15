@@ -90,7 +90,7 @@ public class ItemBoat extends Item
 				return itemStackIn;
 			}
 
-			if (!worldIn.isRemote)
+			if (!worldIn.isClientSide)
 			{
 				worldIn.spawnEntityInWorld(entityboat);
 			}

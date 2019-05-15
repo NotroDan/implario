@@ -60,7 +60,7 @@ public class BlockNetherWart extends BlockBush
      */
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             int i = 1;
 

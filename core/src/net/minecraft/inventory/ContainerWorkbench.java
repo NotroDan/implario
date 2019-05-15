@@ -63,7 +63,7 @@ public class ContainerWorkbench extends Container
     {
         super.onContainerClosed(playerIn);
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             for (int i = 0; i < 9; ++i)
             {

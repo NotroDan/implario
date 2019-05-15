@@ -147,7 +147,7 @@ public class BlockCrops extends BlockBush implements IGrowable
     {
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, 0);
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             int i = ((Integer)state.getValue(AGE)).intValue();
 

@@ -123,7 +123,7 @@ public abstract class CommandBlockLogic implements ICommandSender
 
     public void trigger(World worldIn)
     {
-        if (worldIn.isRemote)
+        if (worldIn.isClientSide)
         {
             this.successCount = 0;
         }
@@ -192,7 +192,7 @@ public abstract class CommandBlockLogic implements ICommandSender
      */
     public void addChatMessage(IChatComponent component)
     {
-        if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isRemote)
+        if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isClientSide)
         {
             this.lastOutput = new ChatComponentText("[" + timestampFormat.format(new Date()) + "] ").appendSibling(component);
             this.updateCommand();
@@ -240,7 +240,7 @@ public abstract class CommandBlockLogic implements ICommandSender
         {
             return false;
         }
-		if (playerIn.getEntityWorld().isRemote)
+		if (playerIn.getEntityWorld().isClientSide)
 		{
 			playerIn.openEditCommandBlock(this);
 		}

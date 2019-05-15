@@ -76,7 +76,7 @@ public class BlockDaylightDetector extends BlockContainer
     {
         if (playerIn.isAllowEdit())
         {
-            if (worldIn.isRemote)
+            if (worldIn.isClientSide)
             {
                 return true;
             }

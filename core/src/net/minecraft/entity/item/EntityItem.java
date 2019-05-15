@@ -14,7 +14,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraft.LogManager;
 import net.minecraft.Logger;
 
 public class EntityItem extends Entity
@@ -113,7 +112,7 @@ public class EntityItem extends Entity
                     this.playSound("random.fizz", 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
                 }
 
-                if (!this.worldObj.isRemote)
+                if (!this.worldObj.isClientSide)
                 {
                     this.searchForOtherItemsNearby();
                 }
@@ -142,7 +141,7 @@ public class EntityItem extends Entity
 
             this.handleWaterMovement();
 
-            if (!this.worldObj.isRemote && this.age >= 6000)
+            if (!this.worldObj.isClientSide && this.age >= 6000)
             {
                 this.setDead();
             }
@@ -347,7 +346,7 @@ public class EntityItem extends Entity
      */
     public void onCollideWithPlayer(EntityPlayer entityIn)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             ItemStack itemstack = this.getEntityItem();
             int i = itemstack.stackSize;
@@ -427,7 +426,7 @@ public class EntityItem extends Entity
     {
         super.travelToDimension(dimensionId);
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.searchForOtherItemsNearby();
         }

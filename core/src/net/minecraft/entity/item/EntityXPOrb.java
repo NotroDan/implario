@@ -228,7 +228,7 @@ public class EntityXPOrb extends Entity
      */
     public void onCollideWithPlayer(EntityPlayer entityIn)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             if (this.delayBeforeCanPickup == 0 && entityIn.xpCooldown == 0)
             {

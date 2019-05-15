@@ -366,7 +366,7 @@ public abstract class Entity implements ICommandSender {
 					new AxisAlignedBB(this.getEntityBoundingBox().minX, this.getEntityBoundingBox().minY, this.getEntityBoundingBox().minZ, this.getEntityBoundingBox().minX + (double) this.width,
 							this.getEntityBoundingBox().minY + (double) this.height, this.getEntityBoundingBox().minZ + (double) this.width));
 
-			if (this.width > f && !this.firstUpdate && !this.worldObj.isRemote) {
+			if (this.width > f && !this.firstUpdate && !this.worldObj.isClientSide) {
 				this.moveEntity((double) (f - this.width), 0.0D, (double) (f - this.width));
 			}
 		}
@@ -430,7 +430,7 @@ public abstract class Entity implements ICommandSender {
 		this.prevRotationPitch = this.rotationPitch;
 		this.prevRotationYaw = this.rotationYaw;
 
-		if (!this.worldObj.isRemote && this.worldObj instanceof WorldServer) {
+		if (!this.worldObj.isClientSide && this.worldObj instanceof WorldServer) {
 			this.worldObj.theProfiler.startSection("portal");
 			MinecraftServer minecraftserver = ((WorldServer) this.worldObj).getMinecraftServer();
 			int i = this.getMaxInPortalTime();
@@ -463,7 +463,7 @@ public abstract class Entity implements ICommandSender {
 		this.spawnRunningParticles();
 		this.handleWaterMovement();
 
-		if (this.worldObj.isRemote) this.fire = 0;
+		if (this.worldObj.isClientSide) this.fire = 0;
 		else if (this.fire > 0) {
 			if (this.isImmuneToFire) {
 				this.fire -= 4;
@@ -481,7 +481,7 @@ public abstract class Entity implements ICommandSender {
 
 		if (this.posY < -64.0D) this.kill();
 
-		if (!this.worldObj.isRemote) this.setFlag(0, this.fire > 0);
+		if (!this.worldObj.isClientSide) this.setFlag(0, this.fire > 0);
 
 		this.firstUpdate = false;
 		this.worldObj.theProfiler.endSection();
@@ -1745,7 +1745,7 @@ public abstract class Entity implements ICommandSender {
 		if (this.timeUntilPortal > 0) {
 			this.timeUntilPortal = this.getPortalCooldown();
 		} else {
-			if (!this.worldObj.isRemote && !p_181015_1_.equals(this.field_181016_an)) {
+			if (!this.worldObj.isClientSide && !p_181015_1_.equals(this.field_181016_an)) {
 				this.field_181016_an = p_181015_1_;
 				BlockPattern.PatternHelper blockpattern$patternhelper = Blocks.portal.func_181089_f(this.worldObj, p_181015_1_);
 				double d0 = blockpattern$patternhelper.getFinger().getAxis() == EnumFacing.Axis.X ? (double) blockpattern$patternhelper.func_181117_a().getZ() : (double) blockpattern$patternhelper.func_181117_a().getX();
@@ -1804,7 +1804,7 @@ public abstract class Entity implements ICommandSender {
 	 * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
 	 */
 	public boolean isBurning() {
-		boolean flag = this.worldObj != null && this.worldObj.isRemote;
+		boolean flag = this.worldObj != null && this.worldObj.isClientSide;
 		return !this.isImmuneToFire && (this.fire > 0 || flag && this.getFlag(0));
 	}
 
@@ -2083,7 +2083,7 @@ public abstract class Entity implements ICommandSender {
 	 * Teleports the entity to another dimension. Params: Dimension number to teleport to
 	 */
 	public void travelToDimension(int dimensionId) {
-		if (!this.worldObj.isRemote && !this.isDead) {
+		if (!this.worldObj.isClientSide && !this.isDead) {
 			this.worldObj.theProfiler.startSection("changeDimension");
 			MinecraftServer minecraftserver = MinecraftServer.getServer();
 			int i = this.dimension;

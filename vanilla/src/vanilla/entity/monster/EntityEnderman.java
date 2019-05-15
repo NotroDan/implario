@@ -147,7 +147,7 @@ public class EntityEnderman extends EntityMob
      */
     public void onLivingUpdate()
     {
-        if (this.worldObj.isRemote)
+        if (this.worldObj.isClientSide)
         {
             for (int i = 0; i < 2; ++i)
             {
@@ -355,7 +355,7 @@ public class EntityEnderman extends EntityMob
         }
 		if (source.getEntity() == null || !(source.getEntity() instanceof EntityEndermite))
 		{
-			if (!this.worldObj.isRemote)
+			if (!this.worldObj.isClientSide)
 			{
 				this.setScreaming(true);
 			}

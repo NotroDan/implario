@@ -25,7 +25,7 @@ public class ItemBucketMilk extends Item
             --stack.stackSize;
         }
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             playerIn.clearActivePotions();
         }

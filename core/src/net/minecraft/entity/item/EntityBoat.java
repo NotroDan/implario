@@ -112,7 +112,7 @@ public class EntityBoat extends Entity
         {
             return false;
         }
-		if (!this.worldObj.isRemote && !this.isDead)
+		if (!this.worldObj.isClientSide && !this.isDead)
 		{
 			if (this.riddenByEntity != null && this.riddenByEntity == source.getEntity() && source instanceof EntityDamageSourceIndirect)
 			{
@@ -281,7 +281,7 @@ public class EntityBoat extends Entity
             }
         }
 
-        if (this.worldObj.isRemote && this.isBoatEmpty)
+        if (this.worldObj.isClientSide && this.isBoatEmpty)
         {
             if (this.boatPosRotationIncrements > 0)
             {
@@ -403,7 +403,7 @@ public class EntityBoat extends Entity
 
             if (this.isCollidedHorizontally && d9 > 0.2975D)
             {
-                if (!this.worldObj.isRemote && !this.isDead)
+                if (!this.worldObj.isClientSide && !this.isDead)
                 {
                     this.setDead();
 
@@ -453,7 +453,7 @@ public class EntityBoat extends Entity
             this.rotationYaw = (float)((double)this.rotationYaw + d23);
             this.setRotation(this.rotationYaw, this.rotationPitch);
 
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.20000000298023224D, 0.0D, 0.20000000298023224D));
 
@@ -511,7 +511,7 @@ public class EntityBoat extends Entity
         {
             return true;
         }
-		if (!this.worldObj.isRemote)
+		if (!this.worldObj.isClientSide)
 		{
 			playerIn.mountEntity(this);
 		}
@@ -527,7 +527,7 @@ public class EntityBoat extends Entity
             {
                 this.fall(this.fallDistance, 1.0F);
 
-                if (!this.worldObj.isRemote && !this.isDead)
+                if (!this.worldObj.isClientSide && !this.isDead)
                 {
                     this.setDead();
 

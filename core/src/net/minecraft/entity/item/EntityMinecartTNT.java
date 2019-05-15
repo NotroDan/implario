@@ -106,7 +106,7 @@ public class EntityMinecartTNT extends EntityMinecart
      */
     protected void explodeCart(double p_94103_1_)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             double d0 = Math.sqrt(p_94103_1_);
 
@@ -161,7 +161,7 @@ public class EntityMinecartTNT extends EntityMinecart
     {
         this.minecartTNTFuse = 80;
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.worldObj.setEntityState(this, (byte)10);
 

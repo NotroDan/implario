@@ -55,7 +55,7 @@ public class BlockGrass extends Block implements IGrowable
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up()).getBlock().getLightOpacity() > 2)
             {

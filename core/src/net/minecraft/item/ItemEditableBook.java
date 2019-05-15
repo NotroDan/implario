@@ -86,7 +86,7 @@ public class ItemEditableBook extends Item
      */
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             this.resolveContents(itemStackIn, playerIn);
         }

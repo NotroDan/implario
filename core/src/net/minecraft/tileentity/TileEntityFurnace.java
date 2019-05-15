@@ -208,7 +208,7 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 			--this.furnaceBurnTime;
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			if (this.isBurning() || this.furnaceItemStacks[1] != null && this.furnaceItemStacks[0] != null) {
 				if (!this.isBurning() && this.canSmelt()) {
 					this.currentItemBurnTime = this.furnaceBurnTime = getItemBurnTime(this.furnaceItemStacks[1]);

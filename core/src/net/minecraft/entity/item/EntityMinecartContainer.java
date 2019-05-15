@@ -219,7 +219,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
      */
     public boolean interactFirst(EntityPlayer playerIn)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             playerIn.displayGUIChest(this);
         }

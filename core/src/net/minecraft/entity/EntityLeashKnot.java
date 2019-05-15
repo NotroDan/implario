@@ -102,7 +102,7 @@ public class EntityLeashKnot extends EntityHanging
         ItemStack itemstack = playerIn.getHeldItem();
         boolean flag = false;
 
-        if (itemstack != null && itemstack.getItem() == Items.lead && !this.worldObj.isRemote)
+        if (itemstack != null && itemstack.getItem() == Items.lead && !this.worldObj.isClientSide)
         {
             double d0 = 7.0D;
 
@@ -117,7 +117,7 @@ public class EntityLeashKnot extends EntityHanging
             }
         }
 
-        if (!this.worldObj.isRemote && !flag)
+        if (!this.worldObj.isClientSide && !flag)
         {
             this.setDead();
 

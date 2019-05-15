@@ -80,7 +80,7 @@ public class EntityTNTPrimed extends Entity
         {
             this.setDead();
 
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 this.explode();
             }

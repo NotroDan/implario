@@ -30,7 +30,7 @@ public class BlockBed extends BlockDirectional {
 	}
 
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (worldIn.isRemote) {
+		if (worldIn.isClientSide) {
 			return true;
 		}
 		if (state.getValue(PART) != BlockBed.EnumPartType.HEAD) {
@@ -119,7 +119,7 @@ public class BlockBed extends BlockDirectional {
 		} else if (worldIn.getBlockState(pos.offset(enumfacing)).getBlock() != this) {
 			worldIn.setBlockToAir(pos);
 
-			if (!worldIn.isRemote) this.dropBlockAsItem(worldIn, pos, state, 0);
+			if (!worldIn.isClientSide) this.dropBlockAsItem(worldIn, pos, state, 0);
 		}
 	}
 

@@ -219,7 +219,7 @@ public class EntityBat extends EntityAmbientCreature
         {
             return false;
         }
-		if (!this.worldObj.isRemote && this.getIsBatHanging())
+		if (!this.worldObj.isClientSide && this.getIsBatHanging())
 		{
 			this.setIsBatHanging(false);
 		}

@@ -103,7 +103,7 @@ public class EntityBlaze extends EntityMob
             this.motionY *= 0.6D;
         }
 
-        if (this.worldObj.isRemote)
+        if (this.worldObj.isClientSide)
         {
             if (this.rand.nextInt(24) == 0 && !this.isSilent())
             {

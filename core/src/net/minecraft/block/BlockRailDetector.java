@@ -59,7 +59,7 @@ public class BlockRailDetector extends BlockRailBase
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (!((Boolean)state.getValue(POWERED)).booleanValue())
             {
@@ -77,7 +77,7 @@ public class BlockRailDetector extends BlockRailBase
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote && ((Boolean)state.getValue(POWERED)).booleanValue())
+        if (!worldIn.isClientSide && ((Boolean)state.getValue(POWERED)).booleanValue())
         {
             this.updatePoweredState(worldIn, pos, state);
         }

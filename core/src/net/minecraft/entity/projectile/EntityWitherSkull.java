@@ -66,7 +66,7 @@ public class EntityWitherSkull extends EntityFireball {
 	 * Called when this EntityFireball hits a block or entity.
 	 */
 	protected void onImpact(MovingObjectPosition movingObject) {
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			if (movingObject.entityHit != null) {
 				if (this.shootingEntity != null) {
 					if (movingObject.entityHit.attackEntityFrom(DamageSource.causeMobDamage(this.shootingEntity), 8.0F)) {

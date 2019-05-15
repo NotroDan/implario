@@ -92,7 +92,7 @@ public class ItemPotion extends Item
             --stack.stackSize;
         }
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             List<PotionEffect> list = this.getEffects(stack);
 
@@ -150,7 +150,7 @@ public class ItemPotion extends Item
 
             worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-            if (!worldIn.isRemote)
+            if (!worldIn.isClientSide)
             {
                 worldIn.spawnEntityInWorld(new EntityPotion(worldIn, playerIn, itemStackIn));
             }

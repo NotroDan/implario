@@ -47,7 +47,7 @@ public class BlockSapling extends BlockBush implements IGrowable
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             super.updateTick(worldIn, pos, state, rand);
 

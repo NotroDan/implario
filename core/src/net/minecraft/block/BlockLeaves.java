@@ -70,7 +70,7 @@ public abstract class BlockLeaves extends BlockLeavesBase {
 	}
 
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			if (((Boolean) state.getValue(CHECK_DECAY)).booleanValue() && ((Boolean) state.getValue(DECAYABLE)).booleanValue()) {
 				int i = 4;
 				int j = i + 1;
@@ -184,7 +184,7 @@ public abstract class BlockLeaves extends BlockLeavesBase {
 	 * Spawns this Block's drops into the World as EntityItems.
 	 */
 	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			int i = this.getSaplingDropChance(state);
 
 			if (fortune > 0) {

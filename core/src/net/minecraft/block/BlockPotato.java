@@ -26,7 +26,7 @@ public class BlockPotato extends BlockCrops
     {
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (((Integer)state.getValue(AGE)).intValue() >= 7 && worldIn.rand.nextInt(50) == 0)
             {

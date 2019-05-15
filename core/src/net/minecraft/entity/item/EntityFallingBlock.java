@@ -99,7 +99,7 @@ public class EntityFallingBlock extends Entity
                 {
                     this.worldObj.setBlockToAir(blockpos);
                 }
-                else if (!this.worldObj.isRemote)
+                else if (!this.worldObj.isClientSide)
                 {
                     this.setDead();
                     return;
@@ -112,7 +112,7 @@ public class EntityFallingBlock extends Entity
             this.motionY *= 0.9800000190734863D;
             this.motionZ *= 0.9800000190734863D;
 
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 BlockPos blockpos1 = new BlockPos(this);
 
@@ -166,7 +166,7 @@ public class EntityFallingBlock extends Entity
                         }
                     }
                 }
-                else if (this.fallTime > 100 && !this.worldObj.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
+                else if (this.fallTime > 100 && !this.worldObj.isClientSide && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600)
                 {
                     if (this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
                     {

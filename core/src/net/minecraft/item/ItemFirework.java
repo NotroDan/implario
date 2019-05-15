@@ -18,7 +18,7 @@ public class ItemFirework extends Item
      */
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(worldIn, (double)((float)pos.getX() + hitX), (double)((float)pos.getY() + hitY), (double)((float)pos.getZ() + hitZ), stack);
             worldIn.spawnEntityInWorld(entityfireworkrocket);

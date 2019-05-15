@@ -156,7 +156,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te)
     {
-        if (worldIn.isRemote || player.getCurrentEquippedItem() == null || player.getCurrentEquippedItem().getItem() != Items.shears || state.getValue(HALF) != BlockDoublePlant.EnumBlockHalf.LOWER || !this.onHarvest(worldIn, pos, state, player))
+        if (worldIn.isClientSide || player.getCurrentEquippedItem() == null || player.getCurrentEquippedItem().getItem() != Items.shears || state.getValue(HALF) != BlockDoublePlant.EnumBlockHalf.LOWER || !this.onHarvest(worldIn, pos, state, player))
         {
             super.harvestBlock(worldIn, player, pos, state, te);
         }
@@ -177,7 +177,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
                     {
                         worldIn.destroyBlock(pos.down(), true);
                     }
-                    else if (!worldIn.isRemote)
+                    else if (!worldIn.isClientSide)
                     {
                         if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears)
                         {

@@ -71,7 +71,7 @@ public class BlockSilverfish extends Block
      */
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
-        if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doTileDrops"))
+        if (!worldIn.isClientSide && worldIn.getGameRules().getBoolean("doTileDrops"))
         {
             EntitySilverfish entitysilverfish = new EntitySilverfish(worldIn);
             entitysilverfish.setLocationAndAngles((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, 0.0F, 0.0F);

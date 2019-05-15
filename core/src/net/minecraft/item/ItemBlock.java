@@ -91,7 +91,7 @@ public class ItemBlock extends Item
 
 			if (tileentity != null)
 			{
-				if (!worldIn.isRemote && tileentity.func_183000_F() && !minecraftserver.getConfigurationManager().canSendCommands(pos.getGameProfile()))
+				if (!worldIn.isClientSide && tileentity.func_183000_F() && !minecraftserver.getConfigurationManager().canSendCommands(pos.getGameProfile()))
 				{
 					return false;
 				}

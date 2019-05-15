@@ -77,13 +77,13 @@ public class BlockStainedGlass extends BlockBreakable {
 	}
 
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			BlockBeacon.updateColorAsync(worldIn, pos);
 		}
 	}
 
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			BlockBeacon.updateColorAsync(worldIn, pos);
 		}
 	}

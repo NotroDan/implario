@@ -113,7 +113,7 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
      */
     public void onLivingUpdate()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             if (this.getAggressive())
             {

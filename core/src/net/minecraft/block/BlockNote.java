@@ -50,7 +50,7 @@ public class BlockNote extends BlockContainer
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (worldIn.isRemote)
+        if (worldIn.isClientSide)
         {
             return true;
         }
@@ -69,7 +69,7 @@ public class BlockNote extends BlockContainer
 
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             TileEntity tileentity = worldIn.getTileEntity(pos);
 

@@ -69,7 +69,7 @@ public class EntitySheep extends EntityAnimal {
 	 * use this to react to sunlight and start to burn.
 	 */
 	public void onLivingUpdate() {
-		if (this.worldObj.isRemote) {
+		if (this.worldObj.isClientSide) {
 			this.sheepTimer = Math.max(0, this.sheepTimer - 1);
 		}
 
@@ -137,7 +137,7 @@ public class EntitySheep extends EntityAnimal {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.getItem() == Items.shears && !this.getSheared() && !this.isChild()) {
-			if (!this.worldObj.isRemote) {
+			if (!this.worldObj.isClientSide) {
 				this.setSheared(true);
 				int i = 1 + this.rand.nextInt(3);
 

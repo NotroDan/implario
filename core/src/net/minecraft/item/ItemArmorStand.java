@@ -54,7 +54,7 @@ public class ItemArmorStand extends Item
 		{
 			return false;
 		}
-		if (!worldIn.isRemote)
+		if (!worldIn.isClientSide)
 		{
 			worldIn.setBlockToAir(blockpos);
 			worldIn.setBlockToAir(blockpos1);

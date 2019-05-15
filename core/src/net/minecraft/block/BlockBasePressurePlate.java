@@ -113,7 +113,7 @@ public abstract class BlockBasePressurePlate extends Block
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             int i = this.getRedstoneStrength(state);
 
@@ -129,7 +129,7 @@ public abstract class BlockBasePressurePlate extends Block
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             int i = this.getRedstoneStrength(state);
 

@@ -83,7 +83,7 @@ public class BlockCauldron extends Block
         int i = ((Integer)state.getValue(LEVEL)).intValue();
         float f = (float)pos.getY() + (6.0F + (float)(3 * i)) / 16.0F;
 
-        if (!worldIn.isRemote && entityIn.isBurning() && i > 0 && entityIn.getEntityBoundingBox().minY <= (double)f)
+        if (!worldIn.isClientSide && entityIn.isBurning() && i > 0 && entityIn.getEntityBoundingBox().minY <= (double)f)
         {
             entityIn.extinguish();
             this.setWaterLevel(worldIn, pos, state, i - 1);
@@ -92,7 +92,7 @@ public class BlockCauldron extends Block
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (worldIn.isRemote)
+        if (worldIn.isClientSide)
         {
             return true;
         }

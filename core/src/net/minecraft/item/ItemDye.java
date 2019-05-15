@@ -48,7 +48,7 @@ public class ItemDye extends Item {
 
 		if (enumdyecolor == EnumDyeColor.WHITE) {
 			if (applyBonemeal(stack, worldIn, pos)) {
-				if (!worldIn.isRemote) {
+				if (!worldIn.isClientSide) {
 					worldIn.playAuxSFX(2005, pos, 0);
 				}
 
@@ -91,8 +91,8 @@ public class ItemDye extends Item {
 		if (iblockstate.getBlock() instanceof IGrowable) {
 			IGrowable igrowable = (IGrowable) iblockstate.getBlock();
 
-			if (igrowable.canGrow(worldIn, target, iblockstate, worldIn.isRemote)) {
-				if (!worldIn.isRemote) {
+			if (igrowable.canGrow(worldIn, target, iblockstate, worldIn.isClientSide)) {
+				if (!worldIn.isClientSide) {
 					if (igrowable.canUseBonemeal(worldIn, worldIn.rand, target, iblockstate)) {
 						igrowable.grow(worldIn, worldIn.rand, target, iblockstate);
 					}

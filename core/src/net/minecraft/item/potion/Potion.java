@@ -174,7 +174,7 @@ public class Potion
         }
         else if (this.id == saturation.id && entityLivingBaseIn instanceof EntityPlayer)
         {
-            if (!entityLivingBaseIn.worldObj.isRemote)
+            if (!entityLivingBaseIn.worldObj.isClientSide)
             {
                 ((EntityPlayer)entityLivingBaseIn).getFoodStats().addStats(p_76394_2_ + 1, 1.0F);
             }

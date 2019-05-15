@@ -130,7 +130,7 @@ public class BlockFenceGate extends BlockDirectional
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             boolean flag = worldIn.isBlockPowered(pos);
 

@@ -246,7 +246,7 @@ public abstract class VanillaEntity extends EntityLivingBase {
 	 * Spawns an explosion particle around the Entity's location
 	 */
 	public void spawnExplosionParticle() {
-		if (this.worldObj.isRemote) {
+		if (this.worldObj.isClientSide) {
 			for (int i = 0; i < 20; ++i) {
 				double d0 = this.rand.nextGaussian() * 0.02D;
 				double d1 = this.rand.nextGaussian() * 0.02D;
@@ -278,7 +278,7 @@ public abstract class VanillaEntity extends EntityLivingBase {
 		} else {
 			super.onUpdate();
 
-			if (!this.worldObj.isRemote) {
+			if (!this.worldObj.isClientSide) {
 				this.updateLeashedState();
 			}
 		}
@@ -420,7 +420,7 @@ public abstract class VanillaEntity extends EntityLivingBase {
 		super.onLivingUpdate();
 		this.worldObj.theProfiler.startSection("looting");
 
-		if (!this.worldObj.isRemote && this.canPickUpLoot() && !this.dead && this.worldObj.getGameRules().getBoolean("mobGriefing")) {
+		if (!this.worldObj.isClientSide && this.canPickUpLoot() && !this.dead && this.worldObj.getGameRules().getBoolean("mobGriefing")) {
 			for (EntityItem entityitem : this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(1.0D, 0.0D, 1.0D))) {
 				if (!entityitem.isDead && entityitem.getEntityItem() != null && !entityitem.cannotPickup()) {
 					this.updateEquipmentIfNeeded(entityitem);
@@ -964,11 +964,11 @@ public abstract class VanillaEntity extends EntityLivingBase {
 			this.isLeashed = false;
 			this.leashedToEntity = null;
 
-			if (!this.worldObj.isRemote && dropLead) {
+			if (!this.worldObj.isClientSide && dropLead) {
 				this.dropItem(Items.lead, 1);
 			}
 
-			if (!this.worldObj.isRemote && sendPacket && this.worldObj instanceof WorldServer) {
+			if (!this.worldObj.isClientSide && sendPacket && this.worldObj instanceof WorldServer) {
 				((WorldServer) this.worldObj).getEntityTracker().sendToAllTrackingEntity(this, new S1BPacketEntityAttach(1, this, null));
 			}
 		}
@@ -993,7 +993,7 @@ public abstract class VanillaEntity extends EntityLivingBase {
 		this.isLeashed = true;
 		this.leashedToEntity = entityIn;
 
-		if (!this.worldObj.isRemote && sendAttachNotification && this.worldObj instanceof WorldServer) {
+		if (!this.worldObj.isClientSide && sendAttachNotification && this.worldObj instanceof WorldServer) {
 			((WorldServer) this.worldObj).getEntityTracker().sendToAllTrackingEntity(this, new S1BPacketEntityAttach(1, this, this.leashedToEntity));
 		}
 	}

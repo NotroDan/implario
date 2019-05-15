@@ -141,7 +141,7 @@ public class BlockTrapDoor extends Block
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             BlockPos blockpos = pos.offset(((EnumFacing)state.getValue(FACING)).getOpposite());
 

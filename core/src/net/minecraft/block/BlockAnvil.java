@@ -63,7 +63,7 @@ public class BlockAnvil extends BlockFalling
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             playerIn.displayGui(new BlockAnvil.Anvil(worldIn, pos));
         }

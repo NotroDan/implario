@@ -31,7 +31,7 @@ public class EntityLargeFireball extends EntityFireball
      */
     protected void onImpact(MovingObjectPosition movingObject)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             if (movingObject.entityHit != null)
             {

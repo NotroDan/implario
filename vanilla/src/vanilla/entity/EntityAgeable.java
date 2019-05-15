@@ -34,7 +34,7 @@ public abstract class EntityAgeable extends EntityCreature
 
         if (itemstack != null && itemstack.getItem() == Items.spawn_egg)
         {
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 Class <? extends Entity> oclass = EntityList.getClassFromID(itemstack.getMetadata());
 
@@ -84,7 +84,7 @@ public abstract class EntityAgeable extends EntityCreature
      */
     public int getGrowingAge()
     {
-        return this.worldObj.isRemote ? this.dataWatcher.getWatchableObjectByte(12) : this.growingAge;
+        return this.worldObj.isClientSide ? this.dataWatcher.getWatchableObjectByte(12) : this.growingAge;
     }
 
     public void func_175501_a(int p_175501_1_, boolean p_175501_2_)
@@ -170,7 +170,7 @@ public abstract class EntityAgeable extends EntityCreature
     {
         super.onLivingUpdate();
 
-        if (this.worldObj.isRemote)
+        if (this.worldObj.isClientSide)
         {
             if (this.field_175503_c > 0)
             {

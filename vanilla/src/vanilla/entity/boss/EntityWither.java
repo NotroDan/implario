@@ -118,7 +118,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
     {
         this.motionY *= 0.6000000238418579D;
 
-        if (!this.worldObj.isRemote && this.getWatchedTargetId(0) > 0)
+        if (!this.worldObj.isClientSide && this.getWatchedTargetId(0) > 0)
         {
             Entity entity = this.worldObj.getEntityByID(this.getWatchedTargetId(0));
 
@@ -531,7 +531,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
             entityitem.setNoDespawn();
         }
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(50.0D, 100.0D, 50.0D)))
             {

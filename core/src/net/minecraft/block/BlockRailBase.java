@@ -89,7 +89,7 @@ public abstract class BlockRailBase extends Block
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             state = this.func_176564_a(worldIn, pos, state, true);
 
@@ -105,7 +105,7 @@ public abstract class BlockRailBase extends Block
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = (BlockRailBase.EnumRailDirection)state.getValue(this.getShapeProperty());
             boolean flag = false;
@@ -150,7 +150,7 @@ public abstract class BlockRailBase extends Block
 
     protected IBlockState func_176564_a(World worldIn, BlockPos p_176564_2_, IBlockState p_176564_3_, boolean p_176564_4_)
     {
-        return worldIn.isRemote ? p_176564_3_ : new Rail(worldIn, p_176564_2_, p_176564_3_).func_180364_a(worldIn.isBlockPowered(p_176564_2_), p_176564_4_).getBlockState();
+        return worldIn.isClientSide ? p_176564_3_ : new Rail(worldIn, p_176564_2_, p_176564_3_).func_180364_a(worldIn.isBlockPowered(p_176564_2_), p_176564_4_).getBlockState();
     }
 
     public int getMobilityFlag()

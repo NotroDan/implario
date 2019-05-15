@@ -141,7 +141,7 @@ public class ItemBucket extends Item
 		}
 		else
 		{
-			if (!worldIn.isRemote && flag && !material.isLiquid())
+			if (!worldIn.isClientSide && flag && !material.isLiquid())
 			{
 				worldIn.destroyBlock(pos, true);
 			}

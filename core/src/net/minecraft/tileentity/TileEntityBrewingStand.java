@@ -103,7 +103,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
             this.ingredientID = this.brewingItemStacks[3].getItem();
         }
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             boolean[] aboolean = this.func_174902_m();
 

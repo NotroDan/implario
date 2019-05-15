@@ -74,7 +74,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 	}
 
 	private void addEffectsToPlayers() {
-		if (this.isComplete && this.levels > 0 && !this.worldObj.isRemote && this.primaryEffect > 0) {
+		if (this.isComplete && this.levels > 0 && !this.worldObj.isClientSide && this.primaryEffect > 0) {
 			double d0 = (double) (this.levels * 10 + 10);
 			int i = 0;
 
@@ -183,7 +183,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 			}
 		}
 
-		if (!this.worldObj.isRemote && this.levels == 4 && i < this.levels) {
+		if (!this.worldObj.isClientSide && this.levels == 4 && i < this.levels) {
 			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class,
 					new AxisAlignedBB((double) j, (double) k, (double) l, (double) j, (double) (k - 4), (double) l).expand(10.0D, 5.0D, 10.0D))) {
 				entityplayer.triggerAchievement(AchievementList.fullBeacon);

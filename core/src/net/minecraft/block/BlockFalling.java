@@ -39,7 +39,7 @@ public class BlockFalling extends Block
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             this.checkFallable(worldIn, pos);
         }
@@ -53,7 +53,7 @@ public class BlockFalling extends Block
 
             if (!fallInstantly && worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i)))
             {
-                if (!worldIn.isRemote)
+                if (!worldIn.isClientSide)
                 {
                     EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, worldIn.getBlockState(pos));
                     this.onStartFalling(entityfallingblock);

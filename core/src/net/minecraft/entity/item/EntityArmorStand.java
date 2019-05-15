@@ -367,7 +367,7 @@ public class EntityArmorStand extends EntityLivingBase
         {
             return false;
         }
-		if (!this.worldObj.isRemote && !player.isSpectator())
+		if (!this.worldObj.isClientSide && !player.isSpectator())
 		{
 			int i = 0;
 			ItemStack itemstack = player.getCurrentEquippedItem();
@@ -501,7 +501,7 @@ public class EntityArmorStand extends EntityLivingBase
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        if (this.worldObj.isRemote)
+        if (this.worldObj.isClientSide)
         {
             return false;
         }

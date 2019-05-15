@@ -45,7 +45,7 @@ public class BlockFurnace extends BlockContainer {
 	}
 
 	private void setDefaultFacing(World worldIn, BlockPos pos, IBlockState state) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			Block block = worldIn.getBlockState(pos.north()).getBlock();
 			Block block1 = worldIn.getBlockState(pos.south()).getBlock();
 			Block block2 = worldIn.getBlockState(pos.west()).getBlock();
@@ -100,7 +100,7 @@ public class BlockFurnace extends BlockContainer {
 	}
 
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (worldIn.isRemote) {
+		if (worldIn.isClientSide) {
 			return true;
 		}
 		TileEntity tileentity = worldIn.getTileEntity(pos);

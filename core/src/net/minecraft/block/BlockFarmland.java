@@ -76,7 +76,7 @@ public class BlockFarmland extends Block
     {
         if (entityIn instanceof EntityLivingBase)
         {
-            if (!worldIn.isRemote && worldIn.rand.nextFloat() < fallDistance - 0.5F)
+            if (!worldIn.isClientSide && worldIn.rand.nextFloat() < fallDistance - 0.5F)
             {
                 if (!(entityIn instanceof EntityPlayer) && !worldIn.getGameRules().getBoolean("mobGriefing"))
                 {

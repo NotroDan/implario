@@ -211,7 +211,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
 
         if (!flag && this.isEntityAlive() && !this.isTrading() && !this.isChild())
         {
-            if (!this.worldObj.isRemote && (this.buyingList == null || this.buyingList.size() > 0))
+            if (!this.worldObj.isClientSide && (this.buyingList == null || this.buyingList.size() > 0))
             {
                 this.setCustomer(player);
                 player.displayVillagerTradeGui(this);
@@ -519,7 +519,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
      */
     public void verifySellingItem(ItemStack stack)
     {
-        if (!this.worldObj.isRemote && this.livingSoundTime > -this.getTalkInterval() + 20)
+        if (!this.worldObj.isClientSide && this.livingSoundTime > -this.getTalkInterval() + 20)
         {
             this.livingSoundTime = -this.getTalkInterval();
 
@@ -747,7 +747,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
      */
     public void onStruckByLightning(EntityLightningBolt lightningBolt)
     {
-        if (!this.worldObj.isRemote && !this.isDead)
+        if (!this.worldObj.isClientSide && !this.isDead)
         {
             EntityWitch entitywitch = new EntityWitch(this.worldObj);
             entitywitch.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);

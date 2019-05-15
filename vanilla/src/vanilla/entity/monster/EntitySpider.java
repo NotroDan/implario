@@ -64,7 +64,7 @@ public class EntitySpider extends EntityMob
     {
         super.onUpdate();
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.setBesideClimbableBlock(this.isCollidedHorizontally);
         }
