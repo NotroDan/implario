@@ -330,6 +330,7 @@ public class Minecraft implements IThreadListener {
 		preloader.nextState();
 		this.guiAchievement = new GuiAchievement(this);
 		preloader.nextState();
+		// ToDo: Post-init
 		blabla = true;
 	}
 

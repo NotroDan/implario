@@ -22,7 +22,9 @@ public abstract class Datapack {
 
 	public abstract void preinit();
 
-	public abstract void load();
+	public abstract void init();
+
+	public abstract void postinit();
 
 	public void disable() {
 		registrar.unregister();
