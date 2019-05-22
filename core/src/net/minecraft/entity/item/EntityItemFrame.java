@@ -52,7 +52,7 @@ public class EntityItemFrame extends EntityHanging
         }
 		if (!source.isExplosion() && this.getDisplayedItem() != null)
 		{
-			if (!this.worldObj.isRemote)
+			if (!this.worldObj.isClientSide)
 			{
 				this.dropItemOrSelf(source.getEntity(), false);
 				this.setDisplayedItem((ItemStack)null);
@@ -241,7 +241,7 @@ public class EntityItemFrame extends EntityHanging
         {
             ItemStack itemstack = playerIn.getHeldItem();
 
-            if (itemstack != null && !this.worldObj.isRemote)
+            if (itemstack != null && !this.worldObj.isClientSide)
             {
                 this.setDisplayedItem(itemstack);
 
@@ -251,7 +251,7 @@ public class EntityItemFrame extends EntityHanging
                 }
             }
         }
-        else if (!this.worldObj.isRemote)
+        else if (!this.worldObj.isClientSide)
         {
             this.setItemRotation(this.getRotation() + 1);
         }

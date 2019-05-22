@@ -76,7 +76,7 @@ public class BlockEndPortal extends BlockContainer
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null && !worldIn.isRemote)
+        if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null && !worldIn.isClientSide)
         {
             entityIn.travelToDimension(1);
         }

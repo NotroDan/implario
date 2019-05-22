@@ -4,7 +4,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import net.minecraft.block.*;
-import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.attributes.AttributeModifier;
@@ -14,9 +13,12 @@ import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionHelper;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.events.ItemInteractForEntityEvent;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
@@ -35,7 +37,7 @@ public class Item {
 	/**
 	 * The RNG used by the Item subclasses.
 	 */
-	protected static Random itemRand = new Random();
+	public static Random itemRand = new Random();
 
 	/**
 	 * Maximum size of the stack.
@@ -73,11 +75,11 @@ public class Item {
 	}
 
 	public static Item getItemById(int id) {
-		return (Item) itemRegistry.getObjectById(id);
+		return itemRegistry.getObjectById(id);
 	}
 
 	public static Item getItemFromBlock(Block blockIn) {
-		return (Item) BLOCK_TO_ITEM.get(blockIn);
+		return BLOCK_TO_ITEM.get(blockIn);
 	}
 
 	/**
@@ -85,14 +87,12 @@ public class Item {
 	 * fail, null is returned.
 	 */
 	public static Item getByNameOrId(String id) {
-		Item item = (Item) itemRegistry.getObject(new ResourceLocation(id));
+		Item item = itemRegistry.getObject(new ResourceLocation(id));
 
 		if (item == null) {
 			try {
 				return getItemById(Integer.parseInt(id));
-			} catch (NumberFormatException var3) {
-				;
-			}
+			} catch (NumberFormatException ignored) {}
 		}
 
 		return item;
@@ -205,7 +205,7 @@ public class Item {
 	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
 	 */
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
-		return false;
+		return E.call(new ItemInteractForEntityEvent(this, stack, playerIn, target)).canBeUsed();
 	}
 
 	/**
@@ -682,7 +682,6 @@ public class Item {
 		registerItem(326, "water_bucket", new ItemBucket(Blocks.flowing_water).setUnlocalizedName("bucketWater").setContainerItem(item));
 		registerItem(327, "lava_bucket", new ItemBucket(Blocks.flowing_lava).setUnlocalizedName("bucketLava").setContainerItem(item));
 		registerItem(328, "minecart", new ItemMinecart(EntityMinecart.EnumMinecartType.RIDEABLE).setUnlocalizedName("minecart"));
-		registerItem(329, "saddle", new ItemSaddle().setUnlocalizedName("saddle"));
 		registerItem(330, "iron_door", new ItemDoor(Blocks.iron_door).setUnlocalizedName("doorIron"));
 		registerItem(331, "redstone", new ItemRedstone().setUnlocalizedName("redstone").setPotionEffect(PotionHelper.redstoneEffect));
 		registerItem(332, "snowball", new ItemSnowball().setUnlocalizedName("snowball"));
@@ -736,7 +735,7 @@ public class Item {
 		registerItem(380, "cauldron", new ItemReed(Blocks.cauldron).setUnlocalizedName("cauldron").setCreativeTab(CreativeTabs.tabBrewing));
 		registerItem(381, "ender_eye", new ItemEnderEye().setUnlocalizedName("eyeOfEnder"));
 		registerItem(382, "speckled_melon", new Item().setUnlocalizedName("speckledMelon").setPotionEffect(PotionHelper.speckledMelonEffect).setCreativeTab(CreativeTabs.tabBrewing));
-		registerItem(383, "spawn_egg", new ItemMonsterPlacer().setUnlocalizedName("monsterPlacer"));
+
 		registerItem(384, "experience_bottle", new ItemExpBottle().setUnlocalizedName("expBottle"));
 		registerItem(385, "fire_charge", new ItemFireball().setUnlocalizedName("fireball"));
 		registerItem(386, "writable_book", new ItemWritableBook().setUnlocalizedName("writingBook").setCreativeTab(CreativeTabs.tabMisc));
@@ -751,7 +750,6 @@ public class Item {
 		registerItem(395, "map", new ItemEmptyMap().setUnlocalizedName("emptyMap"));
 		registerItem(396, "golden_carrot", new ItemFood(6, 1.2F, false).setUnlocalizedName("carrotGolden").setPotionEffect(PotionHelper.goldenCarrotEffect).setCreativeTab(CreativeTabs.tabBrewing));
 		registerItem(397, "skull", new ItemSkull().setUnlocalizedName("skull"));
-		registerItem(398, "carrot_on_a_stick", new ItemCarrotOnAStick().setUnlocalizedName("carrotOnAStick"));
 		registerItem(399, "nether_star", new ItemSimpleFoiled().setUnlocalizedName("netherStar").setCreativeTab(CreativeTabs.tabMaterials));
 		registerItem(400, "pumpkin_pie", new ItemFood(8, 0.3F, false).setUnlocalizedName("pumpkinPie").setCreativeTab(CreativeTabs.tabFood));
 		registerItem(401, "fireworks", new ItemFirework().setUnlocalizedName("fireworks"));
@@ -773,8 +771,6 @@ public class Item {
 		registerItem(417, "iron_horse_armor", new Item().setUnlocalizedName("horsearmormetal").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc));
 		registerItem(418, "golden_horse_armor", new Item().setUnlocalizedName("horsearmorgold").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc));
 		registerItem(419, "diamond_horse_armor", new Item().setUnlocalizedName("horsearmordiamond").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc));
-		registerItem(420, "lead", new ItemLead().setUnlocalizedName("leash"));
-		registerItem(421, "name_tag", new ItemNameTag().setUnlocalizedName("nameTag"));
 		registerItem(422, "command_block_minecart",
 				new ItemMinecart(EntityMinecart.EnumMinecartType.COMMAND_BLOCK).setUnlocalizedName("minecartCommandBlock").setCreativeTab(CreativeTabs.tabTransport));
 		registerItem(423, "mutton", new ItemFood(2, 0.3F, true).setUnlocalizedName("muttonRaw"));
@@ -797,6 +793,7 @@ public class Item {
 		registerItem(2265, "record_ward", new ItemRecord("ward").setUnlocalizedName("record"));
 		registerItem(2266, "record_11", new ItemRecord("11").setUnlocalizedName("record"));
 		registerItem(2267, "record_wait", new ItemRecord("wait").setUnlocalizedName("record"));
+
 	}
 
 	/**
@@ -810,11 +807,11 @@ public class Item {
 	 * Register the given Item as the ItemBlock for the given Block.
 	 */
 	protected static void registerItemBlock(Block blockIn, Item itemIn) {
-		registerItem(Block.getIdFromBlock(blockIn), (ResourceLocation) Block.blockRegistry.getNameForObject(blockIn), itemIn);
+		registerItem(Block.getIdFromBlock(blockIn), Block.blockRegistry.getNameForObject(blockIn), itemIn);
 		BLOCK_TO_ITEM.put(blockIn, itemIn);
 	}
 
-	private static void registerItem(int id, String textualID, Item itemIn) {
+	public static void registerItem(int id, String textualID, Item itemIn) {
 		registerItem(id, new ResourceLocation(textualID), itemIn);
 	}
 
@@ -822,7 +819,7 @@ public class Item {
 		itemRegistry.register(id, textualID, itemIn);
 	}
 
-	public static enum ToolMaterial {
+	public enum ToolMaterial {
 		WOOD(0, 59, 2.0F, 0.0F, 15),
 		STONE(1, 131, 4.0F, 1.0F, 5),
 		IRON(2, 250, 6.0F, 2.0F, 14),
@@ -835,7 +832,7 @@ public class Item {
 		private final float damageVsEntity;
 		private final int enchantability;
 
-		private ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity, int enchantability) {
+		ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity, int enchantability) {
 			this.harvestLevel = harvestLevel;
 			this.maxUses = maxUses;
 			this.efficiencyOnProperMaterial = efficiency;

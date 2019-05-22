@@ -103,7 +103,7 @@ public class BlockEnderChest extends BlockContainer
             {
                 return true;
             }
-			if (worldIn.isRemote)
+			if (worldIn.isClientSide)
 			{
 				return true;
 			}

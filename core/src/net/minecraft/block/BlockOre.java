@@ -64,9 +64,9 @@ public class BlockOre extends Block
     /**
      * Spawns this Block's drops into the World as EntityItems.
      */
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
+    public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
-        super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
+        super.dropBlockAsItemWithChance0(worldIn, pos, state, chance, fortune);
 
         if (this.getItemDropped(state, worldIn.rand, fortune) != Item.getItemFromBlock(this))
         {

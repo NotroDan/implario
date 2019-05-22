@@ -17,7 +17,7 @@ public class WorldProviderEnd extends WorldProvider {
 	 * creates a new world chunk manager for WorldProvider
 	 */
 	public void registerWorldChunkManager() {
-		this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F);
+		this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.end, 0.0F);
 		this.dimensionId = 1;
 		this.hasNoSky = true;
 	}

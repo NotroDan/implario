@@ -152,10 +152,10 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     /**
      * Teleports the entity to another dimension. Params: Dimension number to teleport to
      */
-    public void travelToDimension(int dimensionId)
+    public void travelToDimension(int destDim)
     {
         this.dropContentsWhenDead = false;
-        super.travelToDimension(dimensionId);
+        super.travelToDimension(destDim);
     }
 
     /**
@@ -219,7 +219,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
      */
     public boolean interactFirst(EntityPlayer playerIn)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             playerIn.displayGUIChest(this);
         }

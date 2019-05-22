@@ -209,7 +209,7 @@ public class BlockRedstoneWire extends Block
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             this.updateSurroundingRedstone(worldIn, pos, state);
 
@@ -245,7 +245,7 @@ public class BlockRedstoneWire extends Block
     {
         super.breakBlock(worldIn, pos, state);
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             for (EnumFacing enumfacing : EnumFacing.values())
             {
@@ -290,7 +290,7 @@ public class BlockRedstoneWire extends Block
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (this.canPlaceBlockAt(worldIn, pos))
             {

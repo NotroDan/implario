@@ -64,7 +64,7 @@ public class ItemHoe extends Item
     {
         worldIn.playSoundEffect((double)((float)target.getX() + 0.5F), (double)((float)target.getY() + 0.5F), (double)((float)target.getZ() + 0.5F), newState.getBlock().stepSound.getStepSound(), (newState.getBlock().stepSound.getVolume() + 1.0F) / 2.0F, newState.getBlock().stepSound.getFrequency() * 0.8F);
 
-        if (worldIn.isRemote)
+        if (worldIn.isClientSide)
         {
             return true;
         }

@@ -50,7 +50,7 @@ public class BlockDispenser extends BlockContainer {
 	}
 
 	private void setDefaultDirection(World worldIn, BlockPos pos, IBlockState state) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			EnumFacing enumfacing = state.getValue(FACING);
 			boolean flag = worldIn.getBlockState(pos.north()).getBlock().isFullBlock();
 			boolean flag1 = worldIn.getBlockState(pos.south()).getBlock().isFullBlock();
@@ -75,7 +75,7 @@ public class BlockDispenser extends BlockContainer {
 	}
 
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (worldIn.isRemote) {
+		if (worldIn.isClientSide) {
 			return true;
 		}
 		TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -134,7 +134,7 @@ public class BlockDispenser extends BlockContainer {
 	}
 
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			this.dispense(worldIn, pos);
 		}
 	}

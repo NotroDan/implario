@@ -150,7 +150,7 @@ public class ContainerEnchantment extends Container
 
             if (itemstack != null && itemstack.isItemEnchantable())
             {
-                if (!this.worldPointer.isRemote)
+                if (!this.worldPointer.isClientSide)
                 {
                     int l = 0;
 
@@ -252,7 +252,7 @@ public class ContainerEnchantment extends Container
         }
 		if (this.enchantLevels[id] > 0 && itemstack != null && (playerIn.experienceLevel >= i && playerIn.experienceLevel >= this.enchantLevels[id] || playerIn.capabilities.isCreativeMode))
 		{
-			if (!this.worldPointer.isRemote)
+			if (!this.worldPointer.isClientSide)
 			{
 				List<EnchantmentData> list = this.func_178148_a(itemstack, id, this.enchantLevels[id]);
 				boolean flag = itemstack.getItem() == Items.book;
@@ -328,7 +328,7 @@ public class ContainerEnchantment extends Container
     {
         super.onContainerClosed(playerIn);
 
-        if (!this.worldPointer.isRemote)
+        if (!this.worldPointer.isClientSide)
         {
             for (int i = 0; i < this.tableInventory.getSizeInventory(); ++i)
             {

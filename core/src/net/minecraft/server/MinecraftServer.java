@@ -207,12 +207,12 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return this.userMessage;
 	}
 
-	protected void loadAllWorlds(String p_71247_1_, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
-		this.convertMapIfNeeded(p_71247_1_);
+	protected void loadAllWorlds(String name, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
+		this.convertMapIfNeeded(name);
 		this.setUserMessage("menu.loadingLevel");
 		this.worldServers = new WorldServer[3];
 		this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
-		ISaveHandler isavehandler = this.anvilConverterForAnvilFile.getSaveLoader(p_71247_1_, true);
+		ISaveHandler isavehandler = this.anvilConverterForAnvilFile.getSaveLoader(name, true);
 		this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
 		WorldInfo worldinfo = isavehandler.loadWorldInfo();
 		WorldSettings worldsettings;
@@ -223,7 +223,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			worldsettings.setWorldName(p_71247_6_);
 
 			if (this.enableBonusChest) {
-				worldsettings.enableBonusChest();
+				worldsettings.enableStarterKit();
 			}
 
 
@@ -437,7 +437,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 					}
 
 					if (j < 0L) {
-						logger.warn("Время пошло в обратную сторону?! Что ты блядь сделал вообще?!!!");
+						logger.warn("Время пошло в обратную сторону?! Что ты бл* вообще сделал?!!!");
 						j = 0L;
 					}
 

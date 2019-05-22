@@ -391,7 +391,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
     public void dropChests()
     {
-        if (!this.worldObj.isRemote && this.isChested())
+        if (!this.worldObj.isClientSide && this.isChested())
         {
             this.dropItem(Item.getItemFromBlock(Blocks.chest), 1);
             this.setChested(false);
@@ -476,7 +476,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
      */
     private void updateHorseSlots()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.setHorseSaddled(this.horseChest.getStackInSlot(0) != null);
 
@@ -777,7 +777,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
     public void openGUI(EntityPlayer playerEntity)
     {
-        if (!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == playerEntity) && this.isTame())
+        if (!this.worldObj.isClientSide && (this.riddenByEntity == null || this.riddenByEntity == playerEntity) && this.isTame())
         {
             this.horseChest.setCustomName(this.getName());
             playerEntity.displayGUIHorse(this, this.horseChest);
@@ -975,7 +975,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
         this.setEatingHaystack(false);
         this.setRearing(false);
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             player.mountEntity(this);
         }
@@ -1044,7 +1044,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
     {
         super.onDeath(cause);
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.dropChestItems();
         }
@@ -1063,7 +1063,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
         super.onLivingUpdate();
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             if (this.rand.nextInt(900) == 0 && this.deathTime == 0)
             {
@@ -1100,7 +1100,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
     {
         super.onUpdate();
 
-        if (this.worldObj.isRemote && this.dataWatcher.hasObjectChanged())
+        if (this.worldObj.isClientSide && this.dataWatcher.hasObjectChanged())
         {
             this.dataWatcher.func_111144_e();
             this.resetTexturePrefix();
@@ -1112,7 +1112,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
             this.setHorseWatchableBoolean(128, false);
         }
 
-        if (!this.worldObj.isRemote && this.jumpRearingCounter > 0 && ++this.jumpRearingCounter > 20)
+        if (!this.worldObj.isClientSide && this.jumpRearingCounter > 0 && ++this.jumpRearingCounter > 20)
         {
             this.jumpRearingCounter = 0;
             this.setRearing(false);
@@ -1201,7 +1201,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
     private void openHorseMouth()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.openMouthCounter = 1;
             this.setHorseWatchableBoolean(128, true);
@@ -1238,7 +1238,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
     private void makeHorseRear()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.jumpRearingCounter = 1;
             this.setRearing(true);
@@ -1264,7 +1264,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
     private void dropItemsInChest(Entity entityIn, AnimalChest animalChestIn)
     {
-        if (animalChestIn != null && !this.worldObj.isRemote)
+        if (animalChestIn != null && !this.worldObj.isClientSide)
         {
             for (int i = 0; i < animalChestIn.getSizeInventory(); ++i)
             {
@@ -1338,7 +1338,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
             this.stepHeight = 1.0F;
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
                 super.moveEntityWithHeading(strafe, forward);

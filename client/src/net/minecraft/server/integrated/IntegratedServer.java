@@ -52,7 +52,7 @@ public class IntegratedServer extends MinecraftServer {
 		this.setServerOwner(mcIn.getSession().getUsername());
 		this.setFolderName(folderName);
 		this.setWorldName(worldName);
-		this.canCreateBonusChest(settings.isBonusChestEnabled());
+		this.canCreateBonusChest(settings.isStaterKitEnabled());
 		this.setBuildLimit(256);
 		this.setConfigManager(new IntegratedPlayerList(this));
 		this.mc = mcIn;
@@ -63,9 +63,9 @@ public class IntegratedServer extends MinecraftServer {
 		return new IntegratedServerCommandManager();
 	}
 
-	protected void loadAllWorlds(String p_71247_1_, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
-		this.convertMapIfNeeded(p_71247_1_);
-		ISaveHandler isavehandler = this.getActiveAnvilConverter().getSaveLoader(p_71247_1_, true);
+	protected void loadAllWorlds(String name, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
+		this.convertMapIfNeeded(name);
+		ISaveHandler isavehandler = this.getActiveAnvilConverter().getSaveLoader(name, true);
 		this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
 		WorldInfo worldinfo = isavehandler.loadWorldInfo();
 		this.worldServers = new WorldServer[3];

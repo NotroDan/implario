@@ -55,7 +55,7 @@ public class BlockPistonBase extends Block
     {
         worldIn.setBlockState(pos, state.withProperty(FACING, getFacingFromEntity(worldIn, pos, placer)), 2);
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             this.checkForMove(worldIn, pos, state);
         }
@@ -66,7 +66,7 @@ public class BlockPistonBase extends Block
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             this.checkForMove(worldIn, pos, state);
         }
@@ -74,7 +74,7 @@ public class BlockPistonBase extends Block
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!worldIn.isRemote && worldIn.getTileEntity(pos) == null)
+        if (!worldIn.isClientSide && worldIn.getTileEntity(pos) == null)
         {
             this.checkForMove(worldIn, pos, state);
         }
@@ -142,7 +142,7 @@ public class BlockPistonBase extends Block
     {
         EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
 
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             boolean flag = this.shouldBeExtended(worldIn, pos, enumfacing);
 

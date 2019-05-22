@@ -3,17 +3,12 @@ package net.minecraft.world.chunk;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.SpawnListEntry;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.chunk.IChunkProvider;
 
 import java.util.List;
 
@@ -131,11 +126,6 @@ public class ChunkProviderDebug implements IChunkProvider {
 	 */
 	public String makeString() {
 		return "DebugLevelSource";
-	}
-
-	public List<SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
-		Biome biome = this.world.getBiomeGenForCoords(pos);
-		return biome.getSpawnableList(creatureType);
 	}
 
 	public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position) {

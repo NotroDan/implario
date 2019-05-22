@@ -51,7 +51,7 @@ public class ItemBanner extends ItemBlock
 		{
 			return false;
 		}
-		if (worldIn.isRemote)
+		if (worldIn.isClientSide)
 		{
 			return true;
 		}

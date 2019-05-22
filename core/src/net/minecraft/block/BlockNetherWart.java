@@ -58,9 +58,9 @@ public class BlockNetherWart extends BlockBush
     /**
      * Spawns this Block's drops into the World as EntityItems.
      */
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
+    public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             int i = 1;
 

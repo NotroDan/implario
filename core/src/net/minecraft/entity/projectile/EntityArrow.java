@@ -4,10 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.ArrowDodger;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
-import vanilla.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -273,15 +273,13 @@ public class EntityArrow extends Entity implements IProjectile {
 						damagesource = DamageSource.causeArrowDamage(this, this.shootingEntity);
 					}
 
-					if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman)) {
-						movingobjectposition.entityHit.setFire(5);
-					}
+					if (isBurning() && !(entity instanceof ArrowDodger)) movingobjectposition.entityHit.setFire(5);
 
 					if (movingobjectposition.entityHit.attackEntityFrom(damagesource, (float) l)) {
 						if (movingobjectposition.entityHit instanceof EntityLivingBase) {
 							EntityLivingBase entitylivingbase = (EntityLivingBase) movingobjectposition.entityHit;
 
-							if (!this.worldObj.isRemote) {
+							if (!this.worldObj.isClientSide) {
 								entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
 							}
 
@@ -306,7 +304,7 @@ public class EntityArrow extends Entity implements IProjectile {
 
 						this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
 
-						if (!(movingobjectposition.entityHit instanceof EntityEnderman)) {
+						if (!(movingobjectposition.entityHit instanceof ArrowDodger)) {
 							this.setDead();
 						}
 					} else {
@@ -452,7 +450,7 @@ public class EntityArrow extends Entity implements IProjectile {
 	 * Called by a player entity when they collide with an entity
 	 */
 	public void onCollideWithPlayer(EntityPlayer entityIn) {
-		if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0) {
+		if (!this.worldObj.isClientSide && this.inGround && this.arrowShake <= 0) {
 			boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && entityIn.capabilities.isCreativeMode;
 
 			if (this.canBePickedUp == 1 && !entityIn.inventory.addItemStackToInventory(new ItemStack(Items.arrow, 1))) {

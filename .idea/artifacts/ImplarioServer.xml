@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="ImplarioServer">
-    <output-path>$PROJECT_DIR$/server/env</output-path>
-    <root id="archive" name="ImplarioServer.jar">
-      <element id="module-output" name="server" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/core/libs.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>

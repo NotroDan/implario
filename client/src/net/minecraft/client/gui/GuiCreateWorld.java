@@ -202,7 +202,7 @@ public class GuiCreateWorld extends GuiScreen {
 				worldsettings.setWorldName(this.chunkProviderSettingsJson);
 
 				if (this.field_146338_v && !this.field_146337_w) {
-					worldsettings.enableBonusChest();
+					worldsettings.enableStarterKit();
 				}
 
 				if (this.allowCheats && !this.field_146337_w) {

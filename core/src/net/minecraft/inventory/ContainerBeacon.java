@@ -57,7 +57,7 @@ public class ContainerBeacon extends Container
     {
         super.onContainerClosed(playerIn);
 
-        if (playerIn != null && !playerIn.worldObj.isRemote)
+        if (playerIn != null && !playerIn.worldObj.isClientSide)
         {
             ItemStack itemstack = this.beaconSlot.decrStackSize(this.beaconSlot.getSlotStackLimit());
 

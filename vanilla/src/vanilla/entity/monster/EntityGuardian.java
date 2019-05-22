@@ -195,7 +195,7 @@ public class EntityGuardian extends EntityMob
         {
             return null;
         }
-		if (this.worldObj.isRemote)
+		if (this.worldObj.isClientSide)
 		{
 			if (this.targetedEntity != null)
 			{
@@ -288,7 +288,7 @@ public class EntityGuardian extends EntityMob
      */
     public void onLivingUpdate()
     {
-        if (this.worldObj.isRemote)
+        if (this.worldObj.isClientSide)
         {
             this.field_175484_c = this.field_175482_b;
 

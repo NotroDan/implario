@@ -57,7 +57,7 @@ public class BlockTNT extends Block
      */
     public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(worldIn, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), explosionIn.getExplosivePlacedBy());
             entitytntprimed.fuse = worldIn.rand.nextInt(entitytntprimed.fuse / 4) + entitytntprimed.fuse / 8;
@@ -75,7 +75,7 @@ public class BlockTNT extends Block
 
     public void explode(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase igniter)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (((Boolean)state.getValue(EXPLODE)).booleanValue())
             {
@@ -118,7 +118,7 @@ public class BlockTNT extends Block
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        if (!worldIn.isRemote && entityIn instanceof EntityArrow)
+        if (!worldIn.isClientSide && entityIn instanceof EntityArrow)
         {
             EntityArrow entityarrow = (EntityArrow)entityIn;
 

@@ -248,7 +248,7 @@ public class EntityRabbit extends EntityAnimal
 
         if (this.field_175540_bm != this.field_175535_bn)
         {
-            if (this.field_175540_bm == 0 && !this.worldObj.isRemote)
+            if (this.field_175540_bm == 0 && !this.worldObj.isClientSide)
             {
                 this.worldObj.setEntityState(this, (byte)1);
             }

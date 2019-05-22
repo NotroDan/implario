@@ -43,7 +43,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, true));
 
-		if (worldIn != null && !worldIn.isRemote) {
+		if (worldIn != null && !worldIn.isClientSide) {
 			this.setCombatTask();
 		}
 	}
@@ -106,7 +106,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 	 * use this to react to sunlight and start to burn.
 	 */
 	public void onLivingUpdate() {
-		if (this.worldObj.isDaytime() && !this.worldObj.isRemote) {
+		if (this.worldObj.isDaytime() && !this.worldObj.isClientSide) {
 			float f = this.getBrightness(1.0F);
 			BlockPos blockpos = new BlockPos(this.posX, (double) Math.round(this.posY), this.posZ);
 
@@ -133,7 +133,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 			}
 		}
 
-		if (this.worldObj.isRemote && this.getSkeletonType() == 1) {
+		if (this.worldObj.isClientSide && this.getSkeletonType() == 1) {
 			this.setSize(0.72F, 2.535F);
 		}
 
@@ -339,7 +339,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 	public void setCurrentItemOrArmor(int slotIn, ItemStack stack) {
 		super.setCurrentItemOrArmor(slotIn, stack);
 
-		if (!this.worldObj.isRemote && slotIn == 0) {
+		if (!this.worldObj.isClientSide && slotIn == 0) {
 			this.setCombatTask();
 		}
 	}

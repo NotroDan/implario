@@ -1,6 +1,5 @@
 package vanilla.entity.passive;
 
-import java.util.Calendar;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -10,6 +9,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Calendar;
 
 public class EntityBat extends EntityAmbientCreature
 {
@@ -205,9 +206,9 @@ public class EntityBat extends EntityAmbientCreature
     /**
      * Return whether this entity should NOT trigger a pressure plate or a tripwire.
      */
-    public boolean doesEntityNotTriggerPressurePlate()
+    public boolean canTriggerWire()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -219,7 +220,7 @@ public class EntityBat extends EntityAmbientCreature
         {
             return false;
         }
-		if (!this.worldObj.isRemote && this.getIsBatHanging())
+		if (!this.worldObj.isClientSide && this.getIsBatHanging())
 		{
 			this.setIsBatHanging(false);
 		}

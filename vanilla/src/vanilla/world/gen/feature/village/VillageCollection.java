@@ -18,7 +18,7 @@ import java.util.List;
 
 public class VillageCollection extends WorldSavedData {
 
-	private static final Label<VillageCollection> LABEL = new Label<>();
+	public static final Label<VillageCollection> LABEL = new Label<>();
 
 	private World worldObj;
 	private final List<BlockPos> villagerPositionsList = Lists.newArrayList();

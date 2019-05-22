@@ -25,7 +25,7 @@ public class WorldType {
 //	public static final WorldType AMPLIFIED = new WorldType(3, "amplified").setNotificationData();
 //	public static final WorldType CUSTOMIZED = new WorldType(4, "customized");
 //	public static final WorldType DEBUG_WORLD = new WorldType(5, "debug_all_block_states");
-	public static final WorldType EMPTY = new WorldType("empty",
+	public static final WorldType VOID = new WorldType("empty",
 		(p, s, v, c) -> new BasicChunkManager(Biome.VOID),
 		p -> new ChunkProviderVoid(p.getWorld())).weakFog();
 	private static final ChunkManagerFactory factoryDebugCM = (p, s, v, c) -> new BasicChunkManager(Biome.VOID);

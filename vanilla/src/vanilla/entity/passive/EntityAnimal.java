@@ -1,6 +1,7 @@
 package vanilla.entity.passive;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.IAnimals;
 import vanilla.entity.EntityAgeable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

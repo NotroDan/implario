@@ -1,6 +1,4 @@
 out/*
-.idea/workspace.xml
-.idea/uiDesigner.xml
 
 client/env/*
 !client/env/gamedata/
@@ -13,7 +11,6 @@ client/env/gamedata/usercache.json
 !client/env/launcher.vbs
 server/env/*
 production/*
-vanilla/*
-
+.idea/*
 **/desktop.ini
 

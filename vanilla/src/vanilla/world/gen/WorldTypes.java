@@ -17,6 +17,7 @@ public class WorldTypes {
 	private static final ChunkManagerFactory
 			factoryDefaultCM = (p, s, t, g) -> p == null ? new WorldChunkManager(s, t, g) : new WorldChunkManager(p.getWorld());
 	private static final ChunkManagerFactory factoryFlatCM = (p, s, t, g) -> {
+
 				FlatGeneratorInfo info = FlatGeneratorInfo.createFlatGeneratorFromString(g);
 				Biome biome = Biome.getBiomeFromBiomeList(info.getBiome(), BiomeGenBase.ocean);
 				return new WorldChunkManagerHell(BiomeGenBase.toGenBase(biome), 0.5F);

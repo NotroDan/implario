@@ -138,7 +138,7 @@ public class EntityEnderEye extends Entity
         this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
         this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             double d0 = this.targetX - this.posX;
             double d1 = this.targetZ - this.posZ;
@@ -179,12 +179,12 @@ public class EntityEnderEye extends Entity
             this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX - this.motionX * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)f3 - 0.5D, this.posZ - this.motionZ * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
         }
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.setPosition(this.posX, this.posY, this.posZ);
             ++this.despawnTimer;
 
-            if (this.despawnTimer > 80 && !this.worldObj.isRemote)
+            if (this.despawnTimer > 80 && !this.worldObj.isClientSide)
             {
                 this.setDead();
 

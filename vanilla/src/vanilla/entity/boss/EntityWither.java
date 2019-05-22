@@ -2,40 +2,26 @@ package vanilla.entity.boss;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import vanilla.entity.VanillaEntity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.SharedMonsterAttributes;
-import vanilla.entity.ai.tasks.EntityAIArrowAttack;
-import vanilla.entity.ai.tasks.EntityAIHurtByTarget;
-import vanilla.entity.ai.tasks.EntityAILookIdle;
-import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
-import vanilla.entity.ai.tasks.EntityAISwimming;
-import vanilla.entity.ai.tasks.EntityAIWander;
-import vanilla.entity.ai.tasks.EntityAIWatchClosest;
+import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityItem;
-import vanilla.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityWitherSkull;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.nbt.NBTTagCompound;
-import vanilla.entity.ai.pathfinding.PathNavigateGround;
 import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import vanilla.entity.VanillaEntity;
+import vanilla.entity.ai.pathfinding.PathNavigateGround;
+import vanilla.entity.ai.tasks.*;
+import vanilla.entity.monster.EntityMob;
+
+import java.util.List;
 
 public class EntityWither extends EntityMob implements IBossDisplayData, IRangedAttackMob
 {
@@ -68,7 +54,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
         this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(7, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, VanillaEntity.class, 0, false, false, attackEntitySelector));
         this.experienceValue = 50;
     }
@@ -132,7 +118,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
     {
         this.motionY *= 0.6000000238418579D;
 
-        if (!this.worldObj.isRemote && this.getWatchedTargetId(0) > 0)
+        if (!this.worldObj.isClientSide && this.getWatchedTargetId(0) > 0)
         {
             Entity entity = this.worldObj.getEntityByID(this.getWatchedTargetId(0));
 
@@ -211,11 +197,11 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
             double d10 = this.func_82214_u(l);
             double d2 = this.func_82208_v(l);
             double d4 = this.func_82213_w(l);
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D, d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D, d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.0D, 0.0D, 0.0D);
 
             if (flag && this.worldObj.rand.nextInt(4) == 0)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D, d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.699999988079071D, 0.699999988079071D, 0.5D, new int[0]);
+                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D, d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.699999988079071D, 0.699999988079071D, 0.5D);
             }
         }
 
@@ -223,7 +209,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
         {
             for (int i1 = 0; i1 < 3; ++i1)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + this.rand.nextGaussian() * 1.0D, this.posY + (double)(this.rand.nextFloat() * 3.3F), this.posZ + this.rand.nextGaussian() * 1.0D, 0.699999988079071D, 0.699999988079071D, 0.8999999761581421D, new int[0]);
+                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + this.rand.nextGaussian() * 1.0D, this.posY + (double)(this.rand.nextFloat() * 3.3F), this.posZ + this.rand.nextGaussian() * 1.0D, 0.699999988079071D, 0.699999988079071D, 0.8999999761581421D);
             }
         }
     }
@@ -305,7 +291,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 
                         for (int j2 = 0; j2 < 10 && !list.isEmpty(); ++j2)
                         {
-                            EntityLivingBase entitylivingbase = (EntityLivingBase)list.get(this.rand.nextInt(list.size()));
+                            EntityLivingBase entitylivingbase = list.get(this.rand.nextInt(list.size()));
 
                             if (entitylivingbase != this && entitylivingbase.isEntityAlive() && this.canEntityBeSeen(entitylivingbase))
                             {
@@ -362,7 +348,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
                                 BlockPos blockpos = new BlockPos(i3, k, l);
                                 Block block = this.worldObj.getBlockState(blockpos).getBlock();
 
-                                if (block.getMaterial() != Material.air && func_181033_a(block))
+                                if (block.getMaterial() != Material.air && EntityWitherSkull.canPass(block))
                                 {
                                     flag = this.worldObj.destroyBlock(blockpos, true) || flag;
                                 }
@@ -372,7 +358,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 
                     if (flag)
                     {
-                        this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1012, new BlockPos(this), 0);
+                        this.worldObj.playAuxSFXAtEntity(null, 1012, new BlockPos(this), 0);
                     }
                 }
             }
@@ -384,12 +370,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
         }
     }
 
-    public static boolean func_181033_a(Block p_181033_0_)
-    {
-        return p_181033_0_ != Blocks.bedrock && p_181033_0_ != Blocks.end_portal && p_181033_0_ != Blocks.end_portal_frame && p_181033_0_ != Blocks.command_block && p_181033_0_ != Blocks.barrier;
-    }
-
-    public void func_82206_m()
+	public void func_82206_m()
     {
         this.setInvulTime(220);
         this.setHealth(this.getMaxHealth() / 3.0F);
@@ -464,7 +445,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
      */
     private void launchWitherSkullToCoords(int p_82209_1_, double x, double y, double z, boolean invulnerable)
     {
-        this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1014, new BlockPos(this), 0);
+        this.worldObj.playAuxSFXAtEntity(null, 1014, new BlockPos(this), 0);
         double d0 = this.func_82214_u(p_82209_1_);
         double d1 = this.func_82208_v(p_82209_1_);
         double d2 = this.func_82213_w(p_82209_1_);
@@ -550,7 +531,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
             entityitem.setNoDespawn();
         }
 
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(50.0D, 100.0D, 50.0D)))
             {

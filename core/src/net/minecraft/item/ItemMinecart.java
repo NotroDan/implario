@@ -26,7 +26,7 @@ public class ItemMinecart extends Item {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 
 		if (BlockRailBase.isRailBlock(iblockstate)) {
-			if (!worldIn.isRemote) {
+			if (!worldIn.isClientSide) {
 				BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = iblockstate.getBlock() instanceof BlockRailBase ? (BlockRailBase.EnumRailDirection) iblockstate.getValue(
 						((BlockRailBase) iblockstate.getBlock()).getShapeProperty()) : BlockRailBase.EnumRailDirection.NORTH_SOUTH;
 				double d0 = 0.0D;

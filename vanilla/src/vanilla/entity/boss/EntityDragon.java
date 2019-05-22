@@ -145,7 +145,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 	 * use this to react to sunlight and start to burn.
 	 */
 	public void onLivingUpdate() {
-		if (this.worldObj.isRemote) {
+		if (this.worldObj.isClientSide) {
 			float f = MathHelper.cos(this.animTime * (float) Math.PI * 2.0F);
 			float f1 = MathHelper.cos(this.prevAnimTime * (float) Math.PI * 2.0F);
 
@@ -191,7 +191,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 				this.ringBuffer[this.ringBufferIndex][0] = (double) this.rotationYaw;
 				this.ringBuffer[this.ringBufferIndex][1] = this.posY;
 
-				if (this.worldObj.isRemote) {
+				if (this.worldObj.isClientSide) {
 					if (this.newPosRotationIncrements > 0) {
 						double d10 = this.posX + (this.newPosX - this.posX) / (double) this.newPosRotationIncrements;
 						double d0 = this.posY + (this.newPosY - this.posY) / (double) this.newPosRotationIncrements;
@@ -308,7 +308,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 				this.dragonPartWing2.onUpdate();
 				this.dragonPartWing2.setLocationAndAngles(this.posX - (double) (f4 * 4.5F), this.posY + 2.0D, this.posZ - (double) (f16 * 4.5F), 0.0F, 0.0F);
 
-				if (!this.worldObj.isRemote && this.hurtTime == 0) {
+				if (!this.worldObj.isClientSide && this.hurtTime == 0) {
 					this.collideWithEntities(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartWing1.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
 					this.collideWithEntities(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartWing2.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
 					this.attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartHead.getEntityBoundingBox().expand(1.0D, 1.0D, 1.0D)));
@@ -348,7 +348,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 							this.posZ + (double) ((f4 * f23 + f22 * f24) * f2), 0.0F, 0.0F);
 				}
 
-				if (!this.worldObj.isRemote) {
+				if (!this.worldObj.isClientSide) {
 					this.slowed = this.destroyBlocksInAABB(this.dragonPartHead.getEntityBoundingBox()) | this.destroyBlocksInAABB(this.dragonPartBody.getEntityBoundingBox());
 				}
 			}
@@ -361,7 +361,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 	private void updateDragonEnderCrystal() {
 		if (this.healingEnderCrystal != null) {
 			if (this.healingEnderCrystal.isDead) {
-				if (!this.worldObj.isRemote) {
+				if (!this.worldObj.isClientSide) {
 					this.attackEntityFromPart(this.dragonPartHead, DamageSource.setExplosionSource((Explosion) null), 10.0F);
 				}
 
@@ -566,7 +566,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 
 		boolean flag = this.worldObj.getGameRules().getBoolean("doMobLoot");
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			if (this.deathTicks > 150 && this.deathTicks % 5 == 0 && flag) {
 				int i = 1000;
 
@@ -585,7 +585,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 		this.moveEntity(0.0D, 0.10000000149011612D, 0.0D);
 		this.renderYawOffset = this.rotationYaw += 20.0F;
 
-		if (this.deathTicks == 200 && !this.worldObj.isRemote) {
+		if (this.deathTicks == 200 && !this.worldObj.isClientSide) {
 			if (flag) {
 				int j = 2000;
 

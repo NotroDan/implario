@@ -61,7 +61,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
      */
     public boolean interactFirst(EntityPlayer playerIn)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             playerIn.displayGUIChest(this);
         }
@@ -137,7 +137,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
     {
         super.onUpdate();
 
-        if (!this.worldObj.isRemote && this.isEntityAlive() && this.getBlocked())
+        if (!this.worldObj.isClientSide && this.isEntityAlive() && this.getBlocked())
         {
             BlockPos blockpos = new BlockPos(this);
 

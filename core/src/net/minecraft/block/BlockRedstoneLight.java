@@ -26,7 +26,7 @@ public class BlockRedstoneLight extends Block
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (this.isOn && !worldIn.isBlockPowered(pos))
             {
@@ -44,7 +44,7 @@ public class BlockRedstoneLight extends Block
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (this.isOn && !worldIn.isBlockPowered(pos))
             {
@@ -59,7 +59,7 @@ public class BlockRedstoneLight extends Block
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             if (this.isOn && !worldIn.isBlockPowered(pos))
             {

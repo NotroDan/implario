@@ -142,7 +142,7 @@ public class EntitySquid extends EntityWaterMob
 
         if ((double)this.squidRotation > Math.PI * 2D)
         {
-            if (this.worldObj.isRemote)
+            if (this.worldObj.isClientSide)
             {
                 this.squidRotation = (float)Math.PI * 2F;
             }
@@ -183,7 +183,7 @@ public class EntitySquid extends EntityWaterMob
                 this.field_70871_bB *= 0.99F;
             }
 
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 this.motionX = (double)(this.randomMotionVecX * this.randomMotionSpeed);
                 this.motionY = (double)(this.randomMotionVecY * this.randomMotionSpeed);
@@ -200,7 +200,7 @@ public class EntitySquid extends EntityWaterMob
         {
             this.tentacleAngle = MathHelper.abs(MathHelper.sin(this.squidRotation)) * (float)Math.PI * 0.25F;
 
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 this.motionX = 0.0D;
                 this.motionY -= 0.08D;

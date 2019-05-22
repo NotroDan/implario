@@ -36,7 +36,7 @@ public class EntityLightningBolt extends EntityWeatherEffect
         this.boltLivingTime = this.rand.nextInt(3) + 1;
         BlockPos blockpos = new BlockPos(this);
 
-        if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doFireTick") && (worldIn.getDifficulty() == EnumDifficulty.NORMAL || worldIn.getDifficulty() == EnumDifficulty.HARD) && worldIn.isAreaLoaded(blockpos, 10))
+        if (!worldIn.isClientSide && worldIn.getGameRules().getBoolean("doFireTick") && (worldIn.getDifficulty() == EnumDifficulty.NORMAL || worldIn.getDifficulty() == EnumDifficulty.HARD) && worldIn.isAreaLoaded(blockpos, 10))
         {
             if (worldIn.getBlockState(blockpos).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(worldIn, blockpos))
             {
@@ -83,7 +83,7 @@ public class EntityLightningBolt extends EntityWeatherEffect
                 this.boltVertex = this.rand.nextLong();
                 BlockPos blockpos = new BlockPos(this);
 
-                if (!this.worldObj.isRemote && this.worldObj.getGameRules().getBoolean("doFireTick") && this.worldObj.isAreaLoaded(blockpos, 10) && this.worldObj.getBlockState(blockpos).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(this.worldObj, blockpos))
+                if (!this.worldObj.isClientSide && this.worldObj.getGameRules().getBoolean("doFireTick") && this.worldObj.isAreaLoaded(blockpos, 10) && this.worldObj.getBlockState(blockpos).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(this.worldObj, blockpos))
                 {
                     this.worldObj.setBlockState(blockpos, Blocks.fire.getDefaultState());
                 }
@@ -92,7 +92,7 @@ public class EntityLightningBolt extends EntityWeatherEffect
 
         if (this.lightningState >= 0)
         {
-            if (this.worldObj.isRemote)
+            if (this.worldObj.isClientSide)
             {
                 this.worldObj.setLastLightningBolt(2);
             }

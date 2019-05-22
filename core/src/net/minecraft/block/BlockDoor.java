@@ -236,7 +236,7 @@ public class BlockDoor extends Block
 
             if (flag1)
             {
-                if (!worldIn.isRemote)
+                if (!worldIn.isClientSide)
                 {
                     this.dropBlockAsItem(worldIn, pos, state, 0);
                 }

@@ -90,7 +90,7 @@ public class BlockDragonEgg extends Block
 
                 if (worldIn.getBlockState(blockpos).getBlock().blockMaterial == Material.air)
                 {
-                    if (worldIn.isRemote)
+                    if (worldIn.isClientSide)
                     {
                         for (int j = 0; j < 128; ++j)
                         {

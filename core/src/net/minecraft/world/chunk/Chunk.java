@@ -93,7 +93,7 @@ public class Chunk {
 	/**
 	 * Whether this Chunk has any Entities and thus requires saving on every tick
 	 */
-	private boolean hasEntities;
+	public boolean hasEntities;
 
 	/**
 	 * The time according to World.worldTime when this chunk was last saved
@@ -593,7 +593,7 @@ public class Chunk {
 		extendedblockstorage.set(i, j & 15, k, state);
 
 		if (block1 != block) {
-			if (!this.worldObj.isRemote) {
+			if (!this.worldObj.isClientSide) {
 				block1.breakBlock(this.worldObj, pos, iblockstate);
 			} else if (block1 instanceof ITileEntityProvider) {
 				this.worldObj.removeTileEntity(pos);
@@ -630,7 +630,7 @@ public class Chunk {
 			}
 		}
 
-		if (!this.worldObj.isRemote && block1 != block) {
+		if (!this.worldObj.isClientSide && block1 != block) {
 			block.onBlockAdded(this.worldObj, pos, state);
 		}
 
@@ -1005,9 +1005,9 @@ public class Chunk {
 		return new BlockPos(pos.getX(), this.precipitationHeightMap[k], pos.getZ());
 	}
 
-	public void func_150804_b(boolean p_150804_1_) {
+	public void tick(boolean p_150804_1_) {
 		if (this.isGapLightingUpdated && !this.worldObj.provider.getHasNoSky() && !p_150804_1_) {
-			this.recheckGaps(this.worldObj.isRemote);
+			this.recheckGaps(this.worldObj.isClientSide);
 		}
 
 		this.field_150815_m = true;
@@ -1017,7 +1017,7 @@ public class Chunk {
 		}
 
 		while (!this.tileEntityPosQueue.isEmpty()) {
-			BlockPos blockpos = (BlockPos) this.tileEntityPosQueue.poll();
+			BlockPos blockpos = this.tileEntityPosQueue.poll();
 
 			if (this.getTileEntity(blockpos, Chunk.EnumCreateEntityType.CHECK) == null && this.getBlock(blockpos).hasTileEntity()) {
 				TileEntity tileentity = this.createNewTileEntity(blockpos);

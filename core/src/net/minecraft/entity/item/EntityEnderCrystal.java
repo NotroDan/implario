@@ -82,12 +82,12 @@ public class EntityEnderCrystal extends Entity {
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) return false;
-		if (this.isDead || this.worldObj.isRemote) return true;
+		if (this.isDead || this.worldObj.isClientSide) return true;
 		this.health = 0;
 		if (this.health > 0) return true;
 
 		this.setDead();
-		if (!this.worldObj.isRemote) this.worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 6.0F, true);
+		if (!this.worldObj.isClientSide) this.worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 6.0F, true);
 
 		return true;
 	}

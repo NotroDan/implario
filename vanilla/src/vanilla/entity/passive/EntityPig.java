@@ -125,7 +125,7 @@ public class EntityPig extends EntityAnimal
         {
             return true;
         }
-		if (!this.getSaddled() || this.worldObj.isRemote || this.riddenByEntity != null && this.riddenByEntity != player)
+		if (!this.getSaddled() || this.worldObj.isClientSide || this.riddenByEntity != null && this.riddenByEntity != player)
 		{
 			return false;
 		}
@@ -191,7 +191,7 @@ public class EntityPig extends EntityAnimal
      */
     public void onStruckByLightning(EntityLightningBolt lightningBolt)
     {
-        if (!this.worldObj.isRemote && !this.isDead)
+        if (!this.worldObj.isClientSide && !this.isDead)
         {
             EntityPigZombie entitypigzombie = new EntityPigZombie(this.worldObj);
             entitypigzombie.setCurrentItemOrArmor(0, new ItemStack(Items.golden_sword));

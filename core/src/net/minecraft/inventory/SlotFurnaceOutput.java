@@ -65,7 +65,7 @@ public class SlotFurnaceOutput extends Slot
     {
         stack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.field_75228_b);
 
-        if (!this.thePlayer.worldObj.isRemote)
+        if (!this.thePlayer.worldObj.isClientSide)
         {
             int i = this.field_75228_b;
             float f = FurnaceRecipes.instance().getSmeltingExperience(stack);

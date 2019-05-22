@@ -3,6 +3,7 @@ package net.minecraft.client;
 import net.minecraft.client.game.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -77,6 +78,10 @@ public final class MC {
 
 	public static BlockRendererDispatcher getBlockRendererDispatcher() {
 		return i().getBlockRendererDispatcher();
+	}
+
+	public static void displayGuiScreen(GuiEditSign gui) {
+		i().displayGuiScreen(gui);
 	}
 
 }

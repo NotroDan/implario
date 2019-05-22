@@ -1,12 +1,8 @@
 package net.minecraft.world.chunk;
 
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.SpawnListEntry;
-
-import java.util.List;
 
 public interface IChunkProvider {
 
@@ -51,7 +47,6 @@ public interface IChunkProvider {
 	 */
 	String makeString();
 
-	List<SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos);
 
 	BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position);
 

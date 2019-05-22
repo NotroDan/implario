@@ -95,7 +95,7 @@ public class EntityPotion extends EntityThrowable
      */
     protected void onImpact(MovingObjectPosition p_70184_1_)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             List<PotionEffect> list = Items.potionitem.getEffects(this.potionDamage);
 

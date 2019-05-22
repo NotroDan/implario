@@ -7,6 +7,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.biome.IChunkManager;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.storage.WorldInfo;
 
 import java.io.File;
 
@@ -78,8 +79,9 @@ public abstract class WorldProvider {
 	 * creates a new world chunk manager for WorldProvider
 	 */
 	protected void registerWorldChunkManager() {
-		WorldType worldtype = this.worldObj.getWorldInfo().getTerrainType();
-		this.worldChunkMgr = worldtype.createChunkManager(this, worldinfo.getSeed(), worldinfo.getTerrainType(), worldinfo.getGeneratorOptions());
+		WorldInfo info = this.worldObj.getWorldInfo();
+		WorldType worldtype = info.getTerrainType();
+		this.worldChunkMgr = worldtype.createChunkManager(info.getSeed(), info.getGeneratorOptions());
 	}
 
 	/**

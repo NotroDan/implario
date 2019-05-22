@@ -101,7 +101,7 @@ public class BlockPistonMoving extends BlockContainer
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (!worldIn.isRemote && worldIn.getTileEntity(pos) == null)
+        if (!worldIn.isClientSide && worldIn.getTileEntity(pos) == null)
         {
             worldIn.setBlockToAir(pos);
             return true;
@@ -120,9 +120,9 @@ public class BlockPistonMoving extends BlockContainer
     /**
      * Spawns this Block's drops into the World as EntityItems.
      */
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
+    public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
 
@@ -147,7 +147,7 @@ public class BlockPistonMoving extends BlockContainer
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             worldIn.getTileEntity(pos);
         }

@@ -42,7 +42,7 @@ public class ItemHangingEntity extends Item
 
 		if (entityhanging != null && entityhanging.onValidSurface())
 		{
-			if (!worldIn.isRemote)
+			if (!worldIn.isClientSide)
 			{
 				worldIn.spawnEntityInWorld(entityhanging);
 			}

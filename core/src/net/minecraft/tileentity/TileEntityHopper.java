@@ -182,7 +182,7 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 	 * Like the old updateEntity(), except more generic.
 	 */
 	public void update() {
-		if (this.worldObj != null && !this.worldObj.isRemote) {
+		if (this.worldObj != null && !this.worldObj.isClientSide) {
 			--this.transferCooldown;
 
 			if (!this.isOnTransferCooldown()) {
@@ -193,7 +193,7 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 	}
 
 	public boolean updateHopper() {
-		if (this.worldObj != null && !this.worldObj.isRemote) {
+		if (this.worldObj != null && !this.worldObj.isClientSide) {
 			if (!this.isOnTransferCooldown() && BlockHopper.isEnabled(this.getBlockMetadata())) {
 				boolean flag = false;
 

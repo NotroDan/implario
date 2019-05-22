@@ -1,17 +1,16 @@
 package net.minecraft.tileentity;
 
 import com.google.common.collect.Maps;
+import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.Logger;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import vanilla.tileentity.TileEntityMobSpawner;
 
 import java.util.Map;
 
@@ -231,6 +230,10 @@ public abstract class TileEntity {
 		return false;
 	}
 
+	public static void register(Class<? extends TileEntity> c, String id) {
+		addMapping(c, id);
+	}
+
 	static {
 		addMapping(TileEntityFurnace.class, "Furnace");
 		addMapping(TileEntityChest.class, "Chest");
@@ -239,7 +242,6 @@ public abstract class TileEntity {
 		addMapping(TileEntityDispenser.class, "Trap");
 		addMapping(TileEntityDropper.class, "Dropper");
 		addMapping(TileEntitySign.class, "Sign");
-		addMapping(TileEntityMobSpawner.class, "MobSpawner");
 		addMapping(TileEntityNote.class, "Music");
 		addMapping(TileEntityPiston.class, "Piston");
 		addMapping(TileEntityBrewingStand.class, "Cauldron");

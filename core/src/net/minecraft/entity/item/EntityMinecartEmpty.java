@@ -29,7 +29,7 @@ public class EntityMinecartEmpty extends EntityMinecart
 		{
 			return false;
 		}
-		if (!this.worldObj.isRemote)
+		if (!this.worldObj.isClientSide)
 		{
 			playerIn.mountEntity(this);
 		}

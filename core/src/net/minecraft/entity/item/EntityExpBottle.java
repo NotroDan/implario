@@ -46,7 +46,7 @@ public class EntityExpBottle extends EntityThrowable
      */
     protected void onImpact(MovingObjectPosition p_70184_1_)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             this.worldObj.playAuxSFX(2002, new BlockPos(this), 0);
             int i = 3 + this.worldObj.rand.nextInt(5) + this.worldObj.rand.nextInt(5);

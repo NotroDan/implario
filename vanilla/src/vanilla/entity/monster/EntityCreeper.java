@@ -256,7 +256,7 @@ public class EntityCreeper extends EntityMob
             this.worldObj.playSoundEffect(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "fire.ignite", 1.0F, this.rand.nextFloat() * 0.4F + 0.8F);
             player.swingItem();
 
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isClientSide)
             {
                 this.ignite();
                 itemstack.damageItem(1, player);
@@ -272,7 +272,7 @@ public class EntityCreeper extends EntityMob
      */
     private void explode()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.worldObj.isClientSide)
         {
             boolean flag = this.worldObj.getGameRules().getBoolean("mobGriefing");
             float f = this.getPowered() ? 2.0F : 1.0F;

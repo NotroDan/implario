@@ -1,20 +1,22 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnchantmentTable;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockEnchantmentTable extends BlockContainer
 {
@@ -91,7 +93,7 @@ public class BlockEnchantmentTable extends BlockContainer
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (worldIn.isRemote)
+        if (worldIn.isClientSide)
         {
             return true;
         }
@@ -99,7 +101,7 @@ public class BlockEnchantmentTable extends BlockContainer
 
 		if (tileentity instanceof TileEntityEnchantmentTable)
 		{
-			playerIn.displayGui((TileEntityEnchantmentTable)tileentity);
+			playerIn.openGui(IInteractionObject.class, (TileEntityEnchantmentTable)tileentity);
 		}
 
 		return true;

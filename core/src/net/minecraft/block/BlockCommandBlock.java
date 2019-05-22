@@ -40,7 +40,7 @@ public class BlockCommandBlock extends BlockContainer
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             boolean flag = worldIn.isBlockPowered(pos);
             boolean flag1 = state.getValue(TRIGGERED);
@@ -109,7 +109,7 @@ public class BlockCommandBlock extends BlockContainer
                 commandblocklogic.setName(stack.getDisplayName());
             }
 
-            if (!worldIn.isRemote)
+            if (!worldIn.isClientSide)
             {
                 commandblocklogic.setTrackOutput(worldIn.getGameRules().getBoolean("sendCommandFeedback"));
             }

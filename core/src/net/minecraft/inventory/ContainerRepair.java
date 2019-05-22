@@ -103,7 +103,7 @@ public class ContainerRepair extends Container
                 ContainerRepair.this.maximumCost = 0;
                 IBlockState iblockstate = worldIn.getBlockState(blockPosIn);
 
-                if (!playerIn.capabilities.isCreativeMode && !worldIn.isRemote && iblockstate.getBlock() == Blocks.anvil && playerIn.getRNG().nextFloat() < 0.12F)
+                if (!playerIn.capabilities.isCreativeMode && !worldIn.isClientSide && iblockstate.getBlock() == Blocks.anvil && playerIn.getRNG().nextFloat() < 0.12F)
                 {
                     int l = ((Integer)iblockstate.getValue(BlockAnvil.DAMAGE)).intValue();
                     ++l;
@@ -119,7 +119,7 @@ public class ContainerRepair extends Container
                         worldIn.playAuxSFX(1021, blockPosIn, 0);
                     }
                 }
-                else if (!worldIn.isRemote)
+                else if (!worldIn.isClientSide)
                 {
                     worldIn.playAuxSFX(1021, blockPosIn, 0);
                 }
@@ -407,7 +407,7 @@ public class ContainerRepair extends Container
     {
         super.onContainerClosed(playerIn);
 
-        if (!this.theWorld.isRemote)
+        if (!this.theWorld.isClientSide)
         {
             for (int i = 0; i < this.inputSlots.getSizeInventory(); ++i)
             {

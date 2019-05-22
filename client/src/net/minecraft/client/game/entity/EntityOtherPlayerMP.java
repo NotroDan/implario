@@ -34,6 +34,9 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
 		return true;
 	}
 
+	@Override
+	public <T> void openGui(Class<T> type, T gui) {}
+
 	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_) {
 		this.x = x;
 		this.y = y;
@@ -108,6 +111,8 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
 		this.cameraYaw += (f1 - this.cameraYaw) * 0.4F;
 		this.cameraPitch += (f - this.cameraPitch) * 0.8F;
 	}
+
+
 
 	/**
 	 * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor. Params: Item, slot

@@ -43,7 +43,7 @@ public class BlockJukebox extends BlockContainer
 
     public void insertRecord(World worldIn, BlockPos pos, IBlockState state, ItemStack recordStack)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             TileEntity tileentity = worldIn.getTileEntity(pos);
 
@@ -57,7 +57,7 @@ public class BlockJukebox extends BlockContainer
 
     private void dropRecord(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             TileEntity tileentity = worldIn.getTileEntity(pos);
 
@@ -93,11 +93,11 @@ public class BlockJukebox extends BlockContainer
     /**
      * Spawns this Block's drops into the World as EntityItems.
      */
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
+    public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
-            super.dropBlockAsItemWithChance(worldIn, pos, state, chance, 0);
+            super.dropBlockAsItemWithChance0(worldIn, pos, state, chance, 0);
         }
     }
 

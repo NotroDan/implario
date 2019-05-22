@@ -47,7 +47,7 @@ public class ItemMap extends ItemMapBase
         String s = "map_" + stack.getMetadata();
         MapData mapdata = (MapData)worldIn.loadItemData(MapData.class, s);
 
-        if (mapdata == null && !worldIn.isRemote)
+        if (mapdata == null && !worldIn.isClientSide)
         {
             stack.setItemDamage(worldIn.getUniqueDataId("map"));
             s = "map_" + stack.getMetadata();
@@ -234,7 +234,7 @@ public class ItemMap extends ItemMapBase
      */
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
-        if (!worldIn.isRemote)
+        if (!worldIn.isClientSide)
         {
             MapData mapdata = this.getMapData(stack, worldIn);
 

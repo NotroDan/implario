@@ -88,7 +88,12 @@ public class EntityIronGolem extends EntityGolem
         super.updateAITasks();
     }
 
-    protected void applyEntityAttributes()
+	@Override
+	public boolean suckInMinecarts() {
+		return false;
+	}
+
+	protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);

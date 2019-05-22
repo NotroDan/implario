@@ -116,7 +116,7 @@ public abstract class World implements IBlockAccess {
 	 * True if the world is a 'slave' client; changes will not be saved or propagated from this world. For example,
 	 * server worlds have this set to false, client worlds have this set to true.
 	 */
-	public final boolean isRemote;
+	public final boolean isClientSide;
 	protected Set<ChunkCoordIntPair> activeChunkSet = Sets.newHashSet();
 
 	/**
@@ -153,7 +153,7 @@ public abstract class World implements IBlockAccess {
 		this.theProfiler = profilerIn;
 		this.worldInfo = info;
 		this.provider = providerIn;
-		this.isRemote = client;
+		this.isClientSide = client;
 		this.worldBorder = providerIn.getWorldBorder();
 	}
 
@@ -297,7 +297,7 @@ public abstract class World implements IBlockAccess {
 		if (!this.isValid(pos)) {
 			return false;
 		}
-		if (!this.isRemote && this.worldInfo.getTerrainType().isModificationAllowed()) {
+		if (!this.isClientSide && this.worldInfo.getTerrainType().isModificationAllowed()) {
 			return false;
 		}
 		Chunk chunk = this.getChunkFromBlockCoords(pos);
@@ -315,11 +315,11 @@ public abstract class World implements IBlockAccess {
 			this.theProfiler.endSection();
 		}
 
-		if ((flags & 2) != 0 && (!this.isRemote || (flags & 4) == 0) && chunk.isPopulated()) {
+		if ((flags & 2) != 0 && (!this.isClientSide || (flags & 4) == 0) && chunk.isPopulated()) {
 			this.markBlockForUpdate(pos);
 		}
 
-		if (!this.isRemote && (flags & 1) != 0) {
+		if (!this.isClientSide && (flags & 1) != 0) {
 			this.notifyNeighborsRespectDebug(pos, iblockstate.getBlock());
 
 			if (block.hasComparatorInputOverride()) {
@@ -437,7 +437,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void notifyBlockOfStateChange(BlockPos pos, final Block blockIn) {
-		if (!this.isRemote) {
+		if (!this.isClientSide) {
 			IBlockState iblockstate = this.getBlockState(pos);
 
 			try {
@@ -2014,71 +2014,70 @@ public abstract class World implements IBlockAccess {
 	 * Updates all weather states.
 	 */
 	protected void updateWeather() {
-		if (!this.provider.getHasNoSky()) {
-			if (!this.isRemote) {
-				int i = this.worldInfo.getCleanWeatherTime();
+		if (this.provider.getHasNoSky()) return;
+		if (this.isClientSide) return;
 
-				if (i > 0) {
-					--i;
-					this.worldInfo.setCleanWeatherTime(i);
-					this.worldInfo.setThunderTime(this.worldInfo.isThundering() ? 1 : 2);
-					this.worldInfo.setRainTime(this.worldInfo.isRaining() ? 1 : 2);
-				}
+		int i = this.worldInfo.getCleanWeatherTime();
 
-				int j = this.worldInfo.getThunderTime();
+		if (i > 0) {
+			--i;
+			this.worldInfo.setCleanWeatherTime(i);
+			this.worldInfo.setThunderTime(this.worldInfo.isThundering() ? 1 : 2);
+			this.worldInfo.setRainTime(this.worldInfo.isRaining() ? 1 : 2);
+		}
 
-				if (j <= 0) {
-					if (this.worldInfo.isThundering()) {
-						this.worldInfo.setThunderTime(this.rand.nextInt(12000) + 3600);
-					} else {
-						this.worldInfo.setThunderTime(this.rand.nextInt(168000) + 12000);
-					}
-				} else {
-					--j;
-					this.worldInfo.setThunderTime(j);
+		int j = this.worldInfo.getThunderTime();
 
-					if (j <= 0) {
-						this.worldInfo.setThundering(!this.worldInfo.isThundering());
-					}
-				}
+		if (j <= 0) {
+			if (this.worldInfo.isThundering()) {
+				this.worldInfo.setThunderTime(this.rand.nextInt(12000) + 3600);
+			} else {
+				this.worldInfo.setThunderTime(this.rand.nextInt(168000) + 12000);
+			}
+		} else {
+			--j;
+			this.worldInfo.setThunderTime(j);
 
-				this.prevThunderingStrength = this.thunderingStrength;
-
-				if (this.worldInfo.isThundering()) {
-					this.thunderingStrength = (float) ((double) this.thunderingStrength + 0.01D);
-				} else {
-					this.thunderingStrength = (float) ((double) this.thunderingStrength - 0.01D);
-				}
-
-				this.thunderingStrength = MathHelper.clamp_float(this.thunderingStrength, 0.0F, 1.0F);
-				int k = this.worldInfo.getRainTime();
-
-				if (k <= 0) {
-					if (this.worldInfo.isRaining()) {
-						this.worldInfo.setRainTime(this.rand.nextInt(12000) + 12000);
-					} else {
-						this.worldInfo.setRainTime(this.rand.nextInt(168000) + 12000);
-					}
-				} else {
-					--k;
-					this.worldInfo.setRainTime(k);
-
-					if (k <= 0) {
-						this.worldInfo.setRaining(!this.worldInfo.isRaining());
-					}
-				}
-
-				this.prevRainingStrength = this.rainingStrength;
-
-				if (this.worldInfo.isRaining()) {
-					this.rainingStrength = (float) ((double) this.rainingStrength + 0.01D);
-				} else {
-					this.rainingStrength = (float) ((double) this.rainingStrength - 0.01D);
-				}
-
-				this.rainingStrength = MathHelper.clamp_float(this.rainingStrength, 0.0F, 1.0F);
+			if (j <= 0) {
+				this.worldInfo.setThundering(!this.worldInfo.isThundering());
 			}
 		}
+
+		this.prevThunderingStrength = this.thunderingStrength;
+
+		if (this.worldInfo.isThundering()) {
+			this.thunderingStrength = (float) ((double) this.thunderingStrength + 0.01D);
+		} else {
+			this.thunderingStrength = (float) ((double) this.thunderingStrength - 0.01D);
+		}
+
+		this.thunderingStrength = MathHelper.clamp_float(this.thunderingStrength, 0.0F, 1.0F);
+		int k = this.worldInfo.getRainTime();
+
+		if (k <= 0) {
+			if (this.worldInfo.isRaining()) {
+				this.worldInfo.setRainTime(this.rand.nextInt(12000) + 12000);
+			} else {
+				this.worldInfo.setRainTime(this.rand.nextInt(168000) + 12000);
+			}
+		} else {
+			--k;
+			this.worldInfo.setRainTime(k);
+
+			if (k <= 0) {
+				this.worldInfo.setRaining(!this.worldInfo.isRaining());
+			}
+		}
+
+		this.prevRainingStrength = this.rainingStrength;
+
+		if (this.worldInfo.isRaining()) {
+			this.rainingStrength = (float) ((double) this.rainingStrength + 0.01D);
+		} else {
+			this.rainingStrength = (float) ((double) this.rainingStrength - 0.01D);
+		}
+
+		this.rainingStrength = MathHelper.clamp_float(this.rainingStrength, 0.0F, 1.0F);
 	}
 
 	protected void setActivePlayerChunksAndCheckLight() {
@@ -2123,7 +2122,7 @@ public abstract class World implements IBlockAccess {
 	protected void playMoodSoundAndCheckLight(int p_147467_1_, int p_147467_2_, Chunk chunkIn) {
 		this.theProfiler.endStartSection("moodSound");
 
-		if (this.ambientTickCountdown == 0 && !this.isRemote) {
+		if (this.ambientTickCountdown == 0 && !this.isClientSide) {
 			this.updateLCG = this.updateLCG * 3 + 1013904223;
 			int i = this.updateLCG >> 2;
 			int j = i & 15;
@@ -2512,7 +2511,7 @@ public abstract class World implements IBlockAccess {
 		int i = 0;
 
 		for (Entity entity : this.loadedEntityList) {
-			if ((!(entity instanceof VanillaEntity) || !((VanillaEntity) entity).isNoDespawnRequired()) && entityType.isAssignableFrom(entity.getClass())) {
+			if (!(entity instanceof VanillaEntity && ((VanillaEntity) entity).isNoDespawnRequired()) && entityType.isAssignableFrom(entity.getClass())) {
 				++i;
 			}
 		}
@@ -3103,6 +3102,9 @@ public abstract class World implements IBlockAccess {
 
 	public <T> T getAddition(Label<T> label) {
 		return additions.get(label);
+	}
+	public <T> void setAddition(Label<T> label, T value) {
+		additions.put(label, value);
 	}
 
 }

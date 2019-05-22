@@ -2,7 +2,7 @@ package vanilla.entity.monster;
 
 import com.google.common.base.Predicate;
 import net.minecraft.entity.Entity;
-import vanilla.entity.passive.IAnimals;
+import net.minecraft.entity.IAnimals;
 
 public interface IMob extends IAnimals
 {

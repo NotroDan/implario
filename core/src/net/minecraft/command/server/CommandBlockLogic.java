@@ -1,9 +1,6 @@
 package net.minecraft.command.server;
 
 import io.netty.buffer.ByteBuf;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.Callable;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
@@ -12,244 +9,220 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ReportedException;
+import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;
 
-public abstract class CommandBlockLogic implements ICommandSender
-{
-    /** The formatting for the timestamp on commands run. */
-    private static final SimpleDateFormat timestampFormat = new SimpleDateFormat("HH:mm:ss");
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.Callable;
 
-    /** The number of successful commands run. (used for redstone output) */
-    private int successCount;
-    private boolean trackOutput = true;
+public abstract class CommandBlockLogic implements ICommandSender {
 
-    /** The previously run command. */
-    private IChatComponent lastOutput = null;
+	/**
+	 * The formatting for the timestamp on commands run.
+	 */
+	private static final SimpleDateFormat timestampFormat = new SimpleDateFormat("HH:mm:ss");
 
-    /** The command stored in the command block. */
-    private String commandStored = "";
+	/**
+	 * The number of successful commands run. (used for redstone output)
+	 */
+	private int successCount;
+	private boolean trackOutput = true;
 
-    /** The custom name of the command block. (defaults to "@") */
-    private String customName = "@";
-    private final CommandResultStats resultStats = new CommandResultStats();
+	/**
+	 * The previously run command.
+	 */
+	private IChatComponent lastOutput = null;
 
-    /**
-     * returns the successCount int.
-     */
-    public int getSuccessCount()
-    {
-        return this.successCount;
-    }
+	/**
+	 * The command stored in the command block.
+	 */
+	private String commandStored = "";
 
-    /**
-     * Returns the lastOutput.
-     */
-    public IChatComponent getLastOutput()
-    {
-        return this.lastOutput;
-    }
+	/**
+	 * The custom name of the command block. (defaults to "@")
+	 */
+	private String customName = "@";
+	private final CommandResultStats resultStats = new CommandResultStats();
 
-    /**
-     * Stores data to NBT format.
-     */
-    public void writeDataToNBT(NBTTagCompound tagCompound)
-    {
-        tagCompound.setString("Command", this.commandStored);
-        tagCompound.setInteger("SuccessCount", this.successCount);
-        tagCompound.setString("CustomName", this.customName);
-        tagCompound.setBoolean("TrackOutput", this.trackOutput);
+	/**
+	 * returns the successCount int.
+	 */
+	public int getSuccessCount() {
+		return this.successCount;
+	}
 
-        if (this.lastOutput != null && this.trackOutput)
-        {
-            tagCompound.setString("LastOutput", IChatComponent.Serializer.componentToJson(this.lastOutput));
-        }
+	/**
+	 * Returns the lastOutput.
+	 */
+	public IChatComponent getLastOutput() {
+		return this.lastOutput;
+	}
 
-        this.resultStats.writeStatsToNBT(tagCompound);
-    }
+	/**
+	 * Stores data to NBT format.
+	 */
+	public void writeDataToNBT(NBTTagCompound tagCompound) {
+		tagCompound.setString("Command", this.commandStored);
+		tagCompound.setInteger("SuccessCount", this.successCount);
+		tagCompound.setString("CustomName", this.customName);
+		tagCompound.setBoolean("TrackOutput", this.trackOutput);
 
-    /**
-     * Reads NBT formatting and stored data into variables.
-     */
-    public void readDataFromNBT(NBTTagCompound nbt)
-    {
-        this.commandStored = nbt.getString("Command");
-        this.successCount = nbt.getInteger("SuccessCount");
+		if (this.lastOutput != null && this.trackOutput) {
+			tagCompound.setString("LastOutput", IChatComponent.Serializer.componentToJson(this.lastOutput));
+		}
 
-        if (nbt.hasKey("CustomName", 8))
-        {
-            this.customName = nbt.getString("CustomName");
-        }
+		this.resultStats.writeStatsToNBT(tagCompound);
+	}
 
-        if (nbt.hasKey("TrackOutput", 1))
-        {
-            this.trackOutput = nbt.getBoolean("TrackOutput");
-        }
+	/**
+	 * Reads NBT formatting and stored data into variables.
+	 */
+	public void readDataFromNBT(NBTTagCompound nbt) {
+		this.commandStored = nbt.getString("Command");
+		this.successCount = nbt.getInteger("SuccessCount");
 
-        if (nbt.hasKey("LastOutput", 8) && this.trackOutput)
-        {
-            this.lastOutput = IChatComponent.Serializer.jsonToComponent(nbt.getString("LastOutput"));
-        }
+		if (nbt.hasKey("CustomName", 8)) {
+			this.customName = nbt.getString("CustomName");
+		}
 
-        this.resultStats.readStatsFromNBT(nbt);
-    }
+		if (nbt.hasKey("TrackOutput", 1)) {
+			this.trackOutput = nbt.getBoolean("TrackOutput");
+		}
 
-    /**
-     * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
-     */
-    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
-    {
-        return permLevel <= 2;
-    }
+		if (nbt.hasKey("LastOutput", 8) && this.trackOutput) {
+			this.lastOutput = IChatComponent.Serializer.jsonToComponent(nbt.getString("LastOutput"));
+		}
 
-    /**
-     * Sets the command.
-     */
-    public void setCommand(String command)
-    {
-        this.commandStored = command;
-        this.successCount = 0;
-    }
+		this.resultStats.readStatsFromNBT(nbt);
+	}
 
-    /**
-     * Returns the command of the command block.
-     */
-    public String getCommand()
-    {
-        return this.commandStored;
-    }
+	/**
+	 * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
+	 */
+	public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+		return permLevel <= 2;
+	}
 
-    public void trigger(World worldIn)
-    {
-        if (worldIn.isRemote)
-        {
-            this.successCount = 0;
-        }
+	/**
+	 * Sets the command.
+	 */
+	public void setCommand(String command) {
+		this.commandStored = command;
+		this.successCount = 0;
+	}
 
-        MinecraftServer minecraftserver = MinecraftServer.getServer();
+	/**
+	 * Returns the command of the command block.
+	 */
+	public String getCommand() {
+		return this.commandStored;
+	}
 
-        if (minecraftserver != null && minecraftserver.isAnvilFileSet() && minecraftserver.isCommandBlockEnabled())
-        {
-            ICommandManager icommandmanager = minecraftserver.getCommandManager();
+	public void trigger(World worldIn) {
+		if (worldIn.isClientSide) {
+			this.successCount = 0;
+		}
 
-            try
-            {
-                this.lastOutput = null;
-                this.successCount = icommandmanager.executeCommand(this, this.commandStored);
-            }
-            catch (Throwable throwable)
-            {
-                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Executing command block");
-                CrashReportCategory crashreportcategory = crashreport.makeCategory("Command to be executed");
-                crashreportcategory.addCrashSectionCallable("Command", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return CommandBlockLogic.this.getCommand();
-                    }
-                });
-                crashreportcategory.addCrashSectionCallable("Name", new Callable<String>()
-                {
-                    public String call() throws Exception
-                    {
-                        return CommandBlockLogic.this.getName();
-                    }
-                });
-                throw new ReportedException(crashreport);
-            }
-        }
-        else
-        {
-            this.successCount = 0;
-        }
-    }
+		MinecraftServer minecraftserver = MinecraftServer.getServer();
 
-    /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
-     */
-    public String getName()
-    {
-        return this.customName;
-    }
+		if (minecraftserver != null && minecraftserver.isAnvilFileSet() && minecraftserver.isCommandBlockEnabled()) {
+			ICommandManager icommandmanager = minecraftserver.getCommandManager();
 
-    /**
-     * Get the formatted ChatComponent that will be used for the sender's username in chat
-     */
-    public IChatComponent getDisplayName()
-    {
-        return new ChatComponentText(this.getName());
-    }
+			try {
+				this.lastOutput = null;
+				this.successCount = icommandmanager.executeCommand(this, this.commandStored);
+			} catch (Throwable throwable) {
+				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Executing command block");
+				CrashReportCategory crashreportcategory = crashreport.makeCategory("Command to be executed");
+				crashreportcategory.addCrashSectionCallable("Command", new Callable<String>() {
+					public String call() throws Exception {
+						return CommandBlockLogic.this.getCommand();
+					}
+				});
+				crashreportcategory.addCrashSectionCallable("Name", new Callable<String>() {
+					public String call() throws Exception {
+						return CommandBlockLogic.this.getName();
+					}
+				});
+				throw new ReportedException(crashreport);
+			}
+		} else {
+			this.successCount = 0;
+		}
+	}
 
-    public void setName(String p_145754_1_)
-    {
-        this.customName = p_145754_1_;
-    }
+	/**
+	 * Gets the name of this command sender (usually username, but possibly "Rcon")
+	 */
+	public String getName() {
+		return this.customName;
+	}
 
-    /**
-     * Send a chat message to the CommandSender
-     */
-    public void addChatMessage(IChatComponent component)
-    {
-        if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isRemote)
-        {
-            this.lastOutput = new ChatComponentText("[" + timestampFormat.format(new Date()) + "] ").appendSibling(component);
-            this.updateCommand();
-        }
-    }
+	/**
+	 * Get the formatted ChatComponent that will be used for the sender's username in chat
+	 */
+	public IChatComponent getDisplayName() {
+		return new ChatComponentText(this.getName());
+	}
 
-    /**
-     * Returns true if the command sender should be sent feedback about executed commands
-     */
-    public boolean sendCommandFeedback()
-    {
-        MinecraftServer minecraftserver = MinecraftServer.getServer();
-        return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
-    }
+	public void setName(String p_145754_1_) {
+		this.customName = p_145754_1_;
+	}
 
-    public void setCommandStat(CommandResultStats.Type type, int amount)
-    {
-        this.resultStats.func_179672_a(this, type, amount);
-    }
+	/**
+	 * Send a chat message to the CommandSender
+	 */
+	public void addChatMessage(IChatComponent component) {
+		if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isClientSide) {
+			this.lastOutput = new ChatComponentText("[" + timestampFormat.format(new Date()) + "] ").appendSibling(component);
+			this.updateCommand();
+		}
+	}
 
-    public abstract void updateCommand();
+	/**
+	 * Returns true if the command sender should be sent feedback about executed commands
+	 */
+	public boolean sendCommandFeedback() {
+		MinecraftServer minecraftserver = MinecraftServer.getServer();
+		return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+	}
 
-    public abstract int func_145751_f();
+	public void setCommandStat(CommandResultStats.Type type, int amount) {
+		this.resultStats.func_179672_a(this, type, amount);
+	}
 
-    public abstract void func_145757_a(ByteBuf p_145757_1_);
+	public abstract void updateCommand();
 
-    public void setLastOutput(IChatComponent lastOutputMessage)
-    {
-        this.lastOutput = lastOutputMessage;
-    }
+	public abstract int func_145751_f();
 
-    public void setTrackOutput(boolean shouldTrackOutput)
-    {
-        this.trackOutput = shouldTrackOutput;
-    }
+	public abstract void func_145757_a(ByteBuf p_145757_1_);
 
-    public boolean shouldTrackOutput()
-    {
-        return this.trackOutput;
-    }
+	public void setLastOutput(IChatComponent lastOutputMessage) {
+		this.lastOutput = lastOutputMessage;
+	}
 
-    public boolean tryOpenEditCommandBlock(EntityPlayer playerIn)
-    {
-        if (!playerIn.capabilities.isCreativeMode)
-        {
-            return false;
-        }
-		if (playerIn.getEntityWorld().isRemote)
-		{
-			playerIn.openEditCommandBlock(this);
+	public void setTrackOutput(boolean shouldTrackOutput) {
+		this.trackOutput = shouldTrackOutput;
+	}
+
+	public boolean shouldTrackOutput() {
+		return this.trackOutput;
+	}
+
+	public boolean tryOpenEditCommandBlock(EntityPlayer playerIn) {
+		if (!playerIn.capabilities.isCreativeMode) return false;
+		if (playerIn.getEntityWorld().isClientSide) {
+			playerIn.openGui(CommandBlockLogic.class, this);
 		}
 
 		return true;
 	}
 
-    public CommandResultStats getCommandResultStats()
-    {
-        return this.resultStats;
-    }
+	public CommandResultStats getCommandResultStats() {
+		return this.resultStats;
+	}
+
 }

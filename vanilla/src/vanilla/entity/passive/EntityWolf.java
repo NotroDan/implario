@@ -188,14 +188,14 @@ public class EntityWolf extends EntityTameable {
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
-		if (!this.worldObj.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
+		if (!this.worldObj.isClientSide && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
 			this.isShaking = true;
 			this.timeWolfIsShaking = 0.0F;
 			this.prevTimeWolfIsShaking = 0.0F;
 			this.worldObj.setEntityState(this, (byte) 8);
 		}
 
-		if (!this.worldObj.isRemote && this.getAttackTarget() == null && this.isAngry()) {
+		if (!this.worldObj.isClientSide && this.getAttackTarget() == null && this.isAngry()) {
 			this.setAngry(false);
 		}
 	}
@@ -372,7 +372,7 @@ public class EntityWolf extends EntityTameable {
 				}
 			}
 
-			if (this.isOwner(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack)) {
+			if (this.isOwner(player) && !this.worldObj.isClientSide && !this.isBreedingItem(itemstack)) {
 				this.aiSit.setSitting(!this.isSitting());
 				this.isJumping = false;
 				this.navigator.clearPathEntity();
@@ -387,7 +387,7 @@ public class EntityWolf extends EntityTameable {
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
 			}
 
-			if (!this.worldObj.isRemote) {
+			if (!this.worldObj.isClientSide) {
 				if (this.rand.nextInt(3) == 0) {
 					this.setTamed(true);
 					this.navigator.clearPathEntity();

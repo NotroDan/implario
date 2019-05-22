@@ -153,7 +153,7 @@ public class EntityZombie extends EntityMob {
 	public void setChild(boolean childZombie) {
 		this.getDataWatcher().updateObject(12, (byte) (childZombie ? 1 : 0));
 
-		if (this.worldObj != null && !this.worldObj.isRemote) {
+		if (this.worldObj != null && !this.worldObj.isClientSide) {
 			IAttributeInstance iattributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 			iattributeinstance.removeModifier(babySpeedBoostModifier);
 
@@ -184,7 +184,7 @@ public class EntityZombie extends EntityMob {
 	 * use this to react to sunlight and start to burn.
 	 */
 	public void onLivingUpdate() {
-		if (this.worldObj.isDaytime() && !this.worldObj.isRemote && !this.isChild()) {
+		if (this.worldObj.isDaytime() && !this.worldObj.isClientSide && !this.isChild()) {
 			float f = this.getBrightness(1.0F);
 			BlockPos blockpos = new BlockPos(this.posX, (double) Math.round(this.posY), this.posZ);
 
@@ -266,7 +266,7 @@ public class EntityZombie extends EntityMob {
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
-		if (!this.worldObj.isRemote && this.isConverting()) {
+		if (!this.worldObj.isClientSide && this.isConverting()) {
 			int i = this.getConversionTimeBoost();
 			this.conversionTime -= i;
 
@@ -536,7 +536,7 @@ public class EntityZombie extends EntityMob {
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
 			}
 
-			if (!this.worldObj.isRemote) {
+			if (!this.worldObj.isClientSide) {
 				this.startConversion(this.rand.nextInt(2401) + 3600);
 			}
 

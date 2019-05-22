@@ -29,7 +29,7 @@ public class ItemEnderEye extends Item
 
         if (playerIn.canPlayerEdit(pos.offset(side), side, stack) && iblockstate.getBlock() == Blocks.end_portal_frame && !((Boolean)iblockstate.getValue(BlockEndPortalFrame.EYE)).booleanValue())
         {
-            if (worldIn.isRemote)
+            if (worldIn.isClientSide)
             {
                 return true;
             }
@@ -142,7 +142,7 @@ public class ItemEnderEye extends Item
         {
             return itemStackIn;
         }
-		if (!worldIn.isRemote)
+		if (!worldIn.isClientSide)
 		{
 			BlockPos blockpos = worldIn.getStrongholdPos("Stronghold", new BlockPos(playerIn));
 

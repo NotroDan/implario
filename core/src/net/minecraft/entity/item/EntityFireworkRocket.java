@@ -126,12 +126,12 @@ public class EntityFireworkRocket extends Entity
 
         ++this.fireworkAge;
 
-        if (this.worldObj.isRemote && this.fireworkAge % 2 < 2)
+        if (this.worldObj.isClientSide && this.fireworkAge % 2 < 2)
         {
             this.worldObj.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, this.posX, this.posY - 0.3D, this.posZ, this.rand.nextGaussian() * 0.05D, -this.motionY * 0.5D, this.rand.nextGaussian() * 0.05D, new int[0]);
         }
 
-        if (!this.worldObj.isRemote && this.fireworkAge > this.lifetime)
+        if (!this.worldObj.isClientSide && this.fireworkAge > this.lifetime)
         {
             this.worldObj.setEntityState(this, (byte)17);
             this.setDead();
@@ -140,7 +140,7 @@ public class EntityFireworkRocket extends Entity
 
     public void handleStatusUpdate(byte id)
     {
-        if (id == 17 && this.worldObj.isRemote)
+        if (id == 17 && this.worldObj.isClientSide)
         {
             ItemStack itemstack = this.dataWatcher.getWatchableObjectItemStack(8);
             NBTTagCompound nbttagcompound = null;

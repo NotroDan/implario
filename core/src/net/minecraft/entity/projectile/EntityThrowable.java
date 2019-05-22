@@ -7,6 +7,8 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.events.ProjectileHitEvent;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -167,7 +169,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 			vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isClientSide) {
 			Entity entity = null;
 			List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 			double d0 = 0.0D;
@@ -201,6 +203,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.portal) {
 				this.func_181015_d(movingobjectposition.getBlockPos());
 			} else {
+				E.call(new ProjectileHitEvent(this, movingobjectposition));
 				this.onImpact(movingobjectposition);
 			}
 		}
