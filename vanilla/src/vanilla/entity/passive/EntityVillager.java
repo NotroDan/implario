@@ -214,7 +214,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
             if (!this.worldObj.isClientSide && (this.buyingList == null || this.buyingList.size() > 0))
             {
                 this.setCustomer(player);
-                player.displayVillagerTradeGui(this);
+                player.openGui(IMerchant.class, this);
             }
 
             player.triggerAchievement(StatList.timesTalkedToVillagerStat);

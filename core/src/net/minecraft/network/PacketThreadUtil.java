@@ -7,7 +7,8 @@ public class PacketThreadUtil {
 
 	public static <T extends INetHandler> void checkThreadAndEnqueue(final Packet<T> packet, final T handler, IThreadListener listener) throws ThreadQuickExitException {
 		if (listener.isCallingFromMinecraftThread()) {
-			E.notify(packet, handler);
+			boolean notify = E.notify(packet, handler);
+			if (notify) throw ThreadQuickExitException.EXIT_EXCEPTION;
 			return;
 		}
 		listener.addScheduledTask(() -> packet.processPacket(handler));

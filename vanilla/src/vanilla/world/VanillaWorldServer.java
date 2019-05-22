@@ -164,8 +164,8 @@ public class VanillaWorldServer extends WorldServer {
 		this.worldInfo.setThunderTime(0);
 		this.worldInfo.setThundering(false);
 	}
-
-
+	
+	@Override
 	public boolean areAllPlayersAsleep() {
 		if (this.allPlayersSleeping && !this.isClientSide) {
 			for (EntityPlayer entityplayer : this.playerEntities) {

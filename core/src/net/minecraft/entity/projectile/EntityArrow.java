@@ -520,4 +520,14 @@ public class EntityArrow extends Entity implements IProjectile {
 		return (b0 & 1) != 0;
 	}
 
+	@Override
+	public int getUpdateFrequency() {
+		return 20;
+	}
+
+	@Override
+	public boolean sendVelocityUpdates() {
+		return false;
+	}
+
 }

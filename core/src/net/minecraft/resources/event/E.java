@@ -13,9 +13,8 @@ public class E {
 		return event;
 	}
 
-	public static <L extends INetHandler, T extends Packet<L>> T notify(T packet, L handler) {
-		PACKETS.call(packet, handler);
-		return packet;
+	public static <L extends INetHandler, T extends Packet<L>> boolean notify(T packet, L handler) {
+		return PACKETS.call(packet, handler);
 	}
 
 	public static Bridge<Event> getEventLib() {
@@ -39,11 +38,14 @@ public class E {
 
 	private static class PacketBridge extends Bridge<Packet> {
 
-		public <L extends INetHandler, T extends Packet<L>> T call(T packet, L handler) {
+		public <L extends INetHandler, T extends Packet<L>> boolean call(T packet, L handler) {
 			Class<T> type = (Class<T>) packet.getClass();
-			for (HandlerLibrary<Packet>.Cell<T> h : LIB.getListeners(type))
-				((PacketInterceptor) h.getHandler()).handle(packet, handler);
-			return packet;
+			boolean global = false;
+			for (HandlerLibrary<Packet>.Cell<T> h : LIB.getListeners(type)) {
+				boolean result = ((PacketInterceptor) h.getHandler()).handle(packet, handler);
+				if (result) global = true;
+			}
+			return global;
 		}
 
 	}

@@ -44,6 +44,18 @@ public class EntityXPOrb extends Entity
         this.xpValue = expValue;
     }
 
+
+
+	@Override
+	public int getUpdateFrequency() {
+		return 20;
+	}
+
+	@Override
+	public int getTrackingRange() {
+		return 160;
+	}
+
     /**
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
      * prevent them from trampling crops

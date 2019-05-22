@@ -382,4 +382,6 @@ public interface INetHandlerPlayClient extends INetHandler
     void handleResourcePack(S48PacketResourcePackSend packetIn);
 
     void handleEntityNBT(S49PacketUpdateEntityNBT packetIn);
+
+
 }

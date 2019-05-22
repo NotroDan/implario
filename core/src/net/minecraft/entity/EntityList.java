@@ -3,14 +3,8 @@ package net.minecraft.entity;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.Logger;
-import vanilla.entity.ai.EntityMinecartMobSpawner;
-import vanilla.entity.boss.EntityDragon;
-import vanilla.entity.boss.EntityWither;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.*;
-import vanilla.entity.monster.*;
-import vanilla.entity.passive.*;
-import net.minecraft.entity.player.EntityBot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,7 +29,7 @@ public class EntityList {
 	/**
 	 * adds a mapping between Entity classes and both a string representation and an ID
 	 */
-	private static void addMapping(Class<? extends Entity> entityClass, String entityName, int id) {
+	public static void addMapping(Class<? extends Entity> entityClass, String entityName, int id) {
 		if (stringToClassMapping.containsKey(entityName)) {
 			throw new IllegalArgumentException("ID is already registered: " + entityName);
 		}
@@ -58,7 +52,7 @@ public class EntityList {
 	/**
 	 * Adds a entity mapping with egg info.
 	 */
-	private static void addMapping(Class<? extends Entity> entityClass, String entityName, int entityID, int baseColor, int spotColor) {
+	public static void addMapping(Class<? extends Entity> entityClass, String entityName, int entityID, int baseColor, int spotColor) {
 		addMapping(entityClass, entityName, entityID);
 		entityEggs.put(entityID, new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
 	}
@@ -208,7 +202,6 @@ public class EntityList {
 		addMapping(EntityItem.class, "Item", 1);
 		addMapping(EntityXPOrb.class, "XPOrb", 2);
 		addMapping(EntityEgg.class, "ThrownEgg", 7);
-		addMapping(EntityLeashKnot.class, "LeashKnot", 8);
 		addMapping(EntityPainting.class, "Painting", 9);
 		addMapping(EntityArrow.class, "Arrow", 10);
 		addMapping(EntitySnowball.class, "Snowball", 11);
@@ -230,44 +223,8 @@ public class EntityList {
 		addMapping(EntityMinecartFurnace.class, EntityMinecart.EnumMinecartType.FURNACE.getName(), 44);
 		addMapping(EntityMinecartTNT.class, EntityMinecart.EnumMinecartType.TNT.getName(), 45);
 		addMapping(EntityMinecartHopper.class, EntityMinecart.EnumMinecartType.HOPPER.getName(), 46);
-		addMapping(EntityMinecartMobSpawner.class, EntityMinecart.EnumMinecartType.SPAWNER.getName(), 47);
 		addMapping(EntityMinecartCommandBlock.class, EntityMinecart.EnumMinecartType.COMMAND_BLOCK.getName(), 40);
-		addMapping(VanillaEntity.class, "Mob", 48);
-		addMapping(EntityMob.class, "Monster", 49);
-		addMapping(EntityCreeper.class, "Creeper", 50, 894731, 0);
-		addMapping(EntitySkeleton.class, "Skeleton", 51, 12698049, 4802889);
-		addMapping(EntitySpider.class, "Spider", 52, 3419431, 11013646);
-		addMapping(EntityGiantZombie.class, "Giant", 53);
-		addMapping(EntityZombie.class, "Zombie", 54, 44975, 7969893);
-		addMapping(EntitySlime.class, "Slime", 55, 5349438, 8306542);
-		addMapping(EntityGhast.class, "Ghast", 56, 16382457, 12369084);
-		addMapping(EntityPigZombie.class, "PigZombie", 57, 15373203, 5009705);
-		addMapping(EntityEnderman.class, "Enderman", 58, 1447446, 0);
-		addMapping(EntityCaveSpider.class, "CaveSpider", 59, 803406, 11013646);
-		addMapping(EntitySilverfish.class, "Silverfish", 60, 7237230, 3158064);
-		addMapping(EntityBlaze.class, "Blaze", 61, 16167425, 16775294);
-		addMapping(EntityMagmaCube.class, "LavaSlime", 62, 3407872, 16579584);
-		addMapping(EntityDragon.class, "EnderDragon", 63);
-		addMapping(EntityWither.class, "WitherBoss", 64);
-		addMapping(EntityBat.class, "Bat", 65, 4996656, 986895);
-		addMapping(EntityWitch.class, "Witch", 66, 3407872, 5349438);
-		addMapping(EntityEndermite.class, "Endermite", 67, 1447446, 7237230);
-		addMapping(EntityGuardian.class, "Guardian", 68, 5931634, 15826224);
-		addMapping(EntityPig.class, "Pig", 90, 15771042, 14377823);
-		addMapping(EntitySheep.class, "Sheep", 91, 15198183, 16758197);
-		addMapping(EntityCow.class, "Cow", 92, 4470310, 10592673);
-		addMapping(EntityChicken.class, "Chicken", 93, 10592673, 16711680);
-		addMapping(EntitySquid.class, "Squid", 94, 2243405, 7375001);
-		addMapping(EntityWolf.class, "Wolf", 95, 14144467, 13545366);
-		addMapping(EntityMooshroom.class, "MushroomCow", 96, 10489616, 12040119);
-		addMapping(EntitySnowman.class, "SnowMan", 97);
-		addMapping(EntityOcelot.class, "Ozelot", 98, 15720061, 5653556);
-		addMapping(EntityIronGolem.class, "VillagerGolem", 99);
-		addMapping(EntityHorse.class, "EntityHorse", 100, 12623485, 15656192);
-		addMapping(EntityRabbit.class, "Rabbit", 101, 10051392, 7555121);
-		addMapping(EntityVillager.class, "Villager", 120, 5651507, 12422002);
 		addMapping(EntityEnderCrystal.class, "EnderCrystal", 200);
-		addMapping(EntityBot.class, "Bot", 201);
 	}
 
 	public static class EntityEggInfo {

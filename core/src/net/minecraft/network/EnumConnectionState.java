@@ -55,7 +55,7 @@ public enum EnumConnectionState {
 			this.registerPacket(EnumPacketDirection.CLIENTBOUND, S18PacketEntityTeleport.class);
 			this.registerPacket(EnumPacketDirection.CLIENTBOUND, S19PacketEntityHeadLook.class);
 			this.registerPacket(EnumPacketDirection.CLIENTBOUND, S19PacketEntityStatus.class);
-			this.registerPacket(EnumPacketDirection.CLIENTBOUND, S1BPacketEntityAttach.class);
+			this.registerPacket(EnumPacketDirection.CLIENTBOUND, S1BPacketEntityAttach.class); // ToDo: Кастомные пакеты
 			this.registerPacket(EnumPacketDirection.CLIENTBOUND, S1CPacketEntityMetadata.class);
 			this.registerPacket(EnumPacketDirection.CLIENTBOUND, S1DPacketEntityEffect.class);
 			this.registerPacket(EnumPacketDirection.CLIENTBOUND, S1EPacketRemoveEntityEffect.class);
@@ -161,7 +161,7 @@ public enum EnumConnectionState {
 		this.id = protocolId;
 	}
 
-	protected EnumConnectionState registerPacket(EnumPacketDirection direction, Class<? extends Packet> packetClass) {
+	public EnumConnectionState registerPacket(EnumPacketDirection direction, Class<? extends Packet> packetClass) {
 		BiMap<Integer, Class<? extends Packet>> bimap = this.directionMaps.computeIfAbsent(direction, k -> HashBiMap.create());
 
 		if (bimap.containsValue(packetClass)) {

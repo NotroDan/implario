@@ -2,44 +2,19 @@ package net.minecraft.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
-
+import net.minecraft.Logger;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import vanilla.entity.boss.EntityDragon;
-import vanilla.entity.boss.EntityWither;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.item.EntityEnderEye;
-import net.minecraft.entity.item.EntityEnderPearl;
-import net.minecraft.entity.item.EntityExpBottle;
-import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.item.EntityXPOrb;
-import vanilla.entity.passive.EntityBat;
-import vanilla.entity.passive.EntitySquid;
-import vanilla.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityEgg;
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.entity.projectile.EntitySmallFireball;
-import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.network.Packet;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.Logger;
+
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
 public class EntityTracker {
 
@@ -64,56 +39,8 @@ public class EntityTracker {
 					entitytrackerentry.updatePlayerEntity(entityplayermp);
 				}
 			}
-		} else if (e instanceof EntityFishHook) {
-			this.addEntityToTracker(e, 64, 5, true);
-		} else if (e instanceof EntityArrow) {
-			this.addEntityToTracker(e, 64, 20, false);
-		} else if (e instanceof EntitySmallFireball) {
-			this.addEntityToTracker(e, 64, 10, false);
-		} else if (e instanceof EntityFireball) {
-			this.addEntityToTracker(e, 64, 10, false);
-		} else if (e instanceof EntitySnowball) {
-			this.addEntityToTracker(e, 64, 10, true);
-		} else if (e instanceof EntityEnderPearl) {
-			this.addEntityToTracker(e, 64, 10, true);
-		} else if (e instanceof EntityEnderEye) {
-			this.addEntityToTracker(e, 64, 4, true);
-		} else if (e instanceof EntityEgg) {
-			this.addEntityToTracker(e, 64, 10, true);
-		} else if (e instanceof EntityPotion) {
-			this.addEntityToTracker(e, 64, 10, true);
-		} else if (e instanceof EntityExpBottle) {
-			this.addEntityToTracker(e, 64, 10, true);
-		} else if (e instanceof EntityFireworkRocket) {
-			this.addEntityToTracker(e, 64, 10, true);
-		} else if (e instanceof EntityItem) {
-			this.addEntityToTracker(e, 64, 20, true);
-		} else if (e instanceof EntityMinecart) {
-			this.addEntityToTracker(e, 80, 3, true);
-		} else if (e instanceof EntityBoat) {
-			this.addEntityToTracker(e, 80, 3, true);
-		} else if (e instanceof EntitySquid) {
-			this.addEntityToTracker(e, 64, 3, true);
-		} else if (e instanceof EntityWither) {
-			this.addEntityToTracker(e, 80, 3, false);
-		} else if (e instanceof EntityBat) {
-			this.addEntityToTracker(e, 80, 3, false);
-		} else if (e instanceof EntityDragon) {
-			this.addEntityToTracker(e, 160, 3, true);
-		} else if (e instanceof IAnimals) {
-			this.addEntityToTracker(e, 80, 3, true);
-		} else if (e instanceof EntityTNTPrimed) {
-			this.addEntityToTracker(e, 160, 10, true);
-		} else if (e instanceof EntityFallingBlock) {
-			this.addEntityToTracker(e, 160, 20, true);
-		} else if (e instanceof EntityHanging) {
-			this.addEntityToTracker(e, 160, Integer.MAX_VALUE, false);
-		} else if (e instanceof EntityArmorStand) {
-			this.addEntityToTracker(e, 160, 3, true);
-		} else if (e instanceof EntityXPOrb) {
-			this.addEntityToTracker(e, 160, 20, true);
-		} else if (e instanceof EntityEnderCrystal) {
-			this.addEntityToTracker(e, 256, Integer.MAX_VALUE, false);
+		} else {
+			this.addEntityToTracker(e, e.getTrackingRange(), e.getUpdateFrequency(), e.sendVelocityUpdates());
 		}
 	}
 

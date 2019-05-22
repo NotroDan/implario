@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.IPersistenceAllowed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -2511,7 +2512,7 @@ public abstract class World implements IBlockAccess {
 		int i = 0;
 
 		for (Entity entity : this.loadedEntityList) {
-			if (!(entity instanceof VanillaEntity && ((VanillaEntity) entity).isNoDespawnRequired()) && entityType.isAssignableFrom(entity.getClass())) {
+			if (!(entity instanceof IPersistenceAllowed && ((IPersistenceAllowed) entity).isNoDespawnRequired()) && entityType.isAssignableFrom(entity.getClass())) {
 				++i;
 			}
 		}

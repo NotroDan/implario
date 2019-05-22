@@ -18,7 +18,6 @@ import net.minecraft.entity.player.PlayerGuiBridge;
 import vanilla.entity.passive.EntityHorse;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.*;
 import net.minecraft.item.potion.Potion;
@@ -520,15 +519,6 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
 	public float getHorseJumpPower() {
 		return this.horseJumpPower;
-	}
-
-
-	public void displayGUIHorse(EntityHorse horse, IInventory horseInventory) {
-		this.mc.displayGuiScreen(new GuiScreenHorseInventory(this.inventory, horseInventory, horse));
-	}
-
-	public void displayVillagerTradeGui(IMerchant villager) {
-		this.mc.displayGuiScreen(new GuiMerchant(this.inventory, villager, this.worldObj));
 	}
 
 	/**
