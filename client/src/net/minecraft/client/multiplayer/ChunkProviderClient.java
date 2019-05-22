@@ -1,18 +1,17 @@
 package net.minecraft.client.multiplayer;
 
 import com.google.common.collect.Lists;
-import java.util.List;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.Logger;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.EmptyChunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.Logger;
+
+import java.util.List;
 
 public class ChunkProviderClient implements IChunkProvider
 {
@@ -145,11 +144,6 @@ public class ChunkProviderClient implements IChunkProvider
     public String makeString()
     {
         return "MultiplayerChunkCache: " + this.chunkMapping.getNumHashElements() + ", " + this.chunkListing.size();
-    }
-
-    public List<SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos)
-    {
-        return null;
     }
 
     public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position)

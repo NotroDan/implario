@@ -7,7 +7,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeGenBase;
 
 import java.util.*;
 
@@ -60,20 +59,17 @@ public class ConnectedParser {
 			list.addAll(Arrays.asList(amatchblock));
 		}
 
-		MatchBlock[] amatchblock1 = (MatchBlock[]) (MatchBlock[]) list.toArray(new MatchBlock[list.size()]);
-		return amatchblock1;
+		return (MatchBlock[]) list.toArray(new MatchBlock[0]);
 	}
 
-	public MatchBlock[] parseMatchBlock(String p_parseMatchBlock_1_) {
-		if (p_parseMatchBlock_1_ == null) {
-			return null;
-		}
-		p_parseMatchBlock_1_ = p_parseMatchBlock_1_.trim();
+	public MatchBlock[] parseMatchBlock(String st) {
+		if (st == null) return null;
+		st = st.trim();
 
-		if (p_parseMatchBlock_1_.length() <= 0) {
+		if (st.length() <= 0) {
 			return null;
 		}
-		String[] astring = Config.tokenize(p_parseMatchBlock_1_, ":");
+		String[] astring = Config.tokenize(st, ":");
 		String s = "minecraft";
 		int i = 0;
 
@@ -86,7 +82,7 @@ public class ConnectedParser {
 		}
 
 		String s1 = astring[i];
-		String[] astring1 = (String[]) Arrays.copyOfRange(astring, i + 1, astring.length);
+		String[] astring1 = Arrays.copyOfRange(astring, i + 1, astring.length);
 		Block[] ablock = this.parseBlockPart(s, s1);
 
 		if (ablock == null) {
@@ -119,7 +115,7 @@ public class ConnectedParser {
 			return false;
 		}
 		String s = p_isFullBlockName_1_[1];
-		return s.length() < 1 ? false : this.startsWithDigit(s) ? false : !s.contains("=");
+		return s.length() >= 1 && (!this.startsWithDigit(s) && !s.contains("="));
 	}
 
 	public boolean startsWithDigit(String p_startsWithDigit_1_) {
@@ -201,7 +197,7 @@ public class ConnectedParser {
 					return null;
 				}
 
-				List<Comparable> list = (List) map.get(s2);
+				List<Comparable> list = map.get(s2);
 
 				if (list == null) {
 					list = new ArrayList();
@@ -239,7 +235,6 @@ public class ConnectedParser {
 					list1.add(l);
 				}
 			} catch (IllegalArgumentException var18) {
-				;
 			}
 		}
 
@@ -284,7 +279,7 @@ public class ConnectedParser {
 
 	public static Comparable getPropertyValue(String p_getPropertyValue_0_, Collection p_getPropertyValue_1_) {
 		for (Object comparable : p_getPropertyValue_1_) {
-			if (String.valueOf((Object) comparable).equals(p_getPropertyValue_0_)) {
+			if (String.valueOf(comparable).equals(p_getPropertyValue_0_)) {
 				return (Comparable) comparable;
 			}
 		}
@@ -293,14 +288,14 @@ public class ConnectedParser {
 	}
 
 	public static Comparable parseValue(String p_parseValue_0_, Class p_parseValue_1_) {
-		return (Comparable) (p_parseValue_1_ == String.class ? p_parseValue_0_ : p_parseValue_1_ == Boolean.class ? Boolean.valueOf(p_parseValue_0_) : p_parseValue_1_ == Float.class ? Float.valueOf(
+		return (p_parseValue_1_ == String.class ? p_parseValue_0_ : p_parseValue_1_ == Boolean.class ? Boolean.valueOf(p_parseValue_0_) : p_parseValue_1_ == Float.class ? Float.valueOf(
 				p_parseValue_0_) : p_parseValue_1_ == Double.class ? Double.valueOf(p_parseValue_0_) : p_parseValue_1_ == Integer.class ? Integer.valueOf(
 				p_parseValue_0_) : p_parseValue_1_ == Long.class ? Long.valueOf(p_parseValue_0_) : null);
 	}
 
 	public boolean matchState(IBlockState p_matchState_1_, Map<IProperty, List<Comparable>> p_matchState_2_) {
 		for (IProperty iproperty : p_matchState_2_.keySet()) {
-			List<Comparable> list = (List) p_matchState_2_.get(iproperty);
+			List<Comparable> list = p_matchState_2_.get(iproperty);
 			Comparable comparable = p_matchState_1_.getValue(iproperty);
 
 			if (comparable == null) {
@@ -333,8 +328,8 @@ public class ConnectedParser {
 
 	public Biome findBiome(String name) {
 		name = name.toLowerCase();
-
-		if (name.equals("nether")) return BiomeGenBase.hell;
+// ToDo: Connected biomes in nether
+		if (name.equals("nether")) return Biome.VOID;// BiomeGenBase.hell;
 
 //		BiomeGenBase[] abiomegenbase = BiomeGenBase.getBiomeGenArray();
 		Biome[] biomes = Biome.biomeList;
@@ -543,7 +538,7 @@ public class ConnectedParser {
 	}
 
 	public static boolean parseBoolean(String p_parseBoolean_0_) {
-		return p_parseBoolean_0_ == null ? false : p_parseBoolean_0_.toLowerCase().equals("true");
+		return p_parseBoolean_0_ != null && p_parseBoolean_0_.toLowerCase().equals("true");
 	}
 
 	public static int parseColor(String p_parseColor_0_, int p_parseColor_1_) {

@@ -15,7 +15,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.SelectorSetting;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.entity.EntityLeashKnot;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.item.*;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -29,7 +28,10 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ReportedException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -38,9 +40,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static net.minecraft.client.Minecraft.getSystemTime;
-import static net.minecraft.client.settings.KeyBinding.ATTACK;
-import static net.minecraft.client.settings.KeyBinding.PICK;
-import static net.minecraft.client.settings.KeyBinding.USE;
+import static net.minecraft.client.settings.KeyBinding.*;
 import static net.minecraft.logging.Log.MAIN;
 import static net.minecraft.server.Profiler.in;
 import static net.minecraft.util.MovingObjectPosition.MovingObjectType.BLOCK;
@@ -150,9 +150,9 @@ public final class InputHandler {
 
 			if (mc.objectMouseOver.entityHit instanceof EntityPainting) {
 				item = Items.painting;
-			} else if (mc.objectMouseOver.entityHit instanceof EntityLeashKnot) {
-				item = Items.lead;
-			} else if (mc.objectMouseOver.entityHit instanceof EntityItemFrame) {
+			} /*else if (mc.objectMouseOver.entityHit instanceof EntityLeashKnot) {
+				item = Items.lead; // ToDo: Кастомный результат при нажатии СКМ
+			} */else if (mc.objectMouseOver.entityHit instanceof EntityItemFrame) {
 				EntityItemFrame entityitemframe = (EntityItemFrame) mc.objectMouseOver.entityHit;
 				ItemStack itemstack = entityitemframe.getDisplayedItem();
 

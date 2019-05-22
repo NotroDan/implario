@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
 
 public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient>
 {
@@ -19,7 +20,7 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient>
     private int pitch;
     private int yaw;
     private int type;
-    private int field_149020_k;
+    private int xi;
 
     public S0EPacketSpawnObject()
     {
@@ -39,7 +40,7 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient>
         this.pitch = MathHelper.floor_float(entityIn.rotationPitch * 256.0F / 360.0F);
         this.yaw = MathHelper.floor_float(entityIn.rotationYaw * 256.0F / 360.0F);
         this.type = typeIn;
-        this.field_149020_k = p_i45166_3_;
+        this.xi = p_i45166_3_;
 
         if (p_i45166_3_ > 0)
         {
@@ -96,9 +97,9 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient>
         this.z = buf.readInt();
         this.pitch = buf.readByte();
         this.yaw = buf.readByte();
-        this.field_149020_k = buf.readInt();
+        this.xi = buf.readInt();
 
-        if (this.field_149020_k > 0)
+        if (this.xi > 0)
         {
             this.speedX = buf.readShort();
             this.speedY = buf.readShort();
@@ -118,9 +119,9 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient>
         buf.writeInt(this.z);
         buf.writeByte(this.pitch);
         buf.writeByte(this.yaw);
-        buf.writeInt(this.field_149020_k);
+        buf.writeInt(this.xi);
 
-        if (this.field_149020_k > 0)
+        if (this.xi > 0)
         {
             buf.writeShort(this.speedX);
             buf.writeShort(this.speedY);
@@ -186,9 +187,9 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient>
         return this.type;
     }
 
-    public int func_149009_m()
+    public int getXi()
     {
-        return this.field_149020_k;
+        return this.xi;
     }
 
     public void setX(int newX)
@@ -221,8 +222,8 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient>
         this.speedZ = newSpeedZ;
     }
 
-    public void func_149002_g(int p_149002_1_)
+    public void setXi(int xi)
     {
-        this.field_149020_k = p_149002_1_;
+        this.xi = xi;
     }
 }

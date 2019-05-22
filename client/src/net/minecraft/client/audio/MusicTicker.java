@@ -6,6 +6,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class MusicTicker implements ITickable {
 
@@ -13,6 +14,8 @@ public class MusicTicker implements ITickable {
 	private final Minecraft mc;
 	private ISound currentMusic;
 	private int timeUntilNextMusic = 100;
+
+	public Supplier<MusicType> musicTypeSupplier = () -> MusicType.GAME;
 
 	public MusicTicker(Minecraft mcIn) {
 		this.mc = mcIn;
@@ -22,7 +25,7 @@ public class MusicTicker implements ITickable {
 	 * Like the old updateEntity(), except more generic.
 	 */
 	public void update() {
-		MusicTicker.MusicType musicticker$musictype = this.mc.getAmbientMusicType();
+		MusicTicker.MusicType musicticker$musictype = musicTypeSupplier.get();
 
 		if (this.currentMusic != null) {
 			if (!musicticker$musictype.getMusicLocation().equals(this.currentMusic.getSoundLocation())) {

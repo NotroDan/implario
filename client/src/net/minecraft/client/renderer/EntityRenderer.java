@@ -34,12 +34,7 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import vanilla.entity.boss.BossStatus;
 import net.minecraft.entity.item.EntityItemFrame;
-import vanilla.entity.monster.EntityCreeper;
-import vanilla.entity.monster.EntityEnderman;
-import vanilla.entity.monster.EntitySpider;
-import vanilla.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -297,13 +292,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 			this.theShaderGroup = null;
 
-			if (entityIn instanceof EntityCreeper) {
-				this.loadShader(new ResourceLocation("shaders/post/creeper.json"));
-			} else if (entityIn instanceof EntitySpider) {
-				this.loadShader(new ResourceLocation("shaders/post/spider.json"));
-			} else if (entityIn instanceof EntityEnderman) {
-				this.loadShader(new ResourceLocation("shaders/post/invert.json"));
-			}
+//			if (entityIn instanceof EntityCreeper) {
+//				this.loadShader(new ResourceLocation("shaders/post/creeper.json"));
+//			} else if (entityIn instanceof EntitySpider) {
+//				this.loadShader(new ResourceLocation("shaders/post/spider.json"));
+//			} else if (entityIn instanceof EntityEnderman) {
+//				this.loadShader(new ResourceLocation("shaders/post/invert.json"));
+//			}
 		}
 	}
 
@@ -396,18 +391,18 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		this.itemRenderer.updateEquippedItem();
 		this.addRainParticles();
 		this.bossColorModifierPrev = this.bossColorModifier;
-
-		if (BossStatus.hasColorModifier) {
-			this.bossColorModifier += 0.05F;
-
-			if (this.bossColorModifier > 1.0F) {
-				this.bossColorModifier = 1.0F;
-			}
-
-			BossStatus.hasColorModifier = false;
-		} else if (this.bossColorModifier > 0.0F) {
-			this.bossColorModifier -= 0.0125F;
-		}
+// ToDo: Разобраться с тем, что это такое
+//		if (BossStatus.hasColorModifier) {
+//			this.bossColorModifier += 0.05F;
+//
+//			if (this.bossColorModifier > 1.0F) {
+//				this.bossColorModifier = 1.0F;
+//			}
+//
+//			BossStatus.hasColorModifier = false;
+//		} else if (this.bossColorModifier > 0.0F) {
+//			this.bossColorModifier -= 0.0125F;
+//		}
 	}
 
 	public ShaderGroup getShaderGroup() {
@@ -696,12 +691,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 		G.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
 
-		if (entity instanceof EntityAnimal) {
-			EntityAnimal entityanimal1 = (EntityAnimal) entity;
-			G.rotate(entityanimal1.prevRotationYawHead + (entityanimal1.rotationYawHead - entityanimal1.prevRotationYawHead) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
-		} else {
-			G.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
-		}
+		G.rotate(entity.getSpectatorRotation(partialTicks), 0.0F, 1.0F, 0.0F);
 
 		G.translate(0.0F, -f, 0.0F);
 		d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double) partialTicks;
@@ -1154,21 +1144,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
 					CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
 					crashreportcategory.addCrashSectionCallable("Screen name", () -> Minecraft.getMinecraft().currentScreen.getClass().getCanonicalName());
-					crashreportcategory.addCrashSectionCallable("Mouse location", new Callable() {
-
-
-						public String call() {
-							return String.format("Scaled: (%d, %d). Absolute: (%d, %d)", j1, k1, Mouse.getX(), Mouse.getY());
-						}
-					});
-					crashreportcategory.addCrashSectionCallable("Screen size", new Callable() {
-
-
-						public String call() {
-							return String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(),
-									EntityRenderer.this.mc.displayWidth, EntityRenderer.this.mc.displayHeight, scaledresolution.getScaleFactor());
-						}
-					});
+					crashreportcategory.addCrashSectionCallable("Mouse location", (Callable) () -> String.format("Scaled: (%d, %d). Absolute: (%d, %d)", j1, k1, Mouse.getX(), Mouse.getY()));
+					crashreportcategory.addCrashSectionCallable("Screen size",
+							(Callable) () -> String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(),
+									EntityRenderer.this.mc.displayWidth, EntityRenderer.this.mc.displayHeight, scaledresolution.getScaleFactor()));
 					throw new ReportedException(crashreport);
 				}
 			}

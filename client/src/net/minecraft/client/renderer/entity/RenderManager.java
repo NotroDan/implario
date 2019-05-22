@@ -113,6 +113,10 @@ public class RenderManager {
 
 	}
 
+	public <T extends Entity> void regMapping(Class<T> c, Render<T> r) {
+		this.entityRenderMap.put(c, r);
+	}
+
 	public void setRenderPosition(double renderPosXIn, double renderPosYIn, double renderPosZIn) {
 		this.renderPosX = renderPosXIn;
 		this.renderPosY = renderPosYIn;
@@ -351,10 +355,6 @@ public class RenderManager {
 
 	public Map getEntityRenderMap() {
 		return this.entityRenderMap;
-	}
-
-	public void setEntityRenderMap(Map p_setEntityRenderMap_1_) {
-		this.entityRenderMap = p_setEntityRenderMap_1_;
 	}
 
 	public Map<String, RenderPlayer> getSkinMap() {

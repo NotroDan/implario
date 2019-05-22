@@ -7,12 +7,10 @@ public class Todo {
 
 	public static Todo instance = new Todo();
 
-	// ToDo: Override in client: return Config.isSmoothWorld();
 	public boolean isSmoothWorld() {
 		return false;
 	}
 
-	// ToDo: Override in client: return Config.isCullFacesLeaves();
 	public boolean isCullFacesLeaves() {
 		return false;
 	}

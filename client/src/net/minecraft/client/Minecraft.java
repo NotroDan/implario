@@ -15,8 +15,8 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.game.DisplayGuy;
 import net.minecraft.client.game.ErrorGuy;
 import net.minecraft.client.game.GameWorldController;
-import net.minecraft.client.game.input.InputHandler;
 import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.input.InputHandler;
 import net.minecraft.client.game.input.MouseHelper;
 import net.minecraft.client.game.particle.EffectRenderer;
 import net.minecraft.client.game.shader.Framebuffer;
@@ -44,7 +44,6 @@ import net.minecraft.client.settings.SliderSetting;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
-import vanilla.entity.boss.BossStatus;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
@@ -56,8 +55,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.WorldProviderEnd;
-import net.minecraft.world.WorldProviderHell;
 import org.apache.commons.lang3.Validate;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -920,13 +917,6 @@ public class Minecraft implements IThreadListener {
 
 	public SoundHandler getSoundHandler() {
 		return this.mcSoundHandler;
-	}
-
-	public MusicTicker.MusicType getAmbientMusicType() {
-		return this.thePlayer != null ? this.thePlayer.worldObj.provider instanceof WorldProviderHell ? MusicTicker.MusicType.NETHER :
-				this.thePlayer.worldObj.provider instanceof WorldProviderEnd ? BossStatus.bossName != null && BossStatus.statusBarTime > 0 ?
-						MusicTicker.MusicType.END_BOSS : MusicTicker.MusicType.END : this.thePlayer.capabilities.isCreativeMode &&
-						this.thePlayer.capabilities.allowFlying ? MusicTicker.MusicType.CREATIVE : MusicTicker.MusicType.GAME : MusicTicker.MusicType.MENU;
 	}
 
 	public ModelManager getModelManager() {

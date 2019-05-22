@@ -104,7 +104,7 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 	public IBakedModel getModelFromBlockState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		Block block = state.getBlock();
 
-		if (worldIn.getWorldType() != WorldType.DEBUG_WORLD) {
+		if (worldIn.getWorldType() != WorldType.DEBUG) {
 			try {
 				state = block.getActualState(state, worldIn, pos);
 			} catch (Exception ignored) {}

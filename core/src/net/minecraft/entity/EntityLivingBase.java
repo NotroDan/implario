@@ -1957,4 +1957,8 @@ public abstract class EntityLivingBase extends Entity {
 		this.potionsNeedUpdate = true;
 	}
 
+	public float getRenderSizeModifier() {
+		return 0;
+	}
+
 }
