@@ -663,34 +663,6 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 	public void handleEntityAttach(S1BPacketEntityAttach packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityId());
-		Entity entity1 = this.clientWorldController.getEntityByID(packetIn.getVehicleEntityId());
-
-		if (packetIn.getLeash() == 0) {
-			boolean flag = false;
-
-			if (packetIn.getEntityId() == this.gameController.thePlayer.getEntityId()) {
-				entity = this.gameController.thePlayer;
-
-				if (entity1 instanceof EntityBoat)
-					((EntityBoat) entity1).setIsBoatEmpty(false);
-
-				flag = entity.ridingEntity == null && entity1 != null;
-			} else if (entity1 instanceof EntityBoat)
-				((EntityBoat) entity1).setIsBoatEmpty(true);
-
-			if (entity == null)
-				return;
-
-			entity.mountEntity(entity1);
-
-			if (flag) this.gameController.ingameGUI.setRecordPlaying(Lang.format("mount.onboard",
-					"SHIFT"), false);
-		} else if (packetIn.getLeash() == 1 && entity instanceof VanillaEntity)
-			if (entity1 != null)
-				((VanillaEntity) entity).setLeashedToEntity(entity1, false);
-			else
-				((VanillaEntity) entity).clearLeashed(false, false);
 	}
 
 	/**
@@ -763,16 +735,6 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		if ("minecraft:container".equals(packetIn.getGuiId())) {
 			entityplayersp.displayGUIChest(new InventoryBasic(packetIn.getWindowTitle(), packetIn.getSlotCount()));
 			entityplayersp.openContainer.windowId = packetIn.getWindowId();
-		} else if ("minecraft:villager".equals(packetIn.getGuiId())) {
-			entityplayersp.displayVillagerTradeGui(new NpcMerchant(entityplayersp, packetIn.getWindowTitle()));
-			entityplayersp.openContainer.windowId = packetIn.getWindowId();
-		} else if ("EntityHorse".equals(packetIn.getGuiId())) {
-			Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityId());
-
-			if (entity instanceof EntityHorse) {
-				entityplayersp.displayGUIHorse((EntityHorse) entity, new AnimalChest(packetIn.getWindowTitle(), packetIn.getSlotCount()));
-				entityplayersp.openContainer.windowId = packetIn.getWindowId();
-			}
 		} else if (!packetIn.hasSlots()) {
 			entityplayersp.openGui(IInteractionObject.class, new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
 //			entityplayersp.displayGui(new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
@@ -899,7 +861,14 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			TileEntity tileentity = this.gameController.theWorld.getTileEntity(packetIn.getPos());
 			int i = packetIn.getTileEntityType();
 
-			if (i == 1 && tileentity instanceof TileEntityMobSpawner || i == 2 && tileentity instanceof TileEntityCommandBlock || i == 3 && tileentity instanceof TileEntityBeacon || i == 4 && tileentity instanceof TileEntitySkull || i == 5 && tileentity instanceof TileEntityFlowerPot || i == 6 && tileentity instanceof TileEntityBanner)
+			if (
+					i == 1 /*&& tileentity instanceof TileEntityMobSpawner*/ ||
+					i == 2 && tileentity instanceof TileEntityCommandBlock ||
+					i == 3 && tileentity instanceof TileEntityBeacon ||
+					i == 4 && tileentity instanceof TileEntitySkull ||
+					i == 5 && tileentity instanceof TileEntityFlowerPot ||
+					i == 6 && tileentity instanceof TileEntityBanner
+			)
 				tileentity.readFromNBT(packetIn.getNbtCompound());
 		}
 	}
@@ -1293,24 +1262,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	public void handleCustomPayload(S3FPacketCustomPayload packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 
-		if ("MC|TrList".equals(packetIn.getChannelName())) {
-			PacketBuffer packetbuffer = packetIn.getBufferData();
-
-			try {
-				int i = packetbuffer.readInt();
-				GuiScreen guiscreen = this.gameController.currentScreen;
-
-				if (guiscreen instanceof GuiMerchant && i == this.gameController.thePlayer.openContainer.windowId) {
-					IMerchant imerchant = ((GuiMerchant) guiscreen).getMerchant();
-					MerchantRecipeList merchantrecipelist = MerchantRecipeList.readFromBuf(packetbuffer);
-					imerchant.setRecipes(merchantrecipelist);
-				}
-			} catch (IOException ioexception) {
-				logger.error("Couldn\'t load trade info", ioexception);
-			} finally {
-				packetbuffer.release();
-			}
-		} else if ("MC|Brand".equals(packetIn.getChannelName()))
+		if ("MC|Brand".equals(packetIn.getChannelName()))
 			this.gameController.thePlayer.setClientBrand(packetIn.getBufferData().readStringFromBuffer(32767));
 		else if ("MC|BOpen".equals(packetIn.getChannelName())) {
 			ItemStack itemstack = this.gameController.thePlayer.getCurrentEquippedItem();
@@ -1511,6 +1463,10 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 	public GameProfile getGameProfile() {
 		return this.profile;
+	}
+
+	public WorldClient getClientWorldController() {
+		return clientWorldController;
 	}
 
 }

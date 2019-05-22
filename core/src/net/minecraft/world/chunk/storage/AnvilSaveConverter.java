@@ -6,11 +6,7 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.AnvilConverterException;
-import net.minecraft.world.WorldType;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.IChunkManager;
-import net.minecraft.world.biome.WorldChunkManager;
-import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveFormatComparator;
 import net.minecraft.world.storage.SaveFormatOld;
@@ -99,42 +95,43 @@ public class AnvilSaveConverter extends SaveFormatOld {
 	 * converts the map to mcRegion
 	 */
 	public boolean convertMapFormat(String filename, IProgressUpdate progressCallback) {
-		progressCallback.setLoadingProgress(0);
-		List<File> list = Lists.newArrayList();
-		List<File> list1 = Lists.newArrayList();
-		List<File> list2 = Lists.newArrayList();
-		File file1 = new File(this.savesDirectory, filename);
-		File file2 = new File(file1, "DIM-1");
-		File file3 = new File(file1, "DIM1");
-		logger.info("Scanning folders...");
-		this.addRegionFilesToCollection(file1, list);
-
-		if (file2.exists()) {
-			this.addRegionFilesToCollection(file2, list1);
-		}
-
-		if (file3.exists()) {
-			this.addRegionFilesToCollection(file3, list2);
-		}
-
-		int i = list.size() + list1.size() + list2.size();
-		logger.info("Total conversion count is " + i);
-		WorldInfo worldinfo = this.getWorldInfo(filename);
-		IChunkManager worldchunkmanager = worldinfo.getTerrainType().createChunkManager(worldinfo.getSeed(), worldinfo.getGeneratorOptions());
-
-		this.convertFile(new File(file1, "region"), list, worldchunkmanager, 0, i, progressCallback);
-		this.convertFile(new File(file2, "region"), list1, new WorldChunkManagerHell(BiomeGenBase.hell, 0.0F), list.size(), i, progressCallback);
-		this.convertFile(new File(file3, "region"), list2, new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F), list.size() + list1.size(), i, progressCallback);
-		worldinfo.setSaveVersion(19133);
-
-		if (worldinfo.getTerrainType() == WorldType.DEFAULT_1_1) {
-			worldinfo.setTerrainType(WorldType.DEFAULT);
-		}
-
-		this.createFile(filename);
-		ISaveHandler isavehandler = this.getSaveLoader(filename, false);
-		isavehandler.saveWorldInfo(worldinfo);
-		return true;
+		throw new IllegalStateException("Конвертация старых карт в новые пока не поддерживается.");
+//		progressCallback.setLoadingProgress(0);
+//		List<File> list = Lists.newArrayList();
+//		List<File> list1 = Lists.newArrayList();
+//		List<File> list2 = Lists.newArrayList();
+//		File file1 = new File(this.savesDirectory, filename);
+//		File file2 = new File(file1, "DIM-1");
+//		File file3 = new File(file1, "DIM1");
+//		logger.info("Scanning folders...");
+//		this.addRegionFilesToCollection(file1, list);
+//
+//		if (file2.exists()) {
+//			this.addRegionFilesToCollection(file2, list1);
+//		}
+//
+//		if (file3.exists()) {
+//			this.addRegionFilesToCollection(file3, list2);
+//		}
+//
+//		int i = list.size() + list1.size() + list2.size();
+//		logger.info("Total conversion count is " + i);
+//		WorldInfo worldinfo = this.getWorldInfo(filename);
+//		IChunkManager worldchunkmanager = worldinfo.getTerrainType().createChunkManager(worldinfo.getSeed(), worldinfo.getGeneratorOptions());
+//
+//		this.convertFile(new File(file1, "region"), list, worldchunkmanager, 0, i, progressCallback);
+//		this.convertFile(new File(file2, "region"), list1, new WorldChunkManagerHell(BiomeGenBase.hell, 0.0F), list.size(), i, progressCallback);
+//		this.convertFile(new File(file3, "region"), list2, new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F), list.size() + list1.size(), i, progressCallback);
+//		worldinfo.setSaveVersion(19133);
+//
+//		if (worldinfo.getTerrainType() == WorldType.DEFAULT_1_1) {
+//			worldinfo.setTerrainType(WorldType.DEFAULT);
+//		}
+//
+//		this.createFile(filename);
+//		ISaveHandler isavehandler = this.getSaveLoader(filename, false);
+//		isavehandler.saveWorldInfo(worldinfo);
+//		return true;
 	}
 
 	/**

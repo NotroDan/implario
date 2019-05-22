@@ -1,15 +1,15 @@
 package net.minecraft.client;
 
 import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
-import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.chat.ChatComponentText;
 
 import static net.minecraft.client.Minecraft.theMinecraft;
 
@@ -80,7 +80,7 @@ public final class MC {
 		return i().getBlockRendererDispatcher();
 	}
 
-	public static void displayGuiScreen(GuiEditSign gui) {
+	public static void displayGuiScreen(GuiScreen gui) {
 		i().displayGuiScreen(gui);
 	}
 

@@ -29,6 +29,23 @@ public class EntityEnderCrystal extends Entity {
 		this.setPosition(p_i1699_2_, p_i1699_4_, p_i1699_6_);
 	}
 
+
+
+	@Override
+	public int getUpdateFrequency() {
+		return Integer.MAX_VALUE;
+	}
+
+	@Override
+	public int getTrackingRange() {
+		return 256;
+	}
+
+	@Override
+	public boolean sendVelocityUpdates() {
+		return false;
+	}
+
 	/**
 	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
 	 * prevent them from trampling crops

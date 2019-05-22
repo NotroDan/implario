@@ -8,7 +8,6 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attributes.IAttributeInstance;
@@ -36,11 +35,13 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
-import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.event.ClickEvent;
-import net.minecraft.world.*;
+import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.LockCode;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
 
 import java.util.Collection;
 import java.util.List;
@@ -483,10 +484,10 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			this.cameraYaw = 0.0F;
 			this.addMountedMovementStat(this.posX - d0, this.posY - d1, this.posZ - d2);
 
-			if (this.ridingEntity instanceof EntityPig) {
+			if (this.ridingEntity instanceof ICameraMagnet) {
 				this.rotationPitch = f1;
 				this.rotationYaw = f;
-				this.renderYawOffset = ((EntityPig) this.ridingEntity).renderYawOffset;
+				this.renderYawOffset = ((ICameraMagnet) this.ridingEntity).getRenderYawOffset();
 			}
 		}
 	}
@@ -1012,17 +1013,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 	public abstract <T> void openGui(Class<T> type, T gui);
 
-	public void displayVillagerTradeGui(IMerchant villager) {
-	}
-
 	/**
 	 * Displays the GUI for interacting with a chest inventory. Args: chestInventory
 	 */
 	public void displayGUIChest(IInventory chestInventory) {
 		openGui(IInventory.class, chestInventory);
-	}
-
-	public void displayGUIHorse(EntityHorse horse, IInventory horseInventory) {
 	}
 
 	public boolean interactWith(Entity e) {
@@ -1580,11 +1575,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 					}
 				} else if (this.ridingEntity instanceof EntityBoat) {
 					this.addStat(StatList.distanceByBoatStat, i);
-				} else if (this.ridingEntity instanceof EntityPig) {
+				} /*else if (this.ridingEntity instanceof EntityPig) {
 					this.addStat(StatList.distanceByPigStat, i);
 				} else if (this.ridingEntity instanceof EntityHorse) {
 					this.addStat(StatList.distanceByHorseStat, i);
-				}
+				}*///todo
 			}
 		}
 	}

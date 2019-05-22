@@ -5,18 +5,30 @@ import net.minecraft.block.BlockHugeMushroom;
 import net.minecraft.block.FenceClickedEvent;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.MC;
+import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityEnderPearl;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.AnimalChest;
 import net.minecraft.inventory.Container;
 import net.minecraft.logging.Log;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
+import net.minecraft.network.play.server.S2DPacketOpenWindow;
+import net.minecraft.network.play.server.S3FPacketCustomPayload;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.events.*;
@@ -28,19 +40,29 @@ import net.minecraft.world.World;
 import vanilla.block.BlockMobSpawner;
 import vanilla.block.VBlockMushroom;
 import vanilla.block.VBlockSapling;
+import vanilla.client.gui.block.GuiMerchant;
+import vanilla.client.gui.block.GuiScreenHorseInventory;
+import vanilla.client.gui.block.HorseInv;
+import vanilla.entity.EntityLeashKnot;
+import vanilla.entity.IMerchant;
+import vanilla.entity.NpcMerchant;
 import vanilla.entity.VanillaEntity;
+import vanilla.entity.ai.EntityMinecartMobSpawner;
 import vanilla.entity.boss.DragonPartRedirecter;
-import vanilla.entity.monster.EntityBlaze;
-import vanilla.entity.monster.EntityEndermite;
-import vanilla.entity.monster.EntitySilverfish;
-import vanilla.entity.passive.EntityChicken;
-import vanilla.entity.passive.EntityHorse;
+import vanilla.entity.boss.EntityDragon;
+import vanilla.entity.boss.EntityWither;
+import vanilla.entity.monster.*;
+import vanilla.entity.passive.*;
 import vanilla.inventory.ContainerMerchant;
 import vanilla.item.*;
 import vanilla.tileentity.TileEntityMobSpawner;
 import vanilla.world.SleepChecker;
+import vanilla.world.gen.feature.village.MerchantRecipeList;
+
+import java.io.IOException;
 
 import static net.minecraft.block.Block.*;
+import static net.minecraft.entity.EntityList.addMapping;
 import static net.minecraft.inventory.creativetab.CreativeTabs.tabRedstone;
 
 public class Vanilla extends Datapack {
@@ -75,7 +97,44 @@ public class Vanilla extends Datapack {
 		registrar.overrideBlock(99, "brown_mushroom_block", new BlockHugeMushroom(Material.wood, MapColor.dirtColor, redMushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
 		registrar.overrideBlock(100, "red_mushroom_block", new BlockHugeMushroom(Material.wood, MapColor.redColor, brownBushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
 
+		//Todo wrap with registrar
 		TileEntity.register(TileEntityMobSpawner.class, "MobSpawner");
+		addMapping(EntityLeashKnot.class, "LeashKnot", 8);
+		addMapping(EntityMinecartMobSpawner.class, EntityMinecart.EnumMinecartType.SPAWNER.getName(), 47);
+		addMapping(VanillaEntity.class, "Mob", 48);
+		addMapping(EntityMob.class, "Monster", 49);
+		addMapping(EntityCreeper.class, "Creeper", 50, 894731, 0);
+		addMapping(EntitySkeleton.class, "Skeleton", 51, 12698049, 4802889);
+		addMapping(EntitySpider.class, "Spider", 52, 3419431, 11013646);
+		addMapping(EntityGiantZombie.class, "Giant", 53);
+		addMapping(EntityZombie.class, "Zombie", 54, 44975, 7969893);
+		addMapping(EntitySlime.class, "Slime", 55, 5349438, 8306542);
+		addMapping(EntityGhast.class, "Ghast", 56, 16382457, 12369084);
+		addMapping(EntityPigZombie.class, "PigZombie", 57, 15373203, 5009705);
+		addMapping(EntityEnderman.class, "Enderman", 58, 1447446, 0);
+		addMapping(EntityCaveSpider.class, "CaveSpider", 59, 803406, 11013646);
+		addMapping(EntitySilverfish.class, "Silverfish", 60, 7237230, 3158064);
+		addMapping(EntityBlaze.class, "Blaze", 61, 16167425, 16775294);
+		addMapping(EntityMagmaCube.class, "LavaSlime", 62, 3407872, 16579584);
+		addMapping(EntityDragon.class, "EnderDragon", 63);
+		addMapping(EntityWither.class, "WitherBoss", 64);
+		addMapping(EntityBat.class, "Bat", 65, 4996656, 986895);
+		addMapping(EntityWitch.class, "Witch", 66, 3407872, 5349438);
+		addMapping(EntityEndermite.class, "Endermite", 67, 1447446, 7237230);
+		addMapping(EntityGuardian.class, "Guardian", 68, 5931634, 15826224);
+		addMapping(EntityPig.class, "Pig", 90, 15771042, 14377823);
+		addMapping(EntitySheep.class, "Sheep", 91, 15198183, 16758197);
+		addMapping(EntityCow.class, "Cow", 92, 4470310, 10592673);
+		addMapping(EntityChicken.class, "Chicken", 93, 10592673, 16711680);
+		addMapping(EntitySquid.class, "Squid", 94, 2243405, 7375001);
+		addMapping(EntityWolf.class, "Wolf", 95, 14144467, 13545366);
+		addMapping(EntityMooshroom.class, "MushroomCow", 96, 10489616, 12040119);
+		addMapping(EntitySnowman.class, "SnowMan", 97);
+		addMapping(EntityOcelot.class, "Ozelot", 98, 15720061, 5653556);
+		addMapping(EntityIronGolem.class, "VillagerGolem", 99);
+		addMapping(EntityHorse.class, "EntityHorse", 100, 12623485, 15656192);
+		addMapping(EntityRabbit.class, "Rabbit", 101, 10051392, 7555121);
+		addMapping(EntityVillager.class, "Villager", 120, 5651507, 12422002);
 
 	}
 
@@ -144,6 +203,60 @@ public class Vanilla extends Datapack {
 
 		});
 
+		registrar.regInterceptor(S2DPacketOpenWindow.class, (p, l) -> {
+			EntityPlayerSP player = MC.getPlayer();
+			if ("minecraft:villager".equals(p.getGuiId())) {
+				player.openGui(IMerchant.class, new NpcMerchant(player, p.getWindowTitle()));
+				player.openContainer.windowId = p.getWindowId();
+				return true;
+			}
+			if ("EntityHorse".equals(p.getGuiId())) {
+				Entity entity = ((NetHandlerPlayClient) l).getClientWorldController().getEntityByID(p.getEntityId());
+
+				if (entity instanceof EntityHorse) {
+					HorseInv horseInv = new HorseInv((EntityHorse) entity, new AnimalChest(p.getWindowTitle(), p.getSlotCount()));
+					player.openGui(HorseInv.class, horseInv);
+					player.openContainer.windowId = p.getWindowId();
+				}
+				return true;
+			}
+			return false;
+		});
+
+		registrar.regInterceptor(S1BPacketEntityAttach.class, (p, l) -> {
+			WorldClient cl = ((NetHandlerPlayClient) l).getClientWorldController();
+			Entity entity = cl.getEntityByID(p.getEntityId());
+			Entity entity1 = cl.getEntityByID(p.getVehicleEntityId());
+
+			if (p.getLeash() == 0) {
+				boolean flag = false;
+
+				if (p.getEntityId() == MC.getPlayer().getEntityId()) {
+					entity = MC.getPlayer();
+
+					if (entity1 instanceof EntityBoat)
+						((EntityBoat) entity1).setIsBoatEmpty(false);
+
+					flag = entity.ridingEntity == null && entity1 != null;
+				} else if (entity1 instanceof EntityBoat)
+					((EntityBoat) entity1).setIsBoatEmpty(true);
+
+				if (entity == null)
+					return true;
+
+				entity.mountEntity(entity1);
+
+				if (flag) MC.i().ingameGUI.setRecordPlaying(Lang.format("mount.onboard",
+						"SHIFT"), false);
+			} else if (p.getLeash() == 1 && entity instanceof VanillaEntity) {
+				if (entity1 != null)
+					((VanillaEntity) entity).setLeashedToEntity(entity1, false);
+				else
+					((VanillaEntity) entity).clearLeashed(false, false);
+			}
+			return true;
+		});
+
 		registrar.regInterceptor(C17PacketCustomPayload.class, (p, l) -> {
 
 			if ("MC|TrSel".equals(p.getChannelName())) {
@@ -158,9 +271,34 @@ public class Vanilla extends Datapack {
 					Log.MAIN.error("Couldn\'t select trade");
 					Log.MAIN.exception(e);
 				}
-				return false;
+				return true;
 			}
-			return true; // ToDo: Обработка ретурнеда
+			return false; // ToDo: Обработка ретурнеда
+		});
+
+		registrar.regInterceptor(S3FPacketCustomPayload.class, (p, l) -> {
+
+			if ("MC|TrList".equals(p.getChannelName())) {
+				PacketBuffer packetbuffer = p.getBufferData();
+
+				try {
+					int i = packetbuffer.readInt();
+					GuiScreen guiscreen = MC.i().currentScreen;
+
+					if (guiscreen instanceof GuiMerchant && i == MC.getPlayer().openContainer.windowId) {
+						IMerchant imerchant = ((GuiMerchant) guiscreen).getMerchant();
+						MerchantRecipeList merchantrecipelist = MerchantRecipeList.readFromBuf(packetbuffer);
+						imerchant.setRecipes(merchantrecipelist);
+					}
+				} catch (IOException ioexception) {
+					Log.MAIN.error("Couldn\'t load trade info");
+					Log.MAIN.exception(ioexception);
+				} finally {
+					packetbuffer.release();
+				}
+				return true;
+			}
+			return false;
 		});
 
 		registrar.regListener(FenceClickedEvent.class, e -> {
@@ -188,6 +326,16 @@ public class Vanilla extends Datapack {
 	}
 
 	private void registerGuis() {
+		registrar.regGui(IMerchant.class, (p, merchant, serverSide) -> {
+			if (!serverSide) {
+				MC.displayGuiScreen(new GuiMerchant(p.inventory, merchant, p.worldObj));
+			}
+		});
+		registrar.regGui(HorseInv.class, (p, horseinv, serverSide) -> {
+			if (!serverSide) {
+				MC.displayGuiScreen(new GuiScreenHorseInventory(p.inventory, horseinv.inv, horseinv.horse));
+			}
+		});
 	}
 
 	private void registerDispenserBehaviours() {

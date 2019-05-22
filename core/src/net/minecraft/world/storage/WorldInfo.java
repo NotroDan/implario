@@ -19,7 +19,7 @@ public class WorldInfo {
 	 * Holds the seed of the currently world.
 	 */
 	private long randomSeed;
-	private WorldType terrainType = WorldType.DEFAULT;
+	private WorldType terrainType = WorldType.VOID;
 	private String generatorOptions = "";
 
 	/**
@@ -130,11 +130,12 @@ public class WorldInfo {
 			this.terrainType = WorldType.parseWorldType(s);
 
 			if (this.terrainType == null) {
-				this.terrainType = WorldType.DEFAULT;
+				this.terrainType = WorldType.VOID;
 			} else if (this.terrainType.isVersioned()) {
 //				int i = 0;
 //				if (nbt.hasKey("generatorVersion", 99)) i = nbt.getInteger("generatorVersion");
-				this.terrainType = WorldType.DEFAULT_OLD;
+				throw new IllegalStateException("Делфик, ты забыл сделать поддержку старых миров");
+//				this.terrainType = WorldType.DEFAULT_OLD;
 			}
 
 			if (nbt.hasKey("generatorOptions", 8)) {

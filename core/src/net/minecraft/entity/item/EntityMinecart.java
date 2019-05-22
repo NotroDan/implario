@@ -55,6 +55,16 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		this.setSize(0.98F, 0.7F);
 	}
 
+	@Override
+	public int getUpdateFrequency() {
+		return 3;
+	}
+
+	@Override
+	public int getTrackingRange() {
+		return 80;
+	}
+
 	public static EntityMinecart func_180458_a(World world, double x, double y, double z, EntityMinecart.EnumMinecartType type) {
 		switch (type) {
 			case CHEST:

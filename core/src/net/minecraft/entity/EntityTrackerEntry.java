@@ -101,8 +101,8 @@ public class EntityTrackerEntry {
 		this.onGround = trackedEntityIn.onGround;
 	}
 
-	public boolean equals(Object p_equals_1_) {
-		return p_equals_1_ instanceof EntityTrackerEntry ? ((EntityTrackerEntry) p_equals_1_).trackedEntity.getEntityId() == this.trackedEntity.getEntityId() : false;
+	public boolean equals(Object o) {
+		return o instanceof EntityTrackerEntry && ((EntityTrackerEntry) o).trackedEntity.getEntityId() == this.trackedEntity.getEntityId();
 	}
 
 	public int hashCode() {
@@ -493,9 +493,9 @@ public class EntityTrackerEntry {
 			s0epacketspawnobject1.setY(MathHelper.floor_float((float) (blockpos1.getY() * 32)));
 			s0epacketspawnobject1.setZ(MathHelper.floor_float((float) (blockpos1.getZ() * 32)));
 			return s0epacketspawnobject1;
-		}
-		if (this.trackedEntity instanceof EntityLeashKnot) {
-			EntityLeashKnot entityleashknot = (EntityLeashKnot) this.trackedEntity;
+		} // ToDo: Рассортировать по местам
+		if (this.trackedEntity instanceof EntityHanging) {
+			EntityHanging entityleashknot = (EntityHanging) this.trackedEntity;
 			S0EPacketSpawnObject s0epacketspawnobject = new S0EPacketSpawnObject(this.trackedEntity, 77);
 			BlockPos blockpos = entityleashknot.getHangingPosition();
 			s0epacketspawnobject.setX(MathHelper.floor_float((float) (blockpos.getX() * 32)));

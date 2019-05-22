@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import vanilla.client.gui.block.HorseInv;
 import vanilla.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -780,7 +781,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
         if (!this.worldObj.isClientSide && (this.riddenByEntity == null || this.riddenByEntity == playerEntity) && this.isTame())
         {
             this.horseChest.setCustomName(this.getName());
-            playerEntity.displayGUIHorse(this, this.horseChest);
+            playerEntity.openGui(HorseInv.class, new HorseInv(this, this.horseChest));
         }
     }
 

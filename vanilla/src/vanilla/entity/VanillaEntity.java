@@ -33,7 +33,7 @@ import net.minecraft.world.biome.Biome;
 
 import java.util.UUID;
 
-public abstract class VanillaEntity extends EntityLivingBase {
+public abstract class VanillaEntity extends EntityLivingBase implements IPersistenceAllowed {
 
 	/**
 	 * Number of ticks since this EntityLiving last produced its sound

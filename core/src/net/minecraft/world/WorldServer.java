@@ -787,6 +787,10 @@ public class WorldServer extends World implements IThreadListener {
 		return this.mcServer.isCallingFromMinecraftThread();
 	}
 
+	public boolean areAllPlayersAsleep() {
+		return false;
+	}
+
 	static class ServerBlockEventList extends ArrayList<BlockEventData> {
 
 		private ServerBlockEventList() {

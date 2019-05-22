@@ -71,4 +71,5 @@ public class EntitySmallFireball extends EntityFireball {
 		return false;
 	}
 
+
 }

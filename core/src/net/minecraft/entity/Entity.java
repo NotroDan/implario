@@ -38,7 +38,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
-public abstract class Entity implements ICommandSender {
+public abstract class Entity implements ICommandSender, ITrackable {
 
 	private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	private static int nextEntityID;
@@ -2389,6 +2389,18 @@ public abstract class Entity implements ICommandSender {
 
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData iEntityLivingData) {
 		return null;
+	}
+
+	public int getTrackingRange() {
+		return 64;
+	}
+
+	public int getUpdateFrequency() {
+		return 10;
+	}
+
+	public boolean sendVelocityUpdates() {
+		return true;
 	}
 
 }
