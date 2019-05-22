@@ -30,7 +30,8 @@ public class BlockWorkbench extends Block
         {
             return true;
         }
-		playerIn.displayGui(new BlockWorkbench.InterfaceCraftingTable(worldIn, pos));
+
+		playerIn.openGui(IInteractionObject.class, new BlockWorkbench.InterfaceCraftingTable(worldIn, pos));
 		playerIn.triggerAchievement(StatList.field_181742_Z);
 		return true;
 	}

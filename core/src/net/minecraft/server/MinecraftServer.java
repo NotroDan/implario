@@ -223,7 +223,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			worldsettings.setWorldName(p_71247_6_);
 
 			if (this.enableBonusChest) {
-				worldsettings.enableBonusChest();
+				worldsettings.enableStarterKit();
 			}
 
 
@@ -437,7 +437,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 					}
 
 					if (j < 0L) {
-						logger.warn("Время пошло в обратную сторону?! Что ты блядь сделал вообще?!!!");
+						logger.warn("Время пошло в обратную сторону?! Что ты бл* вообще сделал?!!!");
 						j = 0L;
 					}
 

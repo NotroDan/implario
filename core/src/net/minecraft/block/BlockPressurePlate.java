@@ -57,7 +57,7 @@ public class BlockPressurePlate extends BlockBasePressurePlate
         {
             for (Entity entity : list)
             {
-                if (!entity.doesEntityNotTriggerPressurePlate())
+                if (!entity.canTriggerWire())
                 {
                     return 15;
                 }

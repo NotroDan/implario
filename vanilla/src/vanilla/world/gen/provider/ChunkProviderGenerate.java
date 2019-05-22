@@ -25,7 +25,7 @@ import vanilla.world.gen.structure.*;
 import java.util.List;
 import java.util.Random;
 
-public class ChunkProviderGenerate implements IChunkProvider {
+public class ChunkProviderGenerate implements VanillaChunkProvider {
 
 	/**
 	 * RNG.

@@ -15,6 +15,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.events.player.PlayerItemUseEvent;
 import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTBase;
@@ -129,7 +131,8 @@ public final class ItemStack {
 	 * tryPlaceItemIntoWorld)
 	 */
 	public boolean onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-		boolean flag = this.getItem().onItemUse(this, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
+		boolean flag = E.call(new PlayerItemUseEvent(playerIn, this, worldIn, pos, side, hitX, hitY, hitZ)).isUsed();
+		if (!flag) flag = this.getItem().onItemUse(this, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
 
 		if (flag) playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this.item)]);
 

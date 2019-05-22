@@ -14,6 +14,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -278,7 +280,7 @@ public class Block {
 	/**
 	 * Sets the footstep sound for the block. Returns the object for convenience in constructing.
 	 */
-	protected Block setStepSound(Block.SoundType sound) {
+	public Block setStepSound(Block.SoundType sound) {
 		this.stepSound = sound;
 		return this;
 	}
@@ -295,7 +297,7 @@ public class Block {
 	 * Sets the light value that the block emits. Returns resulting block instance for constructing convenience. Args:
 	 * level
 	 */
-	protected Block setLightLevel(float value) {
+	public Block setLightLevel(float value) {
 		this.lightValue = (int) (15.0F * value);
 		return this;
 	}
@@ -352,7 +354,7 @@ public class Block {
 	/**
 	 * Sets how many hits it takes to break a block.
 	 */
-	protected Block setHardness(float hardness) {
+	public Block setHardness(float hardness) {
 		this.blockHardness = hardness;
 
 		if (this.blockResistance < hardness * 5.0F) {
@@ -530,20 +532,25 @@ public class Block {
 		this.dropBlockAsItemWithChance(worldIn, pos, state, 1.0F, forture);
 	}
 
+	public final void dropBlockAsItemWithChance(World w, BlockPos pos, IBlockState block, float chance, int fortune) {
+		if (w.isClientSide) return;
+		BlockDropEvent event = E.call(new BlockDropEvent(w, pos, block, chance, fortune));
+		if (event.isDefaultDropCancelled()) return;
+		dropBlockAsItemWithChance0(w, pos, block, chance, fortune);
+	}
+
 	/**
 	 * Spawns this Block's drops into the World as EntityItems.
 	 */
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-		if (!worldIn.isClientSide) {
-			int i = this.quantityDroppedWithBonus(fortune, worldIn.rand);
+	protected void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+		int i = this.quantityDroppedWithBonus(fortune, worldIn.rand);
 
-			for (int j = 0; j < i; ++j) {
-				if (worldIn.rand.nextFloat() <= chance) {
-					Item item = this.getItemDropped(state, worldIn.rand, fortune);
+		for (int j = 0; j < i; ++j) {
+			if (worldIn.rand.nextFloat() <= chance) {
+				Item item = this.getItemDropped(state, worldIn.rand, fortune);
 
-					if (item != null) {
-						spawnAsEntity(worldIn, pos, new ItemStack(item, 1, this.damageDropped(state)));
-					}
+				if (item != null) {
+					spawnAsEntity(worldIn, pos, new ItemStack(item, 1, this.damageDropped(state)));
 				}
 			}
 		}
@@ -928,7 +935,7 @@ public class Block {
 		return this.enableStats;
 	}
 
-	protected Block disableStats() {
+	public Block disableStats() {
 		this.enableStats = false;
 		return this;
 	}
@@ -1126,7 +1133,6 @@ public class Block {
 		registerBlock(49, "obsidian", new BlockObsidian().setHardness(50.0F).setResistance(2000.0F).setStepSound(soundTypePiston).setUnlocalizedName("obsidian"));
 		registerBlock(50, "torch", new BlockTorch().setHardness(0.0F).setLightLevel(0.9375F).setStepSound(soundTypeWood).setUnlocalizedName("torch"));
 		registerBlock(51, "fire", new BlockFire().setHardness(0.0F).setLightLevel(1.0F).setStepSound(soundTypeCloth).setUnlocalizedName("fire").disableStats());
-		registerBlock(52, "mob_spawner", new BlockMobSpawner().setHardness(5.0F).setStepSound(soundTypeMetal).setUnlocalizedName("mobSpawner").disableStats().setCreativeTab(tabRedstone));
 		registerBlock(53, "oak_stairs", new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK)).setUnlocalizedName("stairsWood"));
 		registerBlock(54, "chest", new BlockChest(0).setHardness(2.5F).setStepSound(soundTypeWood).setUnlocalizedName("chest"));
 		registerBlock(55, "redstone_wire", new BlockRedstoneWire().setHardness(0.0F).setStepSound(soundTypeStone).setUnlocalizedName("redstoneDust").disableStats());
@@ -1338,7 +1344,7 @@ public class Block {
 		blockRegistry.register(id, textualID, block_);
 	}
 
-	private static void registerBlock(int id, String textualID, Block block_) {
+	public static void registerBlock(int id, String textualID, Block block_) {
 		registerBlock(id, new ResourceLocation(textualID), block_);
 	}
 

@@ -37,4 +37,8 @@ public class Todo {
 		return level <= 100;
 	}
 
+	public boolean isServerSide() {
+		return true;
+	}
+
 }

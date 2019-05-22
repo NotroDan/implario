@@ -31,6 +31,7 @@ import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.attributes.RangedAttribute;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.*;
+import net.minecraft.world.IInteractionObject;
 import vanilla.entity.monster.EntityGuardian;
 import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
@@ -270,21 +271,21 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handleSpawnGlobalEntity(S2CPacketSpawnGlobalEntity packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		double d0 = (double) packetIn.func_149051_d() / 32.0D;
-		double d1 = (double) packetIn.func_149050_e() / 32.0D;
-		double d2 = (double) packetIn.func_149049_f() / 32.0D;
+		double d0 = (double) packetIn.getX() / 32.0D;
+		double d1 = (double) packetIn.getY() / 32.0D;
+		double d2 = (double) packetIn.getZ() / 32.0D;
 		Entity entity = null;
 
-		if (packetIn.func_149053_g() == 1)
+		if (packetIn.getType() == 1)
 			entity = new EntityLightningBolt(this.clientWorldController, d0, d1, d2);
 
 		if (entity != null) {
-			entity.serverPosX = packetIn.func_149051_d();
-			entity.serverPosY = packetIn.func_149050_e();
-			entity.serverPosZ = packetIn.func_149049_f();
+			entity.serverPosX = packetIn.getX();
+			entity.serverPosY = packetIn.getY();
+			entity.serverPosZ = packetIn.getZ();
 			entity.rotationYaw = 0.0F;
 			entity.rotationPitch = 0.0F;
-			entity.setEntityId(packetIn.func_149052_c());
+			entity.setEntityId(packetIn.getEntityID());
 			this.clientWorldController.addWeatherEffect(entity);
 		}
 	}
@@ -773,7 +774,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 				entityplayersp.openContainer.windowId = packetIn.getWindowId();
 			}
 		} else if (!packetIn.hasSlots()) {
-			entityplayersp.displayGui(new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
+			entityplayersp.openGui(IInteractionObject.class, new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
+//			entityplayersp.displayGui(new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
 			entityplayersp.openContainer.windowId = packetIn.getWindowId();
 		} else {
 			ContainerLocalMenu containerlocalmenu = new ContainerLocalMenu(packetIn.getGuiId(), packetIn.getWindowTitle(), packetIn.getSlotCount());
@@ -855,7 +857,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			tileentity.setPos(packetIn.getSignPosition());
 		}
 
-		this.gameController.thePlayer.openEditSign((TileEntitySign) tileentity);
+		this.gameController.thePlayer.openGui(TileEntitySign.class, (TileEntitySign) tileentity);
+//		this.gameController.thePlayer.openEditSign((TileEntitySign) tileentity);
 	}
 
 	/**

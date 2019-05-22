@@ -1009,11 +1009,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 	}
 
-	public void openEditSign(TileEntitySign signTile) {
-	}
 
-	public void openEditCommandBlock(CommandBlockLogic cmdBlockLogic) {
-	}
+	public abstract <T> void openGui(Class<T> type, T gui);
 
 	public void displayVillagerTradeGui(IMerchant villager) {
 	}
@@ -1022,18 +1019,10 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Displays the GUI for interacting with a chest inventory. Args: chestInventory
 	 */
 	public void displayGUIChest(IInventory chestInventory) {
+		openGui(IInventory.class, chestInventory);
 	}
 
 	public void displayGUIHorse(EntityHorse horse, IInventory horseInventory) {
-	}
-
-	public void displayGui(IInteractionObject guiOwner) {
-	}
-
-	/**
-	 * Displays the GUI for interacting with a book.
-	 */
-	public void displayGUIBook(ItemStack bookStack) {
 	}
 
 	public boolean interactWith(Entity e) {

@@ -27,7 +27,7 @@ import vanilla.world.gen.structure.MapGenNetherBridge;
 import java.util.List;
 import java.util.Random;
 
-public class ChunkProviderHell implements IChunkProvider {
+public class ChunkProviderHell implements VanillaChunkProvider {
 
 	/**
 	 * Is the world that the nether is getting generated.

@@ -45,4 +45,9 @@ public class TodoClient extends net.minecraft.server.Todo {
 		return Settings.ROMANIAN_NOTATION.i() == 0 ? level <= 100 : Settings.ROMANIAN_NOTATION.i() == 1;
 	}
 
+	@Override
+	public boolean isServerSide() {
+		return false;
+	}
+
 }

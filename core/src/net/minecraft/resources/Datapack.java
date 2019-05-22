@@ -1,5 +1,7 @@
 package net.minecraft.resources;
 
+import net.minecraft.server.Todo;
+
 public abstract class Datapack {
 
 	private final Domain domain;
@@ -12,6 +14,10 @@ public abstract class Datapack {
 
 	public Domain getDomain() {
 		return domain;
+	}
+
+	public static boolean isServerSide() {
+		return Todo.instance.isServerSide();
 	}
 
 	public abstract void preinit();

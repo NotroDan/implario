@@ -12,59 +12,50 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemSign extends Item
-{
-    public ItemSign()
-    {
-        this.maxStackSize = 16;
-        this.setCreativeTab(CreativeTabs.tabDecorations);
-    }
+public class ItemSign extends Item {
 
-    /**
-     * Called when a Block is right-clicked with this Item
-     */
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
-    {
-        if (side == EnumFacing.DOWN)
-        {
-            return false;
-        }
-		if (!worldIn.getBlockState(pos).getBlock().getMaterial().isSolid())
-		{
+	public ItemSign() {
+		this.maxStackSize = 16;
+		this.setCreativeTab(CreativeTabs.tabDecorations);
+	}
+
+	/**
+	 * Called when a Block is right-clicked with this Item
+	 */
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (side == EnumFacing.DOWN) {
+			return false;
+		}
+		if (!worldIn.getBlockState(pos).getBlock().getMaterial().isSolid()) {
 			return false;
 		}
 		pos = pos.offset(side);
 
-		if (!playerIn.canPlayerEdit(pos, side, stack))
-		{
+		if (!playerIn.canPlayerEdit(pos, side, stack)) {
 			return false;
 		}
-		if (!Blocks.standing_sign.canPlaceBlockAt(worldIn, pos))
-		{
+		if (!Blocks.standing_sign.canPlaceBlockAt(worldIn, pos)) {
 			return false;
 		}
-		if (worldIn.isClientSide)
-		{
+		if (worldIn.isClientSide) {
 			return true;
 		}
-		if (side == EnumFacing.UP)
-		{
-			int i = MathHelper.floor_double((double)((playerIn.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+		if (side == EnumFacing.UP) {
+			int i = MathHelper.floor_double((double) ((playerIn.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
 			worldIn.setBlockState(pos, Blocks.standing_sign.getDefaultState().withProperty(BlockStandingSign.ROTATION, i), 3);
-		}
-		else
-		{
+		} else {
 			worldIn.setBlockState(pos, Blocks.wall_sign.getDefaultState().withProperty(BlockWallSign.FACING, side), 3);
 		}
 
 		--stack.stackSize;
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if (tileentity instanceof TileEntitySign && !ItemBlock.setTileEntityNBT(worldIn, playerIn, pos, stack))
-		{
-			playerIn.openEditSign((TileEntitySign)tileentity);
+		if (tileentity instanceof TileEntitySign && !ItemBlock.setTileEntityNBT(worldIn, playerIn, pos, stack)) {
+			playerIn.openGui(TileEntitySign.class, (TileEntitySign) tileentity);
+//			playerIn.openEditSign((TileEntitySign) tileentity);
 		}
 
 		return true;
 	}
+
 }

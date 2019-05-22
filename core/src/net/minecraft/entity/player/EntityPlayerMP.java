@@ -464,7 +464,59 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	}
 
 	public boolean canAttackPlayer(EntityPlayer other) {
-		return !this.canPlayersAttack() ? false : super.canAttackPlayer(other);
+		return this.canPlayersAttack() && super.canAttackPlayer(other);
+	}
+
+	@Override
+	public <T> void openGui(Class<T> type, T base) {
+		if (type == TileEntitySign.class) {
+			TileEntitySign sign = (TileEntitySign) base;
+			sign.setPlayer(this);
+			playerNetServerHandler.sendPacket(new S36PacketSignEditorOpen(sign.getPos()));
+		} else if (type == ItemStack.class) {
+			Item item = ((ItemStack) base).getItem();
+			if (item == Items.written_book) {
+				this.playerNetServerHandler.sendPacket(new S3FPacketCustomPayload("MC|BOpen", new PacketBuffer(Unpooled.buffer())));
+			}
+		}  else if (type == IInventory.class) {
+			IInventory chest = (IInventory) base;
+			if (this.openContainer != this.inventoryContainer) {
+				this.closeScreen();
+			}
+
+			if (chest instanceof ILockableContainer) {
+				ILockableContainer ilockablecontainer = (ILockableContainer) chest;
+
+				if (ilockablecontainer.isLocked() && !this.canOpen(ilockablecontainer.getLockCode()) && !this.isSpectator()) {
+					this.playerNetServerHandler.sendPacket(new S02PacketChat(new ChatComponentTranslation("container.isLocked", chest.getDisplayName()), (byte) 2));
+					this.playerNetServerHandler.sendPacket(new S29PacketSoundEffect("random.door_close", this.posX, this.posY, this.posZ, 1.0F, 1.0F));
+					return;
+				}
+			}
+
+			this.getNextWindowId();
+
+			if (chest instanceof IInteractionObject) {
+				this.playerNetServerHandler.sendPacket(
+						new S2DPacketOpenWindow(this.currentWindowId, ((IInteractionObject) chest).getGuiID(), chest.getDisplayName(), chest.getSizeInventory()));
+				this.openContainer = ((IInteractionObject) chest).createContainer(this.inventory, this);
+			} else {
+				this.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(this.currentWindowId, "minecraft:container", chest.getDisplayName(), chest.getSizeInventory()));
+				this.openContainer = new ContainerChest(this.inventory, chest, this);
+			}
+
+			this.openContainer.windowId = this.currentWindowId;
+			this.openContainer.onCraftGuiOpened(this);
+		} else if (type == IInteractionObject.class) {
+			IInteractionObject elem = (IInteractionObject) base;
+			this.getNextWindowId();
+			this.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(this.currentWindowId, elem.getGuiID(), elem.getDisplayName()));
+			this.openContainer = elem.createContainer(this.inventory, this);
+			this.openContainer.windowId = this.currentWindowId;
+			this.openContainer.onCraftGuiOpened(this);
+		}
+
+		else PlayerGuiBridge.open(this, type, base, true);
 	}
 
 	/**
@@ -477,27 +529,27 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	/**
 	 * Teleports the entity to another dimension. Params: Dimension number to teleport to
 	 */
-	public void travelToDimension(int dimensionId) {
-		if (this.dimension == 1 && dimensionId == 1) {
+	public void travelToDimension(int destDim) {
+		if (this.dimension == 1 && destDim == 1) {
 			this.triggerAchievement(AchievementList.theEnd2);
 			this.worldObj.removeEntity(this);
 			this.playerConqueredTheEnd = true;
 			this.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(4, 0.0F));
 		} else {
-			if (this.dimension == 0 && dimensionId == 1) {
+			if (this.dimension == 0 && destDim == 1) {
 				this.triggerAchievement(AchievementList.theEnd);
-				BlockPos blockpos = this.mcServer.worldServerForDimension(dimensionId).getSpawnCoordinate();
+				BlockPos blockpos = this.mcServer.worldServerForDimension(destDim).getSpawnCoordinate();
 
 				if (blockpos != null) {
 					this.playerNetServerHandler.setPlayerLocation((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ(), 0.0F, 0.0F);
 				}
 
-				dimensionId = 1;
+				destDim = 1;
 			} else {
 				this.triggerAchievement(AchievementList.portal);
 			}
 
-			this.mcServer.getConfigurationManager().transferPlayerToDimension(this, dimensionId);
+			this.mcServer.getConfigurationManager().transferPlayerToDimension(this, destDim);
 			this.lastExperience = -1;
 			this.lastHealth = -1.0F;
 			this.lastFoodLevel = -1;
@@ -592,11 +644,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		super.updateFallState(p_71122_1_, p_71122_3_, block, blockpos);
 	}
 
-	public void openEditSign(TileEntitySign signTile) {
-		signTile.setPlayer(this);
-		this.playerNetServerHandler.sendPacket(new S36PacketSignEditorOpen(signTile.getPos()));
-	}
-
 	/**
 	 * get the next window id to use
 	 */
@@ -604,57 +651,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.currentWindowId = this.currentWindowId % 100 + 1;
 	}
 
-	public void displayGui(IInteractionObject guiOwner) {
-		this.getNextWindowId();
-		this.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(this.currentWindowId, guiOwner.getGuiID(), guiOwner.getDisplayName()));
-		this.openContainer = guiOwner.createContainer(this.inventory, this);
-		this.openContainer.windowId = this.currentWindowId;
-		this.openContainer.onCraftGuiOpened(this);
-	}
-
-	/**
-	 * Displays the GUI for interacting with a chest inventory. Args: chestInventory
-	 */
-	public void displayGUIChest(IInventory chestInventory) {
-		if (this.openContainer != this.inventoryContainer) {
-			this.closeScreen();
-		}
-
-		if (chestInventory instanceof ILockableContainer) {
-			ILockableContainer ilockablecontainer = (ILockableContainer) chestInventory;
-
-			if (ilockablecontainer.isLocked() && !this.canOpen(ilockablecontainer.getLockCode()) && !this.isSpectator()) {
-				this.playerNetServerHandler.sendPacket(new S02PacketChat(new ChatComponentTranslation("container.isLocked", new Object[] {chestInventory.getDisplayName()}), (byte) 2));
-				this.playerNetServerHandler.sendPacket(new S29PacketSoundEffect("random.door_close", this.posX, this.posY, this.posZ, 1.0F, 1.0F));
-				return;
-			}
-		}
-
-		this.getNextWindowId();
-
-		if (chestInventory instanceof IInteractionObject) {
-			this.playerNetServerHandler.sendPacket(
-					new S2DPacketOpenWindow(this.currentWindowId, ((IInteractionObject) chestInventory).getGuiID(), chestInventory.getDisplayName(), chestInventory.getSizeInventory()));
-			this.openContainer = ((IInteractionObject) chestInventory).createContainer(this.inventory, this);
-		} else {
-			this.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(this.currentWindowId, "minecraft:container", chestInventory.getDisplayName(), chestInventory.getSizeInventory()));
-			this.openContainer = new ContainerChest(this.inventory, chestInventory, this);
-		}
-
-		this.openContainer.windowId = this.currentWindowId;
-		this.openContainer.onCraftGuiOpened(this);
-	}
-
-	/**
-	 * Displays the GUI for interacting with a book.
-	 */
-	public void displayGUIBook(ItemStack bookStack) {
-		Item item = bookStack.getItem();
-
-		if (item == Items.written_book) {
-			this.playerNetServerHandler.sendPacket(new S3FPacketCustomPayload("MC|BOpen", new PacketBuffer(Unpooled.buffer())));
-		}
-	}
 
 	/**
 	 * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual

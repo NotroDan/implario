@@ -11,7 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.pathfinder.WalkNodeProcessor;
+import vanilla.world.pathfinder.WalkNodeProcessor;
 
 public class EntityAIControlledByPlayer extends EntityAIBase
 {

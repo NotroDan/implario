@@ -1,15 +1,10 @@
 package net.minecraft.world.chunk;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.SpawnListEntry;
-
-import java.util.Collections;
-import java.util.List;
 
 public class ChunkProviderVoid implements IChunkProvider {
 
@@ -89,10 +84,6 @@ public class ChunkProviderVoid implements IChunkProvider {
 	 */
 	public String makeString() {
 		return "VoidLevelSource";
-	}
-
-	public List<SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
-		return Collections.emptyList();
 	}
 
 	public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position) {

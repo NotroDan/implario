@@ -10,7 +10,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.world.pathfinder.WalkNodeProcessor;
+import vanilla.world.pathfinder.WalkNodeProcessor;
 
 public class PathNavigateGround extends PathNavigate
 {

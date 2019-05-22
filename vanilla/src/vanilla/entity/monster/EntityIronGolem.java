@@ -89,7 +89,7 @@ public class EntityIronGolem extends EntityGolem
     }
 
 	@Override
-	protected boolean suckInMinecarts() {
+	public boolean suckInMinecarts() {
 		return false;
 	}
 

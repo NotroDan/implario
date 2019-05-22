@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class ChunkProviderFlat implements IChunkProvider {
+public class ChunkProviderFlat implements VanillaChunkProvider {
 
 	private World worldObj;
 	private Random random;

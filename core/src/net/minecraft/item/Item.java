@@ -37,7 +37,7 @@ public class Item {
 	/**
 	 * The RNG used by the Item subclasses.
 	 */
-	protected static Random itemRand = new Random();
+	public static Random itemRand = new Random();
 
 	/**
 	 * Maximum size of the stack.

@@ -1,13 +1,11 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,15 +13,18 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerRepair;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class BlockAnvil extends BlockFalling
 {
@@ -65,7 +66,7 @@ public class BlockAnvil extends BlockFalling
     {
         if (!worldIn.isClientSide)
         {
-            playerIn.displayGui(new BlockAnvil.Anvil(worldIn, pos));
+            playerIn.openGui(IInteractionObject.class, new BlockAnvil.Anvil(worldIn, pos));
         }
 
         return true;

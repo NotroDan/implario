@@ -3,7 +3,7 @@ package vanilla.entity.ai.pathfinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.pathfinder.NodeProcessor;
+import vanilla.world.pathfinder.NodeProcessor;
 
 public class PathFinder
 {

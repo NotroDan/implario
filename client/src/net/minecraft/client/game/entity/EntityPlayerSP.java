@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.player.PlayerGuiBridge;
 import vanilla.entity.passive.EntityHorse;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -268,6 +269,52 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 		}
 	}
 
+	@Override
+	public <T> void openGui(Class<T> type, T element) {
+		if (type == TileEntitySign.class) mc.displayGuiScreen(new GuiEditSign((TileEntitySign) element));
+		else if (type == CommandBlockLogic.class) mc.displayGuiScreen(new GuiCommandBlock((CommandBlockLogic) element));
+		else if (type == ItemStack.class) {
+			ItemStack stack = (ItemStack) element;
+
+			if (stack.getItem() == Items.writable_book) {
+				this.mc.displayGuiScreen(new GuiScreenBook(this, stack, true));
+			}
+		} else if (type == IInventory.class) {
+			IInventory container = (IInventory) element;
+			String s = container instanceof IInteractionObject ? ((IInteractionObject) container).getGuiID() : "minecraft:container";
+
+			if ("minecraft:chest".equals(s)) {
+				this.mc.displayGuiScreen(new GuiChest(this.inventory, container));
+			} else if ("minecraft:hopper".equals(s)) {
+				this.mc.displayGuiScreen(new GuiHopper(this.inventory, container));
+			} else if ("minecraft:furnace".equals(s)) {
+				this.mc.displayGuiScreen(new GuiFurnace(this.inventory, container));
+			} else if ("minecraft:brewing_stand".equals(s)) {
+				this.mc.displayGuiScreen(new GuiBrewingStand(this.inventory, container));
+			} else if ("minecraft:beacon".equals(s)) {
+				this.mc.displayGuiScreen(new GuiBeacon(this.inventory, container));
+			} else if ("minecraft:dispenser".equals(s) || "minecraft:dropper".equals(s)) {
+				this.mc.displayGuiScreen(new GuiDispenser(this.inventory, container));
+			} else {
+				this.mc.displayGuiScreen(new GuiChest(this.inventory, container));
+			}
+		} else if (type == IInteractionObject.class) {
+			IInteractionObject guiOwner = (IInteractionObject) element;
+			String s = guiOwner.getGuiID();
+
+			if ("minecraft:crafting_table".equals(s)) {
+				this.mc.displayGuiScreen(new GuiCrafting(this.inventory, this.worldObj));
+			} else if ("minecraft:enchanting_table".equals(s)) {
+				this.mc.displayGuiScreen(new GuiEnchantment(this.inventory, this.worldObj, guiOwner));
+			} else if ("minecraft:anvil".equals(s)) {
+				this.mc.displayGuiScreen(new GuiRepair(this.inventory, this.worldObj));
+			}
+		}
+
+
+		else PlayerGuiBridge.open(this, type, element, false);
+	}
+
 	/**
 	 * set current crafting inventory back to the 2x2 square
 	 */
@@ -385,7 +432,6 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 			}
 
 			if (this.isOpenBlockSpace(blockpos.south()) && 1.0D - d1 < d2) {
-				d2 = 1.0D - d1;
 				i = 5;
 			}
 
@@ -476,62 +522,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 		return this.horseJumpPower;
 	}
 
-	public void openEditSign(TileEntitySign signTile) {
-		this.mc.displayGuiScreen(new GuiEditSign(signTile));
-	}
-
-	public void openEditCommandBlock(CommandBlockLogic cmdBlockLogic) {
-		this.mc.displayGuiScreen(new GuiCommandBlock(cmdBlockLogic));
-	}
-
-	/**
-	 * Displays the GUI for interacting with a book.
-	 */
-	public void displayGUIBook(ItemStack bookStack) {
-		Item item = bookStack.getItem();
-
-		if (item == Items.writable_book) {
-			this.mc.displayGuiScreen(new GuiScreenBook(this, bookStack, true));
-		}
-	}
-
-	/**
-	 * Displays the GUI for interacting with a chest inventory. Args: chestInventory
-	 */
-	public void displayGUIChest(IInventory chestInventory) {
-		String s = chestInventory instanceof IInteractionObject ? ((IInteractionObject) chestInventory).getGuiID() : "minecraft:container";
-
-		if ("minecraft:chest".equals(s)) {
-			this.mc.displayGuiScreen(new GuiChest(this.inventory, chestInventory));
-		} else if ("minecraft:hopper".equals(s)) {
-			this.mc.displayGuiScreen(new GuiHopper(this.inventory, chestInventory));
-		} else if ("minecraft:furnace".equals(s)) {
-			this.mc.displayGuiScreen(new GuiFurnace(this.inventory, chestInventory));
-		} else if ("minecraft:brewing_stand".equals(s)) {
-			this.mc.displayGuiScreen(new GuiBrewingStand(this.inventory, chestInventory));
-		} else if ("minecraft:beacon".equals(s)) {
-			this.mc.displayGuiScreen(new GuiBeacon(this.inventory, chestInventory));
-		} else if (!"minecraft:dispenser".equals(s) && !"minecraft:dropper".equals(s)) {
-			this.mc.displayGuiScreen(new GuiChest(this.inventory, chestInventory));
-		} else {
-			this.mc.displayGuiScreen(new GuiDispenser(this.inventory, chestInventory));
-		}
-	}
 
 	public void displayGUIHorse(EntityHorse horse, IInventory horseInventory) {
 		this.mc.displayGuiScreen(new GuiScreenHorseInventory(this.inventory, horseInventory, horse));
-	}
-
-	public void displayGui(IInteractionObject guiOwner) {
-		String s = guiOwner.getGuiID();
-
-		if ("minecraft:crafting_table".equals(s)) {
-			this.mc.displayGuiScreen(new GuiCrafting(this.inventory, this.worldObj));
-		} else if ("minecraft:enchanting_table".equals(s)) {
-			this.mc.displayGuiScreen(new GuiEnchantment(this.inventory, this.worldObj, guiOwner));
-		} else if ("minecraft:anvil".equals(s)) {
-			this.mc.displayGuiScreen(new GuiRepair(this.inventory, this.worldObj));
-		}
 	}
 
 	public void displayVillagerTradeGui(IMerchant villager) {

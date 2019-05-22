@@ -1,4 +1,4 @@
-package net.minecraft.world.pathfinder;
+package vanilla.world.pathfinder;
 
 import net.minecraft.entity.Entity;
 import vanilla.entity.ai.pathfinding.PathPoint;
@@ -24,8 +24,8 @@ public abstract class NodeProcessor {
 
 	/**
 	 * This method is called when all nodes have been processed and PathEntity is created.
-	 * {@link net.minecraft.world.pathfinder.WalkNodeProcessor WalkNodeProcessor} uses this to change its field {@link
-	 * net.minecraft.world.pathfinder.WalkNodeProcessor#avoidsWater avoidsWater}
+	 * {@link vanilla.world.pathfinder.WalkNodeProcessor WalkNodeProcessor} uses this to change its field {@link
+	 * vanilla.world.pathfinder.WalkNodeProcessor#avoidsWater avoidsWater}
 	 */
 	public void postProcess() {
 	}

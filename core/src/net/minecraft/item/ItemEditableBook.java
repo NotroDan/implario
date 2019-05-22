@@ -1,6 +1,5 @@
 package net.minecraft.item;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Slot;
@@ -9,139 +8,116 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.server.S2FPacketSetSlot;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.chat.ChatComponentProcessor;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.chat.ChatComponentProcessor;
+import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;
 
-public class ItemEditableBook extends Item
-{
-    public ItemEditableBook()
-    {
-        this.setMaxStackSize(1);
-    }
+import java.util.List;
 
-    public static boolean validBookTagContents(NBTTagCompound nbt)
-    {
-        if (!ItemWritableBook.isNBTValid(nbt))
-        {
-            return false;
-        }
-		if (!nbt.hasKey("title", 8))
-		{
+public class ItemEditableBook extends Item {
+
+	public ItemEditableBook() {
+		this.setMaxStackSize(1);
+	}
+
+	public static boolean validBookTagContents(NBTTagCompound nbt) {
+		if (!ItemWritableBook.isNBTValid(nbt)) {
+			return false;
+		}
+		if (!nbt.hasKey("title", 8)) {
 			return false;
 		}
 		String s = nbt.getString("title");
 		return s != null && s.length() <= 32 ? nbt.hasKey("author", 8) : false;
 	}
 
-    /**
-     * Gets the generation of the book (how many times it has been cloned)
-     */
-    public static int getGeneration(ItemStack book)
-    {
-        return book.getTagCompound().getInteger("generation");
-    }
+	/**
+	 * Gets the generation of the book (how many times it has been cloned)
+	 */
+	public static int getGeneration(ItemStack book) {
+		return book.getTagCompound().getInteger("generation");
+	}
 
-    public String getItemStackDisplayName(ItemStack stack)
-    {
-        if (stack.hasTagCompound())
-        {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
-            String s = nbttagcompound.getString("title");
+	public String getItemStackDisplayName(ItemStack stack) {
+		if (stack.hasTagCompound()) {
+			NBTTagCompound nbttagcompound = stack.getTagCompound();
+			String s = nbttagcompound.getString("title");
 
-            if (!StringUtils.isNullOrEmpty(s))
-            {
-                return s;
-            }
-        }
+			if (!StringUtils.isNullOrEmpty(s)) {
+				return s;
+			}
+		}
 
-        return super.getItemStackDisplayName(stack);
-    }
+		return super.getItemStackDisplayName(stack);
+	}
 
-    /**
-     * allows items to add custom lines of information to the mouseover description
-     */
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
-    {
-        if (stack.hasTagCompound())
-        {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
-            String s = nbttagcompound.getString("author");
+	/**
+	 * allows items to add custom lines of information to the mouseover description
+	 */
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+		if (stack.hasTagCompound()) {
+			NBTTagCompound nbttagcompound = stack.getTagCompound();
+			String s = nbttagcompound.getString("author");
 
-            if (!StringUtils.isNullOrEmpty(s))
-            {
-                tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", new Object[] {s}));
-            }
+			if (!StringUtils.isNullOrEmpty(s)) {
+				tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", new Object[] {s}));
+			}
 
-            tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocal("book.generation." + nbttagcompound.getInteger("generation")));
-        }
-    }
+			tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocal("book.generation." + nbttagcompound.getInteger("generation")));
+		}
+	}
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
-    {
-        if (!worldIn.isClientSide)
-        {
-            this.resolveContents(itemStackIn, playerIn);
-        }
+	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+	 */
+	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer p) {
+		if (!worldIn.isClientSide) this.resolveContents(stack, p);
 
-        playerIn.displayGUIBook(itemStackIn);
-        playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-        return itemStackIn;
-    }
+		p.openGui(ItemStack.class, stack);
+//		p.displayGUIBook(stack);
+		p.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+		return stack;
+	}
 
-    private void resolveContents(ItemStack stack, EntityPlayer player)
-    {
-        if (stack != null && stack.getTagCompound() != null)
-        {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
+	private void resolveContents(ItemStack stack, EntityPlayer player) {
+		if (stack == null || stack.getTagCompound() == null) return;
+		NBTTagCompound nbttagcompound = stack.getTagCompound();
 
-            if (!nbttagcompound.getBoolean("resolved"))
-            {
-                nbttagcompound.setBoolean("resolved", true);
+		if (nbttagcompound.getBoolean("resolved")) return;
+		nbttagcompound.setBoolean("resolved", true);
 
-                if (validBookTagContents(nbttagcompound))
-                {
-                    NBTTagList nbttaglist = nbttagcompound.getTagList("pages", 8);
+		if (!validBookTagContents(nbttagcompound)) return;
 
-                    for (int i = 0; i < nbttaglist.tagCount(); ++i)
-                    {
-                        String s = nbttaglist.getStringTagAt(i);
-                        IChatComponent lvt_7_1_;
+		NBTTagList nbttaglist = nbttagcompound.getTagList("pages", 8);
 
-                        try
-                        {
-                            lvt_7_1_ = IChatComponent.Serializer.jsonToComponent(s);
-                            lvt_7_1_ = ChatComponentProcessor.processComponent(player, lvt_7_1_, player);
-                        }
-                        catch (Exception var9)
-                        {
-                            lvt_7_1_ = new ChatComponentText(s);
-                        }
+		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+			String s = nbttaglist.getStringTagAt(i);
+			IChatComponent lvt_7_1_;
 
-                        nbttaglist.set(i, new NBTTagString(IChatComponent.Serializer.componentToJson(lvt_7_1_)));
-                    }
+			try {
+				lvt_7_1_ = IChatComponent.Serializer.jsonToComponent(s);
+				lvt_7_1_ = ChatComponentProcessor.processComponent(player, lvt_7_1_, player);
+			} catch (Exception var9) {
+				lvt_7_1_ = new ChatComponentText(s);
+			}
 
-                    nbttagcompound.setTag("pages", nbttaglist);
+			nbttaglist.set(i, new NBTTagString(IChatComponent.Serializer.componentToJson(lvt_7_1_)));
+		}
 
-                    if (player instanceof EntityPlayerMP && player.getCurrentEquippedItem() == stack)
-                    {
-                        Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
-                        ((EntityPlayerMP)player).playerNetServerHandler.sendPacket(new S2FPacketSetSlot(0, slot.slotNumber, stack));
-                    }
-                }
-            }
-        }
-    }
+		nbttagcompound.setTag("pages", nbttaglist);
 
-    public boolean hasEffect(ItemStack stack)
-    {
-        return true;
-    }
+		if (player instanceof EntityPlayerMP && player.getCurrentEquippedItem() == stack) {
+			Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
+			((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new S2FPacketSetSlot(0, slot.slotNumber, stack));
+		}
+	}
+
+	public boolean hasEffect(ItemStack stack) {
+		return true;
+	}
+
 }

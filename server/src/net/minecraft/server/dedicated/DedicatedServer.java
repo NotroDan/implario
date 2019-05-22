@@ -139,7 +139,7 @@ public class DedicatedServer extends MinecraftServer {
 		}
 
 		WorldType worldtype = WorldType.parseWorldType(s1);
-		if (worldtype == null) worldtype = WorldType.EMPTY;
+		if (worldtype == null) worldtype = WorldType.VOID;
 
 		this.isAnnouncingPlayerAchievements();
 		this.isCommandBlockEnabled();

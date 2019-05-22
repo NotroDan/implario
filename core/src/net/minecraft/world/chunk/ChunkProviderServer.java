@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.LongHashMap;
@@ -13,7 +12,6 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 
 import java.io.IOException;
@@ -281,10 +279,6 @@ public class ChunkProviderServer implements IChunkProvider {
 	 */
 	public String makeString() {
 		return "ServerChunkCache: " + this.id2ChunkMap.getNumHashElements() + " Drop: " + this.droppedChunksSet.size();
-	}
-
-	public List<SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
-		return this.serverChunkGenerator.getPossibleCreatures(creatureType, pos);
 	}
 
 	public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position) {

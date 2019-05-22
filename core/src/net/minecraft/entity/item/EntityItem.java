@@ -422,9 +422,9 @@ public class EntityItem extends Entity
     /**
      * Teleports the entity to another dimension. Params: Dimension number to teleport to
      */
-    public void travelToDimension(int dimensionId)
+    public void travelToDimension(int destDim)
     {
-        super.travelToDimension(dimensionId);
+        super.travelToDimension(destDim);
 
         if (!this.worldObj.isClientSide)
         {

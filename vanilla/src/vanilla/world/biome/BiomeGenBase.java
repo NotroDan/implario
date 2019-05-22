@@ -57,7 +57,7 @@ public abstract class BiomeGenBase extends Biome {
 			swampland = new BiomeGenSwamp(6, "Swampland").setColor(522674).setFillerBlockMetadata(9154376).setHeight(height_PartiallySubmerged).setTemperatureRainfall(0.8F, 0.9F),
 			river = new BiomeGenRiver(7, "River").setColor(255).setHeight(height_ShallowWaters),
 			hell = new BiomeGenHell(8, "Hell").setColor(16711680).setDisableRain().setTemperatureRainfall(2.0F, 0.0F),
-			sky = new BiomeGenEnd(9, "The End").setColor(8421631).setDisableRain(),
+			end = new BiomeGenEnd(9, "The End").setColor(8421631).setDisableRain(),
 			frozenOcean = new BiomeGenOcean(10, "FrozenOcean").setColor(9474208).setEnableSnow().setHeight(height_Oceans).setTemperatureRainfall(0.0F,	0.5F),
 			frozenRiver = new BiomeGenRiver(11, "FrozenRiver").setColor(10526975).setEnableSnow().setHeight(height_ShallowWaters).setTemperatureRainfall(0.0F, 0.5F),
 			icePlains = new BiomeGenSnow(12, "Ice Plains", false).setColor(16777215).setEnableSnow().setTemperatureRainfall(0.0F, 0.5F).setHeight(height_LowPlains),
@@ -485,7 +485,7 @@ public abstract class BiomeGenBase extends Biome {
 		}
 
 		explorationBiomesList.remove(hell);
-		explorationBiomesList.remove(sky);
+		explorationBiomesList.remove(end);
 		explorationBiomesList.remove(frozenOcean);
 		explorationBiomesList.remove(extremeHillsEdge);
 		temperatureNoise = new NoiseGeneratorPerlin(new Random(1234L), 1);

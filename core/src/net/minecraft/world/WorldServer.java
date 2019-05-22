@@ -44,7 +44,7 @@ import java.util.*;
 public class WorldServer extends World implements IThreadListener {
 
 	private static final Logger logger = Logger.getInstance();
-	private final MinecraftServer mcServer;
+	protected final MinecraftServer mcServer;
 	private final EntityTracker theEntityTracker;
 	private final PlayerManager thePlayerManager;
 	private final Set<NextTickListEntry> pendingTickListEntriesHashSet = Sets.newHashSet();
@@ -59,13 +59,10 @@ public class WorldServer extends World implements IThreadListener {
 
 	private int updateEntityTick;
 
-	/**
-	 * the teleporter to use when the entity is being transferred into the dimension
-	 */
-	private final Teleporter worldTeleporter;
 	private WorldServer.ServerBlockEventList[] field_147490_S = new WorldServer.ServerBlockEventList[] {new WorldServer.ServerBlockEventList(), new WorldServer.ServerBlockEventList()};
 	private int blockEventCacheIndex;private List<NextTickListEntry> pendingTickListEntriesThisTick = Lists.newArrayList();
 	private final WorldTickEvent tickEvent = new WorldTickEvent(this);
+	protected IDimensionTranser dimensionTransfer;
 
 	public WorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo info, int dimensionId, Profiler profilerIn) {
 		super(saveHandlerIn, info, dimensionManager.generate(dimensionId), profilerIn, false);
@@ -74,7 +71,6 @@ public class WorldServer extends World implements IThreadListener {
 		this.thePlayerManager = new PlayerManager(this);
 		this.provider.registerWorld(this);
 		this.chunkProvider = this.createChunkProvider();
-		this.worldTeleporter = new Teleporter(this);
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
 		this.getWorldBorder().setSize(server.getMaxWorldSize());
@@ -116,46 +112,31 @@ public class WorldServer extends World implements IThreadListener {
 	public void tick() {
 		super.tick();
 
-		if (this.getWorldInfo().isHardcoreModeEnabled() && this.getDifficulty() != EnumDifficulty.HARD) {
-			this.getWorldInfo().setDifficulty(EnumDifficulty.HARD);
-		}
-
 		this.provider.getWorldChunkManager().cleanupCache();
 
-		if (this.areAllPlayersAsleep()) {
-			if (this.getGameRules().getBoolean("doDaylightCycle")) {
-				long i = this.worldInfo.getWorldTime() + 24000L;
-				this.worldInfo.setWorldTime(i - i % 24000L);
-			}
-
-			this.wakeAllPlayers();
-		}
-
 		this.theProfiler.startSection("chunkSource");
-		this.chunkProvider.unloadQueuedChunks();
-		int j = this.calculateSkylightSubtracted(1.0F);
 
-		if (j != this.getSkylightSubtracted()) {
-			this.setSkylightSubtracted(j);
-		}
+			this.chunkProvider.unloadQueuedChunks();
+			int j = this.calculateSkylightSubtracted(1.0F);
 
-		this.worldInfo.setWorldTotalTime(this.worldInfo.getWorldTotalTime() + 1L);
+			if (j != this.getSkylightSubtracted())
+				this.setSkylightSubtracted(j);
 
-		if (this.getGameRules().getBoolean("doDaylightCycle")) {
-			this.worldInfo.setWorldTime(this.worldInfo.getWorldTime() + 1L);
-		}
+			this.worldInfo.setWorldTotalTime(this.worldInfo.getWorldTotalTime() + 1L);
+
+			if (this.getGameRules().getBoolean("doDaylightCycle"))
+				this.worldInfo.setWorldTime(this.worldInfo.getWorldTime() + 1L);
 
 		this.theProfiler.endStartSection("tickPending");
-		this.tickUpdates(false);
+			this.tickUpdates(false);
 		this.theProfiler.endStartSection("tickBlocks");
-		this.updateBlocks();
+			this.updateBlocks();
 		this.theProfiler.endStartSection("chunkMap");
-		this.thePlayerManager.updatePlayerInstances();
+			this.thePlayerManager.updatePlayerInstances();
 		this.theProfiler.endStartSection("customTicking");
-		E.call(tickEvent);
-		this.theProfiler.endStartSection("portalForcer");
-		this.worldTeleporter.removeStalePortalLocations(this.getTotalWorldTime());
+			E.call(tickEvent);
 		this.theProfiler.endSection();
+
 		this.sendQueuedBlockEvents();
 	}
 
@@ -459,15 +440,6 @@ public class WorldServer extends World implements IThreadListener {
 		return list;
 	}
 
-
-	private boolean canSpawnNPCs() {
-		return this.mcServer.getCanSpawnNPCs();
-	}
-
-	private boolean canSpawnAnimals() {
-		return this.mcServer.getCanSpawnAnimals();
-	}
-
 	/**
 	 * Creates the chunk provider for this world. Called in the constructor. Retrieves provider from worldProvider?
 	 */
@@ -537,7 +509,7 @@ public class WorldServer extends World implements IThreadListener {
 	/**
 	 * creates a spawn position at random within 256 blocks of 0,0
 	 */
-	private void createSpawnPosition(WorldSettings p_73052_1_) {
+	private void createSpawnPosition(WorldSettings settings) {
 		if (!this.provider.canRespawnHere()) {
 			this.worldInfo.setSpawn(BlockPos.ORIGIN.up(this.provider.getAverageGroundLevel()));
 		} else if (this.worldInfo.getTerrainType() == WorldType.DEBUG) {
@@ -574,10 +546,14 @@ public class WorldServer extends World implements IThreadListener {
 			this.worldInfo.setSpawn(new BlockPos(i, j, k));
 			this.findingSpawnPoint = false;
 
-			if (p_73052_1_.isBonusChestEnabled()) {
-				this.createBonusChest();
+			if (settings.isStaterKitEnabled()) {
+				this.grantStarterKit();
 			}
 		}
+	}
+
+	protected void grantStarterKit() {
+		// ToDo: Платформа в пустом мире.
 	}
 
 
@@ -666,16 +642,6 @@ public class WorldServer extends World implements IThreadListener {
 		}
 	}
 
-	/**
-	 * adds a lightning bolt to the list of lightning bolts in this world.
-	 */
-	public boolean addWeatherEffect(Entity entityIn) {
-		if (super.addWeatherEffect(entityIn)) {
-			this.mcServer.getConfigurationManager().sendToAllNear(entityIn.posX, entityIn.posY, entityIn.posZ, 512.0D, this.provider.getDimensionId(), new S2CPacketSpawnGlobalEntity(entityIn));
-			return true;
-		}
-		return false;
-	}
 
 	/**
 	 * sends a Packet 38 (Entity Status) to all tracked players of that entity
@@ -747,33 +713,6 @@ public class WorldServer extends World implements IThreadListener {
 		this.saveHandler.flush();
 	}
 
-	/**
-	 * Updates all weather states.
-	 */
-	protected void updateWeather() {
-		boolean flag = this.isRaining();
-		super.updateWeather();
-
-		if (this.prevRainingStrength != this.rainingStrength) {
-			this.mcServer.getConfigurationManager().sendPacketToAllPlayersInDimension(new S2BPacketChangeGameState(7, this.rainingStrength), this.provider.getDimensionId());
-		}
-
-		if (this.prevThunderingStrength != this.thunderingStrength) {
-			this.mcServer.getConfigurationManager().sendPacketToAllPlayersInDimension(new S2BPacketChangeGameState(8, this.thunderingStrength), this.provider.getDimensionId());
-		}
-
-		if (flag != this.isRaining()) {
-			if (flag) {
-				this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(2, 0.0F));
-			} else {
-				this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(1, 0.0F));
-			}
-
-			this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(7, this.rainingStrength));
-			this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(8, this.thunderingStrength));
-		}
-	}
-
 	protected int getRenderDistanceChunks() {
 		return this.mcServer.getConfigurationManager().getViewDistance();
 	}
@@ -793,32 +732,45 @@ public class WorldServer extends World implements IThreadListener {
 		return this.thePlayerManager;
 	}
 
-	public Teleporter getDefaultTeleporter() {
-		return this.worldTeleporter;
+	public IDimensionTranser getDimensionTransfer() {
+		return this.dimensionTransfer;
 	}
 
 	/**
-	 * Spawns the desired particle and sends the necessary packets to the relevant connected players.
+	 * Создаёт частицы и отправляет пакеты о них нужным игрокам.
+	 * @param type Тип частицы.
+	 * @param amount Количество частиц.
+	 * @param dx,dy,dz Отклонение по осям.
+	 * @param speed Скорость движения частиц.
+	 * @param args Аргументы частиц (Например, ID блока для частиц кусочков блока).
 	 */
-	public void spawnParticle(EnumParticleTypes particleType, double xCoord, double yCoord, double zCoord, int numberOfParticles, double dx, double dy, double dz, double v, int... a) {
-		this.spawnParticle(particleType, false, xCoord, yCoord, zCoord, numberOfParticles, dx, dy, dz, v, a);
+	public void spawnParticle(EnumParticleTypes type, double x, double y, double z, int amount, double dx, double dy, double dz, double speed, int... args) {
+		this.spawnParticle(type, false, x, y, z, amount, dx, dy, dz, speed, args);
 	}
 
 	/**
-	 * Spawns the desired particle and sends the necessary packets to the relevant connected players.
+	 * Создаёт частицы и отправляет пакеты о них нужным игрокам.
+	 * @param type Тип частицы.
+	 * @param farMode Режим отображения (false - обычный, true - с повышенной дальностью.
+	 * @param amount Количество частиц.
+	 * @param dx,dy,dz Отклонение по осям.
+	 * @param speed Скорость движения частиц.
+	 * @param args Аргументы частиц (Например, ID блока для частиц кусочков блока).
 	 */
-	public void spawnParticle(EnumParticleTypes particleType, boolean longDistance, double xCoord, double yCoord, double zCoord, int numberOfParticles, double xOffset, double yOffset, double zOffset,
-							  double particleSpeed, int... p_180505_18_) {
-		Packet packet = new S2APacketParticles(particleType, longDistance, (float) xCoord, (float) yCoord, (float) zCoord, (float) xOffset, (float) yOffset, (float) zOffset, (float) particleSpeed,
-				numberOfParticles, p_180505_18_);
+	public void spawnParticle(EnumParticleTypes type, boolean farMode,
+							  double x, double y, double z, int amount,
+							  double dx, double dy, double dz,
+							  double speed, int... args) {
 
-		for (int i = 0; i < this.playerEntities.size(); ++i) {
-			EntityPlayerMP entityplayermp = (EntityPlayerMP) this.playerEntities.get(i);
-			BlockPos blockpos = entityplayermp.getPosition();
-			double d0 = blockpos.distanceSq(xCoord, yCoord, zCoord);
+		Packet packet = new S2APacketParticles(type, farMode, (float) x, (float) y, (float) z, (float) dx, (float) dy, (float) dz, (float) speed, amount, args);
 
-			if (d0 <= 256.0D || longDistance && d0 <= 65536.0D) {
-				entityplayermp.playerNetServerHandler.sendPacket(packet);
+		for (EntityPlayer player : this.playerEntities) {
+			BlockPos blockpos = player.getPosition();
+			double distanceToPlayer = blockpos.distanceSq(x, y, z);
+
+			if (distanceToPlayer <= 256.0D || farMode && distanceToPlayer <= 65536.0D) {
+				EntityPlayerMP impl = (EntityPlayerMP) player;
+				impl.playerNetServerHandler.sendPacket(packet);
 			}
 		}
 	}

@@ -2,15 +2,12 @@ package net.minecraft.world.biome;
 
 import com.google.common.collect.Sets;
 import net.minecraft.block.BlockFlower;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.Domain;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ColorizerFoliage;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -58,9 +55,6 @@ public abstract class Biome {
 	}
 	public Domain getDomain() {
 		return domain;
-	}
-	public List<SpawnListEntry> getSpawnableList(EnumCreatureType creatureType) {
-		return Collections.emptyList();
 	}
 	public float getFloatTemperature(BlockPos pos) {return 0.5F;}
 

@@ -1047,7 +1047,7 @@ public abstract class VanillaEntity extends EntityLivingBase {
 	}
 
 	@Override
-	protected boolean suckInMinecarts() {
+	public boolean suckInMinecarts() {
 		return true;
 	}
 

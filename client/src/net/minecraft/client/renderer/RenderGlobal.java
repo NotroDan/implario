@@ -4,16 +4,19 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.Logger;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.game.particle.EntityFX;
+import net.minecraft.client.game.shader.Framebuffer;
+import net.minecraft.client.game.shader.ShaderGroup;
+import net.minecraft.client.game.shader.ShaderLinkHelper;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.game.particle.EntityFX;
 import net.minecraft.client.renderer.chunk.*;
 import net.minecraft.client.renderer.culling.ClippingHelper;
 import net.minecraft.client.renderer.culling.ClippingHelperImpl;
@@ -32,9 +35,6 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.client.game.shader.Framebuffer;
-import net.minecraft.client.game.shader.ShaderGroup;
-import net.minecraft.client.game.shader.ShaderLinkHelper;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -45,7 +45,6 @@ import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
@@ -53,6 +52,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
 import net.minecraft.world.IWorldAccess;
+import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
 import optifine.*;
@@ -67,6 +67,8 @@ import shadersmod.client.ShadowUtils;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
+
+import static net.minecraft.item.Item.itemRand;
 
 public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListener {
 
@@ -2663,7 +2665,28 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				return;
 
 			case 2005:
-				ItemDye.spawnBonemealParticles(this.theWorld, blockPosIn, p_180439_4_);
+				spawnBonemealParticles(this.theWorld, blockPosIn, p_180439_4_);
+		}
+	}
+
+
+	public static void spawnBonemealParticles(World worldIn, BlockPos pos, int amount) {
+		if (amount == 0) {
+			amount = 15;
+		}
+
+		Block block = worldIn.getBlockState(pos).getBlock();
+
+		if (block.getMaterial() != Material.air) {
+			block.setBlockBoundsBasedOnState(worldIn, pos);
+
+			for (int i = 0; i < amount; ++i) {
+				double d0 = itemRand.nextGaussian() * 0.02D;
+				double d1 = itemRand.nextGaussian() * 0.02D;
+				double d2 = itemRand.nextGaussian() * 0.02D;
+				worldIn.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, (double) ((float) pos.getX() + itemRand.nextFloat()),
+						(double) pos.getY() + (double) itemRand.nextFloat() * block.getBlockBoundsMaxY(), (double) ((float) pos.getZ() + itemRand.nextFloat()), d0, d1, d2);
+			}
 		}
 	}
 

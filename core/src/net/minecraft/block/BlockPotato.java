@@ -7,31 +7,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockPotato extends BlockCrops
-{
-    protected Item getSeed()
-    {
-        return Items.potato;
-    }
+public class BlockPotato extends BlockCrops {
 
-    protected Item getCrop()
-    {
-        return Items.potato;
-    }
+	protected Item getSeed() {
+		return Items.potato;
+	}
 
-    /**
-     * Spawns this Block's drops into the World as EntityItems.
-     */
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
-    {
-        super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
+	protected Item getCrop() {
+		return Items.potato;
+	}
 
-        if (!worldIn.isClientSide)
-        {
-            if (((Integer)state.getValue(AGE)).intValue() >= 7 && worldIn.rand.nextInt(50) == 0)
-            {
-                spawnAsEntity(worldIn, pos, new ItemStack(Items.poisonous_potato));
-            }
-        }
-    }
+	/**
+	 * Spawns this Block's drops into the World as EntityItems.
+	 */
+	public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+		super.dropBlockAsItemWithChance0(worldIn, pos, state, chance, fortune);
+
+		if (worldIn.isClientSide) return;
+		if (state.getValue(AGE) < 7 || worldIn.rand.nextInt(50) != 0) return;
+		spawnAsEntity(worldIn, pos, new ItemStack(Items.poisonous_potato));
+	}
+
 }

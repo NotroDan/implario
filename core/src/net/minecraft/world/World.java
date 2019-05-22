@@ -2014,71 +2014,70 @@ public abstract class World implements IBlockAccess {
 	 * Updates all weather states.
 	 */
 	protected void updateWeather() {
-		if (!this.provider.getHasNoSky()) {
-			if (!this.isClientSide) {
-				int i = this.worldInfo.getCleanWeatherTime();
+		if (this.provider.getHasNoSky()) return;
+		if (this.isClientSide) return;
 
-				if (i > 0) {
-					--i;
-					this.worldInfo.setCleanWeatherTime(i);
-					this.worldInfo.setThunderTime(this.worldInfo.isThundering() ? 1 : 2);
-					this.worldInfo.setRainTime(this.worldInfo.isRaining() ? 1 : 2);
-				}
+		int i = this.worldInfo.getCleanWeatherTime();
 
-				int j = this.worldInfo.getThunderTime();
+		if (i > 0) {
+			--i;
+			this.worldInfo.setCleanWeatherTime(i);
+			this.worldInfo.setThunderTime(this.worldInfo.isThundering() ? 1 : 2);
+			this.worldInfo.setRainTime(this.worldInfo.isRaining() ? 1 : 2);
+		}
 
-				if (j <= 0) {
-					if (this.worldInfo.isThundering()) {
-						this.worldInfo.setThunderTime(this.rand.nextInt(12000) + 3600);
-					} else {
-						this.worldInfo.setThunderTime(this.rand.nextInt(168000) + 12000);
-					}
-				} else {
-					--j;
-					this.worldInfo.setThunderTime(j);
+		int j = this.worldInfo.getThunderTime();
 
-					if (j <= 0) {
-						this.worldInfo.setThundering(!this.worldInfo.isThundering());
-					}
-				}
+		if (j <= 0) {
+			if (this.worldInfo.isThundering()) {
+				this.worldInfo.setThunderTime(this.rand.nextInt(12000) + 3600);
+			} else {
+				this.worldInfo.setThunderTime(this.rand.nextInt(168000) + 12000);
+			}
+		} else {
+			--j;
+			this.worldInfo.setThunderTime(j);
 
-				this.prevThunderingStrength = this.thunderingStrength;
-
-				if (this.worldInfo.isThundering()) {
-					this.thunderingStrength = (float) ((double) this.thunderingStrength + 0.01D);
-				} else {
-					this.thunderingStrength = (float) ((double) this.thunderingStrength - 0.01D);
-				}
-
-				this.thunderingStrength = MathHelper.clamp_float(this.thunderingStrength, 0.0F, 1.0F);
-				int k = this.worldInfo.getRainTime();
-
-				if (k <= 0) {
-					if (this.worldInfo.isRaining()) {
-						this.worldInfo.setRainTime(this.rand.nextInt(12000) + 12000);
-					} else {
-						this.worldInfo.setRainTime(this.rand.nextInt(168000) + 12000);
-					}
-				} else {
-					--k;
-					this.worldInfo.setRainTime(k);
-
-					if (k <= 0) {
-						this.worldInfo.setRaining(!this.worldInfo.isRaining());
-					}
-				}
-
-				this.prevRainingStrength = this.rainingStrength;
-
-				if (this.worldInfo.isRaining()) {
-					this.rainingStrength = (float) ((double) this.rainingStrength + 0.01D);
-				} else {
-					this.rainingStrength = (float) ((double) this.rainingStrength - 0.01D);
-				}
-
-				this.rainingStrength = MathHelper.clamp_float(this.rainingStrength, 0.0F, 1.0F);
+			if (j <= 0) {
+				this.worldInfo.setThundering(!this.worldInfo.isThundering());
 			}
 		}
+
+		this.prevThunderingStrength = this.thunderingStrength;
+
+		if (this.worldInfo.isThundering()) {
+			this.thunderingStrength = (float) ((double) this.thunderingStrength + 0.01D);
+		} else {
+			this.thunderingStrength = (float) ((double) this.thunderingStrength - 0.01D);
+		}
+
+		this.thunderingStrength = MathHelper.clamp_float(this.thunderingStrength, 0.0F, 1.0F);
+		int k = this.worldInfo.getRainTime();
+
+		if (k <= 0) {
+			if (this.worldInfo.isRaining()) {
+				this.worldInfo.setRainTime(this.rand.nextInt(12000) + 12000);
+			} else {
+				this.worldInfo.setRainTime(this.rand.nextInt(168000) + 12000);
+			}
+		} else {
+			--k;
+			this.worldInfo.setRainTime(k);
+
+			if (k <= 0) {
+				this.worldInfo.setRaining(!this.worldInfo.isRaining());
+			}
+		}
+
+		this.prevRainingStrength = this.rainingStrength;
+
+		if (this.worldInfo.isRaining()) {
+			this.rainingStrength = (float) ((double) this.rainingStrength + 0.01D);
+		} else {
+			this.rainingStrength = (float) ((double) this.rainingStrength - 0.01D);
+		}
+
+		this.rainingStrength = MathHelper.clamp_float(this.rainingStrength, 0.0F, 1.0F);
 	}
 
 	protected void setActivePlayerChunksAndCheckLight() {
@@ -2512,7 +2511,7 @@ public abstract class World implements IBlockAccess {
 		int i = 0;
 
 		for (Entity entity : this.loadedEntityList) {
-			if ((!(entity instanceof VanillaEntity) || !((VanillaEntity) entity).isNoDespawnRequired()) && entityType.isAssignableFrom(entity.getClass())) {
+			if (!(entity instanceof VanillaEntity && ((VanillaEntity) entity).isNoDespawnRequired()) && entityType.isAssignableFrom(entity.getClass())) {
 				++i;
 			}
 		}

@@ -27,6 +27,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.stats.StatisticsFile;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.world.IDimensionTranser;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldSettings;
@@ -523,89 +524,89 @@ public abstract class ServerConfigurationManager {
 	/**
 	 * moves provided player from overworld to nether or vice versa
 	 */
-	public void transferPlayerToDimension(EntityPlayerMP playerIn, int dimension) {
-		int i = playerIn.dimension;
-		WorldServer worldserver = this.mcServer.worldServerForDimension(playerIn.dimension);
-		playerIn.dimension = dimension;
-		WorldServer worldserver1 = this.mcServer.worldServerForDimension(playerIn.dimension);
-		playerIn.playerNetServerHandler.sendPacket(
-				new S07PacketRespawn(playerIn.dimension, playerIn.worldObj.getDifficulty(), playerIn.worldObj.getWorldInfo().getTerrainType(), playerIn.theItemInWorldManager.getGameType()));
-		worldserver.removePlayerEntityDangerously(playerIn);
-		playerIn.isDead = false;
-		this.transferEntityToWorld(playerIn, i, worldserver, worldserver1);
-		this.preparePlayer(playerIn, worldserver);
-		playerIn.playerNetServerHandler.setPlayerLocation(playerIn.posX, playerIn.posY, playerIn.posZ, playerIn.rotationYaw, playerIn.rotationPitch);
-		playerIn.theItemInWorldManager.setWorld(worldserver1);
-		this.updateTimeAndWeatherForPlayer(playerIn, worldserver1);
-		this.syncPlayerInventory(playerIn);
+	public void transferPlayerToDimension(EntityPlayerMP p, int destDim) {
 
-		for (PotionEffect potioneffect : playerIn.getActivePotionEffects())
-			playerIn.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(playerIn.getEntityId(), potioneffect));
+		int fromDim = p.dimension;
+		WorldServer fromWorld = this.mcServer.worldServerForDimension(fromDim);
+		p.dimension = destDim;
+		WorldServer destWorld = this.mcServer.worldServerForDimension(destDim);
+
+		// Пакет о смене мира
+		World world = p.worldObj;
+		S07PacketRespawn packet = new S07PacketRespawn(p.dimension, world.getDifficulty(), world.getWorldInfo().getTerrainType(), p.theItemInWorldManager.getGameType());
+		p.playerNetServerHandler.sendPacket(packet);
+
+		fromWorld.removePlayerEntityDangerously(p);
+		p.isDead = false;
+		this.transferEntityToWorld(p, fromDim, fromWorld, destWorld);
+		this.preparePlayer(p, fromWorld);
+		p.playerNetServerHandler.setPlayerLocation(p.posX, p.posY, p.posZ, p.rotationYaw, p.rotationPitch);
+		p.theItemInWorldManager.setWorld(destWorld);
+		this.updateTimeAndWeatherForPlayer(p, destWorld);
+		this.syncPlayerInventory(p);
+
+		for (PotionEffect potioneffect : p.getActivePotionEffects())
+			p.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(p.getEntityId(), potioneffect));
 	}
 
 	/**
-	 * Transfers an entity from a world to another world.
+	 * @param dim Номер измерения, ИЗ которого осуществляется телепортация.
 	 */
-	public void transferEntityToWorld(Entity entityIn, int p_82448_2_, WorldServer p_82448_3_, WorldServer p_82448_4_) {
-		double d0 = entityIn.posX;
-		double d1 = entityIn.posZ;
+	public void transferEntityToWorld(Entity entity, int dim, WorldServer from, WorldServer dest) {
+		double d0 = entity.posX;
+		double d1 = entity.posZ;
 		double d2 = 8.0D;
-		float f = entityIn.rotationYaw;
-		p_82448_3_.theProfiler.startSection("moving");
+		float f = entity.rotationYaw;
+		from.theProfiler.startSection("moving");
 
-		if (entityIn.dimension == -1) {
-			d0 = MathHelper.clamp_double(d0 / d2, p_82448_4_.getWorldBorder().minX() + 16.0D, p_82448_4_.getWorldBorder().maxX() - 16.0D);
-			d1 = MathHelper.clamp_double(d1 / d2, p_82448_4_.getWorldBorder().minZ() + 16.0D, p_82448_4_.getWorldBorder().maxZ() - 16.0D);
-			entityIn.setLocationAndAngles(d0, entityIn.posY, d1, entityIn.rotationYaw, entityIn.rotationPitch);
+		if (entity.dimension == -1) {
+			d0 = MathHelper.clamp_double(d0 / d2, dest.getWorldBorder().minX() + 16.0D, dest.getWorldBorder().maxX() - 16.0D);
+			d1 = MathHelper.clamp_double(d1 / d2, dest.getWorldBorder().minZ() + 16.0D, dest.getWorldBorder().maxZ() - 16.0D);
+			entity.setLocationAndAngles(d0, entity.posY, d1, entity.rotationYaw, entity.rotationPitch);
 
-			if (entityIn.isEntityAlive()) {
-				p_82448_3_.updateEntityWithOptionalForce(entityIn, false);
+			if (entity.isEntityAlive()) {
+				from.updateEntityWithOptionalForce(entity, false);
 			}
-		} else if (entityIn.dimension == 0) {
-			d0 = MathHelper.clamp_double(d0 * d2, p_82448_4_.getWorldBorder().minX() + 16.0D, p_82448_4_.getWorldBorder().maxX() - 16.0D);
-			d1 = MathHelper.clamp_double(d1 * d2, p_82448_4_.getWorldBorder().minZ() + 16.0D, p_82448_4_.getWorldBorder().maxZ() - 16.0D);
-			entityIn.setLocationAndAngles(d0, entityIn.posY, d1, entityIn.rotationYaw, entityIn.rotationPitch);
+		} else if (entity.dimension == 0) {
+			d0 = MathHelper.clamp_double(d0 * d2, dest.getWorldBorder().minX() + 16.0D, dest.getWorldBorder().maxX() - 16.0D);
+			d1 = MathHelper.clamp_double(d1 * d2, dest.getWorldBorder().minZ() + 16.0D, dest.getWorldBorder().maxZ() - 16.0D);
+			entity.setLocationAndAngles(d0, entity.posY, d1, entity.rotationYaw, entity.rotationPitch);
 
-			if (entityIn.isEntityAlive()) {
-				p_82448_3_.updateEntityWithOptionalForce(entityIn, false);
+			if (entity.isEntityAlive()) {
+				from.updateEntityWithOptionalForce(entity, false);
 			}
 		} else {
-			BlockPos blockpos;
-
-			if (p_82448_2_ == 1) {
-				blockpos = p_82448_4_.getSpawnPoint();
-			} else {
-				blockpos = p_82448_4_.getSpawnCoordinate();
-			}
+			BlockPos blockpos = dim == 1 ? dest.getSpawnPoint() : dest.getSpawnCoordinate();
 
 			d0 = (double) blockpos.getX();
-			entityIn.posY = (double) blockpos.getY();
+			entity.posY = (double) blockpos.getY();
 			d1 = (double) blockpos.getZ();
-			entityIn.setLocationAndAngles(d0, entityIn.posY, d1, 90.0F, 0.0F);
+			entity.setLocationAndAngles(d0, entity.posY, d1, 90.0F, 0.0F);
 
-			if (entityIn.isEntityAlive()) {
-				p_82448_3_.updateEntityWithOptionalForce(entityIn, false);
+			if (entity.isEntityAlive()) {
+				from.updateEntityWithOptionalForce(entity, false);
 			}
 		}
 
-		p_82448_3_.theProfiler.endSection();
+		from.theProfiler.endSection();
 
-		if (p_82448_2_ != 1) {
-			p_82448_3_.theProfiler.startSection("placing");
+		if (dim != 1) {
+			from.theProfiler.startSection("placing");
 			d0 = (double) MathHelper.clamp_int((int) d0, -29999872, 29999872);
 			d1 = (double) MathHelper.clamp_int((int) d1, -29999872, 29999872);
 
-			if (entityIn.isEntityAlive()) {
-				entityIn.setLocationAndAngles(d0, entityIn.posY, d1, entityIn.rotationYaw, entityIn.rotationPitch);
-				p_82448_4_.getDefaultTeleporter().placeInPortal(entityIn, f);
-				p_82448_4_.spawnEntityInWorld(entityIn);
-				p_82448_4_.updateEntityWithOptionalForce(entityIn, false);
+			if (entity.isEntityAlive()) {
+				entity.setLocationAndAngles(d0, entity.posY, d1, entity.rotationYaw, entity.rotationPitch);
+				IDimensionTranser transfer = dest.getDimensionTransfer();
+				if (transfer != null) transfer.onTransfer(entity, f);
+				dest.spawnEntityInWorld(entity);
+				dest.updateEntityWithOptionalForce(entity, false);
 			}
 
-			p_82448_3_.theProfiler.endSection();
+			from.theProfiler.endSection();
 		}
 
-		entityIn.setWorld(p_82448_4_);
+		entity.setWorld(dest);
 	}
 
 	/**

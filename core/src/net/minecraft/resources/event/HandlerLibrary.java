@@ -34,13 +34,6 @@ public class HandlerLibrary<D extends Listenable> {
 		}
 	}
 
-	public void remove(HandlerLibrary<D> lib) {
-		for (Entry entry : lib.list) {
-			List<Handler> list = getListeners(entry.clazz);
-			list.retainAll(entry.listeners);
-		}
-	}
-
 	private class Entry<T extends D> {
 
 		final Class<T> clazz;
