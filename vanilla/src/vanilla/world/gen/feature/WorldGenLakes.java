@@ -115,7 +115,7 @@ public class WorldGenLakes extends WorldGenerator
 
 						if (worldIn.getBlockState(blockpos).getBlock() == Blocks.dirt && worldIn.getLightFor(EnumSkyBlock.SKY, position.add(i2, j4, j3)) > 0)
 						{
-							BiomeGenBase biomegenbase = BiomeGenBase.toGenBase();
+							BiomeGenBase biomegenbase = BiomeGenBase.toGenBase(worldIn.getBiomeGenForCoords(blockpos));
 
 							if (biomegenbase.topBlock.getBlock() == Blocks.mycelium)
 							{

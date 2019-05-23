@@ -255,7 +255,7 @@ public class BiomeGenMesa extends BiomeGenBase {
 	}
 
 	protected BiomeGenBase createMutatedBiome(int id) {
-		boolean flag = this.legacyId == BiomeGenBase.mesa.legacyId;
+		boolean flag = this.legacyId == BiomeGenBase.mesa.getLegacyId();
 		String name = this.name + (flag ? " (Bryce)" : " M");
 		BiomeGenMesa biomegenmesa = new BiomeGenMesa(id, name, flag, this.field_150620_aI);
 

@@ -181,7 +181,7 @@ public class GuiOverlayDebug extends Gui {
 			arraylist.add("§e" + blockpos1.getX() + " " + blockpos1.getY() + " " + blockpos1.getZ());
 			IBlockState iblockstate = this.mc.theWorld.getBlockState(blockpos1);
 
-			if (this.mc.theWorld.getWorldType() != WorldType.DEBUG_WORLD)
+			if (this.mc.theWorld.getWorldType() != WorldType.DEBUG)
 				iblockstate = iblockstate.getBlock().getActualState(iblockstate, this.mc.theWorld, blockpos1);
 			Block b = iblockstate.getBlock();
 			RegistryNamespacedDefaultedByKey<ResourceLocation, Block> r = Block.blockRegistry;

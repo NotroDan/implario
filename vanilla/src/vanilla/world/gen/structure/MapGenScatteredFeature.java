@@ -73,7 +73,7 @@ public class MapGenScatteredFeature extends MapGenStructure {
 		l = l + random.nextInt(this.maxDistanceBetweenScatteredFeatures - this.minDistanceBetweenScatteredFeatures);
 
 		if (i == k && j == l) {
-			BiomeGenBase biomegenbase = BiomeGenBase.toGenBase();
+			BiomeGenBase biomegenbase = BiomeGenBase.toGenBase(BiomeGenBase.desert);//TODO: Понять контекст и починить
 
 			if (biomegenbase == null) return false;
 
@@ -110,22 +110,22 @@ public class MapGenScatteredFeature extends MapGenStructure {
 		public Start() {
 		}
 
-		public Start(World worldIn, Random p_i2060_2_, int p_i2060_3_, int p_i2060_4_) {
-			super(p_i2060_3_, p_i2060_4_);
-			BiomeGenBase biomegenbase = BiomeGenBase.toGenBase();
+		public Start(World worldIn, Random p_i2060_2_, int chunkX, int chunkZ) {
+			super(chunkX, chunkZ);
+			BiomeGenBase biomegenbase = BiomeGenBase.toGenBase(BiomeGenBase.desert);//TODO: Вернуть по координатам чанка
 
 			if (biomegenbase != BiomeGenBase.jungle && biomegenbase != BiomeGenBase.jungleHills) {
 				if (biomegenbase == BiomeGenBase.swampland) {
-					ComponentScatteredFeaturePieces.SwampHut componentscatteredfeaturepieces$swamphut = new ComponentScatteredFeaturePieces.SwampHut(p_i2060_2_, p_i2060_3_ * 16, p_i2060_4_ * 16);
+					ComponentScatteredFeaturePieces.SwampHut componentscatteredfeaturepieces$swamphut = new ComponentScatteredFeaturePieces.SwampHut(p_i2060_2_, chunkX * 16, chunkZ * 16);
 					this.components.add(componentscatteredfeaturepieces$swamphut);
 				} else if (biomegenbase == BiomeGenBase.desert || biomegenbase == BiomeGenBase.desertHills) {
-					ComponentScatteredFeaturePieces.DesertPyramid componentscatteredfeaturepieces$desertpyramid = new ComponentScatteredFeaturePieces.DesertPyramid(p_i2060_2_, p_i2060_3_ * 16,
-							p_i2060_4_ * 16);
+					ComponentScatteredFeaturePieces.DesertPyramid componentscatteredfeaturepieces$desertpyramid = new ComponentScatteredFeaturePieces.DesertPyramid(p_i2060_2_, chunkX * 16,
+							chunkZ * 16);
 					this.components.add(componentscatteredfeaturepieces$desertpyramid);
 				}
 			} else {
-				ComponentScatteredFeaturePieces.JunglePyramid componentscatteredfeaturepieces$junglepyramid = new ComponentScatteredFeaturePieces.JunglePyramid(p_i2060_2_, p_i2060_3_ * 16,
-						p_i2060_4_ * 16);
+				ComponentScatteredFeaturePieces.JunglePyramid componentscatteredfeaturepieces$junglepyramid = new ComponentScatteredFeaturePieces.JunglePyramid(p_i2060_2_, chunkX * 16,
+						chunkZ * 16);
 				this.components.add(componentscatteredfeaturepieces$junglepyramid);
 			}
 

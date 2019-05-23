@@ -12,7 +12,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class EntityLeashKnot extends EntityHanging implements Le{
+public class EntityLeashKnot extends EntityHanging{
 
 	public EntityLeashKnot(World worldIn) {
 		super(worldIn);

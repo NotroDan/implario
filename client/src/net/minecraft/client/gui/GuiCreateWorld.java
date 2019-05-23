@@ -10,6 +10,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
+import vanilla.world.gen.WorldTypes;
 
 import java.io.IOException;
 import java.util.Random;
@@ -281,7 +282,7 @@ public class GuiCreateWorld extends GuiScreen {
 				this.allowCheats = !this.allowCheats;
 				this.func_146319_h();
 			} else if (button.id == 8) {
-				if (WorldType.worldTypes[this.selectedIndex] == WorldType.FLAT) {
+				if (WorldType.worldTypes[this.selectedIndex] == WorldTypes.FLAT) {
 					this.mc.displayGuiScreen(new GuiCreateFlatWorld(this, this.chunkProviderSettingsJson));
 				} else {
 					this.mc.displayGuiScreen(new GuiCustomizeWorldScreen(this, this.chunkProviderSettingsJson));
@@ -292,7 +293,7 @@ public class GuiCreateWorld extends GuiScreen {
 
 	private boolean func_175299_g() {
 		WorldType worldtype = WorldType.worldTypes[this.selectedIndex];
-		return worldtype != null && worldtype.getCanBeCreated() && (worldtype != WorldType.DEBUG_WORLD || isShiftKeyDown());
+		return worldtype != null && worldtype.getCanBeCreated() && (worldtype != WorldType.DEBUG || isShiftKeyDown());
 	}
 
 	private void func_146315_i() {
@@ -302,7 +303,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private void func_146316_a(boolean p_146316_1_) {
 		this.field_146344_y = p_146316_1_;
 
-		if (WorldType.worldTypes[this.selectedIndex] == WorldType.DEBUG_WORLD) {
+		if (WorldType.worldTypes[this.selectedIndex] == WorldType.DEBUG) {
 			this.btnGameMode.visible = !this.field_146344_y;
 			this.btnGameMode.enabled = false;
 
@@ -325,11 +326,11 @@ public class GuiCreateWorld extends GuiScreen {
 				this.field_175300_s = null;
 			}
 
-			this.btnMapFeatures.visible = this.field_146344_y && WorldType.worldTypes[this.selectedIndex] != WorldType.CUSTOMIZED;
+			this.btnMapFeatures.visible = this.field_146344_y && WorldType.worldTypes[this.selectedIndex] != WorldTypes.CUSTOMIZED;
 			this.btnBonusItems.visible = this.field_146344_y;
 			this.btnMapType.visible = this.field_146344_y;
 			this.btnAllowCommands.visible = this.field_146344_y;
-			this.btnCustomizeType.visible = this.field_146344_y && (WorldType.worldTypes[this.selectedIndex] == WorldType.FLAT || WorldType.worldTypes[this.selectedIndex] == WorldType.CUSTOMIZED);
+			this.btnCustomizeType.visible = this.field_146344_y && (WorldType.worldTypes[this.selectedIndex] == WorldTypes.FLAT || WorldType.worldTypes[this.selectedIndex] == WorldTypes.CUSTOMIZED);
 		}
 
 		this.func_146319_h();

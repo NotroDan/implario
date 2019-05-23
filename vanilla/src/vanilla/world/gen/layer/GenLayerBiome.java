@@ -2,6 +2,7 @@ package vanilla.world.gen.layer;
 
 import net.minecraft.world.WorldType;
 import vanilla.world.biome.BiomeGenBase;
+import vanilla.world.gen.WorldTypes;
 import vanilla.world.gen.provider.ChunkProviderSettings;
 
 public class GenLayerBiome extends GenLayer
@@ -17,12 +18,12 @@ public class GenLayerBiome extends GenLayer
         super(p_i45560_1_);
         this.parent = p_i45560_3_;
 
-        if (p_i45560_4_ == WorldType.DEFAULT_1_1)
+        if (p_i45560_4_ == WorldTypes.DEFAULT)
         {
             this.field_151623_c = new BiomeGenBase[] {BiomeGenBase.desert, BiomeGenBase.forest, BiomeGenBase.extremeHills, BiomeGenBase.swampland, BiomeGenBase.plains, BiomeGenBase.taiga};
             this.field_175973_g = null;
         }
-        else if (p_i45560_4_ == WorldType.CUSTOMIZED)
+        else if (p_i45560_4_ == WorldTypes.CUSTOMIZED)
         {
             this.field_175973_g = ChunkProviderSettings.Factory.jsonToFactory(p_i45560_5_).func_177864_b();
         }

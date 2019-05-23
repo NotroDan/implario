@@ -23,9 +23,12 @@ import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
+import optifine.CustomColors;
+import vanilla.entity.VBlockPumpkin;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.VItemSkull;
 import vanilla.item.ItemMonsterPlacer;
+import vanilla.item.VItemDye;
 
 import java.util.List;
 import java.util.Random;
@@ -372,7 +375,7 @@ public class Dispensers {
 					World world = source.getWorld();
 					BlockPos blockpos = source.getBlockPos().offset(getFacing(source.getBlockMetadata()));
 
-					if (ItemDye.applyBonemeal(stack, world, blockpos)) {
+					if (VItemDye.applyBonemeal(stack, world, blockpos)) {
 						if (!world.isClientSide) {
 							world.playAuxSFX(2005, blockpos, 0);
 						}
@@ -469,8 +472,7 @@ public class Dispensers {
 				World world = source.getWorld();
 				BlockPos blockpos = source.getBlockPos().offset(getFacing(source.getBlockMetadata()));
 				BlockPumpkin blockpumpkin = (BlockPumpkin) Blocks.pumpkin;
-
-				if (world.isAirBlock(blockpos) && blockpumpkin.canDispenserPlace(world, blockpos)) {
+				if (world.isAirBlock(blockpos) && VBlockPumpkin.canDispenserPlace(world, blockpos)) {
 					if (!world.isClientSide) {
 						world.setBlockState(blockpos, blockpumpkin.getDefaultState(), 3);
 					}

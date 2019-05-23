@@ -139,14 +139,14 @@ public class BiomeGenForest extends BiomeGenBase {
 	}
 
 	protected BiomeGenBase createMutatedBiome(final int id) {
-		if (this.legacyId == BiomeGenBase.forest.legacyId) {
+		if (this.legacyId == BiomeGenBase.forest.getLegacyId()) {
 			BiomeGenForest biomegenforest = new BiomeGenForest(id, "Flower Forest", 1);
 			biomegenforest.setHeight(new BiomeGenBase.Height(this.minHeight, this.maxHeight + 0.2F));
 			biomegenforest.func_150557_a(6976549, true);
 			biomegenforest.setFillerBlockMetadata(8233509);
 			return biomegenforest;
 		}
-		return this.legacyId != BiomeGenBase.birchForest.legacyId && this.legacyId != BiomeGenBase.birchForestHills.legacyId ? new BiomeGenMutated(id, this) {
+		return this.legacyId != BiomeGenBase.birchForest.getLegacyId() && this.legacyId != BiomeGenBase.birchForestHills.getLegacyId() ? new BiomeGenMutated(id, this) {
 			public void decorate(World worldIn, Random rand, BlockPos pos) {
 				this.baseBiome.decorate(worldIn, rand, pos);
 			}

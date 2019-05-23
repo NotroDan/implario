@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeGenBase;
+import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.gen.provider.ChunkProviderSettings;
 
 import java.io.IOException;

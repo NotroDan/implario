@@ -3,6 +3,7 @@ package vanilla.client.renderer.entity.layers;
 import net.minecraft.client.game.model.ModelSheep1;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.tileentity.BeaconColors;
 import vanilla.client.renderer.entity.vanilla.RenderSheep;
 import net.minecraft.entity.EntityLivingBase;
 import vanilla.entity.passive.EntitySheep;
@@ -37,8 +38,8 @@ public class LayerSheepWool implements LayerRenderer
                 int k = i % j;
                 int l = (i + 1) % j;
                 float f = ((float)(entitylivingbaseIn.ticksExisted % 25) + partialTicks) / 25.0F;
-                float[] afloat1 = EntitySheep.func_175513_a(EnumDyeColor.byMetadata(k));
-                float[] afloat2 = EntitySheep.func_175513_a(EnumDyeColor.byMetadata(l));
+                float[] afloat1 = BeaconColors.getColor(EnumDyeColor.byMetadata(k));
+                float[] afloat2 = BeaconColors.getColor(EnumDyeColor.byMetadata(l));
 
                 if (Config.isCustomColors())
                 {
@@ -50,7 +51,7 @@ public class LayerSheepWool implements LayerRenderer
             }
             else
             {
-                float[] afloat = EntitySheep.func_175513_a(entitylivingbaseIn.getFleeceColor());
+                float[] afloat = BeaconColors.getColor(entitylivingbaseIn.getFleeceColor());
 
                 if (Config.isCustomColors())
                 {

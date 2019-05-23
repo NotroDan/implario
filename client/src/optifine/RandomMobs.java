@@ -12,10 +12,10 @@ import java.util.Random;
 import java.util.UUID;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.VanillaEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import vanilla.entity.VanillaEntity;
 
 public class RandomMobs
 {

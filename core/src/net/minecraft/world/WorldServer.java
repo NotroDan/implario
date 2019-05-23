@@ -553,6 +553,7 @@ public class WorldServer extends World implements IThreadListener {
 	}
 
 	protected void grantStarterKit() {
+
 		// ToDo: Платформа в пустом мире.
 	}
 

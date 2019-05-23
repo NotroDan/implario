@@ -5,6 +5,7 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldType;
 import vanilla.world.biome.BiomeGenBase;
+import vanilla.world.gen.WorldTypes;
 import vanilla.world.gen.provider.ChunkProviderSettings;
 
 public abstract class GenLayer {
@@ -54,13 +55,13 @@ public abstract class GenLayer {
 		int i = 4;
 		int j = i;
 
-		if (p_180781_2_ == WorldType.CUSTOMIZED && p_180781_3_.length() > 0) {
+		if (p_180781_2_ == WorldTypes.CUSTOMIZED && p_180781_3_.length() > 0) {
 			chunkprovidersettings = ChunkProviderSettings.Factory.jsonToFactory(p_180781_3_).func_177864_b();
 			i = chunkprovidersettings.biomeSize;
 			j = chunkprovidersettings.riverSize;
 		}
 
-		if (p_180781_2_ == WorldType.LARGE_BIOMES) {
+		if (p_180781_2_ == WorldTypes.LARGE_BIOMES) {
 			i = 6;
 		}
 
@@ -167,8 +168,8 @@ public abstract class GenLayer {
 			return true;
 		}
 		if (a != BiomeGenBase.mesaPlateau_F.getLegacyId() && a != BiomeGenBase.mesaPlateau.getLegacyId()) {
-			final BiomeGenBase biomeA = BiomeGenBase.toGenBase();
-			final BiomeGenBase biomeB = BiomeGenBase.toGenBase();
+			final BiomeGenBase biomeA = BiomeGenBase.toGenBase(BiomeGenBase.getBiome(a));
+			final BiomeGenBase biomeB = BiomeGenBase.toGenBase(BiomeGenBase.getBiome(b));
 
 			try {
 				return biomeA != null && biomeB != null && biomeA.isEqualTo(biomeB);

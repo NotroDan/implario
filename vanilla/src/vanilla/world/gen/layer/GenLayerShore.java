@@ -24,7 +24,7 @@ public class GenLayerShore extends GenLayer {
 			for (int j = 0; j < areaWidth; ++j) {
 				this.initChunkSeed((long) (j + areaX), (long) (i + areaY));
 				int k = aint[j + 1 + (i + 1) * (areaWidth + 2)];
-				BiomeGenBase biomegenbase = BiomeGenBase.toGenBase();
+				BiomeGenBase biomegenbase = BiomeGenBase.toGenBase(BiomeGenBase.getBiome(k));
 
 				if (k == BiomeGenBase.mushroomIsland.getLegacyId()) {
 					int j2 = aint[j + 1 + (i + 1 - 1) * (areaWidth + 2)];
@@ -110,7 +110,7 @@ public class GenLayerShore extends GenLayer {
 	}
 
 	private boolean func_151631_c(int id) {
-		return Biome.getBiome(id) != null && BiomeGenBase.toGenBase().getBiomeClass() == BiomeGenJungle.class ||
+		return Biome.getBiome(id) != null && BiomeGenBase.toGenBase(BiomeGenBase.getBiome(id)).getBiomeClass() == BiomeGenJungle.class ||
 				id == BiomeGenBase.jungleEdge.getLegacyId() ||
 				id == BiomeGenBase.jungle.getLegacyId() ||
 				id == BiomeGenBase.jungleHills.getLegacyId() ||

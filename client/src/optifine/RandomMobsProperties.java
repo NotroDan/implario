@@ -1,8 +1,8 @@
 package optifine;
 
-import net.minecraft.entity.VanillaEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import vanilla.entity.VanillaEntity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -59,7 +59,7 @@ public class VItemDye extends ItemDye {
 		return false;
 	}
 
-	private boolean applyBonemeal(ItemStack item, World w, BlockPos target) {
+	public static boolean applyBonemeal(ItemStack item, World w, BlockPos target) {
 
 		IBlockState iblockstate = w.getBlockState(target);
 

@@ -153,7 +153,8 @@ public class MapGenRavine extends MapGenBase {
 
 													if (flag && p_180707_5_.getBlockState(j3, j2 - 1, i2).getBlock() == Blocks.dirt) {
 														blockpos$mutableblockpos.func_181079_c(j3 + p_180707_3_ * 16, 0, i2 + p_180707_4_ * 16);
-														p_180707_5_.setBlockState(j3, j2 - 1, i2, BiomeGenBase.toGenBase().topBlock);
+														p_180707_5_.setBlockState(j3, j2 - 1, i2, BiomeGenBase.toGenBase(
+																worldObj.getBiomeGenForCoords(blockpos$mutableblockpos)).topBlock);
 													}
 												}
 											}
