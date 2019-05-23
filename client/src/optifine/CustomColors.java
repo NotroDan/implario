@@ -649,13 +649,12 @@ public class CustomColors {
 				p_getColorMultiplier_4_.getColorizerBlockPosM()) : customcolors$icolorizer.getColor(p_getColorMultiplier_2_, p_getColorMultiplier_3_);
 	}
 
-	protected static Biome getColorBiome(IBlockAccess p_getColorBiome_0_, BlockPos p_getColorBiome_1_) {
-		Biome biomegenbase = p_getColorBiome_0_.getBiomeGenForCoords(p_getColorBiome_1_);
+	protected static Biome getColorBiome(IBlockAccess world, BlockPos p_getColorBiome_1_) {
+		// ToDo: Вернуть болотные цвета
+//		if (biomegenbase == BiomeGenBase.swampland && !Config.isSwampColors())
+//			biomegenbase = BiomeGenBase.plains;
 
-		if (biomegenbase == BiomeGenBase.swampland && !Config.isSwampColors())
-			biomegenbase = BiomeGenBase.plains;
-
-		return biomegenbase;
+		return world.getBiomeGenForCoords(p_getColorBiome_1_);
 	}
 
 	private static CustomColormap getBlockColormap(IBlockState p_getBlockColormap_0_) {
@@ -1065,27 +1064,6 @@ public class CustomColors {
 			aint[l] = list.get(l);
 
 		return aint;
-	}
-
-	private static int getSpawnEggColor(ItemMonsterPlacer p_getSpawnEggColor_0_, ItemStack p_getSpawnEggColor_1_, int p_getSpawnEggColor_2_, int p_getSpawnEggColor_3_) {
-		int i = p_getSpawnEggColor_1_.getMetadata();
-		int[] aint = p_getSpawnEggColor_2_ == 0 ? spawnEggPrimaryColors : spawnEggSecondaryColors;
-
-		if (aint == null)
-			return p_getSpawnEggColor_3_;
-		if (i >= 0 && i < aint.length) {
-			int j = aint[i];
-			return j < 0 ? p_getSpawnEggColor_3_ : j;
-		}
-		return p_getSpawnEggColor_3_;
-	}
-
-	public static int getColorFromItemStack(ItemStack p_getColorFromItemStack_0_, int p_getColorFromItemStack_1_, int p_getColorFromItemStack_2_) {
-		if (p_getColorFromItemStack_0_ == null)
-			return p_getColorFromItemStack_2_;
-		Item item = p_getColorFromItemStack_0_.getItem();
-		return item == null ? p_getColorFromItemStack_2_ : item instanceof ItemMonsterPlacer ? getSpawnEggColor((ItemMonsterPlacer) item, p_getColorFromItemStack_0_, p_getColorFromItemStack_1_,
-				p_getColorFromItemStack_2_) : p_getColorFromItemStack_2_;
 	}
 
 	private static float[][] readDyeColors(Properties p_readDyeColors_0_, String p_readDyeColors_1_, String p_readDyeColors_2_, String p_readDyeColors_3_) {

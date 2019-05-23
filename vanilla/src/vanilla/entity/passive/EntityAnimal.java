@@ -236,4 +236,10 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
             super.handleStatusUpdate(id);
         }
     }
+
+	@Override
+	public float getSpectatorRotation(float partialTicks) {
+    	return prevRotationYawHead + (rotationYawHead - prevRotationYawHead) * partialTicks + 180.0F;
+	}
+
 }

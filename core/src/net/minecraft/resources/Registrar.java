@@ -79,7 +79,5 @@ public class Registrar {
 		PlayerGuiBridge.register(domain, type, opener);
 	}
 
-	public <T> void regRenderer(Class<T> c, Render<T> render) {
-	}
 
 }

@@ -6,20 +6,20 @@ import net.minecraft.block.FenceClickedEvent;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.MC;
+import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.game.entity.EntityPlayerSP;
 import net.minecraft.client.game.model.*;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.renderer.entity.RenderLeashKnot;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderMinecartMobSpawner;
-import net.minecraft.client.renderer.entity.vanilla.*;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntitySnowball;
@@ -31,9 +31,7 @@ import net.minecraft.logging.Log;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
-import net.minecraft.network.play.server.S1BPacketEntityAttach;
-import net.minecraft.network.play.server.S2DPacketOpenWindow;
-import net.minecraft.network.play.server.S3FPacketCustomPayload;
+import net.minecraft.network.play.server.*;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.events.*;
@@ -41,18 +39,25 @@ import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import vanilla.block.BlockMobSpawner;
 import vanilla.block.VBlockMushroom;
 import vanilla.block.VBlockSapling;
+import vanilla.client.audio.GuardianSound;
 import vanilla.client.gui.block.GuiMerchant;
 import vanilla.client.gui.block.GuiScreenHorseInventory;
 import vanilla.client.gui.block.HorseInv;
+import vanilla.client.renderer.entity.RenderLeashKnot;
+import vanilla.client.renderer.entity.RenderMinecartMobSpawner;
+import vanilla.client.renderer.entity.vanilla.*;
+import vanilla.client.renderer.tileentity.TileEntityMobSpawnerRenderer;
 import vanilla.entity.EntityLeashKnot;
 import vanilla.entity.IMerchant;
 import vanilla.entity.NpcMerchant;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.ai.EntityMinecartMobSpawner;
+import vanilla.entity.boss.BossStatus;
 import vanilla.entity.boss.DragonPartRedirecter;
 import vanilla.entity.boss.EntityDragon;
 import vanilla.entity.boss.EntityWither;
@@ -62,6 +67,8 @@ import vanilla.inventory.ContainerMerchant;
 import vanilla.item.*;
 import vanilla.tileentity.TileEntityMobSpawner;
 import vanilla.world.SleepChecker;
+import vanilla.world.WorldProviderEnd;
+import vanilla.world.WorldProviderHell;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 
 import java.io.IOException;
@@ -280,6 +287,15 @@ public class Vanilla extends Datapack {
 			return false; // ToDo: Обработка ретурнеда
 		});
 
+		registrar.regInterceptor(S19PacketEntityStatus.class, (p, l) -> {
+			Entity entity = p.getEntity(((NetHandlerPlayClient) l).getClientWorldController());
+			if (p.getOpCode() == 21) {
+				MC.i().getSoundHandler().playSound(new GuardianSound((EntityGuardian) entity));
+				return true;
+			}
+			return false;
+		});
+
 		registrar.regInterceptor(S3FPacketCustomPayload.class, (p, l) -> {
 
 			if ("MC|TrList".equals(p.getChannelName())) {
@@ -305,9 +321,25 @@ public class Vanilla extends Datapack {
 			return false;
 		});
 
-		registrar.regListener(FenceClickedEvent.class, e -> {
-			e.returnValue = ItemLead.attachToFence(e.getPlayer(), e.getWorld(), e.getPos());
+		registrar.regInterceptor(S0EPacketSpawnObject.class, (p, l) -> {
+			if (p.getType() == 77) {
+
+				double d0 = (double) p.getX() / 32.0D;
+				double d1 = (double) p.getY() / 32.0D;
+				double d2 = (double) p.getZ() / 32.0D;
+				NetHandlerPlayClient handler = (NetHandlerPlayClient) l;
+				WorldClient w = handler.getClientWorldController();
+				Entity entity = new EntityLeashKnot(w, new BlockPos(MathHelper.floor_double(d0), MathHelper.floor_double(d1), MathHelper.floor_double(d2)));
+				p.setXi(0);
+				handler.addEntityToWorld(p, entity);
+
+				return true;
+			}
+			return false;
 		});
+
+		registrar.regListener(FenceClickedEvent.class, e ->
+				e.returnValue = ItemLead.attachToFence(e.getPlayer(), e.getWorld(), e.getPos()));
 
 		registrar.regListener(BlockDropEvent.class, e -> {
 			World w = e.getWorld();
@@ -334,40 +366,51 @@ public class Vanilla extends Datapack {
 
 		RenderManager m = MC.i().getRenderManager();
 
-		registrar.regRenderer(EntityCaveSpider.class, new RenderCaveSpider(m));
-		registrar.regRenderer(EntitySpider.class, new RenderSpider(m));
-		registrar.regRenderer(EntityPig.class, new RenderPig(m, new ModelPig(), 0.7F));
-		registrar.regRenderer(EntitySheep.class, new RenderSheep(m, new ModelSheep2(), 0.7F));
-		registrar.regRenderer(EntityCow.class, new RenderCow(m, new ModelCow(), 0.7F));
-		registrar.regRenderer(EntityMooshroom.class, new RenderMooshroom(m, new ModelCow(), 0.7F));
-		registrar.regRenderer(EntityWolf.class, new RenderWolf(m, new ModelWolf(), 0.5F));
-		registrar.regRenderer(EntityChicken.class, new RenderChicken(m, new ModelChicken(), 0.3F));
-		registrar.regRenderer(EntityOcelot.class, new RenderOcelot(m, new ModelOcelot(), 0.4F));
-		registrar.regRenderer(EntityRabbit.class, new RenderRabbit(m, new ModelRabbit(), 0.3F));
-		registrar.regRenderer(EntitySilverfish.class, new RenderSilverfish(m));
-		registrar.regRenderer(EntityEndermite.class, new RenderEndermite(m));
-		registrar.regRenderer(EntityCreeper.class, new RenderCreeper(m));
-		registrar.regRenderer(EntityEnderman.class, new RenderEnderman(m));
-		registrar.regRenderer(EntitySnowman.class, new RenderSnowMan(m));
-		registrar.regRenderer(EntitySkeleton.class, new RenderSkeleton(m));
-		registrar.regRenderer(EntityWitch.class, new RenderWitch(m));
-		registrar.regRenderer(EntityBlaze.class, new RenderBlaze(m));
-		registrar.regRenderer(EntityPigZombie.class, new RenderPigZombie(m));
-		registrar.regRenderer(EntityZombie.class, new RenderZombie(m));
-		registrar.regRenderer(EntitySlime.class, new RenderSlime(m, new ModelSlime(16), 0.25F));
-		registrar.regRenderer(EntityMagmaCube.class, new RenderMagmaCube(m));
-		registrar.regRenderer(EntityGiantZombie.class, new RenderGiantZombie(m, new ModelZombie(), 0.5F, 6.0F));
-		registrar.regRenderer(EntityGhast.class, new RenderGhast(m));
-		registrar.regRenderer(EntitySquid.class, new RenderSquid(m, new ModelSquid(), 0.7F));
-		registrar.regRenderer(EntityVillager.class, new RenderVillager(m));
-		registrar.regRenderer(EntityIronGolem.class, new RenderIronGolem(m));
-		registrar.regRenderer(EntityBat.class, new RenderBat(m));
-		registrar.regRenderer(EntityGuardian.class, new RenderGuardian(m));
-		registrar.regRenderer(EntityDragon.class, new RenderDragon(m));
-		registrar.regRenderer(EntityWither.class, new RenderWither(m));
-		registrar.regRenderer(EntityLeashKnot.class, new RenderLeashKnot(m));
-		registrar.regRenderer(EntityMinecartMobSpawner.class, new RenderMinecartMobSpawner(m));
-		registrar.regRenderer(EntityHorse.class, new RenderHorse(m, new ModelHorse(), 0.75F));
+		m.regMapping(EntityCaveSpider.class, new RenderCaveSpider(m));
+		m.regMapping(EntitySpider.class, new RenderSpider(m));
+		m.regMapping(EntityPig.class, new RenderPig(m, new ModelPig(), 0.7F));
+		m.regMapping(EntitySheep.class, new RenderSheep(m, new ModelSheep2(), 0.7F));
+		m.regMapping(EntityCow.class, new RenderCow(m, new ModelCow(), 0.7F));
+		m.regMapping(EntityMooshroom.class, new RenderMooshroom(m, new ModelCow(), 0.7F));
+		m.regMapping(EntityWolf.class, new RenderWolf(m, new ModelWolf(), 0.5F));
+		m.regMapping(EntityChicken.class, new RenderChicken(m, new ModelChicken(), 0.3F));
+		m.regMapping(EntityOcelot.class, new RenderOcelot(m, new ModelOcelot(), 0.4F));
+		m.regMapping(EntityRabbit.class, new RenderRabbit(m, new ModelRabbit(), 0.3F));
+		m.regMapping(EntitySilverfish.class, new RenderSilverfish(m));
+		m.regMapping(EntityEndermite.class, new RenderEndermite(m));
+		m.regMapping(EntityCreeper.class, new RenderCreeper(m));
+		m.regMapping(EntityEnderman.class, new RenderEnderman(m));
+		m.regMapping(EntitySnowman.class, new RenderSnowMan(m));
+		m.regMapping(EntitySkeleton.class, new RenderSkeleton(m));
+		m.regMapping(EntityWitch.class, new RenderWitch(m));
+		m.regMapping(EntityBlaze.class, new RenderBlaze(m));
+		m.regMapping(EntityPigZombie.class, new RenderPigZombie(m));
+		m.regMapping(EntityZombie.class, new RenderZombie(m));
+		m.regMapping(EntitySlime.class, new RenderSlime(m, new ModelSlime(16), 0.25F));
+		m.regMapping(EntityMagmaCube.class, new RenderMagmaCube(m));
+		m.regMapping(EntityGiantZombie.class, new RenderGiantZombie(m, new ModelZombie(), 0.5F, 6.0F));
+		m.regMapping(EntityGhast.class, new RenderGhast(m));
+		m.regMapping(EntitySquid.class, new RenderSquid(m, new ModelSquid(), 0.7F));
+		m.regMapping(EntityVillager.class, new RenderVillager(m));
+		m.regMapping(EntityIronGolem.class, new RenderIronGolem(m));
+		m.regMapping(EntityBat.class, new RenderBat(m));
+		m.regMapping(EntityGuardian.class, new RenderGuardian(m));
+		m.regMapping(EntityDragon.class, new RenderDragon(m));
+		m.regMapping(EntityWither.class, new RenderWither(m));
+		m.regMapping(EntityLeashKnot.class, new RenderLeashKnot(m));
+		m.regMapping(EntityMinecartMobSpawner.class, new RenderMinecartMobSpawner(m));
+		m.regMapping(EntityHorse.class, new RenderHorse(m, new ModelHorse(), 0.75F));
+
+		TileEntityRendererDispatcher.instance.register(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
+
+		MC.i().getMusicTicker().musicTypeSupplier = () -> {
+			EntityPlayer p = MC.getPlayer();
+			return p != null ? p.worldObj.provider instanceof WorldProviderHell ? MusicTicker.MusicType.NETHER :
+					p.worldObj.provider instanceof WorldProviderEnd ? BossStatus.bossName != null && BossStatus.statusBarTime > 0 ?
+							MusicTicker.MusicType.END_BOSS : MusicTicker.MusicType.END : p.capabilities.isCreativeMode &&
+							p.capabilities.allowFlying ? MusicTicker.MusicType.CREATIVE : MusicTicker.MusicType.GAME : MusicTicker.MusicType.MENU;
+		};
+
 	}
 
 	private void registerGuis() {

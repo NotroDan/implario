@@ -2403,4 +2403,8 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		return true;
 	}
 
+	public float getSpectatorRotation(float partialTicks) {
+		return prevRotationYaw + (rotationYaw - prevRotationYaw) * partialTicks + 180.0F;
+	}
+
 }

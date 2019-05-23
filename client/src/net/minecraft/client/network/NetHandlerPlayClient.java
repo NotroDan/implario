@@ -8,42 +8,40 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.GuardianSound;
 import net.minecraft.client.game.entity.EntityOtherPlayerMP;
 import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.inventory.ContainerLocalMenu;
+import net.minecraft.client.game.inventory.LocalBlockIntercommunication;
+import net.minecraft.client.game.particle.EntityPickupFX;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.block.GuiMerchant;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.game.particle.EntityPickupFX;
-import net.minecraft.client.game.inventory.ContainerLocalMenu;
-import net.minecraft.client.game.inventory.LocalBlockIntercommunication;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.*;
+import net.minecraft.entity.DataWatcher;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.attributes.BaseAttributeMap;
 import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.attributes.RangedAttribute;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.*;
-import net.minecraft.world.IInteractionObject;
-import vanilla.entity.monster.EntityGuardian;
-import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.AnimalChest;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -51,7 +49,6 @@ import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
-import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.scoreboard.*;
 import net.minecraft.server.Profiler;
 import net.minecraft.stats.Achievement;
@@ -60,16 +57,14 @@ import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
-import vanilla.tileentity.TileEntityMobSpawner;
-import vanilla.world.gen.feature.village.MerchantRecipeList;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapData;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -160,94 +155,114 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		double d2 = (double) packetIn.getZ() / 32.0D;
 		Entity entity = null;
 
-		if (packetIn.getType() == 10)
-			entity = EntityMinecart.func_180458_a(this.clientWorldController, d0, d1, d2, EntityMinecart.EnumMinecartType.byNetworkID(packetIn.func_149009_m()));
-		else if (packetIn.getType() == 90) {
-			Entity entity1 = this.clientWorldController.getEntityByID(packetIn.func_149009_m());
+		switch (packetIn.getType()) {
+			case 10:
+				entity = EntityMinecart.func_180458_a(this.clientWorldController, d0, d1, d2, EntityMinecart.EnumMinecartType.byNetworkID(packetIn.getXi()));
+				break;
+			case 90:
+				Entity entity1 = this.clientWorldController.getEntityByID(packetIn.getXi());
 
-			if (entity1 instanceof EntityPlayer)
-				entity = new EntityFishHook(this.clientWorldController, d0, d1, d2, (EntityPlayer) entity1);
+				if (entity1 instanceof EntityPlayer)
+					entity = new EntityFishHook(this.clientWorldController, d0, d1, d2, (EntityPlayer) entity1);
 
-			packetIn.func_149002_g(0);
-		} else if (packetIn.getType() == 60)
-			entity = new EntityArrow(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 61)
-			entity = new EntitySnowball(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 71) {
-			entity = new EntityItemFrame(this.clientWorldController, new BlockPos(MathHelper.floor_double(d0), MathHelper.floor_double(d1), MathHelper.floor_double(d2)),
-					EnumFacing.getHorizontal(packetIn.func_149009_m()));
-			packetIn.func_149002_g(0);
-		} else if (packetIn.getType() == 77) {
-			entity = new EntityLeashKnot(this.clientWorldController, new BlockPos(MathHelper.floor_double(d0), MathHelper.floor_double(d1), MathHelper.floor_double(d2)));
-			packetIn.func_149002_g(0);
-		} else if (packetIn.getType() == 65)
-			entity = new EntityEnderPearl(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 72)
-			entity = new EntityEnderEye(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 76)
-			entity = new EntityFireworkRocket(this.clientWorldController, d0, d1, d2, null);
-		else if (packetIn.getType() == 63) {
-			entity = new EntityLargeFireball(this.clientWorldController, d0, d1, d2, (double) packetIn.getSpeedX() / 8000.0D, (double) packetIn.getSpeedY() / 8000.0D,
-					(double) packetIn.getSpeedZ() / 8000.0D);
-			packetIn.func_149002_g(0);
-		} else if (packetIn.getType() == 64) {
-			entity = new EntitySmallFireball(this.clientWorldController, d0, d1, d2, (double) packetIn.getSpeedX() / 8000.0D, (double) packetIn.getSpeedY() / 8000.0D,
-					(double) packetIn.getSpeedZ() / 8000.0D);
-			packetIn.func_149002_g(0);
-		} else if (packetIn.getType() == 66) {
-			entity = new EntityWitherSkull(this.clientWorldController, d0, d1, d2, (double) packetIn.getSpeedX() / 8000.0D, (double) packetIn.getSpeedY() / 8000.0D,
-					(double) packetIn.getSpeedZ() / 8000.0D);
-			packetIn.func_149002_g(0);
-		} else if (packetIn.getType() == 62)
-			entity = new EntityEgg(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 73) {
-			entity = new EntityPotion(this.clientWorldController, d0, d1, d2, packetIn.func_149009_m());
-			packetIn.func_149002_g(0);
-		} else if (packetIn.getType() == 75) {
-			entity = new EntityExpBottle(this.clientWorldController, d0, d1, d2);
-			packetIn.func_149002_g(0);
-		} else if (packetIn.getType() == 1)
-			entity = new EntityBoat(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 50)
-			entity = new EntityTNTPrimed(this.clientWorldController, d0, d1, d2, null);
-		else if (packetIn.getType() == 78)
-			entity = new EntityArmorStand(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 51)
-			entity = new EntityEnderCrystal(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 2)
-			entity = new EntityItem(this.clientWorldController, d0, d1, d2);
-		else if (packetIn.getType() == 70) {
-			entity = new EntityFallingBlock(this.clientWorldController, d0, d1, d2, Block.getStateById(packetIn.func_149009_m() & 65535));
-			packetIn.func_149002_g(0);
+				packetIn.setXi(0);
+				break;
+			case 60:
+				entity = new EntityArrow(this.clientWorldController, d0, d1, d2);
+				break;
+			case 61:
+				entity = new EntitySnowball(this.clientWorldController, d0, d1, d2);
+				break;
+			case 71:
+				entity = new EntityItemFrame(this.clientWorldController, new BlockPos(MathHelper.floor_double(d0), MathHelper.floor_double(d1), MathHelper.floor_double(d2)),
+						EnumFacing.getHorizontal(packetIn.getXi()));
+				packetIn.setXi(0);
+				break;
+			case 65:
+				entity = new EntityEnderPearl(this.clientWorldController, d0, d1, d2);
+				break;
+			case 72:
+				entity = new EntityEnderEye(this.clientWorldController, d0, d1, d2);
+				break;
+			case 76:
+				entity = new EntityFireworkRocket(this.clientWorldController, d0, d1, d2, null);
+				break;
+			case 63:
+				entity = new EntityLargeFireball(this.clientWorldController, d0, d1, d2, (double) packetIn.getSpeedX() / 8000.0D, (double) packetIn.getSpeedY() / 8000.0D,
+						(double) packetIn.getSpeedZ() / 8000.0D);
+				packetIn.setXi(0);
+				break;
+			case 64:
+				entity = new EntitySmallFireball(this.clientWorldController, d0, d1, d2, (double) packetIn.getSpeedX() / 8000.0D, (double) packetIn.getSpeedY() / 8000.0D,
+						(double) packetIn.getSpeedZ() / 8000.0D);
+				packetIn.setXi(0);
+				break;
+			case 66:
+				entity = new EntityWitherSkull(this.clientWorldController, d0, d1, d2, (double) packetIn.getSpeedX() / 8000.0D, (double) packetIn.getSpeedY() / 8000.0D,
+						(double) packetIn.getSpeedZ() / 8000.0D);
+				packetIn.setXi(0);
+				break;
+			case 62:
+				entity = new EntityEgg(this.clientWorldController, d0, d1, d2);
+				break;
+			case 73:
+				entity = new EntityPotion(this.clientWorldController, d0, d1, d2, packetIn.getXi());
+				packetIn.setXi(0);
+				break;
+			case 75:
+				entity = new EntityExpBottle(this.clientWorldController, d0, d1, d2);
+				packetIn.setXi(0);
+				break;
+			case 1:
+				entity = new EntityBoat(this.clientWorldController, d0, d1, d2);
+				break;
+			case 50:
+				entity = new EntityTNTPrimed(this.clientWorldController, d0, d1, d2, null);
+				break;
+			case 78:
+				entity = new EntityArmorStand(this.clientWorldController, d0, d1, d2);
+				break;
+			case 51:
+				entity = new EntityEnderCrystal(this.clientWorldController, d0, d1, d2);
+				break;
+			case 2:
+				entity = new EntityItem(this.clientWorldController, d0, d1, d2);
+				break;
+			case 70:
+				entity = new EntityFallingBlock(this.clientWorldController, d0, d1, d2, Block.getStateById(packetIn.getXi() & 65535));
+				packetIn.setXi(0);
+				break;
 		}
 
-		if (entity != null) {
-			entity.serverPosX = packetIn.getX();
-			entity.serverPosY = packetIn.getY();
-			entity.serverPosZ = packetIn.getZ();
-			entity.rotationPitch = (float) (packetIn.getPitch() * 360) / 256.0F;
-			entity.rotationYaw = (float) (packetIn.getYaw() * 360) / 256.0F;
-			Entity[] aentity = entity.getParts();
+		if (entity != null) addEntityToWorld(packetIn, entity);
+	}
 
-			if (aentity != null) {
-				int i = packetIn.getEntityID() - entity.getEntityId();
+	public void addEntityToWorld(S0EPacketSpawnObject packetIn, Entity entity) {
+		entity.serverPosX = packetIn.getX();
+		entity.serverPosY = packetIn.getY();
+		entity.serverPosZ = packetIn.getZ();
+		entity.rotationPitch = (float) (packetIn.getPitch() * 360) / 256.0F;
+		entity.rotationYaw = (float) (packetIn.getYaw() * 360) / 256.0F;
+		Entity[] aentity = entity.getParts();
 
-				for (Entity anAentity : aentity) anAentity.setEntityId(anAentity.getEntityId() + i);
+		if (aentity != null) {
+			int i = packetIn.getEntityID() - entity.getEntityId();
+
+			for (Entity anAentity : aentity) anAentity.setEntityId(anAentity.getEntityId() + i);
+		}
+
+		entity.setEntityId(packetIn.getEntityID());
+		this.clientWorldController.addEntityToWorld(packetIn.getEntityID(), entity);
+
+		if (packetIn.getXi() > 0) {
+			if (packetIn.getType() == 60) {
+				Entity entity2 = this.clientWorldController.getEntityByID(packetIn.getXi());
+
+				if (entity2 instanceof EntityLivingBase && entity instanceof EntityArrow)
+					((EntityArrow) entity).shootingEntity = entity2;
 			}
 
-			entity.setEntityId(packetIn.getEntityID());
-			this.clientWorldController.addEntityToWorld(packetIn.getEntityID(), entity);
-
-			if (packetIn.func_149009_m() > 0) {
-				if (packetIn.getType() == 60) {
-					Entity entity2 = this.clientWorldController.getEntityByID(packetIn.func_149009_m());
-
-					if (entity2 instanceof EntityLivingBase && entity instanceof EntityArrow)
-						((EntityArrow) entity).shootingEntity = entity2;
-				}
-
-				entity.setVelocity((double) packetIn.getSpeedX() / 8000.0D, (double) packetIn.getSpeedY() / 8000.0D, (double) packetIn.getSpeedZ() / 8000.0D);
-			}
+			entity.setVelocity((double) packetIn.getSpeedX() / 8000.0D, (double) packetIn.getSpeedY() / 8000.0D, (double) packetIn.getSpeedZ() / 8000.0D);
 		}
 	}
 
@@ -674,12 +689,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	public void handleEntityStatus(S19PacketEntityStatus packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 		Entity entity = packetIn.getEntity(this.clientWorldController);
-
-		if (entity != null)
-			if (packetIn.getOpCode() == 21)
-				this.gameController.getSoundHandler().playSound(new GuardianSound((EntityGuardian) entity));
-			else
-				entity.handleStatusUpdate(packetIn.getOpCode());
+		if (entity != null)	entity.handleStatusUpdate(packetIn.getOpCode());
 	}
 
 	public void handleUpdateHealth(S06PacketUpdateHealth packetIn) {

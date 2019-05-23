@@ -12,7 +12,6 @@ import net.minecraft.tileentity.*;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
-import vanilla.tileentity.TileEntityMobSpawner;
 
 import java.util.Map;
 
@@ -46,24 +45,25 @@ public class TileEntityRendererDispatcher {
 	public double entityZ;
 
 	private TileEntityRendererDispatcher() {
-		this.mapSpecialRenderers.put(TileEntitySign.class, new TileEntitySignRenderer());
-		this.mapSpecialRenderers.put(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
-		this.mapSpecialRenderers.put(TileEntityPiston.class, new TileEntityPistonRenderer());
-		this.mapSpecialRenderers.put(TileEntityChest.class, new TileEntityChestRenderer());
-		this.mapSpecialRenderers.put(TileEntityEnderChest.class, new TileEntityEnderChestRenderer());
-		this.mapSpecialRenderers.put(TileEntityEnchantmentTable.class, new TileEntityEnchantmentTableRenderer());
-		this.mapSpecialRenderers.put(TileEntityEndPortal.class, new TileEntityEndPortalRenderer());
-		this.mapSpecialRenderers.put(TileEntityBeacon.class, new TileEntityBeaconRenderer());
-		this.mapSpecialRenderers.put(TileEntitySkull.class, new TileEntitySkullRenderer());
-		this.mapSpecialRenderers.put(TileEntityBanner.class, new TileEntityBannerRenderer());
+		register(TileEntitySign.class, new TileEntitySignRenderer());
+		register(TileEntityPiston.class, new TileEntityPistonRenderer());
+		register(TileEntityChest.class, new TileEntityChestRenderer());
+		register(TileEntityEnderChest.class, new TileEntityEnderChestRenderer());
+		register(TileEntityEnchantmentTable.class, new TileEntityEnchantmentTableRenderer());
+		register(TileEntityEndPortal.class, new TileEntityEndPortalRenderer());
+		register(TileEntityBeacon.class, new TileEntityBeaconRenderer());
+		register(TileEntitySkull.class, new TileEntitySkullRenderer());
+		register(TileEntityBanner.class, new TileEntityBannerRenderer());
 
-		for (TileEntitySpecialRenderer<?> tileentityspecialrenderer : this.mapSpecialRenderers.values()) {
-			tileentityspecialrenderer.setRendererDispatcher(this);
-		}
+	}
+
+	public <T extends TileEntity> void register(Class<T> c, TileEntitySpecialRenderer<T> renderer) {
+		this.mapSpecialRenderers.put(c, renderer);
+		renderer.setRendererDispatcher(this);
 	}
 
 	public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRendererByClass(Class<? extends TileEntity> teClass) {
-		TileEntitySpecialRenderer<? extends TileEntity> tileentityspecialrenderer = (TileEntitySpecialRenderer) this.mapSpecialRenderers.get(teClass);
+		TileEntitySpecialRenderer<? extends TileEntity> tileentityspecialrenderer = this.mapSpecialRenderers.get(teClass);
 
 		if (tileentityspecialrenderer == null && teClass != TileEntity.class) {
 			tileentityspecialrenderer = this.getSpecialRendererByClass((Class<? extends TileEntity>) teClass.getSuperclass());

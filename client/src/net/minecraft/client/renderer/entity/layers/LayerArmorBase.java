@@ -22,10 +22,6 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 	protected ModelBase field_177189_c;
 	protected ModelBase field_177186_d;
 	private final RendererLivingEntity renderer;
-	private float alpha = 1.0F;
-	private float colorR = 1.0F;
-	private float colorG = 1.0F;
-	private float colorB = 1.0F;
 	private boolean field_177193_i;
 	private static final Map ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
 
@@ -63,13 +59,17 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 				this.renderer.bindTexture(this.getArmorResource(itemarmor, flag));
 			}
 
+			float colorB = 1.0F;
+			float colorG = 1.0F;
+			float colorR = 1.0F;
+			float alpha = 1.0F;
 			switch (LayerArmorBase.LayerArmorBase$1.field_178747_a[itemarmor.getArmorMaterial().ordinal()]) {
 				case 1:
 					int i = itemarmor.getColor(itemstack);
 					float f = (float) (i >> 16 & 255) / 255.0F;
 					float f1 = (float) (i >> 8 & 255) / 255.0F;
 					float f2 = (float) (i & 255) / 255.0F;
-					G.color(this.colorR * f, this.colorG * f1, this.colorB * f2, this.alpha);
+					G.color(colorR * f, colorG * f1, colorB * f2, alpha);
 					modelbase.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
 
 					if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemstack, flag ? 2 : 1, "overlay")) {
@@ -80,7 +80,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 				case 3:
 				case 4:
 				case 5:
-					G.color(this.colorR, this.colorG, this.colorB, this.alpha);
+					G.color(colorR, colorG, colorB, alpha);
 					modelbase.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
 			}
 

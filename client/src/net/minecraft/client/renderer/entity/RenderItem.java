@@ -25,7 +25,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.util.*;
 import optifine.Config;
-import optifine.CustomColors;
 import optifine.CustomItems;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
@@ -214,11 +213,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 
 			if (flag && bakedquad.hasTintIndex()) {
 				k = stack.getItem().getColorFromItemStack(stack, bakedquad.getTintIndex());
-
-				if (Config.isCustomColors()) {
-					k = CustomColors.getColorFromItemStack(stack, bakedquad.getTintIndex(), k);
-				}
-
 				k = k | -16777216;
 			}
 

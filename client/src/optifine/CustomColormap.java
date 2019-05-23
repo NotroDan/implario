@@ -8,7 +8,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeGenBase;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -123,7 +122,7 @@ public class CustomColormap implements CustomColors.IColorizer
 
                 if (this.format == 1)
                 {
-                    this.color = this.getColorGrid(BiomeGenBase.plains, new BlockPos(0, 64, 0));
+                    this.color = this.getColorGrid(Biome.VOID, new BlockPos(0, 64, 0));
                 }
             }
         }

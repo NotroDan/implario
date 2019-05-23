@@ -11,14 +11,11 @@ public class ModelPlayer extends ModelBiped {
 	public ModelRenderer bipedRightLegwear;
 	public ModelRenderer bipedBodyWear;
 	private ModelRenderer bipedCape;
-	private ModelRenderer bipedDeadmau5Head;
 	private boolean smallArms;
 
 	public ModelPlayer(float scale, boolean slim) {
 		super(scale, 0.0F, 64, 64);
 		this.smallArms = slim;
-		this.bipedDeadmau5Head = new ModelRenderer(this, 24, 0);
-		this.bipedDeadmau5Head.addBox(-3.0F, -6.0F, -1.0F, 6, 6, 1, scale);
 		this.bipedCape = new ModelRenderer(this, 0, 0);
 		this.bipedCape.setTextureSize(64, 32);
 		this.bipedCape.addBox(-5.0F, 0.0F, -1.0F, 10, 16, 1, scale);
@@ -90,13 +87,6 @@ public class ModelPlayer extends ModelBiped {
 		G.popMatrix();
 	}
 
-	public void renderDeadmau5Head(float p_178727_1_) {
-		copyModelAngles(this.bipedHead, this.bipedDeadmau5Head);
-		this.bipedDeadmau5Head.rotationPointX = 0.0F;
-		this.bipedDeadmau5Head.rotationPointY = 0.0F;
-		this.bipedDeadmau5Head.render(p_178727_1_);
-	}
-
 	public void renderCape(float p_178728_1_) {
 		this.bipedCape.render(p_178728_1_);
 	}
@@ -133,7 +123,6 @@ public class ModelPlayer extends ModelBiped {
 		this.bipedRightLegwear.showModel = invisible;
 		this.bipedBodyWear.showModel = invisible;
 		this.bipedCape.showModel = invisible;
-		this.bipedDeadmau5Head.showModel = invisible;
 	}
 
 	public void postRenderArm(float scale) {
