@@ -275,7 +275,7 @@ public abstract class EntityLivingBase extends Entity {
 				}
 
 				int i = (int) (150.0D * d0);
-				((WorldServer) worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, posX, posY, posZ, i, 0.0D, 0.0D, 0.0D, 0.15, Block.getStateId(iblockstate));
+				((WorldServer) worldObj).spawnParticle(ParticleType.BLOCK_DUST, posX, posY, posZ, i, 0.0D, 0.0D, 0.0D, 0.15, Block.getStateId(iblockstate));
 			}
 		}
 
@@ -325,7 +325,7 @@ public abstract class EntityLivingBase extends Entity {
 							float f = this.rand.nextFloat() - this.rand.nextFloat();
 							float f1 = this.rand.nextFloat() - this.rand.nextFloat();
 							float f2 = this.rand.nextFloat() - this.rand.nextFloat();
-							this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (double) f, this.posY + (double) f1, this.posZ + (double) f2, this.motionX, this.motionY,
+							this.worldObj.spawnParticle(ParticleType.WATER_BUBBLE, this.posX + (double) f, this.posY + (double) f1, this.posZ + (double) f2, this.motionX, this.motionY,
 									this.motionZ, new int[0]);
 						}
 
@@ -416,7 +416,7 @@ public abstract class EntityLivingBase extends Entity {
 				double d2 = this.rand.nextGaussian() * 0.02D;
 				double d0 = this.rand.nextGaussian() * 0.02D;
 				double d1 = this.rand.nextGaussian() * 0.02D;
-				this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width,
+				this.worldObj.spawnParticle(ParticleType.EXPLOSION_NORMAL, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width,
 						this.posY + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d2, d0, d1, new int[0]);
 			}
 		}
@@ -613,7 +613,7 @@ public abstract class EntityLivingBase extends Entity {
 				double d0 = (double) (i >> 16 & 255) / 255.0D;
 				double d1 = (double) (i >> 8 & 255) / 255.0D;
 				double d2 = (double) (i >> 0 & 255) / 255.0D;
-				this.worldObj.spawnParticle(flag1 ? EnumParticleTypes.SPELL_MOB_AMBIENT : EnumParticleTypes.SPELL_MOB, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width,
+				this.worldObj.spawnParticle(flag1 ? ParticleType.SPELL_MOB_AMBIENT : ParticleType.SPELL_MOB, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width,
 						this.posY + this.rand.nextDouble() * (double) this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width, d0, d1, d2, new int[0]);
 			}
 		}
@@ -893,7 +893,7 @@ public abstract class EntityLivingBase extends Entity {
 			vec31 = vec31.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
 			vec31 = vec31.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
 			vec31 = vec31.addVector(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ);
-			this.worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord,
+			this.worldObj.spawnParticle(ParticleType.ITEM_CRACK, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord,
 					new int[] {Item.getIdFromItem(stack.getItem())});
 		}
 	}

@@ -20,7 +20,7 @@ public class ModulePumpkin implements Module {
 	private static final ResourceLocation pumpkinBlurTexPath = new ResourceLocation("textures/misc/pumpkinblur.png");
 
 	@Override
-	public void render(ScaledResolution res, float partialTicks) {
+	public void render(GuiIngame gui, float partialTicks, ScaledResolution res) {
 
 		ItemStack itemstack = MC.getPlayer().inventory.armorItemInSlot(3);
 		if (Settings.getPerspective() != 0 || itemstack == null || itemstack.getItem() != Item.getItemFromBlock(Blocks.pumpkin)) return;

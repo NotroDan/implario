@@ -2300,7 +2300,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		}
 	}
 
-	private void spawnParticle(EnumParticleTypes particleIn, double p_174972_2_, double p_174972_4_, double p_174972_6_, double p_174972_8_, double p_174972_10_, double p_174972_12_,
+	private void spawnParticle(ParticleType particleIn, double p_174972_2_, double p_174972_4_, double p_174972_6_, double p_174972_8_, double p_174972_10_, double p_174972_12_,
 							   int... p_174972_14_) {
 		this.spawnParticle(particleIn.getParticleID(), particleIn.getShouldIgnoreRange(), p_174972_2_, p_174972_4_, p_174972_6_, p_174972_8_, p_174972_10_, p_174972_12_, p_174972_14_);
 	}
@@ -2318,58 +2318,58 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			double d1 = this.mc.getRenderViewEntity().posY - p_174974_5_;
 			double d2 = this.mc.getRenderViewEntity().posZ - p_174974_7_;
 
-			if (p_174974_1_ == EnumParticleTypes.EXPLOSION_HUGE.getParticleID() && !Config.isAnimatedExplosion()) {
+			if (p_174974_1_ == ParticleType.EXPLOSION_HUGE.getParticleID() && !Config.isAnimatedExplosion()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.EXPLOSION_LARGE.getParticleID() && !Config.isAnimatedExplosion()) {
+			if (p_174974_1_ == ParticleType.EXPLOSION_LARGE.getParticleID() && !Config.isAnimatedExplosion()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.EXPLOSION_NORMAL.getParticleID() && !Config.isAnimatedExplosion()) {
+			if (p_174974_1_ == ParticleType.EXPLOSION_NORMAL.getParticleID() && !Config.isAnimatedExplosion()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SUSPENDED.getParticleID() && !Config.isWaterParticles()) {
+			if (p_174974_1_ == ParticleType.SUSPENDED.getParticleID() && !Config.isWaterParticles()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SUSPENDED_DEPTH.getParticleID() && !Config.isVoidParticles()) {
+			if (p_174974_1_ == ParticleType.SUSPENDED_DEPTH.getParticleID() && !Config.isVoidParticles()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SMOKE_NORMAL.getParticleID() && !Config.isAnimatedSmoke()) {
+			if (p_174974_1_ == ParticleType.SMOKE_NORMAL.getParticleID() && !Config.isAnimatedSmoke()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SMOKE_LARGE.getParticleID() && !Config.isAnimatedSmoke()) {
+			if (p_174974_1_ == ParticleType.SMOKE_LARGE.getParticleID() && !Config.isAnimatedSmoke()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SPELL_MOB.getParticleID() && !Config.isPotionParticles()) {
+			if (p_174974_1_ == ParticleType.SPELL_MOB.getParticleID() && !Config.isPotionParticles()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SPELL_MOB_AMBIENT.getParticleID() && !Config.isPotionParticles()) {
+			if (p_174974_1_ == ParticleType.SPELL_MOB_AMBIENT.getParticleID() && !Config.isPotionParticles()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SPELL.getParticleID() && !Config.isPotionParticles()) {
+			if (p_174974_1_ == ParticleType.SPELL.getParticleID() && !Config.isPotionParticles()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SPELL_INSTANT.getParticleID() && !Config.isPotionParticles()) {
+			if (p_174974_1_ == ParticleType.SPELL_INSTANT.getParticleID() && !Config.isPotionParticles()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.SPELL_WITCH.getParticleID() && !Config.isPotionParticles()) {
+			if (p_174974_1_ == ParticleType.SPELL_WITCH.getParticleID() && !Config.isPotionParticles()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.PORTAL.getParticleID() && !Config.isAnimatedPortal()) {
+			if (p_174974_1_ == ParticleType.PORTAL.getParticleID() && !Config.isAnimatedPortal()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.FLAME.getParticleID() && !Config.isAnimatedFlame()) {
+			if (p_174974_1_ == ParticleType.FLAME.getParticleID() && !Config.isAnimatedFlame()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.REDSTONE.getParticleID() && !Config.isAnimatedRedstone()) {
+			if (p_174974_1_ == ParticleType.REDSTONE.getParticleID() && !Config.isAnimatedRedstone()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.DRIP_WATER.getParticleID() && !Config.isDrippingWaterLava()) {
+			if (p_174974_1_ == ParticleType.DRIP_WATER.getParticleID() && !Config.isDrippingWaterLava()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.DRIP_LAVA.getParticleID() && !Config.isDrippingWaterLava()) {
+			if (p_174974_1_ == ParticleType.DRIP_LAVA.getParticleID() && !Config.isDrippingWaterLava()) {
 				return null;
 			}
-			if (p_174974_1_ == EnumParticleTypes.FIREWORKS_SPARK.getParticleID() && !Config.isFireworkParticles()) {
+			if (p_174974_1_ == ParticleType.FIREWORKS_SPARK.getParticleID() && !Config.isFireworkParticles()) {
 				return null;
 			}
 			if (ignoreRange) {
@@ -2378,7 +2378,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			double d3 = 16.0D;
 			double d4 = 256.0D;
 
-			if (p_174974_1_ == EnumParticleTypes.CRIT.getParticleID()) {
+			if (p_174974_1_ == ParticleType.CRIT.getParticleID()) {
 				d4 = 38416.0D;
 			}
 
@@ -2390,27 +2390,27 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			}
 			EntityFX entityfx = this.mc.effectRenderer.spawnEffectParticle(p_174974_1_, p_174974_3_, p_174974_5_, p_174974_7_, p_174974_9_, p_174974_11_, p_174974_13_, p_174974_15_);
 
-			if (p_174974_1_ == EnumParticleTypes.WATER_BUBBLE.getParticleID()) {
+			if (p_174974_1_ == ParticleType.WATER_BUBBLE.getParticleID()) {
 				CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
 			}
 
-			if (p_174974_1_ == EnumParticleTypes.WATER_SPLASH.getParticleID()) {
+			if (p_174974_1_ == ParticleType.WATER_SPLASH.getParticleID()) {
 				CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
 			}
 
-			if (p_174974_1_ == EnumParticleTypes.WATER_DROP.getParticleID()) {
+			if (p_174974_1_ == ParticleType.WATER_DROP.getParticleID()) {
 				CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
 			}
 
-			if (p_174974_1_ == EnumParticleTypes.TOWN_AURA.getParticleID()) {
+			if (p_174974_1_ == ParticleType.TOWN_AURA.getParticleID()) {
 				CustomColors.updateMyceliumFX(entityfx);
 			}
 
-			if (p_174974_1_ == EnumParticleTypes.PORTAL.getParticleID()) {
+			if (p_174974_1_ == ParticleType.PORTAL.getParticleID()) {
 				CustomColors.updatePortalFX(entityfx);
 			}
 
-			if (p_174974_1_ == EnumParticleTypes.REDSTONE.getParticleID()) {
+			if (p_174974_1_ == ParticleType.REDSTONE.getParticleID()) {
 				CustomColors.updateReddustFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
 			}
 
@@ -2581,7 +2581,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					double d24 = (double) k * d20 + random.nextGaussian() * 0.01D;
 					double d9 = -0.03D + random.nextGaussian() * 0.01D;
 					double d10 = (double) l * d20 + random.nextGaussian() * 0.01D;
-					this.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d21, d22, d23, d24, d9, d10);
+					this.spawnParticle(ParticleType.SMOKE_NORMAL, d21, d22, d23, d24, d9, d10);
 				}
 
 				return;
@@ -2604,7 +2604,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				double d14 = (double) blockPosIn.getZ();
 
 				for (int i1 = 0; i1 < 8; ++i1) {
-					this.spawnParticle(EnumParticleTypes.ITEM_CRACK, d11, d12, d14, random.nextGaussian() * 0.15D, random.nextDouble() * 0.2D, random.nextGaussian() * 0.15D,
+					this.spawnParticle(ParticleType.ITEM_CRACK, d11, d12, d14, random.nextGaussian() * 0.15D, random.nextDouble() * 0.2D, random.nextGaussian() * 0.15D,
 							Item.getIdFromItem(Items.potionitem), p_180439_4_);
 				}
 
@@ -2612,10 +2612,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				float f = (float) (j1 >> 16 & 255) / 255.0F;
 				float f1 = (float) (j1 >> 8 & 255) / 255.0F;
 				float f2 = (float) (j1 >> 0 & 255) / 255.0F;
-				EnumParticleTypes enumparticletypes = EnumParticleTypes.SPELL;
+				ParticleType enumparticletypes = ParticleType.SPELL;
 
 				if (Items.potionitem.isEffectInstant(p_180439_4_)) {
-					enumparticletypes = EnumParticleTypes.SPELL_INSTANT;
+					enumparticletypes = ParticleType.SPELL_INSTANT;
 				}
 
 				for (int k1 = 0; k1 < 100; ++k1) {
@@ -2642,13 +2642,13 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				double var11 = (double) blockPosIn.getZ() + 0.5D;
 
 				for (int var13 = 0; var13 < 8; ++var13) {
-					this.spawnParticle(EnumParticleTypes.ITEM_CRACK, var7, var9, var11, random.nextGaussian() * 0.15D, random.nextDouble() * 0.2D, random.nextGaussian() * 0.15D,
+					this.spawnParticle(ParticleType.ITEM_CRACK, var7, var9, var11, random.nextGaussian() * 0.15D, random.nextDouble() * 0.2D, random.nextGaussian() * 0.15D,
 							Item.getIdFromItem(Items.ender_eye));
 				}
 
 				for (double var32 = 0.0D; var32 < Math.PI * 2D; var32 += 0.15707963267948966D) {
-					this.spawnParticle(EnumParticleTypes.PORTAL, var7 + Math.cos(var32) * 5.0D, var9 - 0.4D, var11 + Math.sin(var32) * 5.0D, Math.cos(var32) * -5.0D, 0.0D, Math.sin(var32) * -5.0D);
-					this.spawnParticle(EnumParticleTypes.PORTAL, var7 + Math.cos(var32) * 5.0D, var9 - 0.4D, var11 + Math.sin(var32) * 5.0D, Math.cos(var32) * -7.0D, 0.0D, Math.sin(var32) * -7.0D);
+					this.spawnParticle(ParticleType.PORTAL, var7 + Math.cos(var32) * 5.0D, var9 - 0.4D, var11 + Math.sin(var32) * 5.0D, Math.cos(var32) * -5.0D, 0.0D, Math.sin(var32) * -5.0D);
+					this.spawnParticle(ParticleType.PORTAL, var7 + Math.cos(var32) * 5.0D, var9 - 0.4D, var11 + Math.sin(var32) * 5.0D, Math.cos(var32) * -7.0D, 0.0D, Math.sin(var32) * -7.0D);
 				}
 
 				return;
@@ -2658,8 +2658,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					double d3 = (double) blockPosIn.getX() + 0.5D + ((double) this.theWorld.rand.nextFloat() - 0.5D) * 2.0D;
 					double d4 = (double) blockPosIn.getY() + 0.5D + ((double) this.theWorld.rand.nextFloat() - 0.5D) * 2.0D;
 					double d5 = (double) blockPosIn.getZ() + 0.5D + ((double) this.theWorld.rand.nextFloat() - 0.5D) * 2.0D;
-					this.theWorld.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-					this.theWorld.spawnParticle(EnumParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+					this.theWorld.spawnParticle(ParticleType.SMOKE_NORMAL, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+					this.theWorld.spawnParticle(ParticleType.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
 				}
 
 				return;
@@ -2684,7 +2684,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				double d0 = itemRand.nextGaussian() * 0.02D;
 				double d1 = itemRand.nextGaussian() * 0.02D;
 				double d2 = itemRand.nextGaussian() * 0.02D;
-				worldIn.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, (double) ((float) pos.getX() + itemRand.nextFloat()),
+				worldIn.spawnParticle(ParticleType.VILLAGER_HAPPY, (double) ((float) pos.getX() + itemRand.nextFloat()),
 						(double) pos.getY() + (double) itemRand.nextFloat() * block.getBlockBoundsMaxY(), (double) ((float) pos.getZ() + itemRand.nextFloat()), d0, d1, d2);
 			}
 		}

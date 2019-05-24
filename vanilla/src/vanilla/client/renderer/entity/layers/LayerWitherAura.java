@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.layers;
 
-import net.minecraft.client.game.model.ModelWither;
+import vanilla.client.game.model.ModelWither;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import vanilla.client.renderer.entity.vanilla.RenderWither;

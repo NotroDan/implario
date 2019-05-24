@@ -34,12 +34,11 @@ public class WorldTypes {
 			};
 
 
-	public static final WorldType
-		DEFAULT = new WorldType("default", factoryDefaultCM, factoryDefaultCP);
+	public static final WorldType DEFAULT = new WorldType("default", factoryDefaultCM, factoryDefaultCP);
 	public static final WorldType FLAT = new WorldType("flat", factoryFlatCM, factoryFlatCP).weakFog();
 	public static final WorldType LARGE_BIOMES = new WorldType("large_biomes", factoryDefaultCM, factoryDefaultCP);
 	public static final WorldType AMPLIFIED = new WorldType("amplified", factoryDefaultCM, factoryDefaultCP);
-	public static final WorldType CUSTOMIZED = new WorldType("customized", factoryDefaultCM, factoryDefaultCP);
+	public static final WorldType CUSTOMIZED = new WorldType("customized", factoryDefaultCM, factoryDefaultCP).disableFeatures();
 	public static final WorldType DEFAULT_OLD = new WorldType("default_1_1", factoryDefaultCM, factoryDefaultCP).invisible();
 
 

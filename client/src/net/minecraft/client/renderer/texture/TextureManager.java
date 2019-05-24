@@ -38,17 +38,17 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 			resource = RandomMobs.getTextureLocation(resource);
 		}
 
-		Object object = (ITextureObject) this.mapTextureObjects.get(resource);
+		ITextureObject object = (ITextureObject) this.mapTextureObjects.get(resource);
 
 		if (object == null) {
 			object = new SimpleTexture(resource);
-			this.loadTexture(resource, (ITextureObject) object);
+			this.loadTexture(resource, object);
 		}
 
 		if (Config.isShaders()) {
-			ShadersTex.bindTexture((ITextureObject) object);
+			ShadersTex.bindTexture(object);
 		} else {
-			TextureUtil.bindTexture(((ITextureObject) object).getGlTextureId());
+			TextureUtil.bindTexture(object.getGlTextureId());
 		}
 	}
 

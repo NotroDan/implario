@@ -9,7 +9,7 @@ import net.minecraft.block.state.pattern.BlockStateHelper;
 import net.minecraft.block.state.pattern.FactoryBlockPattern;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.world.World;
 import vanilla.entity.monster.EntityIronGolem;
 import vanilla.entity.monster.EntitySnowman;
@@ -44,7 +44,7 @@ public class VBlockPumpkin extends BlockPumpkin {
 			worldIn.spawnEntityInWorld(entitysnowman);
 
 			for (int j = 0; j < 120; ++j) {
-				worldIn.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, (double) blockpos1.getX() + worldIn.rand.nextDouble(), (double) blockpos1.getY() + worldIn.rand.nextDouble() * 2.5D,
+				worldIn.spawnParticle(ParticleType.SNOW_SHOVEL, (double) blockpos1.getX() + worldIn.rand.nextDouble(), (double) blockpos1.getY() + worldIn.rand.nextDouble() * 2.5D,
 						(double) blockpos1.getZ() + worldIn.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
 			}
 
@@ -66,7 +66,7 @@ public class VBlockPumpkin extends BlockPumpkin {
 			worldIn.spawnEntityInWorld(entityirongolem);
 
 			for (int j1 = 0; j1 < 120; ++j1) {
-				worldIn.spawnParticle(EnumParticleTypes.SNOWBALL, (double) blockpos.getX() + worldIn.rand.nextDouble(), (double) blockpos.getY() + worldIn.rand.nextDouble() * 3.9D,
+				worldIn.spawnParticle(ParticleType.SNOWBALL, (double) blockpos.getX() + worldIn.rand.nextDouble(), (double) blockpos.getY() + worldIn.rand.nextDouble() * 3.9D,
 						(double) blockpos.getZ() + worldIn.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
 			}
 

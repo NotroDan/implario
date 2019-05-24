@@ -686,15 +686,15 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
     {
         if (id == 12)
         {
-            this.spawnParticles(EnumParticleTypes.HEART);
+            this.spawnParticles(ParticleType.HEART);
         }
         else if (id == 13)
         {
-            this.spawnParticles(EnumParticleTypes.VILLAGER_ANGRY);
+            this.spawnParticles(ParticleType.VILLAGER_ANGRY);
         }
         else if (id == 14)
         {
-            this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
+            this.spawnParticles(ParticleType.VILLAGER_HAPPY);
         }
         else
         {
@@ -702,7 +702,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         }
     }
 
-    private void spawnParticles(EnumParticleTypes particleType)
+    private void spawnParticles(ParticleType particleType)
     {
         for (int i = 0; i < 5; ++i)
         {

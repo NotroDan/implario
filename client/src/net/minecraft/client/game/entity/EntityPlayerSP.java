@@ -5,7 +5,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreenBook;
-import net.minecraft.client.gui.block.*;
+import net.minecraft.client.gui.block.GuiCommandBlock;
+import net.minecraft.client.gui.block.GuiEnchantment;
+import net.minecraft.client.gui.block.GuiHopper;
+import net.minecraft.client.gui.block.GuiRepair;
 import net.minecraft.client.gui.inventory.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.settings.KeyBinding;
@@ -14,12 +17,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.PlayerGuiBridge;
-import vanilla.entity.passive.EntityHorse;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.*;
 import net.minecraft.item.potion.Potion;
+import net.minecraft.network.play.client.*;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntitySign;
@@ -513,7 +515,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	}
 
 	public boolean isRidingHorse() {
-		return this.ridingEntity instanceof EntityHorse && ((EntityHorse) this.ridingEntity).isHorseSaddled();
+		return this.ridingEntity instanceof EntityControllable && ((EntityControllable) this.ridingEntity).isControllable();
 	}
 
 	public float getHorseJumpPower() {
@@ -524,11 +526,11 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Called when the player performs a critical hit on the Entity. Args: entity that was hit critically
 	 */
 	public void onCriticalHit(Entity entityHit) {
-		this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT);
+		this.mc.effectRenderer.emitParticleAtEntity(entityHit, ParticleType.CRIT);
 	}
 
 	public void onEnchantmentCritical(Entity entityHit) {
-		this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT_MAGIC);
+		this.mc.effectRenderer.emitParticleAtEntity(entityHit, ParticleType.CRIT_MAGIC);
 	}
 
 	/**

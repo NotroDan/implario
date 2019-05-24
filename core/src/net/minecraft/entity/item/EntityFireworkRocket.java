@@ -3,7 +3,7 @@ package net.minecraft.entity.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -128,7 +128,7 @@ public class EntityFireworkRocket extends Entity
 
         if (this.worldObj.isClientSide && this.fireworkAge % 2 < 2)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, this.posX, this.posY - 0.3D, this.posZ, this.rand.nextGaussian() * 0.05D, -this.motionY * 0.5D, this.rand.nextGaussian() * 0.05D, new int[0]);
+            this.worldObj.spawnParticle(ParticleType.FIREWORKS_SPARK, this.posX, this.posY - 0.3D, this.posZ, this.rand.nextGaussian() * 0.05D, -this.motionY * 0.5D, this.rand.nextGaussian() * 0.05D, new int[0]);
         }
 
         if (!this.worldObj.isClientSide && this.fireworkAge > this.lifetime)

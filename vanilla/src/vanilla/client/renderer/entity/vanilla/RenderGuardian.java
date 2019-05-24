@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.vanilla;
 
-import net.minecraft.client.game.model.ModelGuardian;
+import vanilla.client.game.model.ModelGuardian;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;

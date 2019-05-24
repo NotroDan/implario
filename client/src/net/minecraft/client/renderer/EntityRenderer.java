@@ -1588,7 +1588,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					double d4 = this.random.nextDouble();
 
 					if (block.getMaterial() == Material.lava) {
-						this.mc.theWorld.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, (double) blockpos1.getX() + d3, (double) ((float) blockpos1.getY() + 0.1F) - block.getBlockBoundsMinY(),
+						this.mc.theWorld.spawnParticle(ParticleType.SMOKE_NORMAL, (double) blockpos1.getX() + d3, (double) ((float) blockpos1.getY() + 0.1F) - block.getBlockBoundsMinY(),
 								(double) blockpos1.getZ() + d4, 0.0D, 0.0D, 0.0D);
 					} else if (block.getMaterial() != Material.air) {
 						block.setBlockBoundsBasedOnState(worldclient, blockpos2);
@@ -1600,7 +1600,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 							d2 = (double) blockpos2.getZ() + d4;
 						}
 
-						this.mc.theWorld.spawnParticle(EnumParticleTypes.WATER_DROP, (double) blockpos2.getX() + d3, (double) ((float) blockpos2.getY() + 0.1F) + block.getBlockBoundsMaxY(),
+						this.mc.theWorld.spawnParticle(ParticleType.WATER_DROP, (double) blockpos2.getX() + d3, (double) ((float) blockpos2.getY() + 0.1F) + block.getBlockBoundsMaxY(),
 								(double) blockpos2.getZ() + d4, 0.0D, 0.0D, 0.0D);
 					}
 				}

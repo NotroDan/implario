@@ -11,7 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -134,7 +134,7 @@ public class BlockRedstoneTorch extends BlockTorch
                         double d0 = (double)pos.getX() + rand.nextDouble() * 0.6D + 0.2D;
                         double d1 = (double)pos.getY() + rand.nextDouble() * 0.6D + 0.2D;
                         double d2 = (double)pos.getZ() + rand.nextDouble() * 0.6D + 0.2D;
-                        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+                        worldIn.spawnParticle(ParticleType.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
                     }
 
                     worldIn.scheduleUpdate(pos, worldIn.getBlockState(pos).getBlock(), 160);
@@ -200,7 +200,7 @@ public class BlockRedstoneTorch extends BlockTorch
                 d2 += 0.27D * (double)enumfacing1.getFrontOffsetZ();
             }
 
-            worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+            worldIn.spawnParticle(ParticleType.REDSTONE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
         }
     }
 

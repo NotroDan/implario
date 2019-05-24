@@ -2,7 +2,7 @@ package vanilla.client.renderer.entity.layers;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.game.model.ModelWitch;
+import vanilla.client.game.model.ModelWitch;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;

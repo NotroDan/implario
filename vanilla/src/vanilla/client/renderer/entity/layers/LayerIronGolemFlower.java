@@ -1,7 +1,7 @@
 package vanilla.client.renderer.entity.layers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.game.model.ModelIronGolem;
+import vanilla.client.game.model.ModelIronGolem;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;

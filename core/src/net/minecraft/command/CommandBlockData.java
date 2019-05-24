@@ -89,6 +89,6 @@ public class CommandBlockData extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos) : null;
+        return args.length > 0 && args.length <= 3 ? completePos(args, 0, pos) : null;
     }
 }

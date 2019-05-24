@@ -42,7 +42,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
+public abstract class GuiScreen extends Gui implements GuiYesNoCallback, OpenableGui {
 
 	private static final Logger LOGGER = Logger.getInstance();
 	private static final Set<String> PROTOCOLS = Sets.newHashSet("http", "https");
@@ -615,6 +615,11 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 */
 	public void onResize(Minecraft mcIn, int p_175273_2_, int p_175273_3_) {
 		this.setWorldAndResolution(mcIn, p_175273_2_, p_175273_3_);
+	}
+
+	@Override
+	public void open() {
+		mc.displayGuiScreen(this);
 	}
 
 }

@@ -26,7 +26,7 @@ public class ModuleVignette implements Module {
 	public float prevVignetteBrightness = 1.0F;
 
 	@Override
-	public void render(ScaledResolution res, float partialTicks) {
+	public void render(GuiIngame gui, float partialTicks, ScaledResolution res) {
 		if (!Config.isVignetteEnabled()) {
 			G.enableDepth();
 			G.tryBlendFuncSeparate(770, 771, 1, 0);

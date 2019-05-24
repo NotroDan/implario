@@ -1,18 +1,11 @@
 package optifine;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import vanilla.entity.monster.EntityBlaze;
-import vanilla.entity.monster.EntityCreeper;
-import vanilla.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
@@ -22,6 +15,11 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class DynamicLights
 {
@@ -238,25 +236,26 @@ public class DynamicLights
 		{
 			return 15;
 		}
-		if (p_getLightLevel_0_ instanceof EntityBlaze)
-		{
-			EntityBlaze entityblaze = (EntityBlaze)p_getLightLevel_0_;
-			return entityblaze.func_70845_n() ? 15 : 10;
-		}
-		if (p_getLightLevel_0_ instanceof EntityMagmaCube)
-		{
-			EntityMagmaCube entitymagmacube = (EntityMagmaCube)p_getLightLevel_0_;
-			return (double)entitymagmacube.squishFactor > 0.6D ? 13 : 8;
-		}
-		if (p_getLightLevel_0_ instanceof EntityCreeper)
-		{
-			EntityCreeper entitycreeper = (EntityCreeper)p_getLightLevel_0_;
-
-			if ((double)entitycreeper.getCreeperFlashIntensity(0.0F) > 0.001D)
-			{
-				return 15;
-			}
-		}
+		// ToDo: Динамическое освещение некоторых мобов.
+//		if (p_getLightLevel_0_ instanceof EntityBlaze)
+//		{
+//			EntityBlaze entityblaze = (EntityBlaze)p_getLightLevel_0_;
+//			return entityblaze.func_70845_n() ? 15 : 10;
+//		}
+//		if (p_getLightLevel_0_ instanceof EntityMagmaCube)
+//		{
+//			EntityMagmaCube entitymagmacube = (EntityMagmaCube)p_getLightLevel_0_;
+//			return (double)entitymagmacube.squishFactor > 0.6D ? 13 : 8;
+//		}
+//		if (p_getLightLevel_0_ instanceof EntityCreeper)
+//		{
+//			EntityCreeper entitycreeper = (EntityCreeper)p_getLightLevel_0_;
+//
+//			if ((double)entitycreeper.getCreeperFlashIntensity(0.0F) > 0.001D)
+//			{
+//				return 15;
+//			}
+//		}
 
 		if (p_getLightLevel_0_ instanceof EntityLivingBase)
 		{

@@ -18,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.world.World;
 
 public class BlockEnderChest extends BlockContainer
@@ -135,7 +135,7 @@ public class BlockEnderChest extends BlockContainer
             double d3 = (double)(rand.nextFloat() * (float)j);
             double d4 = ((double)rand.nextFloat() - 0.5D) * 0.125D;
             double d5 = (double)(rand.nextFloat() * (float)k);
-            worldIn.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5, new int[0]);
+            worldIn.spawnParticle(ParticleType.PORTAL, d0, d1, d2, d3, d4, d5, new int[0]);
         }
     }
 

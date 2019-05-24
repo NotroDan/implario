@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.vanilla;
 
-import net.minecraft.client.game.model.ModelSkeleton;
+import vanilla.client.game.model.ModelSkeleton;
 import net.minecraft.client.renderer.G;
 import vanilla.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;

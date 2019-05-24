@@ -29,7 +29,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import vanilla.world.biome.BiomeGenBase;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -89,8 +88,9 @@ public class CustomColors {
 	private static final CustomColors.IColorizer COLORIZER_GRASS = new CustomColors.IColorizer() {
 		public int getColor(IBlockAccess p_getColor_1_, BlockPos p_getColor_2_) {
 			Biome biomegenbase = CustomColors.getColorBiome(p_getColor_1_, p_getColor_2_);
-			return CustomColors.swampGrassColors != null && biomegenbase == BiomeGenBase.swampland ? CustomColors.swampGrassColors.getColor(biomegenbase,
-					p_getColor_2_) : biomegenbase.getGrassColorAtPos(p_getColor_2_);
+			return
+//					CustomColors.swampGrassColors != null && biomegenbase == BiomeGenBase.swampland ? CustomColors.swampGrassColors.getColor(biomegenbase, p_getColor_2_) :
+					biomegenbase.getGrassColorAtPos(p_getColor_2_);
 		}
 
 		public boolean isColorConstant() {
@@ -100,8 +100,9 @@ public class CustomColors {
 	private static final CustomColors.IColorizer COLORIZER_FOLIAGE = new CustomColors.IColorizer() {
 		public int getColor(IBlockAccess p_getColor_1_, BlockPos p_getColor_2_) {
 			Biome biomegenbase = CustomColors.getColorBiome(p_getColor_1_, p_getColor_2_);
-			return CustomColors.swampFoliageColors != null && biomegenbase == BiomeGenBase.swampland ? CustomColors.swampFoliageColors.getColor(biomegenbase,
-					p_getColor_2_) : biomegenbase.getFoliageColorAtPos(p_getColor_2_);
+			return
+//					CustomColors.swampFoliageColors != null && biomegenbase == BiomeGenBase.swampland ? CustomColors.swampFoliageColors.getColor(biomegenbase, p_getColor_2_) :
+							biomegenbase.getFoliageColorAtPos(p_getColor_2_);
 		}
 
 		public boolean isColorConstant() {

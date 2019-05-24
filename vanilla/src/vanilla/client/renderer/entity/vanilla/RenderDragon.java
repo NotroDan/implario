@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.vanilla;
 
-import net.minecraft.client.game.model.ModelDragon;
+import vanilla.client.game.model.ModelDragon;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;

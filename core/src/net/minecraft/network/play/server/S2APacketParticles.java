@@ -4,11 +4,11 @@ import java.io.IOException;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 
 public class S2APacketParticles implements Packet<INetHandlerPlayClient>
 {
-    private EnumParticleTypes particleType;
+    private ParticleType particleType;
     private float xCoord;
     private float yCoord;
     private float zCoord;
@@ -28,7 +28,7 @@ public class S2APacketParticles implements Packet<INetHandlerPlayClient>
     {
     }
 
-    public S2APacketParticles(EnumParticleTypes particleTypeIn, boolean longDistanceIn, float x, float y, float z, float xOffsetIn, float yOffset, float zOffset, float particleSpeedIn, int particleCountIn, int... particleArgumentsIn)
+    public S2APacketParticles(ParticleType particleTypeIn, boolean longDistanceIn, float x, float y, float z, float xOffsetIn, float yOffset, float zOffset, float particleSpeedIn, int particleCountIn, int... particleArgumentsIn)
     {
         this.particleType = particleTypeIn;
         this.longDistance = longDistanceIn;
@@ -48,11 +48,11 @@ public class S2APacketParticles implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.particleType = EnumParticleTypes.getParticleFromId(buf.readInt());
+        this.particleType = ParticleType.getParticleFromId(buf.readInt());
 
         if (this.particleType == null)
         {
-            this.particleType = EnumParticleTypes.BARRIER;
+            this.particleType = ParticleType.BARRIER;
         }
 
         this.longDistance = buf.readBoolean();
@@ -96,7 +96,7 @@ public class S2APacketParticles implements Packet<INetHandlerPlayClient>
         }
     }
 
-    public EnumParticleTypes getParticleType()
+    public ParticleType getParticleType()
     {
         return this.particleType;
     }

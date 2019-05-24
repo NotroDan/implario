@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.vanilla;
 
-import net.minecraft.client.game.model.ModelEnderMite;
+import vanilla.client.game.model.ModelEnderMite;
 import vanilla.client.renderer.entity.RenderVanilla;
 import net.minecraft.client.renderer.entity.RenderManager;
 import vanilla.entity.monster.EntityEndermite;

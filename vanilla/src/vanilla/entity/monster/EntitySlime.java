@@ -10,7 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
@@ -90,8 +90,8 @@ public class EntitySlime extends VanillaEntity implements IMob {
 		this.wasOnGround = tagCompund.getBoolean("wasOnGround");
 	}
 
-	protected EnumParticleTypes getParticleType() {
-		return EnumParticleTypes.SLIME;
+	protected ParticleType getParticleType() {
+		return ParticleType.SLIME;
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class EntitySlime extends VanillaEntity implements IMob {
 				float f2 = MathHelper.sin(f) * (float) i * 0.5F * f1;
 				float f3 = MathHelper.cos(f) * (float) i * 0.5F * f1;
 				World world = this.worldObj;
-				EnumParticleTypes enumparticletypes = this.getParticleType();
+				ParticleType enumparticletypes = this.getParticleType();
 				double d0 = this.posX + (double) f2;
 				double d1 = this.posZ + (double) f3;
 				world.spawnParticle(enumparticletypes, d0, this.getEntityBoundingBox().minY, d1, 0.0D, 0.0D, 0.0D, new int[0]);

@@ -745,7 +745,7 @@ public class WorldServer extends World implements IThreadListener {
 	 * @param speed Скорость движения частиц.
 	 * @param args Аргументы частиц (Например, ID блока для частиц кусочков блока).
 	 */
-	public void spawnParticle(EnumParticleTypes type, double x, double y, double z, int amount, double dx, double dy, double dz, double speed, int... args) {
+	public void spawnParticle(ParticleType type, double x, double y, double z, int amount, double dx, double dy, double dz, double speed, int... args) {
 		this.spawnParticle(type, false, x, y, z, amount, dx, dy, dz, speed, args);
 	}
 
@@ -758,7 +758,7 @@ public class WorldServer extends World implements IThreadListener {
 	 * @param speed Скорость движения частиц.
 	 * @param args Аргументы частиц (Например, ID блока для частиц кусочков блока).
 	 */
-	public void spawnParticle(EnumParticleTypes type, boolean farMode,
+	public void spawnParticle(ParticleType type, boolean farMode,
 							  double x, double y, double z, int amount,
 							  double dx, double dy, double dz,
 							  double speed, int... args) {

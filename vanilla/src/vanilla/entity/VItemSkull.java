@@ -14,7 +14,7 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import vanilla.entity.boss.EntityWither;
@@ -92,7 +92,7 @@ public class VItemSkull extends ItemSkull {
 		worldIn.spawnEntityInWorld(entitywither);
 
 		for (int l = 0; l < 120; ++l) {
-			worldIn.spawnParticle(EnumParticleTypes.SNOWBALL, (double) blockpos.getX() + worldIn.rand.nextDouble(), (double) (blockpos.getY() - 2) + worldIn.rand.nextDouble() * 3.9D,
+			worldIn.spawnParticle(ParticleType.SNOWBALL, (double) blockpos.getX() + worldIn.rand.nextDouble(), (double) (blockpos.getY() - 2) + worldIn.rand.nextDouble() * 3.9D,
 					(double) blockpos.getZ() + worldIn.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
 		}
 

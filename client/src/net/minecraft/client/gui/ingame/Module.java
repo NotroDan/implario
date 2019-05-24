@@ -5,6 +5,6 @@ import net.minecraft.client.gui.ScaledResolution;
 @FunctionalInterface
 public interface Module {
 
-	void render(ScaledResolution res, float partialTicks);
+	void render(GuiIngame gui, float partialTicks, ScaledResolution res);
 
 }

@@ -138,7 +138,8 @@ public class EntityList {
 	}
 
 	public static Class<? extends Entity> getClassFromID(int entityID) {
-		return (Class) idToClassMapping.get(entityID);
+		Class<? extends Entity> c = idToClassMapping.get(entityID);
+		return c == null ? EntityArmorStand.class : c;
 	}
 
 	/**

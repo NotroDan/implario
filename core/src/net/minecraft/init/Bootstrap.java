@@ -3,9 +3,9 @@ package net.minecraft.init;
 import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.LoggingPrintStream;
 
 import java.io.PrintStream;
 
@@ -34,15 +34,8 @@ public class Bootstrap {
 		BlockFire.init();
 		Item.registerItems();
 		StatList.init();
+		Enchantments.protection.getClass().getCanonicalName();
 		// ToDo: Datapack preinit
-	}
-
-	/**
-	 * redirect standard streams to logger
-	 */
-	private static void redirectOutputToLog() {
-		System.setErr(new LoggingPrintStream("STDERR", System.err));
-		System.setOut(new LoggingPrintStream("STDOUT", SYSOUT));
 	}
 
 	public static void print(String text) {

@@ -7,7 +7,7 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.events.PlayerEnderPearlEvent;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -43,7 +43,7 @@ public class EntityEnderPearl extends EntityThrowable {
 		}
 
 		for (int i = 0; i < 32; ++i) {
-			this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ,
+			this.worldObj.spawnParticle(ParticleType.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ,
 					this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
 		}
 

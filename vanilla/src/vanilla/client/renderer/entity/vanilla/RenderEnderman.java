@@ -2,7 +2,7 @@ package vanilla.client.renderer.entity.vanilla;
 
 import java.util.Random;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.game.model.ModelEnderman;
+import vanilla.client.game.model.ModelEnderman;
 import vanilla.client.renderer.entity.RenderVanilla;
 import net.minecraft.client.renderer.entity.RenderManager;
 import vanilla.client.renderer.entity.layers.LayerEndermanEyes;

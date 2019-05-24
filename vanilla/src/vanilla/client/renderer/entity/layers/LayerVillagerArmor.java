@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.layers;
 
-import net.minecraft.client.game.model.ModelZombieVillager;
+import vanilla.client.game.model.ModelZombieVillager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 

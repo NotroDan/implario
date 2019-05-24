@@ -169,13 +169,13 @@ public class BlockTorch extends Block {
 
 		if (enumfacing.getAxis().isHorizontal()) {
 			EnumFacing enumfacing1 = enumfacing.getOpposite();
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * (double) enumfacing1.getFrontOffsetX(),
+			worldIn.spawnParticle(ParticleType.SMOKE_NORMAL, d0 + d4 * (double) enumfacing1.getFrontOffsetX(),
 					d1 + d3, d2 + d4 * (double) enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D);
-			worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3,
+			worldIn.spawnParticle(ParticleType.FLAME, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3,
 					d2 + d4 * (double) enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D);
 		} else {
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-			worldIn.spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+			worldIn.spawnParticle(ParticleType.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+			worldIn.spawnParticle(ParticleType.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
 		}
 	}
 

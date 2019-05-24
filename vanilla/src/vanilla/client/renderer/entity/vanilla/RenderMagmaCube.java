@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.vanilla;
 
-import net.minecraft.client.game.model.ModelMagmaCube;
+import vanilla.client.game.model.ModelMagmaCube;
 import net.minecraft.client.renderer.G;
 import vanilla.client.renderer.entity.RenderVanilla;
 import net.minecraft.client.renderer.entity.RenderManager;

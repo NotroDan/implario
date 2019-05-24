@@ -152,7 +152,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 			float f11 = (this.rand.nextFloat() - 0.5F) * 8.0F;
 			float f13 = (this.rand.nextFloat() - 0.5F) * 4.0F;
 			float f14 = (this.rand.nextFloat() - 0.5F) * 8.0F;
-			this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX + (double) f11, this.posY + 2.0D + (double) f13, this.posZ + (double) f14, 0.0D, 0.0D, 0.0D, new int[0]);
+			this.worldObj.spawnParticle(ParticleType.EXPLOSION_LARGE, this.posX + (double) f11, this.posY + 2.0D + (double) f13, this.posZ + (double) f14, 0.0D, 0.0D, 0.0D, new int[0]);
 		} else {
 			this.updateDragonEnderCrystal();
 			float f10 = 0.2F / (MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ) * 10.0F + 1.0F);
@@ -492,7 +492,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 			double d0 = p_70972_1_.minX + (p_70972_1_.maxX - p_70972_1_.minX) * (double) this.rand.nextFloat();
 			double d1 = p_70972_1_.minY + (p_70972_1_.maxY - p_70972_1_.minY) * (double) this.rand.nextFloat();
 			double d2 = p_70972_1_.minZ + (p_70972_1_.maxZ - p_70972_1_.minZ) * (double) this.rand.nextFloat();
-			this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+			this.worldObj.spawnParticle(ParticleType.EXPLOSION_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
 		}
 
 		return flag;
@@ -553,7 +553,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 			float f = (this.rand.nextFloat() - 0.5F) * 8.0F;
 			float f1 = (this.rand.nextFloat() - 0.5F) * 4.0F;
 			float f2 = (this.rand.nextFloat() - 0.5F) * 8.0F;
-			this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX + (double) f, this.posY + 2.0D + (double) f1, this.posZ + (double) f2, 0.0D, 0.0D, 0.0D, new int[0]);
+			this.worldObj.spawnParticle(ParticleType.EXPLOSION_HUGE, this.posX + (double) f, this.posY + 2.0D + (double) f1, this.posZ + (double) f2, 0.0D, 0.0D, 0.0D, new int[0]);
 		}
 
 		boolean flag = this.worldObj.getGameRules().getBoolean("doMobLoot");

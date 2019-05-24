@@ -1,7 +1,7 @@
 package net.minecraft.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -25,7 +25,7 @@ public class EntitySnowball extends EntityThrowable {
 	protected void onImpact(MovingObjectPosition m) {
 
 		for (int j = 0; j < 8; ++j) {
-			this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+			this.worldObj.spawnParticle(ParticleType.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
 		}
 
 		if (!this.worldObj.isClientSide) {

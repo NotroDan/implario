@@ -19,15 +19,10 @@ public class WorldType {
 
 
 
-//	public static final WorldType DEFAULT = new WorldType(0, "default").setVersioned();
-//	public static final WorldType FLAT = new WorldType(1, "flat");
-//	public static final WorldType LARGE_BIOMES = new WorldType(2, "largeBiomes");
-//	public static final WorldType AMPLIFIED = new WorldType(3, "amplified").setNotificationData();
-//	public static final WorldType CUSTOMIZED = new WorldType(4, "customized");
-//	public static final WorldType DEBUG_WORLD = new WorldType(5, "debug_all_block_states");
 	public static final WorldType VOID = new WorldType("empty",
 		(p, s, v, c) -> new BasicChunkManager(Biome.VOID),
 		p -> new ChunkProviderVoid(p.getWorld())).weakFog();
+
 	private static final ChunkManagerFactory factoryDebugCM = (p, s, v, c) -> new BasicChunkManager(Biome.VOID);
 	private static final ChunkProviderFactory factoryDebugCP = p -> new ChunkProviderDebug(p.getWorld());
 	public static final WorldType DEBUG = new WorldType("debug_all_block_states", factoryDebugCM, factoryDebugCP).disableMobs().disallowModification();
@@ -55,6 +50,8 @@ public class WorldType {
 	private boolean weakFog;
 	private boolean doMobSpawning = true;
 	private boolean modificationAllowed = true;
+	private WorldCustomizer customizer;
+	private boolean mapFeatures = true;
 
 	public WorldType(String name, ChunkManagerFactory manager, ChunkProviderFactory provider) {
 		this.worldType = name;
@@ -62,6 +59,19 @@ public class WorldType {
 		this.chunkManagerFactory = manager;
 		this.chunkProviderFactory = provider;
 		worldTypes[id] = this;
+	}
+
+	public boolean areMapFeaturesEnabled() {
+		return mapFeatures;
+	}
+
+	public WorldType setCustomizer(WorldCustomizer customizer) {
+		this.customizer = customizer;
+		return this;
+	}
+
+	public WorldCustomizer getCustomizer() {
+		return customizer;
 	}
 
 	public String getWorldTypeName() {
@@ -177,6 +187,11 @@ public class WorldType {
 
 	public WorldType disallowModification() {
 		modificationAllowed = false;
+		return this;
+	}
+
+	public WorldType disableFeatures() {
+		this.mapFeatures = false;
 		return this;
 	}
 

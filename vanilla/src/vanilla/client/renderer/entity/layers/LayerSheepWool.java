@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.layers;
 
-import net.minecraft.client.game.model.ModelSheep1;
+import vanilla.client.game.model.ModelSheep1;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.tileentity.BeaconColors;

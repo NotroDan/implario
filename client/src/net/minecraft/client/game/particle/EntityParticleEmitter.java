@@ -2,7 +2,7 @@ package net.minecraft.client.game.particle;
 
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.world.World;
 
 public class EntityParticleEmitter extends EntityFX
@@ -10,9 +10,9 @@ public class EntityParticleEmitter extends EntityFX
     private Entity attachedEntity;
     private int age;
     private int lifetime;
-    private EnumParticleTypes particleTypes;
+    private ParticleType particleTypes;
 
-    public EntityParticleEmitter(World worldIn, Entity p_i46279_2_, EnumParticleTypes particleTypesIn)
+    public EntityParticleEmitter(World worldIn, Entity p_i46279_2_, ParticleType particleTypesIn)
     {
         super(worldIn, p_i46279_2_.posX, p_i46279_2_.getEntityBoundingBox().minY + (double)(p_i46279_2_.height / 2.0F), p_i46279_2_.posZ, p_i46279_2_.motionX, p_i46279_2_.motionY, p_i46279_2_.motionZ);
         this.attachedEntity = p_i46279_2_;

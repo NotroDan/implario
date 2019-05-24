@@ -15,7 +15,7 @@ import net.minecraft.item.potion.Potion;
 public class ModulePortal implements Module {
 
 	@Override
-	public void render(ScaledResolution res, float partialTicks) {
+	public void render(GuiIngame gui, float partialTicks, ScaledResolution res) {
 		EntityPlayerSP p = MC.getPlayer();
 		if (p.isPotionActive(Potion.confusion)) return;
 		float time = p.prevTimeInPortal + (p.timeInPortal - p.prevTimeInPortal) * partialTicks;

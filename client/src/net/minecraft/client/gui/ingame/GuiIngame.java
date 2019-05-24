@@ -24,7 +24,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.IAttributeInstance;
-import vanilla.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -131,6 +130,7 @@ public class GuiIngame extends Gui {
 		this.mc.entityRenderer.setupOverlayRendering();
 		G.enableBlend();
 
+		for (Module module : Modules.MODULES) module.render(this, partialTicks, scaledresolution);
 
 		// Затемнение по краям экрана
 //		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
@@ -148,7 +148,7 @@ public class GuiIngame extends Gui {
 		renderCrosshair(width, height);
 
 		// Боссбар
-		renderBossHealth();
+//		renderBossHealth();
 
 		// Броня, еда, здоровье
 		renderPlayerStats(scaledresolution);
@@ -966,35 +966,6 @@ public class GuiIngame extends Gui {
 		Profiler.in.endSection();
 	}
 
-	/**
-	 * Renders dragon's (boss) health on the HUD
-	 */
-	private void renderBossHealth() {
-		Profiler.in.startSection("bossHealth");
-		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
-			--BossStatus.statusBarTime;
-			AssetsFontRenderer fontrenderer = this.mc.fontRenderer;
-			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-			int i = scaledresolution.getScaledWidth();
-			short short1 = 182;
-			int j = i / 2 - short1 / 2;
-			int k = (int) (BossStatus.healthScale * (float) (short1 + 1));
-			byte b0 = 12;
-			this.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
-			this.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
-			if (k > 0) this.drawTexturedModalRect(j, b0, 0, 79, k, 5);
-
-			String s = BossStatus.bossName;
-			int l = 0xffffff;
-
-			if (Config.isCustomColors()) l = CustomColors.getBossTextColor(l);
-
-			this.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float) (b0 - 10), l);
-			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.mc.getTextureManager().bindTexture(icons);
-		}
-		Profiler.in.endSection();
-	}
 
 	private void renderHotbarItem(int index, int xPos, int yPos, float partialTicks, EntityPlayer p_175184_5_) {
 		ItemStack itemstack = p_175184_5_.inventory.mainInventory[index];

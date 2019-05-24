@@ -9,7 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -45,7 +45,7 @@ public class ItemEnderEye extends Item
 				double d3 = 0.0D;
 				double d4 = 0.0D;
 				double d5 = 0.0D;
-				worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, d3, d4, d5, new int[0]);
+				worldIn.spawnParticle(ParticleType.SMOKE_NORMAL, d0, d1, d2, d3, d4, d5, new int[0]);
 			}
 
 			EnumFacing enumfacing = (EnumFacing)iblockstate.getValue(BlockEndPortalFrame.FACING);

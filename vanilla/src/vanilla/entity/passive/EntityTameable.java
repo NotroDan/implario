@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.world.World;
 
 public abstract class EntityTameable extends EntityAnimal implements IEntityOwnable
@@ -81,11 +81,11 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
      */
     protected void playTameEffect(boolean play)
     {
-        EnumParticleTypes enumparticletypes = EnumParticleTypes.HEART;
+        ParticleType enumparticletypes = ParticleType.HEART;
 
         if (!play)
         {
-            enumparticletypes = EnumParticleTypes.SMOKE_NORMAL;
+            enumparticletypes = ParticleType.SMOKE_NORMAL;
         }
 
         for (int i = 0; i < 7; ++i)

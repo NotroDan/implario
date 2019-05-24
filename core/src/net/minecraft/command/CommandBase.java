@@ -440,7 +440,7 @@ public abstract class CommandBase implements ICommand {
 		return joinNiceString(strings.toArray(new String[strings.size()]));
 	}
 
-	public static List<String> func_175771_a(String[] p_175771_0_, int p_175771_1_, BlockPos p_175771_2_) {
+	public static List<String> completePos(String[] p_175771_0_, int p_175771_1_, BlockPos p_175771_2_) {
 		if (p_175771_2_ == null) {
 			return null;
 		}

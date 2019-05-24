@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.MC;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.game.entity.EntityPlayerSP;
-import net.minecraft.client.game.model.*;
+import net.minecraft.client.game.model.ModelSlime;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -36,6 +36,7 @@ import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
+import net.minecraft.server.Todo;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
@@ -45,6 +46,10 @@ import vanilla.block.BlockMobSpawner;
 import vanilla.block.VBlockMushroom;
 import vanilla.block.VBlockSapling;
 import vanilla.client.audio.GuardianSound;
+import vanilla.client.game.model.*;
+import vanilla.client.game.particle.VanillaParticles;
+import vanilla.client.gui.GuiCreateFlatWorld;
+import vanilla.client.gui.GuiCustomizeWorldScreen;
 import vanilla.client.gui.block.GuiMerchant;
 import vanilla.client.gui.block.GuiScreenHorseInventory;
 import vanilla.client.gui.block.HorseInv;
@@ -69,6 +74,7 @@ import vanilla.tileentity.TileEntityMobSpawner;
 import vanilla.world.SleepChecker;
 import vanilla.world.WorldProviderEnd;
 import vanilla.world.WorldProviderHell;
+import vanilla.world.gen.WorldTypes;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 
 import java.io.IOException;
@@ -321,6 +327,18 @@ public class Vanilla extends Datapack {
 			return false;
 		});
 
+		registrar.regInterceptor(S2BPacketChangeGameState.class, (p, l) -> {
+			int i = p.getGameState();
+			WorldClient w = ((NetHandlerPlayClient) l).getClientWorldController();
+			EntityPlayer player = MC.getPlayer();
+			if (i == 10) {
+				w.spawnParticle(VanillaParticles.MOB_APPEARANCE, player.posX, player.posY, player.posZ, 0.0D, 0.0D, 0.0D);
+				w.playSound(player.posX, player.posY, player.posZ, "mob.guardian.curse", 1.0F, 1.0F, false);
+				return true;
+			}
+			return false;
+		});
+
 		registrar.regInterceptor(S0EPacketSpawnObject.class, (p, l) -> {
 			if (p.getType() == 77) {
 
@@ -355,6 +373,8 @@ public class Vanilla extends Datapack {
 			}
 		});
 
+		WorldTypes.FLAT.setCustomizer(GuiCreateFlatWorld::new);
+		WorldTypes.CUSTOMIZED.setCustomizer(GuiCustomizeWorldScreen::new);
 
 		registerGuis();
 
@@ -363,6 +383,8 @@ public class Vanilla extends Datapack {
 
 	@Override
 	public void postinit() {
+
+		if (Todo.instance.isServerSide()) return;
 
 		RenderManager m = MC.i().getRenderManager();
 
@@ -411,6 +433,8 @@ public class Vanilla extends Datapack {
 							p.capabilities.allowFlying ? MusicTicker.MusicType.CREATIVE : MusicTicker.MusicType.GAME : MusicTicker.MusicType.MENU;
 		};
 
+		VanillaParticles.register();
+		VanillaIngameModules.register();
 	}
 
 	private void registerGuis() {
@@ -424,6 +448,7 @@ public class Vanilla extends Datapack {
 				MC.displayGuiScreen(new GuiScreenHorseInventory(p.inventory, horseinv.inv, horseinv.horse));
 			}
 		});
+
 	}
 
 	private void registerDispenserBehaviours() {
@@ -432,7 +457,6 @@ public class Vanilla extends Datapack {
 
 	@Override
 	protected void unload() {
-
 	}
 
 }

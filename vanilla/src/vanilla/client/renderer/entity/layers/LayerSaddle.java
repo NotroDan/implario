@@ -1,6 +1,6 @@
 package vanilla.client.renderer.entity.layers;
 
-import net.minecraft.client.game.model.ModelPig;
+import vanilla.client.game.model.ModelPig;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import vanilla.client.renderer.entity.vanilla.RenderPig;
 import vanilla.entity.passive.EntityPig;

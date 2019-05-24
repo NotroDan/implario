@@ -176,18 +176,18 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 			double d10 = this.func_82214_u(l);
 			double d2 = this.func_82208_v(l);
 			double d4 = this.func_82213_w(l);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D,
+			this.worldObj.spawnParticle(ParticleType.SMOKE_NORMAL, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D,
 					d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.0D, 0.0D, 0.0D);
 
 			if (flag && this.worldObj.rand.nextInt(4) == 0) {
-				this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D,
+				this.worldObj.spawnParticle(ParticleType.SPELL_MOB, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D,
 						d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.699999988079071D, 0.699999988079071D, 0.5D);
 			}
 		}
 
 		if (this.getInvulTime() > 0) {
 			for (int i1 = 0; i1 < 3; ++i1) {
-				this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + this.rand.nextGaussian() * 1.0D, this.posY + (double) (this.rand.nextFloat() * 3.3F),
+				this.worldObj.spawnParticle(ParticleType.SPELL_MOB, this.posX + this.rand.nextGaussian() * 1.0D, this.posY + (double) (this.rand.nextFloat() * 3.3F),
 						this.posZ + this.rand.nextGaussian() * 1.0D, 0.699999988079071D, 0.699999988079071D, 0.8999999761581421D);
 			}
 		}

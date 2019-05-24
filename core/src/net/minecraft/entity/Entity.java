@@ -989,14 +989,14 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		for (int i = 0; (float) i < 1.0F + this.width * 20.0F; ++i) {
 			float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
 			float f3 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-			this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (double) f2, (double) (f1 + 1.0F), this.posZ + (double) f3, this.motionX,
+			this.worldObj.spawnParticle(ParticleType.WATER_BUBBLE, this.posX + (double) f2, (double) (f1 + 1.0F), this.posZ + (double) f3, this.motionX,
 					this.motionY - (double) (this.rand.nextFloat() * 0.2F), this.motionZ);
 		}
 
 		for (int j = 0; (float) j < 1.0F + this.width * 20.0F; ++j) {
 			float f4 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
 			float f5 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-			this.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double) f4, (double) (f1 + 1.0F), this.posZ + (double) f5, this.motionX, this.motionY, this.motionZ);
+			this.worldObj.spawnParticle(ParticleType.WATER_SPLASH, this.posX + (double) f4, (double) (f1 + 1.0F), this.posZ + (double) f5, this.motionX, this.motionY, this.motionZ);
 		}
 	}
 
@@ -1018,7 +1018,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		Block block = iblockstate.getBlock();
 
 		if (block.getRenderType() != -1) {
-			this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, this.getEntityBoundingBox().minY + 0.1D,
+			this.worldObj.spawnParticle(ParticleType.BLOCK_CRACK, this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, this.getEntityBoundingBox().minY + 0.1D,
 					this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, -this.motionX * 4.0D, 1.5D, -this.motionZ * 4.0D, Block.getStateId(iblockstate));
 		}
 	}

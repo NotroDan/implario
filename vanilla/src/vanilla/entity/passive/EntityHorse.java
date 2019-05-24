@@ -3,6 +3,7 @@ package vanilla.entity.passive;
 import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.game.entity.EntityControllable;
 import net.minecraft.entity.Entity;
 import vanilla.client.gui.block.HorseInv;
 import vanilla.entity.EntityAgeable;
@@ -35,13 +36,13 @@ import net.minecraft.item.potion.Potion;
 import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityHorse extends EntityAnimal implements IInvBasic {
+public class EntityHorse extends EntityAnimal implements IInvBasic, EntityControllable {
 
 	private static final Predicate<Entity> horseBreedingSelector = e -> e instanceof EntityHorse && ((EntityHorse) e).isBreeding();
 	private static final IAttribute horseJumpStrength = new RangedAttribute(null, "horse.jumpStrength", 0.7D, 0.0D, 2.0D).setDescription("Jump Strength").setShouldWatch(true);
@@ -430,7 +431,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 	 */
 	public void onInventoryChanged(InventoryBasic p_76316_1_) {
 		int i = this.getHorseArmorIndexSynced();
-		boolean flag = this.isHorseSaddled();
+		boolean flag = this.isControllable();
 		this.updateHorseSlots();
 
 		if (this.ticksExisted > 20) {
@@ -440,7 +441,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 				this.playSound("mob.horse.armor", 0.5F, 1.0F);
 			}
 
-			if (!flag && this.isHorseSaddled()) {
+			if (!flag && this.isControllable()) {
 				this.playSound("mob.horse.leather", 0.5F, 1.0F);
 			}
 		}
@@ -503,7 +504,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 		return i == 3 ? "mob.horse.zombie.hit" : i == 4 ? "mob.horse.skeleton.hit" : i != 1 && i != 2 ? "mob.horse.hit" : "mob.horse.donkey.hit";
 	}
 
-	public boolean isHorseSaddled() {
+	public boolean isControllable() {
 		return this.getHorseWatchableBoolean(4);
 	}
 
@@ -788,7 +789,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 				this.initHorseChest();
 			}
 
-			if (!flag && this.func_110253_bW() && !this.isHorseSaddled() && itemstack.getItem() == Items.saddle) {
+			if (!flag && this.func_110253_bW() && !this.isControllable() && itemstack.getItem() == Items.saddle) {
 				this.openGUI(player);
 				return true;
 			}
@@ -842,7 +843,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 	 * Dead and sleeping entities cannot move
 	 */
 	protected boolean isMovementBlocked() {
-		return this.riddenByEntity != null && this.isHorseSaddled() ? true : this.isEatingHaystack() || this.isRearing();
+		return this.riddenByEntity != null && this.isControllable() ? true : this.isEatingHaystack() || this.isRearing();
 	}
 
 	/**
@@ -1076,7 +1077,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 	 * Moves the entity based on the specified heading.  Args: strafe, forward
 	 */
 	public void moveEntityWithHeading(float strafe, float forward) {
-		if (this.riddenByEntity instanceof EntityLivingBase && this.isHorseSaddled()) {
+		if (this.riddenByEntity instanceof EntityLivingBase && this.isControllable()) {
 			this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
 			this.rotationPitch = this.riddenByEntity.rotationPitch * 0.5F;
 			this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -1392,7 +1393,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 	}
 
 	public void setJumpPower(int jumpPowerIn) {
-		if (this.isHorseSaddled()) {
+		if (this.isControllable()) {
 			if (jumpPowerIn < 0) {
 				jumpPowerIn = 0;
 			} else {
@@ -1412,7 +1413,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 	 * "Spawns particles for the horse entity. par1 tells whether to spawn hearts. If it is false, it spawns smoke."
 	 */
 	protected void spawnHorseParticles(boolean p_110216_1_) {
-		EnumParticleTypes enumparticletypes = p_110216_1_ ? EnumParticleTypes.HEART : EnumParticleTypes.SMOKE_NORMAL;
+		ParticleType enumparticletypes = p_110216_1_ ? ParticleType.HEART : ParticleType.SMOKE_NORMAL;
 
 		for (int i = 0; i < 7; ++i) {
 			double d0 = this.rand.nextGaussian() * 0.02D;

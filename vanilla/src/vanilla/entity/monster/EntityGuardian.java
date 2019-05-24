@@ -29,7 +29,7 @@ import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.WeightedRandom;
@@ -286,7 +286,7 @@ public class EntityGuardian extends EntityMob {
 				Vec3 vec3 = this.getLook(0.0F);
 
 				for (int i = 0; i < 2; ++i) {
-					this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3.xCoord * 1.5D,
+					this.worldObj.spawnParticle(ParticleType.WATER_BUBBLE, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3.xCoord * 1.5D,
 							this.posY + this.rand.nextDouble() * (double) this.height - vec3.yCoord * 1.5D, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3.zCoord * 1.5D,
 							0.0D, 0.0D, 0.0D, new int[0]);
 				}
@@ -314,7 +314,7 @@ public class EntityGuardian extends EntityMob {
 
 					while (d4 < d3) {
 						d4 += 1.8D - d5 + this.rand.nextDouble() * (1.7D - d5);
-						this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + d0 * d4, this.posY + d1 * d4 + (double) this.getEyeHeight(), this.posZ + d2 * d4, 0.0D, 0.0D, 0.0D,
+						this.worldObj.spawnParticle(ParticleType.WATER_BUBBLE, this.posX + d0 * d4, this.posY + d1 * d4 + (double) this.getEyeHeight(), this.posZ + d2 * d4, 0.0D, 0.0D, 0.0D,
 								new int[0]);
 					}
 				}

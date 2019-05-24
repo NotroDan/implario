@@ -8,7 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
@@ -157,7 +157,7 @@ public abstract class BlockLeaves extends BlockLeavesBase {
 			double d0 = (double) ((float) pos.getX() + rand.nextFloat());
 			double d1 = (double) pos.getY() - 0.05D;
 			double d2 = (double) ((float) pos.getZ() + rand.nextFloat());
-			worldIn.spawnParticle(EnumParticleTypes.DRIP_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+			worldIn.spawnParticle(ParticleType.DRIP_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
 		}
 	}
 

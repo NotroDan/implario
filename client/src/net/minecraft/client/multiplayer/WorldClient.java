@@ -20,7 +20,7 @@ import net.minecraft.server.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentText;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.Chunk;
@@ -285,7 +285,7 @@ public class WorldClient extends World {
 			iblockstate.getBlock().randomDisplayTick(this, blockposm, iblockstate, random);
 
 			if (flag && iblockstate.getBlock() == Blocks.barrier) {
-				this.spawnParticle(EnumParticleTypes.BARRIER, (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), (double) ((float) l + 0.5F), 0.0D, 0.0D, 0.0D);
+				this.spawnParticle(ParticleType.BARRIER, (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), (double) ((float) l + 0.5F), 0.0D, 0.0D, 0.0D);
 			}
 		}
 	}

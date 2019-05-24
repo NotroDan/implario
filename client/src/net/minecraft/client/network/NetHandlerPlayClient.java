@@ -614,9 +614,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 				EntityPlayer entityplayer = (EntityPlayer) entity;
 				entityplayer.wakeUpPlayer(false, false, false);
 			} else if (packetIn.getAnimationType() == 4)
-				this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
+				this.gameController.effectRenderer.emitParticleAtEntity(entity, ParticleType.CRIT);
 			else if (packetIn.getAnimationType() == 5)
-				this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
+				this.gameController.effectRenderer.emitParticleAtEntity(entity, ParticleType.CRIT_MAGIC);
 	}
 
 	/**
@@ -639,29 +639,29 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		double d2 = (double) packetIn.getZ() / 32.0D;
 		float f = (float) (packetIn.getYaw() * 360) / 256.0F;
 		float f1 = (float) (packetIn.getPitch() * 360) / 256.0F;
-		EntityLivingBase entitylivingbase = (EntityLivingBase) EntityList.createEntityByID(packetIn.getEntityType(), this.gameController.theWorld);
-		entitylivingbase.serverPosX = packetIn.getX();
-		entitylivingbase.serverPosY = packetIn.getY();
-		entitylivingbase.serverPosZ = packetIn.getZ();
-		entitylivingbase.renderYawOffset = entitylivingbase.rotationYawHead = (float) (packetIn.getHeadPitch() * 360) / 256.0F;
-		Entity[] aentity = entitylivingbase.getParts();
+		EntityLivingBase entity = (EntityLivingBase) EntityList.createEntityByID(packetIn.getEntityType(), this.gameController.theWorld);
+		entity.serverPosX = packetIn.getX();
+		entity.serverPosY = packetIn.getY();
+		entity.serverPosZ = packetIn.getZ();
+		entity.renderYawOffset = entity.rotationYawHead = (float) (packetIn.getHeadPitch() * 360) / 256.0F;
+		Entity[] entityParts = entity.getParts();
 
-		if (aentity != null) {
-			int i = packetIn.getEntityID() - entitylivingbase.getEntityId();
+		if (entityParts != null) {
+			int i = packetIn.getEntityID() - entity.getEntityId();
 
-			for (Entity anAentity : aentity) anAentity.setEntityId(anAentity.getEntityId() + i);
+			for (Entity part : entityParts) part.setEntityId(part.getEntityId() + i);
 		}
 
-		entitylivingbase.setEntityId(packetIn.getEntityID());
-		entitylivingbase.setPositionAndRotation(d0, d1, d2, f, f1);
-		entitylivingbase.motionX = (double) ((float) packetIn.getVelocityX() / 8000.0F);
-		entitylivingbase.motionY = (double) ((float) packetIn.getVelocityY() / 8000.0F);
-		entitylivingbase.motionZ = (double) ((float) packetIn.getVelocityZ() / 8000.0F);
-		this.clientWorldController.addEntityToWorld(packetIn.getEntityID(), entitylivingbase);
+		entity.setEntityId(packetIn.getEntityID());
+		entity.setPositionAndRotation(d0, d1, d2, f, f1);
+		entity.motionX = (double) ((float) packetIn.getVelocityX() / 8000.0F);
+		entity.motionY = (double) ((float) packetIn.getVelocityY() / 8000.0F);
+		entity.motionZ = (double) ((float) packetIn.getVelocityZ() / 8000.0F);
+		this.clientWorldController.addEntityToWorld(packetIn.getEntityID(), entity);
 		List<DataWatcher.WatchableObject> list = packetIn.func_149027_c();
 
 		if (list != null)
-			entitylivingbase.getDataWatcher().updateWatchedObjectsFromList(list);
+			entity.getDataWatcher().updateWatchedObjectsFromList(list);
 	}
 
 	public void handleTimeUpdate(S03PacketTimeUpdate packetIn) {
@@ -965,6 +965,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			this.gameController.playerController.setGameType(WorldSettings.GameType.getByID(j));
 		else if (i == 4)
 			this.gameController.displayGuiScreen(new GuiWinGame());
+			// ToDo: Проверить, можно ли запустить демо на ванилле через этот пакет.
 			//        else if (i == 5)
 			//        {
 			//            GameSettings gamesettings = this.gameController.gameSettings;
@@ -992,10 +993,6 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			this.clientWorldController.setRainStrength(f);
 		else if (i == 8)
 			this.clientWorldController.setThunderStrength(f);
-		else if (i == 10) {
-			this.clientWorldController.spawnParticle(EnumParticleTypes.MOB_APPEARANCE, entityplayer.posX, entityplayer.posY, entityplayer.posZ, 0.0D, 0.0D, 0.0D);
-			this.clientWorldController.playSound(entityplayer.posX, entityplayer.posY, entityplayer.posZ, "mob.guardian.curse", 1.0F, 1.0F, false);
-		}
 	}
 
 	/**

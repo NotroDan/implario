@@ -298,7 +298,7 @@ public abstract class World implements IBlockAccess {
 		if (!this.isValid(pos)) {
 			return false;
 		}
-		if (!this.isClientSide && this.worldInfo.getTerrainType().isModificationAllowed()) {
+		if (!this.isClientSide && !this.worldInfo.getTerrainType().isModificationAllowed()) {
 			return false;
 		}
 		Chunk chunk = this.getChunkFromBlockCoords(pos);
@@ -871,11 +871,11 @@ public abstract class World implements IBlockAccess {
 		}
 	}
 
-	public void spawnParticle(EnumParticleTypes particleType, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... p_175688_14_) {
+	public void spawnParticle(ParticleType particleType, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... p_175688_14_) {
 		this.spawnParticle(particleType.getParticleID(), particleType.getShouldIgnoreRange(), xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, p_175688_14_);
 	}
 
-	public void spawnParticle(EnumParticleTypes particleType, boolean p_175682_2_, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... p_175682_15_) {
+	public void spawnParticle(ParticleType particleType, boolean p_175682_2_, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... p_175682_15_) {
 		this.spawnParticle(particleType.getParticleID(), particleType.getShouldIgnoreRange() | p_175682_2_, xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, p_175682_15_);
 	}
 
