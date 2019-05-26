@@ -153,7 +153,7 @@ public class DedicatedServer extends MinecraftServer {
 		MAIN.info("[World] Инициализируем \"" + this.getFolderName() + "\"");
 		this.loadAllWorlds(this.getFolderName(), this.getFolderName(), k, worldtype, s2);
 		long i1 = System.nanoTime() - j;
-		String s3 = String.format("%.3fs", (double) i1 / 1.0E9D);
+		String s3 = String.format("%.3fs", (double) i1 / 1000000000);
 		MAIN.info("Сервер запущен (" + s3 + ")!");
 
 		if (this.getMaxTickTime() > 0L) {
