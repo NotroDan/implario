@@ -276,9 +276,9 @@ public abstract class ServerConfigurationManager {
 	/**
 	 * Sets the NBT manager to the one for the WorldServer given.
 	 */
-	public void setPlayerManager(WorldServer worldServer) {
-		this.playerNBTManagerObj = worldServer.getSaveHandler().getPlayerNBTManager();
-		worldServer.getWorldBorder().addListener(new IBorderListener() {
+	public void setPlayerManager(WorldServer[] worldServers) {
+		this.playerNBTManagerObj = worldServers[0].getSaveHandler().getPlayerNBTManager();
+		worldServers[0].getWorldBorder().addListener(new IBorderListener() {
 			public void onSizeChanged(WorldBorder border, double newSize) {
 				ServerConfigurationManager.this.sendPacketToAllPlayers(new S44PacketWorldBorder(border, S44PacketWorldBorder.Action.SET_SIZE));
 			}
@@ -326,7 +326,7 @@ public abstract class ServerConfigurationManager {
 	 * called during player login. reads the player information from disk.
 	 */
 	public NBTTagCompound readPlayerDataFromFile(EntityPlayerMP playerIn) {
-		NBTTagCompound nbttagcompound = this.mcServer.worldService.getWorld(0).getWorldInfo().getPlayerNBTTagCompound();
+		NBTTagCompound nbttagcompound = this.mcServer.worldServers[0].getWorldInfo().getPlayerNBTTagCompound();
 		NBTTagCompound nbttagcompound1;
 
 		if (playerIn.getName().equals(this.mcServer.getServerOwner()) && nbttagcompound != null) {

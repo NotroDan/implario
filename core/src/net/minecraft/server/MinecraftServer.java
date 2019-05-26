@@ -45,13 +45,11 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
-import java.util.function.Function;
 
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
 
-	public static Function<MinecraftServer, SimpleWorldService> WORLD_SERVICE_PROVIDER = SimpleWorldService::new;
 	private static final Logger logger = Logger.getInstance();
-	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
+	public static final File USER_CACHE_FILE = new File(Todo.instance.getClass().getSimpleName().equals("Todo") ? "usercache.json" : "gamedata/usercache.json");
 
 	/**
 	 * Instance of Minecraft Server.
@@ -66,7 +64,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private final ServerStatusResponse statusResponse = new ServerStatusResponse();
 	private final Random random = new Random();
 	private int serverPort = -1;
-	public SimpleWorldService worldService;
+	public WorldServer[] worldServers;
 	private ServerConfigurationManager serverConfigManager;
 	private boolean serverRunning = true;
 	private boolean serverStopped;
@@ -102,7 +100,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private String folderName;
 	private String worldName;
 	private boolean isDemo;
-	public boolean starterKit;
+	private boolean enableBonusChest;
 	protected String hostname;
 
 	/**
@@ -121,6 +119,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Set when warned for "Can't keep up", which triggers again after 15 seconds.
 	 */
 	private long timeOfLastWarning;
+	private String userMessage;
 	private boolean startProfiling;
 	private boolean isGamemodeForced;
 	private final YggdrasilAuthenticationService authService;
@@ -168,9 +167,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	protected abstract boolean startServer() throws IOException;
 
 	protected void convertMapIfNeeded(String worldNameIn) {
-		// Значит ситуация такая: Миры при создании каждый раз конвертируются этим методом, и вроде как он нужен, НО без него НИЧЕГО не меняется и всё продолжает работать.
-		// Поэтому ToDo: разобраться, нахера эта конвертация инвокается постоянно
-		if (true) return;
 		if (this.getActiveAnvilConverter().isOldMapFormat(worldNameIn)) {
 			logger.info("Converting map!");
 			this.setUserMessage("menu.convertingLevel");
@@ -199,11 +195,23 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		}
 	}
 
+	/**
+	 * Typically "menu.convertingLevel", "menu.loadingLevel" or others.
+	 */
+
+	protected synchronized void setUserMessage(String message) {
+		this.userMessage = message;
+	}
+
+	public synchronized String getUserMessage() {
+		return this.userMessage;
+	}
+
 	protected void loadAllWorlds(String name, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
 		this.convertMapIfNeeded(name);
-		worldService = WORLD_SERVICE_PROVIDER.apply(this);
-		worldService.setUserMessage("menu.loadingLevel");
-		this.timeOfLastDimensionTick = new long[worldService.getDimensionAmount()][100];
+		this.setUserMessage("menu.loadingLevel");
+		this.worldServers = new WorldServer[3];
+		this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
 		ISaveHandler isavehandler = this.anvilConverterForAnvilFile.getSaveLoader(name, true);
 		this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
 		WorldInfo worldinfo = isavehandler.loadWorldInfo();
@@ -214,7 +222,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(), this.isHardcore(), type);
 			worldsettings.setWorldName(p_71247_6_);
 
-			if (this.starterKit) {
+			if (this.enableBonusChest) {
 				worldsettings.enableStarterKit();
 			}
 
@@ -225,29 +233,46 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			worldsettings = new WorldSettings(worldinfo);
 		}
 
-		for (int i = 0; i < worldService.getDimensionAmount(); ++i) {
-			WorldServer server = worldService.loadDim(i, p_71247_2_, worldinfo, worldsettings);
-			server.addWorldAccess(new WorldManager(this, server));
-			if (!this.isSinglePlayer()) server.getWorldInfo().setGameType(this.getGameType());
+		for (int i = 0; i < this.worldServers.length; ++i) {
+			int j = 0;
+
+			if (i == 1) {
+				j = -1;
+			}
+
+			if (i == 2) {
+				j = 1;
+			}
+
+			if (i == 0) {
+				this.worldServers[i] = (WorldServer) new WorldServer(this, isavehandler, worldinfo, j, Profiler.in).init();
+				this.worldServers[i].initialize(worldsettings);
+			} else {
+				this.worldServers[i] = (WorldServer) new WorldServerExtra(this, isavehandler, j, this.worldServers[0], Profiler.in).init();
+			}
+
+			this.worldServers[i].addWorldAccess(new WorldManager(this, this.worldServers[i]));
+
+			if (!this.isSinglePlayer()) {
+				this.worldServers[i].getWorldInfo().setGameType(this.getGameType());
+			}
 		}
 
-
-
-
-		this.serverConfigManager.setPlayerManager(worldService.getWorld(0));
+		this.serverConfigManager.setPlayerManager(this.worldServers);
 		this.setDifficultyForAllWorlds(this.getDifficulty());
 		this.initialWorldChunkLoad();
 	}
 
-	public void initialWorldChunkLoad() {
+	protected void initialWorldChunkLoad() {
 		int i = 16;
 		int j = 4;
 		int k = 192;
 		int l = 625;
 		int i1 = 0;
-		worldService.setUserMessage("menu.generatingTerrain");
-		logger.info("Подготовка чанков спавна для мира " + 0);
-		WorldServer worldserver = worldService.getWorld(0);
+		this.setUserMessage("menu.generatingTerrain");
+		int j1 = 0;
+		logger.info("Подготовка чанков спавна для мира " + j1);
+		WorldServer worldserver = this.worldServers[j1];
 		BlockPos blockpos = worldserver.getSpawnPoint();
 		long k1 = getCurrentTimeMillis();
 
@@ -268,7 +293,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		this.clearCurrentTask();
 	}
 
-	public void setResourcePackFromWorld(String worldNameIn, ISaveHandler saveHandlerIn) {
+	protected void setResourcePackFromWorld(String worldNameIn, ISaveHandler saveHandlerIn) {
 		File file1 = new File(saveHandlerIn.getWorldDirectory(), "resources.zip");
 
 		if (file1.isFile()) {
@@ -327,16 +352,12 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return serverPort;
 	}
 
-	public WorldServer[] getWorlds() {
-		return worldService.getAll();
-	}
-
 	/**
 	 * par1 indicates if a log message should be output.
 	 */
 	protected void saveAllWorlds(boolean dontLog) {
 		if (!this.worldIsBeingDeleted) {
-			for (WorldServer worldserver : getWorlds()) {
+			for (WorldServer worldserver : this.worldServers) {
 				if (worldserver != null) {
 					if (!dontLog) {
 						logger.info("Saving chunks for level \'" + worldserver.getWorldInfo().getWorldName() + "\'/" + worldserver.provider.getDimensionName());
@@ -369,12 +390,12 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 				this.serverConfigManager.removeAllPlayers();
 			}
 
-			if (this.worldService != null) {
+			if (this.worldServers != null) {
 				logger.info("Saving worlds");
 				this.saveAllWorlds(false);
 
-				for (WorldServer worldserver : getWorlds()) {
-					if (worldserver != null) worldserver.flush();
+				for (WorldServer worldserver : this.worldServers) {
+					worldserver.flush();
 				}
 			}
 
@@ -423,7 +444,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 					i += j;
 					this.currentTime = k;
 
-					if (worldService.getWorld(0).areAllPlayersAsleep()) {
+					if (this.worldServers[0].areAllPlayersAsleep()) {
 						this.tick();
 						i = 0L;
 					} else {
@@ -562,11 +583,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 		Profiler.in.endStartSection("levels");
 
-		for (int j = 0; j < worldService.getDimensionAmount(); ++j) {
+		for (int j = 0; j < this.worldServers.length; ++j) {
 			long i = System.nanoTime();
 
 			if (j == 0 || this.getAllowNether()) {
-				WorldServer worldserver = worldService.getWorld(j);
+				WorldServer worldserver = this.worldServers[j];
 				Profiler.in.startSection(worldserver.getWorldInfo().getWorldName());
 
 				if (this.tickCounter % 20 == 0) {
@@ -645,7 +666,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Gets the worldServer by the given dimension.
 	 */
 	public WorldServer worldServerForDimension(int dimension) {
-		return worldService.getWorld(dimension == -1 ? 1 : dimension == 1 ? 2 : 0);
+		return dimension == -1 ? this.worldServers[1] : dimension == 1 ? this.worldServers[2] : this.worldServers[0];
 	}
 
 	/**
@@ -815,7 +836,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	}
 
 	public void setDifficultyForAllWorlds(EnumDifficulty difficulty) {
-		for (WorldServer world : getWorlds()) {
+		for (WorldServer world : this.worldServers) {
 			if (world != null) {
 				if (world.getWorldInfo().isHardcoreModeEnabled()) {
 					world.getWorldInfo().setDifficulty(EnumDifficulty.HARD);
@@ -836,7 +857,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	}
 
 	public void canCreateBonusChest(boolean enable) {
-		this.starterKit = enable;
+		this.enableBonusChest = enable;
 	}
 
 	public ISaveFormat getActiveAnvilConverter() {
@@ -851,13 +872,13 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		this.worldIsBeingDeleted = true;
 		this.getActiveAnvilConverter().flushCache();
 
-		for (WorldServer worldserver : getWorlds()) {
+		for (WorldServer worldserver : this.worldServers) {
 			if (worldserver != null) {
 				worldserver.flush();
 			}
 		}
 
-		this.getActiveAnvilConverter().deleteWorldDirectory(worldService.getWorld(0).getSaveHandler().getWorldDirectoryName());
+		this.getActiveAnvilConverter().deleteWorldDirectory(this.worldServers[0].getSaveHandler().getWorldDirectoryName());
 		this.initiateShutdown();
 	}
 

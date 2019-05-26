@@ -8,17 +8,16 @@ import net.minecraft.world.border.IBorderListener;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraft.world.storage.ISaveHandler;
-import vanilla.world.VanillaWorldServer;
 
 /**
  * Серверная сторона мира, использующаяся для ада и энда (DIM-1 и DIM1)
  * Делегирует информацию о мире, хранилище карты, скорборд и границу мира из DIM0
  */
-public class WorldServerExtra extends VanillaWorldServer {
+public class WorldServerExtra extends WorldServer {
 
-	private VanillaWorldServer delegate;
+	private WorldServer delegate;
 
-	public WorldServerExtra(MinecraftServer server, ISaveHandler saveHandlerIn, int dimensionId, VanillaWorldServer delegate, Profiler profilerIn) {
+	public WorldServerExtra(MinecraftServer server, ISaveHandler saveHandlerIn, int dimensionId, WorldServer delegate, Profiler profilerIn) {
 		super(server, saveHandlerIn, new DerivedWorldInfo(delegate.getWorldInfo()), dimensionId, profilerIn);
 		this.delegate = delegate;
 		delegate.getWorldBorder().addListener(new IBorderListener() {
