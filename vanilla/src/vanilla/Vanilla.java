@@ -12,9 +12,11 @@ import net.minecraft.client.game.model.ModelSlime;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -95,28 +97,7 @@ public class Vanilla extends Datapack {
 	@Override
 	public void preinit() {
 
-		registrar.registerItem(329, "saddle", new ItemSaddle().setUnlocalizedName("saddle"));
-		registrar.registerItem(383, "spawn_egg", new ItemMonsterPlacer().setUnlocalizedName("monsterPlacer"));
-		registrar.registerItem(398, "carrot_on_a_stick", new ItemCarrotOnAStick().setUnlocalizedName("carrotOnAStick"));
-		registrar.registerItem(420, "lead", new ItemLead().setUnlocalizedName("leash"));
-		registrar.registerItem(421, "name_tag", new ItemNameTag().setUnlocalizedName("nameTag"));
 
-		registrar.registerBlock(52, "mob_spawner", new BlockMobSpawner().setHardness(5.0F).setStepSound(soundTypeMetal).setUnlocalizedName("mobSpawner").disableStats().setCreativeTab(tabRedstone));
-
-		registrar.overrideItem(351, "dye", new VItemDye().setUnlocalizedName("dyePowder"));
-		registrar.overrideBlock(6, "sapling", new VBlockSapling().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("sapling"));
-
-
-
-		Block redMushroom = new VBlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setLightLevel(0.125F).setUnlocalizedName("mushroom");
-		registrar.overrideBlock(39, "brown_mushroom", redMushroom);
-		Block brownBushroom = new VBlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("mushroom");
-		registrar.overrideBlock(40, "red_mushroom", brownBushroom);
-		registrar.overrideBlock(99, "brown_mushroom_block", new BlockHugeMushroom(Material.wood, MapColor.dirtColor, redMushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
-		registrar.overrideBlock(100, "red_mushroom_block", new BlockHugeMushroom(Material.wood, MapColor.redColor, brownBushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
-
-		//Todo wrap with registrar
-		TileEntity.register(TileEntityMobSpawner.class, "MobSpawner");
 		addMapping(EntityLeashKnot.class, "LeashKnot", 8);
 		addMapping(EntityMinecartMobSpawner.class, EntityMinecart.EnumMinecartType.SPAWNER.getName(), 47);
 		addMapping(VanillaEntity.class, "Mob", 48);
@@ -153,6 +134,7 @@ public class Vanilla extends Datapack {
 		addMapping(EntityHorse.class, "EntityHorse", 100, 12623485, 15656192);
 		addMapping(EntityRabbit.class, "Rabbit", 101, 10051392, 7555121);
 		addMapping(EntityVillager.class, "Villager", 120, 5651507, 12422002);
+
 
 	}
 
@@ -423,6 +405,13 @@ public class Vanilla extends Datapack {
 		m.regMapping(EntityMinecartMobSpawner.class, new RenderMinecartMobSpawner(m));
 		m.regMapping(EntityHorse.class, new RenderHorse(m, new ModelHorse(), 0.75F));
 
+		RenderItem r = MC.getRenderItem();
+		r.registerItem(VanillaItems.saddle, "saddle");
+		r.getItemModelMesher().register(VanillaItems.spawn_egg, stack -> new ModelResourceLocation("spawn_egg", "inventory"));
+		r.registerItem(VanillaItems.carrot_on_a_stick, "carrot_on_a_stick");
+		r.registerItem(VanillaItems.lead, "lead");
+		r.registerItem(VanillaItems.name_tag, "name_tag");
+
 		TileEntityRendererDispatcher.instance.register(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
 
 		MC.i().getMusicTicker().musicTypeSupplier = () -> {
@@ -457,6 +446,40 @@ public class Vanilla extends Datapack {
 
 	@Override
 	protected void unload() {
+	}
+
+	@Override
+	public void loadBlocks() {
+
+		registrar.registerBlock(52, "mob_spawner",
+				new BlockMobSpawner().setHardness(5.0F).setStepSound(soundTypeMetal).setUnlocalizedName("mobSpawner").disableStats().setCreativeTab(tabRedstone));
+
+
+		registrar.overrideBlock(6, "sapling", new VBlockSapling().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("sapling"));
+		Block redMushroom = new VBlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setLightLevel(0.125F).setUnlocalizedName("mushroom");
+		registrar.overrideBlock(39, "brown_mushroom", redMushroom);
+		Block brownBushroom = new VBlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("mushroom");
+		registrar.overrideBlock(40, "red_mushroom", brownBushroom);
+		registrar.overrideBlock(99, "brown_mushroom_block", new BlockHugeMushroom(Material.wood, MapColor.dirtColor, redMushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
+		registrar.overrideBlock(100, "red_mushroom_block", new BlockHugeMushroom(Material.wood, MapColor.redColor, brownBushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
+
+		// Todo wrap with registrar
+		TileEntity.register(TileEntityMobSpawner.class, "MobSpawner");
+	}
+
+	@Override
+	public void loadItems() {
+
+		registrar.registerItemBlock(Blocks.mob_spawner);
+		registrar.registerItem(329, "saddle", new ItemSaddle().setUnlocalizedName("saddle"));
+		registrar.registerItem(383, "spawn_egg", new ItemMonsterPlacer().setUnlocalizedName("monsterPlacer"));
+		registrar.registerItem(398, "carrot_on_a_stick", new ItemCarrotOnAStick().setUnlocalizedName("carrotOnAStick"));
+		registrar.registerItem(420, "lead", new ItemLead().setUnlocalizedName("leash"));
+		registrar.registerItem(421, "name_tag", new ItemNameTag().setUnlocalizedName("nameTag"));
+
+
+		registrar.overrideItem(351, "dye", new VItemDye().setUnlocalizedName("dyePowder"));
+		VanillaItems.init();
 	}
 
 }

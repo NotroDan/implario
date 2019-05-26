@@ -29,7 +29,7 @@ public class MapStorage {
 	 * returns null if none such file exists. args: Class to instantiate, String dataid
 	 */
 	public WorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataIdentifier) {
-		WorldSavedData worldsaveddata = (WorldSavedData) this.loadedDataMap.get(dataIdentifier);
+		WorldSavedData worldsaveddata = this.loadedDataMap.get(dataIdentifier);
 
 		if (worldsaveddata != null) {
 			return worldsaveddata;
@@ -40,7 +40,7 @@ public class MapStorage {
 
 				if (file1 != null && file1.exists()) {
 					try {
-						worldsaveddata = (WorldSavedData) clazz.getConstructor(new Class[] {String.class}).newInstance(new Object[] {dataIdentifier});
+						worldsaveddata = clazz.getConstructor(new Class[] {String.class}).newInstance(dataIdentifier);
 					} catch (Exception exception) {
 						throw new RuntimeException("Failed to instantiate " + clazz.toString(), exception);
 					}
@@ -80,7 +80,7 @@ public class MapStorage {
 	 */
 	public void saveAllData() {
 		for (int i = 0; i < this.loadedDataList.size(); ++i) {
-			WorldSavedData worldsaveddata = (WorldSavedData) this.loadedDataList.get(i);
+			WorldSavedData worldsaveddata = this.loadedDataList.get(i);
 
 			if (worldsaveddata.isDirty()) {
 				this.saveData(worldsaveddata);
@@ -92,23 +92,21 @@ public class MapStorage {
 	/**
 	 * Saves the given MapDataBase to disk.
 	 */
-	private void saveData(WorldSavedData p_75747_1_) {
-		if (this.saveHandler != null) {
-			try {
-				File file1 = this.saveHandler.getMapFileFromName(p_75747_1_.mapName);
+	private void saveData(WorldSavedData data) {
+		if (this.saveHandler == null) return;
+		try {
+			File file1 = this.saveHandler.getMapFileFromName(data.mapName);
 
-				if (file1 != null) {
-					NBTTagCompound nbttagcompound = new NBTTagCompound();
-					p_75747_1_.writeToNBT(nbttagcompound);
-					NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-					nbttagcompound1.setTag("data", nbttagcompound);
-					FileOutputStream fileoutputstream = new FileOutputStream(file1);
-					CompressedStreamTools.writeCompressed(nbttagcompound1, fileoutputstream);
-					fileoutputstream.close();
-				}
-			} catch (Exception exception) {
-				exception.printStackTrace();
-			}
+			if (file1 == null) return;
+			NBTTagCompound dataNbt = new NBTTagCompound();
+			data.writeToNBT(dataNbt);
+			NBTTagCompound worldNbt = new NBTTagCompound();
+			worldNbt.setTag("data", dataNbt);
+			FileOutputStream fileoutputstream = new FileOutputStream(file1);
+			CompressedStreamTools.writeCompressed(worldNbt, fileoutputstream);
+			fileoutputstream.close();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 
@@ -149,18 +147,18 @@ public class MapStorage {
 	 * Returns an unique new data id for the given prefix and saves the idCounts map to the 'idcounts' file.
 	 */
 	public int getUniqueDataId(String key) {
-		Short oshort = (Short) this.idCounts.get(key);
+		Short oshort = this.idCounts.get(key);
 
 		if (oshort == null) {
 			oshort = (short) 0;
 		} else {
-			oshort = (short) (oshort.shortValue() + 1);
+			oshort = (short) (oshort + 1);
 		}
 
 		this.idCounts.put(key, oshort);
 
 		if (this.saveHandler == null) {
-			return oshort.shortValue();
+			return oshort;
 		}
 		try {
 			File file1 = this.saveHandler.getMapFileFromName("idcounts");
@@ -169,7 +167,7 @@ public class MapStorage {
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
 
 				for (String s : this.idCounts.keySet()) {
-					short short1 = ((Short) this.idCounts.get(s)).shortValue();
+					short short1 = this.idCounts.get(s);
 					nbttagcompound.setShort(s, short1);
 				}
 
@@ -181,7 +179,7 @@ public class MapStorage {
 			exception.printStackTrace();
 		}
 
-		return oshort.shortValue();
+		return oshort;
 	}
 
 }

@@ -11,6 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+import vanilla.item.VanillaItems;
 import vanilla.world.pathfinder.WalkNodeProcessor;
 
 public class EntityAIControlledByPlayer extends EntityAIBase
@@ -175,7 +176,7 @@ public class EntityAIControlledByPlayer extends EntityAIBase
         {
             ItemStack itemstack = entityplayer.getHeldItem();
 
-            if (itemstack != null && itemstack.getItem() == Items.carrot_on_a_stick)
+            if (itemstack != null && itemstack.getItem() == VanillaItems.carrot_on_a_stick)
             {
                 itemstack.damageItem(1, entityplayer);
 

@@ -89,18 +89,17 @@ public class ModelBakery {
 		this.loadItemModels();
 	}
 
-	private void loadVariants(Collection<ModelResourceLocation> p_177591_1_) {
-		for (ModelResourceLocation modelresourcelocation : p_177591_1_) {
+	private void loadVariants(Collection<ModelResourceLocation> models) {
+		for (ModelResourceLocation model : models) {
 			try {
-				ModelBlockDefinition modelblockdefinition = this.getModelBlockDefinition(modelresourcelocation);
-
+				ModelBlockDefinition modelblockdefinition = this.getModelBlockDefinition(model);
 				try {
-					this.registerVariant(modelblockdefinition, modelresourcelocation);
+					this.registerVariant(modelblockdefinition, model);
 				} catch (Exception var6) {
-					LOGGER.warn("Unable to load variant: " + modelresourcelocation.getVariant() + " from " + modelresourcelocation);
+					LOGGER.warn("Unable to load variant: " + model.getVariant() + " from " + model);
 				}
 			} catch (Exception exception) {
-				LOGGER.warn(("Unable to load definition " + modelresourcelocation), exception);
+				LOGGER.warn("Unable to load definition " + model, exception);
 			}
 		}
 	}
@@ -109,8 +108,8 @@ public class ModelBakery {
 		this.variants.put(p_177569_2_, p_177569_1_.getVariants(p_177569_2_.getVariant()));
 	}
 
-	private ModelBlockDefinition getModelBlockDefinition(ResourceLocation p_177586_1_) {
-		ResourceLocation resourcelocation = this.getBlockStateLocation(p_177586_1_);
+	private ModelBlockDefinition getModelBlockDefinition(ResourceLocation loc) {
+		ResourceLocation resourcelocation = this.getBlockStateLocation(loc);
 		ModelBlockDefinition modelblockdefinition = this.blockDefinitions.get(resourcelocation);
 
 		if (modelblockdefinition == null) {
@@ -126,7 +125,7 @@ public class ModelBakery {
 						list.add(modelblockdefinition1);
 					} catch (Exception exception) {
 						throw new RuntimeException(
-								"Encountered an exception when loading model definition of \'" + p_177586_1_ + "\' from: \'" + iresource.getResourceLocation() + "\' in resourcepack: \'" + iresource.getResourcePackName() + "\'",
+								"Encountered an exception when loading model definition of \'" + loc + "\' from: \'" + iresource.getResourceLocation() + "\' in resourcepack: \'" + iresource.getResourcePackName() + "\'",
 								exception);
 					} finally {
 						IOUtils.closeQuietly(inputstream);

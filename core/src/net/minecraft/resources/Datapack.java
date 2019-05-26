@@ -2,7 +2,12 @@ package net.minecraft.resources;
 
 import net.minecraft.server.Todo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Datapack {
+
+	public static final List<Datapack> LOADED = new ArrayList<>();
 
 	private final Domain domain;
 	protected final Registrar registrar;
@@ -31,5 +36,9 @@ public abstract class Datapack {
 	}
 
 	protected abstract void unload();
+
+	public abstract void loadBlocks();
+
+	public abstract void loadItems();
 
 }

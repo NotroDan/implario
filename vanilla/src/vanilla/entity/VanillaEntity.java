@@ -30,6 +30,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
+import vanilla.item.VanillaItems;
 
 import java.util.UUID;
 
@@ -913,7 +914,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 		}
 		ItemStack itemstack = playerIn.inventory.getCurrentItem();
 
-		if (itemstack != null && itemstack.getItem() == Items.lead && this.allowLeashing()) {
+		if (itemstack != null && itemstack.getItem() == VanillaItems.lead && this.allowLeashing()) {
 			if (!(this instanceof EntityTameable) || !((EntityTameable) this).isTamed()) {
 				this.setLeashedToEntity(playerIn, true);
 				--itemstack.stackSize;
@@ -965,7 +966,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 			this.leashedToEntity = null;
 
 			if (!this.worldObj.isClientSide && dropLead) {
-				this.dropItem(Items.lead, 1);
+				this.dropItem(VanillaItems.lead, 1);
 			}
 
 			if (!this.worldObj.isClientSide && sendPacket && this.worldObj instanceof WorldServer) {

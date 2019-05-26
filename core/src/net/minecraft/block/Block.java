@@ -35,7 +35,7 @@ public class Block {
 	 */
 	private static final ResourceLocation AIR_ID = new ResourceLocation("air");
 	public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey(AIR_ID);
-	public static final ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+	public static ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
 	private CreativeTabs displayOnCreativeTab;
 	public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
 
@@ -1141,8 +1141,8 @@ public class Block {
 				new Block(Material.iron, MapColor.diamondColor).setHardness(5.0F).setResistance(10.0F).setStepSound(soundTypeMetal).setUnlocalizedName("blockDiamond").setCreativeTab(tabBlock));
 		registerBlock(58, "crafting_table", new BlockWorkbench().setHardness(2.5F).setStepSound(soundTypeWood).setUnlocalizedName("workbench"));
 		registerBlock(59, "wheat", new BlockCrops().setUnlocalizedName("crops"));
-		Block block6 = new BlockFarmland().setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("farmland");
-		registerBlock(60, "farmland", block6);
+		Block farmland = new BlockFarmland().setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("farmland");
+		registerBlock(60, "farmland", farmland);
 		registerBlock(61, "furnace", new BlockFurnace(false).setHardness(3.5F).setStepSound(soundTypePiston).setUnlocalizedName("furnace").setCreativeTab(tabDecorations));
 		registerBlock(62, "lit_furnace", new BlockFurnace(true).setHardness(3.5F).setStepSound(soundTypePiston).setLightLevel(0.875F).setUnlocalizedName("furnace"));
 		registerBlock(63, "standing_sign", new BlockStandingSign().setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("sign").disableStats());
@@ -1311,33 +1311,30 @@ public class Block {
 		registerBlock(196, "acacia_door", new BlockDoor(Material.wood).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorAcacia").disableStats());
 		registerBlock(197, "dark_oak_door", new BlockDoor(Material.wood).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorDarkOak").disableStats());
 		registerBlock(198, "some_block", new BlockSome().setHardness(3.0F).setStepSound(soundTypePiston).setUnlocalizedName("someBlock").disableStats());
+
+	}
+
+	public static void reloadBlockStates() {
 		blockRegistry.validateKey();
 
-		for (Block block13 : blockRegistry) {
-			if (block13.blockMaterial == Material.air) {
-				block13.useNeighborBrightness = false;
-			} else {
-				boolean flag = false;
-				boolean flag1 = block13 instanceof BlockStairs;
-				boolean flag2 = block13 instanceof BlockSlab;
-				boolean flag3 = block13 == block6;
-				boolean flag4 = block13.translucent;
-				boolean flag5 = block13.lightOpacity == 0;
+		BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+		for (Block b : blockRegistry) {
 
-				if (flag1 || flag2 || flag3 || flag4 || flag5) {
-					flag = true;
-				}
+			b.useNeighborBrightness =
+					b.blockMaterial != Material.air && (
+					b instanceof BlockStairs ||
+					b instanceof BlockSlab ||
+					b.getUnlocalizedName().equals("farmland") ||
+					b.translucent ||
+					b.lightOpacity == 0
+					);
 
-				block13.useNeighborBrightness = flag;
+			for (IBlockState state : b.getBlockState().getValidStates()) {
+				int i = blockRegistry.getIDForObject(b) << 4 | b.getMetaFromState(state);
+				BLOCK_STATE_IDS.put(state, i);
 			}
 		}
 
-		for (Block block14 : blockRegistry) {
-			for (IBlockState iblockstate : block14.getBlockState().getValidStates()) {
-				int i = blockRegistry.getIDForObject(block14) << 4 | block14.getMetaFromState(iblockstate);
-				BLOCK_STATE_IDS.put(iblockstate, i);
-			}
-		}
 	}
 
 	private static void registerBlock(int id, ResourceLocation textualID, Block block_) {

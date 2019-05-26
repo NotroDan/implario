@@ -15,7 +15,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.SelectorSetting;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.item.*;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -195,13 +194,14 @@ public final class InputHandler {
 			} else if (mc.objectMouseOver.entityHit instanceof EntityArmorStand) {
 				item = Items.armor_stand;
 			} else {
-				item = Items.spawn_egg;
-				i = EntityList.getEntityID(mc.objectMouseOver.entityHit);
-				flag1 = true;
-
-				if (!EntityList.entityEggs.containsKey(i)) {
-					return;
-				}
+//				item = VanillaItems.spawn_egg;
+//				i = EntityList.getEntityID(mc.objectMouseOver.entityHit);
+//				flag1 = true;
+//
+//				if (!EntityList.entityEggs.containsKey(i)) {
+//					return;
+//				}
+				return;
 			}
 		}
 

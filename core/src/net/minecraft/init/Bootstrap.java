@@ -5,7 +5,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
+import net.minecraft.resources.Datapack;
 import net.minecraft.stats.StatList;
+import vanilla.Vanilla;
 
 import java.io.PrintStream;
 
@@ -27,15 +29,29 @@ public class Bootstrap {
 	 */
 	public static void register() {
 		if (alreadyRegistered) return;
-
 		alreadyRegistered = true;
 
+		Datapack.LOADED.add(new Vanilla());
+
 		Block.registerBlocks();
+		for (Datapack datapack : Datapack.LOADED) datapack.loadBlocks();
+		Block.reloadBlockStates();
+		Blocks.reload();
+
 		BlockFire.init();
+
 		Item.registerItems();
+		for (Datapack datapack : Datapack.LOADED) datapack.loadItems();
+		Items.reload();
+
 		StatList.init();
 		Enchantments.protection.getClass().getCanonicalName();
 		// ToDo: Datapack preinit
+		for (Datapack datapack : Datapack.LOADED) datapack.preinit();
+		if (!Datapack.LOADED.isEmpty()) {
+			Blocks.reload();
+			Block.reloadBlockStates();
+		}
 	}
 
 	public static void print(String text) {

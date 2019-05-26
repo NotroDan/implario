@@ -47,6 +47,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.resources.Datapack;
 import net.minecraft.server.Profiler;
 import net.minecraft.server.Todo;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -273,6 +274,7 @@ public class Minecraft implements IThreadListener {
 
 	private void loadStuff() {
 
+
 		try {
 			drawable.makeCurrent();
 		} catch (LWJGLException e) {
@@ -327,7 +329,8 @@ public class Minecraft implements IThreadListener {
 		preloader.nextState();
 		this.guiAchievement = new GuiAchievement(this);
 		preloader.nextState();
-		// ToDo: Post-init
+		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
+		for (Datapack datapack : Datapack.LOADED) datapack.postinit();
 		blabla = true;
 	}
 
@@ -367,6 +370,7 @@ public class Minecraft implements IThreadListener {
 		preloader = new Preloader(new ScaledResolution(this), mcDefaultResourcePack, renderEngine);
 		preloader.drawLogo();
 		drawable = new SharedDrawable(Display.getDrawable());
+		for (Datapack datapack : Datapack.LOADED) datapack.init();
 		loader.start();
 		preloader.drawLogo();
 		while (!blabla) {
@@ -386,7 +390,6 @@ public class Minecraft implements IThreadListener {
 		G.loadIdentity();
 		G.matrixMode(GL11.GL_MODELVIEW);
 		G.viewport(0, 0, this.displayWidth, this.displayHeight);
-		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		this.errorGuy.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
 

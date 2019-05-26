@@ -3,7 +3,6 @@ package net.minecraft.block;
 import com.google.common.collect.Maps;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
@@ -238,13 +237,13 @@ public class BlockFire extends Block {
 	}
 
 	private int getFlammability(Block blockIn) {
-		Integer integer = (Integer) this.flammabilities.get(blockIn);
-		return integer == null ? 0 : integer.intValue();
+		Integer integer = this.flammabilities.get(blockIn);
+		return integer == null ? 0 : integer;
 	}
 
 	private int getEncouragement(Block blockIn) {
-		Integer integer = (Integer) this.encouragements.get(blockIn);
-		return integer == null ? 0 : integer.intValue();
+		Integer integer = this.encouragements.get(blockIn);
+		return integer == null ? 0 : integer;
 	}
 
 	private void catchOnFire(World worldIn, BlockPos pos, int chance, Random random, int age) {
@@ -343,7 +342,7 @@ public class BlockFire extends Block {
 					double d3 = (double) pos.getX() + rand.nextDouble() * 0.10000000149011612D;
 					double d8 = (double) pos.getY() + rand.nextDouble();
 					double d13 = (double) pos.getZ() + rand.nextDouble();
-					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d3, d8, d13, 0.0D, 0.0D, 0.0D, new int[0]);
+					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d3, d8, d13, 0.0D, 0.0D, 0.0D);
 				}
 			}
 
@@ -352,7 +351,7 @@ public class BlockFire extends Block {
 					double d4 = (double) (pos.getX() + 1) - rand.nextDouble() * 0.10000000149011612D;
 					double d9 = (double) pos.getY() + rand.nextDouble();
 					double d14 = (double) pos.getZ() + rand.nextDouble();
-					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d4, d9, d14, 0.0D, 0.0D, 0.0D, new int[0]);
+					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d4, d9, d14, 0.0D, 0.0D, 0.0D);
 				}
 			}
 
@@ -361,7 +360,7 @@ public class BlockFire extends Block {
 					double d5 = (double) pos.getX() + rand.nextDouble();
 					double d10 = (double) pos.getY() + rand.nextDouble();
 					double d15 = (double) pos.getZ() + rand.nextDouble() * 0.10000000149011612D;
-					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d5, d10, d15, 0.0D, 0.0D, 0.0D, new int[0]);
+					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d5, d10, d15, 0.0D, 0.0D, 0.0D);
 				}
 			}
 
@@ -370,7 +369,7 @@ public class BlockFire extends Block {
 					double d6 = (double) pos.getX() + rand.nextDouble();
 					double d11 = (double) pos.getY() + rand.nextDouble();
 					double d16 = (double) (pos.getZ() + 1) - rand.nextDouble() * 0.10000000149011612D;
-					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d6, d11, d16, 0.0D, 0.0D, 0.0D, new int[0]);
+					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d6, d11, d16, 0.0D, 0.0D, 0.0D);
 				}
 			}
 
@@ -379,7 +378,7 @@ public class BlockFire extends Block {
 					double d7 = (double) pos.getX() + rand.nextDouble();
 					double d12 = (double) (pos.getY() + 1) - rand.nextDouble() * 0.10000000149011612D;
 					double d17 = (double) pos.getZ() + rand.nextDouble();
-					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d7, d12, d17, 0.0D, 0.0D, 0.0D, new int[0]);
+					worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d7, d12, d17, 0.0D, 0.0D, 0.0D);
 				}
 			}
 		} else {
@@ -387,7 +386,7 @@ public class BlockFire extends Block {
 				double d0 = (double) pos.getX() + rand.nextDouble();
 				double d1 = (double) pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
 				double d2 = (double) pos.getZ() + rand.nextDouble();
-				worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+				worldIn.spawnParticle(ParticleType.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
 			}
 		}
 	}
@@ -414,11 +413,11 @@ public class BlockFire extends Block {
 	 * Convert the BlockState into the correct metadata value
 	 */
 	public int getMetaFromState(IBlockState state) {
-		return ((Integer) state.getValue(AGE)).intValue();
+		return state.getValue(AGE);
 	}
 
 	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] {AGE, NORTH, EAST, SOUTH, WEST, UPPER, FLIP, ALT});
+		return new BlockState(this, AGE, NORTH, EAST, SOUTH, WEST, UPPER, FLIP, ALT);
 	}
 
 }

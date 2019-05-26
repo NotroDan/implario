@@ -75,7 +75,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerBlock(blk, 0, identifier);
 	}
 
-	private void registerItem(Item itm, String identifier) {
+	public void registerItem(Item itm, String identifier) {
 		this.registerItem(itm, 0, identifier);
 	}
 
@@ -810,7 +810,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.water_bucket, "water_bucket");
 		this.registerItem(Items.lava_bucket, "lava_bucket");
 		this.registerItem(Items.minecart, "minecart");
-		this.registerItem(Items.saddle, "saddle");
 		this.registerItem(Items.iron_door, "iron_door");
 		this.registerItem(Items.redstone, "redstone");
 		this.registerItem(Items.snowball, "snowball");
@@ -891,7 +890,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.cauldron, "cauldron");
 		this.registerItem(Items.ender_eye, "ender_eye");
 		this.registerItem(Items.speckled_melon, "speckled_melon");
-		this.itemModelMesher.register(Items.spawn_egg, stack -> new ModelResourceLocation("spawn_egg", "inventory"));
 		this.registerItem(Items.experience_bottle, "experience_bottle");
 		this.registerItem(Items.fire_charge, "fire_charge");
 		this.registerItem(Items.writable_book, "writable_book");
@@ -909,7 +907,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.skull, 2, "skull_zombie");
 		this.registerItem(Items.skull, 3, "skull_char");
 		this.registerItem(Items.skull, 4, "skull_creeper");
-		this.registerItem(Items.carrot_on_a_stick, "carrot_on_a_stick");
 		this.registerItem(Items.nether_star, "nether_star");
 		this.registerItem(Items.pumpkin_pie, "pumpkin_pie");
 		this.registerItem(Items.firework_charge, "firework_charge");
@@ -922,15 +919,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.iron_horse_armor, "iron_horse_armor");
 		this.registerItem(Items.golden_horse_armor, "golden_horse_armor");
 		this.registerItem(Items.diamond_horse_armor, "diamond_horse_armor");
-		this.registerItem(Items.lead, "lead");
-		this.registerItem(Items.name_tag, "name_tag");
-		this.itemModelMesher.register(Items.banner, new ItemMeshDefinition() {
-
-
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return new ModelResourceLocation("banner", "inventory");
-			}
-		});
+		this.itemModelMesher.register(Items.banner, stack -> new ModelResourceLocation("banner", "inventory"));
 		this.registerItem(Items.record_13, "record_13");
 		this.registerItem(Items.record_cat, "record_cat");
 		this.registerItem(Items.record_blocks, "record_blocks");

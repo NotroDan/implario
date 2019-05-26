@@ -16,6 +16,7 @@ import vanilla.entity.EntityAgeable;
 import vanilla.entity.ai.pathfinding.PathNavigateGround;
 import vanilla.entity.ai.tasks.*;
 import vanilla.entity.monster.EntityPigZombie;
+import vanilla.item.VanillaItems;
 
 public class EntityPig extends EntityAnimal implements ICameraMagnet {
 
@@ -32,7 +33,7 @@ public class EntityPig extends EntityAnimal implements ICameraMagnet {
 		this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
 		this.tasks.addTask(2, this.aiControlledByPlayer = new EntityAIControlledByPlayer(this, 0.3F));
 		this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(4, new EntityAITempt(this, 1.2D, Items.carrot_on_a_stick, false));
+		this.tasks.addTask(4, new EntityAITempt(this, 1.2D, VanillaItems.carrot_on_a_stick, false));
 		this.tasks.addTask(4, new EntityAITempt(this, 1.2D, Items.carrot, false));
 		this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
 		this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
@@ -52,7 +53,7 @@ public class EntityPig extends EntityAnimal implements ICameraMagnet {
 	 */
 	public boolean canBeSteered() {
 		ItemStack itemstack = ((EntityPlayer) this.riddenByEntity).getHeldItem();
-		return itemstack != null && itemstack.getItem() == Items.carrot_on_a_stick;
+		return itemstack != null && itemstack.getItem() == VanillaItems.carrot_on_a_stick;
 	}
 
 	protected void entityInit() {
@@ -139,7 +140,7 @@ public class EntityPig extends EntityAnimal implements ICameraMagnet {
 		}
 
 		if (this.getSaddled()) {
-			this.dropItem(Items.saddle, 1);
+			this.dropItem(VanillaItems.saddle, 1);
 		}
 	}
 

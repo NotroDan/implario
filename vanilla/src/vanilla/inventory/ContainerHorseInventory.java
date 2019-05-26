@@ -5,8 +5,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import vanilla.item.VanillaItems;
 
 public class ContainerHorseInventory extends Container
 {
@@ -24,7 +24,7 @@ public class ContainerHorseInventory extends Container
         {
             public boolean isItemValid(ItemStack stack)
             {
-                return super.isItemValid(stack) && stack.getItem() == Items.saddle && !this.getHasStack();
+                return super.isItemValid(stack) && stack.getItem() == VanillaItems.saddle && !this.getHasStack();
             }
         });
         this.addSlotToContainer(new Slot(horseInventoryIn, 1, 8, 36)

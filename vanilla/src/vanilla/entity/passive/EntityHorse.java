@@ -41,6 +41,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import vanilla.item.VanillaItems;
 
 public class EntityHorse extends EntityAnimal implements IInvBasic, EntityControllable {
 
@@ -675,7 +676,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 	public boolean interact(EntityPlayer player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
-		if (itemstack != null && itemstack.getItem() == Items.spawn_egg) {
+		if (itemstack != null && itemstack.getItem() == VanillaItems.spawn_egg) {
 			return super.interact(player);
 		}
 		if (!this.isTame() && this.isUndead()) {
@@ -789,7 +790,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 				this.initHorseChest();
 			}
 
-			if (!flag && this.func_110253_bW() && !this.isControllable() && itemstack.getItem() == Items.saddle) {
+			if (!flag && this.func_110253_bW() && !this.isControllable() && itemstack.getItem() == VanillaItems.saddle) {
 				this.openGUI(player);
 				return true;
 			}
@@ -1245,11 +1246,11 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 		if (tagCompund.hasKey("SaddleItem", 10)) {
 			ItemStack itemstack1 = ItemStack.loadItemStackFromNBT(tagCompund.getCompoundTag("SaddleItem"));
 
-			if (itemstack1 != null && itemstack1.getItem() == Items.saddle) {
+			if (itemstack1 != null && itemstack1.getItem() == VanillaItems.saddle) {
 				this.horseChest.setInventorySlotContents(0, itemstack1);
 			}
 		} else if (tagCompund.getBoolean("Saddle")) {
-			this.horseChest.setInventorySlotContents(0, new ItemStack(Items.saddle));
+			this.horseChest.setInventorySlotContents(0, new ItemStack(VanillaItems.saddle));
 		}
 
 		this.updateHorseSlots();
@@ -1507,7 +1508,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 		int i = inventorySlot - 400;
 
 		if (i >= 0 && i < 2 && i < this.horseChest.getSizeInventory()) {
-			if (i == 0 && itemStackIn != null && itemStackIn.getItem() != Items.saddle) {
+			if (i == 0 && itemStackIn != null && itemStackIn.getItem() != VanillaItems.saddle) {
 				return false;
 			}
 			if (i != 1 || (itemStackIn == null || isArmorItem(itemStackIn.getItem())) && this.canWearArmor()) {

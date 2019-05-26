@@ -472,7 +472,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 			}
 
 			flag = true;
-			System.out.println(serverController.getBuildLimit() + " " + l.getY() + " " + enumfacing);
 		} else {
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("build.tooHigh", this.serverController.getBuildLimit());
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
@@ -980,9 +979,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
 		List<String> list = Lists.newArrayList();
 
-		for (String s : this.serverController.getTabCompletions(this.playerEntity, packetIn.getMessage(), packetIn.getTargetBlock())) {
-			list.add(s);
-		}
+		list.addAll(this.serverController.getTabCompletions(this.playerEntity, packetIn.getMessage(), packetIn.getTargetBlock()));
 
 		this.playerEntity.playerNetServerHandler.sendPacket(new S3APacketTabComplete(list.toArray(new String[0])));
 	}

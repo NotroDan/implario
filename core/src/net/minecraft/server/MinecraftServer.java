@@ -248,7 +248,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 				this.worldServers[i] = (WorldServer) new WorldServer(this, isavehandler, worldinfo, j, Profiler.in).init();
 				this.worldServers[i].initialize(worldsettings);
 			} else {
-				this.worldServers[i] = (WorldServer) new WorldServerMulti(this, isavehandler, j, this.worldServers[0], Profiler.in).init();
+				this.worldServers[i] = (WorldServer) new WorldServerExtra(this, isavehandler, j, this.worldServers[0], Profiler.in).init();
 			}
 
 			this.worldServers[i].addWorldAccess(new WorldManager(this, this.worldServers[i]));

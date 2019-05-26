@@ -3,12 +3,12 @@ package vanilla.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ParticleType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import vanilla.item.VanillaItems;
 
 public abstract class EntityAgeable extends EntityCreature
 {
@@ -32,7 +32,7 @@ public abstract class EntityAgeable extends EntityCreature
     {
         ItemStack itemstack = player.inventory.getCurrentItem();
 
-        if (itemstack != null && itemstack.getItem() == Items.spawn_egg)
+        if (itemstack != null && itemstack.getItem() == VanillaItems.spawn_egg)
         {
             if (!this.worldObj.isClientSide)
             {

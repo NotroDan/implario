@@ -22,8 +22,8 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.StructureBoundingBox;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import vanilla.item.VanillaItems;
 import vanilla.world.biome.BiomeGenBase;
-import vanilla.world.biome.WorldChunkManager;
 
 import java.util.Iterator;
 import java.util.List;
@@ -747,7 +747,7 @@ public class StructureVillagePieces {
 				new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 5),
 				new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 5),
 				new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 5), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.obsidian), 0, 3, 7, 5),
-				new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sapling), 0, 3, 7, 5), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3),
+				new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sapling), 0, 3, 7, 5), new WeightedRandomChestContent(VanillaItems.saddle, 0, 1, 1, 3),
 				new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1),
 				new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)
 		});

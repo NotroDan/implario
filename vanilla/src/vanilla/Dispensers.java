@@ -23,12 +23,12 @@ import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import optifine.CustomColors;
 import vanilla.entity.VBlockPumpkin;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.VItemSkull;
 import vanilla.item.ItemMonsterPlacer;
 import vanilla.item.VItemDye;
+import vanilla.item.VanillaItems;
 
 import java.util.List;
 import java.util.Random;
@@ -200,7 +200,7 @@ public class Dispensers {
 				}.dispense(source, stack) : this.field_150843_b.dispense(source, stack);
 			}
 		});
-		BlockDispenser.dispenseBehaviorRegistry.putObject(Items.spawn_egg, new BehaviorDefaultDispenseItem() {
+		BlockDispenser.dispenseBehaviorRegistry.putObject(VanillaItems.spawn_egg, new BehaviorDefaultDispenseItem() {
 			public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 				EnumFacing enumfacing = getFacing(source.getBlockMetadata());
 				double d0 = source.getX() + (double) enumfacing.getFrontOffsetX();

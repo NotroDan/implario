@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -40,7 +39,7 @@ public class BlockSilverfish extends Block {
 	}
 
 	protected ItemStack createStackedBlock(IBlockState state) {
-		switch ((BlockSilverfish.EnumType) state.getValue(VARIANT)) {
+		switch (state.getValue(VARIANT)) {
 			case COBBLESTONE:
 				return new ItemStack(Blocks.cobblestone);
 
@@ -86,14 +85,14 @@ public class BlockSilverfish extends Block {
 	 * Convert the BlockState into the correct metadata value
 	 */
 	public int getMetaFromState(IBlockState state) {
-		return ((BlockSilverfish.EnumType) state.getValue(VARIANT)).getMetadata();
+		return state.getValue(VARIANT).getMetadata();
 	}
 
 	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] {VARIANT});
+		return new BlockState(this, VARIANT);
 	}
 
-	public static enum EnumType implements IStringSerializable {
+	public enum EnumType implements IStringSerializable {
 		STONE(0, "stone") {
 			public IBlockState getModelBlock() {
 				return Blocks.stone.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.STONE);
@@ -130,11 +129,11 @@ public class BlockSilverfish extends Block {
 		private final String name;
 		private final String unlocalizedName;
 
-		private EnumType(int meta, String name) {
+		EnumType(int meta, String name) {
 			this(meta, name, name);
 		}
 
-		private EnumType(int meta, String name, String unlocalizedName) {
+		EnumType(int meta, String name, String unlocalizedName) {
 			this.meta = meta;
 			this.name = name;
 			this.unlocalizedName = unlocalizedName;

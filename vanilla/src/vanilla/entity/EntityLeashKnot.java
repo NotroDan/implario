@@ -4,13 +4,13 @@ import net.minecraft.block.BlockFence;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import vanilla.item.VanillaItems;
 
 public class EntityLeashKnot extends EntityHanging{
 
@@ -91,7 +91,7 @@ public class EntityLeashKnot extends EntityHanging{
 		ItemStack itemstack = playerIn.getHeldItem();
 		boolean flag = false;
 
-		if (itemstack != null && itemstack.getItem() == Items.lead && !this.worldObj.isClientSide) {
+		if (itemstack != null && itemstack.getItem() == VanillaItems.lead && !this.worldObj.isClientSide) {
 			double d0 = 7.0D;
 
 			for (VanillaEntity entityliving : this.worldObj.getEntitiesWithinAABB(

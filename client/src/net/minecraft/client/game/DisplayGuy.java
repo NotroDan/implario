@@ -53,12 +53,12 @@ public class DisplayGuy {
 
 	public void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle("Implario GeoMaster");
+		Display.setTitle("Implario");
 
 		try {
 			Display.create(new PixelFormat().withDepthBits(24));
 		} catch (LWJGLException lwjglexception) {
-			MAIN.error("Не удалось создать окно для игры с глубоким разрешением");
+			MAIN.error("Не удалось создать окно для игры с крутым форматом пикселизации");
 			MAIN.exception(lwjglexception);
 
 			Utils.sleep(1000);

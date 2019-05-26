@@ -80,4 +80,8 @@ public class Registrar {
 	}
 
 
+	public void registerItemBlock(Block block) {
+		Item.registerItemBlock(block);
+	}
+
 }
