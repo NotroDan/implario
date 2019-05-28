@@ -24,16 +24,12 @@ public abstract class WorldService<T extends WorldServer> {
 
 	public abstract T[] getAll();
 
-	public abstract WorldServer loadDim(int dim, String worldName, WorldInfo info, WorldSettings settings);
+	public abstract WorldServer loadDim(int dim, String worldName, WorldInfo info, WorldSettings settings, ISaveHandler isavehandler);
 
 	public abstract T getWorld(int dim);
 
 	public int getDimensionAmount() {
 		return dimensionAmount;
-	}
-
-	protected ISaveHandler getSaveHandler(String worldName) {
-		return server.getActiveAnvilConverter().getSaveLoader(worldName, true);
 	}
 
 }

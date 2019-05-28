@@ -10,14 +10,12 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.HttpUtil;
 import net.minecraft.util.Util;
 import net.minecraft.world.*;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
-import optifine.WorldServerOF;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,51 +63,35 @@ public class IntegratedServer extends MinecraftServer {
 
 	protected void loadAllWorlds(String name, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
 		this.convertMapIfNeeded(name);
+		worldService = WORLD_SERVICE_PROVIDER.apply(this);
+		worldService.setUserMessage("menu.loadingLevel");
+		this.timeOfLastDimensionTick = new long[worldService.getDimensionAmount()][100];
 		ISaveHandler isavehandler = this.getActiveAnvilConverter().getSaveLoader(name, true);
 		this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
 		WorldInfo worldinfo = isavehandler.loadWorldInfo();
-		this.worldServers = new WorldServer[3];
-		this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
-		this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
+		WorldSettings worldsettings = theWorldSettings;
 
 		if (worldinfo == null) {
-			worldinfo = new WorldInfo(this.theWorldSettings, p_71247_2_);
+
+
+
+			worldinfo = new WorldInfo(worldsettings, p_71247_2_);
 		} else {
 			worldinfo.setWorldName(p_71247_2_);
+
 		}
 
-		for (int l = 0; l < this.worldServers.length; ++l) {
-			byte b0 = 0;
+		for (int i = 0; i < worldService.getDimensionAmount(); ++i) {
+			WorldServer server = worldService.loadDim(i, p_71247_2_, worldinfo, worldsettings, isavehandler);
+			server.addWorldAccess(new WorldManager(this, server));
 
-			if (l == 1) {
-				b0 = -1;
-			}
-
-			if (l == 2) {
-				b0 = 1;
-			}
-
-			if (l == 0) {
-				this.worldServers[l] = (WorldServer) new WorldServerOF(this, isavehandler, worldinfo, b0, Profiler.in).init();
-
-				this.worldServers[l].initialize(this.theWorldSettings);
-			} else {
-				this.worldServers[l] = (WorldServer) new WorldServerExtra(this, isavehandler, b0, this.worldServers[0], Profiler.in).init();
-			}
-
-			this.worldServers[l].addWorldAccess(new WorldManager(this, this.worldServers[l]));
 		}
 
-		this.getConfigurationManager().setPlayerManager(this.worldServers);
-
-		if (this.worldServers[0].getWorldInfo().getDifficulty() == null) {
-			this.setDifficultyForAllWorlds(Settings.difficulty);
-		}
-
-
+		this.getConfigurationManager().setPlayerManager(worldService.getWorld(0));
+		if (this.getEntityWorld().getWorldInfo().getDifficulty() == null)
+		this.setDifficultyForAllWorlds(Settings.difficulty);
 		this.initialWorldChunkLoad();
 	}
-
 	/**
 	 * Initialises the server and starts it.
 	 */
@@ -125,7 +107,7 @@ public class IntegratedServer extends MinecraftServer {
 
 
 		this.loadAllWorlds(this.getFolderName(), this.getWorldName(), this.theWorldSettings.getSeed(), this.theWorldSettings.getTerrainType(), this.theWorldSettings.getWorldName());
-		this.setMOTD(this.getServerOwner() + " - " + this.worldServers[0].getWorldInfo().getWorldName());
+		this.setMOTD(this.getServerOwner() + " - " + this.getEntityWorld().getWorldInfo().getWorldName());
 
 
 		return true;
@@ -161,7 +143,7 @@ public class IntegratedServer extends MinecraftServer {
 			}
 
 			if (this.mc.theWorld != null) {
-				WorldInfo server = this.worldServers[0].getWorldInfo();
+				WorldInfo server = this.getEntityWorld().getWorldInfo();
 				WorldInfo client = this.mc.theWorld.getWorldInfo();
 
 				if (!server.isDifficultyLocked() && client.getDifficulty() != server.getDifficulty()) {
@@ -169,7 +151,7 @@ public class IntegratedServer extends MinecraftServer {
 					this.setDifficultyForAllWorlds(client.getDifficulty());
 				} else if (client.isDifficultyLocked() && !server.isDifficultyLocked()) {
 					MAIN.info("Закрепляем сложность " + client.getDifficulty());
-					for (WorldServer worldserver : this.worldServers)
+					for (WorldServer worldserver : this.getWorlds())
 						if (worldserver != null) worldserver.getWorldInfo().setDifficultyLocked(true);
 				}
 			}

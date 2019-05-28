@@ -2,7 +2,6 @@ package vanilla.world.gen.feature.village;
 
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.resources.Label;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -16,7 +15,6 @@ import java.util.List;
 
 public class VillageSiege {
 
-	public static final Label<VillageSiege> LABEL = new Label<>();
 	private World worldObj;
 	private boolean field_75535_b;
 	private int field_75536_c = -1;

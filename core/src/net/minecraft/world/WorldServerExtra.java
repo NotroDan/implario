@@ -9,6 +9,8 @@ import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraft.world.storage.ISaveHandler;
 import vanilla.world.VanillaWorldServer;
+import vanilla.world.gen.feature.village.VillageCollection;
+import vanilla.world.gen.feature.village.VillageSiege;
 
 /**
  * Серверная сторона мира, использующаяся для ада и энда (DIM-1 и DIM1)
@@ -60,6 +62,19 @@ public class WorldServerExtra extends VanillaWorldServer {
 	public World init() {
 		this.mapStorage = this.delegate.getMapStorage();
 		this.worldScoreboard = this.delegate.getScoreboard();
+
+		villageSiege = new VillageSiege(this);
+
+		String s = VillageCollection.fileNameForProvider(this.provider);
+		VillageCollection villagecollection = (VillageCollection) this.mapStorage.loadData(VillageCollection.class, s);
+
+		if (villagecollection == null) {
+			this.villageCollection = new VillageCollection(this);
+			this.mapStorage.setData(s, this.villageCollection);
+		} else {
+			this.villageCollection = villagecollection;
+			this.villageCollection.setWorldsForAll(this);
+		}
 
 		E.call(new WorldServerInitEvent(this));
 

@@ -723,7 +723,7 @@ public abstract class ServerConfigurationManager {
 	}
 
 	public boolean canSendCommands(GameProfile profile) {
-		return this.ops.hasEntry(profile) || this.mcServer.isSinglePlayer() && this.mcServer.worldServers[0].getWorldInfo().areCommandsAllowed() && this.mcServer.getServerOwner().equalsIgnoreCase(
+		return this.ops.hasEntry(profile) || this.mcServer.isSinglePlayer() && this.mcServer.getEntityWorld().getWorldInfo().areCommandsAllowed() && this.mcServer.getServerOwner().equalsIgnoreCase(
 				profile.getName()) || this.commandsAllowedForAll;
 	}
 
@@ -807,7 +807,7 @@ public abstract class ServerConfigurationManager {
 	 * Updates the time and weather for the given player to those of the given world
 	 */
 	public void updateTimeAndWeatherForPlayer(EntityPlayerMP playerIn, WorldServer worldIn) {
-		WorldBorder worldborder = this.mcServer.worldServers[0].getWorldBorder();
+		WorldBorder worldborder = this.mcServer.getEntityWorld().getWorldBorder();
 		playerIn.playerNetServerHandler.sendPacket(new S44PacketWorldBorder(worldborder, S44PacketWorldBorder.Action.INITIALIZE));
 		playerIn.playerNetServerHandler.sendPacket(new S03PacketTimeUpdate(worldIn.getTotalWorldTime(), worldIn.getWorldTime(), worldIn.getGameRules().getBoolean("doDaylightCycle")));
 
@@ -845,7 +845,7 @@ public abstract class ServerConfigurationManager {
 	 * Returns an array of usernames for which player.dat exists for.
 	 */
 	public String[] getAvailablePlayerDat() {
-		return this.mcServer.worldServers[0].getSaveHandler().getPlayerNBTManager().getAvailablePlayerDat();
+		return this.mcServer.getEntityWorld().getSaveHandler().getPlayerNBTManager().getAvailablePlayerDat();
 	}
 
 	public boolean isWhiteListEnabled() {
@@ -945,8 +945,8 @@ public abstract class ServerConfigurationManager {
 	public void setViewDistance(int distance) {
 		this.viewDistance = distance;
 
-		if (this.mcServer.worldServers != null) {
-			for (WorldServer worldserver : this.mcServer.worldServers) {
+		if (this.mcServer.worldService != null) {
+			for (WorldServer worldserver : this.mcServer.getWorlds()) {
 				if (worldserver != null) {
 					worldserver.getPlayerManager().setPlayerViewRadius(distance);
 				}

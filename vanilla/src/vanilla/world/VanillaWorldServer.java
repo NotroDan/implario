@@ -44,9 +44,9 @@ public class VanillaWorldServer extends WorldServer {
 	 * is false if there are no players
 	 */
 	private boolean allPlayersSleeping;
-	private VillageSiege villageSiege;
-	private VillageCollection villageCollection;
-	private SpawnerAnimals spawnerAnimals;
+	public VillageCollection villageCollection;
+	public VillageSiege villageSiege;
+	private SpawnerAnimals spawnerAnimals = new SpawnerAnimals();
 
 	public VanillaWorldServer(MinecraftServer server, ISaveHandler saver, WorldInfo info, int dim, Profiler profiler) {
 		super(server, saver, info, dim, profiler);
@@ -70,6 +70,8 @@ public class VanillaWorldServer extends WorldServer {
 			this.villageCollection = v;
 			getMapStorage().setData(s, v);
 		}
+
+		System.out.println("Инициализация успешно завершена.");
 
 		return this;
 	}
@@ -111,15 +113,23 @@ public class VanillaWorldServer extends WorldServer {
 	}
 
 	public SpawnListEntry getSpawnListEntryForTypeAt(EnumCreatureType creatureType, BlockPos pos) {
+		if (isBasedOnNonVanilla()) return null;
 		List<SpawnListEntry> list = ((VanillaChunkProvider) this.getChunkProvider()).getPossibleCreatures(creatureType, pos);
 		return list != null && !list.isEmpty() ? WeightedRandom.getRandomItem(this.rand, list) : null;
 	}
 
+	private boolean isBasedOnNonVanilla, checkedBase;
+	private boolean isBasedOnNonVanilla() {
+		if (checkedBase) return isBasedOnNonVanilla;
+		checkedBase = true;
+		return isBasedOnNonVanilla = !(getChunkProvider() instanceof VanillaChunkProvider);
+	}
+
 	public boolean canCreatureTypeSpawnHere(EnumCreatureType creatureType, SpawnListEntry spawnListEntry, BlockPos pos) {
+		if (isBasedOnNonVanilla()) return false;
 		List<SpawnListEntry> list = ((VanillaChunkProvider) this.getChunkProvider()).getPossibleCreatures(creatureType, pos);
 		return list != null && !list.isEmpty() && list.contains(spawnListEntry);
 	}
-
 
 
 	/**

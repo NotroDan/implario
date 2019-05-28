@@ -1972,7 +1972,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Returns true if the command sender should be sent feedback about executed commands
 	 */
 	public boolean sendCommandFeedback() {
-		return MinecraftServer.getServer().worldServers[0].getGameRules().getBoolean("sendCommandFeedback");
+		return MinecraftServer.getServer().getEntityWorld().getGameRules().getBoolean("sendCommandFeedback");
 	}
 
 	public boolean replaceItemInInventory(int inventorySlot, ItemStack itemStackIn) {

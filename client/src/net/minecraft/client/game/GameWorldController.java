@@ -19,6 +19,7 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.FileUtil;
 import net.minecraft.util.ReportedException;
+import net.minecraft.world.WorldService;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.storage.AnvilSaveConverter;
 import net.minecraft.world.storage.ISaveFormat;
@@ -177,10 +178,10 @@ public class GameWorldController {
 		mc.loadingScreen.displaySavingString(Lang.format("menu.loadingLevel"));
 
 		while (!mc.theIntegratedServer.serverIsInRunLoop()) {
-			String s = mc.theIntegratedServer.getUserMessage();
+			WorldService s = mc.theIntegratedServer.worldService;
 
 			if (s != null) {
-				mc.loadingScreen.displayLoadingString(Lang.format(s));
+				mc.loadingScreen.displayLoadingString(Lang.format(s.getUserMessage()));
 			} else {
 				mc.loadingScreen.displayLoadingString("");
 			}

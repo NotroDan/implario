@@ -49,7 +49,7 @@ import java.util.function.Function;
 
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
 
-	public static Function<MinecraftServer, SimpleWorldService> WORLD_SERVICE_PROVIDER = SimpleWorldService::new;
+	public static Function<MinecraftServer, WorldService> WORLD_SERVICE_PROVIDER = SimpleWorldService::new;
 	private static final Logger logger = Logger.getInstance();
 	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
 
@@ -66,7 +66,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private final ServerStatusResponse statusResponse = new ServerStatusResponse();
 	private final Random random = new Random();
 	private int serverPort = -1;
-	public SimpleWorldService worldService;
+	public WorldService worldService;
 	private ServerConfigurationManager serverConfigManager;
 	private boolean serverRunning = true;
 	private boolean serverStopped;
@@ -173,7 +173,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		if (true) return;
 		if (this.getActiveAnvilConverter().isOldMapFormat(worldNameIn)) {
 			logger.info("Converting map!");
-			this.setUserMessage("menu.convertingLevel");
+			worldService.setUserMessage("menu.convertingLevel");
 			this.getActiveAnvilConverter().convertMapFormat(worldNameIn, new IProgressUpdate() {
 				private long startTime = System.currentTimeMillis();
 
@@ -204,21 +204,15 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		worldService = WORLD_SERVICE_PROVIDER.apply(this);
 		worldService.setUserMessage("menu.loadingLevel");
 		this.timeOfLastDimensionTick = new long[worldService.getDimensionAmount()][100];
-		ISaveHandler isavehandler = this.anvilConverterForAnvilFile.getSaveLoader(name, true);
+		ISaveHandler isavehandler = this.getActiveAnvilConverter().getSaveLoader(name, true);
 		this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
 		WorldInfo worldinfo = isavehandler.loadWorldInfo();
 		WorldSettings worldsettings;
 
 		if (worldinfo == null) {
-
 			worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(), this.isHardcore(), type);
 			worldsettings.setWorldName(p_71247_6_);
-
-			if (this.starterKit) {
-				worldsettings.enableStarterKit();
-			}
-
-
+			if (this.starterKit) worldsettings.enableStarterKit();
 			worldinfo = new WorldInfo(worldsettings, p_71247_2_);
 		} else {
 			worldinfo.setWorldName(p_71247_2_);
@@ -226,15 +220,13 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		}
 
 		for (int i = 0; i < worldService.getDimensionAmount(); ++i) {
-			WorldServer server = worldService.loadDim(i, p_71247_2_, worldinfo, worldsettings);
+			WorldServer server = worldService.loadDim(i, p_71247_2_, worldinfo, worldsettings, isavehandler);
 			server.addWorldAccess(new WorldManager(this, server));
 			if (!this.isSinglePlayer()) server.getWorldInfo().setGameType(this.getGameType());
 		}
 
+		this.getConfigurationManager().setPlayerManager(worldService.getWorld(0));
 
-
-
-		this.serverConfigManager.setPlayerManager(worldService.getWorld(0));
 		this.setDifficultyForAllWorlds(this.getDifficulty());
 		this.initialWorldChunkLoad();
 	}
@@ -955,9 +947,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Sets the game type for all worlds.
 	 */
 	public void setGameType(WorldSettings.GameType gameMode) {
-		for (int i = 0; i < this.worldServers.length; ++i) {
-			getServer().worldServers[i].getWorldInfo().setGameType(gameMode);
-		}
+		for (WorldServer world : getServer().getWorlds())
+			world.getWorldInfo().setGameType(gameMode);
 	}
 
 	public NetworkSystem getNetworkSystem() {
@@ -1006,7 +997,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * the overworld
 	 */
 	public World getEntityWorld() {
-		return this.worldServers[0];
+		return worldService.getWorld(0);
 	}
 
 	/**
@@ -1079,14 +1070,10 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	}
 
 	public Entity getEntityFromUuid(UUID uuid) {
-		for (WorldServer worldserver : this.worldServers) {
-			if (worldserver != null) {
-				Entity entity = worldserver.getEntityFromUuid(uuid);
-
-				if (entity != null) {
-					return entity;
-				}
-			}
+		for (WorldServer worldserver : this.getWorlds()) {
+			if (worldserver == null) continue;
+			Entity entity = worldserver.getEntityFromUuid(uuid);
+			if (entity != null) return entity;
 		}
 
 		return null;
@@ -1096,7 +1083,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Returns true if the command sender should be sent feedback about executed commands
 	 */
 	public boolean sendCommandFeedback() {
-		return getServer().worldServers[0].getGameRules().getBoolean("sendCommandFeedback");
+		return getEntityWorld().getGameRules().getBoolean("sendCommandFeedback");
 	}
 
 	public void setCommandStat(CommandResultStats.Type type, int amount) {

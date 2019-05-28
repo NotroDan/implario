@@ -1,6 +1,7 @@
 package net.minecraft.server;
 
 import net.minecraft.init.Bootstrap;
+import net.minecraft.resources.Datapack;
 import net.minecraft.server.dedicated.DedicatedServer;
 
 import java.io.File;
@@ -8,6 +9,10 @@ import java.io.File;
 public class ServerStart {
 	public static void main(String[] args) {
 		Bootstrap.register();
+		for (Datapack datapack : Datapack.LOADED) {
+			datapack.init();
+			datapack.postinit();
+		}
 
 		String s = null;
 		String s1 = ".";

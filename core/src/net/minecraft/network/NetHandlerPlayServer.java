@@ -511,7 +511,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		if (this.playerEntity.isSpectator()) {
 			Entity entity = null;
 
-			for (WorldServer worldserver : this.serverController.worldServers) {
+			for (WorldServer worldserver : this.serverController.getWorlds()) {
 				if (worldserver != null) {
 					entity = packetIn.getEntity(worldserver);
 

@@ -36,29 +36,24 @@ public class CommandSaveAll extends CommandBase {
 		}
 
 		try {
-			for (int i = 0; i < minecraftserver.worldServers.length; ++i) {
-				if (minecraftserver.worldServers[i] != null) {
-					WorldServer worldserver = minecraftserver.worldServers[i];
-					boolean flag = worldserver.disableLevelSaving;
-					worldserver.disableLevelSaving = false;
-					worldserver.saveAllChunks(true, null);
-					worldserver.disableLevelSaving = flag;
-				}
+			for (WorldServer world : minecraftserver.getWorlds()) {
+				if (world == null) continue;
+				boolean flag = world.disableLevelSaving;
+				world.disableLevelSaving = false;
+				world.saveAllChunks(true, null);
+				world.disableLevelSaving = flag;
+				
 			}
-
 			if (args.length > 0 && "flush".equals(args[0])) {
 				sender.addChatMessage(new ChatComponentTranslation("commands.save.flushStart"));
 
-				for (int j = 0; j < minecraftserver.worldServers.length; ++j) {
-					if (minecraftserver.worldServers[j] != null) {
-						WorldServer worldserver1 = minecraftserver.worldServers[j];
-						boolean flag1 = worldserver1.disableLevelSaving;
-						worldserver1.disableLevelSaving = false;
-						worldserver1.saveChunkData();
-						worldserver1.disableLevelSaving = flag1;
-					}
+				for (WorldServer world : minecraftserver.getWorlds()) {
+					if (world == null) continue;
+					boolean flag1 = world.disableLevelSaving;
+					world.disableLevelSaving = false;
+					world.saveChunkData();
+					world.disableLevelSaving = flag1;
 				}
-
 				sender.addChatMessage(new ChatComponentTranslation("commands.save.flushEnd"));
 			}
 		} catch (MinecraftException minecraftexception) {

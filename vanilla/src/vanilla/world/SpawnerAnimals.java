@@ -2,9 +2,6 @@ package vanilla.world;
 
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
-import net.minecraft.resources.Label;
-import vanilla.entity.EntitySpawnPlacementRegistry;
-import vanilla.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -17,6 +14,8 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
+import vanilla.entity.EntitySpawnPlacementRegistry;
+import vanilla.entity.EnumCreatureType;
 import vanilla.entity.VanillaEntity;
 import vanilla.world.biome.BiomeGenBase;
 
@@ -26,7 +25,6 @@ import java.util.Set;
 
 public final class SpawnerAnimals {
 
-	public static final Label<SpawnerAnimals> LABEL = new Label<>();
 	private static final int MOB_COUNT_DIV = (int) Math.pow(17.0D, 2.0D);
 	private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.newHashSet();
 

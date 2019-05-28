@@ -1,121 +1,108 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldServer;
 
-public class CommandTime extends CommandBase
-{
-    /**
-     * Gets the name of the command
-     */
-    public String getCommandName()
-    {
-        return "time";
-    }
+import java.util.List;
 
-    /**
-     * Return the required permission level for this command.
-     */
-    public int getRequiredPermissionLevel()
-    {
-        return 2;
-    }
+public class CommandTime extends CommandBase {
 
-    /**
-     * Gets the usage string for the command.
-     */
-    public String getCommandUsage(ICommandSender sender)
-    {
-        return "commands.time.usage";
-    }
+	/**
+	 * Gets the name of the command
+	 */
+	public String getCommandName() {
+		return "time";
+	}
 
-    /**
-     * Callback when the command is invoked
-     */
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException
-    {
-        if (args.length > 1)
-        {
-            if (args[0].equals("set"))
-            {
-                int l;
+	/**
+	 * Return the required permission level for this command.
+	 */
+	public int getRequiredPermissionLevel() {
+		return 2;
+	}
 
-                if (args[1].equals("day"))
-                {
-                    l = 1000;
-                }
-                else if (args[1].equals("night"))
-                {
-                    l = 13000;
-                }
-                else
-                {
-                    l = parseInt(args[1], 0);
-                }
+	/**
+	 * Gets the usage string for the command.
+	 */
+	public String getCommandUsage(ICommandSender sender) {
+		return "commands.time.usage";
+	}
 
-                this.setTime(sender, l);
-                notifyOperators(sender, this, "commands.time.set", new Object[] {l});
-                return;
-            }
+	/**
+	 * Callback when the command is invoked
+	 */
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+		if (args.length > 1) {
+			if (args[0].equals("set")) {
+				int l;
 
-            if (args[0].equals("add"))
-            {
-                int k = parseInt(args[1], 0);
-                this.addTime(sender, k);
-                notifyOperators(sender, this, "commands.time.added", new Object[] {k});
-                return;
-            }
+				switch (args[1]) {
+					case "day":
+						l = 1000;
+						break;
+					case "night":
+						l = 13000;
+						break;
+					default:
+						l = parseInt(args[1], 0);
+						break;
+				}
 
-            if (args[0].equals("query"))
-            {
-                if (args[1].equals("daytime"))
-                {
-                    int j = (int)(sender.getEntityWorld().getWorldTime() % 2147483647L);
-                    sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, j);
-                    notifyOperators(sender, this, "commands.time.query", new Object[] {j});
-                    return;
-                }
+				this.setTime(l);
+				notifyOperators(sender, this, "commands.time.set", l);
+				return;
+			}
 
-                if (args[1].equals("gametime"))
-                {
-                    int i = (int)(sender.getEntityWorld().getTotalWorldTime() % 2147483647L);
-                    sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
-                    notifyOperators(sender, this, "commands.time.query", new Object[] {i});
-                    return;
-                }
-            }
-        }
+			if (args[0].equals("add")) {
+				int k = parseInt(args[1], 0);
+				this.addTime(k);
+				notifyOperators(sender, this, "commands.time.added", k);
+				return;
+			}
 
-        throw new WrongUsageException("commands.time.usage", new Object[0]);
-    }
+			if (args[0].equals("query")) {
+				if (args[1].equals("daytime")) {
+					int j = (int) (sender.getEntityWorld().getWorldTime() % 2147483647L);
+					sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, j);
+					notifyOperators(sender, this, "commands.time.query", j);
+					return;
+				}
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
-    {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"set", "add", "query"}): args.length == 2 && args[0].equals("set") ? getListOfStringsMatchingLastWord(args, new String[] {"day", "night"}): args.length == 2 && args[0].equals("query") ? getListOfStringsMatchingLastWord(args, new String[] {"daytime", "gametime"}): null;
-    }
+				if (args[1].equals("gametime")) {
+					int i = (int) (sender.getEntityWorld().getTotalWorldTime() % 2147483647L);
+					sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
+					notifyOperators(sender, this, "commands.time.query", i);
+					return;
+				}
+			}
+		}
 
-    /**
-     * Set the time in the server object.
-     */
-    protected void setTime(ICommandSender p_71552_1_, int p_71552_2_)
-    {
-        for (int i = 0; i < MinecraftServer.getServer().worldServers.length; ++i)
-        {
-            MinecraftServer.getServer().worldServers[i].setWorldTime((long)p_71552_2_);
-        }
-    }
+		throw new WrongUsageException("commands.time.usage");
+	}
 
-    /**
-     * Adds (or removes) time in the server object.
-     */
-    protected void addTime(ICommandSender p_71553_1_, int p_71553_2_)
-    {
-        for (int i = 0; i < MinecraftServer.getServer().worldServers.length; ++i)
-        {
-            WorldServer worldserver = MinecraftServer.getServer().worldServers[i];
-            worldserver.setWorldTime(worldserver.getWorldTime() + (long)p_71553_2_);
-        }
-    }
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+		return args.length == 1 ? getListOfStringsMatchingLastWord(args, "set", "add", "query") : args.length == 2 && args[0].equals("set") ? getListOfStringsMatchingLastWord(args, "day",
+				"night") : args.length == 2 && args[0].equals("query") ? getListOfStringsMatchingLastWord(args,
+				"daytime", "gametime") : null;
+	}
+
+	/**
+	 * Set the time in the server object.
+	 */
+	protected void setTime(int time) {
+		for (WorldServer world : MinecraftServer.getServer().getWorlds()) {
+			world.setWorldTime(time);
+		}
+	}
+
+	/**
+	 * Adds (or removes) time in the server object.
+	 */
+	protected void addTime(int time) {
+		for (WorldServer world : MinecraftServer.getServer().getWorlds()) {
+			world.setWorldTime(world.getWorldTime() + time);
+		}
+	}
+
 }

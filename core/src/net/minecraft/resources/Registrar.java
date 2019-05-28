@@ -10,15 +10,19 @@ import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Event;
 import net.minecraft.resources.event.Handler;
 import net.minecraft.resources.event.PacketInterceptor;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class Registrar {
 
 	private final Domain domain;
 	private final List<OverridenEntry<Block>> overridenBlocks = new ArrayList<>();
-	private final List<OverridenEntry<Item>>  overridenItems =  new ArrayList<>();
+	private final List<OverridenEntry<Item>> overridenItems = new ArrayList<>();
+	private Function<MinecraftServer, WorldService> provider;
 
 	public Registrar(Domain domain) {
 		this.domain = domain;
@@ -31,6 +35,7 @@ public class Registrar {
 	public <T extends Event> void regListener(Class<T> c, Handler<Event, T> listener) {
 		E.getEventLib().registerListener(domain, c, listener);
 	}
+
 	public <L extends INetHandler, T extends Packet<L>> void regInterceptor(Class<T> c, PacketInterceptor<L, T> listener) {
 		E.getPacketLib().registerListener(domain, c, listener);
 	}
@@ -82,6 +87,11 @@ public class Registrar {
 
 	public void registerItemBlock(Block block) {
 		Item.registerItemBlock(block);
+	}
+
+	public void setWorldServiceProvider(Function<MinecraftServer, WorldService> function) {
+		provider = MinecraftServer.WORLD_SERVICE_PROVIDER;
+		MinecraftServer.WORLD_SERVICE_PROVIDER = function;
 	}
 
 }

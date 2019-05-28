@@ -60,7 +60,8 @@ public class WorldServer extends World implements IThreadListener {
 	private int updateEntityTick;
 
 	private WorldServer.ServerBlockEventList[] field_147490_S = new WorldServer.ServerBlockEventList[] {new WorldServer.ServerBlockEventList(), new WorldServer.ServerBlockEventList()};
-	private int blockEventCacheIndex;private List<NextTickListEntry> pendingTickListEntriesThisTick = Lists.newArrayList();
+	private int blockEventCacheIndex;
+	private List<NextTickListEntry> pendingTickListEntriesThisTick = Lists.newArrayList();
 	private final WorldTickEvent tickEvent = new WorldTickEvent(this);
 	protected IDimensionTranser dimensionTransfer;
 

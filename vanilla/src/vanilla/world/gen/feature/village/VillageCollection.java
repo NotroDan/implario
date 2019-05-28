@@ -6,19 +6,17 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.resources.Label;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldSavedData;
+import vanilla.world.VanillaWorldServer;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class VillageCollection extends WorldSavedData {
-
-	public static final Label<VillageCollection> LABEL = new Label<>();
 
 	private World worldObj;
 	private final List<BlockPos> villagerPositionsList = Lists.newArrayList();
@@ -37,7 +35,7 @@ public class VillageCollection extends WorldSavedData {
 	}
 
 	public static VillageCollection get(World worldObj) {
-		return worldObj.getAddition(LABEL);
+		return ((VanillaWorldServer) worldObj).villageCollection;
 	}
 
 	public void setWorldsForAll(World worldIn) {

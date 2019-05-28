@@ -187,7 +187,7 @@ public abstract class CommandBlockLogic implements ICommandSender {
 	 */
 	public boolean sendCommandFeedback() {
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
-		return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+		return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.getEntityWorld().getGameRules().getBoolean("commandBlockOutput");
 	}
 
 	public void setCommandStat(CommandResultStats.Type type, int amount) {

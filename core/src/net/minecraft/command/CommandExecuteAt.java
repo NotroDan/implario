@@ -1,6 +1,5 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -9,6 +8,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class CommandExecuteAt extends CommandBase
 {
@@ -109,7 +110,7 @@ public class CommandExecuteAt extends CommandBase
 			public boolean sendCommandFeedback()
 			{
 				MinecraftServer minecraftserver = MinecraftServer.getServer();
-				return minecraftserver == null || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+				return minecraftserver == null || minecraftserver.getEntityWorld().getGameRules().getBoolean("commandBlockOutput");
 			}
 			public void setCommandStat(CommandResultStats.Type type, int amount)
 			{

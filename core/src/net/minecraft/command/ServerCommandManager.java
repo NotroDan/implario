@@ -103,11 +103,11 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 			}
 		}
 
-		if (sender != minecraftserver && minecraftserver.worldServers[0].getGameRules().getBoolean("logAdminCommands")) {
+		if (sender != minecraftserver && minecraftserver.getEntityWorld().getGameRules().getBoolean("logAdminCommands")) {
 			minecraftserver.addChatMessage(ichatcomponent);
 		}
 
-		boolean flag3 = minecraftserver.worldServers[0].getGameRules().getBoolean("sendCommandFeedback");
+		boolean flag3 = minecraftserver.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback");
 
 		if (sender instanceof CommandBlockLogic) {
 			flag3 = ((CommandBlockLogic) sender).shouldTrackOutput();

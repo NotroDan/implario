@@ -6,53 +6,42 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
-public class CommandSaveOff extends CommandBase
-{
-    /**
-     * Gets the name of the command
-     */
-    public String getCommandName()
-    {
-        return "save-off";
-    }
+public class CommandSaveOff extends CommandBase {
 
-    /**
-     * Gets the usage string for the command.
-     */
-    public String getCommandUsage(ICommandSender sender)
-    {
-        return "commands.save-off.usage";
-    }
+	/**
+	 * Gets the name of the command
+	 */
+	public String getCommandName() {
+		return "save-off";
+	}
 
-    /**
-     * Callback when the command is invoked
-     */
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException
-    {
-        MinecraftServer minecraftserver = MinecraftServer.getServer();
-        boolean flag = false;
+	/**
+	 * Gets the usage string for the command.
+	 */
+	public String getCommandUsage(ICommandSender sender) {
+		return "commands.save-off.usage";
+	}
 
-        for (int i = 0; i < minecraftserver.worldServers.length; ++i)
-        {
-            if (minecraftserver.worldServers[i] != null)
-            {
-                WorldServer worldserver = minecraftserver.worldServers[i];
+	/**
+	 * Callback when the command is invoked
+	 */
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+		MinecraftServer minecraftserver = MinecraftServer.getServer();
+		boolean flag = false;
+		for (WorldServer world : minecraftserver.getWorlds()) {
+			if (world == null) continue;
 
-                if (!worldserver.disableLevelSaving)
-                {
-                    worldserver.disableLevelSaving = true;
-                    flag = true;
-                }
-            }
-        }
+			if (!world.disableLevelSaving) {
+				world.disableLevelSaving = true;
+				flag = true;
+			}
+		}
 
-        if (flag)
-        {
-            notifyOperators(sender, this, "commands.save.disabled", new Object[0]);
-        }
-        else
-        {
-            throw new CommandException("commands.save-off.alreadyOff", new Object[0]);
-        }
-    }
+		if (flag) {
+			notifyOperators(sender, this, "commands.save.disabled");
+		} else {
+			throw new CommandException("commands.save-off.alreadyOff");
+		}
+	}
+
 }

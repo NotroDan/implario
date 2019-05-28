@@ -74,6 +74,7 @@ import vanilla.inventory.ContainerMerchant;
 import vanilla.item.*;
 import vanilla.tileentity.TileEntityMobSpawner;
 import vanilla.world.SleepChecker;
+import vanilla.world.VanillaWorldService;
 import vanilla.world.WorldProviderEnd;
 import vanilla.world.WorldProviderHell;
 import vanilla.world.gen.WorldTypes;
@@ -96,6 +97,8 @@ public class Vanilla extends Datapack {
 
 	@Override
 	public void preinit() {
+
+		registrar.setWorldServiceProvider(VanillaWorldService::new);
 
 
 		addMapping(EntityLeashKnot.class, "LeashKnot", 8);
