@@ -694,4 +694,9 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, IEn
 		return 160;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

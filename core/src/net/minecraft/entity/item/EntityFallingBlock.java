@@ -329,4 +329,10 @@ public class EntityFallingBlock extends Entity
     {
         return this.fallTile;
     }
+
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

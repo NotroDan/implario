@@ -793,4 +793,9 @@ public class EntityArmorStand extends EntityLivingBase {
 		return super.canBeCollidedWith() && !this.func_181026_s();
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

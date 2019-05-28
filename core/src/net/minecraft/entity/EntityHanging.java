@@ -268,4 +268,9 @@ public abstract class EntityHanging extends Entity {
 		return this.hangingPosition;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

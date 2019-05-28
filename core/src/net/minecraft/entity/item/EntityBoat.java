@@ -521,4 +521,9 @@ public class EntityBoat extends Entity {
 		return 80;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

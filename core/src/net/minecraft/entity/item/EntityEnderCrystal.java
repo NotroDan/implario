@@ -109,4 +109,10 @@ public class EntityEnderCrystal extends Entity {
 		return true;
 	}
 
+
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

@@ -256,4 +256,9 @@ public class EntitySquid extends EntityWaterMob {
 		return 3;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

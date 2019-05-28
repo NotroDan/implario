@@ -551,4 +551,9 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		return false;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

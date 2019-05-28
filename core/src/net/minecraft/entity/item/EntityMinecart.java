@@ -565,6 +565,11 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		}
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 	protected void applyDrag() {
 		if (this.riddenByEntity != null) {
 			this.motionX *= 0.996999979019165D;

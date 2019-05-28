@@ -441,4 +441,9 @@ public class EntityItem extends Entity {
 		this.age = 5999;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

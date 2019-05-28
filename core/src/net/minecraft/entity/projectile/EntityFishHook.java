@@ -542,4 +542,9 @@ public class EntityFishHook extends Entity {
 		return 5;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

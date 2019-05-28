@@ -7,4 +7,7 @@ public interface ITrackable {
 	int getTrackingRange();
 
 	boolean sendVelocityUpdates();
+
+	boolean doTracking();
+
 }

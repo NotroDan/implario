@@ -1133,4 +1133,24 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 		}
 	}
 
+
+	@Override
+	public boolean sendVelocityUpdates() {
+		return true;
+	}
+
+	@Override
+	public int getUpdateFrequency() {
+		return 3;
+	}
+
+	@Override
+	public int getTrackingRange() {
+		return 80;
+	}
+
+	@Override
+	public boolean doTracking() {return true;}
+
+
 }

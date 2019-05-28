@@ -119,4 +119,9 @@ public class EntityTNTPrimed extends Entity {
 		return 0.0F;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

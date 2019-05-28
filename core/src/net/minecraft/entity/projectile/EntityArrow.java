@@ -530,4 +530,9 @@ public class EntityArrow extends Entity implements IProjectile {
 		return false;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

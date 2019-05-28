@@ -214,4 +214,9 @@ public class EntityEnderEye extends Entity {
 		return false;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

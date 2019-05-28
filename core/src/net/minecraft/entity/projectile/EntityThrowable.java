@@ -330,4 +330,9 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 		return this.thrower;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

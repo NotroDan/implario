@@ -238,7 +238,6 @@ public class EntityBat extends EntityAmbientCreature {
 	}
 
 
-
 	@Override
 	public int getUpdateFrequency() {
 		return 3;
@@ -253,4 +252,10 @@ public class EntityBat extends EntityAmbientCreature {
 	public boolean sendVelocityUpdates() {
 		return false;
 	}
+
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }

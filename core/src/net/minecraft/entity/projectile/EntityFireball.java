@@ -302,4 +302,9 @@ public abstract class EntityFireball extends Entity {
 		return false;
 	}
 
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 }
