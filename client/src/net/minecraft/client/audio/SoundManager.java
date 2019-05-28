@@ -87,36 +87,35 @@ public class SoundManager {
 	 */
 
 	private synchronized void loadSoundSystem() {
-		if (!this.loaded) {
-			try {
-				new Thread(() -> {
-					SoundSystemConfig.setLogger(new SoundSystemLogger() {
-						public void message(String m, int p_message_2_) {
-							if (!m.isEmpty()) SoundManager.logger.info(m);
-						}
+		if (this.loaded) return;
+		try {
+			new Thread(() -> {
+				SoundSystemConfig.setLogger(new SoundSystemLogger() {
+					public void message(String m, int p_message_2_) {
+						if (!m.isEmpty()) SoundManager.logger.info(m);
+					}
 
-						public void importantMessage(String p_importantMessage_1_, int p_importantMessage_2_) {
-							if (!p_importantMessage_1_.isEmpty()) SoundManager.logger.warn(p_importantMessage_1_);
-						}
+					public void importantMessage(String p_importantMessage_1_, int p_importantMessage_2_) {
+						if (!p_importantMessage_1_.isEmpty()) SoundManager.logger.warn(p_importantMessage_1_);
+					}
 
-						public void errorMessage(String p_errorMessage_1_, String p_errorMessage_2_, int p_errorMessage_3_) {
-							if (!p_errorMessage_2_.isEmpty()) {
-								SoundManager.logger.error("Ошибка в классе \'" + p_errorMessage_1_ + "\'");
-								SoundManager.logger.error(p_errorMessage_2_);
-							}
+					public void errorMessage(String p_errorMessage_1_, String p_errorMessage_2_, int p_errorMessage_3_) {
+						if (!p_errorMessage_2_.isEmpty()) {
+							SoundManager.logger.error("Ошибка в классе \'" + p_errorMessage_1_ + "\'");
+							SoundManager.logger.error(p_errorMessage_2_);
 						}
-					});
-					this.sndSystem = this.new SoundSystemStarterThread();
-					this.loaded = true;
-					this.sndSystem.setMasterVolume(Settings.SOUND_MASTER.f());
-					SoundManager.logger.info("Аудиодвижок успешно запущен.");
-				}, "Sound Library Loader").start();
-			} catch (RuntimeException runtimeexception) {
-				logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c");
-				logger.exception(runtimeexception);
-				Settings.SOUND_MASTER.set(0);
-				Settings.saveOptions();
-			}
+					}
+				});
+				this.sndSystem = this.new SoundSystemStarterThread();
+				this.loaded = true;
+				this.sndSystem.setMasterVolume(Settings.SOUND_MASTER.f());
+				SoundManager.logger.info("Аудиодвижок успешно запущен.");
+			}, "Sound Library Loader").start();
+		} catch (RuntimeException runtimeexception) {
+			logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c");
+			logger.exception(runtimeexception);
+			Settings.SOUND_MASTER.set(0);
+			Settings.saveOptions();
 		}
 	}
 
