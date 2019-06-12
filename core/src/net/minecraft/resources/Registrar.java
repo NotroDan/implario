@@ -1,6 +1,8 @@
 package net.minecraft.resources;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.PlayerGuiBridge;
 import net.minecraft.item.Item;
 import net.minecraft.logging.Log;
@@ -10,7 +12,12 @@ import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Event;
 import net.minecraft.resources.event.Handler;
 import net.minecraft.resources.event.PacketInterceptor;
+import net.minecraft.resources.override.BlockOverridden;
+import net.minecraft.resources.override.ItemOverridden;
+import net.minecraft.resources.override.LambdaOverridden;
+import net.minecraft.resources.override.OverriddenEntry;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldService;
 
 import java.util.ArrayList;
@@ -20,9 +27,12 @@ import java.util.function.Function;
 public class Registrar {
 
 	private final Domain domain;
-	private final List<OverridenEntry<Block>> overridenBlocks = new ArrayList<>();
-	private final List<OverridenEntry<Item>> overridenItems = new ArrayList<>();
-	private Function<MinecraftServer, WorldService> provider;
+
+	private final List<OverriddenEntry> overridden = new ArrayList<>();
+	private List<Item>  items  = new ArrayList<>();
+	private List<Block> blocks = new ArrayList<>();
+	private List<Class<? extends TileEntity>> tileEntities = new ArrayList<>();
+	private List<Class<? extends Entity>> entities = new ArrayList<>();;
 
 	public Registrar(Domain domain) {
 		this.domain = domain;
@@ -43,41 +53,44 @@ public class Registrar {
 	public void unregister() {
 		E.getEventLib().LIB.disable(domain);
 		E.getPacketLib().LIB.disable(domain);
-		for (OverridenEntry<Block> entry : overridenBlocks)
-			Block.registerBlock(entry.id, entry.address, entry.old);
-		for (OverridenEntry<Item> entry : overridenItems)
-			Item.registerItem(entry.id, entry.address, entry.old);
+		for (Item  item  : items ) Item.  itemRegistry.remove(Item.  itemRegistry.getNameForObject(item ));
+		for (Block block : blocks) Block.blockRegistry.remove(Block.blockRegistry.getNameForObject(block));
+		for (Class<? extends TileEntity> tileEntity : tileEntities) TileEntity.unregister(tileEntity);
+		for (OverriddenEntry entry : overridden) entry.undo();
+		for (Class<? extends Entity> entity : entities) EntityList.removeMapping(entity);
 	}
 
 	public void registerItem(int id, String textual, Item item) {
-		// ToDo: intercept
+		items.add(item);
 		Item.registerItem(id, textual, item);
 	}
 
 	public void registerBlock(int id, String address, Block block) {
+		blocks.add(block);
 		Block.registerBlock(id, address, block);
 	}
 
 	public void overrideBlock(int id, String address, Block block) {
 		Block old = Block.blockRegistry.getObjectById(id);
-		if (old == null) {
+		if (old != null) override(new BlockOverridden(id, address, old, block));
+		else {
 			Log.MAIN.error("Блок с id " + id + " не зарегистрирован: замещать нечего.");
-			return;
+			registerBlock(id, address, block);
 		}
-		OverridenEntry<Block> e = new OverridenEntry<>(id, address, old, block);
-		Block.registerBlock(id, address, block);
-		overridenBlocks.add(e);
+	}
+
+	public void override(OverriddenEntry entry) {
+		entry.override();
+		overridden.add(entry);
 	}
 
 	public void overrideItem(int id, String address, Item item) {
 		Item old = Item.itemRegistry.getObjectById(id);
-		if (old == null) {
+		if (old != null) override(new ItemOverridden(id, address, old, item));
+		else {
 			Log.MAIN.error("Предмет с id " + id + " не зарегистрирован: замещать нечего.");
-			return;
+			registerItem(id, address, item);
 		}
-		OverridenEntry<Item> e = new OverridenEntry<>(id, address, old, item);
-		Item.registerItem(id, address, item);
-		overridenItems.add(e);
 	}
 
 	public <T> void regGui(Class<T> type, PlayerGuiBridge.GuiOpener<T> opener) {
@@ -90,8 +103,23 @@ public class Registrar {
 	}
 
 	public void setWorldServiceProvider(Function<MinecraftServer, WorldService> function) {
-		provider = MinecraftServer.WORLD_SERVICE_PROVIDER;
-		MinecraftServer.WORLD_SERVICE_PROVIDER = function;
+		override(new LambdaOverridden<>(0, "provier", MinecraftServer.WORLD_SERVICE_PROVIDER, function,
+				(id, address, element) -> MinecraftServer.WORLD_SERVICE_PROVIDER = element));
+	}
+
+	public <T extends TileEntity> void registerTileEntity(Class<T> c, String address) {
+		TileEntity.register(c, address);
+		tileEntities.add(c);
+	}
+
+	public void registerEntity(Class<? extends Entity> type, String address, int id) {
+		registerEntity(type, address, id, -2, -2);
+
+	}
+	public void registerEntity(Class<? extends Entity> type, String address, int id, int baseColor, int stripColor) {
+		EntityList.addMapping(type, address, id, baseColor, stripColor);
+		entities.add(type);
+
 	}
 
 }

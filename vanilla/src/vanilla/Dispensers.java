@@ -18,6 +18,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.resources.Loadable;
+import net.minecraft.resources.Registrar;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntitySkull;
@@ -36,7 +38,7 @@ import java.util.Random;
 import static net.minecraft.block.BlockDispenser.getDispensePosition;
 import static net.minecraft.block.BlockDispenser.getFacing;
 
-public class Dispensers {
+public class Dispensers implements Loadable {
 
 
 	private static final IBehaviorDispenseItem armor = new BehaviorDefaultDispenseItem() {
@@ -95,7 +97,7 @@ public class Dispensers {
 	}
 
 
-	public static void init() {
+	public void load(Registrar r) {
 
 
 		BlockDispenser.dispenseBehaviorRegistry.putObject(Items.minecart, new BehaviorDefaultDispenseItem() {
@@ -128,11 +130,8 @@ public class Dispensers {
 					BlockRailBase.EnumRailDirection blockrailbase$enumraildirection1 = iblockstate1.getBlock() instanceof BlockRailBase ? iblockstate1.getValue(
 							((BlockRailBase) iblockstate1.getBlock()).getShapeProperty()) : BlockRailBase.EnumRailDirection.NORTH_SOUTH;
 
-					if (enumfacing != EnumFacing.DOWN && blockrailbase$enumraildirection1.isAscending()) {
-						d3 = -0.4D;
-					} else {
-						d3 = -0.9D;
-					}
+					if (enumfacing != EnumFacing.DOWN && blockrailbase$enumraildirection1.isAscending()) d3 = -0.4D;
+					else d3 = -0.9D;
 				}
 
 				EntityMinecart entityminecart = EntityMinecart.func_180458_a(world, d0, d1 + d3, d2, ((ItemMinecart) stack.getItem()).minecartType);

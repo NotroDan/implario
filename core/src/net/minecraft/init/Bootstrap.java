@@ -12,6 +12,7 @@ import vanilla.Vanilla;
 import java.io.PrintStream;
 
 public class Bootstrap {
+
 	private static final PrintStream SYSOUT = System.out;
 
 	private static boolean alreadyRegistered = false;

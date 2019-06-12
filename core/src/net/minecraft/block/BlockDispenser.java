@@ -104,7 +104,7 @@ public class BlockDispenser extends BlockContainer {
 				worldIn.playAuxSFX(1001, pos, 0);
 			} else {
 				ItemStack itemstack = tileentitydispenser.getStackInSlot(i);
-				IBehaviorDispenseItem ibehaviordispenseitem = this.getBehavior(itemstack);
+				IBehaviorDispenseItem ibehaviordispenseitem = dispenseBehaviorRegistry.getObject(itemstack == null ? null : itemstack.getItem());
 
 				if (ibehaviordispenseitem != IBehaviorDispenseItem.itemDispenseBehaviorProvider) {
 					ItemStack itemstack1 = ibehaviordispenseitem.dispense(blocksourceimpl, itemstack);
@@ -112,10 +112,6 @@ public class BlockDispenser extends BlockContainer {
 				}
 			}
 		}
-	}
-
-	protected IBehaviorDispenseItem getBehavior(ItemStack stack) {
-		return dispenseBehaviorRegistry.getObject(stack == null ? null : stack.getItem());
 	}
 
 	/**

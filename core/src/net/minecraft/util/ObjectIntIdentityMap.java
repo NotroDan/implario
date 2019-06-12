@@ -23,6 +23,12 @@ public class ObjectIntIdentityMap implements IObjectIntIterable {
 		this.objectList.set(value, key);
 	}
 
+	public void remove(Object key) {
+		int value = get(key);
+		this.identityMap.remove(key);
+		this.objectList.set(value, null);
+	}
+
 	public int get(Object key) {
 		Integer integer = (Integer) this.identityMap.get(key);
 		return integer == null ? -1 : integer;

@@ -14,8 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.resources.Additions;
-import net.minecraft.resources.Label;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Profiler;
@@ -42,7 +40,6 @@ public abstract class World implements IBlockAccess {
 	 * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
 	 */
 	protected boolean scheduledUpdatesAreImmediate;
-	protected Additions additions = new Additions();
 	public final List<Entity> loadedEntityList = Lists.newArrayList();
 	protected final List<Entity> unloadedEntityList = Lists.newArrayList();
 	public final List<TileEntity> loadedTileEntityList = Lists.newArrayList();
@@ -3099,13 +3096,6 @@ public abstract class World implements IBlockAccess {
 		int j = z * 16 + 8 - blockpos.getZ();
 		int k = 128;
 		return i >= -k && i <= k && j >= -k && j <= k;
-	}
-
-	public <T> T getAddition(Label<T> label) {
-		return additions.get(label);
-	}
-	public <T> void setAddition(Label<T> label, T value) {
-		additions.put(label, value);
 	}
 
 }

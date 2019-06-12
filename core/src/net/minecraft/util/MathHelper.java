@@ -243,8 +243,8 @@ public class MathHelper {
 	/**
 	 * parses the string as integer or returns the second parameter if it fails. this value is capped to par2
 	 */
-	public static int parseIntWithDefaultAndMax(String p_82714_0_, int p_82714_1_, int p_82714_2_) {
-		return Math.max(p_82714_2_, parseIntWithDefault(p_82714_0_, p_82714_1_));
+	public static int parseIntWithDefaultAndMax(String string, int def, int p_82714_2_) {
+		return Math.max(p_82714_2_, parseIntWithDefault(string, def));
 	}
 	
 	/**

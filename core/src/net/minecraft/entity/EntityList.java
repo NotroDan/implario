@@ -54,7 +54,19 @@ public class EntityList {
 	 */
 	public static void addMapping(Class<? extends Entity> entityClass, String entityName, int entityID, int baseColor, int spotColor) {
 		addMapping(entityClass, entityName, entityID);
-		entityEggs.put(entityID, new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
+		if (baseColor != -2) entityEggs.put(entityID, new EntityEggInfo(entityID, baseColor, spotColor));
+	}
+
+
+	public static void removeMapping(Class<? extends Entity> type) {
+		int id = classToIDMapping.get(type);
+		String name = classToStringMapping.get(type);
+		stringToClassMapping.remove(name);
+		classToStringMapping.remove(type);
+		idToClassMapping.remove(id);
+		classToIDMapping.remove(type);
+		stringToIDMapping.remove(name);
+
 	}
 
 	/**

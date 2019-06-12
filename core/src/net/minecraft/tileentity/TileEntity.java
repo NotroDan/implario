@@ -44,6 +44,10 @@ public abstract class TileEntity {
 		classToNameMap.put(cl, id);
 	}
 
+	public static void unregister(Class<? extends TileEntity> c) {
+		nameToClassMap.remove(classToNameMap.remove(c));
+	}
+
 	/**
 	 * Returns the worldObj for this tileEntity.
 	 */

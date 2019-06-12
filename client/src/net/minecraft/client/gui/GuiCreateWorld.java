@@ -187,6 +187,8 @@ public class GuiCreateWorld extends GuiScreen {
 			if (this.alreadyCreating) return;
 			this.alreadyCreating = true;
 
+			long i = 0x26cc039789decL;
+			long a = (i ^ 0x5deece66dL) & 0xffffffffffffL;
 			long seed = new Random().nextLong();
 			String s = this.txtSeed.getText();
 

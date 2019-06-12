@@ -22,13 +22,13 @@ public class MapGenStronghold extends MapGenStructure {
 	 */
 	private boolean ranBiomeCheck;
 	private ChunkCoordIntPair[] structureCoords;
-	private double field_82671_h;
-	private int field_82672_i;
+	private double distance;
+	private int spread;
 
 	public MapGenStronghold() {
 		this.structureCoords = new ChunkCoordIntPair[3];
-		this.field_82671_h = 32.0D;
-		this.field_82672_i = 3;
+		this.distance = 32.0D;
+		this.spread = 3;
 		this.field_151546_e = Lists.newArrayList();
 
 		for (Biome biome : Biome.biomeList) {
@@ -44,12 +44,16 @@ public class MapGenStronghold extends MapGenStructure {
 		this();
 
 		for (Entry<String, String> entry : p_i2068_1_.entrySet()) {
-			if (entry.getKey().equals("distance")) {
-				this.field_82671_h = MathHelper.parseDoubleWithDefaultAndMax(entry.getValue(), this.field_82671_h, 1.0D);
-			} else if (entry.getKey().equals("count")) {
-				this.structureCoords = new ChunkCoordIntPair[MathHelper.parseIntWithDefaultAndMax(entry.getValue(), this.structureCoords.length, 1)];
-			} else if (entry.getKey().equals("spread")) {
-				this.field_82672_i = MathHelper.parseIntWithDefaultAndMax(entry.getValue(), this.field_82672_i, 1);
+			switch (entry.getKey()) {
+				case "distance":
+					this.distance = MathHelper.parseDoubleWithDefaultAndMax(entry.getValue(), this.distance, 1.0D);
+					break;
+				case "count":
+					this.structureCoords = new ChunkCoordIntPair[MathHelper.parseIntWithDefaultAndMax(entry.getValue(), this.structureCoords.length, 1)];
+					break;
+				case "spread":
+					this.spread = MathHelper.parseIntWithDefaultAndMax(entry.getValue(), this.spread, 1);
+					break;
 			}
 		}
 	}
@@ -66,7 +70,7 @@ public class MapGenStronghold extends MapGenStructure {
 			int i = 1;
 
 			for (int j = 0; j < this.structureCoords.length; ++j) {
-				double d1 = (1.25D * (double) i + random.nextDouble()) * this.field_82671_h * (double) i;
+				double d1 = (1.25D * (double) i + random.nextDouble()) * this.distance * (double) i;
 				int k = (int) Math.round(Math.cos(d0) * d1);
 				int l = (int) Math.round(Math.sin(d0) * d1);
 				BlockPos blockpos = this.worldObj.getWorldChunkManager().findBiomePosition((k << 4) + 8, (l << 4) + 8, 112, this.field_151546_e, random);
@@ -77,11 +81,11 @@ public class MapGenStronghold extends MapGenStructure {
 				}
 
 				this.structureCoords[j] = new ChunkCoordIntPair(k, l);
-				d0 += Math.PI * 2D * (double) i / (double) this.field_82672_i;
+				d0 += Math.PI * 2D * (double) i / (double) this.spread;
 
-				if (j == this.field_82672_i) {
+				if (j == this.spread) {
 					i += 2 + random.nextInt(5);
-					this.field_82672_i += 1 + random.nextInt(2);
+					this.spread += 1 + random.nextInt(2);
 				}
 			}
 
