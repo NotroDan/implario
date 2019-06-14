@@ -32,7 +32,7 @@ public class Bootstrap {
 		alreadyRegistered = true;
 
 		// Пока нет загрузчика, добавим ваниллу так
-		Datapack.LOADED.add(new vanilla.Vanilla());
+//		Datapack.LOADED.add(new vanilla.Vanilla());
 
 		Block.registerBlocks();
 		for (Datapack datapack : Datapack.LOADED) datapack.loadBlocks();
