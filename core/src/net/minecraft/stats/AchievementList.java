@@ -1,12 +1,11 @@
 package net.minecraft.stats;
 
-import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonSerializableSet;
-import vanilla.item.VanillaItems;
+
+import java.util.List;
 
 public class AchievementList
 {
@@ -68,8 +67,8 @@ public class AchievementList
     /** is the 'cow tipper' achievement. */
     public static Achievement killCow = new Achievement("achievement.killCow", "killCow", 7, -3, Items.leather, buildSword).registerStat();
 
-    /** Is the 'when pig fly' achievement. */
-    public static Achievement flyPig = new Achievement("achievement.flyPig", "flyPig", 9, -3, VanillaItems.saddle, killCow).setSpecial().registerStat();
+    /** Is the 'when pig fly' achievement. */ //Todo saddle insteadof porkchop
+    public static Achievement flyPig = new Achievement("achievement.flyPig", "flyPig", 9, -3, Items.porkchop, killCow).setSpecial().registerStat();
 
     /** The achievement for killing a Skeleton from 50 meters aways. */
     public static Achievement snipeSkeleton = new Achievement("achievement.snipeSkeleton", "snipeSkeleton", 7, 0, Items.bow, killEnemy).setSpecial().registerStat();

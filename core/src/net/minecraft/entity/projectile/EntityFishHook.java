@@ -17,7 +17,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import vanilla.item.VanillaItems;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +31,7 @@ public class EntityFishHook extends Entity {
 			new WeightedRandomFishable(new ItemStack(Blocks.tripwire_hook), 10), new WeightedRandomFishable(new ItemStack(Items.rotten_flesh), 10)
 	});
 	private static final List<WeightedRandomFishable> TREASURE = Arrays.asList(new WeightedRandomFishable[] {
-			new WeightedRandomFishable(new ItemStack(Blocks.waterlily), 1), new WeightedRandomFishable(new ItemStack(VanillaItems.name_tag), 1), new WeightedRandomFishable(new ItemStack(VanillaItems.saddle), 1),
+//			new WeightedRandomFishable(new ItemStack(Blocks.waterlily), 1), new WeightedRandomFishable(new ItemStack(VanillaItems.name_tag), 1), new WeightedRandomFishable(new ItemStack(VanillaItems.saddle), 1),
 			new WeightedRandomFishable(new ItemStack(Items.bow), 1).setMaxDamagePercent(0.25F).setEnchantable(),
 			new WeightedRandomFishable(new ItemStack(Items.fishing_rod), 1).setMaxDamagePercent(0.25F).setEnchantable(), new WeightedRandomFishable(new ItemStack(Items.book), 1).setEnchantable()
 	});

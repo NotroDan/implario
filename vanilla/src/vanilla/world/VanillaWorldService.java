@@ -3,7 +3,6 @@ package vanilla.world;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Profiler;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.WorldServerExtra;
 import net.minecraft.world.WorldService;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.storage.ISaveHandler;

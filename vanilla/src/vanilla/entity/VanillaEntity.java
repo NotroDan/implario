@@ -1121,18 +1121,6 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 		this.despawnEntity();
 	}
 
-	public enum SpawnPlacementType {
-		ON_GROUND("ON_GROUND", 0),
-		IN_AIR("IN_AIR", 1),
-		IN_WATER("IN_WATER", 2);
-
-		private static final VanillaEntity.SpawnPlacementType[] $VALUES = new VanillaEntity.SpawnPlacementType[] {ON_GROUND, IN_AIR, IN_WATER};
-
-
-		SpawnPlacementType(String p_i18_3_, int p_i18_4_) {
-		}
-	}
-
 
 	@Override
 	public boolean sendVelocityUpdates() {

@@ -6,7 +6,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import vanilla.entity.VanillaEntity;
+import vanilla.entity.SpawnPlacementType;
 import vanilla.entity.monster.EntityZombie;
 import vanilla.world.SpawnerAnimals;
 
@@ -164,7 +164,7 @@ public class VillageSiege {
 		for (int i = 0; i < 10; ++i) {
 			BlockPos blockpos = p_179867_1_.add(this.worldObj.rand.nextInt(16) - 8, this.worldObj.rand.nextInt(6) - 3, this.worldObj.rand.nextInt(16) - 8);
 
-			if (this.theVillage.func_179866_a(blockpos) && SpawnerAnimals.canCreatureTypeSpawnAtLocation(VanillaEntity.SpawnPlacementType.ON_GROUND, this.worldObj, blockpos)) {
+			if (this.theVillage.func_179866_a(blockpos) && SpawnerAnimals.canCreatureTypeSpawnAtLocation(SpawnPlacementType.ON_GROUND, this.worldObj, blockpos)) {
 				return new Vec3((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
 			}
 		}

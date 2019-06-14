@@ -1,14 +1,15 @@
-package net.minecraft.world;
+package vanilla.world;
 
 import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.events.WorldServerInitEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Profiler;
+import net.minecraft.world.MinecraftException;
+import net.minecraft.world.World;
 import net.minecraft.world.border.IBorderListener;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraft.world.storage.ISaveHandler;
-import vanilla.world.VanillaWorldServer;
 import vanilla.world.gen.feature.village.VillageCollection;
 import vanilla.world.gen.feature.village.VillageSiege;
 

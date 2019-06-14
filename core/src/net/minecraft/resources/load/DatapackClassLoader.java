@@ -1,13 +1,8 @@
 package net.minecraft.resources.load;
 
-import javax.management.RuntimeErrorException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.ProtectionDomain;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.jar.JarFile;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -39,7 +34,9 @@ public class DatapackClassLoader extends ClassLoader{
                 return defineClass((name.replace('/', '.')), b, 0, b.length);
             }catch (IOException ex){
                 return DatapackClassLoader.getSystemClassLoader().loadClass(name);
-            }
+            }catch (Error e) {
+            	throw e;
+			}
         }
     }
 

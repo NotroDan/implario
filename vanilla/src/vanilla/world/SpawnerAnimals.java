@@ -16,6 +16,7 @@ import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
 import vanilla.entity.EntitySpawnPlacementRegistry;
 import vanilla.entity.EnumCreatureType;
+import vanilla.entity.SpawnPlacementType;
 import vanilla.entity.VanillaEntity;
 import vanilla.world.biome.BiomeGenBase;
 
@@ -159,13 +160,13 @@ public final class SpawnerAnimals {
 		return new BlockPos(i, l, j);
 	}
 
-	public static boolean canCreatureTypeSpawnAtLocation(VanillaEntity.SpawnPlacementType p_180267_0_, World worldIn, BlockPos pos) {
+	public static boolean canCreatureTypeSpawnAtLocation(SpawnPlacementType p_180267_0_, World worldIn, BlockPos pos) {
 		if (!worldIn.getWorldBorder().contains(pos)) {
 			return false;
 		}
 		Block block = worldIn.getBlockState(pos).getBlock();
 
-		if (p_180267_0_ == VanillaEntity.SpawnPlacementType.IN_WATER) {
+		if (p_180267_0_ == SpawnPlacementType.IN_WATER) {
 			return block.getMaterial().isLiquid() && worldIn.getBlockState(pos.down()).getBlock().getMaterial().isLiquid() && !worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
 		}
 		BlockPos blockpos = pos.down();
@@ -202,7 +203,7 @@ public final class SpawnerAnimals {
 					for (int k1 = 0; !flag && k1 < 4; ++k1) {
 						BlockPos blockpos = worldIn.getTopSolidOrLiquidBlock(new BlockPos(j, 0, k));
 
-						if (canCreatureTypeSpawnAtLocation(VanillaEntity.SpawnPlacementType.ON_GROUND, worldIn, blockpos)) {
+						if (canCreatureTypeSpawnAtLocation(SpawnPlacementType.ON_GROUND, worldIn, blockpos)) {
 							VanillaEntity entityliving;
 
 							try {
