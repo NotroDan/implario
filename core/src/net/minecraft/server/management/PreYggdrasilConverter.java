@@ -240,7 +240,7 @@ public class PreYggdrasilConverter {
 				return gameprofile.getId().toString();
 			}
 			if (!minecraftserver.isSinglePlayer() && minecraftserver.isServerInOnlineMode()) {
-				final List<GameProfile> list = Lists.newArrayList();
+				final List<GameProfile> list = new java.util.ArrayList<>();
 				ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
 					public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_) {
 						minecraftserver.getPlayerProfileCache().addEntry(p_onProfileLookupSucceeded_1_);

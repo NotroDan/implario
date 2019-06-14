@@ -29,7 +29,7 @@ public class MapGenStronghold extends MapGenStructure {
 		this.structureCoords = new ChunkCoordIntPair[3];
 		this.distance = 32.0D;
 		this.spread = 3;
-		this.field_151546_e = Lists.newArrayList();
+		this.field_151546_e = new java.util.ArrayList<>();
 
 		for (Biome biome : Biome.biomeList) {
 			if (biome instanceof BiomeGenBase) {
@@ -102,7 +102,7 @@ public class MapGenStronghold extends MapGenStructure {
 	}
 
 	protected List<BlockPos> getCoordList() {
-		List<BlockPos> list = Lists.newArrayList();
+		List<BlockPos> list = new java.util.ArrayList<>();
 
 		for (ChunkCoordIntPair chunkcoordintpair : this.structureCoords) {
 			if (chunkcoordintpair != null) {

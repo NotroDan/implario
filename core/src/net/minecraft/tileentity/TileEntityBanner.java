@@ -155,8 +155,8 @@ public class TileEntityBanner extends TileEntity
             }
             else
             {
-                this.patternList = Lists.newArrayList();
-                this.colorList = Lists.newArrayList();
+                this.patternList = new java.util.ArrayList<>();
+                this.colorList = new java.util.ArrayList<>();
                 this.patternList.add(TileEntityBanner.EnumBannerPattern.BASE);
                 this.colorList.add(EnumDyeColor.byDyeDamage(this.baseColor));
                 this.patternResourceLocation = "b" + this.baseColor;

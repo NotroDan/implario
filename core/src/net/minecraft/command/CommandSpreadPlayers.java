@@ -59,7 +59,7 @@ public class CommandSpreadPlayers extends CommandBase
 		double d2 = parseDouble(args[i++], 0.0D);
 		double d3 = parseDouble(args[i++], d2 + 1.0D);
 		boolean flag = parseBoolean(args[i++]);
-		List<Entity> list = Lists.newArrayList();
+		List<Entity> list = new java.util.ArrayList<>();
 
 		while (i < args.length)
 		{

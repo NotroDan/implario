@@ -24,7 +24,7 @@ public class BlockRedstoneTorch extends BlockTorch
     {
         if (!toggles.containsKey(worldIn))
         {
-            toggles.put(worldIn, Lists.newArrayList());
+            toggles.put(worldIn, new java.util.ArrayList<>());
         }
 
         List<BlockRedstoneTorch.Toggle> list = (List)toggles.get(worldIn);

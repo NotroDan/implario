@@ -46,8 +46,8 @@ public class GuiScreenResourcePacks extends GuiScreen {
 		this.buttonList.add(new GuiButton(1, this.width / 2 + 4, this.height - 48, 150, 20, Lang.format("gui.done")));
 
 		if (!this.changed) {
-			this.availableResourcePacks = Lists.newArrayList();
-			this.selectedResourcePacks = Lists.newArrayList();
+			this.availableResourcePacks = new java.util.ArrayList<>();
+			this.selectedResourcePacks = new java.util.ArrayList<>();
 			ResourcePackRepository resourcepackrepository = this.mc.getResourcePackRepository();
 			resourcepackrepository.updateRepositoryEntriesAll();
 			List<ResourcePackRepository.Entry> list = Lists.newArrayList(resourcepackrepository.getRepositoryEntriesAll());
@@ -140,7 +140,7 @@ public class GuiScreenResourcePacks extends GuiScreen {
 				}
 			} else if (button.id == 1) {
 				if (this.changed) {
-					List<ResourcePackRepository.Entry> list = Lists.newArrayList();
+					List<ResourcePackRepository.Entry> list = new java.util.ArrayList<>();
 
 					for (ResourcePackListEntry resourcepacklistentry : this.selectedResourcePacks)
 						if (resourcepacklistentry instanceof ResourcePackListEntryFound)

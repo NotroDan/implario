@@ -60,7 +60,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private final ISaveFormat anvilConverterForAnvilFile;
 
 	private final File anvilFile;
-	private final List<ITickable> playersOnline = Lists.newArrayList();
+	private final List<ITickable> playersOnline = new java.util.ArrayList<>();
 	protected final ICommandManager commandManager;
 	private final NetworkSystem networkSystem;
 	private final ServerStatusResponse statusResponse = new ServerStatusResponse();
@@ -694,7 +694,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	}
 
 	public List<String> getTabCompletions(ICommandSender sender, String input, BlockPos pos) {
-		List<String> list = Lists.newArrayList();
+		List<String> list = new java.util.ArrayList<>();
 
 		if (input.startsWith("/")) {
 			input = input.substring(1);

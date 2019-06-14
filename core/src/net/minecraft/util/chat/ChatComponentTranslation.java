@@ -18,7 +18,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
     private final Object[] formatArgs;
     private final Object syncLock = new Object();
     private long lastTranslationUpdateTimeInMilliseconds = -1L;
-    List<IChatComponent> children = Lists.newArrayList();
+    List<IChatComponent> children = new java.util.ArrayList<>();
     public static final Pattern stringVariablePattern = Pattern.compile("%(?:(\\d+)\\$)?([A-Za-z%]|$)");
 
     public ChatComponentTranslation(String translationKey, Object... args)

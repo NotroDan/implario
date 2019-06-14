@@ -67,8 +67,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 	 * The height of the screen object.
 	 */
 	public int height;
-	protected List<GuiButton> buttonList = Lists.newArrayList();
-	protected List<GuiLabel> labelList = Lists.newArrayList();
+	protected List<GuiButton> buttonList = new java.util.ArrayList<>();
+	protected List<GuiLabel> labelList = new java.util.ArrayList<>();
 	public boolean allowUserInput;
 
 	/**
@@ -248,7 +248,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 						NBTTagCompound nbtbase1 = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
 
 						if (nbtbase1 instanceof NBTTagCompound) {
-							List<String> list1 = Lists.newArrayList();
+							List<String> list1 = new java.util.ArrayList<>();
 							list1.add(nbtbase1.getString("name"));
 
 							if (nbtbase1.hasKey("type", 8)) {

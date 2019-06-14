@@ -27,7 +27,7 @@ public class Teleporter implements IDimensionTranser {
 	private final WorldServer world;
 	private final Random random;
 	private final LongHashMap destinationCoordinateCache = new LongHashMap();
-	private final List<Long> destinationCoordinateKeys = Lists.newArrayList();
+	private final List<Long> destinationCoordinateKeys = new java.util.ArrayList<>();
 
 	public Teleporter(WorldServer worldIn) {
 		this.world = worldIn;

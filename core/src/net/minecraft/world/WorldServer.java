@@ -61,7 +61,7 @@ public class WorldServer extends World implements IThreadListener {
 
 	private WorldServer.ServerBlockEventList[] field_147490_S = new WorldServer.ServerBlockEventList[] {new WorldServer.ServerBlockEventList(), new WorldServer.ServerBlockEventList()};
 	private int blockEventCacheIndex;
-	private List<NextTickListEntry> pendingTickListEntriesThisTick = Lists.newArrayList();
+	private List<NextTickListEntry> pendingTickListEntriesThisTick = new java.util.ArrayList<>();
 	private final WorldTickEvent tickEvent = new WorldTickEvent(this);
 	protected IDimensionTranser dimensionTransfer;
 
@@ -430,7 +430,7 @@ public class WorldServer extends World implements IThreadListener {
 					}
 
 					if (list == null) {
-						list = Lists.newArrayList();
+						list = new java.util.ArrayList<>();
 					}
 
 					list.add(nextticklistentry);
@@ -451,7 +451,7 @@ public class WorldServer extends World implements IThreadListener {
 	}
 
 	public List<TileEntity> getTileEntitiesIn(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-		List<TileEntity> list = Lists.newArrayList();
+		List<TileEntity> list = new java.util.ArrayList<>();
 
 		for (int i = 0; i < this.loadedTileEntityList.size(); ++i) {
 			TileEntity tileentity = this.loadedTileEntityList.get(i);

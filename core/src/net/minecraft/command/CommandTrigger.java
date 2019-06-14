@@ -113,7 +113,7 @@ public class CommandTrigger extends CommandBase
         if (args.length == 1)
         {
             Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
-            List<String> list = Lists.newArrayList();
+            List<String> list = new java.util.ArrayList<>();
 
             for (ScoreObjective scoreobjective : scoreboard.getScoreObjectives())
             {

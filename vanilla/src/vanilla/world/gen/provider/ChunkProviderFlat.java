@@ -31,7 +31,7 @@ public class ChunkProviderFlat implements VanillaChunkProvider {
 	private Random random;
 	private final IBlockState[] cachedBlockIDs = new IBlockState[256];
 	private final FlatGeneratorInfo flatWorldGenInfo;
-	private final List<MapGenStructure> structureGenerators = Lists.newArrayList();
+	private final List<MapGenStructure> structureGenerators = new java.util.ArrayList<>();
 	private final boolean hasDecoration;
 	private final boolean hasDungeons;
 	private WorldGenLakes waterLakeGenerator;

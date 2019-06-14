@@ -9,7 +9,7 @@ import java.util.List;
 
 public class JsonException extends IOException {
 
-	private final List<JsonException.Entry> list = Lists.newArrayList();
+	private final List<JsonException.Entry> list = new java.util.ArrayList<>();
 	private final String message;
 
 	public JsonException(String message) {
@@ -56,7 +56,7 @@ public class JsonException extends IOException {
 
 		private Entry() {
 			this.field_151376_a = null;
-			this.field_151375_b = Lists.newArrayList();
+			this.field_151375_b = new java.util.ArrayList<>();
 		}
 
 		private void func_151373_a(String p_151373_1_) {

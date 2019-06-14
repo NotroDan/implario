@@ -154,7 +154,7 @@ public class Minecraft implements IThreadListener {
 
 	private IReloadableResourceManager mcResourceManager;
 	private final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
-	private final List<IResourcePack> defaultResourcePacks = Lists.newArrayList();
+	private final List<IResourcePack> defaultResourcePacks = new java.util.ArrayList<>();
 	private final DefaultResourcePack mcDefaultResourcePack;
 	private ResourcePackRepository mcResourcePackRepository;
 	public LanguageManager mcLanguageManager;

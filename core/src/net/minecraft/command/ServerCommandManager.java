@@ -56,6 +56,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		this.registerCommand(new CommandHello());
 
 		if (MinecraftServer.getServer().isDedicatedServer()) {
+			this.registerCommand(new CommandDatapack());
 			this.registerCommand(new CommandOp());
 			this.registerCommand(new CommandDeOp());
 			this.registerCommand(new CommandStop());

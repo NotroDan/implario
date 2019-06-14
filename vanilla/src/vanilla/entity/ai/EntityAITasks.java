@@ -11,8 +11,8 @@ import java.util.List;
 public class EntityAITasks
 {
     private static final Logger logger = Logger.getInstance();
-    private List<EntityAITasks.EntityAITaskEntry> taskEntries = Lists.newArrayList();
-    private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.newArrayList();
+    private List<EntityAITasks.EntityAITaskEntry> taskEntries = new java.util.ArrayList<>();
+    private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = new java.util.ArrayList<>();
 
     /** Instance of Profiler. */
     private final Profiler theProfiler;

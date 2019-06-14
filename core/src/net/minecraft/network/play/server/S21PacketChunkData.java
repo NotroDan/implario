@@ -73,7 +73,7 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 	public static S21PacketChunkData.Extracted encdode(Chunk chunk, boolean empty, boolean p_179756_2_, int p_179756_3_) {
 		ExtendedBlockStorage[] storages = chunk.getBlockStorageArray();
 		S21PacketChunkData.Extracted res = new S21PacketChunkData.Extracted();
-		List<ExtendedBlockStorage> list = Lists.newArrayList();
+		List<ExtendedBlockStorage> list = new java.util.ArrayList<>();
 
 		for (int i = 0; i < storages.length; ++i) {
 			ExtendedBlockStorage extendedblockstorage = storages[i];

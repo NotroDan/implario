@@ -31,10 +31,10 @@ public class ShaderManager {
 	private static int currentProgram = -1;
 	private static boolean field_148000_e = true;
 	private final Map<String, Object> shaderSamplers = Maps.newHashMap();
-	private final List<String> samplerNames = Lists.newArrayList();
-	private final List<Integer> shaderSamplerLocations = Lists.newArrayList();
-	private final List<ShaderUniform> shaderUniforms = Lists.newArrayList();
-	private final List<Integer> shaderUniformLocations = Lists.newArrayList();
+	private final List<String> samplerNames = new java.util.ArrayList<>();
+	private final List<Integer> shaderSamplerLocations = new java.util.ArrayList<>();
+	private final List<ShaderUniform> shaderUniforms = new java.util.ArrayList<>();
+	private final List<Integer> shaderUniformLocations = new java.util.ArrayList<>();
 	private final Map<String, ShaderUniform> mappedShaderUniforms = Maps.newHashMap();
 	private final int program;
 	private final String programFilename;

@@ -8,8 +8,8 @@ import vanilla.entity.VanillaEntity;
 public class EntitySenses
 {
     VanillaEntity entityObj;
-    List<Entity> seenEntities = Lists.newArrayList();
-    List<Entity> unseenEntities = Lists.newArrayList();
+    List<Entity> seenEntities = new java.util.ArrayList<>();
+    List<Entity> unseenEntities = new java.util.ArrayList<>();
 
     public EntitySenses(VanillaEntity entityObjIn)
     {

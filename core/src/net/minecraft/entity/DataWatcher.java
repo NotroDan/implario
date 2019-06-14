@@ -1,12 +1,6 @@
 package net.minecraft.entity;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.item.ItemStack;
@@ -15,6 +9,12 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.Rotations;
 import org.apache.commons.lang3.ObjectUtils;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class DataWatcher
 {
@@ -200,7 +200,7 @@ public class DataWatcher
 
                     if (list == null)
                     {
-                        list = Lists.newArrayList();
+                        list = new java.util.ArrayList<>();
                     }
 
                     list.add(datawatcher$watchableobject);
@@ -236,7 +236,7 @@ public class DataWatcher
         {
             if (list == null)
             {
-                list = Lists.newArrayList();
+                list = new java.util.ArrayList<>();
             }
 
             list.add(datawatcher$watchableobject);
@@ -305,7 +305,7 @@ public class DataWatcher
         {
             if (list == null)
             {
-                list = Lists.newArrayList();
+                list = new java.util.ArrayList<>();
             }
 
             int j = (i & 224) >> 5;

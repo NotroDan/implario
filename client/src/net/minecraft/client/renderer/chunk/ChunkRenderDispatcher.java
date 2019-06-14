@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadFactory;
 public class ChunkRenderDispatcher {
 
 	private static final ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("Chunk Batcher %d").setDaemon(true).build();
-	private final List<ChunkRenderWorker> listThreadedWorkers = Lists.newArrayList();
+	private final List<ChunkRenderWorker> listThreadedWorkers = new java.util.ArrayList<>();
 	private final BlockingQueue<ChunkCompileTaskGenerator> queueChunkUpdates = Queues.newArrayBlockingQueue(100);
 	private final BlockingQueue<RegionRenderCacheBuilder> queueFreeRenderBuilders = Queues.newArrayBlockingQueue(5);
 	private final WorldVertexBufferUploader worldVertexUploader = new WorldVertexBufferUploader();
@@ -122,7 +122,7 @@ public class ChunkRenderDispatcher {
 		while (this.runChunkUploads(0L)) {
 		}
 
-		List<RegionRenderCacheBuilder> list = Lists.newArrayList();
+		List<RegionRenderCacheBuilder> list = new java.util.ArrayList<>();
 
 		while (list.size() != 5) {
 			try {

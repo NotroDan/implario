@@ -10,7 +10,7 @@ import java.util.List;
 
 public abstract class ChatComponentStyle implements IChatComponent
 {
-    protected List<IChatComponent> siblings = Lists.newArrayList();
+    protected List<IChatComponent> siblings = new java.util.ArrayList<>();
     private ChatStyle style;
 
     /**

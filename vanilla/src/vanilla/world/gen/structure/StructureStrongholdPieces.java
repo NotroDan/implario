@@ -63,7 +63,7 @@ public class StructureStrongholdPieces
      */
     public static void prepareStructurePieces()
     {
-        structurePieceList = Lists.newArrayList();
+        structurePieceList = new java.util.ArrayList<>();
 
         for (StructureStrongholdPieces.PieceWeight structurestrongholdpieces$pieceweight : pieceWeightArray)
         {
@@ -1229,7 +1229,7 @@ public class StructureStrongholdPieces
     {
         public StructureStrongholdPieces.PieceWeight strongholdPieceWeight;
         public StructureStrongholdPieces.PortalRoom strongholdPortalRoom;
-        public List<StructureComponent> field_75026_c = Lists.newArrayList();
+        public List<StructureComponent> field_75026_c = new java.util.ArrayList<>();
 
         public Stairs2()
         {

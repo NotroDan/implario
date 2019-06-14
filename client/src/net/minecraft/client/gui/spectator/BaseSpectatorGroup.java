@@ -9,7 +9,7 @@ import net.minecraft.util.IChatComponent;
 
 public class BaseSpectatorGroup implements ISpectatorMenuView
 {
-    private final List<ISpectatorMenuObject> field_178671_a = Lists.newArrayList();
+    private final List<ISpectatorMenuObject> field_178671_a = new java.util.ArrayList<>();
 
     public BaseSpectatorGroup()
     {

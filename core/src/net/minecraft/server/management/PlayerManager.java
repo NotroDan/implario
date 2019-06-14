@@ -23,10 +23,10 @@ public class PlayerManager
 {
     private static final Logger pmLogger = LogManager.getLogger();
     private final WorldServer theWorldServer;
-    private final List<EntityPlayerMP> players = Lists.newArrayList();
+    private final List<EntityPlayerMP> players = new java.util.ArrayList<>();
     private final LongHashMap playerInstances = new LongHashMap();
-    private final List<PlayerManager.PlayerInstance> playerInstancesToUpdate = Lists.newArrayList();
-    private final List<PlayerManager.PlayerInstance> playerInstanceList = Lists.newArrayList();
+    private final List<PlayerManager.PlayerInstance> playerInstancesToUpdate = new java.util.ArrayList<>();
+    private final List<PlayerManager.PlayerInstance> playerInstanceList = new java.util.ArrayList<>();
 
     /**
      * Number of chunks the server sends to the client. Valid 3<=x<=15. In server.properties.
@@ -353,7 +353,7 @@ public class PlayerManager
 
     class PlayerInstance
     {
-        private final List<EntityPlayerMP> playersWatchingChunk = Lists.newArrayList();
+        private final List<EntityPlayerMP> playersWatchingChunk = new java.util.ArrayList<>();
         private final ChunkCoordIntPair chunkCoords;
         private short[] locationOfBlockChange = new short[64];
         private int numBlocksToUpdate;

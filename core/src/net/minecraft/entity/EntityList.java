@@ -181,7 +181,7 @@ public class EntityList {
 
 	public static List<String> getEntityNameList() {
 		Set<String> set = stringToClassMapping.keySet();
-		List<String> list = Lists.newArrayList();
+		List<String> list = new java.util.ArrayList<>();
 
 		for (String s : set) {
 			Class<? extends Entity> oclass = (Class) stringToClassMapping.get(s);

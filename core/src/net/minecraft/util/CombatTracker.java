@@ -12,7 +12,7 @@ import net.minecraft.util.chat.ChatComponentTranslation;
 
 public class CombatTracker
 {
-    private final List<CombatEntry> combatEntries = Lists.newArrayList();
+    private final List<CombatEntry> combatEntries = new java.util.ArrayList<>();
 
     /** The entity tracked. */
     private final EntityLivingBase fighter;

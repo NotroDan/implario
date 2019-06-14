@@ -24,7 +24,7 @@ import java.util.Random;
 
 public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject {
 
-	private final List<ISpectatorMenuObject> objects = Lists.newArrayList();
+	private final List<ISpectatorMenuObject> objects = new java.util.ArrayList<>();
 
 	public TeleportToTeam() {
 		Minecraft minecraft = Minecraft.getMinecraft();
@@ -73,7 +73,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
 
 		public TeamSelectionObject(ScorePlayerTeam team) {
 			this.team = team;
-			this.playerInfos = Lists.newArrayList();
+			this.playerInfos = new java.util.ArrayList<>();
 
 			for (String s : team.getMembershipCollection()) {
 				NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(s);

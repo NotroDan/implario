@@ -186,7 +186,7 @@ public class ServerScoreboard extends Scoreboard
 
     public List<Packet> func_96550_d(ScoreObjective p_96550_1_)
     {
-        List<Packet> list = Lists.newArrayList();
+        List<Packet> list = new java.util.ArrayList<>();
         list.add(new S3BPacketScoreboardObjective(p_96550_1_, 0));
 
         for (int i = 0; i < 19; ++i)
@@ -222,7 +222,7 @@ public class ServerScoreboard extends Scoreboard
 
     public List<Packet> func_96548_f(ScoreObjective p_96548_1_)
     {
-        List<Packet> list = Lists.newArrayList();
+        List<Packet> list = new java.util.ArrayList<>();
         list.add(new S3BPacketScoreboardObjective(p_96548_1_, 1));
 
         for (int i = 0; i < 19; ++i)

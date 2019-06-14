@@ -16,7 +16,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
     private final Map < Class<?>, List<T >> map = Maps.newHashMap();
     private final Set < Class<? >> knownKeys = Sets.newIdentityHashSet();
     private final Class<T> baseClass;
-    private final List<T> field_181745_e = Lists.newArrayList();
+    private final List<T> field_181745_e = new java.util.ArrayList<>();
 
     public ClassInheritanceMultiMap(Class<T> baseClassIn)
     {

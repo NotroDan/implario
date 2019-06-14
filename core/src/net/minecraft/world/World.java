@@ -40,14 +40,14 @@ public abstract class World implements IBlockAccess {
 	 * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
 	 */
 	protected boolean scheduledUpdatesAreImmediate;
-	public final List<Entity> loadedEntityList = Lists.newArrayList();
-	protected final List<Entity> unloadedEntityList = Lists.newArrayList();
-	public final List<TileEntity> loadedTileEntityList = Lists.newArrayList();
-	public final List<TileEntity> tickableTileEntities = Lists.newArrayList();
-	private final List<TileEntity> addedTileEntityList = Lists.newArrayList();
-	private final List<TileEntity> tileEntitiesToBeRemoved = Lists.newArrayList();
-	public final List<EntityPlayer> playerEntities = Lists.newArrayList();
-	public final List<Entity> weatherEffects = Lists.newArrayList();
+	public final List<Entity> loadedEntityList = new java.util.ArrayList<>();
+	protected final List<Entity> unloadedEntityList = new java.util.ArrayList<>();
+	public final List<TileEntity> loadedTileEntityList = new java.util.ArrayList<>();
+	public final List<TileEntity> tickableTileEntities = new java.util.ArrayList<>();
+	private final List<TileEntity> addedTileEntityList = new java.util.ArrayList<>();
+	private final List<TileEntity> tileEntitiesToBeRemoved = new java.util.ArrayList<>();
+	public final List<EntityPlayer> playerEntities = new java.util.ArrayList<>();
+	public final List<Entity> weatherEffects = new java.util.ArrayList<>();
 	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
 	private long cloudColour = 16777215L;
 
@@ -87,7 +87,7 @@ public abstract class World implements IBlockAccess {
 	 * The WorldProvider instance that World uses.
 	 */
 	public final WorldProvider provider;
-	protected List<IWorldAccess> worldAccesses = Lists.newArrayList();
+	protected List<IWorldAccess> worldAccesses = new java.util.ArrayList<>();
 
 	/**
 	 * Handles chunk operations and caching
@@ -987,7 +987,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public List<AxisAlignedBB> getCollidingBoundingBoxes(Entity entityIn, AxisAlignedBB bb) {
-		List<AxisAlignedBB> list = Lists.newArrayList();
+		List<AxisAlignedBB> list = new java.util.ArrayList<>();
 		int i = MathHelper.floor_double(bb.minX);
 		int j = MathHelper.floor_double(bb.maxX + 1.0D);
 		int k = MathHelper.floor_double(bb.minY);
@@ -1068,7 +1068,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public List<AxisAlignedBB> func_147461_a(AxisAlignedBB bb) {
-		List<AxisAlignedBB> list = Lists.newArrayList();
+		List<AxisAlignedBB> list = new java.util.ArrayList<>();
 		int i = MathHelper.floor_double(bb.minX);
 		int j = MathHelper.floor_double(bb.maxX + 1.0D);
 		int k = MathHelper.floor_double(bb.minY);
@@ -2401,7 +2401,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public List<Entity> getEntitiesInAABBexcluding(Entity entityIn, AxisAlignedBB boundingBox, Predicate<? super Entity> predicate) {
-		List<Entity> list = Lists.newArrayList();
+		List<Entity> list = new java.util.ArrayList<>();
 		int i = MathHelper.floor_double((boundingBox.minX - 2.0D) / 16.0D);
 		int j = MathHelper.floor_double((boundingBox.maxX + 2.0D) / 16.0D);
 		int k = MathHelper.floor_double((boundingBox.minZ - 2.0D) / 16.0D);
@@ -2419,7 +2419,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public <T extends Entity> List<T> getEntities(Class<? extends T> entityType, Predicate<? super T> filter) {
-		List<T> list = Lists.newArrayList();
+		List<T> list = new java.util.ArrayList<>();
 
 		for (Entity entity : this.loadedEntityList) {
 			if (entityType.isAssignableFrom(entity.getClass()) && filter.apply((T) entity)) {
@@ -2431,7 +2431,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public <T extends Entity> List<T> getPlayers(Class<? extends T> playerType, Predicate<? super T> filter) {
-		List<T> list = Lists.newArrayList();
+		List<T> list = new java.util.ArrayList<>();
 
 		for (Entity entity : this.playerEntities) {
 			if (playerType.isAssignableFrom(entity.getClass()) && filter.apply((T) entity)) {
@@ -2451,7 +2451,7 @@ public abstract class World implements IBlockAccess {
 		int j = MathHelper.floor_double((aabb.maxX + 2.0D) / 16.0D);
 		int k = MathHelper.floor_double((aabb.minZ - 2.0D) / 16.0D);
 		int l = MathHelper.floor_double((aabb.maxZ + 2.0D) / 16.0D);
-		List<T> list = Lists.newArrayList();
+		List<T> list = new java.util.ArrayList<>();
 
 		for (int i1 = i; i1 <= j; ++i1) {
 			for (int j1 = k; j1 <= l; ++j1) {

@@ -81,7 +81,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         this.counterIndexInMap = 0;
         this.atlasWidth = 0;
         this.atlasHeight = 0;
-        this.listAnimatedSprites = Lists.newArrayList();
+        this.listAnimatedSprites = new java.util.ArrayList<>();
         this.mapRegisteredSprites = Maps.newHashMap();
         this.mapUploadedSprites = Maps.newHashMap();
         this.missingImage = new TextureAtlasSprite("missingno");

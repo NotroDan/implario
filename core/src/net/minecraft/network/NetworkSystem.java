@@ -58,8 +58,8 @@ public class NetworkSystem {
 	 * True if this NetworkSystem has never had his endpoints terminated
 	 */
 	public volatile boolean isAlive;
-	private final List<ChannelFuture> endpoints = Collections.synchronizedList(Lists.newArrayList());
-	private final List<NetworkManager> networkManagers = Collections.synchronizedList(Lists.newArrayList());
+	private final List<ChannelFuture> endpoints = Collections.synchronizedList(new java.util.ArrayList<>());
+	private final List<NetworkManager> networkManagers = Collections.synchronizedList(new java.util.ArrayList<>());
 
 	public NetworkSystem(MinecraftServer server) {
 		this.mcServer = server;

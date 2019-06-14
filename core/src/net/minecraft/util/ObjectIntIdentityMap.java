@@ -11,7 +11,7 @@ import java.util.List;
 public class ObjectIntIdentityMap implements IObjectIntIterable {
 
 	private final IdentityHashMap identityMap = new IdentityHashMap(512);
-	private final List objectList = Lists.newArrayList();
+	private final List objectList = new java.util.ArrayList<>();
 
 	public void put(Object key, int value) {
 		this.identityMap.put(key, value);

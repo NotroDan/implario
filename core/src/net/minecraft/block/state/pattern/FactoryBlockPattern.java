@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 public class FactoryBlockPattern
 {
     private static final Joiner COMMA_JOIN = Joiner.on(",");
-    private final List<String[]> depth = Lists.newArrayList();
+    private final List<String[]> depth = new java.util.ArrayList<>();
     private final Map<Character, Predicate<BlockWorldState>> symbolMap = Maps.newHashMap();
     private int aisleHeight;
     private int rowWidth;
@@ -99,7 +99,7 @@ public class FactoryBlockPattern
 
     private void checkMissingPredicates()
     {
-        List<Character> list = Lists.newArrayList();
+        List<Character> list = new java.util.ArrayList<>();
 
         for (Entry<Character, Predicate<BlockWorldState>> entry : this.symbolMap.entrySet())
         {

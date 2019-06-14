@@ -64,7 +64,7 @@ public class CommandOp extends CommandBase
         if (args.length == 1)
         {
             String s = args[args.length - 1];
-            List<String> list = Lists.newArrayList();
+            List<String> list = new java.util.ArrayList<>();
 
             for (GameProfile gameprofile : MinecraftServer.getServer().getGameProfiles())
             {

@@ -19,7 +19,7 @@ public class ContainerCreativeItems extends Container {
 	public static final IInventory DUMMY = new InventoryBasic("Болванка", true, 200);
 	public final int left;
 
-	public List<ItemStack> itemList = Lists.newArrayList();
+	public List<ItemStack> itemList = new java.util.ArrayList<>();
 
 	public ContainerCreativeItems(EntityPlayer p) {
 		InventoryPlayer inventoryplayer = p.inventory;

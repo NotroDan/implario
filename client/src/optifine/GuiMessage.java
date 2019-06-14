@@ -13,7 +13,7 @@ public class GuiMessage extends GuiScreen
     private GuiScreen parentScreen;
     private String messageLine1;
     private String messageLine2;
-    private final List listLines2 = Lists.newArrayList();
+    private final List listLines2 = new java.util.ArrayList<>();
     protected String confirmButtonText;
     private int ticksUntilEnable;
 

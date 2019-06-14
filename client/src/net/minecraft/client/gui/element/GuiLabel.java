@@ -34,7 +34,7 @@ public class GuiLabel extends Gui {
 		field_146174_h = p_i45540_4_;
 		this.width = width;
 		field_146161_f = p_i45540_6_;
-		lines = Lists.newArrayList();
+		lines = new java.util.ArrayList<>();
 		centered = false;
 		labelBgEnabled = false;
 		this.color = color;

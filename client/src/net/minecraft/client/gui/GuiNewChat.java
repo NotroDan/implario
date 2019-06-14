@@ -18,9 +18,9 @@ public class GuiNewChat extends Gui {
 
 	private static final Logger logger = Logger.getInstance();
 	private final Minecraft mc;
-	private final List<String> sentMessages = Lists.newArrayList();
-	private final List<ChatLine> chatLines = Lists.newArrayList();
-	private final List<ChatLine> field_146253_i = Lists.newArrayList();
+	private final List<String> sentMessages = new java.util.ArrayList<>();
+	private final List<ChatLine> chatLines = new java.util.ArrayList<>();
+	private final List<ChatLine> field_146253_i = new java.util.ArrayList<>();
 	private int scrollPos;
 	private boolean isScrolled;
 

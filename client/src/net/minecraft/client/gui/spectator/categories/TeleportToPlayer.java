@@ -32,7 +32,7 @@ public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObjec
 
     public TeleportToPlayer(Collection<NetworkPlayerInfo> p_i45493_1_)
     {
-        this.field_178673_b = Lists.newArrayList();
+        this.field_178673_b = new java.util.ArrayList<>();
 
         for (NetworkPlayerInfo networkplayerinfo : field_178674_a.sortedCopy(p_i45493_1_))
         {

@@ -31,7 +31,7 @@ public class MapGenScatteredFeature extends MapGenStructure {
 	private int minDistanceBetweenScatteredFeatures;
 
 	public MapGenScatteredFeature() {
-		this.scatteredFeatureSpawnList = Lists.newArrayList();
+		this.scatteredFeatureSpawnList = new java.util.ArrayList<>();
 		this.maxDistanceBetweenScatteredFeatures = 32;
 		this.minDistanceBetweenScatteredFeatures = 8;
 		this.scatteredFeatureSpawnList.add(new SpawnListEntry(EntityWitch.class, 1, 1, 1));

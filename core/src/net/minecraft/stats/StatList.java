@@ -1,6 +1,5 @@
 package net.minecraft.stats;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
@@ -22,10 +21,10 @@ import java.util.Set;
 public class StatList
 {
     protected static Map<String, StatBase> oneShotStats = Maps.newHashMap();
-    public static List<StatBase> allStats = Lists.newArrayList();
-    public static List<StatBase> generalStats = Lists.newArrayList();
-    public static List<StatCrafting> itemStats = Lists.newArrayList();
-    public static List<StatCrafting> objectMineStats = Lists.newArrayList();
+    public static List<StatBase> allStats = new java.util.ArrayList<>();
+    public static List<StatBase> generalStats = new java.util.ArrayList<>();
+    public static List<StatCrafting> itemStats = new java.util.ArrayList<>();
+    public static List<StatCrafting> objectMineStats = new java.util.ArrayList<>();
 
     /** number of times you've left a game */
     public static StatBase leaveGameStat = new StatBasic("stat.leaveGame", new ChatComponentTranslation("stat.leaveGame")).initIndependentStat().registerStat();
@@ -123,181 +122,152 @@ public class StatList
     /** Tracks the number of times a given block or item has been broken. */
     public static final StatBase[] objectBreakStats = new StatBase[32000];
 
-    public static void init()
-    {
-        initMiningStats();
-        initStats();
-        initItemDepleteStats();
-        initCraftableStats();
-        AchievementList.init();
-        EntityList.func_151514_a();
-    }
+    public static void init() {
+		initMiningStats();
+		initStats();
+		initItemDepleteStats();
+		initCraftableStats();
+		AchievementList.init();
+		EntityList.func_151514_a();
+	}
 
-    /**
-     * Initializes statistics related to craftable items. Is only called after both block and item stats have been
-     * initialized.
-     */
-    private static void initCraftableStats()
-    {
-        Set<Item> set = Sets.newHashSet();
+	/**
+	 * Initializes statistics related to craftable items. Is only called after both block and item stats have been
+	 * initialized.
+	 */
+	private static void initCraftableStats() {
+		Set<Item> set = Sets.newHashSet();
 
-        for (IRecipe irecipe : CraftingManager.getInstance().getRecipeList())
-        {
-            if (irecipe.getRecipeOutput() != null)
-            {
-                set.add(irecipe.getRecipeOutput().getItem());
-            }
-        }
+		for (IRecipe irecipe : CraftingManager.getInstance().getRecipeList()) {
+			if (irecipe.getRecipeOutput() != null) {
+				set.add(irecipe.getRecipeOutput().getItem());
+			}
+		}
 
-        for (ItemStack itemstack : FurnaceRecipes.instance().getSmeltingList().values())
-        {
-            set.add(itemstack.getItem());
-        }
+		for (ItemStack itemstack : FurnaceRecipes.instance().getSmeltingList().values()) {
+			set.add(itemstack.getItem());
+		}
 
-        for (Item item : set)
-        {
-            if (item != null)
-            {
-                int i = Item.getIdFromItem(item);
-                String s = func_180204_a(item);
+		for (Item item : set) {
+			if (item != null) {
+				int i = Item.getIdFromItem(item);
+				String s = func_180204_a(item);
 
-                if (s != null)
-                {
-                    objectCraftStats[i] = new StatCrafting("stat.craftItem.", s, new ChatComponentTranslation("stat.craftItem", new ItemStack(item).getChatComponent()), item).registerStat();
-                }
-            }
-        }
+				if (s != null) {
+					objectCraftStats[i] = new StatCrafting("stat.craftItem.", s, new ChatComponentTranslation("stat.craftItem", new ItemStack(item).getChatComponent()), item).registerStat();
+				}
+			}
+		}
 
-        replaceAllSimilarBlocks(objectCraftStats);
-    }
+		replaceAllSimilarBlocks(objectCraftStats);
+	}
 
-    private static void initMiningStats()
-    {
-        for (Block block : Block.blockRegistry)
-        {
-            Item item = Item.getItemFromBlock(block);
+	private static void initMiningStats() {
+		for (Block block : Block.blockRegistry) {
+			Item item = Item.getItemFromBlock(block);
 
-            if (item != null)
-            {
-                int i = Block.getIdFromBlock(block);
-                String s = func_180204_a(item);
+			if (item != null) {
+				int i = Block.getIdFromBlock(block);
+				String s = func_180204_a(item);
 
-                if (s != null && block.getEnableStats())
-                {
-                    mineBlockStatArray[i] = new StatCrafting("stat.mineBlock.", s, new ChatComponentTranslation("stat.mineBlock", new ItemStack(block).getChatComponent()), item).registerStat();
-                    objectMineStats.add((StatCrafting)mineBlockStatArray[i]);
-                }
-            }
-        }
+				if (s != null && block.getEnableStats()) {
+					mineBlockStatArray[i] = new StatCrafting("stat.mineBlock.", s, new ChatComponentTranslation("stat.mineBlock", new ItemStack(block).getChatComponent()), item).registerStat();
+					objectMineStats.add((StatCrafting) mineBlockStatArray[i]);
+				}
+			}
+		}
 
-        replaceAllSimilarBlocks(mineBlockStatArray);
-    }
+		replaceAllSimilarBlocks(mineBlockStatArray);
+	}
 
-    private static void initStats()
-    {
-        for (Item item : Item.itemRegistry)
-        {
-            if (item != null)
-            {
-                int i = Item.getIdFromItem(item);
-                String s = func_180204_a(item);
+	private static void initStats() {
+		for (Item item : Item.itemRegistry) {
+			if (item != null) {
+				int i = Item.getIdFromItem(item);
+				String s = func_180204_a(item);
 
-                if (s != null)
-                {
-                    objectUseStats[i] = new StatCrafting("stat.useItem.", s, new ChatComponentTranslation("stat.useItem", new ItemStack(item).getChatComponent()), item).registerStat();
+				if (s != null) {
+					objectUseStats[i] = new StatCrafting("stat.useItem.", s, new ChatComponentTranslation("stat.useItem", new ItemStack(item).getChatComponent()), item).registerStat();
 
-                    if (!(item instanceof ItemBlock))
-                    {
-                        itemStats.add((StatCrafting)objectUseStats[i]);
-                    }
-                }
-            }
-        }
+					if (!(item instanceof ItemBlock)) {
+						itemStats.add((StatCrafting) objectUseStats[i]);
+					}
+				}
+			}
+		}
 
-        replaceAllSimilarBlocks(objectUseStats);
-    }
+		replaceAllSimilarBlocks(objectUseStats);
+	}
 
-    private static void initItemDepleteStats()
-    {
-        for (Item item : Item.itemRegistry)
-        {
-            if (item != null)
-            {
-                int i = Item.getIdFromItem(item);
-                String s = func_180204_a(item);
+	private static void initItemDepleteStats() {
+		for (Item item : Item.itemRegistry) {
+			if (item != null) {
+				int i = Item.getIdFromItem(item);
+				String s = func_180204_a(item);
 
-                if (s != null && item.isDamageable())
-                {
-                    objectBreakStats[i] = new StatCrafting("stat.breakItem.", s, new ChatComponentTranslation("stat.breakItem", new ItemStack(item).getChatComponent()), item).registerStat();
-                }
-            }
-        }
+				if (s != null && item.isDamageable()) {
+					objectBreakStats[i] = new StatCrafting("stat.breakItem.", s, new ChatComponentTranslation("stat.breakItem", new ItemStack(item).getChatComponent()), item).registerStat();
+				}
+			}
+		}
 
-        replaceAllSimilarBlocks(objectBreakStats);
-    }
+		replaceAllSimilarBlocks(objectBreakStats);
+	}
 
-    private static String func_180204_a(Item p_180204_0_)
-    {
-        ResourceLocation resourcelocation = Item.itemRegistry.getNameForObject(p_180204_0_);
-        return resourcelocation != null ? resourcelocation.toString().replace(':', '.') : null;
-    }
+	private static String func_180204_a(Item p_180204_0_) {
+		ResourceLocation resourcelocation = Item.itemRegistry.getNameForObject(p_180204_0_);
+		return resourcelocation != null ? resourcelocation.toString().replace(':', '.') : null;
+	}
 
-    /**
-     * Forces all dual blocks to count for each other on the stats list
-     */
-    private static void replaceAllSimilarBlocks(StatBase[] p_75924_0_)
-    {
-        mergeStatBases(p_75924_0_, Blocks.water, Blocks.flowing_water);
-        mergeStatBases(p_75924_0_, Blocks.lava, Blocks.flowing_lava);
-        mergeStatBases(p_75924_0_, Blocks.lit_pumpkin, Blocks.pumpkin);
-        mergeStatBases(p_75924_0_, Blocks.lit_furnace, Blocks.furnace);
-        mergeStatBases(p_75924_0_, Blocks.lit_redstone_ore, Blocks.redstone_ore);
-        mergeStatBases(p_75924_0_, Blocks.powered_repeater, Blocks.unpowered_repeater);
-        mergeStatBases(p_75924_0_, Blocks.powered_comparator, Blocks.unpowered_comparator);
-        mergeStatBases(p_75924_0_, Blocks.redstone_torch, Blocks.unlit_redstone_torch);
-        mergeStatBases(p_75924_0_, Blocks.lit_redstone_lamp, Blocks.redstone_lamp);
-        mergeStatBases(p_75924_0_, Blocks.double_stone_slab, Blocks.stone_slab);
-        mergeStatBases(p_75924_0_, Blocks.double_wooden_slab, Blocks.wooden_slab);
-        mergeStatBases(p_75924_0_, Blocks.double_stone_slab2, Blocks.stone_slab2);
-        mergeStatBases(p_75924_0_, Blocks.grass, Blocks.dirt);
-        mergeStatBases(p_75924_0_, Blocks.farmland, Blocks.dirt);
-    }
+	/**
+	 * Forces all dual blocks to count for each other on the stats list
+	 */
+	private static void replaceAllSimilarBlocks(StatBase[] p_75924_0_) {
+		mergeStatBases(p_75924_0_, Blocks.water, Blocks.flowing_water);
+		mergeStatBases(p_75924_0_, Blocks.lava, Blocks.flowing_lava);
+		mergeStatBases(p_75924_0_, Blocks.lit_pumpkin, Blocks.pumpkin);
+		mergeStatBases(p_75924_0_, Blocks.lit_furnace, Blocks.furnace);
+		mergeStatBases(p_75924_0_, Blocks.lit_redstone_ore, Blocks.redstone_ore);
+		mergeStatBases(p_75924_0_, Blocks.powered_repeater, Blocks.unpowered_repeater);
+		mergeStatBases(p_75924_0_, Blocks.powered_comparator, Blocks.unpowered_comparator);
+		mergeStatBases(p_75924_0_, Blocks.redstone_torch, Blocks.unlit_redstone_torch);
+		mergeStatBases(p_75924_0_, Blocks.lit_redstone_lamp, Blocks.redstone_lamp);
+		mergeStatBases(p_75924_0_, Blocks.double_stone_slab, Blocks.stone_slab);
+		mergeStatBases(p_75924_0_, Blocks.double_wooden_slab, Blocks.wooden_slab);
+		mergeStatBases(p_75924_0_, Blocks.double_stone_slab2, Blocks.stone_slab2);
+		mergeStatBases(p_75924_0_, Blocks.grass, Blocks.dirt);
+		mergeStatBases(p_75924_0_, Blocks.farmland, Blocks.dirt);
+	}
 
-    /**
-     * Merge {@link StatBase} object references for similar blocks
-     */
-    private static void mergeStatBases(StatBase[] statBaseIn, Block p_151180_1_, Block p_151180_2_)
-    {
-        int i = Block.getIdFromBlock(p_151180_1_);
-        int j = Block.getIdFromBlock(p_151180_2_);
+	/**
+	 * Merge {@link StatBase} object references for similar blocks
+	 */
+	private static void mergeStatBases(StatBase[] statBaseIn, Block p_151180_1_, Block p_151180_2_) {
+		int i = Block.getIdFromBlock(p_151180_1_);
+		int j = Block.getIdFromBlock(p_151180_2_);
 
-        if (statBaseIn[i] != null && statBaseIn[j] == null)
-        {
-            statBaseIn[j] = statBaseIn[i];
-        }
-        else
-        {
-            allStats.remove(statBaseIn[i]);
-            objectMineStats.remove(statBaseIn[i]);
-            generalStats.remove(statBaseIn[i]);
-            statBaseIn[i] = statBaseIn[j];
-        }
-    }
+		if (statBaseIn[i] != null && statBaseIn[j] == null) {
+			statBaseIn[j] = statBaseIn[i];
+		} else {
+			allStats.remove(statBaseIn[i]);
+			objectMineStats.remove(statBaseIn[i]);
+			generalStats.remove(statBaseIn[i]);
+			statBaseIn[i] = statBaseIn[j];
+		}
+	}
 
-    public static StatBase getStatKillEntity(EntityList.EntityEggInfo eggInfo)
-    {
-        String s = EntityList.getStringFromID(eggInfo.spawnedID);
-        return s == null ? null : new StatBase("stat.killEntity." + s, new ChatComponentTranslation("stat.entityKill", new ChatComponentTranslation("entity." + s + ".name"))).registerStat();
-    }
+	public static StatBase getStatKillEntity(EntityList.EntityEggInfo eggInfo) {
+		String s = EntityList.getStringFromID(eggInfo.spawnedID);
+		return s == null ? null : new StatBase("stat.killEntity." + s, new ChatComponentTranslation("stat.entityKill", new ChatComponentTranslation("entity." + s + ".name"))).registerStat();
+	}
 
-    public static StatBase getStatEntityKilledBy(EntityList.EntityEggInfo eggInfo)
-    {
-        String s = EntityList.getStringFromID(eggInfo.spawnedID);
-        return s == null ? null : new StatBase("stat.entityKilledBy." + s, new ChatComponentTranslation("stat.entityKilledBy", new ChatComponentTranslation("entity." + s + ".name"))).registerStat();
-    }
+	public static StatBase getStatEntityKilledBy(EntityList.EntityEggInfo eggInfo) {
+		String s = EntityList.getStringFromID(eggInfo.spawnedID);
+		return s == null ? null : new StatBase("stat.entityKilledBy." + s, new ChatComponentTranslation("stat.entityKilledBy", new ChatComponentTranslation("entity." + s + ".name"))).registerStat();
+	}
 
-    public static StatBase getOneShotStat(String p_151177_0_)
-    {
-        return oneShotStats.get(p_151177_0_);
-    }
+	public static StatBase getOneShotStat(String p_151177_0_) {
+		return oneShotStats.get(p_151177_0_);
+	}
+
 }

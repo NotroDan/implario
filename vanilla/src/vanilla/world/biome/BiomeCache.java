@@ -19,7 +19,7 @@ public class BiomeCache {
 	 */
 	private long lastCleanupTime;
 	private LongHashMap cacheMap = new LongHashMap();
-	private List<Cluster> cache = Lists.newArrayList();
+	private List<Cluster> cache = new java.util.ArrayList<>();
 
 	public BiomeCache(WorldChunkManager chunkManagerIn) {
 		this.chunkManager = chunkManagerIn;

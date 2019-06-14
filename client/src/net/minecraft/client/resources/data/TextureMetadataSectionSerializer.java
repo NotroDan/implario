@@ -17,7 +17,7 @@ public class TextureMetadataSectionSerializer extends BaseMetadataSectionSeriali
         JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
         boolean flag = JsonUtils.getBoolean(jsonobject, "blur", false);
         boolean flag1 = JsonUtils.getBoolean(jsonobject, "clamp", false);
-        List<Integer> list = Lists.newArrayList();
+        List<Integer> list = new java.util.ArrayList<>();
 
         if (jsonobject.has("mipmaps"))
         {

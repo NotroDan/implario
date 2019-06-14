@@ -33,7 +33,7 @@ import java.util.List;
 
 public class OldServerPinger {
 	private static final Logger logger = Logger.getInstance();
-	private final List<NetworkManager> pingDestinations = Collections.synchronizedList(Lists.newArrayList());
+	private final List<NetworkManager> pingDestinations = Collections.synchronizedList(new java.util.ArrayList<>());
 	
 	public void ping(final ServerData server) throws UnknownHostException {
 		ServerAddress serveraddress = ServerAddress.func_78860_a(server.serverIP);

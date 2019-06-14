@@ -34,7 +34,7 @@ public class WorldChunkManager implements IChunkManager {
 	protected WorldChunkManager() {
 		this.biomeCache = new BiomeCache(this);
 		this.field_180301_f = "";
-		this.biomesToSpawnIn = Lists.newArrayList();
+		this.biomesToSpawnIn = new java.util.ArrayList<>();
 		this.biomesToSpawnIn.add(BiomeGenBase.forest);
 		this.biomesToSpawnIn.add(BiomeGenBase.plains);
 		this.biomesToSpawnIn.add(BiomeGenBase.taiga);

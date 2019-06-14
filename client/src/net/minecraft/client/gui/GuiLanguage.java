@@ -99,7 +99,7 @@ public class GuiLanguage extends GuiScreen {
 
 	class List extends GuiSlot {
 
-		private final java.util.List<String> langCodeList = Lists.newArrayList();
+		private final java.util.List<String> langCodeList = new java.util.ArrayList<>();
 		private final Map<String, Language> languageMap = Maps.newHashMap();
 
 		public List(Minecraft mcIn) {

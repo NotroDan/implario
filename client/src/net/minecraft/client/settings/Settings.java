@@ -242,10 +242,10 @@ public enum Settings {
 						key.setKeyCode(Integer.parseInt(args[1]));
 					} else if (s.startsWith("resourcePacks: ")) {
 						resourcePacks = gson.fromJson(s.substring(s.indexOf(58) + 2), gsonType);
-						if (resourcePacks == null) resourcePacks = Lists.newArrayList();
+						if (resourcePacks == null) resourcePacks = new java.util.ArrayList<>();
 					} else if (s.startsWith("incompatibleResourcePacks: ")) {
 						incompatibleResourcePacks = gson.fromJson(s.substring(s.indexOf(0x3a) + 2), gsonType);
-						if (incompatibleResourcePacks == null) incompatibleResourcePacks = Lists.newArrayList();
+						if (incompatibleResourcePacks == null) incompatibleResourcePacks = new java.util.ArrayList<>();
 					} else if (s.startsWith("lastServer")) {
 						lastServer = s.substring(s.indexOf(58) + 2);
 					} else if (s.startsWith("lang")) {
