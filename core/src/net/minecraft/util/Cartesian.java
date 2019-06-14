@@ -27,7 +27,7 @@ public class Cartesian {
 	}
 
 	private static <T> T[] toArray(Class<? super T> clazz, Iterable<? extends T> it) {
-		List<T> list = Lists.newArrayList();
+		List<T> list = new java.util.ArrayList<>();
 
 		for (T t : it) {
 			list.add(t);

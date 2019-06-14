@@ -24,7 +24,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 
 	private static final Logger logger = Logger.getInstance();
 	private final Map mapTextureObjects = Maps.newHashMap();
-	private final List listTickables = Lists.newArrayList();
+	private final List listTickables = new java.util.ArrayList<>();
 	private final Map mapTextureCounters = Maps.newHashMap();
 	private IResourceManager theResourceManager;
 

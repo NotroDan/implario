@@ -19,9 +19,9 @@ import java.util.List;
 public class VillageCollection extends WorldSavedData {
 
 	private World worldObj;
-	private final List<BlockPos> villagerPositionsList = Lists.newArrayList();
-	private final List<VillageDoorInfo> newDoors = Lists.newArrayList();
-	private final List<Village> villageList = Lists.newArrayList();
+	private final List<BlockPos> villagerPositionsList = new java.util.ArrayList<>();
+	private final List<VillageDoorInfo> newDoors = new java.util.ArrayList<>();
+	private final List<Village> villageList = new java.util.ArrayList<>();
 	private int tickCounter;
 
 	public VillageCollection(String name) {

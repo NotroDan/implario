@@ -11,7 +11,7 @@ import net.minecraft.Logger;
 public class NBTTagList extends NBTBase
 {
     private static final Logger LOGGER = Logger.getInstance();
-    private List<NBTBase> tagList = Lists.newArrayList();
+    private List<NBTBase> tagList = new java.util.ArrayList<>();
 
     /**
      * The type byte for the tags in the list - they must all be of the same type.

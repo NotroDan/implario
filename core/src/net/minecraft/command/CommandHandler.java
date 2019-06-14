@@ -150,7 +150,7 @@ public class CommandHandler implements ICommandManager
 
         if (astring.length == 1)
         {
-            List<String> list = Lists.newArrayList();
+            List<String> list = new java.util.ArrayList<>();
 
             for (Entry<String, ICommand> entry : this.commandMap.entrySet())
             {
@@ -177,7 +177,7 @@ public class CommandHandler implements ICommandManager
 
     public List<ICommand> getPossibleCommands(ICommandSender sender)
     {
-        List<ICommand> list = Lists.newArrayList();
+        List<ICommand> list = new java.util.ArrayList<>();
 
         for (ICommand icommand : this.commandSet)
         {

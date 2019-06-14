@@ -7,7 +7,6 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.resources.Datapack;
 import net.minecraft.stats.StatList;
-import vanilla.Vanilla;
 
 import java.io.PrintStream;
 
@@ -32,7 +31,8 @@ public class Bootstrap {
 		if (alreadyRegistered) return;
 		alreadyRegistered = true;
 
-		Datapack.LOADED.add(new Vanilla());
+		// Пока нет загрузчика, добавим ваниллу так
+		Datapack.LOADED.add(new vanilla.Vanilla());
 
 		Block.registerBlocks();
 		for (Datapack datapack : Datapack.LOADED) datapack.loadBlocks();
@@ -47,7 +47,6 @@ public class Bootstrap {
 
 		StatList.init();
 		Enchantments.protection.getClass().getCanonicalName();
-		// ToDo: Datapack preinit
 		for (Datapack datapack : Datapack.LOADED) datapack.preinit();
 		if (!Datapack.LOADED.isEmpty()) {
 			Blocks.reload();

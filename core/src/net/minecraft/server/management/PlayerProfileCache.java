@@ -283,7 +283,7 @@ public class PlayerProfileCache
 
     private List<PlayerProfileCache.ProfileEntry> getEntriesWithLimit(int limitSize)
     {
-        ArrayList<PlayerProfileCache.ProfileEntry> arraylist = Lists.newArrayList();
+        ArrayList<PlayerProfileCache.ProfileEntry> arraylist = new java.util.ArrayList<>();
 
         for (GameProfile gameprofile : Lists.newArrayList(Iterators.limit(this.gameProfiles.iterator(), limitSize)))
         {

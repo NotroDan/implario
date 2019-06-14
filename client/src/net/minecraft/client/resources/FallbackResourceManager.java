@@ -12,7 +12,7 @@ import java.util.Set;
 public class FallbackResourceManager implements IResourceManager {
 
 	private static final Logger logger = Logger.getInstance();
-	protected final List<IResourcePack> resourcePacks = Lists.newArrayList();
+	protected final List<IResourcePack> resourcePacks = new java.util.ArrayList<>();
 	private final IMetadataSerializer frmMetadataSerializer;
 
 	public FallbackResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
@@ -58,7 +58,7 @@ public class FallbackResourceManager implements IResourceManager {
 	}
 
 	public List<IResource> getAllResources(ResourceLocation location) throws IOException {
-		List<IResource> list = Lists.newArrayList();
+		List<IResource> list = new java.util.ArrayList<>();
 		ResourceLocation resourcelocation = getLocationMcmeta(location);
 
 		for (IResourcePack iresourcepack : this.resourcePacks) {

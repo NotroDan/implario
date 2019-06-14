@@ -256,9 +256,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 
 		if (!this.loadedChunks.isEmpty()) {
-			List<Chunk> list = Lists.newArrayList();
+			List<Chunk> list = new java.util.ArrayList<>();
 			Iterator<ChunkCoordIntPair> iterator1 = this.loadedChunks.iterator();
-			List<TileEntity> list1 = Lists.newArrayList();
+			List<TileEntity> list1 = new java.util.ArrayList<>();
 
 			while (iterator1.hasNext() && ((List) list).size() < 10) {
 				ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair) iterator1.next();

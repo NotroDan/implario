@@ -316,7 +316,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
 		public StatsBlock(Minecraft mcIn) {
 			super(mcIn);
-			this.statsHolder = Lists.newArrayList();
+			this.statsHolder = new java.util.ArrayList<>();
 
 			for (StatCrafting statcrafting : StatList.objectMineStats) {
 				boolean flag = false;
@@ -429,7 +429,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
 		public StatsItem(Minecraft mcIn) {
 			super(mcIn);
-			this.statsHolder = Lists.newArrayList();
+			this.statsHolder = new java.util.ArrayList<>();
 
 			for (StatCrafting statcrafting : StatList.itemStats) {
 				boolean flag = false;
@@ -505,7 +505,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
 	class StatsMobsList extends GuiSlot {
 
-		private final List<EntityList.EntityEggInfo> field_148222_l = Lists.newArrayList();
+		private final List<EntityList.EntityEggInfo> field_148222_l = new java.util.ArrayList<>();
 
 		public StatsMobsList(Minecraft mcIn) {
 			super(mcIn, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, GuiStats.this.fontRendererObj.getFontHeight() * 4);

@@ -41,7 +41,7 @@ public class ItemPotion extends Item
     {
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey("CustomPotionEffects", 9))
         {
-            List<PotionEffect> list1 = Lists.newArrayList();
+            List<PotionEffect> list1 = new java.util.ArrayList<>();
             NBTTagList nbttaglist = stack.getTagCompound().getTagList("CustomPotionEffects", 10);
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i)

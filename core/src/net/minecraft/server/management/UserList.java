@@ -127,7 +127,7 @@ public class UserList<K, V extends UserListEntry<K>>
      */
     private void removeExpired()
     {
-        List<K> list = Lists.newArrayList();
+        List<K> list = new java.util.ArrayList<>();
 
         for (V v : this.values.values())
         {

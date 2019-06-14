@@ -89,7 +89,7 @@ public class GuiWinGame extends GuiScreen
     {
         if (this.field_146582_i == null)
         {
-            this.field_146582_i = Lists.newArrayList();
+            this.field_146582_i = new java.util.ArrayList<>();
 
             try
             {

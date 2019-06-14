@@ -119,7 +119,7 @@ public class RecipeFireworks implements IRecipe
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
 				NBTTagCompound nbttagcompound2 = new NBTTagCompound();
 				byte b0 = 0;
-				List<Integer> list = Lists.newArrayList();
+				List<Integer> list = new java.util.ArrayList<>();
 
 				for (int l1 = 0; l1 < inv.getSizeInventory(); ++l1)
 				{
@@ -173,7 +173,7 @@ public class RecipeFireworks implements IRecipe
 			}
 			if (j == 0 && i == 0 && l == 1 && k > 0 && k == i1)
 			{
-				List<Integer> list1 = Lists.newArrayList();
+				List<Integer> list1 = new java.util.ArrayList<>();
 
 				for (int i2 = 0; i2 < inv.getSizeInventory(); ++i2)
 				{

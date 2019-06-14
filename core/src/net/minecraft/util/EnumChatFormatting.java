@@ -152,7 +152,7 @@ public enum EnumChatFormatting
 
     public static Collection<String> getValidValues(boolean p_96296_0_, boolean p_96296_1_)
     {
-        List<String> list = Lists.newArrayList();
+        List<String> list = new java.util.ArrayList<>();
 
         for (EnumChatFormatting enumchatformatting : values())
         {

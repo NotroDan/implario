@@ -67,8 +67,8 @@ public class GameSettings {
 	 * Smooth Lighting
 	 */
 	public int ambientOcclusion = 2;
-	public List resourcePacks = Lists.newArrayList();
-	public List field_183018_l = Lists.newArrayList();
+	public List resourcePacks = new java.util.ArrayList<>();
+	public List field_183018_l = new java.util.ArrayList<>();
 	public EntityPlayer.EnumChatVisibility chatVisibility = EntityPlayer.EnumChatVisibility.FULL;
 	public boolean chatColours = true;
 	public boolean chatLinks = true;
@@ -684,12 +684,12 @@ public class GameSettings {
 
 					if (args[0].equals("resourcePacks")) {
 						this.resourcePacks = gson.fromJson(s.substring(s.indexOf(58) + 1), typeListString);
-						if (this.resourcePacks == null) this.resourcePacks = Lists.newArrayList();
+						if (this.resourcePacks == null) this.resourcePacks = new java.util.ArrayList<>();
 					}
 
 					if (args[0].equals("incompatibleResourcePacks")) {
 						this.field_183018_l = gson.fromJson(s.substring(s.indexOf(58) + 1), typeListString);
-						if (this.field_183018_l == null) this.field_183018_l = Lists.newArrayList();
+						if (this.field_183018_l == null) this.field_183018_l = new java.util.ArrayList<>();
 					}
 
 					if (args[0].equals("lastServer") && args.length >= 2)

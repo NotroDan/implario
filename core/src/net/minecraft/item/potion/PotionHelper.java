@@ -338,7 +338,7 @@ public class PotionHelper {
 					i = (int) Math.round((double) i * 0.75D + 0.5D);
 			}
 
-			if (arraylist == null) arraylist = Lists.newArrayList();
+			if (arraylist == null) arraylist = new java.util.ArrayList<>();
 			PotionEffect potioneffect = new PotionEffect(potion.getId(), i, j);
 
 			if ((a & 16384) != 0) potioneffect.setSplashPotion(true);

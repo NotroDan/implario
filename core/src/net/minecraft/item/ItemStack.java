@@ -505,7 +505,7 @@ public final class ItemStack {
 	}
 
 	public List<String> getTooltip(EntityPlayer playerIn, boolean advanced) {
-		List<String> list = Lists.newArrayList();
+		List<String> list = new java.util.ArrayList<>();
 		String s = this.getDisplayName();
 
 		if (this.hasDisplayName() && !s.startsWith("§")) s = EnumChatFormatting.ITALIC + s;

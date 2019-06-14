@@ -495,7 +495,7 @@ public abstract class CommandBase implements ICommand {
 
 	public static List<String> getListOfStringsMatchingLastWord(String[] args, Collection<?> possibilities) {
 		String s = args[args.length - 1];
-		List<String> list = Lists.newArrayList();
+		List<String> list = new java.util.ArrayList<>();
 
 		if (possibilities.isEmpty()) return list;
 

@@ -694,7 +694,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			}
 		}
 
-		return Lists.newArrayList();
+		return new java.util.ArrayList<>();
 	}
 
 	/**

@@ -35,7 +35,7 @@ public class SpectatorMenu
         }
     };
     private final ISpectatorMenuRecipient recipient;
-    private final List<SpectatorDetails> field_178652_g = Lists.newArrayList();
+    private final List<SpectatorDetails> field_178652_g = new java.util.ArrayList<>();
     private ISpectatorMenuView field_178659_h = new BaseSpectatorGroup();
     private int field_178660_i = -1;
     private int field_178658_j;
@@ -52,7 +52,7 @@ public class SpectatorMenu
     }
 
     public List<ISpectatorMenuObject> func_178642_a() {
-        List<ISpectatorMenuObject> list = Lists.newArrayList();
+        List<ISpectatorMenuObject> list = new java.util.ArrayList<>();
 
         for (int i = 0; i <= 8; ++i) list.add(this.func_178643_a(i));
         return list;

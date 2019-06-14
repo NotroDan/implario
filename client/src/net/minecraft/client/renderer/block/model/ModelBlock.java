@@ -266,7 +266,7 @@ public class ModelBlock
 
         protected List<BlockPart> getModelElements(JsonDeserializationContext p_178325_1_, JsonObject p_178325_2_)
         {
-            List<BlockPart> list = Lists.newArrayList();
+            List<BlockPart> list = new java.util.ArrayList<>();
 
             if (p_178325_2_.has("elements"))
             {

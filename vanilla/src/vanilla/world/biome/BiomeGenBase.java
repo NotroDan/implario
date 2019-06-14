@@ -171,10 +171,10 @@ public abstract class BiomeGenBase extends Biome {
 		this.temperature = 0.5F;
 		this.rainfall = 0.5F;
 		this.waterColorMultiplier = 16777215;
-		this.spawnableMonsterList = Lists.newArrayList();
-		this.spawnableCreatureList = Lists.newArrayList();
-		this.spawnableWaterCreatureList = Lists.newArrayList();
-		this.spawnableCaveCreatureList = Lists.newArrayList();
+		this.spawnableMonsterList = new java.util.ArrayList<>();
+		this.spawnableCreatureList = new java.util.ArrayList<>();
+		this.spawnableWaterCreatureList = new java.util.ArrayList<>();
+		this.spawnableCaveCreatureList = new java.util.ArrayList<>();
 		this.enableRain = true;
 		this.worldGeneratorTrees = new WorldGenTrees(false);
 		this.worldGeneratorBigTree = new WorldGenBigTree(false);

@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 public class Village
 {
     private World worldObj;
-    private final List<VillageDoorInfo> villageDoorInfoList = Lists.newArrayList();
+    private final List<VillageDoorInfo> villageDoorInfoList = new java.util.ArrayList<>();
 
     /**
      * This is the sum of all door coordinates and used to calculate the actual village center by dividing by the number
@@ -44,7 +44,7 @@ public class Village
     /** Timestamp of tick count when villager last bred */
     private int noBreedTicks;
     private TreeMap<String, Integer> playerReputation = new TreeMap();
-    private List<Village.VillageAggressor> villageAgressors = Lists.newArrayList();
+    private List<Village.VillageAggressor> villageAgressors = new java.util.ArrayList<>();
     private int numIronGolems;
 
     public Village()

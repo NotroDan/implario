@@ -119,7 +119,7 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
 
 			List<TileEntityBanner.EnumBannerPattern> list1 = bannerObj.getPatternList();
 			List<EnumDyeColor> list = bannerObj.getColorList();
-			List<String> list2 = Lists.newArrayList();
+			List<String> list2 = new java.util.ArrayList<>();
 
 			for (TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern : list1)
 			{

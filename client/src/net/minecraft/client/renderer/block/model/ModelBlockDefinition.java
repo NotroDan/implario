@@ -87,7 +87,7 @@ public class ModelBlockDefinition
         protected List<ModelBlockDefinition.Variants> parseVariantsList(JsonDeserializationContext p_178334_1_, JsonObject p_178334_2_)
         {
             JsonObject jsonobject = JsonUtils.getJsonObject(p_178334_2_, "variants");
-            List<ModelBlockDefinition.Variants> list = Lists.newArrayList();
+            List<ModelBlockDefinition.Variants> list = new java.util.ArrayList<>();
 
             for (Entry<String, JsonElement> entry : jsonobject.entrySet())
             {
@@ -100,7 +100,7 @@ public class ModelBlockDefinition
         protected ModelBlockDefinition.Variants parseVariants(JsonDeserializationContext p_178335_1_, Entry<String, JsonElement> p_178335_2_)
         {
             String s = (String)p_178335_2_.getKey();
-            List<ModelBlockDefinition.Variant> list = Lists.newArrayList();
+            List<ModelBlockDefinition.Variant> list = new java.util.ArrayList<>();
             JsonElement jsonelement = (JsonElement)p_178335_2_.getValue();
 
             if (jsonelement.isJsonArray())

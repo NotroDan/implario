@@ -18,7 +18,7 @@ public class RecipesArmorDyes implements IRecipe {
 	 */
 	public boolean matches(InventoryCrafting inv, World worldIn) {
 		ItemStack itemstack = null;
-		List<ItemStack> list = Lists.newArrayList();
+		List<ItemStack> list = new java.util.ArrayList<>();
 
 		for (int i = 0; i < inv.getSizeInventory(); ++i) {
 			ItemStack itemstack1 = inv.getStackInSlot(i);

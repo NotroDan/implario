@@ -388,7 +388,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 				this.field_147063_B = guicontainercreative$containercreative.inventorySlots;
 			}
 
-			guicontainercreative$containercreative.inventorySlots = Lists.newArrayList();
+			guicontainercreative$containercreative.inventorySlots = new java.util.ArrayList<>();
 
 			for (int j = 0; j < container.inventorySlots.size(); ++j) {
 				Slot slot = new GuiContainerCreative.CreativeSlot(container.inventorySlots.get(j), j);
@@ -679,7 +679,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 
 	static class ContainerCreative extends Container {
 
-		public List<ItemStack> itemList = Lists.newArrayList();
+		public List<ItemStack> itemList = new java.util.ArrayList<>();
 
 		public ContainerCreative(EntityPlayer p_i1086_1_) {
 			InventoryPlayer inventoryplayer = p_i1086_1_.inventory;

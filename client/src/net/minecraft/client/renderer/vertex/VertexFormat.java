@@ -30,11 +30,11 @@ public class VertexFormat {
 	}
 
 	public VertexFormat() {
-		this.elements = Lists.newArrayList();
-		this.offsets = Lists.newArrayList();
+		this.elements = new java.util.ArrayList<>();
+		this.offsets = new java.util.ArrayList<>();
 		this.nextOffset = 0;
 		this.colorElementOffset = -1;
-		this.uvOffsetsById = Lists.newArrayList();
+		this.uvOffsetsById = new java.util.ArrayList<>();
 		this.normalElementOffset = -1;
 	}
 

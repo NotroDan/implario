@@ -20,7 +20,7 @@ public abstract class MobSpawnerBaseLogic
     /** The delay to spawn. */
     private int spawnDelay = 20;
     private String mobID = "Pig";
-    private final List<MobSpawnerBaseLogic.WeightedRandomMinecart> minecartToSpawn = Lists.newArrayList();
+    private final List<MobSpawnerBaseLogic.WeightedRandomMinecart> minecartToSpawn = new java.util.ArrayList<>();
     private MobSpawnerBaseLogic.WeightedRandomMinecart randomEntity;
 
     /** The rotation of the mob inside the mob spawner */

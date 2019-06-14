@@ -50,7 +50,7 @@ public class Scoreboard
 
 		if (list == null)
 		{
-			list = Lists.newArrayList();
+			list = new java.util.ArrayList<>();
 			this.scoreObjectiveCriterias.put(criteria, list);
 		}
 
@@ -63,7 +63,7 @@ public class Scoreboard
     public Collection<ScoreObjective> getObjectivesFromCriteria(IScoreObjectiveCriteria criteria)
     {
         Collection<ScoreObjective> collection = (Collection)this.scoreObjectiveCriterias.get(criteria);
-        return collection == null ? Lists.newArrayList() : Lists.newArrayList(collection);
+        return collection == null ? new java.util.ArrayList<>() : Lists.newArrayList(collection);
     }
 
     /**
@@ -111,7 +111,7 @@ public class Scoreboard
 
     public Collection<Score> getSortedScores(ScoreObjective objective)
     {
-        List<Score> list = Lists.newArrayList();
+        List<Score> list = new java.util.ArrayList<>();
 
         for (Map<ScoreObjective, Score> map : this.entitiesScoreObjectives.values())
         {
@@ -179,7 +179,7 @@ public class Scoreboard
     public Collection<Score> getScores()
     {
         Collection<Map<ScoreObjective, Score>> collection = this.entitiesScoreObjectives.values();
-        List<Score> list = Lists.newArrayList();
+        List<Score> list = new java.util.ArrayList<>();
 
         for (Map<ScoreObjective, Score> map : collection)
         {

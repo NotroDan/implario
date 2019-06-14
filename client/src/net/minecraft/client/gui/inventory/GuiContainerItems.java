@@ -216,7 +216,7 @@ public class GuiContainerItems extends InventoryEffectRenderer {
 				this.field_147063_B = c.inventorySlots;
 			}
 
-			c.inventorySlots = Lists.newArrayList();
+			c.inventorySlots = new java.util.ArrayList<>();
 
 			for (int j = 0; j < container.inventorySlots.size(); ++j) {
 				Slot slot = new CreativeSlot(container.inventorySlots.get(j), j);

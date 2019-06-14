@@ -61,7 +61,7 @@ public class SoundManager {
 		this.invPlayingSounds = ((BiMap) this.playingSounds).inverse();
 		this.playingSoundPoolEntries = Maps.newHashMap();
 		this.categorySounds = HashMultimap.create();
-		this.tickableSounds = Lists.newArrayList();
+		this.tickableSounds = new java.util.ArrayList<>();
 		this.delayedSounds = Maps.newHashMap();
 		this.playingSoundsStopTime = Maps.newHashMap();
 		this.sndHandler = handler;

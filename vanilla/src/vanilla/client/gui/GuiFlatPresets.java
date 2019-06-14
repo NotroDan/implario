@@ -29,7 +29,7 @@ import java.util.List;
 
 public class GuiFlatPresets extends GuiScreen {
 
-	private static final List<GuiFlatPresets.LayerItem> FLAT_WORLD_PRESETS = Lists.newArrayList();
+	private static final List<GuiFlatPresets.LayerItem> FLAT_WORLD_PRESETS = new java.util.ArrayList<>();
 
 	/**
 	 * The parent GUI

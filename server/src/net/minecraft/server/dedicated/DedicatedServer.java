@@ -30,7 +30,7 @@ import static net.minecraft.logging.Log.MAIN;
 
 public class DedicatedServer extends MinecraftServer {
 
-	private final List<ServerCommand> pendingCommandList = Collections.synchronizedList(Lists.newArrayList());
+	private final List<ServerCommand> pendingCommandList = Collections.synchronizedList(new java.util.ArrayList<>());
 	private PropertyManager settings;
 	private boolean canSpawnStructures;
 	private WorldSettings.GameType gameType;

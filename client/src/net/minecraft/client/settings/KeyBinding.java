@@ -48,7 +48,7 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 	ZOOM("of.key.zoom", 46, "key.categories.misc");
 
 	public static final KeyBinding[] HOTBAR = {HOTBAR_1, HOTBAR_2, HOTBAR_3, HOTBAR_4, HOTBAR_5, HOTBAR_6, HOTBAR_7, HOTBAR_8, HOTBAR_9};
-	private static final List<KeyBinding> keybindArray = Lists.newArrayList();
+	private static final List<KeyBinding> keybindArray = new java.util.ArrayList<>();
 	private static final IntHashMap<KeyBinding> hash = new IntHashMap();
 	private static final Set<String> keybindSet = Sets.newHashSet();
 	private final String keyDescription;

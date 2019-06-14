@@ -379,7 +379,7 @@ public class EnchantmentHelper {
 			EnchantmentData enchantmentdata = (EnchantmentData) WeightedRandom.getRandomItem(randomIn, map.values());
 
 			if (enchantmentdata != null) {
-				list = Lists.newArrayList();
+				list = new java.util.ArrayList<>();
 				list.add(enchantmentdata);
 
 				for (int l = k; randomIn.nextInt(50) <= l; l >>= 1) {

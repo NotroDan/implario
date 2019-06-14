@@ -109,12 +109,12 @@ public class SimpleBakedModel implements IBakedModel
 
         private Builder(boolean p_i46076_1_, boolean p_i46076_2_, ItemCameraTransforms p_i46076_3_)
         {
-            this.builderGeneralQuads = Lists.newArrayList();
+            this.builderGeneralQuads = new java.util.ArrayList<>();
             this.builderFaceQuads = Lists.newArrayListWithCapacity(6);
 
             for (EnumFacing enumfacing : EnumFacing.values())
             {
-                this.builderFaceQuads.add(Lists.newArrayList());
+                this.builderFaceQuads.add(new java.util.ArrayList<>());
             }
 
             this.builderAmbientOcclusion = p_i46076_1_;

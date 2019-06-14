@@ -249,7 +249,7 @@ public abstract class BlockRailBase extends Block
         private final BlockRailBase block;
         private IBlockState state;
         private final boolean isPowered;
-        private final List<BlockPos> field_150657_g = Lists.newArrayList();
+        private final List<BlockPos> field_150657_g = new java.util.ArrayList<>();
 
         public Rail(World worldIn, BlockPos pos, IBlockState state)
         {

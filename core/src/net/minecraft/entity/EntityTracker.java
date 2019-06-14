@@ -105,7 +105,7 @@ public class EntityTracker {
 	}
 
 	public void updateTrackedEntities() {
-		List<EntityPlayerMP> list = Lists.newArrayList();
+		List<EntityPlayerMP> list = new java.util.ArrayList<>();
 
 		for (EntityTrackerEntry entitytrackerentry : this.trackedEntities) {
 			entitytrackerentry.updatePlayerList(this.theWorld.playerEntities);

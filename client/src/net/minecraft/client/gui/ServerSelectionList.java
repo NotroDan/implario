@@ -10,8 +10,8 @@ import java.util.List;
 public class ServerSelectionList extends GuiListExtended {
 
 	private final GuiMultiplayer owner;
-	private final List<ServerListEntryNormal> servers = Lists.newArrayList();
-	private final List<ServerListEntryLanDetected> lan = Lists.newArrayList();
+	private final List<ServerListEntryNormal> servers = new java.util.ArrayList<>();
+	private final List<ServerListEntryLanDetected> lan = new java.util.ArrayList<>();
 	private final GuiListExtended.IGuiListEntry lanScanEntry = new ServerListEntryLanScan();
 	private int selectedSlotIndex = -1;
 

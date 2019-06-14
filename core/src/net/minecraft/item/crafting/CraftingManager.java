@@ -25,7 +25,7 @@ public class CraftingManager
 {
     /** The static instance of this class */
     private static final CraftingManager instance = new CraftingManager();
-    private final List<IRecipe> recipes = Lists.newArrayList();
+    private final List<IRecipe> recipes = new java.util.ArrayList<>();
 
     /**
      * Returns the static instance of this class
@@ -276,7 +276,7 @@ public class CraftingManager
      */
     public void addShapelessRecipe(ItemStack stack, Object... recipeComponents)
     {
-        List<ItemStack> list = Lists.newArrayList();
+        List<ItemStack> list = new java.util.ArrayList<>();
 
         for (Object object : recipeComponents)
         {

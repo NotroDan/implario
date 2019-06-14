@@ -85,14 +85,14 @@ public class Stitcher
 
     public List getStichSlots()
     {
-        ArrayList arraylist = Lists.newArrayList();
+        ArrayList arraylist = new java.util.ArrayList<>();
 
         for (Object stitcher$slot : this.stitchSlots)
         {
             ((Slot) stitcher$slot).getAllStitchSlots(arraylist);
         }
 
-        ArrayList arraylist1 = Lists.newArrayList();
+        ArrayList arraylist1 = new java.util.ArrayList<>();
 
         for (Object stitcher$slot10 : arraylist)
         {

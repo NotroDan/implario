@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ChunkProviderDebug implements IChunkProvider {
 
-	private static final List<IBlockState> field_177464_a = Lists.newArrayList();
+	private static final List<IBlockState> field_177464_a = new java.util.ArrayList<>();
 	private static final int field_177462_b;
 	private static final int field_181039_c;
 	private final World world;

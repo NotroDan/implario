@@ -55,7 +55,7 @@ public class StateMap extends StateMapperBase
     {
         private IProperty<?> name;
         private String suffix;
-        private final List < IProperty<? >> ignored = Lists.newArrayList();
+        private final List < IProperty<? >> ignored = new java.util.ArrayList<>();
 
         public StateMap.Builder withName(IProperty<?> builderPropertyIn)
         {

@@ -16,7 +16,7 @@ public class MapStorage {
 
 	private ISaveHandler saveHandler;
 	protected Map<String, WorldSavedData> loadedDataMap = Maps.newHashMap();
-	private List<WorldSavedData> loadedDataList = Lists.newArrayList();
+	private List<WorldSavedData> loadedDataList = new java.util.ArrayList<>();
 	private Map<String, Short> idCounts = Maps.newHashMap();
 
 	public MapStorage(ISaveHandler saveHandlerIn) {

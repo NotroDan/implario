@@ -105,9 +105,9 @@ public class CommandClone extends CommandBase
 					}
 				}
 
-				List<CommandClone.StaticCloneData> list = Lists.newArrayList();
-				List<CommandClone.StaticCloneData> list1 = Lists.newArrayList();
-				List<CommandClone.StaticCloneData> list2 = Lists.newArrayList();
+				List<CommandClone.StaticCloneData> list = new java.util.ArrayList<>();
+				List<CommandClone.StaticCloneData> list1 = new java.util.ArrayList<>();
+				List<CommandClone.StaticCloneData> list2 = new java.util.ArrayList<>();
 				LinkedList<BlockPos> linkedlist = Lists.newLinkedList();
 				BlockPos blockpos3 = new BlockPos(structureboundingbox1.minX - structureboundingbox.minX, structureboundingbox1.minY - structureboundingbox.minY, structureboundingbox1.minZ - structureboundingbox.minZ);
 
@@ -167,7 +167,7 @@ public class CommandClone extends CommandBase
 					}
 				}
 
-				List<CommandClone.StaticCloneData> list3 = Lists.newArrayList();
+				List<CommandClone.StaticCloneData> list3 = new java.util.ArrayList<>();
 				list3.addAll(list);
 				list3.addAll(list1);
 				list3.addAll(list2);

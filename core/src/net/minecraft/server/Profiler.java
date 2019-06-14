@@ -14,8 +14,8 @@ public class Profiler {
 	public static Profiler in = new Profiler();
 
 	protected static final Logger logger = LogManager.getLogger();
-	protected final List<String> sectionList = Collections.synchronizedList(Lists.newArrayList());
-	protected final List<Long> timestampList = Collections.synchronizedList(Lists.newArrayList());
+	protected final List<String> sectionList = Collections.synchronizedList(new java.util.ArrayList<>());
+	protected final List<Long> timestampList = Collections.synchronizedList(new java.util.ArrayList<>());
 
 	public boolean profilingEnabled;
 
@@ -75,7 +75,7 @@ public class Profiler {
 			}
 			long i = this.profilingMap.containsKey("root") ? (Long) this.profilingMap.get("root") : 0L;
 			long j = this.profilingMap.containsKey(str) ? (Long) this.profilingMap.get(str) : -1L;
-			List<Profiler.Result> list = Lists.newArrayList();
+			List<Profiler.Result> list = new java.util.ArrayList<>();
 
 			if (str.length() > 0) str += ".";
 

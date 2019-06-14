@@ -24,7 +24,7 @@ public class EntityPainting extends EntityHanging
     public EntityPainting(World worldIn, BlockPos pos, EnumFacing facing)
     {
         super(worldIn, pos);
-        List<EntityPainting.EnumArt> list = Lists.newArrayList();
+        List<EntityPainting.EnumArt> list = new java.util.ArrayList<>();
 
         for (EntityPainting.EnumArt entitypainting$enumart : EntityPainting.EnumArt.values())
         {

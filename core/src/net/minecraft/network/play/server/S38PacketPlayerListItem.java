@@ -16,7 +16,7 @@ import net.minecraft.world.WorldSettings;
 public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
 {
     private S38PacketPlayerListItem.Action action;
-    private final List<S38PacketPlayerListItem.AddPlayerData> players = Lists.newArrayList();
+    private final List<S38PacketPlayerListItem.AddPlayerData> players = new java.util.ArrayList<>();
 
     public S38PacketPlayerListItem()
     {
