@@ -29,4 +29,8 @@ public class DatapackLoader {
             throw new RuntimeException(ex);
         }
     }
+
+    public void close(){
+        loader.close();
+    }
 }

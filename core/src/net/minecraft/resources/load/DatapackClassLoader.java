@@ -1,5 +1,8 @@
 package net.minecraft.resources.load;
 
+import net.minecraft.Logger;
+import net.minecraft.logging.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -44,6 +47,14 @@ public class DatapackClassLoader extends ClassLoader{
         }
     }
 
+    public void close(){
+        try {
+            file.close();
+        }catch (IOException ex){
+            Logger.instance.error(ex);
+        }
+    }
+
     private byte[] loadClassFromFile(ZipEntry entry) throws IOException{
         InputStream inputStream = file.getInputStream(entry);
         byte[] buffer = new byte[(int)entry.getSize()];
@@ -55,6 +66,7 @@ public class DatapackClassLoader extends ClassLoader{
                 i = b + i;
             }else break;
         }
+        inputStream.close();
         return buffer;
     }
 }
