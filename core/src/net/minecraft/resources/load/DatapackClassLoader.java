@@ -24,19 +24,14 @@ public class DatapackClassLoader extends ClassLoader{
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
         try {
-            Class<?> _class = super.loadClass(name);
-            return _class;
-        } catch (ClassNotFoundException e1) {
-            try {
-                ZipEntry entry = datapack.get(name.replace('.', '/') + ".class");
-                if(entry == null)throw new IOException();
-                byte[] b = loadClassFromFile(entry);
-                return defineClass((name.replace('/', '.')), b, 0, b.length);
-            }catch (IOException ex){
-                return DatapackClassLoader.getSystemClassLoader().loadClass(name);
-            }catch (Error e) {
-            	throw e;
-			}
+            ZipEntry entry = datapack.get(name.replace('.', '/') + ".class");
+            if (entry == null) throw new IOException();
+            byte[] b = loadClassFromFile(entry);
+            return defineClass((name.replace('/', '.')), b, 0, b.length);
+        } catch (IOException ex) {
+            return DatapackClassLoader.getSystemClassLoader().loadClass(name);
+        } catch (Throwable e) {
+            return null;
         }
     }
 
@@ -50,10 +45,16 @@ public class DatapackClassLoader extends ClassLoader{
     }
 
     private byte[] loadClassFromFile(ZipEntry entry) throws IOException{
-        System.out.println(entry.getName());
         InputStream inputStream = file.getInputStream(entry);
         byte[] buffer = new byte[(int)entry.getSize()];
-        inputStream.read(buffer);
+        int i = inputStream.read(buffer);
+        if(i != buffer.length)
+        while (true) {
+            if (i != buffer.length) {
+                int b = inputStream.read(buffer, i, buffer.length - i);
+                i = b + i;
+            }else break;
+        }
         return buffer;
     }
 }

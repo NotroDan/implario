@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Start {
 
 	public static void main(String[] args) throws Exception {
-		DatapackLoader loader = new DatapackLoader(new File("Vanilla.jar"));
+		DatapackLoader loader = new DatapackLoader(new File("vanilla.jar"));
 		Class clazz = loader.loadClass("vanilla.Vanilla");
 		Datapack datapack = (Datapack)clazz.newInstance();
 		Datapack.LOADED.add(datapack);
