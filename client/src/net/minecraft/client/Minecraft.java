@@ -48,6 +48,7 @@ import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.resources.Datapack;
+import net.minecraft.resources.Datapacks;
 import net.minecraft.server.Profiler;
 import net.minecraft.server.Todo;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -330,7 +331,7 @@ public class Minecraft implements IThreadListener {
 		this.guiAchievement = new GuiAchievement(this);
 		preloader.nextState();
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
-		for (Datapack datapack : Datapack.LOADED) datapack.postinit();
+		for (Datapack datapack : Datapacks.getLoadedDatapacks()) datapack.clientInit();
 		blabla = true;
 	}
 
@@ -370,7 +371,7 @@ public class Minecraft implements IThreadListener {
 		preloader = new Preloader(new ScaledResolution(this), mcDefaultResourcePack, renderEngine);
 		preloader.drawLogo();
 		drawable = new SharedDrawable(Display.getDrawable());
-		for (Datapack datapack : Datapack.LOADED) datapack.init();
+		for (Datapack datapack : Datapacks.getLoadedDatapacks()) datapack.init();
 		loader.start();
 		preloader.drawLogo();
 		while (!blabla) {

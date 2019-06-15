@@ -1,36 +1,17 @@
 package net.minecraft.resources.load;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.zip.ZipFile;
+import net.minecraft.resources.Datapack;
 
-public class DatapackLoader {
-    private final DatapackClassLoader loader;
+public abstract class DatapackLoader {
 
-    public DatapackLoader(File file){
-        try {
-            loader = new DatapackClassLoader(new ZipFile(file), System.class.getClassLoader());
-        }catch (IOException ex){
-            System.out.println("ERRRааррр");
-            ex.printStackTrace();
-            throw new RuntimeException(ex);
-        }
-    }
+	protected Datapack datapack;
 
-    public InputStream getResource(String name){
-        return loader.getResourceAsStream(name);
-    }
+	public abstract Datapack load() throws Exception;
 
-    public Class<?> loadClass(String name){
-        try {
-            return loader.loadClass(name);
-        }catch (ClassNotFoundException ex){
-            throw new RuntimeException(ex);
-        }
-    }
+	public abstract void close();
 
-    public void close(){
-        loader.close();
-    }
+	public Datapack get() {
+		return datapack;
+	}
+
 }

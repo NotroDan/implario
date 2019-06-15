@@ -17,25 +17,29 @@ import net.minecraft.resources.override.ItemOverridden;
 import net.minecraft.resources.override.LambdaOverridden;
 import net.minecraft.resources.override.OverriddenEntry;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.Todo;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
 public class Registrar {
 
 	private final Domain domain;
+	private final IClientRegistrar client;
 
 	private final List<OverriddenEntry> overridden = new ArrayList<>();
-	private List<Item>  items  = new ArrayList<>();
+	private List<Item> items = new ArrayList<>();
 	private List<Block> blocks = new ArrayList<>();
 	private List<Class<? extends TileEntity>> tileEntities = new ArrayList<>();
-	private List<Class<? extends Entity>> entities = new ArrayList<>();;
+	private List<Class<? extends Entity>> entities = new ArrayList<>();
 
 	public Registrar(Domain domain) {
 		this.domain = domain;
+		client = Todo.instance.getClientRegistrar(domain);
 	}
 
 	public Domain getDomain() {
@@ -53,7 +57,7 @@ public class Registrar {
 	public void unregister() {
 		E.getEventLib().LIB.disable(domain);
 		E.getPacketLib().LIB.disable(domain);
-		for (Item  item  : items ) Item.  itemRegistry.remove(Item.  itemRegistry.getNameForObject(item ));
+		for (Item item : items) Item.itemRegistry.remove(Item.itemRegistry.getNameForObject(item));
 		for (Block block : blocks) Block.blockRegistry.remove(Block.blockRegistry.getNameForObject(block));
 		for (Class<? extends TileEntity> tileEntity : tileEntities) TileEntity.unregister(tileEntity);
 		for (OverriddenEntry entry : overridden) entry.undo();
@@ -116,10 +120,15 @@ public class Registrar {
 		registerEntity(type, address, id, -2, -2);
 
 	}
+
 	public void registerEntity(Class<? extends Entity> type, String address, int id, int baseColor, int stripColor) {
 		EntityList.addMapping(type, address, id, baseColor, stripColor);
 		entities.add(type);
 
+	}
+
+	public Collection<Class<? extends Entity>> getEntities() {
+		return entities;
 	}
 
 }

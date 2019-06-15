@@ -83,11 +83,13 @@ public class Vanilla extends Datapack {
 	}
 
 	@Override
-	public void postinit() {
+	public void clientInit(ClientRe) {
 
 		if (Todo.instance.isServerSide()) return;
 
 		RenderManager m = MC.i().getRenderManager();
+
+		registrar.registerClientEntity(EntityCaveSpider.class, new RenderCaveSpider(m));
 
 		m.regMapping(EntityCaveSpider.class, new RenderCaveSpider(m));
 		m.regMapping(EntitySpider.class, new RenderSpider(m));

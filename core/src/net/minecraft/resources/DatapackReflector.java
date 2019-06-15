@@ -24,7 +24,7 @@ public class DatapackReflector {
 		Block.reloadBlockStates();
 
 		p.init();
-		p.postinit();
+		p.clientInit();
 
 		return p;
 	}

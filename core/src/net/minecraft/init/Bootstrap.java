@@ -6,9 +6,11 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.resources.Datapack;
+import net.minecraft.resources.Datapacks;
 import net.minecraft.stats.StatList;
 
 import java.io.PrintStream;
+import java.util.Collection;
 
 public class Bootstrap {
 
@@ -31,24 +33,23 @@ public class Bootstrap {
 		if (alreadyRegistered) return;
 		alreadyRegistered = true;
 
-		// Пока нет загрузчика, добавим ваниллу так
-//		Datapack.LOADED.add(new vanilla.Vanilla());
+		Collection<Datapack> datapacks = Datapacks.getLoadedDatapacks();
 
 		Block.registerBlocks();
-		for (Datapack datapack : Datapack.LOADED) datapack.loadBlocks();
+		for (Datapack datapack : datapacks) datapack.loadBlocks();
 		Block.reloadBlockStates();
 		Blocks.reload();
 
 		BlockFire.init();
 
 		Item.registerItems();
-		for (Datapack datapack : Datapack.LOADED) datapack.loadItems();
+		for (Datapack datapack : datapacks) datapack.loadItems();
 		Items.reload();
 
 		StatList.init();
 		Enchantments.protection.getClass().getCanonicalName();
-		for (Datapack datapack : Datapack.LOADED) datapack.preinit();
-		if (!Datapack.LOADED.isEmpty()) {
+		for (Datapack datapack : datapacks) datapack.preinit();
+		if (!datapacks.isEmpty()) {
 			Blocks.reload();
 			Block.reloadBlockStates();
 		}

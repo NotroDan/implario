@@ -1,6 +1,5 @@
 import net.minecraft.client.main.Main;
-import net.minecraft.resources.Datapack;
-import net.minecraft.resources.load.DatapackLoader;
+import net.minecraft.resources.Datapacks;
 
 import java.io.File;
 import java.util.Arrays;
@@ -8,10 +7,7 @@ import java.util.Arrays;
 public class Start {
 
 	public static void main(String[] args) throws Exception {
-		DatapackLoader loader = new DatapackLoader(new File("vanilla.jar"));
-		Class clazz = loader.loadClass("vanilla.Vanilla");
-		Datapack datapack = (Datapack)clazz.newInstance();
-		Datapack.LOADED.add(datapack);
+		Datapacks.loadFromJar(new File("vanilla.jar"), "vanilla.Vanilla");
 		Main.main(concat(new String[]{"--accessToken", "0", "--assetsDir", "assets",
 				"--height", "600", "--width", "1000"}, args));
 	}

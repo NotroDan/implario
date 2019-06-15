@@ -1,6 +1,8 @@
 package net.minecraft.client;
 
 import net.minecraft.client.settings.Settings;
+import net.minecraft.resources.Domain;
+import net.minecraft.resources.IClientRegistrar;
 import net.minecraft.world.World;
 import optifine.BlockPosM;
 import optifine.Config;
@@ -48,6 +50,11 @@ public class TodoClient extends net.minecraft.server.Todo {
 	@Override
 	public boolean isServerSide() {
 		return false;
+	}
+
+	@Override
+	public IClientRegistrar getClientRegistrar(Domain domain) {
+		return new ClientRegistrar(domain);
 	}
 
 }

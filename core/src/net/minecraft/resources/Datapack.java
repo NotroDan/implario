@@ -2,12 +2,7 @@ package net.minecraft.resources;
 
 import net.minecraft.server.Todo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Datapack {
-
-	public static final List<Datapack> LOADED = new ArrayList<>();
 
 	private final Domain domain;
 	protected final Registrar registrar;
@@ -29,7 +24,7 @@ public abstract class Datapack {
 
 	public abstract void init();
 
-	public abstract void postinit();
+	public abstract void clientInit();
 
 	public void disable() {
 		registrar.unregister();

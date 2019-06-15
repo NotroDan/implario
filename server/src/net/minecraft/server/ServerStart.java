@@ -2,6 +2,7 @@ package net.minecraft.server;
 
 import net.minecraft.init.Bootstrap;
 import net.minecraft.resources.Datapack;
+import net.minecraft.resources.Datapacks;
 import net.minecraft.server.dedicated.DedicatedServer;
 
 import java.io.File;
@@ -9,9 +10,9 @@ import java.io.File;
 public class ServerStart {
 	public static void main(String[] args) {
 		Bootstrap.register();
-		for (Datapack datapack : Datapack.LOADED) {
+		for (Datapack datapack : Datapacks.getLoadedDatapacks()) {
 			datapack.init();
-			datapack.postinit();
+			datapack.clientInit();
 		}
 
 		String s = null;
