@@ -12,12 +12,11 @@ import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Event;
 import net.minecraft.resources.event.Handler;
 import net.minecraft.resources.event.PacketInterceptor;
-import net.minecraft.resources.override.BlockOverridden;
-import net.minecraft.resources.override.ItemOverridden;
-import net.minecraft.resources.override.LambdaOverridden;
-import net.minecraft.resources.override.OverriddenEntry;
+import net.minecraft.resources.override.Mapping;
+import net.minecraft.resources.override.MappingBlock;
+import net.minecraft.resources.override.MappingItem;
+import net.minecraft.resources.override.MappingLambda;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Todo;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldService;
 
@@ -29,9 +28,8 @@ import java.util.function.Function;
 public class Registrar {
 
 	private final Domain domain;
-	private final IClientRegistrar client;
 
-	private final List<OverriddenEntry> overridden = new ArrayList<>();
+	private final List<Mapping> overridden = new ArrayList<>();
 	private List<Item> items = new ArrayList<>();
 	private List<Block> blocks = new ArrayList<>();
 	private List<Class<? extends TileEntity>> tileEntities = new ArrayList<>();
@@ -39,7 +37,6 @@ public class Registrar {
 
 	public Registrar(Domain domain) {
 		this.domain = domain;
-		client = Todo.instance.getClientRegistrar(domain);
 	}
 
 	public Domain getDomain() {
@@ -60,7 +57,7 @@ public class Registrar {
 		for (Item item : items) Item.itemRegistry.remove(Item.itemRegistry.getNameForObject(item));
 		for (Block block : blocks) Block.blockRegistry.remove(Block.blockRegistry.getNameForObject(block));
 		for (Class<? extends TileEntity> tileEntity : tileEntities) TileEntity.unregister(tileEntity);
-		for (OverriddenEntry entry : overridden) entry.undo();
+		for (Mapping entry : overridden) entry.undo();
 		for (Class<? extends Entity> entity : entities) EntityList.removeMapping(entity);
 	}
 
@@ -76,21 +73,21 @@ public class Registrar {
 
 	public void overrideBlock(int id, String address, Block block) {
 		Block old = Block.blockRegistry.getObjectById(id);
-		if (old != null) override(new BlockOverridden(id, address, old, block));
+		if (old != null) override(new MappingBlock(id, address, old, block));
 		else {
 			Log.MAIN.error("Блок с id " + id + " не зарегистрирован: замещать нечего.");
 			registerBlock(id, address, block);
 		}
 	}
 
-	public void override(OverriddenEntry entry) {
-		entry.override();
+	public void override(Mapping entry) {
+		entry.map();
 		overridden.add(entry);
 	}
 
 	public void overrideItem(int id, String address, Item item) {
 		Item old = Item.itemRegistry.getObjectById(id);
-		if (old != null) override(new ItemOverridden(id, address, old, item));
+		if (old != null) override(new MappingItem(id, address, old, item));
 		else {
 			Log.MAIN.error("Предмет с id " + id + " не зарегистрирован: замещать нечего.");
 			registerItem(id, address, item);
@@ -107,7 +104,7 @@ public class Registrar {
 	}
 
 	public void setWorldServiceProvider(Function<MinecraftServer, WorldService> function) {
-		override(new LambdaOverridden<>(0, "provier", MinecraftServer.WORLD_SERVICE_PROVIDER, function,
+		override(new MappingLambda<>(0, "provider", MinecraftServer.WORLD_SERVICE_PROVIDER, function,
 				(id, address, element) -> MinecraftServer.WORLD_SERVICE_PROVIDER = element));
 	}
 

@@ -1,6 +1,5 @@
 package net.minecraft.entity;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.Logger;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -58,9 +57,12 @@ public class EntityList {
 	}
 
 
-	public static void removeMapping(Class<? extends Entity> type) {
-		int id = classToIDMapping.get(type);
+	public static void removeMapping(int id) {
+		Class<? extends Entity> type = idToClassMapping.get(id);
+		if (type == null) throw new NullPointerException("Tried to unregister non-existing entity with id " + id);
+
 		String name = classToStringMapping.get(type);
+
 		stringToClassMapping.remove(name);
 		classToStringMapping.remove(type);
 		idToClassMapping.remove(id);

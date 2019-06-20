@@ -2,7 +2,7 @@ package net.minecraft.resources;
 
 import net.minecraft.server.Todo;
 
-public abstract class Datapack {
+public abstract class Datapack implements ServerSideDatapack {
 
 	private final Domain domain;
 	protected final Registrar registrar;
@@ -24,7 +24,7 @@ public abstract class Datapack {
 
 	public abstract void init();
 
-	public abstract void clientInit();
+	public abstract void clientInit(IClientRegistrar registrar);
 
 	public void disable() {
 		registrar.unregister();

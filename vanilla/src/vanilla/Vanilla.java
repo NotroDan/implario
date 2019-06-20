@@ -10,6 +10,8 @@ import net.minecraft.client.game.model.ModelSlime;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.resources.ClientRegistrar;
+import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -49,7 +51,7 @@ import vanilla.world.gen.WorldTypes;
 import static net.minecraft.block.Block.*;
 import static net.minecraft.inventory.creativetab.CreativeTabs.tabRedstone;
 
-public class Vanilla extends Datapack {
+public class Vanilla extends Datapack implements ClientSideDatapack {
 
 
 	public static final Domain VANILLA = new Domain("vanilla");
@@ -83,13 +85,11 @@ public class Vanilla extends Datapack {
 	}
 
 	@Override
-	public void clientInit(ClientRe) {
-
-		if (Todo.instance.isServerSide()) return;
+	public void clientInit(ClientRegistrar registrar) {
 
 		RenderManager m = MC.i().getRenderManager();
 
-		registrar.registerClientEntity(EntityCaveSpider.class, new RenderCaveSpider(m));
+		registrar.registerEntity(EntityCaveSpider.class, new RenderCaveSpider(m));
 
 		m.regMapping(EntityCaveSpider.class, new RenderCaveSpider(m));
 		m.regMapping(EntitySpider.class, new RenderSpider(m));

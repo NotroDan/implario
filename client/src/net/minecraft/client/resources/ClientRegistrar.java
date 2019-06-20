@@ -1,11 +1,10 @@
-package net.minecraft.client;
+package net.minecraft.client.resources;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraft.resources.IClientRegistrar;
 import net.minecraft.resources.Registrar;
 
-public class ClientRegistrar implements IClientRegistrar {
+public class ClientRegistrar {
 
 	private final Registrar delegate;
 

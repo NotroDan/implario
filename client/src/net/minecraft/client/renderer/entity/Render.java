@@ -14,6 +14,7 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.resources.Mappable;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -23,7 +24,7 @@ import optifine.Config;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
 
-public abstract class Render<T extends Entity> {
+public abstract class Render<T extends Entity> implements Mappable<Class<Entity>> {
 
 	private static final ResourceLocation shadowTextures = new ResourceLocation("textures/misc/shadow.png");
 	protected final RenderManager renderManager;
@@ -47,6 +48,14 @@ public abstract class Render<T extends Entity> {
 					livingEntity.posZ + 2.0D);
 
 		return livingEntity.isInRangeToRender3d(camX, camY, camZ) && (livingEntity.ignoreFrustumCheck || camera.isBoundingBoxInFrustum(axisalignedbb));
+	}
+
+	public void map(Class<T> type) {
+		renderManager.regMapping(type, this);
+	}
+
+	public void unmap(Class<T> type) {
+		renderManager.regMapping(type, null);
 	}
 
 	/**

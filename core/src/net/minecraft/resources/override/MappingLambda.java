@@ -1,16 +1,16 @@
 package net.minecraft.resources.override;
 
-public class LambdaOverridden<T> extends OverriddenEntry<T> {
+public class MappingLambda<T> extends Mapping<T> {
 
 	private final Overrider overrider;
 
-	public LambdaOverridden(int id, String address, T old, T neo, Overrider<T> overrider) {
+	public MappingLambda(int id, String address, T old, T neo, Overrider<T> overrider) {
 		super(id, address, old, neo);
 		this.overrider = overrider;
 	}
 
 	@Override
-	public void override(int id, String address, T element) {
+	public void map(int id, String address, T element) {
 		overrider.override(id, address, element);
 	}
 

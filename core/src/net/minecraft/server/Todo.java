@@ -1,7 +1,5 @@
 package net.minecraft.server;
 
-import net.minecraft.resources.Domain;
-import net.minecraft.resources.IClientRegistrar;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -39,10 +37,6 @@ public class Todo {
 
 	public boolean isServerSide() {
 		return true;
-	}
-
-	public IClientRegistrar getClientRegistrar(Domain domain) {
-		return null;
 	}
 
 }

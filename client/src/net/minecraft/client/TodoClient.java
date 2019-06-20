@@ -1,8 +1,6 @@
 package net.minecraft.client;
 
 import net.minecraft.client.settings.Settings;
-import net.minecraft.resources.Domain;
-import net.minecraft.resources.IClientRegistrar;
 import net.minecraft.world.World;
 import optifine.BlockPosM;
 import optifine.Config;
@@ -31,7 +29,7 @@ public class TodoClient extends net.minecraft.server.Todo {
 		BlockPosM blockposm = new BlockPosM(0, 0, 0);
 
 		for (int i = 0; i < 8; ++i) {
-			double d0 = posX + ((float) (i / 1 % 2) - 0.5F) * width * 0.8F;
+			double d0 = posX + ((float) (i % 2) - 0.5F) * width * 0.8F;
 			double d1 = posY + (double) (((float) (i / 2 % 2) - 0.5F) * 0.1F);
 			double d2 = posZ + ((float) (i / 4 % 2) - 0.5F) * width * 0.8F;
 			blockposm.setXyz(d0, d1 + eyeHeight, d2);
@@ -50,11 +48,6 @@ public class TodoClient extends net.minecraft.server.Todo {
 	@Override
 	public boolean isServerSide() {
 		return false;
-	}
-
-	@Override
-	public IClientRegistrar getClientRegistrar(Domain domain) {
-		return new ClientRegistrar(domain);
 	}
 
 }
