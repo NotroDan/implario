@@ -3,9 +3,7 @@ package net.minecraft.client.gui;
 import net.minecraft.CyclicIterator;
 import net.minecraft.Logger;
 import net.minecraft.Utils;
-import net.minecraft.client.MC;
 import net.minecraft.client.gui.element.GuiButton;
-import net.minecraft.client.gui.settings.GuiSettings;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -13,6 +11,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.resources.Datapacks;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
@@ -21,6 +20,7 @@ import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.opengl.GLContext;
 import shadersmod.client.GuiShaders;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -127,7 +127,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
 
 		if (button.id == 97) this.mc.displayGuiScreen(new GuiPlayername(this));
-		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
+		if (button.id == 54) Datapacks.toggle(new File("vanilla.jar"), "vanilla.Vanilla");
+//		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
 
 		if (button.id == 4) this.mc.shutdown();
 

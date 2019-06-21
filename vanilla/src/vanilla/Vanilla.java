@@ -17,11 +17,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Domain;
-import net.minecraft.server.Todo;
 import vanilla.block.BlockMobSpawner;
-import vanilla.block.VBlockDispenser;
 import vanilla.block.VBlockMushroom;
 import vanilla.block.VBlockSapling;
+import vanilla.client.game.VanillaIngameModules;
 import vanilla.client.game.model.*;
 import vanilla.client.game.particle.VanillaParticles;
 import vanilla.client.gui.GuiCreateFlatWorld;
@@ -74,6 +73,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		new VEvents().load(registrar);
 		new VPackets().load(registrar);
 		new Dispensers().load(registrar);
+		new WorldTypes().load(registrar);
 
 		if (isServerSide()) return;
 
@@ -90,41 +90,39 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		RenderManager m = MC.i().getRenderManager();
 
 		registrar.registerEntity(EntityCaveSpider.class, new RenderCaveSpider(m));
-
-		m.regMapping(EntityCaveSpider.class, new RenderCaveSpider(m));
-		m.regMapping(EntitySpider.class, new RenderSpider(m));
-		m.regMapping(EntityPig.class, new RenderPig(m, new ModelPig(), 0.7F));
-		m.regMapping(EntitySheep.class, new RenderSheep(m, new ModelSheep2(), 0.7F));
-		m.regMapping(EntityCow.class, new RenderCow(m, new ModelCow(), 0.7F));
-		m.regMapping(EntityMooshroom.class, new RenderMooshroom(m, new ModelCow(), 0.7F));
-		m.regMapping(EntityWolf.class, new RenderWolf(m, new ModelWolf(), 0.5F));
-		m.regMapping(EntityChicken.class, new RenderChicken(m, new ModelChicken(), 0.3F));
-		m.regMapping(EntityOcelot.class, new RenderOcelot(m, new ModelOcelot(), 0.4F));
-		m.regMapping(EntityRabbit.class, new RenderRabbit(m, new ModelRabbit(), 0.3F));
-		m.regMapping(EntitySilverfish.class, new RenderSilverfish(m));
-		m.regMapping(EntityEndermite.class, new RenderEndermite(m));
-		m.regMapping(EntityCreeper.class, new RenderCreeper(m));
-		m.regMapping(EntityEnderman.class, new RenderEnderman(m));
-		m.regMapping(EntitySnowman.class, new RenderSnowMan(m));
-		m.regMapping(EntitySkeleton.class, new RenderSkeleton(m));
-		m.regMapping(EntityWitch.class, new RenderWitch(m));
-		m.regMapping(EntityBlaze.class, new RenderBlaze(m));
-		m.regMapping(EntityPigZombie.class, new RenderPigZombie(m));
-		m.regMapping(EntityZombie.class, new RenderZombie(m));
-		m.regMapping(EntitySlime.class, new RenderSlime(m, new ModelSlime(16), 0.25F));
-		m.regMapping(EntityMagmaCube.class, new RenderMagmaCube(m));
-		m.regMapping(EntityGiantZombie.class, new RenderGiantZombie(m, new ModelZombie(), 0.5F, 6.0F));
-		m.regMapping(EntityGhast.class, new RenderGhast(m));
-		m.regMapping(EntitySquid.class, new RenderSquid(m, new ModelSquid(), 0.7F));
-		m.regMapping(EntityVillager.class, new RenderVillager(m));
-		m.regMapping(EntityIronGolem.class, new RenderIronGolem(m));
-		m.regMapping(EntityBat.class, new RenderBat(m));
-		m.regMapping(EntityGuardian.class, new RenderGuardian(m));
-		m.regMapping(EntityDragon.class, new RenderDragon(m));
-		m.regMapping(EntityWither.class, new RenderWither(m));
-		m.regMapping(EntityLeashKnot.class, new RenderLeashKnot(m));
-		m.regMapping(EntityMinecartMobSpawner.class, new RenderMinecartMobSpawner(m));
-		m.regMapping(EntityHorse.class, new RenderHorse(m, new ModelHorse(), 0.75F));
+		registrar.registerEntity(EntitySpider.class, new RenderSpider(m));
+		registrar.registerEntity(EntityPig.class, new RenderPig(m, new ModelPig(), 0.7F));
+		registrar.registerEntity(EntitySheep.class, new RenderSheep(m, new ModelSheep2(), 0.7F));
+		registrar.registerEntity(EntityCow.class, new RenderCow(m, new ModelCow(), 0.7F));
+		registrar.registerEntity(EntityMooshroom.class, new RenderMooshroom(m, new ModelCow(), 0.7F));
+		registrar.registerEntity(EntityWolf.class, new RenderWolf(m, new ModelWolf(), 0.5F));
+		registrar.registerEntity(EntityChicken.class, new RenderChicken(m, new ModelChicken(), 0.3F));
+		registrar.registerEntity(EntityOcelot.class, new RenderOcelot(m, new ModelOcelot(), 0.4F));
+		registrar.registerEntity(EntityRabbit.class, new RenderRabbit(m, new ModelRabbit(), 0.3F));
+		registrar.registerEntity(EntitySilverfish.class, new RenderSilverfish(m));
+		registrar.registerEntity(EntityEndermite.class, new RenderEndermite(m));
+		registrar.registerEntity(EntityCreeper.class, new RenderCreeper(m));
+		registrar.registerEntity(EntityEnderman.class, new RenderEnderman(m));
+		registrar.registerEntity(EntitySnowman.class, new RenderSnowMan(m));
+		registrar.registerEntity(EntitySkeleton.class, new RenderSkeleton(m));
+		registrar.registerEntity(EntityWitch.class, new RenderWitch(m));
+		registrar.registerEntity(EntityBlaze.class, new RenderBlaze(m));
+		registrar.registerEntity(EntityPigZombie.class, new RenderPigZombie(m));
+		registrar.registerEntity(EntityZombie.class, new RenderZombie(m));
+		registrar.registerEntity(EntitySlime.class, new RenderSlime(m, new ModelSlime(16), 0.25F));
+		registrar.registerEntity(EntityMagmaCube.class, new RenderMagmaCube(m));
+		registrar.registerEntity(EntityGiantZombie.class, new RenderGiantZombie(m, new ModelZombie(), 0.5F, 6.0F));
+		registrar.registerEntity(EntityGhast.class, new RenderGhast(m));
+		registrar.registerEntity(EntitySquid.class, new RenderSquid(m, new ModelSquid(), 0.7F));
+		registrar.registerEntity(EntityVillager.class, new RenderVillager(m));
+		registrar.registerEntity(EntityIronGolem.class, new RenderIronGolem(m));
+		registrar.registerEntity(EntityBat.class, new RenderBat(m));
+		registrar.registerEntity(EntityGuardian.class, new RenderGuardian(m));
+		registrar.registerEntity(EntityDragon.class, new RenderDragon(m));
+		registrar.registerEntity(EntityWither.class, new RenderWither(m));
+		registrar.registerEntity(EntityLeashKnot.class, new RenderLeashKnot(m));
+		registrar.registerEntity(EntityMinecartMobSpawner.class, new RenderMinecartMobSpawner(m));
+		registrar.registerEntity(EntityHorse.class, new RenderHorse(m, new ModelHorse(), 0.75F));
 
 		RenderItem r = MC.getRenderItem();
 		r.registerItem(VanillaItems.saddle, "saddle");
@@ -135,25 +133,26 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 
 		TileEntityRendererDispatcher.instance.register(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
 
-		MC.i().getMusicTicker().musicTypeSupplier = () -> {
+
+		registrar.replaceProvider(MusicTicker.MUSIC_TYPE_PROVIDER, musicTicker -> {
 			EntityPlayer p = MC.getPlayer();
 			return p != null ? p.worldObj.provider instanceof WorldProviderHell ? MusicTicker.MusicType.NETHER :
 					p.worldObj.provider instanceof WorldProviderEnd ? BossStatus.bossName != null && BossStatus.statusBarTime > 0 ?
 							MusicTicker.MusicType.END_BOSS : MusicTicker.MusicType.END : p.capabilities.isCreativeMode &&
 							p.capabilities.allowFlying ? MusicTicker.MusicType.CREATIVE : MusicTicker.MusicType.GAME : MusicTicker.MusicType.MENU;
-		};
+		});
 
-		VanillaParticles.register();
-		VanillaIngameModules.register();
+		new VanillaParticles().load(registrar);
+		new VanillaIngameModules().load(registrar);
 	}
 
 	private void registerGuis() {
-		registrar.regGui(IMerchant.class, (p, merchant, serverSide) -> {
+		registrar.registerIngameGui(IMerchant.class, (p, merchant, serverSide) -> {
 			if (!serverSide) {
 				MC.displayGuiScreen(new GuiMerchant(p.inventory, merchant, p.worldObj));
 			}
 		});
-		registrar.regGui(HorseInv.class, (p, horseinv, serverSide) -> {
+		registrar.registerIngameGui(HorseInv.class, (p, horseinv, serverSide) -> {
 			if (!serverSide) {
 				MC.displayGuiScreen(new GuiScreenHorseInventory(p.inventory, horseinv.inv, horseinv.horse));
 			}
@@ -172,19 +171,16 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 				new BlockMobSpawner().setHardness(5.0F).setStepSound(soundTypeMetal).setUnlocalizedName("mobSpawner").disableStats().setCreativeTab(tabRedstone));
 
 
-		registrar.overrideBlock(6, "sapling", new VBlockSapling().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("sapling"));
+		registrar.registerBlock(6, "sapling", new VBlockSapling().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("sapling"));
 		Block redMushroom = new VBlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setLightLevel(0.125F).setUnlocalizedName("mushroom");
-		registrar.overrideBlock(39, "brown_mushroom", redMushroom);
+		registrar.registerBlock(39, "brown_mushroom", redMushroom);
 		Block brownBushroom = new VBlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("mushroom");
-		registrar.overrideBlock(40, "red_mushroom", brownBushroom);
-		registrar.overrideBlock(99, "brown_mushroom_block",
+		registrar.registerBlock(40, "red_mushroom", brownBushroom);
+		registrar.registerBlock(99, "brown_mushroom_block",
 				new BlockHugeMushroom(Material.wood, MapColor.dirtColor, redMushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
-		registrar.overrideBlock(100, "red_mushroom_block",
+		registrar.registerBlock(100, "red_mushroom_block",
 				new BlockHugeMushroom(Material.wood, MapColor.redColor, brownBushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
 
-		registrar.overrideBlock(23, "dispenser", new VBlockDispenser().setHardness(3.5F).setStepSound(soundTypePiston).setUnlocalizedName("dispenser"));
-
-		// Todo wrap with registrar
 		registrar.registerTileEntity(TileEntityMobSpawner.class, "MobSpawner");
 	}
 
@@ -199,7 +195,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		registrar.registerItem(421, "name_tag", new ItemNameTag().setUnlocalizedName("nameTag"));
 
 
-		registrar.overrideItem(351, "dye", new VItemDye().setUnlocalizedName("dyePowder"));
+		registrar.registerItem(351, "dye", new VItemDye().setUnlocalizedName("dyePowder"));
 		VanillaItems.init();
 	}
 

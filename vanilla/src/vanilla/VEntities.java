@@ -1,7 +1,7 @@
 package vanilla;
 
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.resources.Loadable;
+import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.Registrar;
 import vanilla.entity.EntityLeashKnot;
 import vanilla.entity.VanillaEntity;
@@ -11,7 +11,7 @@ import vanilla.entity.boss.EntityWither;
 import vanilla.entity.monster.*;
 import vanilla.entity.passive.*;
 
-public class VEntities implements Loadable {
+public class VEntities implements ServerSideLoadable {
 
 
 	@Override

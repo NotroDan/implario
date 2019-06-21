@@ -56,10 +56,14 @@ public class EntityList {
 		if (baseColor != -2) entityEggs.put(entityID, new EntityEggInfo(entityID, baseColor, spotColor));
 	}
 
+	public static void regEgg(int id, int baseColor, int spotColor) {
+		entityEggs.put(id, new EntityEggInfo(id, baseColor, spotColor));
+	}
 
-	public static void removeMapping(int id) {
+
+	public static boolean removeMapping(int id) {
 		Class<? extends Entity> type = idToClassMapping.get(id);
-		if (type == null) throw new NullPointerException("Tried to unregister non-existing entity with id " + id);
+		if (type == null) return false;
 
 		String name = classToStringMapping.get(type);
 
@@ -68,6 +72,10 @@ public class EntityList {
 		idToClassMapping.remove(id);
 		classToIDMapping.remove(type);
 		stringToIDMapping.remove(name);
+
+		entityEggs.remove(id);
+
+		return true;
 
 	}
 
@@ -152,8 +160,7 @@ public class EntityList {
 	}
 
 	public static Class<? extends Entity> getClassFromID(int entityID) {
-		Class<? extends Entity> c = idToClassMapping.get(entityID);
-		return c == null ? EntityArmorStand.class : c;
+		return idToClassMapping.get(entityID);
 	}
 
 	/**

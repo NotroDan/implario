@@ -104,6 +104,7 @@ public final class InputHandler {
 					flag = false;
 					mc.thePlayer.swingItem();
 				}
+				if (Settings.FAST_PLACE.b()) flag = false;
 
 				if (itemstack == null) return;
 

@@ -18,7 +18,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.resources.Loadable;
+import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.Registrar;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
@@ -38,7 +38,7 @@ import java.util.Random;
 import static net.minecraft.block.BlockDispenser.getDispensePosition;
 import static net.minecraft.block.BlockDispenser.getFacing;
 
-public class Dispensers implements Loadable {
+public class Dispensers implements ServerSideLoadable {
 
 
 	private static final IBehaviorDispenseItem armor = new BehaviorDefaultDispenseItem() {

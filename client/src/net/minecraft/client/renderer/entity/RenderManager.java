@@ -117,18 +117,25 @@ public class RenderManager {
 		this.entityRenderMap.put(c, r);
 	}
 
+	public void removeMapping(Class c) {
+		this.entityRenderMap.remove(c);
+	}
+
 	public void setRenderPosition(double renderPosXIn, double renderPosYIn, double renderPosZIn) {
 		this.renderPosX = renderPosXIn;
 		this.renderPosY = renderPosYIn;
 		this.renderPosZ = renderPosZIn;
 	}
 
-	public Render getEntityClassRenderObject(Class p_78715_1_) {
-		Render render = (Render) this.entityRenderMap.get(p_78715_1_);
+	public Render getRenderRaw(Class type) {
+		return (Render) entityRenderMap.get(type);
+	}
+	public Render getEntityClassRenderObject(Class type) {
+		Render render = getRenderRaw(type);
 
-		if (render == null && p_78715_1_ != Entity.class) {
-			render = this.getEntityClassRenderObject(p_78715_1_.getSuperclass());
-			this.entityRenderMap.put(p_78715_1_, render);
+		if (render == null && type != Entity.class) {
+			render = this.getEntityClassRenderObject(type.getSuperclass());
+			this.entityRenderMap.put(type, render);
 		}
 
 		return render;

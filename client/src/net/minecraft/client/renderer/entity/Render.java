@@ -14,7 +14,6 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.resources.Mappable;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -24,7 +23,7 @@ import optifine.Config;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
 
-public abstract class Render<T extends Entity> implements Mappable<Class<Entity>> {
+public abstract class Render<T extends Entity> {
 
 	private static final ResourceLocation shadowTextures = new ResourceLocation("textures/misc/shadow.png");
 	protected final RenderManager renderManager;

@@ -22,10 +22,7 @@ import net.minecraft.resources.event.events.ItemInteractForEntityEvent;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class Item {
 
@@ -805,9 +802,16 @@ public class Item {
 	/**
 	 * Register the given Item as the ItemBlock for the given Block.
 	 */
-	protected static void registerItemBlock(Block blockIn, Item itemIn) {
+	public static void registerItemBlock(Block blockIn, Item itemIn) {
 		registerItem(Block.getIdFromBlock(blockIn), Block.blockRegistry.getNameForObject(blockIn), itemIn);
 		BLOCK_TO_ITEM.put(blockIn, itemIn);
+	}
+
+	public static void unregisterItemBlock(Block block) {
+		Item remove = BLOCK_TO_ITEM.remove(block);
+		if (remove == null) return;
+		ResourceLocation loc = itemRegistry.getNameForObject(remove);
+		if (loc != null) itemRegistry.remove(loc);
 	}
 
 	public static void registerItem(int id, String textualID, Item itemIn) {

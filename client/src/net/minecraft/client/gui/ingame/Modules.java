@@ -1,26 +1,39 @@
 package net.minecraft.client.gui.ingame;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Modules {
 
-	static final List<Module> MODULES = new ArrayList<>();
+	static final Map<String, Module> MODULES = new HashMap<>();
 
 	static {
-		register(
-				new ModuleVignette(),
-				new ModulePumpkin(),
-				new ModulePortal(),
-				new ModuleItemInfo()
-				);
+		register("vignette", new ModuleVignette());
+		register("pumpkin", new ModulePumpkin());
+		register("portal", new ModulePortal());
+		register("iteminfo", new ModuleItemInfo());
 	}
 
-	public static void register(Module module) {
-		MODULES.add(module);
+	public static void register(String name, Module module) {
+		MODULES.put(name, module);
 	}
-	public static void register(Module... modules) {
-		for (Module module : modules) register(module);
+
+	public static Collection<Module> getModules() {
+		return MODULES.values();
+	}
+
+	public static Module getModule(String id) {
+		return MODULES.get(id);
+	}
+
+	public static Set<Map.Entry<String, Module>> getEntries() {
+		return MODULES.entrySet();
+	}
+
+	public static void unregister(String address) {
+		MODULES.remove(address);
 	}
 
 }

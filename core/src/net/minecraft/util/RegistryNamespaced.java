@@ -28,6 +28,11 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
 		return super.getObject(name);
 	}
 
+	@Override
+	protected void put0(K key, V value) {
+		((BiMap<K, V>) registryObjects).forcePut(key, value);
+	}
+
 	/**
 	 * Gets the name we use to identify the given object.
 	 */

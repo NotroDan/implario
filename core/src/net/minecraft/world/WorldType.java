@@ -21,18 +21,19 @@ public class WorldType {
 
 	public static final WorldType VOID = new WorldType("empty",
 		(p, s, v, c) -> new BasicChunkManager(Biome.VOID),
-		p -> new ChunkProviderVoid(p.getWorld())).weakFog();
+		p -> new ChunkProviderVoid(p.getWorld())).weakFog().hardcodeRegister();
 
 	private static final ChunkManagerFactory factoryDebugCM = (p, s, v, c) -> new BasicChunkManager(Biome.VOID);
 	private static final ChunkProviderFactory factoryDebugCP = p -> new ChunkProviderDebug(p.getWorld());
-	public static final WorldType DEBUG = new WorldType("debug_all_block_states", factoryDebugCM, factoryDebugCP).disableMobs().disallowModification();
+	public static final WorldType DEBUG = new WorldType("debug_all_block_states",
+			factoryDebugCM, factoryDebugCP).disableMobs().disallowModification().hardcodeRegister();
 
 	//	public static final WorldType DEFAULT_1_1 = new WorldType(8, "default_1_1").setCanBeCreated(false);
 
 	/**
 	 * ID for this world type.
 	 */
-	private final int id;
+	private int id = -1;
 	private final String worldType;
 	private final ChunkManagerFactory chunkManagerFactory;
 	private final ChunkProviderFactory chunkProviderFactory;
@@ -55,10 +56,22 @@ public class WorldType {
 
 	public WorldType(String name, ChunkManagerFactory manager, ChunkProviderFactory provider) {
 		this.worldType = name;
-		this.id = Util.firstEmpty(worldTypes);
 		this.chunkManagerFactory = manager;
 		this.chunkProviderFactory = provider;
-		worldTypes[id] = this;
+	}
+
+	public static void registerType(WorldType type) {
+		int id = Util.firstEmpty(worldTypes);
+		worldTypes[id] = type;
+	}
+	public static void unregisterType(WorldType type) {
+		for (int i = 0; i < worldTypes.length; i++) if (worldTypes[i] == type) worldTypes[i] = null;
+		type.id = -1;
+	}
+
+	private WorldType hardcodeRegister() {
+		id = Util.firstEmpty(worldTypes);
+		return worldTypes[id] = this;
 	}
 
 	public boolean areMapFeaturesEnabled() {
@@ -194,5 +207,6 @@ public class WorldType {
 		this.mapFeatures = false;
 		return this;
 	}
+
 
 }

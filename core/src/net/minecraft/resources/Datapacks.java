@@ -1,8 +1,14 @@
 package net.minecraft.resources;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.resources.load.JarDatapackLoader;
+import net.minecraft.server.Todo;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +29,7 @@ public class Datapacks {
 		return datapacks;
 	}
 
-	public static void loadFromJar(File jarFile, String mainClass) {
+	public static DatapackLoader loadFromJar(File jarFile, String mainClass) {
 
 		DatapackLoader loader = new JarDatapackLoader(jarFile, mainClass);
 		loaders.add(loader);
@@ -45,22 +51,64 @@ public class Datapacks {
 		}
 
 		datapacks.add(datapack);
+		return loader;
+
+	}
+
+	public static void initSingleDatapack(Datapack datapack) {
+
+		datapack.loadBlocks();
+		Block.reloadBlockStates();
+		Blocks.reload();
+
+		BlockFire.init();
+
+		Item.registerItems();
+		datapack.loadItems();
+		Items.reload();
+
+		datapack.preinit();
+		Blocks.reload();
+		Block.reloadBlockStates();
+		datapack.init();
+		Todo.instance.clientInit(datapack);
 
 	}
 
 	public static void shutdown() {
-		for (DatapackLoader loader : loaders) {
-			Datapack datapack = loader.get();
-			if (datapack == null) {
-				Log.MAIN.warn(loader + " hadn't loaded anything but still is in the list.");
-				continue;
-			}
-			datapack.unload();
-			datapack.disable();
-			loader.close();
-		}
+		for (DatapackLoader loader : loaders) shutdown(loader);
 		datapacks.clear();
 		loaders.clear();
+	}
+
+	public static void shutdown(DatapackLoader loader) {
+		Datapack datapack = loader.get();
+		if (datapack == null) {
+			Log.MAIN.warn(loader + " hadn't loaded anything but still is in the list.");
+			return;
+		}
+		datapack.unload();
+		datapack.disable();
+		loader.close();
+	}
+
+	public static void toggle(File jarFile, String mainClass) {
+		DatapackLoader enabled = null;
+		for (DatapackLoader loader : loaders) {
+			if (loader instanceof JarDatapackLoader && ((JarDatapackLoader) loader).getMainClassName().equals(mainClass)) {
+				enabled = loader;
+				break;
+			}
+		}
+		if (enabled == null) {
+			DatapackLoader datapackLoader = loadFromJar(jarFile, mainClass);
+			initSingleDatapack(datapackLoader.get());
+		}
+		else {
+			shutdown(enabled);
+			loaders.remove(enabled);
+		}
+
 	}
 
 }

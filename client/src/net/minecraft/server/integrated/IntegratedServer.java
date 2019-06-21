@@ -63,7 +63,7 @@ public class IntegratedServer extends MinecraftServer {
 
 	protected void loadAllWorlds(String name, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
 		this.convertMapIfNeeded(name);
-		worldService = WORLD_SERVICE_PROVIDER.apply(this);
+		worldService = WORLD_SERVICE_PROVIDER.provide(this);
 		worldService.setUserMessage("menu.loadingLevel");
 		this.timeOfLastDimensionTick = new long[worldService.getDimensionAmount()][100];
 		ISaveHandler isavehandler = this.getActiveAnvilConverter().getSaveLoader(name, true);

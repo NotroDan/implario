@@ -37,6 +37,11 @@ public class RegistrySimple<K, V> implements IRegistry<K, V> {
 			logger.debug("Adding duplicate key \'" + key + "\' to registry");
 		}
 
+		put0(key, value);
+
+	}
+
+	protected void put0(K key, V value) {
 		this.registryObjects.put(key, value);
 	}
 

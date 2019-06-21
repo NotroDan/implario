@@ -44,8 +44,9 @@ public abstract class TileEntity {
 		classToNameMap.put(cl, id);
 	}
 
-	public static void unregister(Class<? extends TileEntity> c) {
-		nameToClassMap.remove(classToNameMap.remove(c));
+	public static void unregister(String name) {
+		Class<? extends TileEntity> removed = nameToClassMap.remove(name);
+		if (removed != null) classToNameMap.remove(removed);
 	}
 
 	/**
@@ -83,6 +84,10 @@ public abstract class TileEntity {
 		compound.setInteger("x", this.pos.getX());
 		compound.setInteger("y", this.pos.getY());
 		compound.setInteger("z", this.pos.getZ());
+	}
+
+	public static Class<? extends TileEntity> getClassForName(String name) {
+		return nameToClassMap.get(name);
 	}
 
 	/**

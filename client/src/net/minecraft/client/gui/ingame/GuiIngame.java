@@ -1,6 +1,5 @@
 package net.minecraft.client.gui.ingame;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
@@ -38,9 +37,8 @@ import optifine.Config;
 import optifine.CustomColors;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GuiIngame extends Gui {
 	private static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
@@ -130,7 +128,11 @@ public class GuiIngame extends Gui {
 		this.mc.entityRenderer.setupOverlayRendering();
 		G.enableBlend();
 
-		for (Module module : Modules.MODULES) module.render(this, partialTicks, scaledresolution);
+		for (Map.Entry<String, Module> e : Modules.getEntries()) {
+			Profiler.in.startSection(e.getKey());
+			e.getValue().render(this, partialTicks, scaledresolution);
+			Profiler.in.endSection();
+		}
 
 		// Затемнение по краям экрана
 //		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
@@ -675,55 +677,42 @@ public class GuiIngame extends Gui {
 	}
 
 
-	private void renderScoreboard(ScoreObjective p_180475_1_, ScaledResolution p_180475_2_) {
-		Scoreboard scoreboard = p_180475_1_.getScoreboard();
-		Collection collection = scoreboard.getSortedScores(p_180475_1_);
-		ArrayList arraylist = Lists.newArrayList(Iterables.filter(collection, new Predicate() {
+	private void renderScoreboard(ScoreObjective sidebarObjective, ScaledResolution res) {
+		Scoreboard scoreboard = sidebarObjective.getScoreboard();
+		Collection<Score> scores = scoreboard.getSortedScores(sidebarObjective);
+		List<Score> arraylist = scores.stream().filter(s -> s.getPlayerName() != null && !s.getPlayerName().startsWith("#")).collect(Collectors.toList());
+		List<Score> scoreboardLines;
 
+		if (arraylist.size() > 15) scoreboardLines = Lists.newArrayList(Iterables.skip(arraylist, scores.size() - 15));
+		else scoreboardLines = arraylist;
 
-			public boolean apply(Score p_apply_1_) {
-				return p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#");
-			}
+		int i = this.getFontRenderer().getStringWidth(sidebarObjective.getDisplayName());
 
-			public boolean apply(Object p_apply_1_) {
-				return this.apply((Score) p_apply_1_);
-			}
-		}));
-		ArrayList arraylist1;
-
-		if (arraylist.size() > 15) {
-			arraylist1 = Lists.newArrayList(Iterables.skip(arraylist, collection.size() - 15));
-		} else {
-			arraylist1 = arraylist;
-		}
-
-		int i = this.getFontRenderer().getStringWidth(p_180475_1_.getDisplayName());
-
-		for (Object score : arraylist1) {
+		for (Object score : scoreboardLines) {
 			ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(((Score) score).getPlayerName());
 			String s = ScorePlayerTeam.formatPlayerName(scoreplayerteam, ((Score) score).getPlayerName()) + ": " + EnumChatFormatting.RED + ((Score) score).getScorePoints();
 			i = Math.max(i, this.getFontRenderer().getStringWidth(s));
 		}
 
-		int j1 = arraylist1.size() * this.getFontRenderer().getFontHeight();
-		int k1 = p_180475_2_.getScaledHeight() / 2 + j1 / 3;
+		int j1 = scoreboardLines.size() * this.getFontRenderer().getFontHeight();
+		int k1 = res.getScaledHeight() / 2 + j1 / 3;
 		byte b0 = 3;
-		int j = p_180475_2_.getScaledWidth() - i - b0;
+		int j = res.getScaledWidth() - i - b0;
 		int k = 0;
 
-		for (Object score1 : arraylist1) {
+		for (Object score1 : scoreboardLines) {
 			++k;
 			ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(((Score) score1).getPlayerName());
 			String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, ((Score) score1).getPlayerName());
 			String s2 = EnumChatFormatting.RED + "" + ((Score) score1).getScorePoints();
 			int l = k1 - k * this.getFontRenderer().getFontHeight();
-			int i1 = p_180475_2_.getScaledWidth() - b0 + 2;
+			int i1 = res.getScaledWidth() - b0 + 2;
 			drawRect(j - 2, l, i1, l + this.getFontRenderer().getFontHeight(), 1342177280);
 			this.getFontRenderer().drawString(s1, j, l, 553648127);
 			this.getFontRenderer().drawString(s2, i1 - this.getFontRenderer().getStringWidth(s2), l, 553648127);
 
-			if (k == arraylist1.size()) {
-				String s3 = p_180475_1_.getDisplayName();
+			if (k == scoreboardLines.size()) {
+				String s3 = sidebarObjective.getDisplayName();
 				drawRect(j - 2, l - this.getFontRenderer().getFontHeight() - 1, i1, l - 1, 1610612736);
 				drawRect(j - 2, l - 1, i1, l, 1342177280);
 				this.getFontRenderer().drawString(s3, j + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, l - this.getFontRenderer().getFontHeight(), 553648127);

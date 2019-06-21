@@ -1,14 +1,26 @@
-package net.minecraft.resources.override;
+package net.minecraft.resources.mapping;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@ToString
 public abstract class Mapping<T> {
 
-	public final int id;
+	@Getter
 	public final String address;
+
+	/**
+	 * Через Mapping можно заменять существующие понятия.
+	 * В случае замены старое значение сохраняется в этом поле,
+	 * после чего его можно восстановить методом undo().
+	 */
+	@Getter
 	public final T overridden;
+
+	@Getter
 	public final T actual;
 
-	public Mapping(int id, String address, T overridden, T actual) {
-		this.id = id;
+	public Mapping(String address, T overridden, T actual) {
 		this.address = address;
 		this.overridden = overridden;
 		this.actual = actual;
@@ -18,18 +30,16 @@ public abstract class Mapping<T> {
 	 * Код, который должен выполняться при мапе/анмапе этого маппинга,
 	 * находится в реализации этого метода
 	 *
-	 * @param id      Циферный ID для легаси-маппингов (блоки, итемы, энтити)
-	 * @param address Буквенный ID, лучше использовать его
 	 * @param element Элемент, который нужно замаппить. Может быть null, тогда элемент надо удалить.
 	 */
-	public abstract void map(int id, String address, T element);
+	protected abstract void map(T element);
 
 	public void map() {
-		map(id, address, actual);
+		map(actual);
 	}
 
 	public void undo() {
-		map(id, address, overridden);
+		map(overridden);
 	}
 
 }

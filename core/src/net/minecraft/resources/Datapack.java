@@ -24,8 +24,6 @@ public abstract class Datapack implements ServerSideDatapack {
 
 	public abstract void init();
 
-	public abstract void clientInit(IClientRegistrar registrar);
-
 	public void disable() {
 		registrar.unregister();
 	}
@@ -35,5 +33,9 @@ public abstract class Datapack implements ServerSideDatapack {
 	public abstract void loadBlocks();
 
 	public abstract void loadItems();
+
+	public Registrar getRegistrar() {
+		return registrar;
+	}
 
 }

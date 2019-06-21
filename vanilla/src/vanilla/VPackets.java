@@ -17,7 +17,7 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.server.*;
-import net.minecraft.resources.Loadable;
+import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.Registrar;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -36,7 +36,7 @@ import vanilla.world.gen.feature.village.MerchantRecipeList;
 
 import java.io.IOException;
 
-public class VPackets implements Loadable {
+public class VPackets implements ServerSideLoadable {
 
 	@Override
 	public void load(Registrar registrar) {

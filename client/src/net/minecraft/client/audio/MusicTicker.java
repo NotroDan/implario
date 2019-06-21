@@ -1,6 +1,7 @@
 package net.minecraft.client.audio;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Provider;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -9,6 +10,8 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 public class MusicTicker implements ITickable {
+
+	public static Provider<MusicTicker, MusicType> MUSIC_TYPE_PROVIDER = new Provider<>(musicTicker -> MusicType.GAME);
 
 	private final Random rand = new Random();
 	private final Minecraft mc;
@@ -25,7 +28,7 @@ public class MusicTicker implements ITickable {
 	 * Like the old updateEntity(), except more generic.
 	 */
 	public void update() {
-		MusicTicker.MusicType musicticker$musictype = musicTypeSupplier.get();
+		MusicTicker.MusicType musicticker$musictype = MUSIC_TYPE_PROVIDER.provide(this);
 
 		if (this.currentMusic != null) {
 			if (!musicticker$musictype.getMusicLocation().equals(this.currentMusic.getSoundLocation())) {

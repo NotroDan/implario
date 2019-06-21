@@ -1,7 +1,6 @@
 package net.minecraft.server;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -23,6 +22,7 @@ import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkSystem;
 import net.minecraft.network.ServerStatusResponse;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
+import net.minecraft.resources.Provider;
 import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.*;
@@ -45,11 +45,10 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
-import java.util.function.Function;
 
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
 
-	public static Function<MinecraftServer, WorldService> WORLD_SERVICE_PROVIDER = SimpleWorldService::new;
+	public static final Provider<MinecraftServer, WorldService> WORLD_SERVICE_PROVIDER = new Provider<>(SimpleWorldService::new);
 	private static final Logger logger = Logger.getInstance();
 	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
 
@@ -201,7 +200,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 	protected void loadAllWorlds(String name, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
 		this.convertMapIfNeeded(name);
-		worldService = WORLD_SERVICE_PROVIDER.apply(this);
+		worldService = WORLD_SERVICE_PROVIDER.provide(this);
 		worldService.setUserMessage("menu.loadingLevel");
 		this.timeOfLastDimensionTick = new long[worldService.getDimensionAmount()][100];
 		ISaveHandler isavehandler = this.getActiveAnvilConverter().getSaveLoader(name, true);

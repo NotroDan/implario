@@ -1,5 +1,7 @@
 package vanilla.world.gen;
 
+import net.minecraft.resources.Registrar;
+import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
@@ -11,7 +13,7 @@ import vanilla.world.biome.WorldChunkManagerHell;
 import vanilla.world.gen.provider.ChunkProviderFlat;
 import vanilla.world.gen.provider.ChunkProviderGenerate;
 
-public class WorldTypes {
+public class WorldTypes implements ServerSideLoadable {
 
 
 	private static final ChunkManagerFactory
@@ -41,5 +43,15 @@ public class WorldTypes {
 	public static final WorldType CUSTOMIZED = new WorldType("customized", factoryDefaultCM, factoryDefaultCP).disableFeatures();
 	public static final WorldType DEFAULT_OLD = new WorldType("default_1_1", factoryDefaultCM, factoryDefaultCP).invisible();
 
+
+	@Override
+	public void load(Registrar registrar) {
+		registrar.registerWorldType(DEFAULT);
+		registrar.registerWorldType(FLAT);
+		registrar.registerWorldType(LARGE_BIOMES);
+		registrar.registerWorldType(AMPLIFIED);
+		registrar.registerWorldType(CUSTOMIZED);
+		registrar.registerWorldType(DEFAULT_OLD);
+	}
 
 }

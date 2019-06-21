@@ -1,7 +1,6 @@
 package net.minecraft.client.gui.spectator.categories;
 
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -11,66 +10,57 @@ import net.minecraft.client.gui.spectator.ISpectatorMenuView;
 import net.minecraft.client.gui.spectator.PlayerMenuObject;
 import net.minecraft.client.gui.spectator.SpectatorMenu;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.WorldSettings;
 
 import java.util.Collection;
 import java.util.List;
 
-public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObject
-{
-    private static final Ordering<NetworkPlayerInfo> field_178674_a = Ordering.from(
-            (p_compare_1_, p_compare_2_) -> ComparisonChain.start().compare(p_compare_1_.getGameProfile().getId(), p_compare_2_.getGameProfile().getId()).result()
-    );
-    private final List<ISpectatorMenuObject> field_178673_b;
+public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObject {
 
-    public TeleportToPlayer()
-    {
-        this(field_178674_a.sortedCopy(Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()));
-    }
+	private static final Ordering<NetworkPlayerInfo> field_178674_a = Ordering.from(
+			(p_compare_1_, p_compare_2_) -> ComparisonChain.start().compare(p_compare_1_.getGameProfile().getId(), p_compare_2_.getGameProfile().getId()).result()
+																				   );
+	private final List<ISpectatorMenuObject> field_178673_b;
 
-    public TeleportToPlayer(Collection<NetworkPlayerInfo> p_i45493_1_)
-    {
-        this.field_178673_b = new java.util.ArrayList<>();
+	public TeleportToPlayer() {
+		this(field_178674_a.sortedCopy(Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()));
+	}
 
-        for (NetworkPlayerInfo networkplayerinfo : field_178674_a.sortedCopy(p_i45493_1_))
-        {
-            if (networkplayerinfo.getGameType() != WorldSettings.GameType.SPECTATOR)
-            {
-                this.field_178673_b.add(new PlayerMenuObject(networkplayerinfo.getGameProfile()));
-            }
-        }
-    }
+	public TeleportToPlayer(Collection<NetworkPlayerInfo> p_i45493_1_) {
+		this.field_178673_b = new java.util.ArrayList<>();
 
-    public List<ISpectatorMenuObject> func_178669_a()
-    {
-        return this.field_178673_b;
-    }
+		for (NetworkPlayerInfo networkplayerinfo : field_178674_a.sortedCopy(p_i45493_1_)) {
+			if (networkplayerinfo.getGameType() != WorldSettings.GameType.SPECTATOR) {
+				this.field_178673_b.add(new PlayerMenuObject(networkplayerinfo.getGameProfile()));
+			}
+		}
+	}
 
-    public IChatComponent func_178670_b()
-    {
-        return new ChatComponentText("Select a player to teleport to");
-    }
+	public List<ISpectatorMenuObject> func_178669_a() {
+		return this.field_178673_b;
+	}
 
-    public void func_178661_a(SpectatorMenu menu)
-    {
-        menu.func_178647_a(this);
-    }
+	public IChatComponent func_178670_b() {
+		return new ChatComponentText("Select a player to teleport to");
+	}
 
-    public IChatComponent getSpectatorName()
-    {
-        return new ChatComponentText("Teleport to player");
-    }
+	public void func_178661_a(SpectatorMenu menu) {
+		menu.func_178647_a(this);
+	}
 
-    public void render(float p_178663_1_, int alpha)
-    {
-        Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
-        Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0F, 0.0F, 16, 16, 256.0F, 256.0F);
-    }
+	public IChatComponent getSpectatorName() {
+		return new ChatComponentText("Teleport to player");
+	}
 
-    public boolean func_178662_A_()
-    {
-        return !this.field_178673_b.isEmpty();
-    }
+	public void render(float p_178663_1_, int alpha) {
+		Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
+		Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0F, 0.0F, 16, 16, 256.0F, 256.0F);
+	}
+
+	public boolean func_178662_A_() {
+		return !this.field_178673_b.isEmpty();
+	}
+
 }

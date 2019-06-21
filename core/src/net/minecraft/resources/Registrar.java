@@ -5,23 +5,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.PlayerGuiBridge;
 import net.minecraft.item.Item;
-import net.minecraft.logging.Log;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Event;
 import net.minecraft.resources.event.Handler;
 import net.minecraft.resources.event.PacketInterceptor;
-import net.minecraft.resources.override.Mapping;
-import net.minecraft.resources.override.MappingBlock;
-import net.minecraft.resources.override.MappingItem;
-import net.minecraft.resources.override.MappingLambda;
+import net.minecraft.resources.mapping.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldService;
+import net.minecraft.world.WorldType;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -29,11 +26,11 @@ public class Registrar {
 
 	private final Domain domain;
 
-	private final List<Mapping> overridden = new ArrayList<>();
-	private List<Item> items = new ArrayList<>();
-	private List<Block> blocks = new ArrayList<>();
-	private List<Class<? extends TileEntity>> tileEntities = new ArrayList<>();
-	private List<Class<? extends Entity>> entities = new ArrayList<>();
+	/**
+	 * Маппинги используются для удобной замены существующих вещей.
+	 * В маппингах есть метод для регистрации и удаления вещей из памяти.
+	 */
+	private final List<Mapping> mappings = new ArrayList<>();
 
 	public Registrar(Domain domain) {
 		this.domain = domain;
@@ -43,89 +40,163 @@ public class Registrar {
 		return domain;
 	}
 
+
+	protected void unregister() {
+		E.getEventLib().LIB.disable(domain);
+		E.getPacketLib().LIB.disable(domain);
+		Collections.reverse(mappings);
+		for (Mapping entry : mappings) {
+			System.out.println(entry);
+			entry.undo();
+		}
+		mappings.clear();
+	}
+
+	/**
+	 * Регистрация слушателя событий.
+	 * События это сомнительная штука, и ими лучше не пользоваться.
+	 * События не поддерживают наследование!
+	 *
+	 * @param c        Класс события
+	 * @param listener Слушатель этого типа событий (Наследуйтесь от Handler<Event, T>)
+	 * @param <T>      Тип события
+	 */
 	public <T extends Event> void regListener(Class<T> c, Handler<Event, T> listener) {
 		E.getEventLib().registerListener(domain, c, listener);
 	}
 
+	/**
+	 * Перехватчики пакетов.
+	 *
+	 * @param c        Класс пакета
+	 * @param listener Слушатель пакета (Наследуйтесь от PacketInterceptor<L, T>)
+	 * @param <L>      Тип хэндлера этого пакета (INetHandlerPlayClient, INetHandlerLoginServer, и т. п.)
+	 * @param <T>      Тип пакета
+	 */
 	public <L extends INetHandler, T extends Packet<L>> void regInterceptor(Class<T> c, PacketInterceptor<L, T> listener) {
 		E.getPacketLib().registerListener(domain, c, listener);
 	}
 
-	public void unregister() {
-		E.getEventLib().LIB.disable(domain);
-		E.getPacketLib().LIB.disable(domain);
-		for (Item item : items) Item.itemRegistry.remove(Item.itemRegistry.getNameForObject(item));
-		for (Block block : blocks) Block.blockRegistry.remove(Block.blockRegistry.getNameForObject(block));
-		for (Class<? extends TileEntity> tileEntity : tileEntities) TileEntity.unregister(tileEntity);
-		for (Mapping entry : overridden) entry.undo();
-		for (Class<? extends Entity> entity : entities) EntityList.removeMapping(entity);
-	}
-
+	/**
+	 * Регистрация предмета, поддерживает замену существующих.
+	 * Список существующих итемов и их идентификаторов можно найти в классе net.minecraft.item.Item
+	 *
+	 * @param id      ID предмета. При замене указать ID существующего
+	 * @param textual Текстовый идентификатор. При замене скопировать его у существующего
+	 * @param item    Ваш предмет
+	 * @see Item
+	 */
 	public void registerItem(int id, String textual, Item item) {
-		items.add(item);
-		Item.registerItem(id, textual, item);
+		registerMapping(new MappingItem(id, textual, Item.itemRegistry.getObjectById(id), item));
 	}
 
+	/**
+	 * Регистрация блока, поддерживает замену существующих.
+	 * Список существующих блоков и их идентификаторов можно найти в классе net.minecraft.block.Block
+	 *
+	 * @param id      ID блока. При замене указать ID существующего
+	 * @param address Текстовый идентификатор. При замене скопировать у существующего
+	 * @param block   Ваш блок
+	 * @see Block
+	 */
 	public void registerBlock(int id, String address, Block block) {
-		blocks.add(block);
-		Block.registerBlock(id, address, block);
+		registerMapping(new MappingBlock(id, address, Block.blockRegistry.getObjectById(id), block));
 	}
 
-	public void overrideBlock(int id, String address, Block block) {
-		Block old = Block.blockRegistry.getObjectById(id);
-		if (old != null) override(new MappingBlock(id, address, old, block));
-		else {
-			Log.MAIN.error("Блок с id " + id + " не зарегистрирован: замещать нечего.");
-			registerBlock(id, address, block);
-		}
-	}
-
-	public void override(Mapping entry) {
-		entry.map();
-		overridden.add(entry);
-	}
-
-	public void overrideItem(int id, String address, Item item) {
-		Item old = Item.itemRegistry.getObjectById(id);
-		if (old != null) override(new MappingItem(id, address, old, item));
-		else {
-			Log.MAIN.error("Предмет с id " + id + " не зарегистрирован: замещать нечего.");
-			registerItem(id, address, item);
-		}
-	}
-
-	public <T> void regGui(Class<T> type, PlayerGuiBridge.GuiOpener<T> opener) {
-		PlayerGuiBridge.register(domain, type, opener);
-	}
-
-
+	/**
+	 * Блоки, которые можно взять в руку в виде предмета, нужно регистрировать отдельно.
+	 * Почему? Некоторые блоки нельзя брать: эндер-портал, огонь, вода/лава
+	 * Поддерживает замену.
+	 */
 	public void registerItemBlock(Block block) {
-		Item.registerItemBlock(block);
+		registerMapping(new MappingItemBlock(block));
 	}
 
-	public void setWorldServiceProvider(Function<MinecraftServer, WorldService> function) {
-		override(new MappingLambda<>(0, "provider", MinecraftServer.WORLD_SERVICE_PROVIDER, function,
-				(id, address, element) -> MinecraftServer.WORLD_SERVICE_PROVIDER = element));
-	}
-
+	/**
+	 * В отличие от предметов и блоков, сервер передаёт клиенту данные о TileEntity,
+	 * используя строки (названия), а не цифровые ID.
+	 * Поддерживает замену.
+	 *
+	 * @param c       Класс TileEntity
+	 * @param address Буквенный идентификатор, который будет передаваться в NBT.
+	 */
 	public <T extends TileEntity> void registerTileEntity(Class<T> c, String address) {
-		TileEntity.register(c, address);
-		tileEntities.add(c);
+		registerMapping(new MappingTileEntity(0, address, TileEntity.getClassForName(address), c));
 	}
 
+	/**
+	 * WorldService управляет мирами на сервере.
+	 * Если вы хотите использовать свои реализации миров, измените WorldService.
+	 * Поддерживает замену.
+	 *
+	 * @param function Функция-поставщик ворлдсервисов для объектов MinecraftServer.
+	 */
+	public void setWorldServiceProvider(Function<MinecraftServer, WorldService> function) {
+		replaceProvider(MinecraftServer.WORLD_SERVICE_PROVIDER, function);
+	}
+
+	/**
+	 * Замена функции провайдера (Напр. WorldService или MusicType)
+	 * @param function ваша новая функция
+	 */
+	public <I, O> void replaceProvider(Provider<I, O> provider, Function<I, O> function) {
+		registerMapping(new MappingProvider(provider, function));
+	}
+
+	/**
+	 * Внутриигровые гуи (Печки, верстаки, сундуки, варочные стойки)
+	 *
+	 * @param type   Класс, по которому происходит выбор. Может быть абсолютно любым, но лучше сделать его логичным.
+	 * @param opener Функция открыватель. Подробнее:
+	 * @see net.minecraft.entity.player.PlayerGuiBridge.GuiOpener
+	 */
+	public <T> void registerIngameGui(Class<T> type, PlayerGuiBridge.GuiOpener<T> opener) {
+		registerMapping(new MappingIngameGui(type, PlayerGuiBridge.getOpener(type), opener));
+	}
+
+	/**
+	 * Кастомные энтити
+	 * Поддерживает замену.
+	 *
+	 * @param type    Класс сущности
+	 * @param address Буквенный ID
+	 * @param id      Циферный ID (Не советую ставить больше 255)
+	 */
 	public void registerEntity(Class<? extends Entity> type, String address, int id) {
-		registerEntity(type, address, id, -2, -2);
-
+		registerMapping(new MappingEntity(id, address, EntityList.getClassFromID(id), type));
 	}
 
-	public void registerEntity(Class<? extends Entity> type, String address, int id, int baseColor, int stripColor) {
-		EntityList.addMapping(type, address, id, baseColor, stripColor);
-		entities.add(type);
-
+	/**
+	 * Кастомные энтити, которых можно заспавнить яйцами спавна.
+	 * Поддерживает замену.
+	 *
+	 * @param type      Класс сущности
+	 * @param address   Буквенный ID
+	 * @param id        Циферный ID
+	 * @param baseColor Цвет яйца в формате 0xAARRGGBB (AlphaRedGreenBlue)
+	 * @param spotColor Цвет пятнышек на яйце в аналогичном формате
+	 */
+	public void registerEntity(Class<? extends Entity> type, String address, int id, int baseColor, int spotColor) {
+		registerEntity(type, address, id);
+		EntityList.regEgg(id, baseColor, spotColor);
 	}
 
-	public Collection<Class<? extends Entity>> getEntities() {
-		return entities;
+	/**
+	 * Регистрация типа генерации мира.
+	 * НЕ ПОДДЕРЖИВАЕТ ЗАМЕНУ.
+	 */
+	public void registerWorldType(WorldType worldType) {
+		registerMapping(new MappingWorldType(worldType));
 	}
+
+	/**
+	 * Регистрация кастомного маппинга для тех, кто хочет модифицировать датапак из другого датапака.
+	 */
+	public void registerMapping(Mapping mapping) {
+		mapping.map();
+		mappings.add(mapping);
+	}
+
+
 
 }

@@ -1,5 +1,6 @@
 package net.minecraft.resources.load;
 
+import lombok.Getter;
 import net.minecraft.resources.Datapack;
 
 import java.io.File;
@@ -9,7 +10,10 @@ import java.util.zip.ZipFile;
 
 public class JarDatapackLoader extends DatapackLoader {
 
+	@Getter
 	private final String mainClassName;
+
+	@Getter
 	private final File jarFile;
 
 	private DatapackClassLoader loader;

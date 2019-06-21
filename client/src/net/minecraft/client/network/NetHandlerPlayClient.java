@@ -1,6 +1,5 @@
 package net.minecraft.client.network;
 
-import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
@@ -42,6 +41,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -55,7 +55,6 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatBase;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IInteractionObject;
@@ -100,7 +99,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 * reset upon respawning
 	 */
 	private boolean doneLoadingTerrain;
-	private final Map<UUID, NetworkPlayerInfo> playerInfoMap = Maps.newHashMap();
+	private final Map<UUID, NetworkPlayerInfo> playerInfoMap = new HashMap<>();
+	private final Map<UUID, NetworkPlayerInfo> tablist = new HashMap<>();
 	public int currentServerMaxPlayers = 20;
 	private boolean field_147308_k = false;
 
@@ -347,7 +347,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		double z = (double) packetIn.getZ() / 32.0D;
 		float yaw = (float) (packetIn.getYaw() * 360) / 256.0F;
 		float pitch = (float) (packetIn.getPitch() * 360) / 256.0F;
-		EntityOtherPlayerMP p = new EntityOtherPlayerMP(this.gameController.theWorld, this.getPlayerInfo(packetIn.getPlayer()).getGameProfile());
+		NetworkPlayerInfo playerInfo = this.getPlayerInfo(packetIn.getPlayer());
+		if (playerInfo == null) {
+			Log.MAIN.warn("Сервер не отправил данных об игроке '" + packetIn.getPlayer() + "' перед тем как заспавнить его.");
+			return;
+		}
+		EntityOtherPlayerMP p = new EntityOtherPlayerMP(this.gameController.theWorld, playerInfo.getGameProfile());
 		p.prevPosX = p.lastTickPosX = (double) (p.serverPosX = packetIn.getX());
 		p.prevPosY = p.lastTickPosY = (double) (p.serverPosY = packetIn.getY());
 		p.prevPosZ = p.lastTickPosZ = (double) (p.serverPosZ = packetIn.getZ());
@@ -763,7 +768,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 		EntityPlayer entityplayer = this.gameController.thePlayer;
 
-		if (packetIn.func_149175_c() == -1)
+		if (packetIn.getSlot() == -1)
 			entityplayer.inventory.setItemStack(packetIn.func_149174_e());
 		else {
 			boolean flag = false;
@@ -773,14 +778,14 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 				flag = guicontainercreative.getSelectedTabIndex() != CreativeTabs.tabInventory.getTabIndex();
 			}
 
-			if (packetIn.func_149175_c() == 0 && packetIn.func_149173_d() >= 36 && packetIn.func_149173_d() < 45) {
+			if (packetIn.getSlot() == 0 && packetIn.func_149173_d() >= 36 && packetIn.func_149173_d() < 45) {
 				ItemStack itemstack = entityplayer.inventoryContainer.getSlot(packetIn.func_149173_d()).getStack();
 
 				if (packetIn.func_149174_e() != null && (itemstack == null || itemstack.stackSize < packetIn.func_149174_e().stackSize))
 					packetIn.func_149174_e().animationsToGo = 5;
 
 				entityplayer.inventoryContainer.putStackInSlot(packetIn.func_149173_d(), packetIn.func_149174_e());
-			} else if (packetIn.func_149175_c() == entityplayer.openContainer.windowId && (packetIn.func_149175_c() != 0 || !flag))
+			} else if (packetIn.getSlot() == entityplayer.openContainer.windowId && (packetIn.getSlot() != 0 || !flag))
 				entityplayer.openContainer.putStackInSlot(packetIn.func_149173_d(), packetIn.func_149174_e());
 		}
 	}
@@ -840,8 +845,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 		boolean flag = false;
 
-		if (this.gameController.theWorld.isBlockLoaded(packetIn.getPos())) {
-			TileEntity tileentity = this.gameController.theWorld.getTileEntity(packetIn.getPos());
+		BlockPos pos = packetIn.getPos();
+		if (this.gameController.theWorld.isBlockLoaded(pos)) {
+			TileEntity tileentity = this.gameController.theWorld.getTileEntity(pos);
 
 			if (tileentity instanceof TileEntitySign) {
 				TileEntitySign tileentitysign = (TileEntitySign) tileentity;
@@ -855,9 +861,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			}
 		}
 
-		if (!flag && this.gameController.thePlayer != null)
-			this.gameController.thePlayer.addChatMessage(
-					new ChatComponentText("Unable to locate sign at " + packetIn.getPos().getX() + ", " + packetIn.getPos().getY() + ", " + packetIn.getPos().getZ()));
+		if (!flag && this.gameController.thePlayer != null) Log.MAIN.warn("Получен SPacketUpdateSign, но на координатах " +
+				pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " нет таблички!");
 	}
 
 	/**
@@ -867,20 +872,19 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	public void handleUpdateTileEntity(S35PacketUpdateTileEntity packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 
-		if (this.gameController.theWorld.isBlockLoaded(packetIn.getPos())) {
-			TileEntity tileentity = this.gameController.theWorld.getTileEntity(packetIn.getPos());
-			int i = packetIn.getTileEntityType();
+		if (!this.gameController.theWorld.isBlockLoaded(packetIn.getPos())) return;
+		TileEntity tileentity = this.gameController.theWorld.getTileEntity(packetIn.getPos());
+		int i = packetIn.getTileEntityType();
 
-			if (
-					i == 1 /*&& tileentity instanceof TileEntityMobSpawner*/ ||
-					i == 2 && tileentity instanceof TileEntityCommandBlock ||
-					i == 3 && tileentity instanceof TileEntityBeacon ||
-					i == 4 && tileentity instanceof TileEntitySkull ||
-					i == 5 && tileentity instanceof TileEntityFlowerPot ||
-					i == 6 && tileentity instanceof TileEntityBanner
-			)
-				tileentity.readFromNBT(packetIn.getNbtCompound());
-		}
+		if (
+				i == 1 /*&& tileentity instanceof TileEntityMobSpawner*/ ||
+				i == 2 && tileentity instanceof TileEntityCommandBlock ||
+				i == 3 && tileentity instanceof TileEntityBeacon ||
+				i == 4 && tileentity instanceof TileEntitySkull ||
+				i == 5 && tileentity instanceof TileEntityFlowerPot ||
+				i == 6 && tileentity instanceof TileEntityBanner
+		)
+			tileentity.readFromNBT(packetIn.getNbtCompound());
 	}
 
 	/**
@@ -1122,36 +1126,41 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	public void handlePlayerListItem(S38PacketPlayerListItem packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 
-		for (S38PacketPlayerListItem.AddPlayerData s38packetplayerlistitem$addplayerdata : packetIn.func_179767_a())
-			if (packetIn.func_179768_b() == S38PacketPlayerListItem.Action.REMOVE_PLAYER)
-				this.playerInfoMap.remove(s38packetplayerlistitem$addplayerdata.getProfile().getId());
-			else {
-				NetworkPlayerInfo networkplayerinfo = this.playerInfoMap.get(s38packetplayerlistitem$addplayerdata.getProfile().getId());
+		for (S38PacketPlayerListItem.AddPlayerData s38packetplayerlistitem$addplayerdata : packetIn.func_179767_a()) {
+			UUID uuid = s38packetplayerlistitem$addplayerdata.getProfile().getId();
+			if (packetIn.getAction() == S38PacketPlayerListItem.Action.REMOVE_PLAYER) {
+				this.playerInfoMap.remove(uuid);
+				this.tablist.remove(uuid);
+			} else {
+				NetworkPlayerInfo info = this.playerInfoMap.get(uuid);
 
-				if (packetIn.func_179768_b() == S38PacketPlayerListItem.Action.ADD_PLAYER) {
-					networkplayerinfo = new NetworkPlayerInfo(s38packetplayerlistitem$addplayerdata);
-					this.playerInfoMap.put(networkplayerinfo.getGameProfile().getId(), networkplayerinfo);
+				if (packetIn.getAction() == S38PacketPlayerListItem.Action.ADD_PLAYER) {
+					info = new NetworkPlayerInfo(s38packetplayerlistitem$addplayerdata);
+					this.playerInfoMap.put(info.getGameProfile().getId(), info);
+					if (info.getGameProfile().getName().startsWith("-"))
+						this.tablist.put(info.getGameProfile().getId(), info);
 				}
 
-				if (networkplayerinfo != null)
-					switch (packetIn.func_179768_b()) {
+				if (info != null)
+					switch (packetIn.getAction()) {
 						case ADD_PLAYER:
-							networkplayerinfo.setGameType(s38packetplayerlistitem$addplayerdata.getGameMode());
-							networkplayerinfo.setResponseTime(s38packetplayerlistitem$addplayerdata.getPing());
+							info.setGameType(s38packetplayerlistitem$addplayerdata.getGameMode());
+							info.setResponseTime(s38packetplayerlistitem$addplayerdata.getPing());
 							break;
 
 						case UPDATE_GAME_MODE:
-							networkplayerinfo.setGameType(s38packetplayerlistitem$addplayerdata.getGameMode());
+							info.setGameType(s38packetplayerlistitem$addplayerdata.getGameMode());
 							break;
 
 						case UPDATE_LATENCY:
-							networkplayerinfo.setResponseTime(s38packetplayerlistitem$addplayerdata.getPing());
+							info.setResponseTime(s38packetplayerlistitem$addplayerdata.getPing());
 							break;
 
 						case UPDATE_DISPLAY_NAME:
-							networkplayerinfo.setDisplayName(s38packetplayerlistitem$addplayerdata.getDisplayName());
+							info.setDisplayName(s38packetplayerlistitem$addplayerdata.getDisplayName());
 					}
 			}
+		}
 	}
 
 	public void handleKeepAlive(S00PacketKeepAlive packetIn) {
@@ -1450,7 +1459,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	}
 
 	public Collection<NetworkPlayerInfo> getPlayerInfoMap() {
-		return this.playerInfoMap.values();
+		return this.tablist.values();
 	}
 
 	public NetworkPlayerInfo getPlayerInfo(UUID p_175102_1_) {

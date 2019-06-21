@@ -1,6 +1,5 @@
 package net.minecraft.client.game.particle;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -105,6 +104,12 @@ public class EffectRenderer {
 	public void registerParticle(int id, IParticleFactory particleFactory) {
 		this.particleTypes.put(id, particleFactory);
 	}
+	public void unregisterParticle(int id) {
+		this.particleTypes.remove(id);
+	}
+	public IParticleFactory getFactory(int id) {
+		return (IParticleFactory) this.particleTypes.get(id);
+	}
 
 	public void emitParticleAtEntity(Entity entityIn, ParticleType particleTypes) {
 		this.particleEmitters.add(new EntityParticleEmitter(this.worldObj, entityIn, particleTypes));
@@ -114,7 +119,7 @@ public class EffectRenderer {
 	 * Spawns the relevant particle according to the particle id.
 	 */
 	public EntityFX spawnEffectParticle(int particleId, double p_178927_2_, double p_178927_4_, double p_178927_6_, double p_178927_8_, double p_178927_10_, double p_178927_12_, int... p_178927_14_) {
-		IParticleFactory iparticlefactory = (IParticleFactory) this.particleTypes.get(particleId);
+		IParticleFactory iparticlefactory = getFactory(particleId);
 
 		if (iparticlefactory != null) {
 			EntityFX entityfx = iparticlefactory.getEntityFX(particleId, this.worldObj, p_178927_2_, p_178927_4_, p_178927_6_, p_178927_8_, p_178927_10_, p_178927_12_, p_178927_14_);

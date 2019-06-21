@@ -10,7 +10,7 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
-import net.minecraft.resources.Loadable;
+import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.Registrar;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
@@ -27,7 +27,7 @@ import vanilla.entity.passive.EntityHorse;
 import vanilla.item.ItemLead;
 import vanilla.world.SleepChecker;
 
-public class VEvents implements Loadable {
+public class VEvents implements ServerSideLoadable {
 
 	@Override
 	public void load(Registrar registrar) {

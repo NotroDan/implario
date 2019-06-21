@@ -1,6 +1,6 @@
 package net.minecraft.resources;
 
-public interface Loadable {
+public interface ServerSideLoadable {
 
 	void load(Registrar registrar);
 
