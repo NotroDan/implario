@@ -335,6 +335,7 @@ public class Minecraft implements IThreadListener {
 			if (datapack instanceof ClientSideDatapack) {
 				((ClientSideDatapack) datapack).clientInit(new ClientRegistrar(datapack.getRegistrar()));
 			}
+			datapack.ready();
 		}
 		blabla = true;
 	}

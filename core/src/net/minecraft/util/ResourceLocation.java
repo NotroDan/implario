@@ -7,18 +7,15 @@ public class ResourceLocation {
 	protected final String resourceDomain;
 	protected final String resourcePath;
 
-	protected ResourceLocation(int p_i45928_1_, String... resourceName) {
-		this.resourceDomain = org.apache.commons.lang3.StringUtils.isEmpty(resourceName[0]) ? "minecraft" : resourceName[0].toLowerCase();
-		this.resourcePath = resourceName[1];
-		Validate.notNull(this.resourcePath);
+	public ResourceLocation(String domain, String path) {
+		this.resourceDomain = domain == null || domain.isEmpty() ? "minecraft" : domain.toLowerCase();
+		this.resourcePath = Validate.notNull(path);
 	}
 
-	public ResourceLocation(String resourceName) {
-		this(0, splitObjectName(resourceName));
-	}
-
-	public ResourceLocation(String resourceDomainIn, String resourcePathIn) {
-		this(0, resourceDomainIn, resourcePathIn);
+	public ResourceLocation(String path) {
+		int colon = path.indexOf(':');
+		this.resourceDomain = colon > 0 ? path.substring(0, colon) : "minecraft";
+		this.resourcePath = colon > 0 ? path.substring(colon + 1) : path;
 	}
 
 	/**
@@ -26,18 +23,15 @@ public class ResourceLocation {
 	 * length 2. If no colon is present in the passed value the returned array will contain {null, toSplit}.
 	 */
 	protected static String[] splitObjectName(String toSplit) {
-		String[] astring = new String[] {null, toSplit};
-		int i = toSplit.indexOf(58);
+		String[] split = new String[] {null, toSplit};
+		int i = toSplit.indexOf(':');
 
-		if (i >= 0) {
-			astring[1] = toSplit.substring(i + 1);
+		if (i < 0) return split;
 
-			if (i > 1) {
-				astring[0] = toSplit.substring(0, i);
-			}
-		}
+		split[1] = toSplit.substring(i + 1);
+		if (i > 1) split[0] = toSplit.substring(0, i);
 
-		return astring;
+		return split;
 	}
 
 	public String getResourcePath() {
@@ -52,14 +46,10 @@ public class ResourceLocation {
 		return this.resourceDomain + ':' + this.resourcePath;
 	}
 
-	public boolean equals(Object p_equals_1_) {
-		if (this == p_equals_1_) {
-			return true;
-		}
-		if (!(p_equals_1_ instanceof ResourceLocation)) {
-			return false;
-		}
-		ResourceLocation resourcelocation = (ResourceLocation) p_equals_1_;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ResourceLocation)) return false;
+		ResourceLocation resourcelocation = (ResourceLocation) o;
 		return this.resourceDomain.equals(resourcelocation.resourceDomain) && this.resourcePath.equals(resourcelocation.resourcePath);
 	}
 

@@ -86,10 +86,10 @@ public class EntityList {
 		Entity entity = null;
 
 		try {
-			Class<? extends Entity> oclass = (Class) stringToClassMapping.get(entityName);
+			Class<? extends Entity> oclass = stringToClassMapping.get(entityName);
 
 			if (oclass != null) {
-				entity = (Entity) oclass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {worldIn});
+				entity = oclass.getConstructor(new Class[] {World.class}).newInstance(worldIn);
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -110,10 +110,10 @@ public class EntityList {
 		}
 
 		try {
-			Class<? extends Entity> oclass = (Class) stringToClassMapping.get(nbt.getString("id"));
+			Class<? extends Entity> oclass = stringToClassMapping.get(nbt.getString("id"));
 
 			if (oclass != null) {
-				entity = (Entity) oclass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {worldIn});
+				entity = oclass.getConstructor(new Class[] {World.class}).newInstance(worldIn);
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -138,7 +138,7 @@ public class EntityList {
 			Class<? extends Entity> oclass = getClassFromID(entityID);
 
 			if (oclass != null) {
-				entity = (Entity) oclass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {worldIn});
+				entity = oclass.getConstructor(new Class[] {World.class}).newInstance(worldIn);
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -155,8 +155,8 @@ public class EntityList {
 	 * gets the entityID of a specific entity
 	 */
 	public static int getEntityID(Entity entityIn) {
-		Integer integer = (Integer) classToIDMapping.get(entityIn.getClass());
-		return integer == null ? 0 : integer.intValue();
+		Integer integer = classToIDMapping.get(entityIn.getClass());
+		return integer == null ? 0 : integer;
 	}
 
 	public static Class<? extends Entity> getClassFromID(int entityID) {
@@ -167,22 +167,22 @@ public class EntityList {
 	 * Gets the string representation of a specific entity.
 	 */
 	public static String getEntityString(Entity entityIn) {
-		return (String) classToStringMapping.get(entityIn.getClass());
+		return classToStringMapping.get(entityIn.getClass());
 	}
 
 	/**
 	 * Returns the ID assigned to it's string representation
 	 */
 	public static int getIDFromString(String entityName) {
-		Integer integer = (Integer) stringToIDMapping.get(entityName);
-		return integer == null ? 90 : integer.intValue();
+		Integer integer = stringToIDMapping.get(entityName);
+		return integer == null ? 90 : integer;
 	}
 
 	/**
 	 * Finds the class using IDtoClassMapping and classToStringMapping
 	 */
 	public static String getStringFromID(int entityID) {
-		return (String) classToStringMapping.get(getClassFromID(entityID));
+		return classToStringMapping.get(getClassFromID(entityID));
 	}
 
 	public static void func_151514_a() {
@@ -193,7 +193,7 @@ public class EntityList {
 		List<String> list = new java.util.ArrayList<>();
 
 		for (String s : set) {
-			Class<? extends Entity> oclass = (Class) stringToClassMapping.get(s);
+			Class<? extends Entity> oclass = stringToClassMapping.get(s);
 
 			if ((oclass.getModifiers() & 1024) != 1024) {
 				list.add(s);

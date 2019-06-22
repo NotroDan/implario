@@ -63,8 +63,9 @@ public class RenderItem implements IResourceManagerReloadListener {
 		return this.itemModelMesher;
 	}
 
+
 	protected void registerItem(Item itm, int subType, String identifier) {
-		this.itemModelMesher.register(itm, subType, new ModelResourceLocation(identifier, "inventory"));
+		this.itemModelMesher.registerModelLocation(itm, subType, new ModelResourceLocation(identifier, "inventory"));
 	}
 
 	protected void registerBlock(Block blk, int subType, String identifier) {
@@ -879,7 +880,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.ghast_tear, "ghast_tear");
 		this.registerItem(Items.gold_nugget, "gold_nugget");
 		this.registerItem(Items.nether_wart, "nether_wart");
-		this.itemModelMesher.register(Items.potionitem,
+		this.itemModelMesher.registerMeshDefinition(Items.potionitem,
 				stack -> new ModelResourceLocation(ItemPotion.isSplash(stack.getMetadata()) ? "bottle_splash" : "bottle_drinkable", "inventory"));
 		this.registerItem(Items.glass_bottle, "glass_bottle");
 		this.registerItem(Items.spider_eye, "spider_eye");
@@ -919,7 +920,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.iron_horse_armor, "iron_horse_armor");
 		this.registerItem(Items.golden_horse_armor, "golden_horse_armor");
 		this.registerItem(Items.diamond_horse_armor, "diamond_horse_armor");
-		this.itemModelMesher.register(Items.banner, stack -> new ModelResourceLocation("banner", "inventory"));
+		this.itemModelMesher.registerMeshDefinition(Items.banner, stack -> new ModelResourceLocation("banner", "inventory"));
 		this.registerItem(Items.record_13, "record_13");
 		this.registerItem(Items.record_cat, "record_cat");
 		this.registerItem(Items.record_blocks, "record_blocks");
@@ -934,8 +935,8 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItem(Items.record_wait, "record_wait");
 		this.registerItem(Items.prismarine_shard, "prismarine_shard");
 		this.registerItem(Items.prismarine_crystals, "prismarine_crystals");
-		this.itemModelMesher.register(Items.enchanted_book, stack -> new ModelResourceLocation("enchanted_book", "inventory"));
-		this.itemModelMesher.register(Items.filled_map, stack -> new ModelResourceLocation("filled_map", "inventory"));
+		this.itemModelMesher.registerMeshDefinition(Items.enchanted_book, stack -> new ModelResourceLocation("enchanted_book", "inventory"));
+		this.itemModelMesher.registerMeshDefinition(Items.filled_map, stack -> new ModelResourceLocation("filled_map", "inventory"));
 		this.registerBlock(Blocks.command_block, "command_block");
 		this.registerItem(Items.fireworks, "fireworks");
 		this.registerItem(Items.command_block_minecart, "command_block_minecart");

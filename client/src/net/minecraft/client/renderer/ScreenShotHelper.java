@@ -4,6 +4,7 @@ import net.minecraft.client.game.shader.Framebuffer;
 import net.minecraft.client.network.services.imgur.ImgurAPI;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.logging.Log;
+import net.minecraft.util.Clipboard;
 import net.minecraft.util.chat.ChatComponentBuilder;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
@@ -59,6 +60,7 @@ public class ScreenShotHelper {
 
 			BufferedImage screenshot = takeScreenshot(width, height, buffer);
 			ImageIO.write(screenshot, "png", f);
+			Clipboard.push(screenshot);
 
 
 			return new ChatComponentBuilder(f.getName())
@@ -67,6 +69,7 @@ public class ScreenShotHelper {
 					.underline()
 					.translate("screenshot.success")
 			.build();
+
 
 
 		} catch (Exception exception) {

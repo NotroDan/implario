@@ -1,7 +1,6 @@
 package net.minecraft;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.ingame.GuiIngame;
@@ -13,8 +12,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.resources.Datapack;
-import net.minecraft.resources.DatapackReflector;
 import optifine.CustomColormap;
 import optifine.CustomSkyLayer;
 import org.lwjgl.opengl.Display;
@@ -121,18 +118,18 @@ public class Utils {
 //			System.out.println(Arrays.deepToString(map));
 
 		}
-		if (line.startsWith("dp")) {
-			String[] split = line.split(" ");
-			if (split.length >= 2) {
-				try {
-					Datapack datapack = DatapackReflector.enable(split[1]);
-					MC.chat("§aДатапак §f" + datapack.getDomain().getAddress() + "§a подключён и работает (§fCLIENT-SIDE§a).");
-				} catch (Exception e) {
-					MC.chat("§cОшибка при включении датапака §f" + split[1]);
-					e.printStackTrace();
-				}
-			}
-		}
+//		if (line.startsWith("dp")) {
+//			String[] split = line.split(" ");
+//			if (split.length >= 2) {
+//				try {
+//					Datapack datapack = DatapackReflector.enable(split[1]);
+//					MC.chat("§aДатапак §f" + datapack.getDomain().getAddress() + "§a подключён и работает (§fCLIENT-SIDE§a).");
+//				} catch (Exception e) {
+//					MC.chat("§cОшибка при включении датапака §f" + split[1]);
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 
 	}
 

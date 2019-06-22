@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer;
 
 import com.google.common.collect.Maps;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelManager;
@@ -11,16 +12,22 @@ import net.minecraft.item.ItemStack;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Этот класс отвечает за модельки предметов (в инвентарях, в руках, на земле)
+ */
+@RequiredArgsConstructor
 public class ItemModelMesher {
 
+	// Простые модельки по индексу
 	private final Map<Integer, ModelResourceLocation> simpleShapes = Maps.newHashMap();
-	private final Map<Integer, IBakedModel> simpleShapesCache = Maps.newHashMap();
-	private final Map<Item, ItemMeshDefinition> shapers = Maps.newHashMap();
-	private final ModelManager modelManager;
 
-	public ItemModelMesher(ModelManager modelManager) {
-		this.modelManager = modelManager;
-	}
+	// Сложные генераторы моделек по предмету
+	private final Map<Item, ItemMeshDefinition> shapers = Maps.newHashMap();
+
+	// Запечённые модельки
+	private final Map<Integer, IBakedModel> simpleShapesCache = Maps.newHashMap();
+
+	private final ModelManager modelManager;
 
 	public TextureAtlasSprite getParticleIcon(Item item) {
 		return this.getParticleIcon(item, 0);
@@ -32,37 +39,40 @@ public class ItemModelMesher {
 
 	public IBakedModel getItemModel(ItemStack stack) {
 		Item item = stack.getItem();
-		IBakedModel ibakedmodel = this.getItemModel(item, this.getMetadata(stack));
+		int meta = stack.isItemStackDamageable() ? 0 : stack.getMetadata();
 
-		if (ibakedmodel == null) {
-			ItemMeshDefinition itemmeshdefinition = this.shapers.get(item);
+		IBakedModel model = simpleShapesCache.get(getIndex(item, meta));
 
-			if (itemmeshdefinition != null) ibakedmodel = this.modelManager.getModel(itemmeshdefinition.getModelLocation(stack));
+		if (model == null) {
+			ItemMeshDefinition shaper = shapers.get(item);
+			if (shaper != null) model = modelManager.getModel(shaper.getModelLocation(stack));
 		}
 
-		if (ibakedmodel == null) ibakedmodel = this.modelManager.getMissingModel();
+		if (model == null) model = modelManager.getMissingModel();
 
-		return ibakedmodel;
+		return model;
 	}
 
-	protected int getMetadata(ItemStack stack) {
-		return stack.isItemStackDamageable() ? 0 : stack.getMetadata();
-	}
-
-	protected IBakedModel getItemModel(Item item, int meta) {
-		return this.simpleShapesCache.get(this.getIndex(item, meta));
-	}
-
-	private int getIndex(Item item, int meta) {
+	private static int getIndex(Item item, int meta) {
 		return Item.getIdFromItem(item) << 16 | meta;
 	}
 
-	public void register(Item item, int meta, ModelResourceLocation location) {
-		this.simpleShapes.put(this.getIndex(item, meta), location);
-		this.simpleShapesCache.put(this.getIndex(item, meta), this.modelManager.getModel(location));
+	public ModelResourceLocation getLocation(Item item, int meta) {
+		return simpleShapes.get(getIndex(item, meta));
 	}
 
-	public void register(Item item, ItemMeshDefinition definition) {
+	public void registerModelLocation(Item item, int meta, ModelResourceLocation location) {
+		this.simpleShapes.put(getIndex(item, meta), location);
+		this.simpleShapesCache.put(getIndex(item, meta), this.modelManager.getModel(location));
+	}
+
+	public void unregisterModelLocation(Item item, int meta) {
+		int index = getIndex(item, meta);
+		this.simpleShapes.remove(index);
+		this.simpleShapesCache.remove(index);
+	}
+
+	public void registerMeshDefinition(Item item, ItemMeshDefinition definition) {
 		this.shapers.put(item, definition);
 	}
 

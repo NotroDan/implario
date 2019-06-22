@@ -72,6 +72,7 @@ public class Datapacks {
 		Block.reloadBlockStates();
 		datapack.init();
 		Todo.instance.clientInit(datapack);
+		datapack.ready();
 
 	}
 

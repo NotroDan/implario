@@ -1,7 +1,6 @@
 package net.minecraft.entity.player;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -1510,48 +1509,47 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Adds a value to a movement statistic field - like run, walk, swin or climb.
 	 */
 	public void addMovementStat(double p_71000_1_, double p_71000_3_, double p_71000_5_) {
-		if (this.ridingEntity == null) {
-			if (this.isInsideOfMaterial(Material.water)) {
-				int i = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_3_ * p_71000_3_ + p_71000_5_ * p_71000_5_) * 100.0F);
+		if (this.ridingEntity != null) return;
+		if (this.isInsideOfMaterial(Material.water)) {
+			int i = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_3_ * p_71000_3_ + p_71000_5_ * p_71000_5_) * 100.0F);
 
-				if (i > 0) {
-					this.addStat(StatList.distanceDoveStat, i);
-					this.addExhaustion(0.015F * (float) i * 0.01F);
-				}
-			} else if (this.isInWater()) {
-				int j = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
+			if (i > 0) {
+				this.addStat(StatList.distanceDoveStat, i);
+				this.addExhaustion(0.015F * (float) i * 0.01F);
+			}
+		} else if (this.isInWater()) {
+			int j = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
 
-				if (j > 0) {
-					this.addStat(StatList.distanceSwumStat, j);
-					this.addExhaustion(0.015F * (float) j * 0.01F);
-				}
-			} else if (this.isOnLadder()) {
-				if (p_71000_3_ > 0.0D) {
-					this.addStat(StatList.distanceClimbedStat, (int) Math.round(p_71000_3_ * 100.0D));
-				}
-			} else if (this.onGround) {
-				int k = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
+			if (j > 0) {
+				this.addStat(StatList.distanceSwumStat, j);
+				this.addExhaustion(0.015F * (float) j * 0.01F);
+			}
+		} else if (this.isOnLadder()) {
+			if (p_71000_3_ > 0.0D) {
+				this.addStat(StatList.distanceClimbedStat, (int) Math.round(p_71000_3_ * 100.0D));
+			}
+		} else if (this.onGround) {
+			int k = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
 
-				if (k > 0) {
-					this.addStat(StatList.distanceWalkedStat, k);
+			if (k > 0) {
+				this.addStat(StatList.distanceWalkedStat, k);
 
-					if (this.isSprinting()) {
-						this.addStat(StatList.distanceSprintedStat, k);
-						this.addExhaustion(0.099999994F * (float) k * 0.01F);
-					} else {
-						if (this.isSneaking()) {
-							this.addStat(StatList.distanceCrouchedStat, k);
-						}
-
-						this.addExhaustion(0.01F * (float) k * 0.01F);
+				if (this.isSprinting()) {
+					this.addStat(StatList.distanceSprintedStat, k);
+					this.addExhaustion(0.099999994F * (float) k * 0.01F);
+				} else {
+					if (this.isSneaking()) {
+						this.addStat(StatList.distanceCrouchedStat, k);
 					}
-				}
-			} else {
-				int l = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
 
-				if (l > 25) {
-					this.addStat(StatList.distanceFlownStat, l);
+					this.addExhaustion(0.01F * (float) k * 0.01F);
 				}
+			}
+		} else {
+			int l = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
+
+			if (l > 25) {
+				this.addStat(StatList.distanceFlownStat, l);
 			}
 		}
 	}

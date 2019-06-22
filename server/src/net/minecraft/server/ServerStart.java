@@ -12,6 +12,7 @@ public class ServerStart {
 		Bootstrap.register();
 		for (Datapack datapack : Datapacks.getLoadedDatapacks()) {
 			datapack.init();
+			datapack.ready();
 		}
 
 		String s = null;

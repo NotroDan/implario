@@ -3,77 +3,62 @@ package net.minecraft.client.resources.model;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
 
-public class ModelResourceLocation extends ResourceLocation
-{
-    private final String variant;
+public class ModelResourceLocation extends ResourceLocation {
 
-    protected ModelResourceLocation(int p_i46078_1_, String... p_i46078_2_)
-    {
-        super(0, new String[] {p_i46078_2_[0], p_i46078_2_[1]});
-        this.variant = StringUtils.isEmpty(p_i46078_2_[2]) ? "normal" : p_i46078_2_[2].toLowerCase();
-    }
+	private final String variant;
 
-    public ModelResourceLocation(String p_i46079_1_)
-    {
-        this(0, parsePathString(p_i46079_1_));
-    }
+	protected ModelResourceLocation(String... p_i46078_2_) {
+		super(p_i46078_2_[0], p_i46078_2_[1]);
+		this.variant = StringUtils.isEmpty(p_i46078_2_[2]) ? "normal" : p_i46078_2_[2].toLowerCase();
+	}
 
-    public ModelResourceLocation(ResourceLocation p_i46080_1_, String p_i46080_2_)
-    {
-        this(p_i46080_1_.toString(), p_i46080_2_);
-    }
+	public ModelResourceLocation(String path) {
+		this(parsePathString(path));
+	}
 
-    public ModelResourceLocation(String p_i46081_1_, String p_i46081_2_)
-    {
-        this(0, parsePathString(p_i46081_1_ + '#' + (p_i46081_2_ == null ? "normal" : p_i46081_2_)));
-    }
+	public ModelResourceLocation(ResourceLocation p_i46080_1_, String p_i46080_2_) {
+		this(p_i46080_1_.toString(), p_i46080_2_);
+	}
 
-    protected static String[] parsePathString(String p_177517_0_)
-    {
-        String[] astring = new String[] {null, p_177517_0_, null};
-        int i = p_177517_0_.indexOf(35);
-        String s = p_177517_0_;
+	public ModelResourceLocation(String p_i46081_1_, String p_i46081_2_) {
+		this(parsePathString(p_i46081_1_ + '#' + (p_i46081_2_ == null ? "normal" : p_i46081_2_)));
+	}
 
-        if (i >= 0)
-        {
-            astring[2] = p_177517_0_.substring(i + 1, p_177517_0_.length());
+	protected static String[] parsePathString(String input) {
+		String[] split = new String[] {null, input, null};
+		int i = input.indexOf(35);
+		String s = input;
 
-            if (i > 1)
-            {
-                s = p_177517_0_.substring(0, i);
-            }
-        }
+		if (i >= 0) {
+			split[2] = input.substring(i + 1);
+			if (i > 1) s = input.substring(0, i);
+		}
 
-        System.arraycopy(ResourceLocation.splitObjectName(s), 0, astring, 0, 2);
-        return astring;
-    }
+		System.arraycopy(ResourceLocation.splitObjectName(s), 0, split, 0, 2);
+		return split;
+	}
 
-    public String getVariant()
-    {
-        return this.variant;
-    }
+	public String getVariant() {
+		return this.variant;
+	}
 
-    public boolean equals(Object p_equals_1_)
-    {
-        if (this == p_equals_1_)
-        {
-            return true;
-        }
-		if (p_equals_1_ instanceof ModelResourceLocation && super.equals(p_equals_1_))
-		{
-			ModelResourceLocation modelresourcelocation = (ModelResourceLocation)p_equals_1_;
+	public boolean equals(Object p_equals_1_) {
+		if (this == p_equals_1_) {
+			return true;
+		}
+		if (p_equals_1_ instanceof ModelResourceLocation && super.equals(p_equals_1_)) {
+			ModelResourceLocation modelresourcelocation = (ModelResourceLocation) p_equals_1_;
 			return this.variant.equals(modelresourcelocation.variant);
 		}
 		return false;
 	}
 
-    public int hashCode()
-    {
-        return 31 * super.hashCode() + this.variant.hashCode();
-    }
+	public int hashCode() {
+		return 31 * super.hashCode() + this.variant.hashCode();
+	}
 
-    public String toString()
-    {
-        return super.toString() + '#' + this.variant;
-    }
+	public String toString() {
+		return super.toString() + '#' + this.variant;
+	}
+
 }

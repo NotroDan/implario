@@ -1,9 +1,5 @@
 package net.minecraft.command;
 
-import net.minecraft.resources.Datapack;
-import net.minecraft.resources.DatapackReflector;
-import net.minecraft.util.chat.ChatComponentText;
-
 public class CommandDatapack extends CommandBase {
 
 	@Override
@@ -21,8 +17,9 @@ public class CommandDatapack extends CommandBase {
 
 		if (args.length == 0) throw new WrongUsageException("Использование: /dp [Class]");
 		try {
-			Datapack datapack = DatapackReflector.enable(args[0]);
-			sender.addChatMessage(new ChatComponentText("§aДатапак §f" + datapack.getDomain().getAddress() + "§a подключён и работает (§fSERVER-SIDE§a)."));
+			//todo команда для загрузки динамических датапаков
+//			Datapack datapack = DatapackReflector.enable(args[0]);
+//			sender.addChatMessage(new ChatComponentText("§aДатапак §f" + datapack.getDomain().getAddress() + "§a подключён и работает (§fSERVER-SIDE§a)."));
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}

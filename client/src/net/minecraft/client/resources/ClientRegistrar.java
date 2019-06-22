@@ -6,7 +6,10 @@ import net.minecraft.client.game.particle.IParticleFactory;
 import net.minecraft.client.gui.ingame.Module;
 import net.minecraft.client.gui.ingame.Modules;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.resources.Provider;
 import net.minecraft.resources.Registrar;
 
@@ -39,6 +42,12 @@ public class ClientRegistrar {
 
 	public <I, O> void replaceProvider(Provider<I, O> provider, Function<I, O> function) {
 		delegate.replaceProvider(provider, function);
+	}
+
+	public void registerItem(Item item, int meta, ModelResourceLocation location) {
+		RenderItem renderItem = MC.getRenderItem();
+		ModelResourceLocation existing = renderItem.getItemModelMesher().getLocation(item, meta);
+		delegate.registerMapping(new MappingRenderItem(renderItem.getItemModelMesher(), item, meta, location, existing));
 	}
 
 }

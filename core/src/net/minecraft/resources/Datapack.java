@@ -24,6 +24,10 @@ public abstract class Datapack implements ServerSideDatapack {
 
 	public abstract void init();
 
+	public void ready() {
+
+	}
+
 	public void disable() {
 		registrar.unregister();
 	}

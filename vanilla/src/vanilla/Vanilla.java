@@ -124,9 +124,12 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		registrar.registerEntity(EntityMinecartMobSpawner.class, new RenderMinecartMobSpawner(m));
 		registrar.registerEntity(EntityHorse.class, new RenderHorse(m, new ModelHorse(), 0.75F));
 
+
 		RenderItem r = MC.getRenderItem();
+
+		registrar.registerItem(VanillaItems.saddle,  0, new ModelResourceLocation("saddle"));
 		r.registerItem(VanillaItems.saddle, "saddle");
-		r.getItemModelMesher().register(VanillaItems.spawn_egg, stack -> new ModelResourceLocation("spawn_egg", "inventory"));
+		r.getItemModelMesher().registerMeshDefinition(VanillaItems.spawn_egg, stack -> new ModelResourceLocation("spawn_egg", "inventory"));
 		r.registerItem(VanillaItems.carrot_on_a_stick, "carrot_on_a_stick");
 		r.registerItem(VanillaItems.lead, "lead");
 		r.registerItem(VanillaItems.name_tag, "name_tag");
