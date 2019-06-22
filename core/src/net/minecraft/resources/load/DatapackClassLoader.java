@@ -33,14 +33,13 @@ public class DatapackClassLoader extends ClassLoader {
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		try {
-			byte entry[] = datapack.get(name.replace('.', '/') + ".class");
+		    String name2 = name.replace('.', '/') + ".class";
+			byte entry[] = datapack.get(name2);
 			if (entry == null) throw new IOException();
+			datapack.remove(name2);
 			return defineClass(name.replace('/', '.'), entry, 0, entry.length - 1);
 		} catch (IOException ex) {
 			return DatapackClassLoader.getSystemClassLoader().loadClass(name);
-		} catch (Throwable e) {
-			e.printStackTrace();
-			return null;
 		}
 	}
 
