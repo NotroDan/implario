@@ -26,7 +26,7 @@ public class JarDatapackLoader extends DatapackLoader {
 	public Datapack load() throws ClassNotFoundException, IllegalAccessException, InstantiationException, IOException {
 		if (datapack != null) return datapack;
 
-		loader = new DatapackClassLoader(new ZipFile(jarFile), System.class.getClassLoader());
+		loader = new DatapackClassLoader(jarFile, System.class.getClassLoader());
 		Class<? extends Datapack> mainClass = (Class<? extends Datapack>) loadClass(mainClassName);
 
 		datapack = mainClass.newInstance();

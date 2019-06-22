@@ -1,75 +1,56 @@
 package net.minecraft.resources.load;
 
-import net.minecraft.Logger;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public class DatapackClassLoader extends ClassLoader {
 
-	private final Map<String, ZipEntry> datapack;
-	private final ZipFile file;
+	private final Map<String, byte[]> datapack;
 
-	public DatapackClassLoader(ZipFile file, ClassLoader parent) {
+	public DatapackClassLoader(File f, ClassLoader parent) throws IOException {
 		super(parent);
+		ZipInputStream input = new ZipInputStream(new FileInputStream(f), Charset.forName("ASCII"));
 		this.datapack = new HashMap<>();
-		this.file = file;
-		Enumeration<? extends ZipEntry> entries = file.entries();
-		while (entries.hasMoreElements()) {
-			ZipEntry entry = entries.nextElement();
-			datapack.put(entry.getName(), entry);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ZipEntry file;
+		while (true) {
+			file = input.getNextEntry();
+			if (file == null) break;
+			while (input.available() > 0)
+				out.write(input.read());
+			input.closeEntry();
+			datapack.put(file.getName(), out.toByteArray());
+			out.reset();
 		}
+		out.close();
+		input.close();
 	}
 
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		try {
-			ZipEntry entry = datapack.get(name.replace('.', '/') + ".class");
+			byte entry[] = datapack.get(name.replace('.', '/') + ".class");
 			if (entry == null) throw new IOException();
-			byte[] b = loadClassFromFile(entry);
-			return defineClass(name.replace('/', '.'), b, 0, b.length);
+			return defineClass(name.replace('/', '.'), entry, 0, entry.length - 1);
 		} catch (IOException ex) {
 			return DatapackClassLoader.getSystemClassLoader().loadClass(name);
 		} catch (Throwable e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
 
 	@Override
 	public InputStream getResourceAsStream(String name) {
-		try {
-			return file.getInputStream(datapack.get(name));
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
+		byte array[] = datapack.get(name);
+		return new ByteArrayInputStream(array, 0 , array.length - 1);
 	}
 
-	public void close() {
-		try {
-			file.close();
-		} catch (IOException ex) {
-			Logger.instance.error(ex);
-		}
+	public void close(){
+		datapack.clear();
 	}
-
-	private byte[] loadClassFromFile(ZipEntry entry) throws IOException {
-		InputStream inputStream = file.getInputStream(entry);
-		byte[] buffer = new byte[(int) entry.getSize()];
-		int i = inputStream.read(buffer);
-		if (i != buffer.length)
-			while (true) {
-				if (i != buffer.length) {
-					int b = inputStream.read(buffer, i, buffer.length - i);
-					i = b + i;
-				} else break;
-			}
-		inputStream.close();
-		return buffer;
-	}
-
 }
