@@ -6,7 +6,6 @@ import net.minecraft.resources.Datapack;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.ZipFile;
 
 public class JarDatapackLoader extends DatapackLoader {
 
@@ -23,14 +22,18 @@ public class JarDatapackLoader extends DatapackLoader {
 		this.mainClassName = mainClass;
 	}
 
-	public Datapack load() throws ClassNotFoundException, IllegalAccessException, InstantiationException, IOException {
-		if (datapack != null) return datapack;
+	public Datapack load() throws DatapackLoadException {
+		try {
+			if (datapack != null) return datapack;
 
-		loader = new DatapackClassLoader(jarFile, System.class.getClassLoader());
-		Class<? extends Datapack> mainClass = (Class<? extends Datapack>) loadClass(mainClassName);
+			loader = new DatapackClassLoader(jarFile, System.class.getClassLoader());
+			Class<? extends Datapack> mainClass = (Class<? extends Datapack>) loadClass(mainClassName);
 
-		datapack = mainClass.newInstance();
-		return datapack;
+			datapack = mainClass.newInstance();
+			return datapack;
+		} catch (IOException | InstantiationException | IllegalAccessException ex) {
+			throw new DatapackLoadException(ex);
+		}
 	}
 
 	public Datapack getDatapack() {

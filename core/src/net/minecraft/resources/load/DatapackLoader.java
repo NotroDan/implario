@@ -6,7 +6,7 @@ public abstract class DatapackLoader {
 
 	protected Datapack datapack;
 
-	public abstract Datapack load() throws Exception;
+	public abstract Datapack load() throws DatapackLoadException;
 
 	public abstract void close();
 
