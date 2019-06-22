@@ -12,7 +12,7 @@ public class MappingRenderItem extends Mapping<ModelResourceLocation> {
 	private final int meta;
 
 	public MappingRenderItem(ItemModelMesher mesher, Item item, int meta, ModelResourceLocation updated, ModelResourceLocation existing) {
-		super(existing.getResourcePath(), existing, updated);
+		super(updated.getResourcePath(), existing, updated);
 		this.item = item;
 		this.meta = meta;
 		this.modelMesher = mesher;

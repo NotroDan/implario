@@ -6,12 +6,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.logging.Log;
+import net.minecraft.resources.load.DatapackLoadException;
 import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.server.Todo;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,17 +38,20 @@ public class Datapacks {
 
 		try {
 			datapack = loader.load();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Main class '" + mainClass + "' wasn't found in " + jarFile, e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException("Main class '" + mainClass + "' doesn't have a public constructor.", e);
-		} catch (InstantiationException e) {
-			throw new RuntimeException("Main class '" + mainClass + "' doesn't have an empty constructor.", e);
-		} catch (IOException e) {
-			throw new RuntimeException("Jarfile " + jarFile + " couldn't be opened", e);
-		} catch (Exception e) {
-			throw new RuntimeException("Unknown error", e);
+		} catch (DatapackLoadException ex) {
+			throw new RuntimeException("Couldn't load '" + jarFile + "'", ex);
 		}
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Main class '" + mainClass + "' wasn't found in " + jarFile, e);
+//		} catch (IllegalAccessException e) {
+//			throw new RuntimeException("Main class '" + mainClass + "' doesn't have a public constructor.", e);
+//		} catch (InstantiationException e) {
+//			throw new RuntimeException("Main class '" + mainClass + "' doesn't have an empty constructor.", e);
+//		} catch (IOException e) {
+//			throw new RuntimeException("Jarfile " + jarFile + " couldn't be opened", e);
+//		} catch (Exception e) {
+//			throw new RuntimeException("Unknown error", e);
+//		}
 
 		datapacks.add(datapack);
 		return loader;
