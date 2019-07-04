@@ -6,21 +6,22 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
+import net.minecraft.Logger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S37PacketStatistics;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.TupleIntJsonSerializable;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import org.apache.commons.io.FileUtils;
-import net.minecraft.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class StatisticsFile extends StatFileWriter
 {
@@ -139,11 +140,11 @@ public class StatisticsFile extends StatFileWriter
 						tupleintjsonserializable.setIntegerValue(jsonobject1.getAsJsonPrimitive("value").getAsInt());
 					}
 
-					if (jsonobject1.has("progress") && statbase.func_150954_l() != null)
+					if (jsonobject1.has("progress") && statbase.serializer() != null)
 					{
 						try
 						{
-							Constructor <? extends IJsonSerializable > constructor = statbase.func_150954_l().getConstructor(new Class[0]);
+							Constructor <? extends IJsonSerializable > constructor = statbase.serializer().getConstructor();
 							IJsonSerializable ijsonserializable = (IJsonSerializable)constructor.newInstance(new Object[0]);
 							ijsonserializable.fromJson(jsonobject1.get("progress"));
 							tupleintjsonserializable.setJsonSerializableValue(ijsonserializable);

@@ -99,7 +99,7 @@ public class BlockFlowerPot extends BlockContainer {
 			tileentityflowerpot.setFlowerPotData(itemstack.getItem(), itemstack.getMetadata());
 			tileentityflowerpot.markDirty();
 			worldIn.markBlockForUpdate(pos);
-			playerIn.triggerAchievement(StatList.field_181736_T);
+			playerIn.triggerAchievement(StatList.flowerPottedStat);
 
 			if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize <= 0) {
 				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack) null);

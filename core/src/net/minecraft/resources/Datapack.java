@@ -42,4 +42,9 @@ public abstract class Datapack implements ServerSideDatapack {
 		return registrar;
 	}
 
+	@Override
+	public String toString() {
+		return domain.getAddress();
+	}
+
 }

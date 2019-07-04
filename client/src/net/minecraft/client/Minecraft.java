@@ -331,7 +331,7 @@ public class Minecraft implements IThreadListener {
 		this.guiAchievement = new GuiAchievement(this);
 		preloader.nextState();
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
-		for (Datapack datapack : Datapacks.getLoadedDatapacks()) {
+		for (Datapack datapack : Datapacks.getDatapacks()) {
 			if (datapack instanceof ClientSideDatapack) {
 				((ClientSideDatapack) datapack).clientInit(new ClientRegistrar(datapack.getRegistrar()));
 			}
@@ -376,7 +376,7 @@ public class Minecraft implements IThreadListener {
 		preloader = new Preloader(new ScaledResolution(this), mcDefaultResourcePack, renderEngine);
 		preloader.drawLogo();
 		drawable = new SharedDrawable(Display.getDrawable());
-		for (Datapack datapack : Datapacks.getLoadedDatapacks()) datapack.init();
+		for (Datapack datapack : Datapacks.getDatapacks()) datapack.init();
 		loader.start();
 		preloader.drawLogo();
 		while (!blabla) {

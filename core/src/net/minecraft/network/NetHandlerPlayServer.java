@@ -1,6 +1,5 @@
 package net.minecraft.network;
 
-import com.google.common.collect.Lists;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.util.concurrent.Futures;
@@ -29,7 +28,9 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.PlayerEntityActionEvent;
+import net.minecraft.resources.event.events.player.PlayerMoveEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Profiler;
 import net.minecraft.server.management.UserListBansEntry;
@@ -48,6 +49,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import static net.minecraft.entity.player.EntityPlayer.print;
 
 public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
@@ -97,7 +100,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		Profiler.in.startSection("keepAlive");
 
 		if ((long) this.networkTickCount - this.lastSentPingPacket > 40L) {
-			this.lastSentPingPacket = (long) this.networkTickCount;
+			this.lastSentPingPacket = this.networkTickCount;
 			this.lastPingTime = this.currentTimeMillis();
 			this.field_147378_h = (int) this.lastPingTime;
 			this.sendPacket(new S00PacketKeepAlive(this.field_147378_h));
@@ -159,9 +162,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 			this.field_147366_g = true;
 
 			if (!this.playerEntity.playerConqueredTheEnd) {
-				double d0 = this.playerEntity.posX;
-				double d1 = this.playerEntity.posY;
-				double d2 = this.playerEntity.posZ;
+				double x = this.playerEntity.posX;
+				double y = this.playerEntity.posY;
+				double z = this.playerEntity.posZ;
 				double d3 = 0.0D;
 				double d4 = packetIn.getPositionX() - this.lastPosX;
 				double d5 = packetIn.getPositionY() - this.lastPosY;
@@ -278,7 +281,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					}
 
 					float f3 = 0.0625F;
-					boolean flag = worldserver.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract((double) f3, (double) f3, (double) f3)).isEmpty();
+					boolean flag = worldserver.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(f3, f3, f3)).isEmpty();
 
 					if (this.playerEntity.onGround && !packetIn.isOnGround() && d12 > 0.0D) {
 						this.playerEntity.jump();
@@ -303,10 +306,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					}
 
 					this.playerEntity.setPositionAndRotation(d8, d9, d10, f1, f2);
-					this.playerEntity.addMovementStat(this.playerEntity.posX - d0, this.playerEntity.posY - d1, this.playerEntity.posZ - d2);
+					if (x != playerEntity.posX || y != playerEntity.posY || z != playerEntity.posZ) {
+						Events.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
+					}
+//					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);
 
 					if (!this.playerEntity.noClip) {
-						boolean flag2 = worldserver.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract((double) f3, (double) f3, (double) f3)).isEmpty();
+						boolean flag2 = worldserver.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(f3, f3, f3)).isEmpty();
 
 						if (flag && (flag1 || !flag2) && !this.playerEntity.isPlayerSleeping()) {
 							this.setPlayerLocation(this.lastPosX, this.lastPosY, this.lastPosZ, f1, f2);
@@ -314,7 +320,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 						}
 					}
 
-					AxisAlignedBB axisalignedbb = this.playerEntity.getEntityBoundingBox().expand((double) f3, (double) f3, (double) f3).addCoord(0.0D, -0.55D, 0.0D);
+					AxisAlignedBB axisalignedbb = this.playerEntity.getEntityBoundingBox().expand(f3, f3, f3).addCoord(0.0D, -0.55D, 0.0D);
 
 					if (!this.serverController.isFlightAllowed() && !this.playerEntity.capabilities.allowFlying && !worldserver.checkBlockCollision(axisalignedbb)) {
 						if (d12 >= -0.03125D) {

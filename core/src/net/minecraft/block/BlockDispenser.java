@@ -84,9 +84,9 @@ public class BlockDispenser extends BlockContainer {
 			playerIn.displayGUIChest((TileEntityDispenser) tileentity);
 
 			if (tileentity instanceof TileEntityDropper) {
-				playerIn.triggerAchievement(StatList.field_181731_O);
+				playerIn.triggerAchievement(StatList.droppersOpenedStat);
 			} else {
-				playerIn.triggerAchievement(StatList.field_181733_Q);
+				playerIn.triggerAchievement(StatList.dispensersOpenedStat);
 			}
 		}
 

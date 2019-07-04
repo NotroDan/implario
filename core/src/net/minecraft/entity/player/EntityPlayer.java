@@ -10,9 +10,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attributes.IAttributeInstance;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Blocks;
@@ -27,7 +25,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.DamageByEntityEvent;
+import net.minecraft.resources.event.events.MountMoveEvent;
 import net.minecraft.resources.event.events.TrySleepEvent;
 import net.minecraft.scoreboard.*;
 import net.minecraft.server.MinecraftServer;
@@ -116,7 +116,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	/**
 	 * Holds the coordinate of the player when enter a minecraft to ride.
 	 */
-	private BlockPos startMinecartRidingCoordinate;
+	public BlockPos startMinecartRidingCoordinate;
 
 	/**
 	 * The player's capabilities. (See class PlayerCapabilities)
@@ -345,10 +345,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		if (!this.worldObj.isClientSide) {
 			this.foodStats.onUpdate(this);
 			this.triggerAchievement(StatList.minutesPlayedStat);
-
-			if (this.isEntityAlive()) {
-				this.triggerAchievement(StatList.timeSinceDeathStat);
-			}
+			if (this.isEntityAlive()) this.triggerAchievement(StatList.timeSinceDeathStat);
 		}
 
 		int i = 29999999;
@@ -481,7 +478,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			super.updateRidden();
 			this.prevCameraYaw = this.cameraYaw;
 			this.cameraYaw = 0.0F;
-			this.addMountedMovementStat(this.posX - d0, this.posY - d1, this.posZ - d2);
+
+			Events.eventMountMove.call(new MountMoveEvent(this, ridingEntity, d0, d1, d2, posX, posY, posZ));
 
 			if (this.ridingEntity instanceof ICameraMagnet) {
 				this.rotationPitch = f1;
@@ -1477,12 +1475,12 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	}
 
 	/**
-	 * Moves the entity based on the specified heading.  Args: strafe, forward
+	 * Для игрока этот метод отвечает ТОЛЬКО ЗА ИЗМЕНЕНИЕ Y.
 	 */
 	public void moveEntityWithHeading(float strafe, float forward) {
-		double d0 = this.posX;
-		double d1 = this.posY;
-		double d2 = this.posZ;
+		double x = this.posX;
+		double y = this.posY;
+		double z = this.posZ;
 
 		if (this.capabilities.isFlying && this.ridingEntity == null) {
 			double d3 = this.motionY;
@@ -1495,7 +1493,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			super.moveEntityWithHeading(strafe, forward);
 		}
 
-		this.addMovementStat(this.posX - d0, this.posY - d1, this.posZ - d2);
+//		this.addMovementStat(this.posX - x, this.posY - y, this.posZ - z);
+	}
+
+	public static void print(boolean b) {
+		System.out.print(b ? "\u001b[31;1m- " : "\u001b[32;1m+ ");
 	}
 
 	/**
@@ -1506,80 +1508,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	}
 
 	/**
-	 * Adds a value to a movement statistic field - like run, walk, swin or climb.
-	 */
-	public void addMovementStat(double p_71000_1_, double p_71000_3_, double p_71000_5_) {
-		if (this.ridingEntity != null) return;
-		if (this.isInsideOfMaterial(Material.water)) {
-			int i = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_3_ * p_71000_3_ + p_71000_5_ * p_71000_5_) * 100.0F);
-
-			if (i > 0) {
-				this.addStat(StatList.distanceDoveStat, i);
-				this.addExhaustion(0.015F * (float) i * 0.01F);
-			}
-		} else if (this.isInWater()) {
-			int j = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
-
-			if (j > 0) {
-				this.addStat(StatList.distanceSwumStat, j);
-				this.addExhaustion(0.015F * (float) j * 0.01F);
-			}
-		} else if (this.isOnLadder()) {
-			if (p_71000_3_ > 0.0D) {
-				this.addStat(StatList.distanceClimbedStat, (int) Math.round(p_71000_3_ * 100.0D));
-			}
-		} else if (this.onGround) {
-			int k = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
-
-			if (k > 0) {
-				this.addStat(StatList.distanceWalkedStat, k);
-
-				if (this.isSprinting()) {
-					this.addStat(StatList.distanceSprintedStat, k);
-					this.addExhaustion(0.099999994F * (float) k * 0.01F);
-				} else {
-					if (this.isSneaking()) {
-						this.addStat(StatList.distanceCrouchedStat, k);
-					}
-
-					this.addExhaustion(0.01F * (float) k * 0.01F);
-				}
-			}
-		} else {
-			int l = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
-
-			if (l > 25) {
-				this.addStat(StatList.distanceFlownStat, l);
-			}
-		}
-	}
-
-	/**
 	 * Adds a value to a mounted movement statistic field - by minecart, boat, or pig.
 	 */
 	private void addMountedMovementStat(double p_71015_1_, double p_71015_3_, double p_71015_5_) {
-		if (this.ridingEntity != null) {
-			int i = Math.round(MathHelper.sqrt_double(p_71015_1_ * p_71015_1_ + p_71015_3_ * p_71015_3_ + p_71015_5_ * p_71015_5_) * 100.0F);
-
-			if (i > 0) {
-				if (this.ridingEntity instanceof EntityMinecart) {
-					this.addStat(StatList.distanceByMinecartStat, i);
-
-					if (this.startMinecartRidingCoordinate == null) {
-						this.startMinecartRidingCoordinate = new BlockPos(this);
-					} else if (this.startMinecartRidingCoordinate.distanceSq((double) MathHelper.floor_double(this.posX), (double) MathHelper.floor_double(this.posY),
-							(double) MathHelper.floor_double(this.posZ)) >= 1000000.0D) {
-						this.triggerAchievement(AchievementList.onARail);
-					}
-				} else if (this.ridingEntity instanceof EntityBoat) {
-					this.addStat(StatList.distanceByBoatStat, i);
-				} /*else if (this.ridingEntity instanceof EntityPig) {
-					this.addStat(StatList.distanceByPigStat, i);
-				} else if (this.ridingEntity instanceof EntityHorse) {
-					this.addStat(StatList.distanceByHorseStat, i);
-				}*///todo
-			}
-		}
 	}
 
 	public void fall(float distance, float damageMultiplier) {

@@ -143,7 +143,7 @@ public class Preloader {
 			else {
 				state = "§f   " + states[i];
 			}
-			if (i == this.state) state = "§e>  §o§n§m§l" + states[i] + "...";
+			if (i == this.state) state = "§e>  " + states[i] + "...";
 			BakedFont.VERDANA.getRenderer().renderString(state, 5 + offset, y, true);
 
 //			drawText(state, 5, 10 + i * BakedFont.VERDANA.getRenderer().getFontHeight(), 0);

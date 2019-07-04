@@ -234,16 +234,16 @@ public class VanillaWorldServer extends WorldServer {
 	 * Will update the entity in the world if the chunk the entity is in is currently loaded or its forced to update.
 	 * Args: entity, forceUpdate
 	 */
-	public void updateEntityWithOptionalForce(Entity entityIn, boolean forceUpdate) {
-		if (!mcServer.getCanSpawnAnimals() && (entityIn instanceof EntityAnimal || entityIn instanceof EntityWaterMob)) {
-			entityIn.setDead();
+	public void updateEntityWithOptionalForce(Entity entity, boolean forceUpdate) {
+		if (!mcServer.getCanSpawnAnimals() && (entity instanceof EntityAnimal || entity instanceof EntityWaterMob)) {
+			entity.setDead();
 		}
 
-		if (!mcServer.getCanSpawnNPCs() && entityIn instanceof INpc) {
-			entityIn.setDead();
+		if (!mcServer.getCanSpawnNPCs() && entity instanceof INpc) {
+			entity.setDead();
 		}
 
-		super.updateEntityWithOptionalForce(entityIn, forceUpdate);
+		super.updateEntityWithOptionalForce(entity, forceUpdate);
 	}
 
 	/**

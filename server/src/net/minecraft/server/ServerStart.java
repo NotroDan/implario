@@ -4,13 +4,15 @@ import net.minecraft.init.Bootstrap;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.server.dedicated.DedicatedServer;
+import vanilla.Vanilla;
 
 import java.io.File;
 
 public class ServerStart {
 	public static void main(String[] args) {
+		Datapacks.loadSimple(new Vanilla());
 		Bootstrap.register();
-		for (Datapack datapack : Datapacks.getLoadedDatapacks()) {
+		for (Datapack datapack : Datapacks.getDatapacks()) {
 			datapack.init();
 			datapack.ready();
 		}

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -12,85 +11,76 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockPressurePlate extends BlockBasePressurePlate
-{
-    public static final PropertyBool POWERED = PropertyBool.create("powered");
-    private final BlockPressurePlate.Sensitivity sensitivity;
+import java.util.List;
 
-    protected BlockPressurePlate(Material materialIn, BlockPressurePlate.Sensitivity sensitivityIn)
-    {
-        super(materialIn);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(POWERED, Boolean.FALSE));
-        this.sensitivity = sensitivityIn;
-    }
+public class BlockPressurePlate extends BlockBasePressurePlate {
 
-    protected int getRedstoneStrength(IBlockState state)
-    {
-        return ((Boolean)state.getValue(POWERED)).booleanValue() ? 15 : 0;
-    }
+	public static final PropertyBool POWERED = PropertyBool.create("powered");
+	private final BlockPressurePlate.Sensitivity sensitivity;
 
-    protected IBlockState setRedstoneStrength(IBlockState state, int strength)
-    {
-        return state.withProperty(POWERED, strength > 0);
-    }
+	protected BlockPressurePlate(Material materialIn, BlockPressurePlate.Sensitivity sensitivityIn) {
+		super(materialIn);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(POWERED, Boolean.FALSE));
+		this.sensitivity = sensitivityIn;
+	}
 
-    protected int computeRedstoneStrength(World worldIn, BlockPos pos)
-    {
-        AxisAlignedBB axisalignedbb = this.getSensitiveAABB(pos);
-        List <? extends Entity > list;
+	protected int getRedstoneStrength(IBlockState state) {
+		return ((Boolean) state.getValue(POWERED)).booleanValue() ? 15 : 0;
+	}
 
-        switch (this.sensitivity)
-        {
-            case EVERYTHING:
-                list = worldIn.getEntitiesWithinAABBExcludingEntity((Entity)null, axisalignedbb);
-                break;
+	protected IBlockState setRedstoneStrength(IBlockState state, int strength) {
+		return state.withProperty(POWERED, strength > 0);
+	}
 
-            case MOBS:
-                list = worldIn.<Entity>getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
-                break;
+	protected int computeRedstoneStrength(World worldIn, BlockPos pos) {
+		AxisAlignedBB axisalignedbb = this.getSensitiveAABB(pos);
+		List<? extends Entity> list;
 
-            default:
-                return 0;
-        }
+		switch (this.sensitivity) {
+			case EVERYTHING:
+				list = worldIn.getEntitiesWithinAABBExcludingEntity((Entity) null, axisalignedbb);
+				break;
 
-        if (!list.isEmpty())
-        {
-            for (Entity entity : list)
-            {
-                if (!entity.canTriggerWire())
-                {
-                    return 15;
-                }
-            }
-        }
+			case MOBS:
+				list = worldIn.<Entity>getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
+				break;
 
-        return 0;
-    }
+			default:
+				return 0;
+		}
 
-    /**
-     * Convert the given metadata into a BlockState for this Block
-     */
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState().withProperty(POWERED, meta == 1);
-    }
+		if (!list.isEmpty()) {
+			for (Entity entity : list) {
+				if (entity.canTriggerWire()) {
+					return 15;
+				}
+			}
+		}
 
-    /**
-     * Convert the BlockState into the correct metadata value
-     */
-    public int getMetaFromState(IBlockState state)
-    {
-        return ((Boolean)state.getValue(POWERED)).booleanValue() ? 1 : 0;
-    }
+		return 0;
+	}
 
-    protected BlockState createBlockState()
-    {
-        return new BlockState(this, new IProperty[] {POWERED});
-    }
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(POWERED, meta == 1);
+	}
 
-    public static enum Sensitivity
-    {
-        EVERYTHING,
-        MOBS;
-    }
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
+	public int getMetaFromState(IBlockState state) {
+		return ((Boolean) state.getValue(POWERED)).booleanValue() ? 1 : 0;
+	}
+
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] {POWERED});
+	}
+
+	public static enum Sensitivity {
+		EVERYTHING,
+		MOBS;
+	}
+
 }

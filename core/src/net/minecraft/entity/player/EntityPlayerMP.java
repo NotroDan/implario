@@ -734,7 +734,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		if (stat != null) {
 			this.statsFile.increaseStat(this, stat, amount);
 
-			for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(stat.func_150952_k())) {
+			for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(stat.getCriteria())) {
 				this.getWorldScoreboard().getValueFromObjective(this.getName(), scoreobjective).increseScore(amount);
 			}
 
@@ -748,7 +748,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		if (p_175145_1_ != null) {
 			this.statsFile.unlockAchievement(this, p_175145_1_, 0);
 
-			for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(p_175145_1_.func_150952_k())) {
+			for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(p_175145_1_.getCriteria())) {
 				this.getWorldScoreboard().getValueFromObjective(this.getName(), scoreobjective).setScorePoints(0);
 			}
 

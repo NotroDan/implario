@@ -1607,54 +1607,54 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	public void updateRidden() {
 		if (this.ridingEntity.isDead) {
 			this.ridingEntity = null;
-		} else {
-			this.motionX = 0.0D;
-			this.motionY = 0.0D;
-			this.motionZ = 0.0D;
-			this.onUpdate();
+			return;
+		}
+		this.motionX = 0.0D;
+		this.motionY = 0.0D;
+		this.motionZ = 0.0D;
+		this.onUpdate();
 
-			if (this.ridingEntity != null) {
-				this.ridingEntity.updateRiderPosition();
-				this.entityRiderYawDelta += (double) (this.ridingEntity.rotationYaw - this.ridingEntity.prevRotationYaw);
+		if (this.ridingEntity != null) {
+			this.ridingEntity.updateRiderPosition();
+			this.entityRiderYawDelta += (double) (this.ridingEntity.rotationYaw - this.ridingEntity.prevRotationYaw);
 
-				for (this.entityRiderPitchDelta += (double) (this.ridingEntity.rotationPitch - this.ridingEntity.prevRotationPitch); this.entityRiderYawDelta >= 180.0D; this.entityRiderYawDelta -= 360.0D) {
-				}
-
-				while (this.entityRiderYawDelta < -180.0D) {
-					this.entityRiderYawDelta += 360.0D;
-				}
-
-				while (this.entityRiderPitchDelta >= 180.0D) {
-					this.entityRiderPitchDelta -= 360.0D;
-				}
-
-				while (this.entityRiderPitchDelta < -180.0D) {
-					this.entityRiderPitchDelta += 360.0D;
-				}
-
-				double d0 = this.entityRiderYawDelta * 0.5D;
-				double d1 = this.entityRiderPitchDelta * 0.5D;
-				float f = 10.0F;
-
-				if (d0 > (double) f) {
-					d0 = (double) f;
-				}
-
-				if (d0 < (double) -f) {
-					d0 = (double) -f;
-				}
-
-				if (d1 > (double) f) {
-					d1 = (double) f;
-				}
-
-				if (d1 < (double) -f) {
-					d1 = (double) -f;
-				}
-
-				this.entityRiderYawDelta -= d0;
-				this.entityRiderPitchDelta -= d1;
+			for (this.entityRiderPitchDelta += (double) (this.ridingEntity.rotationPitch - this.ridingEntity.prevRotationPitch); this.entityRiderYawDelta >= 180.0D; this.entityRiderYawDelta -= 360.0D) {
 			}
+
+			while (this.entityRiderYawDelta < -180.0D) {
+				this.entityRiderYawDelta += 360.0D;
+			}
+
+			while (this.entityRiderPitchDelta >= 180.0D) {
+				this.entityRiderPitchDelta -= 360.0D;
+			}
+
+			while (this.entityRiderPitchDelta < -180.0D) {
+				this.entityRiderPitchDelta += 360.0D;
+			}
+
+			double d0 = this.entityRiderYawDelta * 0.5D;
+			double d1 = this.entityRiderPitchDelta * 0.5D;
+			float f = 10.0F;
+
+			if (d0 > (double) f) {
+				d0 = (double) f;
+			}
+
+			if (d0 < (double) -f) {
+				d0 = (double) -f;
+			}
+
+			if (d1 > (double) f) {
+				d1 = (double) f;
+			}
+
+			if (d1 < (double) -f) {
+				d1 = (double) -f;
+			}
+
+			this.entityRiderYawDelta -= d0;
+			this.entityRiderPitchDelta -= d1;
 		}
 	}
 

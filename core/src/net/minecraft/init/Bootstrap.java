@@ -33,7 +33,7 @@ public class Bootstrap {
 		if (alreadyRegistered) return;
 		alreadyRegistered = true;
 
-		Collection<Datapack> datapacks = Datapacks.getLoadedDatapacks();
+		Collection<Datapack> datapacks = Datapacks.getDatapacks();
 
 		Block.registerBlocks();
 		for (Datapack datapack : datapacks) datapack.loadBlocks();
@@ -48,7 +48,10 @@ public class Bootstrap {
 
 		StatList.init();
 		Enchantments.protection.getClass().getCanonicalName();
-		for (Datapack datapack : datapacks) datapack.preinit();
+		for (Datapack datapack : datapacks) {
+			System.out.println("Преинициализация датапака " + datapack.getDomain());
+			datapack.preinit();
+		}
 		if (!datapacks.isEmpty()) {
 			Blocks.reload();
 			Block.reloadBlockStates();

@@ -359,11 +359,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Adds a value to a statistic field.
 	 */
 	public void addStat(StatBase stat, int amount) {
-		if (stat != null) {
-			if (stat.isIndependent) {
-				super.addStat(stat, amount);
-			}
-		}
+		if (stat != null && stat.independent) super.addStat(stat, amount);
 	}
 
 	/**

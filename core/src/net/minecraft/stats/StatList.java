@@ -14,121 +14,98 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.chat.ChatComponentTranslation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class StatList
-{
-    protected static Map<String, StatBase> oneShotStats = Maps.newHashMap();
-    public static List<StatBase> allStats = new java.util.ArrayList<>();
-    public static List<StatBase> generalStats = new java.util.ArrayList<>();
-    public static List<StatCrafting> itemStats = new java.util.ArrayList<>();
-    public static List<StatCrafting> objectMineStats = new java.util.ArrayList<>();
+public class StatList {
 
-    /** number of times you've left a game */
-    public static StatBase leaveGameStat = new StatBasic("stat.leaveGame", new ChatComponentTranslation("stat.leaveGame")).initIndependentStat().registerStat();
+	protected static Map<String, StatBase> oneShotStats = Maps.newHashMap();
 
-    /** number of minutes you have played */
-    public static StatBase minutesPlayedStat = new StatBasic("stat.playOneMinute", new ChatComponentTranslation("stat.playOneMinute"), StatBase.timeStatType).initIndependentStat().registerStat();
-    public static StatBase timeSinceDeathStat = new StatBasic("stat.timeSinceDeath", new ChatComponentTranslation("stat.timeSinceDeath"), StatBase.timeStatType).initIndependentStat().registerStat();
+	public static List<StatBase> allStats = new ArrayList<>();
+	public static List<StatBase> generalStats = new ArrayList<>();
+	public static List<StatCrafting> itemStats = new ArrayList<>();
+	public static List<StatCrafting> objectMineStats = new ArrayList<>();
 
-    /** distance you've walked */
-    public static StatBase distanceWalkedStat = new StatBasic("stat.walkOneCm", new ChatComponentTranslation("stat.walkOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
-    public static StatBase distanceCrouchedStat = new StatBasic("stat.crouchOneCm", new ChatComponentTranslation("stat.crouchOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
-    public static StatBase distanceSprintedStat = new StatBasic("stat.sprintOneCm", new ChatComponentTranslation("stat.sprintOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
+	public static StatBase
 
-    /** distance you have swam */
-    public static StatBase distanceSwumStat = new StatBasic("stat.swimOneCm", new ChatComponentTranslation("stat.swimOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
+			minutesPlayedStat           = new StatBasic("stat.playOneMinute",  StatFormatter.timeFormat).indepenpent().registerStat(),
+			timeSinceDeathStat          = new StatBasic("stat.timeSinceDeath", StatFormatter.timeFormat).indepenpent().registerStat(),
 
-    /** the distance you have fallen */
-    public static StatBase distanceFallenStat = new StatBasic("stat.fallOneCm", new ChatComponentTranslation("stat.fallOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
+			distanceDoveStat            = new StatBasic("stat.diveOneCm",     StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceWalkedStat          = new StatBasic("stat.walkOneCm",     StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceCrouchedStat        = new StatBasic("stat.crouchOneCm",   StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceSprintedStat        = new StatBasic("stat.sprintOneCm",   StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceSwumStat            = new StatBasic("stat.swimOneCm",     StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceFallenStat          = new StatBasic("stat.fallOneCm",     StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceClimbedStat         = new StatBasic("stat.climbOneCm",    StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceFlownStat           = new StatBasic("stat.flyOneCm",      StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceByMinecartStat      = new StatBasic("stat.minecartOneCm", StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceByBoatStat          = new StatBasic("stat.boatOneCm",     StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceByPigStat           = new StatBasic("stat.pigOneCm",      StatFormatter.distanceFormat).indepenpent().registerStat(),
+			distanceByHorseStat         = new StatBasic("stat.horseOneCm",    StatFormatter.distanceFormat).indepenpent().registerStat(),
 
-    /** the distance you've climbed */
-    public static StatBase distanceClimbedStat = new StatBasic("stat.climbOneCm", new ChatComponentTranslation("stat.climbOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
+			damageDealtStat             = new StatBasic("stat.damageDealt", StatFormatter.damageFormat).registerStat(),
+			damageTakenStat             = new StatBasic("stat.damageTaken", StatFormatter.damageFormat).registerStat(),
 
-    /** the distance you've flown */
-    public static StatBase distanceFlownStat = new StatBasic("stat.flyOneCm", new ChatComponentTranslation("stat.flyOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
+			leaveGameStat               = new StatBasic("stat.leaveGame").indepenpent().registerStat(),
+			jumpStat                    = new StatBasic("stat.jump")     .indepenpent().registerStat(),
+			dropStat                    = new StatBasic("stat.drop")     .indepenpent().registerStat(),
+			deathsStat                  = new StatBasic("stat.deaths")                 .registerStat(),
+			mobKillsStat                = new StatBasic("stat.mobKills")               .registerStat(),
+			animalsBredStat             = new StatBasic("stat.animalsBred")            .registerStat(),
+			playerKillsStat             = new StatBasic("stat.playerKills")            .registerStat(),
+			fishCaughtStat              = new StatBasic("stat.fishCaught")             .registerStat(),
+			junkFishedStat              = new StatBasic("stat.junkFished")             .registerStat(),
+			treasureFishedStat          = new StatBasic("stat.treasureFished")         .registerStat(),
+			timesTalkedToVillagerStat   = new StatBasic("stat.talkedToVillager")       .registerStat(),
+			timesTradedWithVillagerStat = new StatBasic("stat.tradedWithVillager")     .registerStat(),
+			cakeSlicesEatenStat         = new StatBasic("stat.cakeSlicesEaten")        .registerStat(),
+			cauldronFilledStat          = new StatBasic("stat.cauldronFilled")         .registerStat(),
+			cauldronUsedStat            = new StatBasic("stat.cauldronUsed")           .registerStat(),
+			armorCleanedStat            = new StatBasic("stat.armorCleaned")           .registerStat(),
+			bannerCleanedStat           = new StatBasic("stat.bannerCleaned")          .registerStat(),
+			brewingsOpenedStat          = new StatBasic("stat.brewingstandInteraction").registerStat(),
+			beaconsOpenedStat           = new StatBasic("stat.beaconInteraction")      .registerStat(),
+			droppersOpenedStat          = new StatBasic("stat.dropperInspected")       .registerStat(),
+			hoppersOpenedStat           = new StatBasic("stat.hopperInspected")        .registerStat(),
+			dispensersOpenedStat        = new StatBasic("stat.dispenserInspected")     .registerStat(),
+			noteblockPlayedStat         = new StatBasic("stat.noteblockPlayed")        .registerStat(),
+			noteblockTunedStat          = new StatBasic("stat.noteblockTuned")         .registerStat(),
+			flowerPottedStat            = new StatBasic("stat.flowerPotted")           .registerStat(),
+			trappedChestTriggeredStat   = new StatBasic("stat.trappedChestTriggered")  .registerStat(),
+			enderChestOpenedStat        = new StatBasic("stat.enderchestOpened")       .registerStat(),
+			itemsEnchantedStat          = new StatBasic("stat.itemEnchanted")          .registerStat(),
+			recordsPlayedStat           = new StatBasic("stat.recordPlayed")           .registerStat(),
+			furnacesOpenedStat          = new StatBasic("stat.furnaceInteraction")     .registerStat(),
+			craftingTableOpenedStat     = new StatBasic("stat.workbenchInteraction")   .registerStat(),
+			chestsOpenedStat            = new StatBasic("stat.chestOpened")            .registerStat();
 
-    /** the distance you've dived */
-    public static StatBase distanceDoveStat = new StatBasic("stat.diveOneCm", new ChatComponentTranslation("stat.diveOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
 
-    /** the distance you've traveled by minecart */
-    public static StatBase distanceByMinecartStat = new StatBasic("stat.minecartOneCm", new ChatComponentTranslation("stat.minecartOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
+	public static final StatBase[] mineBlockStatArray = new StatBase[4096];
 
-    /** the distance you've traveled by boat */
-    public static StatBase distanceByBoatStat = new StatBasic("stat.boatOneCm", new ChatComponentTranslation("stat.boatOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
+	/**
+	 * Tracks the number of items a given block or item has been crafted.
+	 */
+	public static final StatBase[] objectCraftStats = new StatBase[32000];
 
-    /** the distance you've traveled by pig */
-    public static StatBase distanceByPigStat = new StatBasic("stat.pigOneCm", new ChatComponentTranslation("stat.pigOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
-    public static StatBase distanceByHorseStat = new StatBasic("stat.horseOneCm", new ChatComponentTranslation("stat.horseOneCm"), StatBase.distanceStatType).initIndependentStat().registerStat();
+	/**
+	 * Tracks the number of times a given block or item has been used.
+	 */
+	public static final StatBase[] objectUseStats = new StatBase[32000];
 
-    /** the times you've jumped */
-    public static StatBase jumpStat = new StatBasic("stat.jump", new ChatComponentTranslation("stat.jump")).initIndependentStat().registerStat();
+	/**
+	 * Tracks the number of times a given block or item has been broken.
+	 */
+	public static final StatBase[] objectBreakStats = new StatBase[32000];
 
-    /** the distance you've dropped (or times you've fallen?) */
-    public static StatBase dropStat = new StatBasic("stat.drop", new ChatComponentTranslation("stat.drop")).initIndependentStat().registerStat();
-
-    /** the amount of damage you've dealt */
-    public static StatBase damageDealtStat = new StatBasic("stat.damageDealt", new ChatComponentTranslation("stat.damageDealt"), StatBase.field_111202_k).registerStat();
-
-    /** the amount of damage you have taken */
-    public static StatBase damageTakenStat = new StatBasic("stat.damageTaken", new ChatComponentTranslation("stat.damageTaken"), StatBase.field_111202_k).registerStat();
-
-    /** the number of times you have died */
-    public static StatBase deathsStat = new StatBasic("stat.deaths", new ChatComponentTranslation("stat.deaths")).registerStat();
-
-    /** the number of mobs you have killed */
-    public static StatBase mobKillsStat = new StatBasic("stat.mobKills", new ChatComponentTranslation("stat.mobKills")).registerStat();
-
-    /** the number of animals you have bred */
-    public static StatBase animalsBredStat = new StatBasic("stat.animalsBred", new ChatComponentTranslation("stat.animalsBred")).registerStat();
-
-    /** counts the number of times you've killed a player */
-    public static StatBase playerKillsStat = new StatBasic("stat.playerKills", new ChatComponentTranslation("stat.playerKills")).registerStat();
-    public static StatBase fishCaughtStat = new StatBasic("stat.fishCaught", new ChatComponentTranslation("stat.fishCaught")).registerStat();
-    public static StatBase junkFishedStat = new StatBasic("stat.junkFished", new ChatComponentTranslation("stat.junkFished")).registerStat();
-    public static StatBase treasureFishedStat = new StatBasic("stat.treasureFished", new ChatComponentTranslation("stat.treasureFished")).registerStat();
-    public static StatBase timesTalkedToVillagerStat = new StatBasic("stat.talkedToVillager", new ChatComponentTranslation("stat.talkedToVillager")).registerStat();
-    public static StatBase timesTradedWithVillagerStat = new StatBasic("stat.tradedWithVillager", new ChatComponentTranslation("stat.tradedWithVillager")).registerStat();
-    public static StatBase field_181724_H = new StatBasic("stat.cakeSlicesEaten", new ChatComponentTranslation("stat.cakeSlicesEaten")).registerStat();
-    public static StatBase field_181725_I = new StatBasic("stat.cauldronFilled", new ChatComponentTranslation("stat.cauldronFilled")).registerStat();
-    public static StatBase field_181726_J = new StatBasic("stat.cauldronUsed", new ChatComponentTranslation("stat.cauldronUsed")).registerStat();
-    public static StatBase field_181727_K = new StatBasic("stat.armorCleaned", new ChatComponentTranslation("stat.armorCleaned")).registerStat();
-    public static StatBase field_181728_L = new StatBasic("stat.bannerCleaned", new ChatComponentTranslation("stat.bannerCleaned")).registerStat();
-    public static StatBase field_181729_M = new StatBasic("stat.brewingstandInteraction", new ChatComponentTranslation("stat.brewingstandInteraction")).registerStat();
-    public static StatBase field_181730_N = new StatBasic("stat.beaconInteraction", new ChatComponentTranslation("stat.beaconInteraction")).registerStat();
-    public static StatBase field_181731_O = new StatBasic("stat.dropperInspected", new ChatComponentTranslation("stat.dropperInspected")).registerStat();
-    public static StatBase field_181732_P = new StatBasic("stat.hopperInspected", new ChatComponentTranslation("stat.hopperInspected")).registerStat();
-    public static StatBase field_181733_Q = new StatBasic("stat.dispenserInspected", new ChatComponentTranslation("stat.dispenserInspected")).registerStat();
-    public static StatBase field_181734_R = new StatBasic("stat.noteblockPlayed", new ChatComponentTranslation("stat.noteblockPlayed")).registerStat();
-    public static StatBase field_181735_S = new StatBasic("stat.noteblockTuned", new ChatComponentTranslation("stat.noteblockTuned")).registerStat();
-    public static StatBase field_181736_T = new StatBasic("stat.flowerPotted", new ChatComponentTranslation("stat.flowerPotted")).registerStat();
-    public static StatBase field_181737_U = new StatBasic("stat.trappedChestTriggered", new ChatComponentTranslation("stat.trappedChestTriggered")).registerStat();
-    public static StatBase field_181738_V = new StatBasic("stat.enderchestOpened", new ChatComponentTranslation("stat.enderchestOpened")).registerStat();
-    public static StatBase field_181739_W = new StatBasic("stat.itemEnchanted", new ChatComponentTranslation("stat.itemEnchanted")).registerStat();
-    public static StatBase field_181740_X = new StatBasic("stat.recordPlayed", new ChatComponentTranslation("stat.recordPlayed")).registerStat();
-    public static StatBase field_181741_Y = new StatBasic("stat.furnaceInteraction", new ChatComponentTranslation("stat.furnaceInteraction")).registerStat();
-    public static StatBase field_181742_Z = new StatBasic("stat.craftingTableInteraction", new ChatComponentTranslation("stat.workbenchInteraction")).registerStat();
-    public static StatBase field_181723_aa = new StatBasic("stat.chestOpened", new ChatComponentTranslation("stat.chestOpened")).registerStat();
-    public static final StatBase[] mineBlockStatArray = new StatBase[4096];
-
-    /** Tracks the number of items a given block or item has been crafted. */
-    public static final StatBase[] objectCraftStats = new StatBase[32000];
-
-    /** Tracks the number of times a given block or item has been used. */
-    public static final StatBase[] objectUseStats = new StatBase[32000];
-
-    /** Tracks the number of times a given block or item has been broken. */
-    public static final StatBase[] objectBreakStats = new StatBase[32000];
-
-    public static void init() {
+	public static void init() {
 		initMiningStats();
 		initStats();
 		initItemDepleteStats();
 		initCraftableStats();
 		AchievementList.init();
-		EntityList.func_151514_a();
 	}
 
 	/**
@@ -242,9 +219,9 @@ public class StatList
 	/**
 	 * Merge {@link StatBase} object references for similar blocks
 	 */
-	private static void mergeStatBases(StatBase[] statBaseIn, Block p_151180_1_, Block p_151180_2_) {
-		int i = Block.getIdFromBlock(p_151180_1_);
-		int j = Block.getIdFromBlock(p_151180_2_);
+	private static void mergeStatBases(StatBase[] statBaseIn, Block a, Block b) {
+		int i = Block.getIdFromBlock(a);
+		int j = Block.getIdFromBlock(b);
 
 		if (statBaseIn[i] != null && statBaseIn[j] == null) {
 			statBaseIn[j] = statBaseIn[i];

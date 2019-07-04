@@ -1,3 +1,5 @@
 package net.minecraft.resources.event;
 
-public class Event implements Listenable {}
+public abstract class Event<T extends Event> implements Listenable {
+
+}

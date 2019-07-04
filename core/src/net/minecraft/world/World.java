@@ -1,7 +1,6 @@
 package net.minecraft.world;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -14,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.events.player.PlayerUpdateEvent;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Profiler;
@@ -1487,75 +1488,66 @@ public abstract class World implements IBlockAccess {
 	 * Will update the entity in the world if the chunk the entity is in is currently loaded or its forced to update.
 	 * Args: entity, forceUpdate
 	 */
-	public void updateEntityWithOptionalForce(Entity entityIn, boolean forceUpdate) {
-		int i = MathHelper.floor_double(entityIn.posX);
-		int j = MathHelper.floor_double(entityIn.posZ);
+	public void updateEntityWithOptionalForce(Entity entity, boolean forceUpdate) {
+		int i = MathHelper.floor_double(entity.posX);
+		int j = MathHelper.floor_double(entity.posZ);
 		int k = 32;
 
 		if (!forceUpdate || this.isAreaLoaded(i - k, 0, j - k, i + k, 0, j + k, true)) {
-			entityIn.lastTickPosX = entityIn.posX;
-			entityIn.lastTickPosY = entityIn.posY;
-			entityIn.lastTickPosZ = entityIn.posZ;
-			entityIn.prevRotationYaw = entityIn.rotationYaw;
-			entityIn.prevRotationPitch = entityIn.rotationPitch;
+			entity.lastTickPosX = entity.posX;
+			entity.lastTickPosY = entity.posY;
+			entity.lastTickPosZ = entity.posZ;
+			entity.prevRotationYaw = entity.rotationYaw;
+			entity.prevRotationPitch = entity.rotationPitch;
 
-			if (forceUpdate && entityIn.addedToChunk) {
-				++entityIn.ticksExisted;
+			if (forceUpdate && entity.addedToChunk) {
+				++entity.ticksExisted;
 
-				if (entityIn.ridingEntity != null) {
-					entityIn.updateRidden();
-				} else {
-					entityIn.onUpdate();
-				}
+				if (entity.ridingEntity != null) entity.updateRidden();
+				else entity.onUpdate();
+
+				if (entity instanceof EntityPlayer) Events.eventPlayerUpdate.call(new PlayerUpdateEvent((EntityPlayer) entity));
 			}
 
 			this.theProfiler.startSection("chunkCheck");
 
-			if (Double.isNaN(entityIn.posX) || Double.isInfinite(entityIn.posX)) {
-				entityIn.posX = entityIn.lastTickPosX;
+			if (Double.isNaN(entity.posX) || Double.isInfinite(entity.posX)) entity.posX = entity.lastTickPosX;
+			if (Double.isNaN(entity.posY) || Double.isInfinite(entity.posY)) entity.posY = entity.lastTickPosY;
+			if (Double.isNaN(entity.posZ) || Double.isInfinite(entity.posZ)) entity.posZ = entity.lastTickPosZ;
+
+			if (Double.isNaN((double) entity.rotationPitch) || Double.isInfinite((double) entity.rotationPitch)) {
+				entity.rotationPitch = entity.prevRotationPitch;
 			}
 
-			if (Double.isNaN(entityIn.posY) || Double.isInfinite(entityIn.posY)) {
-				entityIn.posY = entityIn.lastTickPosY;
+			if (Double.isNaN((double) entity.rotationYaw) || Double.isInfinite((double) entity.rotationYaw)) {
+				entity.rotationYaw = entity.prevRotationYaw;
 			}
 
-			if (Double.isNaN(entityIn.posZ) || Double.isInfinite(entityIn.posZ)) {
-				entityIn.posZ = entityIn.lastTickPosZ;
-			}
+			int l = MathHelper.floor_double(entity.posX / 16.0D);
+			int i1 = MathHelper.floor_double(entity.posY / 16.0D);
+			int j1 = MathHelper.floor_double(entity.posZ / 16.0D);
 
-			if (Double.isNaN((double) entityIn.rotationPitch) || Double.isInfinite((double) entityIn.rotationPitch)) {
-				entityIn.rotationPitch = entityIn.prevRotationPitch;
-			}
-
-			if (Double.isNaN((double) entityIn.rotationYaw) || Double.isInfinite((double) entityIn.rotationYaw)) {
-				entityIn.rotationYaw = entityIn.prevRotationYaw;
-			}
-
-			int l = MathHelper.floor_double(entityIn.posX / 16.0D);
-			int i1 = MathHelper.floor_double(entityIn.posY / 16.0D);
-			int j1 = MathHelper.floor_double(entityIn.posZ / 16.0D);
-
-			if (!entityIn.addedToChunk || entityIn.chunkCoordX != l || entityIn.chunkCoordY != i1 || entityIn.chunkCoordZ != j1) {
-				if (entityIn.addedToChunk && this.isChunkLoaded(entityIn.chunkCoordX, entityIn.chunkCoordZ, true)) {
-					this.getChunkFromChunkCoords(entityIn.chunkCoordX, entityIn.chunkCoordZ).removeEntityAtIndex(entityIn, entityIn.chunkCoordY);
+			if (!entity.addedToChunk || entity.chunkCoordX != l || entity.chunkCoordY != i1 || entity.chunkCoordZ != j1) {
+				if (entity.addedToChunk && this.isChunkLoaded(entity.chunkCoordX, entity.chunkCoordZ, true)) {
+					this.getChunkFromChunkCoords(entity.chunkCoordX, entity.chunkCoordZ).removeEntityAtIndex(entity, entity.chunkCoordY);
 				}
 
 				if (this.isChunkLoaded(l, j1, true)) {
-					entityIn.addedToChunk = true;
-					this.getChunkFromChunkCoords(l, j1).addEntity(entityIn);
+					entity.addedToChunk = true;
+					this.getChunkFromChunkCoords(l, j1).addEntity(entity);
 				} else {
-					entityIn.addedToChunk = false;
+					entity.addedToChunk = false;
 				}
 			}
 
 			this.theProfiler.endSection();
 
-			if (forceUpdate && entityIn.addedToChunk && entityIn.riddenByEntity != null) {
-				if (!entityIn.riddenByEntity.isDead && entityIn.riddenByEntity.ridingEntity == entityIn) {
-					this.updateEntity(entityIn.riddenByEntity);
+			if (forceUpdate && entity.addedToChunk && entity.riddenByEntity != null) {
+				if (!entity.riddenByEntity.isDead && entity.riddenByEntity.ridingEntity == entity) {
+					this.updateEntity(entity.riddenByEntity);
 				} else {
-					entityIn.riddenByEntity.ridingEntity = null;
-					entityIn.riddenByEntity = null;
+					entity.riddenByEntity.ridingEntity = null;
+					entity.riddenByEntity = null;
 				}
 			}
 		}

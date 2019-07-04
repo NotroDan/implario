@@ -185,9 +185,6 @@ public class EntityList {
 		return classToStringMapping.get(getClassFromID(entityID));
 	}
 
-	public static void func_151514_a() {
-	}
-
 	public static List<String> getEntityNameList() {
 		Set<String> set = stringToClassMapping.keySet();
 		List<String> list = new java.util.ArrayList<>();

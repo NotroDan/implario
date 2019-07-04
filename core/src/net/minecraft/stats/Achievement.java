@@ -48,36 +48,25 @@ public class Achievement extends StatBase {
 	 */
 	private boolean isSpecial;
 
-	public Achievement(String p_i46327_1_, String p_i46327_2_, int column, int row, Item p_i46327_5_, Achievement parent) {
-		this(p_i46327_1_, p_i46327_2_, column, row, new ItemStack(p_i46327_5_), parent);
+	public Achievement(String id, int column, int row, Item icon, Achievement parent) {
+		this(id, column, row, new ItemStack(icon), parent);
 	}
 
-	public Achievement(String p_i45301_1_, String p_i45301_2_, int column, int row, Block p_i45301_5_, Achievement parent) {
-		this(p_i45301_1_, p_i45301_2_, column, row, new ItemStack(p_i45301_5_), parent);
+	public Achievement(String id, int column, int row, Block icon, Achievement parent) {
+		this(id, column, row, new ItemStack(icon), parent);
 	}
 
-	public Achievement(String p_i45302_1_, String p_i45302_2_, int column, int row, ItemStack p_i45302_5_, Achievement parent) {
-		super(p_i45302_1_, new ChatComponentTranslation("achievement." + p_i45302_2_));
+	public Achievement(String id, int column, int row, ItemStack p_i45302_5_, Achievement parent) {
+		super("achievement." + id, new ChatComponentTranslation("achievement." + id));
 		this.theItemStack = p_i45302_5_;
-		this.achievementDescription = "achievement." + p_i45302_2_ + ".desc";
+		this.achievementDescription = "achievement." + id + ".desc";
 		this.displayColumn = column;
 		this.displayRow = row;
 
-		if (column < AchievementList.minDisplayColumn) {
-			AchievementList.minDisplayColumn = column;
-		}
-
-		if (row < AchievementList.minDisplayRow) {
-			AchievementList.minDisplayRow = row;
-		}
-
-		if (column > AchievementList.maxDisplayColumn) {
-			AchievementList.maxDisplayColumn = column;
-		}
-
-		if (row > AchievementList.maxDisplayRow) {
-			AchievementList.maxDisplayRow = row;
-		}
+		if (column < AchievementList.minDisplayColumn) AchievementList.minDisplayColumn = column;
+		if (row < AchievementList.minDisplayRow) AchievementList.minDisplayRow = row;
+		if (column > AchievementList.maxDisplayColumn) AchievementList.maxDisplayColumn = column;
+		if (row > AchievementList.maxDisplayRow) AchievementList.maxDisplayRow = row;
 
 		this.parentAchievement = parent;
 	}
@@ -86,8 +75,8 @@ public class Achievement extends StatBase {
 	 * Initializes the current stat as independent (i.e., lacking prerequisites for being updated) and returns the
 	 * current instance.
 	 */
-	public Achievement initIndependentStat() {
-		this.isIndependent = true;
+	public Achievement indepenpent() {
+		this.independent = true;
 		return this;
 	}
 
@@ -122,8 +111,8 @@ public class Achievement extends StatBase {
 		return ichatcomponent;
 	}
 
-	public Achievement func_150953_b(Class<? extends IJsonSerializable> p_150953_1_) {
-		return (Achievement) super.func_150953_b(p_150953_1_);
+	public Achievement serializer(Class<? extends IJsonSerializable> serializer) {
+		return (Achievement) super.serializer(serializer);
 	}
 
 	/**
