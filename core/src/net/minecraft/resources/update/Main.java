@@ -1,7 +1,5 @@
 package net.minecraft.resources.update;
 
-import net.minecraft.resources.update.FileDatapackEdit;
-
 import java.io.File;
 
 public class Main {

@@ -547,7 +547,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 		synchronized (this.futureTaskQueue) {
 			while (!this.futureTaskQueue.isEmpty()) {
-				Util.schedule((FutureTask) this.futureTaskQueue.poll(), Log.MAIN);
+				Util.schedule(this.futureTaskQueue.poll(), Log.MAIN);
 			}
 		}
 
@@ -592,8 +592,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 				Profiler.in.endSection();
 				Profiler.in.endSection();
 			}
-
-			this.timeOfLastDimensionTick[j][this.tickCounter % 100] = System.nanoTime() - i;
+			long time = System.nanoTime();
+			this.timeOfLastDimensionTick[j][this.tickCounter % 100] = time - i;
 		}
 
 		Profiler.in.endStartSection("connection");

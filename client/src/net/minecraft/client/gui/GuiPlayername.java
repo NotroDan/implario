@@ -82,6 +82,6 @@ public class GuiPlayername extends GuiScreen {
 		inputField.drawTextBox();
 		uuid.drawTextBox();
 		token.drawTextBox();
-		drawScreen(mouseX, mouseY, partialTicks);
+		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 }
