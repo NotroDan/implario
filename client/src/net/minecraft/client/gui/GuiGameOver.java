@@ -7,125 +7,100 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
 
-public class GuiGameOver extends GuiScreen implements GuiYesNoCallback
-{
-    /**
-     * The integer value containing the number of ticks that have passed since the player's death
-     */
+public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
+
+    //After 20 ticks buttons enable
     private int enableButtonsTimer;
-    private boolean field_146346_f = false;
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-     * window resizes, the buttonList is cleared beforehand.
-     */
+    @Override
     public void initGui() {
-        this.buttonList.clear();
+        buttonList.clear();
 
-        if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
-            if (this.mc.isIntegratedServerRunning()) this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 96, Lang.format("deathScreen.deleteWorld")));
-            else this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 96, Lang.format("deathScreen.leaveServer")));
+        if (mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
+            if (mc.isIntegratedServerRunning()) buttonList.add(new GuiButton(1, width / 2 - 100,
+                    height / 4 + 96, Lang.format("deathScreen.deleteWorld")));
+            else buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 96,
+                    Lang.format("deathScreen.leaveServer")));
         } else {
-            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 72, Lang.format("deathScreen.respawn")));
-            this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 96, Lang.format("deathScreen.titleScreen")));
+            buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 72,
+                    Lang.format("deathScreen.respawn")));
+            buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 96,
+                    Lang.format("deathScreen.titleScreen")));
 
-            if (this.mc.getSession() == null)
-            {
-                this.buttonList.get(1).enabled = false;
-            }
+            if (mc.getSession() == null)
+                buttonList.get(1).enabled = false;
         }
 
-        for (GuiButton guibutton : this.buttonList)
-        {
+        for (GuiButton guibutton : buttonList)
             guibutton.enabled = false;
-        }
     }
 
-    /**
-     * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
-     * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
-     */
+    @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {}
 
-    /**
-     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
-     */
+    @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         switch (button.id) {
             case 0:
-                this.mc.thePlayer.respawnPlayer();
-                this.mc.displayGuiScreen(null);
+                mc.thePlayer.respawnPlayer();
+                mc.displayGuiScreen(null);
                 break;
 
             case 1:
-                if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) this.mc.displayGuiScreen(new GuiMainMenu());
+                if (mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) this.mc.displayGuiScreen(new GuiMainMenu());
                 else {
-                    GuiYesNo guiyesno = new GuiYesNo(this, Lang.format("deathScreen.quit.confirm"), "", Lang.format("deathScreen.titleScreen"), Lang.format("deathScreen.respawn"), 0);
-                    this.mc.displayGuiScreen(guiyesno);
+                    GuiYesNo guiyesno = new GuiYesNo(this, Lang.format("deathScreen.quit.confirm"),
+                            "", Lang.format("deathScreen.titleScreen"),
+                            Lang.format("deathScreen.respawn"), 0);
+                    mc.displayGuiScreen(guiyesno);
                     guiyesno.setButtonDelay(20);
                 }
         }
     }
 
-    public void confirmClicked(boolean result, int id)
-    {
-        if (result)
-        {
-            this.mc.theWorld.sendQuittingDisconnectingPacket();
-            this.mc.worldController.loadWorld(null, this.mc);
-            this.mc.displayGuiScreen(new GuiMainMenu());
-        }
-        else
-        {
-            this.mc.thePlayer.respawnPlayer();
-            this.mc.displayGuiScreen(null);
+    @Override
+    public void confirmClicked(boolean result, int id) {
+        if (result) {
+            mc.theWorld.sendQuittingDisconnectingPacket();
+            mc.worldController.loadWorld(null, mc);
+            mc.displayGuiScreen(new GuiMainMenu());
+        } else {
+            mc.thePlayer.respawnPlayer();
+            mc.displayGuiScreen(null);
         }
     }
 
-    /**
-     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
-        this.drawGradientRect(0, 0, this.width, this.height, 1615855616, -1602211792);
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawGradientRect(0, 0, width, height, 1615855616, -1602211792);
         G.pushMatrix();
         G.scale(2.0F, 2.0F, 2.0F);
-        boolean flag = this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
+        boolean flag = mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
         String s = flag ? Lang.format("deathScreen.title.hardcore") : Lang.format("deathScreen.title");
-        this.drawCenteredString(this.fontRendererObj, s, this.width / 2 / 2, 30, 16777215);
+        drawCenteredString(fontRendererObj, s, width >> 2, 30, 16777215);
         G.popMatrix();
 
         if (flag)
-        {
-            this.drawCenteredString(this.fontRendererObj, Lang.format("deathScreen.hardcoreInfo"), this.width / 2, 144, 16777215);
-        }
+            drawCenteredString(fontRendererObj, Lang.format("deathScreen.hardcoreInfo"),
+                    width >> 1, 144, 16777215);
 
-        this.drawCenteredString(this.fontRendererObj, Lang.format("deathScreen.score") + ": " + EnumChatFormatting.YELLOW + this.mc.thePlayer.getScore(), this.width / 2, 100, 16777215);
+        drawCenteredString(fontRendererObj, Lang.format("deathScreen.score") + ": " +
+                EnumChatFormatting.YELLOW + mc.thePlayer.getScore(), width >> 1, 100, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
-    public boolean doesGuiPauseGame()
-    {
+
+    @Override
+    public boolean doesGuiPauseGame() {
         return false;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
+    @Override
+    public void updateScreen() {
         super.updateScreen();
-        ++this.enableButtonsTimer;
 
-        if (this.enableButtonsTimer == 20)
-        {
-            for (GuiButton guibutton : this.buttonList)
-            {
+        if(++this.enableButtonsTimer == 20)
+            for (GuiButton guibutton : buttonList)
                 guibutton.enabled = true;
-            }
-        }
     }
 }

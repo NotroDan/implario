@@ -24,11 +24,14 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class GuiOverlayDebug extends Gui {
+import static java.util.Collections.EMPTY_LIST;
+import static java.util.Collections.emptyListIterator;
 
+public class GuiOverlayDebug extends Gui {
 	private final Minecraft mc;
 	private final AssetsFontRenderer fontRenderer;
 
@@ -41,77 +44,77 @@ public class GuiOverlayDebug extends Gui {
 		if (!Settings.SHOW_DEBUG.b()) return;
 		Profiler.in.startSection("debug");
 		G.pushMatrix();
-		this.renderDebugInfoLeft();
-		this.renderDebugInfoRight(scaledResolutionIn);
-		this.renderDebugInfoCenter(scaledResolutionIn);
+		renderDebugInfoLeft();
+		renderDebugInfoRight(scaledResolutionIn);
+		renderDebugInfoCenter(scaledResolutionIn);
 		G.popMatrix();
 		Profiler.in.endSection();
 	}
 
 	private boolean isReducedDebug() {
-		return this.mc.thePlayer.hasReducedDebug() || Settings.REDUCED_DEBUG_INFO.i() == 1;
+		return mc.thePlayer.hasReducedDebug() || Settings.REDUCED_DEBUG_INFO.i() == 1;
 	}
 
-	protected void renderDebugInfoLeft() {
-		List list = this.call();
+	private void renderDebugInfoLeft() {
+		List list = call();
 
 		for (int i = 0; i < list.size(); ++i) {
 			String s = (String) list.get(i);
 
 			if (!Strings.isNullOrEmpty(s)) {
-				int j = this.fontRenderer.getFontHeight();
-				int k = this.fontRenderer.getStringWidth(s);
-				boolean flag = true;
+				int j = fontRenderer.getFontHeight();
+				int k = fontRenderer.getStringWidth(s);
 				int l = 2 + j * i;
 				drawRect(1, l - 1, 2 + k + 1, l + j - 1, -1873784752);
-				this.fontRenderer.drawString(s, 2, l, 14737632);
+				fontRenderer.drawString(s, 2, l, 14737632);
 			}
 		}
 	}
 
 	private void renderDebugInfoCenter(ScaledResolution resolution) {
-		List list = this.getDebugInfoCenter();
+		List list = getDebugInfoCenter();
 
 		for (int i = 0; i < list.size(); ++i) {
 			String s = (String) list.get(i);
 
 			if (!Strings.isNullOrEmpty(s)) {
-				int j = this.fontRenderer.getFontHeight();
-				int k = this.fontRenderer.getStringWidth(s);
-				int l = resolution.getScaledWidth() / 2 - k / 2;
-				int i1 = resolution.getScaledHeight() / 2 + 10 + j * i;
+				int j = fontRenderer.getFontHeight();
+				int k = fontRenderer.getStringWidth(s);
+				int l = (resolution.getScaledWidth() >> 1) - (k >> 1);
+				int i1 = (resolution.getScaledHeight() >> 1) + 10 + j * i;
 				drawRect(l - 1, i1 - 1, l + k + 1, i1 + j - 1, -1873784752);
-				this.fontRenderer.drawString(s, l, i1, 14737632);
+				fontRenderer.drawString(s, l, i1, 14737632);
 			}
 		}
 	}
 
 
-	protected void renderDebugInfoRight(ScaledResolution resolution) {
-		List list = this.getDebugInfoRight();
+	private void renderDebugInfoRight(ScaledResolution resolution) {
+		List list = getDebugInfoRight();
 
 		for (int i = 0; i < list.size(); ++i) {
 			String s = (String) list.get(i);
 
 			if (!Strings.isNullOrEmpty(s)) {
-				int j = this.fontRenderer.getFontHeight();
-				int k = this.fontRenderer.getStringWidth(s);
+				int j = fontRenderer.getFontHeight();
+				int k = fontRenderer.getStringWidth(s);
 				int l = resolution.getScaledWidth() - 2 - k;
 				int i1 = 2 + j * i;
 				drawRect(l - 1, i1 - 1, l + k + 1, i1 + j - 1, -1873784752);
-				this.fontRenderer.drawString(s, l, i1, 14737632);
+				fontRenderer.drawString(s, l, i1, 14737632);
 			}
 		}
 	}
 
 	protected List call() {
-		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return Lists.newArrayList(this.mc.debug);
-		BlockPos blockpos = new BlockPos(this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
-		Entity entity = this.mc.getRenderViewEntity();
+		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return Lists.newArrayList(mc.debug);
+		BlockPos blockpos = new BlockPos(mc.getRenderViewEntity().posX,
+				mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
+		Entity entity = mc.getRenderViewEntity();
 		EnumFacing enumfacing = entity.getHorizontalFacing();
 		String s = "§cНеизвестно";
 
-		switch (GuiOverlayDebug.GuiOverlayDebug$1.field_178907_a[enumfacing.ordinal()]) {
+		switch (sides[enumfacing.ordinal()]) {
 			case 1:
 				s = "Уменьшение Z";
 				break;
@@ -126,183 +129,194 @@ public class GuiOverlayDebug extends Gui {
 				break;
 		}
 
-		ArrayList arraylist;
-		if (isReducedDebug())
-			arraylist = Lists.newArrayList("Клиент §dImplario §f(Minecraft 1.8.8)", mc.debug);
-		else
-			arraylist = Lists.newArrayList(
-					"Клиент Implario (1.8.8), §a" + MC.getPlayer().getName(),
-					this.mc.debug,
-					this.mc.renderGlobal.getDebugInfoRenders(),
-					this.mc.renderGlobal.getDebugInfoEntities(),
-					"P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities(),
-					this.mc.theWorld.getProviderName(),
-					""
-										  );
+		List<String> list = new ArrayList<>();
+		if (isReducedDebug()) {
+			list.add("Клиент §dImplario §f(Minecraft 1.8.8)");
+			list.add(mc.debug);
+		}else {
+			list.add("Клиент Implario (1.8.8), §a" + MC.getPlayer().getName());
+			list.add(mc.debug);
+			list.add(mc.renderGlobal.getDebugInfoRenders());
+			list.add(mc.renderGlobal.getDebugInfoEntities());
+			list.add("P: " + mc.effectRenderer.getStatistics() + ". T: " + mc.theWorld.getDebugLoadedEntities());
+			list.add(mc.theWorld.getProviderName());
+			list.add("");
+		}
 
 
-		arraylist.add(String.format("Координаты: §a%.3f §f/ §a%.5f §f/ §a%.3f", this.mc.getRenderViewEntity().posX,
-				this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ));
-		arraylist.add(String.format("Блок: §a%d %d %d", blockpos.getX(), blockpos.getY(), blockpos.getZ()));
-		arraylist.add(String.format("Чанк: §a%d %d %d §7§o(локально)§f, §a%d %d %d §7§o(глобально)", blockpos.getX() & 15, blockpos.getY() & 15, blockpos.getZ() & 15,
+		list.add(String.format("Координаты: §a%.3f §f/ §a%.5f §f/ §a%.3f", mc.getRenderViewEntity().posX,
+				mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ));
+		list.add(String.format("Блок: §a%d %d %d", blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+		list.add(String.format("Чанк: §a%d %d %d §7§o(локально)§f, §a%d %d %d §7§o(глобально)",
+				blockpos.getX() & 15, blockpos.getY() & 15, blockpos.getZ() & 15,
 				blockpos.getX() >> 4, blockpos.getY() >> 4, blockpos.getZ() >> 4));
-		arraylist.add(String.format("Направление: §a%s §f(§a%s§f) (§a%.1f §f/§a %.1f§f)", enumfacing, s,
+		list.add(String.format("Направление: §a%s §f(§a%s§f) (§a%.1f §f/§a %.1f§f)", enumfacing, s,
 				MathHelper.wrapAngleTo180_float(entity.rotationYaw), MathHelper.wrapAngleTo180_float(entity.rotationPitch)));
 
-		if (this.mc.theWorld != null && this.mc.theWorld.isBlockLoaded(blockpos)) {
-
-			Chunk chunk = this.mc.theWorld.getChunkFromBlockCoords(blockpos);
-			String biome = chunk.getBiome(blockpos, this.mc.theWorld.getWorldChunkManager()).getAddress();
-			arraylist.add("Биом: §a" + Lang.format(biome));
-			arraylist.add("Свет: §a" + chunk.getLightSubtracted(blockpos, 0) + " §7§o(" + chunk.getLightFor(EnumSkyBlock.SKY, blockpos) + " от неба, " +
+		if (mc.theWorld != null && mc.theWorld.isBlockLoaded(blockpos)) {
+			Chunk chunk = mc.theWorld.getChunkFromBlockCoords(blockpos);
+			String biome = chunk.getBiome(blockpos, mc.theWorld.getWorldChunkManager()).getAddress();
+			list.add("Биом: §a" + Lang.format(biome));
+			list.add("Свет: §a" + chunk.getLightSubtracted(blockpos, 0) + " §7§o("
+					+ chunk.getLightFor(EnumSkyBlock.SKY, blockpos) + " от неба, " +
 					chunk.getLightFor(EnumSkyBlock.BLOCK, blockpos) + " от блоков)");
 
 			if (!isReducedDebug()) {
-				DifficultyInstance difficultyinstance = this.mc.theWorld.getDifficultyForLocation(blockpos);
-				if (this.mc.isIntegratedServerRunning() && this.mc.getIntegratedServer() != null) {
-					EntityPlayerMP entityplayermp = this.mc.getIntegratedServer().getConfigurationManager().getPlayerByUUID(this.mc.thePlayer.getUniqueID());
-					if (entityplayermp != null) difficultyinstance = entityplayermp.worldObj.getDifficultyForLocation(new BlockPos(entityplayermp));
+				DifficultyInstance difficultyinstance = mc.theWorld.getDifficultyForLocation(blockpos);
+				if (mc.isIntegratedServerRunning() && mc.getIntegratedServer() != null) {
+					EntityPlayerMP entityplayermp = mc.getIntegratedServer().getConfigurationManager()
+							.getPlayerByUUID(mc.thePlayer.getUniqueID());
+					if (entityplayermp != null)
+						difficultyinstance = entityplayermp.worldObj.getDifficultyForLocation(new BlockPos(entityplayermp));
 				}
-				arraylist.add(String.format("Local Difficulty: %.2f (Day %d)", difficultyinstance.getAdditionalDifficulty(), this.mc.theWorld.getWorldTime() / 24000L));
+				list.add(String.format("Local Difficulty: %.2f (Day %d)",
+						difficultyinstance.getAdditionalDifficulty(),
+						mc.theWorld.getWorldTime() / 24000L));
 			}
 		}
 
-		if (this.mc.entityRenderer != null && this.mc.entityRenderer.isShaderActive())
-			arraylist.add("Шейдер: §a" + this.mc.entityRenderer.getShaderGroup().getShaderGroupName());
+		if (mc.entityRenderer != null && mc.entityRenderer.isShaderActive())
+			list.add("Шейдер: §a" + mc.entityRenderer.getShaderGroup().getShaderGroupName());
 
-		return arraylist;
+		return list;
 	}
 
-	protected List getDebugInfoCenter() {
-		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList();
-		if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.mc.objectMouseOver.getBlockPos() != null) {
-			List<String> arraylist = new ArrayList<>();
-			BlockPos blockpos1 = this.mc.objectMouseOver.getBlockPos();
-			arraylist.add("§e" + blockpos1.getX() + " " + blockpos1.getY() + " " + blockpos1.getZ());
-			IBlockState iblockstate = this.mc.theWorld.getBlockState(blockpos1);
+	@SuppressWarnings("unchecked")
+	private List<String> getDebugInfoCenter() {
+		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList<>();
+		if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+				&& mc.objectMouseOver.getBlockPos() != null) {
+			List<String> list = new ArrayList<>();
+			BlockPos blockpos1 = mc.objectMouseOver.getBlockPos();
+			list.add("§e" + blockpos1.getX() + " " + blockpos1.getY() + " " + blockpos1.getZ());
+			IBlockState iblockstate = mc.theWorld.getBlockState(blockpos1);
 
-			if (this.mc.theWorld.getWorldType() != WorldType.DEBUG)
-				iblockstate = iblockstate.getBlock().getActualState(iblockstate, this.mc.theWorld, blockpos1);
+			if (mc.theWorld.getWorldType() != WorldType.DEBUG)
+				iblockstate = iblockstate.getBlock().getActualState(iblockstate, mc.theWorld, blockpos1);
 			Block b = iblockstate.getBlock();
 			RegistryNamespacedDefaultedByKey<ResourceLocation, Block> r = Block.blockRegistry;
-			arraylist.add(String.valueOf(r.getNameForObject(b)) + " §e" + r.getIDForObject(b) + "§f:§e" + b.getMetaFromState(iblockstate));
+			list.add(r.getNameForObject(b) + " §e" + r.getIDForObject(b) + "§f:§e" + b.getMetaFromState(iblockstate));
 
-			if (isReducedDebug()) return arraylist;
+			if (isReducedDebug()) return list;
 			for (Map.Entry<IProperty, Comparable> e : iblockstate.getProperties().entrySet()) {
 				String value = e.getValue().toString();
 				if (e.getValue() == Boolean.TRUE) value = "§a" + value;
 				if (e.getValue() == Boolean.FALSE) value = "§c" + value;
-				arraylist.add(e.getKey().getName() + ": " + value);
+				list.add(e.getKey().getName() + ": " + value);
 			}
-			return arraylist;
+			return list;
 		}
-		return new ArrayList<>();
+		return (List<String>)Collections.EMPTY_LIST;
 	}
 
-	protected List getDebugInfoRight() {
-		func_181554_e();
-		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList();
+	private List<String> getDebugInfoRight() {
+		supportFunc();
+		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList<>();
 		long i = Runtime.getRuntime().maxMemory();
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
-		if (isReducedDebug()) return Lists.newArrayList(
-				"Версия Java: §a" + System.getProperty("java.version") + "§fx" + (this.mc.isJava64bit() ? 64 : 32),
-				"Память: §a" + l * 100L / i + "% " + bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ",
-				"Выделено: §a" + j * 100L / i + "% " + bytesToMb(j) + " §fМБ"
-													   );
+		if (isReducedDebug()){
+			List<String> list = new ArrayList<>();
+			list.add("Версия Java: §a" + System.getProperty("java.version") + "§fx" + (this.mc.isJava64bit() ? 64 : 32));
+			list.add("Память: §a" + l * 100L / i + "% " + bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ");
+			list.add("Выделено: §a" + j * 100L / i + "% " + bytesToMb(j) + " §fМБ");
+			return list;
+		}
 
-		return Lists.newArrayList(
-				String.format("Версия Java: §a%s§fx%d", System.getProperty("java.version"), this.mc.isJava64bit() ? 64 : 32),
-				String.format("Память:§a% 2d%% %03d§f/§a%03d§f МБ", l * 100L / i, bytesToMb(l), bytesToMb(i)),
-				String.format("Выделено:§a% 2d%% %03d§f МБ", j * 100L / i, bytesToMb(j)),
-				"",
-				String.format("Процессор: §a%s", OpenGlHelper.getCPU()),
-				String.format("Видеокарта: §a%d§fx§a%d §f(§a%s§f)", Display.getWidth(), Display.getHeight(), GL11.glGetString(GL11.GL_VENDOR)),
-				"GL-Рендерер: §a" + GL11.glGetString(GL11.GL_RENDERER),
-				"Версия GL: §a" + GL11.glGetString(GL11.GL_VERSION));
+		List<String> list = new ArrayList<>();
+		list.add(String.format("Версия Java: §a%s§fx%d", System.getProperty("java.version"), this.mc.isJava64bit() ? 64 : 32));
+		list.add(String.format("Память:§a% 2d%% %03d§f/§a%03d§f МБ", l * 100L / i, bytesToMb(l), bytesToMb(i)));
+		list.add(String.format("Выделено:§a% 2d%% %03d§f МБ", j * 100L / i, bytesToMb(j)));
+		list.add("");
+		list.add("Процессор: §a" + OpenGlHelper.getCPU());
+		list.add(String.format("Видеокарта: §a%d§fx§a%d §f(§a%s§f)", Display.getWidth(),
+				Display.getHeight(), GL11.glGetString(GL11.GL_VENDOR)));
+		list.add("GL-Рендерер: §a" + GL11.glGetString(GL11.GL_RENDERER));
+		list.add("Версия GL: §a" + GL11.glGetString(GL11.GL_VERSION));
+		return list;
 	}
 
-	private void func_181554_e() {
+	private void supportFunc() {
 		G.disableDepth();
-		FrameTimer frametimer = this.mc.func_181539_aj();
+		FrameTimer frametimer = mc.func_181539_aj();
 		int i = frametimer.func_181749_a();
 		int j = frametimer.func_181750_b();
 		long[] along = frametimer.func_181746_c();
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+		ScaledResolution scaledresolution = new ScaledResolution(mc);
 		int k = i;
 		int l = 0;
 		drawRect(0, scaledresolution.getScaledHeight() - 60, 240, scaledresolution.getScaledHeight(), -1873784752);
 
 		while (k != j) {
 			int i1 = frametimer.func_181748_a(along[k], 30);
-			int j1 = this.func_181552_c(MathHelper.clamp_int(i1, 0, 60), 0, 30, 60);
-			this.drawVerticalLine(l, scaledresolution.getScaledHeight(), scaledresolution.getScaledHeight() - i1, j1);
+			int j1 = mathSupport(MathHelper.clamp_int(i1, 0, 60));
+			drawVerticalLine(l, scaledresolution.getScaledHeight(), scaledresolution.getScaledHeight() - i1, j1);
 			++l;
 			k = frametimer.func_181751_b(k + 1);
 		}
 
-		drawRect(1, scaledresolution.getScaledHeight() - 30 + 1, 14, scaledresolution.getScaledHeight() - 30 + 10, -1873784752);
-		this.fontRenderer.drawString("60", 2, scaledresolution.getScaledHeight() - 30 + 2, 14737632);
-		this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 30, -1);
-		drawRect(1, scaledresolution.getScaledHeight() - 60 + 1, 14, scaledresolution.getScaledHeight() - 60 + 10, -1873784752);
-		this.fontRenderer.drawString("30", 2, scaledresolution.getScaledHeight() - 60 + 2, 14737632);
-		this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 60, -1);
-		this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 1, -1);
-		this.drawVerticalLine(0, scaledresolution.getScaledHeight() - 60, scaledresolution.getScaledHeight(), -1);
-		this.drawVerticalLine(239, scaledresolution.getScaledHeight() - 60, scaledresolution.getScaledHeight(), -1);
+		drawRect(1, scaledresolution.getScaledHeight() - 29, 14,
+				scaledresolution.getScaledHeight() - 20, -1873784752);
+		fontRenderer.drawString("60", 2, scaledresolution.getScaledHeight() - 28, 14737632);
+		drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 30, -1);
+		drawRect(1, scaledresolution.getScaledHeight() - 59, 14,
+				scaledresolution.getScaledHeight() - 50, -1873784752);
+		fontRenderer.drawString("30", 2, scaledresolution.getScaledHeight() - 58, 14737632);
+		drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 60, -1);
+		drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 1, -1);
+		drawVerticalLine(0, scaledresolution.getScaledHeight() - 60, scaledresolution.getScaledHeight(), -1);
+		drawVerticalLine(239, scaledresolution.getScaledHeight() - 60, scaledresolution.getScaledHeight(), -1);
 
 		if (Settings.FRAMERATE_LIMIT.f() <= 120)
-			this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 60 + (int) Settings.FRAMERATE_LIMIT.f() / 2, -16711681);
+			drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 60 +
+					((int) Settings.FRAMERATE_LIMIT.f() >> 1), -16711681);
 
 		G.enableDepth();
 	}
 
-	private int func_181552_c(int p_181552_1_, int p_181552_2_, int p_181552_3_, int p_181552_4_) {
-		return p_181552_1_ < p_181552_3_ ? this.func_181553_a(-16711936, -256, (float) p_181552_1_ / (float) p_181552_3_) : this.func_181553_a(-256, -65536,
-				(float) (p_181552_1_ - p_181552_3_) / (float) (p_181552_4_ - p_181552_3_));
+	private int mathSupport(int i) {
+		return i < 30 ? mathSupportTwo(-16711936, -256, (float) i / (float) 30)
+				: mathSupportTwo(-256, -65536, (float) (i - 30) / (float) (30));
 	}
 
-	private int func_181553_a(int p_181553_1_, int p_181553_2_, float p_181553_3_) {
-		int i = p_181553_1_ >> 24 & 255;
-		int j = p_181553_1_ >> 16 & 255;
-		int k = p_181553_1_ >> 8 & 255;
-		int l = p_181553_1_ & 255;
-		int i1 = p_181553_2_ >> 24 & 255;
-		int j1 = p_181553_2_ >> 16 & 255;
-		int k1 = p_181553_2_ >> 8 & 255;
-		int l1 = p_181553_2_ & 255;
-		int i2 = MathHelper.clamp_int((int) ((float) i + (float) (i1 - i) * p_181553_3_), 0, 255);
-		int j2 = MathHelper.clamp_int((int) ((float) j + (float) (j1 - j) * p_181553_3_), 0, 255);
-		int k2 = MathHelper.clamp_int((int) ((float) k + (float) (k1 - k) * p_181553_3_), 0, 255);
-		int l2 = MathHelper.clamp_int((int) ((float) l + (float) (l1 - l) * p_181553_3_), 0, 255);
+	private int mathSupportTwo(int one, int two, float three) {
+		int i = one >> 24 & 255;
+		int j = one >> 16 & 255;
+		int k = one >> 8 & 255;
+		int l = one & 255;
+		int i1 = two >> 24 & 255;
+		int j1 = two >> 16 & 255;
+		int k1 = two >> 8 & 255;
+		int l1 = two & 255;
+		int i2 = MathHelper.clamp_int((int) ((float) i + (float) (i1 - i) * three), 0, 255);
+		int j2 = MathHelper.clamp_int((int) ((float) j + (float) (j1 - j) * three), 0, 255);
+		int k2 = MathHelper.clamp_int((int) ((float) k + (float) (k1 - k) * three), 0, 255);
+		int l2 = MathHelper.clamp_int((int) ((float) l + (float) (l1 - l) * three), 0, 255);
 		return i2 << 24 | j2 << 16 | k2 << 8 | l2;
 	}
 
 	private static long bytesToMb(long bytes) {
-		return bytes / 1024L / 1024L;
+		return bytes >> 20L;
 	}
 
-	static final class GuiOverlayDebug$1 {
+	private static final int[] sides = new int[EnumFacing.values().length];
 
-		static final int[] field_178907_a = new int[EnumFacing.values().length];
-		static {
-			try {
-				field_178907_a[EnumFacing.NORTH.ordinal()] = 1;
-			} catch (NoSuchFieldError ignored) {}
+	static {
+		try {
+			sides[EnumFacing.NORTH.ordinal()] = 1;
+		} catch (NoSuchFieldError ignored) {}
 
-			try {
-				field_178907_a[EnumFacing.SOUTH.ordinal()] = 2;
-			} catch (NoSuchFieldError ignored) {}
+		try {
+			sides[EnumFacing.SOUTH.ordinal()] = 2;
+		} catch (NoSuchFieldError ignored) {}
 
-			try {
-				field_178907_a[EnumFacing.WEST.ordinal()] = 3;
-			} catch (NoSuchFieldError ignored) {}
+		try {
+			sides[EnumFacing.WEST.ordinal()] = 3;
+		} catch (NoSuchFieldError ignored) {}
 
-			try {
-				field_178907_a[EnumFacing.EAST.ordinal()] = 4;
-			} catch (NoSuchFieldError ignored) {}
-		}
+		try {
+			sides[EnumFacing.EAST.ordinal()] = 4;
+		} catch (NoSuchFieldError ignored) {}
 	}
-
 }

@@ -17,93 +17,71 @@ public class GuiPlayername extends GuiScreen {
 		this.parentScreen = parentScreenIn;
 	}
 
-	/**
-	 * Called from the main game loop to update the screen.
-	 */
-	public void updateScreen()
-	{
+	@Override
+	public void updateScreen() {
 		inputField.updateCursorCounter();
 	}
 
-	/**
-	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-	 * window resizes, the buttonList is cleared beforehand.
-	 */
-	public void initGui()
-	{
+	@Override
+	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + 12, "Установить"));
-		buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + 12, "Отмена"));
+		buttonList.add(new GuiButton(0, (width >> 1) - 100, (height >> 2) + 108, "Установить"));
+		buttonList.add(new GuiButton(1, (width >> 1) - 100, (height >> 2) + 132, "Отмена"));
 		String s = mc.getSession().username;
-		inputField = new GuiTextField(2, fontRendererObj, width / 2 - 100, 60, 200, 20);
-		token = new GuiTextField(3, fontRendererObj, width / 2 - 100, 90, 200, 20);
-		uuid = new GuiTextField(4, fontRendererObj, width / 2 - 100, 120, 200, 20);
+		inputField = new GuiTextField(2, fontRendererObj, (width >> 1) - 100, 60, 200, 20);
+		token = new GuiTextField(3, fontRendererObj, (width >> 1) - 100, 90, 200, 20);
+		uuid = new GuiTextField(4, fontRendererObj, (width >> 1) - 100, 120, 200, 20);
 		inputField.setFocused(true);
 		inputField.setText(s);
 		token.setText(mc.getSession().token);
 		uuid.setText(mc.getSession().playerID);
 	}
 
-	/**
-	 * Called when the screen is unloaded. Used to disable keyboard repeat events
-	 */
-	public void onGuiClosed()
-	{
+	@Override
+	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
 
-	/**
-	 * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
-	 */
+	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
-		if (button.enabled) {
-			if (button.id == 1) this.mc.displayGuiScreen(this.parentScreen);
+		if (button.enabled)
+			if (button.id == 1) mc.displayGuiScreen(parentScreen);
 			else if (button.id == 0) {
 				mc.getSession().username = inputField.getText().trim();
 				mc.getSession().token = token.getText().trim();
 				mc.getSession().playerID = uuid.getText().trim();
 				Settings.saveOptions();
-				this.mc.displayGuiScreen(this.parentScreen);
+				mc.displayGuiScreen(parentScreen);
 			}
-		}
 	}
 
-	/**
-	 * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
-	 * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
-	 */
+	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
-		if (inputField.isFocused()) this.inputField.textboxKeyTyped(typedChar, keyCode);
-		if (token.isFocused()) this.token.textboxKeyTyped(typedChar, keyCode);
-		if (uuid.isFocused()) this.uuid.textboxKeyTyped(typedChar, keyCode);
-		this.buttonList.get(0).enabled = this.inputField.getText().trim().length() > 0;
-		if (keyCode == 28 || keyCode == 156) {
-			this.actionPerformed(this.buttonList.get(0));
-		}
+		if (inputField.isFocused()) inputField.textboxKeyTyped(typedChar, keyCode);
+		else if (token.isFocused()) token.textboxKeyTyped(typedChar, keyCode);
+		else if (uuid.isFocused()) uuid.textboxKeyTyped(typedChar, keyCode);
+		buttonList.get(0).enabled = inputField.getText().trim().length() > 0;
+		if (keyCode == 28 || keyCode == 156)
+			actionPerformed(buttonList.get(0));
 	}
 
-	/**
-	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
-	 */
+	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
-		this.uuid.mouseClicked(mouseX, mouseY, mouseButton);
-		this.token.mouseClicked(mouseX, mouseY, mouseButton);
+		inputField.mouseClicked(mouseX, mouseY, mouseButton);
+		uuid.mouseClicked(mouseX, mouseY, mouseButton);
+		token.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
-	/**
-	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
-	 */
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, Lang.format("Сменить никнейм"), this.width / 2, 20, 16777215);
-		this.drawString(this.fontRendererObj, Lang.format("Введите ник"), this.width / 2 - 100, 47, 10526880);
-		this.inputField.drawTextBox();
-		this.uuid.drawTextBox();
-		this.token.drawTextBox();
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		drawDefaultBackground();
+		drawCenteredString(fontRendererObj, Lang.format("Сменить никнейм"), width >> 1, 20, 16777215);
+		drawString(fontRendererObj, Lang.format("Введите ник"), (width >> 1) - 100, 47, 10526880);
+		inputField.drawTextBox();
+		uuid.drawTextBox();
+		token.drawTextBox();
+		drawScreen(mouseX, mouseY, partialTicks);
 	}
-
 }
