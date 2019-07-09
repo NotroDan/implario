@@ -12,9 +12,9 @@ public class GuiYesNo extends GuiScreen {
 	private String messageLine1;
 	private String messageLine2;
 	private final List<String> text = new ArrayList<>();
-	private String confirmButtonText;
-	private String cancelButtonText;
-	private int parentButtonClickedId;
+	protected String confirmButtonText;
+	protected String cancelButtonText;
+	protected int parentButtonClickedId;
 	private int ticksUntilEnable;
 
 	public GuiYesNo(GuiYesNoCallback parentScreen, String line1, String line2, int parentButtonClickedId) {

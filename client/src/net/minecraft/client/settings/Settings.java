@@ -33,6 +33,7 @@ public enum Settings {
 			Minecraft.getMinecraft().renderGlobal.setDisplayListEntitiesDirty();
 		}
 	},
+	SCREEN_TO_BUFFER("Скриншот в буфер", true),
 	VIEW_BOBBING("Покачивание камеры", true),
 	FRAMERATE_LIMIT(new FpsSetting("FRAMERATE_LIMIT")) {
 		@Override
@@ -157,7 +158,7 @@ public enum Settings {
 	PAUSE_FOCUS("Пауза при сворачивании", true),
 	ITEM_TOOLTIPS("ID предметов", false),
 	FANCY_BUTTONS("Тип кнопок", true),
-	RAINBOW_SHIT("Радужная хуйня", true),
+	RAINBOW_SHIT("Радужная хуйня", false),
 	HIDE_SERVER_ADDRESS("Скрыть IP серверов", false),
 	RENDER_FIRE("Огонь", 0, "Стандартный", "Иконка", "Отключён"),
 	SUDOKU_SEPARATORS("Разделители", false),

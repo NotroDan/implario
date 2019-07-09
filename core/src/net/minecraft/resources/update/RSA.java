@@ -2,14 +2,6 @@ package net.minecraft.resources.update;
 
 import __google_.util.ByteUnzip;
 import __google_.util.ByteZip;
-import __google_.util.FileIO;
-import net.minecraft.Logger;
-import net.minecraft.logging.Log;
-import sun.nio.ch.IOUtil;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.*;
 

@@ -3,6 +3,7 @@ package net.minecraft.client.renderer;
 import net.minecraft.client.game.shader.Framebuffer;
 import net.minecraft.client.network.services.imgur.ImgurAPI;
 import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.logging.Log;
 import net.minecraft.util.Clipboard;
 import net.minecraft.util.chat.ChatComponentBuilder;
@@ -51,17 +52,13 @@ public class ScreenShotHelper {
 	 */
 	public static IChatComponent saveScreenshot(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer) {
 		try {
-
-
 			File dir = new File(gameDirectory, "screenshots");
 			dir.mkdir();
 			File f = screenshotName == null ? getTimestampedPNGFileForDirectory(dir) : new File(dir, screenshotName);
 
-
 			BufferedImage screenshot = takeScreenshot(width, height, buffer);
 			ImageIO.write(screenshot, "png", f);
-			Clipboard.push(screenshot);
-
+			if(Settings.SCREEN_TO_BUFFER.b())Clipboard.push(screenshot);
 
 			return new ChatComponentBuilder(f.getName())
 					.click(OPEN_FILE, f.getAbsolutePath())
