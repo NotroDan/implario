@@ -56,15 +56,9 @@ public class BowPathRenderer {
 			return;
 		}
 
-
 		double x = player.posX;
 		double y = player.posY;
 		double z = player.posZ;
-
-		if (player == null) {
-			lastParsed = null;
-			return;
-		}
 
 		G.pushMatrix();
 

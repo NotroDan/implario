@@ -28,6 +28,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.settings.Setting;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -1505,8 +1506,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			Profiler.in.endStartSection("aboveClouds");
 			this.renderCloudsCheck(renderglobal, partialTicks, pass);
 		}
-		BowPathRenderer.render(partialTicks);
-		WorldEditUI.render(partialTicks);
+		if(Settings.BOW_PATH.b())BowPathRenderer.render(partialTicks);
+		//WorldEditUI.render(partialTicks);
 
 		Profiler.in.endStartSection("hand");
 

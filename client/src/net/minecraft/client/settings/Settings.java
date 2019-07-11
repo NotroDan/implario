@@ -34,6 +34,7 @@ public enum Settings {
 		}
 	},
 	SCREEN_TO_BUFFER("Скриншот в буфер", true),
+	BOW_PATH("Траектория стрельбы", false),
 	VIEW_BOBBING("Покачивание камеры", true),
 	FRAMERATE_LIMIT(new FpsSetting("FRAMERATE_LIMIT")) {
 		@Override
