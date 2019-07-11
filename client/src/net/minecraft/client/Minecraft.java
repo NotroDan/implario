@@ -558,7 +558,7 @@ public class Minecraft implements IThreadListener {
 		in.startSection("scheduledExecutables");
 
 		synchronized (this.scheduledTasks) {
-			while (!this.scheduledTasks.isEmpty()) Util.schedule((FutureTask) this.scheduledTasks.poll(), MAIN);
+			while (!this.scheduledTasks.isEmpty()) Util.schedule(scheduledTasks.poll());
 		}
 
 		in.endSection();

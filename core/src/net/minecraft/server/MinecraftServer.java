@@ -547,7 +547,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 		synchronized (this.futureTaskQueue) {
 			while (!this.futureTaskQueue.isEmpty()) {
-				Util.schedule(this.futureTaskQueue.poll(), Log.MAIN);
+				Util.schedule(futureTaskQueue.poll());
 			}
 		}
 

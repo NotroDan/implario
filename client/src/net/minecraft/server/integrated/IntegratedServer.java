@@ -131,7 +131,7 @@ public class IntegratedServer extends MinecraftServer {
 
 			synchronized (this.futureTaskQueue) {
 				while (!this.futureTaskQueue.isEmpty()) {
-					Util.schedule((FutureTask) this.futureTaskQueue.poll(), MAIN);
+					Util.schedule(futureTaskQueue.poll());
 				}
 			}
 		} else {

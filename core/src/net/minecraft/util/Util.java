@@ -19,15 +19,8 @@ public class Util {
 				OS.UNKNOWN;
 	}
 
-	public static <V> V schedule(FutureTask<V> task, Log log) {
-		try {
-			task.run();
-			return task.get();
-		} catch (ExecutionException | InterruptedException e) {
-			log.error("Ошибка при выполнении таска");
-			log.exception(e);
-			return null;
-		}
+	public static <V> void schedule(FutureTask<V> task) {
+		task.run();
 	}
 
 	public enum OS {
