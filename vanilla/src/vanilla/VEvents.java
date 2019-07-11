@@ -19,7 +19,9 @@ import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
+import net.minecraft.resources.event.events.player.PlayerFallEvent;
 import net.minecraft.resources.event.events.player.PlayerMoveEvent;
+import net.minecraft.resources.event.events.player.PlayerTickEvent;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
@@ -44,6 +46,8 @@ public class VEvents implements ServerSideLoadable {
 
 		Events.eventPlayerMove.add(this::handlePlayerMove);
 		Events.eventMountMove.add(this::handleMountMove);
+		Events.eventPlayerTick.add(this::handlePlayerTick);
+		Events.eventPlayerFall.add(this::handlePlayerFall);
 
 		registrar.regListener(DamageByEntityEvent.class, new DragonPartRedirecter());
 		registrar.regListener(TrySleepEvent.class, new SleepChecker());
@@ -53,6 +57,18 @@ public class VEvents implements ServerSideLoadable {
 		registrar.regListener(PlayerEnderPearlEvent.class, this::handlePlayerEnderPearl);
 		registrar.regListener(FenceClickedEvent.class, this::handleFenceClick);
 		registrar.regListener(BlockDropEvent.class, this::handleBlockDrop);
+	}
+
+	private void handlePlayerFall(PlayerFallEvent e) {
+		EntityPlayer p = e.getPlayer();
+		float distance = e.getDistance();
+		if (distance >= 2.0F) p.addStat(StatList.distanceFallenStat, (int) Math.round((double) distance * 100.0D));
+	}
+
+	private void handlePlayerTick(PlayerTickEvent e) {
+		if (e.getPlayer().worldObj.isClientSide) return;
+		e.getPlayer().triggerAchievement(StatList.minutesPlayedStat);
+		if (e.getPlayer().isEntityAlive()) e.getPlayer().triggerAchievement(StatList.timeSinceDeathStat);
 	}
 
 	private void handleMountMove(MountMoveEvent e) {
@@ -83,8 +99,7 @@ public class VEvents implements ServerSideLoadable {
 			player.addStat(StatList.distanceByPigStat, i);
 		} else if (entity instanceof EntityHorse) {
 			player.addStat(StatList.distanceByHorseStat, i);
-		}//todo
-
+		}
 	}
 
 	private void handlePlayerMove(PlayerMoveEvent event) {

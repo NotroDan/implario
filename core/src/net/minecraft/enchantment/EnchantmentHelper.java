@@ -1,6 +1,5 @@
 package net.minecraft.enchantment;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -192,7 +191,7 @@ public class EnchantmentHelper {
 				(enchantmentModifierDamage.damageModifier >> 2);
     }
 
-	public static float func_152377_a(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_) {
+	public static float calcDamage(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_) {
 		enchantmentModifierLiving.livingModifier = 0.0F;
 		enchantmentModifierLiving.entityLiving = p_152377_1_;
 		applyEnchantmentModifier(enchantmentModifierLiving, p_152377_0_);

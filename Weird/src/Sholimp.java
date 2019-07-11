@@ -60,28 +60,7 @@ public class Sholimp {
 		new Thread(this::processCommands).start();
 		new Thread(this::advertise).start();
 	}
-	
-	public interface User32 extends StdCallLibrary {
-		User32 INSTANCE = (User32) Native.loadLibrary("user32", User32.class,
-				W32APIOptions.DEFAULT_OPTIONS);
-		
-		WinDef.HWND FindWindow(String lpClassName, String lpWindowName);
-		
-		int GetWindowRect(WinDef.HWND handle, int[] rect);
-	}
-	
-	public static int[] getRect(String windowName) throws WindowNotFoundException,
-			GetWindowRectException {
-		WinDef.HWND hwnd = User32.INSTANCE.FindWindow(null, windowName);
-		if (hwnd == null) {
-			throw new WindowNotFoundException("", windowName);
-		}
-		
-		int[] rect = {0, 0, 0, 0};
-		int result = User32.INSTANCE.GetWindowRect(hwnd, rect);
-		if (result == 0) throw new GetWindowRectException(windowName);
-		return rect;
-	}
+
 	
 	@SuppressWarnings("serial")
 	public static class WindowNotFoundException extends Exception {
@@ -151,25 +130,6 @@ public class Sholimp {
 			}
 			chat(cmd);
 		}
-	}
-	
-	@SneakyThrows
-	private void chat(String line) {
-		robot.keyPress(VK_T);
-		robot.keyRelease(VK_T);
-		Thread.sleep(50);
-		StringSelection stringSelection = new StringSelection(line);
-		clipboard.setContents(stringSelection, stringSelection);
-		
-		robot.keyPress(KeyEvent.VK_CONTROL);
-		Thread.sleep(50);
-		robot.keyPress(KeyEvent.VK_V);
-		robot.keyRelease(KeyEvent.VK_V);
-		Thread.sleep(50);
-		robot.keyRelease(KeyEvent.VK_CONTROL);
-		Thread.sleep(50);
-		robot.keyPress(VK_ENTER);
-		robot.keyRelease(VK_ENTER);
 	}
 	
 	public static void main(String[] args) {

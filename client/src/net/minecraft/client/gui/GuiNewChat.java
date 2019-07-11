@@ -1,15 +1,14 @@
 package net.minecraft.client.gui;
 
-import com.google.common.collect.Lists;
-import net.minecraft.logging.Log;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.ChatLine;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.logging.Log;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.chat.ChatComponentText;
 
 import java.util.Iterator;
 import java.util.List;
@@ -91,10 +90,10 @@ public class GuiNewChat extends Gui {
 				int k1 = i3 * i3 / l2;
 
 				if (l2 != i3) {
-					int k3 = j3 > 0 ? 170 : 96;
-					int l3 = this.isScrolled ? 13382451 : 3355562;
+					int k3 = j3 > 0 ? 0xaa : 0x60;
+					int l3 = this.isScrolled ? 0xcc3333 : 0x3333aa;
 					drawRect(0, -j3, 2, -j3 - k1, l3 + (k3 << 24));
-					drawRect(2, -j3, 1, -j3 - k1, 13421772 + (k3 << 24));
+					drawRect(2, -j3, 1, -j3 - k1, 0xcccccc + (k3 << 24));
 				}
 			}
 

@@ -27,4 +27,8 @@ public class EventManager<T extends Event<T>> {
 		for (Listener<T> listener : array) listener.process(event);
 	}
 
+	public boolean isUseful() {
+		return array.length != 0;
+	}
+
 }
