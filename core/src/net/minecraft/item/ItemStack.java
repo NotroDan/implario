@@ -1,7 +1,6 @@
 package net.minecraft.item;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
@@ -556,7 +555,7 @@ public final class ItemStack {
 				AttributeModifier attributemodifier = entry.getValue();
 				double d0 = attributemodifier.getAmount();
 
-				if (attributemodifier.getID() == Item.itemModifierUUID) d0 += (double) EnchantmentHelper.func_152377_a(this, EnumCreatureAttribute.UNDEFINED);
+				if (attributemodifier.getID() == Item.itemModifierUUID) d0 += (double) EnchantmentHelper.calcDamage(this, EnumCreatureAttribute.UNDEFINED);
 
 				double d1;
 

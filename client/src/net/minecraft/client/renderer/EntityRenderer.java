@@ -53,6 +53,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 
@@ -291,13 +292,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 			this.theShaderGroup = null;
 
-//			if (entityIn instanceof EntityCreeper) {
-//				this.loadShader(new ResourceLocation("shaders/post/creeper.json"));
-//			} else if (entityIn instanceof EntitySpider) {
-//				this.loadShader(new ResourceLocation("shaders/post/spider.json"));
-//			} else if (entityIn instanceof EntityEnderman) {
-//				this.loadShader(new ResourceLocation("shaders/post/invert.json"));
-//			}
+			//			if (entityIn instanceof EntityCreeper) {
+			//				this.loadShader(new ResourceLocation("shaders/post/creeper.json"));
+			//			} else if (entityIn instanceof EntitySpider) {
+			//				this.loadShader(new ResourceLocation("shaders/post/spider.json"));
+			//			} else if (entityIn instanceof EntityEnderman) {
+			//				this.loadShader(new ResourceLocation("shaders/post/invert.json"));
+			//			}
 		}
 	}
 
@@ -390,18 +391,18 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		this.itemRenderer.updateEquippedItem();
 		this.addRainParticles();
 		this.bossColorModifierPrev = this.bossColorModifier;
-// ToDo: Разобраться с тем, что это такое
-//		if (BossStatus.hasColorModifier) {
-//			this.bossColorModifier += 0.05F;
-//
-//			if (this.bossColorModifier > 1.0F) {
-//				this.bossColorModifier = 1.0F;
-//			}
-//
-//			BossStatus.hasColorModifier = false;
-//		} else if (this.bossColorModifier > 0.0F) {
-//			this.bossColorModifier -= 0.0125F;
-//		}
+		// ToDo: Разобраться с тем, что это такое
+		//		if (BossStatus.hasColorModifier) {
+		//			this.bossColorModifier += 0.05F;
+		//
+		//			if (this.bossColorModifier > 1.0F) {
+		//				this.bossColorModifier = 1.0F;
+		//			}
+		//
+		//			BossStatus.hasColorModifier = false;
+		//		} else if (this.bossColorModifier > 0.0F) {
+		//			this.bossColorModifier -= 0.0125F;
+		//		}
 	}
 
 	public ShaderGroup getShaderGroup() {
@@ -736,8 +737,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			G.scale(this.cameraZoom, this.cameraZoom, 1.0D);
 		}
 
-		GL11.glOrtho(-100, 100, -100, 100, -clipDistance, this.clipDistance);
-//		Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance);
+		Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance);
 		G.matrixMode(5888);
 		G.loadIdentity();
 
@@ -808,8 +808,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				Shaders.applyHandDepth();
 			}
 
-			GL11.glOrtho(-100, 100, -100, 100, -farPlaneDistance * 2, this.farPlaneDistance * 2);
-//			Project.gluPerspective(this.getFOVModifier(partialTicks, false), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
+			Project.gluPerspective(this.getFOVModifier(partialTicks, false), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
 			G.matrixMode(5888);
 			G.loadIdentity();
 
@@ -1293,8 +1292,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			Profiler.in.endStartSection("sky");
 			G.matrixMode(5889);
 			G.loadIdentity();
-//			Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance);
-			GL11.glOrtho(-100, 100, -100, 100, -clipDistance, this.clipDistance);
+			Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance);
 			G.matrixMode(5888);
 
 			if (flag) {
@@ -1309,8 +1307,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 			G.matrixMode(5889);
 			G.loadIdentity();
-//			Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance);
-			GL11.glOrtho(-100, 100, -100, 100, -clipDistance, this.clipDistance);
+			Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance);
 			G.matrixMode(5888);
 		} else {
 			G.disableBlend();
@@ -1540,8 +1537,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			Profiler.in.endStartSection("clouds");
 			G.matrixMode(5889);
 			G.loadIdentity();
-//			Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance * 4.0F);
-			GL11.glOrtho(-100, 100, -100, 100, -this.clipDistance * 4.0F, this.clipDistance * 4.0F);
+			Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance * 4.0F);
 			G.matrixMode(5888);
 			G.pushMatrix();
 			this.setupFog(0, partialTicks);
@@ -1550,8 +1546,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			G.popMatrix();
 			G.matrixMode(5889);
 			G.loadIdentity();
-//			Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance);
-			GL11.glOrtho(-100, 100, -100, 100, -this.clipDistance, this.clipDistance);
+			Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.clipDistance);
 			G.matrixMode(5888);
 		}
 	}
