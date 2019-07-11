@@ -29,10 +29,7 @@ import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.DamageByEntityEvent;
 import net.minecraft.resources.event.events.MountMoveEvent;
 import net.minecraft.resources.event.events.TrySleepEvent;
-import net.minecraft.resources.event.events.player.PlayerFallEvent;
-import net.minecraft.resources.event.events.player.PlayerItemDropEvent;
-import net.minecraft.resources.event.events.player.PlayerJumpEvent;
-import net.minecraft.resources.event.events.player.PlayerTickEvent;
+import net.minecraft.resources.event.events.player.*;
 import net.minecraft.scoreboard.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
@@ -611,34 +608,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	/**
 	 * Called when the mob's health reaches 0.
 	 */
-	public void onDeath(DamageSource cause) {
-		super.onDeath(cause);
-		this.setSize(0.2F, 0.2F);
-		this.setPosition(this.posX, this.posY, this.posZ);
-		this.motionY = 0.10000000149011612D;
-
-		if (this.getName().equals("Notch")) {
-			this.dropItem(new ItemStack(Items.apple, 1), true, false);
-		}
-		if (this.getName().equals("6oogle")) {
-			this.dropItem(new ItemStack(Blocks.deadbush, 1), true, false);
-		}
-
-		if (!this.worldObj.getGameRules().getBoolean("keepInventory")) {
-			this.inventory.dropAllItems();
-		}
-
-		if (cause != null) {
-			this.motionX = (double) (-MathHelper.cos((this.attackedAtYaw + this.rotationYaw) * (float) Math.PI / 180.0F) * 0.1F);
-			this.motionZ = (double) (-MathHelper.sin((this.attackedAtYaw + this.rotationYaw) * (float) Math.PI / 180.0F) * 0.1F);
-		} else {
-			this.motionX = this.motionZ = 0.0D;
-		}
-
-
-		this.triggerAchievement(StatList.deathsStat);
-		this.func_175145_a(StatList.timeSinceDeathStat);
-	}
+	public abstract void onDeath(DamageSource cause);
 
 	/**
 	 * Returns the sound this mob makes when it is hurt.
@@ -1129,8 +1099,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			targetEntity.addVelocity(
 					-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) knockback * 0.5F, 0.1D,
 					MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) knockback * 0.5F);
-//			this.motionX *= 0.6D;
-//			this.motionZ *= 0.6D;
+			this.motionX *= 0.6D;
+			this.motionZ *= 0.6D;
 			this.setSprinting(false);
 		}
 
@@ -1175,6 +1145,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 				this.destroyCurrentEquippedItem();
 			}
 		}
+
+
 
 		if (targetEntity instanceof EntityLivingBase) {
 			this.addStat(StatList.damageDealtStat, Math.round(basicDamage * 10.0F));
@@ -1562,9 +1534,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		this.addScore(amount);
 		int i = Integer.MAX_VALUE - this.experienceTotal;
 
-		if (amount > i) {
-			amount = i;
-		}
+		if (amount > i) amount = i;
 
 		this.experience += (float) amount / (float) this.xpBarCap();
 

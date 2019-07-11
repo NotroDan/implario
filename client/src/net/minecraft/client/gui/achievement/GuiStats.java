@@ -1,6 +1,5 @@
 package net.minecraft.client.gui.achievement;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
@@ -512,7 +511,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 			this.setShowSelectionBox(false);
 
 			for (EntityList.EntityEggInfo entitylist$entityegginfo : EntityList.entityEggs.values())
-				if (GuiStats.this.statFileWriter.readStat(entitylist$entityegginfo.field_151512_d) > 0 || GuiStats.this.statFileWriter.readStat(entitylist$entityegginfo.field_151513_e) > 0)
+				if (GuiStats.this.statFileWriter.readStat(entitylist$entityegginfo.field_151512_d) > 0 || GuiStats.this.statFileWriter.readStat(entitylist$entityegginfo.stat) > 0)
 					this.field_148222_l.add(entitylist$entityegginfo);
 		}
 
@@ -539,7 +538,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 			EntityList.EntityEggInfo entitylist$entityegginfo = this.field_148222_l.get(entryID);
 			String s = Lang.format("entity." + EntityList.getStringFromID(entitylist$entityegginfo.spawnedID) + ".name");
 			int i = GuiStats.this.statFileWriter.readStat(entitylist$entityegginfo.field_151512_d);
-			int j = GuiStats.this.statFileWriter.readStat(entitylist$entityegginfo.field_151513_e);
+			int j = GuiStats.this.statFileWriter.readStat(entitylist$entityegginfo.stat);
 			String s1 = Lang.format("stat.entityKills", i, s);
 			String s2 = Lang.format("stat.entityKilledBy", s, j);
 

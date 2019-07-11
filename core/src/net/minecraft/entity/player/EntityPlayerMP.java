@@ -29,6 +29,8 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.network.play.server.*;
+import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.events.player.PlayerDeathEvent;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -418,13 +420,15 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs.get(EntityList.getEntityID(entitylivingbase));
 
 			if (entitylist$entityegginfo != null) {
-				this.triggerAchievement(entitylist$entityegginfo.field_151513_e);
+				this.triggerAchievement(entitylist$entityegginfo.stat);
 			}
 
 			entitylivingbase.addToPlayerScore(this, this.scoreValue);
 		}
 
-		this.triggerAchievement(StatList.deathsStat);
+		if (Events.eventPlayerDeath.isUseful())
+			Events.eventPlayerDeath.call(new PlayerDeathEvent(this, cause));
+
 		this.func_175145_a(StatList.timeSinceDeathStat);
 		this.getCombatTracker().reset();
 	}
@@ -950,11 +954,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	/**
 	 * Sends a packet to the player to remove an entity.
 	 */
-	public void removeEntity(Entity p_152339_1_) {
-		if (p_152339_1_ instanceof EntityPlayer) {
-			this.playerNetServerHandler.sendPacket(new S13PacketDestroyEntities(new int[] {p_152339_1_.getEntityId()}));
+	public void removeEntity(Entity entity) {
+		if (entity instanceof EntityPlayer) {
+			this.playerNetServerHandler.sendPacket(new S13PacketDestroyEntities(entity.getEntityId()));
 		} else {
-			this.destroyedItemsNetCache.add(p_152339_1_.getEntityId());
+			this.destroyedItemsNetCache.add(entity.getEntityId());
 		}
 	}
 

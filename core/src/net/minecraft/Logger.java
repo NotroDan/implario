@@ -26,7 +26,7 @@ public class Logger {
 		if (isDebugEnabled()) print(ob);}
 
 	public boolean isDebugEnabled() {
-		return false;
+		return true;
 	}
 
 }

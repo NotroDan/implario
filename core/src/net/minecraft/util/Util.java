@@ -1,8 +1,7 @@
 package net.minecraft.util;
 
-import net.minecraft.logging.Log;
+import net.minecraft.network.ThreadQuickExitException;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class Util {
@@ -20,7 +19,9 @@ public class Util {
 	}
 
 	public static <V> void schedule(FutureTask<V> task) {
-		task.run();
+		try {
+			task.run();
+		} catch (ThreadQuickExitException ignored) {}
 	}
 
 	public enum OS {

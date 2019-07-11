@@ -52,6 +52,7 @@ public class VEvents implements ServerSideLoadable {
 		Events.eventPlayerDisconnect.add(e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat));
 		Events.eventPlayerJump.add(e -> e.getPlayer().triggerAchievement(StatList.jumpStat));
 		Events.eventPlayerItemDrop.add(this::handleItemDrop);
+		Events.eventPlayerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat));
 
 		registrar.regListener(DamageByEntityEvent.class, new DragonPartRedirecter());
 		registrar.regListener(TrySleepEvent.class, new SleepChecker());
