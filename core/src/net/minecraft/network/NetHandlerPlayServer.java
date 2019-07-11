@@ -50,8 +50,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static net.minecraft.entity.player.EntityPlayer.print;
-
 public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 	private static final Logger logger = Logger.getInstance();
@@ -307,7 +305,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 					this.playerEntity.setPositionAndRotation(d8, d9, d10, f1, f2);
 					if (x != playerEntity.posX || y != playerEntity.posY || z != playerEntity.posZ) {
-						Events.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
+						if (Events.eventPlayerMove.isUseful())
+							Events.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
 					}
 //					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);
 
@@ -901,7 +900,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 				this.playerEntity.inventoryContainer.setCanCraft(this.playerEntity, true);
 			} else if (flag && flag2 && flag3 && this.itemDropThreshold < 200) {
 				this.itemDropThreshold += 20;
-				EntityItem entityitem = this.playerEntity.dropPlayerItemWithRandomChoice(itemstack, true);
+				EntityItem entityitem = this.playerEntity.dropPlayerItemWithRandomChoice(itemstack);
 
 				if (entityitem != null) {
 					entityitem.setAgeToCreativeDespawnTime();

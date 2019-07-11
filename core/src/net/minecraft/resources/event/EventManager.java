@@ -28,7 +28,7 @@ public class EventManager<T extends Event<T>> {
 	}
 
 	public boolean isUseful() {
-		return array.length != 0;
+		return array != null && array.length != 0;
 	}
 
 }

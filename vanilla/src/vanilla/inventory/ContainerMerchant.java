@@ -133,13 +133,13 @@ public class ContainerMerchant extends Container {
 			ItemStack itemstack = this.merchantInventory.removeStackFromSlot(0);
 
 			if (itemstack != null) {
-				playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
+				playerIn.dropPlayerItemWithRandomChoice(itemstack);
 			}
 
 			itemstack = this.merchantInventory.removeStackFromSlot(1);
 
 			if (itemstack != null) {
-				playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
+				playerIn.dropPlayerItemWithRandomChoice(itemstack);
 			}
 		}
 	}
