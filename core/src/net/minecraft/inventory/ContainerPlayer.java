@@ -82,7 +82,7 @@ public class ContainerPlayer extends Container {
 			ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
 
 			if (itemstack != null) {
-				playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
+				playerIn.dropPlayerItemWithRandomChoice(itemstack);
 			}
 		}
 

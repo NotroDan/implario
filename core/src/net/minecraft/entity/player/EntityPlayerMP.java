@@ -396,14 +396,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			Team team = this.getTeam();
 
 			if (team != null && team.getDeathMessageVisibility() != Team.EnumVisible.ALWAYS) {
-				if (team.getDeathMessageVisibility() == Team.EnumVisible.HIDE_FOR_OTHER_TEAMS) {
+				if (team.getDeathMessageVisibility() == Team.EnumVisible.HIDE_FOR_OTHER_TEAMS)
 					this.mcServer.getConfigurationManager().sendMessageToAllTeamMembers(this, this.getCombatTracker().getDeathMessage());
-				} else if (team.getDeathMessageVisibility() == Team.EnumVisible.HIDE_FOR_OWN_TEAM) {
+				else if (team.getDeathMessageVisibility() == Team.EnumVisible.HIDE_FOR_OWN_TEAM)
 					this.mcServer.getConfigurationManager().sendMessageToTeamOrEvryPlayer(this, this.getCombatTracker().getDeathMessage());
-				}
-			} else {
-				this.mcServer.getConfigurationManager().sendChatMsg(this.getCombatTracker().getDeathMessage());
-			}
+			} else this.mcServer.getConfigurationManager().sendChatMsg(this.getCombatTracker().getDeathMessage());
 		}
 
 		if (!this.worldObj.getGameRules().getBoolean("keepInventory")) {
@@ -418,7 +415,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		EntityLivingBase entitylivingbase = this.func_94060_bK();
 
 		if (entitylivingbase != null) {
-			EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo) EntityList.entityEggs.get(EntityList.getEntityID(entitylivingbase));
+			EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs.get(EntityList.getEntityID(entitylivingbase));
 
 			if (entitylist$entityegginfo != null) {
 				this.triggerAchievement(entitylist$entityegginfo.field_151513_e);

@@ -5,27 +5,31 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
+import net.minecraft.LogManager;
+import net.minecraft.Logger;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.*;
-import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.events.player.PlayerLeaveDisconnect;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.scoreboard.Team;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.stats.StatList;
 import net.minecraft.stats.StatisticsFile;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.IDimensionTranser;
 import net.minecraft.world.World;
@@ -380,7 +384,8 @@ public abstract class ServerConfigurationManager {
 	 * Called when a player disconnects from the game. Writes player data to disk and removes them from the world.
 	 */
 	public void playerLoggedOut(EntityPlayerMP playerIn) {
-		playerIn.triggerAchievement(StatList.leaveGameStat);
+		if (Events.eventPlayerDisconnect.isUseful())
+			Events.eventPlayerDisconnect.call(new PlayerLeaveDisconnect(playerIn));
 		this.writePlayerData(playerIn);
 		WorldServer worldserver = playerIn.getServerForPlayer();
 

@@ -15,7 +15,6 @@ import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Domain;
 import vanilla.block.BlockMobSpawner;
@@ -70,7 +69,6 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 	@Override
 	public void init() {
 
-		Log.MAIN.info("123");
 		new VEvents().load(registrar);
 		new VPackets().load(registrar);
 		new Dispensers().load(registrar);

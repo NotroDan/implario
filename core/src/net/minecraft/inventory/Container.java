@@ -1,6 +1,5 @@
 package net.minecraft.inventory;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -170,12 +169,12 @@ public abstract class Container {
 		else if ((mode == CLICK || mode == SHIFT) && (clickedButton == 0 || clickedButton == 1)) if (slotId == -999) {
 			if (inventoryplayer.getItemStack() != null) {
 				if (clickedButton == 0) {
-					playerIn.dropPlayerItemWithRandomChoice(inventoryplayer.getItemStack(), true);
+					playerIn.dropPlayerItemWithRandomChoice(inventoryplayer.getItemStack());
 					inventoryplayer.setItemStack(null);
 				}
 
 				if (clickedButton == 1) {
-					playerIn.dropPlayerItemWithRandomChoice(inventoryplayer.getItemStack().splitStack(1), true);
+					playerIn.dropPlayerItemWithRandomChoice(inventoryplayer.getItemStack().splitStack(1));
 
 					if (inventoryplayer.getItemStack().stackSize == 0) inventoryplayer.setItemStack(null);
 				}
@@ -306,7 +305,7 @@ public abstract class Container {
 			if (slot3 != null && slot3.getHasStack() && slot3.canTakeStack(playerIn)) {
 				ItemStack itemstack5 = slot3.decrStackSize(clickedButton == 0 ? 1 : slot3.getStack().stackSize);
 				slot3.onPickupFromSlot(playerIn, itemstack5);
-				playerIn.dropPlayerItemWithRandomChoice(itemstack5, true);
+				playerIn.dropPlayerItemWithRandomChoice(itemstack5);
 			}
 		} else if (mode == COLLECT && slotId >= 0) {
 			Slot slot2 = this.inventorySlots.get(slotId);
@@ -361,7 +360,7 @@ public abstract class Container {
 		InventoryPlayer inventoryplayer = playerIn.inventory;
 
 		if (inventoryplayer.getItemStack() != null) {
-			playerIn.dropPlayerItemWithRandomChoice(inventoryplayer.getItemStack(), false);
+			playerIn.dropPlayerItemWithRandomChoice(inventoryplayer.getItemStack());
 			inventoryplayer.setItemStack(null);
 		}
 	}

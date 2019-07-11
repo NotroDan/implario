@@ -30,6 +30,8 @@ import net.minecraft.resources.event.events.DamageByEntityEvent;
 import net.minecraft.resources.event.events.MountMoveEvent;
 import net.minecraft.resources.event.events.TrySleepEvent;
 import net.minecraft.resources.event.events.player.PlayerFallEvent;
+import net.minecraft.resources.event.events.player.PlayerItemDropEvent;
+import net.minecraft.resources.event.events.player.PlayerJumpEvent;
 import net.minecraft.resources.event.events.player.PlayerTickEvent;
 import net.minecraft.scoreboard.*;
 import net.minecraft.server.MinecraftServer;
@@ -481,7 +483,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			this.prevCameraYaw = this.cameraYaw;
 			this.cameraYaw = 0.0F;
 
-			Events.eventMountMove.call(new MountMoveEvent(this, ridingEntity, d0, d1, d2, posX, posY, posZ));
+			if (Events.eventMountMove.isUseful())
+				Events.eventMountMove.call(new MountMoveEvent(this, ridingEntity, d0, d1, d2, posX, posY, posZ));
 
 			if (this.ridingEntity instanceof ICameraMagnet) {
 				this.rotationPitch = f1;
@@ -617,6 +620,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		if (this.getName().equals("Notch")) {
 			this.dropItem(new ItemStack(Items.apple, 1), true, false);
 		}
+		if (this.getName().equals("6oogle")) {
+			this.dropItem(new ItemStack(Blocks.deadbush, 1), true, false);
+		}
 
 		if (!this.worldObj.getGameRules().getBoolean("keepInventory")) {
 			this.inventory.dropAllItems();
@@ -628,6 +634,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		} else {
 			this.motionX = this.motionZ = 0.0D;
 		}
+
 
 		this.triggerAchievement(StatList.deathsStat);
 		this.func_175145_a(StatList.timeSinceDeathStat);
@@ -706,7 +713,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	/**
 	 * Args: itemstack, flag
 	 */
-	public EntityItem dropPlayerItemWithRandomChoice(ItemStack itemStackIn, boolean unused) {
+	public EntityItem dropPlayerItemWithRandomChoice(ItemStack itemStackIn) {
 		return this.dropItem(itemStackIn, false, false);
 	}
 
@@ -717,13 +724,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		if (droppedItem.stackSize == 0) {
 			return null;
 		}
-		double d0 = this.posY - 0.30000001192092896D + (double) this.getEyeHeight();
+		double d0 = this.posY - 0.3F + (double) this.getEyeHeight();
 		EntityItem entityitem = new EntityItem(this.worldObj, this.posX, d0, this.posZ, droppedItem);
 		entityitem.setPickupDelay(40);
 
-		if (traceItem) {
-			entityitem.setThrower(this.getName());
-		}
+		if (traceItem) entityitem.setThrower(this.getName());
 
 		if (dropAround) {
 			float f = this.rand.nextFloat() * 0.5F;
@@ -745,9 +750,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 		this.joinEntityItemWithWorld(entityitem);
 
-		if (traceItem) {
-			this.triggerAchievement(StatList.dropStat);
-		}
+
+		if (Events.eventPlayerItemDrop.isUseful())
+			Events.eventPlayerItemDrop.call(new PlayerItemDropEvent(this, droppedItem, dropAround, traceItem));
 
 		return entityitem;
 	}
@@ -1457,13 +1462,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 */
 	public void jump() {
 		super.jump();
-		this.triggerAchievement(StatList.jumpStat);
 
-		if (this.isSprinting()) {
-			this.addExhaustion(0.8F);
-		} else {
-			this.addExhaustion(0.2F);
-		}
+		if (Events.eventPlayerJump.isUseful())
+			Events.eventPlayerJump.call(new PlayerJumpEvent(this));
+
+		this.addExhaustion(this.isSprinting() ? 0.8F : 0.2F);
 	}
 
 	/**

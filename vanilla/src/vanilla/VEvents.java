@@ -20,6 +20,7 @@ import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.resources.event.events.player.PlayerFallEvent;
+import net.minecraft.resources.event.events.player.PlayerItemDropEvent;
 import net.minecraft.resources.event.events.player.PlayerMoveEvent;
 import net.minecraft.resources.event.events.player.PlayerTickEvent;
 import net.minecraft.stats.AchievementList;
@@ -48,6 +49,9 @@ public class VEvents implements ServerSideLoadable {
 		Events.eventMountMove.add(this::handleMountMove);
 		Events.eventPlayerTick.add(this::handlePlayerTick);
 		Events.eventPlayerFall.add(this::handlePlayerFall);
+		Events.eventPlayerDisconnect.add(e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat));
+		Events.eventPlayerJump.add(e -> e.getPlayer().triggerAchievement(StatList.jumpStat));
+		Events.eventPlayerItemDrop.add(this::handleItemDrop);
 
 		registrar.regListener(DamageByEntityEvent.class, new DragonPartRedirecter());
 		registrar.regListener(TrySleepEvent.class, new SleepChecker());
@@ -57,6 +61,10 @@ public class VEvents implements ServerSideLoadable {
 		registrar.regListener(PlayerEnderPearlEvent.class, this::handlePlayerEnderPearl);
 		registrar.regListener(FenceClickedEvent.class, this::handleFenceClick);
 		registrar.regListener(BlockDropEvent.class, this::handleBlockDrop);
+	}
+
+	private void handleItemDrop(PlayerItemDropEvent e) {
+		if (e.isTraceItem()) e.getPlayer().triggerAchievement(StatList.dropStat);
 	}
 
 	private void handlePlayerFall(PlayerFallEvent e) {

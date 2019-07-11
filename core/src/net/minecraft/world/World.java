@@ -1506,7 +1506,8 @@ public abstract class World implements IBlockAccess {
 				if (entity.ridingEntity != null) entity.updateRidden();
 				else entity.onUpdate();
 
-				if (entity instanceof EntityPlayer) Events.eventPlayerUpdate.call(new PlayerUpdateEvent((EntityPlayer) entity));
+				if (Events.eventPlayerUpdate.isUseful() && entity instanceof EntityPlayer)
+					Events.eventPlayerUpdate.call(new PlayerUpdateEvent((EntityPlayer) entity));
 			}
 
 			this.theProfiler.startSection("chunkCheck");
@@ -1515,11 +1516,11 @@ public abstract class World implements IBlockAccess {
 			if (Double.isNaN(entity.posY) || Double.isInfinite(entity.posY)) entity.posY = entity.lastTickPosY;
 			if (Double.isNaN(entity.posZ) || Double.isInfinite(entity.posZ)) entity.posZ = entity.lastTickPosZ;
 
-			if (Double.isNaN((double) entity.rotationPitch) || Double.isInfinite((double) entity.rotationPitch)) {
+			if (Double.isNaN(entity.rotationPitch) || Double.isInfinite(entity.rotationPitch)) {
 				entity.rotationPitch = entity.prevRotationPitch;
 			}
 
-			if (Double.isNaN((double) entity.rotationYaw) || Double.isInfinite((double) entity.rotationYaw)) {
+			if (Double.isNaN((double) entity.rotationYaw) || Double.isInfinite(entity.rotationYaw)) {
 				entity.rotationYaw = entity.prevRotationYaw;
 			}
 
