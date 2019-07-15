@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import vanilla.entity.passive.EntitySheep;
 
 public class VItemDye extends ItemDye {
 
@@ -74,6 +76,21 @@ public class VItemDye extends ItemDye {
 			g.grow(w, w.rand, target, iblockstate);
 
 		--item.stackSize;
+
+		return true;
+	}
+
+	@Override
+	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+		if (!(target instanceof EntitySheep)) return false;
+
+		EntitySheep entitysheep = (EntitySheep)target;
+		EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
+
+		if (!entitysheep.getSheared() && entitysheep.getFleeceColor() != enumdyecolor) {
+			entitysheep.setFleeceColor(enumdyecolor);
+			--stack.stackSize;
+		}
 
 		return true;
 	}
