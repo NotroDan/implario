@@ -132,7 +132,7 @@ public abstract class EntityLivingBase extends Entity {
 	/**
 	 * The score value of the Mob, the amount of points the mob is worth.
 	 */
-	protected int scoreValue = 100;
+	protected int scoreValue;
 
 	/**
 	 * Damage taken in the last hit. Mobs are resistant to damage less than this for a short time after taking damage.
