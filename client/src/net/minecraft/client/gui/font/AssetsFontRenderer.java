@@ -228,9 +228,14 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 	/**
 	 * Load one of the /font/glyph_XX.png into a new GL texture and store the texture ID in glyphTextureName array.
 	 */
+
+	private int cachedPage = -213123;
+
 	private void loadGlyphTexture(int page) {
+		if(page == cachedPage)return;
 		ResourceLocation unicodePageLocation = this.getUnicodePageLocation(page);
 		this.bindTexture(unicodePageLocation);
+		cachedPage = page;
 	}
 
 	/**
@@ -400,6 +405,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 			this.posX += charWidth;
 		}
+		cachedPage = -1123123312;
 	}
 
 	private void offset(float offset) {
