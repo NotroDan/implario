@@ -257,23 +257,25 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		// Сдвиг верхней границы текста вправо, а нижней влево для создания эффекта курсива
 		float italicness = italic ? 1.0F : 0.0F;
 
-
+		float oneYCached = this.posY, twoYCached = oneYCached + 8;
+		float txCached = tx / 256, oneTwCached = posX + tw / 2;
+		float tyCached = ty / 256, txTwCache = (tx + tw) / 256;
+		float tyCache =(ty + 16) / 256;
 		GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
 
-		GL11.glTexCoord2f(tx / 256, ty / 256);
-		GL11.glVertex3f(posX + italicness, this.posY, 0);
+		GL11.glTexCoord2f(txCached, tyCached);
+		GL11.glVertex2f(posX + italicness, oneYCached);
 
-		GL11.glTexCoord2f(tx / 256, (ty + 16F) / 256);
-		GL11.glVertex3f(posX - italicness, this.posY + 8, 0);
+		GL11.glTexCoord2f(txCached, tyCache);
+		GL11.glVertex2f(posX - italicness, twoYCached);
 
-		GL11.glTexCoord2f((tx + tw) / 256, ty / 256);
-		GL11.glVertex3f(posX + tw / 2 + italicness, this.posY, 0);
+		GL11.glTexCoord2f(txTwCache, tyCached);
+		GL11.glVertex2f(oneTwCached + italicness, oneYCached);
 
-		GL11.glTexCoord2f((tx + tw) / 256, (ty + 16) / 256);
-		GL11.glVertex3f(posX + tw / 2 - italicness, this.posY + 8, 0);
+		GL11.glTexCoord2f(txTwCache, tyCache);
+		GL11.glVertex2f(oneTwCached - italicness, twoYCached);
 
 		GL11.glEnd();
-
 
 		return (width - rightOffset) / 2.0F + 1.0F;
 	}
