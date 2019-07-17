@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="server" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="net.minecraft.server.ServerStart" />
+    <module name="server" />
+    <option name="WORKING_DIRECTORY" value="server/env" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
