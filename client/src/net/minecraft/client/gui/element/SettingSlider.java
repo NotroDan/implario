@@ -51,10 +51,7 @@ public class SettingSlider extends SettingButton {
 		if (Settings.FANCY_BUTTONS.b()) {
 			boolean hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 			int border = 0xc0636363;
-			if (hovered) {
-				if (Settings.RAINBOW_SHIT.b()) border = Utils.rainbowGradient((int) (System.currentTimeMillis() % 1536));
-				else border = 0xd0e06c14;
-			}
+			if (hovered) border = 0xd0e06c14;
 			drawRect(sliderX, yPosition, sliderX + 8, yPosition + 20, border);
 			drawRect(sliderX + 1, yPosition + 1, sliderX + 7, yPosition + 19, 0xd0898989);
 		} else {

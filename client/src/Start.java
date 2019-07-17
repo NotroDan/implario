@@ -1,4 +1,5 @@
 import net.minecraft.client.main.Main;
+import net.minecraft.client.resources.Language;
 import net.minecraft.resources.Datapacks;
 
 import java.io.File;

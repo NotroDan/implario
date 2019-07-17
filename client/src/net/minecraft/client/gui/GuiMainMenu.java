@@ -4,6 +4,7 @@ import net.minecraft.CyclicIterator;
 import net.minecraft.Logger;
 import net.minecraft.Utils;
 import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.settings.GuiSettings;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -11,12 +12,14 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
+import optifine.Config;
 import org.lwjgl.opengl.GLContext;
 import shadersmod.client.GuiShaders;
 
@@ -94,8 +97,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, Lang.format("menu.options")));
 		this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, Lang.format("menu.quit")));
 		this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Смена ника"));
-		this.buttonList.add(new GuiButton(6, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Не нажимать!"));
-		this.buttonList.add(new GuiButton(54, this.width / 2 + 2, j + 72 + 12 + 24 + 24, 98, 20, "Бета настроек"));
+		this.buttonList.add(new GuiButton(54, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Бета настроек"));
+		if(Settings.DEBUG.b())
+			buttonList.add(new GuiButton(6, this.width / 2 + 2, j + 72 + 12 + 24 + 24,
+					98, 20, "Не нажимать!"));
 
 		synchronized (this.threadLock) {
 			this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
@@ -120,14 +125,19 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 //		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
 		if (button.id == 5) this.mc.displayGuiScreen(new GuiShaders(this));
-		if (button.id == 6) this.mc.displayGuiScreen(new GuiServers(this));
+		if (button.id == 54) {
+			if(Settings.DEBUG.b())
+				this.mc.displayGuiScreen(new GuiSettings(this));
+			else
+				Config.showGuiMessage("Включите дебаг", "Иначе работать не будет");
+		}
 
 		if (button.id == 1) this.mc.displayGuiScreen(new GuiSelectWorld(this));
 
 		if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
 
 		if (button.id == 97) this.mc.displayGuiScreen(new GuiPlayername(this));
-		if (button.id == 54) Datapacks.toggle(new File("vanilla.jar"), "vanilla.Vanilla");
+		if (button.id == 6) Datapacks.toggle(new File("vanilla.jar"), "vanilla.Vanilla");
 //		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
 
 		if (button.id == 4) this.mc.shutdown();

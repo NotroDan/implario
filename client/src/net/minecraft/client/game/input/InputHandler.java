@@ -373,13 +373,6 @@ public final class InputHandler {
 				mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
 			}
 		}
-		while (KeyBinding.ITEMS.isPressed()) {
-			if (mc.playerController.isRidingHorse()) mc.thePlayer.sendHorseInventory();
-			else {
-				mc.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-				mc.displayGuiScreen(new GuiContainerItems(mc.thePlayer));
-			}
-		}
 
 		while (KeyBinding.DROP.isPressed()) if (!mc.thePlayer.isSpectator()) mc.thePlayer.dropOneItem(GuiScreen.isCtrlKeyDown());
 

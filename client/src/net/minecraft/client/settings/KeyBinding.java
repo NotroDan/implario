@@ -29,7 +29,6 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 	HOTBAR_7("key.hotbar.7", 8, "key.categories.inventory"),
 	HOTBAR_8("key.hotbar.8", 9, "key.categories.inventory"),
 	HOTBAR_9("key.hotbar.9", 10, "key.categories.inventory"),
-	ITEMS("Креатив меню", 19, "key.categories.inventory"),
 
 	USE("key.use", -99, "key.categories.gameplay"),
 	DROP("key.drop", 16, "key.categories.gameplay"),

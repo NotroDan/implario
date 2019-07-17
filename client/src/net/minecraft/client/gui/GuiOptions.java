@@ -73,12 +73,11 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		y = tabs.y;
 		tabs.add("Интерфейс",
 				createButton(Settings.FANCY_BUTTONS, x1, y += 22),
-				createButton(Settings.RAINBOW_SHIT, x2, y),
+				createButton(Settings.USE_FULLSCREEN, x2, y),
 				createButton(Settings.GUI_SCALE, x1, y += 22),
 				createButton(Settings.SLOT_GRID, x2, y),
 				createButton(Settings.MODERN_INVENTORIES, x1, y += 22),
-				createButton(Settings.FINE_EFFECTS, x2, y),
-				createButton(Settings.USE_FULLSCREEN, x1, y += 22)
+				createButton(Settings.FINE_EFFECTS, x2, y)
 				);
 
 		y = tabs.y;
@@ -160,10 +159,14 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		tabs.add("Текстуры", () -> mc.displayGuiScreen(new GuiScreenResourcePacks(this)));
 		tabs.add("Шейдеры", () -> {
-			if(Settings.FAST_RENDER.b())
-				Config.showGuiMessage(optifine.Lang.get("Шейдеры не могут быть включены при быстром рендере"),
+			if(Settings.FAST_RENDER.b()) {
+				if(Settings.DEBUG.b())
+					Config.showGuiMessage(optifine.Lang.get("Шейдеры не могут быть включены при быстром рендере"),
 						optifine.Lang.get("Выключите быстрый рендер если хотите шейдеров"));
-			else mc.displayGuiScreen(new GuiShaders(this));
+				else
+					Config.showGuiMessage("Пока не работает",
+							"Включите дебаг если хотите скрашить клиент");
+			}else mc.displayGuiScreen(new GuiShaders(this));
 		});
 
 

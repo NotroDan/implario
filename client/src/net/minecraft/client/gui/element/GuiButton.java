@@ -95,10 +95,7 @@ public class GuiButton extends Gui {
 
 			int color = i == 0 ? 0xd03f3f3f : 0xd04f4f4f;
 			int borderColor = 0xd0707070;
-			if (i == 2) {
-				if (Settings.RAINBOW_SHIT.b()) borderColor = Utils.rainbowGradient((int) (System.currentTimeMillis() % 1536));
-				else borderColor = 0xd0e06c14;
-			}
+			if (i == 2) borderColor = 0xd0e06c14;
 			int border = 1;
 
 			drawRect(xPosition, yPosition, xPosition + width, yPosition + height, borderColor);

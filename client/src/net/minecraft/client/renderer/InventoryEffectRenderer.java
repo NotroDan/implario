@@ -1,6 +1,10 @@
 package net.minecraft.client.renderer;
 
 import net.minecraft.client.MC;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
@@ -44,43 +48,42 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		if (this.hasActivePotionEffects) this.drawActivePotionEffects();
+		if (this.hasActivePotionEffects) drawActivePotionEffects(this, mc, fontRendererObj);
 
 	}
 
 	/**
 	 * Display the potion effects list
 	 */
-	private void drawActivePotionEffects() {
-		Collection<PotionEffect> collection = this.mc.thePlayer.getActivePotionEffects();
+	public static void drawActivePotionEffects(Gui screen, Minecraft mc, AssetsFontRenderer renderer) {
+		Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
 		if (collection.isEmpty()) return;
 //		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 //		GlStateManager.disableLighting();
 
 		if (Settings.FINE_EFFECTS.b()) {
-			drawPEnew(collection);
+			drawPEnew(screen, mc, renderer, collection);
 			return;
 		}
 
-		int i = this.guiLeft - 124;
-		int j = this.guiTop;
-		int k = 166;
+		int i = 0;
+		int j = 0;
 		int l = 33;
 
 		if (collection.size() > 5) {
 			l = 132 / (collection.size() - 1);
 		}
 
-		for (PotionEffect potioneffect : this.mc.thePlayer.getActivePotionEffects()) {
+		for (PotionEffect potioneffect : mc.thePlayer.getActivePotionEffects()) {
 			Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.mc.getTextureManager().bindTexture(inventoryBackground);
-			this.drawTexturedModalRect(i, j, 0, 166, 140, 32);
+			mc.getTextureManager().bindTexture(inventoryBackground);
+			screen.drawTexturedModalRect(i, j, 0, 166, 140, 32);
 
 			if (potion.hasStatusIcon()) {
 				int i1 = potion.getStatusIconIndex();
-				this.drawTexturedModalRect(i + 6, j + 7, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+				screen.drawTexturedModalRect(i + 6, j + 7, i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
 			}
 
 			String amplifier = "";
@@ -89,14 +92,14 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 
 			G.disableLighting();
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.fontRendererObj.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 0xffffff);
+			renderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 0xffffff);
 			String s = Potion.getDurationString(potioneffect);
-			this.fontRendererObj.drawStringWithShadow(s, (float) (i + 10 + 18), (float) (j + 6 + 10), 8355711);
+			renderer.drawStringWithShadow(s, (float) (i + 10 + 18), (float) (j + 6 + 10), 8355711);
 			j += l;
 		}
 	}
 
-	private void drawPEnew(Collection<PotionEffect> effects) {
+	private static void drawPEnew(Gui screen, Minecraft mc, AssetsFontRenderer fontRendererObj, Collection<PotionEffect> effects) {
 
 		RenderHelper.enableGUIStandardItemLighting();
 		int y = 5;
@@ -108,11 +111,11 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			drawRect(0, y, 80, y + 22 + 10, 0xd0202020);
 			drawRect(80, y, 82, y + 22 + 10, 0xd0f9c404);
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.mc.getTextureManager().bindTexture(inventoryBackground);
+			mc.getTextureManager().bindTexture(inventoryBackground);
 
 			if (potion.hasStatusIcon()) {
 				int i1 = potion.getStatusIconIndex();
-				this.drawTexturedModalRect(4, y + 2, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+				screen.drawTexturedModalRect(4, y + 2, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
 			}
 
 			String amplifier = "";
@@ -123,15 +126,13 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			String s = Potion.getDurationString(e);
 			G.disableLighting();
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.fontRendererObj.drawStringWithShadow(s1, 4, y + 20, 0xffffff);
+			fontRendererObj.drawStringWithShadow(s1, 4, y + 20, 0xffffff);
 			G.scale(2, 2, 2);
-			this.fontRendererObj.drawStringWithShadow(s, 16, (float) y / 2f + 1f, 0xffffff);
+			fontRendererObj.drawStringWithShadow(s, 16, (float) y / 2f + 1f, 0xffffff);
 			G.scale(0.5, 0.5, 0.5);
 			y += 27 + 10;
 		}
 
 		RenderHelper.disableStandardItemLighting();
-
 	}
-
 }

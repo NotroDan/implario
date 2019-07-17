@@ -158,14 +158,13 @@ public enum Settings {
 	PERSPECTIVE("Перспектива", 0, "От первого лица", "От третьего лица", "От второго лица"),
 	PAUSE_FOCUS("Пауза при сворачивании", true),
 	ITEM_TOOLTIPS("ID предметов", false),
-	FANCY_BUTTONS("Тип кнопок", true),
-	RAINBOW_SHIT("Радужная хуйня", false),
+	FANCY_BUTTONS("Новые кнопки", true),
 	HIDE_SERVER_ADDRESS("Скрыть IP серверов", false),
 	RENDER_FIRE("Огонь", 0, "Стандартный", "Иконка", "Отключён"),
 	SUDOKU_SEPARATORS("Разделители", false),
 	FAST_PLACE("Быстрый ПКМ", false),
-	FINE_EFFECTS("Новые эффекты", true),
-	MODERN_INVENTORIES("Улучшенные инвентари", true),
+	FINE_EFFECTS("Отображение эффектов", false),
+	MODERN_INVENTORIES("Улучшенные инвентари", false),
 	SLOT_GRID("Сетка слотов", 0, "С боксом", "§cВыкл", "Без бокса"),
 	ROMANIAN_NOTATION("Римские цифры", 0, "До сотни", "Всегда", "Никогда"),
 	DEBUG("Дебаг", false);
@@ -240,8 +239,12 @@ public enum Settings {
 
 					if (s.startsWith("key_")) {
 						String[] args = s.split(": ");
-						KeyBinding key = KeyBinding.valueOf(args[0].substring(4));
-						key.setKeyCode(Integer.parseInt(args[1]));
+						try {
+							KeyBinding key = KeyBinding.valueOf(args[0].substring(4));
+							key.setKeyCode(Integer.parseInt(args[1]));
+						}catch (IllegalArgumentException ex){
+							//Removed options ignored
+						}
 					} else if (s.startsWith("resourcePacks: ")) {
 						resourcePacks = gson.fromJson(s.substring(s.indexOf(58) + 2), gsonType);
 						if (resourcePacks == null) resourcePacks = new java.util.ArrayList<>();
