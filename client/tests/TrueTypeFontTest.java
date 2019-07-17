@@ -1,6 +1,5 @@
 import net.minecraft.client.gui.font.TrueTypeFontRenderer;
 import net.minecraft.client.renderer.G;
-import org.junit.Test;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -16,11 +15,6 @@ public class TrueTypeFontTest {
 	static boolean running = true;
 	final public static int FRAME_RATE = 60;
 	static FPSCounter fpsCounter;
-
-	@Test
-	public void test() {
-		new TrueTypeFontTest();
-	}
 
 	public static void main(String args[]) {
 		new TrueTypeFontTest();

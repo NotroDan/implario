@@ -10,7 +10,10 @@ client/env/gamedata/usercache.json
 !client/env/console.bat
 !client/env/launcher.vbs
 server/env/*
+!server/env/server.properties
 production/*
 .idea/*
 **/desktop.ini
 *.iml
+# Project exclude paths
+/client/env/

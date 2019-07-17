@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class Start {
 
 	public static void main(String[] args) throws Exception {
-		Datapacks.loadFromJar(new File("vanilla.jar"), "vanilla.Vanilla");
+		Datapacks.loadFromJar(new File("gamedata/datapacks/vanilla.jar"), "vanilla.Vanilla");
 		Main.main(concat(new String[]{"--accessToken", "0", "--assetsDir", "assets",
 				"--height", "600", "--width", "1000"}, args));
 	}
