@@ -39,7 +39,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.FAST_PLACE, x2, y),
                 createButton(Settings.DEBUG, x1, y += 22),
                 createButton(Settings.SCREEN_TO_BUFFER, x2, y),
-				createButton(Settings.BOW_PATH, x1, y += 22)
+				createButton(Settings.BOW_PATH, x1, y += 22),
+				createButton(Settings.SENSITIVITY, x2, y)
 				);
 
 		y = tabs.y;
