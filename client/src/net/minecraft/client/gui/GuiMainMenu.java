@@ -146,7 +146,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			WorldInfo worldinfo = isaveformat.getWorldInfo("Demo_World");
 
 			if (worldinfo != null) {
-				GuiYesNo guiyesno = GuiSelectWorld.func_152129_a(this, worldinfo.getWorldName(), 12);
+				GuiYesNo guiyesno = GuiSelectWorld.guiDeleteWorld(this, worldinfo.getWorldName(), 12);
 				this.mc.displayGuiScreen(guiyesno);
 			}
 		}

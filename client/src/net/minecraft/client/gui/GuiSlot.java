@@ -43,7 +43,6 @@ public abstract class GuiSlot {
 	private int scrollDownButtonID;
 	protected int mouseX;
 	protected int mouseY;
-	protected boolean field_148163_i = true;
 
 	/**
 	 * Where the mouse was in the window when you first clicked to scroll

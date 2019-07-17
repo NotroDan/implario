@@ -23,12 +23,10 @@ public class GuiPageButtonList extends GuiListExtended
     private GuiPageButtonList.GuiResponder field_178076_z;
     private Gui field_178075_A;
 
-    public GuiPageButtonList(Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn, GuiPageButtonList.GuiResponder p_i45536_7_, GuiPageButtonList.GuiListEntry[]... p_i45536_8_)
-    {
+    public GuiPageButtonList(Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn, GuiPageButtonList.GuiResponder p_i45536_7_, GuiPageButtonList.GuiListEntry[]... p_i45536_8_) {
         super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
         this.field_178076_z = p_i45536_7_;
         this.field_178078_x = p_i45536_8_;
-        this.field_148163_i = false;
         this.func_178069_s();
         this.func_178055_t();
     }

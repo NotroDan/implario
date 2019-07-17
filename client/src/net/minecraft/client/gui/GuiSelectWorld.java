@@ -38,7 +38,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
     private GuiButton recreateButton;
 
     public GuiSelectWorld(GuiScreen parentScreenIn) {
-        this.parentScreen = parentScreenIn;
+        parentScreen = parentScreenIn;
     }
 
     @Override
@@ -175,12 +175,12 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    private static GuiYesNo guiDeleteWorld(GuiYesNoCallback callback, String saveName, int selectedWorld) {
+    public static GuiYesNo guiDeleteWorld(GuiYesNoCallback callback, String saveName, int pressedButton) {
         String s = Lang.format("selectWorld.deleteQuestion");
         String s1 = "\'" + saveName + "\' " + Lang.format("selectWorld.deleteWarning");
         String s2 = Lang.format("selectWorld.deleteButton");
         String s3 = Lang.format("gui.cancel");
-        return new GuiYesNo(callback, s, s1, s2, s3, selectedWorld);
+        return new GuiYesNo(callback, s, s1, s2, s3, pressedButton);
     }
 
     class List extends GuiSlot {

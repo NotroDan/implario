@@ -5,15 +5,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.resources.ResourcePackListEntry;
 
-public class GuiResourcePackAvailable extends GuiResourcePackList
-{
-    public GuiResourcePackAvailable(Minecraft mcIn, int p_i45054_2_, int p_i45054_3_, List<ResourcePackListEntry> p_i45054_4_)
-    {
-        super(mcIn, p_i45054_2_, p_i45054_3_, p_i45054_4_);
+public class GuiResourcePackAvailable extends GuiResourcePackList {
+    public GuiResourcePackAvailable(Minecraft mcIn, int widthIn, int heightIn, List<ResourcePackListEntry> resourcePackList) {
+        super(mcIn, widthIn, heightIn, resourcePackList);
     }
 
+    @Override
     protected String getListHeader()
     {
-        return Lang.format("resourcePack.available.title", new Object[0]);
+        return Lang.format("resourcePack.available.title");
     }
 }
