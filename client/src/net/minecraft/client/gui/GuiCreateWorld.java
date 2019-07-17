@@ -55,8 +55,8 @@ public class GuiCreateWorld extends GuiScreen {
 			"CON", "COM", "PRN", "AUX", "CLOCK$", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
 	};
 
-	public GuiCreateWorld(GuiScreen p_i46320_1_) {
-		this.parentScreen = p_i46320_1_;
+	public GuiCreateWorld(GuiScreen parentScreen) {
+		this.parentScreen = parentScreen;
 		this.seed = "";
 		this.field_146330_J = Lang.format("selectWorld.newWorld");
 	}

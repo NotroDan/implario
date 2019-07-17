@@ -93,7 +93,6 @@ public class Minecraft implements IThreadListener {
 	private CrashReport crashReport;
 	public int displayWidth;
 	public int displayHeight;
-	private boolean field_181541_X = false;
 	private Timer timer = new Timer(20.0F);
 
 	public WorldClient theWorld;
@@ -1013,14 +1012,4 @@ public class Minecraft implements IThreadListener {
 		map.put("X-Minecraft-Version", "1.8.8");
 		return map;
 	}
-
-	public boolean func_181540_al() {
-		return this.field_181541_X;
-	}
-
-	public void func_181537_a(boolean value) {
-		this.field_181541_X = value;
-	}
-
 }
-//

@@ -33,10 +33,7 @@ import java.util.Random;
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 	private static final Logger logger = Logger.getInstance();
-	private static final Random RANDOM = new Random();
 	private final long openedAt;
-
-	private boolean field_175375_v = true;
 
 	/**
 	 * The Object object utilized as a thread lock when performing non thread-safe operations
@@ -45,8 +42,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	private String openGLWarning1;
 	private String openGLWarning2;
 	private String openGLWarningLink;
-
-	private static final ResourceLocation iconsHd = new ResourceLocation("textures/gui/icons_hd.png");
 
 	private static final ResourceLocation[] skyboxTiles = new ResourceLocation[] {
 			new ResourceLocation("textures/gui/title/background/panorama_0.png"),
@@ -58,12 +53,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	};
 	public static final String openGLWarning = "Нажмите " + EnumChatFormatting.UNDERLINE + "здесь" + EnumChatFormatting.RESET + ", чтобы узнать больше.";
 	private int field_92024_r;
-	private int field_92023_s;
 	private int field_92022_t;
 	private int field_92021_u;
 	private int field_92020_v;
 	private int field_92019_w;
-	private Random random = new Random(31100);
 
 	private Skybox skybox;
 
@@ -79,45 +72,51 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
+	@Override
 	public void updateScreen() {
 		if (skybox != null) skybox.updateScreen();
 	}
-	public boolean doesGuiPauseGame() {return false;}
+
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
+
+	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {}
 
+	@Override
 	public void initGui() {
 		DynamicTexture viewport = new DynamicTexture(256, 256);
-		ResourceLocation background = this.mc.getTextureManager().getDynamicTextureLocation("background", viewport);
+		ResourceLocation background = mc.getTextureManager().getDynamicTextureLocation("background", viewport);
 		if (skybox == null) skybox = new Skybox(skyboxTiles, background, viewport, this);
 		else skybox.update(background, viewport);
 
-		int j = this.height / 4 + 12;
-		this.addSingleplayerMultiplayerButtons(j + 36, 24);
-
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, Lang.format("menu.options")));
-		this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, Lang.format("menu.quit")));
-		this.buttonList.add(new GuiButton(97, this.width / 2 + -100, j + 72 + 12 + 24, 98, 20, "Смена ника"));
-		this.buttonList.add(new GuiButton(54, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, "Бета настроек"));
+		int j = (height >> 2) + 12;
+		addSingleplayerMultiplayerButtons(j + 36);
+		int cacheWidth = width >> 1;
+		buttonList.add(new GuiButton(0, cacheWidth - 100, j + 84, 98, 20, Lang.format("menu.options")));
+		buttonList.add(new GuiButton(97, cacheWidth + 2, j + 84, 98, 20, "Смена ника"));
+		buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, Lang.format("menu.quit")));
+		buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "Бета настроек"));
 		if(Settings.DEBUG.b())
-			buttonList.add(new GuiButton(6, this.width / 2 + 2, j + 72 + 12 + 24 + 24,
+			buttonList.add(new GuiButton(6, cacheWidth + 2, j + 132,
 					98, 20, "Не нажимать!"));
 
 		synchronized (this.threadLock) {
-			this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
 			this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
-			int k = Math.max(this.field_92023_s, this.field_92024_r);
+			int k = Math.max(fontRendererObj.getStringWidth(openGLWarning1), this.field_92024_r);
 			this.field_92022_t = (this.width - k) / 2;
 			this.field_92021_u = this.buttonList.get(0).yPosition - 24;
 			this.field_92020_v = this.field_92022_t + k;
 			this.field_92019_w = this.field_92021_u + 24;
 		}
-
-		this.mc.func_181537_a(false);
 	}
-//
-	private void addSingleplayerMultiplayerButtons(int y, int offset) {
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, y, Lang.format("menu.singleplayer")));
-		this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + offset, Lang.format("menu.multiplayer")));
+
+	private void addSingleplayerMultiplayerButtons(int y) {
+		int cacheWidth = (width >> 1) - 100;
+		buttonList.add(new GuiButton(1, cacheWidth, y, Lang.format("menu.singleplayer")));
+		buttonList.add(new GuiButton(2, cacheWidth, y + 24, Lang.format("menu.multiplayer")));
 	}
 
 	protected void actionPerformed(GuiButton button) throws IOException {
