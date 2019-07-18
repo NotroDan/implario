@@ -15,6 +15,7 @@ import shadersmod.client.SVertexBuilder;
 import java.nio.*;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Comparator;
 
 public class WorldRenderer {
 
@@ -82,6 +83,23 @@ public class WorldRenderer {
 			}
 		}
 	}
+	/**
+	 * Напоминание о том что идея с её советами о замене всего живого на ебанутые предикаты - ёбанная хуйня.
+	 * Делфик искал этот баг на протяжении месяца, ебался с гитом и откатами к неоткатываемому, и всё ради этого...
+	 */
+	private static final class GooglePredicatesIsPureEvil implements Comparator<Integer> {
+
+		final float[] array;
+
+		GooglePredicatesIsPureEvil(float[] array) {
+			this.array = array;
+		}
+
+		public int compare(Integer a, Integer b) {
+			return Floats.compare(this.array[b], this.array[a]);
+		}
+
+	}
 
 	public void func_181674_a(float p_181674_1_, float p_181674_2_, float p_181674_3_) {
 		int i = this.vertexCount / 4;
@@ -95,7 +113,7 @@ public class WorldRenderer {
 
 		for (int k = 0; k < ainteger.length; ++k) ainteger[k] = k;
 
-		Arrays.sort(ainteger, (a, b) -> Floats.compare(floatBuf[a], floatBuf[b]));
+		Arrays.sort(ainteger, new GooglePredicatesIsPureEvil(floatBuf));
 		BitSet bitset = new BitSet();
 		int l = this.vertexFormat.getNextOffset();
 		int[] aint = new int[l];
