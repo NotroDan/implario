@@ -42,10 +42,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GuiIngame extends Gui {
-	private static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
+	static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
 	private final Random rand = new Random();
 	private final Minecraft mc;
-	private final RenderItem itemRenderer;
+	final RenderItem itemRenderer;
 
 	/**
 	 * ChatGUI instance that retains all previous chat data
@@ -79,7 +79,7 @@ public class GuiIngame extends Gui {
 	/**
 	 * The spectator GUI for this in-game GUI instance
 	 */
-	private final GuiSpectator spectatorGui;
+	final GuiSpectator spectatorGui;
 	private final GuiPlayerTabOverlay overlayPlayerList;
 	private int titleTicks;
 	private String title = "";
@@ -104,7 +104,6 @@ public class GuiIngame extends Gui {
 	 */
 	private long healthUpdateCounter = 0L;
 	public static String currentServer = "LOBBY_5";
-	public static long launchTime = System.currentTimeMillis();
 
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
@@ -145,7 +144,7 @@ public class GuiIngame extends Gui {
 //		renderPortal(scaledresolution, partialTicks);
 
 		// Текст над инвентарём
-		renderTooltip1(scaledresolution, partialTicks);
+		//renderTooltip1(scaledresolution, partialTicks);
 
 		// Крестик в центре экрана
 		renderCrosshair(width, height);
@@ -318,46 +317,6 @@ public class GuiIngame extends Gui {
 		*/
 	}
 
-	static ByteBuffer fourbytebuffer = ByteBuffer.allocate(4);
-	public float toFloat(int i) {
-		fourbytebuffer.putInt(i);
-		fourbytebuffer.position(0);
-		float f = fourbytebuffer.asFloatBuffer().get();
-		fourbytebuffer.clear();
-//		System.out.print(f + "  ");
-		return f;
-	}
-
-	private void renderFakeVime(ScaledResolution scaledresolution, int width, int height) {
-
-		MC.FR.drawString("§f[§e41§f] §f" + MC.getPlayer().getName(), 2, 2, 0xffffff, true);
-		MC.FR.drawString(currentServer, 2, 4 + MC.FR.getFontHeight(), 0xffffff, true);
-		MC.FR.drawString("§e[§dx4.4§e] §fКоличество коинов: §e45649", 2, height - 16 - MC.FR.getFontHeight(), 0xffffff, true);
-
-		long time = System.currentTimeMillis();
-		int duration = 3600 - (int) (time - launchTime) / 1000;
-		if (duration > 3600 || duration < 0) {
-			launchTime = time;
-			duration = 0;
-		}
-		double progress = (double) duration / 3600;
-		G.translate(0.5, 0, 0);
-		drawProgressBar(width / 2 - 100, 13, 200, 3, progress);
-		G.translate(-0.5, 0, 0);
-		int minutes = duration / 60;
-		int seconds = duration % 60;
-		drawCenteredString(MC.FR, "До конца игры: §e" + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds) , width / 2, 3, 0xffffff);
-
-	}
-
-	private void drawProgressBar(int x, int y, int width, int height, double progress) {
-		int x1 = x + (int) ((double) width * progress);
-
-		drawRect(x, y, x1, y + height, 0xc0009cff);
-		drawRect(x1, y, x + width, y + height, 0xc0ffffff);
-
-	}
-
 	private void renderBar(ScaledResolution scaledresolution, int width) {
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		int i2 = width / 2 - 91;
@@ -383,10 +342,7 @@ public class GuiIngame extends Gui {
 		G.tryBlendFuncSeparate(770, 771, 1, 0);
 	}
 
-	private void renderTooltip1(ScaledResolution scaledresolution, float partialTicks) {
-		if (this.mc.playerController.isSpectator()) this.spectatorGui.renderTooltip(scaledresolution, partialTicks);
-		else this.renderTooltip(scaledresolution, partialTicks);
-	}
+
 
 	private void renderTooltip0(ScaledResolution scaledresolution) {
 		if (Settings.HELD_ITEM_TOOLTIPS.b() && !this.mc.playerController.isSpectator()) this.renderTooltip(scaledresolution);
@@ -550,33 +506,6 @@ public class GuiIngame extends Gui {
 		}
 
 		Profiler.in.endSection();
-	}
-
-	protected void renderTooltip(ScaledResolution sr, float partialTicks) {
-		if (!(this.mc.getRenderViewEntity() instanceof EntityPlayer)) return;
-		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.getTextureManager().bindTexture(widgetsTexPath);
-		EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
-		int i = sr.getScaledWidth() / 2;
-		float f = this.zLevel;
-		this.zLevel = -90.0F;
-		this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
-		this.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
-		this.zLevel = f;
-		G.enableRescaleNormal();
-		G.enableBlend();
-		G.tryBlendFuncSeparate(770, 771, 1, 0);
-		RenderHelper.enableGUIStandardItemLighting();
-
-		for (int j = 0; j < 9; ++j) {
-			int k = sr.getScaledWidth() / 2 - 90 + j * 20 + 2;
-			int l = sr.getScaledHeight() - 16 - 3;
-			this.renderHotbarItem(j, k, l, partialTicks, entityplayer);
-		}
-
-		RenderHelper.disableStandardItemLighting();
-		G.disableRescaleNormal();
-		G.disableBlend();
 	}
 
 	public void renderHorseJumpBar(ScaledResolution p_175186_1_, int p_175186_2_) {
@@ -958,30 +887,6 @@ public class GuiIngame extends Gui {
 		Profiler.in.endSection();
 	}
 
-
-	private void renderHotbarItem(int index, int xPos, int yPos, float partialTicks, EntityPlayer p_175184_5_) {
-		ItemStack itemstack = p_175184_5_.inventory.mainInventory[index];
-
-		if (itemstack != null) {
-			float f = (float) itemstack.animationsToGo - partialTicks;
-
-			if (f > 0.0F) {
-				G.pushMatrix();
-				float f1 = 1.0F + f / 5.0F;
-				G.translate((float) (xPos + 8), (float) (yPos + 12), 0.0F);
-				G.scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
-				G.translate((float) -(xPos + 8), (float) -(yPos + 12), 0.0F);
-			}
-
-			this.itemRenderer.renderItemAndEffectIntoGUI(itemstack, xPos, yPos);
-
-			if (f > 0.0F) {
-				G.popMatrix();
-			}
-
-			this.itemRenderer.renderItemOverlays(this.mc.fontRenderer, itemstack, xPos, yPos);
-		}
-	}
 
 	/**
 	 * The update tick for the ingame UI

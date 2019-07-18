@@ -37,7 +37,7 @@ public class GuiChest extends GuiContainer {
 	 */
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		if (Settings.MODERN_INVENTORIES.b()) {
-			drawCenteredString(fontRendererObj, this.lowerChestInventory.getDisplayName().getUnformattedText(), xSize / 2, 6, 0xd0d0d0);
+			drawCenteredString(fontRendererObj, this.lowerChestInventory.getDisplayName().getUnformattedText(), xSize / 2, 3, 0xd0d0d0);
 			drawCenteredString(fontRendererObj, this.upperChestInventory.getDisplayName().getUnformattedText(), xSize / 2, this.ySize - 96 + 2, 0xe0ffa114);
 		} else {
 			this.fontRendererObj.drawString(this.lowerChestInventory.getDisplayName().getUnformattedText(), 8, 6, 4210752);
@@ -56,13 +56,14 @@ public class GuiChest extends GuiContainer {
 
 		if (Settings.MODERN_INVENTORIES.b()) {
 			int s = Settings.SLOT_GRID.i();
-			int y0 = y + 18;
+			int y0 = y + 14;
 			drawRect(x, y, x + xSize, y += inventoryRows * 18 + 17, 0xe7202020);
+			if (s != 2) drawRect(x + 6, y0 - 2, x + xSize - 6, y - 3, 0xff232323);
 			if (s != 1) drawModernSlotGrid(x + 8, y0, 9, inventoryRows, 0xff303030);
 
-			drawRect(x - 5, y, x + xSize + 5, y += 2, 0xe0ffa114);
+			drawRect(x, y, x + xSize, y += 2, 0xe0ffa114);
 
-			drawRect(x - 5, y, x + xSize + 5, y + 96, 0xe7151515);
+			drawRect(x, y, x + xSize, y + 96, 0xe7202020);
 
 			if (s != 2) drawRect(x + 6, y + 10, x + xSize - 6, y + 66, 0xff232323);
 			if (s != 1) drawModernSlotGrid(x + 8, y + 12, 9, 3, 0xff303030);

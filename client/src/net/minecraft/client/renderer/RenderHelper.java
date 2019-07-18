@@ -70,8 +70,7 @@ public class RenderHelper
     /**
      * Sets OpenGL lighting for rendering blocks as items inside GUI screens (such as containers).
      */
-    public static void enableGUIStandardItemLighting()
-    {
+    public static void enableGUIStandardItemLighting() {
         G.pushMatrix();
         G.rotate(-30.0F, 0.0F, 1.0F, 0.0F);
         G.rotate(165.0F, 1.0F, 0.0F, 0.0F);

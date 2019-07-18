@@ -14,6 +14,7 @@ public class Modules {
 		register("pumpkin", new ModulePumpkin());
 		register("portal", new ModulePortal());
 		register("iteminfo", new ModuleItemInfo());
+		register("hotbar", new ModuleHotbar());
 	}
 
 	public static void register(String name, Module module) {
