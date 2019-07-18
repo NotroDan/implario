@@ -78,7 +78,7 @@ public class CommandGameRule extends CommandBase
         {
             byte b0 = (byte)(p_175773_0_.getBoolean(p_175773_1_) ? 22 : 23);
 
-            for (EntityPlayerMP entityplayermp : MinecraftServer.getServer().getConfigurationManager().func_181057_v())
+            for (EntityPlayerMP entityplayermp : MinecraftServer.getServer().getConfigurationManager().getPlayers())
             {
                 entityplayermp.playerNetServerHandler.sendPacket(new S19PacketEntityStatus(entityplayermp, b0));
             }

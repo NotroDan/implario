@@ -18,7 +18,7 @@ import net.minecraft.command.*;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.logging.Log;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetworkSystem;
 import net.minecraft.network.ServerStatusResponse;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
@@ -380,7 +380,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Sets the serverRunning variable to false, in order to get the server to shut down.
 	 */
 	public void initiateShutdown() {
+		for (EntityPlayerMP player : getConfigurationManager().getPlayers()) {
+			player.playerNetServerHandler.kickPlayerFromServer("§eСервер выключен.\nВозможно, он сейчас даже не включится.");
+		}
 		this.serverRunning = false;
+
 	}
 
 	protected void setInstance() {
@@ -522,7 +526,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			int j = MathHelper.getRandomIntegerInRange(this.random, 0, this.getCurrentPlayerCount() - agameprofile.length);
 
 			for (int k = 0; k < agameprofile.length; ++k) {
-				agameprofile[k] = this.serverConfigManager.func_181057_v().get(j + k).getGameProfile();
+				agameprofile[k] = this.serverConfigManager.getPlayers().get(j + k).getGameProfile();
 			}
 
 			Collections.shuffle(Arrays.asList(agameprofile));
@@ -686,7 +690,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 		if (this.serverConfigManager != null) {
 			report.getCategory().addCrashSectionCallable("Player Count",
-					() -> this.serverConfigManager.getCurrentPlayerCount() + " / " + this.serverConfigManager.getMaxPlayers() + "; " + this.serverConfigManager.func_181057_v());
+					() -> this.serverConfigManager.getCurrentPlayerCount() + " / " + this.serverConfigManager.getMaxPlayers() + "; " + this.serverConfigManager.getPlayers());
 		}
 
 		return report;

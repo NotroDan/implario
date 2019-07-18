@@ -22,6 +22,7 @@ public class TrueTypeFontTest {
 
 	public TrueTypeFontTest() {
 		try {
+			if (true) throw new Exception();
 			initDisplay(false);
 			initGL();
 			loadResources();
