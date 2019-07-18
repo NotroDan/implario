@@ -1,13 +1,11 @@
 
 
 # Клиентская часть
-/client/env/
-!client/env/gamedata/
-client/env/gamedata/logs/*
+/client/env/*
+!client/env/gamedata/natives/
+!client/env/gamedata/defaultresourcepack/
+!client/env/gamedata/Что это за папка.html
 client/env/gamedata/defaultresourcepack/skins/*
-client/env/gamedata/*.txt
-client/env/gamedata/servers.dat
-client/env/gamedata/usercache.json
 !client/env/console.bat
 !client/env/launcher.vbs
 
@@ -46,6 +44,7 @@ client/env/gamedata/usercache.json
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/**/misc.xml
 
 out/
 
