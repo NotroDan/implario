@@ -1,6 +1,7 @@
-out/*
 
-client/env/*
+
+# Клиентская часть
+/client/env/
 !client/env/gamedata/
 client/env/gamedata/logs/*
 client/env/gamedata/defaultresourcepack/skins/*
@@ -9,11 +10,14 @@ client/env/gamedata/servers.dat
 client/env/gamedata/usercache.json
 !client/env/console.bat
 !client/env/launcher.vbs
-server/env/*
-!server/env/server.properties
+
+# Серверная часть
+/server/env/*
+!server/env/README.MD
+
+# Значки папок
 **/desktop.ini
 # Project exclude paths
-/client/env/
 
 
 
@@ -43,27 +47,8 @@ server/env/*
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
-
-# Gradle and Maven with auto-import
-# When using Gradle or Maven with auto-import, you should exclude module files,
-# since they will be recreated, and may cause churn.  Uncomment if using
-# auto-import.
-# .idea/modules.xml
-# .idea/*.iml
-# .idea/modules
-# *.iml
-# *.ipr
-
-# IntelliJ
 out/
 
-### Intellij Patch ###
-# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
-
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
 
 ### Java ###
 # Compiled class file
@@ -74,5 +59,3 @@ out/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-# End of https://www.gitignore.io/api/java,intellij
