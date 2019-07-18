@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="client vanilla" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="Start" />
+    <module name="client" />
+    <option name="PROGRAM_PARAMETERS" value="--vanilla" />
+    <option name="VM_PARAMETERS" value="-Djava.library.path=gamedata/natives/ -Xmn64M -Xms128M -Xmx2G -server -XX:+AggressiveOpts -XX:+UseCompressedOops -XX:+OptimizeStringConcat -XX:+UseLargePages -noverify" />
+    <option name="WORKING_DIRECTORY" value="client/env" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="vanilla" />
+      </option>
+    </method>
+  </configuration>
+</component>

@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 
 import static net.minecraft.logging.Log.MAIN;
 
@@ -267,7 +266,7 @@ public class IntegratedServer extends MinecraftServer {
 	 */
 	public void initiateShutdown() {
 		Futures.getUnchecked(this.addScheduledTask(() -> {
-			for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().func_181057_v())) {
+			for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().getPlayers())) {
 				IntegratedServer.this.getConfigurationManager().playerLoggedOut(entityplayermp);
 			}
 		}));

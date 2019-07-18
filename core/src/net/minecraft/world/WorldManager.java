@@ -89,7 +89,7 @@ public class WorldManager implements IWorldAccess {
 	}
 
 	public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
-		for (EntityPlayerMP entityplayermp : this.mcServer.getConfigurationManager().func_181057_v()) {
+		for (EntityPlayerMP entityplayermp : this.mcServer.getConfigurationManager().getPlayers()) {
 			if (entityplayermp != null && entityplayermp.worldObj == this.theWorldServer && entityplayermp.getEntityId() != breakerId) {
 				double d0 = (double) pos.getX() - entityplayermp.posX;
 				double d1 = (double) pos.getY() - entityplayermp.posY;

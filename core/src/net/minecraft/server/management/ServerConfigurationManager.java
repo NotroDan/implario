@@ -959,7 +959,7 @@ public abstract class ServerConfigurationManager {
 		}
 	}
 
-	public List<EntityPlayerMP> func_181057_v() {
+	public List<EntityPlayerMP> getPlayers() {
 		return this.playerEntityList;
 	}
 
