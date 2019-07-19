@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Domain;
+import net.minecraft.world.World;
 import vanilla.block.BlockMobSpawner;
 import vanilla.block.VBlockMushroom;
 import vanilla.block.VBlockSapling;
@@ -42,6 +43,7 @@ import vanilla.entity.monster.*;
 import vanilla.entity.passive.*;
 import vanilla.item.*;
 import vanilla.tileentity.TileEntityMobSpawner;
+import vanilla.world.VanillaDimensionManager;
 import vanilla.world.VanillaWorldService;
 import vanilla.world.WorldProviderEnd;
 import vanilla.world.WorldProviderHell;
@@ -62,6 +64,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 	@Override
 	public void preinit() {
 		registrar.setWorldServiceProvider(VanillaWorldService::new);
+		registrar.replaceProvider(World.DIMENSION_PROVIDER, VanillaDimensionManager::generate);
 		new VEntities().load(registrar);
 
 	}

@@ -29,7 +29,7 @@ import net.minecraft.server.management.PlayerManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkProviderServer;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -66,7 +66,7 @@ public class WorldServer extends World implements IThreadListener {
 	protected IDimensionTranser dimensionTransfer;
 
 	public WorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo info, int dimensionId, Profiler profilerIn) {
-		super(saveHandlerIn, info, dimensionManager.generate(dimensionId), profilerIn, false);
+		super(saveHandlerIn, info, DIMENSION_PROVIDER.provide(dimensionId), profilerIn, false);
 		this.mcServer = server;
 		this.theEntityTracker = new EntityTracker(this);
 		this.thePlayerManager = new PlayerManager(this);
@@ -446,7 +446,8 @@ public class WorldServer extends World implements IThreadListener {
 	 */
 	protected IChunkProvider createChunkProvider() {
 		IChunkLoader ichunkloader = this.saveHandler.getChunkLoader(this.provider);
-		this.theChunkProviderServer = new ChunkProviderServer(this, ichunkloader, this.provider.createChunkGenerator());
+		IChunkProvider chunkGenerator = this.provider.createChunkGenerator();
+		this.theChunkProviderServer = new ChunkProviderServer(this, ichunkloader, chunkGenerator);
 		return this.theChunkProviderServer;
 	}
 
@@ -517,7 +518,7 @@ public class WorldServer extends World implements IThreadListener {
 			this.worldInfo.setSpawn(BlockPos.ORIGIN.up());
 		} else {
 			this.findingSpawnPoint = true;
-			IChunkManager worldchunkmanager = this.provider.getWorldChunkManager();
+			IChunkBiomer worldchunkmanager = this.provider.getWorldChunkManager();
 			List<Biome> list = worldchunkmanager.getBiomesToSpawnIn();
 			Random random = new Random(this.getSeed());
 			BlockPos blockpos = worldchunkmanager.findBiomePosition(0, 0, 256, list, random);

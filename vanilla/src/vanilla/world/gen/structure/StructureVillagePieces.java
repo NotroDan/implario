@@ -8,7 +8,7 @@ import net.minecraft.block.BlockTorch;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.biome.IChunkBiomer;
 import vanilla.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -1280,7 +1280,7 @@ public class StructureVillagePieces {
 
 	public static class Start extends StructureVillagePieces.Well {
 
-		public IChunkManager worldChunkMngr;
+		public IChunkBiomer worldChunkMngr;
 		public boolean inDesert;
 		public int terrainType;
 		public StructureVillagePieces.PieceWeight structVillagePieceWeight;
@@ -1291,7 +1291,7 @@ public class StructureVillagePieces {
 		public Start() {
 		}
 
-		public Start(IChunkManager chunkManagerIn, int p_i2104_2_, Random rand, int p_i2104_4_, int p_i2104_5_, List<StructureVillagePieces.PieceWeight> p_i2104_6_, int p_i2104_7_) {
+		public Start(IChunkBiomer chunkManagerIn, int p_i2104_2_, Random rand, int p_i2104_4_, int p_i2104_5_, List<StructureVillagePieces.PieceWeight> p_i2104_6_, int p_i2104_7_) {
 			super((StructureVillagePieces.Start) null, 0, rand, p_i2104_4_, p_i2104_5_);
 			this.worldChunkMngr = chunkManagerIn;
 			this.structureVillageWeightedPieceList = p_i2104_6_;
@@ -1301,7 +1301,7 @@ public class StructureVillagePieces {
 			this.func_175846_a(this.inDesert);
 		}
 
-		public IChunkManager getWorldChunkManager() {
+		public IChunkBiomer getWorldChunkManager() {
 			return this.worldChunkMngr;
 		}
 

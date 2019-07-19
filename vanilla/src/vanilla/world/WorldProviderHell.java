@@ -2,8 +2,9 @@ package vanilla.world;
 
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.biome.BasicChunkBiomer;
 import vanilla.world.biome.BiomeGenBase;
-import vanilla.world.biome.WorldChunkManagerHell;
+import vanilla.world.biome.WorldChunkBiomerHell;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.IChunkProvider;
 import vanilla.world.gen.provider.ChunkProviderHell;
@@ -16,7 +17,7 @@ public class WorldProviderHell extends WorldProvider {
 	 * creates a new world chunk manager for WorldProvider
 	 */
 	public void registerWorldChunkManager() {
-		this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.hell, 0.0F);
+		this.worldChunkMgr = new BasicChunkBiomer(BiomeGenBase.hell, 0.0F);
 		this.isHellWorld = true;
 		this.hasNoSky = true;
 		this.dimensionId = -1;

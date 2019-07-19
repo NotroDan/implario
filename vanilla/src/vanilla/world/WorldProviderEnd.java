@@ -4,8 +4,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.biome.BasicChunkBiomer;
 import vanilla.world.biome.BiomeGenBase;
-import vanilla.world.biome.WorldChunkManagerHell;
+import vanilla.world.biome.WorldChunkBiomerHell;
 import net.minecraft.world.chunk.IChunkProvider;
 import vanilla.world.gen.provider.ChunkProviderEnd;
 
@@ -17,7 +18,7 @@ public class WorldProviderEnd extends WorldProvider {
 	 * creates a new world chunk manager for WorldProvider
 	 */
 	public void registerWorldChunkManager() {
-		this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.end, 0.0F);
+		this.worldChunkMgr = new BasicChunkBiomer(BiomeGenBase.end, 0.0F);
 		this.dimensionId = 1;
 		this.hasNoSky = true;
 	}

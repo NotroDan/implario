@@ -1,12 +1,11 @@
 package net.minecraft.world.chunk.storage;
 
-import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.AnvilConverterException;
-import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveFormatComparator;
 import net.minecraft.world.storage.SaveFormatOld;
@@ -157,7 +156,7 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		}
 	}
 
-	private void convertFile(File p_75813_1_, Iterable<File> p_75813_2_, IChunkManager p_75813_3_, int p_75813_4_, int p_75813_5_, IProgressUpdate p_75813_6_) {
+	private void convertFile(File p_75813_1_, Iterable<File> p_75813_2_, IChunkBiomer p_75813_3_, int p_75813_4_, int p_75813_5_, IProgressUpdate p_75813_6_) {
 		for (File file1 : p_75813_2_) {
 			this.convertChunks(p_75813_1_, file1, p_75813_3_, p_75813_4_, p_75813_5_, p_75813_6_);
 			++p_75813_4_;
@@ -169,7 +168,7 @@ public class AnvilSaveConverter extends SaveFormatOld {
 	/**
 	 * copies a 32x32 chunk set from par2File to par1File, via AnvilConverterData
 	 */
-	private void convertChunks(File p_75811_1_, File p_75811_2_, IChunkManager p_75811_3_, int p_75811_4_, int p_75811_5_, IProgressUpdate progressCallback) {
+	private void convertChunks(File p_75811_1_, File p_75811_2_, IChunkBiomer p_75811_3_, int p_75811_4_, int p_75811_5_, IProgressUpdate progressCallback) {
 		try {
 			String s = p_75811_2_.getName();
 			RegionFile regionfile = new RegionFile(p_75811_2_);

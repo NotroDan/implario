@@ -7,7 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class  WorldChunkManagerHell extends WorldChunkManager {
+@Deprecated
+public class WorldChunkBiomerHell extends WorldChunkBiomer {
 
 	/**
 	 * The biome generator object.
@@ -19,7 +20,7 @@ public class  WorldChunkManagerHell extends WorldChunkManager {
 	 */
 	private float rainfall;
 
-	public WorldChunkManagerHell(BiomeGenBase p_i45374_1_, float p_i45374_2_) {
+	public WorldChunkBiomerHell(BiomeGenBase p_i45374_1_, float p_i45374_2_) {
 		this.biomeGenerator = p_i45374_1_;
 		this.rainfall = p_i45374_2_;
 	}

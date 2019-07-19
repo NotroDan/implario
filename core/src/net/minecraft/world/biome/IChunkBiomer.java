@@ -5,7 +5,7 @@ import net.minecraft.util.BlockPos;
 import java.util.List;
 import java.util.Random;
 
-public interface IChunkManager {
+public interface IChunkBiomer {
 
 	List<Biome> getBiomesToSpawnIn();
 
