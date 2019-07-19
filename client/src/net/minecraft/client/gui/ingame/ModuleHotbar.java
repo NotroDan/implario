@@ -25,14 +25,14 @@ public class ModuleHotbar implements Module {
         float f = gui.zLevel;
         gui.zLevel = -90.0F;
         if(Settings.MODERN_INVENTORIES.b()){
-            Gui.drawRect(i - 91, res.getScaledHeight() - 22, i + 91,  res.getScaledHeight(), 0xE7202020);
+            Gui.drawRect(i - 91, res.getScaledHeight() - 22, i + 91,  res.getScaledHeight(), 0xFF202020);
             for(int j = 0; j < 9; ++j){
                 int x = (res.getScaledWidth() >> 1) - 89 + j * 20;
                 int y = res.getScaledHeight() - 20;
                 Gui.drawRect(x, y, x + 18, y + 18, 0xFF303030);
             }
             int left = i - 89 + entityplayer.inventory.currentItem * 20;
-            Gui.drawRect(left, res.getScaledHeight() - 20, left + 18, res.getScaledHeight() - 2, 0xE7505050);
+            Gui.drawRect(left, res.getScaledHeight() - 20, left + 18, res.getScaledHeight() - 2, 0xFF404040);
         }else {
             G.color(1.0F, 1.0F, 1.0F, 1.0F);
             mc.getTextureManager().bindTexture(GuiIngame.widgetsTexPath);
