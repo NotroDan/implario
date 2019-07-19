@@ -47,16 +47,12 @@ public class CommandSetBlock extends CommandBase {
 		sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
 		BlockPos blockpos = parseBlockPos(sender, args, 0, false);
 		Block block = CommandBase.getBlockByText(sender, args[3]);
-		int i = 0;
-
-		if (args.length >= 5) {
-			i = parseInt(args[4], 0, 15);
-		}
+		int i = args.length >= 5 ? parseInt(args[4], 0, 15) : 0;
 
 		World world = sender.getEntityWorld();
 
 		if (!world.isBlockLoaded(blockpos)) {
-			throw new CommandException("commands.setblock.outOfWorld", new Object[0]);
+			throw new CommandException("commands.setblock.outOfWorld");
 		}
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		boolean flag = false;
@@ -68,7 +64,7 @@ public class CommandSetBlock extends CommandBase {
 				nbttagcompound = JsonToNBT.getTagFromJson(s);
 				flag = true;
 			} catch (NBTException nbtexception) {
-				throw new CommandException("commands.setblock.tagError", new Object[] {nbtexception.getMessage()});
+				throw new CommandException("commands.setblock.tagError", nbtexception.getMessage());
 			}
 		}
 
@@ -77,11 +73,11 @@ public class CommandSetBlock extends CommandBase {
 				world.destroyBlock(blockpos, true);
 
 				if (block == Blocks.air) {
-					notifyOperators(sender, this, "commands.setblock.success", new Object[0]);
+					notifyOperators(sender, this, "commands.setblock.success");
 					return;
 				}
 			} else if (args[5].equals("keep") && !world.isAirBlock(blockpos)) {
-				throw new CommandException("commands.setblock.noChange", new Object[0]);
+				throw new CommandException("commands.setblock.noChange");
 			}
 		}
 
@@ -96,8 +92,9 @@ public class CommandSetBlock extends CommandBase {
 		}
 
 		IBlockState iblockstate = block.getStateFromMeta(i);
+		System.out.println(iblockstate);
 		if (!world.setBlockState(blockpos, iblockstate, 2)) {
-			throw new CommandException("commands.setblock.noChange", new Object[0]);
+			throw new CommandException("commands.setblock.noChange");
 		}
 		if (flag) {
 			TileEntity tileentity = world.getTileEntity(blockpos);
@@ -112,7 +109,7 @@ public class CommandSetBlock extends CommandBase {
 
 		world.notifyNeighborsRespectDebug(blockpos, iblockstate.getBlock());
 		sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
-		notifyOperators(sender, this, "commands.setblock.success", new Object[0]);
+		notifyOperators(sender, this, "commands.setblock.success");
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
