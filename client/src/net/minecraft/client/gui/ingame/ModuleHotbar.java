@@ -2,15 +2,25 @@ package net.minecraft.client.gui.ingame;
 
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.element.Colors;
+import net.minecraft.client.gui.element.RenderElement;
+import net.minecraft.client.gui.element.RenderRec;
+import net.minecraft.client.gui.element.RenderRunnable;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ModuleHotbar implements Module {
+    private final List<RenderElement> render = new ArrayList<>(10);
+    private boolean lastValue = false;
+    private int lastSize = 0;
+
     @Override
     public void render(GuiIngame gui, float partialTicks, ScaledResolution res) {
         Minecraft mc = MC.i();
@@ -21,24 +31,16 @@ public class ModuleHotbar implements Module {
     private void renderHotbar(Minecraft mc, GuiIngame gui, float partialTicks, ScaledResolution res){
         EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
         if (!(mc.getRenderViewEntity() instanceof EntityPlayer)) return;
-        int i = res.getScaledWidth() / 2;
+        int i = res.getScaledWidth() >> 1;
+        boolean settings = Settings.MODERN_INVENTORIES.b();
+        if(settings != lastValue || lastSize != res.getScaledHeight())generateRender(mc, gui, res, i);
         float f = gui.zLevel;
         gui.zLevel = -90.0F;
-        if(Settings.MODERN_INVENTORIES.b()){
-            Gui.drawRect(i - 91, res.getScaledHeight() - 22, i + 91,  res.getScaledHeight(), 0xFF202020);
-            for(int j = 0; j < 9; ++j){
-                int x = (res.getScaledWidth() >> 1) - 89 + j * 20;
-                int y = res.getScaledHeight() - 20;
-                Gui.drawRect(x, y, x + 18, y + 18, 0xFF303030);
-            }
-            int left = i - 89 + entityplayer.inventory.currentItem * 20;
-            Gui.drawRect(left, res.getScaledHeight() - 20, left + 18, res.getScaledHeight() - 2, 0xFF404040);
-        }else {
-            G.color(1.0F, 1.0F, 1.0F, 1.0F);
-            mc.getTextureManager().bindTexture(GuiIngame.widgetsTexPath);
-            gui.drawTexturedModalRect(i - 91, res.getScaledHeight() - 22, 0, 0, 182, 22);
-            gui.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, res.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
-        }
+        RenderElement.render(render);
+        if(settings) RenderRec.render(i - 89 + entityplayer.inventory.currentItem * 20,
+                res.getScaledHeight() - 20, 18, 18, Colors.LIGHT);
+        else gui.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20,
+                res.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
         gui.zLevel = f;
         G.enableRescaleNormal();
         G.enableBlend();
@@ -78,6 +80,26 @@ public class ModuleHotbar implements Module {
             }
 
             gui.itemRenderer.renderItemOverlays(mc.fontRenderer, itemstack, xPos, yPos);
+        }
+    }
+
+    private void generateRender(Minecraft mc, GuiIngame gui, ScaledResolution res, int i){
+        render.clear();
+        lastSize = res.getScaledHeight();
+        lastValue = Settings.MODERN_INVENTORIES.b();
+        if(lastValue){
+            render.add(new RenderRec(i - 91, res.getScaledHeight() - 22, 182, 22, Colors.DARK));
+            for(int j = 0; j < 9; ++j){
+                int x = (res.getScaledWidth() >> 1) - 89 + j * 20;
+                int y = res.getScaledHeight() - 20;
+                render.add(new RenderRec(x, y, 18, 18, Colors.GRAY));
+            }
+        }else{
+            render.add(new RenderRunnable(() -> {
+                G.color(1.0F, 1.0F, 1.0F, 1.0F);
+                mc.getTextureManager().bindTexture(GuiIngame.widgetsTexPath);
+                gui.drawTexturedModalRect(i - 91, res.getScaledHeight() - 22, 0, 0, 182, 22);
+            }));
         }
     }
 }

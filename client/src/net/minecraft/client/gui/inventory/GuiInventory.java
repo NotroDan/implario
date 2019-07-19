@@ -1,88 +1,93 @@
 package net.minecraft.client.gui.inventory;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
+import net.minecraft.client.gui.element.Colors;
 import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.RenderRec;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import org.lwjgl.util.Color;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class GuiInventory extends InventoryEffectRenderer {
-
-	/**
-	 * The old x position of the mouse pointer
-	 */
 	private float oldMouseX;
-
-	/**
-	 * The old y position of the mouse pointer
-	 */
 	private float oldMouseY;
 
-	public GuiInventory(EntityPlayer p_i1094_1_) {
-		super(p_i1094_1_.inventoryContainer);
+	public GuiInventory(EntityPlayer player) {
+		super(player.inventoryContainer);
 		this.allowUserInput = true;
 	}
 
-	/**
-	 * Called from the main game loop to update the screen.
-	 */
+	@Override
 	public void updateScreen() {
-		if (this.mc.playerController.isInCreativeMode()) {
-			this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
-		}
-
-		this.updateActivePotionEffects();
+		if (mc.playerController.isInCreativeMode())
+			mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
+		updateActivePotionEffects();
 	}
 
-	/**
-	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-	 * window resizes, the buttonList is cleared beforehand.
-	 */
+	@Override
 	public void initGui() {
-		this.buttonList.clear();
+		buttonList.clear();
 
-		if (this.mc.playerController.isInCreativeMode()) {
-			this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
-		} else {
+		if (mc.playerController.isInCreativeMode())
+			mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
+		else
 			super.initGui();
-		}
 	}
 
-	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the items). Args : mouseX, mouseY
-	 */
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.fontRendererObj.drawString(Lang.format("container.crafting"), 86, 16, 4210752);
+		fontRendererObj.drawString(Lang.format("container.crafting"), 88, 14, 4210752);
 	}
 
-	/**
-	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
-	 */
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		this.oldMouseX = (float) mouseX;
-		this.oldMouseY = (float) mouseY;
+		oldMouseX = (float) mouseX;
+		oldMouseY = (float) mouseY;
 	}
 
-	/**
-	 * Args : renderPartialTicks, mouseX, mouseY
-	 */
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		int x = guiLeft;
+		int y = guiTop;
+		if(Settings.MODERN_INVENTORIES.b()) {
+			x = x + 4;
+			y = y + 4;
+			RenderRec.render(x, y, 170, 160, Colors.DARK);
+
+			if(Settings.SLOT_GRID.i() != 2) {
+				RenderRec.render(x + 2, y + 2, 20, 74, Colors.DARK_GRAY);
+				RenderRec.render(x + 82, y + 20, 38, 38, Colors.DARK_GRAY);
+				RenderRec.render(x + 138, y + 30, 20, 20, Colors.DARK_GRAY);
+				RenderRec.render(x + 2, y + 78, 164, 56, Colors.DARK_GRAY);
+				RenderRec.render(x + 2, y + 136, 164, 20, Colors.DARK_GRAY);
+				RenderRec.render(x + 26, y + 2, 50, 74, Colors.DARK_GRAY);
+			}
+
+			RenderRec.render(x + 28, y + 4, 46, 70, Colors.BLACK);
+			RenderRec.render(x + 122, y + 38, 10, 4, Colors.GRAY);
+			int x1 = x + 132, y1 = y + 34;
+			Gui.drawTriangle(x1, y1, x1, y1 + 12, x1 + 6, y1 + 6, Colors.GRAY);
+		}else{
+			mc.getTextureManager().bindTexture(inventoryBackground);
+			drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+		}
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.getTextureManager().bindTexture(inventoryBackground);
-		int i = this.guiLeft;
-		int j = this.guiTop;
-		this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-		drawEntityOnScreen(i + 51, j + 75, 30, (float) (i + 51) - this.oldMouseX, (float) (j + 75 - 50) - this.oldMouseY, this.mc.thePlayer);
+		drawEntityOnScreen(x += 50, y + 68, 30, (float) x - this.oldMouseX,
+				(float) (y + 17) - this.oldMouseY, this.mc.thePlayer);
 	}
 
 	/**

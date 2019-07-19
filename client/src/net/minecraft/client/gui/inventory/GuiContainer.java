@@ -3,6 +3,8 @@ package net.minecraft.client.gui.inventory;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.element.Colors;
+import net.minecraft.client.gui.element.RenderRec;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -10,6 +12,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
@@ -245,7 +248,6 @@ public abstract class GuiContainer extends GuiScreen {
 		boolean flag1 = slotIn == this.clickedSlot && this.draggedStack != null && !this.isRightMouseClick;
 		ItemStack itemstack1 = this.mc.thePlayer.inventory.getItemStack();
 		String s = null;
-
 		if (slotIn == this.clickedSlot && this.draggedStack != null && this.isRightMouseClick && itemstack != null) {
 			itemstack = itemstack.copy();
 			itemstack.stackSize /= 2;
@@ -272,6 +274,12 @@ public abstract class GuiContainer extends GuiScreen {
 				this.dragSplittingSlots.remove(slotIn);
 				this.updateDragSplitting();
 			}
+		}
+
+		if(Settings.MODERN_INVENTORIES.b() && Settings.SLOT_GRID.i() != 1){
+			RenderHelper.disableStandardItemLighting();
+			RenderRec.render(i, j, 16, 16, Colors.GRAY);
+			RenderHelper.enableGUIStandardItemLighting();
 		}
 
 		this.zLevel = 100.0F;
@@ -584,5 +592,4 @@ public abstract class GuiContainer extends GuiScreen {
 			}
 		}
 	}
-
 }
