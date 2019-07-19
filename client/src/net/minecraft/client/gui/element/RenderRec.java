@@ -17,4 +17,8 @@ public class RenderRec implements RenderElement {
     public void render() {
         Gui.drawRect(x1, y1, x2, y2, color);
     }
+
+    public static void render(int x, int y, int height, int width, int color){
+        Gui.drawRect(x, y, x + height, y + width, color);
+    }
 }

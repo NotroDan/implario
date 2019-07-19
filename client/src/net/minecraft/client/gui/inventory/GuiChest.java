@@ -50,27 +50,24 @@ public class GuiChest extends GuiContainer {
 	 */
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.getTextureManager().bindTexture(CHEST_GUI_TEXTURE);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 
 		if (Settings.MODERN_INVENTORIES.b()) {
 			int s = Settings.SLOT_GRID.i();
-			int y0 = y + 14;
+			int y0 = y + 18;
 			drawRect(x, y, x + xSize, y += inventoryRows * 18 + 17, 0xe7202020);
-			if (s != 2) drawRect(x + 6, y0 - 2, x + xSize - 6, y - 3, 0xff232323);
-			if (s != 1) drawModernSlotGrid(x + 8, y0, 9, inventoryRows, 0xff303030);
+			if (s != 2) drawRect(x + 6, y0, x + xSize - 6, y, 0xff232323);
 
 			drawRect(x, y, x + xSize, y += 2, 0xe0ffa114);
 
 			drawRect(x, y, x + xSize, y + 96, 0xe7202020);
 
 			if (s != 2) drawRect(x + 6, y + 10, x + xSize - 6, y + 66, 0xff232323);
-			if (s != 1) drawModernSlotGrid(x + 8, y + 12, 9, 3, 0xff303030);
 			y += 66;
 			if (s != 2) drawRect(x + 6, y + 2, x + xSize - 6, y + 22, 0xff232323);
-			if (s != 1) drawModernSlotGrid(x + 8, y + 4, 9, 1, 0xff303030);
 		} else {
+			this.mc.getTextureManager().bindTexture(CHEST_GUI_TEXTURE);
 			this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
 			this.drawTexturedModalRect(x, y + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
 		}
