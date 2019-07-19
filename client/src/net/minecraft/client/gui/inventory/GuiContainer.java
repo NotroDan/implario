@@ -291,6 +291,7 @@ public abstract class GuiContainer extends GuiScreen {
 			if (s1 != null) {
 				TextureAtlasSprite textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite(s1);
 				G.disableLighting();
+				G.enableAlpha();
 				this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 				this.drawTexturedModalRect(i, j, textureatlassprite, 16, 16);
 				G.enableLighting();
