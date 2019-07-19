@@ -37,7 +37,7 @@ public enum EnumDyeColor implements IStringSerializable {
 	}
 
 	public static EnumDyeColor byMetadata(int meta) {
-		if (meta < 0 || meta >= 15) meta = 0;
+		if (meta < 0 || meta > 15) meta = 0;
 		return values()[meta];
 	}
 
