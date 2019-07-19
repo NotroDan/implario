@@ -4,7 +4,7 @@ import net.minecraft.world.WorldProvider;
 
 import java.io.File;
 
-class SimpleDimensionManager extends WorldProvider {
+public class SimpleDimensionManager extends WorldProvider {
 
 	public SimpleDimensionManager(int dim) {
 		this.dimensionId = dim;
@@ -24,7 +24,7 @@ class SimpleDimensionManager extends WorldProvider {
 	public File getDimensionDir(File worldDir) {
 		if (dimensionId == 0) return worldDir;
 		File file = new File(worldDir, "DIM" + dimensionId);
-		file.mkdirs();
+		file.mkdir();
 		return file;
 	}
 

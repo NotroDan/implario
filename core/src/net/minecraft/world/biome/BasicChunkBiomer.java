@@ -7,14 +7,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class BasicChunkManager implements IChunkManager {
+public class BasicChunkBiomer implements IChunkBiomer {
 
 	private final List<Biome> spawnBiomes;
 	private final Biome biome;
+	private final float rainfall;
 
-	public BasicChunkManager(Biome biome) {
+	public BasicChunkBiomer(Biome biome, float rainfall) {
 		this.biome = biome;
 		this.spawnBiomes = Collections.singletonList(biome);
+		this.rainfall = rainfall;
+	}
+
+	public BasicChunkBiomer(Biome biome) {
+		this(biome, 0);
 	}
 
 	@Override
@@ -29,7 +35,8 @@ public class BasicChunkManager implements IChunkManager {
 
 	@Override
 	public float[] getRainfall(float[] listToReuse, int x, int z, int width, int length) {
-		if (listToReuse == null || listToReuse.length < width * length) return new float[width * length];
+		if (listToReuse == null || listToReuse.length < width * length) listToReuse = new float[width * length];
+		Arrays.fill(listToReuse, rainfall);
 		return listToReuse;
 	}
 

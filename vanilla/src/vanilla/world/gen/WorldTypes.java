@@ -4,12 +4,13 @@ import net.minecraft.resources.Registrar;
 import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.biome.BasicChunkBiomer;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.datapacks.ChunkManagerFactory;
 import net.minecraft.world.datapacks.ChunkProviderFactory;
 import vanilla.world.biome.BiomeGenBase;
-import vanilla.world.biome.WorldChunkManager;
-import vanilla.world.biome.WorldChunkManagerHell;
+import vanilla.world.biome.WorldChunkBiomer;
+import vanilla.world.biome.WorldChunkBiomerHell;
 import vanilla.world.gen.provider.ChunkProviderFlat;
 import vanilla.world.gen.provider.ChunkProviderGenerate;
 
@@ -17,12 +18,12 @@ public class WorldTypes implements ServerSideLoadable {
 
 
 	private static final ChunkManagerFactory
-			factoryDefaultCM = (p, s, t, g) -> p == null ? new WorldChunkManager(s, t, g) : new WorldChunkManager(p.getWorld());
+			factoryDefaultCM = (p, s, t, g) -> p == null ? new WorldChunkBiomer(s, t, g) : new WorldChunkBiomer(p.getWorld());
 	private static final ChunkManagerFactory factoryFlatCM = (p, s, t, g) -> {
 
 				FlatGeneratorInfo info = FlatGeneratorInfo.createFlatGeneratorFromString(g);
 				Biome biome = Biome.getBiomeFromBiomeList(info.getBiome(), BiomeGenBase.ocean);
-				return new WorldChunkManagerHell(BiomeGenBase.toGenBase(biome), 0.5F);
+				return new BasicChunkBiomer(BiomeGenBase.toGenBase(biome), 0.5F);
 			};
 
 	private static final ChunkProviderFactory

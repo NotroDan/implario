@@ -1,6 +1,5 @@
 package vanilla.world.biome;
 
-import com.google.common.collect.Lists;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.BlockPos;
@@ -8,14 +7,14 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.biome.IChunkBiomer;
 import vanilla.world.gen.layer.GenLayer;
 import vanilla.world.gen.layer.IntCache;
 
 import java.util.List;
 import java.util.Random;
 
-public class WorldChunkManager implements IChunkManager {
+public class WorldChunkBiomer implements IChunkBiomer {
 
 	private GenLayer genBiomes;
 
@@ -31,7 +30,7 @@ public class WorldChunkManager implements IChunkManager {
 	private List<Biome> biomesToSpawnIn;
 	private String field_180301_f;
 
-	protected WorldChunkManager() {
+	protected WorldChunkBiomer() {
 		this.biomeCache = new BiomeCache(this);
 		this.field_180301_f = "";
 		this.biomesToSpawnIn = new java.util.ArrayList<>();
@@ -44,7 +43,7 @@ public class WorldChunkManager implements IChunkManager {
 		this.biomesToSpawnIn.add(BiomeGenBase.jungleHills);
 	}
 
-	public WorldChunkManager(long seed, WorldType p_i45744_3_, String p_i45744_4_) {
+	public WorldChunkBiomer(long seed, WorldType p_i45744_3_, String p_i45744_4_) {
 		this();
 		this.field_180301_f = p_i45744_4_;
 		GenLayer[] agenlayer = GenLayer.initializeAllBiomeGenerators(seed, p_i45744_3_, p_i45744_4_);
@@ -52,7 +51,7 @@ public class WorldChunkManager implements IChunkManager {
 		this.biomeIndexLayer = agenlayer[1];
 	}
 
-	public WorldChunkManager(World worldIn) {
+	public WorldChunkBiomer(World worldIn) {
 		this(worldIn.getSeed(), worldIn.getWorldInfo().getTerrainType(), worldIn.getWorldInfo().getGeneratorOptions());
 	}
 

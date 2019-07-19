@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.resources.Provider;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.player.PlayerUpdateEvent;
 import net.minecraft.scoreboard.Scoreboard;
@@ -21,11 +22,11 @@ import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.datapacks.DimensionManager;
+import net.minecraft.world.datapacks.SimpleDimensionManager;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
@@ -34,7 +35,7 @@ import java.util.*;
 
 public abstract class World implements IBlockAccess {
 
-	public static DimensionManager dimensionManager = DimensionManager.SIMPLE;
+	public static final Provider<Integer, WorldProvider> DIMENSION_PROVIDER = new Provider<>(SimpleDimensionManager::new);
 	private int seaLevel = 63;
 
 	/**
@@ -176,7 +177,7 @@ public abstract class World implements IBlockAccess {
 		return this.provider.getWorldChunkManager().getBiome(pos, Biome.VOID);
 	}
 
-	public IChunkManager getWorldChunkManager() {
+	public IChunkBiomer getWorldChunkManager() {
 		return this.provider.getWorldChunkManager();
 	}
 
@@ -1582,22 +1583,19 @@ public abstract class World implements IBlockAccess {
 	 * Returns true if there are any blocks in the region constrained by an AxisAlignedBB
 	 */
 	public boolean checkBlockCollision(AxisAlignedBB bb) {
-		int i = MathHelper.floor_double(bb.minX);
-		int j = MathHelper.floor_double(bb.maxX);
-		int k = MathHelper.floor_double(bb.minY);
-		int l = MathHelper.floor_double(bb.maxY);
-		int i1 = MathHelper.floor_double(bb.minZ);
-		int j1 = MathHelper.floor_double(bb.maxZ);
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		int aX = MathHelper.floor_double(bb.minX);
+		int bX = MathHelper.floor_double(bb.maxX);
+		int aY = MathHelper.floor_double(bb.minY);
+		int bY = MathHelper.floor_double(bb.maxY);
+		int aZ = MathHelper.floor_double(bb.minZ);
+		int bZ = MathHelper.floor_double(bb.maxZ);
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-		for (int k1 = i; k1 <= j; ++k1) {
-			for (int l1 = k; l1 <= l; ++l1) {
-				for (int i2 = i1; i2 <= j1; ++i2) {
-					Block block = this.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, l1, i2)).getBlock();
-
-					if (block.getMaterial() != Material.air) {
-						return true;
-					}
+		for (int x = aX; x <= bX; ++x) {
+			for (int y = aY; y <= bY; ++y) {
+				for (int z = aZ; z <= bZ; ++z) {
+					Block block = this.getBlockState(pos.func_181079_c(x, y, z)).getBlock();
+					if (block.getMaterial() != Material.air) return true;
 				}
 			}
 		}

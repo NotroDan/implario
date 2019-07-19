@@ -944,6 +944,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			chunk.fillChunk(packetIn.getChunkBytes(i), packetIn.getChunkSize(i), true);
 			this.clientWorldController.markBlockRangeForRenderUpdate(j << 4, 0, k << 4, (j << 4) + 15, 256, (k << 4) + 15);
 
+			// ToDo: Изучить
 			if (!(this.clientWorldController.provider instanceof WorldProviderSurface))
 				chunk.resetRelightChecks();
 		}

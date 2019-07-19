@@ -10,8 +10,8 @@ import java.io.File;
 
 public class AnvilSaveHandler extends SaveHandler {
 
-	public AnvilSaveHandler(File savesDirectory, String p_i2142_2_, boolean storePlayerdata) {
-		super(savesDirectory, p_i2142_2_, storePlayerdata);
+	public AnvilSaveHandler(File savesDirectory, String dir, boolean storePlayerdata) {
+		super(savesDirectory, dir, storePlayerdata);
 	}
 
 	/**
@@ -20,7 +20,7 @@ public class AnvilSaveHandler extends SaveHandler {
 	public IChunkLoader getChunkLoader(WorldProvider provider) {
 		File worldDir = this.getWorldDirectory();
 		File dimensionDir = provider.getDimensionDir(worldDir);
-		return new AnvilChunkLoader(worldDir);
+		return new AnvilChunkLoader(dimensionDir);
 	}
 
 	/**

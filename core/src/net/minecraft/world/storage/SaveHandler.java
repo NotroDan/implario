@@ -144,26 +144,19 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		nbttagcompound1.setTag("Data", nbttagcompound);
 
 		try {
-			File file1 = new File(this.worldDirectory, "level.dat_new");
-			File file2 = new File(this.worldDirectory, "level.dat_old");
-			File file3 = new File(this.worldDirectory, "level.dat");
-			CompressedStreamTools.writeCompressed(nbttagcompound1, new FileOutputStream(file1));
+			File levelDatNew = new File(this.worldDirectory, "level.dat_new");
+			File levelDatOld = new File(this.worldDirectory, "level.dat_old");
+			File levelDat = new File(this.worldDirectory, "level.dat");
+			CompressedStreamTools.writeCompressed(nbttagcompound1, new FileOutputStream(levelDatNew));
 
-			if (file2.exists()) {
-				file2.delete();
-			}
+			if (levelDatOld.exists()) levelDatOld.delete();
+			levelDat.renameTo(levelDatOld);
 
-			file3.renameTo(file2);
+			if (levelDat.exists()) levelDat.delete();
+			levelDatNew.renameTo(levelDat);
 
-			if (file3.exists()) {
-				file3.delete();
-			}
+			if (levelDatNew.exists()) levelDatNew.delete();
 
-			file1.renameTo(file3);
-
-			if (file1.exists()) {
-				file1.delete();
-			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
