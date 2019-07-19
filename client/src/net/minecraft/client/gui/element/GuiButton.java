@@ -93,9 +93,9 @@ public class GuiButton extends Gui {
 
 		if (Settings.FANCY_BUTTONS.b()) {
 
-			int color = i == 0 ? 0xd03f3f3f : 0xd04f4f4f;
-			int borderColor = 0xd0707070;
-			if (i == 2) borderColor = 0xd0e06c14;
+			int color = i == 0 ? Colors.DARK_GRAY: Colors.GRAY;
+			int borderColor = Colors.DARK;
+			if (i == 2) borderColor = Colors.YELLOW;
 			int border = 1;
 
 			drawRect(xPosition, yPosition, xPosition + width, yPosition + height, borderColor);
