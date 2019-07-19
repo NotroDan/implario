@@ -1,6 +1,5 @@
 package vanilla.world.biome;
 
-import com.google.common.collect.Lists;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.world.biome.Biome;
@@ -12,7 +11,7 @@ public class BiomeCache {
 	/**
 	 * Reference to the WorldChunkManager
 	 */
-	private final WorldChunkManager chunkManager;
+	private final WorldChunkBiomer chunkManager;
 
 	/**
 	 * The last time this BiomeCache was cleaned, in milliseconds.
@@ -21,7 +20,7 @@ public class BiomeCache {
 	private LongHashMap cacheMap = new LongHashMap();
 	private List<Cluster> cache = new java.util.ArrayList<>();
 
-	public BiomeCache(WorldChunkManager chunkManagerIn) {
+	public BiomeCache(WorldChunkBiomer chunkManagerIn) {
 		this.chunkManager = chunkManagerIn;
 	}
 

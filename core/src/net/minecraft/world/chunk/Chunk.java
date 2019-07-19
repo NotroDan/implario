@@ -19,7 +19,7 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 import java.util.Arrays;
@@ -1134,7 +1134,7 @@ public class Chunk {
 		}
 	}
 
-	public Biome getBiome(BlockPos pos, IChunkManager chunkManager) {
+	public Biome getBiome(BlockPos pos, IChunkBiomer chunkManager) {
 		int x = pos.getX() & 15;
 		int z = pos.getZ() & 15;
 		int k = this.blockBiomeArray[z << 4 | x] & 255;

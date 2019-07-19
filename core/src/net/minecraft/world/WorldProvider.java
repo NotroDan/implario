@@ -4,7 +4,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.WorldInfo;
@@ -25,7 +25,7 @@ public abstract class WorldProvider {
 	/**
 	 * World chunk manager being used to generate chunks
 	 */
-	protected IChunkManager worldChunkMgr;
+	protected IChunkBiomer worldChunkMgr;
 
 	/**
 	 * States whether the Hell world provider is used(true) or if the normal world provider is used(false)
@@ -51,6 +51,8 @@ public abstract class WorldProvider {
 	 * Array for sunrise/sunset colors (RGBA)
 	 */
 	private final float[] colorsSunriseSunset = new float[4];
+
+	public WorldProvider() {}
 
 	/**
 	 * associate an existing world with a World provider, and setup its lightbrightness table
@@ -215,7 +217,7 @@ public abstract class WorldProvider {
 
 	public abstract String getInternalNameSuffix();
 
-	public IChunkManager getWorldChunkManager() {
+	public IChunkBiomer getWorldChunkManager() {
 		return this.worldChunkMgr;
 	}
 

@@ -1,9 +1,9 @@
 package net.minecraft.world;
 
 import net.minecraft.util.Util;
-import net.minecraft.world.biome.BasicChunkManager;
+import net.minecraft.world.biome.BasicChunkBiomer;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.IChunkManager;
+import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.chunk.ChunkProviderDebug;
 import net.minecraft.world.chunk.ChunkProviderVoid;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -20,10 +20,10 @@ public class WorldType {
 
 
 	public static final WorldType VOID = new WorldType("empty",
-		(p, s, v, c) -> new BasicChunkManager(Biome.VOID),
+		(p, s, v, c) -> new BasicChunkBiomer(Biome.VOID),
 		p -> new ChunkProviderVoid(p.getWorld())).weakFog().hardcodeRegister();
 
-	private static final ChunkManagerFactory factoryDebugCM = (p, s, v, c) -> new BasicChunkManager(Biome.VOID);
+	private static final ChunkManagerFactory factoryDebugCM = (p, s, v, c) -> new BasicChunkBiomer(Biome.VOID);
 	private static final ChunkProviderFactory factoryDebugCP = p -> new ChunkProviderDebug(p.getWorld());
 	public static final WorldType DEBUG = new WorldType("debug_all_block_states",
 			factoryDebugCM, factoryDebugCP).disableMobs().disallowModification().hardcodeRegister();
@@ -169,10 +169,10 @@ public class WorldType {
 		return this;
 	}
 
-	public IChunkManager createChunkManager(WorldProvider w) {
+	public IChunkBiomer createChunkManager(WorldProvider w) {
 		return chunkManagerFactory.generate(w, 0, this, w.getGeneratorSettings());
 	}
-	public IChunkManager createChunkManager(long seed, String settings) {
+	public IChunkBiomer createChunkManager(long seed, String settings) {
 		return chunkManagerFactory.generate(null, seed, this, settings);
 	}
 

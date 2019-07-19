@@ -65,7 +65,7 @@ public class WorldClient extends World {
 	private boolean playerUpdate = false;
 
 	public WorldClient(NetHandlerPlayClient netHandler, WorldSettings settings, int dim, EnumDifficulty difficulty, Profiler profiler) {
-		super(new SaveHandlerMP(), new WorldInfo(settings, "MpServer"), dimensionManager.generate(dim), profiler, true);
+		super(new SaveHandlerMP(), new WorldInfo(settings, "MpServer"), DIMENSION_PROVIDER.provide(dim), profiler, true);
 		this.sendQueue = netHandler;
 		this.getWorldInfo().setDifficulty(difficulty);
 		this.provider.registerWorld(this);
