@@ -3,18 +3,18 @@ package net.minecraft.client.gui.element;
 import net.minecraft.client.gui.Gui;
 
 public class RenderRec implements RenderElement {
-    private final int x, y, height, width, color;
+    private final int x1, y1, x2, y2, color;
 
     public RenderRec(int x, int y, int height, int width, int color){
-        this.x = x;
-        this.y = y;
-        this.height = x + height;
-        this.width = y + width;
+        this.x1 = x;
+        this.y1 = y;
+        this.x2 = x + height;
+        this.y2 = y + width;
         this.color = color;
     }
 
     @Override
     public void render() {
-        Gui.drawRect(x, y, height, width, color);
+        Gui.drawRect(x1, y1, x2, y2, color);
     }
 }
