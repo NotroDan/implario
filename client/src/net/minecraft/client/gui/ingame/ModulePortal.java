@@ -20,17 +20,17 @@ public class ModulePortal implements Module {
 		if (p.isPotionActive(Potion.confusion)) return;
 		float time = p.prevTimeInPortal + (p.timeInPortal - p.prevTimeInPortal) * partialTicks;
 		if (time <= 0) return;
-		if (partialTicks < 1.0F) {
-			partialTicks = partialTicks * partialTicks;
-			partialTicks = partialTicks * partialTicks;
-			partialTicks = partialTicks * 0.8F + 0.2F;
+		if (time <= 1.0F) {
+			time *= time;
+			time *= time;
+			time = time * 0.8F + 0.2F;
 		}
 
 		G.disableAlpha();
 		G.disableDepth();
 		G.depthMask(false);
 		G.tryBlendFuncSeparate(770, 771, 1, 0);
-		G.color(1.0F, 1.0F, 1.0F, partialTicks);
+		G.color(1.0F, 1.0F, 1.0F, time);
 		MC.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		TextureAtlasSprite textureatlassprite = MC.getBlockRendererDispatcher().getBlockModelShapes().getTexture(Blocks.portal.getDefaultState());
 		float f = textureatlassprite.getMinU();
