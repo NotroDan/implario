@@ -66,7 +66,7 @@ public class GuiInventory extends InventoryEffectRenderer {
 		if(Settings.MODERN_INVENTORIES.b()) {
 			x = x + 4;
 			y = y + 4;
-			RenderRec.render(x, y, 170, 160, Colors.DARK);
+			RenderRec.render(x, y, 168, 158, Colors.DARK);
 
 			if(Settings.SLOT_GRID.i() != 2) {
 				RenderRec.render(x + 2, y + 2, 20, 74, Colors.DARK_GRAY);
