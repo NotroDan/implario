@@ -30,6 +30,7 @@ public class Main {
 		optionparser.allowsUnrecognizedOptions();
 		optionparser.accepts("fullscreen");
 		optionparser.accepts("checkGlErrors");
+		optionparser.accepts("vanilla");
 		OptionSpec<String> optionspec = optionparser.accepts("server").withRequiredArg();
 		OptionSpec<Integer> optionspec1 = optionparser.accepts("port").withRequiredArg().ofType(Integer.class).defaultsTo(25565);
 		OptionSpec<File> optionspec2 = optionparser.accepts("gameDir").withRequiredArg().ofType(File.class).defaultsTo(new File("."));
