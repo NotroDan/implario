@@ -233,20 +233,20 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					this.lastPosX = this.playerEntity.posX;
 					this.lastPosY = this.playerEntity.posY;
 					this.lastPosZ = this.playerEntity.posZ;
-					double d8 = this.playerEntity.posX;
-					double d9 = this.playerEntity.posY;
-					double d10 = this.playerEntity.posZ;
-					float f1 = this.playerEntity.rotationYaw;
-					float f2 = this.playerEntity.rotationPitch;
+					double pX = this.playerEntity.posX;
+					double pY = this.playerEntity.posY;
+					double pZ = this.playerEntity.posZ;
+					float pYaw = this.playerEntity.rotationYaw;
+					float pPitch = this.playerEntity.rotationPitch;
 
 					if (packetIn.isMoving() && packetIn.getPositionY() == -999.0D) {
 						packetIn.setMoving(false);
 					}
 
 					if (packetIn.isMoving()) {
-						d8 = packetIn.getPositionX();
-						d9 = packetIn.getPositionY();
-						d10 = packetIn.getPositionZ();
+						pX = packetIn.getPositionX();
+						pY = packetIn.getPositionY();
+						pZ = packetIn.getPositionZ();
 
 						if (Math.abs(packetIn.getPositionX()) > 3.0E7D || Math.abs(packetIn.getPositionZ()) > 3.0E7D) {
 							this.kickPlayerFromServer("Illegal position");
@@ -255,25 +255,25 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					}
 
 					if (packetIn.getRotating()) {
-						f1 = packetIn.getYaw();
-						f2 = packetIn.getPitch();
+						pYaw = packetIn.getYaw();
+						pPitch = packetIn.getPitch();
 					}
 
 					this.playerEntity.onUpdateEntity();
-					this.playerEntity.setPositionAndRotation(this.lastPosX, this.lastPosY, this.lastPosZ, f1, f2);
+					this.playerEntity.setPositionAndRotation(this.lastPosX, this.lastPosY, this.lastPosZ, pYaw, pPitch);
 
 					if (!this.hasMoved) {
 						return;
 					}
 
-					double d11 = d8 - this.playerEntity.posX;
-					double d12 = d9 - this.playerEntity.posY;
-					double d13 = d10 - this.playerEntity.posZ;
-					double d14 = this.playerEntity.motionX * this.playerEntity.motionX + this.playerEntity.motionY * this.playerEntity.motionY + this.playerEntity.motionZ * this.playerEntity.motionZ;
-					double d15 = d11 * d11 + d12 * d12 + d13 * d13;
+					double dX = pX - this.playerEntity.posX;
+					double dY = pY - this.playerEntity.posY;
+					double dZ = pZ - this.playerEntity.posZ;
+					double motionVector = this.playerEntity.motionX * this.playerEntity.motionX + this.playerEntity.motionY * this.playerEntity.motionY + this.playerEntity.motionZ * this.playerEntity.motionZ;
+					double distanceVector = dX * dX + dY * dY + dZ * dZ;
 
-					if (d15 - d14 > 100.0D && (!this.serverController.isSinglePlayer() || !this.serverController.getServerOwner().equals(this.playerEntity.getName()))) {
-						logger.warn(this.playerEntity.getName() + " moved too quickly! " + d11 + "," + d12 + "," + d13 + " (" + d11 + ", " + d12 + ", " + d13 + ")");
+					if (distanceVector - motionVector > 100.0D && (!this.serverController.isSinglePlayer() || !this.serverController.getServerOwner().equals(this.playerEntity.getName()))) {
+						logger.warn(this.playerEntity.getName() + " moved too quickly! " + dX + "," + dY + "," + dZ + " (" + dX + ", " + dY + ", " + dZ + ")");
 						this.setPlayerLocation(this.lastPosX, this.lastPosY, this.lastPosZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
 						return;
 					}
@@ -281,29 +281,28 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					float f3 = 0.0625F;
 					boolean flag = worldserver.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(f3, f3, f3)).isEmpty();
 
-					if (this.playerEntity.onGround && !packetIn.isOnGround() && d12 > 0.0D) {
+					if (this.playerEntity.onGround && !packetIn.isOnGround() && dY > 0.0D) {
 						this.playerEntity.jump();
 					}
 
-					this.playerEntity.moveEntity(d11, d12, d13);
+					this.playerEntity.moveEntity(dX, dY, dZ);
 					this.playerEntity.onGround = packetIn.isOnGround();
-					d11 = d8 - this.playerEntity.posX;
-					d12 = d9 - this.playerEntity.posY;
 
-					if (d12 > -0.5D || d12 < 0.5D) {
-						d12 = 0.0D;
-					}
+					dX = pX - this.playerEntity.posX;
+					dY = pY - this.playerEntity.posY;
+					if (dY > -0.5D || dY < 0.5D) dY = 0.0D;
+					dZ = pZ - this.playerEntity.posZ;
 
-					d13 = d10 - this.playerEntity.posZ;
-					d15 = d11 * d11 + d12 * d12 + d13 * d13;
-					boolean flag1 = false;
 
-					if (d15 > 0.0625D && !this.playerEntity.isPlayerSleeping() && !this.playerEntity.theItemInWorldManager.isCreative()) {
-						flag1 = true;
+					distanceVector = dX * dX + dY * dY + dZ * dZ;
+					boolean movedWrongly = false;
+
+					if (distanceVector > 0.0625D && !this.playerEntity.isPlayerSleeping() && !this.playerEntity.theItemInWorldManager.isCreative()) {
+						movedWrongly = true;
 						logger.warn(this.playerEntity.getName() + " moved wrongly!");
 					}
 
-					this.playerEntity.setPositionAndRotation(d8, d9, d10, f1, f2);
+					this.playerEntity.setPositionAndRotation(pX, pY, pZ, pYaw, pPitch);
 					if (x != playerEntity.posX || y != playerEntity.posY || z != playerEntity.posZ) {
 						if (Events.eventPlayerMove.isUseful())
 							Events.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
@@ -313,27 +312,25 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					if (!this.playerEntity.noClip) {
 						boolean flag2 = worldserver.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(f3, f3, f3)).isEmpty();
 
-						if (flag && (flag1 || !flag2) && !this.playerEntity.isPlayerSleeping()) {
-							this.setPlayerLocation(this.lastPosX, this.lastPosY, this.lastPosZ, f1, f2);
+						if (flag && (movedWrongly || !flag2) && !this.playerEntity.isPlayerSleeping()) {
+							this.setPlayerLocation(this.lastPosX, this.lastPosY, this.lastPosZ, pYaw, pPitch);
 							return;
 						}
 					}
 
 					AxisAlignedBB axisalignedbb = this.playerEntity.getEntityBoundingBox().expand(f3, f3, f3).addCoord(0.0D, -0.55D, 0.0D);
 
-					if (!this.serverController.isFlightAllowed() && !this.playerEntity.capabilities.allowFlying && !worldserver.checkBlockCollision(axisalignedbb)) {
-						if (d12 >= -0.03125D) {
-							++this.floatingTickCount;
+					if (!serverController.isFlightAllowed() && !playerEntity.capabilities.allowFlying && !worldserver.checkBlockCollision(axisalignedbb)) {
+						if (dY >= -0.03125D) {
+							++floatingTickCount;
 
-							if (this.floatingTickCount > 80) {
-								logger.warn(this.playerEntity.getName() + " was kicked for floating too long!");
-								this.kickPlayerFromServer("Flying is not enabled on this server");
+							if (floatingTickCount > 80) {
+								logger.warn(playerEntity.getName() + " был кикнут за флай.");
+								kickPlayerFromServer("§eТебя кикнуло за флай. Обидно, правда?");
 								return;
 							}
 						}
-					} else {
-						this.floatingTickCount = 0;
-					}
+					} else floatingTickCount = 0;
 
 					this.playerEntity.onGround = packetIn.isOnGround();
 					this.serverController.getConfigurationManager().serverUpdateMountedMovingPlayer(this.playerEntity);
