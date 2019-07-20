@@ -1,6 +1,7 @@
 package net.minecraft.client.gui.inventory;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.element.Colors;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.inventory.ContainerChest;
@@ -36,13 +37,8 @@ public class GuiChest extends GuiContainer {
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items). Args : mouseX, mouseY
 	 */
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		if (Settings.MODERN_INVENTORIES.b()) {
-			drawCenteredString(fontRendererObj, this.lowerChestInventory.getDisplayName().getUnformattedText(), xSize / 2, 3, 0xd0d0d0);
-			drawCenteredString(fontRendererObj, this.upperChestInventory.getDisplayName().getUnformattedText(), xSize / 2, this.ySize - 96 + 2, 0xe0ffa114);
-		} else {
-			this.fontRendererObj.drawString(this.lowerChestInventory.getDisplayName().getUnformattedText(), 8, 6, 4210752);
-			this.fontRendererObj.drawString(this.upperChestInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
-		}
+		this.fontRendererObj.drawString(this.lowerChestInventory.getDisplayName().getUnformattedText(), 8, 6, 4210752);
+		this.fontRendererObj.drawString(this.upperChestInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	/**
@@ -50,22 +46,20 @@ public class GuiChest extends GuiContainer {
 	 */
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-		int x = (this.width - this.xSize) / 2;
-		int y = (this.height - this.ySize) / 2;
+		int x = guiLeft;
+		int y = guiTop;
 
 		if (Settings.MODERN_INVENTORIES.b()) {
 			int s = Settings.SLOT_GRID.i();
-			int y0 = y + 18;
-			drawRect(x, y, x + xSize, y += inventoryRows * 18 + 17, 0xe7202020);
-			if (s != 2) drawRect(x + 6, y0, x + xSize - 6, y, 0xff232323);
+			int y0 = y + 16;
+			drawRect(x + 4, y + 4, x + xSize - 4, (y += inventoryRows * 18 + 17) + 92, Colors.DARK);
+			if (s != 2) drawRect(x + 6, y0, x + xSize - 6, y + 1, Colors.DARK_GRAY);
 
-			drawRect(x, y, x + xSize, y += 2, 0xe0ffa114);
+			//drawRect(x, y, x + xSize, y += 2, 0xe0ffa114);
 
-			drawRect(x, y, x + xSize, y + 96, 0xe7202020);
-
-			if (s != 2) drawRect(x + 6, y + 10, x + xSize - 6, y + 66, 0xff232323);
+			if (s != 2) drawRect(x + 6, y + 12, x + xSize - 6, y + 68, Colors.DARK_GRAY);
 			y += 66;
-			if (s != 2) drawRect(x + 6, y + 2, x + xSize - 6, y + 22, 0xff232323);
+			if (s != 2) drawRect(x + 6, y + 4, x + xSize - 6, y + 24, Colors.DARK_GRAY);
 		} else {
 			this.mc.getTextureManager().bindTexture(CHEST_GUI_TEXTURE);
 			this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.inventoryRows * 18 + 17);

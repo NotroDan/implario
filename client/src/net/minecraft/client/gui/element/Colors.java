@@ -7,5 +7,6 @@ public class Colors {
         GRAY = 0xFF303030,
         LIGHT = 0xFF404040,
         YELLOW = 0xFFFFA114,
+        DARK_YELLOW = 0xFFFE8D11,
         BLACK = 0xFF000000;
 }
