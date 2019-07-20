@@ -15,6 +15,7 @@ public class Modules {
 		register("portal", new ModulePortal());
 		register("iteminfo", new ModuleItemInfo());
 		register("hotbar", new ModuleHotbar());
+		register("playerstats", new ModulePlayerStats());
 	}
 
 	public static void register(String name, Module module) {
