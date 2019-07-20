@@ -100,7 +100,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	private boolean doneLoadingTerrain;
 	private final Map<UUID, NetworkPlayerInfo> playerInfoMap = new HashMap<>();
-	private final Map<UUID, NetworkPlayerInfo> tablist = new HashMap<>();
+	private final Map<UUID, NetworkPlayerInfo> tablist = new HashMap<>(); // ToDo: Fix tablist
 	public int currentServerMaxPlayers = 20;
 	private boolean field_147308_k = false;
 
@@ -1460,7 +1460,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	}
 
 	public Collection<NetworkPlayerInfo> getPlayerInfoMap() {
-		return this.tablist.values();
+		return this.playerInfoMap.values();
 	}
 
 	public NetworkPlayerInfo getPlayerInfo(UUID p_175102_1_) {
