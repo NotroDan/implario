@@ -99,9 +99,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		buttonList.add(new GuiButton(97, cacheWidth + 2, j + 84, 98, 20, "Смена ника"));
 		buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, Lang.format("menu.quit")));
 		buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "Бета настроек"));
-		if(Settings.DEBUG.b())
-			buttonList.add(new GuiButton(6, cacheWidth + 2, j + 132,
-					98, 20, "Не нажимать!"));
 
 		synchronized (this.threadLock) {
 			this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
@@ -136,7 +133,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
 
 		if (button.id == 97) this.mc.displayGuiScreen(new GuiPlayername(this));
-		if (button.id == 6) Datapacks.toggle(new File("vanilla.jar"), "vanilla.Vanilla");
 //		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
 
 		if (button.id == 4) this.mc.shutdown();

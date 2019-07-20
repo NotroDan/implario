@@ -1,5 +1,6 @@
 package net.minecraft.resources;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import net.minecraft.block.Block;
@@ -17,6 +18,7 @@ import org.apache.commons.lang3.Validate;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,38 +31,25 @@ public class Datapacks {
 	@Getter
 	private final List<Datapack> datapacks = new ArrayList<>();
 
-	public DatapackLoader loadSimple(Datapack datapack) {
-		DatapackLoader loader = new SimpleDatapackLoader(datapack);
-		loaders.add(loader);
-		datapacks.add(datapack);
-		return loader;
+	public Datapack load(DatapackLoader loader){
+		return load(loader, null);
 	}
 
-	public DatapackLoader loadFromJar(File jarFile, String mainClass) {
-
-		DatapackLoader loader = new JarDatapackLoader(jarFile, mainClass);
+	public Datapack load(DatapackLoader loader, String name){
 		loaders.add(loader);
 
 		Datapack datapack;
 
-		try {
-			datapack = loader.load();
-		} catch (DatapackLoadException ex) {
-			Throwable cause = ex.getCause();
-			Validate.notNull(cause);
-			String message;
-			if (cause instanceof ClassCastException) message = "Main class '$' wasn't found in #";
-			else if (cause instanceof IllegalAccessException | cause instanceof InstantiationException)
-				message = "Main class '$' has redefined default constructor incorrectly.";
-			else if (cause instanceof IOException) message = "Jarfile # couldn't be opened.";
-			else message = "Unknown error ocurred. Main class: '$', jarfile: #";
-
-			throw new RuntimeException(message.replace("#", jarFile.getAbsolutePath()).replace("$", mainClass), ex);
+		try{
+			loader.init();
+			datapack = loader.load(name == null ?
+					new String(loader.read("datapack.resource"), StandardCharsets.UTF_8) : name);
+		}catch (DatapackLoadException ex){
+			throw new RuntimeException(ex.getMessage(), ex);
 		}
 
 		datapacks.add(datapack);
-		return loader;
-
+		return datapack;
 	}
 
 	public void initSingleDatapack(Datapack datapack) {
@@ -100,24 +89,4 @@ public class Datapacks {
 		datapack.disable();
 		loader.close();
 	}
-
-	public void toggle(File jarFile, String mainClass) {
-		DatapackLoader enabled = null;
-		for (DatapackLoader loader : loaders) {
-			if (loader instanceof JarDatapackLoader && ((JarDatapackLoader) loader).getMainClassName().equals(mainClass)) {
-				enabled = loader;
-				break;
-			}
-		}
-		if (enabled == null) {
-			DatapackLoader datapackLoader = loadFromJar(jarFile, mainClass);
-			initSingleDatapack(datapackLoader.get());
-		}
-		else {
-			shutdown(enabled);
-			loaders.remove(enabled);
-		}
-
-	}
-
 }

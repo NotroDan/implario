@@ -46,7 +46,7 @@ public class DatapackClassLoader extends ClassLoader {
 	@Override
 	public InputStream getResourceAsStream(String name) {
 		byte array[] = datapack.get(name);
-		return new ByteArrayInputStream(array, 0 , array.length - 1);
+		return array == null ? null : new ByteArrayInputStream(array, 0 , array.length - 1);
 	}
 
 	public void close(){

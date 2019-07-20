@@ -11,9 +11,11 @@ public class SimpleDatapackLoader extends DatapackLoader {
 	private final Datapack datapack;
 
 	@Override
-	public Datapack load() throws DatapackLoadException {
+	public Datapack load(String name) throws DatapackLoadException {
 		return datapack;
 	}
+
+
 
 	@Override
 	public void close() {}

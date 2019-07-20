@@ -6,40 +6,41 @@ import net.minecraft.resources.Datapack;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 
 public class JarDatapackLoader extends DatapackLoader {
-
-	@Getter
-	private final String mainClassName;
-
 	@Getter
 	private final File jarFile;
 
 	private DatapackClassLoader loader;
 
-	public JarDatapackLoader(File jarFile, String mainClass) {
+	public JarDatapackLoader(File jarFile) {
 		this.jarFile = jarFile;
-		this.mainClassName = mainClass;
 	}
 
-	public Datapack load() throws DatapackLoadException {
+	@Override
+	public void init() throws DatapackLoadException{
 		try {
-			if (datapack != null) return datapack;
-
 			loader = new DatapackClassLoader(jarFile, System.class.getClassLoader());
-			Class<? extends Datapack> mainClass = (Class<? extends Datapack>) loadClass(mainClassName);
-
-			datapack = mainClass.newInstance();
-			return datapack;
-		} catch (IOException | InstantiationException | IllegalAccessException ex) {
+		}catch (IOException ex){
 			throw new DatapackLoadException(ex);
 		}
 	}
 
-	public Datapack getDatapack() {
-		return datapack;
+	@Override
+	public Datapack load(String main) throws DatapackLoadException {
+		try {
+			if (datapack != null) return datapack;
+
+			Class mainClass = loadClass(main);
+
+			return (datapack = (Datapack)mainClass.getConstructors()[0].newInstance());
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+			throw new DatapackLoadException(ex);
+		}
 	}
 
+	@Override
 	public InputStream getResource(String name) {
 		return loader.getResourceAsStream(name);
 	}
@@ -56,5 +57,4 @@ public class JarDatapackLoader extends DatapackLoader {
 		loader.close();
 		datapack = null;
 	}
-
 }
