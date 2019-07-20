@@ -142,7 +142,7 @@ public class GuiIngame extends Gui {
 //		renderBossHealth();
 
 		// Броня, еда, здоровье
-		renderPlayerStats(scaledresolution);
+//		renderPlayerStats(scaledresolution);
 
 		G.disableBlend();
 
