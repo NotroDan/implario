@@ -3,6 +3,7 @@ package net.minecraft.client.gui.ingame;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -75,6 +76,8 @@ public class ModulePlayerStats implements Module {
 		float f2 = f1;
 		int k2 = entityplayer.getTotalArmorValue();
 		int l2 = -1;
+
+		MC.bindTexture(Gui.icons);
 
 		if (entityplayer.isPotionActive(Potion.regeneration)) {
 			l2 = updateCounter % MathHelper.ceiling_float_int(f + 5.0F);
