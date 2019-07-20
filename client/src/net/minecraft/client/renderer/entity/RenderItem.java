@@ -31,6 +31,8 @@ import shadersmod.client.ShadersRender;
 
 import java.util.List;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class RenderItem implements IResourceManagerReloadListener {
 
 	private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
@@ -136,54 +138,51 @@ public class RenderItem implements IResourceManagerReloadListener {
 			this.renderModel(model, stack);
 
 			if (stack.hasEffect() && (!Config.isCustomItems() || !CustomItems.renderCustomEffect(this, stack, model))) {
-				this.renderEffect(model);
+				this.renderGlint(model);
 			}
 		}
 
 		G.popMatrix();
 	}
 
-	private void renderEffect(IBakedModel model) {
-		if (!Config.isCustomItems() || CustomItems.isUseGlint()) {
-			if (!Config.isShaders() || !Shaders.isShadowPass) {
-				G.depthMask(false);
-				G.depthFunc(514);
-				G.disableLighting();
-				G.blendFunc(768, 1);
-				this.textureManager.bindTexture(RES_ITEM_GLINT);
+	private void renderGlint(IBakedModel model) {
+		// ToDo: Кастомизация цвета отблеска зачарованных предметов.
+		int glintColor = 0xff8040cc;
+		if (Config.isCustomItems() && !CustomItems.isUseGlint()) return;
+		if (Config.isShaders() && Shaders.isShadowPass) return;
+		G.depthMask(false);
+		G.depthFunc(GL_EQUAL);
+		G.disableLighting();
+		G.blendFunc(GL_SRC_COLOR, 1);
+		this.textureManager.bindTexture(RES_ITEM_GLINT);
 
-				if (Config.isShaders() && !this.renderItemGui) {
-					ShadersRender.renderEnchantedGlintBegin();
-				}
+		if (Config.isShaders() && !this.renderItemGui)
+			ShadersRender.renderEnchantedGlintBegin();
 
-				G.matrixMode(5890);
-				G.pushMatrix();
-				G.scale(8.0F, 8.0F, 8.0F);
-				float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-				G.translate(f, 0.0F, 0.0F);
-				G.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-				// ToDo: Кастомизация цвета отблеска зачарованных предметов.
-				this.renderModel(model, 0xff8040cc);
-				G.popMatrix();
-				G.pushMatrix();
-				G.scale(8.0F, 8.0F, 8.0F);
-				float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
-				G.translate(-f1, 0.0F, 0.0F);
-				G.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-				this.renderModel(model, 0xff8040cc);
-				G.popMatrix();
-				G.matrixMode(5888);
-				G.blendFunc(770, 771);
-				G.enableLighting();
-				G.depthFunc(515);
-				G.depthMask(true);
-				this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
+		G.matrixMode(GL_TEXTURE);
+		G.pushMatrix();
+			G.scale(8.0F, 8.0F, 8.0F);
+			float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+			G.translate(f, 0.0F, 0.0F);
+			G.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
+			this.renderModel(model, glintColor);
+		G.popMatrix();
+		G.pushMatrix();
+			G.scale(8.0F, 8.0F, 8.0F);
+			float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
+			G.translate(-f1, 0.0F, 0.0F);
+			G.rotate(10.0F, 0.0F, 0.0F, 1.0F);
+			this.renderModel(model, glintColor);
+		G.popMatrix();
+		G.matrixMode(GL_MODELVIEW);
+		G.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		G.enableLighting();
+		G.depthFunc(GL_LEQUAL);
+		G.depthMask(true);
+		this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
 
-				if (Config.isShaders() && !this.renderItemGui) {
-					ShadersRender.renderEnchantedGlintEnd();
-				}
-			}
-		}
+		if (Config.isShaders() && !this.renderItemGui)
+			ShadersRender.renderEnchantedGlintEnd();
 	}
 
 	private void putQuadNormal(WorldRenderer renderer, BakedQuad quad) {
