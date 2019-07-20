@@ -150,7 +150,7 @@ public class GuiIngame extends Gui {
 		renderSleeping(width, height);
 
 		// Полоска с опытом / силой прыжка на лошади
-		renderBar(scaledresolution, width);
+		if (false) renderBar(scaledresolution, width);
 
 		// Интерфейс наблюдателя
 		renderTooltip0(scaledresolution);
