@@ -15,7 +15,7 @@ public class HandlerLibrary<D extends Listenable> {
 	private final List<Entry> list = new ArrayList<>();
 
 	public <T extends D> List<Cell<T>> getListeners(Class<T> clazz) {
-		for (Entry e : list) if (e.clazz == clazz) return e.listeners;
+		for (Entry e : list) if (e != null && e.clazz == clazz) return e.listeners;
 		Entry<T> e = new Entry(clazz);
 		list.add(e);
 		return e.listeners;
