@@ -13,11 +13,10 @@ import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.Logger;
 
-public class CommandHandler implements ICommandManager
-{
+public class CommandHandler implements ICommandManager {
     private static final Logger logger = Logger.getInstance();
-    private final Map<String, ICommand> commandMap = Maps.newHashMap();
-    private final Set<ICommand> commandSet = Sets.newHashSet();
+    private static final Map<String, ICommand> commandMap = Maps.newHashMap();
+    private static final Set<ICommand> commandSet = Sets.newHashSet();
 
     public int executeCommand(ICommandSender sender, String rawCommand)
     {
@@ -31,7 +30,7 @@ public class CommandHandler implements ICommandManager
         String[] astring = rawCommand.split(" ");
         String s = astring[0];
         astring = dropFirstString(astring);
-        ICommand icommand = (ICommand)this.commandMap.get(s);
+        ICommand icommand = commandMap.get(s);
         int i = this.getUsernameIndex(icommand, astring);
         int j = 0;
 
@@ -112,25 +111,33 @@ public class CommandHandler implements ICommandManager
         return false;
     }
 
-    /**
-     * adds the command and any aliases it has to the internal map of available commands
-     */
-    public ICommand registerCommand(ICommand command)
-    {
-        this.commandMap.put(command.getCommandName(), command);
-        this.commandSet.add(command);
+    public static ICommand registerCommand(ICommand command) {
+        commandMap.put(command.getCommandName(), command);
+        commandSet.add(command);
 
-        for (String s : command.getCommandAliases())
-        {
-            ICommand icommand = (ICommand)this.commandMap.get(s);
+        for (String s : command.getCommandAliases()) {
+            ICommand icommand = commandMap.get(s);
 
             if (icommand == null || !icommand.getCommandName().equals(s))
-            {
-                this.commandMap.put(s, command);
-            }
+                commandMap.put(s, command);
         }
 
         return command;
+    }
+
+    public static void unregisterCommand(ICommand command){
+        commandMap.remove(command.getCommandName());
+        commandSet.remove(command);
+        for(String commands : command.getCommandAliases()){
+            ICommand icommand = commandMap.get(commands);
+
+            if (icommand != null && icommand.getCommandName().equals(command.getCommandName()))
+                commandMap.remove(commands);
+        }
+    }
+
+    public static ICommand getCommand(String command){
+        return commandMap.get(command);
     }
 
     /**

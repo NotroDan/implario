@@ -1,6 +1,10 @@
 package net.minecraft.resources;
 
 import net.minecraft.block.Block;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandHandler;
+import net.minecraft.command.CommandParticle;
+import net.minecraft.command.CommandSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.PlayerGuiBridge;
@@ -63,6 +67,15 @@ public class Registrar {
 	 */
 	public <T extends Event> void regListener(Class<T> c, Handler<Event, T> listener) {
 		E.getEventLib().registerListener(domain, c, listener);
+	}
+
+	/**
+	 *
+	 * @param command гагагаг
+	 * @param <T> гагага
+	 */
+	public <T extends CommandBase> void regCommand(T command){
+		registerMapping(new MappingCommand(CommandHandler.getCommand(command.getCommandName()), command));
 	}
 
 	/**

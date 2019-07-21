@@ -34,9 +34,9 @@ public abstract class Datapack implements ServerSideDatapack {
 
 	protected abstract void unload();
 
-	public abstract void loadBlocks();
+	public void loadBlocks(){}
 
-	public abstract void loadItems();
+	public void loadItems(){}
 
 	public Registrar getRegistrar() {
 		return registrar;

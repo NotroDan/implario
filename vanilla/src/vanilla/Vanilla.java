@@ -76,6 +76,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		new VPackets().load(registrar);
 		new Dispensers().load(registrar);
 		new WorldTypes().load(registrar);
+		registrar.regCommand(new VCommandLolKek());
 
 		if (isServerSide()) return;
 
