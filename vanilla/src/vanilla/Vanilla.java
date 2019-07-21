@@ -16,6 +16,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.resources.Datapack;
+import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.Domain;
 import net.minecraft.world.World;
 import vanilla.block.BlockMobSpawner;
@@ -48,6 +49,7 @@ import vanilla.world.VanillaWorldService;
 import vanilla.world.WorldProviderEnd;
 import vanilla.world.WorldProviderHell;
 import vanilla.world.gen.WorldTypes;
+import vanilla.worldedit.WorldEdit;
 
 import static net.minecraft.block.Block.*;
 import static net.minecraft.inventory.creativetab.CreativeTabs.tabRedstone;
@@ -59,6 +61,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 
 	public Vanilla() {
 		super(VANILLA);
+		Datapacks.initSingleDatapack(new WorldEdit());
 	}
 
 	@Override
@@ -76,7 +79,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		new VPackets().load(registrar);
 		new Dispensers().load(registrar);
 		new WorldTypes().load(registrar);
-		registrar.regCommand(new VCommandLolKek());
+
 
 		if (isServerSide()) return;
 

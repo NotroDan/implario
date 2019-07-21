@@ -1944,6 +1944,16 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		}
 	}
 
+	@Override
+	public boolean equals(Object object){
+		return object instanceof EntityPlayer && ((EntityPlayer)object).getName().equals(getName());
+	}
+
+	@Override
+	public int hashCode(){
+		return getName().hashCode();
+	}
+
 	public enum EnumStatus {
 		OK,
 		NOT_POSSIBLE_HERE,
