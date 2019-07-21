@@ -51,7 +51,7 @@ public class CommandGameMode extends CommandBase
 
 		if (sender.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback"))
 		{
-			entityplayer.addChatMessage(new ChatComponentTranslation("gameMode.changed", new Object[0]));
+			entityplayer.sendMessage(new ChatComponentTranslation("gameMode.changed", new Object[0]));
 		}
 
 		IChatComponent ichatcomponent = new ChatComponentTranslation("gameMode." + worldsettings$gametype.getName(), new Object[0]);

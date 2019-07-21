@@ -65,8 +65,8 @@ public class CommandMessage extends CommandBase
 		ChatComponentTranslation chatcomponenttranslation1 = new ChatComponentTranslation("commands.message.display.outgoing", new Object[] {entityplayer.getDisplayName(), ichatcomponent.createCopy()});
 		chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.GRAY).setItalic(Boolean.TRUE);
 		chatcomponenttranslation1.getChatStyle().setColor(EnumChatFormatting.GRAY).setItalic(Boolean.TRUE);
-		entityplayer.addChatMessage(chatcomponenttranslation);
-		sender.addChatMessage(chatcomponenttranslation1);
+		entityplayer.sendMessage(chatcomponenttranslation);
+		sender.sendMessage(chatcomponenttranslation1);
 	}
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)

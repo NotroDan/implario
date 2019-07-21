@@ -6,7 +6,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
-public class VCommandSet extends CommandBase {
+public class CommandSet extends CommandBase {
     @Override
     public String getCommandName() {
         return "set";
@@ -20,7 +20,9 @@ public class VCommandSet extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         BlockPos pos = sender.getCommandSenderEntity().getPosition();
-        System.out.println("втф лол");
+        long time = System.currentTimeMillis();
         new Selection(pos.add(-1, -1, -1), pos.add(1,1, 1)).set(sender.getEntityWorld(), Blocks.cobblestone.getDefaultState());
+        long time0 = System.currentTimeMillis();
+        sender.sendMessage("§7> §aОперация выполнена за §l" + (time0 - time) + "§a мс.");
     }
 }

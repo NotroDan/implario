@@ -1,4 +1,4 @@
-package net.minecraft.client.gui.ingame;
+package net.minecraft.client.gui.ingame.hotbar;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.MC;
@@ -6,6 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.element.Colors;
+import net.minecraft.client.gui.ingame.GuiIngame;
+import net.minecraft.client.gui.ingame.Module;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -231,7 +233,7 @@ public class ModulePlayerStats implements Module {
 		} else if (entity instanceof EntityLivingBase) {
 			Profiler.in.endStartSection("mountHealth");
 			EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
-			int l7 = (int) Math.ceil((double) entitylivingbase.getHealth());
+			int l7 = (int) Math.ceil(entitylivingbase.getHealth());
 			float f3 = entitylivingbase.getMaxHealth();
 			int l6 = (int) (f3 + 0.5F) / 2;
 

@@ -1,6 +1,5 @@
 package net.minecraft.command;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.util.List;
@@ -95,7 +94,7 @@ public class CommandSpreadPlayers extends CommandBase
 		{
 			throw new EntityNotFoundException();
 		}
-		sender.addChatMessage(new ChatComponentTranslation("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), new Object[] {
+		sender.sendMessage(new ChatComponentTranslation("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), new Object[] {
 				list.size(), d3, d0,
 				d1,
 				d2
@@ -121,7 +120,7 @@ public class CommandSpreadPlayers extends CommandBase
 
         if (acommandspreadplayers$position.length > 1)
         {
-            p_110669_1_.addChatMessage(new ChatComponentTranslation("commands.spreadplayers.info." + (p_110669_9_ ? "teams" : "players"), new Object[] {String.format("%.2f", new Object[]{d4}),
+            p_110669_1_.sendMessage(new ChatComponentTranslation("commands.spreadplayers.info." + (p_110669_9_ ? "teams" : "players"), new Object[] {String.format("%.2f", new Object[]{d4}),
 					i
 			}));
         }

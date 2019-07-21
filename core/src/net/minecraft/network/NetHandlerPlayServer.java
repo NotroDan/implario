@@ -1070,7 +1070,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		}
 		if ("MC|AdvCdm".equals(packetIn.getChannelName())) {
 			if (!this.serverController.isCommandBlockEnabled()) {
-				this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notEnabled"));
+				this.playerEntity.sendMessage(new ChatComponentTranslation("advMode.notEnabled"));
 			} else if (this.playerEntity.canCommandSenderUseCommand(2, "") && this.playerEntity.capabilities.isCreativeMode) {
 				PacketBuffer packetbuffer = packetIn.getBufferData();
 
@@ -1104,7 +1104,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 						}
 
 						commandblocklogic.updateCommand();
-						this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.setCommand.success", s1));
+						this.playerEntity.sendMessage(new ChatComponentTranslation("advMode.setCommand.success", s1));
 					}
 				} catch (Exception exception1) {
 					logger.error("Couldn\'t set command block", exception1);
@@ -1112,7 +1112,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					packetbuffer.release();
 				}
 			} else {
-				this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notAllowed"));
+				this.playerEntity.sendMessage(new ChatComponentTranslation("advMode.notAllowed"));
 			}
 		} else if ("MC|Beacon".equals(packetIn.getChannelName())) {
 			if (this.playerEntity.openContainer instanceof ContainerBeacon) {

@@ -749,7 +749,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	/**
 	 * Send a chat message to the CommandSender
 	 */
-	public void addChatMessage(IChatComponent component) {
+	public void sendMessage(IChatComponent component) {
 		logger.info(component.getUnformattedText());
 	}
 

@@ -1,4 +1,4 @@
-package net.minecraft.client.gui.ingame;
+package net.minecraft.client.gui.ingame.hotbar;
 
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
@@ -7,6 +7,8 @@ import net.minecraft.client.gui.element.Colors;
 import net.minecraft.client.gui.element.RenderElement;
 import net.minecraft.client.gui.element.RenderRec;
 import net.minecraft.client.gui.element.RenderRunnable;
+import net.minecraft.client.gui.ingame.GuiIngame;
+import net.minecraft.client.gui.ingame.Module;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.Settings;

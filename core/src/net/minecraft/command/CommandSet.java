@@ -15,6 +15,6 @@ public class CommandSet extends CommandBase{
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        sender.addChatMessage(new ChatComponentText("Hello"));
+        sender.sendMessage(new ChatComponentText("Hello"));
     }
 }

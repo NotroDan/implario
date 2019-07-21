@@ -480,7 +480,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	/**
 	 * Send a chat message to the CommandSender
 	 */
-	public void addChatMessage(IChatComponent component) {
+	public void sendMessage(IChatComponent component) {
 		this.mc.ingameGUI.getChatGUI().printChatMessage(component);
 	}
 

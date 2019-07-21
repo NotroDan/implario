@@ -2294,7 +2294,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	/**
 	 * Send a chat message to the CommandSender
 	 */
-	public void addChatMessage(IChatComponent component) {
+	public void sendMessage(IChatComponent component) {
 	}
 
 	/**

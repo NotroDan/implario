@@ -22,7 +22,7 @@ public class WorldEdit extends Datapack {
 
     @Override
     public void init() {
-        registrar.regCommand(new VCommandSet());
+        registrar.regCommand(new CommandSet());
     }
 
     @Override

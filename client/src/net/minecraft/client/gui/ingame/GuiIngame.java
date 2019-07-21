@@ -42,9 +42,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GuiIngame extends Gui {
-	static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
+	public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
 	private final Minecraft mc;
-	final RenderItem itemRenderer;
+	public final RenderItem itemRenderer;
 
 	/**
 	 * ChatGUI instance that retains all previous chat data
@@ -78,7 +78,7 @@ public class GuiIngame extends Gui {
 	/**
 	 * The spectator GUI for this in-game GUI instance
 	 */
-	final GuiSpectator spectatorGui;
+	public final GuiSpectator spectatorGui;
 	private final GuiPlayerTabOverlay overlayPlayerList;
 	private int titleTicks;
 	private String title = "";

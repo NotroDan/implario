@@ -79,7 +79,7 @@ public class CommandClearInventory extends CommandBase
 		}
 		if (j == 0)
 		{
-			sender.addChatMessage(new ChatComponentTranslation("commands.clear.testing", new Object[] {entityplayermp.getName(), k}));
+			sender.sendMessage(new ChatComponentTranslation("commands.clear.testing", new Object[] {entityplayermp.getName(), k}));
 		}
 		else
 		{

@@ -15,7 +15,10 @@ public class SimpleDatapackLoader extends DatapackLoader {
 		return datapack;
 	}
 
-
+	@Override
+	public byte[] read(String name) {
+		throw new UnsupportedOperationException("Unable to read resource from simple datapack. Requested resource is '" + name + "'");
+	}
 
 	@Override
 	public void close() {}

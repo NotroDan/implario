@@ -151,7 +151,7 @@ public class CommandWorldBorder extends CommandBase {
 
 			double d7 = worldborder.getDiameter();
 			sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, MathHelper.floor_double(d7 + 0.5D));
-			sender.addChatMessage(new ChatComponentTranslation("commands.worldborder.get.success", String.format("%.0f", d7)));
+			sender.sendMessage(new ChatComponentTranslation("commands.worldborder.get.success", String.format("%.0f", d7)));
 		}
 	}
 

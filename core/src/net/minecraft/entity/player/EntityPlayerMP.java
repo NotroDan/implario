@@ -886,7 +886,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	/**
 	 * Send a chat message to the CommandSender
 	 */
-	public void addChatMessage(IChatComponent component) {
+	public void sendMessage(IChatComponent component) {
 		this.playerNetServerHandler.sendPacket(new S02PacketChat(component));
 	}
 

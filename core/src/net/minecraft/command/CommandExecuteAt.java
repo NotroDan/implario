@@ -83,9 +83,9 @@ public class CommandExecuteAt extends CommandBase
 			{
 				return entity.getDisplayName();
 			}
-			public void addChatMessage(IChatComponent component)
+			public void sendMessage(IChatComponent component)
 			{
-				sender.addChatMessage(component);
+				sender.sendMessage(component);
 			}
 			public boolean canCommandSenderUseCommand(int permLevel, String commandName)
 			{

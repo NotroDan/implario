@@ -29,7 +29,7 @@ public class CommandSaveAll extends CommandBase {
 	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
-		sender.addChatMessage(new ChatComponentTranslation("commands.save.start"));
+		sender.sendMessage(new ChatComponentTranslation("commands.save.start"));
 
 		if (minecraftserver.getConfigurationManager() != null) {
 			minecraftserver.getConfigurationManager().saveAllPlayerData();
@@ -45,7 +45,7 @@ public class CommandSaveAll extends CommandBase {
 				
 			}
 			if (args.length > 0 && "flush".equals(args[0])) {
-				sender.addChatMessage(new ChatComponentTranslation("commands.save.flushStart"));
+				sender.sendMessage(new ChatComponentTranslation("commands.save.flushStart"));
 
 				for (WorldServer world : minecraftserver.getWorlds()) {
 					if (world == null) continue;
@@ -54,7 +54,7 @@ public class CommandSaveAll extends CommandBase {
 					world.saveChunkData();
 					world.disableLevelSaving = flag1;
 				}
-				sender.addChatMessage(new ChatComponentTranslation("commands.save.flushEnd"));
+				sender.sendMessage(new ChatComponentTranslation("commands.save.flushEnd"));
 			}
 		} catch (MinecraftException minecraftexception) {
 			notifyOperators(sender, this, "commands.save.failed", minecraftexception.getMessage());

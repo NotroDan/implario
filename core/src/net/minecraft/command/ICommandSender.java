@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;
 
 public interface ICommandSender
@@ -21,7 +22,14 @@ public interface ICommandSender
     /**
      * Send a chat message to the CommandSender
      */
-    void addChatMessage(IChatComponent component);
+    void sendMessage(IChatComponent component);
+
+	/**
+     * Send a chat message to the CommandSender
+	 */
+	default void sendMessage(String text) {
+    	sendMessage(new ChatComponentText(text));
+	}
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not

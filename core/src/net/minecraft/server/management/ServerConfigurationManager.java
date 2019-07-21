@@ -648,7 +648,7 @@ public abstract class ServerConfigurationManager {
 				EntityPlayerMP entityplayermp = this.getPlayerByUsername(s);
 
 				if (entityplayermp != null && entityplayermp != player) {
-					entityplayermp.addChatMessage(message);
+					entityplayermp.sendMessage(message);
 				}
 			}
 		}
@@ -664,7 +664,7 @@ public abstract class ServerConfigurationManager {
 				EntityPlayerMP entityplayermp = this.playerEntityList.get(i);
 
 				if (entityplayermp.getTeam() != team) {
-					entityplayermp.addChatMessage(message);
+					entityplayermp.sendMessage(message);
 				}
 			}
 		}
@@ -911,7 +911,7 @@ public abstract class ServerConfigurationManager {
 	}
 
 	public void sendChatMsgImpl(IChatComponent component, boolean isChat) {
-		this.mcServer.addChatMessage(component);
+		this.mcServer.sendMessage(component);
 		byte b0 = (byte) (isChat ? 1 : 0);
 		this.sendPacketToAllPlayers(new S02PacketChat(component, b0));
 	}

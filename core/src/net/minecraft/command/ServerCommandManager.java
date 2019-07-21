@@ -2,13 +2,10 @@ package net.minecraft.command;
 
 import net.minecraft.command.server.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.resources.Registrar;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
-
-import java.util.List;
 
 public class ServerCommandManager extends CommandHandler implements IAdminCommand {
 	public ServerCommandManager() {
@@ -101,14 +98,14 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 					boolean flag1 = sender instanceof MinecraftServer && MinecraftServer.getServer().opsSeeConsole();
 
 					if (flag1 || !(sender instanceof MinecraftServer)) {
-						entityplayer.addChatMessage(ichatcomponent);
+						entityplayer.sendMessage(ichatcomponent);
 					}
 				}
 			}
 		}
 
 		if (sender != minecraftserver && minecraftserver.getEntityWorld().getGameRules().getBoolean("logAdminCommands")) {
-			minecraftserver.addChatMessage(ichatcomponent);
+			minecraftserver.sendMessage(ichatcomponent);
 		}
 
 		boolean flag3 = minecraftserver.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback");
@@ -118,7 +115,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		}
 
 		if ((flags & 1) != 1 && flag3 || sender instanceof MinecraftServer)
-			sender.addChatMessage(new ChatComponentTranslation(msgFormat, msgParams));
+			sender.sendMessage(new ChatComponentTranslation(msgFormat, msgParams));
 	}
 
 }

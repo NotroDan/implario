@@ -59,7 +59,7 @@ public class TileEntitySign extends TileEntity
             {
                 return new ChatComponentText(this.getName());
             }
-            public void addChatMessage(IChatComponent component)
+            public void sendMessage(IChatComponent component)
             {
             }
             public boolean canCommandSenderUseCommand(int permLevel, String commandName)
@@ -173,7 +173,7 @@ public class TileEntitySign extends TileEntity
             {
                 return playerIn.getDisplayName();
             }
-            public void addChatMessage(IChatComponent component)
+            public void sendMessage(IChatComponent component)
             {
             }
             public boolean canCommandSenderUseCommand(int permLevel, String commandName)

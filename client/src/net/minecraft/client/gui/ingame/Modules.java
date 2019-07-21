@@ -1,5 +1,8 @@
 package net.minecraft.client.gui.ingame;
 
+import net.minecraft.client.gui.ingame.hotbar.ModuleHotbar;
+import net.minecraft.client.gui.ingame.hotbar.ModulePlayerStats;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

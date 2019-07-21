@@ -319,7 +319,7 @@ public class CommandScoreboard extends CommandBase
 			{
 				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(commandexception.getMessage(), commandexception.getErrorObjects());
 				chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
-				p_175780_1_.addChatMessage(chatcomponenttranslation);
+				p_175780_1_.sendMessage(chatcomponenttranslation);
 			}
 		}
 
@@ -582,8 +582,8 @@ public class CommandScoreboard extends CommandBase
             ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.scoreboard.teams.list.player.count", new Object[] {
 					collection.size(), scoreplayerteam.getRegisteredName()});
             chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.DARK_GREEN);
-            p_147186_1_.addChatMessage(chatcomponenttranslation);
-            p_147186_1_.addChatMessage(new ChatComponentText(joinNiceString(collection.toArray())));
+            p_147186_1_.sendMessage(chatcomponenttranslation);
+            p_147186_1_.sendMessage(new ChatComponentText(joinNiceString(collection.toArray())));
         }
         else
         {
@@ -597,11 +597,11 @@ public class CommandScoreboard extends CommandBase
 
             ChatComponentTranslation chatcomponenttranslation1 = new ChatComponentTranslation("commands.scoreboard.teams.list.count", new Object[] {collection1.size()});
             chatcomponenttranslation1.getChatStyle().setColor(EnumChatFormatting.DARK_GREEN);
-            p_147186_1_.addChatMessage(chatcomponenttranslation1);
+            p_147186_1_.sendMessage(chatcomponenttranslation1);
 
             for (ScorePlayerTeam scoreplayerteam1 : collection1)
             {
-                p_147186_1_.addChatMessage(new ChatComponentTranslation("commands.scoreboard.teams.list.entry", new Object[] {scoreplayerteam1.getRegisteredName(), scoreplayerteam1.getTeamName(),
+                p_147186_1_.sendMessage(new ChatComponentTranslation("commands.scoreboard.teams.list.entry", new Object[] {scoreplayerteam1.getRegisteredName(), scoreplayerteam1.getTeamName(),
 						scoreplayerteam1.getMembershipCollection().size()
 				}));
             }
@@ -789,11 +789,11 @@ public class CommandScoreboard extends CommandBase
         }
 		ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.scoreboard.objectives.list.count", new Object[] {collection.size()});
 		chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.DARK_GREEN);
-		p_147196_1_.addChatMessage(chatcomponenttranslation);
+		p_147196_1_.sendMessage(chatcomponenttranslation);
 
 		for (ScoreObjective scoreobjective : collection)
 		{
-			p_147196_1_.addChatMessage(new ChatComponentTranslation("commands.scoreboard.objectives.list.entry", new Object[] {scoreobjective.getName(), scoreobjective.getDisplayName(), scoreobjective.getCriteria().getName()}));
+			p_147196_1_.sendMessage(new ChatComponentTranslation("commands.scoreboard.objectives.list.entry", new Object[] {scoreobjective.getName(), scoreobjective.getDisplayName(), scoreobjective.getCriteria().getName()}));
 		}
 	}
 
@@ -842,11 +842,11 @@ public class CommandScoreboard extends CommandBase
 
             ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.scoreboard.players.list.player.count", new Object[] {map.size(), s});
             chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.DARK_GREEN);
-            p_147195_1_.addChatMessage(chatcomponenttranslation);
+            p_147195_1_.sendMessage(chatcomponenttranslation);
 
             for (Score score : map.values())
             {
-                p_147195_1_.addChatMessage(new ChatComponentTranslation("commands.scoreboard.players.list.player.entry", new Object[] {score.getScorePoints(), score.getObjective().getDisplayName(), score.getObjective().getName()}));
+                p_147195_1_.sendMessage(new ChatComponentTranslation("commands.scoreboard.players.list.player.entry", new Object[] {score.getScorePoints(), score.getObjective().getDisplayName(), score.getObjective().getName()}));
             }
         }
         else
@@ -861,8 +861,8 @@ public class CommandScoreboard extends CommandBase
 
             ChatComponentTranslation chatcomponenttranslation1 = new ChatComponentTranslation("commands.scoreboard.players.list.count", new Object[] {collection.size()});
             chatcomponenttranslation1.getChatStyle().setColor(EnumChatFormatting.DARK_GREEN);
-            p_147195_1_.addChatMessage(chatcomponenttranslation1);
-            p_147195_1_.addChatMessage(new ChatComponentText(joinNiceString(collection.toArray())));
+            p_147195_1_.sendMessage(chatcomponenttranslation1);
+            p_147195_1_.sendMessage(new ChatComponentText(joinNiceString(collection.toArray())));
         }
     }
 

@@ -175,7 +175,7 @@ public abstract class CommandBlockLogic implements ICommandSender {
 	/**
 	 * Send a chat message to the CommandSender
 	 */
-	public void addChatMessage(IChatComponent component) {
+	public void sendMessage(IChatComponent component) {
 		if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isClientSide) {
 			this.lastOutput = new ChatComponentText("[" + timestampFormat.format(new Date()) + "] ").appendSibling(component);
 			this.updateCommand();

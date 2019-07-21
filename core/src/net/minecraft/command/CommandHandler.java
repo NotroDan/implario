@@ -1,6 +1,5 @@
 package net.minecraft.command;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.util.List;
@@ -38,7 +37,7 @@ public class CommandHandler implements ICommandManager {
         {
             ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.generic.notFound", new Object[0]);
             chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
-            sender.addChatMessage(chatcomponenttranslation);
+            sender.sendMessage(chatcomponenttranslation);
         }
         else if (icommand.canCommandSenderUseCommand(sender))
         {
@@ -74,7 +73,7 @@ public class CommandHandler implements ICommandManager {
         {
             ChatComponentTranslation chatcomponenttranslation1 = new ChatComponentTranslation("commands.generic.permission", new Object[0]);
             chatcomponenttranslation1.getChatStyle().setColor(EnumChatFormatting.RED);
-            sender.addChatMessage(chatcomponenttranslation1);
+            sender.sendMessage(chatcomponenttranslation1);
         }
 
         sender.setCommandStat(CommandResultStats.Type.SUCCESS_COUNT, j);
@@ -92,19 +91,19 @@ public class CommandHandler implements ICommandManager {
         {
             ChatComponentTranslation chatcomponenttranslation2 = new ChatComponentTranslation("commands.generic.usage", new Object[] {new ChatComponentTranslation(wrongusageexception.getMessage(), wrongusageexception.getErrorObjects())});
             chatcomponenttranslation2.getChatStyle().setColor(EnumChatFormatting.RED);
-            sender.addChatMessage(chatcomponenttranslation2);
+            sender.sendMessage(chatcomponenttranslation2);
         }
         catch (CommandException commandexception)
         {
             ChatComponentTranslation chatcomponenttranslation1 = new ChatComponentTranslation(commandexception.getMessage(), commandexception.getErrorObjects());
             chatcomponenttranslation1.getChatStyle().setColor(EnumChatFormatting.RED);
-            sender.addChatMessage(chatcomponenttranslation1);
+            sender.sendMessage(chatcomponenttranslation1);
         }
         catch (Throwable var9)
         {
             ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.generic.exception", new Object[0]);
             chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
-            sender.addChatMessage(chatcomponenttranslation);
+            sender.sendMessage(chatcomponenttranslation);
             logger.warn("Couldn\'t process command: \'" + input + "\'");
         }
 

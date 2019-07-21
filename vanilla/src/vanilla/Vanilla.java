@@ -18,6 +18,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.Domain;
+import net.minecraft.resources.load.SimpleDatapackLoader;
 import net.minecraft.world.World;
 import vanilla.block.BlockMobSpawner;
 import vanilla.block.VBlockMushroom;
@@ -61,7 +62,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 
 	public Vanilla() {
 		super(VANILLA);
-		Datapacks.initSingleDatapack(new WorldEdit());
+		Datapacks.load(new SimpleDatapackLoader(new WorldEdit()), "worldedit");
 	}
 
 	@Override

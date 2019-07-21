@@ -50,13 +50,13 @@ public class CommandListBans extends CommandBase
     {
         if (args.length >= 1 && args[0].equalsIgnoreCase("ips"))
         {
-            sender.addChatMessage(new ChatComponentTranslation("commands.banlist.ips", new Object[] {MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getKeys().length}));
-            sender.addChatMessage(new ChatComponentText(joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getKeys())));
+            sender.sendMessage(new ChatComponentTranslation("commands.banlist.ips", new Object[] {MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getKeys().length}));
+            sender.sendMessage(new ChatComponentText(joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getKeys())));
         }
         else
         {
-            sender.addChatMessage(new ChatComponentTranslation("commands.banlist.players", new Object[] {MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getKeys().length}));
-            sender.addChatMessage(new ChatComponentText(joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getKeys())));
+            sender.sendMessage(new ChatComponentTranslation("commands.banlist.players", new Object[] {MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getKeys().length}));
+            sender.sendMessage(new ChatComponentText(joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getKeys())));
         }
     }
 
