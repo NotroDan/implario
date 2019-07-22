@@ -103,87 +103,90 @@ public class ModulePlayerStats implements Module {
 		boolean wide = false;
 		int hm = wide ? 2 : 1; // Множитель высоты
 
-		int y2 = y1 + 15;
-		int elements = (int) maxHealth + (int) absorption;
-		int height = MathHelper.ceiling_float_int(elements / 20.0F) * 8;
-		if (wide) height = height * 2 - 2;
-		Gui.drawRect(leftBorder, y2 - height, leftBorder + 84, y2 + 1, Colors.DARK);
-		Gui.drawRect(leftBorder + 71, y2 - 8 * hm + 1, leftBorder + 83, y2, Colors.GRAY);
-		for (int i = 0; i < elements; i++) {
-			boolean odd = (i & 1) != 0;
-			int color = i >= maxHealth ? Colors.YELLOW : i < health ? Colors.RED : Colors.GRAY;
-			int heart = i % 20;
-			int x = (heart >> 1) * 7;
-			int y = (odd ? 1 + 3 * hm : 0) + i / 20 * 8 * hm;
-			Gui.drawRect(leftBorder + 1 + x, y2 - y - 3 * hm, leftBorder + 1 + x + 6, y2 - y, color);
-		}
-		String s = String.valueOf(health + (int) absorption);
-		MC.FR.drawString(s, leftBorder + 77 - MC.FR.getStringWidth(s) / 2, y2 - (wide ? 14 : 8), absorption == 0 ? Colors.RED : Colors.YELLOW);
-		if (wide) MC.FR.drawString("HP", (leftBorder + 74), (y2 - 8), Colors.RED);
-
-
-		MC.bindTexture(Gui.icons);
-
-		G.color(1, 1, 1, 1);
-		if (false) for (int i = MathHelper.ceiling_float_int((maxHealth + absorption) / 2.0F) - 1; i >= 0; --i) {
-			int k5 = 16;
-
-			if (entityplayer.isPotionActive(Potion.poison)) k5 += 36;
-			else if (entityplayer.isPotionActive(Potion.wither)) k5 += 72;
-
-			byte b0 = 0;
-
-			if (flag) {
-				b0 = 1;
+		if (false) {
+			int y2 = y1 + 15;
+			int elements = (int) maxHealth + (int) absorption;
+			int height = MathHelper.ceiling_float_int(elements / 20.0F) * 8;
+			if (wide) height = height * 2 - 2;
+			Gui.drawRect(leftBorder, y2 - height, leftBorder + 84, y2 + 1, Colors.DARK);
+			Gui.drawRect(leftBorder + 71, y2 - 8 * hm + 1, leftBorder + 83, y2, Colors.GRAY);
+			for (int i = 0; i < elements; i++) {
+				boolean odd = (i & 1) != 0;
+				int color = i >= maxHealth ? Colors.YELLOW : i < health ? Colors.RED : Colors.GRAY;
+				int heart = i % 20;
+				int x = (heart >> 1) * 7;
+				int y = (odd ? 1 + 3 * hm : 0) + i / 20 * 8 * hm;
+				Gui.drawRect(leftBorder + 1 + x, y2 - y - 3 * hm, leftBorder + 1 + x + 6, y2 - y, color);
 			}
+			String s = String.valueOf(health + (int) absorption);
+			MC.FR.drawString(s, leftBorder + 77 - MC.FR.getStringWidth(s) / 2, y2 - (wide ? 14 : 8), absorption == 0 ? Colors.RED : Colors.YELLOW);
+			if (wide) MC.FR.drawString("HP", (leftBorder + 74), (y2 - 8), Colors.RED);
+		}else {
 
-			int k3 = MathHelper.ceiling_float_int((float) (i + 1) / 10.0F) - 1;
-			int l3 = leftBorder + i % 10 * 8;
-			int i4 = y1 - k3 * i2;
+			MC.bindTexture(Gui.icons);
 
-			if (health <= 4) {
-				i4 += rand.nextInt(2);
-			}
+			G.color(1, 1, 1, 1);
+			for (int i = MathHelper.ceiling_float_int((maxHealth + absorption) / 2.0F) - 1; i >= 0; --i) {
+				int k5 = 16;
 
-			if (i == regenerationWobble) {
-				i4 -= 2;
-			}
+				if (entityplayer.isPotionActive(Potion.poison)) k5 += 36;
+				else if (entityplayer.isPotionActive(Potion.wither)) k5 += 72;
 
-			byte b1 = 0;
+				byte b0 = 0;
 
-			if (entityplayer.worldObj.getWorldInfo().isHardcoreModeEnabled()) {
-				b1 = 5;
-			}
-
-			gui.drawTexturedModalRect(l3, i4, 16 + b0 * 9, 9 * b1, 9, 9);
-
-			if (flag) {
-				if (i * 2 + 1 < j) {
-					gui.drawTexturedModalRect(l3, i4, k5 + 54, 9 * b1, 9, 9);
+				if (flag) {
+					b0 = 1;
 				}
 
-				if (i * 2 + 1 == j) {
-					gui.drawTexturedModalRect(l3, i4, k5 + 63, 9 * b1, 9, 9);
-				}
-			}
+				int k3 = MathHelper.ceiling_float_int((float) (i + 1) / 10.0F) - 1;
+				int l3 = leftBorder + i % 10 * 8;
+				int i4 = y1 - k3 * i2;
 
-			if (f2 <= 0.0F) {
-				if (i * 2 + 1 < health) {
-					gui.drawTexturedModalRect(l3, i4, k5 + 36, 9 * b1, 9, 9);
+				if (health <= 4) {
+					i4 += rand.nextInt(2);
 				}
 
-				if (i * 2 + 1 == health) {
-					gui.drawTexturedModalRect(l3, i4, k5 + 45, 9 * b1, 9, 9);
+				if (i == regenerationWobble) {
+					i4 -= 2;
 				}
-			} else {
-				if (f2 == absorption && absorption % 2.0F == 1.0F) {
-					gui.drawTexturedModalRect(l3, i4, k5 + 153, 9 * b1, 9, 9);
+
+				byte b1 = 0;
+
+				if (entityplayer.worldObj.getWorldInfo().isHardcoreModeEnabled()) {
+					b1 = 5;
+				}
+
+				gui.drawTexturedModalRect(l3, i4, 16 + b0 * 9, 9 * b1, 9, 9);
+
+				if (flag) {
+					if (i * 2 + 1 < j) {
+						gui.drawTexturedModalRect(l3, i4, k5 + 54, 9 * b1, 9, 9);
+					}
+
+					if (i * 2 + 1 == j) {
+						gui.drawTexturedModalRect(l3, i4, k5 + 63, 9 * b1, 9, 9);
+					}
+				}
+
+				if (f2 <= 0.0F) {
+					if (i * 2 + 1 < health) {
+						gui.drawTexturedModalRect(l3, i4, k5 + 36, 9 * b1, 9, 9);
+					}
+
+					if (i * 2 + 1 == health) {
+						gui.drawTexturedModalRect(l3, i4, k5 + 45, 9 * b1, 9, 9);
+					}
 				} else {
-					gui.drawTexturedModalRect(l3, i4, k5 + 144, 9 * b1, 9, 9);
-				}
+					if (f2 == absorption && absorption % 2.0F == 1.0F) {
+						gui.drawTexturedModalRect(l3, i4, k5 + 153, 9 * b1, 9, 9);
+					} else {
+						gui.drawTexturedModalRect(l3, i4, k5 + 144, 9 * b1, 9, 9);
+					}
 
-				f2 -= 2.0F;
+					f2 -= 2.0F;
+				}
 			}
+
 		}
 
 		Entity entity = entityplayer.ridingEntity;

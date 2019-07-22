@@ -19,6 +19,7 @@ public class CommandSet extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+        if(true)return;
         BlockPos pos = sender.getCommandSenderEntity().getPosition();
         long time = System.currentTimeMillis();
         new Selection(pos.add(-1, -1, -1), pos.add(1,1, 1)).set(sender.getEntityWorld(), Blocks.cobblestone.getDefaultState());
