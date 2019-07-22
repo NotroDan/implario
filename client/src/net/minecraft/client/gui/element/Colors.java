@@ -8,5 +8,6 @@ public class Colors {
         LIGHT = 0xFF404040,
         YELLOW = 0xFFFFA114,
         RED = 0xFFE75480,
-        BLACK = 0xFF000000;
+        BLACK = 0xFF000000,
+        WHITE = 0xFFEEEEEE;
 }
