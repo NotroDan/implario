@@ -15,6 +15,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.*;
+import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.events.player.PlayerInteractEvent;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -334,9 +336,16 @@ public class PlayerControllerMP {
 		if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			IBlockState iblockstate = worldIn.getBlockState(hitPos);
 
-			if ((!player.isSneaking() || player.getHeldItem() == null) && iblockstate.getBlock().onBlockActivated(worldIn, hitPos, iblockstate, player, side, f, f1, f2)) {
-				flag = true;
+			if (Events.eventPlayerInteract.isUseful()) {
+				PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, heldStack, hitPos, iblockstate, side,
+						(float) hitVec.xCoord, (float) hitVec.yCoord, (float) hitVec.zCoord);
+				Events.eventPlayerInteract.call(event);
+				if (event.isCancelled()) return true;
 			}
+
+			boolean preventBlockActivation = player.isSneaking() && player.getHeldItem() != null;
+			if (!preventBlockActivation && iblockstate.getBlock().onBlockActivated(worldIn, hitPos, iblockstate, player, side, f, f1, f2))
+				flag = true;
 
 			if (!flag && heldStack != null && heldStack.getItem() instanceof ItemBlock) {
 				ItemBlock itemblock = (ItemBlock) heldStack.getItem();

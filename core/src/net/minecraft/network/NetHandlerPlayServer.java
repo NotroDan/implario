@@ -27,9 +27,8 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
-import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Events;
-import net.minecraft.resources.event.events.PlayerEntityActionEvent;
+import net.minecraft.resources.event.events.player.PlayerActionEvent;
 import net.minecraft.resources.event.events.player.PlayerMoveEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Profiler;
@@ -705,7 +704,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 			case RIDING_JUMP:
 			case OPEN_INVENTORY:
-				E.call(new PlayerEntityActionEvent(playerEntity, packetIn.getAction(), packetIn.getAuxData()));
+				if (Events.eventPlayerAction.isUseful())
+					Events.eventPlayerAction.call(new PlayerActionEvent(playerEntity, packetIn.getAction(), packetIn.getAuxData()));
 				break;
 
 			default:

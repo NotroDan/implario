@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+import net.minecraft.util.Govnokod;
 
 public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
 {
@@ -66,6 +67,7 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
         return this.auxData;
     }
 
+    @Govnokod(levelOfPizdec = "max")
     public static enum Action
     {
         START_SNEAKING,

@@ -1,5 +1,6 @@
 package vanilla;
 
+import net.minecraft.block.BlockFence;
 import net.minecraft.block.FenceClickedEvent;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -12,6 +13,7 @@ import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.resources.Registrar;
@@ -19,10 +21,7 @@ import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
-import net.minecraft.resources.event.events.player.PlayerFallEvent;
-import net.minecraft.resources.event.events.player.PlayerItemDropEvent;
-import net.minecraft.resources.event.events.player.PlayerMoveEvent;
-import net.minecraft.resources.event.events.player.PlayerTickEvent;
+import net.minecraft.resources.event.events.player.*;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
@@ -53,14 +52,13 @@ public class VEvents implements ServerSideLoadable {
 		Events.eventPlayerItemDrop.add(this::handleItemDrop);
 		Events.eventPlayerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat));
 		Events.eventPlayerSleep.add(new SleepChecker());
+		Events.eventPlayerAction.add(this::handleEntityAction);
+		Events.eventTrackerUpdate.add(this::handlerTrackerUpdate);
+		Events.eventProjectileHit.add(this::handleProjectileHit);
+		Events.eventPlayerEnderPearl.add(this::handlePlayerEnderPearl);
+		Events.eventBlockDrop.add(this::handleBlockDrop);
+		Events.eventPlayerInteract.add(this::handleInteract);
 
-
-		registrar.regListener(PlayerEntityActionEvent.class, this::handleEntityAction);
-		registrar.regListener(UpdateEntityToSpectatorEvent.class, this::handleEntityUpdateToSpectator);
-		registrar.regListener(ProjectileHitEvent.class, this::handleProjectileHit);
-		registrar.regListener(PlayerEnderPearlEvent.class, this::handlePlayerEnderPearl);
-		registrar.regListener(FenceClickedEvent.class, this::handleFenceClick);
-		registrar.regListener(BlockDropEvent.class, this::handleBlockDrop);
 	}
 
 	private void handleItemDrop(PlayerItemDropEvent e) {
@@ -161,24 +159,33 @@ public class VEvents implements ServerSideLoadable {
 
 	}
 
+	private void handleInteract(PlayerInteractEvent e) {
+		EntityPlayer p = e.getPlayer();
+		ItemStack item = p.getHeldItem();
+		if (item != null && p.isSneaking()) return;
+		if (e.getBlock().getBlock() instanceof BlockFence) {
+			ItemLead.attachToFence(e.getPlayer(), e.getWorld(), e.getPos());
+			e.setCancelled(true);
+		}
+	}
+
 	private void handleFenceClick(FenceClickedEvent e) {e.returnValue = ItemLead.attachToFence(e.getPlayer(), e.getWorld(), e.getPos());}
 
 	private void handleBlockDrop(BlockDropEvent e) {
 		World w = e.getWorld();
 		BlockPos pos = e.getPosition();
-		if (e.getBlock().getBlock() == Blocks.monster_egg) {
-			e.cancelDefaultDrop();
-			if (!w.isClientSide && w.getGameRules().getBoolean("doTileDrops")) {
-				EntitySilverfish entitysilverfish = new EntitySilverfish(w);
-				entitysilverfish.setLocationAndAngles((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
-				w.spawnEntityInWorld(entitysilverfish);
-				entitysilverfish.spawnExplosionParticle();
-			}
+		if (e.getBlock().getBlock() != Blocks.monster_egg) return;
+		e.cancelDefaultDrop();
+		if (!w.isClientSide && w.getGameRules().getBoolean("doTileDrops")) {
+			EntitySilverfish entitysilverfish = new EntitySilverfish(w);
+			entitysilverfish.setLocationAndAngles((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
+			w.spawnEntityInWorld(entitysilverfish);
+			entitysilverfish.spawnExplosionParticle();
 		}
 	}
 
 
-	private void handleEntityAction(PlayerEntityActionEvent e) {
+	private void handleEntityAction(PlayerActionEvent e) {
 		if (e.getAction() == C0BPacketEntityAction.Action.OPEN_INVENTORY)
 			if (e.getPlayer().ridingEntity instanceof EntityHorse)
 				((EntityHorse) e.getPlayer().ridingEntity).openGUI(e.getPlayer());
@@ -187,7 +194,7 @@ public class VEvents implements ServerSideLoadable {
 				((EntityHorse) e.getPlayer().ridingEntity).setJumpPower(e.getAux());
 	}
 
-	private void handleEntityUpdateToSpectator(UpdateEntityToSpectatorEvent e) {
+	private void handlerTrackerUpdate(TrackerUpdateEvent e) {
 		Entity entity = e.getTrackerEntry().trackedEntity;
 		if (!(entity instanceof VanillaEntity)) return;
 		VanillaEntity ve = (VanillaEntity) entity;
@@ -213,11 +220,11 @@ public class VEvents implements ServerSideLoadable {
 				t.worldObj.spawnEntityInWorld(entitychicken);
 			}
 		} else if (t instanceof EntitySnowball) {
-			if (e.getObject().entityHit != null) {
+			if (e.getBumpedInto().entityHit != null) {
 				int i = 0;
-				if (e.getObject().entityHit instanceof EntityBlaze) i = 3;
+				if (e.getBumpedInto().entityHit instanceof EntityBlaze) i = 3;
 
-				e.getObject().entityHit.attackEntityFrom(DamageSource.causeThrownDamage(e.getThrowable(), e.getThrowable().getThrower()), (float) i);
+				e.getBumpedInto().entityHit.attackEntityFrom(DamageSource.causeThrownDamage(e.getThrowable(), e.getThrowable().getThrower()), (float) i);
 			}
 		}
 	}

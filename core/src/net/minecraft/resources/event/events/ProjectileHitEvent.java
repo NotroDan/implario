@@ -1,25 +1,16 @@
 package net.minecraft.resources.event.events;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.resources.event.Event;
 import net.minecraft.util.MovingObjectPosition;
 
-public class ProjectileHitEvent extends Event {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class ProjectileHitEvent extends Event<ProjectileHitEvent> {
 
 	private final EntityThrowable throwable;
-	private final MovingObjectPosition object;
-
-	public ProjectileHitEvent(EntityThrowable throwable, MovingObjectPosition object) {
-		this.throwable = throwable;
-		this.object = object;
-	}
-
-	public MovingObjectPosition getObject() {
-		return object;
-	}
-
-	public EntityThrowable getThrowable() {
-		return throwable;
-	}
+	private final MovingObjectPosition bumpedInto;
 
 }
