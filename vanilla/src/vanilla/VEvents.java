@@ -52,8 +52,9 @@ public class VEvents implements ServerSideLoadable {
 		Events.eventPlayerJump.add(e -> e.getPlayer().triggerAchievement(StatList.jumpStat));
 		Events.eventPlayerItemDrop.add(this::handleItemDrop);
 		Events.eventPlayerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat));
+		Events.eventPlayerSleep.add(new SleepChecker());
 
-		registrar.regListener(TrySleepEvent.class, new SleepChecker());
+
 		registrar.regListener(PlayerEntityActionEvent.class, this::handleEntityAction);
 		registrar.regListener(UpdateEntityToSpectatorEvent.class, this::handleEntityUpdateToSpectator);
 		registrar.regListener(ProjectileHitEvent.class, this::handleProjectileHit);
