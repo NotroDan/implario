@@ -21,5 +21,7 @@ public class PlayerInteractEvent extends PlayerEvent<PlayerInteractEvent> {
 	private final EnumFacing side;
 	private final float hitX, hitY, hitZ;
 	private boolean cancelled;
+	private boolean sendToServer = true;
+	private boolean armSwing = true;
 
 }

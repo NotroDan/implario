@@ -704,6 +704,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 			case RIDING_JUMP:
 			case OPEN_INVENTORY:
+				System.out.println("Action: " + packetIn.getAction());
 				if (Events.eventPlayerAction.isUseful())
 					Events.eventPlayerAction.call(new PlayerActionEvent(playerEntity, packetIn.getAction(), packetIn.getAuxData()));
 				break;

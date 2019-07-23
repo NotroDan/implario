@@ -12,7 +12,6 @@ public enum Events {;
 	public static EventManager<BlockDropEvent>        eventBlockDrop        = new EventManager<>();
 
 	public static EventManager<PlayerMoveEvent>       eventPlayerMove       = new EventManager<>();
-	public static EventManager<PlayerItemUseEvent>    eventPlayerItemUse    = new EventManager<>();
 	public static EventManager<PlayerUpdateEvent>     eventPlayerUpdate     = new EventManager<>();
 	public static EventManager<PlayerTickEvent>       eventPlayerTick       = new EventManager<>();
 	public static EventManager<PlayerFallEvent>       eventPlayerFall       = new EventManager<>();

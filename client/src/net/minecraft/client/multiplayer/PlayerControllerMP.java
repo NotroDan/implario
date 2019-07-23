@@ -333,32 +333,40 @@ public class PlayerControllerMP {
 		if (!this.mc.theWorld.getWorldBorder().contains(hitPos)) {
 			return false;
 		}
+		boolean swingArm = true;
+		boolean sendToServer = true;
+		boolean cancelled = false;
 		if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			IBlockState iblockstate = worldIn.getBlockState(hitPos);
-
 			if (Events.eventPlayerInteract.isUseful()) {
 				PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, heldStack, hitPos, iblockstate, side,
 						(float) hitVec.xCoord, (float) hitVec.yCoord, (float) hitVec.zCoord);
 				Events.eventPlayerInteract.call(event);
-				if (event.isCancelled()) return true;
+				if (event.isCancelled()) {
+					cancelled = true;
+					sendToServer = event.isSendToServer();
+					swingArm = event.isArmSwing();
+				}
 			}
 
-			boolean preventBlockActivation = player.isSneaking() && player.getHeldItem() != null;
-			if (!preventBlockActivation && iblockstate.getBlock().onBlockActivated(worldIn, hitPos, iblockstate, player, side, f, f1, f2))
-				flag = true;
+			if (!cancelled) {
+				boolean preventBlockActivation = player.isSneaking() && player.getHeldItem() != null;
+				if (!preventBlockActivation && iblockstate.getBlock().onBlockActivated(worldIn, hitPos, iblockstate, player, side, f, f1, f2))
+					flag = true;
 
-			if (!flag && heldStack != null && heldStack.getItem() instanceof ItemBlock) {
-				ItemBlock itemblock = (ItemBlock) heldStack.getItem();
+				if (!flag && heldStack != null && heldStack.getItem() instanceof ItemBlock) {
+					ItemBlock itemblock = (ItemBlock) heldStack.getItem();
 
-				if (!itemblock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack)) {
-					return false;
+					if (!itemblock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack)) {
+						return false;
+					}
 				}
 			}
 		}
 
-		this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(hitPos, side.getIndex(), player.inventory.getCurrentItem(), f, f1, f2));
+		if (sendToServer) this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(hitPos, side.getIndex(), player.inventory.getCurrentItem(), f, f1, f2));
 
-		if (!flag && this.currentGameType != WorldSettings.GameType.SPECTATOR) {
+		if (!cancelled && !flag && this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			if (heldStack == null) {
 				return false;
 			}
@@ -372,7 +380,7 @@ public class PlayerControllerMP {
 			}
 			return heldStack.onItemUse(player, worldIn, hitPos, side, f, f1, f2);
 		}
-		return true;
+		return swingArm;
 	}
 
 	/**

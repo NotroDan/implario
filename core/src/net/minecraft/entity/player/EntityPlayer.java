@@ -460,7 +460,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	/**
 	 * set current crafting inventory back to the 2x2 square
 	 */
-	protected void closeScreen() {
+	public void closeScreen() {
 		this.openContainer = this.inventoryContainer;
 	}
 

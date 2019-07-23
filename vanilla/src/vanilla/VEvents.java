@@ -163,13 +163,13 @@ public class VEvents implements ServerSideLoadable {
 		EntityPlayer p = e.getPlayer();
 		ItemStack item = p.getHeldItem();
 		if (item != null && p.isSneaking()) return;
+		if (p.getEntityWorld().isClientSide) return;
 		if (e.getBlock().getBlock() instanceof BlockFence) {
 			ItemLead.attachToFence(e.getPlayer(), e.getWorld(), e.getPos());
 			e.setCancelled(true);
 		}
 	}
 
-	private void handleFenceClick(FenceClickedEvent e) {e.returnValue = ItemLead.attachToFence(e.getPlayer(), e.getWorld(), e.getPos());}
 
 	private void handleBlockDrop(BlockDropEvent e) {
 		World w = e.getWorld();

@@ -1,5 +1,6 @@
 package vanilla;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHugeMushroom;
 import net.minecraft.block.material.MapColor;
@@ -14,11 +15,18 @@ import net.minecraft.client.resources.ClientRegistrar;
 import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.S2DPacketOpenWindow;
+import net.minecraft.network.play.server.S3FPacketCustomPayload;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.load.SimpleDatapackLoader;
+import net.minecraft.util.Govnokod;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import vanilla.block.BlockMobSpawner;
 import vanilla.block.VBlockMushroom;
@@ -43,6 +51,8 @@ import vanilla.entity.boss.EntityDragon;
 import vanilla.entity.boss.EntityWither;
 import vanilla.entity.monster.*;
 import vanilla.entity.passive.*;
+import vanilla.inventory.ContainerHorseInventory;
+import vanilla.inventory.ContainerMerchant;
 import vanilla.item.*;
 import vanilla.tileentity.TileEntityMobSpawner;
 import vanilla.world.VanillaDimensionManager;
@@ -50,6 +60,7 @@ import vanilla.world.VanillaWorldService;
 import vanilla.world.WorldProviderEnd;
 import vanilla.world.WorldProviderHell;
 import vanilla.world.gen.WorldTypes;
+import vanilla.world.gen.feature.village.MerchantRecipeList;
 import vanilla.worldedit.WorldEdit;
 
 import static net.minecraft.block.Block.*;
@@ -156,14 +167,48 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		new VanillaIngameModules().load(registrar);
 	}
 
+	@Govnokod(levelOfPizdec = "Небезопасное прямое взаимодействие с полями")
 	private void registerGuis() {
 		registrar.registerIngameGui(IMerchant.class, (p, merchant, serverSide) -> {
-			if (!serverSide) {
+			if (serverSide) {
+
+				if (!(p instanceof EntityPlayerMP)) return;
+				EntityPlayerMP player = (EntityPlayerMP) p;
+				player.getNextWindowId();
+				player.openContainer = new ContainerMerchant(player.inventory, merchant, player.worldObj);
+				player.openContainer.windowId = player.currentWindowId;
+				player.openContainer.onCraftGuiOpened(player);
+				IInventory iinventory = ((ContainerMerchant) player.openContainer).getMerchantInventory();
+				IChatComponent ichatcomponent = merchant.getDisplayName();
+				player.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(player.currentWindowId, "minecraft:villager", ichatcomponent, iinventory.getSizeInventory()));
+				MerchantRecipeList merchantrecipelist = merchant.getRecipes(player);
+
+				if (merchantrecipelist != null) {
+					PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
+					packetbuffer.writeInt(player.currentWindowId);
+					merchantrecipelist.writeToBuf(packetbuffer);
+					player.playerNetServerHandler.sendPacket(new S3FPacketCustomPayload("MC|TrList", packetbuffer));
+				}
+
+			} else {
 				MC.displayGuiScreen(new GuiMerchant(p.inventory, merchant, p.worldObj));
 			}
 		});
 		registrar.registerIngameGui(HorseInv.class, (p, horseinv, serverSide) -> {
-			if (!serverSide) {
+			if (serverSide) {
+				if (p.openContainer != p.inventoryContainer) {
+					p.closeScreen();
+				}
+				if (!(p instanceof EntityPlayerMP)) return;
+				EntityPlayerMP player = (EntityPlayerMP) p;
+				((EntityPlayerMP) p).getNextWindowId();
+				IInventory inv = horseinv.inv;
+				player.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(player.currentWindowId, "EntityHorse", inv.getDisplayName(), inv.getSizeInventory(),
+						horseinv.horse.getEntityId()));
+				player.openContainer = new ContainerHorseInventory(player.inventory, inv, horseinv.horse, player);
+				player.openContainer.windowId = player.currentWindowId;
+				player.openContainer.onCraftGuiOpened(player);
+			} else {
 				MC.displayGuiScreen(new GuiScreenHorseInventory(p.inventory, horseinv.inv, horseinv.horse));
 			}
 		});
