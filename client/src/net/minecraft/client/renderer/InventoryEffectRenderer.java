@@ -4,6 +4,7 @@ import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.element.Colors;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.Lang;
@@ -39,7 +40,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 
 		hasActivePotionEffects = !MC.getPlayer().getActivePotionEffects().isEmpty();
 
-		if (hasActivePotionEffects && !Settings.FINE_EFFECTS.b()) this.guiLeft = 160 + (this.width - this.xSize - 200) / 2;
+		if (hasActivePotionEffects && !Settings.MODERN_INVENTORIES.b()) this.guiLeft = 160 + (this.width - this.xSize - 200) / 2;
 		else this.guiLeft = (this.width - this.xSize) / 2;
 	}
 
@@ -62,7 +63,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 //		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 //		GlStateManager.disableLighting();
 
-		if (Settings.FINE_EFFECTS.b()) {
+		if (Settings.MODERN_INVENTORIES.b()) {
 			drawPEnew(screen, mc, renderer, collection);
 			return;
 		}
@@ -100,22 +101,23 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 	}
 
 	private static void drawPEnew(Gui screen, Minecraft mc, AssetsFontRenderer fontRendererObj, Collection<PotionEffect> effects) {
-
 		RenderHelper.enableGUIStandardItemLighting();
+
 		int y = 5;
+
+		G.disableLighting();
+		G.disableBlend();
 
 		for (PotionEffect e : effects) {
 			Potion potion = Potion.potionTypes[e.getPotionID()];
-			G.disableBlend();
-			G.enableAlpha();
-			drawRect(0, y, 80, y + 22 + 10, 0xd0202020);
-			drawRect(80, y, 82, y + 22 + 10, 0xd0f9c404);
-			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.getTextureManager().bindTexture(inventoryBackground);
+			drawRect(0, y, 80, y + 32, Colors.DARK);
+			drawRect(80, y, 82, y + 32, Colors.YELLOW);
+			G.color(1.0F, 1.0F, 1.0F);
 
 			if (potion.hasStatusIcon()) {
 				int i1 = potion.getStatusIconIndex();
-				screen.drawTexturedModalRect(4, y + 2, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+				mc.getTextureManager().bindTexture(inventoryBackground);
+				screen.drawTexturedModalRect(4, y + 2, i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
 			}
 
 			String amplifier = "";
@@ -124,11 +126,10 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 
 //			this.fontRenderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
 			String s = Potion.getDurationString(e);
-			G.disableLighting();
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			fontRendererObj.drawStringWithShadow(s1, 4, y + 20, 0xffffff);
+			fontRendererObj.drawString(s1, 4, y + 20, Colors.WHITE);
 			G.scale(2, 2, 2);
-			fontRendererObj.drawStringWithShadow(s, 16, (float) y / 2f + 1f, 0xffffff);
+			fontRendererObj.drawString(s, 16,  y / 2 + 1, Colors.WHITE);
 			G.scale(0.5, 0.5, 0.5);
 			y += 27 + 10;
 		}
