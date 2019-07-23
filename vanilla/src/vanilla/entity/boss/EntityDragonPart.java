@@ -1,23 +1,29 @@
 package vanilla.entity.boss;
 
 import net.minecraft.entity.Entity;
-import vanilla.entity.IEntityMultiPart;
+import net.minecraft.entity.IComplexEntityBranch;
+import net.minecraft.entity.IComplexEntityRoot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 
-public class EntityDragonPart extends Entity {
+public class EntityDragonPart extends Entity implements IComplexEntityBranch {
 
 	/**
 	 * The dragon entity this dragon part belongs to
 	 */
-	public final IEntityMultiPart entityDragonObj;
+	public final IComplexEntityRoot entityDragonObj;
 	public final String partName;
 
-	public EntityDragonPart(IEntityMultiPart parent, String partName, float base, float sizeHeight) {
+	public EntityDragonPart(IComplexEntityRoot parent, String partName, float base, float sizeHeight) {
 		super(parent.getWorld());
 		this.setSize(base, sizeHeight);
 		this.entityDragonObj = parent;
 		this.partName = partName;
+	}
+
+	@Override
+	public IComplexEntityRoot getRoot() {
+		return entityDragonObj;
 	}
 
 	protected void entityInit() {

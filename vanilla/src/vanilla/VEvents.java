@@ -30,7 +30,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import vanilla.entity.VanillaEntity;
-import vanilla.entity.boss.DragonPartRedirecter;
 import vanilla.entity.monster.EntityBlaze;
 import vanilla.entity.monster.EntityEndermite;
 import vanilla.entity.monster.EntitySilverfish;
@@ -54,7 +53,6 @@ public class VEvents implements ServerSideLoadable {
 		Events.eventPlayerItemDrop.add(this::handleItemDrop);
 		Events.eventPlayerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat));
 
-		registrar.regListener(DamageByEntityEvent.class, new DragonPartRedirecter());
 		registrar.regListener(TrySleepEvent.class, new SleepChecker());
 		registrar.regListener(PlayerEntityActionEvent.class, this::handleEntityAction);
 		registrar.regListener(UpdateEntityToSpectatorEvent.class, this::handleEntityUpdateToSpectator);

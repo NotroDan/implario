@@ -26,7 +26,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Events;
-import net.minecraft.resources.event.events.DamageByEntityEvent;
 import net.minecraft.resources.event.events.MountMoveEvent;
 import net.minecraft.resources.event.events.TrySleepEvent;
 import net.minecraft.resources.event.events.player.*;
@@ -1134,8 +1133,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		ItemStack itemstack = this.getCurrentEquippedItem();
 		Entity entity = targetEntity;
 
-		DamageByEntityEvent event = E.call(new DamageByEntityEvent(entity, this));
-		entity = event.getDamagedEntity();
+		// Обработка комплексных сущностей, состоящих из нескольких частей
+		if (entity instanceof IComplexEntityBranch) {
+			IComplexEntityRoot root = ((IComplexEntityBranch) entity).getRoot();
+			if (root instanceof EntityLivingBase) entity = (EntityLivingBase) root;
+		}
 
 
 		if (itemstack != null && entity instanceof EntityLivingBase) {
