@@ -328,10 +328,10 @@ public class ConnectedParser {
 
 	public Biome findBiome(String name) {
 		name = name.toLowerCase();
-// ToDo: Connected biomes in nether
+		// ToDo: Connected biomes in nether
 		if (name.equals("nether")) return Biome.VOID;// BiomeGenBase.hell;
 
-//		BiomeGenBase[] abiomegenbase = BiomeGenBase.getBiomeGenArray();
+		//		BiomeGenBase[] abiomegenbase = BiomeGenBase.getBiomeGenArray();
 		Biome[] biomes = Biome.biomeList;
 
 		for (int i = 0; i < biomes.length; ++i) {

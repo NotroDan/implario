@@ -301,9 +301,9 @@ public class GuiNewChat extends Gui {
 	}
 
 	public static int calculateChatboxHeight(float v) {
-//		int i = 180;
-//		int j = 20;
-//		return MathHelper.floor_float(v * (float) (i - j) + (float) j);
+		//		int i = 180;
+		//		int j = 20;
+		//		return MathHelper.floor_float(v * (float) (i - j) + (float) j);
 		return (int) v;
 	}
 

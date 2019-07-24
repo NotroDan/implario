@@ -361,7 +361,7 @@ public class SoundManager {
 	 */
 	public void resumeAllSounds() {
 		for (String s : this.playingSounds.keySet()) {
-			logger.debug( "Возобновляем канал " + s);
+			logger.debug("Возобновляем канал " + s);
 			this.sndSystem.play(s);
 		}
 	}

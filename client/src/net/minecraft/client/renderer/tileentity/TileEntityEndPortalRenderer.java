@@ -109,7 +109,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 	}
 
 	public static void portal(int w, int h) {
-//		GlStateManager.disableLighting();
+		//		GlStateManager.disableLighting();
 		field_147527_e.setSeed(31100L);
 		float f3 = 0.75F;
 
@@ -156,9 +156,9 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 			G.loadIdentity();
 			G.translate(0.0F, (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
 			G.scale(f5, f5, f5);
-//			GlStateManager.translate(0.5F, 0.5F, 0.0F);
-//			GlStateManager.rotate((float) (i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
-//			GlStateManager.translate(-0.5F, -0.5F, 0.0F);
+			//			GlStateManager.translate(0.5F, 0.5F, 0.0F);
+			//			GlStateManager.rotate((float) (i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
+			//			GlStateManager.translate(-0.5F, -0.5F, 0.0F);
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 			worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -185,7 +185,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 		G.disableTexGenCoord(G.TexGen.T);
 		G.disableTexGenCoord(G.TexGen.R);
 		G.disableTexGenCoord(G.TexGen.Q);
-//		GlStateManager.enableLighting();
+		//		GlStateManager.enableLighting();
 	}
 
 	private FloatBuffer func_147525_a(float p_147525_1_, float p_147525_2_, float p_147525_3_, float p_147525_4_) {

@@ -107,7 +107,7 @@ public class DisplayGuy {
 		DisplayMode displaymode = Display.getDesktopDisplayMode();
 
 		if (!set.contains(displaymode) && Util.getOSType() == OSX) {
-label53:
+			label53:
 
 			for (DisplayMode displaymode1 : macDisplayModes) {
 				boolean flag = true;

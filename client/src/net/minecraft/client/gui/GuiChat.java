@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiChat extends GuiScreen {
+
 	private static final Logger logger = Logger.getInstance();
 	private String historyBuffer = "";
 
@@ -274,4 +275,5 @@ public class GuiChat extends GuiScreen {
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
+
 }

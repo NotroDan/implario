@@ -1,16 +1,20 @@
 package net.minecraft.client.game.model;
 
-public class TextureOffset
-{
-    /** The x coordinate offset of the texture */
-    public final int textureOffsetX;
+public class TextureOffset {
 
-    /** The y coordinate offset of the texture */
-    public final int textureOffsetY;
+	/**
+	 * The x coordinate offset of the texture
+	 */
+	public final int textureOffsetX;
 
-    public TextureOffset(int textureOffsetXIn, int textureOffsetYIn)
-    {
-        this.textureOffsetX = textureOffsetXIn;
-        this.textureOffsetY = textureOffsetYIn;
-    }
+	/**
+	 * The y coordinate offset of the texture
+	 */
+	public final int textureOffsetY;
+
+	public TextureOffset(int textureOffsetXIn, int textureOffsetYIn) {
+		this.textureOffsetX = textureOffsetXIn;
+		this.textureOffsetY = textureOffsetYIn;
+	}
+
 }

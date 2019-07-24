@@ -32,6 +32,7 @@ import static java.util.Collections.EMPTY_LIST;
 import static java.util.Collections.emptyListIterator;
 
 public class GuiOverlayDebug extends Gui {
+
 	private final Minecraft mc;
 	private final AssetsFontRenderer fontRenderer;
 
@@ -133,7 +134,7 @@ public class GuiOverlayDebug extends Gui {
 		if (isReducedDebug()) {
 			list.add("Клиент §dImplario §f(Minecraft 1.8.8)");
 			list.add(mc.debug);
-		}else {
+		} else {
 			list.add("Клиент Implario (1.8.8), §a" + MC.getPlayer().getName());
 			list.add(mc.debug);
 			list.add(mc.renderGlobal.getDebugInfoRenders());
@@ -181,7 +182,7 @@ public class GuiOverlayDebug extends Gui {
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings ("unchecked")
 	private List<String> getDebugInfoCenter() {
 		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList<>();
 		if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
@@ -206,7 +207,7 @@ public class GuiOverlayDebug extends Gui {
 			}
 			return list;
 		}
-		return (List<String>)Collections.EMPTY_LIST;
+		return (List<String>) Collections.EMPTY_LIST;
 	}
 
 	private List<String> getDebugInfoRight() {
@@ -216,7 +217,7 @@ public class GuiOverlayDebug extends Gui {
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
-		if (isReducedDebug()){
+		if (isReducedDebug()) {
 			List<String> list = new ArrayList<>();
 			list.add("Версия Java: §a" + System.getProperty("java.version") + "§fx" + (this.mc.isJava64bit() ? 64 : 32));
 			list.add("Память: §a" + l * 100L / i + "% " + bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ");

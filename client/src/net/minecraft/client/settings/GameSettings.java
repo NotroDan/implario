@@ -446,9 +446,9 @@ public class GameSettings {
 		if (p_74306_1_ == GameSettings.Options.USE_FULLSCREEN) {
 			this.fullScreen = !this.fullScreen;
 
-//			if (this.mc.isFullScreen() != this.fullScreen) {
-//				this.mc.displayGuy.toggleFullscreen(this.mc);
-//			}
+			//			if (this.mc.isFullScreen() != this.fullScreen) {
+			//				this.mc.displayGuy.toggleFullscreen(this.mc);
+			//			}
 		}
 
 		if (p_74306_1_ == GameSettings.Options.ENABLE_VSYNC) {

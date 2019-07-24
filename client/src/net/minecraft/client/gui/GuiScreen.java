@@ -211,9 +211,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 
 		this.zLevel = 0.0F;
 		this.itemRender.zLevel = 0.0F;
-//		GlStateManager.enableLighting();
-//		RenderHelper.enableStandardItemLighting();
-//		GlStateManager.enableRescaleNormal();
+		//		GlStateManager.enableLighting();
+		//		RenderHelper.enableStandardItemLighting();
+		//		GlStateManager.enableRescaleNormal();
 		G.enableDepth();
 	}
 
@@ -222,7 +222,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 	}
 
 	protected void drawHoveringText(List<String> textLines, int x, int y, int width) {
-//		drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
+		//		drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
 		drawHoveringText(textLines, x, y, width, 0xe7252525, 0xd7ffa114);
 	}
 
@@ -345,8 +345,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 				System.out.println(f.getName());
 				if (isCtrlKeyDown()) showFile(f);
 				else openFile(f);
-//				URI uri1 = new File(clickevent.getValue()).toURI();
-//				this.openWebLink(uri1);
+				//				URI uri1 = new File(clickevent.getValue()).toURI();
+				//				this.openWebLink(uri1);
 			} else if (clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
 				this.setText(clickevent.getValue(), true);
 			} else if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {

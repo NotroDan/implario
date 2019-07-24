@@ -118,6 +118,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	public void renderItem(ItemStack stack, IBakedModel model) {
 		renderItem(stack, model, 0.5f);
 	}
+
 	public void renderItem(ItemStack stack, IBakedModel model, float scale) {
 		if (stack == null) return;
 		G.pushMatrix();
@@ -161,18 +162,18 @@ public class RenderItem implements IResourceManagerReloadListener {
 
 		G.matrixMode(GL_TEXTURE);
 		G.pushMatrix();
-			G.scale(8.0F, 8.0F, 8.0F);
-			float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-			G.translate(f, 0.0F, 0.0F);
-			G.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-			this.renderModel(model, glintColor);
+		G.scale(8.0F, 8.0F, 8.0F);
+		float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+		G.translate(f, 0.0F, 0.0F);
+		G.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
+		this.renderModel(model, glintColor);
 		G.popMatrix();
 		G.pushMatrix();
-			G.scale(8.0F, 8.0F, 8.0F);
-			float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
-			G.translate(-f1, 0.0F, 0.0F);
-			G.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-			this.renderModel(model, glintColor);
+		G.scale(8.0F, 8.0F, 8.0F);
+		float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
+		G.translate(-f1, 0.0F, 0.0F);
+		G.rotate(10.0F, 0.0F, 0.0F, 1.0F);
+		this.renderModel(model, glintColor);
 		G.popMatrix();
 		G.matrixMode(GL_MODELVIEW);
 		G.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -315,6 +316,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	public void renderItemIntoGUI(ItemStack stack, int x, int y) {
 		renderItemIntoGUI(stack, x, y, 0.5f);
 	}
+
 	public void renderItemIntoGUI(ItemStack stack, int x, int y, float scale) {
 		this.renderItemGui = true;
 		IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);

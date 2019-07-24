@@ -79,7 +79,7 @@ public class SettingSlider extends SettingButton {
 	 */
 	public void mouseReleased(int mouseX, int mouseY) {
 		dragging = false;
-//		if (mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height) click();
+		//		if (mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height) click();
 	}
 
 }

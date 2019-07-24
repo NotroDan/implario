@@ -101,8 +101,6 @@ public enum Key {
 	ARROW_DOWN(208, "\u2193", "Вниз"),
 
 
-
-
 	;
 
 	private final int key;

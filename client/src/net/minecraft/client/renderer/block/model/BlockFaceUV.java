@@ -47,17 +47,17 @@ public class BlockFaceUV {
 		}
 	}
 
-	public static BlockFaceUV deserialize(byte array[]){
+	public static BlockFaceUV deserialize(byte array[]) {
 		ByteUnzip unzip = new ByteUnzip(array);
 		float f[] = new float[4];
-		for(int i = 0; i < f.length; i++)f[i] = Utils.toFloat(unzip.getBytes());
+		for (int i = 0; i < f.length; i++) f[i] = Utils.toFloat(unzip.getBytes());
 		int i = unzip.getInt();
 		return new BlockFaceUV(f, i);
 	}
 
-	public static byte[] serialize(BlockFaceUV faceUV){
+	public static byte[] serialize(BlockFaceUV faceUV) {
 		ByteZip zip = new ByteZip();
-		for(int i = 0; i < faceUV.uvs.length; i++)zip.add(Utils.toBytes(faceUV.uvs[i]));
+		for (int i = 0; i < faceUV.uvs.length; i++) zip.add(Utils.toBytes(faceUV.uvs[i]));
 		return zip.add(faceUV.rotation).build();
 	}
 

@@ -44,7 +44,7 @@ public class BlockModelRenderer {
 
 			return flag ?
 					this.renderModelAmbientOcclusion(blockAccessIn, modelIn, block, blockStateIn, blockPosIn, worldRendererIn, checkSides) :
-					this.renderModelStandard		(blockAccessIn, modelIn, block, blockStateIn, blockPosIn, worldRendererIn, checkSides);
+					this.renderModelStandard(blockAccessIn, modelIn, block, blockStateIn, blockPosIn, worldRendererIn, checkSides);
 		} catch (Throwable throwable) {
 			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Tesselating block model");
 			CrashReportCategory crashreportcategory = crashreport.makeCategory("Block model being tesselated");

@@ -89,7 +89,7 @@ public class CustomColors {
 		public int getColor(IBlockAccess p_getColor_1_, BlockPos p_getColor_2_) {
 			Biome biomegenbase = CustomColors.getColorBiome(p_getColor_1_, p_getColor_2_);
 			return
-//					CustomColors.swampGrassColors != null && biomegenbase == BiomeGenBase.swampland ? CustomColors.swampGrassColors.getColor(biomegenbase, p_getColor_2_) :
+					//					CustomColors.swampGrassColors != null && biomegenbase == BiomeGenBase.swampland ? CustomColors.swampGrassColors.getColor(biomegenbase, p_getColor_2_) :
 					biomegenbase.getGrassColorAtPos(p_getColor_2_);
 		}
 
@@ -101,8 +101,8 @@ public class CustomColors {
 		public int getColor(IBlockAccess p_getColor_1_, BlockPos p_getColor_2_) {
 			Biome biomegenbase = CustomColors.getColorBiome(p_getColor_1_, p_getColor_2_);
 			return
-//					CustomColors.swampFoliageColors != null && biomegenbase == BiomeGenBase.swampland ? CustomColors.swampFoliageColors.getColor(biomegenbase, p_getColor_2_) :
-							biomegenbase.getFoliageColorAtPos(p_getColor_2_);
+					//					CustomColors.swampFoliageColors != null && biomegenbase == BiomeGenBase.swampland ? CustomColors.swampFoliageColors.getColor(biomegenbase, p_getColor_2_) :
+					biomegenbase.getFoliageColorAtPos(p_getColor_2_);
 		}
 
 		public boolean isColorConstant() {
@@ -649,8 +649,8 @@ public class CustomColors {
 
 	protected static Biome getColorBiome(IBlockAccess world, BlockPos p_getColorBiome_1_) {
 		// ToDo: Вернуть болотные цвета
-//		if (biomegenbase == BiomeGenBase.swampland && !Config.isSwampColors())
-//			biomegenbase = BiomeGenBase.plains;
+		//		if (biomegenbase == BiomeGenBase.swampland && !Config.isSwampColors())
+		//			biomegenbase = BiomeGenBase.plains;
 
 		return world.getBiomeGenForCoords(p_getColorBiome_1_);
 	}
@@ -669,8 +669,8 @@ public class CustomColors {
 			if (acustomcolormap == null)
 				return null;
 			for (CustomColormap customcolormap : acustomcolormap)
-					if (customcolormap.matchesBlock(blockstatebase))
-						return customcolormap;
+				if (customcolormap.matchesBlock(blockstatebase))
+					return customcolormap;
 
 			return null;
 		}
@@ -915,23 +915,23 @@ public class CustomColors {
 			int k = customcolormap.getHeight();
 
 			if (p_updateLightmap_3_ && k < 64)
-					return false;
+				return false;
 			int l = customcolormap.getWidth();
 
 			if (l < 16) {
-						warn("Invalid lightmap width: " + l + " for dimension: " + i);
-						lightMapsColorsRgb[j] = null;
-						return false;
-					}
+				warn("Invalid lightmap width: " + l + " for dimension: " + i);
+				lightMapsColorsRgb[j] = null;
+				return false;
+			}
 			int i1 = 0;
 
 			if (p_updateLightmap_3_)
-							i1 = l * 16 * 2;
+				i1 = l * 16 * 2;
 
 			float f = 1.1666666F * (p_updateLightmap_0_.getSunBrightness(1.0F) - 0.2F);
 
 			if (p_updateLightmap_0_.getLastLightningBolt() > 0)
-							f = 1.0F;
+				f = 1.0F;
 
 			f = Config.limitTo1(f);
 			float f1 = f * (float) (l - 1);
@@ -944,24 +944,24 @@ public class CustomColors {
 			float[] afloat1 = new float[3];
 
 			for (int j1 = 0; j1 < 16; ++j1)
-							for (int k1 = 0; k1 < 16; ++k1) {
-								for (int l1 = 0; l1 < 3; ++l1) {
-									float f4 = Config.limitTo1(sunRgbs[j1][l1] + torchRgbs[k1][l1]);
+				for (int k1 = 0; k1 < 16; ++k1) {
+					for (int l1 = 0; l1 < 3; ++l1) {
+						float f4 = Config.limitTo1(sunRgbs[j1][l1] + torchRgbs[k1][l1]);
 
-									if (flag) {
-										float f5 = 1.0F - f4;
-										f5 = 1.0F - f5 * f5 * f5 * f5;
-										f4 = f3 * f5 + (1.0F - f3) * f4;
-									}
+						if (flag) {
+							float f5 = 1.0F - f4;
+							f5 = 1.0F - f5 * f5 * f5 * f5;
+							f4 = f3 * f5 + (1.0F - f3) * f4;
+						}
 
-									afloat1[l1] = f4;
-								}
+						afloat1[l1] = f4;
+					}
 
-								int i2 = (int) (afloat1[0] * 255.0F);
-								int j2 = (int) (afloat1[1] * 255.0F);
-								int k2 = (int) (afloat1[2] * 255.0F);
-								p_updateLightmap_2_[j1 * 16 + k1] = -16777216 | i2 << 16 | j2 << 8 | k2;
-							}
+					int i2 = (int) (afloat1[0] * 255.0F);
+					int j2 = (int) (afloat1[1] * 255.0F);
+					int k2 = (int) (afloat1[2] * 255.0F);
+					p_updateLightmap_2_[j1 * 16 + k1] = -16777216 | i2 << 16 | j2 << 8 | k2;
+				}
 
 			return true;
 		}

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiYesNo extends GuiScreen {
+
 	protected GuiYesNoCallback parentScreen;
 	private String messageLine1;
 	private String messageLine2;
@@ -77,4 +78,5 @@ public class GuiYesNo extends GuiScreen {
 			for (GuiButton guibutton : this.buttonList)
 				guibutton.enabled = true;
 	}
+
 }

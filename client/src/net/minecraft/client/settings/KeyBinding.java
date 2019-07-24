@@ -55,7 +55,7 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 	private final int keyCodeDefault;
 	private final String keyCategory;
 	private int keyCode;
-	
+
 	static {
 		for (KeyBinding key : values()) {
 			keybindArray.add(key);

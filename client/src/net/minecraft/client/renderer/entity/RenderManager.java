@@ -130,6 +130,7 @@ public class RenderManager {
 	public Render getRenderRaw(Class type) {
 		return (Render) entityRenderMap.get(type);
 	}
+
 	public Render getEntityClassRenderObject(Class type) {
 		Render render = getRenderRaw(type);
 

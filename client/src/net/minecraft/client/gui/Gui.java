@@ -144,6 +144,7 @@ public class Gui {
 	public void drawCenteredString(AssetsFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		fontRendererIn.drawStringWithShadow(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color);
 	}
+
 	public void drawShadowlessCenteredString(AssetsFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		fontRendererIn.drawString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color, false);
 	}

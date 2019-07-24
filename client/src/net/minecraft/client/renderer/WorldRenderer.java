@@ -83,6 +83,7 @@ public class WorldRenderer {
 			}
 		}
 	}
+
 	/**
 	 * Напоминание о том что идея с её советами о замене всего живого на ебанутые предикаты - ёбанная хуйня.
 	 * Делфик искал этот баг на протяжении месяца, ебался с гитом и откатами к неоткатываемому, и всё ради этого...
@@ -106,7 +107,8 @@ public class WorldRenderer {
 		float[] floatBuf = new float[i];
 
 		for (int j = 0; j < i; ++j)
-			floatBuf[j] = func_181665_a(this.rawFloatBuffer, (float) ((double) p_181674_1_ + this.xOffset), (float) ((double) p_181674_2_ + this.yOffset), (float) ((double) p_181674_3_ + this.zOffset),
+			floatBuf[j] = func_181665_a(this.rawFloatBuffer, (float) ((double) p_181674_1_ + this.xOffset), (float) ((double) p_181674_2_ + this.yOffset),
+					(float) ((double) p_181674_3_ + this.zOffset),
 					this.vertexFormat.func_181719_f(), j * this.vertexFormat.getNextOffset());
 
 		Integer[] ainteger = new Integer[i];

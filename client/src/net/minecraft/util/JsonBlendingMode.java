@@ -63,7 +63,7 @@ public class JsonBlendingMode {
 		if (this == o) return true;
 		if (!(o instanceof JsonBlendingMode)) return false;
 		JsonBlendingMode m = (JsonBlendingMode) o;
-		return  this.field_148112_f == m.field_148112_f &&
+		return this.field_148112_f == m.field_148112_f &&
 				this.field_148115_e == m.field_148115_e &&
 				this.field_148114_d == m.field_148114_d &&
 				this.field_148119_h == m.field_148119_h &&
@@ -140,12 +140,12 @@ public class JsonBlendingMode {
 
 	private static int getBlendingFunc(String value) {
 		String s = value.trim().toLowerCase();
-		return  s.equals("add") ?              32774 :
-				s.equals("subtract") ?         32778 :
-				s.equals("reversesubtract") ?  32779 :
-				s.equals("reverse_subtract") ? 32779 :
-				s.equals("min") ?              32775 :
-				s.equals("max") ?              32776 : 32774;
+		return s.equals("add") ? 32774 :
+				s.equals("subtract") ? 32778 :
+						s.equals("reversesubtract") ? 32779 :
+								s.equals("reverse_subtract") ? 32779 :
+										s.equals("min") ? 32775 :
+												s.equals("max") ? 32776 : 32774;
 	}
 
 	private static int func_148107_b(String p_148107_0_) {

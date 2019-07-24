@@ -34,4 +34,5 @@ public class GuiButtonChangeName extends GuiButton implements HoverButton {
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, y, this.width, this.height);
 		}
 	}
+
 }

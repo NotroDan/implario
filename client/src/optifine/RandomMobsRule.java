@@ -98,9 +98,9 @@ public class RandomMobsRule {
 		return true;
 	}
 
-//	public boolean matches(VanillaEntity e) {
-//		return Matches.biome(e.spawnBiome, this.biomes) && (this.heights == null || e.spawnPosition == null || this.heights.isInRange(e.spawnPosition.getY()));
-//	}
+	//	public boolean matches(VanillaEntity e) {
+	//		return Matches.biome(e.spawnBiome, this.biomes) && (this.heights == null || e.spawnPosition == null || this.heights.isInRange(e.spawnPosition.getY()));
+	//	}
 
 	public ResourceLocation getTextureLocation(ResourceLocation p_getTextureLocation_1_, int p_getTextureLocation_2_) {
 		int i = 0;

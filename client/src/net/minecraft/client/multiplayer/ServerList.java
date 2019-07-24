@@ -123,8 +123,9 @@ public class ServerList {
 
 		serverlist.saveServerList();
 	}
-	
+
 	public List<ServerData> getServers() {
 		return servers;
 	}
+
 }

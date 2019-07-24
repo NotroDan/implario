@@ -22,166 +22,166 @@ public class RandomMobs {
 	private static final String[] DEPENDANT_SUFFIXES = new String[] {"_armor", "_eyes", "_exploding", "_shooting", "_fur", "_eyes", "_invulnerable", "_angry", "_tame", "_collar"};
 
 	public static void entityLoaded(Entity p_entityLoaded_0_, World p_entityLoaded_1_) {
-//		if (p_entityLoaded_0_ instanceof VanillaEntity) {
-//			if (p_entityLoaded_1_ != null) {
-//				VanillaEntity entityliving = (VanillaEntity) p_entityLoaded_0_;
-//				entityliving.spawnPosition = entityliving.getPosition();
-//				entityliving.spawnBiome = p_entityLoaded_1_.getBiomeGenForCoords(entityliving.spawnPosition);
-//				WorldServer worldserver = Config.getWorldServer();
-//
-//				if (worldserver != null) {
-//					Entity entity = worldserver.getEntityByID(p_entityLoaded_0_.getEntityId());
-//
-//					if (entity instanceof VanillaEntity) {
-//						VanillaEntity entityliving1 = (VanillaEntity) entity;
-//						UUID uuid = entityliving1.getUniqueID();
-//						long i = uuid.getLeastSignificantBits();
-//						int j = (int) (i & 2147483647L);
-//						entityliving.randomMobsId = j;
-//					}
-//				}
-//			}
-//		}
+		//		if (p_entityLoaded_0_ instanceof VanillaEntity) {
+		//			if (p_entityLoaded_1_ != null) {
+		//				VanillaEntity entityliving = (VanillaEntity) p_entityLoaded_0_;
+		//				entityliving.spawnPosition = entityliving.getPosition();
+		//				entityliving.spawnBiome = p_entityLoaded_1_.getBiomeGenForCoords(entityliving.spawnPosition);
+		//				WorldServer worldserver = Config.getWorldServer();
+		//
+		//				if (worldserver != null) {
+		//					Entity entity = worldserver.getEntityByID(p_entityLoaded_0_.getEntityId());
+		//
+		//					if (entity instanceof VanillaEntity) {
+		//						VanillaEntity entityliving1 = (VanillaEntity) entity;
+		//						UUID uuid = entityliving1.getUniqueID();
+		//						long i = uuid.getLeastSignificantBits();
+		//						int j = (int) (i & 2147483647L);
+		//						entityliving.randomMobsId = j;
+		//					}
+		//				}
+		//			}
+		//		}
 	}
 
 	public static void worldChanged(World p_worldChanged_0_, World p_worldChanged_1_) {
-//		if (p_worldChanged_1_ != null) {
-//			List list = p_worldChanged_1_.getLoadedEntityList();
-//
-//			for (int i = 0; i < list.size(); ++i) {
-//				Entity entity = (Entity) list.get(i);
-//				entityLoaded(entity, p_worldChanged_1_);
-//			}
-//		}
+		//		if (p_worldChanged_1_ != null) {
+		//			List list = p_worldChanged_1_.getLoadedEntityList();
+		//
+		//			for (int i = 0; i < list.size(); ++i) {
+		//				Entity entity = (Entity) list.get(i);
+		//				entityLoaded(entity, p_worldChanged_1_);
+		//			}
+		//		}
 	}
 
 	public static ResourceLocation getTextureLocation(ResourceLocation standart) {
-//		if (working) {
-//			return standart;
-//		}
-//		ResourceLocation entity;
-//
-//		try {
-//			working = true;
-//
-//			if (!initialized) initialize();
-//
-//			if (renderGlobal != null) {
-//				Entity entity1 = renderGlobal.renderedEntity;
-//
-//				if (!(entity1 instanceof VanillaEntity)) {
-//					ResourceLocation resourcelocation2 = standart;
-//					return resourcelocation2;
-//				}
-//
-//				VanillaEntity entityliving = (VanillaEntity) entity1;
-//				String s = standart.getResourcePath();
-//
-//				if (!s.startsWith("textures/entity/")) {
-//					ResourceLocation resourcelocation3 = standart;
-//					return resourcelocation3;
-//				}
-//
-//				RandomMobsProperties randommobsproperties = getProperties(standart);
-//
-//				if (randommobsproperties == null) {
-//					ResourceLocation resourcelocation4 = standart;
-//					return resourcelocation4;
-//				}
-//
-//				ResourceLocation resourcelocation1 = randommobsproperties.getTextureLocation(standart, entityliving);
-//				return resourcelocation1;
-//			}
-//
-//			entity = standart;
-//		} finally {
-//			working = false;
-//		}
-//
-//		return entity;
+		//		if (working) {
+		//			return standart;
+		//		}
+		//		ResourceLocation entity;
+		//
+		//		try {
+		//			working = true;
+		//
+		//			if (!initialized) initialize();
+		//
+		//			if (renderGlobal != null) {
+		//				Entity entity1 = renderGlobal.renderedEntity;
+		//
+		//				if (!(entity1 instanceof VanillaEntity)) {
+		//					ResourceLocation resourcelocation2 = standart;
+		//					return resourcelocation2;
+		//				}
+		//
+		//				VanillaEntity entityliving = (VanillaEntity) entity1;
+		//				String s = standart.getResourcePath();
+		//
+		//				if (!s.startsWith("textures/entity/")) {
+		//					ResourceLocation resourcelocation3 = standart;
+		//					return resourcelocation3;
+		//				}
+		//
+		//				RandomMobsProperties randommobsproperties = getProperties(standart);
+		//
+		//				if (randommobsproperties == null) {
+		//					ResourceLocation resourcelocation4 = standart;
+		//					return resourcelocation4;
+		//				}
+		//
+		//				ResourceLocation resourcelocation1 = randommobsproperties.getTextureLocation(standart, entityliving);
+		//				return resourcelocation1;
+		//			}
+		//
+		//			entity = standart;
+		//		} finally {
+		//			working = false;
+		//		}
+		//
+		//		return entity;
 		return standart;
 	}
 
-//	private static RandomMobsProperties getProperties(ResourceLocation p_getProperties_0_) {
-//		String s = p_getProperties_0_.getResourcePath();
-//		RandomMobsProperties randommobsproperties = (RandomMobsProperties) locationProperties.get(s);
-//
-//		if (randommobsproperties == null) {
-//			randommobsproperties = makeProperties(p_getProperties_0_);
-//			locationProperties.put(s, randommobsproperties);
-//		}
-//
-//		return randommobsproperties;
-//	}
+	//	private static RandomMobsProperties getProperties(ResourceLocation p_getProperties_0_) {
+	//		String s = p_getProperties_0_.getResourcePath();
+	//		RandomMobsProperties randommobsproperties = (RandomMobsProperties) locationProperties.get(s);
+	//
+	//		if (randommobsproperties == null) {
+	//			randommobsproperties = makeProperties(p_getProperties_0_);
+	//			locationProperties.put(s, randommobsproperties);
+	//		}
+	//
+	//		return randommobsproperties;
+	//	}
 
-//	private static RandomMobsProperties makeProperties(ResourceLocation p_makeProperties_0_) {
-//		String s = p_makeProperties_0_.getResourcePath();
-//		ResourceLocation resourcelocation = getPropertyLocation(p_makeProperties_0_);
-//
-//		if (resourcelocation != null) {
-//			RandomMobsProperties randommobsproperties = parseProperties(resourcelocation, p_makeProperties_0_);
-//
-//			if (randommobsproperties != null) {
-//				return randommobsproperties;
-//			}
-//		}
-//
-//		ResourceLocation[] aresourcelocation = getTextureVariants(p_makeProperties_0_);
-//		return new RandomMobsProperties(s, aresourcelocation);
-//	}
+	//	private static RandomMobsProperties makeProperties(ResourceLocation p_makeProperties_0_) {
+	//		String s = p_makeProperties_0_.getResourcePath();
+	//		ResourceLocation resourcelocation = getPropertyLocation(p_makeProperties_0_);
+	//
+	//		if (resourcelocation != null) {
+	//			RandomMobsProperties randommobsproperties = parseProperties(resourcelocation, p_makeProperties_0_);
+	//
+	//			if (randommobsproperties != null) {
+	//				return randommobsproperties;
+	//			}
+	//		}
+	//
+	//		ResourceLocation[] aresourcelocation = getTextureVariants(p_makeProperties_0_);
+	//		return new RandomMobsProperties(s, aresourcelocation);
+	//	}
 
-//	private static RandomMobsProperties parseProperties(ResourceLocation p_parseProperties_0_, ResourceLocation p_parseProperties_1_) {
-//		try {
-//			String s = p_parseProperties_0_.getResourcePath();
-//			Config.dbg("RandomMobs: " + p_parseProperties_1_.getResourcePath() + ", variants: " + s);
-//			InputStream inputstream = Config.getResourceStream(p_parseProperties_0_);
-//
-//			if (inputstream == null) {
-//				Config.warn("RandomMobs properties not found: " + s);
-//				return null;
-//			}
-//			Properties properties = new Properties();
-//			properties.load(inputstream);
-//			inputstream.close();
-//			RandomMobsProperties randommobsproperties = new RandomMobsProperties(properties, s, p_parseProperties_1_);
-//			return !randommobsproperties.isValid(s) ? null : randommobsproperties;
-//		} catch (FileNotFoundException var6) {
-//			Config.warn("RandomMobs file not found: " + p_parseProperties_1_.getResourcePath());
-//			return null;
-//		} catch (IOException ioexception) {
-//			ioexception.printStackTrace();
-//			return null;
-//		}
-//	}
+	//	private static RandomMobsProperties parseProperties(ResourceLocation p_parseProperties_0_, ResourceLocation p_parseProperties_1_) {
+	//		try {
+	//			String s = p_parseProperties_0_.getResourcePath();
+	//			Config.dbg("RandomMobs: " + p_parseProperties_1_.getResourcePath() + ", variants: " + s);
+	//			InputStream inputstream = Config.getResourceStream(p_parseProperties_0_);
+	//
+	//			if (inputstream == null) {
+	//				Config.warn("RandomMobs properties not found: " + s);
+	//				return null;
+	//			}
+	//			Properties properties = new Properties();
+	//			properties.load(inputstream);
+	//			inputstream.close();
+	//			RandomMobsProperties randommobsproperties = new RandomMobsProperties(properties, s, p_parseProperties_1_);
+	//			return !randommobsproperties.isValid(s) ? null : randommobsproperties;
+	//		} catch (FileNotFoundException var6) {
+	//			Config.warn("RandomMobs file not found: " + p_parseProperties_1_.getResourcePath());
+	//			return null;
+	//		} catch (IOException ioexception) {
+	//			ioexception.printStackTrace();
+	//			return null;
+	//		}
+	//	}
 
-//	private static ResourceLocation getPropertyLocation(ResourceLocation p_getPropertyLocation_0_) {
-//		ResourceLocation resourcelocation = getMcpatcherLocation(p_getPropertyLocation_0_);
-//
-//		if (resourcelocation == null) {
-//			return null;
-//		}
-//		String s = resourcelocation.getResourceDomain();
-//		String s1 = resourcelocation.getResourcePath();
-//		String s2 = s1;
-//
-//		if (s1.endsWith(".png")) {
-//			s2 = s1.substring(0, s1.length() - ".png".length());
-//		}
-//
-//		String s3 = s2 + ".properties";
-//		ResourceLocation resourcelocation1 = new ResourceLocation(s, s3);
-//
-//		if (Config.hasResource(resourcelocation1)) {
-//			return resourcelocation1;
-//		}
-//		String s4 = getParentPath(s2);
-//
-//		if (s4 == null) {
-//			return null;
-//		}
-//		ResourceLocation resourcelocation2 = new ResourceLocation(s, s4 + ".properties");
-//		return Config.hasResource(resourcelocation2) ? resourcelocation2 : null;
-//	}
+	//	private static ResourceLocation getPropertyLocation(ResourceLocation p_getPropertyLocation_0_) {
+	//		ResourceLocation resourcelocation = getMcpatcherLocation(p_getPropertyLocation_0_);
+	//
+	//		if (resourcelocation == null) {
+	//			return null;
+	//		}
+	//		String s = resourcelocation.getResourceDomain();
+	//		String s1 = resourcelocation.getResourcePath();
+	//		String s2 = s1;
+	//
+	//		if (s1.endsWith(".png")) {
+	//			s2 = s1.substring(0, s1.length() - ".png".length());
+	//		}
+	//
+	//		String s3 = s2 + ".properties";
+	//		ResourceLocation resourcelocation1 = new ResourceLocation(s, s3);
+	//
+	//		if (Config.hasResource(resourcelocation1)) {
+	//			return resourcelocation1;
+	//		}
+	//		String s4 = getParentPath(s2);
+	//
+	//		if (s4 == null) {
+	//			return null;
+	//		}
+	//		ResourceLocation resourcelocation2 = new ResourceLocation(s, s4 + ".properties");
+	//		return Config.hasResource(resourcelocation2) ? resourcelocation2 : null;
+	//	}
 
 	public static ResourceLocation getMcpatcherLocation(ResourceLocation p_getMcpatcherLocation_0_) {
 		String s = p_getMcpatcherLocation_0_.getResourcePath();
@@ -249,76 +249,76 @@ public class RandomMobs {
 	}
 
 	public static void resetTextures() {
-//		locationProperties.clear();
-//
-//		if (Config.isRandomMobs()) {
-//			initialize();
-//		}
+		//		locationProperties.clear();
+		//
+		//		if (Config.isRandomMobs()) {
+		//			initialize();
+		//		}
 	}
-//
-//	private static void initialize() {
-//		renderGlobal = Config.getRenderGlobal();
-//
-//		if (renderGlobal != null) {
-//			initialized = true;
-//			List list = new ArrayList();
-//			list.add("bat");
-//			list.add("blaze");
-//			list.add("cat/black");
-//			list.add("cat/ocelot");
-//			list.add("cat/red");
-//			list.add("cat/siamese");
-//			list.add("chicken");
-//			list.add("cow/cow");
-//			list.add("cow/mooshroom");
-//			list.add("creeper/creeper");
-//			list.add("enderman/enderman");
-//			list.add("enderman/enderman_eyes");
-//			list.add("ghast/ghast");
-//			list.add("ghast/ghast_shooting");
-//			list.add("iron_golem");
-//			list.add("pig/pig");
-//			list.add("sheep/sheep");
-//			list.add("sheep/sheep_fur");
-//			list.add("silverfish");
-//			list.add("skeleton/skeleton");
-//			list.add("skeleton/wither_skeleton");
-//			list.add("slime/slime");
-//			list.add("slime/magmacube");
-//			list.add("snowman");
-//			list.add("spider/cave_spider");
-//			list.add("spider/spider");
-//			list.add("spider_eyes");
-//			list.add("squid");
-//			list.add("villager/villager");
-//			list.add("villager/butcher");
-//			list.add("villager/farmer");
-//			list.add("villager/librarian");
-//			list.add("villager/priest");
-//			list.add("villager/smith");
-//			list.add("wither/wither");
-//			list.add("wither/wither_armor");
-//			list.add("wither/wither_invulnerable");
-//			list.add("wolf/wolf");
-//			list.add("wolf/wolf_angry");
-//			list.add("wolf/wolf_collar");
-//			list.add("wolf/wolf_tame");
-//			list.add("zombie_pigman");
-//			list.add("zombie/zombie");
-//			list.add("zombie/zombie_villager");
-//
-//			for (int i = 0; i < ((List) list).size(); ++i) {
-//				String s = (String) list.get(i);
-//				String s1 = "textures/entity/" + s + ".png";
-//				ResourceLocation resourcelocation = new ResourceLocation(s1);
-//
-//				if (!Config.hasResource(resourcelocation)) {
-//					Config.warn("Not found: " + resourcelocation);
-//				}
-//
-//				getProperties(resourcelocation);
-//			}
-//		}
-//	}
+	//
+	//	private static void initialize() {
+	//		renderGlobal = Config.getRenderGlobal();
+	//
+	//		if (renderGlobal != null) {
+	//			initialized = true;
+	//			List list = new ArrayList();
+	//			list.add("bat");
+	//			list.add("blaze");
+	//			list.add("cat/black");
+	//			list.add("cat/ocelot");
+	//			list.add("cat/red");
+	//			list.add("cat/siamese");
+	//			list.add("chicken");
+	//			list.add("cow/cow");
+	//			list.add("cow/mooshroom");
+	//			list.add("creeper/creeper");
+	//			list.add("enderman/enderman");
+	//			list.add("enderman/enderman_eyes");
+	//			list.add("ghast/ghast");
+	//			list.add("ghast/ghast_shooting");
+	//			list.add("iron_golem");
+	//			list.add("pig/pig");
+	//			list.add("sheep/sheep");
+	//			list.add("sheep/sheep_fur");
+	//			list.add("silverfish");
+	//			list.add("skeleton/skeleton");
+	//			list.add("skeleton/wither_skeleton");
+	//			list.add("slime/slime");
+	//			list.add("slime/magmacube");
+	//			list.add("snowman");
+	//			list.add("spider/cave_spider");
+	//			list.add("spider/spider");
+	//			list.add("spider_eyes");
+	//			list.add("squid");
+	//			list.add("villager/villager");
+	//			list.add("villager/butcher");
+	//			list.add("villager/farmer");
+	//			list.add("villager/librarian");
+	//			list.add("villager/priest");
+	//			list.add("villager/smith");
+	//			list.add("wither/wither");
+	//			list.add("wither/wither_armor");
+	//			list.add("wither/wither_invulnerable");
+	//			list.add("wolf/wolf");
+	//			list.add("wolf/wolf_angry");
+	//			list.add("wolf/wolf_collar");
+	//			list.add("wolf/wolf_tame");
+	//			list.add("zombie_pigman");
+	//			list.add("zombie/zombie");
+	//			list.add("zombie/zombie_villager");
+	//
+	//			for (int i = 0; i < ((List) list).size(); ++i) {
+	//				String s = (String) list.get(i);
+	//				String s1 = "textures/entity/" + s + ".png";
+	//				ResourceLocation resourcelocation = new ResourceLocation(s1);
+	//
+	//				if (!Config.hasResource(resourcelocation)) {
+	//					Config.warn("Not found: " + resourcelocation);
+	//				}
+	//
+	//				getProperties(resourcelocation);
+	//			}
+	//		}
+	//	}
 
 }

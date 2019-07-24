@@ -50,8 +50,7 @@ public class IconButton extends SettingButton implements HoverButton {
 			if (ago < 250) {
 				if (hovered) i = Utils.gradient(0xa07fff3f, 0xa0202020, (float) (ago % 250) / 250f);
 				else i = Utils.gradient(0xa0202020, 0xa07fff3f, (float) (ago % 250) / 250f);
-			}
-			else if (hovered) i = 0xa07fff3f;
+			} else if (hovered) i = 0xa07fff3f;
 			else hoverTime = 0;
 		}
 		drawRect(xPosition, yPosition, xPosition + width, yPosition + height, i);
