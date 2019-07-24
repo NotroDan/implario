@@ -1,15 +1,17 @@
 package vanilla.world.gen.layer;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class IntCache
 {
     private static int intCacheSize = 256;
-    private static List<int[]> freeSmallArrays = new java.util.ArrayList<>();
-    private static List<int[]> inUseSmallArrays = new java.util.ArrayList<>();
-    private static List<int[]> freeLargeArrays = new java.util.ArrayList<>();
-    private static List<int[]> inUseLargeArrays = new java.util.ArrayList<>();
+    private static List<int[]> freeSmallArrays = new ArrayList<>();
+    private static List<int[]> inUseSmallArrays = new ArrayList<>();
+    private static List<int[]> freeLargeArrays = new ArrayList<>();
+    private static List<int[]> inUseLargeArrays = new ArrayList<>();
 
     public static synchronized int[] getIntCache(int p_76445_0_)
     {

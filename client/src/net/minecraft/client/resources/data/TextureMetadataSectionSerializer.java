@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.util.JsonUtils;
 
@@ -17,7 +18,7 @@ public class TextureMetadataSectionSerializer extends BaseMetadataSectionSeriali
         JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
         boolean flag = JsonUtils.getBoolean(jsonobject, "blur", false);
         boolean flag1 = JsonUtils.getBoolean(jsonobject, "clamp", false);
-        List<Integer> list = new java.util.ArrayList<>();
+        List<Integer> list = new ArrayList<>();
 
         if (jsonobject.has("mipmaps"))
         {

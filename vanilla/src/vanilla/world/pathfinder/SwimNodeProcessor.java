@@ -18,8 +18,8 @@ public class SwimNodeProcessor extends NodeProcessor
 
     /**
      * This method is called when all nodes have been processed and PathEntity is created.
-     *  {@link vanilla.world.pathfinder.WalkNodeProcessor WalkNodeProcessor} uses this to change its field {@link
-     * vanilla.world.pathfinder.WalkNodeProcessor#avoidsWater avoidsWater}
+     *  {@link WalkNodeProcessor WalkNodeProcessor} uses this to change its field {@link
+     * WalkNodeProcessor#avoidsWater avoidsWater}
      */
     public void postProcess()
     {

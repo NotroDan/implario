@@ -43,6 +43,7 @@ import net.minecraft.world.storage.WorldInfo;
 import java.io.File;
 import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +62,7 @@ public abstract class ServerConfigurationManager {
 	 * Reference to the MinecraftServer object.
 	 */
 	private final MinecraftServer mcServer;
-	private final List<EntityPlayerMP> playerEntityList = new java.util.ArrayList<>();
+	private final List<EntityPlayerMP> playerEntityList = new ArrayList<>();
 	private final Map<UUID, EntityPlayerMP> uuidToPlayerMap = Maps.newHashMap();
 	private final UserListBans bannedPlayers;
 	private final BanList bannedIPs;
@@ -443,7 +444,7 @@ public abstract class ServerConfigurationManager {
 	 */
 	public EntityPlayerMP createPlayerForUser(GameProfile profile) {
 		UUID uuid = EntityPlayer.getUUID(profile);
-		List<EntityPlayerMP> list = new java.util.ArrayList<>();
+		List<EntityPlayerMP> list = new ArrayList<>();
 
 		for (int i = 0; i < this.playerEntityList.size(); ++i) {
 			EntityPlayerMP entityplayermp = this.playerEntityList.get(i);
@@ -862,7 +863,7 @@ public abstract class ServerConfigurationManager {
 	}
 
 	public List<EntityPlayerMP> getPlayersMatchingAddress(String address) {
-		List<EntityPlayerMP> list = new java.util.ArrayList<>();
+		List<EntityPlayerMP> list = new ArrayList<>();
 
 		for (EntityPlayerMP entityplayermp : this.playerEntityList) {
 			if (entityplayermp.getPlayerIP().equals(address)) {

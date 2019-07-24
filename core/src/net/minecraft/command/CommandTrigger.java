@@ -1,6 +1,8 @@
 package net.minecraft.command;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -113,7 +115,7 @@ public class CommandTrigger extends CommandBase
         if (args.length == 1)
         {
             Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
-            List<String> list = new java.util.ArrayList<>();
+            List<String> list = new ArrayList<>();
 
             for (ScoreObjective scoreobjective : scoreboard.getScoreObjectives())
             {

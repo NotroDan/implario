@@ -23,7 +23,7 @@ public class StructureOceanMonument extends MapGenStructure {
 	private int field_175800_f;
 	private int field_175801_g;
 	public static final List<Biome> field_175802_d = Arrays.asList(BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver);
-	private static final List<SpawnListEntry> field_175803_h = new java.util.ArrayList<>();
+	private static final List<SpawnListEntry> field_175803_h = new ArrayList<>();
 
 	public StructureOceanMonument() {
 		this.field_175800_f = 32;

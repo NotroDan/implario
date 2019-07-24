@@ -113,7 +113,7 @@ public class ModelBakery {
 		ModelBlockDefinition modelblockdefinition = this.blockDefinitions.get(resourcelocation);
 
 		if (modelblockdefinition == null) {
-			List<ModelBlockDefinition> list = new java.util.ArrayList<>();
+			List<ModelBlockDefinition> list = new ArrayList<>();
 
 			try {
 				for (IResource iresource : this.resourceManager.getAllResources(resourcelocation)) {

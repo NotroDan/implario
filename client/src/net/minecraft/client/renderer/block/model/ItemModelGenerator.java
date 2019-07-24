@@ -2,6 +2,8 @@ package net.minecraft.client.renderer.block.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -17,7 +19,7 @@ public class ItemModelGenerator
     public ModelBlock makeItemModel(TextureMap textureMapIn, ModelBlock blockModel)
     {
         Map<String, String> map = Maps.newHashMap();
-        List<BlockPart> list = new java.util.ArrayList<>();
+        List<BlockPart> list = new ArrayList<>();
 
         for (int i = 0; i < LAYERS.size(); ++i)
         {
@@ -47,7 +49,7 @@ public class ItemModelGenerator
         Map<EnumFacing, BlockPartFace> map = Maps.newHashMap();
         map.put(EnumFacing.SOUTH, new BlockPartFace((EnumFacing)null, p_178394_1_, p_178394_2_, new BlockFaceUV(new float[] {0.0F, 0.0F, 16.0F, 16.0F}, 0)));
         map.put(EnumFacing.NORTH, new BlockPartFace((EnumFacing)null, p_178394_1_, p_178394_2_, new BlockFaceUV(new float[] {16.0F, 0.0F, 0.0F, 16.0F}, 0)));
-        List<BlockPart> list = new java.util.ArrayList<>();
+        List<BlockPart> list = new ArrayList<>();
         list.add(new BlockPart(new Vector3f(0.0F, 0.0F, 7.5F), new Vector3f(16.0F, 16.0F, 8.5F), map, (BlockPartRotation)null, true));
         list.addAll(this.func_178397_a(p_178394_3_, p_178394_2_, p_178394_1_));
         return list;
@@ -57,7 +59,7 @@ public class ItemModelGenerator
     {
         float f = (float)p_178397_1_.getIconWidth();
         float f1 = (float)p_178397_1_.getIconHeight();
-        List<BlockPart> list = new java.util.ArrayList<>();
+        List<BlockPart> list = new ArrayList<>();
 
         for (ItemModelGenerator.Span itemmodelgenerator$span : this.func_178393_a(p_178397_1_))
         {
@@ -167,7 +169,7 @@ public class ItemModelGenerator
     {
         int i = p_178393_1_.getIconWidth();
         int j = p_178393_1_.getIconHeight();
-        List<ItemModelGenerator.Span> list = new java.util.ArrayList<>();
+        List<ItemModelGenerator.Span> list = new ArrayList<>();
 
         for (int k = 0; k < p_178393_1_.getFrameCount(); ++k)
         {

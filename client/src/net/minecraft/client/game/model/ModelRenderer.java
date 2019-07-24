@@ -69,7 +69,7 @@ public class ModelRenderer {
 		this.textureWidth = 64.0F;
 		this.textureHeight = 32.0F;
 		this.showModel = true;
-		this.cubeList = new java.util.ArrayList<>();
+		this.cubeList = new ArrayList<>();
 		this.baseModel = model;
 		model.boxList.add(this);
 		this.boxName = boxNameIn;
@@ -90,7 +90,7 @@ public class ModelRenderer {
 	 */
 	public void addChild(ModelRenderer renderer) {
 		if (this.childModels == null) {
-			this.childModels = new java.util.ArrayList<>();
+			this.childModels = new ArrayList<>();
 		}
 
 		this.childModels.add(renderer);

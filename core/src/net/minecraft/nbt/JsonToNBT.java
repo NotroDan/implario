@@ -3,6 +3,8 @@ package net.minecraft.nbt;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import net.minecraft.LogManager;
@@ -371,7 +373,7 @@ public class JsonToNBT
 
     static class Compound extends JsonToNBT.Any
     {
-        protected java.util.List<JsonToNBT.Any> field_150491_b = new java.util.ArrayList<>();
+        protected java.util.List<JsonToNBT.Any> field_150491_b = new ArrayList<>();
 
         public Compound(String p_i45137_1_)
         {
@@ -393,7 +395,7 @@ public class JsonToNBT
 
     static class List extends JsonToNBT.Any
     {
-        protected java.util.List<JsonToNBT.Any> field_150492_b = new java.util.ArrayList<>();
+        protected java.util.List<JsonToNBT.Any> field_150492_b = new ArrayList<>();
 
         public List(String json)
         {

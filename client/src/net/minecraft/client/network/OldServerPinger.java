@@ -27,13 +27,14 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 public class OldServerPinger {
 	private static final Logger logger = Logger.getInstance();
-	private final List<NetworkManager> pingDestinations = Collections.synchronizedList(new java.util.ArrayList<>());
+	private final List<NetworkManager> pingDestinations = Collections.synchronizedList(new ArrayList<>());
 	
 	public void ping(final ServerData server) throws UnknownHostException {
 		ServerAddress serveraddress = ServerAddress.func_78860_a(server.serverIP);

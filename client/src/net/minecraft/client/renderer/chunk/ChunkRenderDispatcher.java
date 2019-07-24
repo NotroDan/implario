@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.util.EnumWorldBlockLayer;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
@@ -20,7 +21,7 @@ import java.util.concurrent.ThreadFactory;
 public class ChunkRenderDispatcher {
 
 	private static final ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("Chunk Batcher %d").setDaemon(true).build();
-	private final List<ChunkRenderWorker> listThreadedWorkers = new java.util.ArrayList<>();
+	private final List<ChunkRenderWorker> listThreadedWorkers = new ArrayList<>();
 	private final BlockingQueue<ChunkCompileTaskGenerator> queueChunkUpdates = Queues.newArrayBlockingQueue(100);
 	private final BlockingQueue<RegionRenderCacheBuilder> queueFreeRenderBuilders = Queues.newArrayBlockingQueue(5);
 	private final WorldVertexBufferUploader worldVertexUploader = new WorldVertexBufferUploader();
@@ -122,7 +123,7 @@ public class ChunkRenderDispatcher {
 		while (this.runChunkUploads(0L)) {
 		}
 
-		List<RegionRenderCacheBuilder> list = new java.util.ArrayList<>();
+		List<RegionRenderCacheBuilder> list = new ArrayList<>();
 
 		while (list.size() != 5) {
 			try {

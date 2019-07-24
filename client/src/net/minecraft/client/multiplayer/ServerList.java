@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServerList {
@@ -18,7 +19,7 @@ public class ServerList {
 	 * The Minecraft instance.
 	 */
 	private final Minecraft mc;
-	private final List<ServerData> servers = new java.util.ArrayList<>();
+	private final List<ServerData> servers = new ArrayList<>();
 
 	public ServerList(Minecraft mcIn) {
 		this.mc = mcIn;

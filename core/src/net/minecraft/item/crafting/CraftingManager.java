@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +20,7 @@ public class CraftingManager
 {
     /** The static instance of this class */
     private static final CraftingManager instance = new CraftingManager();
-    private final List<IRecipe> recipes = new java.util.ArrayList<>();
+    private final List<IRecipe> recipes = new ArrayList<>();
 
     /**
      * Returns the static instance of this class
@@ -270,7 +271,7 @@ public class CraftingManager
      */
     public void addShapelessRecipe(ItemStack stack, Object... recipeComponents)
     {
-        List<ItemStack> list = new java.util.ArrayList<>();
+        List<ItemStack> list = new ArrayList<>();
 
         for (Object object : recipeComponents)
         {

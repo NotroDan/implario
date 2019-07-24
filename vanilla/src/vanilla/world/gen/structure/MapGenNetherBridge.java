@@ -1,6 +1,8 @@
 package vanilla.world.gen.structure;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import vanilla.entity.monster.EntityBlaze;
@@ -12,7 +14,7 @@ import net.minecraft.world.biome.SpawnListEntry;
 
 public class MapGenNetherBridge extends MapGenStructure
 {
-    private List<SpawnListEntry> spawnList = new java.util.ArrayList<>();
+    private List<SpawnListEntry> spawnList = new ArrayList<>();
 
     public MapGenNetherBridge()
     {

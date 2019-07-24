@@ -14,6 +14,7 @@ import optifine.RandomMobs;
 import shadersmod.client.ShadersTex;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 
 	private static final Logger logger = Logger.getInstance();
 	private final Map mapTextureObjects = Maps.newHashMap();
-	private final List listTickables = new java.util.ArrayList<>();
+	private final List listTickables = new ArrayList<>();
 	private final Map mapTextureCounters = Maps.newHashMap();
 	private IResourceManager theResourceManager;
 

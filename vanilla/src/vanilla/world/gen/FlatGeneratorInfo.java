@@ -7,13 +7,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import vanilla.world.biome.BiomeGenBase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class FlatGeneratorInfo {
 
-	private final List<FlatLayerInfo> flatLayers = new java.util.ArrayList<>();
+	private final List<FlatLayerInfo> flatLayers = new ArrayList<>();
 	private final Map<String, Map<String, String>> worldFeatures = Maps.newHashMap();
 	private int biomeToUse;
 
@@ -165,7 +166,7 @@ public class FlatGeneratorInfo {
 
 	private static List<FlatLayerInfo> createLayerInfos(int p_180716_0_, String string) {
 		if (string == null || string.length() < 1) return null;
-		List<FlatLayerInfo> list = new java.util.ArrayList<>();
+		List<FlatLayerInfo> list = new ArrayList<>();
 		String[] astring = string.split(",");
 		int i = 0;
 

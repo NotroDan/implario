@@ -1,6 +1,8 @@
 package net.minecraft.item.crafting;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -14,7 +16,7 @@ public class RecipeRepairItem implements IRecipe
      */
     public boolean matches(InventoryCrafting inv, World worldIn)
     {
-        List<ItemStack> list = new java.util.ArrayList<>();
+        List<ItemStack> list = new ArrayList<>();
 
         for (int i = 0; i < inv.getSizeInventory(); ++i)
         {
@@ -44,7 +46,7 @@ public class RecipeRepairItem implements IRecipe
      */
     public ItemStack getCraftingResult(InventoryCrafting inv)
     {
-        List<ItemStack> list = new java.util.ArrayList<>();
+        List<ItemStack> list = new ArrayList<>();
 
         for (int i = 0; i < inv.getSizeInventory(); ++i)
         {

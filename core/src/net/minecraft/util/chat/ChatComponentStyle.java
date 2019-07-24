@@ -5,12 +5,13 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ChatComponentStyle implements IChatComponent
 {
-    protected List<IChatComponent> siblings = new java.util.ArrayList<>();
+    protected List<IChatComponent> siblings = new ArrayList<>();
     private ChatStyle style;
 
     /**

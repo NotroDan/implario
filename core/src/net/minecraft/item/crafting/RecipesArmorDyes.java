@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.BeaconColors;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipesArmorDyes implements IRecipe {
@@ -18,7 +19,7 @@ public class RecipesArmorDyes implements IRecipe {
 	 */
 	public boolean matches(InventoryCrafting inv, World worldIn) {
 		ItemStack itemstack = null;
-		List<ItemStack> list = new java.util.ArrayList<>();
+		List<ItemStack> list = new ArrayList<>();
 
 		for (int i = 0; i < inv.getSizeInventory(); ++i) {
 			ItemStack itemstack1 = inv.getStackInSlot(i);

@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -89,7 +90,7 @@ public class GuiWinGame extends GuiScreen
     {
         if (this.field_146582_i == null)
         {
-            this.field_146582_i = new java.util.ArrayList<>();
+            this.field_146582_i = new ArrayList<>();
 
             try
             {

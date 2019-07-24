@@ -40,8 +40,8 @@ public abstract class StructureComponent
 
     /**
      * Writes structure base data (id, boundingbox, {@link
-     * vanilla.world.gen.structure.StructureComponent#coordBaseMode coordBase} and {@link
-     * vanilla.world.gen.structure.StructureComponent#componentType componentType}) to new NBTTagCompound and
+     * StructureComponent#coordBaseMode coordBase} and {@link
+     * StructureComponent#componentType componentType}) to new NBTTagCompound and
      * returns it.
      */
     public NBTTagCompound createStructureBaseNBT()
@@ -62,8 +62,8 @@ public abstract class StructureComponent
 
     /**
      * Reads and sets structure base data (boundingbox, {@link
-     * vanilla.world.gen.structure.StructureComponent#coordBaseMode coordBase} and {@link
-     * vanilla.world.gen.structure.StructureComponent#componentType componentType})
+     * StructureComponent#coordBaseMode coordBase} and {@link
+     * StructureComponent#componentType componentType})
      */
     public void readStructureBaseNBT(World worldIn, NBTTagCompound tagCompound)
     {

@@ -112,8 +112,8 @@ public class MerchantRecipe
     }
 
     /**
-     * Compensates {@link vanilla.world.gen.feature.village.MerchantRecipe#toolUses toolUses} with {@link
-     * vanilla.world.gen.feature.village.MerchantRecipe#maxTradeUses maxTradeUses}
+     * Compensates {@link MerchantRecipe#toolUses toolUses} with {@link
+     * MerchantRecipe#maxTradeUses maxTradeUses}
      */
     public void compensateToolUses()
     {

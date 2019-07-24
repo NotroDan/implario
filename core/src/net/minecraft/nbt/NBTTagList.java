@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
@@ -11,7 +12,7 @@ import net.minecraft.Logger;
 public class NBTTagList extends NBTBase
 {
     private static final Logger LOGGER = Logger.getInstance();
-    private List<NBTBase> tagList = new java.util.ArrayList<>();
+    private List<NBTBase> tagList = new ArrayList<>();
 
     /**
      * The type byte for the tags in the list - they must all be of the same type.

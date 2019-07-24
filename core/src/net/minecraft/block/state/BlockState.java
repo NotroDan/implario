@@ -23,7 +23,7 @@ public class BlockState {
 		Arrays.sort(properties, Comparator.comparing(IProperty::getName));
 		this.properties = ImmutableList.copyOf(properties);
 		Map<Map<IProperty, Comparable>, StateImplementation> map = Maps.newLinkedHashMap();
-		List<StateImplementation> list = new java.util.ArrayList<>();
+		List<StateImplementation> list = new ArrayList<>();
 
 		for (List<Comparable> list1 : Cartesian.cartesianProduct(getAllowedValues())) {
 			Map<IProperty, Comparable> map1 = MapPopulator.createMap(this.properties, list1);
@@ -42,7 +42,7 @@ public class BlockState {
 	}
 
 	private List<Iterable<Comparable>> getAllowedValues() {
-		List<Iterable<Comparable>> list = new java.util.ArrayList<>();
+		List<Iterable<Comparable>> list = new ArrayList<>();
 
 		for (int i = 0; i < properties.size(); ++i) {
 			list.add(properties.get(i).getAllowedValues());

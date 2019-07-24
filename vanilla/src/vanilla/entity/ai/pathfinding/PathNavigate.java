@@ -263,7 +263,7 @@ public abstract class PathNavigate
 
     /**
      * Checks if entity haven't been moved when last checked and if so, clears current {@link
-     * vanilla.entity.ai.pathfinding.PathEntity}
+     * PathEntity}
      */
     protected void checkForStuck(Vec3 positionVec3)
     {

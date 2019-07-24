@@ -2,6 +2,8 @@ package net.minecraft.util;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -152,7 +154,7 @@ public enum EnumChatFormatting
 
     public static Collection<String> getValidValues(boolean p_96296_0_, boolean p_96296_1_)
     {
-        List<String> list = new java.util.ArrayList<>();
+        List<String> list = new ArrayList<>();
 
         for (EnumChatFormatting enumchatformatting : values())
         {

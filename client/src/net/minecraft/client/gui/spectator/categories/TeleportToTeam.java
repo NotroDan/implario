@@ -19,12 +19,13 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject {
 
-	private final List<ISpectatorMenuObject> objects = new java.util.ArrayList<>();
+	private final List<ISpectatorMenuObject> objects = new ArrayList<>();
 
 	public TeleportToTeam() {
 		Minecraft minecraft = Minecraft.getMinecraft();
@@ -73,7 +74,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
 
 		public TeamSelectionObject(ScorePlayerTeam team) {
 			this.team = team;
-			this.playerInfos = new java.util.ArrayList<>();
+			this.playerInfos = new ArrayList<>();
 
 			for (String s : team.getMembershipCollection()) {
 				NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(s);

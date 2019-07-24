@@ -44,6 +44,7 @@ import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -671,7 +672,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			}
 		}
 
-		return new java.util.ArrayList<>();
+		return new ArrayList<>();
 	}
 
 	/**

@@ -23,6 +23,7 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import vanilla.world.gen.NoiseGeneratorPerlin;
 import vanilla.world.gen.feature.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -171,10 +172,10 @@ public abstract class BiomeGenBase extends Biome {
 		this.temperature = 0.5F;
 		this.rainfall = 0.5F;
 		this.waterColorMultiplier = 16777215;
-		this.spawnableMonsterList = new java.util.ArrayList<>();
-		this.spawnableCreatureList = new java.util.ArrayList<>();
-		this.spawnableWaterCreatureList = new java.util.ArrayList<>();
-		this.spawnableCaveCreatureList = new java.util.ArrayList<>();
+		this.spawnableMonsterList = new ArrayList<>();
+		this.spawnableCreatureList = new ArrayList<>();
+		this.spawnableWaterCreatureList = new ArrayList<>();
+		this.spawnableCaveCreatureList = new ArrayList<>();
 		this.enableRain = true;
 		this.worldGeneratorTrees = new WorldGenTrees(false);
 		this.worldGeneratorBigTree = new WorldGenBigTree(false);

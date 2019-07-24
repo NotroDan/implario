@@ -1,6 +1,8 @@
 package net.minecraft.inventory;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -33,7 +35,7 @@ public class InventoryBasic implements IInventory
     {
         if (this.field_70480_d == null)
         {
-            this.field_70480_d = new java.util.ArrayList<>();
+            this.field_70480_d = new ArrayList<>();
         }
 
         this.field_70480_d.add(p_110134_1_);

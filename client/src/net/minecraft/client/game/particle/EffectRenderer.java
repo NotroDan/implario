@@ -33,7 +33,7 @@ public class EffectRenderer {
 	 */
 	protected World worldObj;
 	private List[][] fxLayers = new List[4][];
-	private List particleEmitters = new java.util.ArrayList<>();
+	private List particleEmitters = new ArrayList<>();
 	private TextureManager renderer;
 
 	/**
@@ -51,7 +51,7 @@ public class EffectRenderer {
 			this.fxLayers[i] = new List[2];
 
 			for (int j = 0; j < 2; ++j) {
-				this.fxLayers[i][j] = new java.util.ArrayList<>();
+				this.fxLayers[i][j] = new ArrayList<>();
 			}
 		}
 
@@ -155,7 +155,7 @@ public class EffectRenderer {
 			this.updateEffectLayer(i);
 		}
 
-		ArrayList arraylist = new java.util.ArrayList<>();
+		ArrayList arraylist = new ArrayList<>();
 
 		for (Object entityparticleemitter0 : this.particleEmitters) {
 			EntityParticleEmitter entityparticleemitter = (EntityParticleEmitter) entityparticleemitter0;
@@ -176,7 +176,7 @@ public class EffectRenderer {
 	}
 
 	private void updateEffectAlphaLayer(List p_178925_1_) {
-		ArrayList arraylist = new java.util.ArrayList<>();
+		ArrayList arraylist = new ArrayList<>();
 
 		for (int i = 0; i < p_178925_1_.size(); ++i) {
 			EntityFX entityfx = (EntityFX) p_178925_1_.get(i);

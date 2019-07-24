@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.world.AnvilConverterException;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -41,7 +42,7 @@ public class SaveFormatOld implements ISaveFormat
 
     public List<SaveFormatComparator> getSaveList() throws AnvilConverterException
     {
-        List<SaveFormatComparator> list = new java.util.ArrayList<>();
+        List<SaveFormatComparator> list = new ArrayList<>();
 
         for (int i = 0; i < 5; ++i)
         {

@@ -2,6 +2,8 @@ package net.minecraft.command.server;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -304,7 +306,7 @@ public class CommandScoreboard extends CommandBase
         }
 		List<String> list1 = Lists.newArrayList(this.getScoreboard().getObjectiveNames());
 		String s = p_175780_2_[i];
-		List<String> list = new java.util.ArrayList<>();
+		List<String> list = new ArrayList<>();
 
 		for (String s1 : list1)
 		{
@@ -1255,7 +1257,7 @@ public class CommandScoreboard extends CommandBase
     protected List<String> func_147184_a(boolean p_147184_1_)
     {
         Collection<ScoreObjective> collection = this.getScoreboard().getScoreObjectives();
-        List<String> list = new java.util.ArrayList<>();
+        List<String> list = new ArrayList<>();
 
         for (ScoreObjective scoreobjective : collection)
         {
@@ -1271,7 +1273,7 @@ public class CommandScoreboard extends CommandBase
     protected List<String> func_175782_e()
     {
         Collection<ScoreObjective> collection = this.getScoreboard().getScoreObjectives();
-        List<String> list = new java.util.ArrayList<>();
+        List<String> list = new ArrayList<>();
 
         for (ScoreObjective scoreobjective : collection)
         {

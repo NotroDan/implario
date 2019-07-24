@@ -3,6 +3,7 @@ package net.minecraft.client.renderer.vertex;
 import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VertexFormat {
@@ -30,11 +31,11 @@ public class VertexFormat {
 	}
 
 	public VertexFormat() {
-		this.elements = new java.util.ArrayList<>();
-		this.offsets = new java.util.ArrayList<>();
+		this.elements = new ArrayList<>();
+		this.offsets = new ArrayList<>();
 		this.nextOffset = 0;
 		this.colorElementOffset = -1;
-		this.uvOffsetsById = new java.util.ArrayList<>();
+		this.uvOffsetsById = new ArrayList<>();
 		this.normalElementOffset = -1;
 	}
 

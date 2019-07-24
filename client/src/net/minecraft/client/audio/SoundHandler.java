@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -220,7 +221,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	 * Returns a random sound from one or more categories
 	 */
 	public SoundEventAccessorComposite getRandomSoundFromCategories(SoundCategory... categories) {
-		List<SoundEventAccessorComposite> list = new java.util.ArrayList<>();
+		List<SoundEventAccessorComposite> list = new ArrayList<>();
 
 		for (ResourceLocation resourcelocation : this.sndRegistry.getKeys()) {
 			SoundEventAccessorComposite soundeventaccessorcomposite = this.sndRegistry.getObject(resourcelocation);

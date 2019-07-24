@@ -11,6 +11,7 @@ import net.minecraft.world.biome.IChunkBiomer;
 import vanilla.world.gen.layer.GenLayer;
 import vanilla.world.gen.layer.IntCache;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +34,7 @@ public class WorldChunkBiomer implements IChunkBiomer {
 	protected WorldChunkBiomer() {
 		this.biomeCache = new BiomeCache(this);
 		this.field_180301_f = "";
-		this.biomesToSpawnIn = new java.util.ArrayList<>();
+		this.biomesToSpawnIn = new ArrayList<>();
 		this.biomesToSpawnIn.add(BiomeGenBase.forest);
 		this.biomesToSpawnIn.add(BiomeGenBase.plains);
 		this.biomesToSpawnIn.add(BiomeGenBase.taiga);

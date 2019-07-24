@@ -2,6 +2,8 @@ package net.minecraft.block;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -24,7 +26,7 @@ public class BlockRedstoneTorch extends BlockTorch
     {
         if (!toggles.containsKey(worldIn))
         {
-            toggles.put(worldIn, new java.util.ArrayList<>());
+            toggles.put(worldIn, new ArrayList<>());
         }
 
         List<BlockRedstoneTorch.Toggle> list = (List)toggles.get(worldIn);

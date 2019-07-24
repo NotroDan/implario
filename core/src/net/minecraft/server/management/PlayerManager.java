@@ -17,16 +17,17 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager
 {
     private static final Logger pmLogger = LogManager.getLogger();
     private final WorldServer theWorldServer;
-    private final List<EntityPlayerMP> players = new java.util.ArrayList<>();
+    private final List<EntityPlayerMP> players = new ArrayList<>();
     private final LongHashMap playerInstances = new LongHashMap();
-    private final List<PlayerManager.PlayerInstance> playerInstancesToUpdate = new java.util.ArrayList<>();
-    private final List<PlayerManager.PlayerInstance> playerInstanceList = new java.util.ArrayList<>();
+    private final List<PlayerManager.PlayerInstance> playerInstancesToUpdate = new ArrayList<>();
+    private final List<PlayerManager.PlayerInstance> playerInstanceList = new ArrayList<>();
 
     /**
      * Number of chunks the server sends to the client. Valid 3<=x<=15. In server.properties.
@@ -353,7 +354,7 @@ public class PlayerManager
 
     class PlayerInstance
     {
-        private final List<EntityPlayerMP> playersWatchingChunk = new java.util.ArrayList<>();
+        private final List<EntityPlayerMP> playersWatchingChunk = new ArrayList<>();
         private final ChunkCoordIntPair chunkCoords;
         private short[] locationOfBlockChange = new short[64];
         private int numBlocksToUpdate;

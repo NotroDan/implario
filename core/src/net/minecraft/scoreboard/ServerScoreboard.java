@@ -1,6 +1,8 @@
 package net.minecraft.scoreboard;
 
 import com.google.common.collect.Sets;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -185,7 +187,7 @@ public class ServerScoreboard extends Scoreboard
 
     public List<Packet> func_96550_d(ScoreObjective p_96550_1_)
     {
-        List<Packet> list = new java.util.ArrayList<>();
+        List<Packet> list = new ArrayList<>();
         list.add(new S3BPacketScoreboardObjective(p_96550_1_, 0));
 
         for (int i = 0; i < 19; ++i)
@@ -221,7 +223,7 @@ public class ServerScoreboard extends Scoreboard
 
     public List<Packet> func_96548_f(ScoreObjective p_96548_1_)
     {
-        List<Packet> list = new java.util.ArrayList<>();
+        List<Packet> list = new ArrayList<>();
         list.add(new S3BPacketScoreboardObjective(p_96548_1_, 1));
 
         for (int i = 0; i < 19; ++i)

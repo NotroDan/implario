@@ -2,6 +2,8 @@ package net.minecraft.command;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -156,7 +158,7 @@ public class CommandHandler implements ICommandManager {
 
         if (astring.length == 1)
         {
-            List<String> list = new java.util.ArrayList<>();
+            List<String> list = new ArrayList<>();
 
             for (Entry<String, ICommand> entry : this.commandMap.entrySet())
             {
@@ -183,7 +185,7 @@ public class CommandHandler implements ICommandManager {
 
     public List<ICommand> getPossibleCommands(ICommandSender sender)
     {
-        List<ICommand> list = new java.util.ArrayList<>();
+        List<ICommand> list = new ArrayList<>();
 
         for (ICommand icommand : this.commandSet)
         {

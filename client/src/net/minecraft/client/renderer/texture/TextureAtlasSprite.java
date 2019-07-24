@@ -23,7 +23,7 @@ import java.util.concurrent.Callable;
 public class TextureAtlasSprite {
 
 	private final String iconName;
-	protected List framesTextureData = new java.util.ArrayList<>();
+	protected List framesTextureData = new ArrayList<>();
 	protected int[][] interpolatedFrameData;
 	private AnimationMetadataSection animationMetadata;
 	protected boolean rotated;
@@ -332,7 +332,7 @@ public class TextureAtlasSprite {
 
 				this.animationMetadata = meta;
 			} else {
-				ArrayList arraylist = new java.util.ArrayList<>();
+				ArrayList arraylist = new ArrayList<>();
 
 				for (int i2 = 0; i2 < j1; ++i2) {
 					this.framesTextureData.add(getFrameTextureData(aint, k1, l, i2));
@@ -366,7 +366,7 @@ public class TextureAtlasSprite {
 	}
 
 	public void generateMipmaps(int level) {
-		ArrayList arraylist = new java.util.ArrayList<>();
+		ArrayList arraylist = new ArrayList<>();
 
 		for (int i = 0; i < this.framesTextureData.size(); ++i) {
 			final int[][] aint = (int[][]) (int[][]) this.framesTextureData.get(i);
@@ -455,7 +455,7 @@ public class TextureAtlasSprite {
 
 	private void resetSprite() {
 		this.animationMetadata = null;
-		this.setFramesTextureData(new java.util.ArrayList<>());
+		this.setFramesTextureData(new ArrayList<>());
 		this.frameCounter = 0;
 		this.tickCounter = 0;
 
@@ -657,7 +657,7 @@ public class TextureAtlasSprite {
 
 				this.animationMetadata = animationmetadatasection;
 			} else {
-				List<AnimationFrame> list = new java.util.ArrayList<>();
+				List<AnimationFrame> list = new ArrayList<>();
 
 				for (int k = 0; k < i; ++k) {
 					this.framesTextureData.add(getFrameTextureData(aint, this.width, this.width, k));

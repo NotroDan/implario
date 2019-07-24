@@ -14,6 +14,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.minecraft.inventory.ClickType.*;
@@ -215,7 +216,7 @@ public class GuiContainerItems extends InventoryEffectRenderer {
 				this.field_147063_B = c.inventorySlots;
 			}
 
-			c.inventorySlots = new java.util.ArrayList<>();
+			c.inventorySlots = new ArrayList<>();
 
 			for (int j = 0; j < container.inventorySlots.size(); ++j) {
 				Slot slot = new CreativeSlot(container.inventorySlots.get(j), j);

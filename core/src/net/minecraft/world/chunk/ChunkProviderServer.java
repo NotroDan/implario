@@ -15,6 +15,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	 */
 	public boolean chunkLoadOverride = true;
 	private LongHashMap id2ChunkMap = new LongHashMap();
-	private List<Chunk> loadedChunks = new java.util.ArrayList<>();
+	private List<Chunk> loadedChunks = new ArrayList<>();
 	private WorldServer worldObj;
 
 	public ChunkProviderServer(WorldServer p_i1520_1_, IChunkLoader p_i1520_2_, IChunkProvider p_i1520_3_) {

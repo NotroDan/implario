@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class SoundManager {
 		this.invPlayingSounds = ((BiMap) this.playingSounds).inverse();
 		this.playingSoundPoolEntries = Maps.newHashMap();
 		this.categorySounds = HashMultimap.create();
-		this.tickableSounds = new java.util.ArrayList<>();
+		this.tickableSounds = new ArrayList<>();
 		this.delayedSounds = Maps.newHashMap();
 		this.playingSoundsStopTime = Maps.newHashMap();
 		this.sndHandler = handler;

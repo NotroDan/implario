@@ -20,6 +20,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,10 +32,10 @@ public class ShaderManager {
 	private static int currentProgram = -1;
 	private static boolean field_148000_e = true;
 	private final Map<String, Object> shaderSamplers = Maps.newHashMap();
-	private final List<String> samplerNames = new java.util.ArrayList<>();
-	private final List<Integer> shaderSamplerLocations = new java.util.ArrayList<>();
-	private final List<ShaderUniform> shaderUniforms = new java.util.ArrayList<>();
-	private final List<Integer> shaderUniformLocations = new java.util.ArrayList<>();
+	private final List<String> samplerNames = new ArrayList<>();
+	private final List<Integer> shaderSamplerLocations = new ArrayList<>();
+	private final List<ShaderUniform> shaderUniforms = new ArrayList<>();
+	private final List<Integer> shaderUniformLocations = new ArrayList<>();
 	private final Map<String, ShaderUniform> mappedShaderUniforms = Maps.newHashMap();
 	private final int program;
 	private final String programFilename;

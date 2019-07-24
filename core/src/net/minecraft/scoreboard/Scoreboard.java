@@ -2,6 +2,8 @@ package net.minecraft.scoreboard;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +52,7 @@ public class Scoreboard
 
 		if (list == null)
 		{
-			list = new java.util.ArrayList<>();
+			list = new ArrayList<>();
 			this.scoreObjectiveCriterias.put(criteria, list);
 		}
 
@@ -63,7 +65,7 @@ public class Scoreboard
     public Collection<ScoreObjective> getObjectivesFromCriteria(IScoreObjectiveCriteria criteria)
     {
         Collection<ScoreObjective> collection = (Collection)this.scoreObjectiveCriterias.get(criteria);
-        return collection == null ? new java.util.ArrayList<>() : Lists.newArrayList(collection);
+        return collection == null ? new ArrayList<>() : Lists.newArrayList(collection);
     }
 
     /**
@@ -111,7 +113,7 @@ public class Scoreboard
 
     public Collection<Score> getSortedScores(ScoreObjective objective)
     {
-        List<Score> list = new java.util.ArrayList<>();
+        List<Score> list = new ArrayList<>();
 
         for (Map<ScoreObjective, Score> map : this.entitiesScoreObjectives.values())
         {
@@ -179,7 +181,7 @@ public class Scoreboard
     public Collection<Score> getScores()
     {
         Collection<Map<ScoreObjective, Score>> collection = this.entitiesScoreObjectives.values();
-        List<Score> list = new java.util.ArrayList<>();
+        List<Score> list = new ArrayList<>();
 
         for (Map<ScoreObjective, Score> map : collection)
         {

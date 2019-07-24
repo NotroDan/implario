@@ -6,6 +6,7 @@ import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuiMessage extends GuiScreen
@@ -13,7 +14,7 @@ public class GuiMessage extends GuiScreen
     private GuiScreen parentScreen;
     private String messageLine1;
     private String messageLine2;
-    private final List listLines2 = new java.util.ArrayList<>();
+    private final List listLines2 = new ArrayList<>();
     protected String confirmButtonText;
     private int ticksUntilEnable;
 

@@ -10,6 +10,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,7 +48,7 @@ public class LanServerDetector {
 
 	public static class LanServerList {
 
-		private List<LanServerDetector.LanServer> listOfLanServers = new java.util.ArrayList<>();
+		private List<LanServerDetector.LanServer> listOfLanServers = new ArrayList<>();
 		boolean wasUpdated;
 
 		public synchronized boolean getWasUpdated() {

@@ -1,6 +1,8 @@
 package net.minecraft.block.state;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
@@ -16,8 +18,8 @@ public class BlockPistonStructureHelper
     private final BlockPos pistonPos;
     private final BlockPos blockToMove;
     private final EnumFacing moveDirection;
-    private final List<BlockPos> toMove = new java.util.ArrayList<>();
-    private final List<BlockPos> toDestroy = new java.util.ArrayList<>();
+    private final List<BlockPos> toMove = new ArrayList<>();
+    private final List<BlockPos> toDestroy = new ArrayList<>();
 
     public BlockPistonStructureHelper(World worldIn, BlockPos posIn, EnumFacing pistonFacing, boolean extending)
     {
@@ -175,9 +177,9 @@ public class BlockPistonStructureHelper
 
     private void func_177255_a(int p_177255_1_, int p_177255_2_)
     {
-        List<BlockPos> list = new java.util.ArrayList<>();
-        List<BlockPos> list1 = new java.util.ArrayList<>();
-        List<BlockPos> list2 = new java.util.ArrayList<>();
+        List<BlockPos> list = new ArrayList<>();
+        List<BlockPos> list1 = new ArrayList<>();
+        List<BlockPos> list2 = new ArrayList<>();
         list.addAll(this.toMove.subList(0, p_177255_2_));
         list1.addAll(this.toMove.subList(this.toMove.size() - p_177255_1_, this.toMove.size()));
         list2.addAll(this.toMove.subList(p_177255_2_, this.toMove.size() - p_177255_1_));

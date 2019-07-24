@@ -16,6 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +38,7 @@ public class AnvilSaveConverter extends SaveFormatOld {
 
 	public List<SaveFormatComparator> getSaveList() throws AnvilConverterException {
 		if (this.savesDirectory != null && this.savesDirectory.exists() && this.savesDirectory.isDirectory()) {
-			List<SaveFormatComparator> list = new java.util.ArrayList<>();
+			List<SaveFormatComparator> list = new ArrayList<>();
 			File[] afile = this.savesDirectory.listFiles();
 
 			for (File file1 : afile) {

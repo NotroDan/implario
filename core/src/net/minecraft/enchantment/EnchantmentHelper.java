@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.WeightedRandom;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -378,7 +379,7 @@ public class EnchantmentHelper {
 			EnchantmentData enchantmentdata = (EnchantmentData) WeightedRandom.getRandomItem(randomIn, map.values());
 
 			if (enchantmentdata != null) {
-				list = new java.util.ArrayList<>();
+				list = new ArrayList<>();
 				list.add(enchantmentdata);
 
 				for (int l = k; randomIn.nextInt(50) <= l; l >>= 1) {

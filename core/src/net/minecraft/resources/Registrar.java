@@ -161,7 +161,7 @@ public class Registrar {
 	 *
 	 * @param type   Класс, по которому происходит выбор. Может быть абсолютно любым, но лучше сделать его логичным.
 	 * @param opener Функция открыватель. Подробнее:
-	 * @see net.minecraft.entity.player.PlayerGuiBridge.GuiOpener
+	 * @see PlayerGuiBridge.GuiOpener
 	 */
 	public <T> void registerIngameGui(Class<T> type, PlayerGuiBridge.GuiOpener<T> opener) {
 		registerMapping(new MappingIngameGui(type, PlayerGuiBridge.getOpener(type), opener));

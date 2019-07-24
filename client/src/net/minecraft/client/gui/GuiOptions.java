@@ -15,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import optifine.Config;
+import optifine.Lang;
 import shadersmod.client.GuiShaders;
 
 import java.io.IOException;
@@ -161,8 +162,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		tabs.add("Шейдеры", () -> {
 			if(Settings.FAST_RENDER.b()) {
 				if(Settings.DEBUG.b())
-					Config.showGuiMessage(optifine.Lang.get("Шейдеры не могут быть включены при быстром рендере"),
-						optifine.Lang.get("Выключите быстрый рендер если хотите шейдеров"));
+					Config.showGuiMessage(Lang.get("Шейдеры не могут быть включены при быстром рендере"),
+						Lang.get("Выключите быстрый рендер если хотите шейдеров"));
 				else
 					Config.showGuiMessage("Пока не работает",
 							"Включите дебаг если хотите скрашить клиент");

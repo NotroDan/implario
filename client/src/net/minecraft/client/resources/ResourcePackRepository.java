@@ -48,8 +48,8 @@ public class ResourcePackRepository {
 	private IResourcePack resourcePackInstance;
 	private final ReentrantLock lock = new ReentrantLock();
 	private ListenableFuture<Object> field_177322_i;
-	private List<ResourcePackRepository.Entry> repositoryEntriesAll = new java.util.ArrayList<>();
-	private List<ResourcePackRepository.Entry> repositoryEntries = new java.util.ArrayList<>();
+	private List<ResourcePackRepository.Entry> repositoryEntriesAll = new ArrayList<>();
+	private List<ResourcePackRepository.Entry> repositoryEntries = new ArrayList<>();
 
 	public ResourcePackRepository(File dirResourcepacksIn, File dirServerResourcepacksIn, IResourcePack rprDefaultResourcePackIn, IMetadataSerializer rprMetadataSerializerIn) {
 		this.dirResourcepacks = dirResourcepacksIn;
@@ -90,7 +90,7 @@ public class ResourcePackRepository {
 	}
 
 	public void updateRepositoryEntriesAll() {
-		List<ResourcePackRepository.Entry> list = new java.util.ArrayList<>();
+		List<ResourcePackRepository.Entry> list = new ArrayList<>();
 
 		for (File file1 : this.getResourcePackFiles()) {
 			ResourcePackRepository.Entry resourcepackrepository$entry = new ResourcePackRepository.Entry(file1);

@@ -13,15 +13,16 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldSavedData;
 import vanilla.world.VanillaWorldServer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class VillageCollection extends WorldSavedData {
 
 	private World worldObj;
-	private final List<BlockPos> villagerPositionsList = new java.util.ArrayList<>();
-	private final List<VillageDoorInfo> newDoors = new java.util.ArrayList<>();
-	private final List<Village> villageList = new java.util.ArrayList<>();
+	private final List<BlockPos> villagerPositionsList = new ArrayList<>();
+	private final List<VillageDoorInfo> newDoors = new ArrayList<>();
+	private final List<Village> villageList = new ArrayList<>();
 	private int tickCounter;
 
 	public VillageCollection(String name) {

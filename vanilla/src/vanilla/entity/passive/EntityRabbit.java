@@ -460,7 +460,7 @@ public class EntityRabbit extends EntityAnimal
     }
 
     /**
-     * Returns true if {@link vanilla.entity.passive.EntityRabbit#carrotTicks carrotTicks} has reached zero
+     * Returns true if {@link EntityRabbit#carrotTicks carrotTicks} has reached zero
      */
     private boolean isCarrotEaten()
     {
@@ -468,7 +468,7 @@ public class EntityRabbit extends EntityAnimal
     }
 
     /**
-     * Returns duration of the current {@link vanilla.entity.passive.EntityRabbit.EnumMoveType move type}
+     * Returns duration of the current {@link EntityRabbit.EnumMoveType move type}
      */
     protected int getMoveTypeDuration()
     {

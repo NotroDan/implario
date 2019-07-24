@@ -2,6 +2,7 @@ package net.minecraft.network.play.server;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +15,7 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
 {
     private int entityId;
-    private final List<S20PacketEntityProperties.Snapshot> field_149444_b = new java.util.ArrayList<>();
+    private final List<S20PacketEntityProperties.Snapshot> field_149444_b = new ArrayList<>();
 
     public S20PacketEntityProperties()
     {
@@ -42,7 +43,7 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
         {
             String s = buf.readStringFromBuffer(64);
             double d0 = buf.readDouble();
-            List<AttributeModifier> list = new java.util.ArrayList<>();
+            List<AttributeModifier> list = new ArrayList<>();
             int k = buf.readVarIntFromBuffer();
 
             for (int l = 0; l < k; ++l)

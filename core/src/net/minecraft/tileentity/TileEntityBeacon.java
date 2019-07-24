@@ -24,6 +24,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ITickable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 	 * List of effects that Beacon can apply
 	 */
 	public static final Potion[][] effectsList = new Potion[][] {{Potion.moveSpeed, Potion.digSpeed}, {Potion.resistance, Potion.jump}, {Potion.damageBoost}, {Potion.regeneration}};
-	private final List<TileEntityBeacon.BeamSegment> beamSegments = new java.util.ArrayList<>();
+	private final List<TileEntityBeacon.BeamSegment> beamSegments = new ArrayList<>();
 	private long beamRenderCounter;
 	private float field_146014_j;
 	private boolean isComplete;

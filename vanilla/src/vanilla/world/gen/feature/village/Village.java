@@ -2,6 +2,8 @@ package vanilla.world.gen.feature.village;
 
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
@@ -26,7 +28,7 @@ import net.minecraft.world.World;
 public class Village
 {
     private World worldObj;
-    private final List<VillageDoorInfo> villageDoorInfoList = new java.util.ArrayList<>();
+    private final List<VillageDoorInfo> villageDoorInfoList = new ArrayList<>();
 
     /**
      * This is the sum of all door coordinates and used to calculate the actual village center by dividing by the number
@@ -44,7 +46,7 @@ public class Village
     /** Timestamp of tick count when villager last bred */
     private int noBreedTicks;
     private TreeMap<String, Integer> playerReputation = new TreeMap();
-    private List<Village.VillageAggressor> villageAgressors = new java.util.ArrayList<>();
+    private List<Village.VillageAggressor> villageAgressors = new ArrayList<>();
     private int numIronGolems;
 
     public Village()
@@ -213,7 +215,7 @@ public class Village
     }
 
     /**
-     * Returns {@link vanilla.world.gen.feature.village.VillageDoorInfo VillageDoorInfo} from given block position
+     * Returns {@link VillageDoorInfo VillageDoorInfo} from given block position
      */
     public VillageDoorInfo getDoorInfo(BlockPos pos)
     {

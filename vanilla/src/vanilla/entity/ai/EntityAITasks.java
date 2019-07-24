@@ -5,14 +5,15 @@ import net.minecraft.Logger;
 import vanilla.entity.ai.tasks.EntityAIBase;
 import net.minecraft.server.Profiler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class EntityAITasks
 {
     private static final Logger logger = Logger.getInstance();
-    private List<EntityAITasks.EntityAITaskEntry> taskEntries = new java.util.ArrayList<>();
-    private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = new java.util.ArrayList<>();
+    private List<EntityAITasks.EntityAITaskEntry> taskEntries = new ArrayList<>();
+    private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = new ArrayList<>();
 
     /** Instance of Profiler. */
     private final Profiler theProfiler;

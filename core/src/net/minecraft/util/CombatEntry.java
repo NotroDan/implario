@@ -35,7 +35,7 @@ public class CombatEntry
     }
 
     /**
-     * Returns true if {@link net.minecraft.util.DamageSource#getEntity() damage source} is a living entity
+     * Returns true if {@link DamageSource#getEntity() damage source} is a living entity
      */
     public boolean isLivingDamageSrc()
     {

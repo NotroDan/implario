@@ -1,6 +1,8 @@
 package net.minecraft.client.renderer.chunk;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import net.minecraft.client.renderer.RegionRenderCacheBuilder;
@@ -9,7 +11,7 @@ public class ChunkCompileTaskGenerator
 {
     private final RenderChunk renderChunk;
     private final ReentrantLock lock = new ReentrantLock();
-    private final List<Runnable> listFinishRunnables = new java.util.ArrayList<>();
+    private final List<Runnable> listFinishRunnables = new ArrayList<>();
     private final ChunkCompileTaskGenerator.Type type;
     private RegionRenderCacheBuilder regionRenderCacheBuilder;
     private CompiledChunk compiledChunk;

@@ -24,12 +24,13 @@ import vanilla.world.gen.FlatLayerInfo;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class GuiFlatPresets extends GuiScreen {
 
-	private static final List<GuiFlatPresets.LayerItem> FLAT_WORLD_PRESETS = new java.util.ArrayList<>();
+	private static final List<GuiFlatPresets.LayerItem> FLAT_WORLD_PRESETS = new ArrayList<>();
 
 	/**
 	 * The parent GUI

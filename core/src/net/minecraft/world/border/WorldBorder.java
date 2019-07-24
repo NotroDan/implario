@@ -1,6 +1,8 @@
 package net.minecraft.world.border;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
@@ -9,7 +11,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 
 public class WorldBorder
 {
-    private final List<IBorderListener> listeners = new java.util.ArrayList<>();
+    private final List<IBorderListener> listeners = new ArrayList<>();
     private double centerX = 0.0D;
     private double centerZ = 0.0D;
     private double startDiameter = 6.0E7D;

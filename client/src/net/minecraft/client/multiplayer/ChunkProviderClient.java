@@ -11,6 +11,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.EmptyChunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChunkProviderClient implements IChunkProvider {
@@ -23,7 +24,7 @@ public class ChunkProviderClient implements IChunkProvider {
 	 */
 	private Chunk blankChunk;
 	private LongHashMap chunkMapping = new LongHashMap();
-	private List<Chunk> chunkListing = new java.util.ArrayList<>();
+	private List<Chunk> chunkListing = new ArrayList<>();
 
 	/**
 	 * Reference to the World object.

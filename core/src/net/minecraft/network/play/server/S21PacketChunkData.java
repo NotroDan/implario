@@ -8,6 +8,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
@@ -73,7 +74,7 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 	public static S21PacketChunkData.Extracted encdode(Chunk chunk, boolean empty, boolean p_179756_2_, int p_179756_3_) {
 		ExtendedBlockStorage[] storages = chunk.getBlockStorageArray();
 		S21PacketChunkData.Extracted res = new S21PacketChunkData.Extracted();
-		List<ExtendedBlockStorage> list = new java.util.ArrayList<>();
+		List<ExtendedBlockStorage> list = new ArrayList<>();
 
 		for (int i = 0; i < storages.length; ++i) {
 			ExtendedBlockStorage extendedblockstorage = storages[i];

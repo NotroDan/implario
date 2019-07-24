@@ -2,6 +2,7 @@ package net.minecraft.client.game.shader;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
@@ -17,10 +18,10 @@ public class Shader
     private final ShaderManager manager;
     public final Framebuffer framebufferIn;
     public final Framebuffer framebufferOut;
-    private final List<Object> listAuxFramebuffers = new java.util.ArrayList<>();
-    private final List<String> listAuxNames = new java.util.ArrayList<>();
-    private final List<Integer> listAuxWidths = new java.util.ArrayList<>();
-    private final List<Integer> listAuxHeights = new java.util.ArrayList<>();
+    private final List<Object> listAuxFramebuffers = new ArrayList<>();
+    private final List<String> listAuxNames = new ArrayList<>();
+    private final List<Integer> listAuxWidths = new ArrayList<>();
+    private final List<Integer> listAuxHeights = new ArrayList<>();
     private Matrix4f projectionMatrix;
 
     public Shader(IResourceManager p_i45089_1_, String p_i45089_2_, Framebuffer p_i45089_3_, Framebuffer p_i45089_4_) throws JsonException, IOException

@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
@@ -18,7 +19,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
     private final Object[] formatArgs;
     private final Object syncLock = new Object();
     private long lastTranslationUpdateTimeInMilliseconds = -1L;
-    List<IChatComponent> children = new java.util.ArrayList<>();
+    List<IChatComponent> children = new ArrayList<>();
     public static final Pattern stringVariablePattern = Pattern.compile("%(?:(\\d+)\\$)?([A-Za-z%]|$)");
 
     public ChatComponentTranslation(String translationKey, Object... args)

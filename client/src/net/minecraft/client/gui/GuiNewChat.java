@@ -10,6 +10,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.chat.ChatComponentText;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,9 +18,9 @@ public class GuiNewChat extends Gui {
 
 	private static final Logger logger = Logger.getInstance();
 	private final Minecraft mc;
-	private final List<String> sentMessages = new java.util.ArrayList<>();
-	private final List<ChatLine> chatLines = new java.util.ArrayList<>();
-	private final List<ChatLine> field_146253_i = new java.util.ArrayList<>();
+	private final List<String> sentMessages = new ArrayList<>();
+	private final List<ChatLine> chatLines = new ArrayList<>();
+	private final List<ChatLine> field_146253_i = new ArrayList<>();
 	private int scrollPos;
 	private boolean isScrolled;
 

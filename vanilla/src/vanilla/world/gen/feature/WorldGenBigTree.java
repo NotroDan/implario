@@ -1,6 +1,8 @@
 package vanilla.world.gen.feature;
 
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -59,7 +61,7 @@ public class WorldGenBigTree extends WorldGenAbstractTree
 
         int j = this.basePos.getY() + this.height;
         int k = this.heightLimit - this.leafDistanceLimit;
-        this.field_175948_j = new java.util.ArrayList<>();
+        this.field_175948_j = new ArrayList<>();
         this.field_175948_j.add(new WorldGenBigTree.FoliageCoordinates(this.basePos.up(k), j));
 
         for (; k >= 0; --k)

@@ -2,6 +2,8 @@ package net.minecraft.client.renderer.tileentity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +121,7 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
 
 			List<TileEntityBanner.EnumBannerPattern> list1 = bannerObj.getPatternList();
 			List<EnumDyeColor> list = bannerObj.getColorList();
-			List<String> list2 = new java.util.ArrayList<>();
+			List<String> list2 = new ArrayList<>();
 
 			for (TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern : list1)
 			{

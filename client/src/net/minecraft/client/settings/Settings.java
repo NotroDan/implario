@@ -247,10 +247,10 @@ public enum Settings {
 						}
 					} else if (s.startsWith("resourcePacks: ")) {
 						resourcePacks = gson.fromJson(s.substring(s.indexOf(58) + 2), gsonType);
-						if (resourcePacks == null) resourcePacks = new java.util.ArrayList<>();
+						if (resourcePacks == null) resourcePacks = new ArrayList<>();
 					} else if (s.startsWith("incompatibleResourcePacks: ")) {
 						incompatibleResourcePacks = gson.fromJson(s.substring(s.indexOf(0x3a) + 2), gsonType);
-						if (incompatibleResourcePacks == null) incompatibleResourcePacks = new java.util.ArrayList<>();
+						if (incompatibleResourcePacks == null) incompatibleResourcePacks = new ArrayList<>();
 					} else if (s.startsWith("lastServer")) {
 						lastServer = s.substring(s.indexOf(58) + 2);
 					} else if (s.startsWith("lang")) {

@@ -4,6 +4,8 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
@@ -15,9 +17,9 @@ import net.minecraft.util.IntHashMap;
 
 public class GuiPageButtonList extends GuiListExtended
 {
-    private final List<GuiPageButtonList.GuiEntry> field_178074_u = new java.util.ArrayList<>();
+    private final List<GuiPageButtonList.GuiEntry> field_178074_u = new ArrayList<>();
     private final IntHashMap<Gui> field_178073_v = new IntHashMap();
-    private final List<GuiTextField> field_178072_w = new java.util.ArrayList<>();
+    private final List<GuiTextField> field_178072_w = new ArrayList<>();
     private final GuiPageButtonList.GuiListEntry[][] field_178078_x;
     private int field_178077_y;
     private GuiPageButtonList.GuiResponder field_178076_z;

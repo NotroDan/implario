@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +128,7 @@ public class UserList<K, V extends UserListEntry<K>>
      */
     private void removeExpired()
     {
-        List<K> list = new java.util.ArrayList<>();
+        List<K> list = new ArrayList<>();
 
         for (V v : this.values.values())
         {

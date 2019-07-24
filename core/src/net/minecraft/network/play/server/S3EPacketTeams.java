@@ -2,6 +2,7 @@ package net.minecraft.network.play.server;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -25,14 +26,14 @@ public class S3EPacketTeams implements Packet<INetHandlerPlayClient>
     {
         this.field_179816_e = Team.EnumVisible.ALWAYS.field_178830_e;
         this.field_179815_f = -1;
-        this.field_149317_e = new java.util.ArrayList<>();
+        this.field_149317_e = new ArrayList<>();
     }
 
     public S3EPacketTeams(ScorePlayerTeam p_i45225_1_, int p_i45225_2_)
     {
         this.field_179816_e = Team.EnumVisible.ALWAYS.field_178830_e;
         this.field_179815_f = -1;
-        this.field_149317_e = new java.util.ArrayList<>();
+        this.field_149317_e = new ArrayList<>();
         this.field_149320_a = p_i45225_1_.getRegisteredName();
         this.field_149314_f = p_i45225_2_;
 
@@ -56,7 +57,7 @@ public class S3EPacketTeams implements Packet<INetHandlerPlayClient>
     {
         this.field_179816_e = Team.EnumVisible.ALWAYS.field_178830_e;
         this.field_179815_f = -1;
-        this.field_149317_e = new java.util.ArrayList<>();
+        this.field_149317_e = new ArrayList<>();
 
         if (p_i45226_3_ != 3 && p_i45226_3_ != 4)
         {

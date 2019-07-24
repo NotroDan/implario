@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +88,7 @@ public class ModelBlockDefinition
         protected List<ModelBlockDefinition.Variants> parseVariantsList(JsonDeserializationContext p_178334_1_, JsonObject p_178334_2_)
         {
             JsonObject jsonobject = JsonUtils.getJsonObject(p_178334_2_, "variants");
-            List<ModelBlockDefinition.Variants> list = new java.util.ArrayList<>();
+            List<ModelBlockDefinition.Variants> list = new ArrayList<>();
 
             for (Entry<String, JsonElement> entry : jsonobject.entrySet())
             {
@@ -100,7 +101,7 @@ public class ModelBlockDefinition
         protected ModelBlockDefinition.Variants parseVariants(JsonDeserializationContext p_178335_1_, Entry<String, JsonElement> p_178335_2_)
         {
             String s = (String)p_178335_2_.getKey();
-            List<ModelBlockDefinition.Variant> list = new java.util.ArrayList<>();
+            List<ModelBlockDefinition.Variant> list = new ArrayList<>();
             JsonElement jsonelement = (JsonElement)p_178335_2_.getValue();
 
             if (jsonelement.isJsonArray())

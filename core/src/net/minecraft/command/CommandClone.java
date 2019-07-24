@@ -12,6 +12,7 @@ import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.StructureBoundingBox;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -105,9 +106,9 @@ public class CommandClone extends CommandBase
 					}
 				}
 
-				List<CommandClone.StaticCloneData> list = new java.util.ArrayList<>();
-				List<CommandClone.StaticCloneData> list1 = new java.util.ArrayList<>();
-				List<CommandClone.StaticCloneData> list2 = new java.util.ArrayList<>();
+				List<CommandClone.StaticCloneData> list = new ArrayList<>();
+				List<CommandClone.StaticCloneData> list1 = new ArrayList<>();
+				List<CommandClone.StaticCloneData> list2 = new ArrayList<>();
 				LinkedList<BlockPos> linkedlist = Lists.newLinkedList();
 				BlockPos blockpos3 = new BlockPos(structureboundingbox1.minX - structureboundingbox.minX, structureboundingbox1.minY - structureboundingbox.minY, structureboundingbox1.minZ - structureboundingbox.minZ);
 
@@ -167,7 +168,7 @@ public class CommandClone extends CommandBase
 					}
 				}
 
-				List<CommandClone.StaticCloneData> list3 = new java.util.ArrayList<>();
+				List<CommandClone.StaticCloneData> list3 = new ArrayList<>();
 				list3.addAll(list);
 				list3.addAll(list1);
 				list3.addAll(list2);

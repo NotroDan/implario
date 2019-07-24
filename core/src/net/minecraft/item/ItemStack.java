@@ -27,6 +27,7 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -503,7 +504,7 @@ public final class ItemStack {
 	}
 
 	public List<String> getTooltip(EntityPlayer playerIn, boolean advanced) {
-		List<String> list = new java.util.ArrayList<>();
+		List<String> list = new ArrayList<>();
 		String s = this.getDisplayName();
 
 		if (this.hasDisplayName() && !s.startsWith("§")) s = EnumChatFormatting.ITALIC + s;

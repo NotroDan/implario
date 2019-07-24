@@ -21,6 +21,7 @@ import vanilla.world.gen.feature.WorldGenDungeons;
 import vanilla.world.gen.feature.WorldGenLakes;
 import vanilla.world.gen.structure.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -31,7 +32,7 @@ public class ChunkProviderFlat implements VanillaChunkProvider {
 	private Random random;
 	private final IBlockState[] cachedBlockIDs = new IBlockState[256];
 	private final FlatGeneratorInfo flatWorldGenInfo;
-	private final List<MapGenStructure> structureGenerators = new java.util.ArrayList<>();
+	private final List<MapGenStructure> structureGenerators = new ArrayList<>();
 	private final boolean hasDecoration;
 	private final boolean hasDungeons;
 	private WorldGenLakes waterLakeGenerator;

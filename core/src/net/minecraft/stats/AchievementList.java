@@ -5,6 +5,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonSerializableSet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AchievementList {
@@ -28,7 +29,7 @@ public class AchievementList {
 	 * Is the biggest row used to display a achievement on the GUI.
 	 */
 	public static int maxDisplayRow;
-	public static List<Achievement> achievementList = new java.util.ArrayList<>();
+	public static List<Achievement> achievementList = new ArrayList<>();
 
 	public static Achievement
 			openInventory      = new Achievement("openInventory",      0, 0, Items.book, null).indepenpent().registerStat(),

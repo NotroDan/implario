@@ -50,6 +50,7 @@ import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -258,9 +259,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 
 		if (!this.loadedChunks.isEmpty()) {
-			List<Chunk> list = new java.util.ArrayList<>();
+			List<Chunk> list = new ArrayList<>();
 			Iterator<ChunkCoordIntPair> iterator1 = this.loadedChunks.iterator();
-			List<TileEntity> list1 = new java.util.ArrayList<>();
+			List<TileEntity> list1 = new ArrayList<>();
 
 			while (iterator1.hasNext() && ((List) list).size() < 10) {
 				ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair) iterator1.next();

@@ -2,6 +2,8 @@ package net.minecraft.client.renderer.block.statemap;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +57,7 @@ public class StateMap extends StateMapperBase
     {
         private IProperty<?> name;
         private String suffix;
-        private final List < IProperty<? >> ignored = new java.util.ArrayList<>();
+        private final List < IProperty<? >> ignored = new ArrayList<>();
 
         public StateMap.Builder withName(IProperty<?> builderPropertyIn)
         {

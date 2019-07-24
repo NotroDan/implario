@@ -14,6 +14,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.WorldSettings;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class TeleportToPlayer implements ISpectatorMenuView, ISpectatorMenuObjec
 	}
 
 	public TeleportToPlayer(Collection<NetworkPlayerInfo> p_i45493_1_) {
-		this.field_178673_b = new java.util.ArrayList<>();
+		this.field_178673_b = new ArrayList<>();
 
 		for (NetworkPlayerInfo networkplayerinfo : field_178674_a.sortedCopy(p_i45493_1_)) {
 			if (networkplayerinfo.getGameType() != WorldSettings.GameType.SPECTATOR) {
