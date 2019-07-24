@@ -6,26 +6,27 @@ import net.minecraft.util.IChatComponent;
 import vanilla.world.gen.feature.village.MerchantRecipe;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 
-public interface IMerchant
-{
-    void setCustomer(EntityPlayer p_70932_1_);
+public interface IMerchant {
 
-    EntityPlayer getCustomer();
+	EntityPlayer getCustomer();
 
-    MerchantRecipeList getRecipes(EntityPlayer p_70934_1_);
+	void setCustomer(EntityPlayer p_70932_1_);
 
-    void setRecipes(MerchantRecipeList recipeList);
+	MerchantRecipeList getRecipes(EntityPlayer p_70934_1_);
 
-    void useRecipe(MerchantRecipe recipe);
+	void setRecipes(MerchantRecipeList recipeList);
 
-    /**
-     * Notifies the merchant of a possible merchantrecipe being fulfilled or not. Usually, this is just a sound byte
-     * being played depending if the suggested itemstack is not null.
-     */
-    void verifySellingItem(ItemStack stack);
+	void useRecipe(MerchantRecipe recipe);
 
-    /**
-     * Get the formatted ChatComponent that will be used for the sender's username in chat
-     */
-    IChatComponent getDisplayName();
+	/**
+	 * Notifies the merchant of a possible merchantrecipe being fulfilled or not. Usually, this is just a sound byte
+	 * being played depending if the suggested itemstack is not null.
+	 */
+	void verifySellingItem(ItemStack stack);
+
+	/**
+	 * Get the formatted ChatComponent that will be used for the sender's username in chat
+	 */
+	IChatComponent getDisplayName();
+
 }

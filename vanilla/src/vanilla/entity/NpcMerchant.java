@@ -1,10 +1,10 @@
 package vanilla.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
-import vanilla.inventory.InventoryMerchant;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.chat.ChatComponentTranslation;
+import vanilla.inventory.InventoryMerchant;
 import vanilla.world.gen.feature.village.MerchantRecipe;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 

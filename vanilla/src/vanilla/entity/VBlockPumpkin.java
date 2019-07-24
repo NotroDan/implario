@@ -16,18 +16,11 @@ import vanilla.entity.monster.EntitySnowman;
 
 public class VBlockPumpkin extends BlockPumpkin {
 
-	@Override
-	public void onBlockAdded(World w, BlockPos p, IBlockState s) {
-		super.onBlockAdded(w, p, s);
-		trySpawnGolem(w, p);
-	}
-
-
+	private static final Predicate<IBlockState> PUMPKIN_TEST = b -> b != null && (b.getBlock() == Blocks.pumpkin || b.getBlock() == Blocks.lit_pumpkin);
 	private static BlockPattern snowmanBasePattern;
 	private static BlockPattern snowmanPattern;
 	private static BlockPattern golemBasePattern;
 	private static BlockPattern golemPattern;
-	private static final Predicate<IBlockState> PUMPKIN_TEST = b -> b != null && (b.getBlock() == Blocks.pumpkin || b.getBlock() == Blocks.lit_pumpkin);
 
 	private static void trySpawnGolem(World worldIn, BlockPos pos) {
 		BlockPattern.PatternHelper blockpattern$patternhelper;
@@ -79,7 +72,6 @@ public class VBlockPumpkin extends BlockPumpkin {
 		}
 	}
 
-
 	protected static BlockPattern getSnowmanBasePattern() {
 		if (snowmanBasePattern == null) {
 			snowmanBasePattern = FactoryBlockPattern.start().aisle(" ", "#", "#").where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.snow))).build();
@@ -116,9 +108,14 @@ public class VBlockPumpkin extends BlockPumpkin {
 		return golemPattern;
 	}
 
-
 	public static boolean canDispenserPlace(World worldIn, BlockPos pos) {
 		return getSnowmanBasePattern().match(worldIn, pos) != null || getGolemBasePattern().match(worldIn, pos) != null;
+	}
+
+	@Override
+	public void onBlockAdded(World w, BlockPos p, IBlockState s) {
+		super.onBlockAdded(w, p, s);
+		trySpawnGolem(w, p);
 	}
 
 
