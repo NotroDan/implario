@@ -55,7 +55,7 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 	 * Passes this Packet on to the NetHandler for processing.
 	 */
 	public void processPacket(INetHandlerPlayClient handler) {
-//		System.out.println(getData().length + ", x=" + getChunkX() + ", z=" + getChunkZ() + ", " + Textifier.bytesToHex(getData()));
+		//		System.out.println(getData().length + ", x=" + getChunkX() + ", z=" + getChunkZ() + ", " + Textifier.bytesToHex(getData()));
 		handler.handleChunkData(this);
 	}
 

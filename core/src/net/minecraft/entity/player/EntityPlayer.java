@@ -1152,7 +1152,6 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		}
 
 
-
 		if (targetEntity instanceof EntityLivingBase) {
 			this.addStat(StatList.damageDealtStat, Math.round(basicDamage * 10.0F));
 
@@ -1218,7 +1217,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 				status = SleepStatus.NOT_POSSIBLE_HERE;
 			} else if (this.worldObj.isDaytime()) {
 				status = SleepStatus.NOT_POSSIBLE_NOW;
-			} else if (Math.abs(this.posX - (double) bedLocation.getX()) > 3.0D || Math.abs(this.posY - (double) bedLocation.getY()) > 2.0D || Math.abs(this.posZ - (double) bedLocation.getZ()) > 3.0D) {
+			} else if (Math.abs(this.posX - (double) bedLocation.getX()) > 3.0D || Math.abs(this.posY - (double) bedLocation.getY()) > 2.0D || Math.abs(
+					this.posZ - (double) bedLocation.getZ()) > 3.0D) {
 				status = SleepStatus.TOO_FAR_AWAY;
 			} else status = SleepStatus.OK;
 
@@ -1461,7 +1461,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			super.moveEntityWithHeading(strafe, forward);
 		}
 
-//		this.addMovementStat(this.posX - x, this.posY - y, this.posZ - z);
+		//		this.addMovementStat(this.posX - x, this.posY - y, this.posZ - z);
 	}
 
 	public static void print(boolean b) {
@@ -1946,12 +1946,12 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	}
 
 	@Override
-	public boolean equals(Object object){
-		return object instanceof EntityPlayer && ((EntityPlayer)object).getName().equals(getName());
+	public boolean equals(Object object) {
+		return object instanceof EntityPlayer && ((EntityPlayer) object).getName().equals(getName());
 	}
 
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return getName().hashCode();
 	}
 
@@ -1959,14 +1959,16 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class SleepStatus {
+
 		public static final SleepStatus
-				OK                = new SleepStatus(),
+				OK = new SleepStatus(),
 				NOT_POSSIBLE_HERE = new SleepStatus(),
-				NOT_POSSIBLE_NOW  = new SleepStatus(new ChatComponentTranslation("tile.bed.noSleep")),
-				TOO_FAR_AWAY      = new SleepStatus(),
-				OTHER_PROBLEM     = new SleepStatus();
+				NOT_POSSIBLE_NOW = new SleepStatus(new ChatComponentTranslation("tile.bed.noSleep")),
+				TOO_FAR_AWAY = new SleepStatus(),
+				OTHER_PROBLEM = new SleepStatus();
 
 		private IChatComponent message;
+
 	}
 
 }

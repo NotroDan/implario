@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
 public class JarDatapackLoader extends DatapackLoader {
+
 	@Getter
 	private final File jarFile;
 
@@ -19,10 +20,10 @@ public class JarDatapackLoader extends DatapackLoader {
 	}
 
 	@Override
-	public void init() throws DatapackLoadException{
+	public void init() throws DatapackLoadException {
 		try {
 			loader = new DatapackClassLoader(jarFile, System.class.getClassLoader());
-		}catch (IOException ex){
+		} catch (IOException ex) {
 			throw new DatapackLoadException(ex);
 		}
 	}
@@ -34,7 +35,7 @@ public class JarDatapackLoader extends DatapackLoader {
 
 			Class mainClass = loadClass(main);
 
-			return (datapack = (Datapack)mainClass.getConstructors()[0].newInstance());
+			return (datapack = (Datapack) mainClass.getConstructors()[0].newInstance());
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
 			throw new DatapackLoadException(ex);
 		}
@@ -57,4 +58,5 @@ public class JarDatapackLoader extends DatapackLoader {
 		loader.close();
 		datapack = null;
 	}
+
 }

@@ -50,17 +50,21 @@ public abstract class Biome {
 	public String getName() {
 		return name;
 	}
+
 	public int getLegacyId() {
 		return legacyId;
 	}
+
 	public Domain getDomain() {
 		return domain;
 	}
+
 	public float getFloatTemperature(BlockPos pos) {return 0.5F;}
 
 	public String getAddress() {
 		return address;
 	}
+
 	/**
 	 * takes temperature, returns color
 	 */

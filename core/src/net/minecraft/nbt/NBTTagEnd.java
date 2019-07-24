@@ -4,38 +4,34 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class NBTTagEnd extends NBTBase
-{
-    void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException
-    {
-        sizeTracker.read(64L);
-    }
+public class NBTTagEnd extends NBTBase {
 
-    /**
-     * Write the actual data contents of the tag, implemented in NBT extension classes
-     */
-    void write(DataOutput output) throws IOException
-    {
-    }
+	void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+		sizeTracker.read(64L);
+	}
 
-    /**
-     * Gets the type byte for the tag.
-     */
-    public byte getId()
-    {
-        return (byte)0;
-    }
+	/**
+	 * Write the actual data contents of the tag, implemented in NBT extension classes
+	 */
+	void write(DataOutput output) throws IOException {
+	}
 
-    public String toString()
-    {
-        return "END";
-    }
+	/**
+	 * Gets the type byte for the tag.
+	 */
+	public byte getId() {
+		return (byte) 0;
+	}
 
-    /**
-     * Creates a clone of the tag.
-     */
-    public NBTBase copy()
-    {
-        return new NBTTagEnd();
-    }
+	public String toString() {
+		return "END";
+	}
+
+	/**
+	 * Creates a clone of the tag.
+	 */
+	public NBTBase copy() {
+		return new NBTTagEnd();
+	}
+
 }

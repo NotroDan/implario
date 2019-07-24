@@ -169,9 +169,9 @@ public class EnchantmentHelper {
 			enchantmentModifierDamage.damageModifier = 0;
 		}
 
-        return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
+		return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
 				enchantmentRand.nextInt((enchantmentModifierDamage.damageModifier >> 1) + 1);
-    }
+	}
 
 	/**
 	 * Returns the modifier of protection enchantments on armors equipped on player.
@@ -188,9 +188,9 @@ public class EnchantmentHelper {
 			enchantmentModifierDamage.damageModifier = 0;
 		}
 
-        return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
+		return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
 				(enchantmentModifierDamage.damageModifier >> 2);
-    }
+	}
 
 	public static float calcDamage(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_) {
 		enchantmentModifierLiving.livingModifier = 0.0F;

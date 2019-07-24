@@ -13,4 +13,5 @@ public abstract class Bridge<D extends Listenable> {
 	public void disable(Domain domain) {
 		LIB.disable(domain);
 	}
+
 }

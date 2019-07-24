@@ -2,15 +2,17 @@ package net.minecraft.command;
 
 import java.util.List;
 import java.util.Map;
+
 import net.minecraft.util.BlockPos;
 
-public interface ICommandManager
-{
-    int executeCommand(ICommandSender sender, String rawCommand);
+public interface ICommandManager {
 
-    List<String> getTabCompletionOptions(ICommandSender sender, String input, BlockPos pos);
+	int executeCommand(ICommandSender sender, String rawCommand);
 
-    List<ICommand> getPossibleCommands(ICommandSender sender);
+	List<String> getTabCompletionOptions(ICommandSender sender, String input, BlockPos pos);
 
-    Map<String, ICommand> getCommands();
+	List<ICommand> getPossibleCommands(ICommandSender sender);
+
+	Map<String, ICommand> getCommands();
+
 }

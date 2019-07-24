@@ -106,7 +106,6 @@ public class EntityArmorStand extends EntityLivingBase {
 	}
 
 
-
 	@Override
 	public int getUpdateFrequency() {
 		return 3;

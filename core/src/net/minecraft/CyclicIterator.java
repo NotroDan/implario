@@ -22,7 +22,7 @@ public class CyclicIterator<T> implements Iterator<T> {
 		return true;
 	}
 
-	@SuppressWarnings("uncheked")
+	@SuppressWarnings ("uncheked")
 	@Override
 	public T next() {
 		if (array.length <= ++pos) pos = 0;
@@ -33,7 +33,7 @@ public class CyclicIterator<T> implements Iterator<T> {
 		return array.length;
 	}
 
-	@SuppressWarnings("uncheked")
+	@SuppressWarnings ("uncheked")
 	public T current() {
 		return (T) array[pos];
 	}
@@ -48,4 +48,5 @@ public class CyclicIterator<T> implements Iterator<T> {
 		a[array.length] = t;
 		array = a;
 	}
+
 }

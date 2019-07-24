@@ -27,6 +27,7 @@ public class BlockSkull extends BlockContainer {
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 	public static final PropertyBool NODROP = PropertyBool.create("nodrop");
+
 	protected BlockSkull() {
 		super(Material.circuits);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(NODROP, Boolean.FALSE));

@@ -480,7 +480,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			if (item == Items.written_book) {
 				this.playerNetServerHandler.sendPacket(new S3FPacketCustomPayload("MC|BOpen", new PacketBuffer(Unpooled.buffer())));
 			}
-		}  else if (type == IInventory.class) {
+		} else if (type == IInventory.class) {
 			IInventory chest = (IInventory) base;
 			if (this.openContainer != this.inventoryContainer) {
 				this.closeScreen();
@@ -516,9 +516,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			this.openContainer = elem.createContainer(this.inventory, this);
 			this.openContainer.windowId = this.currentWindowId;
 			this.openContainer.onCraftGuiOpened(this);
-		}
-
-		else PlayerGuiBridge.open(this, type, base, true);
+		} else PlayerGuiBridge.open(this, type, base, true);
 	}
 
 	/**

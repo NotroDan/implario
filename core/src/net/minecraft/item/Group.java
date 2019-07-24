@@ -50,6 +50,7 @@ public class Group {
 	public void add(Unit... elements) {
 		this.elements.addAll(Arrays.asList(elements));
 	}
+
 	public void add(Collection<Unit> elements) {
 		this.elements.addAll(elements);
 	}
@@ -57,12 +58,15 @@ public class Group {
 	public String getName() {
 		return name;
 	}
+
 	public int getHeight() {
 		return height;
 	}
+
 	public int getWidth() {
 		return width;
 	}
+
 	public List<Unit> getElements() {
 		return elements;
 	}

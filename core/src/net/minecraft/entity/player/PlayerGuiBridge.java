@@ -8,7 +8,9 @@ import java.util.List;
 public class PlayerGuiBridge {
 
 	public interface GuiOpener<D> {
+
 		void open(EntityPlayer p, D gui, boolean serverSide);
+
 	}
 
 	private static final List<Entry> list = new ArrayList<>();

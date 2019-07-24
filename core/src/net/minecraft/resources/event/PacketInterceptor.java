@@ -10,7 +10,8 @@ public interface PacketInterceptor<H extends INetHandler, T extends Packet<H>> e
 
 	/**
 	 * Метод, вызывающийся при получении пакета заданного типа.
-	 * @param data Перехваченный пакет
+	 *
+	 * @param data    Перехваченный пакет
 	 * @param handler Слушатель, поймавший этот пакет
 	 * @return Должен ли слушатель обрабатывать его
 	 */

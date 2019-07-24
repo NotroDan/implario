@@ -1133,6 +1133,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	public void registerTickable(ITickable tickable) {
 		playersOnline.add(tickable);
 	}
+
 	public long getCurrentTime() {
 		return this.currentTime;
 	}

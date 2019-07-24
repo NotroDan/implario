@@ -12,125 +12,111 @@ import java.util.IllegalFormatException;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class StringTranslate
-{
-    /**
-     * Pattern that matches numeric variable placeholders in a resource string, such as "%d", "%3$d", "%.2f"
-     */
-    private static final Pattern numericVariablePattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
+public class StringTranslate {
 
-    /**
-     * A Splitter that splits a string on the first "=".  For example, "a=b=c" would split into ["a", "b=c"].
-     */
-    private static final Splitter equalSignSplitter = Splitter.on('=').limit(2);
+	/**
+	 * Pattern that matches numeric variable placeholders in a resource string, such as "%d", "%3$d", "%.2f"
+	 */
+	private static final Pattern numericVariablePattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
 
-    /** Is the private singleton instance of StringTranslate. */
-    private static StringTranslate instance = new StringTranslate();
-    private final Map<String, String> languageList = Maps.newHashMap();
+	/**
+	 * A Splitter that splits a string on the first "=".  For example, "a=b=c" would split into ["a", "b=c"].
+	 */
+	private static final Splitter equalSignSplitter = Splitter.on('=').limit(2);
 
-    /**
-     * The time, in milliseconds since epoch, that this instance was last updated
-     */
-    private long lastUpdateTimeInMilliseconds;
+	/**
+	 * Is the private singleton instance of StringTranslate.
+	 */
+	private static StringTranslate instance = new StringTranslate();
+	private final Map<String, String> languageList = Maps.newHashMap();
 
-    public StringTranslate()
-    {
-        try
-        {
-            InputStream inputstream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/ru_RU.lang");
+	/**
+	 * The time, in milliseconds since epoch, that this instance was last updated
+	 */
+	private long lastUpdateTimeInMilliseconds;
 
-            for (String s : IOUtils.readLines(inputstream, Charsets.UTF_8))
-            {
-                if (!s.isEmpty() && s.charAt(0) != 35)
-                {
-                    String[] astring = (String[])Iterables.toArray(equalSignSplitter.split(s), String.class);
+	public StringTranslate() {
+		try {
+			InputStream inputstream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/ru_RU.lang");
 
-                    if (astring != null && astring.length == 2)
-                    {
-                        String s1 = astring[0];
-                        String s2 = numericVariablePattern.matcher(astring[1]).replaceAll("%$1s");
-                        this.languageList.put(s1, s2);
-                    }
-                }
-            }
+			for (String s : IOUtils.readLines(inputstream, Charsets.UTF_8)) {
+				if (!s.isEmpty() && s.charAt(0) != 35) {
+					String[] astring = (String[]) Iterables.toArray(equalSignSplitter.split(s), String.class);
 
-            this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
-        }
-        catch (IOException var7)
-        {
-            ;
-        }
-    }
+					if (astring != null && astring.length == 2) {
+						String s1 = astring[0];
+						String s2 = numericVariablePattern.matcher(astring[1]).replaceAll("%$1s");
+						this.languageList.put(s1, s2);
+					}
+				}
+			}
 
-    /**
-     * Return the StringTranslate singleton instance
-     */
-    static StringTranslate getInstance()
-    {
-        return instance;
-    }
+			this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
+		} catch (IOException var7) {
+			;
+		}
+	}
 
-    /**
-     * Replaces all the current instance's translations with the ones that are passed in.
-     */
+	/**
+	 * Return the StringTranslate singleton instance
+	 */
+	static StringTranslate getInstance() {
+		return instance;
+	}
 
-    public static synchronized void replaceWith(Map<String, String> p_135063_0_)
-    {
-        instance.languageList.clear();
-        instance.languageList.putAll(p_135063_0_);
-        instance.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
-    }
+	/**
+	 * Replaces all the current instance's translations with the ones that are passed in.
+	 */
 
-    /**
-     * Translate a key to current language.
-     */
+	public static synchronized void replaceWith(Map<String, String> p_135063_0_) {
+		instance.languageList.clear();
+		instance.languageList.putAll(p_135063_0_);
+		instance.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
+	}
 
-    public synchronized String translateKey(String key)
-    {
-        return this.tryTranslateKey(key);
-    }
+	/**
+	 * Translate a key to current language.
+	 */
 
-    /**
-     * Translate a key to current language applying String.format()
-     */
+	public synchronized String translateKey(String key) {
+		return this.tryTranslateKey(key);
+	}
 
-    public synchronized String translateKeyFormat(String key, Object... format)
-    {
-        String s = this.tryTranslateKey(key);
+	/**
+	 * Translate a key to current language applying String.format()
+	 */
 
-        try
-        {
-            return String.format(s, format);
-        }
-        catch (IllegalFormatException var5)
-        {
-            return "Format error: " + s;
-        }
-    }
+	public synchronized String translateKeyFormat(String key, Object... format) {
+		String s = this.tryTranslateKey(key);
 
-    /**
-     * Tries to look up a translation for the given key; spits back the key if no result was found.
-     */
-    private String tryTranslateKey(String key)
-    {
-        String s = (String)this.languageList.get(key);
-        return s == null ? key : s;
-    }
+		try {
+			return String.format(s, format);
+		} catch (IllegalFormatException var5) {
+			return "Format error: " + s;
+		}
+	}
 
-    /**
-     * Returns true if the passed key is in the translation table.
-     */
+	/**
+	 * Tries to look up a translation for the given key; spits back the key if no result was found.
+	 */
+	private String tryTranslateKey(String key) {
+		String s = (String) this.languageList.get(key);
+		return s == null ? key : s;
+	}
 
-    public synchronized boolean isKeyTranslated(String key)
-    {
-        return this.languageList.containsKey(key);
-    }
+	/**
+	 * Returns true if the passed key is in the translation table.
+	 */
 
-    /**
-     * Gets the time, in milliseconds since epoch, that this instance was last updated
-     */
-    public long getLastUpdateTimeInMilliseconds()
-    {
-        return this.lastUpdateTimeInMilliseconds;
-    }
+	public synchronized boolean isKeyTranslated(String key) {
+		return this.languageList.containsKey(key);
+	}
+
+	/**
+	 * Gets the time, in milliseconds since epoch, that this instance was last updated
+	 */
+	public long getLastUpdateTimeInMilliseconds() {
+		return this.lastUpdateTimeInMilliseconds;
+	}
+
 }

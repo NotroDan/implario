@@ -5,55 +5,56 @@ import net.minecraft.world.AnvilConverterException;
 
 import java.util.List;
 
-public interface ISaveFormat
-{
-    /**
-     * Returns the name of the save format.
-     */
-    String getName();
+public interface ISaveFormat {
 
-    /**
-     * Returns back a loader for the specified save directory
-     */
-    ISaveHandler getSaveLoader(String saveName, boolean storePlayerdata);
+	/**
+	 * Returns the name of the save format.
+	 */
+	String getName();
 
-    List<SaveFormatComparator> getSaveList() throws AnvilConverterException;
+	/**
+	 * Returns back a loader for the specified save directory
+	 */
+	ISaveHandler getSaveLoader(String saveName, boolean storePlayerdata);
 
-    void flushCache();
+	List<SaveFormatComparator> getSaveList() throws AnvilConverterException;
 
-    /**
-     * Returns the world's WorldInfo object
-     */
-    WorldInfo getWorldInfo(String saveName);
+	void flushCache();
 
-    boolean func_154335_d(String p_154335_1_);
+	/**
+	 * Returns the world's WorldInfo object
+	 */
+	WorldInfo getWorldInfo(String saveName);
 
-    /**
-     * @args: Takes one argument - the name of the directory of the world to delete. @desc: Delete the world by deleting
-     * the associated directory recursively.
-     */
-    boolean deleteWorldDirectory(String p_75802_1_);
+	boolean func_154335_d(String p_154335_1_);
 
-    /**
-     * Renames the world by storing the new name in level.dat. It does *not* rename the directory containing the world
-     * data.
-     */
-    void renameWorld(String dirName, String newName);
+	/**
+	 * @args: Takes one argument - the name of the directory of the world to delete. @desc: Delete the world by deleting
+	 * the associated directory recursively.
+	 */
+	boolean deleteWorldDirectory(String p_75802_1_);
 
-    boolean func_154334_a(String saveName);
+	/**
+	 * Renames the world by storing the new name in level.dat. It does *not* rename the directory containing the world
+	 * data.
+	 */
+	void renameWorld(String dirName, String newName);
 
-    /**
-     * gets if the map is old chunk saving (true) or McRegion (false)
-     */
-    boolean isOldMapFormat(String saveName);
+	boolean func_154334_a(String saveName);
 
-    /**
-     * converts the map to mcRegion
-     */
-    boolean convertMapFormat(String filename, IProgressUpdate progressCallback);
+	/**
+	 * gets if the map is old chunk saving (true) or McRegion (false)
+	 */
+	boolean isOldMapFormat(String saveName);
 
-    /**
-     * Return whether the given world can be loaded.
-     */
-    boolean canLoadWorld(String p_90033_1_);
+	/**
+	 * converts the map to mcRegion
+	 */
+	boolean convertMapFormat(String filename, IProgressUpdate progressCallback);
+
+	/**
+	 * Return whether the given world can be loaded.
+	 */
+	boolean canLoadWorld(String p_90033_1_);
+
 }

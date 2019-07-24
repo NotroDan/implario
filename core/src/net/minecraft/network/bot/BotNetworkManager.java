@@ -98,12 +98,12 @@ public class BotNetworkManager extends NetworkManager {
 
 	@Override
 	public void disableAutoRead() {
-//		super.disableAutoRead();
+		//		super.disableAutoRead();
 	}
 
 	@Override
 	public void setCompressionTreshold(int treshold) {
-//		super.setCompressionTreshold(treshold);
+		//		super.setCompressionTreshold(treshold);
 	}
 
 	@Override

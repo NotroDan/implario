@@ -103,6 +103,7 @@ public class ContainerCreativeItems extends Container {
 	}
 
 	private static class ScrollSlot extends Slot {
+
 		public int baseY;
 
 		public ScrollSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {

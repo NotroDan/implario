@@ -1,72 +1,66 @@
 package net.minecraft.network.play.server;
 
 import com.google.common.collect.Maps;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 
-public class S37PacketStatistics implements Packet<INetHandlerPlayClient>
-{
-    private Map<StatBase, Integer> field_148976_a;
+public class S37PacketStatistics implements Packet<INetHandlerPlayClient> {
 
-    public S37PacketStatistics()
-    {
-    }
+	private Map<StatBase, Integer> field_148976_a;
 
-    public S37PacketStatistics(Map<StatBase, Integer> p_i45173_1_)
-    {
-        this.field_148976_a = p_i45173_1_;
-    }
+	public S37PacketStatistics() {
+	}
 
-    /**
-     * Passes this Packet on to the NetHandler for processing.
-     */
-    public void processPacket(INetHandlerPlayClient handler)
-    {
-        handler.handleStatistics(this);
-    }
+	public S37PacketStatistics(Map<StatBase, Integer> p_i45173_1_) {
+		this.field_148976_a = p_i45173_1_;
+	}
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
-    public void readPacketData(PacketBuffer buf) throws IOException
-    {
-        int i = buf.readVarIntFromBuffer();
-        this.field_148976_a = Maps.newHashMap();
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	public void processPacket(INetHandlerPlayClient handler) {
+		handler.handleStatistics(this);
+	}
 
-        for (int j = 0; j < i; ++j)
-        {
-            StatBase statbase = StatList.getOneShotStat(buf.readStringFromBuffer(32767));
-            int k = buf.readVarIntFromBuffer();
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
+	public void readPacketData(PacketBuffer buf) throws IOException {
+		int i = buf.readVarIntFromBuffer();
+		this.field_148976_a = Maps.newHashMap();
 
-            if (statbase != null)
-            {
-                this.field_148976_a.put(statbase, k);
-            }
-        }
-    }
+		for (int j = 0; j < i; ++j) {
+			StatBase statbase = StatList.getOneShotStat(buf.readStringFromBuffer(32767));
+			int k = buf.readVarIntFromBuffer();
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
-    public void writePacketData(PacketBuffer buf) throws IOException
-    {
-        buf.writeVarIntToBuffer(this.field_148976_a.size());
+			if (statbase != null) {
+				this.field_148976_a.put(statbase, k);
+			}
+		}
+	}
 
-        for (Entry<StatBase, Integer> entry : this.field_148976_a.entrySet())
-        {
-            buf.writeString(((StatBase)entry.getKey()).statId);
-            buf.writeVarIntToBuffer(((Integer)entry.getValue()).intValue());
-        }
-    }
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
+	public void writePacketData(PacketBuffer buf) throws IOException {
+		buf.writeVarIntToBuffer(this.field_148976_a.size());
 
-    public Map<StatBase, Integer> func_148974_c()
-    {
-        return this.field_148976_a;
-    }
+		for (Entry<StatBase, Integer> entry : this.field_148976_a.entrySet()) {
+			buf.writeString(((StatBase) entry.getKey()).statId);
+			buf.writeVarIntToBuffer(((Integer) entry.getValue()).intValue());
+		}
+	}
+
+	public Map<StatBase, Integer> func_148974_c() {
+		return this.field_148976_a;
+	}
+
 }

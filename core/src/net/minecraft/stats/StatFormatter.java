@@ -23,7 +23,7 @@ public interface StatFormatter {
 		double kilometers = meters / 1000.0D;
 		return kilometers > 0.5D ? decimalFormat.format(kilometers) + " km" :
 				meters > 0.5D ? decimalFormat.format(meters) + " m" :
-				value + " cm";
+						value + " cm";
 	};
 	StatFormatter timeFormat = value -> {
 		double seconds = (double) value / 20.0D;
@@ -33,9 +33,9 @@ public interface StatFormatter {
 		double years = days / 365.0D;
 		return years > 0.5D ? decimalFormat.format(years) + " y" :
 				days > 0.5D ? decimalFormat.format(days) + " d" :
-				hours > 0.5D ? decimalFormat.format(hours) + " h" :
-				minutes > 0.5D ? decimalFormat.format(minutes) + " m" :
-				seconds + " s";
+						hours > 0.5D ? decimalFormat.format(hours) + " h" :
+								minutes > 0.5D ? decimalFormat.format(minutes) + " m" :
+										seconds + " s";
 	};
 
 

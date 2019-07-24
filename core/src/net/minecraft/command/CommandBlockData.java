@@ -1,6 +1,7 @@
 package net.minecraft.command;
 
 import java.util.List;
+
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,66 +9,56 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class CommandBlockData extends CommandBase
-{
-    /**
-     * Gets the name of the command
-     */
-    public String getCommandName()
-    {
-        return "blockdata";
-    }
+public class CommandBlockData extends CommandBase {
 
-    /**
-     * Return the required permission level for this command.
-     */
-    public int getRequiredPermissionLevel()
-    {
-        return 2;
-    }
+	/**
+	 * Gets the name of the command
+	 */
+	public String getCommandName() {
+		return "blockdata";
+	}
 
-    /**
-     * Gets the usage string for the command.
-     */
-    public String getCommandUsage(ICommandSender sender)
-    {
-        return "commands.blockdata.usage";
-    }
+	/**
+	 * Return the required permission level for this command.
+	 */
+	public int getRequiredPermissionLevel() {
+		return 2;
+	}
 
-    /**
-     * Callback when the command is invoked
-     */
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException
-    {
-        if (args.length < 4)
-        {
-            throw new WrongUsageException("commands.blockdata.usage", new Object[0]);
-        }
+	/**
+	 * Gets the usage string for the command.
+	 */
+	public String getCommandUsage(ICommandSender sender) {
+		return "commands.blockdata.usage";
+	}
+
+	/**
+	 * Callback when the command is invoked
+	 */
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+		if (args.length < 4) {
+			throw new WrongUsageException("commands.blockdata.usage", new Object[0]);
+		}
 		sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
 		BlockPos blockpos = parseBlockPos(sender, args, 0, false);
 		World world = sender.getEntityWorld();
 
-		if (!world.isBlockLoaded(blockpos))
-		{
+		if (!world.isBlockLoaded(blockpos)) {
 			throw new CommandException("commands.blockdata.outOfWorld", new Object[0]);
 		}
 		TileEntity tileentity = world.getTileEntity(blockpos);
 
-		if (tileentity == null)
-		{
+		if (tileentity == null) {
 			throw new CommandException("commands.blockdata.notValid", new Object[0]);
 		}
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		tileentity.writeToNBT(nbttagcompound);
-		NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttagcompound.copy();
+		NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttagcompound.copy();
 		NBTTagCompound nbttagcompound2;
 
-		try
-		{
+		try {
 			nbttagcompound2 = JsonToNBT.getTagFromJson(getChatComponentFromNthArg(sender, args, 3).getUnformattedText());
-		}
-		catch (NBTException nbtexception)
-		{
+		} catch (NBTException nbtexception) {
 			throw new CommandException("commands.blockdata.tagError", new Object[] {nbtexception.getMessage()});
 		}
 
@@ -76,8 +67,7 @@ public class CommandBlockData extends CommandBase
 		nbttagcompound.setInteger("y", blockpos.getY());
 		nbttagcompound.setInteger("z", blockpos.getZ());
 
-		if (nbttagcompound.equals(nbttagcompound1))
-		{
+		if (nbttagcompound.equals(nbttagcompound1)) {
 			throw new CommandException("commands.blockdata.failed", new Object[] {nbttagcompound.toString()});
 		}
 		tileentity.readFromNBT(nbttagcompound);
@@ -87,8 +77,8 @@ public class CommandBlockData extends CommandBase
 		notifyOperators(sender, this, "commands.blockdata.success", new Object[] {nbttagcompound.toString()});
 	}
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
-    {
-        return args.length > 0 && args.length <= 3 ? completePos(args, 0, pos) : null;
-    }
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+		return args.length > 0 && args.length <= 3 ? completePos(args, 0, pos) : null;
+	}
+
 }

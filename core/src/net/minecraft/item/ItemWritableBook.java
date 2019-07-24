@@ -17,7 +17,7 @@ public class ItemWritableBook extends Item {
 	 */
 	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer p) {
 		p.openGui(ItemStack.class, stack);
-//		p.displayGUIBook(stack);
+		//		p.displayGUIBook(stack);
 		p.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 		return stack;
 	}
