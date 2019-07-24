@@ -3,67 +3,63 @@ package shadersmod.client;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;
 
-public class GuiButtonEnumShaderOption extends GuiButton
-{
-    private EnumShaderOption enumShaderOption = null;
+public class GuiButtonEnumShaderOption extends GuiButton {
 
-    public GuiButtonEnumShaderOption(EnumShaderOption enumShaderOption, int x, int y, int widthIn, int heightIn)
-    {
-        super(enumShaderOption.ordinal(), x, y, widthIn, heightIn, getButtonText(enumShaderOption));
-        this.enumShaderOption = enumShaderOption;
-    }
+	private EnumShaderOption enumShaderOption = null;
 
-    public EnumShaderOption getEnumShaderOption()
-    {
-        return this.enumShaderOption;
-    }
+	public GuiButtonEnumShaderOption(EnumShaderOption enumShaderOption, int x, int y, int widthIn, int heightIn) {
+		super(enumShaderOption.ordinal(), x, y, widthIn, heightIn, getButtonText(enumShaderOption));
+		this.enumShaderOption = enumShaderOption;
+	}
 
-    private static String getButtonText(EnumShaderOption eso)
-    {
-        String s = Lang.format(eso.getResourceKey(), new Object[0]) + ": ";
+	public EnumShaderOption getEnumShaderOption() {
+		return this.enumShaderOption;
+	}
 
-        switch (eso)
-        {
-            case ANTIALIASING:
-                return s + GuiShaders.toStringAa(Shaders.configAntialiasingLevel);
+	private static String getButtonText(EnumShaderOption eso) {
+		String s = Lang.format(eso.getResourceKey(), new Object[0]) + ": ";
 
-            case NORMAL_MAP:
-                return s + GuiShaders.toStringOnOff(Shaders.configNormalMap);
+		switch (eso) {
+			case ANTIALIASING:
+				return s + GuiShaders.toStringAa(Shaders.configAntialiasingLevel);
 
-            case SPECULAR_MAP:
-                return s + GuiShaders.toStringOnOff(Shaders.configSpecularMap);
+			case NORMAL_MAP:
+				return s + GuiShaders.toStringOnOff(Shaders.configNormalMap);
 
-            case RENDER_RES_MUL:
-                return s + GuiShaders.toStringQuality(Shaders.configRenderResMul);
+			case SPECULAR_MAP:
+				return s + GuiShaders.toStringOnOff(Shaders.configSpecularMap);
 
-            case SHADOW_RES_MUL:
-                return s + GuiShaders.toStringQuality(Shaders.configShadowResMul);
+			case RENDER_RES_MUL:
+				return s + GuiShaders.toStringQuality(Shaders.configRenderResMul);
 
-            case HAND_DEPTH_MUL:
-                return s + GuiShaders.toStringHandDepth(Shaders.configHandDepthMul);
+			case SHADOW_RES_MUL:
+				return s + GuiShaders.toStringQuality(Shaders.configShadowResMul);
 
-            case CLOUD_SHADOW:
-                return s + GuiShaders.toStringOnOff(Shaders.configCloudShadow);
+			case HAND_DEPTH_MUL:
+				return s + GuiShaders.toStringHandDepth(Shaders.configHandDepthMul);
 
-            case OLD_HAND_LIGHT:
-                return s + Shaders.configOldHandLight.getUserValue();
+			case CLOUD_SHADOW:
+				return s + GuiShaders.toStringOnOff(Shaders.configCloudShadow);
 
-            case OLD_LIGHTING:
-                return s + Shaders.configOldLighting.getUserValue();
+			case OLD_HAND_LIGHT:
+				return s + Shaders.configOldHandLight.getUserValue();
 
-            case SHADOW_CLIP_FRUSTRUM:
-                return s + GuiShaders.toStringOnOff(Shaders.configShadowClipFrustrum);
+			case OLD_LIGHTING:
+				return s + Shaders.configOldLighting.getUserValue();
 
-            case TWEAK_BLOCK_DAMAGE:
-                return s + GuiShaders.toStringOnOff(Shaders.configTweakBlockDamage);
+			case SHADOW_CLIP_FRUSTRUM:
+				return s + GuiShaders.toStringOnOff(Shaders.configShadowClipFrustrum);
 
-            default:
-                return s + Shaders.getEnumShaderOption(eso);
-        }
-    }
+			case TWEAK_BLOCK_DAMAGE:
+				return s + GuiShaders.toStringOnOff(Shaders.configTweakBlockDamage);
 
-    public void updateButtonText()
-    {
-        this.displayString = getButtonText(this.enumShaderOption);
-    }
+			default:
+				return s + Shaders.getEnumShaderOption(eso);
+		}
+	}
+
+	public void updateButtonText() {
+		this.displayString = getButtonText(this.enumShaderOption);
+	}
+
 }
