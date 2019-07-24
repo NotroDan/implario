@@ -1,5 +1,6 @@
 package net.minecraft.client.resources.model;
 
+import __google_.util.FileIO;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -153,7 +154,7 @@ public class ModelBakery {
 
 				if (this.models.get(resourcelocation) == null) {
 					try {
-						ModelBlock modelblock = this.loadModel(resourcelocation);
+						ModelBlock modelblock = loadModel(resourcelocation, resourceManager);
 						this.models.put(resourcelocation, modelblock);
 					} catch (Exception exception) {
 						LOGGER.warn("Unable to load block model: \'" + resourcelocation + "\' for variant: \'" + modelresourcelocation + "\'", exception);
@@ -163,7 +164,12 @@ public class ModelBakery {
 		}
 	}
 
-	private ModelBlock loadModel(ResourceLocation p_177594_1_) throws IOException {
+	public static void rewriteModel(File file) throws IOException{
+		ModelBlock load = ModelBlock.deserialize(new FileInputStream(file));
+		FileIO.writeBytes(file, ModelBlock.serialize(load));
+	}
+
+	private static ModelBlock loadModel(ResourceLocation p_177594_1_, IResourceManager manager) throws IOException {
 		String s = p_177594_1_.getResourcePath();
 
 		if ("builtin/generated".equals(s)) {
@@ -190,7 +196,7 @@ public class ModelBakery {
 
 			in = new ByteArrayInputStream(s2.getBytes());
 		} else {
-			IResource iresource = this.resourceManager.getResource(this.getModelLocation(p_177594_1_));
+			IResource iresource = manager.getResource(getModelLocation(p_177594_1_));
 			in = iresource.getInputStream();
 		}
 
@@ -207,7 +213,7 @@ public class ModelBakery {
 		return modelblock1;
 	}
 
-	private ResourceLocation getModelLocation(ResourceLocation p_177580_1_) {
+	public static ResourceLocation getModelLocation(ResourceLocation p_177580_1_) {
 		return new ResourceLocation(p_177580_1_.getResourceDomain(), "models/" + p_177580_1_.getResourcePath() + ".json");
 	}
 
@@ -221,7 +227,7 @@ public class ModelBakery {
 
 				if (this.models.get(resourcelocation) == null) {
 					try {
-						ModelBlock modelblock = this.loadModel(resourcelocation);
+						ModelBlock modelblock = loadModel(resourcelocation, resourceManager);
 						this.models.put(resourcelocation, modelblock);
 					} catch (Exception exception) {
 						LOGGER.warn("Unable to load item model: \'" + resourcelocation + "\' for item: \'" + Item.itemRegistry.getNameForObject(item) + "\'", exception);
@@ -428,7 +434,7 @@ public class ModelBakery {
 					continue;
 				}
 
-				ModelBlock modelblock = this.loadModel(resourcelocation2);
+				ModelBlock modelblock = loadModel(resourcelocation2, resourceManager);
 				this.models.put(resourcelocation2, modelblock);
 				ResourceLocation resourcelocation3 = modelblock.getParentLocation();
 
