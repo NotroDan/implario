@@ -1,7 +1,5 @@
 package net.minecraft.command;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.Entity;

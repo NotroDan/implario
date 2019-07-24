@@ -1,6 +1,5 @@
 package vanilla.world.gen.feature.village;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;

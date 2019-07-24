@@ -1,6 +1,5 @@
 package vanilla.world.gen.structure;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import vanilla.entity.monster.EntityGuardian;
 import net.minecraft.nbt.NBTTagCompound;

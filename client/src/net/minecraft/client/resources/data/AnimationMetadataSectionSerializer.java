@@ -1,6 +1,5 @@
 package net.minecraft.client.resources.data;
 
-import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;

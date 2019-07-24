@@ -1,6 +1,5 @@
 package net.minecraft.util;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.util.ArrayList;

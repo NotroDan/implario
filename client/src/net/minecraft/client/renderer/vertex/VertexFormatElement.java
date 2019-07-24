@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.vertex;
 
-import net.minecraft.LogManager;
 import net.minecraft.Logger;
 
 public class VertexFormatElement

@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.network.play.server.S38PacketPlayerListItem;
-import net.minecraft.resources.event.Event;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.player.PlayerInteractEvent;
 import net.minecraft.tileentity.TileEntity;

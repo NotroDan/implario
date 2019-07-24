@@ -1,6 +1,5 @@
 package net.minecraft.item.crafting;
 
-import com.google.common.collect.Lists;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.EnumDyeColor;

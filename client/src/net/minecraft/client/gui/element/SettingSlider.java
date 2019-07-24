@@ -1,6 +1,5 @@
 package net.minecraft.client.gui.element;
 
-import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;

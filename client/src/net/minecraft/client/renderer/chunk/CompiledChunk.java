@@ -1,7 +1,5 @@
 package net.minecraft.client.renderer.chunk;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.renderer.WorldRenderer;

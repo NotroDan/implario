@@ -1,6 +1,5 @@
 package vanilla.world.gen.provider;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.state.IBlockState;
 import vanilla.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;

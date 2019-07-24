@@ -1,6 +1,5 @@
 package vanilla.world.gen.structure;
 
-import com.google.common.collect.Lists;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;

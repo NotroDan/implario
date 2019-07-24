@@ -1,6 +1,5 @@
 package vanilla.entity.ai;
 
-import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import vanilla.entity.ai.tasks.EntityAIBase;
 import net.minecraft.server.Profiler;

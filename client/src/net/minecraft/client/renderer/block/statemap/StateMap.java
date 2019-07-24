@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.block.statemap;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.util.ArrayList;

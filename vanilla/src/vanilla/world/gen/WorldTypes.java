@@ -10,7 +10,6 @@ import net.minecraft.world.datapacks.ChunkManagerFactory;
 import net.minecraft.world.datapacks.ChunkProviderFactory;
 import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.biome.WorldChunkBiomer;
-import vanilla.world.biome.WorldChunkBiomerHell;
 import vanilla.world.gen.provider.ChunkProviderFlat;
 import vanilla.world.gen.provider.ChunkProviderGenerate;
 

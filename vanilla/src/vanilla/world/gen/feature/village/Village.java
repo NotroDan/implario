@@ -1,6 +1,5 @@
 package vanilla.world.gen.feature.village;
 
-import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 
 import java.util.ArrayList;

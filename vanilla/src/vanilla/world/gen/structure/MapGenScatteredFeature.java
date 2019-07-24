@@ -1,6 +1,5 @@
 package vanilla.world.gen.structure;
 
-import com.google.common.collect.Lists;
 import vanilla.entity.monster.EntityWitch;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;

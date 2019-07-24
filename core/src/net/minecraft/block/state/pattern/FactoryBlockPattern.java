@@ -3,7 +3,6 @@ package net.minecraft.block.state.pattern;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.lang.reflect.Array;
 import java.util.ArrayList;

@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.resources.Datapacks;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
@@ -23,12 +22,10 @@ import optifine.Config;
 import org.lwjgl.opengl.GLContext;
 import shadersmod.client.GuiShaders;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 

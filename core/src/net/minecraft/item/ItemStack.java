@@ -14,8 +14,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.events.player.PlayerItemUseEvent;
 import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTBase;

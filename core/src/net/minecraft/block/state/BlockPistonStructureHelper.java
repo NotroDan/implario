@@ -1,7 +1,5 @@
 package net.minecraft.block.state;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;

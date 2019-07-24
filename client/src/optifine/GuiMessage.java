@@ -1,6 +1,5 @@
 package optifine;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;

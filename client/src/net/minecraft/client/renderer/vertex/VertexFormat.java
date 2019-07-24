@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.vertex;
 
-import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 
 import java.util.ArrayList;

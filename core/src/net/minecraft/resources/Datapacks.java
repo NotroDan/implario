@@ -1,6 +1,5 @@
 package net.minecraft.resources;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import net.minecraft.block.Block;
@@ -11,13 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.load.DatapackLoadException;
 import net.minecraft.resources.load.DatapackLoader;
-import net.minecraft.resources.load.JarDatapackLoader;
-import net.minecraft.resources.load.SimpleDatapackLoader;
 import net.minecraft.server.Todo;
-import org.apache.commons.lang3.Validate;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package net.minecraft.client.multiplayer;
 
-import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;

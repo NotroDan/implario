@@ -3,7 +3,6 @@ package net.minecraft.client.gui.ingame.hotbar;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.element.Colors;
-import net.minecraft.util.MathHelper;
 
 public class SimpleScale extends Scale {
 

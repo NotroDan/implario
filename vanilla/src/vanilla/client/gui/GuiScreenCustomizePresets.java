@@ -1,6 +1,5 @@
 package vanilla.client.gui;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.element.GuiButton;
