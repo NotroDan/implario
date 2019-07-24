@@ -28,7 +28,7 @@ import net.minecraft.Logger;
 
 public class ModelBlock {
     private static final Logger LOGGER = Logger.getInstance();
-    static final Gson SERIALIZER = new GsonBuilder().registerTypeAdapter(ModelBlock.class, new ModelBlock.Deserializer()).registerTypeAdapter(BlockPart.class, new BlockPart.Deserializer()).registerTypeAdapter(BlockPartFace.class, new BlockPartFace.Deserializer()).registerTypeAdapter(BlockFaceUV.class, new BlockFaceUV.Deserializer()).registerTypeAdapter(ItemTransformVec3f.class, new ItemTransformVec3f.Deserializer()).registerTypeAdapter(ItemCameraTransforms.class, new ItemCameraTransforms.Deserializer()).create();
+    public static final Gson SERIALIZER = new GsonBuilder().registerTypeAdapter(ModelBlock.class, new ModelBlock.Deserializer()).registerTypeAdapter(BlockPart.class, new BlockPart.Deserializer()).registerTypeAdapter(BlockPartFace.class, new BlockPartFace.Deserializer()).registerTypeAdapter(BlockFaceUV.class, new BlockFaceUV.Deserializer()).registerTypeAdapter(ItemTransformVec3f.class, new ItemTransformVec3f.Deserializer()).registerTypeAdapter(ItemCameraTransforms.class, new ItemCameraTransforms.Deserializer()).create();
     private final List<BlockPart> elements;
     private final boolean gui3d;
     private final boolean ambientOcclusion;
@@ -52,7 +52,8 @@ public class ModelBlock {
             ex.printStackTrace();
             return null;
         }
-        return deserialize(new String(array, StandardCharsets.UTF_8));
+        if(array[0] == 0) return deserialize(array);
+        else return deserialize(new String(array, StandardCharsets.UTF_8));
     }
 
     public static ModelBlock deserialize(String str) {
@@ -222,6 +223,7 @@ public class ModelBlock {
 
     public static ModelBlock deserialize(byte array[]){
         ByteUnzip unzip = new ByteUnzip(array);
+        unzip.getBytes();
         int size = unzip.getInt();
         List<BlockPart> list = new ArrayList<>(size);
         for(int i = 0; i < size; i++)
@@ -244,6 +246,7 @@ public class ModelBlock {
 
     public static byte[] serialize(ModelBlock block){
         ByteZip zip = new ByteZip();
+        zip.add(new byte[]{});
         int size = block.elements.size();
         zip.add(size);
         for(int i = 0; i < size; i++)
