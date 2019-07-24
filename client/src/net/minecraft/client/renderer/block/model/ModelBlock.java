@@ -248,7 +248,7 @@ public class ModelBlock {
         zip.add(size);
         for(int i = 0; i < size; i++)
             zip.add(BlockPart.serialize(block.elements.get(i)));
-        zip.add(block.parentLocation == null ? new byte[]{} : block.parentLocation.getResourcePath());
+        zip.add(block.parentLocation == null ? new byte[]{} : block.parentLocation.getResourceDomain() + ":" + block.parentLocation.getResourcePath());
         size = block.textures.size();
         zip.add(size);
         for(Entry<String, String> entry : block.textures.entrySet())
