@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.block.model;
 
+import __google_.util.ByteUnzip;
+import __google_.util.ByteZip;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -10,6 +12,8 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import net.minecraft.Utils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.MathHelper;
@@ -65,6 +69,72 @@ public class BlockPart
         }
 
         return afloat;
+    }
+
+    public static BlockPart deserialize(byte array[]){
+        ByteUnzip unzip = new ByteUnzip(array);
+        Vector3f vec3f = parse(unzip.getBytes());
+        Vector3f vec3fl = parse(unzip.getBytes());
+
+        BlockPartRotation rotation;
+        byte next[] = unzip.getBytes();
+        if(next.length == 0) rotation = null;
+        else{
+            ByteUnzip unz = new ByteUnzip(next);
+            Vector3f v3f = parse(unz.getBytes());
+            v3f.scale(0.0625F);
+            EnumFacing.Axis axis = EnumFacing.Axis.values()[unz.getInt()];
+            float f = Utils.toFloat(unz.getBytes());
+            boolean flag = unz.getBoolean();
+            rotation = new BlockPartRotation(v3f, axis, f, flag);
+        }
+
+        Map<EnumFacing, BlockPartFace> faces = Maps.newEnumMap(EnumFacing.class);
+        int max = unzip.getInt();
+        for(int i = 0; i < max; i++)
+            faces.put(EnumFacing.VALUES[unzip.getInt()], BlockPartFace.deserialize(unzip.getBytes()));
+
+        boolean flag = unzip.getBoolean();
+
+        return new BlockPart(vec3f, vec3fl, faces, rotation, flag);
+    }
+
+    public static Vector3f parse(byte array[]){
+        ByteUnzip unzip = new ByteUnzip(array);
+        return new Vector3f(
+                Utils.toFloat(unzip.getBytes()),
+                Utils.toFloat(unzip.getBytes()),
+                Utils.toFloat(unzip.getBytes())
+        );
+    }
+
+    public static byte[] serialize(BlockPart part){
+        ByteZip zip = new ByteZip();
+        zip.add(encode(part.positionFrom)).add(encode(part.positionTo));
+        BlockPartRotation rotation = part.partRotation;
+        if(rotation == null)zip.add(new byte[]{});
+        else{
+            ByteZip z = new ByteZip();
+            z.add(encode(rotation.origin));
+            z.add(rotation.axis.ordinal());
+            z.add(Utils.toBytes(rotation.angle));
+            z.add(rotation.rescale);
+            zip.add(z.build());
+        }
+        int i = 0;
+        for(BlockPartFace face : part.mapFaces.values())
+            if(face != null)i++;
+        zip.add(i);
+        for(Entry<EnumFacing, BlockPartFace> entry : part.mapFaces.entrySet()){
+            if(entry.getValue() == null)continue;
+            zip.add(entry.getKey().ordinal()).add(BlockPartFace.serialize(entry.getValue()));
+        }
+        zip.add(part.shade);
+        return zip.build();
+    }
+
+    public static byte[] encode(Vector3f vector3f){
+        return new ByteZip().add(Utils.toBytes(vector3f.x)).add(Utils.toBytes(vector3f.y)).add(Utils.toBytes(vector3f.z)).build();
     }
 
     static class Deserializer implements JsonDeserializer<BlockPart>

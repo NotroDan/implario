@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.block.model;
 
+import __google_.util.ByteUnzip;
+import __google_.util.ByteZip;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -17,12 +19,30 @@ public class BlockPartFace
     public final String texture;
     public final BlockFaceUV blockFaceUV;
 
-    public BlockPartFace(EnumFacing cullFaceIn, int tintIndexIn, String textureIn, BlockFaceUV blockFaceUVIn)
-    {
+    public BlockPartFace(EnumFacing cullFaceIn, int tintIndexIn, String textureIn, BlockFaceUV blockFaceUVIn) {
         this.cullFace = cullFaceIn;
         this.tintIndex = tintIndexIn;
         this.texture = textureIn;
         this.blockFaceUV = blockFaceUVIn;
+    }
+
+    public static BlockPartFace deserialize(byte array[]){
+        ByteUnzip unzip = new ByteUnzip(array);
+        int i = unzip.getInt();
+        EnumFacing facing = i == -1 ? null : EnumFacing.VALUES[i];
+        int tintIndex = unzip.getInt();
+        String texture = unzip.getString();
+        BlockFaceUV faceUV = BlockFaceUV.deserialize(unzip.getBytes());
+        return new BlockPartFace(facing, tintIndex, texture, faceUV);
+    }
+
+    public static byte[] serialize(BlockPartFace partFace){
+        ByteZip zip = new ByteZip();
+        zip.add(partFace.cullFace == null ? -1 : partFace.cullFace.ordinal());
+        zip.add(partFace.tintIndex);
+        zip.add(partFace.texture);
+        zip.add(BlockFaceUV.serialize(partFace.blockFaceUV));
+        return zip.build();
     }
 
     static class Deserializer implements JsonDeserializer<BlockPartFace>

@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.block.model;
 
+import __google_.util.ByteUnzip;
+import __google_.util.ByteZip;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -39,12 +41,27 @@ public class ItemTransformVec3f
 		return !this.rotation.equals(itemtransformvec3f.rotation) ? false : !this.scale.equals(itemtransformvec3f.scale) ? false : this.translation.equals(itemtransformvec3f.translation);
 	}
 
-    public int hashCode()
-    {
+    public int hashCode() {
         int i = this.rotation.hashCode();
         i = 31 * i + this.translation.hashCode();
         i = 31 * i + this.scale.hashCode();
         return i;
+    }
+
+    public static ItemTransformVec3f deserialize(byte array[]){
+        ByteUnzip unzip = new ByteUnzip(array);
+        Vector3f one = BlockPart.parse(unzip.getBytes());
+        Vector3f two = BlockPart.parse(unzip.getBytes());
+        Vector3f scale = BlockPart.parse(unzip.getBytes());
+        return new ItemTransformVec3f(one, two, scale);
+    }
+
+    public static byte[] serialize(ItemTransformVec3f item){
+        ByteZip zip = new ByteZip();
+        zip.add(BlockPart.encode(item.rotation));
+        zip.add(BlockPart.encode(item.translation));
+        zip.add(BlockPart.encode(item.scale));
+        return zip.build();
     }
 
     static class Deserializer implements JsonDeserializer<ItemTransformVec3f>

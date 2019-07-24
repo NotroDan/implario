@@ -178,7 +178,7 @@ public class ModelBakery {
 		if ("builtin/entity".equals(s)) {
 			return MODEL_ENTITY;
 		}
-		Reader reader;
+		InputStream in;
 
 		if (s.startsWith("builtin/")) {
 			String s1 = s.substring("builtin/".length());
@@ -188,20 +188,20 @@ public class ModelBakery {
 				throw new FileNotFoundException(p_177594_1_.toString());
 			}
 
-			reader = new StringReader(s2);
+			in = new ByteArrayInputStream(s2.getBytes());
 		} else {
 			IResource iresource = this.resourceManager.getResource(this.getModelLocation(p_177594_1_));
-			reader = new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8);
+			in = iresource.getInputStream();
 		}
 
 		ModelBlock modelblock1;
 
 		try {
-			ModelBlock modelblock = ModelBlock.deserialize(reader);
+			ModelBlock modelblock = ModelBlock.deserialize(in);
 			modelblock.name = p_177594_1_.toString();
 			modelblock1 = modelblock;
 		} finally {
-			reader.close();
+			in.close();
 		}
 
 		return modelblock1;

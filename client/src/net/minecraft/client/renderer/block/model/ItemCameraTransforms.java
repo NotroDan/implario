@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.block.model;
 
+import __google_.util.ByteUnzip;
+import __google_.util.ByteZip;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -96,6 +98,30 @@ public class ItemCameraTransforms
     public boolean func_181687_c(ItemCameraTransforms.TransformType p_181687_1_)
     {
         return !this.getTransform(p_181687_1_).equals(ItemTransformVec3f.DEFAULT);
+    }
+
+    public static ItemCameraTransforms deserialize(byte array[]){
+        ByteUnzip unzip = new ByteUnzip(array);
+        return new ItemCameraTransforms(
+                ItemTransformVec3f.deserialize(unzip.getBytes()),
+                ItemTransformVec3f.deserialize(unzip.getBytes()),
+                ItemTransformVec3f.deserialize(unzip.getBytes()),
+                ItemTransformVec3f.deserialize(unzip.getBytes()),
+                ItemTransformVec3f.deserialize(unzip.getBytes()),
+                ItemTransformVec3f.deserialize(unzip.getBytes())
+        );
+    }
+
+    public static byte[] serialize(ItemCameraTransforms transforms){
+        ByteZip zip = new ByteZip();
+        zip.add(ItemTransformVec3f.serialize(transforms.thirdPerson));
+        zip.add(ItemTransformVec3f.serialize(transforms.firstPerson));
+        zip.add(ItemTransformVec3f.serialize(transforms.head));
+        zip.add(ItemTransformVec3f.serialize(transforms.gui));
+        zip.add(ItemTransformVec3f.serialize(transforms.ground));
+        zip.add(ItemTransformVec3f.serialize(transforms.fixed));
+        return zip.build();
+
     }
 
     static class Deserializer implements JsonDeserializer<ItemCameraTransforms>

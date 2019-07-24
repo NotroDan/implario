@@ -19,6 +19,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShaderOption;
 
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -78,6 +79,23 @@ public class Utils {
 		G.disableBlend();
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		G.popMatrix();
+	}
+
+	public static byte[] toBytes(float f){
+		ByteBuffer buffer = ByteBuffer.allocate(4);
+		buffer.putFloat(0, f);
+		byte array[] = buffer.array();
+		buffer.clear();
+		return array;
+	}
+
+	public static float toFloat(byte array[]){
+		ByteBuffer buffer = ByteBuffer.allocate(4);
+		buffer.put(array);
+		buffer.position(0);
+		float f = buffer.getFloat();
+		buffer.clear();
+		return f;
 	}
 
 	public static void sleep(long ms) {

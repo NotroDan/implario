@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.block.model;
 
+import __google_.util.ByteUnzip;
+import __google_.util.ByteZip;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -9,12 +11,14 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.Map.Entry;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -22,8 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
 
-public class ModelBlock
-{
+public class ModelBlock {
     private static final Logger LOGGER = Logger.getInstance();
     static final Gson SERIALIZER = new GsonBuilder().registerTypeAdapter(ModelBlock.class, new ModelBlock.Deserializer()).registerTypeAdapter(BlockPart.class, new BlockPart.Deserializer()).registerTypeAdapter(BlockPartFace.class, new BlockPartFace.Deserializer()).registerTypeAdapter(BlockFaceUV.class, new BlockFaceUV.Deserializer()).registerTypeAdapter(ItemTransformVec3f.class, new ItemTransformVec3f.Deserializer()).registerTypeAdapter(ItemCameraTransforms.class, new ItemCameraTransforms.Deserializer()).create();
     private final List<BlockPart> elements;
@@ -35,14 +38,25 @@ public class ModelBlock
     protected ModelBlock parent;
     protected ResourceLocation parentLocation;
 
-    public static ModelBlock deserialize(Reader p_178307_0_)
-    {
-        return (ModelBlock)SERIALIZER.fromJson(p_178307_0_, ModelBlock.class);
+    public static ModelBlock deserialize(InputStream in) {
+        byte array[];
+        int i = 0;
+        try {
+            array = new byte[in.available()];
+            while (true) {
+                int read = in.read();
+                if (read == -1) break;
+                array[i++] = (byte)read;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return deserialize(new String(array, StandardCharsets.UTF_8));
     }
 
-    public static ModelBlock deserialize(String p_178294_0_)
-    {
-        return deserialize(new StringReader(p_178294_0_));
+    public static ModelBlock deserialize(String str) {
+        return SERIALIZER.fromJson(str, ModelBlock.class);
     }
 
     protected ModelBlock(List<BlockPart> p_i46225_1_, Map<String, String> p_i46225_2_, boolean p_i46225_3_, boolean p_i46225_4_, ItemCameraTransforms p_i46225_5_)
@@ -206,6 +220,45 @@ public class ModelBlock
         }
     }
 
+    public static ModelBlock deserialize(byte array[]){
+        ByteUnzip unzip = new ByteUnzip(array);
+        int size = unzip.getInt();
+        List<BlockPart> list = new ArrayList<>(size);
+        for(int i = 0; i < size; i++)
+            list.add(BlockPart.deserialize(unzip.getBytes()));
+        byte prnt[] = unzip.getBytes();
+        String parent = prnt.length == 0 ? null : new String(prnt);
+        size = unzip.getInt();
+        Map<String, String> textures = new HashMap<>(size);
+        for(int i = 0; i < size; i++)
+            textures.put(unzip.getString(), unzip.getString());
+        boolean flag = unzip.getBoolean();
+        ItemCameraTransforms itemCamera = ItemCameraTransforms.DEFAULT;
+        byte next[] = unzip.getBytes();
+        if(next.length != 0)
+            itemCamera = ItemCameraTransforms.deserialize(next);
+        return list.isEmpty() ?
+                new ModelBlock(new ResourceLocation(parent), textures, flag, true, itemCamera) :
+                new ModelBlock(list, textures, flag, true, itemCamera);
+    }
+
+    public static byte[] serialize(ModelBlock block){
+        ByteZip zip = new ByteZip();
+        int size = block.elements.size();
+        zip.add(size);
+        for(int i = 0; i < size; i++)
+            zip.add(BlockPart.serialize(block.elements.get(i)));
+        zip.add(block.parentLocation == null ? new byte[]{} : block.parentLocation.getResourcePath());
+        size = block.textures.size();
+        zip.add(size);
+        for(Entry<String, String> entry : block.textures.entrySet())
+            zip.add(entry.getKey()).add(entry.getValue());
+        zip.add(block.ambientOcclusion);
+        if(ItemCameraTransforms.DEFAULT.equals(block.cameraTransforms)) zip.add(new byte[]{});
+        else zip.add(ItemCameraTransforms.serialize(block.cameraTransforms));
+        return zip.build();
+    }
+
     public static class Deserializer implements JsonDeserializer<ModelBlock>
     {
         public ModelBlock deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
@@ -234,7 +287,8 @@ public class ModelBlock
 				itemcameratransforms = (ItemCameraTransforms)p_deserialize_3_.deserialize(jsonobject1, ItemCameraTransforms.class);
 			}
 
-			return flag1 ? new ModelBlock(new ResourceLocation(s), map, flag2, true, itemcameratransforms) : new ModelBlock(list, map, flag2, true, itemcameratransforms);
+			return flag1 ? new ModelBlock(new ResourceLocation(s), map, flag2, true, itemcameratransforms)
+                            : new ModelBlock(list, map, flag2, true, itemcameratransforms);
 		}
 
         private Map<String, String> getTextures(JsonObject p_178329_1_)
