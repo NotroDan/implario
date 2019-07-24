@@ -17,8 +17,8 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.server.*;
-import net.minecraft.resources.Registrar;
 import net.minecraft.resources.ServerSideLoadable;
+import net.minecraft.resources.Registrar;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import vanilla.client.audio.GuardianSound;
@@ -42,15 +42,15 @@ public class VPackets implements ServerSideLoadable {
 	public void load(Registrar registrar) {
 
 		// Server packets
-		registrar.regInterceptor(S2DPacketOpenWindow.class, this::handleOpenWindow);
-		registrar.regInterceptor(S1BPacketEntityAttach.class, this::handleEntityAttach);
-		registrar.regInterceptor(S19PacketEntityStatus.class, this::handleEntityStatus);
-		registrar.regInterceptor(S3FPacketCustomPayload.class, this::handleCustomPayload);
+		registrar.regInterceptor(S2DPacketOpenWindow.class,      this::handleOpenWindow);
+		registrar.regInterceptor(S1BPacketEntityAttach.class,    this::handleEntityAttach);
+		registrar.regInterceptor(S19PacketEntityStatus.class,    this::handleEntityStatus);
+		registrar.regInterceptor(S3FPacketCustomPayload.class,   this::handleCustomPayload);
 		registrar.regInterceptor(S2BPacketChangeGameState.class, this::handleGameStateChange);
-		registrar.regInterceptor(S0EPacketSpawnObject.class, this::handleSpawnObject);
+		registrar.regInterceptor(S0EPacketSpawnObject.class,     this::handleSpawnObject);
 
 		// Client packets
-		registrar.regInterceptor(C17PacketCustomPayload.class, this::handleCustomPayload);
+		registrar.regInterceptor(C17PacketCustomPayload.class,   this::handleCustomPayload);
 
 	}
 

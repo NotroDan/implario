@@ -12,7 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import vanilla.item.VanillaItems;
 
-public class EntityLeashKnot extends EntityHanging {
+public class EntityLeashKnot extends EntityHanging{
 
 	public EntityLeashKnot(World worldIn) {
 		super(worldIn);
@@ -25,28 +25,6 @@ public class EntityLeashKnot extends EntityHanging {
 		float f1 = 0.1875F;
 		float f2 = 0.25F;
 		this.setEntityBoundingBox(new AxisAlignedBB(this.posX - 0.1875D, this.posY - 0.25D + 0.125D, this.posZ - 0.1875D, this.posX + 0.1875D, this.posY + 0.25D + 0.125D, this.posZ + 0.1875D));
-	}
-
-	public static EntityLeashKnot createKnot(World worldIn, BlockPos fence) {
-		EntityLeashKnot entityleashknot = new EntityLeashKnot(worldIn, fence);
-		entityleashknot.forceSpawn = true;
-		worldIn.spawnEntityInWorld(entityleashknot);
-		return entityleashknot;
-	}
-
-	public static EntityLeashKnot getKnotForPosition(World worldIn, BlockPos pos) {
-		int i = pos.getX();
-		int j = pos.getY();
-		int k = pos.getZ();
-
-		for (EntityLeashKnot entityleashknot : worldIn.getEntitiesWithinAABB(EntityLeashKnot.class,
-				new AxisAlignedBB((double) i - 1.0D, (double) j - 1.0D, (double) k - 1.0D, (double) i + 1.0D, (double) j + 1.0D, (double) k + 1.0D))) {
-			if (entityleashknot.getHangingPosition().equals(pos)) {
-				return entityleashknot;
-			}
-		}
-
-		return null;
 	}
 
 	protected void entityInit() {
@@ -148,6 +126,28 @@ public class EntityLeashKnot extends EntityHanging {
 	 */
 	public boolean onValidSurface() {
 		return this.worldObj.getBlockState(this.hangingPosition).getBlock() instanceof BlockFence;
+	}
+
+	public static EntityLeashKnot createKnot(World worldIn, BlockPos fence) {
+		EntityLeashKnot entityleashknot = new EntityLeashKnot(worldIn, fence);
+		entityleashknot.forceSpawn = true;
+		worldIn.spawnEntityInWorld(entityleashknot);
+		return entityleashknot;
+	}
+
+	public static EntityLeashKnot getKnotForPosition(World worldIn, BlockPos pos) {
+		int i = pos.getX();
+		int j = pos.getY();
+		int k = pos.getZ();
+
+		for (EntityLeashKnot entityleashknot : worldIn.getEntitiesWithinAABB(EntityLeashKnot.class,
+				new AxisAlignedBB((double) i - 1.0D, (double) j - 1.0D, (double) k - 1.0D, (double) i + 1.0D, (double) j + 1.0D, (double) k + 1.0D))) {
+			if (entityleashknot.getHangingPosition().equals(pos)) {
+				return entityleashknot;
+			}
+		}
+
+		return null;
 	}
 
 }

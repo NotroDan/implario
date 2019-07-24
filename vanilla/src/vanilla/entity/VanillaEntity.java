@@ -2,8 +2,14 @@ package vanilla.entity;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
+import vanilla.Vanilla;
+import vanilla.entity.ai.*;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
+import vanilla.entity.monster.EntityGhast;
+import vanilla.entity.monster.EntityMob;
+import vanilla.entity.monster.IMob;
+import vanilla.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
@@ -11,25 +17,19 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
+import vanilla.entity.ai.pathfinding.PathNavigate;
+import vanilla.entity.ai.pathfinding.PathNavigateGround;
 import net.minecraft.resources.Domain;
 import net.minecraft.server.Todo;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ParticleType;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
-import vanilla.Vanilla;
-import vanilla.entity.ai.*;
-import vanilla.entity.ai.pathfinding.PathNavigate;
-import vanilla.entity.ai.pathfinding.PathNavigateGround;
-import vanilla.entity.monster.EntityGhast;
-import vanilla.entity.monster.EntityMob;
-import vanilla.entity.monster.IMob;
-import vanilla.entity.passive.EntityTameable;
 import vanilla.item.VanillaItems;
 
 import java.util.UUID;
@@ -37,49 +37,55 @@ import java.util.UUID;
 public abstract class VanillaEntity extends EntityLivingBase implements IPersistenceAllowed {
 
 	/**
-	 * Passive tasks (wandering, look, idle, ...)
-	 */
-	protected final EntityAITasks tasks;
-	/**
-	 * Fighting tasks (used by monsters, wolves, ocelots)
-	 */
-	protected final EntityAITasks targetTasks;
-	/**
 	 * Number of ticks since this EntityLiving last produced its sound
 	 */
 	public int livingSoundTime;
-	public int randomMobsId;
-	public Biome spawnBiome = null;
-	public BlockPos spawnPosition = null;
+
 	/**
 	 * The experience points the Entity gives.
 	 */
 	protected int experienceValue;
+	private EntityLookHelper lookHelper;
 	protected EntityMoveHelper moveHelper;
+
 	/**
 	 * Entity jumping helper
 	 */
 	protected EntityJumpHelper jumpHelper;
-	protected PathNavigate navigator;
-	/**
-	 * Chances for each equipment piece from dropping when this entity dies.
-	 */
-	protected float[] equipmentDropChances = new float[5];
-	private EntityLookHelper lookHelper;
 	private EntityBodyHelper bodyHelper;
+	protected PathNavigate navigator;
+
+	/**
+	 * Passive tasks (wandering, look, idle, ...)
+	 */
+	protected final EntityAITasks tasks;
+
+	/**
+	 * Fighting tasks (used by monsters, wolves, ocelots)
+	 */
+	protected final EntityAITasks targetTasks;
+
 	/**
 	 * The active target the Task system uses for tracking
 	 */
 	private EntityLivingBase attackTarget;
 	private EntitySenses senses;
+
 	/**
 	 * Equipment (armor and held item) for this entity.
 	 */
 	private ItemStack[] equipment = new ItemStack[5];
+
+	/**
+	 * Chances for each equipment piece from dropping when this entity dies.
+	 */
+	protected float[] equipmentDropChances = new float[5];
+
 	/**
 	 * Whether this entity can pick up items from the ground.
 	 */
 	private boolean canPickUpLoot;
+
 	/**
 	 * Whether this entity should NOT despawn.
 	 */
@@ -87,6 +93,10 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 	private boolean isLeashed;
 	private Entity leashedToEntity;
 	private NBTTagCompound leashNBTTag;
+
+	public int randomMobsId;
+	public Biome spawnBiome = null;
+	public BlockPos spawnPosition = null;
 
 	public VanillaEntity(World worldIn) {
 		super(worldIn);
@@ -106,84 +116,6 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 		UUID uuid = this.getUniqueID();
 		long j = uuid.getLeastSignificantBits();
 		this.randomMobsId = (int) (j & 2147483647L);
-	}
-
-	/**
-	 * Gets the vanilla armor Item that can go in the slot specified for the given tier.
-	 */
-	public static Item getArmorItemForSlot(int armorSlot, int itemTier) {
-		switch (armorSlot) {
-			case 4:
-				if (itemTier == 0) {
-					return Items.leather_helmet;
-				}
-				if (itemTier == 1) {
-					return Items.golden_helmet;
-				}
-				if (itemTier == 2) {
-					return Items.chainmail_helmet;
-				}
-				if (itemTier == 3) {
-					return Items.iron_helmet;
-				}
-				if (itemTier == 4) {
-					return Items.diamond_helmet;
-				}
-
-			case 3:
-				if (itemTier == 0) {
-					return Items.leather_chestplate;
-				}
-				if (itemTier == 1) {
-					return Items.golden_chestplate;
-				}
-				if (itemTier == 2) {
-					return Items.chainmail_chestplate;
-				}
-				if (itemTier == 3) {
-					return Items.iron_chestplate;
-				}
-				if (itemTier == 4) {
-					return Items.diamond_chestplate;
-				}
-
-			case 2:
-				if (itemTier == 0) {
-					return Items.leather_leggings;
-				}
-				if (itemTier == 1) {
-					return Items.golden_leggings;
-				}
-				if (itemTier == 2) {
-					return Items.chainmail_leggings;
-				}
-				if (itemTier == 3) {
-					return Items.iron_leggings;
-				}
-				if (itemTier == 4) {
-					return Items.diamond_leggings;
-				}
-
-			case 1:
-				if (itemTier == 0) {
-					return Items.leather_boots;
-				}
-				if (itemTier == 1) {
-					return Items.golden_boots;
-				}
-				if (itemTier == 2) {
-					return Items.chainmail_boots;
-				}
-				if (itemTier == 3) {
-					return Items.iron_boots;
-				}
-				if (itemTier == 4) {
-					return Items.diamond_boots;
-				}
-
-			default:
-				return null;
-		}
 	}
 
 	protected void applyEntityAttributes() {
@@ -832,6 +764,84 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * Gets the vanilla armor Item that can go in the slot specified for the given tier.
+	 */
+	public static Item getArmorItemForSlot(int armorSlot, int itemTier) {
+		switch (armorSlot) {
+			case 4:
+				if (itemTier == 0) {
+					return Items.leather_helmet;
+				}
+				if (itemTier == 1) {
+					return Items.golden_helmet;
+				}
+				if (itemTier == 2) {
+					return Items.chainmail_helmet;
+				}
+				if (itemTier == 3) {
+					return Items.iron_helmet;
+				}
+				if (itemTier == 4) {
+					return Items.diamond_helmet;
+				}
+
+			case 3:
+				if (itemTier == 0) {
+					return Items.leather_chestplate;
+				}
+				if (itemTier == 1) {
+					return Items.golden_chestplate;
+				}
+				if (itemTier == 2) {
+					return Items.chainmail_chestplate;
+				}
+				if (itemTier == 3) {
+					return Items.iron_chestplate;
+				}
+				if (itemTier == 4) {
+					return Items.diamond_chestplate;
+				}
+
+			case 2:
+				if (itemTier == 0) {
+					return Items.leather_leggings;
+				}
+				if (itemTier == 1) {
+					return Items.golden_leggings;
+				}
+				if (itemTier == 2) {
+					return Items.chainmail_leggings;
+				}
+				if (itemTier == 3) {
+					return Items.iron_leggings;
+				}
+				if (itemTier == 4) {
+					return Items.diamond_leggings;
+				}
+
+			case 1:
+				if (itemTier == 0) {
+					return Items.leather_boots;
+				}
+				if (itemTier == 1) {
+					return Items.golden_boots;
+				}
+				if (itemTier == 2) {
+					return Items.chainmail_boots;
+				}
+				if (itemTier == 3) {
+					return Items.iron_boots;
+				}
+				if (itemTier == 4) {
+					return Items.diamond_boots;
+				}
+
+			default:
+				return null;
 		}
 	}
 

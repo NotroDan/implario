@@ -13,14 +13,15 @@ import vanilla.entity.IMerchant;
 public class ContainerMerchant extends Container {
 
 	/**
-	 * Instance of World.
-	 */
-	private final World theWorld;
-	/**
 	 * Instance of Merchant.
 	 */
 	private IMerchant theMerchant;
 	private InventoryMerchant merchantInventory;
+
+	/**
+	 * Instance of World.
+	 */
+	private final World theWorld;
 
 	public ContainerMerchant(InventoryPlayer playerInventory, IMerchant merchant, World worldIn) {
 		this.theMerchant = merchant;

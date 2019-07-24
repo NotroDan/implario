@@ -1,8 +1,8 @@
 package vanilla;
 
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.resources.Registrar;
 import net.minecraft.resources.ServerSideLoadable;
+import net.minecraft.resources.Registrar;
 import vanilla.entity.EntityLeashKnot;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.ai.EntityMinecartMobSpawner;

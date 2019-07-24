@@ -13,8 +13,8 @@ import vanilla.world.gen.feature.village.MerchantRecipeList;
 public class InventoryMerchant implements IInventory {
 
 	private final IMerchant theMerchant;
-	private final EntityPlayer thePlayer;
 	private ItemStack[] theInventory = new ItemStack[3];
+	private final EntityPlayer thePlayer;
 	private MerchantRecipe currentRecipe;
 	private int currentRecipeIndex;
 

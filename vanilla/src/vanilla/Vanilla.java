@@ -145,7 +145,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 
 		RenderItem r = MC.getRenderItem();
 
-		registrar.registerItem(VanillaItems.saddle, 0, new ModelResourceLocation("saddle"));
+		registrar.registerItem(VanillaItems.saddle,  0, new ModelResourceLocation("saddle"));
 		r.registerItem(VanillaItems.saddle, "saddle");
 		r.getItemModelMesher().registerMeshDefinition(VanillaItems.spawn_egg, stack -> new ModelResourceLocation("spawn_egg", "inventory"));
 		r.registerItem(VanillaItems.carrot_on_a_stick, "carrot_on_a_stick");
@@ -167,7 +167,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		new VanillaIngameModules().load(registrar);
 	}
 
-	@Govnokod (levelOfPizdec = "Небезопасное прямое взаимодействие с полями")
+	@Govnokod(levelOfPizdec = "Небезопасное прямое взаимодействие с полями")
 	private void registerGuis() {
 		registrar.registerIngameGui(IMerchant.class, (p, merchant, serverSide) -> {
 			if (serverSide) {
