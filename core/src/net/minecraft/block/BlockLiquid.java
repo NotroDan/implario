@@ -25,20 +25,45 @@ public abstract class BlockLiquid extends Block {
 		this.setTickRandomly(true);
 	}
 
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-		return this.blockMaterial != Material.lava;
-	}
-
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-		return this.blockMaterial == Material.water ? BiomeColorHelper.getWaterColorAtPos(worldIn, pos) : 16777215;
-	}
-
 	/**
 	 * Returns the percentage of the liquid block that is air, based on the given flow decay of the liquid
 	 */
 	public static float getLiquidHeightPercent(int meta) {
 		if (meta >= 8) meta = 0;
 		return (float) (meta + 1) / 9.0F;
+	}
+
+	public static double getFlowDirection(IBlockAccess worldIn, BlockPos pos, Material materialIn) {
+		Vec3 vec3 = getFlowingBlock(materialIn).getFlowVector(worldIn, pos);
+		return vec3.xCoord == 0.0D && vec3.zCoord == 0.0D ? -1000.0D : MathHelper.func_181159_b(vec3.zCoord, vec3.xCoord) - Math.PI / 2D;
+	}
+
+	public static BlockDynamicLiquid getFlowingBlock(Material materialIn) {
+		if (materialIn == Material.water) {
+			return Blocks.flowing_water;
+		}
+		if (materialIn == Material.lava) {
+			return Blocks.flowing_lava;
+		}
+		throw new IllegalArgumentException("Invalid material");
+	}
+
+	public static BlockStaticLiquid getStaticBlock(Material materialIn) {
+		if (materialIn == Material.water) {
+			return Blocks.water;
+		}
+		if (materialIn == Material.lava) {
+			return Blocks.lava;
+		}
+		throw new IllegalArgumentException("Invalid material");
+	}
+
+	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+		return this.blockMaterial != Material.lava;
+	}
+
+	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+		return this.blockMaterial == Material.water ? BiomeColorHelper.getWaterColorAtPos(worldIn, pos) : 16777215;
 	}
 
 	protected int getLevel(IBlockAccess worldIn, BlockPos pos) {
@@ -226,11 +251,6 @@ public abstract class BlockLiquid extends Block {
 		}
 	}
 
-	public static double getFlowDirection(IBlockAccess worldIn, BlockPos pos, Material materialIn) {
-		Vec3 vec3 = getFlowingBlock(materialIn).getFlowVector(worldIn, pos);
-		return vec3.xCoord == 0.0D && vec3.zCoord == 0.0D ? -1000.0D : MathHelper.func_181159_b(vec3.zCoord, vec3.xCoord) - Math.PI / 2D;
-	}
-
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
 		this.checkForMixing(worldIn, pos, state);
 	}
@@ -300,26 +320,6 @@ public abstract class BlockLiquid extends Block {
 
 	protected BlockState createBlockState() {
 		return new BlockState(this, LEVEL);
-	}
-
-	public static BlockDynamicLiquid getFlowingBlock(Material materialIn) {
-		if (materialIn == Material.water) {
-			return Blocks.flowing_water;
-		}
-		if (materialIn == Material.lava) {
-			return Blocks.flowing_lava;
-		}
-		throw new IllegalArgumentException("Invalid material");
-	}
-
-	public static BlockStaticLiquid getStaticBlock(Material materialIn) {
-		if (materialIn == Material.water) {
-			return Blocks.water;
-		}
-		if (materialIn == Material.lava) {
-			return Blocks.lava;
-		}
-		throw new IllegalArgumentException("Invalid material");
 	}
 
 }

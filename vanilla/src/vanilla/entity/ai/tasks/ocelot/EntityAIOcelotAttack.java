@@ -1,85 +1,75 @@
 package vanilla.entity.ai.tasks.ocelot;
 
-import vanilla.entity.VanillaEntity;
 import net.minecraft.entity.EntityLivingBase;
-import vanilla.entity.ai.tasks.EntityAIBase;
 import net.minecraft.world.World;
+import vanilla.entity.VanillaEntity;
+import vanilla.entity.ai.tasks.EntityAIBase;
 
-public class EntityAIOcelotAttack extends EntityAIBase
-{
-    World theWorld;
-    VanillaEntity theEntity;
-    EntityLivingBase theVictim;
-    int attackCountdown;
+public class EntityAIOcelotAttack extends EntityAIBase {
 
-    public EntityAIOcelotAttack(VanillaEntity theEntityIn)
-    {
-        this.theEntity = theEntityIn;
-        this.theWorld = theEntityIn.worldObj;
-        this.setMutexBits(3);
-    }
+	World theWorld;
+	VanillaEntity theEntity;
+	EntityLivingBase theVictim;
+	int attackCountdown;
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
-    public boolean shouldExecute()
-    {
-        EntityLivingBase entitylivingbase = this.theEntity.getAttackTarget();
+	public EntityAIOcelotAttack(VanillaEntity theEntityIn) {
+		this.theEntity = theEntityIn;
+		this.theWorld = theEntityIn.worldObj;
+		this.setMutexBits(3);
+	}
 
-        if (entitylivingbase == null)
-        {
-            return false;
-        }
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
+	public boolean shouldExecute() {
+		EntityLivingBase entitylivingbase = this.theEntity.getAttackTarget();
+
+		if (entitylivingbase == null) {
+			return false;
+		}
 		this.theVictim = entitylivingbase;
 		return true;
 	}
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
-    public boolean continueExecuting()
-    {
-        return !this.theVictim.isEntityAlive() ? false : this.theEntity.getDistanceSqToEntity(this.theVictim) > 225.0D ? false : !this.theEntity.getNavigator().noPath() || this.shouldExecute();
-    }
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
+	public boolean continueExecuting() {
+		return !this.theVictim.isEntityAlive() ? false : this.theEntity.getDistanceSqToEntity(this.theVictim) > 225.0D ? false : !this.theEntity.getNavigator().noPath() || this.shouldExecute();
+	}
 
-    /**
-     * Resets the task
-     */
-    public void resetTask()
-    {
-        this.theVictim = null;
-        this.theEntity.getNavigator().clearPathEntity();
-    }
+	/**
+	 * Resets the task
+	 */
+	public void resetTask() {
+		this.theVictim = null;
+		this.theEntity.getNavigator().clearPathEntity();
+	}
 
-    /**
-     * Updates the task
-     */
-    public void updateTask()
-    {
-        this.theEntity.getLookHelper().setLookPositionWithEntity(this.theVictim, 30.0F, 30.0F);
-        double d0 = (double)(this.theEntity.width * 2.0F * this.theEntity.width * 2.0F);
-        double d1 = this.theEntity.getDistanceSq(this.theVictim.posX, this.theVictim.getEntityBoundingBox().minY, this.theVictim.posZ);
-        double d2 = 0.8D;
+	/**
+	 * Updates the task
+	 */
+	public void updateTask() {
+		this.theEntity.getLookHelper().setLookPositionWithEntity(this.theVictim, 30.0F, 30.0F);
+		double d0 = (double) (this.theEntity.width * 2.0F * this.theEntity.width * 2.0F);
+		double d1 = this.theEntity.getDistanceSq(this.theVictim.posX, this.theVictim.getEntityBoundingBox().minY, this.theVictim.posZ);
+		double d2 = 0.8D;
 
-        if (d1 > d0 && d1 < 16.0D)
-        {
-            d2 = 1.33D;
-        }
-        else if (d1 < 225.0D)
-        {
-            d2 = 0.6D;
-        }
+		if (d1 > d0 && d1 < 16.0D) {
+			d2 = 1.33D;
+		} else if (d1 < 225.0D) {
+			d2 = 0.6D;
+		}
 
-        this.theEntity.getNavigator().tryMoveToEntityLiving(this.theVictim, d2);
-        this.attackCountdown = Math.max(this.attackCountdown - 1, 0);
+		this.theEntity.getNavigator().tryMoveToEntityLiving(this.theVictim, d2);
+		this.attackCountdown = Math.max(this.attackCountdown - 1, 0);
 
-        if (d1 <= d0)
-        {
-            if (this.attackCountdown <= 0)
-            {
-                this.attackCountdown = 20;
-                this.theEntity.attackEntityAsMob(this.theVictim);
-            }
-        }
-    }
+		if (d1 <= d0) {
+			if (this.attackCountdown <= 0) {
+				this.attackCountdown = 20;
+				this.theEntity.attackEntityAsMob(this.theVictim);
+			}
+		}
+	}
+
 }

@@ -20,9 +20,35 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 		load(Font.BOLD, 1);
 		load(Font.ITALIC, 2);
 		load(Font.BOLD + Font.ITALIC, 3);
-//		for (TrueTypeFont basis : bases) System.out.println(basis.getFont());
+		//		for (TrueTypeFont basis : bases) System.out.println(basis.getFont());
 
 
+	}
+
+	private static int getType(boolean bold, boolean italic) {
+		int style = 0;
+		if (bold) style += Font.BOLD;
+		if (italic) style += Font.ITALIC;
+		return style;
+	}
+
+	public static void glColor(int color) {
+
+		float f3 = (float) (color >> 24 & 255) / 255.0F;
+		float f = (float) (color >> 16 & 255) / 255.0F;
+		float f1 = (float) (color >> 8 & 255) / 255.0F;
+		float f2 = (float) (color & 255) / 255.0F;
+
+		G.color(f, f1, f2, f3);
+	}
+
+	public static void glColorNoAlpha(int color) {
+
+		float f = (float) (color >> 16 & 255) / 255.0F;
+		float f1 = (float) (color >> 8 & 255) / 255.0F;
+		float f2 = (float) (color & 255) / 255.0F;
+
+		G.color(f, f1, f2, 1);
 	}
 
 	private void load(int c, int i) {
@@ -52,32 +78,6 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 
 		return translate;
 
-	}
-
-	private static int getType(boolean bold, boolean italic) {
-		int style = 0;
-		if (bold) style += Font.BOLD;
-		if (italic) style += Font.ITALIC;
-		return style;
-	}
-
-
-	public static void glColor(int color) {
-
-		float f3 = (float) (color >> 24 & 255) / 255.0F;
-		float f = (float) (color >> 16 & 255) / 255.0F;
-		float f1 = (float) (color >> 8 & 255) / 255.0F;
-		float f2 = (float) (color & 255) / 255.0F;
-
-		G.color(f, f1, f2, f3);
-	}
-	public static void glColorNoAlpha(int color) {
-
-		float f = (float) (color >> 16 & 255) / 255.0F;
-		float f1 = (float) (color >> 8 & 255) / 255.0F;
-		float f2 = (float) (color & 255) / 255.0F;
-
-		G.color(f, f1, f2, 1);
 	}
 
 	public TrueTypeFont getPlainFont() {

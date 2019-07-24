@@ -27,14 +27,6 @@ public class Log {
 	private volatile int day;
 	private List<ILogInterceptor> interceptors = new ArrayList<>();
 
-	public static Log create(boolean console, String file, String prefix) {
-		try {
-			return new Log(console, file, prefix);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	public Log(boolean console, String extension, String prefix) throws IOException {
 		this.console = console;
 		this.extension = extension == null ? "log" : extension;
@@ -43,6 +35,14 @@ public class Log {
 		Date date = new Date();
 		updateFile(date);
 		comment("Начало новой сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date));
+	}
+
+	public static Log create(boolean console, String file, String prefix) {
+		try {
+			return new Log(console, file, prefix);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static void init() {
@@ -76,7 +76,7 @@ public class Log {
 
 	public File getFile(Date date) throws IOException {
 		String name = extension + "_" + DAY.format(date) + ".log";
-//		File gameData = new File("gamedata");
+		//		File gameData = new File("gamedata");
 		File logsDir = new File("gamedata/logs");
 		if (!logsDir.exists()) {
 			logsDir.mkdirs();

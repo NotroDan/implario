@@ -19,19 +19,19 @@ import java.util.Comparator;
 
 public class WorldRenderer {
 
-	private ByteBuffer byteBuffer;
 	public IntBuffer rawIntBuffer;
-	private ShortBuffer field_181676_c;
 	public FloatBuffer rawFloatBuffer;
 	public int vertexCount;
+	public int drawMode;
+	public SVertexBuilder sVertexBuilder;
+	private ByteBuffer byteBuffer;
+	private ShortBuffer field_181676_c;
 	private VertexFormatElement field_181677_f;
 	private int field_181678_g;
-
 	/**
 	 * Boolean for whether this renderer needs to be updated or not
 	 */
 	private boolean needsUpdate;
-	public int drawMode;
 	private double xOffset;
 	private double yOffset;
 	private double zOffset;
@@ -42,7 +42,6 @@ public class WorldRenderer {
 	private TextureAtlasSprite[] quadSprites = null;
 	private TextureAtlasSprite[] quadSpritesPrev = null;
 	private TextureAtlasSprite quadSprite = null;
-	public SVertexBuilder sVertexBuilder;
 
 	public WorldRenderer(int bufferSizeIn) {
 		if (Config.isShaders()) bufferSizeIn *= 2;
@@ -52,6 +51,25 @@ public class WorldRenderer {
 		this.field_181676_c = this.byteBuffer.asShortBuffer();
 		this.rawFloatBuffer = this.byteBuffer.asFloatBuffer();
 		SVertexBuilder.initVertexBuilder(this);
+	}
+
+	private static float func_181665_a(FloatBuffer p_181665_0_, float p_181665_1_, float p_181665_2_, float p_181665_3_, int p_181665_4_, int p_181665_5_) {
+		float f = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 0 + 0);
+		float f1 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 0 + 1);
+		float f2 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 0 + 2);
+		float f3 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 1 + 0);
+		float f4 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 1 + 1);
+		float f5 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 1 + 2);
+		float f6 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 2 + 0);
+		float f7 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 2 + 1);
+		float f8 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 2 + 2);
+		float f9 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 3 + 0);
+		float f10 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 3 + 1);
+		float f11 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 3 + 2);
+		float f12 = (f + f3 + f6 + f9) * 0.25F - p_181665_1_;
+		float f13 = (f1 + f4 + f7 + f10) * 0.25F - p_181665_2_;
+		float f14 = (f2 + f5 + f8 + f11) * 0.25F - p_181665_3_;
+		return f12 * f12 + f13 * f13 + f14 * f14;
 	}
 
 	private void func_181670_b(int p_181670_1_) {
@@ -83,30 +101,14 @@ public class WorldRenderer {
 			}
 		}
 	}
-	/**
-	 * Напоминание о том что идея с её советами о замене всего живого на ебанутые предикаты - ёбанная хуйня.
-	 * Делфик искал этот баг на протяжении месяца, ебался с гитом и откатами к неоткатываемому, и всё ради этого...
-	 */
-	private static final class GooglePredicatesIsPureEvil implements Comparator<Integer> {
-
-		final float[] array;
-
-		GooglePredicatesIsPureEvil(float[] array) {
-			this.array = array;
-		}
-
-		public int compare(Integer a, Integer b) {
-			return Floats.compare(this.array[b], this.array[a]);
-		}
-
-	}
 
 	public void func_181674_a(float p_181674_1_, float p_181674_2_, float p_181674_3_) {
 		int i = this.vertexCount / 4;
 		float[] floatBuf = new float[i];
 
 		for (int j = 0; j < i; ++j)
-			floatBuf[j] = func_181665_a(this.rawFloatBuffer, (float) ((double) p_181674_1_ + this.xOffset), (float) ((double) p_181674_2_ + this.yOffset), (float) ((double) p_181674_3_ + this.zOffset),
+			floatBuf[j] = func_181665_a(this.rawFloatBuffer, (float) ((double) p_181674_1_ + this.xOffset), (float) ((double) p_181674_2_ + this.yOffset),
+					(float) ((double) p_181674_3_ + this.zOffset),
 					this.vertexFormat.func_181719_f(), j * this.vertexFormat.getNextOffset());
 
 		Integer[] ainteger = new Integer[i];
@@ -183,25 +185,6 @@ public class WorldRenderer {
 
 	public int func_181664_j() {
 		return this.vertexCount * this.vertexFormat.func_181719_f();
-	}
-
-	private static float func_181665_a(FloatBuffer p_181665_0_, float p_181665_1_, float p_181665_2_, float p_181665_3_, int p_181665_4_, int p_181665_5_) {
-		float f = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 0 + 0);
-		float f1 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 0 + 1);
-		float f2 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 0 + 2);
-		float f3 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 1 + 0);
-		float f4 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 1 + 1);
-		float f5 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 1 + 2);
-		float f6 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 2 + 0);
-		float f7 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 2 + 1);
-		float f8 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 2 + 2);
-		float f9 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 3 + 0);
-		float f10 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 3 + 1);
-		float f11 = p_181665_0_.get(p_181665_5_ + p_181665_4_ * 3 + 2);
-		float f12 = (f + f3 + f6 + f9) * 0.25F - p_181665_1_;
-		float f13 = (f1 + f4 + f7 + f10) * 0.25F - p_181665_2_;
-		float f14 = (f2 + f5 + f8 + f11) * 0.25F - p_181665_3_;
-		return f12 * f12 + f13 * f13 + f14 * f14;
 	}
 
 	public void setVertexState(WorldRenderer.State state) {
@@ -722,6 +705,24 @@ public class WorldRenderer {
 
 	public boolean isColorDisabled() {
 		return this.needsUpdate;
+	}
+
+	/**
+	 * Напоминание о том что идея с её советами о замене всего живого на ебанутые предикаты - ёбанная хуйня.
+	 * Делфик искал этот баг на протяжении месяца, ебался с гитом и откатами к неоткатываемому, и всё ради этого...
+	 */
+	private static final class GooglePredicatesIsPureEvil implements Comparator<Integer> {
+
+		final float[] array;
+
+		GooglePredicatesIsPureEvil(float[] array) {
+			this.array = array;
+		}
+
+		public int compare(Integer a, Integer b) {
+			return Floats.compare(this.array[b], this.array[a]);
+		}
+
 	}
 
 	static final class WorldRenderer$2 {

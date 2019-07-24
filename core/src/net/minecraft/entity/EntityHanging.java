@@ -13,13 +13,12 @@ import org.apache.commons.lang3.Validate;
 
 public abstract class EntityHanging extends Entity {
 
-	private int tickCounter1;
-	protected BlockPos hangingPosition;
-
 	/**
 	 * The direction the entity is facing
 	 */
 	public EnumFacing facingDirection;
+	protected BlockPos hangingPosition;
+	private int tickCounter1;
 
 	public EntityHanging(World worldIn) {
 		super(worldIn);

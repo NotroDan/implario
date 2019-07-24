@@ -25,6 +25,11 @@ public class EntityWitherSkull extends EntityFireball {
 		this.setSize(0.3125F, 0.3125F);
 	}
 
+	public EntityWitherSkull(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
+		super(worldIn, x, y, z, accelX, accelY, accelZ);
+		this.setSize(0.3125F, 0.3125F);
+	}
+
 	public static boolean canPass(Block b) {
 		return b != Blocks.bedrock && b != Blocks.end_portal && b != Blocks.end_portal_frame && b != Blocks.command_block && b != Blocks.barrier;
 	}
@@ -34,11 +39,6 @@ public class EntityWitherSkull extends EntityFireball {
 	 */
 	protected float getMotionFactor() {
 		return this.isInvulnerable() ? 0.73F : super.getMotionFactor();
-	}
-
-	public EntityWitherSkull(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
-		super(worldIn, x, y, z, accelX, accelY, accelZ);
-		this.setSize(0.3125F, 0.3125F);
 	}
 
 	/**

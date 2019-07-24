@@ -15,13 +15,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class StringUtils {
 
+	final static TreeMap<Integer, String> romanian = new TreeMap<>();
 	private static final Pattern patternControlCode = Pattern.compile("(?i)\\u00A7[0-9A-FK-OR]");
 	private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 	private static final String[] name1 = {"Mr", "Lord", "Sir", "Dr"};
 	private static final String[] name2 = {"Happy", "Merry", "Tipsy", "Strange", "Edenic", "Exotic", "Forest", "Wintry", "Leporine", "Weird", "Omega"};
 	private static final String[] name3 = {"Bucket", "Waffle", "Wife", "Laptop", "Flower", "Miner", "Ham", "Pig", "Cow", "Day", "Night", "Worm"};
-
-	final static TreeMap<Integer, String> romanian = new TreeMap<>();
 	static {
 
 		StringUtils.romanian.put(1000, "M");
@@ -81,7 +80,7 @@ public class StringUtils {
 	}
 
 	public static String getWittyName() {
-		return  name1[(int) (Math.random() * name1.length)] +
+		return name1[(int) (Math.random() * name1.length)] +
 				name2[(int) (Math.random() * name2.length)] +
 				name3[(int) (Math.random() * name3.length)];
 	}
@@ -121,11 +120,11 @@ public class StringUtils {
 			if (c == '.' || c == '\n') c = ' ';
 			if (
 					c >= 'A' && c <= 'Z' ||
-					c >= 'a' && c <= 'z' ||
-					c >= 'А' && c <= 'Я' ||
-					c >= 'а' && c <= 'я' ||
-					c == ' ' && b.length() != 0
-				) b.append(c);
+							c >= 'a' && c <= 'z' ||
+							c >= 'А' && c <= 'Я' ||
+							c >= 'а' && c <= 'я' ||
+							c == ' ' && b.length() != 0
+			) b.append(c);
 		}
 		return b.toString();
 	}

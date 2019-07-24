@@ -1,10 +1,10 @@
 package vanilla.world.pathfinder;
 
 import net.minecraft.entity.Entity;
-import vanilla.entity.ai.pathfinding.PathPoint;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
+import vanilla.entity.ai.pathfinding.PathPoint;
 
 public abstract class NodeProcessor {
 

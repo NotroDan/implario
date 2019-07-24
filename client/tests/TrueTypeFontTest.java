@@ -10,15 +10,15 @@ import org.lwjgl.util.glu.GLU;
 
 public class TrueTypeFontTest {
 
-	public static int width = 1000, height = 600;
-	protected static final String TITLE = "Template v1";
-	static boolean running = true;
 	final public static int FRAME_RATE = 60;
+	protected static final String TITLE = "Template v1";
+	public static int width = 1000, height = 600;
+	static boolean running = true;
 	static FPSCounter fpsCounter;
-
-	public static void main(String args[]) {
-		new TrueTypeFontTest();
-	}
+	//	static TrueTypeFont trueTypeFont;
+	static TrueTypeFontRenderer t;
+	static TrueTypeFontRenderer t2;
+	static String lastFPS;
 
 	public TrueTypeFontTest() {
 		try {
@@ -32,6 +32,10 @@ public class TrueTypeFontTest {
 			e.printStackTrace();
 			Sys.alert(TITLE, "Error 101: " + e.toString());
 		}
+	}
+
+	public static void main(String args[]) {
+		new TrueTypeFontTest();
 	}
 
 	private static void initDisplay(boolean fullscreen) throws Exception {
@@ -82,10 +86,6 @@ public class TrueTypeFontTest {
 
 	}
 
-//	static TrueTypeFont trueTypeFont;
-	static TrueTypeFontRenderer t;
-	static TrueTypeFontRenderer t2;
-
 	private static void loadResources() {
 		Keyboard.enableRepeatEvents(false);
 		// initialise the font
@@ -95,10 +95,10 @@ public class TrueTypeFontTest {
 		t = new TrueTypeFontRenderer(font, 22);
 
 
-//		String fontName = "Segoe UI";
-//		if (!TrueTypeFont.isSupported(fontName)) fontName = "Arial";
-//		Font font = new Font(fontName, Font.BOLD + Font.ITALIC, 22);
-//		trueTypeFont = new TrueTypeFont(font, true);
+		//		String fontName = "Segoe UI";
+		//		if (!TrueTypeFont.isSupported(fontName)) fontName = "Arial";
+		//		Font font = new Font(fontName, Font.BOLD + Font.ITALIC, 22);
+		//		trueTypeFont = new TrueTypeFont(font, true);
 		fpsCounter = new FPSCounter();
 		fpsCounter.init();
 		// render some text to the screen
@@ -120,8 +120,6 @@ public class TrueTypeFontTest {
 			}
 		}
 	}
-
-	static String lastFPS;
 
 	public static void logic() {
 		if (fpsCounter != null) {
@@ -190,28 +188,28 @@ public class TrueTypeFontTest {
 
 		G.color(1, 1, 1, 1);
 		String text = "§3§l[Гл. Админ] xtrafrancyz§7: §aНастоящие пираты не боятся красного плавания?";
-//		t2.render(text, 0, t2.getPlainFont().getHeight(), 0, false);
+		//		t2.render(text, 0, t2.getPlainFont().getHeight(), 0, false);
 		t.renderString(text, 0, t.getPlainFont().getHeight() * 1.5f, false);
-//		int error = GL11.glGetError();
-//		if (error != 0) System.out.println(error);
-//
-//		trueTypeFont.render(0, trueTypeFont.getHeight() * 10, "I wrote this song about you!\nIsn't that cliche of me, to do?");
-//
-//		trueTypeFont.render(0, trueTypeFont.getHeight() * 6, "But its nothing for you,\n" +
-//						"the band just needed something more to play.\n" +
-//						"So dont blush or hooray,\n");
-//
-//		trueTypeFont.render(0, trueTypeFont.getHeight() * 3,
-//				"at the possible sound of your name.\n" +
-//						"No I wouldnt go that far.\n" +
-//						"No.");
+		//		int error = GL11.glGetError();
+		//		if (error != 0) System.out.println(error);
+		//
+		//		trueTypeFont.render(0, trueTypeFont.getHeight() * 10, "I wrote this song about you!\nIsn't that cliche of me, to do?");
+		//
+		//		trueTypeFont.render(0, trueTypeFont.getHeight() * 6, "But its nothing for you,\n" +
+		//						"the band just needed something more to play.\n" +
+		//						"So dont blush or hooray,\n");
+		//
+		//		trueTypeFont.render(0, trueTypeFont.getHeight() * 3,
+		//				"at the possible sound of your name.\n" +
+		//						"No I wouldnt go that far.\n" +
+		//						"No.");
 
 		//End 2D Render Code
 		set3DMode();
 	}
 
 	public static void cleanup() {
-//		trueTypeFont.destroy();
+		//		trueTypeFont.destroy();
 		Keyboard.destroy();
 		Mouse.destroy();
 		Display.destroy();

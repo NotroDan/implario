@@ -1,52 +1,46 @@
 package net.minecraft.client.resources.model;
 
-import java.util.List;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 
-public class BuiltInModel implements IBakedModel
-{
-    private ItemCameraTransforms cameraTransforms;
+import java.util.List;
 
-    public BuiltInModel(ItemCameraTransforms p_i46086_1_)
-    {
-        this.cameraTransforms = p_i46086_1_;
-    }
+public class BuiltInModel implements IBakedModel {
 
-    public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_)
-    {
-        return null;
-    }
+	private ItemCameraTransforms cameraTransforms;
 
-    public List<BakedQuad> getGeneralQuads()
-    {
-        return null;
-    }
+	public BuiltInModel(ItemCameraTransforms p_i46086_1_) {
+		this.cameraTransforms = p_i46086_1_;
+	}
 
-    public boolean isAmbientOcclusion()
-    {
-        return false;
-    }
+	public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_) {
+		return null;
+	}
 
-    public boolean isGui3d()
-    {
-        return true;
-    }
+	public List<BakedQuad> getGeneralQuads() {
+		return null;
+	}
 
-    public boolean isBuiltInRenderer()
-    {
-        return true;
-    }
+	public boolean isAmbientOcclusion() {
+		return false;
+	}
 
-    public TextureAtlasSprite getParticleTexture()
-    {
-        return null;
-    }
+	public boolean isGui3d() {
+		return true;
+	}
 
-    public ItemCameraTransforms getItemCameraTransforms()
-    {
-        return this.cameraTransforms;
-    }
+	public boolean isBuiltInRenderer() {
+		return true;
+	}
+
+	public TextureAtlasSprite getParticleTexture() {
+		return null;
+	}
+
+	public ItemCameraTransforms getItemCameraTransforms() {
+		return this.cameraTransforms;
+	}
+
 }

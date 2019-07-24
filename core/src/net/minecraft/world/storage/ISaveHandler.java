@@ -1,57 +1,59 @@
 package net.minecraft.world.storage;
 
-import java.io.File;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 
-public interface ISaveHandler
-{
-    /**
-     * Loads and returns the world info
-     */
-    WorldInfo loadWorldInfo();
+import java.io.File;
 
-    /**
-     * Checks the session lock to prevent save collisions
-     */
-    void checkSessionLock() throws MinecraftException;
+public interface ISaveHandler {
 
-    /**
-     * initializes and returns the chunk loader for the specified world provider
-     */
-    IChunkLoader getChunkLoader(WorldProvider provider);
+	/**
+	 * Loads and returns the world info
+	 */
+	WorldInfo loadWorldInfo();
 
-    /**
-     * Saves the given World Info with the given NBTTagCompound as the Player.
-     */
-    void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound);
+	/**
+	 * Checks the session lock to prevent save collisions
+	 */
+	void checkSessionLock() throws MinecraftException;
 
-    /**
-     * used to update level.dat from old format to MCRegion format
-     */
-    void saveWorldInfo(WorldInfo worldInformation);
+	/**
+	 * initializes and returns the chunk loader for the specified world provider
+	 */
+	IChunkLoader getChunkLoader(WorldProvider provider);
 
-    IPlayerFileData getPlayerNBTManager();
+	/**
+	 * Saves the given World Info with the given NBTTagCompound as the Player.
+	 */
+	void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound);
 
-    /**
-     * Called to flush all changes to disk, waiting for them to complete.
-     */
-    void flush();
+	/**
+	 * used to update level.dat from old format to MCRegion format
+	 */
+	void saveWorldInfo(WorldInfo worldInformation);
 
-    /**
-     * Gets the File object corresponding to the base directory of this world.
-     */
-    File getWorldDirectory();
+	IPlayerFileData getPlayerNBTManager();
 
-    /**
-     * Gets the file location of the given map
-     */
-    File getMapFileFromName(String mapName);
+	/**
+	 * Called to flush all changes to disk, waiting for them to complete.
+	 */
+	void flush();
 
-    /**
-     * Returns the name of the directory where world information is saved.
-     */
-    String getWorldDirectoryName();
+	/**
+	 * Gets the File object corresponding to the base directory of this world.
+	 */
+	File getWorldDirectory();
+
+	/**
+	 * Gets the file location of the given map
+	 */
+	File getMapFileFromName(String mapName);
+
+	/**
+	 * Returns the name of the directory where world information is saved.
+	 */
+	String getWorldDirectoryName();
+
 }

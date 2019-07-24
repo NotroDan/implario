@@ -2,10 +2,10 @@ package net.minecraft.client.audio;
 
 import com.google.common.collect.*;
 import io.netty.util.internal.ThreadLocalRandom;
-import net.minecraft.logging.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.logging.Log;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import paulscode.sound.*;
@@ -35,28 +35,25 @@ public class SoundManager {
 	 * A reference to the sound handler.
 	 */
 	private final SoundHandler sndHandler;
-
-	/**
-	 * A reference to the sound system.
-	 */
-	private SoundManager.SoundSystemStarterThread sndSystem;
-
-	/**
-	 * Set to true when the SoundManager has been initialised.
-	 */
-	private boolean loaded;
-
-	/**
-	 * A counter for how long the sound manager has been running
-	 */
-	private int playTime = 0;
 	private final Map<String, ISound> playingSounds = HashBiMap.create();
 	private final Map<ISound, String> invPlayingSounds;
-	private Map<ISound, SoundPoolEntry> playingSoundPoolEntries;
 	private final Multimap<SoundCategory, String> categorySounds;
 	private final List<ITickableSound> tickableSounds;
 	private final Map<ISound, Integer> delayedSounds;
 	private final Map<String, Integer> playingSoundsStopTime;
+	/**
+	 * A reference to the sound system.
+	 */
+	private SoundManager.SoundSystemStarterThread sndSystem;
+	/**
+	 * Set to true when the SoundManager has been initialised.
+	 */
+	private boolean loaded;
+	/**
+	 * A counter for how long the sound manager has been running
+	 */
+	private int playTime = 0;
+	private Map<ISound, SoundPoolEntry> playingSoundPoolEntries;
 
 	public SoundManager(SoundHandler handler) {
 		this.invPlayingSounds = ((BiMap) this.playingSounds).inverse();
@@ -75,6 +72,28 @@ public class SoundManager {
 			logger.error(soundsystemexception.toString());
 		} catch (Throwable t) {
 			System.out.println("ашыбко");
+		}
+	}
+
+	private static URL getURLForSoundResource(final ResourceLocation p_148612_0_) {
+		String s = String.format("%s:%s:%s", "mcsounddomain", p_148612_0_.getResourceDomain(), p_148612_0_.getResourcePath());
+		URLStreamHandler urlstreamhandler = new URLStreamHandler() {
+			protected URLConnection openConnection(final URL p_openConnection_1_) {
+				return new URLConnection(p_openConnection_1_) {
+					public void connect() {
+					}
+
+					public InputStream getInputStream() throws IOException {
+						return Minecraft.getMinecraft().getResourceManager().getResource(p_148612_0_).getInputStream();
+					}
+				};
+			}
+		};
+
+		try {
+			return new URL(null, s, urlstreamhandler);
+		} catch (MalformedURLException var4) {
+			throw new Error("TODO: Sanely handle url exception! :D");
 		}
 	}
 
@@ -361,7 +380,7 @@ public class SoundManager {
 	 */
 	public void resumeAllSounds() {
 		for (String s : this.playingSounds.keySet()) {
-			logger.debug( "Возобновляем канал " + s);
+			logger.debug("Возобновляем канал " + s);
 			this.sndSystem.play(s);
 		}
 	}
@@ -371,28 +390,6 @@ public class SoundManager {
 	 */
 	public void playDelayedSound(ISound sound, int delay) {
 		this.delayedSounds.put(sound, this.playTime + delay);
-	}
-
-	private static URL getURLForSoundResource(final ResourceLocation p_148612_0_) {
-		String s = String.format("%s:%s:%s", "mcsounddomain", p_148612_0_.getResourceDomain(), p_148612_0_.getResourcePath());
-		URLStreamHandler urlstreamhandler = new URLStreamHandler() {
-			protected URLConnection openConnection(final URL p_openConnection_1_) {
-				return new URLConnection(p_openConnection_1_) {
-					public void connect() {
-					}
-
-					public InputStream getInputStream() throws IOException {
-						return Minecraft.getMinecraft().getResourceManager().getResource(p_148612_0_).getInputStream();
-					}
-				};
-			}
-		};
-
-		try {
-			return new URL(null, s, urlstreamhandler);
-		} catch (MalformedURLException var4) {
-			throw new Error("TODO: Sanely handle url exception! :D");
-		}
 	}
 
 	/**

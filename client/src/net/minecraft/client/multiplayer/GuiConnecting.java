@@ -1,6 +1,5 @@
 package net.minecraft.client.multiplayer;
 
-import net.minecraft.logging.Log;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -9,6 +8,7 @@ import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.network.NetHandlerLoginClient;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
+import net.minecraft.logging.Log;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -26,9 +26,9 @@ public class GuiConnecting extends GuiScreen {
 
 	private static final AtomicInteger CONNECTION_ID = new AtomicInteger(0);
 	private static final Logger logger = Logger.getInstance();
+	private final GuiScreen previousGuiScreen;
 	private NetworkManager networkManager;
 	private boolean cancel;
-	private final GuiScreen previousGuiScreen;
 	private volatile long connectionStart = System.currentTimeMillis(), connectionMs = -1;
 
 	public GuiConnecting(GuiScreen p_i1181_1_, Minecraft mcIn, ServerData p_i1181_3_) {

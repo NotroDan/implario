@@ -24,29 +24,22 @@ public class OpenGlHelper {
 	public static int GL_FB_INCOMPLETE_MISS_ATTACH;
 	public static int GL_FB_INCOMPLETE_DRAW_BUFFER;
 	public static int GL_FB_INCOMPLETE_READ_BUFFER;
-	private static int framebufferType;
 	public static boolean framebufferSupported;
-	private static boolean shadersAvailable;
-	private static boolean arbShaders;
 	public static int GL_LINK_STATUS;
 	public static int GL_COMPILE_STATUS;
 	public static int GL_VERTEX_SHADER;
 	public static int GL_FRAGMENT_SHADER;
-	private static boolean arbMultitexture;
-
 	/**
 	 * An OpenGL constant corresponding to GL_TEXTURE0, used when setting data pertaining to auxiliary OpenGL texture
 	 * units.
 	 */
 	public static int defaultTexUnit;
-
 	/**
 	 * An OpenGL constant corresponding to GL_TEXTURE1, used when setting data pertaining to auxiliary OpenGL texture
 	 * units.
 	 */
 	public static int lightmapTexUnit;
 	public static int GL_TEXTURE2;
-	private static boolean arbTextureEnvCombine;
 	public static int GL_COMBINE;
 	public static int GL_INTERPOLATE;
 	public static int GL_PRIMARY_COLOR;
@@ -66,20 +59,24 @@ public class OpenGlHelper {
 	public static int GL_OPERAND0_ALPHA;
 	public static int GL_OPERAND1_ALPHA;
 	public static int GL_OPERAND2_ALPHA;
-	private static boolean openGL14;
 	public static boolean extBlendFuncSeparate;
 	public static boolean openGL21;
 	public static boolean shadersSupported;
-	private static String logText = "";
-	private static String cpu;
 	public static boolean vboSupported;
 	public static boolean field_181062_Q;
-	private static boolean arbVbo;
 	public static int GL_ARRAY_BUFFER;
 	public static int GL_STATIC_DRAW;
-
 	public static float lastBrightnessX = 0.0F;
 	public static float lastBrightnessY = 0.0F;
+	private static int framebufferType;
+	private static boolean shadersAvailable;
+	private static boolean arbShaders;
+	private static boolean arbMultitexture;
+	private static boolean arbTextureEnvCombine;
+	private static boolean openGL14;
+	private static String logText = "";
+	private static String cpu;
+	private static boolean arbVbo;
 
 	/**
 	 * Initializes the texture constants to be used when rendering lightmap values

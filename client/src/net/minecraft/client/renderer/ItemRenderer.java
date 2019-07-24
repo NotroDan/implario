@@ -28,7 +28,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import optifine.Config;
 import optifine.DynamicLights;
-
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
 
@@ -41,16 +40,14 @@ public class ItemRenderer {
 	 * A reference to the Minecraft object.
 	 */
 	private final Minecraft mc;
+	private final RenderManager renderManager;
+	private final RenderItem itemRenderer;
 	private ItemStack itemToRender;
-
 	/**
 	 * How far the current item has been equipped (0 disequipped and 1 fully up)
 	 */
 	private float equippedProgress;
 	private float prevEquippedProgress;
-	private final RenderManager renderManager;
-	private final RenderItem itemRenderer;
-
 	/**
 	 * The index of the currently held item (0-8, or -1 if not yet updated)
 	 */

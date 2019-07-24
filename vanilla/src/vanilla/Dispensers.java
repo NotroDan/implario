@@ -18,16 +18,16 @@ import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.Registrar;
+import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import vanilla.entity.VBlockPumpkin;
-import vanilla.entity.VanillaEntity;
 import vanilla.entity.VItemSkull;
+import vanilla.entity.VanillaEntity;
 import vanilla.item.ItemMonsterPlacer;
 import vanilla.item.VItemDye;
 import vanilla.item.VanillaItems;
@@ -69,33 +69,6 @@ public class Dispensers implements ServerSideLoadable {
 			return super.dispenseStack(source, stack);
 		}
 	};
-
-
-	public static class ArmoredMob implements Predicate<Entity> {
-
-		private final ItemStack armor;
-
-		public ArmoredMob(ItemStack armor) {
-			this.armor = armor;
-		}
-
-		public boolean apply(Entity e) {
-			if (!e.isEntityAlive()) {
-				return false;
-			}
-			if (!(e instanceof EntityLivingBase)) {
-				return false;
-			}
-			EntityLivingBase entitylivingbase = (EntityLivingBase) e;
-			return entitylivingbase.getEquipmentInSlot(
-					VanillaEntity.getArmorPosition(this.armor)) == null && (entitylivingbase instanceof VanillaEntity ?
-					((VanillaEntity) entitylivingbase).canPickUpLoot() :
-					entitylivingbase instanceof EntityArmorStand || entitylivingbase instanceof EntityPlayer
-			);
-		}
-
-	}
-
 
 	public void load(Registrar r) {
 
@@ -497,6 +470,31 @@ public class Dispensers implements ServerSideLoadable {
 			if (item instanceof ItemArmor)
 				BlockDispenser.dispenseBehaviorRegistry.putObject(item, armor);
 		}
+	}
+
+	public static class ArmoredMob implements Predicate<Entity> {
+
+		private final ItemStack armor;
+
+		public ArmoredMob(ItemStack armor) {
+			this.armor = armor;
+		}
+
+		public boolean apply(Entity e) {
+			if (!e.isEntityAlive()) {
+				return false;
+			}
+			if (!(e instanceof EntityLivingBase)) {
+				return false;
+			}
+			EntityLivingBase entitylivingbase = (EntityLivingBase) e;
+			return entitylivingbase.getEquipmentInSlot(
+					VanillaEntity.getArmorPosition(this.armor)) == null && (entitylivingbase instanceof VanillaEntity ?
+					((VanillaEntity) entitylivingbase).canPickUpLoot() :
+					entitylivingbase instanceof EntityArmorStand || entitylivingbase instanceof EntityPlayer
+			);
+		}
+
 	}
 
 }

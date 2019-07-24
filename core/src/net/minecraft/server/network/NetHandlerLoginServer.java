@@ -16,10 +16,10 @@ import net.minecraft.network.login.server.S01PacketEncryptionRequest;
 import net.minecraft.network.login.server.S02PacketLoginSuccess;
 import net.minecraft.network.login.server.S03PacketEnableCompression;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.chat.ChatComponentText;
 import org.apache.commons.lang3.Validate;
 
 import javax.crypto.SecretKey;
@@ -35,9 +35,9 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 	private static final AtomicInteger AUTHENTICATOR_THREAD_ID = new AtomicInteger(0);
 	private static final Logger logger = Logger.getInstance();
 	private static final Random RANDOM = new Random();
+	public final NetworkManager networkManager;
 	private final byte[] verifyToken = new byte[4];
 	private final MinecraftServer server;
-	public final NetworkManager networkManager;
 	private NetHandlerLoginServer.LoginState currentLoginState = NetHandlerLoginServer.LoginState.HELLO;
 
 	/**

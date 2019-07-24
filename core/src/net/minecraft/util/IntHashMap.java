@@ -2,22 +2,19 @@ package net.minecraft.util;
 
 public class IntHashMap<V> {
 
-	private transient IntHashMap.Entry<V>[] slots = new IntHashMap.Entry[16];
-
-	/**
-	 * The number of items stored in this map
-	 */
-	private transient int count;
-
-	/**
-	 * The grow threshold
-	 */
-	private int threshold = 12;
-
 	/**
 	 * The scale factor used to determine when to grow the table
 	 */
 	private final float growFactor = 0.75F;
+	private transient IntHashMap.Entry<V>[] slots = new IntHashMap.Entry[16];
+	/**
+	 * The number of items stored in this map
+	 */
+	private transient int count;
+	/**
+	 * The grow threshold
+	 */
+	private int threshold = 12;
 
 	/**
 	 * Makes the passed in integer suitable for hashing by a number of shifts
@@ -194,9 +191,9 @@ public class IntHashMap<V> {
 	static class Entry<V> {
 
 		final int hashEntry;
+		final int slotHash;
 		V valueEntry;
 		IntHashMap.Entry<V> nextEntry;
-		final int slotHash;
 
 		Entry(int p_i1552_1_, int p_i1552_2_, V p_i1552_3_, IntHashMap.Entry<V> p_i1552_4_) {
 			this.valueEntry = p_i1552_3_;

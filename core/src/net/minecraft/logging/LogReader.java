@@ -23,6 +23,15 @@ public class LogReader implements ILogInterceptor {
 		log.addAccessor(this);
 	}
 
+	public static Line constructLine(String s) {
+		if (s.startsWith("--")) return new Line(LogLevel.COMMENT, s.substring(3), null);
+		if (s.startsWith("* ")) return new Line(LogLevel.ERROR, s.substring(3), null);
+		if (s.length() < 11) return new Line(LogLevel.COMMENT, s, null);
+		String time = s.substring(0, 8);
+		LogLevel level = LogLevel.getLogLevel(s.charAt(9));
+		return new Line(level, s.substring(11), time);
+	}
+
 	private void read() {
 		try {
 			FileInputStream is = new FileInputStream(file);
@@ -35,15 +44,6 @@ public class LogReader implements ILogInterceptor {
 			throw new RuntimeException(e);
 		}
 
-	}
-
-	public static Line constructLine(String s) {
-		if (s.startsWith("--")) return new Line(LogLevel.COMMENT, s.substring(3), null);
-		if (s.startsWith("* ")) return new Line(LogLevel.ERROR, s.substring(3), null);
-		if (s.length() < 11) return new Line(LogLevel.COMMENT, s, null);
-		String time = s.substring(0, 8);
-		LogLevel level = LogLevel.getLogLevel(s.charAt(9));
-		return new Line(level, s.substring(11), time);
 	}
 
 	public File getFile() {
@@ -95,4 +95,5 @@ public class LogReader implements ILogInterceptor {
 		}
 
 	}
+
 }

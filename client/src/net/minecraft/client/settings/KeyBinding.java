@@ -1,6 +1,5 @@
 package net.minecraft.client.settings;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.util.IntHashMap;
 import org.lwjgl.input.Keyboard;
@@ -51,11 +50,6 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 	private static final List<KeyBinding> keybindArray = new ArrayList<>();
 	private static final IntHashMap<KeyBinding> hash = new IntHashMap();
 	private static final Set<String> keybindSet = Sets.newHashSet();
-	private final String keyDescription;
-	private final int keyCodeDefault;
-	private final String keyCategory;
-	private int keyCode;
-	
 	static {
 		for (KeyBinding key : values()) {
 			keybindArray.add(key);
@@ -63,12 +57,22 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 			keybindSet.add(key.getKeyCategory());
 		}
 	}
-
+	private final String keyDescription;
+	private final int keyCodeDefault;
+	private final String keyCategory;
+	private int keyCode;
 	/**
 	 * Is the key held down?
 	 */
 	private boolean pressed;
 	private int pressTime;
+
+	KeyBinding(String description, int keyCode, String category) {
+		this.keyDescription = description;
+		this.keyCode = keyCode;
+		this.keyCodeDefault = keyCode;
+		this.keyCategory = category;
+	}
 
 	public static void onTick(int keyCode) {
 		if (keyCode != 0) {
@@ -106,13 +110,6 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 
 	public static Set<String> getKeybinds() {
 		return keybindSet;
-	}
-
-	KeyBinding(String description, int keyCode, String category) {
-		this.keyDescription = description;
-		this.keyCode = keyCode;
-		this.keyCodeDefault = keyCode;
-		this.keyCategory = category;
 	}
 
 	/**

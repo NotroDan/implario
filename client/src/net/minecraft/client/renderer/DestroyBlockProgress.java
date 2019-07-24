@@ -2,68 +2,62 @@ package net.minecraft.client.renderer;
 
 import net.minecraft.util.BlockPos;
 
-public class DestroyBlockProgress
-{
-    /**
-     * entity ID of the player associated with this partially destroyed Block. Used to identify the Blocks in the client
-     * Renderer, max 1 per player on a server
-     */
-    private final int miningPlayerEntId;
-    private final BlockPos position;
+public class DestroyBlockProgress {
 
-    /**
-     * damage ranges from 1 to 10. -1 causes the client to delete the partial block renderer.
-     */
-    private int partialBlockProgress;
+	/**
+	 * entity ID of the player associated with this partially destroyed Block. Used to identify the Blocks in the client
+	 * Renderer, max 1 per player on a server
+	 */
+	private final int miningPlayerEntId;
+	private final BlockPos position;
 
-    /**
-     * keeps track of how many ticks this PartiallyDestroyedBlock already exists
-     */
-    private int createdAtCloudUpdateTick;
+	/**
+	 * damage ranges from 1 to 10. -1 causes the client to delete the partial block renderer.
+	 */
+	private int partialBlockProgress;
 
-    public DestroyBlockProgress(int miningPlayerEntIdIn, BlockPos positionIn)
-    {
-        this.miningPlayerEntId = miningPlayerEntIdIn;
-        this.position = positionIn;
-    }
+	/**
+	 * keeps track of how many ticks this PartiallyDestroyedBlock already exists
+	 */
+	private int createdAtCloudUpdateTick;
 
-    public BlockPos getPosition()
-    {
-        return this.position;
-    }
+	public DestroyBlockProgress(int miningPlayerEntIdIn, BlockPos positionIn) {
+		this.miningPlayerEntId = miningPlayerEntIdIn;
+		this.position = positionIn;
+	}
 
-    /**
-     * inserts damage value into this partially destroyed Block. -1 causes client renderer to delete it, otherwise
-     * ranges from 1 to 10
-     */
-    public void setPartialBlockDamage(int damage)
-    {
-        if (damage > 10)
-        {
-            damage = 10;
-        }
+	public BlockPos getPosition() {
+		return this.position;
+	}
 
-        this.partialBlockProgress = damage;
-    }
+	public int getPartialBlockDamage() {
+		return this.partialBlockProgress;
+	}
 
-    public int getPartialBlockDamage()
-    {
-        return this.partialBlockProgress;
-    }
+	/**
+	 * inserts damage value into this partially destroyed Block. -1 causes client renderer to delete it, otherwise
+	 * ranges from 1 to 10
+	 */
+	public void setPartialBlockDamage(int damage) {
+		if (damage > 10) {
+			damage = 10;
+		}
 
-    /**
-     * saves the current Cloud update tick into the PartiallyDestroyedBlock
-     */
-    public void setCloudUpdateTick(int createdAtCloudUpdateTickIn)
-    {
-        this.createdAtCloudUpdateTick = createdAtCloudUpdateTickIn;
-    }
+		this.partialBlockProgress = damage;
+	}
 
-    /**
-     * retrieves the 'date' at which the PartiallyDestroyedBlock was created
-     */
-    public int getCreationCloudUpdateTick()
-    {
-        return this.createdAtCloudUpdateTick;
-    }
+	/**
+	 * saves the current Cloud update tick into the PartiallyDestroyedBlock
+	 */
+	public void setCloudUpdateTick(int createdAtCloudUpdateTickIn) {
+		this.createdAtCloudUpdateTick = createdAtCloudUpdateTickIn;
+	}
+
+	/**
+	 * retrieves the 'date' at which the PartiallyDestroyedBlock was created
+	 */
+	public int getCreationCloudUpdateTick() {
+		return this.createdAtCloudUpdateTick;
+	}
+
 }

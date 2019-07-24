@@ -2,12 +2,12 @@ package vanilla.world.biome;
 
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
-import vanilla.entity.monster.EntitySlime;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.ChunkPrimer;
+import vanilla.entity.monster.EntitySlime;
 import vanilla.world.gen.feature.WorldGenAbstractTree;
 
 import java.util.Random;

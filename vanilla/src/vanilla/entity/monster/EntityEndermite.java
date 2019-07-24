@@ -4,19 +4,13 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.ArrowDodger;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
-import vanilla.entity.ai.tasks.EntityAIAttackOnCollide;
-import vanilla.entity.ai.tasks.EntityAIHurtByTarget;
-import vanilla.entity.ai.tasks.EntityAILookIdle;
-import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
-import vanilla.entity.ai.tasks.EntityAISwimming;
-import vanilla.entity.ai.tasks.EntityAIWander;
-import vanilla.entity.ai.tasks.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ParticleType;
 import net.minecraft.world.World;
+import vanilla.entity.ai.tasks.*;
 
 public class EntityEndermite extends EntityMob implements ArrowDodger {
 

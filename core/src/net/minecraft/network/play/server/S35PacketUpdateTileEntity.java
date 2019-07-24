@@ -1,71 +1,67 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.BlockPos;
 
-public class S35PacketUpdateTileEntity implements Packet<INetHandlerPlayClient>
-{
-    private BlockPos blockPos;
+import java.io.IOException;
 
-    /** Used only for vanilla tile entities */
-    private int metadata;
-    private NBTTagCompound nbt;
+public class S35PacketUpdateTileEntity implements Packet<INetHandlerPlayClient> {
 
-    public S35PacketUpdateTileEntity()
-    {
-    }
+	private BlockPos blockPos;
 
-    public S35PacketUpdateTileEntity(BlockPos blockPosIn, int metadataIn, NBTTagCompound nbtIn)
-    {
-        this.blockPos = blockPosIn;
-        this.metadata = metadataIn;
-        this.nbt = nbtIn;
-    }
+	/**
+	 * Used only for vanilla tile entities
+	 */
+	private int metadata;
+	private NBTTagCompound nbt;
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
-    public void readPacketData(PacketBuffer buf) throws IOException
-    {
-        this.blockPos = buf.readBlockPos();
-        this.metadata = buf.readUnsignedByte();
-        this.nbt = buf.readNBTTagCompoundFromBuffer();
-    }
+	public S35PacketUpdateTileEntity() {
+	}
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
-    public void writePacketData(PacketBuffer buf) throws IOException
-    {
-        buf.writeBlockPos(this.blockPos);
-        buf.writeByte((byte)this.metadata);
-        buf.writeNBTTagCompoundToBuffer(this.nbt);
-    }
+	public S35PacketUpdateTileEntity(BlockPos blockPosIn, int metadataIn, NBTTagCompound nbtIn) {
+		this.blockPos = blockPosIn;
+		this.metadata = metadataIn;
+		this.nbt = nbtIn;
+	}
 
-    /**
-     * Passes this Packet on to the NetHandler for processing.
-     */
-    public void processPacket(INetHandlerPlayClient handler)
-    {
-        handler.handleUpdateTileEntity(this);
-    }
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
+	public void readPacketData(PacketBuffer buf) throws IOException {
+		this.blockPos = buf.readBlockPos();
+		this.metadata = buf.readUnsignedByte();
+		this.nbt = buf.readNBTTagCompoundFromBuffer();
+	}
 
-    public BlockPos getPos()
-    {
-        return this.blockPos;
-    }
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
+	public void writePacketData(PacketBuffer buf) throws IOException {
+		buf.writeBlockPos(this.blockPos);
+		buf.writeByte((byte) this.metadata);
+		buf.writeNBTTagCompoundToBuffer(this.nbt);
+	}
 
-    public int getTileEntityType()
-    {
-        return this.metadata;
-    }
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	public void processPacket(INetHandlerPlayClient handler) {
+		handler.handleUpdateTileEntity(this);
+	}
 
-    public NBTTagCompound getNbtCompound()
-    {
-        return this.nbt;
-    }
+	public BlockPos getPos() {
+		return this.blockPos;
+	}
+
+	public int getTileEntityType() {
+		return this.metadata;
+	}
+
+	public NBTTagCompound getNbtCompound() {
+		return this.nbt;
+	}
+
 }

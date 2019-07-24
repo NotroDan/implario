@@ -96,7 +96,7 @@ public class BlockState {
 			}
 			if (!property.getAllowedValues().contains(value)) {
 				throw new IllegalArgumentException(
-						"Cannot set property " + property + " to " + value + " on block " + 
+						"Cannot set property " + property + " to " + value + " on block " +
 								Block.blockRegistry.getNameForObject(block) + ", it is not an allowed value");
 			}
 			return properties.get(property) == value ? this : propertyValueTable.get(property, value);

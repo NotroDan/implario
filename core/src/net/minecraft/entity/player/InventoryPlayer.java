@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.chat.ChatComponentText;
-import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ReportedException;
+import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.chat.ChatComponentTranslation;
 
 public class InventoryPlayer implements IInventory {
 
@@ -36,23 +36,15 @@ public class InventoryPlayer implements IInventory {
 	 * The player whose inventory this is.
 	 */
 	public EntityPlayer player;
-	private ItemStack itemStack;
-
 	/**
 	 * Set true whenever the inventory changes. Nothing sets it false so you will have to write your own code to check
 	 * it and reset the value.
 	 */
 	public boolean inventoryChanged;
+	private ItemStack itemStack;
 
 	public InventoryPlayer(EntityPlayer playerIn) {
 		this.player = playerIn;
-	}
-
-	/**
-	 * Returns the item stack currently held by the player.
-	 */
-	public ItemStack getCurrentItem() {
-		return this.currentItem < 9 && this.currentItem >= 0 ? this.mainInventory[this.currentItem] : null;
 	}
 
 	/**
@@ -60,6 +52,13 @@ public class InventoryPlayer implements IInventory {
 	 */
 	public static int getHotbarSize() {
 		return 10;
+	}
+
+	/**
+	 * Returns the item stack currently held by the player.
+	 */
+	public ItemStack getCurrentItem() {
+		return this.currentItem < 9 && this.currentItem >= 0 ? this.mainInventory[this.currentItem] : null;
 	}
 
 	private int getInventorySlotContainItem(Item itemIn) {
@@ -628,17 +627,17 @@ public class InventoryPlayer implements IInventory {
 	}
 
 	/**
-	 * Set the stack helds by mouse, used in GUI/Container
-	 */
-	public void setItemStack(ItemStack itemStackIn) {
-		this.itemStack = itemStackIn;
-	}
-
-	/**
 	 * Stack helds by mouse, used in GUI and Containers
 	 */
 	public ItemStack getItemStack() {
 		return this.itemStack;
+	}
+
+	/**
+	 * Set the stack helds by mouse, used in GUI/Container
+	 */
+	public void setItemStack(ItemStack itemStackIn) {
+		this.itemStack = itemStackIn;
 	}
 
 	/**

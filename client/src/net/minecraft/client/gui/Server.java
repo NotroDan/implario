@@ -17,19 +17,20 @@ import org.apache.commons.lang3.Validate;
 import java.awt.image.BufferedImage;
 
 public class Server {
-	
+
+	static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
 	final ServerData serverData;
 	final ResourceLocation iconLoc;
 	boolean hovered, prepared;
 	DynamicTexture texture;
 	long hoverTime;
-	
+
 	public Server(ServerData serverData) {
 		this.serverData = serverData;
 		this.iconLoc = new ResourceLocation("servers/" + serverData.serverIP + "/icon");
 		this.texture = (DynamicTexture) MC.getTextureManager().getTexture(this.iconLoc);
 	}
-	
+
 	void prepareServerIcon() {
 		if (prepared) return;
 		prepared = true;
@@ -40,7 +41,8 @@ public class Server {
 			ByteBuf bytebuf = Unpooled.copiedBuffer(this.serverData.getBase64EncodedIconData(), Charsets.UTF_8);
 			ByteBuf bytebuf1 = Base64.decode(bytebuf);
 			BufferedImage bufferedimage;
-			label101: {
+			label101:
+			{
 				try {
 					bufferedimage = TextureUtil.readBufferedImage(new ByteBufInputStream(bytebuf1));
 					Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide");
@@ -54,41 +56,40 @@ public class Server {
 					bytebuf.release();
 					bytebuf1.release();
 				}
-				
+
 				return;
 			}
-			
+
 			if (this.texture == null) {
 				this.texture = new DynamicTexture(bufferedimage.getWidth(), bufferedimage.getHeight());
 				MC.getTextureManager().loadTexture(this.iconLoc, this.texture);
 			}
-			
+
 			bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), this.texture.getTextureData(), 0, bufferedimage.getWidth());
 			this.texture.updateDynamicTexture();
 		}
 	}
-	
-	static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
-	
+
 	void drawFavicon(int x, int y) {
 		G.pushMatrix();
 		G.color(1, 1, 1, 1);
 		MC.getTextureManager().bindTexture(texture == null ? UNKNOWN_SERVER : iconLoc);
 		G.enableBlend();
 		G.scale(2, 2, 2);
-		if (x % 2 == 1) G.translate(0.5, 0,0);
+		if (x % 2 == 1) G.translate(0.5, 0, 0);
 		Gui.drawModalRectWithCustomSizedTexture(x / 2, y / 2, 0.0F, 0.0F, 32, 32, 32.0F, 32.0F);
 		G.scale(0.5, 0.5, 0.5);
 		G.disableBlend();
 		G.popMatrix();
 	}
-	
+
 	public String getTitle() {
 		return serverData.serverName;
 	}
-	
+
 	@Override
 	public String toString() {
 		return serverData.serverName + " | " + serverData.serverIP;
 	}
+
 }

@@ -16,17 +16,6 @@ public class Setting {
 		ALL.put(name, this);
 	}
 
-	public float floatValue() 		{throw null;}
-	public boolean booleanValue() 	{throw null;}
-	public void set(float f) 		{throw null;}
-	public void set(boolean b) 		{throw null;}
-	public void set(String arg) 	{throw null;}
-
-	@Override
-	public int hashCode() {
-		return name.hashCode();
-	}
-
 	public static void fromString(String s) {
 		String[] args = s.split(": ");
 		Setting setting = ALL.get(args[0]);
@@ -37,6 +26,20 @@ public class Setting {
 		setting.set(args[1]);
 	}
 
+	public float floatValue() {throw null;}
+
+	public boolean booleanValue() {throw null;}
+
+	public void set(float f) {throw null;}
+
+	public void set(boolean b) {throw null;}
+
+	public void set(String arg) {throw null;}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 
 	public void reset() {}
 

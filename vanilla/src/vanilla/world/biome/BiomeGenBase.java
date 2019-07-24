@@ -1,16 +1,11 @@
 package vanilla.world.biome;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.Logger;
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import vanilla.entity.EnumCreatureType;
-import vanilla.Vanilla;
-import vanilla.entity.monster.*;
-import vanilla.entity.passive.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -20,34 +15,22 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.biome.TempCategory;
 import net.minecraft.world.chunk.ChunkPrimer;
+import vanilla.Vanilla;
+import vanilla.entity.EnumCreatureType;
+import vanilla.entity.monster.*;
+import vanilla.entity.passive.*;
 import vanilla.world.gen.NoiseGeneratorPerlin;
 import vanilla.world.gen.feature.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @SuppressWarnings ("StaticInitializerReferencesSubClass")
 public abstract class BiomeGenBase extends Biome {
 
-	private static final Logger logger = Logger.getInstance();
+	public static final Map<String, BiomeGenBase> BIOME_ID_MAP = Maps.newHashMap();
 	protected static final BiomeGenBase.Height height_Default = new BiomeGenBase.Height(0.1F, 0.2F);
 	protected static final BiomeGenBase.Height height_ShallowWaters = new BiomeGenBase.Height(-0.5F, 0.0F);
 	protected static final BiomeGenBase.Height height_Oceans = new BiomeGenBase.Height(-1.0F, 0.1F);
-	protected static final BiomeGenBase.Height height_DeepOceans = new BiomeGenBase.Height(-1.8F, 0.1F);
-	protected static final BiomeGenBase.Height height_LowPlains = new BiomeGenBase.Height(0.125F, 0.05F);
-	protected static final BiomeGenBase.Height height_MidPlains = new BiomeGenBase.Height(0.2F, 0.2F);
-	protected static final BiomeGenBase.Height height_LowHills = new BiomeGenBase.Height(0.45F, 0.3F);
-	protected static final BiomeGenBase.Height height_HighPlateaus = new BiomeGenBase.Height(1.5F, 0.025F);
-	protected static final BiomeGenBase.Height height_MidHills = new BiomeGenBase.Height(1.0F, 0.5F);
-	protected static final BiomeGenBase.Height height_Shores = new BiomeGenBase.Height(0.0F, 0.025F);
-	protected static final BiomeGenBase.Height height_RockyWaters = new BiomeGenBase.Height(0.1F, 0.8F);
-	protected static final BiomeGenBase.Height height_LowIslands = new BiomeGenBase.Height(0.2F, 0.3F);
-	protected static final BiomeGenBase.Height height_PartiallySubmerged = new BiomeGenBase.Height(-0.2F, 0.1F);
-
-	public static final Map<String, BiomeGenBase> BIOME_ID_MAP = Maps.newHashMap();
 	public static final BiomeGenBase
 			ocean = new BiomeGenOcean(0, "Ocean").setColor(0x000070).setHeight(height_Oceans),
 			plains = new BiomeGenPlains(1, "Plains").setColor(0x8db360),
@@ -59,7 +42,7 @@ public abstract class BiomeGenBase extends Biome {
 			river = new BiomeGenRiver(7, "River").setColor(255).setHeight(height_ShallowWaters),
 			hell = new BiomeGenHell(8, "Hell").setColor(16711680).setDisableRain().setTemperatureRainfall(2.0F, 0.0F),
 			end = new BiomeGenEnd(9, "The End").setColor(8421631).setDisableRain(),
-			frozenOcean = new BiomeGenOcean(10, "FrozenOcean").setColor(9474208).setEnableSnow().setHeight(height_Oceans).setTemperatureRainfall(0.0F,	0.5F),
+			frozenOcean = new BiomeGenOcean(10, "FrozenOcean").setColor(9474208).setEnableSnow().setHeight(height_Oceans).setTemperatureRainfall(0.0F, 0.5F),
 			frozenRiver = new BiomeGenRiver(11, "FrozenRiver").setColor(10526975).setEnableSnow().setHeight(height_ShallowWaters).setTemperatureRainfall(0.0F, 0.5F),
 			icePlains = new BiomeGenSnow(12, "Ice Plains", false).setColor(16777215).setEnableSnow().setTemperatureRainfall(0.0F, 0.5F).setHeight(height_LowPlains),
 			iceMountains = new BiomeGenSnow(13, "Ice Mountains", false).setColor(10526880).setEnableSnow().setHeight(height_LowHills).setTemperatureRainfall(0.0F, 0.5F),
@@ -79,8 +62,10 @@ public abstract class BiomeGenBase extends Biome {
 			birchForest = new BiomeGenForest(27, "Birch Forest", 2).setColor(3175492),
 			birchForestHills = new BiomeGenForest(28, "Birch Forest Hills", 2).setColor(2055986).setHeight(height_LowHills),
 			roofedForest = new BiomeGenForest(29, "Roofed Forest", 3).setColor(4215066),
-			coldTaiga = new BiomeGenTaiga(30,  "Cold Taiga", 0).setColor(3233098).setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_MidPlains).func_150563_c(16777215),
-			coldTaigaHills = new BiomeGenTaiga(31, "Cold Taiga Hills", 0).setColor(2375478).setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_LowHills).func_150563_c(16777215),
+			coldTaiga = new BiomeGenTaiga(30, "Cold Taiga", 0).setColor(3233098).setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(
+					height_MidPlains).func_150563_c(16777215),
+			coldTaigaHills = new BiomeGenTaiga(31, "Cold Taiga Hills", 0).setColor(2375478).setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(
+					height_LowHills).func_150563_c(16777215),
 			megaTaiga = new BiomeGenTaiga(32, "Mega Taiga", 1).setColor(5858897).setFillerBlockMetadata(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_MidPlains),
 			megaTaigaHills = new BiomeGenTaiga(33, "Mega Taiga Hills", 1).setColor(4542270).setFillerBlockMetadata(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_LowHills),
 			extremeHillsPlus = new BiomeGenHills(34, "Extreme Hills+", true).setColor(5271632).setHeight(height_MidHills).setTemperatureRainfall(0.2F, 0.3F),
@@ -89,48 +74,87 @@ public abstract class BiomeGenBase extends Biome {
 			mesa = new BiomeGenMesa(37, "Mesa", false, false).setColor(14238997),
 			mesaPlateau_F = new BiomeGenMesa(38, "Mesa Plateau F", false, true).setColor(11573093).setHeight(height_HighPlateaus),
 			mesaPlateau = new BiomeGenMesa(39, "Mesa Plateau", false, false).setColor(13274213).setHeight(height_HighPlateaus);
+	protected static final BiomeGenBase.Height height_DeepOceans = new BiomeGenBase.Height(-1.8F, 0.1F);
+	protected static final BiomeGenBase.Height height_LowPlains = new BiomeGenBase.Height(0.125F, 0.05F);
+	protected static final BiomeGenBase.Height height_MidPlains = new BiomeGenBase.Height(0.2F, 0.2F);
+	protected static final BiomeGenBase.Height height_LowHills = new BiomeGenBase.Height(0.45F, 0.3F);
+	protected static final BiomeGenBase.Height height_HighPlateaus = new BiomeGenBase.Height(1.5F, 0.025F);
+	protected static final BiomeGenBase.Height height_MidHills = new BiomeGenBase.Height(1.0F, 0.5F);
+	protected static final BiomeGenBase.Height height_Shores = new BiomeGenBase.Height(0.0F, 0.025F);
+	protected static final BiomeGenBase.Height height_RockyWaters = new BiomeGenBase.Height(0.1F, 0.8F);
+	protected static final BiomeGenBase.Height height_LowIslands = new BiomeGenBase.Height(0.2F, 0.3F);
+	protected static final BiomeGenBase.Height height_PartiallySubmerged = new BiomeGenBase.Height(-0.2F, 0.1F);
 	protected static final NoiseGeneratorPerlin temperatureNoise;
 	protected static final NoiseGeneratorPerlin GRASS_COLOR_NOISE;
 	protected static final WorldGenDoublePlant DOUBLE_PLANT_GENERATOR;
+	private static final Logger logger = Logger.getInstance();
+	static {
+		plains.createMutation();
+		desert.createMutation();
+		forest.createMutation();
+		taiga.createMutation();
+		swampland.createMutation();
+		icePlains.createMutation();
+		jungle.createMutation();
+		jungleEdge.createMutation();
+		coldTaiga.createMutation();
+		savanna.createMutation();
+		savannaPlateau.createMutation();
+		mesa.createMutation();
+		mesaPlateau_F.createMutation();
+		mesaPlateau.createMutation();
+		birchForest.createMutation();
+		birchForestHills.createMutation();
+		roofedForest.createMutation();
+		megaTaiga.createMutation();
+		extremeHills.createMutation();
+		extremeHillsPlus.createMutation();
+		((BiomeGenTaiga) megaTaiga).createMutatedBiome(megaTaigaHills.legacyId + 128, "Redwood Taiga Hills M");
+
+		for (Biome biome : biomeList) {
+			if (biome == null) continue;
+			if (biome.getLegacyId() < 128) explorationBiomesList.add(biome);
+		}
+
+		explorationBiomesList.remove(hell);
+		explorationBiomesList.remove(end);
+		explorationBiomesList.remove(frozenOcean);
+		explorationBiomesList.remove(extremeHillsEdge);
+		temperatureNoise = new NoiseGeneratorPerlin(new Random(1234L), 1);
+		GRASS_COLOR_NOISE = new NoiseGeneratorPerlin(new Random(2345L), 1);
+		DOUBLE_PLANT_GENERATOR = new WorldGenDoublePlant();
+	}
 	public int color;
 	public int field_150609_ah;
-
 	/**
 	 * The block expected to be on the top of this biome
 	 */
 	public IBlockState topBlock = Blocks.grass.getDefaultState();
-
 	/**
 	 * The block to fill spots in when not on the top
 	 */
 	public IBlockState fillerBlock = Blocks.dirt.getDefaultState();
 	public int fillerBlockMetadata = 5169201;
-
 	/**
 	 * The minimum height of this biome. Default 0.1.
 	 */
 	public float minHeight;
-
 	/**
 	 * The maximum height of this biome. Default 0.3.
 	 */
 	public float maxHeight;
-
 	/**
 	 * The temperature of this biome.
 	 */
 	public float temperature;
-
 	/**
 	 * The rainfall in this biome.
 	 */
 	public float rainfall;
-
 	/**
 	 * Color tint applied to water depending on biome
 	 */
 	public int waterColorMultiplier;
-
 	/**
 	 * The biome decorator.
 	 */
@@ -139,27 +163,22 @@ public abstract class BiomeGenBase extends Biome {
 	protected List<SpawnListEntry> spawnableCreatureList;
 	protected List<SpawnListEntry> spawnableWaterCreatureList;
 	protected List<SpawnListEntry> spawnableCaveCreatureList;
-
 	/**
 	 * Set to true if snow is enabled for this biome.
 	 */
 	protected boolean enableSnow;
-
 	/**
 	 * Is true (default) if the biome support rain (desert and nether can't have rain)
 	 */
 	protected boolean enableRain;
-
 	/**
 	 * The tree generator.
 	 */
 	protected WorldGenTrees worldGeneratorTrees;
-
 	/**
 	 * The big tree generator.
 	 */
 	protected WorldGenBigTree worldGeneratorBigTree;
-
 	/**
 	 * The swamp tree generator.
 	 */
@@ -279,7 +298,6 @@ public abstract class BiomeGenBase extends Biome {
 
 		return this;
 	}
-
 
 	public List<SpawnListEntry> getSpawnableList(EnumCreatureType creatureType) {
 		switch (creatureType) {
@@ -455,43 +473,6 @@ public abstract class BiomeGenBase extends Biome {
 
 	public TempCategory getTempCategory() {
 		return (double) this.temperature < 0.2D ? TempCategory.COLD : (double) this.temperature < 1.0D ? TempCategory.MEDIUM : TempCategory.WARM;
-	}
-
-	static {
-		plains.createMutation();
-		desert.createMutation();
-		forest.createMutation();
-		taiga.createMutation();
-		swampland.createMutation();
-		icePlains.createMutation();
-		jungle.createMutation();
-		jungleEdge.createMutation();
-		coldTaiga.createMutation();
-		savanna.createMutation();
-		savannaPlateau.createMutation();
-		mesa.createMutation();
-		mesaPlateau_F.createMutation();
-		mesaPlateau.createMutation();
-		birchForest.createMutation();
-		birchForestHills.createMutation();
-		roofedForest.createMutation();
-		megaTaiga.createMutation();
-		extremeHills.createMutation();
-		extremeHillsPlus.createMutation();
-		((BiomeGenTaiga) megaTaiga).createMutatedBiome(megaTaigaHills.legacyId + 128, "Redwood Taiga Hills M");
-
-		for (Biome biome : biomeList) {
-			if (biome == null) continue;
-			if (biome.getLegacyId() < 128) explorationBiomesList.add(biome);
-		}
-
-		explorationBiomesList.remove(hell);
-		explorationBiomesList.remove(end);
-		explorationBiomesList.remove(frozenOcean);
-		explorationBiomesList.remove(extremeHillsEdge);
-		temperatureNoise = new NoiseGeneratorPerlin(new Random(1234L), 1);
-		GRASS_COLOR_NOISE = new NoiseGeneratorPerlin(new Random(2345L), 1);
-		DOUBLE_PLANT_GENERATOR = new WorldGenDoublePlant();
 	}
 
 	public static class Height {

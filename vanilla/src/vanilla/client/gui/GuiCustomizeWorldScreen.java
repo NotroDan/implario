@@ -22,11 +22,11 @@ import java.util.Random;
 
 public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.FormatHelper, GuiPageButtonList.GuiResponder {
 
-	private OpenableGui parent;
 	protected String field_175341_a = "Customize World Settings";
 	protected String field_175333_f = "Page 1 of 3";
 	protected String field_175335_g = "Basic Settings";
 	protected String[] field_175342_h = new String[4];
+	private OpenableGui parent;
 	private GuiPageButtonList field_175349_r;
 	private GuiButton field_175348_s;
 	private GuiButton field_175347_t;

@@ -15,10 +15,10 @@ import java.util.SortedSet;
 
 public class LanguageManager implements IResourceManagerReloadListener {
 
+	protected static final Locale currentLocale = new Locale();
 	private static final Logger logger = Logger.getInstance();
 	private final IMetadataSerializer theMetadataSerializer;
 	private String currentLanguage;
-	protected static final Locale currentLocale = new Locale();
 	private Map<String, Language> languageMap = Maps.newHashMap();
 
 	public LanguageManager(IMetadataSerializer theMetadataSerializerIn, String currentLanguageIn) {
@@ -64,12 +64,12 @@ public class LanguageManager implements IResourceManagerReloadListener {
 		return currentLocale.isUnicode();
 	}
 
-	public void setCurrentLanguage(Language currentLanguageIn) {
-		this.currentLanguage = currentLanguageIn.getLanguageCode();
-	}
-
 	public Language getCurrentLanguage() {
 		return this.languageMap.containsKey(this.currentLanguage) ? this.languageMap.get(this.currentLanguage) : this.languageMap.get("ru_RU");
+	}
+
+	public void setCurrentLanguage(Language currentLanguageIn) {
+		this.currentLanguage = currentLanguageIn.getLanguageCode();
 	}
 
 	public SortedSet<Language> getLanguages() {

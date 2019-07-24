@@ -11,25 +11,32 @@ import vanilla.world.gen.provider.ChunkProviderSettings;
 public abstract class GenLayer {
 
 	/**
-	 * seed from World#getWorldSeed that is used in the LCG prng
-	 */
-	private long worldGenSeed;
-
-	/**
 	 * parent GenLayer that was provided via the constructor
 	 */
 	protected GenLayer parent;
-
+	/**
+	 * base seed to the LCG prng provided via the constructor
+	 */
+	protected long baseSeed;
+	/**
+	 * seed from World#getWorldSeed that is used in the LCG prng
+	 */
+	private long worldGenSeed;
 	/**
 	 * final part of the LCG prng that uses the chunk X, Z coords along with the other two seeds to generate
 	 * pseudorandom numbers
 	 */
 	private long chunkSeed;
 
-	/**
-	 * base seed to the LCG prng provided via the constructor
-	 */
-	protected long baseSeed;
+	public GenLayer(long p_i2125_1_) {
+		this.baseSeed = p_i2125_1_;
+		this.baseSeed *= this.baseSeed * 6364136223846793005L + 1442695040888963407L;
+		this.baseSeed += p_i2125_1_;
+		this.baseSeed *= this.baseSeed * 6364136223846793005L + 1442695040888963407L;
+		this.baseSeed += p_i2125_1_;
+		this.baseSeed *= this.baseSeed * 6364136223846793005L + 1442695040888963407L;
+		this.baseSeed += p_i2125_1_;
+	}
 
 	public static GenLayer[] initializeAllBiomeGenerators(long seed, WorldType p_180781_2_, String p_180781_3_) {
 		GenLayer genlayer = new GenLayerIsland(1L);
@@ -98,14 +105,34 @@ public abstract class GenLayer {
 		return new GenLayer[] {genlayerrivermix, genlayer3, genlayerrivermix};
 	}
 
-	public GenLayer(long p_i2125_1_) {
-		this.baseSeed = p_i2125_1_;
-		this.baseSeed *= this.baseSeed * 6364136223846793005L + 1442695040888963407L;
-		this.baseSeed += p_i2125_1_;
-		this.baseSeed *= this.baseSeed * 6364136223846793005L + 1442695040888963407L;
-		this.baseSeed += p_i2125_1_;
-		this.baseSeed *= this.baseSeed * 6364136223846793005L + 1442695040888963407L;
-		this.baseSeed += p_i2125_1_;
+	protected static boolean biomesEqualOrMesaPlateau(int a, int b) {
+		if (a == b) {
+			return true;
+		}
+		if (a != BiomeGenBase.mesaPlateau_F.getLegacyId() && a != BiomeGenBase.mesaPlateau.getLegacyId()) {
+			final BiomeGenBase biomeA = BiomeGenBase.toGenBase(BiomeGenBase.getBiome(a));
+			final BiomeGenBase biomeB = BiomeGenBase.toGenBase(BiomeGenBase.getBiome(b));
+
+			try {
+				return biomeA != null && biomeB != null && biomeA.isEqualTo(biomeB);
+			} catch (Throwable throwable) {
+				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Comparing biomes");
+				CrashReportCategory crashreportcategory = crashreport.makeCategory("Biomes being compared");
+				crashreportcategory.addCrashSection("Biome A ID", a);
+				crashreportcategory.addCrashSection("Biome B ID", b);
+				crashreportcategory.addCrashSectionCallable("Biome A", () -> String.valueOf(biomeA));
+				crashreportcategory.addCrashSectionCallable("Biome B", () -> String.valueOf(biomeB));
+				throw new ReportedException(crashreport);
+			}
+		}
+		return b == BiomeGenBase.mesaPlateau_F.getLegacyId() || b == BiomeGenBase.mesaPlateau.getLegacyId();
+	}
+
+	/**
+	 * returns true if the getLegacyId() is one of the various ocean biomes.
+	 */
+	protected static boolean isBiomeOceanic(int p_151618_0_) {
+		return p_151618_0_ == BiomeGenBase.ocean.getLegacyId() || p_151618_0_ == BiomeGenBase.deepOcean.getLegacyId() || p_151618_0_ == BiomeGenBase.frozenOcean.getLegacyId();
 	}
 
 	/**
@@ -163,36 +190,6 @@ public abstract class GenLayer {
 	 */
 	public abstract int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight);
 
-	protected static boolean biomesEqualOrMesaPlateau(int a, int b) {
-		if (a == b) {
-			return true;
-		}
-		if (a != BiomeGenBase.mesaPlateau_F.getLegacyId() && a != BiomeGenBase.mesaPlateau.getLegacyId()) {
-			final BiomeGenBase biomeA = BiomeGenBase.toGenBase(BiomeGenBase.getBiome(a));
-			final BiomeGenBase biomeB = BiomeGenBase.toGenBase(BiomeGenBase.getBiome(b));
-
-			try {
-				return biomeA != null && biomeB != null && biomeA.isEqualTo(biomeB);
-			} catch (Throwable throwable) {
-				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Comparing biomes");
-				CrashReportCategory crashreportcategory = crashreport.makeCategory("Biomes being compared");
-				crashreportcategory.addCrashSection("Biome A ID", a);
-				crashreportcategory.addCrashSection("Biome B ID", b);
-				crashreportcategory.addCrashSectionCallable("Biome A", () -> String.valueOf(biomeA));
-				crashreportcategory.addCrashSectionCallable("Biome B", () -> String.valueOf(biomeB));
-				throw new ReportedException(crashreport);
-			}
-		}
-		return b == BiomeGenBase.mesaPlateau_F.getLegacyId() || b == BiomeGenBase.mesaPlateau.getLegacyId();
-	}
-
-	/**
-	 * returns true if the getLegacyId() is one of the various ocean biomes.
-	 */
-	protected static boolean isBiomeOceanic(int p_151618_0_) {
-		return p_151618_0_ == BiomeGenBase.ocean.getLegacyId() || p_151618_0_ == BiomeGenBase.deepOcean.getLegacyId() || p_151618_0_ == BiomeGenBase.frozenOcean.getLegacyId();
-	}
-
 	/**
 	 * selects a random integer from a set of provided integers
 	 */
@@ -204,12 +201,12 @@ public abstract class GenLayer {
 	 * returns the most frequently occurring number of the set, or a random number from those provided
 	 */
 	protected int selectModeOrRandom(int a, int b, int c, int d) {
-		return  b == c && c == d ? b : a == b && a == c ? a :
+		return b == c && c == d ? b : a == b && a == c ? a :
 				a == b && a == d ? a : a == c && a == d ? a :
-				a == b && c != d ? a : a == c && b != d ? a :
-				a == d && b != c ? a : b == c && a != d ? b :
-				b == d && a != c ? b : c == d && a != b ? c :
-						this.selectRandom(a, b, c, d);
+						a == b && c != d ? a : a == c && b != d ? a :
+								a == d && b != c ? a : b == c && a != d ? b :
+										b == d && a != c ? b : c == d && a != b ? c :
+												this.selectRandom(a, b, c, d);
 	}
 
 }

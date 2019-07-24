@@ -153,10 +153,10 @@ public class BlockFence extends Block {
 		return block != Blocks.barrier &&
 				(
 						block instanceof BlockFence &&
-						block.blockMaterial == this.blockMaterial ||
-						block instanceof BlockFenceGate ||
-						block.blockMaterial.isOpaque() && block.isFullCube() &&
-								block.blockMaterial != Material.gourd
+								block.blockMaterial == this.blockMaterial ||
+								block instanceof BlockFenceGate ||
+								block.blockMaterial.isOpaque() && block.isFullCube() &&
+										block.blockMaterial != Material.gourd
 				);
 	}
 

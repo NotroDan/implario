@@ -1,10 +1,12 @@
 package net.minecraft.client.gui;
 
-import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.network.play.client.C14PacketTabComplete;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.chat.ChatComponentText;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
@@ -15,9 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiChat extends GuiScreen {
-	private static final Logger logger = Logger.getInstance();
-	private String historyBuffer = "";
 
+	private static final Logger logger = Logger.getInstance();
+	/**
+	 * Chat entry field
+	 */
+	protected GuiTextField inputField;
+	private String historyBuffer = "";
 	/**
 	 * keeps position of which chat message you will select when you press up, (does not increase for duplicated
 	 * messages sent immediately after each other)
@@ -27,12 +33,6 @@ public class GuiChat extends GuiScreen {
 	private boolean waitingOnAutocomplete;
 	private int autocompleteIndex;
 	private List<String> foundPlayerNames = new ArrayList<>();
-
-	/**
-	 * Chat entry field
-	 */
-	protected GuiTextField inputField;
-
 	/**
 	 * is the text that appears when you press the chat key and the input box appears pre-filled
 	 */
@@ -274,4 +274,5 @@ public class GuiChat extends GuiScreen {
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
+
 }

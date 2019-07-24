@@ -25,14 +25,19 @@ import shadersmod.client.Shaders;
 import java.io.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GameSettings {
 
+	public static final int DEFAULT = 0;
+	public static final int FAST = 1;
+	public static final int FANCY = 2;
+	public static final int OFF = 3;
+	public static final int SMART = 4;
+	public static final int ANIM_ON = 0;
+	public static final int ANIM_GENERATED = 1;
+	public static final int ANIM_OFF = 2;
+	public static final String DEFAULT_STR = "Default";
 	private static final Logger logger = Logger.getInstance();
 	private static final Gson gson = new Gson();
 	private static final ParameterizedType typeListString = new ParameterizedType() {
@@ -48,7 +53,12 @@ public class GameSettings {
 			return null;
 		}
 	};
-
+	private static final int[] OF_TREES_VALUES = new int[] {0, 1, 4, 2};
+	private static final int[] OF_DYNAMIC_LIGHTS = new int[] {3, 1, 2};
+	private static final String[] KEYS_DYNAMIC_LIGHTS = new String[] {
+			"options.off", "options.graphics.fast", "options.graphics.fancy"
+	};
+	private final Set setModelParts = Sets.newHashSet(EnumPlayerModelParts.values());
 	public float mouseSensitivity = 0.5F;
 	public boolean invertMouse;
 	public int renderDistanceChunks = -1;
@@ -56,18 +66,20 @@ public class GameSettings {
 	public boolean anaglyph;
 	public boolean fboEnable = true;
 	public int limitFramerate = 120;
-
 	/**
 	 * Clouds flag
 	 */
 	public int clouds = 2;
 	public boolean fancyGraphics = true;
-
 	/**
 	 * Smooth Lighting
 	 */
 	public int ambientOcclusion = 2;
+
+	// CUSTOM ------------
 	public List resourcePacks = new ArrayList<>();
+
+	// CUSTOM ------------
 	public List field_183018_l = new ArrayList<>();
 	public EntityPlayer.EnumChatVisibility chatVisibility = EntityPlayer.EnumChatVisibility.FULL;
 	public boolean chatColours = true;
@@ -80,26 +92,16 @@ public class GameSettings {
 	public boolean useVbo = false;
 	public boolean allowBlockAlternatives = true;
 	public boolean reducedDebugInfo = false;
-
-	// CUSTOM ------------
-
 	public boolean fancyButtons = true;
-
-	// CUSTOM ------------
-
-
 	public boolean hideServerAddress;
-
 	/**
 	 * Whether to show advanced information on item tooltips, toggled by F3+H
 	 */
 	public boolean advancedItemTooltips;
-
 	/**
 	 * Whether to pause when the game loses focus, toggled by F3+P
 	 */
 	public boolean pauseOnLostFocus = true;
-	private final Set setModelParts = Sets.newHashSet(EnumPlayerModelParts.values());
 	public boolean touchscreen;
 	public int overrideWidth;
 	public int overrideHeight;
@@ -110,28 +112,22 @@ public class GameSettings {
 	public float chatHeightFocused = 1.0F;
 	public boolean showInventoryAchievementHint = true;
 	public int mipmapLevels = 4;
-	private Map mapSoundLevels = Maps.newEnumMap(SoundCategory.class);
 	public boolean field_181150_U = true;
 	public boolean field_181151_V = true;
 	public KeyBinding[] keyBindings;
-	protected Minecraft mc;
-	private File optionsFile;
 	public EnumDifficulty difficulty;
 	public boolean hideGUI;
 	public int thirdPersonView;
-
 	/**
 	 * true if debug info should be displayed instead of version
 	 */
 	public boolean showDebugInfo;
 	public boolean showDebugProfilerChart;
 	public boolean field_181657_aC;
-
 	/**
 	 * The lastServer string.
 	 */
 	public String lastServer;
-
 	/**
 	 * Smooth Camera Toggle
 	 */
@@ -140,23 +136,19 @@ public class GameSettings {
 	public float fovSetting;
 	public float gammaSetting;
 	public float saturation;
-
 	/**
 	 * GUI scale
 	 */
 	public int guiScale;
-
 	/**
 	 * Determines amount of particles. 0 = All, 1 = Decreased, 2 = Minimal
 	 */
 	public int particleSetting;
-
 	/**
 	 * Game settings language
 	 */
 	public String language;
 	public boolean forceUnicodeFont;
-
 	public int ofFogType = 1;
 	public float ofFogStart = 0.8F;
 	public int ofMipmapType = 0;
@@ -220,21 +212,10 @@ public class GameSettings {
 	public boolean ofDrippingWaterLava = true;
 	public boolean ofAnimatedTerrain = true;
 	public boolean ofAnimatedTextures = true;
-	public static final int DEFAULT = 0;
-	public static final int FAST = 1;
-	public static final int FANCY = 2;
-	public static final int OFF = 3;
-	public static final int SMART = 4;
-	public static final int ANIM_ON = 0;
-	public static final int ANIM_GENERATED = 1;
-	public static final int ANIM_OFF = 2;
-	public static final String DEFAULT_STR = "Default";
-	private static final int[] OF_TREES_VALUES = new int[] {0, 1, 4, 2};
-	private static final int[] OF_DYNAMIC_LIGHTS = new int[] {3, 1, 2};
-	private static final String[] KEYS_DYNAMIC_LIGHTS = new String[] {
-			"options.off", "options.graphics.fast", "options.graphics.fancy"
-	};
 	public KeyBinding ofKeyBindZoom;
+	protected Minecraft mc;
+	private Map mapSoundLevels = Maps.newEnumMap(SoundCategory.class);
+	private File optionsFile;
 	private File optionsFileOF;
 	private float streamBytesPerPixel = 0;
 	private float streamMicVolume = 0;
@@ -274,6 +255,48 @@ public class GameSettings {
 	public static boolean isKeyDown(KeyBinding key) {
 		int i = key.getKeyCode();
 		return i >= -100 && i <= 255 && key.getKeyCode() != 0 && (key.getKeyCode() < 0 ? Mouse.isButtonDown(key.getKeyCode() + 100) : Keyboard.isKeyDown(key.getKeyCode()));
+	}
+
+	/**
+	 * Returns the translation of the given index in the given String array. If the index is smaller than 0 or greater
+	 * than/equal to the length of the String array, it is changed to 0.
+	 */
+	private static String getTranslation(String[] p_74299_0_, int p_74299_1_) {
+		if (p_74299_1_ < 0 || p_74299_1_ >= p_74299_0_.length) {
+			p_74299_1_ = 0;
+		}
+
+		return Lang.format(p_74299_0_[p_74299_1_]);
+	}
+
+	private static int nextValue(int p_nextValue_0_, int[] p_nextValue_1_) {
+		int i = indexOf(p_nextValue_0_, p_nextValue_1_);
+
+		if (i < 0) {
+			return p_nextValue_1_[0];
+		}
+		++i;
+
+		if (i >= p_nextValue_1_.length) {
+			i = 0;
+		}
+
+		return p_nextValue_1_[i];
+	}
+
+	private static int limit(int p_limit_0_, int[] p_limit_1_) {
+		int i = indexOf(p_limit_0_, p_limit_1_);
+		return i < 0 ? p_limit_1_[0] : p_limit_0_;
+	}
+
+	private static int indexOf(int p_indexOf_0_, int[] p_indexOf_1_) {
+		for (int i = 0; i < p_indexOf_1_.length; ++i) {
+			if (p_indexOf_1_[i] == p_indexOf_0_) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
 
 	/**
@@ -446,9 +469,9 @@ public class GameSettings {
 		if (p_74306_1_ == GameSettings.Options.USE_FULLSCREEN) {
 			this.fullScreen = !this.fullScreen;
 
-//			if (this.mc.isFullScreen() != this.fullScreen) {
-//				this.mc.displayGuy.toggleFullscreen(this.mc);
-//			}
+			//			if (this.mc.isFullScreen() != this.fullScreen) {
+			//				this.mc.displayGuy.toggleFullscreen(this.mc);
+			//			}
 		}
 
 		if (p_74306_1_ == GameSettings.Options.ENABLE_VSYNC) {
@@ -536,18 +559,6 @@ public class GameSettings {
 			default:
 				return false;
 		}
-	}
-
-	/**
-	 * Returns the translation of the given index in the given String array. If the index is smaller than 0 or greater
-	 * than/equal to the length of the String array, it is changed to 0.
-	 */
-	private static String getTranslation(String[] p_74299_0_, int p_74299_1_) {
-		if (p_74299_1_ < 0 || p_74299_1_ >= p_74299_0_.length) {
-			p_74299_1_ = 0;
-		}
-
-		return Lang.format(p_74299_0_[p_74299_1_]);
 	}
 
 	/**
@@ -2219,112 +2230,6 @@ public class GameSettings {
 		this.ofAnimatedTextures = p_setAllAnimations_1_;
 	}
 
-	private static int nextValue(int p_nextValue_0_, int[] p_nextValue_1_) {
-		int i = indexOf(p_nextValue_0_, p_nextValue_1_);
-
-		if (i < 0) {
-			return p_nextValue_1_[0];
-		}
-		++i;
-
-		if (i >= p_nextValue_1_.length) {
-			i = 0;
-		}
-
-		return p_nextValue_1_[i];
-	}
-
-	private static int limit(int p_limit_0_, int[] p_limit_1_) {
-		int i = indexOf(p_limit_0_, p_limit_1_);
-		return i < 0 ? p_limit_1_[0] : p_limit_0_;
-	}
-
-	private static int indexOf(int p_indexOf_0_, int[] p_indexOf_1_) {
-		for (int i = 0; i < p_indexOf_1_.length; ++i) {
-			if (p_indexOf_1_[i] == p_indexOf_0_) {
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	static final class GameSettings$2 {
-
-		static final int[] field_151477_a = new int[GameSettings.Options.values().length];
-
-
-		static {
-			try {
-				field_151477_a[GameSettings.Options.INVERT_MOUSE.ordinal()] = 1;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.VIEW_BOBBING.ordinal()] = 2;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.ANAGLYPH.ordinal()] = 3;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.FBO_ENABLE.ordinal()] = 4;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.CHAT_COLOR.ordinal()] = 5;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.CHAT_LINKS.ordinal()] = 6;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.CHAT_LINKS_PROMPT.ordinal()] = 7;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.SNOOPER_ENABLED.ordinal()] = 8;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.USE_FULLSCREEN.ordinal()] = 9;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.ENABLE_VSYNC.ordinal()] = 10;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.USE_VBO.ordinal()] = 11;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.TOUCHSCREEN.ordinal()] = 12;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.STREAM_SEND_METADATA.ordinal()] = 13;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.FORCE_UNICODE_FONT.ordinal()] = 14;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.BLOCK_ALTERNATIVES.ordinal()] = 15;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.REDUCED_DEBUG_INFO.ordinal()] = 16;
-			} catch (NoSuchFieldError ignored) {}
-
-			try {
-				field_151477_a[GameSettings.Options.ENTITY_SHADOWS.ordinal()] = 17;
-			} catch (NoSuchFieldError ignored) {}
-		}
-	}
-
 	public enum Options {
 		INVERT_MOUSE("INVERT_MOUSE", 0, "options.invertMouse", false, true),
 		SENSITIVITY("SENSITIVITY", 1, "options.sensitivity", true, false),
@@ -2434,12 +2339,6 @@ public class GameSettings {
 		DYNAMIC_FOV("", 999, "of.options.DYNAMIC_FOV", false, false),
 		DYNAMIC_LIGHTS("", 999, "of.options.DYNAMIC_LIGHTS", false, false);
 
-		private final boolean enumFloat;
-		private final boolean enumBoolean;
-		private final String enumString;
-		private final float valueStep;
-		private float valueMin;
-		private float valueMax;
 		private static final GameSettings.Options[] $VALUES = new GameSettings.Options[] {
 				INVERT_MOUSE, SENSITIVITY, FOV, GAMMA, SATURATION, RENDER_DISTANCE, VIEW_BOBBING, ANAGLYPH,
 				FRAMERATE_LIMIT, FBO_ENABLE, RENDER_CLOUDS, GRAPHICS, AMBIENT_OCCLUSION, GUI_SCALE, PARTICLES,
@@ -2450,17 +2349,13 @@ public class GameSettings {
 				STREAM_CHAT_ENABLED, STREAM_CHAT_USER_FILTER, STREAM_MIC_TOGGLE_BEHAVIOR, BLOCK_ALTERNATIVES,
 				REDUCED_DEBUG_INFO, ENTITY_SHADOWS
 		};
+		private final boolean enumFloat;
+		private final boolean enumBoolean;
+		private final String enumString;
+		private final float valueStep;
+		private float valueMin;
+		private float valueMax;
 
-
-		public static GameSettings.Options getEnumOptions(int p_74379_0_) {
-			for (GameSettings.Options gamesettings$options : values()) {
-				if (gamesettings$options.returnEnumOrdinal() == p_74379_0_) {
-					return gamesettings$options;
-				}
-			}
-
-			return null;
-		}
 
 		Options(String p_i0_3_, int p_i0_4_, String p_i0_5_, boolean p_i0_6_, boolean p_i0_7_) {
 			this(p_i0_3_, p_i0_4_, p_i0_5_, p_i0_6_, p_i0_7_, 0.0F, 1.0F, 0.0F);
@@ -2473,6 +2368,16 @@ public class GameSettings {
 			this.valueMin = p_i1_8_;
 			this.valueMax = p_i1_9_;
 			this.valueStep = p_i1_10_;
+		}
+
+		public static GameSettings.Options getEnumOptions(int p_74379_0_) {
+			for (GameSettings.Options gamesettings$options : values()) {
+				if (gamesettings$options.returnEnumOrdinal() == p_74379_0_) {
+					return gamesettings$options;
+				}
+			}
+
+			return null;
 		}
 
 		public boolean getEnumFloat() {
@@ -2518,6 +2423,82 @@ public class GameSettings {
 			}
 
 			return p_148264_1_;
+		}
+	}
+
+	static final class GameSettings$2 {
+
+		static final int[] field_151477_a = new int[GameSettings.Options.values().length];
+
+
+		static {
+			try {
+				field_151477_a[GameSettings.Options.INVERT_MOUSE.ordinal()] = 1;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.VIEW_BOBBING.ordinal()] = 2;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.ANAGLYPH.ordinal()] = 3;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.FBO_ENABLE.ordinal()] = 4;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.CHAT_COLOR.ordinal()] = 5;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.CHAT_LINKS.ordinal()] = 6;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.CHAT_LINKS_PROMPT.ordinal()] = 7;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.SNOOPER_ENABLED.ordinal()] = 8;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.USE_FULLSCREEN.ordinal()] = 9;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.ENABLE_VSYNC.ordinal()] = 10;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.USE_VBO.ordinal()] = 11;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.TOUCHSCREEN.ordinal()] = 12;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.STREAM_SEND_METADATA.ordinal()] = 13;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.FORCE_UNICODE_FONT.ordinal()] = 14;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.BLOCK_ALTERNATIVES.ordinal()] = 15;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.REDUCED_DEBUG_INFO.ordinal()] = 16;
+			} catch (NoSuchFieldError ignored) {}
+
+			try {
+				field_151477_a[GameSettings.Options.ENTITY_SHADOWS.ordinal()] = 17;
+			} catch (NoSuchFieldError ignored) {}
 		}
 	}
 

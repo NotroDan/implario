@@ -282,6 +282,11 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
 		PAEONIA(5, "paeonia");
 
 		private static final BlockDoublePlant.EnumPlantType[] META_LOOKUP = new BlockDoublePlant.EnumPlantType[values().length];
+		static {
+			for (BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype : values()) {
+				META_LOOKUP[blockdoubleplant$enumplanttype.getMeta()] = blockdoubleplant$enumplanttype;
+			}
+		}
 		private final int meta;
 		private final String name;
 		private final String unlocalizedName;
@@ -296,14 +301,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
 			this.unlocalizedName = unlocalizedName;
 		}
 
-		public int getMeta() {
-			return this.meta;
-		}
-
-		public String toString() {
-			return this.name;
-		}
-
 		public static BlockDoublePlant.EnumPlantType byMetadata(int meta) {
 			if (meta < 0 || meta >= META_LOOKUP.length) {
 				meta = 0;
@@ -312,18 +309,20 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
 			return META_LOOKUP[meta];
 		}
 
+		public int getMeta() {
+			return this.meta;
+		}
+
+		public String toString() {
+			return this.name;
+		}
+
 		public String getName() {
 			return this.name;
 		}
 
 		public String getUnlocalizedName() {
 			return this.unlocalizedName;
-		}
-
-		static {
-			for (BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype : values()) {
-				META_LOOKUP[blockdoubleplant$enumplanttype.getMeta()] = blockdoubleplant$enumplanttype;
-			}
 		}
 	}
 

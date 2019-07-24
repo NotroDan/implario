@@ -1,6 +1,8 @@
 package net.minecraft.resources.event.events.player;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import net.minecraft.entity.player.EntityPlayer;
 
 @RequiredArgsConstructor

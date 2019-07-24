@@ -44,6 +44,29 @@ public class EnchantmentProtection extends Enchantment {
 	}
 
 	/**
+	 * Gets the amount of ticks an entity should be set fire, adjusted for fire protection.
+	 */
+	public static int getFireTimeForEntity(Entity p_92093_0_, int p_92093_1_) {
+		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.fireProtection.effectId, p_92093_0_.getInventory());
+
+		if (i > 0) {
+			p_92093_1_ -= MathHelper.floor_float((float) p_92093_1_ * (float) i * 0.15F);
+		}
+
+		return p_92093_1_;
+	}
+
+	public static double func_92092_a(Entity p_92092_0_, double p_92092_1_) {
+		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.blastProtection.effectId, p_92092_0_.getInventory());
+
+		if (i > 0) {
+			p_92092_1_ -= (double) MathHelper.floor_double(p_92092_1_ * (double) ((float) i * 0.15F));
+		}
+
+		return p_92092_1_;
+	}
+
+	/**
 	 * Returns the minimal value of enchantability needed on the enchantment level passed.
 	 */
 	public int getMinEnchantability(int enchantmentLevel) {
@@ -96,29 +119,6 @@ public class EnchantmentProtection extends Enchantment {
 			return enchantmentprotection.protectionType == this.protectionType ? false : this.protectionType == 2 || enchantmentprotection.protectionType == 2;
 		}
 		return super.canApplyTogether(ench);
-	}
-
-	/**
-	 * Gets the amount of ticks an entity should be set fire, adjusted for fire protection.
-	 */
-	public static int getFireTimeForEntity(Entity p_92093_0_, int p_92093_1_) {
-		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.fireProtection.effectId, p_92093_0_.getInventory());
-
-		if (i > 0) {
-			p_92093_1_ -= MathHelper.floor_float((float) p_92093_1_ * (float) i * 0.15F);
-		}
-
-		return p_92093_1_;
-	}
-
-	public static double func_92092_a(Entity p_92092_0_, double p_92092_1_) {
-		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.blastProtection.effectId, p_92092_0_.getInventory());
-
-		if (i > 0) {
-			p_92092_1_ -= (double) MathHelper.floor_double(p_92092_1_ * (double) ((float) i * 0.15F));
-		}
-
-		return p_92092_1_;
 	}
 
 }

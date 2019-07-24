@@ -2,13 +2,13 @@ package vanilla.entity.passive;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.SharedMonsterAttributes;
-import vanilla.entity.ai.tasks.EntityAIBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import vanilla.entity.ai.tasks.EntityAIBase;
 
 public class EntitySquid extends EntityWaterMob {
 
@@ -223,6 +223,16 @@ public class EntitySquid extends EntityWaterMob {
 		return this.randomMotionVecX != 0.0F || this.randomMotionVecY != 0.0F || this.randomMotionVecZ != 0.0F;
 	}
 
+	@Override
+	public int getUpdateFrequency() {
+		return 3;
+	}
+
+	@Override
+	public boolean doTracking() {
+		return true;
+	}
+
 	static class AIMoveRandom extends EntityAIBase {
 
 		private EntitySquid squid;
@@ -249,16 +259,6 @@ public class EntitySquid extends EntityWaterMob {
 			}
 		}
 
-	}
-
-	@Override
-	public int getUpdateFrequency() {
-		return 3;
-	}
-
-	@Override
-	public boolean doTracking() {
-		return true;
 	}
 
 }

@@ -6,14 +6,14 @@ import net.minecraft.world.biome.Biome;
 // ToDo: См. RandomMobs
 public class RandomMobsRule {
 
+	public int[] sumWeights = null;
+	public int sumAllWeights = 1;
 	private ResourceLocation baseResLoc;
 	private int[] skins;
 	private ResourceLocation[] resourceLocations = null;
 	private int[] weights;
 	private Biome[] biomes;
 	private RangeListInt heights;
-	public int[] sumWeights = null;
-	public int sumAllWeights = 1;
 
 	public RandomMobsRule(ResourceLocation p_i79_1_, int[] p_i79_2_, int[] p_i79_3_, Biome[] p_i79_4_, RangeListInt p_i79_5_) {
 		this.baseResLoc = p_i79_1_;
@@ -98,9 +98,9 @@ public class RandomMobsRule {
 		return true;
 	}
 
-//	public boolean matches(VanillaEntity e) {
-//		return Matches.biome(e.spawnBiome, this.biomes) && (this.heights == null || e.spawnPosition == null || this.heights.isInRange(e.spawnPosition.getY()));
-//	}
+	//	public boolean matches(VanillaEntity e) {
+	//		return Matches.biome(e.spawnBiome, this.biomes) && (this.heights == null || e.spawnPosition == null || this.heights.isInRange(e.spawnPosition.getY()));
+	//	}
 
 	public ResourceLocation getTextureLocation(ResourceLocation p_getTextureLocation_1_, int p_getTextureLocation_2_) {
 		int i = 0;

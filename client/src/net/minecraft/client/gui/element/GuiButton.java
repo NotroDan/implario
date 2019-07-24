@@ -3,8 +3,8 @@ package net.minecraft.client.gui.element;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.ResourceLocation;
@@ -92,7 +92,7 @@ public class GuiButton extends Gui {
 
 		if (Settings.FANCY_BUTTONS.b()) {
 
-			int color = i == 0 ? Colors.DARK_GRAY: Colors.GRAY;
+			int color = i == 0 ? Colors.DARK_GRAY : Colors.GRAY;
 			int borderColor = Colors.GRAY;
 			if (i == 2) borderColor = Colors.YELLOW;
 			int border = 1;

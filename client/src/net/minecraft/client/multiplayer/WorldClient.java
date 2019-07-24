@@ -6,8 +6,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecart;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.game.particle.EntityFirework;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -16,13 +16,16 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.server.Profiler;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.ParticleType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.*;
+import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.SaveDataMemoryStorage;
@@ -39,20 +42,9 @@ import java.util.Set;
 public class WorldClient extends World {
 
 	/**
-	 * The packets that need to be sent to the server.
-	 */
-	private NetHandlerPlayClient sendQueue;
-
-	/**
-	 * The ChunkProviderClient instance
-	 */
-	private ChunkProviderClient clientChunkProvider;
-
-	/**
 	 * Contains all entities for this client, both spawned and non-spawned.
 	 */
 	private final Set entityList = Sets.newHashSet();
-
 	/**
 	 * Contains all entities for this client that were not spawned due to a non-present chunk. The game will attempt to
 	 * spawn up to 10 pending entities with each subsequent tick until the spawn queue is empty.
@@ -60,7 +52,14 @@ public class WorldClient extends World {
 	private final Set entitySpawnQueue = Sets.newHashSet();
 	private final Minecraft mc = Minecraft.getMinecraft();
 	private final Set previousActiveChunkSet = Sets.newHashSet();
-
+	/**
+	 * The packets that need to be sent to the server.
+	 */
+	private NetHandlerPlayClient sendQueue;
+	/**
+	 * The ChunkProviderClient instance
+	 */
+	private ChunkProviderClient clientChunkProvider;
 	private BlockPosM randomTickPosM = new BlockPosM(0, 0, 0, 3);
 	private boolean playerUpdate = false;
 

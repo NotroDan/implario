@@ -14,7 +14,7 @@ import net.minecraft.util.chat.ChatComponentText;
 import static net.minecraft.client.Minecraft.theMinecraft;
 
 public final class MC {
-	
+
 	public static AssetsFontRenderer FR;
 
 	private MC() {throw new Error("Ну ты чо совсем шоле ебанулся");}
@@ -46,6 +46,7 @@ public final class MC {
 	public static int getWidth() {
 		return new ScaledResolution(i()).getScaledWidth();
 	}
+
 	public static int getHeight() {
 		return new ScaledResolution(i()).getScaledHeight();
 	}
@@ -57,12 +58,12 @@ public final class MC {
 	public static void toggleHitboxes() {
 		i().getRenderManager().setDebugBoundingBox(!i().getRenderManager().isDebugBoundingBox());
 	}
-	
+
 	public static void frame() {
 		i().displayGuy.updateDisplay(i());
 		if (FR == null) FR = getFontRenderer();
 	}
-	
+
 	public static int sqd(int a, int b) {
 		return a * a + b * b;
 	}

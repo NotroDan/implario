@@ -1,8 +1,8 @@
 package vanilla.world.biome;
 
-import vanilla.entity.passive.EntityMooshroom;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.SpawnListEntry;
+import vanilla.entity.passive.EntityMooshroom;
 
 public class BiomeGenMushroomIsland extends BiomeGenBase {
 

@@ -30,9 +30,9 @@ import java.net.SocketAddress;
 
 public class GameWorldController {
 
+	public final AnvilSaveConverter saveLoader;
 	private final Minecraft mc;
 	public Entity renderViewEntity;
-	public final AnvilSaveConverter saveLoader;
 
 	public GameWorldController(Minecraft minecraft) {
 		mc = minecraft;

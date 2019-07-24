@@ -3,9 +3,9 @@ package vanilla.client.renderer.entity;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderMinecart;
+import net.minecraft.init.Blocks;
 import vanilla.client.renderer.tileentity.TileEntityMobSpawnerRenderer;
 import vanilla.entity.ai.EntityMinecartMobSpawner;
-import net.minecraft.init.Blocks;
 
 public class RenderMinecartMobSpawner extends RenderMinecart<EntityMinecartMobSpawner> {
 

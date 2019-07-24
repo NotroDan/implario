@@ -16,78 +16,17 @@ import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.util.Color;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class GuiInventory extends InventoryEffectRenderer {
+
 	private float oldMouseX;
 	private float oldMouseY;
 
 	public GuiInventory(EntityPlayer player) {
 		super(player.inventoryContainer);
 		this.allowUserInput = true;
-	}
-
-	@Override
-	public void updateScreen() {
-		if (mc.playerController.isInCreativeMode())
-			mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
-		updateActivePotionEffects();
-	}
-
-	@Override
-	public void initGui() {
-		buttonList.clear();
-
-		if (mc.playerController.isInCreativeMode())
-			mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
-		else
-			super.initGui();
-	}
-
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		fontRendererObj.drawString(Lang.format("container.crafting"), 88, 14, 4210752);
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		super.drawScreen(mouseX, mouseY, partialTicks);
-		oldMouseX = (float) mouseX;
-		oldMouseY = (float) mouseY;
-	}
-
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		int x = guiLeft;
-		int y = guiTop;
-		if(Settings.MODERN_INVENTORIES.b()) {
-			x = x + 4;
-			y = y + 4;
-			RenderRec.render(x, y, 168, 158, Colors.DARK);
-
-			if(Settings.SLOT_GRID.i() != 2) {
-				RenderRec.render(x + 2, y + 2, 20, 74, Colors.DARK_GRAY);
-				RenderRec.render(x + 82, y + 20, 38, 38, Colors.DARK_GRAY);
-				RenderRec.render(x + 138, y + 30, 20, 20, Colors.DARK_GRAY);
-				RenderRec.render(x + 2, y + 78, 164, 56, Colors.DARK_GRAY);
-				RenderRec.render(x + 2, y + 136, 164, 20, Colors.DARK_GRAY);
-				RenderRec.render(x + 26, y + 2, 50, 74, Colors.DARK_GRAY);
-			}
-
-			RenderRec.render(x + 28, y + 4, 46, 70, Colors.BLACK);
-			RenderRec.render(x + 122, y + 38, 10, 4, Colors.GRAY);
-			int x1 = x + 132, y1 = y + 34;
-			Gui.drawTriangle(x1, y1, x1, y1 + 12, x1 + 6, y1 + 6, Colors.GRAY);
-		}else{
-			mc.getTextureManager().bindTexture(inventoryBackground);
-			drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-		}
-		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-		drawEntityOnScreen(x += 50, y + 68, 30, (float) x - this.oldMouseX,
-				(float) (y + 17) - this.oldMouseY, this.mc.thePlayer);
 	}
 
 	/**
@@ -130,6 +69,66 @@ public class GuiInventory extends InventoryEffectRenderer {
 		G.setActiveTexture(OpenGlHelper.lightmapTexUnit);
 		G.disableTexture2D();
 		G.setActiveTexture(OpenGlHelper.defaultTexUnit);
+	}
+
+	@Override
+	public void updateScreen() {
+		if (mc.playerController.isInCreativeMode())
+			mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
+		updateActivePotionEffects();
+	}
+
+	@Override
+	public void initGui() {
+		buttonList.clear();
+
+		if (mc.playerController.isInCreativeMode())
+			mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
+		else
+			super.initGui();
+	}
+
+	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		fontRendererObj.drawString(Lang.format("container.crafting"), 88, 14, 4210752);
+	}
+
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		oldMouseX = (float) mouseX;
+		oldMouseY = (float) mouseY;
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		int x = guiLeft;
+		int y = guiTop;
+		if (Settings.MODERN_INVENTORIES.b()) {
+			x = x + 4;
+			y = y + 4;
+			RenderRec.render(x, y, 168, 158, Colors.DARK);
+
+			if (Settings.SLOT_GRID.i() != 2) {
+				RenderRec.render(x + 2, y + 2, 20, 74, Colors.DARK_GRAY);
+				RenderRec.render(x + 82, y + 20, 38, 38, Colors.DARK_GRAY);
+				RenderRec.render(x + 138, y + 30, 20, 20, Colors.DARK_GRAY);
+				RenderRec.render(x + 2, y + 78, 164, 56, Colors.DARK_GRAY);
+				RenderRec.render(x + 2, y + 136, 164, 20, Colors.DARK_GRAY);
+				RenderRec.render(x + 26, y + 2, 50, 74, Colors.DARK_GRAY);
+			}
+
+			RenderRec.render(x + 28, y + 4, 46, 70, Colors.BLACK);
+			RenderRec.render(x + 122, y + 38, 10, 4, Colors.GRAY);
+			int x1 = x + 132, y1 = y + 34;
+			Gui.drawTriangle(x1, y1, x1, y1 + 12, x1 + 6, y1 + 6, Colors.GRAY);
+		} else {
+			mc.getTextureManager().bindTexture(inventoryBackground);
+			drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+		}
+		G.color(1.0F, 1.0F, 1.0F, 1.0F);
+		drawEntityOnScreen(x += 50, y + 68, 30, (float) x - this.oldMouseX,
+				(float) (y + 17) - this.oldMouseY, this.mc.thePlayer);
 	}
 
 	/**

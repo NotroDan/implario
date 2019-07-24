@@ -1,11 +1,11 @@
 package net.minecraft.client.gui;
 
-import net.minecraft.logging.Log;
-import net.minecraft.logging.LogReader;
 import net.minecraft.Utils;
 import net.minecraft.client.MC;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.logging.Log;
+import net.minecraft.logging.LogReader;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class GuiLogs extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-//		drawRect();
+		//		drawRect();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		MC.FR.drawString("", 0, 0, 0);
 		List<LogReader.Line> lines = reader.getLines();
@@ -65,7 +65,7 @@ public class GuiLogs extends GuiScreen {
 
 		int d = Mouse.getDWheel();
 		if (d == 0) return;
-//		System.out.println(d);
+		//		System.out.println(d);
 		if (d >> 31 != scrollBy >> 31) {
 			scrollBy = d;
 			scrollBy += d / 10;

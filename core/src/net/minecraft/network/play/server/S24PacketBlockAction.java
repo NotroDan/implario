@@ -1,84 +1,77 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.block.Block;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.BlockPos;
 
-public class S24PacketBlockAction implements Packet<INetHandlerPlayClient>
-{
-    private BlockPos blockPosition;
-    private int instrument;
-    private int pitch;
-    private Block block;
+import java.io.IOException;
 
-    public S24PacketBlockAction()
-    {
-    }
+public class S24PacketBlockAction implements Packet<INetHandlerPlayClient> {
 
-    public S24PacketBlockAction(BlockPos blockPositionIn, Block blockIn, int instrumentIn, int pitchIn)
-    {
-        this.blockPosition = blockPositionIn;
-        this.instrument = instrumentIn;
-        this.pitch = pitchIn;
-        this.block = blockIn;
-    }
+	private BlockPos blockPosition;
+	private int instrument;
+	private int pitch;
+	private Block block;
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
-    public void readPacketData(PacketBuffer buf) throws IOException
-    {
-        this.blockPosition = buf.readBlockPos();
-        this.instrument = buf.readUnsignedByte();
-        this.pitch = buf.readUnsignedByte();
-        this.block = Block.getBlockById(buf.readVarIntFromBuffer() & 4095);
-    }
+	public S24PacketBlockAction() {
+	}
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
-    public void writePacketData(PacketBuffer buf) throws IOException
-    {
-        buf.writeBlockPos(this.blockPosition);
-        buf.writeByte(this.instrument);
-        buf.writeByte(this.pitch);
-        buf.writeVarIntToBuffer(Block.getIdFromBlock(this.block) & 4095);
-    }
+	public S24PacketBlockAction(BlockPos blockPositionIn, Block blockIn, int instrumentIn, int pitchIn) {
+		this.blockPosition = blockPositionIn;
+		this.instrument = instrumentIn;
+		this.pitch = pitchIn;
+		this.block = blockIn;
+	}
 
-    /**
-     * Passes this Packet on to the NetHandler for processing.
-     */
-    public void processPacket(INetHandlerPlayClient handler)
-    {
-        handler.handleBlockAction(this);
-    }
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
+	public void readPacketData(PacketBuffer buf) throws IOException {
+		this.blockPosition = buf.readBlockPos();
+		this.instrument = buf.readUnsignedByte();
+		this.pitch = buf.readUnsignedByte();
+		this.block = Block.getBlockById(buf.readVarIntFromBuffer() & 4095);
+	}
 
-    public BlockPos getBlockPosition()
-    {
-        return this.blockPosition;
-    }
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
+	public void writePacketData(PacketBuffer buf) throws IOException {
+		buf.writeBlockPos(this.blockPosition);
+		buf.writeByte(this.instrument);
+		buf.writeByte(this.pitch);
+		buf.writeVarIntToBuffer(Block.getIdFromBlock(this.block) & 4095);
+	}
 
-    /**
-     * instrument data for noteblocks
-     */
-    public int getData1()
-    {
-        return this.instrument;
-    }
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	public void processPacket(INetHandlerPlayClient handler) {
+		handler.handleBlockAction(this);
+	}
 
-    /**
-     * pitch data for noteblocks
-     */
-    public int getData2()
-    {
-        return this.pitch;
-    }
+	public BlockPos getBlockPosition() {
+		return this.blockPosition;
+	}
 
-    public Block getBlockType()
-    {
-        return this.block;
-    }
+	/**
+	 * instrument data for noteblocks
+	 */
+	public int getData1() {
+		return this.instrument;
+	}
+
+	/**
+	 * pitch data for noteblocks
+	 */
+	public int getData2() {
+		return this.pitch;
+	}
+
+	public Block getBlockType() {
+		return this.block;
+	}
+
 }

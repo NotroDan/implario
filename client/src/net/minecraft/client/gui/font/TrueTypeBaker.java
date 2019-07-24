@@ -52,7 +52,6 @@ public class TrueTypeBaker {
 		}
 
 
-
 		try {
 
 			List<BufferedImage> pages = new ArrayList<>();
@@ -101,7 +100,7 @@ public class TrueTypeBaker {
 				ImageIO.write(page, "PNG", new File(font.getFamily() + "_" + font.getSize() + "_" + font.getStyle() + "_" + is++ + ".png"));
 			}
 
-//			fontTextureID = loadImage(buffer);
+			//			fontTextureID = loadImage(buffer);
 
 
 			//.getTexture(font.toString(), buffer);
@@ -148,10 +147,10 @@ public class TrueTypeBaker {
 
 	private Glyph getGlyph(Font font, char c) {
 
-//		GlyphVector glyphVector = font.createGlyphVector(ctx, new char[] {c});
-//		System.out.println(glyphVector);
-//		glyphVector.getVisualBounds().setFrame(0, 0, 400, 400);
-//		int width = glyphVector.getPixelBounds(ctx, 1, 1).width;
+		//		GlyphVector glyphVector = font.createGlyphVector(ctx, new char[] {c});
+		//		System.out.println(glyphVector);
+		//		glyphVector.getVisualBounds().setFrame(0, 0, 400, 400);
+		//		int width = glyphVector.getPixelBounds(ctx, 1, 1).width;
 
 
 		TextLayout layout = new TextLayout(String.valueOf(c), font, ctx);
@@ -162,15 +161,14 @@ public class TrueTypeBaker {
 				layout.getAscent() + layout.getDescent() + 2f * layout.getLeading());
 		Rectangle2D bounds = lBounds.createUnion(vBounds);
 		int width = (int) Math.ceil(bounds.getWidth());
-//		(width == 0 ? System.err : System.out).println("char " + (int) c + " '" + c + "': width = " + width);
-
+		//		(width == 0 ? System.err : System.out).println("char " + (int) c + " '" + c + "': width = " + width);
 
 
 		if (width == 0) return null;
 
 
 		//		int charwidth = metrics.charWidth(c) + 8;
-//		if (charwidth <= 0) charwidth = 7;
+		//		if (charwidth <= 0) charwidth = 7;
 
 
 		return new Glyph(c, (int) Math.ceil(width));
@@ -178,87 +176,87 @@ public class TrueTypeBaker {
 	}
 
 
-//	private void createSet(char[] customCharsArray) {
-//
-//		int textureWidth = 512, textureHeight = 512;
-//
-//
-//		// If there are custom chars then I expand the font texture twice
-//		if (customCharsArray != null && customCharsArray.length > 0) textureWidth *= 2;
-//
-//		// In any case this should be done in other way. Texture with size 512x512
-//		// can maintain only 256 characters with resolution of 32x32. The texture
-//		// size should be calculated dynamicaly by looking at character sizes.
-//
-//		try {
-//
-//			BufferedImage imgTemp = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
-//			Graphics2D g = (Graphics2D) imgTemp.getGraphics();
-//
-//			g.setColor(new Color(0, 0, 0, 1));
-//			g.fillRect(0, 0, textureWidth, textureHeight);
-//
-//			int rowHeight = 0;
-//			int positionX = 0;
-//			int positionY = 0;
-//
-//			int customCharsLength = customCharsArray != null ? customCharsArray.length : 0;
-//
-//			for (int i = 0; i < 256 + customCharsLength; i++) {
-//
-//				// get 0-255 characters and then custom characters
-//				char ch = i < 256 ? (char) i : customCharsArray[i - 256];
-//
-//				BufferedImage fontImage = getFontImage(ch);
-//
-//				IntObject newIntObject = new TrueTypeFont.IntObject();
-//
-//				newIntObject.width = fontImage.getWidth();
-//				newIntObject.height = fontImage.getHeight();
-//
-//
-//				if (positionX + newIntObject.width >= textureWidth) {
-//					positionX = 0;
-//					positionY += rowHeight;
-//					rowHeight = 0;
-//				}
-//
-//				newIntObject.storedX = positionX;
-//				newIntObject.storedY = positionY;
-//
-//				if (newIntObject.height > fontHeight) {
-//					fontHeight = newIntObject.height;
-//				}
-//
-//				if (newIntObject.height > rowHeight) {
-//					rowHeight = newIntObject.height;
-//				}
-//
-//				// Draw it here
-//				g.drawImage(fontImage, positionX, positionY, null);
-//
-//				positionX += newIntObject.width;
-//
-//				if (i < 256) { // standard characters
-//					charArray[i] = newIntObject;
-//				} else { // custom characters
-//					customChars.put(ch, newIntObject);
-//				}
-//
-//			}
-//
-//			//			ImageIO.write(imgTemp, "PNG", new File(font.getFamily() + "_" + font.getStyle() + "_" + font.getSize() + ".png"));
-//
-//			fontTextureID = loadImage(imgTemp);
-//
-//
-//			//.getTexture(font.toString(), imgTemp);
-//
-//		} catch (Exception e) {
-//			Log.MAIN.error("Failed to create font.");
-//			Log.MAIN.exception(e);
-//		}
-//	}
+	//	private void createSet(char[] customCharsArray) {
+	//
+	//		int textureWidth = 512, textureHeight = 512;
+	//
+	//
+	//		// If there are custom chars then I expand the font texture twice
+	//		if (customCharsArray != null && customCharsArray.length > 0) textureWidth *= 2;
+	//
+	//		// In any case this should be done in other way. Texture with size 512x512
+	//		// can maintain only 256 characters with resolution of 32x32. The texture
+	//		// size should be calculated dynamicaly by looking at character sizes.
+	//
+	//		try {
+	//
+	//			BufferedImage imgTemp = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
+	//			Graphics2D g = (Graphics2D) imgTemp.getGraphics();
+	//
+	//			g.setColor(new Color(0, 0, 0, 1));
+	//			g.fillRect(0, 0, textureWidth, textureHeight);
+	//
+	//			int rowHeight = 0;
+	//			int positionX = 0;
+	//			int positionY = 0;
+	//
+	//			int customCharsLength = customCharsArray != null ? customCharsArray.length : 0;
+	//
+	//			for (int i = 0; i < 256 + customCharsLength; i++) {
+	//
+	//				// get 0-255 characters and then custom characters
+	//				char ch = i < 256 ? (char) i : customCharsArray[i - 256];
+	//
+	//				BufferedImage fontImage = getFontImage(ch);
+	//
+	//				IntObject newIntObject = new TrueTypeFont.IntObject();
+	//
+	//				newIntObject.width = fontImage.getWidth();
+	//				newIntObject.height = fontImage.getHeight();
+	//
+	//
+	//				if (positionX + newIntObject.width >= textureWidth) {
+	//					positionX = 0;
+	//					positionY += rowHeight;
+	//					rowHeight = 0;
+	//				}
+	//
+	//				newIntObject.storedX = positionX;
+	//				newIntObject.storedY = positionY;
+	//
+	//				if (newIntObject.height > fontHeight) {
+	//					fontHeight = newIntObject.height;
+	//				}
+	//
+	//				if (newIntObject.height > rowHeight) {
+	//					rowHeight = newIntObject.height;
+	//				}
+	//
+	//				// Draw it here
+	//				g.drawImage(fontImage, positionX, positionY, null);
+	//
+	//				positionX += newIntObject.width;
+	//
+	//				if (i < 256) { // standard characters
+	//					charArray[i] = newIntObject;
+	//				} else { // custom characters
+	//					customChars.put(ch, newIntObject);
+	//				}
+	//
+	//			}
+	//
+	//			//			ImageIO.write(imgTemp, "PNG", new File(font.getFamily() + "_" + font.getStyle() + "_" + font.getSize() + ".png"));
+	//
+	//			fontTextureID = loadImage(imgTemp);
+	//
+	//
+	//			//.getTexture(font.toString(), imgTemp);
+	//
+	//		} catch (Exception e) {
+	//			Log.MAIN.error("Failed to create font.");
+	//			Log.MAIN.exception(e);
+	//		}
+	//	}
 
 
 	private static class Glyph {
@@ -272,6 +270,17 @@ public class TrueTypeBaker {
 			this.width = width;
 		}
 
+		public static Glyph unzip(char c, byte[] array) {
+			ByteBuffer b = ByteBuffer.wrap(array);
+			float texX = b.getFloat();
+			float texY = b.getFloat();
+			int width = b.getInt();
+			Glyph g = new Glyph(c, width);
+			g.texX = texX;
+			g.texY = texY;
+			return g;
+		}
+
 		public char getChar() {
 			return c;
 		}
@@ -282,7 +291,7 @@ public class TrueTypeBaker {
 
 		@Override
 		public String toString() {
-			return "G[width=" +  width + "]";
+			return "G[width=" + width + "]";
 		}
 
 		public byte[] zip() {
@@ -293,17 +302,6 @@ public class TrueTypeBaker {
 			bb.putInt(width);
 			return bb.array();
 
-		}
-
-		public static Glyph unzip(char c, byte[] array) {
-			ByteBuffer b = ByteBuffer.wrap(array);
-			float texX = b.getFloat();
-			float texY = b.getFloat();
-			int width = b.getInt();
-			Glyph g = new Glyph(c, width);
-			g.texX = texX;
-			g.texY = texY;
-			return g;
 		}
 
 	}

@@ -313,15 +313,15 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		return this.hasCustomName() ? this.customName : "container.beacon";
 	}
 
+	public void setName(String name) {
+		this.customName = name;
+	}
+
 	/**
 	 * Returns true if this thing is named
 	 */
 	public boolean hasCustomName() {
 		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setName(String name) {
-		this.customName = name;
 	}
 
 	/**

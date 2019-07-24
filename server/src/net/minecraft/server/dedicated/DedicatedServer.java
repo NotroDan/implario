@@ -1,6 +1,5 @@
 package net.minecraft.server.dedicated;
 
-import com.google.common.collect.Lists;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.ServerCommand;
 import net.minecraft.crash.CrashReport;
@@ -167,20 +166,20 @@ public class DedicatedServer extends MinecraftServer {
 		return true;
 	}
 
-	/**
-	 * Sets the game type for all worlds.
-	 */
-	public void setGameType(WorldSettings.GameType gameMode) {
-		super.setGameType(gameMode);
-		this.gameType = gameMode;
-	}
-
 	public boolean canStructuresSpawn() {
 		return this.canSpawnStructures;
 	}
 
 	public WorldSettings.GameType getGameType() {
 		return this.gameType;
+	}
+
+	/**
+	 * Sets the game type for all worlds.
+	 */
+	public void setGameType(WorldSettings.GameType gameMode) {
+		super.setGameType(gameMode);
+		this.gameType = gameMode;
 	}
 
 	/**

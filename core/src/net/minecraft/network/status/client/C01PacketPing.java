@@ -1,49 +1,45 @@
 package net.minecraft.network.status.client;
 
-import java.io.IOException;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.status.INetHandlerStatusServer;
 
-public class C01PacketPing implements Packet<INetHandlerStatusServer>
-{
-    private long clientTime;
+import java.io.IOException;
 
-    public C01PacketPing()
-    {
-    }
+public class C01PacketPing implements Packet<INetHandlerStatusServer> {
 
-    public C01PacketPing(long ping)
-    {
-        this.clientTime = ping;
-    }
+	private long clientTime;
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
-    public void readPacketData(PacketBuffer buf) throws IOException
-    {
-        this.clientTime = buf.readLong();
-    }
+	public C01PacketPing() {
+	}
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
-    public void writePacketData(PacketBuffer buf) throws IOException
-    {
-        buf.writeLong(this.clientTime);
-    }
+	public C01PacketPing(long ping) {
+		this.clientTime = ping;
+	}
 
-    /**
-     * Passes this Packet on to the NetHandler for processing.
-     */
-    public void processPacket(INetHandlerStatusServer handler)
-    {
-        handler.processPing(this);
-    }
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
+	public void readPacketData(PacketBuffer buf) throws IOException {
+		this.clientTime = buf.readLong();
+	}
 
-    public long getClientTime()
-    {
-        return this.clientTime;
-    }
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
+	public void writePacketData(PacketBuffer buf) throws IOException {
+		buf.writeLong(this.clientTime);
+	}
+
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	public void processPacket(INetHandlerStatusServer handler) {
+		handler.processPing(this);
+	}
+
+	public long getClientTime() {
+		return this.clientTime;
+	}
+
 }

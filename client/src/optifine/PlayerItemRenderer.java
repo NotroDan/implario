@@ -3,33 +3,30 @@ package optifine;
 import net.minecraft.client.game.model.ModelBiped;
 import net.minecraft.client.game.model.ModelRenderer;
 
-public class PlayerItemRenderer
-{
-    private int attachTo = 0;
-    private float scaleFactor = 0.0F;
-    private ModelRenderer modelRenderer = null;
+public class PlayerItemRenderer {
 
-    public PlayerItemRenderer(int p_i75_1_, float p_i75_2_, ModelRenderer p_i75_3_)
-    {
-        this.attachTo = p_i75_1_;
-        this.scaleFactor = p_i75_2_;
-        this.modelRenderer = p_i75_3_;
-    }
+	private int attachTo = 0;
+	private float scaleFactor = 0.0F;
+	private ModelRenderer modelRenderer = null;
 
-    public ModelRenderer getModelRenderer()
-    {
-        return this.modelRenderer;
-    }
+	public PlayerItemRenderer(int p_i75_1_, float p_i75_2_, ModelRenderer p_i75_3_) {
+		this.attachTo = p_i75_1_;
+		this.scaleFactor = p_i75_2_;
+		this.modelRenderer = p_i75_3_;
+	}
 
-    public void render(ModelBiped p_render_1_, float p_render_2_)
-    {
-        ModelRenderer modelrenderer = PlayerItemModel.getAttachModel(p_render_1_, this.attachTo);
+	public ModelRenderer getModelRenderer() {
+		return this.modelRenderer;
+	}
 
-        if (modelrenderer != null)
-        {
-            modelrenderer.postRender(p_render_2_);
-        }
+	public void render(ModelBiped p_render_1_, float p_render_2_) {
+		ModelRenderer modelrenderer = PlayerItemModel.getAttachModel(p_render_1_, this.attachTo);
 
-        this.modelRenderer.render(p_render_2_ * this.scaleFactor);
-    }
+		if (modelrenderer != null) {
+			modelrenderer.postRender(p_render_2_);
+		}
+
+		this.modelRenderer.render(p_render_2_ * this.scaleFactor);
+	}
+
 }

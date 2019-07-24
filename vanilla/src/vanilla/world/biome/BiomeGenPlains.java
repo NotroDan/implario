@@ -2,10 +2,10 @@ package vanilla.world.biome;
 
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
-import vanilla.entity.passive.EntityHorse;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
+import vanilla.entity.passive.EntityHorse;
 
 import java.util.Random;
 

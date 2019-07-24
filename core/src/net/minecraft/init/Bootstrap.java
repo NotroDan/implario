@@ -15,9 +15,8 @@ import java.util.Collection;
 public class Bootstrap {
 
 	private static final PrintStream SYSOUT = System.out;
-
-	private static boolean alreadyRegistered = false;
 	private static final Logger LOGGER = Logger.getInstance();
+	private static boolean alreadyRegistered = false;
 
 	/**
 	 * Is Bootstrap registration already done?
@@ -61,4 +60,5 @@ public class Bootstrap {
 	public static void print(String text) {
 		SYSOUT.println(text);
 	}
+
 }

@@ -8,11 +8,11 @@ import net.minecraft.util.MathHelper;
 
 public class SettingSlider extends SettingButton {
 
-	private float sliderValue;
-	public boolean dragging;
-	private SliderSetting options;
 	private final float min;
 	private final float max;
+	public boolean dragging;
+	private float sliderValue;
+	private SliderSetting options;
 
 	public SettingSlider(int x, int y, Settings settings) {
 		super(settings, x, y, 150, 20);
@@ -79,7 +79,7 @@ public class SettingSlider extends SettingButton {
 	 */
 	public void mouseReleased(int mouseX, int mouseY) {
 		dragging = false;
-//		if (mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height) click();
+		//		if (mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height) click();
 	}
 
 }

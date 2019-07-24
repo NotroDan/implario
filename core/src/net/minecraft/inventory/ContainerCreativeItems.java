@@ -1,6 +1,5 @@
 package net.minecraft.inventory;
 
-import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Group.Unit;
@@ -103,6 +102,7 @@ public class ContainerCreativeItems extends Container {
 	}
 
 	private static class ScrollSlot extends Slot {
+
 		public int baseY;
 
 		public ScrollSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {

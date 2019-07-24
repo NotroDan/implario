@@ -18,12 +18,16 @@ import java.util.List;
 
 public class GuiSettings extends GuiScreen {
 
+	public static final int SIDEBARW = 230, SELECTIONOFFSET = -9, CELLHEIGHT = 80,
+			COLOR1 = 0xFF_1F2E54, COLOR2 = 0xf0_12171a, COLOR3 = 0xFF_121F3E, COLORF = 0xFF_1F542E,
+			COLUMNWIDTH = 300;
 	private final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/actions.png");
 	private final GuiScreen parent;
 	private final Tab[] tabs;
 	private ScaledResolution resolution;
 	private Tab active;
 	private int factor;
+
 
 	public GuiSettings(GuiScreen parent) {
 		this.parent = parent;
@@ -58,7 +62,6 @@ public class GuiSettings extends GuiScreen {
 
 	}
 
-
 	@Override
 	public void initGui() {
 		resolution = new ScaledResolution(mc);
@@ -66,13 +69,9 @@ public class GuiSettings extends GuiScreen {
 		parent.initGui();
 	}
 
-	public static final int SIDEBARW = 230, SELECTIONOFFSET = -9, CELLHEIGHT = 80,
-	COLOR1 = 0xFF_1F2E54, COLOR2 = 0xf0_12171a, COLOR3 = 0xFF_121F3E, COLORF = 0xFF_1F542E,
-	COLUMNWIDTH = 300;
-
 	@Override
 	public void drawScreen(int mx, int my, float ticks) {
-//		drawRect(0, 0, resolution.getScaledWidth(), resolution.getScaledHeight(), 0x131313);
+		//		drawRect(0, 0, resolution.getScaledWidth(), resolution.getScaledHeight(), 0x131313);
 		G.translate(0, 0, -0.5);
 		parent.drawScreen(mx, my, ticks);
 		G.translate(0, 0, 0.5);
@@ -102,7 +101,7 @@ public class GuiSettings extends GuiScreen {
 			G.scale(4, 4, 1);
 			tab.getTexture().draw(TEXTURE);
 			G.scale(0.25, 0.25, 1);
-			G.translate(72, 7,0);
+			G.translate(72, 7, 0);
 			if (tab == active) G.colorNoAlpha(0xFF_488EDA);
 			BakedFont.CALIBRI.getRenderer().renderString(tab.getName(), 0, 0, false);
 			G.color(1, 1, 1, 1);
@@ -114,7 +113,7 @@ public class GuiSettings extends GuiScreen {
 		G.popMatrix();
 
 		G.translate(SIDEBARW + 20, 20, 0);
-		active.getRender().render(mx * factor - SIDEBARW - 20, my * factor, ticks,mc.displayWidth - SIDEBARW - 20);
+		active.getRender().render(mx * factor - SIDEBARW - 20, my * factor, ticks, mc.displayWidth - SIDEBARW - 20);
 	}
 
 

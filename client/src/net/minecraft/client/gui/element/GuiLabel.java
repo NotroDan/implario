@@ -1,9 +1,8 @@
 package net.minecraft.client.gui.element;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
 
@@ -12,14 +11,14 @@ import java.util.List;
 
 public class GuiLabel extends Gui {
 
-	protected int width;
-	protected int field_146161_f;
 	public int x;
 	public int field_146174_h;
-	private List<String> lines;
 	public int field_175204_i;
-	private boolean centered;
 	public boolean visible = true;
+	protected int width;
+	protected int field_146161_f;
+	private List<String> lines;
+	private boolean centered;
 	private boolean labelBgEnabled;
 	private int color;
 	private int field_146169_o;

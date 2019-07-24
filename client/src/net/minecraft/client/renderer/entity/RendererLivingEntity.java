@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.EntityPlayerSP;
@@ -30,13 +29,21 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
 	private static final Logger logger = Logger.getInstance();
 	private static final DynamicTexture field_177096_e = new DynamicTexture(16, 16);
+	public static float NAME_TAG_RANGE = 64.0F;
+	public static float NAME_TAG_RANGE_SNEAK = 32.0F;
+	static {
+		int[] aint = field_177096_e.getTextureData();
+
+		for (int i = 0; i < 256; ++i) {
+			aint[i] = -1;
+		}
+
+		field_177096_e.updateDynamicTexture();
+	}
 	protected ModelBase mainModel;
 	protected FloatBuffer brightnessBuffer = GLAllocation.createDirectFloatBuffer(4);
 	protected List<LayerRenderer<T>> layerRenderers = new ArrayList<>();
 	protected boolean renderOutlines = false;
-
-	public static float NAME_TAG_RANGE = 64.0F;
-	public static float NAME_TAG_RANGE_SNEAK = 32.0F;
 
 	public RendererLivingEntity(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
 		super(renderManagerIn);
@@ -526,16 +533,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
 	public void setRenderOutlines(boolean renderOutlinesIn) {
 		this.renderOutlines = renderOutlinesIn;
-	}
-
-	static {
-		int[] aint = field_177096_e.getTextureData();
-
-		for (int i = 0; i < 256; ++i) {
-			aint[i] = -1;
-		}
-
-		field_177096_e.updateDynamicTexture();
 	}
 
 	static final class RendererLivingEntity$1 {

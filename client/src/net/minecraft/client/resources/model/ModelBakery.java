@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 
 public class ModelBakery {
 
+	protected static final ModelResourceLocation MODEL_MISSING = new ModelResourceLocation("builtin/missing", "missing");
 	private static final Set<ResourceLocation> LOCATIONS_BUILTIN_TEXTURES = Sets.newHashSet(new ResourceLocation("blocks/water_flow"), new ResourceLocation("blocks/water_still"),
 			new ResourceLocation("blocks/lava_flow"),
 			new ResourceLocation("blocks/lava_still"), new ResourceLocation("blocks/destroy_stage_0"), new ResourceLocation("blocks/destroy_stage_1"), new ResourceLocation("blocks/destroy_stage_2"),
@@ -38,18 +39,8 @@ public class ModelBakery {
 			new ResourceLocation("items/empty_armor_slot_helmet"),
 			new ResourceLocation("items/empty_armor_slot_chestplate"), new ResourceLocation("items/empty_armor_slot_leggings"), new ResourceLocation("items/empty_armor_slot_boots"));
 	private static final Logger LOGGER = Logger.getInstance();
-	protected static final ModelResourceLocation MODEL_MISSING = new ModelResourceLocation("builtin/missing", "missing");
 	private static final Map<String, String> BUILT_IN_MODELS = Maps.newHashMap();
 	private static final Joiner JOINER = Joiner.on(" -> ");
-	private final IResourceManager resourceManager;
-	private final Map<ResourceLocation, TextureAtlasSprite> sprites = Maps.newHashMap();
-	private final Map<ResourceLocation, ModelBlock> models = Maps.newLinkedHashMap();
-	private final Map<ModelResourceLocation, ModelBlockDefinition.Variants> variants = Maps.newLinkedHashMap();
-	private final TextureMap textureMap;
-	private final BlockModelShapes blockModelShapes;
-	private final FaceBakery faceBakery = new FaceBakery();
-	private final ItemModelGenerator itemModelGenerator = new ItemModelGenerator();
-	private RegistrySimple<ModelResourceLocation, IBakedModel> bakedRegistry = new RegistrySimple();
 	private static final ModelBlock MODEL_GENERATED = ModelBlock.deserialize(
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
 	private static final ModelBlock MODEL_COMPASS = ModelBlock.deserialize(
@@ -58,8 +49,25 @@ public class ModelBakery {
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
 	private static final ModelBlock MODEL_ENTITY = ModelBlock.deserialize(
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
-	private Map<String, ResourceLocation> itemLocations = Maps.newLinkedHashMap();
+	static {
+		BUILT_IN_MODELS.put("missing",
+				"{ \"textures\": {   \"particle\": \"missingno\",   \"missingno\": \"missingno\"}, \"elements\": [ {     \"from\": [ 0, 0, 0 ],     \"to\": [ 16, 16, 16 ],     \"faces\": {         \"down\":  { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"down\", \"texture\": \"#missingno\" },         \"up\":    { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"up\", \"texture\": \"#missingno\" },         \"north\": { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"north\", \"texture\": \"#missingno\" },         \"south\": { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"south\", \"texture\": \"#missingno\" },         \"west\":  { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"west\", \"texture\": \"#missingno\" },         \"east\":  { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"east\", \"texture\": \"#missingno\" }    }}]}");
+		MODEL_GENERATED.name = "generation marker";
+		MODEL_COMPASS.name = "compass generation marker";
+		MODEL_CLOCK.name = "class generation marker";
+		MODEL_ENTITY.name = "block entity marker";
+	}
+	private final IResourceManager resourceManager;
+	private final Map<ResourceLocation, TextureAtlasSprite> sprites = Maps.newHashMap();
+	private final Map<ResourceLocation, ModelBlock> models = Maps.newLinkedHashMap();
+	private final Map<ModelResourceLocation, ModelBlockDefinition.Variants> variants = Maps.newLinkedHashMap();
+	private final TextureMap textureMap;
+	private final BlockModelShapes blockModelShapes;
+	private final FaceBakery faceBakery = new FaceBakery();
+	private final ItemModelGenerator itemModelGenerator = new ItemModelGenerator();
 	private final Map<ResourceLocation, ModelBlockDefinition> blockDefinitions = Maps.newHashMap();
+	private RegistrySimple<ModelResourceLocation, IBakedModel> bakedRegistry = new RegistrySimple();
+	private Map<String, ResourceLocation> itemLocations = Maps.newLinkedHashMap();
 	private Map<Item, List<String>> variantNames = Maps.newIdentityHashMap();
 
 	public ModelBakery(IResourceManager p_i46085_1_, TextureMap p_i46085_2_, BlockModelShapes p_i46085_3_) {
@@ -571,14 +579,5 @@ public class ModelBakery {
 
 	private ModelBlock makeItemModel(ModelBlock p_177582_1_) {
 		return this.itemModelGenerator.makeItemModel(this.textureMap, p_177582_1_);
-	}
-
-	static {
-		BUILT_IN_MODELS.put("missing",
-				"{ \"textures\": {   \"particle\": \"missingno\",   \"missingno\": \"missingno\"}, \"elements\": [ {     \"from\": [ 0, 0, 0 ],     \"to\": [ 16, 16, 16 ],     \"faces\": {         \"down\":  { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"down\", \"texture\": \"#missingno\" },         \"up\":    { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"up\", \"texture\": \"#missingno\" },         \"north\": { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"north\", \"texture\": \"#missingno\" },         \"south\": { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"south\", \"texture\": \"#missingno\" },         \"west\":  { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"west\", \"texture\": \"#missingno\" },         \"east\":  { \"uv\": [ 0, 0, 16, 16 ], \"cullface\": \"east\", \"texture\": \"#missingno\" }    }}]}");
-		MODEL_GENERATED.name = "generation marker";
-		MODEL_COMPASS.name = "compass generation marker";
-		MODEL_CLOCK.name = "class generation marker";
-		MODEL_ENTITY.name = "block entity marker";
 	}
 }

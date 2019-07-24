@@ -1,36 +1,33 @@
 package net.minecraft.scoreboard;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 
-public class GoalColor implements IScoreObjectiveCriteria
-{
-    private final String goalName;
+import java.util.List;
 
-    public GoalColor(String p_i45549_1_, EnumChatFormatting p_i45549_2_)
-    {
-        this.goalName = p_i45549_1_ + p_i45549_2_.getFriendlyName();
-        IScoreObjectiveCriteria.INSTANCES.put(this.goalName, this);
-    }
+public class GoalColor implements IScoreObjectiveCriteria {
 
-    public String getName()
-    {
-        return this.goalName;
-    }
+	private final String goalName;
 
-    public int func_96635_a(List<EntityPlayer> p_96635_1_)
-    {
-        return 0;
-    }
+	public GoalColor(String p_i45549_1_, EnumChatFormatting p_i45549_2_) {
+		this.goalName = p_i45549_1_ + p_i45549_2_.getFriendlyName();
+		IScoreObjectiveCriteria.INSTANCES.put(this.goalName, this);
+	}
 
-    public boolean isReadOnly()
-    {
-        return false;
-    }
+	public String getName() {
+		return this.goalName;
+	}
 
-    public IScoreObjectiveCriteria.EnumRenderType getRenderType()
-    {
-        return IScoreObjectiveCriteria.EnumRenderType.INTEGER;
-    }
+	public int func_96635_a(List<EntityPlayer> p_96635_1_) {
+		return 0;
+	}
+
+	public boolean isReadOnly() {
+		return false;
+	}
+
+	public IScoreObjectiveCriteria.EnumRenderType getRenderType() {
+		return IScoreObjectiveCriteria.EnumRenderType.INTEGER;
+	}
+
 }

@@ -1,8 +1,8 @@
 package vanilla.entity.ai.tasks;
 
+import net.minecraft.util.Vec3;
 import vanilla.entity.EntityCreature;
 import vanilla.entity.ai.RandomPositionGenerator;
-import net.minecraft.util.Vec3;
 
 public class EntityAIWander extends EntityAIBase {
 

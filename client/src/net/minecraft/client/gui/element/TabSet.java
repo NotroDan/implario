@@ -23,7 +23,7 @@ public class TabSet {
 		tabs.add(tab);
 	}
 
-	public ITab add(String title, Runnable runnable){
+	public ITab add(String title, Runnable runnable) {
 		ITab tab = new RunnableTab(title, runnable, 1000 + (tabs.isEmpty() ? 0 : tabs.size()), 0, y);
 		tabs.add(tab);
 		return tab;

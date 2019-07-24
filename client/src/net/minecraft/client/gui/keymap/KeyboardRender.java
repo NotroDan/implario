@@ -156,18 +156,21 @@ public class KeyboardRender {
 
 		metaWidth = DEFAULT_SIZE * 4;
 		fullWidth = metaWidth + baseWidth;
-		
+
 	}
 
 	private void reg(Key key, int x, int y, int width, int height) {
 		reg(key, x, y, width, height, 0);
 	}
+
 	private void regMeta(Key key, int x, int y, int width, int height) {
 		METASMALL.add(new KeyboardButton(width, height, key, x, y, 0));
 	}
+
 	private void regSide(Key key, int x, int y, int width, int height) {
 		METABIG.add(new KeyboardButton(width, height, key, x, y, 0));
 	}
+
 	private void reg(Key key, int x, int y, int width, int height, int renderY) {
 		BUTTONS.add(new KeyboardButton(width, height, key, x, y, renderY));
 	}

@@ -48,4 +48,5 @@ public class GuiMemoryErrorScreen extends GuiScreen {
 				width, height + 81, 10526880);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
+
 }

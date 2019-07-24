@@ -17,6 +17,20 @@ public class CommandDebug extends CommandBase {
 	private long field_147206_b;
 	private int field_147207_c;
 
+	private static String func_147203_d() {
+		String[] astring = new String[] {
+				"Shiny numbers!", "Am I not running fast enough? :(", "I\'m working as hard as I can!", "Will I ever be good enough for you? :(", "Speedy. Zoooooom!", "Hello world",
+				"40% better than a crash report.", "Now with extra numbers", "Now with less numbers", "Now with the same numbers", "You should add flames to things, it makes them go faster!",
+				"Do you feel the need for... optimization?", "*cracks redstone whip*", "Maybe if you treated it better then it\'ll have more motivation to work faster! Poor server."
+		};
+
+		try {
+			return astring[(int) (System.nanoTime() % (long) astring.length)];
+		} catch (Throwable var2) {
+			return "Witty comment unavailable :(";
+		}
+	}
+
 	/**
 	 * Gets the name of the command
 	 */
@@ -126,20 +140,6 @@ public class CommandDebug extends CommandBase {
 					}
 				}
 			}
-		}
-	}
-
-	private static String func_147203_d() {
-		String[] astring = new String[] {
-				"Shiny numbers!", "Am I not running fast enough? :(", "I\'m working as hard as I can!", "Will I ever be good enough for you? :(", "Speedy. Zoooooom!", "Hello world",
-				"40% better than a crash report.", "Now with extra numbers", "Now with less numbers", "Now with the same numbers", "You should add flames to things, it makes them go faster!",
-				"Do you feel the need for... optimization?", "*cracks redstone whip*", "Maybe if you treated it better then it\'ll have more motivation to work faster! Poor server."
-		};
-
-		try {
-			return astring[(int) (System.nanoTime() % (long) astring.length)];
-		} catch (Throwable var2) {
-			return "Witty comment unavailable :(";
 		}
 	}
 

@@ -8,9 +8,9 @@ import net.minecraft.util.IRegistry;
 
 public class ModelManager implements IResourceManagerReloadListener {
 
-	private IRegistry<ModelResourceLocation, IBakedModel> modelRegistry;
 	private final TextureMap texMap;
 	private final BlockModelShapes modelProvider;
+	private IRegistry<ModelResourceLocation, IBakedModel> modelRegistry;
 	private IBakedModel defaultModel;
 
 	public ModelManager(TextureMap textures) {

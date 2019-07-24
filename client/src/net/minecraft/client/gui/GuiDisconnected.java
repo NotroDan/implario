@@ -1,9 +1,9 @@
 package net.minecraft.client.gui;
 
-import net.minecraft.logging.Log;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.logging.Log;
 import net.minecraft.util.IChatComponent;
 
 import java.io.IOException;
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class GuiDisconnected extends GuiScreen {
 
+	private final GuiScreen parentScreen;
 	private String reason;
 	private IChatComponent message;
 	private List<String> multilineMessage;
-	private final GuiScreen parentScreen;
 	private int field_175353_i;
 
 	public GuiDisconnected(GuiScreen screen, String reasonLocalizationKey, IChatComponent chatComp) {

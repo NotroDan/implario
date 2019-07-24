@@ -1,81 +1,74 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.util.Govnokod;
 
-public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
-{
-    private int entityID;
-    private C0BPacketEntityAction.Action action;
-    private int auxData;
+import java.io.IOException;
 
-    public C0BPacketEntityAction()
-    {
-    }
+public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer> {
 
-    public C0BPacketEntityAction(Entity entity, C0BPacketEntityAction.Action action)
-    {
-        this(entity, action, 0);
-    }
+	private int entityID;
+	private C0BPacketEntityAction.Action action;
+	private int auxData;
 
-    public C0BPacketEntityAction(Entity entity, C0BPacketEntityAction.Action action, int auxData)
-    {
-        this.entityID = entity.getEntityId();
-        this.action = action;
-        this.auxData = auxData;
-    }
+	public C0BPacketEntityAction() {
+	}
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
-    public void readPacketData(PacketBuffer buf) throws IOException
-    {
-        this.entityID = buf.readVarIntFromBuffer();
-        this.action = (C0BPacketEntityAction.Action)buf.readEnumValue(C0BPacketEntityAction.Action.class);
-        this.auxData = buf.readVarIntFromBuffer();
-    }
+	public C0BPacketEntityAction(Entity entity, C0BPacketEntityAction.Action action) {
+		this(entity, action, 0);
+	}
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
-    public void writePacketData(PacketBuffer buf) throws IOException
-    {
-        buf.writeVarIntToBuffer(this.entityID);
-        buf.writeEnumValue(this.action);
-        buf.writeVarIntToBuffer(this.auxData);
-    }
+	public C0BPacketEntityAction(Entity entity, C0BPacketEntityAction.Action action, int auxData) {
+		this.entityID = entity.getEntityId();
+		this.action = action;
+		this.auxData = auxData;
+	}
 
-    /**
-     * Passes this Packet on to the NetHandler for processing.
-     */
-    public void processPacket(INetHandlerPlayServer handler)
-    {
-        handler.processEntityAction(this);
-    }
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
+	public void readPacketData(PacketBuffer buf) throws IOException {
+		this.entityID = buf.readVarIntFromBuffer();
+		this.action = (C0BPacketEntityAction.Action) buf.readEnumValue(C0BPacketEntityAction.Action.class);
+		this.auxData = buf.readVarIntFromBuffer();
+	}
 
-    public C0BPacketEntityAction.Action getAction()
-    {
-        return this.action;
-    }
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
+	public void writePacketData(PacketBuffer buf) throws IOException {
+		buf.writeVarIntToBuffer(this.entityID);
+		buf.writeEnumValue(this.action);
+		buf.writeVarIntToBuffer(this.auxData);
+	}
 
-    public int getAuxData()
-    {
-        return this.auxData;
-    }
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	public void processPacket(INetHandlerPlayServer handler) {
+		handler.processEntityAction(this);
+	}
 
-    @Govnokod(levelOfPizdec = "max")
-    public static enum Action
-    {
-        START_SNEAKING,
-        STOP_SNEAKING,
-        STOP_SLEEPING,
-        START_SPRINTING,
-        STOP_SPRINTING,
-        RIDING_JUMP,
-        OPEN_INVENTORY;
-    }
+	public C0BPacketEntityAction.Action getAction() {
+		return this.action;
+	}
+
+	public int getAuxData() {
+		return this.auxData;
+	}
+
+	@Govnokod (levelOfPizdec = "max")
+	public static enum Action {
+		START_SNEAKING,
+		STOP_SNEAKING,
+		STOP_SLEEPING,
+		START_SPRINTING,
+		STOP_SPRINTING,
+		RIDING_JUMP,
+		OPEN_INVENTORY;
+	}
+
 }

@@ -4,128 +4,111 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class BlockStateBase implements IBlockState
-{
-    private static final Joiner COMMA_JOINER = Joiner.on(',');
-    private static final Function MAP_ENTRY_TO_STRING = new Function()
-    {
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
-        public String apply(Entry p_apply_1_)
-        {
-            if (p_apply_1_ == null)
-            {
-                return "<NULL>";
-            }
-			IProperty iproperty = (IProperty)p_apply_1_.getKey();
-			return iproperty.getName() + "=" + iproperty.getName((Comparable)p_apply_1_.getValue());
+public abstract class BlockStateBase implements IBlockState {
+
+	private static final Joiner COMMA_JOINER = Joiner.on(',');
+	private static final Function MAP_ENTRY_TO_STRING = new Function() {
+
+		public String apply(Entry p_apply_1_) {
+			if (p_apply_1_ == null) {
+				return "<NULL>";
+			}
+			IProperty iproperty = (IProperty) p_apply_1_.getKey();
+			return iproperty.getName() + "=" + iproperty.getName((Comparable) p_apply_1_.getValue());
 		}
-        public Object apply(Object p_apply_1_)
-        {
-            return this.apply((Entry)p_apply_1_);
-        }
-    };
 
-    private int blockId = -1;
-    private int blockStateId = -1;
-    private int metadata = -1;
-    private ResourceLocation blockLocation = null;
+		public Object apply(Object p_apply_1_) {
+			return this.apply((Entry) p_apply_1_);
+		}
+	};
 
-    public int getBlockId()
-    {
-        if (this.blockId < 0)
-        {
-            this.blockId = Block.getIdFromBlock(this.getBlock());
-        }
+	private int blockId = -1;
+	private int blockStateId = -1;
+	private int metadata = -1;
+	private ResourceLocation blockLocation = null;
 
-        return this.blockId;
-    }
+	/**
+	 * Helper method for cycleProperty.
+	 */
+	protected static Object cyclePropertyValue(Collection values, Object currentValue) {
+		Iterator iterator = values.iterator();
 
-    public int getBlockStateId()
-    {
-        if (this.blockStateId < 0)
-        {
-            this.blockStateId = Block.getStateId(this);
-        }
+		while (iterator.hasNext()) {
+			if (iterator.next().equals(currentValue)) {
+				if (iterator.hasNext()) {
+					return iterator.next();
+				}
 
-        return this.blockStateId;
-    }
+				return values.iterator().next();
+			}
+		}
 
-    public int getMetadata()
-    {
-        if (this.metadata < 0)
-        {
-            this.metadata = this.getBlock().getMetaFromState(this);
-        }
+		return iterator.next();
+	}
 
-        return this.metadata;
-    }
+	public int getBlockId() {
+		if (this.blockId < 0) {
+			this.blockId = Block.getIdFromBlock(this.getBlock());
+		}
 
-    public ResourceLocation getBlockLocation()
-    {
-        if (this.blockLocation == null)
-        {
-            this.blockLocation = (ResourceLocation)Block.blockRegistry.getNameForObject(this.getBlock());
-        }
+		return this.blockId;
+	}
 
-        return this.blockLocation;
-    }
+	public int getBlockStateId() {
+		if (this.blockStateId < 0) {
+			this.blockStateId = Block.getStateId(this);
+		}
 
-    /**
-     * Create a version of this BlockState with the given property cycled to the next value in order. If the property
-     * was at the highest possible value, it is set to the lowest one instead.
-     */
-    public IBlockState cycleProperty(IProperty property)
-    {
-        return this.withProperty(property, (Comparable)cyclePropertyValue(property.getAllowedValues(), this.getValue(property)));
-    }
+		return this.blockStateId;
+	}
 
-    /**
-     * Helper method for cycleProperty.
-     */
-    protected static Object cyclePropertyValue(Collection values, Object currentValue)
-    {
-        Iterator iterator = values.iterator();
+	public int getMetadata() {
+		if (this.metadata < 0) {
+			this.metadata = this.getBlock().getMetaFromState(this);
+		}
 
-        while (iterator.hasNext())
-        {
-            if (iterator.next().equals(currentValue))
-            {
-                if (iterator.hasNext())
-                {
-                    return iterator.next();
-                }
+		return this.metadata;
+	}
 
-                return values.iterator().next();
-            }
-        }
+	public ResourceLocation getBlockLocation() {
+		if (this.blockLocation == null) {
+			this.blockLocation = (ResourceLocation) Block.blockRegistry.getNameForObject(this.getBlock());
+		}
 
-        return iterator.next();
-    }
+		return this.blockLocation;
+	}
 
-    public String toString()
-    {
-        StringBuilder stringbuilder = new StringBuilder();
-        stringbuilder.append(Block.blockRegistry.getNameForObject(this.getBlock()));
+	/**
+	 * Create a version of this BlockState with the given property cycled to the next value in order. If the property
+	 * was at the highest possible value, it is set to the lowest one instead.
+	 */
+	public IBlockState cycleProperty(IProperty property) {
+		return this.withProperty(property, (Comparable) cyclePropertyValue(property.getAllowedValues(), this.getValue(property)));
+	}
 
-        if (!this.getProperties().isEmpty())
-        {
-            stringbuilder.append("[");
-            COMMA_JOINER.appendTo(stringbuilder, Iterables.transform(this.getProperties().entrySet(), MAP_ENTRY_TO_STRING));
-            stringbuilder.append("]");
-        }
+	public String toString() {
+		StringBuilder stringbuilder = new StringBuilder();
+		stringbuilder.append(Block.blockRegistry.getNameForObject(this.getBlock()));
 
-        return stringbuilder.toString();
-    }
+		if (!this.getProperties().isEmpty()) {
+			stringbuilder.append("[");
+			COMMA_JOINER.appendTo(stringbuilder, Iterables.transform(this.getProperties().entrySet(), MAP_ENTRY_TO_STRING));
+			stringbuilder.append("]");
+		}
 
-    public ImmutableTable<IProperty, Comparable, IBlockState> getPropertyValueTable()
-    {
-        return null;
-    }
+		return stringbuilder.toString();
+	}
+
+	public ImmutableTable<IProperty, Comparable, IBlockState> getPropertyValueTable() {
+		return null;
+	}
+
 }

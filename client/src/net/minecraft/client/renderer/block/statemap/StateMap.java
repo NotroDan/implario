@@ -1,84 +1,75 @@
 package net.minecraft.client.renderer.block.statemap;
 
 import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 
-public class StateMap extends StateMapperBase
-{
-    private final IProperty<?> name;
-    private final String suffix;
-    private final List < IProperty<? >> ignored;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
-    private StateMap(IProperty<?> name, String suffix, List < IProperty<? >> ignored)
-    {
-        this.name = name;
-        this.suffix = suffix;
-        this.ignored = ignored;
-    }
+public class StateMap extends StateMapperBase {
 
-    protected ModelResourceLocation getModelResourceLocation(IBlockState state)
-    {
-        Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
-        String s;
+	private final IProperty<?> name;
+	private final String suffix;
+	private final List<IProperty<?>> ignored;
 
-        if (this.name == null)
-        {
-            s = ((ResourceLocation)Block.blockRegistry.getNameForObject(state.getBlock())).toString();
-        }
-        else
-        {
-            s = ((IProperty)this.name).getName((Comparable)map.remove(this.name));
-        }
+	private StateMap(IProperty<?> name, String suffix, List<IProperty<?>> ignored) {
+		this.name = name;
+		this.suffix = suffix;
+		this.ignored = ignored;
+	}
 
-        if (this.suffix != null)
-        {
-            s = s + this.suffix;
-        }
+	protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+		Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
+		String s;
 
-        for (IProperty<?> iproperty : this.ignored)
-        {
-            map.remove(iproperty);
-        }
+		if (this.name == null) {
+			s = ((ResourceLocation) Block.blockRegistry.getNameForObject(state.getBlock())).toString();
+		} else {
+			s = ((IProperty) this.name).getName((Comparable) map.remove(this.name));
+		}
 
-        return new ModelResourceLocation(s, this.getPropertyString(map));
-    }
+		if (this.suffix != null) {
+			s = s + this.suffix;
+		}
 
-    public static class Builder
-    {
-        private IProperty<?> name;
-        private String suffix;
-        private final List < IProperty<? >> ignored = new ArrayList<>();
+		for (IProperty<?> iproperty : this.ignored) {
+			map.remove(iproperty);
+		}
 
-        public StateMap.Builder withName(IProperty<?> builderPropertyIn)
-        {
-            this.name = builderPropertyIn;
-            return this;
-        }
+		return new ModelResourceLocation(s, this.getPropertyString(map));
+	}
 
-        public StateMap.Builder withSuffix(String builderSuffixIn)
-        {
-            this.suffix = builderSuffixIn;
-            return this;
-        }
+	public static class Builder {
 
-        public StateMap.Builder ignore(IProperty<?>... p_178442_1_)
-        {
-            Collections.addAll(this.ignored, p_178442_1_);
-            return this;
-        }
+		private final List<IProperty<?>> ignored = new ArrayList<>();
+		private IProperty<?> name;
+		private String suffix;
 
-        public StateMap build()
-        {
-            return new StateMap(this.name, this.suffix, this.ignored);
-        }
-    }
+		public StateMap.Builder withName(IProperty<?> builderPropertyIn) {
+			this.name = builderPropertyIn;
+			return this;
+		}
+
+		public StateMap.Builder withSuffix(String builderSuffixIn) {
+			this.suffix = builderSuffixIn;
+			return this;
+		}
+
+		public StateMap.Builder ignore(IProperty<?>... p_178442_1_) {
+			Collections.addAll(this.ignored, p_178442_1_);
+			return this;
+		}
+
+		public StateMap build() {
+			return new StateMap(this.name, this.suffix, this.ignored);
+		}
+
+	}
+
 }

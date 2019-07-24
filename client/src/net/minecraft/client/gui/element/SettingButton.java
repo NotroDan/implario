@@ -28,15 +28,6 @@ public class SettingButton extends GuiButton {
 		this.settings = settings;
 	}
 
-	public SettingButton updateGraphics() {
-		updateGraphics = true;
-		return this;
-	}
-	public SettingButton refreshResources() {
-		reloadRP = true;
-		return this;
-	}
-
 	public static String getCaption(Settings s) {
 		String str = s.getCaption();
 		if (str != null) return s.getBase().caption + ": §e" + str;
@@ -53,6 +44,16 @@ public class SettingButton extends GuiButton {
 			return s.getBase().caption + ": §e" + ss.titles[ss.state];
 		}
 		return null;
+	}
+
+	public SettingButton updateGraphics() {
+		updateGraphics = true;
+		return this;
+	}
+
+	public SettingButton refreshResources() {
+		reloadRP = true;
+		return this;
 	}
 
 	public void click() {
@@ -74,4 +75,5 @@ public class SettingButton extends GuiButton {
 			Config.updateFramebufferSize();
 		}
 	}
+
 }

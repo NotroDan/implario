@@ -1,184 +1,155 @@
 package net.minecraft.entity.projectile;
 
-import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityPotion extends EntityThrowable
-{
-    /**
-     * The damage value of the thrown potion that this EntityPotion represents.
-     */
-    private ItemStack potionDamage;
+import java.util.List;
 
-    public EntityPotion(World worldIn)
-    {
-        super(worldIn);
-    }
+public class EntityPotion extends EntityThrowable {
 
-    public EntityPotion(World worldIn, EntityLivingBase throwerIn, int meta)
-    {
-        this(worldIn, throwerIn, new ItemStack(Items.potionitem, 1, meta));
-    }
+	/**
+	 * The damage value of the thrown potion that this EntityPotion represents.
+	 */
+	private ItemStack potionDamage;
 
-    public EntityPotion(World worldIn, EntityLivingBase throwerIn, ItemStack potionDamageIn)
-    {
-        super(worldIn, throwerIn);
-        this.potionDamage = potionDamageIn;
-    }
+	public EntityPotion(World worldIn) {
+		super(worldIn);
+	}
 
-    public EntityPotion(World worldIn, double x, double y, double z, int p_i1791_8_)
-    {
-        this(worldIn, x, y, z, new ItemStack(Items.potionitem, 1, p_i1791_8_));
-    }
+	public EntityPotion(World worldIn, EntityLivingBase throwerIn, int meta) {
+		this(worldIn, throwerIn, new ItemStack(Items.potionitem, 1, meta));
+	}
 
-    public EntityPotion(World worldIn, double x, double y, double z, ItemStack potionDamageIn)
-    {
-        super(worldIn, x, y, z);
-        this.potionDamage = potionDamageIn;
-    }
+	public EntityPotion(World worldIn, EntityLivingBase throwerIn, ItemStack potionDamageIn) {
+		super(worldIn, throwerIn);
+		this.potionDamage = potionDamageIn;
+	}
 
-    /**
-     * Gets the amount of gravity to apply to the thrown entity with each tick.
-     */
-    protected float getGravityVelocity()
-    {
-        return 0.05F;
-    }
+	public EntityPotion(World worldIn, double x, double y, double z, int p_i1791_8_) {
+		this(worldIn, x, y, z, new ItemStack(Items.potionitem, 1, p_i1791_8_));
+	}
 
-    protected float getVelocity()
-    {
-        return 0.5F;
-    }
+	public EntityPotion(World worldIn, double x, double y, double z, ItemStack potionDamageIn) {
+		super(worldIn, x, y, z);
+		this.potionDamage = potionDamageIn;
+	}
 
-    protected float getInaccuracy()
-    {
-        return -20.0F;
-    }
+	/**
+	 * Gets the amount of gravity to apply to the thrown entity with each tick.
+	 */
+	protected float getGravityVelocity() {
+		return 0.05F;
+	}
 
-    /**
-     * Sets the PotionEffect by the given id of the potion effect.
-     */
-    public void setPotionDamage(int potionId)
-    {
-        if (this.potionDamage == null)
-        {
-            this.potionDamage = new ItemStack(Items.potionitem, 1, 0);
-        }
+	protected float getVelocity() {
+		return 0.5F;
+	}
 
-        this.potionDamage.setItemDamage(potionId);
-    }
+	protected float getInaccuracy() {
+		return -20.0F;
+	}
 
-    /**
-     * Returns the damage value of the thrown potion that this EntityPotion represents.
-     */
-    public int getPotionDamage()
-    {
-        if (this.potionDamage == null)
-        {
-            this.potionDamage = new ItemStack(Items.potionitem, 1, 0);
-        }
+	/**
+	 * Returns the damage value of the thrown potion that this EntityPotion represents.
+	 */
+	public int getPotionDamage() {
+		if (this.potionDamage == null) {
+			this.potionDamage = new ItemStack(Items.potionitem, 1, 0);
+		}
 
-        return this.potionDamage.getMetadata();
-    }
+		return this.potionDamage.getMetadata();
+	}
 
-    /**
-     * Called when this EntityThrowable hits a block or entity.
-     */
-    protected void onImpact(MovingObjectPosition p_70184_1_)
-    {
-        if (!this.worldObj.isClientSide)
-        {
-            List<PotionEffect> list = Items.potionitem.getEffects(this.potionDamage);
+	/**
+	 * Sets the PotionEffect by the given id of the potion effect.
+	 */
+	public void setPotionDamage(int potionId) {
+		if (this.potionDamage == null) {
+			this.potionDamage = new ItemStack(Items.potionitem, 1, 0);
+		}
 
-            if (list != null && !list.isEmpty())
-            {
-                AxisAlignedBB axisalignedbb = this.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D);
-                List<EntityLivingBase> list1 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
+		this.potionDamage.setItemDamage(potionId);
+	}
 
-                if (!list1.isEmpty())
-                {
-                    for (EntityLivingBase entitylivingbase : list1)
-                    {
-                        double d0 = this.getDistanceSqToEntity(entitylivingbase);
+	/**
+	 * Called when this EntityThrowable hits a block or entity.
+	 */
+	protected void onImpact(MovingObjectPosition p_70184_1_) {
+		if (!this.worldObj.isClientSide) {
+			List<PotionEffect> list = Items.potionitem.getEffects(this.potionDamage);
 
-                        if (d0 < 16.0D)
-                        {
-                            double d1 = 1.0D - Math.sqrt(d0) / 4.0D;
+			if (list != null && !list.isEmpty()) {
+				AxisAlignedBB axisalignedbb = this.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D);
+				List<EntityLivingBase> list1 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
 
-                            if (entitylivingbase == p_70184_1_.entityHit)
-                            {
-                                d1 = 1.0D;
-                            }
+				if (!list1.isEmpty()) {
+					for (EntityLivingBase entitylivingbase : list1) {
+						double d0 = this.getDistanceSqToEntity(entitylivingbase);
 
-                            for (PotionEffect potioneffect : list)
-                            {
-                                int i = potioneffect.getPotionID();
+						if (d0 < 16.0D) {
+							double d1 = 1.0D - Math.sqrt(d0) / 4.0D;
 
-                                if (Potion.potionTypes[i].isInstant())
-                                {
-                                    Potion.potionTypes[i].affectEntity(this, this.getThrower(), entitylivingbase, potioneffect.getAmplifier(), d1);
-                                }
-                                else
-                                {
-                                    int j = (int)(d1 * (double)potioneffect.getDuration() + 0.5D);
+							if (entitylivingbase == p_70184_1_.entityHit) {
+								d1 = 1.0D;
+							}
 
-                                    if (j > 20)
-                                    {
-                                        entitylivingbase.addPotionEffect(new PotionEffect(i, j, potioneffect.getAmplifier()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+							for (PotionEffect potioneffect : list) {
+								int i = potioneffect.getPotionID();
 
-            this.worldObj.playAuxSFX(2002, new BlockPos(this), this.getPotionDamage());
-            this.setDead();
-        }
-    }
+								if (Potion.potionTypes[i].isInstant()) {
+									Potion.potionTypes[i].affectEntity(this, this.getThrower(), entitylivingbase, potioneffect.getAmplifier(), d1);
+								} else {
+									int j = (int) (d1 * (double) potioneffect.getDuration() + 0.5D);
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    public void readEntityFromNBT(NBTTagCompound tagCompund)
-    {
-        super.readEntityFromNBT(tagCompund);
+									if (j > 20) {
+										entitylivingbase.addPotionEffect(new PotionEffect(i, j, potioneffect.getAmplifier()));
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 
-        if (tagCompund.hasKey("Potion", 10))
-        {
-            this.potionDamage = ItemStack.loadItemStackFromNBT(tagCompund.getCompoundTag("Potion"));
-        }
-        else
-        {
-            this.setPotionDamage(tagCompund.getInteger("potionValue"));
-        }
+			this.worldObj.playAuxSFX(2002, new BlockPos(this), this.getPotionDamage());
+			this.setDead();
+		}
+	}
 
-        if (this.potionDamage == null)
-        {
-            this.setDead();
-        }
-    }
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
+	public void readEntityFromNBT(NBTTagCompound tagCompund) {
+		super.readEntityFromNBT(tagCompund);
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
-    public void writeEntityToNBT(NBTTagCompound tagCompound)
-    {
-        super.writeEntityToNBT(tagCompound);
+		if (tagCompund.hasKey("Potion", 10)) {
+			this.potionDamage = ItemStack.loadItemStackFromNBT(tagCompund.getCompoundTag("Potion"));
+		} else {
+			this.setPotionDamage(tagCompund.getInteger("potionValue"));
+		}
 
-        if (this.potionDamage != null)
-        {
-            tagCompound.setTag("Potion", this.potionDamage.writeToNBT(new NBTTagCompound()));
-        }
-    }
+		if (this.potionDamage == null) {
+			this.setDead();
+		}
+	}
+
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
+	public void writeEntityToNBT(NBTTagCompound tagCompound) {
+		super.writeEntityToNBT(tagCompound);
+
+		if (this.potionDamage != null) {
+			tagCompound.setTag("Potion", this.potionDamage.writeToNBT(new NBTTagCompound()));
+		}
+	}
+
 }

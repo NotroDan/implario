@@ -7,7 +7,6 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.ProjectileHitEvent;
 import net.minecraft.util.*;
@@ -19,13 +18,12 @@ import java.util.UUID;
 
 public abstract class EntityThrowable extends Entity implements IProjectile {
 
+	public int throwableShake;
+	protected boolean inGround;
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
 	private Block inTile;
-	protected boolean inGround;
-	public int throwableShake;
-
 	/**
 	 * The entity that threw this throwable item.
 	 */
@@ -37,24 +35,6 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 	public EntityThrowable(World worldIn) {
 		super(worldIn);
 		this.setSize(0.25F, 0.25F);
-	}
-
-	protected void entityInit() {
-	}
-
-	/**
-	 * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
-	 * length * 64 * renderDistanceWeight Args: distance
-	 */
-	public boolean isInRangeToRenderDist(double distance) {
-		double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
-
-		if (Double.isNaN(d0)) {
-			d0 = 4.0D;
-		}
-
-		d0 = d0 * 64.0D;
-		return distance < d0 * d0;
 	}
 
 	public EntityThrowable(World worldIn, EntityLivingBase throwerIn) {
@@ -78,6 +58,24 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 		this.ticksInGround = 0;
 		this.setSize(0.25F, 0.25F);
 		this.setPosition(x, y, z);
+	}
+
+	protected void entityInit() {
+	}
+
+	/**
+	 * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
+	 * length * 64 * renderDistanceWeight Args: distance
+	 */
+	public boolean isInRangeToRenderDist(double distance) {
+		double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
+
+		if (Double.isNaN(d0)) {
+			d0 = 4.0D;
+		}
+
+		d0 = d0 * 64.0D;
+		return distance < d0 * d0;
 	}
 
 	protected float getVelocity() {

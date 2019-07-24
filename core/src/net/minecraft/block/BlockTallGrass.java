@@ -150,20 +150,17 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
 		FERN(2, "fern");
 
 		private static final BlockTallGrass.EnumType[] META_LOOKUP = new BlockTallGrass.EnumType[values().length];
+		static {
+			for (BlockTallGrass.EnumType blocktallgrass$enumtype : values()) {
+				META_LOOKUP[blocktallgrass$enumtype.getMeta()] = blocktallgrass$enumtype;
+			}
+		}
 		private final int meta;
 		private final String name;
 
 		EnumType(int meta, String name) {
 			this.meta = meta;
 			this.name = name;
-		}
-
-		public int getMeta() {
-			return this.meta;
-		}
-
-		public String toString() {
-			return this.name;
 		}
 
 		public static BlockTallGrass.EnumType byMetadata(int meta) {
@@ -174,14 +171,16 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
 			return META_LOOKUP[meta];
 		}
 
-		public String getName() {
+		public int getMeta() {
+			return this.meta;
+		}
+
+		public String toString() {
 			return this.name;
 		}
 
-		static {
-			for (BlockTallGrass.EnumType blocktallgrass$enumtype : values()) {
-				META_LOOKUP[blocktallgrass$enumtype.getMeta()] = blocktallgrass$enumtype;
-			}
+		public String getName() {
+			return this.name;
 		}
 	}
 

@@ -1,6 +1,5 @@
 package net.minecraft.network.play.server;
 
-import com.google.common.collect.Lists;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -26,41 +25,6 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 		this.chunkZ = chunkIn.zPosition;
 		this.field_149279_g = p_i45196_2_;
 		this.extractedData = encdode(chunkIn, p_i45196_2_, !chunkIn.getWorld().provider.getHasNoSky(), p_i45196_3_);
-	}
-
-	/**
-	 * Reads the raw packet data from the data stream.
-	 */
-	public void readPacketData(PacketBuffer buf) throws IOException {
-		this.chunkX = buf.readInt();
-		this.chunkZ = buf.readInt();
-		this.field_149279_g = buf.readBoolean();
-		this.extractedData = new S21PacketChunkData.Extracted();
-		this.extractedData.dataSize = buf.readShort();
-		this.extractedData.data = buf.readByteArray();
-	}
-
-	/**
-	 * Writes the raw packet data to the data stream.
-	 */
-	public void writePacketData(PacketBuffer buf) throws IOException {
-		buf.writeInt(this.chunkX);
-		buf.writeInt(this.chunkZ);
-		buf.writeBoolean(this.field_149279_g);
-		buf.writeShort((short) (this.extractedData.dataSize & 65535));
-		buf.writeByteArray(this.extractedData.data);
-	}
-
-	/**
-	 * Passes this Packet on to the NetHandler for processing.
-	 */
-	public void processPacket(INetHandlerPlayClient handler) {
-//		System.out.println(getData().length + ", x=" + getChunkX() + ", z=" + getChunkZ() + ", " + Textifier.bytesToHex(getData()));
-		handler.handleChunkData(this);
-	}
-
-	public byte[] getData() {
-		return this.extractedData.data;
 	}
 
 	protected static int func_180737_a(int p_180737_0_, boolean p_180737_1_, boolean p_180737_2_) {
@@ -117,6 +81,41 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 	private static int func_179757_a(byte[] p_179757_0_, byte[] p_179757_1_, int p_179757_2_) {
 		System.arraycopy(p_179757_0_, 0, p_179757_1_, p_179757_2_, p_179757_0_.length);
 		return p_179757_2_ + p_179757_0_.length;
+	}
+
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
+	public void readPacketData(PacketBuffer buf) throws IOException {
+		this.chunkX = buf.readInt();
+		this.chunkZ = buf.readInt();
+		this.field_149279_g = buf.readBoolean();
+		this.extractedData = new S21PacketChunkData.Extracted();
+		this.extractedData.dataSize = buf.readShort();
+		this.extractedData.data = buf.readByteArray();
+	}
+
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
+	public void writePacketData(PacketBuffer buf) throws IOException {
+		buf.writeInt(this.chunkX);
+		buf.writeInt(this.chunkZ);
+		buf.writeBoolean(this.field_149279_g);
+		buf.writeShort((short) (this.extractedData.dataSize & 65535));
+		buf.writeByteArray(this.extractedData.data);
+	}
+
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	public void processPacket(INetHandlerPlayClient handler) {
+		//		System.out.println(getData().length + ", x=" + getChunkX() + ", z=" + getChunkZ() + ", " + Textifier.bytesToHex(getData()));
+		handler.handleChunkData(this);
+	}
+
+	public byte[] getData() {
+		return this.extractedData.data;
 	}
 
 	public int getChunkX() {

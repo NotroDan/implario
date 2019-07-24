@@ -1,96 +1,86 @@
 package net.minecraft.item.crafting;
 
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ShapelessRecipes implements IRecipe
-{
-    /** Is the ItemStack that you get when craft the recipe. */
-    private final ItemStack recipeOutput;
-    private final List<ItemStack> recipeItems;
+import java.util.List;
 
-    public ShapelessRecipes(ItemStack output, List<ItemStack> inputList)
-    {
-        this.recipeOutput = output;
-        this.recipeItems = inputList;
-    }
+public class ShapelessRecipes implements IRecipe {
 
-    public ItemStack getRecipeOutput()
-    {
-        return this.recipeOutput;
-    }
+	/**
+	 * Is the ItemStack that you get when craft the recipe.
+	 */
+	private final ItemStack recipeOutput;
+	private final List<ItemStack> recipeItems;
 
-    public ItemStack[] getRemainingItems(InventoryCrafting inv)
-    {
-        ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
+	public ShapelessRecipes(ItemStack output, List<ItemStack> inputList) {
+		this.recipeOutput = output;
+		this.recipeItems = inputList;
+	}
 
-        for (int i = 0; i < aitemstack.length; ++i)
-        {
-            ItemStack itemstack = inv.getStackInSlot(i);
+	public ItemStack getRecipeOutput() {
+		return this.recipeOutput;
+	}
 
-            if (itemstack != null && itemstack.getItem().hasContainerItem())
-            {
-                aitemstack[i] = new ItemStack(itemstack.getItem().getContainerItem());
-            }
-        }
+	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+		ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
 
-        return aitemstack;
-    }
+		for (int i = 0; i < aitemstack.length; ++i) {
+			ItemStack itemstack = inv.getStackInSlot(i);
 
-    /**
-     * Used to check if a recipe matches current crafting inventory
-     */
-    public boolean matches(InventoryCrafting inv, World worldIn)
-    {
-        List<ItemStack> list = Lists.newArrayList(this.recipeItems);
+			if (itemstack != null && itemstack.getItem().hasContainerItem()) {
+				aitemstack[i] = new ItemStack(itemstack.getItem().getContainerItem());
+			}
+		}
 
-        for (int i = 0; i < inv.getHeight(); ++i)
-        {
-            for (int j = 0; j < inv.getWidth(); ++j)
-            {
-                ItemStack itemstack = inv.getStackInRowAndColumn(j, i);
+		return aitemstack;
+	}
 
-                if (itemstack != null)
-                {
-                    boolean flag = false;
+	/**
+	 * Used to check if a recipe matches current crafting inventory
+	 */
+	public boolean matches(InventoryCrafting inv, World worldIn) {
+		List<ItemStack> list = Lists.newArrayList(this.recipeItems);
 
-                    for (ItemStack itemstack1 : list)
-                    {
-                        if (itemstack.getItem() == itemstack1.getItem() && (itemstack1.getMetadata() == 32767 || itemstack.getMetadata() == itemstack1.getMetadata()))
-                        {
-                            flag = true;
-                            list.remove(itemstack1);
-                            break;
-                        }
-                    }
+		for (int i = 0; i < inv.getHeight(); ++i) {
+			for (int j = 0; j < inv.getWidth(); ++j) {
+				ItemStack itemstack = inv.getStackInRowAndColumn(j, i);
 
-                    if (!flag)
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
+				if (itemstack != null) {
+					boolean flag = false;
 
-        return list.isEmpty();
-    }
+					for (ItemStack itemstack1 : list) {
+						if (itemstack.getItem() == itemstack1.getItem() && (itemstack1.getMetadata() == 32767 || itemstack.getMetadata() == itemstack1.getMetadata())) {
+							flag = true;
+							list.remove(itemstack1);
+							break;
+						}
+					}
 
-    /**
-     * Returns an Item that is the result of this recipe
-     */
-    public ItemStack getCraftingResult(InventoryCrafting inv)
-    {
-        return this.recipeOutput.copy();
-    }
+					if (!flag) {
+						return false;
+					}
+				}
+			}
+		}
 
-    /**
-     * Returns the size of the recipe area
-     */
-    public int getRecipeSize()
-    {
-        return this.recipeItems.size();
-    }
+		return list.isEmpty();
+	}
+
+	/**
+	 * Returns an Item that is the result of this recipe
+	 */
+	public ItemStack getCraftingResult(InventoryCrafting inv) {
+		return this.recipeOutput.copy();
+	}
+
+	/**
+	 * Returns the size of the recipe area
+	 */
+	public int getRecipeSize() {
+		return this.recipeItems.size();
+	}
+
 }

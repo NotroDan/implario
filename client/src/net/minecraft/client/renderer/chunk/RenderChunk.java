@@ -30,24 +30,24 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class RenderChunk {
 
-	private World world;
-	private final RenderGlobal renderGlobal;
 	public static int renderChunksUpdated;
-	private BlockPos position;
-	public CompiledChunk compiledChunk = CompiledChunk.DUMMY;
+	private static EnumWorldBlockLayer[] ENUM_WORLD_BLOCK_LAYERS = EnumWorldBlockLayer.values();
+	private final RenderGlobal renderGlobal;
 	private final ReentrantLock lockCompileTask = new ReentrantLock();
 	private final ReentrantLock lockCompiledChunk = new ReentrantLock();
-	private ChunkCompileTaskGenerator compileTask = null;
 	private final Set field_181056_j = Sets.newHashSet();
 	private final int index;
 	private final FloatBuffer modelviewMatrix = GLAllocation.createDirectFloatBuffer(16);
 	private final VertexBuffer[] vertexBuffers = new VertexBuffer[EnumWorldBlockLayer.values().length];
+	public CompiledChunk compiledChunk = CompiledChunk.DUMMY;
 	public AxisAlignedBB boundingBox;
+	private World world;
+	private BlockPos position;
+	private ChunkCompileTaskGenerator compileTask = null;
 	private int frameIndex = -1;
 	private boolean needsUpdate = true;
 	private EnumMap field_181702_p;
 	private BlockPos[] positionOffsets16 = new BlockPos[EnumFacing.VALUES.length];
-	private static EnumWorldBlockLayer[] ENUM_WORLD_BLOCK_LAYERS = EnumWorldBlockLayer.values();
 	private EnumWorldBlockLayer[] blockLayersSingle = new EnumWorldBlockLayer[1];
 	private boolean isMipmaps = Config.isMipmaps();
 	private boolean playerUpdate = false;
@@ -78,17 +78,6 @@ public class RenderChunk {
 
 	public VertexBuffer getVertexBufferByLayer(int layer) {
 		return this.vertexBuffers[layer];
-	}
-
-	public void setPosition(BlockPos pos) {
-		this.stopCompileTask();
-		this.position = pos;
-		this.boundingBox = new AxisAlignedBB(pos, pos.add(16, 16, 16));
-		this.initModelviewMatrix();
-
-		for (int i = 0; i < this.positionOffsets16.length; ++i) {
-			this.positionOffsets16[i] = null;
-		}
 	}
 
 	public void resortTransparency(float x, float y, float z, ChunkCompileTaskGenerator generator) {
@@ -323,6 +312,21 @@ public class RenderChunk {
 		return this.position;
 	}
 
+	public void setPosition(BlockPos pos) {
+		this.stopCompileTask();
+		this.position = pos;
+		this.boundingBox = new AxisAlignedBB(pos, pos.add(16, 16, 16));
+		this.initModelviewMatrix();
+
+		for (int i = 0; i < this.positionOffsets16.length; ++i) {
+			this.positionOffsets16[i] = null;
+		}
+	}
+
+	public boolean isNeedsUpdate() {
+		return this.needsUpdate;
+	}
+
 	public void setNeedsUpdate(boolean needsUpdateIn) {
 		this.needsUpdate = needsUpdateIn;
 
@@ -333,10 +337,6 @@ public class RenderChunk {
 		} else {
 			this.playerUpdate = false;
 		}
-	}
-
-	public boolean isNeedsUpdate() {
-		return this.needsUpdate;
 	}
 
 	public BlockPos func_181701_a(EnumFacing p_181701_1_) {

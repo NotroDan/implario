@@ -35,64 +35,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
 	public final NetHandlerPlayClient sendQueue;
 	private final StatFileWriter statWriter;
-
-	/**
-	 * The last X position which was transmitted to the server, used to determine when the X position changes and needs
-	 * to be re-trasmitted
-	 */
-	private double lastReportedPosX;
-
-	/**
-	 * The last Y position which was transmitted to the server, used to determine when the Y position changes and needs
-	 * to be re-transmitted
-	 */
-	private double lastReportedPosY;
-
-	/**
-	 * The last Z position which was transmitted to the server, used to determine when the Z position changes and needs
-	 * to be re-transmitted
-	 */
-	private double lastReportedPosZ;
-
-	/**
-	 * The last yaw value which was transmitted to the server, used to determine when the yaw changes and needs to be
-	 * re-transmitted
-	 */
-	private float lastReportedYaw;
-
-	/**
-	 * The last pitch value which was transmitted to the server, used to determine when the pitch changes and needs to
-	 * be re-transmitted
-	 */
-	private float lastReportedPitch;
-
-	/**
-	 * the last sneaking state sent to the server
-	 */
-	private boolean serverSneakState;
-
-	/**
-	 * the last sprinting state sent to the server
-	 */
-	private boolean serverSprintState;
-
-	/**
-	 * Reset to 0 every time position is sent to the server, used to send periodic updates every 20 ticks even when the
-	 * player is not moving.
-	 */
-	private int positionUpdateTicks;
-	private boolean hasValidHealth;
-	private String clientBrand;
 	public MovementInput movementInput;
-	protected Minecraft mc;
-
-	/**
-	 * Used to tell if the player pressed forward twice. If this is at 0 and it's pressed (And they are allowed to
-	 * sprint, aka enough food on the ground etc) it sets this to 7. If it's pressed and it's greater than 0 enable
-	 * sprinting.
-	 */
-	protected int sprintToggleTimer;
-
 	/**
 	 * Ticks left before sprinting is disabled.
 	 */
@@ -101,18 +44,63 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	public float renderArmPitch;
 	public float prevRenderArmYaw;
 	public float prevRenderArmPitch;
-	private int horseJumpPowerCounter;
-	private float horseJumpPower;
-
 	/**
 	 * The amount of time an entity has been in a Portal
 	 */
 	public float timeInPortal;
-
 	/**
 	 * The amount of time an entity has been in a Portal the previous tick
 	 */
 	public float prevTimeInPortal;
+	protected Minecraft mc;
+	/**
+	 * Used to tell if the player pressed forward twice. If this is at 0 and it's pressed (And they are allowed to
+	 * sprint, aka enough food on the ground etc) it sets this to 7. If it's pressed and it's greater than 0 enable
+	 * sprinting.
+	 */
+	protected int sprintToggleTimer;
+	/**
+	 * The last X position which was transmitted to the server, used to determine when the X position changes and needs
+	 * to be re-trasmitted
+	 */
+	private double lastReportedPosX;
+	/**
+	 * The last Y position which was transmitted to the server, used to determine when the Y position changes and needs
+	 * to be re-transmitted
+	 */
+	private double lastReportedPosY;
+	/**
+	 * The last Z position which was transmitted to the server, used to determine when the Z position changes and needs
+	 * to be re-transmitted
+	 */
+	private double lastReportedPosZ;
+	/**
+	 * The last yaw value which was transmitted to the server, used to determine when the yaw changes and needs to be
+	 * re-transmitted
+	 */
+	private float lastReportedYaw;
+	/**
+	 * The last pitch value which was transmitted to the server, used to determine when the pitch changes and needs to
+	 * be re-transmitted
+	 */
+	private float lastReportedPitch;
+	/**
+	 * the last sneaking state sent to the server
+	 */
+	private boolean serverSneakState;
+	/**
+	 * the last sprinting state sent to the server
+	 */
+	private boolean serverSprintState;
+	/**
+	 * Reset to 0 every time position is sent to the server, used to send periodic updates every 20 ticks even when the
+	 * player is not moving.
+	 */
+	private int positionUpdateTicks;
+	private boolean hasValidHealth;
+	private String clientBrand;
+	private int horseJumpPowerCounter;
+	private float horseJumpPower;
 
 	public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile) {
 		super(worldIn, netHandler.getGameProfile());
@@ -309,10 +297,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 			} else if ("minecraft:anvil".equals(s)) {
 				this.mc.displayGuiScreen(new GuiRepair(this.inventory, this.worldObj));
 			}
-		}
-
-
-		else PlayerGuiBridge.open(this, type, element, false);
+		} else PlayerGuiBridge.open(this, type, element, false);
 	}
 
 	/**
@@ -384,12 +369,12 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 		this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.OPEN_INVENTORY));
 	}
 
-	public void setClientBrand(String brand) {
-		this.clientBrand = brand;
-	}
-
 	public String getClientBrand() {
 		return this.clientBrand;
+	}
+
+	public void setClientBrand(String brand) {
+		this.clientBrand = brand;
 	}
 
 	public StatFileWriter getStatFileWriter() {

@@ -5,8 +5,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ParticleType;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ParticleType;
 import net.minecraft.world.World;
 
 public class EntityEnderEye extends Entity {
@@ -33,6 +33,13 @@ public class EntityEnderEye extends Entity {
 		this.setSize(0.25F, 0.25F);
 	}
 
+	public EntityEnderEye(World worldIn, double x, double y, double z) {
+		super(worldIn);
+		this.despawnTimer = 0;
+		this.setSize(0.25F, 0.25F);
+		this.setPosition(x, y, z);
+	}
+
 	protected void entityInit() {
 	}
 
@@ -49,13 +56,6 @@ public class EntityEnderEye extends Entity {
 
 		d0 = d0 * 64.0D;
 		return distance < d0 * d0;
-	}
-
-	public EntityEnderEye(World worldIn, double x, double y, double z) {
-		super(worldIn);
-		this.despawnTimer = 0;
-		this.setSize(0.25F, 0.25F);
-		this.setPosition(x, y, z);
 	}
 
 	public void moveTowards(BlockPos p_180465_1_) {

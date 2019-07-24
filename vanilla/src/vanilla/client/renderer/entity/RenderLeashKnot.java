@@ -1,10 +1,10 @@
 package vanilla.client.renderer.entity;
 
-import vanilla.client.game.model.ModelLeashKnot;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
+import vanilla.client.game.model.ModelLeashKnot;
 import vanilla.entity.EntityLeashKnot;
 
 public class RenderLeashKnot extends Render<EntityLeashKnot> {

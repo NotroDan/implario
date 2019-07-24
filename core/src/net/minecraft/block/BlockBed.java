@@ -26,6 +26,44 @@ public class BlockBed extends BlockDirectional {
 		this.setBedBounds();
 	}
 
+	/**
+	 * Returns a safe BlockPos to disembark the bed
+	 */
+	public static BlockPos getSafeExitLocation(World worldIn, BlockPos pos, int tries) {
+		EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
+		int i = pos.getX();
+		int j = pos.getY();
+		int k = pos.getZ();
+
+		for (int l = 0; l <= 1; ++l) {
+			int i1 = i - enumfacing.getFrontOffsetX() * l - 1;
+			int j1 = k - enumfacing.getFrontOffsetZ() * l - 1;
+			int k1 = i1 + 2;
+			int l1 = j1 + 2;
+
+			for (int i2 = i1; i2 <= k1; ++i2) {
+				for (int j2 = j1; j2 <= l1; ++j2) {
+					BlockPos blockpos = new BlockPos(i2, j, j2);
+
+					if (hasRoomForPlayer(worldIn, blockpos)) {
+						if (tries <= 0) {
+							return blockpos;
+						}
+
+						--tries;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	protected static boolean hasRoomForPlayer(World worldIn, BlockPos pos) {
+		return World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !worldIn.getBlockState(pos).getBlock().getMaterial().isSolid() && !worldIn.getBlockState(
+				pos.up()).getBlock().getMaterial().isSolid();
+	}
+
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isClientSide) {
 			return true;
@@ -125,44 +163,6 @@ public class BlockBed extends BlockDirectional {
 
 	private void setBedBounds() {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
-	}
-
-	/**
-	 * Returns a safe BlockPos to disembark the bed
-	 */
-	public static BlockPos getSafeExitLocation(World worldIn, BlockPos pos, int tries) {
-		EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
-		int i = pos.getX();
-		int j = pos.getY();
-		int k = pos.getZ();
-
-		for (int l = 0; l <= 1; ++l) {
-			int i1 = i - enumfacing.getFrontOffsetX() * l - 1;
-			int j1 = k - enumfacing.getFrontOffsetZ() * l - 1;
-			int k1 = i1 + 2;
-			int l1 = j1 + 2;
-
-			for (int i2 = i1; i2 <= k1; ++i2) {
-				for (int j2 = j1; j2 <= l1; ++j2) {
-					BlockPos blockpos = new BlockPos(i2, j, j2);
-
-					if (hasRoomForPlayer(worldIn, blockpos)) {
-						if (tries <= 0) {
-							return blockpos;
-						}
-
-						--tries;
-					}
-				}
-			}
-		}
-
-		return null;
-	}
-
-	protected static boolean hasRoomForPlayer(World worldIn, BlockPos pos) {
-		return World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !worldIn.getBlockState(pos).getBlock().getMaterial().isSolid() && !worldIn.getBlockState(
-				pos.up()).getBlock().getMaterial().isSolid();
 	}
 
 	/**

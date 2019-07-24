@@ -19,32 +19,6 @@ public class Gui {
 	public float zLevel;
 
 	/**
-	 * Draw a 1 pixel wide horizontal line. Args: x1, x2, y, color
-	 */
-	protected void drawHorizontalLine(int startX, int endX, int y, int color) {
-		if (endX < startX) {
-			int i = startX;
-			startX = endX;
-			endX = i;
-		}
-
-		drawRect(startX, y, endX + 1, y + 1, color);
-	}
-
-	/**
-	 * Draw a 1 pixel wide vertical line. Args : x, y1, y2, color
-	 */
-	protected void drawVerticalLine(int x, int startY, int endY, int color) {
-		if (endY < startY) {
-			int i = startY;
-			startY = endY;
-			endY = i;
-		}
-
-		drawRect(x, startY + 1, x + 1, endY, color);
-	}
-
-	/**
 	 * Draws a solid color rectangle with the specified coordinates and color (ARGB format). Args: x1, y1, x2, y2, color
 	 */
 	public static void drawRect(int left, int top, int right, int bottom, int color) {
@@ -82,7 +56,6 @@ public class Gui {
 		G.disableBlend();
 	}
 
-
 	public static void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int color) {
 
 		Tessellator tessellator = Tessellator.getInstance();
@@ -104,6 +77,64 @@ public class Gui {
 		tessellator.draw();
 		G.enableTexture2D();
 		G.disableBlend();
+	}
+
+	/**
+	 * Draws a textured rectangle at z = 0. Args: x, y, u, v, width, height, textureWidth, textureHeight
+	 */
+	public static void drawModalRectWithCustomSizedTexture(int x, int y, float u, float v, int width, int height, float textureWidth, float textureHeight) {
+		float f = 1.0F / textureWidth;
+		float f1 = 1.0F / textureHeight;
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos((double) x, (double) (y + height), 0.0D).tex((double) (u * f), (double) ((v + (float) height) * f1)).endVertex();
+		worldrenderer.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((u + (float) width) * f), (double) ((v + (float) height) * f1)).endVertex();
+		worldrenderer.pos((double) (x + width), (double) y, 0.0D).tex((double) ((u + (float) width) * f), (double) (v * f1)).endVertex();
+		worldrenderer.pos((double) x, (double) y, 0.0D).tex((double) (u * f), (double) (v * f1)).endVertex();
+		tessellator.draw();
+	}
+
+	/**
+	 * Draws a scaled, textured, tiled modal rect at z = 0. This method isn't used anywhere in vanilla code.
+	 */
+	public static void drawScaledCustomSizeModalRect(int x, int y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight) {
+		float f = 1.0F / tileWidth;
+		float f1 = 1.0F / tileHeight;
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos((double) x, (double) (y + height), 0.0D).tex((double) (u * f), (double) ((v + (float) vHeight) * f1)).endVertex();
+		worldrenderer.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((u + (float) uWidth) * f), (double) ((v + (float) vHeight) * f1)).endVertex();
+		worldrenderer.pos((double) (x + width), (double) y, 0.0D).tex((double) ((u + (float) uWidth) * f), (double) (v * f1)).endVertex();
+		worldrenderer.pos((double) x, (double) y, 0.0D).tex((double) (u * f), (double) (v * f1)).endVertex();
+		tessellator.draw();
+	}
+
+	/**
+	 * Draw a 1 pixel wide horizontal line. Args: x1, x2, y, color
+	 */
+	protected void drawHorizontalLine(int startX, int endX, int y, int color) {
+		if (endX < startX) {
+			int i = startX;
+			startX = endX;
+			endX = i;
+		}
+
+		drawRect(startX, y, endX + 1, y + 1, color);
+	}
+
+	/**
+	 * Draw a 1 pixel wide vertical line. Args : x, y1, y2, color
+	 */
+	protected void drawVerticalLine(int x, int startY, int endY, int color) {
+		if (endY < startY) {
+			int i = startY;
+			startY = endY;
+			endY = i;
+		}
+
+		drawRect(x, startY + 1, x + 1, endY, color);
 	}
 
 	/**
@@ -144,6 +175,7 @@ public class Gui {
 	public void drawCenteredString(AssetsFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		fontRendererIn.drawStringWithShadow(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color);
 	}
+
 	public void drawShadowlessCenteredString(AssetsFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		fontRendererIn.drawString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color, false);
 	}
@@ -199,38 +231,6 @@ public class Gui {
 		worldrenderer.pos((double) (xCoord + widthIn), (double) (yCoord + heightIn), (double) this.zLevel).tex((double) textureSprite.getMaxU(), (double) textureSprite.getMaxV()).endVertex();
 		worldrenderer.pos((double) (xCoord + widthIn), (double) (yCoord + 0), (double) this.zLevel).tex((double) textureSprite.getMaxU(), (double) textureSprite.getMinV()).endVertex();
 		worldrenderer.pos((double) (xCoord + 0), (double) (yCoord + 0), (double) this.zLevel).tex((double) textureSprite.getMinU(), (double) textureSprite.getMinV()).endVertex();
-		tessellator.draw();
-	}
-
-	/**
-	 * Draws a textured rectangle at z = 0. Args: x, y, u, v, width, height, textureWidth, textureHeight
-	 */
-	public static void drawModalRectWithCustomSizedTexture(int x, int y, float u, float v, int width, int height, float textureWidth, float textureHeight) {
-		float f = 1.0F / textureWidth;
-		float f1 = 1.0F / textureHeight;
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos((double) x, (double) (y + height), 0.0D).tex((double) (u * f), (double) ((v + (float) height) * f1)).endVertex();
-		worldrenderer.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((u + (float) width) * f), (double) ((v + (float) height) * f1)).endVertex();
-		worldrenderer.pos((double) (x + width), (double) y, 0.0D).tex((double) ((u + (float) width) * f), (double) (v * f1)).endVertex();
-		worldrenderer.pos((double) x, (double) y, 0.0D).tex((double) (u * f), (double) (v * f1)).endVertex();
-		tessellator.draw();
-	}
-
-	/**
-	 * Draws a scaled, textured, tiled modal rect at z = 0. This method isn't used anywhere in vanilla code.
-	 */
-	public static void drawScaledCustomSizeModalRect(int x, int y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight) {
-		float f = 1.0F / tileWidth;
-		float f1 = 1.0F / tileHeight;
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos((double) x, (double) (y + height), 0.0D).tex((double) (u * f), (double) ((v + (float) vHeight) * f1)).endVertex();
-		worldrenderer.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((u + (float) uWidth) * f), (double) ((v + (float) vHeight) * f1)).endVertex();
-		worldrenderer.pos((double) (x + width), (double) y, 0.0D).tex((double) ((u + (float) uWidth) * f), (double) (v * f1)).endVertex();
-		worldrenderer.pos((double) x, (double) y, 0.0D).tex((double) (u * f), (double) (v * f1)).endVertex();
 		tessellator.draw();
 	}
 

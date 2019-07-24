@@ -10,7 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode (callSuper = false)
 public class PlayerInteractEvent extends PlayerEvent<PlayerInteractEvent> {
 
 	private final EntityPlayer player;

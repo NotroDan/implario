@@ -5,23 +5,24 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.util.Easing;
 
 public class Animation {
-	
+
 	private final int startX, startY, startC, finalC;
 	private final AnimationPlayer player;
 	private final long time;
-	
+
 	private final int dX, dY;
 	private final boolean color;
 	private final Easing easing;
 
 	public Animation(int startX, int startY, int startC,
-	                 int finalX, int finalY, int finalC,
-	                 long time, AnimationPlayer player) {
+					 int finalX, int finalY, int finalC,
+					 long time, AnimationPlayer player) {
 		this(startX, startY, startC, finalX, finalY, finalC, time, player, null);
 	}
+
 	public Animation(int startX, int startY, int startC,
-	                 int finalX, int finalY, int finalC,
-	                 long time, AnimationPlayer player, Easing easing) {
+					 int finalX, int finalY, int finalC,
+					 long time, AnimationPlayer player, Easing easing) {
 		this.startX = startX;
 		this.startY = startY;
 		this.startC = startC;
@@ -30,7 +31,7 @@ public class Animation {
 		this.player = player;
 		this.time = time;
 		this.easing = easing;
-		
+
 		dX = finalX - startX;
 		dY = finalY - startY;
 	}
@@ -45,7 +46,7 @@ public class Animation {
 		return f;
 	}
 
-	
+
 	void draw(float f) {
 		int x = startX + (int) ((float) dX * f);
 		int y = startY + (int) ((float) dY * f);
@@ -54,15 +55,17 @@ public class Animation {
 		player.draw(f);
 		G.translate(-x, -y, 0);
 	}
-	
+
 	public void draw(long start, long t) {
 		draw(getPercentage(start, t));
 	}
-	
+
 	@FunctionalInterface
 	public interface AnimationPlayer {
+
 		void draw(float percentage);
+
 	}
-	
-	
+
+
 }

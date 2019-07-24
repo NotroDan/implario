@@ -11,7 +11,7 @@ public class ModuleItemInfo implements Module {
 	@Override
 	public void render(GuiIngame gui, float partialTicks, ScaledResolution res) {
 		if (MC.i().playerController.isSpectator()) guiSpectator.renderTooltip(res, partialTicks);
-//		else this.renderTooltip(res, partialTicks);
+		//		else this.renderTooltip(res, partialTicks);
 	}
 
 }

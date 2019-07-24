@@ -3,16 +3,12 @@ package net.minecraft.client.gui;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
 import io.netty.buffer.Unpooled;
-
-import java.io.IOException;
-import java.util.List;
-
+import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEditableBook;
 import net.minecraft.item.ItemStack;
@@ -21,11 +17,17 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
-import net.minecraft.util.*;
-import net.minecraft.Logger;
+import net.minecraft.util.Clipboard;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.chat.ChatAllowedCharacters;
 import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.chat.event.ClickEvent;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.List;
 
 public class GuiScreenBook extends GuiScreen {
 

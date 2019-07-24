@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;

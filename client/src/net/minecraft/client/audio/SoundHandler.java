@@ -1,6 +1,5 @@
 package net.minecraft.client.audio;
 
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.Logger;
@@ -27,6 +26,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 public class SoundHandler implements IResourceManagerReloadListener, ITickable {
+
+	public static final SoundPoolEntry missing_sound = new SoundPoolEntry(new ResourceLocation("meta:missing_sound"), 0.0D, 0.0D, false);
 	private static final Logger logger = Logger.getInstance();
 	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(SoundList.class, new SoundListSerializer()).create();
 	private static final ParameterizedType TYPE = new ParameterizedType() {
@@ -42,7 +43,6 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 			return null;
 		}
 	};
-	public static final SoundPoolEntry missing_sound = new SoundPoolEntry(new ResourceLocation("meta:missing_sound"), 0.0D, 0.0D, false);
 	private final SoundRegistry sndRegistry = new SoundRegistry();
 	private final SoundManager sndManager;
 	private final IResourceManager mcResourceManager;
@@ -137,7 +137,8 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 						IOUtils.closeQuietly(inputstream);
 					}
 
-					lvt_10_1_ = new SoundEventAccessor(new SoundPoolEntry(resourcelocation1, (double) soundlist$soundentry.getSoundEntryPitch(), (double) soundlist$soundentry.getSoundEntryVolume(), soundlist$soundentry.isStreaming()), soundlist$soundentry.getSoundEntryWeight());
+					lvt_10_1_ = new SoundEventAccessor(new SoundPoolEntry(resourcelocation1, (double) soundlist$soundentry.getSoundEntryPitch(), (double) soundlist$soundentry.getSoundEntryVolume(),
+							soundlist$soundentry.isStreaming()), soundlist$soundentry.getSoundEntryWeight());
 					break;
 
 				case SOUND_EVENT:
@@ -235,4 +236,5 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	public boolean isSoundPlaying(ISound sound) {
 		return this.sndManager.isSoundPlaying(sound);
 	}
+
 }

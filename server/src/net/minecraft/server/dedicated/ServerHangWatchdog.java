@@ -1,9 +1,9 @@
 package net.minecraft.server.dedicated;
 
-import net.minecraft.crash.CrashReport;
-import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.server.MinecraftServer;
 
 import java.io.File;

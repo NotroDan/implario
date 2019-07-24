@@ -7,17 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerFurnace;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.SlotFurnaceFuel;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+import net.minecraft.inventory.*;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -48,6 +39,46 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 	private int cookTime;
 	private int totalCookTime;
 	private String furnaceCustomName;
+
+	public static boolean isBurning(IInventory p_174903_0_) {
+		return p_174903_0_.getField(0) > 0;
+	}
+
+	/**
+	 * Returns the number of ticks that the supplied fuel item will keep the furnace burning, or 0 if the item isn't
+	 * fuel
+	 */
+	public static int getItemBurnTime(ItemStack p_145952_0_) {
+		if (p_145952_0_ == null) {
+			return 0;
+		}
+		Item item = p_145952_0_.getItem();
+
+		if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air) {
+			Block block = Block.getBlockFromItem(item);
+
+			if (block == Blocks.wooden_slab) {
+				return 150;
+			}
+
+			if (block.getMaterial() == Material.wood) {
+				return 300;
+			}
+
+			if (block == Blocks.coal_block) {
+				return 16000;
+			}
+		}
+
+		return item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD") ? 200 : item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals(
+				"WOOD") ? 200 : item instanceof ItemHoe && ((ItemHoe) item).getMaterialName().equals(
+				"WOOD") ? 200 : item == Items.stick ? 100 : item == Items.coal ? 1600 : item == Items.lava_bucket ? 20000 : item == Item.getItemFromBlock(
+				Blocks.sapling) ? 100 : item == Items.blaze_rod ? 2400 : 0;
+	}
+
+	public static boolean isItemFuel(ItemStack p_145954_0_) {
+		return getItemBurnTime(p_145954_0_) > 0;
+	}
 
 	/**
 	 * Returns the number of slots in the inventory.
@@ -193,10 +224,6 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 		return this.furnaceBurnTime > 0;
 	}
 
-	public static boolean isBurning(IInventory p_174903_0_) {
-		return p_174903_0_.getField(0) > 0;
-	}
-
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
@@ -295,42 +322,6 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 		if (this.furnaceItemStacks[0].stackSize <= 0) {
 			this.furnaceItemStacks[0] = null;
 		}
-	}
-
-	/**
-	 * Returns the number of ticks that the supplied fuel item will keep the furnace burning, or 0 if the item isn't
-	 * fuel
-	 */
-	public static int getItemBurnTime(ItemStack p_145952_0_) {
-		if (p_145952_0_ == null) {
-			return 0;
-		}
-		Item item = p_145952_0_.getItem();
-
-		if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air) {
-			Block block = Block.getBlockFromItem(item);
-
-			if (block == Blocks.wooden_slab) {
-				return 150;
-			}
-
-			if (block.getMaterial() == Material.wood) {
-				return 300;
-			}
-
-			if (block == Blocks.coal_block) {
-				return 16000;
-			}
-		}
-
-		return item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD") ? 200 : item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals(
-				"WOOD") ? 200 : item instanceof ItemHoe && ((ItemHoe) item).getMaterialName().equals(
-				"WOOD") ? 200 : item == Items.stick ? 100 : item == Items.coal ? 1600 : item == Items.lava_bucket ? 20000 : item == Item.getItemFromBlock(
-				Blocks.sapling) ? 100 : item == Items.blaze_rod ? 2400 : 0;
-	}
-
-	public static boolean isItemFuel(ItemStack p_145954_0_) {
-		return getItemBurnTime(p_145954_0_) > 0;
 	}
 
 	/**

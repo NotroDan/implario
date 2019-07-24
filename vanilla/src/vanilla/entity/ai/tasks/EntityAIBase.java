@@ -1,71 +1,65 @@
 package vanilla.entity.ai.tasks;
 
-public abstract class EntityAIBase
-{
-    /**
-     * A bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it yields
-     * zero, the two tasks may run concurrently, if not - they must run exclusively from each other.
-     */
-    private int mutexBits;
+public abstract class EntityAIBase {
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
-    public abstract boolean shouldExecute();
+	/**
+	 * A bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it yields
+	 * zero, the two tasks may run concurrently, if not - they must run exclusively from each other.
+	 */
+	private int mutexBits;
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
-    public boolean continueExecuting()
-    {
-        return this.shouldExecute();
-    }
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
+	public abstract boolean shouldExecute();
 
-    /**
-     * Determine if this AI Task is interruptible by a higher (= lower value) priority task. All vanilla AITask have
-     * this value set to true.
-     */
-    public boolean isInterruptible()
-    {
-        return true;
-    }
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
+	public boolean continueExecuting() {
+		return this.shouldExecute();
+	}
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
-    public void startExecuting()
-    {
-    }
+	/**
+	 * Determine if this AI Task is interruptible by a higher (= lower value) priority task. All vanilla AITask have
+	 * this value set to true.
+	 */
+	public boolean isInterruptible() {
+		return true;
+	}
 
-    /**
-     * Resets the task
-     */
-    public void resetTask()
-    {
-    }
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
+	public void startExecuting() {
+	}
 
-    /**
-     * Updates the task
-     */
-    public void updateTask()
-    {
-    }
+	/**
+	 * Resets the task
+	 */
+	public void resetTask() {
+	}
 
-    /**
-     * Sets a bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it
-     * yields zero, the two tasks may run concurrently, if not - they must run exclusively from each other.
-     */
-    public void setMutexBits(int mutexBitsIn)
-    {
-        this.mutexBits = mutexBitsIn;
-    }
+	/**
+	 * Updates the task
+	 */
+	public void updateTask() {
+	}
 
-    /**
-     * Get a bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it yields
-     * zero, the two tasks may run concurrently, if not - they must run exclusively from each other.
-     */
-    public int getMutexBits()
-    {
-        return this.mutexBits;
-    }
+	/**
+	 * Get a bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it yields
+	 * zero, the two tasks may run concurrently, if not - they must run exclusively from each other.
+	 */
+	public int getMutexBits() {
+		return this.mutexBits;
+	}
+
+	/**
+	 * Sets a bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it
+	 * yields zero, the two tasks may run concurrently, if not - they must run exclusively from each other.
+	 */
+	public void setMutexBits(int mutexBitsIn) {
+		this.mutexBits = mutexBitsIn;
+	}
+
 }

@@ -1,64 +1,58 @@
 package vanilla.item;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import vanilla.entity.passive.EntityPig;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
+import vanilla.entity.passive.EntityPig;
 
-public class ItemCarrotOnAStick extends Item
-{
-    public ItemCarrotOnAStick()
-    {
-        this.setCreativeTab(CreativeTabs.tabTransport);
-        this.setMaxStackSize(1);
-        this.setMaxDamage(25);
-    }
+public class ItemCarrotOnAStick extends Item {
 
-    /**
-     * Returns True is the item is renderer in full 3D when hold.
-     */
-    public boolean isFull3D()
-    {
-        return true;
-    }
+	public ItemCarrotOnAStick() {
+		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.setMaxStackSize(1);
+		this.setMaxDamage(25);
+	}
 
-    /**
-     * Returns true if this item should be rotated by 180 degrees around the Y axis when being held in an entities
-     * hands.
-     */
-    public boolean shouldRotateAroundWhenRendering()
-    {
-        return true;
-    }
+	/**
+	 * Returns True is the item is renderer in full 3D when hold.
+	 */
+	public boolean isFull3D() {
+		return true;
+	}
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
-    {
-        if (playerIn.isRiding() && playerIn.ridingEntity instanceof EntityPig)
-        {
-            EntityPig entitypig = (EntityPig)playerIn.ridingEntity;
+	/**
+	 * Returns true if this item should be rotated by 180 degrees around the Y axis when being held in an entities
+	 * hands.
+	 */
+	public boolean shouldRotateAroundWhenRendering() {
+		return true;
+	}
 
-            if (entitypig.getAIControlledByPlayer().isControlledByPlayer() && itemStackIn.getMaxDamage() - itemStackIn.getMetadata() >= 7)
-            {
-                entitypig.getAIControlledByPlayer().boostSpeed();
-                itemStackIn.damageItem(7, playerIn);
+	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+	 */
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+		if (playerIn.isRiding() && playerIn.ridingEntity instanceof EntityPig) {
+			EntityPig entitypig = (EntityPig) playerIn.ridingEntity;
 
-                if (itemStackIn.stackSize == 0)
-                {
-                    ItemStack itemstack = new ItemStack(Items.fishing_rod);
-                    itemstack.setTagCompound(itemStackIn.getTagCompound());
-                    return itemstack;
-                }
-            }
-        }
+			if (entitypig.getAIControlledByPlayer().isControlledByPlayer() && itemStackIn.getMaxDamage() - itemStackIn.getMetadata() >= 7) {
+				entitypig.getAIControlledByPlayer().boostSpeed();
+				itemStackIn.damageItem(7, playerIn);
 
-        playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-        return itemStackIn;
-    }
+				if (itemStackIn.stackSize == 0) {
+					ItemStack itemstack = new ItemStack(Items.fishing_rod);
+					itemstack.setTagCompound(itemStackIn.getTagCompound());
+					return itemstack;
+				}
+			}
+		}
+
+		playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+		return itemStackIn;
+	}
+
 }

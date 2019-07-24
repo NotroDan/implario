@@ -51,6 +51,13 @@ public final class WorldSettings {
 	}
 
 	/**
+	 * Gets the GameType by ID
+	 */
+	public static WorldSettings.GameType getGameTypeById(int id) {
+		return WorldSettings.GameType.getByID(id);
+	}
+
+	/**
 	 * Enables the bonus chest.
 	 */
 	public WorldSettings enableStarterKit() {
@@ -63,11 +70,6 @@ public final class WorldSettings {
 	 */
 	public WorldSettings enableCommands() {
 		this.commandsAllowed = true;
-		return this;
-	}
-
-	public WorldSettings setWorldName(String name) {
-		this.worldName = name;
 		return this;
 	}
 
@@ -117,15 +119,13 @@ public final class WorldSettings {
 		return this.commandsAllowed;
 	}
 
-	/**
-	 * Gets the GameType by ID
-	 */
-	public static WorldSettings.GameType getGameTypeById(int id) {
-		return WorldSettings.GameType.getByID(id);
-	}
-
 	public String getWorldName() {
 		return this.worldName;
+	}
+
+	public WorldSettings setWorldName(String name) {
+		this.worldName = name;
+		return this;
 	}
 
 	public enum GameType {
@@ -141,6 +141,26 @@ public final class WorldSettings {
 		GameType(int typeId, String nameIn) {
 			this.id = typeId;
 			this.name = nameIn;
+		}
+
+		public static WorldSettings.GameType getByID(int idIn) {
+			for (WorldSettings.GameType worldsettings$gametype : values()) {
+				if (worldsettings$gametype.id == idIn) {
+					return worldsettings$gametype;
+				}
+			}
+
+			return SURVIVAL;
+		}
+
+		public static WorldSettings.GameType getByName(String p_77142_0_) {
+			for (WorldSettings.GameType worldsettings$gametype : values()) {
+				if (worldsettings$gametype.name.equals(p_77142_0_)) {
+					return worldsettings$gametype;
+				}
+			}
+
+			return SURVIVAL;
 		}
 
 		public int getID() {
@@ -181,26 +201,6 @@ public final class WorldSettings {
 
 		public boolean isSurvivalOrAdventure() {
 			return this == SURVIVAL || this == ADVENTURE;
-		}
-
-		public static WorldSettings.GameType getByID(int idIn) {
-			for (WorldSettings.GameType worldsettings$gametype : values()) {
-				if (worldsettings$gametype.id == idIn) {
-					return worldsettings$gametype;
-				}
-			}
-
-			return SURVIVAL;
-		}
-
-		public static WorldSettings.GameType getByName(String p_77142_0_) {
-			for (WorldSettings.GameType worldsettings$gametype : values()) {
-				if (worldsettings$gametype.name.equals(p_77142_0_)) {
-					return worldsettings$gametype;
-				}
-			}
-
-			return SURVIVAL;
 		}
 	}
 

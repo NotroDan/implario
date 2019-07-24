@@ -1,11 +1,11 @@
 package vanilla.entity.ai.tasks.wolf;
 
-import vanilla.entity.ai.tasks.EntityAIBase;
-import vanilla.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import vanilla.entity.ai.tasks.EntityAIBase;
+import vanilla.entity.passive.EntityWolf;
 
 public class EntityAIBeg extends EntityAIBase {
 

@@ -1,36 +1,38 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.util.BlockPos;
 
-public interface ICommand extends Comparable<ICommand>
-{
-    /**
-     * Gets the name of the command
-     */
-    String getCommandName();
+import java.util.List;
 
-    /**
-     * Gets the usage string for the command.
-     */
-    String getCommandUsage(ICommandSender sender);
+public interface ICommand extends Comparable<ICommand> {
 
-    List<String> getCommandAliases();
+	/**
+	 * Gets the name of the command
+	 */
+	String getCommandName();
 
-    /**
-     * Callback when the command is invoked
-     */
-    void processCommand(ICommandSender sender, String[] args) throws CommandException;
+	/**
+	 * Gets the usage string for the command.
+	 */
+	String getCommandUsage(ICommandSender sender);
 
-    /**
-     * Returns true if the given command sender is allowed to use this command.
-     */
-    boolean canCommandSenderUseCommand(ICommandSender sender);
+	List<String> getCommandAliases();
 
-    List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos);
+	/**
+	 * Callback when the command is invoked
+	 */
+	void processCommand(ICommandSender sender, String[] args) throws CommandException;
 
-    /**
-     * Return whether the specified command parameter index is a username parameter.
-     */
-    boolean isUsernameIndex(String[] args, int index);
+	/**
+	 * Returns true if the given command sender is allowed to use this command.
+	 */
+	boolean canCommandSenderUseCommand(ICommandSender sender);
+
+	List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos);
+
+	/**
+	 * Return whether the specified command parameter index is a username parameter.
+	 */
+	boolean isUsernameIndex(String[] args, int index);
+
 }

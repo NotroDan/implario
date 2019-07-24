@@ -1,9 +1,9 @@
 package vanilla.world.biome;
 
+import net.minecraft.world.biome.SpawnListEntry;
 import vanilla.entity.monster.EntityGhast;
 import vanilla.entity.monster.EntityMagmaCube;
 import vanilla.entity.monster.EntityPigZombie;
-import net.minecraft.world.biome.SpawnListEntry;
 
 public class BiomeGenHell extends BiomeGenBase {
 

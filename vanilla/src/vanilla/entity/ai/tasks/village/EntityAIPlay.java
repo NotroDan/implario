@@ -1,10 +1,10 @@
 package vanilla.entity.ai.tasks.village;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.Vec3;
 import vanilla.entity.ai.RandomPositionGenerator;
 import vanilla.entity.ai.tasks.EntityAIBase;
 import vanilla.entity.passive.EntityVillager;
-import net.minecraft.util.Vec3;
 
 import java.util.List;
 

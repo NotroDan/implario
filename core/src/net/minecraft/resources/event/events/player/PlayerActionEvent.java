@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode (callSuper = false)
 public class PlayerActionEvent extends PlayerEvent<PlayerActionEvent> {
 
 	private final EntityPlayer player;

@@ -10,6 +10,7 @@ public class KeyboardButton {
 	public KeyboardButton(int width, int height, Key key, int x, int y) {
 		this(width, height, key, x, y, 0);
 	}
+
 	public KeyboardButton(int width, int height, Key key, int x, int y, int renderY) {
 		this.width = width;
 		this.height = height;

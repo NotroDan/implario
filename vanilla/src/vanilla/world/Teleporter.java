@@ -1,6 +1,5 @@
 package vanilla.world;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -38,8 +37,9 @@ public class Teleporter implements IDimensionTranser {
 	/**
 	 * Ищет ближайший к сущности портал и телепортирует сущность в него.
 	 * Если портала не находится, создаёт новый.
+	 *
 	 * @param entity Сущность для телепортации
-	 * @param yaw Поворот головы, который нужно установить сущности.
+	 * @param yaw    Поворот головы, который нужно установить сущности.
 	 */
 	public void onTransfer(Entity entity, float yaw) {
 		if (this.world.provider.getDimensionId() != 1) {

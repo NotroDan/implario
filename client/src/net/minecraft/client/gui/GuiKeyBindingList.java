@@ -76,7 +76,8 @@ public class GuiKeyBindingList extends GuiListExtended {
 		}
 
 		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-			GuiKeyBindingList.this.mc.fontRenderer.drawString(this.labelText, GuiKeyBindingList.this.mc.currentScreen.width / 2 - this.labelWidth / 2, y + slotHeight - GuiKeyBindingList.this.mc.fontRenderer.getFontHeight() - 1, 16777215);
+			GuiKeyBindingList.this.mc.fontRenderer.drawString(this.labelText, GuiKeyBindingList.this.mc.currentScreen.width / 2 - this.labelWidth / 2,
+					y + slotHeight - GuiKeyBindingList.this.mc.fontRenderer.getFontHeight() - 1, 16777215);
 		}
 
 		public boolean mousePressed(int slotIndex, int p_148278_2_, int p_148278_3_, int p_148278_4_, int p_148278_5_, int p_148278_6_) {
@@ -107,7 +108,8 @@ public class GuiKeyBindingList extends GuiListExtended {
 
 		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
 			boolean flag = GuiKeyBindingList.this.guiControls.editing == this.keybinding;
-			GuiKeyBindingList.this.mc.fontRenderer.drawString(this.keyDesc, x + 90 - GuiKeyBindingList.this.maxListLabelWidth, y + slotHeight / 2 - GuiKeyBindingList.this.mc.fontRenderer.getFontHeight() / 2, 16777215);
+			GuiKeyBindingList.this.mc.fontRenderer.drawString(this.keyDesc, x + 90 - GuiKeyBindingList.this.maxListLabelWidth,
+					y + slotHeight / 2 - GuiKeyBindingList.this.mc.fontRenderer.getFontHeight() / 2, 16777215);
 			this.btnReset.xPosition = x + 190;
 			this.btnReset.yPosition = y;
 			this.btnReset.enabled = this.keybinding.getKeyCode() != this.keybinding.getKeyCodeDefault();

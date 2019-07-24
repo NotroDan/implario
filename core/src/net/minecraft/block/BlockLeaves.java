@@ -3,13 +3,13 @@ package net.minecraft.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ParticleType;
 import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.ParticleType;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -21,9 +21,9 @@ public abstract class BlockLeaves extends BlockLeavesBase {
 
 	public static final PropertyBool DECAYABLE = PropertyBool.create("decayable");
 	public static final PropertyBool CHECK_DECAY = PropertyBool.create("check_decay");
-	int[] surroundings;
 	protected int iconIndex;
 	protected boolean isTransparent;
+	int[] surroundings;
 
 	public BlockLeaves() {
 		super(Material.leaves, false);

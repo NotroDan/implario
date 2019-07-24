@@ -36,67 +36,55 @@ import java.util.*;
 public abstract class World implements IBlockAccess {
 
 	public static final Provider<Integer, WorldProvider> DIMENSION_PROVIDER = new Provider<>(SimpleDimensionManager::new);
-	private int seaLevel = 63;
-
+	public final List<Entity> loadedEntityList = new ArrayList<>();
+	public final List<TileEntity> loadedTileEntityList = new ArrayList<>();
+	public final List<TileEntity> tickableTileEntities = new ArrayList<>();
+	public final List<EntityPlayer> playerEntities = new ArrayList<>();
+	public final List<Entity> weatherEffects = new ArrayList<>();
+	/**
+	 * RNG for World.
+	 */
+	public final Random rand = new Random();
+	/**
+	 * The WorldProvider instance that World uses.
+	 */
+	public final WorldProvider provider;
+	public final Profiler theProfiler;
+	/**
+	 * True if the world is a 'slave' client; changes will not be saved or propagated from this world. For example,
+	 * server worlds have this set to false, client worlds have this set to true.
+	 */
+	public final boolean isClientSide;
+	protected final List<Entity> unloadedEntityList = new ArrayList<>();
+	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
+	/**
+	 * magic number used to generate fast random numbers for 3d distribution within a chunk
+	 */
+	protected final int DIST_HASH_MAGIC = 1013904223;
+	protected final ISaveHandler saveHandler;
+	private final List<TileEntity> addedTileEntityList = new ArrayList<>();
+	private final List<TileEntity> tileEntitiesToBeRemoved = new ArrayList<>();
+	private final Calendar theCalendar = Calendar.getInstance();
+	private final WorldBorder worldBorder;
 	/**
 	 * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
 	 */
 	protected boolean scheduledUpdatesAreImmediate;
-	public final List<Entity> loadedEntityList = new ArrayList<>();
-	protected final List<Entity> unloadedEntityList = new ArrayList<>();
-	public final List<TileEntity> loadedTileEntityList = new ArrayList<>();
-	public final List<TileEntity> tickableTileEntities = new ArrayList<>();
-	private final List<TileEntity> addedTileEntityList = new ArrayList<>();
-	private final List<TileEntity> tileEntitiesToBeRemoved = new ArrayList<>();
-	public final List<EntityPlayer> playerEntities = new ArrayList<>();
-	public final List<Entity> weatherEffects = new ArrayList<>();
-	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
-	private long cloudColour = 16777215L;
-
-	/**
-	 * How much light is subtracted from full daylight
-	 */
-	private int skylightSubtracted;
-
 	/**
 	 * Contains the current Linear Congruential Generator seed for block updates. Used with an A value of 3 and a C
 	 * value of 0x3c6ef35f, producing a highly planar series of values ill-suited for choosing random blocks in a
 	 * 16x128x16 field.
 	 */
 	protected int updateLCG = new Random().nextInt();
-
-	/**
-	 * magic number used to generate fast random numbers for 3d distribution within a chunk
-	 */
-	protected final int DIST_HASH_MAGIC = 1013904223;
 	protected float prevRainingStrength;
 	protected float rainingStrength;
 	protected float prevThunderingStrength;
 	protected float thunderingStrength;
-
-	/**
-	 * Set to 2 whenever a lightning bolt is generated in SSP. Decrements if > 0 in updateWeather(). Value appears to be
-	 * unused.
-	 */
-	private int lastLightningBolt;
-
-	/**
-	 * RNG for World.
-	 */
-	public final Random rand = new Random();
-
-	/**
-	 * The WorldProvider instance that World uses.
-	 */
-	public final WorldProvider provider;
 	protected List<IWorldAccess> worldAccesses = new ArrayList<>();
-
 	/**
 	 * Handles chunk operations and caching
 	 */
 	protected IChunkProvider chunkProvider;
-	protected final ISaveHandler saveHandler;
-
 	/**
 	 * holds information about a world (size on disk, time, spawn point, seed, ...)
 	 */
@@ -108,34 +96,16 @@ public abstract class World implements IBlockAccess {
 	 */
 	protected boolean findingSpawnPoint;
 	protected MapStorage mapStorage;
-	public final Profiler theProfiler;
-	private final Calendar theCalendar = Calendar.getInstance();
 	protected Scoreboard worldScoreboard = new Scoreboard();
-
-	/**
-	 * True if the world is a 'slave' client; changes will not be saved or propagated from this world. For example,
-	 * server worlds have this set to false, client worlds have this set to true.
-	 */
-	public final boolean isClientSide;
 	protected Set<ChunkCoordIntPair> activeChunkSet = Sets.newHashSet();
-
-	/**
-	 * number of ticks until the next random ambients play
-	 */
-	private int ambientTickCountdown;
-
 	/**
 	 * indicates if enemies are spawned or not
 	 */
 	protected boolean spawnHostileMobs;
-
 	/**
 	 * A flag indicating whether we should spawn peaceful mobs.
 	 */
 	protected boolean spawnPeacefulMobs;
-	private boolean processingLoadedTiles;
-	private final WorldBorder worldBorder;
-
 	/**
 	 * is a temporary list of blocks and light values used when updating light levels. Holds up to 32x32x32 blocks (the
 	 * maximum influence of a light source.) Every element is a packed bit value: 0000000000LLLLzzzzzzyyyyyyxxxxxx. The
@@ -143,6 +113,22 @@ public abstract class World implements IBlockAccess {
 	 * the original block, plus 32 (i.e. value of 31 would mean a -1 offset
 	 */
 	int[] lightUpdateBlockList;
+	private int seaLevel = 63;
+	private long cloudColour = 16777215L;
+	/**
+	 * How much light is subtracted from full daylight
+	 */
+	private int skylightSubtracted;
+	/**
+	 * Set to 2 whenever a lightning bolt is generated in SSP. Decrements if > 0 in updateWeather(). Value appears to be
+	 * unused.
+	 */
+	private int lastLightningBolt;
+	/**
+	 * number of ticks until the next random ambients play
+	 */
+	private int ambientTickCountdown;
+	private boolean processingLoadedTiles;
 
 	protected World(ISaveHandler saveHandlerIn, WorldInfo info, WorldProvider providerIn, Profiler profilerIn, boolean client) {
 		this.ambientTickCountdown = this.rand.nextInt(12000);
@@ -155,6 +141,15 @@ public abstract class World implements IBlockAccess {
 		this.provider = providerIn;
 		this.isClientSide = client;
 		this.worldBorder = providerIn.getWorldBorder();
+	}
+
+	public static boolean doesBlockHaveSolidTopSurface(IBlockAccess blockAccess, BlockPos pos) {
+		IBlockState iblockstate = blockAccess.getBlockState(pos);
+		Block block = iblockstate.getBlock();
+		return block.getMaterial().isOpaque() && block.isFullCube() || (block instanceof BlockStairs ? iblockstate.getValue(
+				BlockStairs.HALF) == BlockStairs.EnumHalf.TOP : block instanceof BlockSlab ? iblockstate.getValue(
+				BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP : block instanceof BlockHopper || block instanceof BlockSnow && iblockstate.getValue(
+				BlockSnow.LAYERS) == 7);
 	}
 
 	public World init() {
@@ -292,6 +287,7 @@ public abstract class World implements IBlockAccess {
 	 * Sets the block state at a given location. Flag 1 will cause a block update. Flag 2 will send the change to
 	 * clients (you almost always want this). Flag 4 prevents the block from being re-rendered, if this is a client
 	 * world. Flags can be added together.
+	 *
 	 * @param flags 1 = cause a block update, 2 = send changes to client, 4 = do not re-render if the world is clientSide
 	 */
 	public boolean setBlockState(BlockPos pos, IBlockState newState, int flags) {
@@ -1936,15 +1932,6 @@ public abstract class World implements IBlockAccess {
 		return axisalignedbb != null && axisalignedbb.getAverageEdgeLength() >= 1.0D;
 	}
 
-	public static boolean doesBlockHaveSolidTopSurface(IBlockAccess blockAccess, BlockPos pos) {
-		IBlockState iblockstate = blockAccess.getBlockState(pos);
-		Block block = iblockstate.getBlock();
-		return block.getMaterial().isOpaque() && block.isFullCube() || (block instanceof BlockStairs ? iblockstate.getValue(
-				BlockStairs.HALF) == BlockStairs.EnumHalf.TOP : block instanceof BlockSlab ? iblockstate.getValue(
-				BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP : block instanceof BlockHopper || block instanceof BlockSnow && iblockstate.getValue(
-				BlockSnow.LAYERS) == 7);
-	}
-
 	/**
 	 * Checks if a block's material is opaque, and that it takes up a full cube
 	 */
@@ -2592,12 +2579,12 @@ public abstract class World implements IBlockAccess {
 
 	public boolean isBlockPowered(BlockPos pos) {
 		return
-				this.getRedstonePower(pos.down(),  EnumFacing.DOWN ) > 0 ||
-				this.getRedstonePower(pos.up(),    EnumFacing.UP   ) > 0 ||
-				this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0 ||
-				this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 ||
-				this.getRedstonePower(pos.west(),  EnumFacing.WEST ) > 0 ||
-				this.getRedstonePower(pos.east(),  EnumFacing.EAST ) > 0;
+				this.getRedstonePower(pos.down(), EnumFacing.DOWN) > 0 ||
+						this.getRedstonePower(pos.up(), EnumFacing.UP) > 0 ||
+						this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0 ||
+						this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 ||
+						this.getRedstonePower(pos.west(), EnumFacing.WEST) > 0 ||
+						this.getRedstonePower(pos.east(), EnumFacing.EAST) > 0;
 	}
 
 	/**
@@ -2710,10 +2697,6 @@ public abstract class World implements IBlockAccess {
 		this.saveHandler.checkSessionLock();
 	}
 
-	public void setTotalWorldTime(long worldTime) {
-		this.worldInfo.setWorldTotalTime(worldTime);
-	}
-
 	/**
 	 * gets the random world seed
 	 */
@@ -2723,6 +2706,10 @@ public abstract class World implements IBlockAccess {
 
 	public long getTotalWorldTime() {
 		return this.worldInfo.getWorldTotalTime();
+	}
+
+	public void setTotalWorldTime(long worldTime) {
+		this.worldInfo.setWorldTotalTime(worldTime);
 	}
 
 	public long getWorldTime() {

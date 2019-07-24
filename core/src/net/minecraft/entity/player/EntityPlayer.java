@@ -55,11 +55,13 @@ import static net.minecraft.entity.EnumCreatureAttribute.UNDEFINED;
 public abstract class EntityPlayer extends EntityLivingBase {
 
 	/**
+	 * The player's unique game profile
+	 */
+	private final GameProfile gameProfile;
+	/**
 	 * Inventory of the player
 	 */
 	public InventoryPlayer inventory = new InventoryPlayer(this);
-	private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
-
 	/**
 	 * The Container for the player's inventory (which opens when they press E)
 	 */
@@ -69,20 +71,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * The Container the player has open.
 	 */
 	public Container openContainer;
-
-	/**
-	 * The food object of the player, the general hunger logic.
-	 */
-	protected FoodStats foodStats = new FoodStats();
-
-	/**
-	 * Used to tell if the player pressed jump twice. If this is at 0 and it's pressed (And they are allowed to fly, as
-	 * defined in the player's movementInput) it sets this to 7. If it's pressed and it's greater than 0 enable fly.
-	 */
-	protected int flyToggleTimer;
 	public float prevCameraYaw;
 	public float cameraYaw;
-
 	/**
 	 * Used by EntityPlayer to prevent too many xp orbs from getting absorbed at once.
 	 */
@@ -93,81 +83,74 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	public double chasingPosX;
 	public double chasingPosY;
 	public double chasingPosZ;
-
-	/**
-	 * Boolean value indicating weather a player is sleeping or not
-	 */
-	protected boolean sleeping;
-
 	/**
 	 * the current location of the player
 	 */
 	public BlockPos playerLocation;
-	private int sleepTimer;
 	public float renderOffsetX;
 	public float renderOffsetY;
 	public float renderOffsetZ;
-
-	/**
-	 * holds the spawn chunk of the player
-	 */
-	private BlockPos spawnChunk;
-
-	/**
-	 * Whether this player's spawn point is forced, preventing execution of bed checks.
-	 */
-	private boolean spawnForced;
-
 	/**
 	 * Holds the coordinate of the player when enter a minecraft to ride.
 	 */
 	public BlockPos startMinecartRidingCoordinate;
-
 	/**
 	 * The player's capabilities. (See class PlayerCapabilities)
 	 */
 	public PlayerCapabilities capabilities = new PlayerCapabilities();
-
 	/**
 	 * The current experience level the player is on.
 	 */
 	public int experienceLevel;
-
 	/**
 	 * The total amount of experience the player has. This also includes the amount of experience within their
 	 * Experience Bar.
 	 */
 	public int experienceTotal;
-
 	/**
 	 * The current amount of experience the player has within their Experience Bar.
 	 */
 	public float experience;
-	private int xpSeed;
-
-	/**
-	 * This is the item that is in use when the player is holding down the useItemButton (e.g., bow, food, sword)
-	 */
-	private ItemStack itemInUse;
-
 	/**
 	 * This field starts off equal to getMaxItemUseDuration and is decremented on each tick
 	 */
 	public volatile int itemInUseCount;
-	protected float speedOnGround = 0.1F;
-	protected float speedInAir = 0.02F;
-	private int lastXPSound;
-
-	/**
-	 * The player's unique game profile
-	 */
-	private final GameProfile gameProfile;
-	private boolean hasReducedDebug = false;
-
 	/**
 	 * An instance of a fishing rod's hook. If this isn't null, the icon image of the fishing rod is slightly different
 	 */
 	public EntityFishHook fishEntity;
+	/**
+	 * The food object of the player, the general hunger logic.
+	 */
+	protected FoodStats foodStats = new FoodStats();
+	/**
+	 * Used to tell if the player pressed jump twice. If this is at 0 and it's pressed (And they are allowed to fly, as
+	 * defined in the player's movementInput) it sets this to 7. If it's pressed and it's greater than 0 enable fly.
+	 */
+	protected int flyToggleTimer;
+	/**
+	 * Boolean value indicating weather a player is sleeping or not
+	 */
+	protected boolean sleeping;
+	protected float speedOnGround = 0.1F;
+	protected float speedInAir = 0.02F;
+	private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
+	private int sleepTimer;
+	/**
+	 * holds the spawn chunk of the player
+	 */
+	private BlockPos spawnChunk;
+	/**
+	 * Whether this player's spawn point is forced, preventing execution of bed checks.
+	 */
+	private boolean spawnForced;
+	private int xpSeed;
+	/**
+	 * This is the item that is in use when the player is holding down the useItemButton (e.g., bow, food, sword)
+	 */
+	private ItemStack itemInUse;
+	private int lastXPSound;
+	private boolean hasReducedDebug = false;
 
 	public EntityPlayer(World worldIn, GameProfile gameProfileIn) {
 		super(worldIn);
@@ -179,6 +162,44 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		this.setLocationAndAngles((double) blockpos.getX() + 0.5D, (double) (blockpos.getY() + 1), (double) blockpos.getZ() + 0.5D, 0.0F, 0.0F);
 		this.field_70741_aB = 180.0F;
 		this.fireResistance = 20;
+	}
+
+	/**
+	 * Return null if bed is invalid
+	 */
+	public static BlockPos getBedSpawnLocation(World worldIn, BlockPos bedLocation, boolean forceSpawn) {
+		Block block = worldIn.getBlockState(bedLocation).getBlock();
+
+		if (block != Blocks.bed) {
+			if (!forceSpawn) {
+				return null;
+			}
+			boolean flag = block.func_181623_g();
+			boolean flag1 = worldIn.getBlockState(bedLocation.up()).getBlock().func_181623_g();
+			return flag && flag1 ? bedLocation : null;
+		}
+		return BlockBed.getSafeExitLocation(worldIn, bedLocation, 0);
+	}
+
+	public static void print(boolean b) {
+		System.out.print(b ? "\u001b[31;1m- " : "\u001b[32;1m+ ");
+	}
+
+	/**
+	 * Gets a players UUID given their GameProfie
+	 */
+	public static UUID getUUID(GameProfile profile) {
+		UUID uuid = profile.getId();
+
+		if (uuid == null) {
+			uuid = getOfflineUUID(profile.getName());
+		}
+
+		return uuid;
+	}
+
+	public static UUID getOfflineUUID(String username) {
+		return UUID.nameUUIDFromBytes(("OfflinePlayer:" + username).getBytes(Charsets.UTF_8));
 	}
 
 	protected void applyEntityAttributes() {
@@ -986,7 +1007,6 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 	}
 
-
 	public abstract <T> void openGui(Class<T> type, T gui);
 
 	/**
@@ -1152,7 +1172,6 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		}
 
 
-
 		if (targetEntity instanceof EntityLivingBase) {
 			this.addStat(StatList.damageDealtStat, Math.round(basicDamage * 10.0F));
 
@@ -1218,7 +1237,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 				status = SleepStatus.NOT_POSSIBLE_HERE;
 			} else if (this.worldObj.isDaytime()) {
 				status = SleepStatus.NOT_POSSIBLE_NOW;
-			} else if (Math.abs(this.posX - (double) bedLocation.getX()) > 3.0D || Math.abs(this.posY - (double) bedLocation.getY()) > 2.0D || Math.abs(this.posZ - (double) bedLocation.getZ()) > 3.0D) {
+			} else if (Math.abs(this.posX - (double) bedLocation.getX()) > 3.0D || Math.abs(this.posY - (double) bedLocation.getY()) > 2.0D || Math.abs(
+					this.posZ - (double) bedLocation.getZ()) > 3.0D) {
 				status = SleepStatus.TOO_FAR_AWAY;
 			} else status = SleepStatus.OK;
 
@@ -1334,23 +1354,6 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	}
 
 	/**
-	 * Return null if bed is invalid
-	 */
-	public static BlockPos getBedSpawnLocation(World worldIn, BlockPos bedLocation, boolean forceSpawn) {
-		Block block = worldIn.getBlockState(bedLocation).getBlock();
-
-		if (block != Blocks.bed) {
-			if (!forceSpawn) {
-				return null;
-			}
-			boolean flag = block.func_181623_g();
-			boolean flag1 = worldIn.getBlockState(bedLocation.up()).getBlock().func_181623_g();
-			return flag && flag1 ? bedLocation : null;
-		}
-		return BlockBed.getSafeExitLocation(worldIn, bedLocation, 0);
-	}
-
-	/**
 	 * Returns the orientation of the bed in degrees.
 	 */
 	public float getBedOrientationInDegrees() {
@@ -1461,11 +1464,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			super.moveEntityWithHeading(strafe, forward);
 		}
 
-//		this.addMovementStat(this.posX - x, this.posY - y, this.posZ - z);
-	}
-
-	public static void print(boolean b) {
-		System.out.print(b ? "\u001b[31;1m- " : "\u001b[32;1m+ ");
+		//		this.addMovementStat(this.posX - x, this.posY - y, this.posZ - z);
 	}
 
 	/**
@@ -1818,33 +1817,16 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		return f;
 	}
 
+	public float getAbsorptionAmount() {
+		return this.getDataWatcher().getWatchableObjectFloat(17);
+	}
+
 	public void setAbsorptionAmount(float amount) {
 		if (amount < 0.0F) {
 			amount = 0.0F;
 		}
 
 		this.getDataWatcher().updateObject(17, amount);
-	}
-
-	public float getAbsorptionAmount() {
-		return this.getDataWatcher().getWatchableObjectFloat(17);
-	}
-
-	/**
-	 * Gets a players UUID given their GameProfie
-	 */
-	public static UUID getUUID(GameProfile profile) {
-		UUID uuid = profile.getId();
-
-		if (uuid == null) {
-			uuid = getOfflineUUID(profile.getName());
-		}
-
-		return uuid;
-	}
-
-	public static UUID getOfflineUUID(String username) {
-		return UUID.nameUUIDFromBytes(("OfflinePlayer:" + username).getBytes(Charsets.UTF_8));
 	}
 
 	/**
@@ -1912,12 +1894,27 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		this.hasReducedDebug = reducedDebug;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		return object instanceof EntityPlayer && ((EntityPlayer) object).getName().equals(getName());
+	}
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
 	public enum EnumChatVisibility {
 		FULL(0, "options.chat.visibility.full"),
 		SYSTEM(1, "options.chat.visibility.system"),
 		HIDDEN(2, "options.chat.visibility.hidden");
 
 		private static final EntityPlayer.EnumChatVisibility[] ID_LOOKUP = new EntityPlayer.EnumChatVisibility[values().length];
+		static {
+			for (EntityPlayer.EnumChatVisibility entityplayer$enumchatvisibility : values()) {
+				ID_LOOKUP[entityplayer$enumchatvisibility.chatVisibility] = entityplayer$enumchatvisibility;
+			}
+		}
 		private final int chatVisibility;
 		private final String resourceKey;
 
@@ -1926,47 +1923,33 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			this.resourceKey = resourceKey;
 		}
 
-		public int getChatVisibility() {
-			return this.chatVisibility;
-		}
-
 		public static EntityPlayer.EnumChatVisibility getEnumChatVisibility(int id) {
 			return ID_LOOKUP[id % ID_LOOKUP.length];
+		}
+
+		public int getChatVisibility() {
+			return this.chatVisibility;
 		}
 
 		public String getResourceKey() {
 			return this.resourceKey;
 		}
-
-		static {
-			for (EntityPlayer.EnumChatVisibility entityplayer$enumchatvisibility : values()) {
-				ID_LOOKUP[entityplayer$enumchatvisibility.chatVisibility] = entityplayer$enumchatvisibility;
-			}
-		}
-	}
-
-	@Override
-	public boolean equals(Object object){
-		return object instanceof EntityPlayer && ((EntityPlayer)object).getName().equals(getName());
-	}
-
-	@Override
-	public int hashCode(){
-		return getName().hashCode();
 	}
 
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class SleepStatus {
+
 		public static final SleepStatus
-				OK                = new SleepStatus(),
+				OK = new SleepStatus(),
 				NOT_POSSIBLE_HERE = new SleepStatus(),
-				NOT_POSSIBLE_NOW  = new SleepStatus(new ChatComponentTranslation("tile.bed.noSleep")),
-				TOO_FAR_AWAY      = new SleepStatus(),
-				OTHER_PROBLEM     = new SleepStatus();
+				NOT_POSSIBLE_NOW = new SleepStatus(new ChatComponentTranslation("tile.bed.noSleep")),
+				TOO_FAR_AWAY = new SleepStatus(),
+				OTHER_PROBLEM = new SleepStatus();
 
 		private IChatComponent message;
+
 	}
 
 }

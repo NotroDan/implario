@@ -1,49 +1,45 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 
-public class S09PacketHeldItemChange implements Packet<INetHandlerPlayClient>
-{
-    private int heldItemHotbarIndex;
+import java.io.IOException;
 
-    public S09PacketHeldItemChange()
-    {
-    }
+public class S09PacketHeldItemChange implements Packet<INetHandlerPlayClient> {
 
-    public S09PacketHeldItemChange(int hotbarIndexIn)
-    {
-        this.heldItemHotbarIndex = hotbarIndexIn;
-    }
+	private int heldItemHotbarIndex;
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
-    public void readPacketData(PacketBuffer buf) throws IOException
-    {
-        this.heldItemHotbarIndex = buf.readByte();
-    }
+	public S09PacketHeldItemChange() {
+	}
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
-    public void writePacketData(PacketBuffer buf) throws IOException
-    {
-        buf.writeByte(this.heldItemHotbarIndex);
-    }
+	public S09PacketHeldItemChange(int hotbarIndexIn) {
+		this.heldItemHotbarIndex = hotbarIndexIn;
+	}
 
-    /**
-     * Passes this Packet on to the NetHandler for processing.
-     */
-    public void processPacket(INetHandlerPlayClient handler)
-    {
-        handler.handleHeldItemChange(this);
-    }
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
+	public void readPacketData(PacketBuffer buf) throws IOException {
+		this.heldItemHotbarIndex = buf.readByte();
+	}
 
-    public int getHeldItemHotbarIndex()
-    {
-        return this.heldItemHotbarIndex;
-    }
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
+	public void writePacketData(PacketBuffer buf) throws IOException {
+		buf.writeByte(this.heldItemHotbarIndex);
+	}
+
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	public void processPacket(INetHandlerPlayClient handler) {
+		handler.handleHeldItemChange(this);
+	}
+
+	public int getHeldItemHotbarIndex() {
+		return this.heldItemHotbarIndex;
+	}
+
 }

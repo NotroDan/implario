@@ -1,8 +1,8 @@
 package vanilla.client.renderer.entity.layers;
 
-import vanilla.client.game.model.ModelZombieVillager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import vanilla.client.game.model.ModelZombieVillager;
 
 public class LayerVillagerArmor extends LayerBipedArmor {
 

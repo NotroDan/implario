@@ -10,6 +10,7 @@ import vanilla.Vanilla;
 import java.io.File;
 
 public class ServerStart {
+
 	public static void main(String[] args) {
 		Datapacks.load(new SimpleDatapackLoader(new Vanilla()), "LolKek");
 		Bootstrap.register();

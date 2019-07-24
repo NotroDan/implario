@@ -21,27 +21,24 @@ import java.util.List;
 
 public class EntityArrow extends Entity implements IProjectile {
 
+	/**
+	 * 1 if the player can pick up the arrow
+	 */
+	public int canBePickedUp;
+	/**
+	 * Seems to be some sort of timer for animating an arrow.
+	 */
+	public int arrowShake;
+	/**
+	 * The owner of this arrow.
+	 */
+	public Entity shootingEntity;
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
 	private Block inTile;
 	private int inData;
 	private boolean inGround;
-
-	/**
-	 * 1 if the player can pick up the arrow
-	 */
-	public int canBePickedUp;
-
-	/**
-	 * Seems to be some sort of timer for animating an arrow.
-	 */
-	public int arrowShake;
-
-	/**
-	 * The owner of this arrow.
-	 */
-	public Entity shootingEntity;
 	private int ticksInGround;
 	private int ticksInAir;
 	private double damage = 2.0D;
@@ -473,12 +470,12 @@ public class EntityArrow extends Entity implements IProjectile {
 		return false;
 	}
 
-	public void setDamage(double damageIn) {
-		this.damage = damageIn;
-	}
-
 	public double getDamage() {
 		return this.damage;
+	}
+
+	public void setDamage(double damageIn) {
+		this.damage = damageIn;
 	}
 
 	/**
@@ -502,6 +499,14 @@ public class EntityArrow extends Entity implements IProjectile {
 	/**
 	 * Whether the arrow has a stream of critical hit particles flying behind it.
 	 */
+	public boolean getIsCritical() {
+		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+		return (b0 & 1) != 0;
+	}
+
+	/**
+	 * Whether the arrow has a stream of critical hit particles flying behind it.
+	 */
 	public void setIsCritical(boolean critical) {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
@@ -510,14 +515,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		} else {
 			this.dataWatcher.updateObject(16, (byte) (b0 & -2));
 		}
-	}
-
-	/**
-	 * Whether the arrow has a stream of critical hit particles flying behind it.
-	 */
-	public boolean getIsCritical() {
-		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
-		return (b0 & 1) != 0;
 	}
 
 	@Override

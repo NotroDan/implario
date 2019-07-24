@@ -12,39 +12,21 @@ import java.util.List;
 
 public abstract class EntityFireball extends Entity {
 
+	public EntityLivingBase shootingEntity;
+	public double accelerationX;
+	public double accelerationY;
+	public double accelerationZ;
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
 	private Block inTile;
 	private boolean inGround;
-	public EntityLivingBase shootingEntity;
 	private int ticksAlive;
 	private int ticksInAir;
-	public double accelerationX;
-	public double accelerationY;
-	public double accelerationZ;
 
 	public EntityFireball(World worldIn) {
 		super(worldIn);
 		this.setSize(1.0F, 1.0F);
-	}
-
-	protected void entityInit() {
-	}
-
-	/**
-	 * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
-	 * length * 64 * renderDistanceWeight Args: distance
-	 */
-	public boolean isInRangeToRenderDist(double distance) {
-		double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
-
-		if (Double.isNaN(d0)) {
-			d0 = 4.0D;
-		}
-
-		d0 = d0 * 64.0D;
-		return distance < d0 * d0;
 	}
 
 	public EntityFireball(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
@@ -72,6 +54,24 @@ public abstract class EntityFireball extends Entity {
 		this.accelerationX = accelX / d0 * 0.1D;
 		this.accelerationY = accelY / d0 * 0.1D;
 		this.accelerationZ = accelZ / d0 * 0.1D;
+	}
+
+	protected void entityInit() {
+	}
+
+	/**
+	 * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
+	 * length * 64 * renderDistanceWeight Args: distance
+	 */
+	public boolean isInRangeToRenderDist(double distance) {
+		double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
+
+		if (Double.isNaN(d0)) {
+			d0 = 4.0D;
+		}
+
+		d0 = d0 * 64.0D;
+		return distance < d0 * d0;
 	}
 
 	/**

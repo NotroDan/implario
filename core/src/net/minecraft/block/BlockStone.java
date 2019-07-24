@@ -5,8 +5,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
@@ -106,6 +106,11 @@ public class BlockStone extends Block {
 			this.mapColor = mapColor;
 		}
 
+		public static BlockStone.EnumType byMetadata(int meta) {
+			if (meta < 0 || meta >= 7) meta = 0;
+			return values()[meta];
+		}
+
 		public int getMetadata() {
 			return this.meta;
 		}
@@ -116,11 +121,6 @@ public class BlockStone extends Block {
 
 		public String toString() {
 			return this.name;
-		}
-
-		public static BlockStone.EnumType byMetadata(int meta) {
-			if (meta < 0 || meta >= 7) meta = 0;
-			return values()[meta];
 		}
 
 		public String getName() {

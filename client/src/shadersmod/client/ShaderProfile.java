@@ -1,84 +1,67 @@
 package shadersmod.client;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class ShaderProfile
-{
-    private String name = null;
-    private Map<String, String> mapOptionValues = new HashMap();
-    private Set<String> disabledPrograms = new HashSet();
+public class ShaderProfile {
 
-    public ShaderProfile(String name)
-    {
-        this.name = name;
-    }
+	private String name = null;
+	private Map<String, String> mapOptionValues = new HashMap();
+	private Set<String> disabledPrograms = new HashSet();
 
-    public String getName()
-    {
-        return this.name;
-    }
+	public ShaderProfile(String name) {
+		this.name = name;
+	}
 
-    public void addOptionValue(String option, String value)
-    {
-        this.mapOptionValues.put(option, value);
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void addOptionValues(ShaderProfile prof)
-    {
-        if (prof != null)
-        {
-            this.mapOptionValues.putAll(prof.mapOptionValues);
-        }
-    }
+	public void addOptionValue(String option, String value) {
+		this.mapOptionValues.put(option, value);
+	}
 
-    public void applyOptionValues(ShaderOption[] options)
-    {
-        for (int i = 0; i < options.length; ++i)
-        {
-            ShaderOption shaderoption = options[i];
-            String s = shaderoption.getName();
-            String s1 = (String)this.mapOptionValues.get(s);
+	public void addOptionValues(ShaderProfile prof) {
+		if (prof != null) {
+			this.mapOptionValues.putAll(prof.mapOptionValues);
+		}
+	}
 
-            if (s1 != null)
-            {
-                shaderoption.setValue(s1);
-            }
-        }
-    }
+	public void applyOptionValues(ShaderOption[] options) {
+		for (int i = 0; i < options.length; ++i) {
+			ShaderOption shaderoption = options[i];
+			String s = shaderoption.getName();
+			String s1 = (String) this.mapOptionValues.get(s);
 
-    public String[] getOptions()
-    {
-        Set<String> set = this.mapOptionValues.keySet();
-        String[] astring = (String[]) (String[])set.toArray(new String[set.size()]);
-        return astring;
-    }
+			if (s1 != null) {
+				shaderoption.setValue(s1);
+			}
+		}
+	}
 
-    public String getValue(String key)
-    {
-        return (String)this.mapOptionValues.get(key);
-    }
+	public String[] getOptions() {
+		Set<String> set = this.mapOptionValues.keySet();
+		String[] astring = (String[]) (String[]) set.toArray(new String[set.size()]);
+		return astring;
+	}
 
-    public void addDisabledProgram(String program)
-    {
-        this.disabledPrograms.add(program);
-    }
+	public String getValue(String key) {
+		return (String) this.mapOptionValues.get(key);
+	}
 
-    public Collection<String> getDisabledPrograms()
-    {
-        return new HashSet(this.disabledPrograms);
-    }
+	public void addDisabledProgram(String program) {
+		this.disabledPrograms.add(program);
+	}
 
-    public void addDisabledPrograms(Collection<String> programs)
-    {
-        this.disabledPrograms.addAll(programs);
-    }
+	public Collection<String> getDisabledPrograms() {
+		return new HashSet(this.disabledPrograms);
+	}
 
-    public boolean isProgramDisabled(String program)
-    {
-        return this.disabledPrograms.contains(program);
-    }
+	public void addDisabledPrograms(Collection<String> programs) {
+		this.disabledPrograms.addAll(programs);
+	}
+
+	public boolean isProgramDisabled(String program) {
+		return this.disabledPrograms.contains(program);
+	}
+
 }

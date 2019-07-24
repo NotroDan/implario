@@ -1,54 +1,42 @@
 package net.minecraft.client.resources;
 
 import com.google.common.collect.Sets;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Set;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
-public class FolderResourcePack extends AbstractResourcePack
-{
-    public FolderResourcePack(File resourcePackFileIn)
-    {
-        super(resourcePackFileIn);
-    }
+import java.io.*;
+import java.util.Set;
 
-    protected InputStream getInputStreamByName(String name) throws IOException
-    {
-        return new BufferedInputStream(new FileInputStream(new File(this.resourcePackFile, name)));
-    }
+public class FolderResourcePack extends AbstractResourcePack {
 
-    protected boolean hasResourceName(String name)
-    {
-        return new File(this.resourcePackFile, name).isFile();
-    }
+	public FolderResourcePack(File resourcePackFileIn) {
+		super(resourcePackFileIn);
+	}
 
-    public Set<String> getResourceDomains()
-    {
-        Set<String> set = Sets.newHashSet();
-        File file1 = new File(this.resourcePackFile, "assets/");
+	protected InputStream getInputStreamByName(String name) throws IOException {
+		return new BufferedInputStream(new FileInputStream(new File(this.resourcePackFile, name)));
+	}
 
-        if (file1.isDirectory())
-        {
-            for (File file2 : file1.listFiles((FileFilter)DirectoryFileFilter.DIRECTORY))
-            {
-                String s = getRelativeName(file1, file2);
+	protected boolean hasResourceName(String name) {
+		return new File(this.resourcePackFile, name).isFile();
+	}
 
-                if (!s.equals(s.toLowerCase()))
-                {
-                    this.logNameNotLowercase(s);
-                }
-                else
-                {
-                    set.add(s.substring(0, s.length() - 1));
-                }
-            }
-        }
+	public Set<String> getResourceDomains() {
+		Set<String> set = Sets.newHashSet();
+		File file1 = new File(this.resourcePackFile, "assets/");
 
-        return set;
-    }
+		if (file1.isDirectory()) {
+			for (File file2 : file1.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY)) {
+				String s = getRelativeName(file1, file2);
+
+				if (!s.equals(s.toLowerCase())) {
+					this.logNameNotLowercase(s);
+				} else {
+					set.add(s.substring(0, s.length() - 1));
+				}
+			}
+		}
+
+		return set;
+	}
+
 }

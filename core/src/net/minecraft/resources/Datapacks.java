@@ -25,20 +25,20 @@ public class Datapacks {
 	@Getter
 	private final List<Datapack> datapacks = new ArrayList<>();
 
-	public Datapack load(DatapackLoader loader){
+	public Datapack load(DatapackLoader loader) {
 		return load(loader, null);
 	}
 
-	public Datapack load(DatapackLoader loader, String name){
+	public Datapack load(DatapackLoader loader, String name) {
 		loaders.add(loader);
 
 		Datapack datapack;
 
-		try{
+		try {
 			loader.init();
 			datapack = loader.load(name == null ?
 					new String(loader.read("datapack.resource"), StandardCharsets.UTF_8) : name);
-		}catch (DatapackLoadException ex){
+		} catch (DatapackLoadException ex) {
 			throw new RuntimeException(ex.getMessage(), ex);
 		}
 
@@ -83,4 +83,5 @@ public class Datapacks {
 		datapack.disable();
 		loader.close();
 	}
+
 }

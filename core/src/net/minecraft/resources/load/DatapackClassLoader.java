@@ -33,7 +33,7 @@ public class DatapackClassLoader extends ClassLoader {
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		try {
-		    String name2 = name.replace('.', '/') + ".class";
+			String name2 = name.replace('.', '/') + ".class";
 			byte entry[] = datapack.get(name2);
 			if (entry == null) throw new IOException();
 			datapack.remove(name2);
@@ -46,10 +46,11 @@ public class DatapackClassLoader extends ClassLoader {
 	@Override
 	public InputStream getResourceAsStream(String name) {
 		byte array[] = datapack.get(name);
-		return array == null ? null : new ByteArrayInputStream(array, 0 , array.length - 1);
+		return array == null ? null : new ByteArrayInputStream(array, 0, array.length - 1);
 	}
 
-	public void close(){
+	public void close() {
 		datapack.clear();
 	}
+
 }

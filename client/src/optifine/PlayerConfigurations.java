@@ -1,36 +1,32 @@
 package optifine;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.client.game.entity.AbstractClientPlayer;
 import net.minecraft.client.game.model.ModelBiped;
 
-public class PlayerConfigurations
-{
-    private static Map mapConfigurations = null;
+import java.util.HashMap;
+import java.util.Map;
 
-    public static void renderPlayerItems(ModelBiped p_renderPlayerItems_0_, AbstractClientPlayer p_renderPlayerItems_1_, float p_renderPlayerItems_2_, float p_renderPlayerItems_3_)
-    {
-        PlayerConfiguration playerconfiguration = getPlayerConfiguration(p_renderPlayerItems_1_);
+public class PlayerConfigurations {
 
-        if (playerconfiguration != null)
-        {
-            playerconfiguration.renderPlayerItems(p_renderPlayerItems_0_, p_renderPlayerItems_1_, p_renderPlayerItems_2_, p_renderPlayerItems_3_);
-        }
-    }
+	private static Map mapConfigurations = null;
 
-    public static synchronized PlayerConfiguration getPlayerConfiguration(AbstractClientPlayer p_getPlayerConfiguration_0_)
-    {
-        String s = p_getPlayerConfiguration_0_.getNameClear();
+	public static void renderPlayerItems(ModelBiped p_renderPlayerItems_0_, AbstractClientPlayer p_renderPlayerItems_1_, float p_renderPlayerItems_2_, float p_renderPlayerItems_3_) {
+		PlayerConfiguration playerconfiguration = getPlayerConfiguration(p_renderPlayerItems_1_);
 
-        if (s == null)
-        {
-            return null;
-        }
-		PlayerConfiguration playerconfiguration = (PlayerConfiguration)getMapConfigurations().get(s);
+		if (playerconfiguration != null) {
+			playerconfiguration.renderPlayerItems(p_renderPlayerItems_0_, p_renderPlayerItems_1_, p_renderPlayerItems_2_, p_renderPlayerItems_3_);
+		}
+	}
 
-		if (playerconfiguration == null)
-		{
+	public static synchronized PlayerConfiguration getPlayerConfiguration(AbstractClientPlayer p_getPlayerConfiguration_0_) {
+		String s = p_getPlayerConfiguration_0_.getNameClear();
+
+		if (s == null) {
+			return null;
+		}
+		PlayerConfiguration playerconfiguration = (PlayerConfiguration) getMapConfigurations().get(s);
+
+		if (playerconfiguration == null) {
 			playerconfiguration = new PlayerConfiguration();
 			getMapConfigurations().put(s, playerconfiguration);
 			PlayerConfigurationReceiver playerconfigurationreceiver = new PlayerConfigurationReceiver(s);
@@ -42,18 +38,16 @@ public class PlayerConfigurations
 		return playerconfiguration;
 	}
 
-    public static synchronized void setPlayerConfiguration(String p_setPlayerConfiguration_0_, PlayerConfiguration p_setPlayerConfiguration_1_)
-    {
-        getMapConfigurations().put(p_setPlayerConfiguration_0_, p_setPlayerConfiguration_1_);
-    }
+	public static synchronized void setPlayerConfiguration(String p_setPlayerConfiguration_0_, PlayerConfiguration p_setPlayerConfiguration_1_) {
+		getMapConfigurations().put(p_setPlayerConfiguration_0_, p_setPlayerConfiguration_1_);
+	}
 
-    private static Map getMapConfigurations()
-    {
-        if (mapConfigurations == null)
-        {
-            mapConfigurations = new HashMap();
-        }
+	private static Map getMapConfigurations() {
+		if (mapConfigurations == null) {
+			mapConfigurations = new HashMap();
+		}
 
-        return mapConfigurations;
-    }
+		return mapConfigurations;
+	}
+
 }

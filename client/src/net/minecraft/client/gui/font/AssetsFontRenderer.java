@@ -33,43 +33,39 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 			"\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c" +
 			"\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0" +
 			"\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000";
-
-	// Массив с ширинами всех символов из default.png
-	private float[] charWidth = new float[256];
-
+	private final TextureManager renderEngine;
 	// RNG для обфусцированного текста
 	public Random fontRandom = new Random();
-
+	public ResourceLocation locationFontTextureBase;
+	public boolean enabled = true;
+	public float offsetBold = 1.0F;
+	// Массив с ширинами всех символов из default.png
+	private float[] charWidth = new float[256];
 	// Массив с ширинами всех глифов в папке /font
 	private byte[] glyphWidth = new byte[65536];
-
 	private ResourceLocation locationFontTexture;
-	public ResourceLocation locationFontTextureBase;
-	private final TextureManager renderEngine;
-
 	// Текущие координаты, на которых будет нарисован следующий символ
 	private float posX;
 	private float posY;
-
 	// Использовать шрифты Unicode вместо default.png
 	private boolean unicodeFlag;
-
 	// Текущие цвета
 	private float red;
 	private float blue;
 	private float green;
 	private float alpha;
 	private int textColor;
-
 	// Активные стили
 	private boolean randomStyle;
 	private boolean boldStyle;
 	private boolean italicStyle;
 	private boolean underlineStyle;
 	private boolean strikethroughStyle;
+	/**
+	 * Load one of the /font/glyph_XX.png into a new GL texture and store the texture ID in glyphTextureName array.
+	 */
 
-	public boolean enabled = true;
-	public float offsetBold = 1.0F;
+	private int cachedPage = -213123;
 
 	public AssetsFontRenderer(ResourceLocation location, TextureManager textureManagerIn, boolean unicode) {
 		this.locationFontTextureBase = location;
@@ -81,6 +77,40 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 
 		this.readGlyphSizes();
+	}
+
+	/**
+	 * Checks if the char code is a hexadecimal character, used to set colour.
+	 */
+	private static boolean isFormatColor(char colorChar) {
+		return colorChar >= 48 && colorChar <= 57 || colorChar >= 97 && colorChar <= 102 || colorChar >= 65 && colorChar <= 70;
+	}
+
+	/**
+	 * Checks if the char code is O-K...lLrRk-o... used to set special formatting.
+	 */
+	private static boolean isFormatSpecial(char formatChar) {
+		return formatChar >= 107 && formatChar <= 111 || formatChar >= 75 && formatChar <= 79 || formatChar == 114 || formatChar == 82;
+	}
+
+	/**
+	 * Digests a string for nonprinting formatting characters then returns a string containing only that formatting.
+	 */
+	public static String getFormatFromString(String text) {
+		StringBuilder s = new StringBuilder();
+		int i = -1;
+		int j = text.length();
+
+		while ((i = text.indexOf(167, i + 1)) != -1) {
+			if (i < j - 1) {
+				char c0 = text.charAt(i + 1);
+
+				if (isFormatColor(c0)) s = new StringBuilder("\u00a7").append(c0);
+				else if (isFormatSpecial(c0)) s.append("\u00a7").append(c0);
+			}
+		}
+
+		return s.toString();
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {
@@ -169,7 +199,6 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		}
 	}
 
-
 	public float renderChar(char c, boolean bold, boolean italic) {
 		if (c == 32) return this.unicodeFlag ? 4.0F : this.charWidth[c];
 
@@ -225,14 +254,8 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		return unicodePageLocations[number];
 	}
 
-	/**
-	 * Load one of the /font/glyph_XX.png into a new GL texture and store the texture ID in glyphTextureName array.
-	 */
-
-	private int cachedPage = -213123;
-
 	private void loadGlyphTexture(int page) {
-		if(page == cachedPage)return;
+		if (page == cachedPage) return;
 		ResourceLocation unicodePageLocation = this.getUnicodePageLocation(page);
 		this.bindTexture(unicodePageLocation);
 		cachedPage = page;
@@ -252,7 +275,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		float tx = (float) (c % 16 * 16) + rightOffset;
 		float ty = (float) (c & 0xf0);
 		float tw = width - rightOffset;
-//		System.out.print(c + "-" + tx + "x" + ty + "  ");
+		//		System.out.print(c + "-" + tx + "x" + ty + "  ");
 
 		// Сдвиг верхней границы текста вправо, а нижней влево для создания эффекта курсива
 		float italicness = italic ? 1.0F : 0.0F;
@@ -260,7 +283,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		float oneYCached = this.posY, twoYCached = oneYCached + 8;
 		float txCached = tx / 256, oneTwCached = posX + tw / 2;
 		float tyCached = ty / 256, txTwCache = (tx + tw) / 256;
-		float tyCache =(ty + 16) / 256;
+		float tyCache = (ty + 16) / 256;
 		GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
 
 		GL11.glTexCoord2f(txCached, tyCached);
@@ -385,25 +408,24 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 			if (dropShadow) offset(offsetBold);
 
 
-
 			G.translate(posX, posY, 0);
-			if (strikethroughStyle)	net.minecraft.client.gui.font.FontUtils.strike(charWidth, 9);
+			if (strikethroughStyle) net.minecraft.client.gui.font.FontUtils.strike(charWidth, 9);
 			if (underlineStyle) net.minecraft.client.gui.font.FontUtils.underline(charWidth, 9, 0);
 			G.translate(-posX, -posY, 0);
 
-//			if (this.underlineStyle) {
-//				Tessellator tessellator1 = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
-//				WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
-//				G.disableTexture2D();
-//				worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
-//				int l = this.underlineStyle ? -1 : 0;
-//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
-//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
-//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
-//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
-//				tessellator1.draw();
-//				G.enableTexture2D();
-//			}
+			//			if (this.underlineStyle) {
+			//				Tessellator tessellator1 = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
+			//				WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
+			//				G.disableTexture2D();
+			//				worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
+			//				int l = this.underlineStyle ? -1 : 0;
+			//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
+			//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
+			//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
+			//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
+			//				tessellator1.draw();
+			//				G.enableTexture2D();
+			//			}
 
 			this.posX += charWidth;
 		}
@@ -440,9 +462,6 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		this.renderStringAtPos(text, dropShadow);
 		return (int) this.posX;
 	}
-
-
-
 
 	/**
 	 * Returns the width of this string. Equivalent of FontMetrics.stringWidth(String s).
@@ -505,7 +524,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 			int i = allChars.indexOf(c);
 
-//			if (c > 0 && i != -1 && !this.unicodeFlag) return this.charWidth[i];
+			//			if (c > 0 && i != -1 && !this.unicodeFlag) return this.charWidth[i];
 
 			if (this.glyphWidth[c] != 0) {
 				o = this.glyphWidth[c] >>> 4;
@@ -601,19 +620,19 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 	}
 
 	/**
-	 * Set unicodeFlag controlling whether strings should be rendered with Unicode fonts instead of the default.png
-	 * font.
-	 */
-	public void setUnicodeFlag(boolean unicodeFlagIn) {
-		this.unicodeFlag = unicodeFlagIn;
-	}
-
-	/**
 	 * Get unicodeFlag controlling whether strings should be rendered with Unicode fonts instead of the default.png
 	 * font.
 	 */
 	public boolean getUnicodeFlag() {
 		return false;
+	}
+
+	/**
+	 * Set unicodeFlag controlling whether strings should be rendered with Unicode fonts instead of the default.png
+	 * font.
+	 */
+	public void setUnicodeFlag(boolean unicodeFlagIn) {
+		this.unicodeFlag = unicodeFlagIn;
 	}
 
 	/**
@@ -695,40 +714,6 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		}
 
 		return j != i && k != -1 && k < j ? k : j;
-	}
-
-	/**
-	 * Checks if the char code is a hexadecimal character, used to set colour.
-	 */
-	private static boolean isFormatColor(char colorChar) {
-		return colorChar >= 48 && colorChar <= 57 || colorChar >= 97 && colorChar <= 102 || colorChar >= 65 && colorChar <= 70;
-	}
-
-	/**
-	 * Checks if the char code is O-K...lLrRk-o... used to set special formatting.
-	 */
-	private static boolean isFormatSpecial(char formatChar) {
-		return formatChar >= 107 && formatChar <= 111 || formatChar >= 75 && formatChar <= 79 || formatChar == 114 || formatChar == 82;
-	}
-
-	/**
-	 * Digests a string for nonprinting formatting characters then returns a string containing only that formatting.
-	 */
-	public static String getFormatFromString(String text) {
-		StringBuilder s = new StringBuilder();
-		int i = -1;
-		int j = text.length();
-
-		while ((i = text.indexOf(167, i + 1)) != -1) {
-			if (i < j - 1) {
-				char c0 = text.charAt(i + 1);
-
-				if (isFormatColor(c0)) s = new StringBuilder("\u00a7").append(c0);
-				else if (isFormatSpecial(c0)) s.append("\u00a7").append(c0);
-			}
-		}
-
-		return s.toString();
 	}
 
 	protected void setColor(float r, float b, float g, float a) {

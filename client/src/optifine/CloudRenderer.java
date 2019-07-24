@@ -1,19 +1,19 @@
 package optifine;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.G;
+import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 
 public class CloudRenderer {
 
+	int cloudTickCounter;
+	float partialTicks;
 	private Minecraft mc;
 	private boolean updated = false;
 	private boolean renderFancy = false;
-	int cloudTickCounter;
-	float partialTicks;
 	private int glListClouds;
 	private int cloudTickCounterUpdate = 0;
 	private double cloudPlayerX = 0.0D;

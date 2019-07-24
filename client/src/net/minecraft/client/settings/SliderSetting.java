@@ -4,12 +4,12 @@ import static net.minecraft.util.MathHelper.clamp_float;
 
 public class SliderSetting extends Setting {
 
-	private final float min;
-	private float max;
-	private final float defaultValue;
 	public final float step;
-	public float value;
+	private final float min;
+	private final float defaultValue;
 	private final boolean percents, whole;
+	public float value;
+	private float max;
 
 	public SliderSetting(String name, String caption, float min, float max, float defaultValue, float step) {
 		super(name, caption);
@@ -23,6 +23,11 @@ public class SliderSetting extends Setting {
 	}
 
 	public float getMax() {return max;}
+
+	public void setMax(float v) {
+		this.max = v;
+	}
+
 	public float getMin() {return min;}
 
 	@Override
@@ -50,7 +55,6 @@ public class SliderSetting extends Setting {
 		value = defaultValue;
 	}
 
-
 	public float normalizeValue(float value) {
 		return clamp_float((this.snapToStepClamp(value) - min) / (max - min), 0.0F, 1.0F);
 	}
@@ -67,11 +71,6 @@ public class SliderSetting extends Setting {
 	protected float snapToStep(float value) {
 		if (step > 0.0F) value = step * (float) Math.round(value / step);
 		return value;
-	}
-
-
-	public void setMax(float v) {
-		this.max = v;
 	}
 
 	public String getCaption() {

@@ -13,12 +13,6 @@ public class FontUtils {
 
 	// Массив со значениями цветовых кодов от 0 до f, а также теней этих кодов
 	static int[] colorCodes = new int[32];
-
-	public static int getColorCode(char c) {
-		int code = "0123456789abcdef".indexOf(c);
-		return code < 0 ? 0xffffff : Config.isCustomColors() ? CustomColors.getTextColor(code, colorCodes[code]) : colorCodes[code];
-	}
-
 	static {
 
 		for (int i = 0; i < 32; ++i) {
@@ -39,6 +33,11 @@ public class FontUtils {
 		}
 	}
 
+	public static int getColorCode(char c) {
+		int code = "0123456789abcdef".indexOf(c);
+		return code < 0 ? 0xffffff : Config.isCustomColors() ? CustomColors.getTextColor(code, colorCodes[code]) : colorCodes[code];
+	}
+
 	public static void underline(float charWidth, float charHeight, float factor) {
 		rect(factor - 1, charWidth + factor, charHeight - 1, charHeight);
 	}
@@ -53,10 +52,10 @@ public class FontUtils {
 		WorldRenderer r = t.getWorldRenderer();
 		G.disableTexture2D();
 		r.begin(7, DefaultVertexFormats.POSITION);
-		r.pos(x1, y1,0.0D).endVertex();
-		r.pos(x1, y2,0.0D).endVertex();
-		r.pos(x2, y2,0.0D).endVertex();
-		r.pos(x2, y1,0.0D).endVertex();
+		r.pos(x1, y1, 0.0D).endVertex();
+		r.pos(x1, y2, 0.0D).endVertex();
+		r.pos(x2, y2, 0.0D).endVertex();
+		r.pos(x2, y1, 0.0D).endVertex();
 		t.draw();
 		G.enableTexture2D();
 	}

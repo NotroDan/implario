@@ -38,15 +38,14 @@ public class VanillaWorldServer extends WorldServer {
 			new WeightedRandomChestContent(Items.wooden_axe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.stone_pickaxe, 0, 1, 1, 3),
 			new WeightedRandomChestContent(Items.wooden_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.apple, 0, 2, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 2, 3, 3),
 			new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log2), 0, 1, 3, 10));
-
-
+	public VillageCollection villageCollection;
+	public VillageSiege villageSiege;
 	/**
 	 * is false if there are no players
 	 */
 	private boolean allPlayersSleeping;
-	public VillageCollection villageCollection;
-	public VillageSiege villageSiege;
 	private SpawnerAnimals spawnerAnimals = new SpawnerAnimals();
+	private boolean isBasedOnNonVanilla, checkedBase;
 
 	public VanillaWorldServer(MinecraftServer server, ISaveHandler saver, WorldInfo info, int dim, Profiler profiler) {
 		super(server, saver, info, dim, profiler);
@@ -108,8 +107,6 @@ public class VanillaWorldServer extends WorldServer {
 		this.theProfiler.endSection();
 
 
-
-
 	}
 
 	public SpawnListEntry getSpawnListEntryForTypeAt(EnumCreatureType creatureType, BlockPos pos) {
@@ -118,7 +115,6 @@ public class VanillaWorldServer extends WorldServer {
 		return list != null && !list.isEmpty() ? WeightedRandom.getRandomItem(this.rand, list) : null;
 	}
 
-	private boolean isBasedOnNonVanilla, checkedBase;
 	private boolean isBasedOnNonVanilla() {
 		if (checkedBase) return isBasedOnNonVanilla;
 		checkedBase = true;
@@ -167,14 +163,13 @@ public class VanillaWorldServer extends WorldServer {
 	}
 
 
-
 	private void resetRainAndThunder() {
 		this.worldInfo.setRainTime(0);
 		this.worldInfo.setRaining(false);
 		this.worldInfo.setThunderTime(0);
 		this.worldInfo.setThundering(false);
 	}
-	
+
 	@Override
 	public boolean areAllPlayersAsleep() {
 		if (this.allPlayersSleeping && !this.isClientSide) {

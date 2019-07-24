@@ -16,8 +16,8 @@ import java.util.List;
 
 public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 
-	private S38PacketPlayerListItem.Action action;
 	private final List<S38PacketPlayerListItem.AddPlayerData> players = new ArrayList<>();
+	private S38PacketPlayerListItem.Action action;
 
 	public S38PacketPlayerListItem() {
 	}

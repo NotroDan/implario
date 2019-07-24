@@ -7,14 +7,13 @@ import optifine.Config;
 
 public class BakedQuad {
 
+	protected final int tintIndex;
+	protected final EnumFacing face;
 	/**
 	 * Joined 4 vertex records, each has 7 fields (x, y, z, shadeColor, u, v, <unused>), see
 	 * FaceBakery.storeVertexData()
 	 */
 	protected int[] vertexData;
-	protected final int tintIndex;
-	protected final EnumFacing face;
-
 	private TextureAtlasSprite sprite = null;
 	private int[] vertexDataSingle = null;
 
@@ -27,48 +26,11 @@ public class BakedQuad {
 		int i = 0b111111100000000000000000000000;
 	}
 
-	public TextureAtlasSprite getSprite() {
-		if (this.sprite == null) {
-			this.sprite = getSpriteByUv(this.getVertexData());
-		}
-
-		return this.sprite;
-	}
-
-	public String toString() {
-		return "vertex: " + this.vertexData.length / 7 + ", tint: " + this.tintIndex + ", facing: " + this.face + ", sprite: " + this.sprite;
-	}
-
 	public BakedQuad(int[] vertexDataIn, int tintIndexIn, EnumFacing faceIn) {
 		this.vertexData = vertexDataIn;
 		this.tintIndex = tintIndexIn;
 		this.face = faceIn;
 		this.fixVertexData();
-	}
-
-	public int[] getVertexData() {
-		this.fixVertexData();
-		return this.vertexData;
-	}
-
-	public boolean hasTintIndex() {
-		return this.tintIndex != -1;
-	}
-
-	public int getTintIndex() {
-		return this.tintIndex;
-	}
-
-	public EnumFacing getFace() {
-		return this.face;
-	}
-
-	public int[] getVertexDataSingle() {
-		if (this.vertexDataSingle == null) {
-			this.vertexDataSingle = makeVertexDataSingle(this.getVertexData(), this.getSprite());
-		}
-
-		return this.vertexDataSingle;
 	}
 
 	private static int[] makeVertexDataSingle(int[] p_makeVertexDataSingle_0_, TextureAtlasSprite p_makeVertexDataSingle_1_) {
@@ -112,16 +74,6 @@ public class BakedQuad {
 		return Minecraft.getMinecraft().getTextureMapBlocks().getIconByUV((double) f6, (double) f7);
 	}
 
-	private void fixVertexData() {
-		if (Config.isShaders()) {
-			if (this.vertexData.length == 28) {
-				this.vertexData = expandVertexData(this.vertexData);
-			}
-		} else if (this.vertexData.length == 56) {
-			this.vertexData = compactVertexData(this.vertexData);
-		}
-	}
-
 	private static int[] expandVertexData(int[] p_expandVertexData_0_) {
 		int i = p_expandVertexData_0_.length / 4;
 		int j = i * 2;
@@ -144,6 +96,53 @@ public class BakedQuad {
 		}
 
 		return aint;
+	}
+
+	public TextureAtlasSprite getSprite() {
+		if (this.sprite == null) {
+			this.sprite = getSpriteByUv(this.getVertexData());
+		}
+
+		return this.sprite;
+	}
+
+	public String toString() {
+		return "vertex: " + this.vertexData.length / 7 + ", tint: " + this.tintIndex + ", facing: " + this.face + ", sprite: " + this.sprite;
+	}
+
+	public int[] getVertexData() {
+		this.fixVertexData();
+		return this.vertexData;
+	}
+
+	public boolean hasTintIndex() {
+		return this.tintIndex != -1;
+	}
+
+	public int getTintIndex() {
+		return this.tintIndex;
+	}
+
+	public EnumFacing getFace() {
+		return this.face;
+	}
+
+	public int[] getVertexDataSingle() {
+		if (this.vertexDataSingle == null) {
+			this.vertexDataSingle = makeVertexDataSingle(this.getVertexData(), this.getSprite());
+		}
+
+		return this.vertexDataSingle;
+	}
+
+	private void fixVertexData() {
+		if (Config.isShaders()) {
+			if (this.vertexData.length == 28) {
+				this.vertexData = expandVertexData(this.vertexData);
+			}
+		} else if (this.vertexData.length == 56) {
+			this.vertexData = compactVertexData(this.vertexData);
+		}
 	}
 
 }

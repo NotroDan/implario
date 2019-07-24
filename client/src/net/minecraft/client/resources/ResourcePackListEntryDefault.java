@@ -1,95 +1,80 @@
 package net.minecraft.client.resources;
 
 import com.google.gson.JsonParseException;
+import net.minecraft.Logger;
 import net.minecraft.client.gui.GuiScreenResourcePacks;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.PackMetadataSection;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.Logger;
 
 import java.io.IOException;
 
-public class ResourcePackListEntryDefault extends ResourcePackListEntry
-{
-    private static final Logger logger = Logger.getInstance();
-    private final IResourcePack field_148320_d;
-    private final ResourceLocation resourcePackIcon;
+public class ResourcePackListEntryDefault extends ResourcePackListEntry {
 
-    public ResourcePackListEntryDefault(GuiScreenResourcePacks resourcePacksGUIIn)
-    {
-        super(resourcePacksGUIIn);
-        this.field_148320_d = this.mc.getResourcePackRepository().rprDefaultResourcePack;
-        DynamicTexture dynamictexture;
+	private static final Logger logger = Logger.getInstance();
+	private final IResourcePack field_148320_d;
+	private final ResourceLocation resourcePackIcon;
 
-        try
-        {
-            dynamictexture = new DynamicTexture(this.field_148320_d.getPackImage());
-        }
-        catch (IOException | NullPointerException var4)
-        {
-            dynamictexture = TextureUtil.missingTexture;
-        }
+	public ResourcePackListEntryDefault(GuiScreenResourcePacks resourcePacksGUIIn) {
+		super(resourcePacksGUIIn);
+		this.field_148320_d = this.mc.getResourcePackRepository().rprDefaultResourcePack;
+		DynamicTexture dynamictexture;
 
-        this.resourcePackIcon = this.mc.getTextureManager().getDynamicTextureLocation("texturepackicon", dynamictexture);
-    }
+		try {
+			dynamictexture = new DynamicTexture(this.field_148320_d.getPackImage());
+		} catch (IOException | NullPointerException var4) {
+			dynamictexture = TextureUtil.missingTexture;
+		}
 
-    protected int func_183019_a()
-    {
-        return 1;
-    }
+		this.resourcePackIcon = this.mc.getTextureManager().getDynamicTextureLocation("texturepackicon", dynamictexture);
+	}
 
-    protected String func_148311_a()
-    {
-        try
-        {
-            PackMetadataSection packmetadatasection = this.field_148320_d.getPackMetadata(this.mc.getResourcePackRepository().rprMetadataSerializer, "pack");
+	protected int func_183019_a() {
+		return 1;
+	}
 
-            if (packmetadatasection != null)
-            {
-                return packmetadatasection.getPackDescription().getFormattedText();
-            }
-        }
-        catch (JsonParseException | IOException ex) {
-            logger.error("Couldn\'t load metadata info", ex);
-        }
+	protected String func_148311_a() {
+		try {
+			PackMetadataSection packmetadatasection = this.field_148320_d.getPackMetadata(this.mc.getResourcePackRepository().rprMetadataSerializer, "pack");
 
-        return EnumChatFormatting.RED + "pack.mcmeta" + " не найден :c";
-    }
+			if (packmetadatasection != null) {
+				return packmetadatasection.getPackDescription().getFormattedText();
+			}
+		} catch (JsonParseException | IOException ex) {
+			logger.error("Couldn\'t load metadata info", ex);
+		}
 
-    protected boolean func_148309_e()
-    {
-        return false;
-    }
+		return EnumChatFormatting.RED + "pack.mcmeta" + " не найден :c";
+	}
 
-    protected boolean func_148308_f()
-    {
-        return false;
-    }
+	protected boolean func_148309_e() {
+		return false;
+	}
 
-    protected boolean func_148314_g()
-    {
-        return false;
-    }
+	protected boolean func_148308_f() {
+		return false;
+	}
 
-    protected boolean func_148307_h()
-    {
-        return false;
-    }
+	protected boolean func_148314_g() {
+		return false;
+	}
 
-    protected String func_148312_b()
-    {
-        return "Стандартный";
-    }
+	protected boolean func_148307_h() {
+		return false;
+	}
 
-    protected void func_148313_c()
-    {
-        this.mc.getTextureManager().bindTexture(this.resourcePackIcon);
-    }
+	protected String func_148312_b() {
+		return "Стандартный";
+	}
 
-    protected boolean func_148310_d()
-    {
-        return false;
-    }
+	protected void func_148313_c() {
+		this.mc.getTextureManager().bindTexture(this.resourcePackIcon);
+	}
+
+	protected boolean func_148310_d() {
+		return false;
+	}
+
 }

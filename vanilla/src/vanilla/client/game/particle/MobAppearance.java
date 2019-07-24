@@ -9,9 +9,9 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import vanilla.entity.monster.EntityGuardian;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import vanilla.entity.monster.EntityGuardian;
 
 public class MobAppearance extends EntityFX {
 

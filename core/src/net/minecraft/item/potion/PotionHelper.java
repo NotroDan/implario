@@ -1,6 +1,5 @@
 package net.minecraft.item.potion;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.util.IntegerCache;
 
@@ -39,7 +38,30 @@ public class PotionHelper {
 			"potion.prefix.refined", "potion.prefix.cordial", "potion.prefix.sparkling", "potion.prefix.potent", "potion.prefix.foul", "potion.prefix.odorless", "potion.prefix.rank",
 			"potion.prefix.harsh", "potion.prefix.acrid", "potion.prefix.gross", "potion.prefix.stinky"
 	};
-
+	static {
+		potionRequirements.put(Potion.regeneration.getId(), "0 & !1 & !2 & !3 & 0+6");
+		potionRequirements.put(Potion.moveSpeed.getId(), "!0 & 1 & !2 & !3 & 1+6");
+		potionRequirements.put(Potion.fireResistance.getId(), "0 & 1 & !2 & !3 & 0+6");
+		potionRequirements.put(Potion.heal.getId(), "0 & !1 & 2 & !3");
+		potionRequirements.put(Potion.poison.getId(), "!0 & !1 & 2 & !3 & 2+6");
+		potionRequirements.put(Potion.weakness.getId(), "!0 & !1 & !2 & 3 & 3+6");
+		potionRequirements.put(Potion.harm.getId(), "!0 & !1 & 2 & 3");
+		potionRequirements.put(Potion.moveSlowdown.getId(), "!0 & 1 & !2 & 3 & 3+6");
+		potionRequirements.put(Potion.damageBoost.getId(), "0 & !1 & !2 & 3 & 3+6");
+		potionRequirements.put(Potion.nightVision.getId(), "!0 & 1 & 2 & !3 & 2+6");
+		potionRequirements.put(Potion.invisibility.getId(), "!0 & 1 & 2 & 3 & 2+6");
+		potionRequirements.put(Potion.waterBreathing.getId(), "0 & !1 & 2 & 3 & 2+6");
+		potionRequirements.put(Potion.jump.getId(), "0 & 1 & !2 & 3 & 3+6");
+		potionAmplifiers.put(Potion.moveSpeed.getId(), "5");
+		potionAmplifiers.put(Potion.digSpeed.getId(), "5");
+		potionAmplifiers.put(Potion.damageBoost.getId(), "5");
+		potionAmplifiers.put(Potion.regeneration.getId(), "5");
+		potionAmplifiers.put(Potion.harm.getId(), "5");
+		potionAmplifiers.put(Potion.heal.getId(), "5");
+		potionAmplifiers.put(Potion.resistance.getId(), "5");
+		potionAmplifiers.put(Potion.poison.getId(), "5");
+		potionAmplifiers.put(Potion.jump.getId(), "5");
+	}
 
 	/**
 	 * Checks if the bit at 1 << j is on in i.
@@ -449,30 +471,5 @@ public class PotionHelper {
 
 	public static void clearPotionColorCache() {
 		DATAVALUE_COLORS.clear();
-	}
-
-	static {
-		potionRequirements.put(Potion.regeneration.getId(), "0 & !1 & !2 & !3 & 0+6");
-		potionRequirements.put(Potion.moveSpeed.getId(), "!0 & 1 & !2 & !3 & 1+6");
-		potionRequirements.put(Potion.fireResistance.getId(), "0 & 1 & !2 & !3 & 0+6");
-		potionRequirements.put(Potion.heal.getId(), "0 & !1 & 2 & !3");
-		potionRequirements.put(Potion.poison.getId(), "!0 & !1 & 2 & !3 & 2+6");
-		potionRequirements.put(Potion.weakness.getId(), "!0 & !1 & !2 & 3 & 3+6");
-		potionRequirements.put(Potion.harm.getId(), "!0 & !1 & 2 & 3");
-		potionRequirements.put(Potion.moveSlowdown.getId(), "!0 & 1 & !2 & 3 & 3+6");
-		potionRequirements.put(Potion.damageBoost.getId(), "0 & !1 & !2 & 3 & 3+6");
-		potionRequirements.put(Potion.nightVision.getId(), "!0 & 1 & 2 & !3 & 2+6");
-		potionRequirements.put(Potion.invisibility.getId(), "!0 & 1 & 2 & 3 & 2+6");
-		potionRequirements.put(Potion.waterBreathing.getId(), "0 & !1 & 2 & 3 & 2+6");
-		potionRequirements.put(Potion.jump.getId(), "0 & 1 & !2 & 3 & 3+6");
-		potionAmplifiers.put(Potion.moveSpeed.getId(), "5");
-		potionAmplifiers.put(Potion.digSpeed.getId(), "5");
-		potionAmplifiers.put(Potion.damageBoost.getId(), "5");
-		potionAmplifiers.put(Potion.regeneration.getId(), "5");
-		potionAmplifiers.put(Potion.harm.getId(), "5");
-		potionAmplifiers.put(Potion.heal.getId(), "5");
-		potionAmplifiers.put(Potion.resistance.getId(), "5");
-		potionAmplifiers.put(Potion.poison.getId(), "5");
-		potionAmplifiers.put(Potion.jump.getId(), "5");
 	}
 }

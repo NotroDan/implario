@@ -43,6 +43,23 @@ public class BlockTripWire extends Block {
 		this.setTickRandomly(true);
 	}
 
+	public static boolean isConnectedTo(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing direction) {
+		BlockPos blockpos = pos.offset(direction);
+		IBlockState iblockstate = worldIn.getBlockState(blockpos);
+		Block block = iblockstate.getBlock();
+
+		if (block == Blocks.tripwire_hook) {
+			EnumFacing enumfacing = direction.getOpposite();
+			return iblockstate.getValue(BlockTripWireHook.FACING) == enumfacing;
+		}
+		if (block == Blocks.tripwire) {
+			boolean flag = ((Boolean) state.getValue(SUSPENDED)).booleanValue();
+			boolean flag1 = ((Boolean) iblockstate.getValue(SUSPENDED)).booleanValue();
+			return flag == flag1;
+		}
+		return false;
+	}
+
 	/**
 	 * Get the actual Block state of this Block at the given position. This applies properties not visible in the
 	 * metadata, such as fence connections.
@@ -182,10 +199,11 @@ public class BlockTripWire extends Block {
 						(double) pos.getZ() + this.maxZ));
 
 		if (!list.isEmpty()) {
-			for (Entity entity : list) if (entity.canTriggerWire()) {
-				flag1 = true;
-				break;
-			}
+			for (Entity entity : list)
+				if (entity.canTriggerWire()) {
+					flag1 = true;
+					break;
+				}
 		}
 
 		if (flag1 != flag) {
@@ -197,23 +215,6 @@ public class BlockTripWire extends Block {
 		if (flag1) {
 			worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 		}
-	}
-
-	public static boolean isConnectedTo(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing direction) {
-		BlockPos blockpos = pos.offset(direction);
-		IBlockState iblockstate = worldIn.getBlockState(blockpos);
-		Block block = iblockstate.getBlock();
-
-		if (block == Blocks.tripwire_hook) {
-			EnumFacing enumfacing = direction.getOpposite();
-			return iblockstate.getValue(BlockTripWireHook.FACING) == enumfacing;
-		}
-		if (block == Blocks.tripwire) {
-			boolean flag = ((Boolean) state.getValue(SUSPENDED)).booleanValue();
-			boolean flag1 = ((Boolean) iblockstate.getValue(SUSPENDED)).booleanValue();
-			return flag == flag1;
-		}
-		return false;
 	}
 
 	/**

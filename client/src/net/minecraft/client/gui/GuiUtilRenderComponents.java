@@ -3,9 +3,9 @@ package net.minecraft.client.gui;
 import com.google.common.collect.Lists;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.chat.ChatComponentText;
 
 import java.util.ArrayList;
 import java.util.List;

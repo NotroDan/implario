@@ -9,20 +9,20 @@ public class WorldEdit {
 
 	private static BlockPos pos1, pos2;
 
-	public static void setPos1(BlockPos pos1) {
-		WorldEdit.pos1 = pos1;
-	}
-
-	public static void setPos2(BlockPos pos2) {
-		WorldEdit.pos2 = pos2;
-	}
-
 	public static BlockPos getPos1() {
 		return pos1;
 	}
 
+	public static void setPos1(BlockPos pos1) {
+		WorldEdit.pos1 = pos1;
+	}
+
 	public static BlockPos getPos2() {
 		return pos2;
+	}
+
+	public static void setPos2(BlockPos pos2) {
+		WorldEdit.pos2 = pos2;
 	}
 
 	public static boolean isWandInHand() {

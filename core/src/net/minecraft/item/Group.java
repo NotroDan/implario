@@ -17,6 +17,13 @@ public class Group {
 		this(name, width, height, toUnitArray(items));
 	}
 
+	public Group(String name, int width, int height, Unit... elements) {
+		this.width = width;
+		this.height = height;
+		this.name = name;
+		add(elements);
+	}
+
 	private static Unit[] toUnitArray(String[] items) {
 		List<Unit> list = new ArrayList<>();
 		for (String s : items) {
@@ -32,13 +39,6 @@ public class Group {
 		return list.toArray(new Unit[0]);
 	}
 
-	public Group(String name, int width, int height, Unit... elements) {
-		this.width = width;
-		this.height = height;
-		this.name = name;
-		add(elements);
-	}
-
 	public static Unit[] every(int id, int amount) {
 		Unit[] u = new Unit[amount];
 		for (int i = 0; i < amount; i++) {
@@ -50,6 +50,7 @@ public class Group {
 	public void add(Unit... elements) {
 		this.elements.addAll(Arrays.asList(elements));
 	}
+
 	public void add(Collection<Unit> elements) {
 		this.elements.addAll(elements);
 	}
@@ -57,12 +58,15 @@ public class Group {
 	public String getName() {
 		return name;
 	}
+
 	public int getHeight() {
 		return height;
 	}
+
 	public int getWidth() {
 		return width;
 	}
+
 	public List<Unit> getElements() {
 		return elements;
 	}

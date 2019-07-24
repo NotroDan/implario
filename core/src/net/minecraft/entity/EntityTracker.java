@@ -1,6 +1,5 @@
 package net.minecraft.entity;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.Logger;
 import net.minecraft.crash.CrashReport;

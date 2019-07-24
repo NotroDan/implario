@@ -1,72 +1,64 @@
 package vanilla.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class WorldGenBlockBlob extends WorldGenerator
-{
-    private final Block field_150545_a;
-    private final int field_150544_b;
+import java.util.Random;
 
-    public WorldGenBlockBlob(Block p_i45450_1_, int p_i45450_2_)
-    {
-        super(false);
-        this.field_150545_a = p_i45450_1_;
-        this.field_150544_b = p_i45450_2_;
-    }
+public class WorldGenBlockBlob extends WorldGenerator {
 
-    public boolean generate(World worldIn, Random rand, BlockPos position)
-    {
-        while (true)
-        {
-            label0:
-            {
-                if (position.getY() > 3)
-                {
-                    if (worldIn.isAirBlock(position.down()))
-                    {
-                        break label0;
-                    }
+	private final Block field_150545_a;
+	private final int field_150544_b;
 
-                    Block block = worldIn.getBlockState(position.down()).getBlock();
+	public WorldGenBlockBlob(Block p_i45450_1_, int p_i45450_2_) {
+		super(false);
+		this.field_150545_a = p_i45450_1_;
+		this.field_150544_b = p_i45450_2_;
+	}
 
-                    if (block != Blocks.grass && block != Blocks.dirt && block != Blocks.stone)
-                    {
-                        break label0;
-                    }
-                }
+	public boolean generate(World worldIn, Random rand, BlockPos position) {
+		while (true) {
+			label0:
+			{
+				if (position.getY() > 3) {
+					if (worldIn.isAirBlock(position.down())) {
+						break label0;
+					}
 
-                if (position.getY() <= 3)
-                {
-                    return false;
-                }
+					Block block = worldIn.getBlockState(position.down()).getBlock();
 
-                int i1 = this.field_150544_b;
+					if (block != Blocks.grass && block != Blocks.dirt && block != Blocks.stone) {
+						break label0;
+					}
+				}
 
-                for (int i = 0; i1 >= 0 && i < 3; ++i)
-                {
-                    int j = i1 + rand.nextInt(2);
-                    int k = i1 + rand.nextInt(2);
-                    int l = i1 + rand.nextInt(2);
-                    float f = (float)(j + k + l) * 0.333F + 0.5F;
+				if (position.getY() <= 3) {
+					return false;
+				}
 
-                    for (BlockPos blockpos : BlockPos.getAllInBox(position.add(-j, -k, -l), position.add(j, k, l)))
-                    {
-                        if (blockpos.distanceSq(position) <= (double)(f * f))
-                        {
-                            worldIn.setBlockState(blockpos, this.field_150545_a.getDefaultState(), 4);
-                        }
-                    }
+				int i1 = this.field_150544_b;
 
-                    position = position.add(-(i1 + 1) + rand.nextInt(2 + i1 * 2), 0 - rand.nextInt(2), -(i1 + 1) + rand.nextInt(2 + i1 * 2));
-                }
+				for (int i = 0; i1 >= 0 && i < 3; ++i) {
+					int j = i1 + rand.nextInt(2);
+					int k = i1 + rand.nextInt(2);
+					int l = i1 + rand.nextInt(2);
+					float f = (float) (j + k + l) * 0.333F + 0.5F;
 
-                return true;
-            }
-            position = position.down();
-        }
-    }
+					for (BlockPos blockpos : BlockPos.getAllInBox(position.add(-j, -k, -l), position.add(j, k, l))) {
+						if (blockpos.distanceSq(position) <= (double) (f * f)) {
+							worldIn.setBlockState(blockpos, this.field_150545_a.getDefaultState(), 4);
+						}
+					}
+
+					position = position.add(-(i1 + 1) + rand.nextInt(2 + i1 * 2), 0 - rand.nextInt(2), -(i1 + 1) + rand.nextInt(2 + i1 * 2));
+				}
+
+				return true;
+			}
+			position = position.down();
+		}
+	}
+
 }

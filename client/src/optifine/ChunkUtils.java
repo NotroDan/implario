@@ -13,27 +13,27 @@ public class ChunkUtils {
 
 	public static boolean hasEntities(Chunk p_hasEntities_0_) {
 		return p_hasEntities_0_.hasEntities;
-//		if (fieldHasEntities == null) {
-//			if (fieldHasEntitiesMissing) {
-//				return true;
-//			}
-//
-//			fieldHasEntities = findFieldHasEntities(p_hasEntities_0_);
-//
-//			if (fieldHasEntities == null) {
-//				fieldHasEntitiesMissing = true;
-//				return true;
-//			}
-//		}
-//
-//		try {
-//			return fieldHasEntities.getBoolean(p_hasEntities_0_);
-//		} catch (Exception exception) {
-//			Config.warn("Error calling Chunk.hasEntities");
-//			Config.warn(exception.getClass().getName() + " " + exception.getMessage());
-//			fieldHasEntitiesMissing = true;
-//			return true;
-//		}
+		//		if (fieldHasEntities == null) {
+		//			if (fieldHasEntitiesMissing) {
+		//				return true;
+		//			}
+		//
+		//			fieldHasEntities = findFieldHasEntities(p_hasEntities_0_);
+		//
+		//			if (fieldHasEntities == null) {
+		//				fieldHasEntitiesMissing = true;
+		//				return true;
+		//			}
+		//		}
+		//
+		//		try {
+		//			return fieldHasEntities.getBoolean(p_hasEntities_0_);
+		//		} catch (Exception exception) {
+		//			Config.warn("Error calling Chunk.hasEntities");
+		//			Config.warn(exception.getClass().getName() + " " + exception.getMessage());
+		//			fieldHasEntitiesMissing = true;
+		//			return true;
+		//		}
 	}
 
 	private static Field findFieldHasEntities(Chunk p_findFieldHasEntities_0_) {

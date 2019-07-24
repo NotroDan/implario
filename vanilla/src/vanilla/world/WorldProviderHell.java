@@ -3,9 +3,9 @@ package vanilla.world;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BasicChunkBiomer;
-import vanilla.world.biome.BiomeGenBase;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.IChunkProvider;
+import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.gen.provider.ChunkProviderHell;
 
 import java.io.File;

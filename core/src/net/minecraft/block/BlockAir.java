@@ -6,51 +6,45 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAir extends Block
-{
-    protected BlockAir()
-    {
-        super(Material.air);
-    }
+public class BlockAir extends Block {
 
-    /**
-     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
-     */
-    public int getRenderType()
-    {
-        return -1;
-    }
+	protected BlockAir() {
+		super(Material.air);
+	}
 
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-    {
-        return null;
-    }
+	/**
+	 * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+	 */
+	public int getRenderType() {
+		return -1;
+	}
 
-    /**
-     * Used to determine ambient occlusion and culling when rebuilding chunks for render
-     */
-    public boolean isOpaqueCube()
-    {
-        return false;
-    }
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+		return null;
+	}
 
-    public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid)
-    {
-        return false;
-    }
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	 */
+	public boolean isOpaqueCube() {
+		return false;
+	}
 
-    /**
-     * Spawns this Block's drops into the World as EntityItems.
-     */
-    public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
-    {
-    }
+	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
+		return false;
+	}
 
-    /**
-     * Whether this Block can be replaced directly by other blocks (true for e.g. tall grass)
-     */
-    public boolean isReplaceable(World worldIn, BlockPos pos)
-    {
-        return true;
-    }
+	/**
+	 * Spawns this Block's drops into the World as EntityItems.
+	 */
+	public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+	}
+
+	/**
+	 * Whether this Block can be replaced directly by other blocks (true for e.g. tall grass)
+	 */
+	public boolean isReplaceable(World worldIn, BlockPos pos) {
+		return true;
+	}
+
 }

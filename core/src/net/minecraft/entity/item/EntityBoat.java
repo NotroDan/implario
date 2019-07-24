@@ -39,6 +39,17 @@ public class EntityBoat extends Entity {
 		this.setSize(1.5F, 0.6F);
 	}
 
+	public EntityBoat(World worldIn, double p_i1705_2_, double p_i1705_4_, double p_i1705_6_) {
+		this(worldIn);
+		this.setPosition(p_i1705_2_, p_i1705_4_, p_i1705_6_);
+		this.motionX = 0.0D;
+		this.motionY = 0.0D;
+		this.motionZ = 0.0D;
+		this.prevPosX = p_i1705_2_;
+		this.prevPosY = p_i1705_4_;
+		this.prevPosZ = p_i1705_6_;
+	}
+
 	/**
 	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
 	 * prevent them from trampling crops
@@ -73,17 +84,6 @@ public class EntityBoat extends Entity {
 	 */
 	public boolean canBePushed() {
 		return true;
-	}
-
-	public EntityBoat(World worldIn, double p_i1705_2_, double p_i1705_4_, double p_i1705_6_) {
-		this(worldIn);
-		this.setPosition(p_i1705_2_, p_i1705_4_, p_i1705_6_);
-		this.motionX = 0.0D;
-		this.motionY = 0.0D;
-		this.motionZ = 0.0D;
-		this.prevPosX = p_i1705_2_;
-		this.prevPosY = p_i1705_4_;
-		this.prevPosZ = p_i1705_6_;
 	}
 
 	/**
@@ -463,13 +463,6 @@ public class EntityBoat extends Entity {
 	}
 
 	/**
-	 * Sets the damage taken from the last hit.
-	 */
-	public void setDamageTaken(float p_70266_1_) {
-		this.dataWatcher.updateObject(19, p_70266_1_);
-	}
-
-	/**
 	 * Gets the damage taken from the last hit.
 	 */
 	public float getDamageTaken() {
@@ -477,10 +470,10 @@ public class EntityBoat extends Entity {
 	}
 
 	/**
-	 * Sets the time to count down from since the last time entity was hit.
+	 * Sets the damage taken from the last hit.
 	 */
-	public void setTimeSinceHit(int p_70265_1_) {
-		this.dataWatcher.updateObject(17, p_70265_1_);
+	public void setDamageTaken(float p_70266_1_) {
+		this.dataWatcher.updateObject(19, p_70266_1_);
 	}
 
 	/**
@@ -491,10 +484,10 @@ public class EntityBoat extends Entity {
 	}
 
 	/**
-	 * Sets the forward direction of the entity.
+	 * Sets the time to count down from since the last time entity was hit.
 	 */
-	public void setForwardDirection(int p_70269_1_) {
-		this.dataWatcher.updateObject(18, p_70269_1_);
+	public void setTimeSinceHit(int p_70265_1_) {
+		this.dataWatcher.updateObject(17, p_70265_1_);
 	}
 
 	/**
@@ -502,6 +495,13 @@ public class EntityBoat extends Entity {
 	 */
 	public int getForwardDirection() {
 		return this.dataWatcher.getWatchableObjectInt(18);
+	}
+
+	/**
+	 * Sets the forward direction of the entity.
+	 */
+	public void setForwardDirection(int p_70269_1_) {
+		this.dataWatcher.updateObject(18, p_70269_1_);
 	}
 
 	/**

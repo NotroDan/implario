@@ -1,18 +1,13 @@
 package vanilla.world.pathfinder;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockRailBase;
-import net.minecraft.block.BlockWall;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import vanilla.entity.ai.pathfinding.PathPoint;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
+import vanilla.entity.ai.pathfinding.PathPoint;
 
 public class WalkNodeProcessor extends NodeProcessor {
 
@@ -21,6 +16,66 @@ public class WalkNodeProcessor extends NodeProcessor {
 	private boolean avoidsWater;
 	private boolean canSwim;
 	private boolean shouldAvoidWater;
+
+	public static int func_176170_a(IBlockAccess blockaccessIn, Entity entityIn, int x, int y, int z, int sizeX, int sizeY, int sizeZ, boolean avoidWater, boolean breakDoors, boolean enterDoors) {
+		boolean flag = false;
+		BlockPos blockpos = new BlockPos(entityIn);
+		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+
+		for (int i = x; i < x + sizeX; ++i) {
+			for (int j = y; j < y + sizeY; ++j) {
+				for (int k = z; k < z + sizeZ; ++k) {
+					blockpos$mutableblockpos.func_181079_c(i, j, k);
+					Block block = blockaccessIn.getBlockState(blockpos$mutableblockpos).getBlock();
+
+					if (block.getMaterial() != Material.air) {
+						if (block != Blocks.trapdoor && block != Blocks.iron_trapdoor) {
+							if (block != Blocks.flowing_water && block != Blocks.water) {
+								if (!enterDoors && block instanceof BlockDoor && block.getMaterial() == Material.wood) {
+									return 0;
+								}
+							} else {
+								if (avoidWater) {
+									return -1;
+								}
+
+								flag = true;
+							}
+						} else {
+							flag = true;
+						}
+
+						if (entityIn.worldObj.getBlockState(blockpos$mutableblockpos).getBlock() instanceof BlockRailBase) {
+							if (!(entityIn.worldObj.getBlockState(blockpos).getBlock() instanceof BlockRailBase) && !(entityIn.worldObj.getBlockState(
+									blockpos.down()).getBlock() instanceof BlockRailBase)) {
+								return -3;
+							}
+						} else if (!block.isPassable(blockaccessIn, blockpos$mutableblockpos) && (!breakDoors || !(block instanceof BlockDoor) || block.getMaterial() != Material.wood)) {
+							if (block instanceof BlockFence || block instanceof BlockFenceGate || block instanceof BlockWall) {
+								return -3;
+							}
+
+							if (block == Blocks.trapdoor || block == Blocks.iron_trapdoor) {
+								return -4;
+							}
+
+							Material material = block.getMaterial();
+
+							if (material != Material.lava) {
+								return 0;
+							}
+
+							if (!entityIn.isInLava()) {
+								return -2;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return flag ? 2 : 1;
+	}
 
 	public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn) {
 		super.initProcessor(iblockaccessIn, entityIn);
@@ -163,92 +218,32 @@ public class WalkNodeProcessor extends NodeProcessor {
 		return func_176170_a(this.blockaccess, entityIn, x, y, z, this.entitySizeX, this.entitySizeY, this.entitySizeZ, this.avoidsWater, this.canBreakDoors, this.canEnterDoors);
 	}
 
-	public static int func_176170_a(IBlockAccess blockaccessIn, Entity entityIn, int x, int y, int z, int sizeX, int sizeY, int sizeZ, boolean avoidWater, boolean breakDoors, boolean enterDoors) {
-		boolean flag = false;
-		BlockPos blockpos = new BlockPos(entityIn);
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-
-		for (int i = x; i < x + sizeX; ++i) {
-			for (int j = y; j < y + sizeY; ++j) {
-				for (int k = z; k < z + sizeZ; ++k) {
-					blockpos$mutableblockpos.func_181079_c(i, j, k);
-					Block block = blockaccessIn.getBlockState(blockpos$mutableblockpos).getBlock();
-
-					if (block.getMaterial() != Material.air) {
-						if (block != Blocks.trapdoor && block != Blocks.iron_trapdoor) {
-							if (block != Blocks.flowing_water && block != Blocks.water) {
-								if (!enterDoors && block instanceof BlockDoor && block.getMaterial() == Material.wood) {
-									return 0;
-								}
-							} else {
-								if (avoidWater) {
-									return -1;
-								}
-
-								flag = true;
-							}
-						} else {
-							flag = true;
-						}
-
-						if (entityIn.worldObj.getBlockState(blockpos$mutableblockpos).getBlock() instanceof BlockRailBase) {
-							if (!(entityIn.worldObj.getBlockState(blockpos).getBlock() instanceof BlockRailBase) && !(entityIn.worldObj.getBlockState(
-									blockpos.down()).getBlock() instanceof BlockRailBase)) {
-								return -3;
-							}
-						} else if (!block.isPassable(blockaccessIn, blockpos$mutableblockpos) && (!breakDoors || !(block instanceof BlockDoor) || block.getMaterial() != Material.wood)) {
-							if (block instanceof BlockFence || block instanceof BlockFenceGate || block instanceof BlockWall) {
-								return -3;
-							}
-
-							if (block == Blocks.trapdoor || block == Blocks.iron_trapdoor) {
-								return -4;
-							}
-
-							Material material = block.getMaterial();
-
-							if (material != Material.lava) {
-								return 0;
-							}
-
-							if (!entityIn.isInLava()) {
-								return -2;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return flag ? 2 : 1;
-	}
-
-	public void setEnterDoors(boolean canEnterDoorsIn) {
-		this.canEnterDoors = canEnterDoorsIn;
-	}
-
 	public void setBreakDoors(boolean canBreakDoorsIn) {
 		this.canBreakDoors = canBreakDoorsIn;
-	}
-
-	public void setAvoidsWater(boolean avoidsWaterIn) {
-		this.avoidsWater = avoidsWaterIn;
-	}
-
-	public void setCanSwim(boolean canSwimIn) {
-		this.canSwim = canSwimIn;
 	}
 
 	public boolean getEnterDoors() {
 		return this.canEnterDoors;
 	}
 
+	public void setEnterDoors(boolean canEnterDoorsIn) {
+		this.canEnterDoors = canEnterDoorsIn;
+	}
+
 	public boolean getCanSwim() {
 		return this.canSwim;
 	}
 
+	public void setCanSwim(boolean canSwimIn) {
+		this.canSwim = canSwimIn;
+	}
+
 	public boolean getAvoidsWater() {
 		return this.avoidsWater;
+	}
+
+	public void setAvoidsWater(boolean avoidsWaterIn) {
+		this.avoidsWater = avoidsWaterIn;
 	}
 
 }

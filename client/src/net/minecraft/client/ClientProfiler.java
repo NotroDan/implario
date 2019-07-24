@@ -11,8 +11,6 @@ import java.util.List;
 
 public class ClientProfiler extends Profiler {
 
-	public boolean profilerGlobalEnabled = true;
-	private boolean profilerLocalEnabled;
 	private static final String SCHEDULED_EXECUTABLES = "scheduledExecutables";
 	private static final String TICK = "tick";
 	private static final String PRE_RENDER_ERRORS = "preRenderErrors";
@@ -23,6 +21,8 @@ public class ClientProfiler extends Profiler {
 	private static final int HASH_PRE_RENDER_ERRORS = "preRenderErrors".hashCode();
 	private static final int HASH_RENDER = "render".hashCode();
 	private static final int HASH_DISPLAY = "display".hashCode();
+	public boolean profilerGlobalEnabled = true;
+	private boolean profilerLocalEnabled;
 
 	public ClientProfiler() {
 		this.profilerLocalEnabled = this.profilerGlobalEnabled;

@@ -1,90 +1,78 @@
 package vanilla.entity.passive;
 
 import net.minecraft.entity.IAnimals;
-import vanilla.entity.VanillaEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import vanilla.entity.VanillaEntity;
 
-public abstract class EntityWaterMob extends VanillaEntity implements IAnimals
-{
-    public EntityWaterMob(World worldIn)
-    {
-        super(worldIn);
-    }
+public abstract class EntityWaterMob extends VanillaEntity implements IAnimals {
 
-    public boolean canBreatheUnderwater()
-    {
-        return true;
-    }
+	public EntityWaterMob(World worldIn) {
+		super(worldIn);
+	}
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
-    public boolean getCanSpawnHere()
-    {
-        return true;
-    }
+	public boolean canBreatheUnderwater() {
+		return true;
+	}
 
-    /**
-     * Checks that the entity is not colliding with any blocks / liquids
-     */
-    public boolean isNotColliding()
-    {
-        return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this);
-    }
+	/**
+	 * Checks if the entity's current position is a valid location to spawn this entity.
+	 */
+	public boolean getCanSpawnHere() {
+		return true;
+	}
 
-    /**
-     * Get number of ticks, at least during which the living entity will be silent.
-     */
-    public int getTalkInterval()
-    {
-        return 120;
-    }
+	/**
+	 * Checks that the entity is not colliding with any blocks / liquids
+	 */
+	public boolean isNotColliding() {
+		return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this);
+	}
 
-    /**
-     * Determines if an entity can be despawned, used on idle far away entities
-     */
-    protected boolean canDespawn()
-    {
-        return true;
-    }
+	/**
+	 * Get number of ticks, at least during which the living entity will be silent.
+	 */
+	public int getTalkInterval() {
+		return 120;
+	}
 
-    /**
-     * Get the experience points the entity currently has.
-     */
-    protected int getExperiencePoints(EntityPlayer player)
-    {
-        return 1 + this.worldObj.rand.nextInt(3);
-    }
+	/**
+	 * Determines if an entity can be despawned, used on idle far away entities
+	 */
+	protected boolean canDespawn() {
+		return true;
+	}
 
-    /**
-     * Gets called every tick from main Entity class
-     */
-    public void onEntityUpdate()
-    {
-        int i = this.getAir();
-        super.onEntityUpdate();
+	/**
+	 * Get the experience points the entity currently has.
+	 */
+	protected int getExperiencePoints(EntityPlayer player) {
+		return 1 + this.worldObj.rand.nextInt(3);
+	}
 
-        if (this.isEntityAlive() && !this.isInWater())
-        {
-            --i;
-            this.setAir(i);
+	/**
+	 * Gets called every tick from main Entity class
+	 */
+	public void onEntityUpdate() {
+		int i = this.getAir();
+		super.onEntityUpdate();
 
-            if (this.getAir() == -20)
-            {
-                this.setAir(0);
-                this.attackEntityFrom(DamageSource.drown, 2.0F);
-            }
-        }
-        else
-        {
-            this.setAir(300);
-        }
-    }
+		if (this.isEntityAlive() && !this.isInWater()) {
+			--i;
+			this.setAir(i);
 
-    public boolean isPushedByWater()
-    {
-        return false;
-    }
+			if (this.getAir() == -20) {
+				this.setAir(0);
+				this.attackEntityFrom(DamageSource.drown, 2.0F);
+			}
+		} else {
+			this.setAir(300);
+		}
+	}
+
+	public boolean isPushedByWater() {
+		return false;
+	}
+
 }

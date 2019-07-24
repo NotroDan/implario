@@ -1,79 +1,70 @@
 package vanilla.client.renderer.entity.layers;
 
-import vanilla.client.game.model.ModelSheep1;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.tileentity.BeaconColors;
-import vanilla.client.renderer.entity.vanilla.RenderSheep;
 import net.minecraft.entity.EntityLivingBase;
-import vanilla.entity.passive.EntitySheep;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.tileentity.BeaconColors;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.CustomColors;
+import vanilla.client.game.model.ModelSheep1;
+import vanilla.client.renderer.entity.vanilla.RenderSheep;
+import vanilla.entity.passive.EntitySheep;
 
-public class LayerSheepWool implements LayerRenderer
-{
-    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/sheep/sheep_fur.png");
-    private final RenderSheep sheepRenderer;
-    private final ModelSheep1 sheepModel = new ModelSheep1();
+public class LayerSheepWool implements LayerRenderer {
+
+	private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/sheep/sheep_fur.png");
+	private final RenderSheep sheepRenderer;
+	private final ModelSheep1 sheepModel = new ModelSheep1();
 
 
-    public LayerSheepWool(RenderSheep sheepRendererIn)
-    {
-        this.sheepRenderer = sheepRendererIn;
-    }
+	public LayerSheepWool(RenderSheep sheepRendererIn) {
+		this.sheepRenderer = sheepRendererIn;
+	}
 
-    public void doRenderLayer(EntitySheep entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
-    {
-        if (!entitylivingbaseIn.getSheared() && !entitylivingbaseIn.isInvisible())
-        {
-            this.sheepRenderer.bindTexture(TEXTURE);
+	public void doRenderLayer(EntitySheep entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+		if (!entitylivingbaseIn.getSheared() && !entitylivingbaseIn.isInvisible()) {
+			this.sheepRenderer.bindTexture(TEXTURE);
 
-            if (entitylivingbaseIn.hasCustomName() && "jeb_".equals(entitylivingbaseIn.getCustomNameTag()))
-            {
-                boolean flag = true;
-                int i = entitylivingbaseIn.ticksExisted / 25 + entitylivingbaseIn.getEntityId();
-                int j = EnumDyeColor.values().length;
-                int k = i % j;
-                int l = (i + 1) % j;
-                float f = ((float)(entitylivingbaseIn.ticksExisted % 25) + partialTicks) / 25.0F;
-                float[] afloat1 = BeaconColors.getColor(EnumDyeColor.byMetadata(k));
-                float[] afloat2 = BeaconColors.getColor(EnumDyeColor.byMetadata(l));
+			if (entitylivingbaseIn.hasCustomName() && "jeb_".equals(entitylivingbaseIn.getCustomNameTag())) {
+				boolean flag = true;
+				int i = entitylivingbaseIn.ticksExisted / 25 + entitylivingbaseIn.getEntityId();
+				int j = EnumDyeColor.values().length;
+				int k = i % j;
+				int l = (i + 1) % j;
+				float f = ((float) (entitylivingbaseIn.ticksExisted % 25) + partialTicks) / 25.0F;
+				float[] afloat1 = BeaconColors.getColor(EnumDyeColor.byMetadata(k));
+				float[] afloat2 = BeaconColors.getColor(EnumDyeColor.byMetadata(l));
 
-                if (Config.isCustomColors())
-                {
-                    afloat1 = CustomColors.getSheepColors(EnumDyeColor.byMetadata(k), afloat1);
-                    afloat2 = CustomColors.getSheepColors(EnumDyeColor.byMetadata(l), afloat2);
-                }
+				if (Config.isCustomColors()) {
+					afloat1 = CustomColors.getSheepColors(EnumDyeColor.byMetadata(k), afloat1);
+					afloat2 = CustomColors.getSheepColors(EnumDyeColor.byMetadata(l), afloat2);
+				}
 
-                G.color(afloat1[0] * (1.0F - f) + afloat2[0] * f, afloat1[1] * (1.0F - f) + afloat2[1] * f, afloat1[2] * (1.0F - f) + afloat2[2] * f);
-            }
-            else
-            {
-                float[] afloat = BeaconColors.getColor(entitylivingbaseIn.getFleeceColor());
+				G.color(afloat1[0] * (1.0F - f) + afloat2[0] * f, afloat1[1] * (1.0F - f) + afloat2[1] * f, afloat1[2] * (1.0F - f) + afloat2[2] * f);
+			} else {
+				float[] afloat = BeaconColors.getColor(entitylivingbaseIn.getFleeceColor());
 
-                if (Config.isCustomColors())
-                {
-                    afloat = CustomColors.getSheepColors(entitylivingbaseIn.getFleeceColor(), afloat);
-                }
+				if (Config.isCustomColors()) {
+					afloat = CustomColors.getSheepColors(entitylivingbaseIn.getFleeceColor(), afloat);
+				}
 
-                G.color(afloat[0], afloat[1], afloat[2]);
-            }
+				G.color(afloat[0], afloat[1], afloat[2]);
+			}
 
-            this.sheepModel.setModelAttributes(this.sheepRenderer.getMainModel());
-            this.sheepModel.setLivingAnimations(entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks);
-            this.sheepModel.render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
-        }
-    }
+			this.sheepModel.setModelAttributes(this.sheepRenderer.getMainModel());
+			this.sheepModel.setLivingAnimations(entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks);
+			this.sheepModel.render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+		}
+	}
 
-    public boolean shouldCombineTextures()
-    {
-        return true;
-    }
+	public boolean shouldCombineTextures() {
+		return true;
+	}
 
-    public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
-    {
-        this.doRenderLayer((EntitySheep)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
-    }
+	public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+		this.doRenderLayer((EntitySheep) entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+	}
+
 }

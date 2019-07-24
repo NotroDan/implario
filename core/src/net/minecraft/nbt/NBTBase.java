@@ -4,117 +4,112 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public abstract class NBTBase
-{
-    public static final String[] NBT_TYPES = new String[] {"END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]"};
+public abstract class NBTBase {
 
-    /**
-     * Write the actual data contents of the tag, implemented in NBT extension classes
-     */
-    abstract void write(DataOutput output) throws IOException;
+	public static final String[] NBT_TYPES = new String[] {"END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]"};
 
-    abstract void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException;
+	/**
+	 * Creates a new NBTBase object that corresponds with the passed in id.
+	 */
+	protected static NBTBase createNewByType(byte id) {
+		switch (id) {
+			case 0:
+				return new NBTTagEnd();
 
-    public abstract String toString();
+			case 1:
+				return new NBTTagByte();
 
-    /**
-     * Gets the type byte for the tag.
-     */
-    public abstract byte getId();
+			case 2:
+				return new NBTTagShort();
 
-    /**
-     * Creates a new NBTBase object that corresponds with the passed in id.
-     */
-    protected static NBTBase createNewByType(byte id)
-    {
-        switch (id)
-        {
-            case 0:
-                return new NBTTagEnd();
+			case 3:
+				return new NBTTagInt();
 
-            case 1:
-                return new NBTTagByte();
+			case 4:
+				return new NBTTagLong();
 
-            case 2:
-                return new NBTTagShort();
+			case 5:
+				return new NBTTagFloat();
 
-            case 3:
-                return new NBTTagInt();
+			case 6:
+				return new NBTTagDouble();
 
-            case 4:
-                return new NBTTagLong();
+			case 7:
+				return new NBTTagByteArray();
 
-            case 5:
-                return new NBTTagFloat();
+			case 8:
+				return new NBTTagString();
 
-            case 6:
-                return new NBTTagDouble();
+			case 9:
+				return new NBTTagList();
 
-            case 7:
-                return new NBTTagByteArray();
+			case 10:
+				return new NBTTagCompound();
 
-            case 8:
-                return new NBTTagString();
+			case 11:
+				return new NBTTagIntArray();
 
-            case 9:
-                return new NBTTagList();
+			default:
+				return null;
+		}
+	}
 
-            case 10:
-                return new NBTTagCompound();
+	/**
+	 * Write the actual data contents of the tag, implemented in NBT extension classes
+	 */
+	abstract void write(DataOutput output) throws IOException;
 
-            case 11:
-                return new NBTTagIntArray();
+	abstract void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException;
 
-            default:
-                return null;
-        }
-    }
+	public abstract String toString();
 
-    /**
-     * Creates a clone of the tag.
-     */
-    public abstract NBTBase copy();
+	/**
+	 * Gets the type byte for the tag.
+	 */
+	public abstract byte getId();
 
-    /**
-     * Return whether this compound has no tags.
-     */
-    public boolean hasNoTags()
-    {
-        return false;
-    }
+	/**
+	 * Creates a clone of the tag.
+	 */
+	public abstract NBTBase copy();
 
-    public boolean equals(Object p_equals_1_)
-    {
-        if (!(p_equals_1_ instanceof NBTBase))
-        {
-            return false;
-        }
-		NBTBase nbtbase = (NBTBase)p_equals_1_;
+	/**
+	 * Return whether this compound has no tags.
+	 */
+	public boolean hasNoTags() {
+		return false;
+	}
+
+	public boolean equals(Object p_equals_1_) {
+		if (!(p_equals_1_ instanceof NBTBase)) {
+			return false;
+		}
+		NBTBase nbtbase = (NBTBase) p_equals_1_;
 		return this.getId() == nbtbase.getId();
 	}
 
-    public int hashCode()
-    {
-        return this.getId();
-    }
+	public int hashCode() {
+		return this.getId();
+	}
 
-    protected String getString()
-    {
-        return this.toString();
-    }
+	protected String getString() {
+		return this.toString();
+	}
 
-    public abstract static class NBTPrimitive extends NBTBase
-    {
-        public abstract long getLong();
+	public abstract static class NBTPrimitive extends NBTBase {
 
-        public abstract int getInt();
+		public abstract long getLong();
 
-        public abstract short getShort();
+		public abstract int getInt();
 
-        public abstract byte getByte();
+		public abstract short getShort();
 
-        public abstract double getDouble();
+		public abstract byte getByte();
 
-        public abstract float getFloat();
-    }
+		public abstract double getDouble();
+
+		public abstract float getFloat();
+
+	}
+
 }

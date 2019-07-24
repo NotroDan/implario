@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.chunk;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;

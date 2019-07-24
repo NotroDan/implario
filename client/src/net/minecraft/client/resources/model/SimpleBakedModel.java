@@ -11,143 +11,123 @@ import net.minecraft.util.EnumFacing;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleBakedModel implements IBakedModel
-{
-    protected final List<BakedQuad> generalQuads;
-    protected final List<List<BakedQuad>> faceQuads;
-    protected final boolean ambientOcclusion;
-    protected final boolean gui3d;
-    protected final TextureAtlasSprite texture;
-    protected final ItemCameraTransforms cameraTransforms;
+public class SimpleBakedModel implements IBakedModel {
 
-    public SimpleBakedModel(List<BakedQuad> p_i46077_1_, List<List<BakedQuad>> p_i46077_2_, boolean p_i46077_3_, boolean isGui3d, TextureAtlasSprite p_i46077_5_, ItemCameraTransforms p_i46077_6_)
-    {
-        this.generalQuads = p_i46077_1_;
-        this.faceQuads = p_i46077_2_;
-        this.ambientOcclusion = p_i46077_3_;
-        this.gui3d = isGui3d;
-        this.texture = p_i46077_5_;
-        this.cameraTransforms = p_i46077_6_;
-    }
+	protected final List<BakedQuad> generalQuads;
+	protected final List<List<BakedQuad>> faceQuads;
+	protected final boolean ambientOcclusion;
+	protected final boolean gui3d;
+	protected final TextureAtlasSprite texture;
+	protected final ItemCameraTransforms cameraTransforms;
 
-    public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_)
-    {
-        return (List)this.faceQuads.get(p_177551_1_.ordinal());
-    }
+	public SimpleBakedModel(List<BakedQuad> p_i46077_1_, List<List<BakedQuad>> p_i46077_2_, boolean p_i46077_3_, boolean isGui3d, TextureAtlasSprite p_i46077_5_, ItemCameraTransforms p_i46077_6_) {
+		this.generalQuads = p_i46077_1_;
+		this.faceQuads = p_i46077_2_;
+		this.ambientOcclusion = p_i46077_3_;
+		this.gui3d = isGui3d;
+		this.texture = p_i46077_5_;
+		this.cameraTransforms = p_i46077_6_;
+	}
 
-    public List<BakedQuad> getGeneralQuads()
-    {
-        return this.generalQuads;
-    }
+	public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_) {
+		return (List) this.faceQuads.get(p_177551_1_.ordinal());
+	}
 
-    public boolean isAmbientOcclusion()
-    {
-        return this.ambientOcclusion;
-    }
+	public List<BakedQuad> getGeneralQuads() {
+		return this.generalQuads;
+	}
 
-    public boolean isGui3d()
-    {
-        return this.gui3d;
-    }
+	public boolean isAmbientOcclusion() {
+		return this.ambientOcclusion;
+	}
 
-    public boolean isBuiltInRenderer()
-    {
-        return false;
-    }
+	public boolean isGui3d() {
+		return this.gui3d;
+	}
 
-    public TextureAtlasSprite getParticleTexture()
-    {
-        return this.texture;
-    }
+	public boolean isBuiltInRenderer() {
+		return false;
+	}
 
-    public ItemCameraTransforms getItemCameraTransforms()
-    {
-        return this.cameraTransforms;
-    }
+	public TextureAtlasSprite getParticleTexture() {
+		return this.texture;
+	}
 
-    public static class Builder
-    {
-        private final List<BakedQuad> builderGeneralQuads;
-        private final List<List<BakedQuad>> builderFaceQuads;
-        private final boolean builderAmbientOcclusion;
-        private TextureAtlasSprite builderTexture;
-        private boolean builderGui3d;
-        private ItemCameraTransforms builderCameraTransforms;
+	public ItemCameraTransforms getItemCameraTransforms() {
+		return this.cameraTransforms;
+	}
 
-        public Builder(ModelBlock p_i46074_1_)
-        {
-            this(p_i46074_1_.isAmbientOcclusion(), p_i46074_1_.isGui3d(), p_i46074_1_.func_181682_g());
-        }
+	public static class Builder {
 
-        public Builder(IBakedModel p_i46075_1_, TextureAtlasSprite p_i46075_2_)
-        {
-            this(p_i46075_1_.isAmbientOcclusion(), p_i46075_1_.isGui3d(), p_i46075_1_.getItemCameraTransforms());
-            this.builderTexture = p_i46075_1_.getParticleTexture();
+		private final List<BakedQuad> builderGeneralQuads;
+		private final List<List<BakedQuad>> builderFaceQuads;
+		private final boolean builderAmbientOcclusion;
+		private TextureAtlasSprite builderTexture;
+		private boolean builderGui3d;
+		private ItemCameraTransforms builderCameraTransforms;
 
-            for (EnumFacing enumfacing : EnumFacing.values())
-            {
-                this.addFaceBreakingFours(p_i46075_1_, p_i46075_2_, enumfacing);
-            }
+		public Builder(ModelBlock p_i46074_1_) {
+			this(p_i46074_1_.isAmbientOcclusion(), p_i46074_1_.isGui3d(), p_i46074_1_.func_181682_g());
+		}
 
-            this.addGeneralBreakingFours(p_i46075_1_, p_i46075_2_);
-        }
+		public Builder(IBakedModel p_i46075_1_, TextureAtlasSprite p_i46075_2_) {
+			this(p_i46075_1_.isAmbientOcclusion(), p_i46075_1_.isGui3d(), p_i46075_1_.getItemCameraTransforms());
+			this.builderTexture = p_i46075_1_.getParticleTexture();
 
-        private void addFaceBreakingFours(IBakedModel p_177649_1_, TextureAtlasSprite p_177649_2_, EnumFacing p_177649_3_)
-        {
-            for (BakedQuad bakedquad : p_177649_1_.getFaceQuads(p_177649_3_))
-            {
-                this.addFaceQuad(p_177649_3_, new BreakingFour(bakedquad, p_177649_2_));
-            }
-        }
+			for (EnumFacing enumfacing : EnumFacing.values()) {
+				this.addFaceBreakingFours(p_i46075_1_, p_i46075_2_, enumfacing);
+			}
 
-        private void addGeneralBreakingFours(IBakedModel p_177647_1_, TextureAtlasSprite p_177647_2_)
-        {
-            for (BakedQuad bakedquad : p_177647_1_.getGeneralQuads())
-            {
-                this.addGeneralQuad(new BreakingFour(bakedquad, p_177647_2_));
-            }
-        }
+			this.addGeneralBreakingFours(p_i46075_1_, p_i46075_2_);
+		}
 
-        private Builder(boolean p_i46076_1_, boolean p_i46076_2_, ItemCameraTransforms p_i46076_3_)
-        {
-            this.builderGeneralQuads = new ArrayList<>();
-            this.builderFaceQuads = Lists.newArrayListWithCapacity(6);
+		private Builder(boolean p_i46076_1_, boolean p_i46076_2_, ItemCameraTransforms p_i46076_3_) {
+			this.builderGeneralQuads = new ArrayList<>();
+			this.builderFaceQuads = Lists.newArrayListWithCapacity(6);
 
-            for (EnumFacing enumfacing : EnumFacing.values())
-            {
-                this.builderFaceQuads.add(new ArrayList<>());
-            }
+			for (EnumFacing enumfacing : EnumFacing.values()) {
+				this.builderFaceQuads.add(new ArrayList<>());
+			}
 
-            this.builderAmbientOcclusion = p_i46076_1_;
-            this.builderGui3d = p_i46076_2_;
-            this.builderCameraTransforms = p_i46076_3_;
-        }
+			this.builderAmbientOcclusion = p_i46076_1_;
+			this.builderGui3d = p_i46076_2_;
+			this.builderCameraTransforms = p_i46076_3_;
+		}
 
-        public SimpleBakedModel.Builder addFaceQuad(EnumFacing p_177650_1_, BakedQuad p_177650_2_)
-        {
-            ((List)this.builderFaceQuads.get(p_177650_1_.ordinal())).add(p_177650_2_);
-            return this;
-        }
+		private void addFaceBreakingFours(IBakedModel p_177649_1_, TextureAtlasSprite p_177649_2_, EnumFacing p_177649_3_) {
+			for (BakedQuad bakedquad : p_177649_1_.getFaceQuads(p_177649_3_)) {
+				this.addFaceQuad(p_177649_3_, new BreakingFour(bakedquad, p_177649_2_));
+			}
+		}
 
-        public SimpleBakedModel.Builder addGeneralQuad(BakedQuad p_177648_1_)
-        {
-            this.builderGeneralQuads.add(p_177648_1_);
-            return this;
-        }
+		private void addGeneralBreakingFours(IBakedModel p_177647_1_, TextureAtlasSprite p_177647_2_) {
+			for (BakedQuad bakedquad : p_177647_1_.getGeneralQuads()) {
+				this.addGeneralQuad(new BreakingFour(bakedquad, p_177647_2_));
+			}
+		}
 
-        public SimpleBakedModel.Builder setTexture(TextureAtlasSprite p_177646_1_)
-        {
-            this.builderTexture = p_177646_1_;
-            return this;
-        }
+		public SimpleBakedModel.Builder addFaceQuad(EnumFacing p_177650_1_, BakedQuad p_177650_2_) {
+			((List) this.builderFaceQuads.get(p_177650_1_.ordinal())).add(p_177650_2_);
+			return this;
+		}
 
-        public IBakedModel makeBakedModel()
-        {
-            if (this.builderTexture == null)
-            {
-                throw new RuntimeException("Missing particle!");
-            }
+		public SimpleBakedModel.Builder addGeneralQuad(BakedQuad p_177648_1_) {
+			this.builderGeneralQuads.add(p_177648_1_);
+			return this;
+		}
+
+		public SimpleBakedModel.Builder setTexture(TextureAtlasSprite p_177646_1_) {
+			this.builderTexture = p_177646_1_;
+			return this;
+		}
+
+		public IBakedModel makeBakedModel() {
+			if (this.builderTexture == null) {
+				throw new RuntimeException("Missing particle!");
+			}
 			return new SimpleBakedModel(this.builderGeneralQuads, this.builderFaceQuads, this.builderAmbientOcclusion, this.builderGui3d, this.builderTexture, this.builderCameraTransforms);
 		}
-    }
+
+	}
+
 }

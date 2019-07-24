@@ -7,10 +7,6 @@ import java.util.List;
 
 public class PlayerGuiBridge {
 
-	public interface GuiOpener<D> {
-		void open(EntityPlayer p, D gui, boolean serverSide);
-	}
-
 	private static final List<Entry> list = new ArrayList<>();
 
 	public static <T> void open(EntityPlayer p, Class<T> type, T gui, boolean serverSide) {
@@ -30,6 +26,12 @@ public class PlayerGuiBridge {
 
 	public static void unregister(final Class type) {
 		list.removeIf(e -> e.clazz == type);
+	}
+
+	public interface GuiOpener<D> {
+
+		void open(EntityPlayer p, D gui, boolean serverSide);
+
 	}
 
 	private static class Entry<T> {

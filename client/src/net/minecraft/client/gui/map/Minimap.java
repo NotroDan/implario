@@ -18,28 +18,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Minimap {
-	private static DynamicTexture texture;
-	private static BufferedImage image;
+
 	private static final int size = 10 * 16;
 	private static final int renderSize = 48;
 	private static final int offsetRender = 5;
-
-
-	static{
+	private static DynamicTexture texture;
+	private static BufferedImage image;
+	static {
 		texture = new DynamicTexture(size, size);
 		image = new BufferedImage(size, size, Image.SCALE_DEFAULT);
 	}
 
-	public static void initChunk(Chunk chunk){
+	public static void initChunk(Chunk chunk) {
 		int chunkX = chunk.xPosition - MC.getPlayer().chunkCoordX, chunkY = chunk.zPosition - MC.getPlayer().chunkCoordZ;
-		if(chunk.xPosition == 0 || chunk.zPosition == 0)return;
+		if (chunk.xPosition == 0 || chunk.zPosition == 0) return;
 		Block[][] blocks = getBlocksFromChunk(chunk);
 		writeImageFromChunk(blocks, chunkX, chunkY);
 		texture.writeBufferedImage(image);
 		texture.updateDynamicTexture();
 	}
 
-	public static void renderMinimap(){
+	public static void renderMinimap() {
 		int x = ((int) MC.getPlayer().posX) & 15, z = ((int) MC.getPlayer().posX) & 15;
 		G.bindTexture(texture.getGlTextureId());
 		image.setRGB(size / 2, size / 2, Color.RED.getRGB());
@@ -49,23 +48,23 @@ public class Minimap {
 				renderSize, renderSize, size, size);
 	}
 
-	private static void writeImageFromChunk(Block[][] map, int chunkX, int chunkZ){
+	private static void writeImageFromChunk(Block[][] map, int chunkX, int chunkZ) {
 		int offsetX = size / 2 + chunkX * 16, offsetZ = size / 2 + chunkZ * 16;
-		for(int x = 0; x < 16; x++)
-			for(int y = 0; y < 16; y++) {
+		for (int x = 0; x < 16; x++)
+			for (int y = 0; y < 16; y++) {
 				IBlockState state = map[x][y].getDefaultState();
 				image.setRGB(offsetX + x, offsetZ + y, state.getBlock().getMapColor(state).colorValue);
 			}
 	}
 
-	private static Block[][] getBlocksFromChunk(Chunk chunk){
+	private static Block[][] getBlocksFromChunk(Chunk chunk) {
 		Block[][] blocks = new Block[16][16];
-		for(int x = 0; x < 16; x++)
-			for(int z = 0; z < 16; z++)
-				for(int y = 255; y != -1; y--){
+		for (int x = 0; x < 16; x++)
+			for (int z = 0; z < 16; z++)
+				for (int y = 255; y != -1; y--) {
 					Block block = chunk.getBlock(x, y, z);
 					blocks[x][z] = block;
-					if(block.getMaterial() != Material.air)break;
+					if (block.getMaterial() != Material.air) break;
 				}
 		return blocks;
 	}

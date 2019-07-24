@@ -25,22 +25,21 @@ import java.util.List;
 
 public class EntityWither extends EntityMob implements IBossDisplayData, IRangedAttackMob {
 
+	private static final Predicate<Entity> attackEntitySelector = new Predicate<Entity>() {
+		public boolean apply(Entity p_apply_1_) {
+			return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase) p_apply_1_).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
+		}
+	};
 	private float[] field_82220_d = new float[2];
 	private float[] field_82221_e = new float[2];
 	private float[] field_82217_f = new float[2];
 	private float[] field_82218_g = new float[2];
 	private int[] field_82223_h = new int[2];
 	private int[] field_82224_i = new int[2];
-
 	/**
 	 * Time before the Wither tries to break blocks
 	 */
 	private int blockBreakCounter;
-	private static final Predicate<Entity> attackEntitySelector = new Predicate<Entity>() {
-		public boolean apply(Entity p_apply_1_) {
-			return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase) p_apply_1_).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
-		}
-	};
 
 	public EntityWither(World worldIn) {
 		super(worldIn);

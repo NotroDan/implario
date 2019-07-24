@@ -29,17 +29,10 @@ import java.util.Date;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
+	public static final String openGLWarning = "Нажмите " + EnumChatFormatting.UNDERLINE + "здесь" + EnumChatFormatting.RESET + ", чтобы узнать больше.";
+	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
 	private static final Logger logger = Logger.getInstance();
-	private final long openedAt;
-
-	/**
-	 * The Object object utilized as a thread lock when performing non thread-safe operations
-	 */
-	private final Object threadLock = new Object();
-	private String openGLWarning1;
-	private String openGLWarning2;
-	private String openGLWarningLink;
-
 	private static final ResourceLocation[] skyboxTiles = new ResourceLocation[] {
 			new ResourceLocation("textures/gui/title/background/panorama_0.png"),
 			new ResourceLocation("textures/gui/title/background/panorama_1.png"),
@@ -48,13 +41,24 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			new ResourceLocation("textures/gui/title/background/panorama_4.png"),
 			new ResourceLocation("textures/gui/title/background/panorama_5.png")
 	};
-	public static final String openGLWarning = "Нажмите " + EnumChatFormatting.UNDERLINE + "здесь" + EnumChatFormatting.RESET + ", чтобы узнать больше.";
+	private static final CyclicIterator<String> titles = new CyclicIterator<>(new String[] {"Implario", "BedWars", "MLGRush"});
+	private static final CyclicIterator<String> headers = new CyclicIterator<>(new String[] {"Клиент Minecraft 1.8.8", "Киберспортивная версия", "Тренируйте свои навыки на"});
+	private static boolean switched = true;
+	private static String title = titles.current();
+	private static String header = headers.current();
+	private final long openedAt;
+	/**
+	 * The Object object utilized as a thread lock when performing non thread-safe operations
+	 */
+	private final Object threadLock = new Object();
+	private String openGLWarning1;
+	private String openGLWarning2;
+	private String openGLWarningLink;
 	private int field_92024_r;
 	private int field_92022_t;
 	private int field_92021_u;
 	private int field_92020_v;
 	private int field_92019_w;
-
 	private Skybox skybox;
 
 	public GuiMainMenu() {
@@ -116,10 +120,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions());
 
-//		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
+		//		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
 		if (button.id == 5) this.mc.displayGuiScreen(new GuiShaders(this));
 		if (button.id == 54) {
-			if(Settings.DEBUG.b())
+			if (Settings.DEBUG.b())
 				this.mc.displayGuiScreen(new GuiSettings(this));
 			else
 				Config.showGuiMessage("Включите дебаг", "Иначе работать не будет");
@@ -130,7 +134,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
 
 		if (button.id == 97) this.mc.displayGuiScreen(new GuiPlayername(this));
-//		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
+		//		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
 
 		if (button.id == 4) this.mc.shutdown();
 
@@ -160,14 +164,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		this.mc.displayGuiScreen(this);
 	}
 
-	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
-	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
-
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		G.disableAlpha();
-//		if (skybox != null) skybox.render(partialTicks);
-//		else
-			renderBackground(mouseX, mouseY);
+		//		if (skybox != null) skybox.render(partialTicks);
+		//		else
+		renderBackground(mouseX, mouseY);
 		G.enableAlpha();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -209,54 +210,48 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		worldrenderer.pos((double) this.width, 0.0D, 0.0D).tex((double) ((float) this.width / 32.0F), 0).color(64, 64, 64, 255).endVertex();
 		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, 0).color(64, 64, 64, 255).endVertex();
 		tessellator.draw();
-//		mc.getTextureManager().bindTexture(TileEntityEndPortalRenderer.END_PORTAL_TEXTURE);
-//		drawRect(0, 0, width, height, 0xff101010);
-//
-//		Tessellator tessellator = Tessellator.getInstance();
-//		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-//		float offset = (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F;
-//		random.setSeed(31100L);
-//		GlStateManager.enableAlpha();
-//		GlStateManager.enableBlend();
-//
-//		for (int layer = 15; layer >= 0; layer--) {
-//			GlStateManager.pushMatrix();
-//			float f = 0.00390625F * (1 + (float) layer / 3);
-//
-//
-//			float r = random.nextFloat() * 0.5F + 0.1F;
-//			float g = random.nextFloat() * 0.5F + 0.4F;
-//			float b = random.nextFloat() * 0.5F + 0.5F;
-//			GlStateManager.color(r, g, b, 0.5f);
-//			GlStateManager.translate(width / 2, height / 2, 0);
-//			float mouseOffsetX = (float) mouseX / (float) width * (16 - layer) * 5;
-//			float mouseOffsetY = (float) mouseY / (float) width * (16 - layer) * 10;
-//			GlStateManager.translate(mouseOffsetX, mouseOffsetY, 0);
-//			GlStateManager.rotate((float) (layer * layer * 4321 + layer * 9) * 2.0F, 0, 0, 1);
-//
-//			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-//
-//			float x1 = (float) width * -1.5f, x2 = (float) width * 1.5f;
-//			float y1 = x1 + offset * x1, y2 = x2 - offset * x2;
-//
-//			worldrenderer.pos(width * -1.5, y2, zLevel).tex(0d, (double) (255 * f)).endVertex();
-//			worldrenderer.pos(x2, y2, zLevel).tex((double) (255 * f), (double) (255 * f)).endVertex();
-//			worldrenderer.pos(x2, y1, zLevel).tex((double) (255 * f), 0d).endVertex();
-//			worldrenderer.pos(x1, y1, zLevel).tex(0d, 0d).endVertex();
-//
-//			tessellator.draw();
-//			GlStateManager.popMatrix();
-//			drawRect(0, 0, width, height, 0x25101010);
-//		}
+		//		mc.getTextureManager().bindTexture(TileEntityEndPortalRenderer.END_PORTAL_TEXTURE);
+		//		drawRect(0, 0, width, height, 0xff101010);
+		//
+		//		Tessellator tessellator = Tessellator.getInstance();
+		//		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		//		float offset = (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F;
+		//		random.setSeed(31100L);
+		//		GlStateManager.enableAlpha();
+		//		GlStateManager.enableBlend();
+		//
+		//		for (int layer = 15; layer >= 0; layer--) {
+		//			GlStateManager.pushMatrix();
+		//			float f = 0.00390625F * (1 + (float) layer / 3);
+		//
+		//
+		//			float r = random.nextFloat() * 0.5F + 0.1F;
+		//			float g = random.nextFloat() * 0.5F + 0.4F;
+		//			float b = random.nextFloat() * 0.5F + 0.5F;
+		//			GlStateManager.color(r, g, b, 0.5f);
+		//			GlStateManager.translate(width / 2, height / 2, 0);
+		//			float mouseOffsetX = (float) mouseX / (float) width * (16 - layer) * 5;
+		//			float mouseOffsetY = (float) mouseY / (float) width * (16 - layer) * 10;
+		//			GlStateManager.translate(mouseOffsetX, mouseOffsetY, 0);
+		//			GlStateManager.rotate((float) (layer * layer * 4321 + layer * 9) * 2.0F, 0, 0, 1);
+		//
+		//			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		//
+		//			float x1 = (float) width * -1.5f, x2 = (float) width * 1.5f;
+		//			float y1 = x1 + offset * x1, y2 = x2 - offset * x2;
+		//
+		//			worldrenderer.pos(width * -1.5, y2, zLevel).tex(0d, (double) (255 * f)).endVertex();
+		//			worldrenderer.pos(x2, y2, zLevel).tex((double) (255 * f), (double) (255 * f)).endVertex();
+		//			worldrenderer.pos(x2, y1, zLevel).tex((double) (255 * f), 0d).endVertex();
+		//			worldrenderer.pos(x1, y1, zLevel).tex(0d, 0d).endVertex();
+		//
+		//			tessellator.draw();
+		//			GlStateManager.popMatrix();
+		//			drawRect(0, 0, width, height, 0x25101010);
+		//		}
 
 
 	}
-
-	private static final CyclicIterator<String> titles = new CyclicIterator<>(new String[] {"Implario", "BedWars", "MLGRush"});
-	private static final CyclicIterator<String> headers = new CyclicIterator<>(new String[] {"Клиент Minecraft 1.8.8", "Киберспортивная версия", "Тренируйте свои навыки на"});
-	private static boolean switched = true;
-	private static String title = titles.current();
-	private static String header = headers.current();
 
 	private void renderTitle() {
 		long t = System.currentTimeMillis();

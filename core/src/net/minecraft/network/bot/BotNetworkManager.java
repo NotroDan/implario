@@ -42,11 +42,6 @@ public class BotNetworkManager extends NetworkManager {
 	}
 
 	@Override
-	public void setNetHandler(INetHandler handler) {
-
-	}
-
-	@Override
 	public void sendPacket(Packet packet) {
 		packet.processPacket(handler);
 	}
@@ -97,13 +92,18 @@ public class BotNetworkManager extends NetworkManager {
 	}
 
 	@Override
+	public void setNetHandler(INetHandler handler) {
+
+	}
+
+	@Override
 	public void disableAutoRead() {
-//		super.disableAutoRead();
+		//		super.disableAutoRead();
 	}
 
 	@Override
 	public void setCompressionTreshold(int treshold) {
-//		super.setCompressionTreshold(treshold);
+		//		super.setCompressionTreshold(treshold);
 	}
 
 	@Override

@@ -18,10 +18,9 @@ public class WorldType {
 	public static final WorldType[] worldTypes = new WorldType[16];
 
 
-
 	public static final WorldType VOID = new WorldType("empty",
-		(p, s, v, c) -> new BasicChunkBiomer(Biome.VOID),
-		p -> new ChunkProviderVoid(p.getWorld())).weakFog().hardcodeRegister();
+			(p, s, v, c) -> new BasicChunkBiomer(Biome.VOID),
+			p -> new ChunkProviderVoid(p.getWorld())).weakFog().hardcodeRegister();
 
 	private static final ChunkManagerFactory factoryDebugCM = (p, s, v, c) -> new BasicChunkBiomer(Biome.VOID);
 	private static final ChunkProviderFactory factoryDebugCP = p -> new ChunkProviderDebug(p.getWorld());
@@ -29,21 +28,19 @@ public class WorldType {
 			factoryDebugCM, factoryDebugCP).disableMobs().disallowModification().hardcodeRegister();
 
 	//	public static final WorldType DEFAULT_1_1 = new WorldType(8, "default_1_1").setCanBeCreated(false);
-
+	private final String worldType;
+	private final ChunkManagerFactory chunkManagerFactory;
+	private final ChunkProviderFactory chunkProviderFactory;
 	/**
 	 * ID for this world type.
 	 */
 	private int id = -1;
-	private final String worldType;
-	private final ChunkManagerFactory chunkManagerFactory;
-	private final ChunkProviderFactory chunkProviderFactory;
-
 	/**
 	 * Whether this world type can be generated. Normally true; set to false for out-of-date generator versions.
 	 */
 	private boolean canBeCreated = true;
 
- 	/**
+	/**
 	 * Whether this WorldType has a version or not.
 	 */
 	private boolean isWorldTypeVersioned;
@@ -64,9 +61,17 @@ public class WorldType {
 		int id = Util.firstEmpty(worldTypes);
 		worldTypes[id] = type;
 	}
+
 	public static void unregisterType(WorldType type) {
 		for (int i = 0; i < worldTypes.length; i++) if (worldTypes[i] == type) worldTypes[i] = null;
 		type.id = -1;
+	}
+
+	public static WorldType parseWorldType(String type) {
+		for (WorldType t : worldTypes)
+			if (t != null && t.worldType.equalsIgnoreCase(type)) return t;
+
+		return null;
 	}
 
 	private WorldType hardcodeRegister() {
@@ -78,13 +83,13 @@ public class WorldType {
 		return mapFeatures;
 	}
 
+	public WorldCustomizer getCustomizer() {
+		return customizer;
+	}
+
 	public WorldType setCustomizer(WorldCustomizer customizer) {
 		this.customizer = customizer;
 		return this;
-	}
-
-	public WorldCustomizer getCustomizer() {
-		return customizer;
 	}
 
 	public String getWorldTypeName() {
@@ -118,7 +123,6 @@ public class WorldType {
 		return this;
 	}
 
-
 	/**
 	 * Gets whether this WorldType can be used to generate a new world.
 	 */
@@ -140,13 +144,6 @@ public class WorldType {
 	 */
 	public boolean isVersioned() {
 		return this.isWorldTypeVersioned;
-	}
-
-	public static WorldType parseWorldType(String type) {
-		for (WorldType t : worldTypes)
-			if (t != null && t.worldType.equalsIgnoreCase(type)) return t;
-
-		return null;
 	}
 
 	public int getWorldTypeID() {
@@ -172,6 +169,7 @@ public class WorldType {
 	public IChunkBiomer createChunkManager(WorldProvider w) {
 		return chunkManagerFactory.generate(w, 0, this, w.getGeneratorSettings());
 	}
+
 	public IChunkBiomer createChunkManager(long seed, String settings) {
 		return chunkManagerFactory.generate(null, seed, this, settings);
 	}

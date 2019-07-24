@@ -1,18 +1,18 @@
 package vanilla.world.gen.provider;
 
 import net.minecraft.block.state.IBlockState;
-import vanilla.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import vanilla.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
+import vanilla.entity.EnumCreatureType;
+import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.gen.FlatGeneratorInfo;
 import vanilla.world.gen.FlatLayerInfo;
 import vanilla.world.gen.MapGenBase;
@@ -27,13 +27,13 @@ import java.util.Random;
 
 public class ChunkProviderFlat implements VanillaChunkProvider {
 
-	private World worldObj;
-	private Random random;
 	private final IBlockState[] cachedBlockIDs = new IBlockState[256];
 	private final FlatGeneratorInfo flatWorldGenInfo;
 	private final List<MapGenStructure> structureGenerators = new ArrayList<>();
 	private final boolean hasDecoration;
 	private final boolean hasDungeons;
+	private World worldObj;
+	private Random random;
 	private WorldGenLakes waterLakeGenerator;
 	private WorldGenLakes lavaLakeGenerator;
 

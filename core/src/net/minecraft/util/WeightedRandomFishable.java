@@ -1,60 +1,54 @@
 package net.minecraft.util;
 
-import java.util.Random;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 
-public class WeightedRandomFishable extends WeightedRandom.Item
-{
-    private final ItemStack returnStack;
-    private float maxDamagePercent;
-    private boolean enchantable;
+import java.util.Random;
 
-    public WeightedRandomFishable(ItemStack returnStackIn, int itemWeightIn)
-    {
-        super(itemWeightIn);
-        this.returnStack = returnStackIn;
-    }
+public class WeightedRandomFishable extends WeightedRandom.Item {
 
-    public ItemStack getItemStack(Random random)
-    {
-        ItemStack itemstack = this.returnStack.copy();
+	private final ItemStack returnStack;
+	private float maxDamagePercent;
+	private boolean enchantable;
 
-        if (this.maxDamagePercent > 0.0F)
-        {
-            int i = (int)(this.maxDamagePercent * (float)this.returnStack.getMaxDamage());
-            int j = itemstack.getMaxDamage() - random.nextInt(random.nextInt(i) + 1);
+	public WeightedRandomFishable(ItemStack returnStackIn, int itemWeightIn) {
+		super(itemWeightIn);
+		this.returnStack = returnStackIn;
+	}
 
-            if (j > i)
-            {
-                j = i;
-            }
+	public ItemStack getItemStack(Random random) {
+		ItemStack itemstack = this.returnStack.copy();
 
-            if (j < 1)
-            {
-                j = 1;
-            }
+		if (this.maxDamagePercent > 0.0F) {
+			int i = (int) (this.maxDamagePercent * (float) this.returnStack.getMaxDamage());
+			int j = itemstack.getMaxDamage() - random.nextInt(random.nextInt(i) + 1);
 
-            itemstack.setItemDamage(j);
-        }
+			if (j > i) {
+				j = i;
+			}
 
-        if (this.enchantable)
-        {
-            EnchantmentHelper.addRandomEnchantment(random, itemstack, 30);
-        }
+			if (j < 1) {
+				j = 1;
+			}
 
-        return itemstack;
-    }
+			itemstack.setItemDamage(j);
+		}
 
-    public WeightedRandomFishable setMaxDamagePercent(float maxDamagePercentIn)
-    {
-        this.maxDamagePercent = maxDamagePercentIn;
-        return this;
-    }
+		if (this.enchantable) {
+			EnchantmentHelper.addRandomEnchantment(random, itemstack, 30);
+		}
 
-    public WeightedRandomFishable setEnchantable()
-    {
-        this.enchantable = true;
-        return this;
-    }
+		return itemstack;
+	}
+
+	public WeightedRandomFishable setMaxDamagePercent(float maxDamagePercentIn) {
+		this.maxDamagePercent = maxDamagePercentIn;
+		return this;
+	}
+
+	public WeightedRandomFishable setEnchantable() {
+		this.enchantable = true;
+		return this;
+	}
+
 }

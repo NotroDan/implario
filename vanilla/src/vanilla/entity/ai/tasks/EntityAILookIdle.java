@@ -2,61 +2,64 @@ package vanilla.entity.ai.tasks;
 
 import vanilla.entity.VanillaEntity;
 
-public class EntityAILookIdle extends EntityAIBase
-{
-    /** The entity that is looking idle. */
-    private VanillaEntity idleEntity;
+public class EntityAILookIdle extends EntityAIBase {
 
-    /** X offset to look at */
-    private double lookX;
+	/**
+	 * The entity that is looking idle.
+	 */
+	private VanillaEntity idleEntity;
 
-    /** Z offset to look at */
-    private double lookZ;
+	/**
+	 * X offset to look at
+	 */
+	private double lookX;
 
-    /**
-     * A decrementing tick that stops the entity from being idle once it reaches 0.
-     */
-    private int idleTime;
+	/**
+	 * Z offset to look at
+	 */
+	private double lookZ;
 
-    public EntityAILookIdle(VanillaEntity entitylivingIn)
-    {
-        this.idleEntity = entitylivingIn;
-        this.setMutexBits(3);
-    }
+	/**
+	 * A decrementing tick that stops the entity from being idle once it reaches 0.
+	 */
+	private int idleTime;
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
-    public boolean shouldExecute()
-    {
-        return this.idleEntity.getRNG().nextFloat() < 0.02F;
-    }
+	public EntityAILookIdle(VanillaEntity entitylivingIn) {
+		this.idleEntity = entitylivingIn;
+		this.setMutexBits(3);
+	}
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
-    public boolean continueExecuting()
-    {
-        return this.idleTime >= 0;
-    }
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
+	public boolean shouldExecute() {
+		return this.idleEntity.getRNG().nextFloat() < 0.02F;
+	}
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
-    public void startExecuting()
-    {
-        double d0 = Math.PI * 2D * this.idleEntity.getRNG().nextDouble();
-        this.lookX = Math.cos(d0);
-        this.lookZ = Math.sin(d0);
-        this.idleTime = 20 + this.idleEntity.getRNG().nextInt(20);
-    }
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
+	public boolean continueExecuting() {
+		return this.idleTime >= 0;
+	}
 
-    /**
-     * Updates the task
-     */
-    public void updateTask()
-    {
-        --this.idleTime;
-        this.idleEntity.getLookHelper().setLookPosition(this.idleEntity.posX + this.lookX, this.idleEntity.posY + (double)this.idleEntity.getEyeHeight(), this.idleEntity.posZ + this.lookZ, 10.0F, (float)this.idleEntity.getVerticalFaceSpeed());
-    }
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
+	public void startExecuting() {
+		double d0 = Math.PI * 2D * this.idleEntity.getRNG().nextDouble();
+		this.lookX = Math.cos(d0);
+		this.lookZ = Math.sin(d0);
+		this.idleTime = 20 + this.idleEntity.getRNG().nextInt(20);
+	}
+
+	/**
+	 * Updates the task
+	 */
+	public void updateTask() {
+		--this.idleTime;
+		this.idleEntity.getLookHelper().setLookPosition(this.idleEntity.posX + this.lookX, this.idleEntity.posY + (double) this.idleEntity.getEyeHeight(), this.idleEntity.posZ + this.lookZ, 10.0F,
+				(float) this.idleEntity.getVerticalFaceSpeed());
+	}
+
 }

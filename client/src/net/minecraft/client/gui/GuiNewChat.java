@@ -28,6 +28,20 @@ public class GuiNewChat extends Gui {
 		this.mc = mcIn;
 	}
 
+	public static int calculateChatboxWidth(float v) {
+		//		int i = 320;
+		//		int j = 40;
+		//		return MathHelper.floor_float(v * (float) (i - j) + (float) j);
+		return (int) v;
+	}
+
+	public static int calculateChatboxHeight(float v) {
+		//		int i = 180;
+		//		int j = 20;
+		//		return MathHelper.floor_float(v * (float) (i - j) + (float) j);
+		return (int) v;
+	}
+
 	public void drawChat(int p_146230_1_) {
 		if (Settings.CHAT_VISIBILITY.i() == 2) return;
 		int i = this.getLineCount();
@@ -291,20 +305,6 @@ public class GuiNewChat extends Gui {
 	 */
 	public float getChatScale() {
 		return Settings.CHAT_SCALE.f();
-	}
-
-	public static int calculateChatboxWidth(float v) {
-		//		int i = 320;
-		//		int j = 40;
-		//		return MathHelper.floor_float(v * (float) (i - j) + (float) j);
-		return (int) v;
-	}
-
-	public static int calculateChatboxHeight(float v) {
-//		int i = 180;
-//		int j = 20;
-//		return MathHelper.floor_float(v * (float) (i - j) + (float) j);
-		return (int) v;
 	}
 
 	public int getLineCount() {

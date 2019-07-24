@@ -1,6 +1,5 @@
 package net.minecraft.world.chunk;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -18,10 +17,37 @@ public class ChunkProviderDebug implements IChunkProvider {
 	private static final List<IBlockState> field_177464_a = new ArrayList<>();
 	private static final int field_177462_b;
 	private static final int field_181039_c;
+	static {
+		for (Block block : Block.blockRegistry) {
+			field_177464_a.addAll(block.getBlockState().getValidStates());
+		}
+
+		field_177462_b = MathHelper.ceiling_float_int(MathHelper.sqrt_float((float) field_177464_a.size()));
+		field_181039_c = MathHelper.ceiling_float_int((float) field_177464_a.size() / (float) field_177462_b);
+	}
 	private final World world;
 
 	public ChunkProviderDebug(World worldIn) {
 		this.world = worldIn;
+	}
+
+	public static IBlockState func_177461_b(int p_177461_0_, int p_177461_1_) {
+		IBlockState iblockstate = null;
+
+		if (p_177461_0_ > 0 && p_177461_1_ > 0 && p_177461_0_ % 2 != 0 && p_177461_1_ % 2 != 0) {
+			p_177461_0_ = p_177461_0_ / 2;
+			p_177461_1_ = p_177461_1_ / 2;
+
+			if (p_177461_0_ <= field_177462_b && p_177461_1_ <= field_181039_c) {
+				int i = MathHelper.abs_int(p_177461_0_ * field_177462_b + p_177461_1_);
+
+				if (i < field_177464_a.size()) {
+					iblockstate = field_177464_a.get(i);
+				}
+			}
+		}
+
+		return iblockstate;
 	}
 
 	/**
@@ -55,25 +81,6 @@ public class ChunkProviderDebug implements IChunkProvider {
 
 		chunk.generateSkylightMap();
 		return chunk;
-	}
-
-	public static IBlockState func_177461_b(int p_177461_0_, int p_177461_1_) {
-		IBlockState iblockstate = null;
-
-		if (p_177461_0_ > 0 && p_177461_1_ > 0 && p_177461_0_ % 2 != 0 && p_177461_1_ % 2 != 0) {
-			p_177461_0_ = p_177461_0_ / 2;
-			p_177461_1_ = p_177461_1_ / 2;
-
-			if (p_177461_0_ <= field_177462_b && p_177461_1_ <= field_181039_c) {
-				int i = MathHelper.abs_int(p_177461_0_ * field_177462_b + p_177461_1_);
-
-				if (i < field_177464_a.size()) {
-					iblockstate = field_177464_a.get(i);
-				}
-			}
-		}
-
-		return iblockstate;
 	}
 
 	/**
@@ -142,14 +149,5 @@ public class ChunkProviderDebug implements IChunkProvider {
 
 	public Chunk provideChunk(BlockPos blockPosIn) {
 		return this.provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
-	}
-
-	static {
-		for (Block block : Block.blockRegistry) {
-			field_177464_a.addAll(block.getBlockState().getValidStates());
-		}
-
-		field_177462_b = MathHelper.ceiling_float_int(MathHelper.sqrt_float((float) field_177464_a.size()));
-		field_181039_c = MathHelper.ceiling_float_int((float) field_177464_a.size() / (float) field_177462_b);
 	}
 }
