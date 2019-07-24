@@ -8,71 +8,64 @@ import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import vanilla.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderVillager extends RenderVanilla<EntityVillager>
-{
-    private static final ResourceLocation villagerTextures = new ResourceLocation("textures/entity/villager/villager.png");
-    private static final ResourceLocation farmerVillagerTextures = new ResourceLocation("textures/entity/villager/farmer.png");
-    private static final ResourceLocation librarianVillagerTextures = new ResourceLocation("textures/entity/villager/librarian.png");
-    private static final ResourceLocation priestVillagerTextures = new ResourceLocation("textures/entity/villager/priest.png");
-    private static final ResourceLocation smithVillagerTextures = new ResourceLocation("textures/entity/villager/smith.png");
-    private static final ResourceLocation butcherVillagerTextures = new ResourceLocation("textures/entity/villager/butcher.png");
+public class RenderVillager extends RenderVanilla<EntityVillager> {
 
-    public RenderVillager(RenderManager renderManagerIn)
-    {
-        super(renderManagerIn, new ModelVillager(0.0F), 0.5F);
-        this.addLayer(new LayerCustomHead(this.getMainModel().villagerHead));
-    }
+	private static final ResourceLocation villagerTextures = new ResourceLocation("textures/entity/villager/villager.png");
+	private static final ResourceLocation farmerVillagerTextures = new ResourceLocation("textures/entity/villager/farmer.png");
+	private static final ResourceLocation librarianVillagerTextures = new ResourceLocation("textures/entity/villager/librarian.png");
+	private static final ResourceLocation priestVillagerTextures = new ResourceLocation("textures/entity/villager/priest.png");
+	private static final ResourceLocation smithVillagerTextures = new ResourceLocation("textures/entity/villager/smith.png");
+	private static final ResourceLocation butcherVillagerTextures = new ResourceLocation("textures/entity/villager/butcher.png");
 
-    public ModelVillager getMainModel()
-    {
-        return (ModelVillager)super.getMainModel();
-    }
+	public RenderVillager(RenderManager renderManagerIn) {
+		super(renderManagerIn, new ModelVillager(0.0F), 0.5F);
+		this.addLayer(new LayerCustomHead(this.getMainModel().villagerHead));
+	}
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
-    protected ResourceLocation getEntityTexture(EntityVillager entity)
-    {
-        switch (entity.getProfession())
-        {
-            case 0:
-                return farmerVillagerTextures;
+	public ModelVillager getMainModel() {
+		return (ModelVillager) super.getMainModel();
+	}
 
-            case 1:
-                return librarianVillagerTextures;
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(EntityVillager entity) {
+		switch (entity.getProfession()) {
+			case 0:
+				return farmerVillagerTextures;
 
-            case 2:
-                return priestVillagerTextures;
+			case 1:
+				return librarianVillagerTextures;
 
-            case 3:
-                return smithVillagerTextures;
+			case 2:
+				return priestVillagerTextures;
 
-            case 4:
-                return butcherVillagerTextures;
+			case 3:
+				return smithVillagerTextures;
 
-            default:
-                return villagerTextures;
-        }
-    }
+			case 4:
+				return butcherVillagerTextures;
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
-    protected void preRenderCallback(EntityVillager entitylivingbaseIn, float partialTickTime)
-    {
-        float f = 0.9375F;
+			default:
+				return villagerTextures;
+		}
+	}
 
-        if (entitylivingbaseIn.getGrowingAge() < 0)
-        {
-            f = (float)((double)f * 0.5D);
-            this.shadowSize = 0.25F;
-        }
-        else
-        {
-            this.shadowSize = 0.5F;
-        }
+	/**
+	 * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
+	 * entityLiving, partialTickTime
+	 */
+	protected void preRenderCallback(EntityVillager entitylivingbaseIn, float partialTickTime) {
+		float f = 0.9375F;
 
-        G.scale(f, f, f);
-    }
+		if (entitylivingbaseIn.getGrowingAge() < 0) {
+			f = (float) ((double) f * 0.5D);
+			this.shadowSize = 0.25F;
+		} else {
+			this.shadowSize = 0.5F;
+		}
+
+		G.scale(f, f, f);
+	}
+
 }

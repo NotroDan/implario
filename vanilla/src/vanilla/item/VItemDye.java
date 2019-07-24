@@ -84,7 +84,7 @@ public class VItemDye extends ItemDye {
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
 		if (!(target instanceof EntitySheep)) return false;
 
-		EntitySheep entitysheep = (EntitySheep)target;
+		EntitySheep entitysheep = (EntitySheep) target;
 		EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
 		if (!entitysheep.getSheared() && entitysheep.getFleeceColor() != enumdyecolor) {

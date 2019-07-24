@@ -11,42 +11,37 @@ import optifine.CustomColors;
 import vanilla.client.renderer.entity.vanilla.RenderWolf;
 import vanilla.entity.passive.EntityWolf;
 
-public class LayerWolfCollar implements LayerRenderer
-{
-    private static final ResourceLocation WOLF_COLLAR = new ResourceLocation("textures/entity/wolf/wolf_collar.png");
-    private final RenderWolf wolfRenderer;
+public class LayerWolfCollar implements LayerRenderer {
+
+	private static final ResourceLocation WOLF_COLLAR = new ResourceLocation("textures/entity/wolf/wolf_collar.png");
+	private final RenderWolf wolfRenderer;
 
 
-    public LayerWolfCollar(RenderWolf wolfRendererIn)
-    {
-        this.wolfRenderer = wolfRendererIn;
-    }
+	public LayerWolfCollar(RenderWolf wolfRendererIn) {
+		this.wolfRenderer = wolfRendererIn;
+	}
 
-    public void doRenderLayer(EntityWolf entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
-    {
-        if (entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible())
-        {
-            this.wolfRenderer.bindTexture(WOLF_COLLAR);
-            EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entitylivingbaseIn.getCollarColor().getMetadata());
-            float[] afloat = BeaconColors.getColor(enumdyecolor);
+	public void doRenderLayer(EntityWolf entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+		if (entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible()) {
+			this.wolfRenderer.bindTexture(WOLF_COLLAR);
+			EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entitylivingbaseIn.getCollarColor().getMetadata());
+			float[] afloat = BeaconColors.getColor(enumdyecolor);
 
-            if (Config.isCustomColors())
-            {
-                afloat = CustomColors.getWolfCollarColors(enumdyecolor, afloat);
-            }
+			if (Config.isCustomColors()) {
+				afloat = CustomColors.getWolfCollarColors(enumdyecolor, afloat);
+			}
 
-            G.color(afloat[0], afloat[1], afloat[2]);
-            this.wolfRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
-        }
-    }
+			G.color(afloat[0], afloat[1], afloat[2]);
+			this.wolfRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+		}
+	}
 
-    public boolean shouldCombineTextures()
-    {
-        return true;
-    }
+	public boolean shouldCombineTextures() {
+		return true;
+	}
 
-    public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
-    {
-        this.doRenderLayer((EntityWolf)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
-    }
+	public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+		this.doRenderLayer((EntityWolf) entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+	}
+
 }

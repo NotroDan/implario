@@ -680,7 +680,6 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, ICo
 	}
 
 
-
 	@Override
 	public int getUpdateFrequency() {
 		return 3;

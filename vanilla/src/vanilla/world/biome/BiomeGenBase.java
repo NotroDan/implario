@@ -59,7 +59,7 @@ public abstract class BiomeGenBase extends Biome {
 			river = new BiomeGenRiver(7, "River").setColor(255).setHeight(height_ShallowWaters),
 			hell = new BiomeGenHell(8, "Hell").setColor(16711680).setDisableRain().setTemperatureRainfall(2.0F, 0.0F),
 			end = new BiomeGenEnd(9, "The End").setColor(8421631).setDisableRain(),
-			frozenOcean = new BiomeGenOcean(10, "FrozenOcean").setColor(9474208).setEnableSnow().setHeight(height_Oceans).setTemperatureRainfall(0.0F,	0.5F),
+			frozenOcean = new BiomeGenOcean(10, "FrozenOcean").setColor(9474208).setEnableSnow().setHeight(height_Oceans).setTemperatureRainfall(0.0F, 0.5F),
 			frozenRiver = new BiomeGenRiver(11, "FrozenRiver").setColor(10526975).setEnableSnow().setHeight(height_ShallowWaters).setTemperatureRainfall(0.0F, 0.5F),
 			icePlains = new BiomeGenSnow(12, "Ice Plains", false).setColor(16777215).setEnableSnow().setTemperatureRainfall(0.0F, 0.5F).setHeight(height_LowPlains),
 			iceMountains = new BiomeGenSnow(13, "Ice Mountains", false).setColor(10526880).setEnableSnow().setHeight(height_LowHills).setTemperatureRainfall(0.0F, 0.5F),
@@ -79,8 +79,10 @@ public abstract class BiomeGenBase extends Biome {
 			birchForest = new BiomeGenForest(27, "Birch Forest", 2).setColor(3175492),
 			birchForestHills = new BiomeGenForest(28, "Birch Forest Hills", 2).setColor(2055986).setHeight(height_LowHills),
 			roofedForest = new BiomeGenForest(29, "Roofed Forest", 3).setColor(4215066),
-			coldTaiga = new BiomeGenTaiga(30,  "Cold Taiga", 0).setColor(3233098).setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_MidPlains).func_150563_c(16777215),
-			coldTaigaHills = new BiomeGenTaiga(31, "Cold Taiga Hills", 0).setColor(2375478).setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_LowHills).func_150563_c(16777215),
+			coldTaiga = new BiomeGenTaiga(30, "Cold Taiga", 0).setColor(3233098).setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(
+					height_MidPlains).func_150563_c(16777215),
+			coldTaigaHills = new BiomeGenTaiga(31, "Cold Taiga Hills", 0).setColor(2375478).setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(
+					height_LowHills).func_150563_c(16777215),
 			megaTaiga = new BiomeGenTaiga(32, "Mega Taiga", 1).setColor(5858897).setFillerBlockMetadata(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_MidPlains),
 			megaTaigaHills = new BiomeGenTaiga(33, "Mega Taiga Hills", 1).setColor(4542270).setFillerBlockMetadata(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_LowHills),
 			extremeHillsPlus = new BiomeGenHills(34, "Extreme Hills+", true).setColor(5271632).setHeight(height_MidHills).setTemperatureRainfall(0.2F, 0.3F),

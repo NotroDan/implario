@@ -8,25 +8,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WorldEdit extends Datapack {
-    private static Domain domain = new Domain("worldedit");
 
-    public WorldEdit(){
-        super(domain);
-    }
+	private static Domain domain = new Domain("worldedit");
 
-    public static final Map<EntityPlayer, Selection> map = new HashMap<>();
+	public WorldEdit() {
+		super(domain);
+	}
 
-    @Override
-    public void preinit() {
-    }
+	public static final Map<EntityPlayer, Selection> map = new HashMap<>();
 
-    @Override
-    public void init() {
-        registrar.regCommand(new CommandSet());
-    }
+	@Override
+	public void preinit() {
+	}
 
-    @Override
-    protected void unload() {
+	@Override
+	public void init() {
+		registrar.regCommand(new CommandSet());
+	}
 
-    }
+	@Override
+	protected void unload() {
+
+	}
+
 }

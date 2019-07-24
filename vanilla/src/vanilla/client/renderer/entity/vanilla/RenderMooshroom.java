@@ -7,21 +7,20 @@ import vanilla.client.renderer.entity.layers.LayerMooshroomMushroom;
 import vanilla.entity.passive.EntityMooshroom;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderMooshroom extends RenderVanilla<EntityMooshroom>
-{
-    private static final ResourceLocation mooshroomTextures = new ResourceLocation("textures/entity/cow/mooshroom.png");
+public class RenderMooshroom extends RenderVanilla<EntityMooshroom> {
 
-    public RenderMooshroom(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn)
-    {
-        super(renderManagerIn, modelBaseIn, shadowSizeIn);
-        this.addLayer(new LayerMooshroomMushroom(this));
-    }
+	private static final ResourceLocation mooshroomTextures = new ResourceLocation("textures/entity/cow/mooshroom.png");
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
-    protected ResourceLocation getEntityTexture(EntityMooshroom entity)
-    {
-        return mooshroomTextures;
-    }
+	public RenderMooshroom(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+		super(renderManagerIn, modelBaseIn, shadowSizeIn);
+		this.addLayer(new LayerMooshroomMushroom(this));
+	}
+
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(EntityMooshroom entity) {
+		return mooshroomTextures;
+	}
+
 }
