@@ -2,6 +2,9 @@ package net.minecraft.entity.player;
 
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
@@ -24,11 +27,8 @@ import net.minecraft.item.potion.Potion;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Events;
-import net.minecraft.resources.event.events.DamageByEntityEvent;
 import net.minecraft.resources.event.events.MountMoveEvent;
-import net.minecraft.resources.event.events.TrySleepEvent;
 import net.minecraft.resources.event.events.player.*;
 import net.minecraft.scoreboard.*;
 import net.minecraft.server.MinecraftServer;
@@ -37,6 +37,7 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.LockCode;
@@ -459,7 +460,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	/**
 	 * set current crafting inventory back to the 2x2 square
 	 */
-	protected void closeScreen() {
+	public void closeScreen() {
 		this.openContainer = this.inventoryContainer;
 	}
 
@@ -1134,8 +1135,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		ItemStack itemstack = this.getCurrentEquippedItem();
 		Entity entity = targetEntity;
 
-		DamageByEntityEvent event = E.call(new DamageByEntityEvent(entity, this));
-		entity = event.getDamagedEntity();
+		// Обработка комплексных сущностей, состоящих из нескольких частей
+		if (entity instanceof IComplexEntityBranch) {
+			IComplexEntityRoot root = ((IComplexEntityBranch) entity).getRoot();
+			if (root instanceof EntityLivingBase) entity = (EntityLivingBase) root;
+		}
 
 
 		if (itemstack != null && entity instanceof EntityLivingBase) {
@@ -1204,29 +1208,25 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		return this.gameProfile;
 	}
 
-	public EntityPlayer.EnumStatus trySleep(BlockPos bedLocation) {
+	public SleepStatus trySleep(BlockPos bedLocation) {
 		if (!this.worldObj.isClientSide) {
+			SleepStatus status;
 			if (this.isPlayerSleeping() || !this.isEntityAlive()) {
-				return EntityPlayer.EnumStatus.OTHER_PROBLEM;
+				status = SleepStatus.OTHER_PROBLEM;
+			} else if (!this.worldObj.provider.isSurfaceWorld()) {
+				status = SleepStatus.NOT_POSSIBLE_HERE;
+			} else if (this.worldObj.isDaytime()) {
+				status = SleepStatus.NOT_POSSIBLE_NOW;
+			} else if (Math.abs(this.posX - (double) bedLocation.getX()) > 3.0D || Math.abs(this.posY - (double) bedLocation.getY()) > 2.0D || Math.abs(this.posZ - (double) bedLocation.getZ()) > 3.0D) {
+				status = SleepStatus.TOO_FAR_AWAY;
+			} else status = SleepStatus.OK;
+
+			if (Events.eventPlayerSleep.isUseful()) {
+				PlayerSleepEvent event = new PlayerSleepEvent(this, bedLocation, status);
+				Events.eventPlayerSleep.call(event);
+				status = event.getSleepStatus();
 			}
-
-			if (!this.worldObj.provider.isSurfaceWorld()) {
-				return EntityPlayer.EnumStatus.NOT_POSSIBLE_HERE;
-			}
-
-			if (this.worldObj.isDaytime()) {
-				return EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW;
-			}
-
-			if (Math.abs(this.posX - (double) bedLocation.getX()) > 3.0D || Math.abs(this.posY - (double) bedLocation.getY()) > 2.0D || Math.abs(this.posZ - (double) bedLocation.getZ()) > 3.0D) {
-				return EntityPlayer.EnumStatus.TOO_FAR_AWAY;
-			}
-
-			double d0 = 8.0D;
-			double d1 = 5.0D;
-
-			TrySleepEvent event = E.call(new TrySleepEvent(this, bedLocation));
-			if (event.getStatus() != null) return event.getStatus();
+			if (status != null && status != SleepStatus.OK) return status;
 		}
 
 		if (this.isRiding()) {
@@ -1272,7 +1272,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			this.worldObj.updateAllPlayersSleepingFlag();
 		}
 
-		return EntityPlayer.EnumStatus.OK;
+		return SleepStatus.OK;
 	}
 
 	private void func_175139_a(EnumFacing p_175139_1_) {
@@ -1954,13 +1954,18 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		return getName().hashCode();
 	}
 
-	public enum EnumStatus {
-		OK,
-		NOT_POSSIBLE_HERE,
-		NOT_POSSIBLE_NOW,
-		TOO_FAR_AWAY,
-		OTHER_PROBLEM,
-		NOT_SAFE
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class SleepStatus {
+		public static final SleepStatus
+				OK                = new SleepStatus(),
+				NOT_POSSIBLE_HERE = new SleepStatus(),
+				NOT_POSSIBLE_NOW  = new SleepStatus(new ChatComponentTranslation("tile.bed.noSleep")),
+				TOO_FAR_AWAY      = new SleepStatus(),
+				OTHER_PROBLEM     = new SleepStatus();
+
+		private IChatComponent message;
 	}
 
 }

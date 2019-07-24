@@ -15,6 +15,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.*;
+import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.events.player.PlayerInteractEvent;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -331,25 +333,40 @@ public class PlayerControllerMP {
 		if (!this.mc.theWorld.getWorldBorder().contains(hitPos)) {
 			return false;
 		}
+		boolean swingArm = true;
+		boolean sendToServer = true;
+		boolean cancelled = false;
 		if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			IBlockState iblockstate = worldIn.getBlockState(hitPos);
-
-			if ((!player.isSneaking() || player.getHeldItem() == null) && iblockstate.getBlock().onBlockActivated(worldIn, hitPos, iblockstate, player, side, f, f1, f2)) {
-				flag = true;
+			if (Events.eventPlayerInteract.isUseful()) {
+				PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, heldStack, hitPos, iblockstate, side,
+						(float) hitVec.xCoord, (float) hitVec.yCoord, (float) hitVec.zCoord);
+				Events.eventPlayerInteract.call(event);
+				if (event.isCancelled()) {
+					cancelled = true;
+					sendToServer = event.isSendToServer();
+					swingArm = event.isArmSwing();
+				}
 			}
 
-			if (!flag && heldStack != null && heldStack.getItem() instanceof ItemBlock) {
-				ItemBlock itemblock = (ItemBlock) heldStack.getItem();
+			if (!cancelled) {
+				boolean preventBlockActivation = player.isSneaking() && player.getHeldItem() != null;
+				if (!preventBlockActivation && iblockstate.getBlock().onBlockActivated(worldIn, hitPos, iblockstate, player, side, f, f1, f2))
+					flag = true;
 
-				if (!itemblock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack)) {
-					return false;
+				if (!flag && heldStack != null && heldStack.getItem() instanceof ItemBlock) {
+					ItemBlock itemblock = (ItemBlock) heldStack.getItem();
+
+					if (!itemblock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack)) {
+						return false;
+					}
 				}
 			}
 		}
 
-		this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(hitPos, side.getIndex(), player.inventory.getCurrentItem(), f, f1, f2));
+		if (sendToServer) this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(hitPos, side.getIndex(), player.inventory.getCurrentItem(), f, f1, f2));
 
-		if (!flag && this.currentGameType != WorldSettings.GameType.SPECTATOR) {
+		if (!cancelled && !flag && this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			if (heldStack == null) {
 				return false;
 			}
@@ -363,7 +380,7 @@ public class PlayerControllerMP {
 			}
 			return heldStack.onItemUse(player, worldIn, hitPos, side, f, f1, f2);
 		}
-		return true;
+		return swingArm;
 	}
 
 	/**

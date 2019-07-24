@@ -8,10 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -55,19 +52,15 @@ public class BlockBed extends BlockDirectional {
 				worldIn.setBlockState(pos, state, 4);
 			}
 
-			EntityPlayer.EnumStatus entityplayer$enumstatus = playerIn.trySleep(pos);
+			EntityPlayer.SleepStatus status = playerIn.trySleep(pos);
 
-			if (entityplayer$enumstatus == EntityPlayer.EnumStatus.OK) {
+			if (status == EntityPlayer.SleepStatus.OK) {
 				state = state.withProperty(OCCUPIED, Boolean.TRUE);
 				worldIn.setBlockState(pos, state, 4);
 				return true;
 			}
-			if (entityplayer$enumstatus == EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW) {
-				playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.noSleep"));
-			} else if (entityplayer$enumstatus == EntityPlayer.EnumStatus.NOT_SAFE) {
-				playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.notSafe"));
-			}
-
+			IChatComponent msg = status.getMessage();
+			if (msg != null) playerIn.addChatComponentMessage(msg);
 			return true;
 		}
 		worldIn.setBlockToAir(pos);

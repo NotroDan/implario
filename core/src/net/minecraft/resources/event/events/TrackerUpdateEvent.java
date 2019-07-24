@@ -2,15 +2,16 @@ package net.minecraft.resources.event.events;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.minecraft.entity.item.EntityEnderPearl;
+import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.resources.event.Event;
 import net.minecraft.resources.event.events.player.PlayerEvent;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PlayerEnderPearlEvent extends PlayerEvent<PlayerEnderPearlEvent> {
+public class TrackerUpdateEvent extends PlayerEvent<TrackerUpdateEvent> {
 
-	private final EntityEnderPearl pearl;
+	private final EntityTrackerEntry trackerEntry;
 	private final EntityPlayerMP player;
 
 }

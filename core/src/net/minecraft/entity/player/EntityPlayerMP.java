@@ -579,10 +579,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.openContainer.detectAndSendChanges();
 	}
 
-	public EntityPlayer.EnumStatus trySleep(BlockPos bedLocation) {
-		EntityPlayer.EnumStatus entityplayer$enumstatus = super.trySleep(bedLocation);
+	public SleepStatus trySleep(BlockPos bedLocation) {
+		SleepStatus entityplayer$enumstatus = super.trySleep(bedLocation);
 
-		if (entityplayer$enumstatus == EntityPlayer.EnumStatus.OK) {
+		if (entityplayer$enumstatus == SleepStatus.OK) {
 			Packet packet = new S0APacketUseBed(this, bedLocation);
 			this.getServerForPlayer().getEntityTracker().sendToAllTrackingEntity(this, packet);
 			this.playerNetServerHandler.setPlayerLocation(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);

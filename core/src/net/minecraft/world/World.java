@@ -292,6 +292,7 @@ public abstract class World implements IBlockAccess {
 	 * Sets the block state at a given location. Flag 1 will cause a block update. Flag 2 will send the change to
 	 * clients (you almost always want this). Flag 4 prevents the block from being re-rendered, if this is a client
 	 * world. Flags can be added together.
+	 * @param flags 1 = cause a block update, 2 = send changes to client, 4 = do not re-render if the world is clientSide
 	 */
 	public boolean setBlockState(BlockPos pos, IBlockState newState, int flags) {
 		if (!this.isValid(pos)) {

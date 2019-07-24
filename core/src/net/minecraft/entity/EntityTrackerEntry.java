@@ -17,7 +17,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.events.UpdateEntityToSpectatorEvent;
+import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.events.TrackerUpdateEvent;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.storage.MapData;
@@ -342,7 +343,8 @@ public class EntityTrackerEntry {
 					playerMP.playerNetServerHandler.sendPacket(new S1BPacketEntityAttach(0, this.trackedEntity, this.trackedEntity.ridingEntity));
 				}
 
-				E.call(new UpdateEntityToSpectatorEvent(this, playerMP));
+				if (Events.eventTrackerUpdate.isUseful())
+					Events.eventTrackerUpdate.call(new TrackerUpdateEvent(this, playerMP));
 
 				if (this.trackedEntity instanceof EntityLivingBase) {
 					for (int i = 0; i < 5; ++i) {
