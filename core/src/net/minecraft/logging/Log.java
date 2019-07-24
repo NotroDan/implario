@@ -76,7 +76,7 @@ public class Log {
 
 	public File getFile(Date date) throws IOException {
 		String name = extension + "_" + DAY.format(date) + ".log";
-//		File gameData = new File("gamedata");
+		//		File gameData = new File("gamedata");
 		File logsDir = new File("gamedata/logs");
 		if (!logsDir.exists()) {
 			logsDir.mkdirs();

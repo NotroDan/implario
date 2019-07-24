@@ -6,13 +6,14 @@ import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class FallbackResourceManager implements IResourceManager {
 
 	private static final Logger logger = Logger.getInstance();
-	protected final List<IResourcePack> resourcePacks = new java.util.ArrayList<>();
+	protected final List<IResourcePack> resourcePacks = new ArrayList<>();
 	private final IMetadataSerializer frmMetadataSerializer;
 
 	public FallbackResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
@@ -58,7 +59,7 @@ public class FallbackResourceManager implements IResourceManager {
 	}
 
 	public List<IResource> getAllResources(ResourceLocation location) throws IOException {
-		List<IResource> list = new java.util.ArrayList<>();
+		List<IResource> list = new ArrayList<>();
 		ResourceLocation resourcelocation = getLocationMcmeta(location);
 
 		for (IResourcePack iresourcepack : this.resourcePacks) {

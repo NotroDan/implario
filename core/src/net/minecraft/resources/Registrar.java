@@ -70,11 +70,10 @@ public class Registrar {
 	}
 
 	/**
-	 *
 	 * @param command гагагаг
-	 * @param <T> гагага
+	 * @param <T>     гагага
 	 */
-	public <T extends CommandBase> void regCommand(T command){
+	public <T extends CommandBase> void regCommand(T command) {
 		registerMapping(new MappingCommand(CommandHandler.getCommand(command.getCommandName()), command));
 	}
 
@@ -150,6 +149,7 @@ public class Registrar {
 
 	/**
 	 * Замена функции провайдера (Напр. WorldService или MusicType)
+	 *
 	 * @param function ваша новая функция
 	 */
 	public <I, O> void replaceProvider(Provider<I, O> provider, Function<I, O> function) {
@@ -161,7 +161,7 @@ public class Registrar {
 	 *
 	 * @param type   Класс, по которому происходит выбор. Может быть абсолютно любым, но лучше сделать его логичным.
 	 * @param opener Функция открыватель. Подробнее:
-	 * @see net.minecraft.entity.player.PlayerGuiBridge.GuiOpener
+	 * @see PlayerGuiBridge.GuiOpener
 	 */
 	public <T> void registerIngameGui(Class<T> type, PlayerGuiBridge.GuiOpener<T> opener) {
 		registerMapping(new MappingIngameGui(type, PlayerGuiBridge.getOpener(type), opener));
@@ -209,7 +209,6 @@ public class Registrar {
 		mapping.map();
 		mappings.add(mapping);
 	}
-
 
 
 }

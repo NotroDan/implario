@@ -1,40 +1,36 @@
 package net.minecraft.scoreboard;
 
 import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
-public class ScoreHealthCriteria extends ScoreDummyCriteria
-{
-    public ScoreHealthCriteria(String name)
-    {
-        super(name);
-    }
+public class ScoreHealthCriteria extends ScoreDummyCriteria {
 
-    public int func_96635_a(List<EntityPlayer> p_96635_1_)
-    {
-        float f = 0.0F;
+	public ScoreHealthCriteria(String name) {
+		super(name);
+	}
 
-        for (EntityPlayer entityplayer : p_96635_1_)
-        {
-            f += entityplayer.getHealth() + entityplayer.getAbsorptionAmount();
-        }
+	public int func_96635_a(List<EntityPlayer> p_96635_1_) {
+		float f = 0.0F;
 
-        if (p_96635_1_.size() > 0)
-        {
-            f /= (float)p_96635_1_.size();
-        }
+		for (EntityPlayer entityplayer : p_96635_1_) {
+			f += entityplayer.getHealth() + entityplayer.getAbsorptionAmount();
+		}
 
-        return MathHelper.ceiling_float_int(f);
-    }
+		if (p_96635_1_.size() > 0) {
+			f /= (float) p_96635_1_.size();
+		}
 
-    public boolean isReadOnly()
-    {
-        return true;
-    }
+		return MathHelper.ceiling_float_int(f);
+	}
 
-    public IScoreObjectiveCriteria.EnumRenderType getRenderType()
-    {
-        return IScoreObjectiveCriteria.EnumRenderType.HEARTS;
-    }
+	public boolean isReadOnly() {
+		return true;
+	}
+
+	public IScoreObjectiveCriteria.EnumRenderType getRenderType() {
+		return IScoreObjectiveCriteria.EnumRenderType.HEARTS;
+	}
+
 }

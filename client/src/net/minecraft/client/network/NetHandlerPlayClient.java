@@ -694,7 +694,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	public void handleEntityStatus(S19PacketEntityStatus packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 		Entity entity = packetIn.getEntity(this.clientWorldController);
-		if (entity != null)	entity.handleStatusUpdate(packetIn.getOpCode());
+		if (entity != null) entity.handleStatusUpdate(packetIn.getOpCode());
 	}
 
 	public void handleUpdateHealth(S06PacketUpdateHealth packetIn) {
@@ -752,7 +752,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			entityplayersp.openContainer.windowId = packetIn.getWindowId();
 		} else if (!packetIn.hasSlots()) {
 			entityplayersp.openGui(IInteractionObject.class, new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
-//			entityplayersp.displayGui(new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
+			//			entityplayersp.displayGui(new LocalBlockIntercommunication(packetIn.getGuiId(), packetIn.getWindowTitle()));
 			entityplayersp.openContainer.windowId = packetIn.getWindowId();
 		} else {
 			ContainerLocalMenu containerlocalmenu = new ContainerLocalMenu(packetIn.getGuiId(), packetIn.getWindowTitle(), packetIn.getSlotCount());
@@ -835,7 +835,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		}
 
 		this.gameController.thePlayer.openGui(TileEntitySign.class, (TileEntitySign) tileentity);
-//		this.gameController.thePlayer.openEditSign((TileEntitySign) tileentity);
+		//		this.gameController.thePlayer.openEditSign((TileEntitySign) tileentity);
 	}
 
 	/**
@@ -878,11 +878,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 		if (
 				i == 1 /*&& tileentity instanceof TileEntityMobSpawner*/ ||
-				i == 2 && tileentity instanceof TileEntityCommandBlock ||
-				i == 3 && tileentity instanceof TileEntityBeacon ||
-				i == 4 && tileentity instanceof TileEntitySkull ||
-				i == 5 && tileentity instanceof TileEntityFlowerPot ||
-				i == 6 && tileentity instanceof TileEntityBanner
+						i == 2 && tileentity instanceof TileEntityCommandBlock ||
+						i == 3 && tileentity instanceof TileEntityBeacon ||
+						i == 4 && tileentity instanceof TileEntitySkull ||
+						i == 5 && tileentity instanceof TileEntityFlowerPot ||
+						i == 6 && tileentity instanceof TileEntityBanner
 		)
 			tileentity.readFromNBT(packetIn.getNbtCompound());
 	}

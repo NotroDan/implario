@@ -2,46 +2,40 @@ package shadersmod.client;
 
 import optifine.MatchBlock;
 
-public class BlockAlias
-{
-    private int blockId;
-    private MatchBlock[] matchBlocks;
+public class BlockAlias {
 
-    public BlockAlias(int blockId, MatchBlock[] matchBlocks)
-    {
-        this.blockId = blockId;
-        this.matchBlocks = matchBlocks;
-    }
+	private int blockId;
+	private MatchBlock[] matchBlocks;
 
-    public int getBlockId()
-    {
-        return this.blockId;
-    }
+	public BlockAlias(int blockId, MatchBlock[] matchBlocks) {
+		this.blockId = blockId;
+		this.matchBlocks = matchBlocks;
+	}
 
-    public boolean matches(int id, int metadata)
-    {
-        for (int i = 0; i < this.matchBlocks.length; ++i)
-        {
-            MatchBlock matchblock = this.matchBlocks[i];
+	public int getBlockId() {
+		return this.blockId;
+	}
 
-            if (matchblock.matches(id, metadata))
-            {
-                return true;
-            }
-        }
+	public boolean matches(int id, int metadata) {
+		for (int i = 0; i < this.matchBlocks.length; ++i) {
+			MatchBlock matchblock = this.matchBlocks[i];
 
-        return false;
-    }
+			if (matchblock.matches(id, metadata)) {
+				return true;
+			}
+		}
 
-    public int[] getMatchBlockIds()
-    {
-        int[] aint = new int[this.matchBlocks.length];
+		return false;
+	}
 
-        for (int i = 0; i < aint.length; ++i)
-        {
-            aint[i] = this.matchBlocks[i].getBlockId();
-        }
+	public int[] getMatchBlockIds() {
+		int[] aint = new int[this.matchBlocks.length];
 
-        return aint;
-    }
+		for (int i = 0; i < aint.length; ++i) {
+			aint[i] = this.matchBlocks[i].getBlockId();
+		}
+
+		return aint;
+	}
+
 }

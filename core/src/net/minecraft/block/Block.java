@@ -1326,11 +1326,11 @@ public class Block {
 
 			b.useNeighborBrightness =
 					b.blockMaterial != Material.air && (
-					b instanceof BlockStairs ||
-					b instanceof BlockSlab ||
-					b.getUnlocalizedName().equals("farmland") ||
-					b.translucent ||
-					b.lightOpacity == 0
+							b instanceof BlockStairs ||
+									b instanceof BlockSlab ||
+									b.getUnlocalizedName().equals("farmland") ||
+									b.translucent ||
+									b.lightOpacity == 0
 					);
 
 			for (IBlockState state : b.getBlockState().getValidStates()) {

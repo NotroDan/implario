@@ -53,10 +53,10 @@ public class FontUtils {
 		WorldRenderer r = t.getWorldRenderer();
 		G.disableTexture2D();
 		r.begin(7, DefaultVertexFormats.POSITION);
-		r.pos(x1, y1,0.0D).endVertex();
-		r.pos(x1, y2,0.0D).endVertex();
-		r.pos(x2, y2,0.0D).endVertex();
-		r.pos(x2, y1,0.0D).endVertex();
+		r.pos(x1, y1, 0.0D).endVertex();
+		r.pos(x1, y2, 0.0D).endVertex();
+		r.pos(x2, y2, 0.0D).endVertex();
+		r.pos(x2, y1, 0.0D).endVertex();
 		t.draw();
 		G.enableTexture2D();
 	}

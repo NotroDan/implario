@@ -28,7 +28,8 @@ public class BasicTabScreen implements TabScreen {
 		Element hover = id == -1 ? null : elements.get(id);
 
 		Iterator<Element> iterator = elements.iterator();
-		c: while (iterator.hasNext()) {
+		c:
+		while (iterator.hasNext()) {
 			G.pushMatrix();
 			for (int col = 0; col < columns; col++) {
 				if (!iterator.hasNext()) {
@@ -68,7 +69,7 @@ public class BasicTabScreen implements TabScreen {
 
 	@Override
 	public void mouseDown(int mouseX, int mouseY, int mouseButton) {
-//		System.out.println("click " + mouseX + " " + mouseY);
+		//		System.out.println("click " + mouseX + " " + mouseY);
 
 		int id = getHoverElement(mouseX, mouseY);
 		if (id == -1) return;
@@ -98,10 +99,10 @@ public class BasicTabScreen implements TabScreen {
 	public void mouseDrag(int mx, int my, int button, long timeSinceLastClick) {
 
 		if (active == -1) return;
-//		int id = getHoverElement(mx, my);
-//		if (id == -1) return;
-//		Element e = elements.get(id);
-//		if (e == null) return;
+		//		int id = getHoverElement(mx, my);
+		//		if (id == -1) return;
+		//		Element e = elements.get(id);
+		//		if (e == null) return;
 		elements.get(active).mouseDrag(mx - active % lastReportedColumns * COLUMNWIDTH,
 				my - active / lastReportedColumns * ELEMENTHEIGHT, button, timeSinceLastClick);
 

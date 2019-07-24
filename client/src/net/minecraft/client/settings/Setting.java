@@ -16,11 +16,15 @@ public class Setting {
 		ALL.put(name, this);
 	}
 
-	public float floatValue() 		{throw null;}
-	public boolean booleanValue() 	{throw null;}
-	public void set(float f) 		{throw null;}
-	public void set(boolean b) 		{throw null;}
-	public void set(String arg) 	{throw null;}
+	public float floatValue() {throw null;}
+
+	public boolean booleanValue() {throw null;}
+
+	public void set(float f) {throw null;}
+
+	public void set(boolean b) {throw null;}
+
+	public void set(String arg) {throw null;}
 
 	@Override
 	public int hashCode() {

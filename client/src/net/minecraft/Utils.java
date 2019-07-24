@@ -48,9 +48,9 @@ public class Utils {
 		G.pushMatrix();
 		G.translate(x, y, z);
 		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-		if (back) G.rotate(180, 0, 1,0);
-//            GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-//            GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+		if (back) G.rotate(180, 0, 1, 0);
+		//            GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+		//            GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 		G.scale(-f1, -f1, f1);
 		G.disableLighting();
 		G.depthMask(false);
@@ -65,12 +65,12 @@ public class Utils {
 		int i = width / 2;
 		G.disableTexture2D();
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		worldrenderer.pos((double)(-i - 1), (double)(-1 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
-		worldrenderer.pos((double)(-i - 1), (double)(8 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
-		worldrenderer.pos((double)(i + 1), (double)(8 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
-		worldrenderer.pos((double)(i + 1), (double)(-1 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
+		worldrenderer.pos((double) (-i - 1), (double) (-1 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
+		worldrenderer.pos((double) (-i - 1), (double) (8 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
+		worldrenderer.pos((double) (i + 1), (double) (8 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
+		worldrenderer.pos((double) (i + 1), (double) (-1 + b0), 0.0D).color(0.0F, 0.0F, 0F, 0.5F).endVertex();
 		tessellator.draw();
-			G.enableTexture2D();
+		G.enableTexture2D();
 		if (!back) fontrenderer.drawString(text, -width / 2, b0, 553648127);
 		G.enableDepth();
 		G.depthMask(true);
@@ -81,7 +81,7 @@ public class Utils {
 		G.popMatrix();
 	}
 
-	public static byte[] toBytes(float f){
+	public static byte[] toBytes(float f) {
 		ByteBuffer buffer = ByteBuffer.allocate(4);
 		buffer.putFloat(0, f);
 		byte array[] = buffer.array();
@@ -89,7 +89,7 @@ public class Utils {
 		return array;
 	}
 
-	public static float toFloat(byte array[]){
+	public static float toFloat(byte array[]) {
 		ByteBuffer buffer = ByteBuffer.allocate(4);
 		buffer.put(array);
 		buffer.position(0);
@@ -103,6 +103,7 @@ public class Utils {
 			Thread.sleep(ms);
 		} catch (InterruptedException ignored) {}
 	}
+
 	public static void yield() {
 		try {
 			Thread.yield();
@@ -124,30 +125,30 @@ public class Utils {
 		}
 		if (line.equals("mm")) {
 			map = Minimap.getMiniMap(20);
-//			for (IBlockState[] states : map) {
-//				if (states == null) continue;
-//				for (IBlockState state : states) {
-//					if (state == null) continue;
-//					if (state.getBlock() != Blocks.acacia_fence) continue;
-//					IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
-//					for (BakedQuad quad : model.getGeneralQuads()) System.out.println(quad);
-//				}
-//			}
-//			System.out.println(Arrays.deepToString(map));
+			//			for (IBlockState[] states : map) {
+			//				if (states == null) continue;
+			//				for (IBlockState state : states) {
+			//					if (state == null) continue;
+			//					if (state.getBlock() != Blocks.acacia_fence) continue;
+			//					IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
+			//					for (BakedQuad quad : model.getGeneralQuads()) System.out.println(quad);
+			//				}
+			//			}
+			//			System.out.println(Arrays.deepToString(map));
 
 		}
-//		if (line.startsWith("dp")) {
-//			String[] split = line.split(" ");
-//			if (split.length >= 2) {
-//				try {
-//					Datapack datapack = DatapackReflector.enable(split[1]);
-//					MC.chat("§aДатапак §f" + datapack.getDomain().getAddress() + "§a подключён и работает (§fCLIENT-SIDE§a).");
-//				} catch (Exception e) {
-//					MC.chat("§cОшибка при включении датапака §f" + split[1]);
-//					e.printStackTrace();
-//				}
-//			}
-//		}
+		//		if (line.startsWith("dp")) {
+		//			String[] split = line.split(" ");
+		//			if (split.length >= 2) {
+		//				try {
+		//					Datapack datapack = DatapackReflector.enable(split[1]);
+		//					MC.chat("§aДатапак §f" + datapack.getDomain().getAddress() + "§a подключён и работает (§fCLIENT-SIDE§a).");
+		//				} catch (Exception e) {
+		//					MC.chat("§cОшибка при включении датапака §f" + split[1]);
+		//					e.printStackTrace();
+		//				}
+		//			}
+		//		}
 
 	}
 
@@ -160,6 +161,7 @@ public class Utils {
 
 		G.color(f, f1, f2, f3);
 	}
+
 	public static void glColorNoAlpha(int color) {
 
 		float f = (float) (color >> 16 & 255) / 255.0F;
@@ -215,10 +217,10 @@ public class Utils {
 	}
 
 	public static int gradient(int a, int b, float p) {
-		int 	a1 = a >> 24 & 0xff, a2 = b >> 24 & 0xff,
+		int a1 = a >> 24 & 0xff, a2 = b >> 24 & 0xff,
 				r1 = a >> 16 & 0xff, r2 = b >> 16 & 0xff,
-				g1 = a >> 8  & 0xff, g2 = b >> 8  & 0xff,
-				b1 = a 		 & 0xff, b2 = b & 0xff;
+				g1 = a >> 8 & 0xff, g2 = b >> 8 & 0xff,
+				b1 = a & 0xff, b2 = b & 0xff;
 		int a0 = (int) (a1 * p + a2 * (1 - p));
 		int r0 = (int) (r1 * p + r2 * (1 - p));
 		int g0 = (int) (g1 * p + g2 * (1 - p));
@@ -278,7 +280,7 @@ public class Utils {
 		ren.pos(r, 0, 0.5).endVertex();
 		ren.pos(s, -c, 0.5).endVertex();
 		ren.pos(-s, -c, 0.5).endVertex();
-		ren.pos(-r, 0,0.5).endVertex();
+		ren.pos(-r, 0, 0.5).endVertex();
 		ren.pos(-s, c, 0.5).endVertex();
 		ren.pos(s, c, 0.5).endVertex();
 		ren.pos(r, 0, 0.5).endVertex();
@@ -296,7 +298,7 @@ public class Utils {
 		ren.pos(r, 0, 0).endVertex();
 		ren.pos(s, -c, 0).endVertex();
 		ren.pos(-s, -c, 0).endVertex();
-		ren.pos(-r, 0,0).endVertex();
+		ren.pos(-r, 0, 0).endVertex();
 		ren.pos(r, 0, 0).endVertex();
 		t.draw();
 

@@ -81,7 +81,7 @@ public class StringUtils {
 	}
 
 	public static String getWittyName() {
-		return  name1[(int) (Math.random() * name1.length)] +
+		return name1[(int) (Math.random() * name1.length)] +
 				name2[(int) (Math.random() * name2.length)] +
 				name3[(int) (Math.random() * name3.length)];
 	}
@@ -121,11 +121,11 @@ public class StringUtils {
 			if (c == '.' || c == '\n') c = ' ';
 			if (
 					c >= 'A' && c <= 'Z' ||
-					c >= 'a' && c <= 'z' ||
-					c >= 'А' && c <= 'Я' ||
-					c >= 'а' && c <= 'я' ||
-					c == ' ' && b.length() != 0
-				) b.append(c);
+							c >= 'a' && c <= 'z' ||
+							c >= 'А' && c <= 'Я' ||
+							c >= 'а' && c <= 'я' ||
+							c == ' ' && b.length() != 0
+			) b.append(c);
 		}
 		return b.toString();
 	}

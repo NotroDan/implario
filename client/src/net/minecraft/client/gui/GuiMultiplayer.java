@@ -127,7 +127,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		if (!button.enabled) return;
 		GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.getSelected() < 0 ? null : this.serverListSelector.getListEntry(
 				this.serverListSelector.getSelected());
-		
+
 		if (button.id == 2 && guilistextended$iguilistentry instanceof ServerListEntryNormal) {
 			String s4 = ((ServerListEntryNormal) guilistextended$iguilistentry).getServerData().serverName;
 

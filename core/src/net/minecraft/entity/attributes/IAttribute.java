@@ -1,14 +1,15 @@
 package net.minecraft.entity.attributes;
 
-public interface IAttribute
-{
-    String getAttributeUnlocalizedName();
+public interface IAttribute {
 
-    double clampValue(double p_111109_1_);
+	String getAttributeUnlocalizedName();
 
-    double getDefaultValue();
+	double clampValue(double p_111109_1_);
 
-    boolean getShouldWatch();
+	double getDefaultValue();
 
-    IAttribute func_180372_d();
+	boolean getShouldWatch();
+
+	IAttribute func_180372_d();
+
 }

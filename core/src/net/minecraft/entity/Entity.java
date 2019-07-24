@@ -1051,9 +1051,8 @@ public abstract class Entity implements ICommandSender, ITrackable {
 
 	/**
 	 * Used in both water and by flying objects
+	 *
 	 * @param friction - Коэффициент, на который умножается движение
-	 *
-	 *
 	 */
 	public void move(float strafe, float forward, float friction) {
 		float f = strafe * strafe + forward * forward;
@@ -1065,7 +1064,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 
 		f = friction / f;
 		strafe = strafe * f;
-//		System.out.println("strafe = " + strafe + ", friction = " + friction);
+		//		System.out.println("strafe = " + strafe + ", friction = " + friction);
 		forward = forward * f;
 		float dx = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F);
 		float dz = MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F);

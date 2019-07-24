@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.WeightedRandom;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -168,9 +169,9 @@ public class EnchantmentHelper {
 			enchantmentModifierDamage.damageModifier = 0;
 		}
 
-        return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
+		return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
 				enchantmentRand.nextInt((enchantmentModifierDamage.damageModifier >> 1) + 1);
-    }
+	}
 
 	/**
 	 * Returns the modifier of protection enchantments on armors equipped on player.
@@ -187,9 +188,9 @@ public class EnchantmentHelper {
 			enchantmentModifierDamage.damageModifier = 0;
 		}
 
-        return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
+		return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
 				(enchantmentModifierDamage.damageModifier >> 2);
-    }
+	}
 
 	public static float calcDamage(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_) {
 		enchantmentModifierLiving.livingModifier = 0.0F;
@@ -378,7 +379,7 @@ public class EnchantmentHelper {
 			EnchantmentData enchantmentdata = (EnchantmentData) WeightedRandom.getRandomItem(randomIn, map.values());
 
 			if (enchantmentdata != null) {
-				list = new java.util.ArrayList<>();
+				list = new ArrayList<>();
 				list.add(enchantmentdata);
 
 				for (int l = k; randomIn.nextInt(50) <= l; l >>= 1) {

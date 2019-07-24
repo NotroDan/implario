@@ -11,9 +11,11 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuiChat extends GuiScreen {
+
 	private static final Logger logger = Logger.getInstance();
 	private String historyBuffer = "";
 
@@ -25,7 +27,7 @@ public class GuiChat extends GuiScreen {
 	private boolean playerNamesFound;
 	private boolean waitingOnAutocomplete;
 	private int autocompleteIndex;
-	private List<String> foundPlayerNames = new java.util.ArrayList<>();
+	private List<String> foundPlayerNames = new ArrayList<>();
 
 	/**
 	 * Chat entry field
@@ -273,4 +275,5 @@ public class GuiChat extends GuiScreen {
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
+
 }

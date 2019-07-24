@@ -64,6 +64,7 @@ public class DefaultResourcePack implements IResourcePack {
 	public Set getResourceDomains() {
 		return defaultResourceDomains;
 	}
+
 	public String getPackName() {
 		return "Стандартный";
 	}

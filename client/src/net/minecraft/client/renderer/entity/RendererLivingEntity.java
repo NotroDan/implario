@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
@@ -31,7 +32,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 	private static final DynamicTexture field_177096_e = new DynamicTexture(16, 16);
 	protected ModelBase mainModel;
 	protected FloatBuffer brightnessBuffer = GLAllocation.createDirectFloatBuffer(4);
-	protected List<LayerRenderer<T>> layerRenderers = new java.util.ArrayList<>();
+	protected List<LayerRenderer<T>> layerRenderers = new ArrayList<>();
 	protected boolean renderOutlines = false;
 
 	public static float NAME_TAG_RANGE = 64.0F;

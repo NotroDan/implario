@@ -10,12 +10,12 @@ public class Util {
 		String s = System.getProperty("os.name").toLowerCase();
 		return
 				s.contains("win") ? OS.WINDOWS :
-				s.contains("mac") ? OS.OSX :
-				s.contains("solaris") ? OS.SOLARIS :
-				s.contains("sunos") ? OS.SOLARIS :
-				s.contains("linux") ? OS.LINUX :
-				s.contains("unix") ? OS.LINUX :
-				OS.UNKNOWN;
+						s.contains("mac") ? OS.OSX :
+								s.contains("solaris") ? OS.SOLARIS :
+										s.contains("sunos") ? OS.SOLARIS :
+												s.contains("linux") ? OS.LINUX :
+														s.contains("unix") ? OS.LINUX :
+																OS.UNKNOWN;
 	}
 
 	public static <V> void schedule(FutureTask<V> task) {

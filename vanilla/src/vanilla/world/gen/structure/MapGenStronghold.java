@@ -1,6 +1,5 @@
 package vanilla.world.gen.structure;
 
-import com.google.common.collect.Lists;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -8,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import vanilla.world.biome.BiomeGenBase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,7 +29,7 @@ public class MapGenStronghold extends MapGenStructure {
 		this.structureCoords = new ChunkCoordIntPair[3];
 		this.distance = 32.0D;
 		this.spread = 3;
-		this.field_151546_e = new java.util.ArrayList<>();
+		this.field_151546_e = new ArrayList<>();
 
 		for (Biome biome : Biome.biomeList) {
 			if (biome instanceof BiomeGenBase) {
@@ -102,7 +102,7 @@ public class MapGenStronghold extends MapGenStructure {
 	}
 
 	protected List<BlockPos> getCoordList() {
-		List<BlockPos> list = new java.util.ArrayList<>();
+		List<BlockPos> list = new ArrayList<>();
 
 		for (ChunkCoordIntPair chunkcoordintpair : this.structureCoords) {
 			if (chunkcoordintpair != null) {

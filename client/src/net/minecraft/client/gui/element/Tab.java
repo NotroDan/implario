@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Tab implements ITab{
+public class Tab implements ITab {
 
 	private final List<GuiButton> buttons = new ArrayList<>();
 	public final String title;
@@ -58,4 +58,5 @@ public class Tab implements ITab{
 		buttonList.add(button);
 		buttonList.addAll(buttons);
 	}
+
 }

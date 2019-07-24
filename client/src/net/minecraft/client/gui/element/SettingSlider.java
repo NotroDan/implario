@@ -1,6 +1,5 @@
 package net.minecraft.client.gui.element;
 
-import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
@@ -80,7 +79,7 @@ public class SettingSlider extends SettingButton {
 	 */
 	public void mouseReleased(int mouseX, int mouseY) {
 		dragging = false;
-//		if (mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height) click();
+		//		if (mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height) click();
 	}
 
 }

@@ -1538,48 +1538,48 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			G.color(0.0F, 0.0F, 0.0F);
 			double d0 = this.mc.thePlayer.getPositionEyes(partialTicks).yCoord - this.theWorld.getHorizon();
 
-//			if (d0 < 0.0D) {
-//				G.pushMatrix();
-//				G.translate(0.0F, 12.0F, 0.0F);
-//
-//				if (this.vboEnabled) {
-//					this.sky2VBO.bindBuffer();
-//					GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
-//					GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
-//					this.sky2VBO.drawArrays(7);
-//					this.sky2VBO.unbindBuffer();
-//					GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-//				} else {
-//					G.callList(this.glSkyList2);
-//				}
-//
-//				G.popMatrix();
-//				float f17 = 1.0F;
-//				float f18 = -((float) (d0 + 65.0D));
-//				float f19 = -1.0F;
-//				worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-//				worldrenderer.pos(-1.0D, (double) f18, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, (double) f18, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, (double) f18, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, (double) f18, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, (double) f18, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, (double) f18, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, (double) f18, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, (double) f18, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(-1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-//				worldrenderer.pos(1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
-//				tessellator.draw();
-//			}
+			//			if (d0 < 0.0D) {
+			//				G.pushMatrix();
+			//				G.translate(0.0F, 12.0F, 0.0F);
+			//
+			//				if (this.vboEnabled) {
+			//					this.sky2VBO.bindBuffer();
+			//					GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+			//					GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
+			//					this.sky2VBO.drawArrays(7);
+			//					this.sky2VBO.unbindBuffer();
+			//					GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
+			//				} else {
+			//					G.callList(this.glSkyList2);
+			//				}
+			//
+			//				G.popMatrix();
+			//				float f17 = 1.0F;
+			//				float f18 = -((float) (d0 + 65.0D));
+			//				float f19 = -1.0F;
+			//				worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+			//				worldrenderer.pos(-1.0D, (double) f18, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, (double) f18, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, (double) f18, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, (double) f18, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, (double) f18, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, (double) f18, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, (double) f18, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, (double) f18, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(-1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, -1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+			//				worldrenderer.pos(1.0D, -1.0D, -1.0D).color(0, 0, 0, 255).endVertex();
+			//				tessellator.draw();
+			//			}
 
 			if (this.theWorld.provider.isSkyColored()) {
 				G.color(f * 0.2F + 0.04F, f1 * 0.2F + 0.04F, f2 * 0.6F + 0.1F);

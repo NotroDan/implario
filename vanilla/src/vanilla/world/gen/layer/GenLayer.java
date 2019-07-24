@@ -204,12 +204,12 @@ public abstract class GenLayer {
 	 * returns the most frequently occurring number of the set, or a random number from those provided
 	 */
 	protected int selectModeOrRandom(int a, int b, int c, int d) {
-		return  b == c && c == d ? b : a == b && a == c ? a :
+		return b == c && c == d ? b : a == b && a == c ? a :
 				a == b && a == d ? a : a == c && a == d ? a :
-				a == b && c != d ? a : a == c && b != d ? a :
-				a == d && b != c ? a : b == c && a != d ? b :
-				b == d && a != c ? b : c == d && a != b ? c :
-						this.selectRandom(a, b, c, d);
+						a == b && c != d ? a : a == c && b != d ? a :
+								a == d && b != c ? a : b == c && a != d ? b :
+										b == d && a != c ? b : c == d && a != b ? c :
+												this.selectRandom(a, b, c, d);
 	}
 
 }

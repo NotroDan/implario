@@ -11,6 +11,7 @@ import net.minecraft.util.Rotations;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -171,7 +172,7 @@ public class DataWatcher {
 					datawatcher$watchableobject.setWatched(false);
 
 					if (list == null) {
-						list = new java.util.ArrayList<>();
+						list = new ArrayList<>();
 					}
 
 					list.add(datawatcher$watchableobject);
@@ -202,7 +203,7 @@ public class DataWatcher {
 
 		for (DataWatcher.WatchableObject datawatcher$watchableobject : this.watchedObjects.values()) {
 			if (list == null) {
-				list = new java.util.ArrayList<>();
+				list = new ArrayList<>();
 			}
 
 			list.add(datawatcher$watchableobject);
@@ -266,7 +267,7 @@ public class DataWatcher {
 
 		for (int i = buffer.readByte(); i != 127; i = buffer.readByte()) {
 			if (list == null) {
-				list = new java.util.ArrayList<>();
+				list = new ArrayList<>();
 			}
 
 			int j = (i & 224) >> 5;

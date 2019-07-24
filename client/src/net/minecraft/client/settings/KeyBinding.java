@@ -6,6 +6,7 @@ import net.minecraft.util.IntHashMap;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -47,14 +48,14 @@ public enum KeyBinding implements Comparable<KeyBinding> {
 	ZOOM("of.key.zoom", 46, "key.categories.misc");
 
 	public static final KeyBinding[] HOTBAR = {HOTBAR_1, HOTBAR_2, HOTBAR_3, HOTBAR_4, HOTBAR_5, HOTBAR_6, HOTBAR_7, HOTBAR_8, HOTBAR_9};
-	private static final List<KeyBinding> keybindArray = new java.util.ArrayList<>();
+	private static final List<KeyBinding> keybindArray = new ArrayList<>();
 	private static final IntHashMap<KeyBinding> hash = new IntHashMap();
 	private static final Set<String> keybindSet = Sets.newHashSet();
 	private final String keyDescription;
 	private final int keyCodeDefault;
 	private final String keyCategory;
 	private int keyCode;
-	
+
 	static {
 		for (KeyBinding key : values()) {
 			keybindArray.add(key);

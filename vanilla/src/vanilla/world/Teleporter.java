@@ -14,6 +14,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.IDimensionTranser;
 import net.minecraft.world.WorldServer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -27,7 +28,7 @@ public class Teleporter implements IDimensionTranser {
 	private final WorldServer world;
 	private final Random random;
 	private final LongHashMap destinationCoordinateCache = new LongHashMap();
-	private final List<Long> destinationCoordinateKeys = new java.util.ArrayList<>();
+	private final List<Long> destinationCoordinateKeys = new ArrayList<>();
 
 	public Teleporter(WorldServer worldIn) {
 		this.world = worldIn;
@@ -37,8 +38,9 @@ public class Teleporter implements IDimensionTranser {
 	/**
 	 * Ищет ближайший к сущности портал и телепортирует сущность в него.
 	 * Если портала не находится, создаёт новый.
+	 *
 	 * @param entity Сущность для телепортации
-	 * @param yaw Поворот головы, который нужно установить сущности.
+	 * @param yaw    Поворот головы, который нужно установить сущности.
 	 */
 	public void onTransfer(Entity entity, float yaw) {
 		if (this.world.provider.getDimensionId() != 1) {

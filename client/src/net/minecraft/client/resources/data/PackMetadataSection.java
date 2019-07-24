@@ -2,24 +2,22 @@ package net.minecraft.client.resources.data;
 
 import net.minecraft.util.IChatComponent;
 
-public class PackMetadataSection implements IMetadataSection
-{
-    private final IChatComponent packDescription;
-    private final int packFormat;
+public class PackMetadataSection implements IMetadataSection {
 
-    public PackMetadataSection(IChatComponent p_i1034_1_, int p_i1034_2_)
-    {
-        this.packDescription = p_i1034_1_;
-        this.packFormat = p_i1034_2_;
-    }
+	private final IChatComponent packDescription;
+	private final int packFormat;
 
-    public IChatComponent getPackDescription()
-    {
-        return this.packDescription;
-    }
+	public PackMetadataSection(IChatComponent p_i1034_1_, int p_i1034_2_) {
+		this.packDescription = p_i1034_1_;
+		this.packFormat = p_i1034_2_;
+	}
 
-    public int getPackFormat()
-    {
-        return this.packFormat;
-    }
+	public IChatComponent getPackDescription() {
+		return this.packDescription;
+	}
+
+	public int getPackFormat() {
+		return this.packFormat;
+	}
+
 }

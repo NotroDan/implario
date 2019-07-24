@@ -121,7 +121,7 @@ public class ModulePlayerStats implements Module {
 			String s = String.valueOf(health + (int) absorption);
 			MC.FR.drawString(s, leftBorder + 77 - MC.FR.getStringWidth(s) / 2, y2 - (wide ? 14 : 8), absorption == 0 ? Colors.RED : Colors.YELLOW);
 			if (wide) MC.FR.drawString("HP", (leftBorder + 74), (y2 - 8), Colors.RED);
-		}else {
+		} else {
 
 			MC.bindTexture(Gui.icons);
 

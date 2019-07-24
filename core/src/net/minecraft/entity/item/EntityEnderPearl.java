@@ -4,7 +4,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.PlayerEnderPearlEvent;
 import net.minecraft.util.DamageSource;

@@ -3,111 +3,101 @@ package vanilla.entity.ai.pathfinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
-public class PathEntity
-{
-    /** The actual points in the path */
-    private final PathPoint[] points;
+public class PathEntity {
 
-    /** PathEntity Array Index the Entity is currently targeting */
-    private int currentPathIndex;
+	/**
+	 * The actual points in the path
+	 */
+	private final PathPoint[] points;
 
-    /** The total length of the path */
-    private int pathLength;
+	/**
+	 * PathEntity Array Index the Entity is currently targeting
+	 */
+	private int currentPathIndex;
 
-    public PathEntity(PathPoint[] pathpoints)
-    {
-        this.points = pathpoints;
-        this.pathLength = pathpoints.length;
-    }
+	/**
+	 * The total length of the path
+	 */
+	private int pathLength;
 
-    /**
-     * Directs this path to the next point in its array
-     */
-    public void incrementPathIndex()
-    {
-        ++this.currentPathIndex;
-    }
+	public PathEntity(PathPoint[] pathpoints) {
+		this.points = pathpoints;
+		this.pathLength = pathpoints.length;
+	}
 
-    /**
-     * Returns true if this path has reached the end
-     */
-    public boolean isFinished()
-    {
-        return this.currentPathIndex >= this.pathLength;
-    }
+	/**
+	 * Directs this path to the next point in its array
+	 */
+	public void incrementPathIndex() {
+		++this.currentPathIndex;
+	}
 
-    /**
-     * returns the last PathPoint of the Array
-     */
-    public PathPoint getFinalPathPoint()
-    {
-        return this.pathLength > 0 ? this.points[this.pathLength - 1] : null;
-    }
+	/**
+	 * Returns true if this path has reached the end
+	 */
+	public boolean isFinished() {
+		return this.currentPathIndex >= this.pathLength;
+	}
 
-    /**
-     * return the PathPoint located at the specified PathIndex, usually the current one
-     */
-    public PathPoint getPathPointFromIndex(int index)
-    {
-        return this.points[index];
-    }
+	/**
+	 * returns the last PathPoint of the Array
+	 */
+	public PathPoint getFinalPathPoint() {
+		return this.pathLength > 0 ? this.points[this.pathLength - 1] : null;
+	}
 
-    public int getCurrentPathLength()
-    {
-        return this.pathLength;
-    }
+	/**
+	 * return the PathPoint located at the specified PathIndex, usually the current one
+	 */
+	public PathPoint getPathPointFromIndex(int index) {
+		return this.points[index];
+	}
 
-    public void setCurrentPathLength(int length)
-    {
-        this.pathLength = length;
-    }
+	public int getCurrentPathLength() {
+		return this.pathLength;
+	}
 
-    public int getCurrentPathIndex()
-    {
-        return this.currentPathIndex;
-    }
+	public void setCurrentPathLength(int length) {
+		this.pathLength = length;
+	}
 
-    public void setCurrentPathIndex(int currentPathIndexIn)
-    {
-        this.currentPathIndex = currentPathIndexIn;
-    }
+	public int getCurrentPathIndex() {
+		return this.currentPathIndex;
+	}
 
-    /**
-     * Gets the vector of the PathPoint associated with the given index.
-     */
-    public Vec3 getVectorFromIndex(Entity entityIn, int index)
-    {
-        double d0 = (double)this.points[index].xCoord + (double) (int)(entityIn.width + 1.0F) * 0.5D;
-        double d1 = (double)this.points[index].yCoord;
-        double d2 = (double)this.points[index].zCoord + (double) (int)(entityIn.width + 1.0F) * 0.5D;
-        return new Vec3(d0, d1, d2);
-    }
+	public void setCurrentPathIndex(int currentPathIndexIn) {
+		this.currentPathIndex = currentPathIndexIn;
+	}
 
-    /**
-     * returns the current PathEntity target node as Vec3D
-     */
-    public Vec3 getPosition(Entity entityIn)
-    {
-        return this.getVectorFromIndex(entityIn, this.currentPathIndex);
-    }
+	/**
+	 * Gets the vector of the PathPoint associated with the given index.
+	 */
+	public Vec3 getVectorFromIndex(Entity entityIn, int index) {
+		double d0 = (double) this.points[index].xCoord + (double) (int) (entityIn.width + 1.0F) * 0.5D;
+		double d1 = (double) this.points[index].yCoord;
+		double d2 = (double) this.points[index].zCoord + (double) (int) (entityIn.width + 1.0F) * 0.5D;
+		return new Vec3(d0, d1, d2);
+	}
 
-    /**
-     * Returns true if the EntityPath are the same. Non instance related equals.
-     */
-    public boolean isSamePath(PathEntity pathentityIn)
-    {
-        if (pathentityIn == null)
-        {
-            return false;
-        }
-		if (pathentityIn.points.length != this.points.length)
-		{
+	/**
+	 * returns the current PathEntity target node as Vec3D
+	 */
+	public Vec3 getPosition(Entity entityIn) {
+		return this.getVectorFromIndex(entityIn, this.currentPathIndex);
+	}
+
+	/**
+	 * Returns true if the EntityPath are the same. Non instance related equals.
+	 */
+	public boolean isSamePath(PathEntity pathentityIn) {
+		if (pathentityIn == null) {
 			return false;
 		}
-		for (int i = 0; i < this.points.length; ++i)
-		{
-			if (this.points[i].xCoord != pathentityIn.points[i].xCoord || this.points[i].yCoord != pathentityIn.points[i].yCoord || this.points[i].zCoord != pathentityIn.points[i].zCoord)
-			{
+		if (pathentityIn.points.length != this.points.length) {
+			return false;
+		}
+		for (int i = 0; i < this.points.length; ++i) {
+			if (this.points[i].xCoord != pathentityIn.points[i].xCoord || this.points[i].yCoord != pathentityIn.points[i].yCoord || this.points[i].zCoord != pathentityIn.points[i].zCoord) {
 				return false;
 			}
 		}
@@ -115,12 +105,12 @@ public class PathEntity
 		return true;
 	}
 
-    /**
-     * Returns true if the final PathPoint in the PathEntity is equal to Vec3D coords.
-     */
-    public boolean isDestinationSame(Vec3 vec)
-    {
-        PathPoint pathpoint = this.getFinalPathPoint();
-        return pathpoint == null ? false : pathpoint.xCoord == (int)vec.xCoord && pathpoint.zCoord == (int)vec.zCoord;
-    }
+	/**
+	 * Returns true if the final PathPoint in the PathEntity is equal to Vec3D coords.
+	 */
+	public boolean isDestinationSame(Vec3 vec) {
+		PathPoint pathpoint = this.getFinalPathPoint();
+		return pathpoint == null ? false : pathpoint.xCoord == (int) vec.xCoord && pathpoint.zCoord == (int) vec.zCoord;
+	}
+
 }

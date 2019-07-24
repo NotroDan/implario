@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandFill extends CommandBase {
@@ -80,7 +81,7 @@ public class CommandFill extends CommandBase {
 			}
 		}
 
-		List<BlockPos> list = new java.util.ArrayList<>();
+		List<BlockPos> list = new ArrayList<>();
 		j = 0;
 
 		for (int z = pos1.getZ(); z <= pos2.getZ(); ++z) {

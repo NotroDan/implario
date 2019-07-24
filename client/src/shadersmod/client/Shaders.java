@@ -395,7 +395,7 @@ public class Shaders {
 	}
 
 	public static void loadConfig() {
-//		SMCLog.info("Load ShadersMod configuration.");
+		//		SMCLog.info("Load ShadersMod configuration.");
 
 		try {
 			if (!shaderpacksdir.exists()) shaderpacksdir.mkdir();
@@ -1143,15 +1143,15 @@ public class Shaders {
 		glVersionString = GL11.glGetString(GL11.GL_VERSION);
 		glVendorString = GL11.glGetString(GL11.GL_VENDOR);
 		glRendererString = GL11.glGetString(GL11.GL_RENDERER);
-//		SMCLog.info("ShadersMod version: 2.4.12");
-//		SMCLog.info("OpenGL Version: " + glVersionString);
-//		SMCLog.info("Vendor:  " + glVendorString);
-//		SMCLog.info("Renderer: " + glRendererString);
-//		SMCLog.info(
-//				"Capabilities: " + (capabilities.OpenGL20 ? " 2.0 " : " - ") + (capabilities.OpenGL21 ? " 2.1 " : " - ") + (capabilities.OpenGL30 ? " 3.0 " : " - ") + (capabilities.OpenGL32 ? " 3.2 " : " - ") + (capabilities.OpenGL40 ? " 4.0 " : " - "));
-//		SMCLog.info("GL_MAX_DRAW_BUFFERS: " + GL11.glGetInteger(GL20.GL_MAX_DRAW_BUFFERS));
-//		SMCLog.info("GL_MAX_COLOR_ATTACHMENTS_EXT: " + GL11.glGetInteger(36063));
-//		SMCLog.info("GL_MAX_TEXTURE_IMAGE_UNITS: " + GL11.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS));
+		//		SMCLog.info("ShadersMod version: 2.4.12");
+		//		SMCLog.info("OpenGL Version: " + glVersionString);
+		//		SMCLog.info("Vendor:  " + glVendorString);
+		//		SMCLog.info("Renderer: " + glRendererString);
+		//		SMCLog.info(
+		//				"Capabilities: " + (capabilities.OpenGL20 ? " 2.0 " : " - ") + (capabilities.OpenGL21 ? " 2.1 " : " - ") + (capabilities.OpenGL30 ? " 3.0 " : " - ") + (capabilities.OpenGL32 ? " 3.2 " : " - ") + (capabilities.OpenGL40 ? " 4.0 " : " - "));
+		//		SMCLog.info("GL_MAX_DRAW_BUFFERS: " + GL11.glGetInteger(GL20.GL_MAX_DRAW_BUFFERS));
+		//		SMCLog.info("GL_MAX_COLOR_ATTACHMENTS_EXT: " + GL11.glGetInteger(36063));
+		//		SMCLog.info("GL_MAX_TEXTURE_IMAGE_UNITS: " + GL11.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS));
 		hasGlGenMipmap = capabilities.OpenGL30;
 		loadConfig();
 	}

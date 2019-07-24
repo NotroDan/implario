@@ -20,7 +20,7 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 		load(Font.BOLD, 1);
 		load(Font.ITALIC, 2);
 		load(Font.BOLD + Font.ITALIC, 3);
-//		for (TrueTypeFont basis : bases) System.out.println(basis.getFont());
+		//		for (TrueTypeFont basis : bases) System.out.println(basis.getFont());
 
 
 	}
@@ -71,6 +71,7 @@ public class TrueTypeFontRenderer implements IFontRenderer {
 
 		G.color(f, f1, f2, f3);
 	}
+
 	public static void glColorNoAlpha(int color) {
 
 		float f = (float) (color >> 16 & 255) / 255.0F;

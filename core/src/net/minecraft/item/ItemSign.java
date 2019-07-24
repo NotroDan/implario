@@ -52,7 +52,7 @@ public class ItemSign extends Item {
 
 		if (tileentity instanceof TileEntitySign && !ItemBlock.setTileEntityNBT(worldIn, playerIn, pos, stack)) {
 			playerIn.openGui(TileEntitySign.class, (TileEntitySign) tileentity);
-//			playerIn.openEditSign((TileEntitySign) tileentity);
+			//			playerIn.openEditSign((TileEntitySign) tileentity);
 		}
 
 		return true;

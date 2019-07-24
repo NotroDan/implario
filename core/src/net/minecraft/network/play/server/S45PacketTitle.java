@@ -8,6 +8,7 @@ import net.minecraft.util.IChatComponent;
 import java.io.IOException;
 
 public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
+
 	private S45PacketTitle.Type type;
 	private IChatComponent message;
 	private int fadeInTime;
@@ -122,4 +123,5 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
 			return astring;
 		}
 	}
+
 }

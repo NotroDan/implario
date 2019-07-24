@@ -60,8 +60,8 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 		Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
 		if (collection.isEmpty()) return;
-//		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-//		GlStateManager.disableLighting();
+		//		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		//		GlStateManager.disableLighting();
 
 		if (Settings.MODERN_INVENTORIES.b()) {
 			drawPEnew(screen, mc, renderer, collection);
@@ -124,16 +124,17 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			if (e.getAmplifier() > 0) amplifier = ' ' + StringUtils.romanianNotation(e.getAmplifier() + 1);
 			String s1 = Lang.format(potion.getName()) + amplifier;
 
-//			this.fontRenderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
+			//			this.fontRenderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
 			String s = Potion.getDurationString(e);
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			fontRendererObj.drawString(s1, 4, y + 20, Colors.WHITE);
 			G.scale(2, 2, 2);
-			fontRendererObj.drawString(s, 16,  y / 2 + 1, Colors.WHITE);
+			fontRendererObj.drawString(s, 16, y / 2 + 1, Colors.WHITE);
 			G.scale(0.5, 0.5, 0.5);
 			y += 27 + 10;
 		}
 
 		RenderHelper.disableStandardItemLighting();
 	}
+
 }

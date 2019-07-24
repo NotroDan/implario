@@ -124,7 +124,7 @@ public class TrueTypeFont {
 		FontMetrics fontMetrics = g.getFontMetrics();
 		int charwidth = fontMetrics.charWidth(ch) + 8;
 
-//		System.out.println("Width of '" + ch + "' is " + charwidth);
+		//		System.out.println("Width of '" + ch + "' is " + charwidth);
 
 		if (charwidth <= 0) charwidth = 7;
 		int charheight = fontMetrics.getHeight() + 3;
@@ -153,7 +153,6 @@ public class TrueTypeFont {
 	private void createSet(char[] customCharsArray) {
 		// If there are custom chars then I expand the font texture twice
 		if (customCharsArray != null && customCharsArray.length > 0) textureWidth *= 2;
-
 
 
 		// In any case this should be done in other way. Texture with size 512x512
@@ -223,7 +222,7 @@ public class TrueTypeFont {
 
 			}
 
-//			ImageIO.write(imgTemp, "PNG", new File(font.getFamily() + "_" + font.getStyle() + "_" + font.getSize() + ".png"));
+			//			ImageIO.write(imgTemp, "PNG", new File(font.getFamily() + "_" + font.getStyle() + "_" + font.getSize() + ".png"));
 
 			fontTextureID = loadImage(imgTemp);
 
@@ -405,7 +404,7 @@ public class TrueTypeFont {
 	public static boolean isSupported(String fontname) {
 		Font font[] = getFonts();
 		for (int i = font.length - 1; i >= 0; i--) {
-//			System.out.print(font[i].getName() + "  ");
+			//			System.out.print(font[i].getName() + "  ");
 			if (font[i].getName().equalsIgnoreCase(fontname))
 				return true;
 		}

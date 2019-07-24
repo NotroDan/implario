@@ -32,7 +32,7 @@ public class Slider implements Element {
 		splits = (float) (1 / setStep);
 		step = length / splits;
 		this.caption = caption;
-//		this.captionW = BakedFont.CALIBRI.getRenderer().getStringWidth(caption) / 2;
+		//		this.captionW = BakedFont.CALIBRI.getRenderer().getStringWidth(caption) / 2;
 		this.captionW = BakedFont.CALIBRI.getRenderer().getStringWidth(caption) / 2;
 	}
 
@@ -109,6 +109,7 @@ public class Slider implements Element {
 	}
 
 	private float lastReportedValue = -1;
+
 	private void set(int mx) {
 		mx -= 3;
 		float l = s.getMax() - s.getMin();

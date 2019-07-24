@@ -18,7 +18,7 @@ public class MapTile {
 	}
 
 	public void setPixel(int x, int y, int color) {
-		byte red = (byte) ((color & 0xff0000) >> 4) ;
+		byte red = (byte) ((color & 0xff0000) >> 4);
 		byte green = (byte) ((color & 0xff00) >> 2);
 		byte blue = (byte) (color & 0xff);
 		setPixel(x, y, red, green, blue);

@@ -7,6 +7,7 @@ import net.minecraft.item.Group.Unit;
 import net.minecraft.item.Groups;
 import net.minecraft.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ContainerCreativeItems extends Container {
 	public static final IInventory DUMMY = new InventoryBasic("Болванка", true, 200);
 	public final int left;
 
-	public List<ItemStack> itemList = new java.util.ArrayList<>();
+	public List<ItemStack> itemList = new ArrayList<>();
 
 	public ContainerCreativeItems(EntityPlayer p) {
 		InventoryPlayer inventoryplayer = p.inventory;
@@ -102,6 +103,7 @@ public class ContainerCreativeItems extends Container {
 	}
 
 	private static class ScrollSlot extends Slot {
+
 		public int baseY;
 
 		public ScrollSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {

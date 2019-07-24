@@ -22,6 +22,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class GuiInventory extends InventoryEffectRenderer {
+
 	private float oldMouseX;
 	private float oldMouseY;
 
@@ -63,12 +64,12 @@ public class GuiInventory extends InventoryEffectRenderer {
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		int x = guiLeft;
 		int y = guiTop;
-		if(Settings.MODERN_INVENTORIES.b()) {
+		if (Settings.MODERN_INVENTORIES.b()) {
 			x = x + 4;
 			y = y + 4;
 			RenderRec.render(x, y, 168, 158, Colors.DARK);
 
-			if(Settings.SLOT_GRID.i() != 2) {
+			if (Settings.SLOT_GRID.i() != 2) {
 				RenderRec.render(x + 2, y + 2, 20, 74, Colors.DARK_GRAY);
 				RenderRec.render(x + 82, y + 20, 38, 38, Colors.DARK_GRAY);
 				RenderRec.render(x + 138, y + 30, 20, 20, Colors.DARK_GRAY);
@@ -81,7 +82,7 @@ public class GuiInventory extends InventoryEffectRenderer {
 			RenderRec.render(x + 122, y + 38, 10, 4, Colors.GRAY);
 			int x1 = x + 132, y1 = y + 34;
 			Gui.drawTriangle(x1, y1, x1, y1 + 12, x1 + 6, y1 + 6, Colors.GRAY);
-		}else{
+		} else {
 			mc.getTextureManager().bindTexture(inventoryBackground);
 			drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 		}

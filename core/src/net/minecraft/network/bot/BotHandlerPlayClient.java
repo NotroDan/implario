@@ -7,7 +7,6 @@ import net.minecraft.util.IChatComponent;
 public class BotHandlerPlayClient implements INetHandlerPlayClient {
 
 
-
 	@Override
 	public void handleSpawnObject(S0EPacketSpawnObject packetIn) {
 

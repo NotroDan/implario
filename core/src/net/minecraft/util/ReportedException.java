@@ -2,31 +2,30 @@ package net.minecraft.util;
 
 import net.minecraft.crash.CrashReport;
 
-public class ReportedException extends RuntimeException
-{
-    /** Instance of CrashReport. */
-    private final CrashReport theReportedExceptionCrashReport;
+public class ReportedException extends RuntimeException {
 
-    public ReportedException(CrashReport report)
-    {
-        this.theReportedExceptionCrashReport = report;
-    }
+	/**
+	 * Instance of CrashReport.
+	 */
+	private final CrashReport theReportedExceptionCrashReport;
 
-    /**
-     * Gets the CrashReport wrapped by this exception.
-     */
-    public CrashReport getCrashReport()
-    {
-        return this.theReportedExceptionCrashReport;
-    }
+	public ReportedException(CrashReport report) {
+		this.theReportedExceptionCrashReport = report;
+	}
 
-    public Throwable getCause()
-    {
-        return this.theReportedExceptionCrashReport.getCrashCause();
-    }
+	/**
+	 * Gets the CrashReport wrapped by this exception.
+	 */
+	public CrashReport getCrashReport() {
+		return this.theReportedExceptionCrashReport;
+	}
 
-    public String getMessage()
-    {
-        return this.theReportedExceptionCrashReport.getDescription();
-    }
+	public Throwable getCause() {
+		return this.theReportedExceptionCrashReport.getCrashCause();
+	}
+
+	public String getMessage() {
+		return this.theReportedExceptionCrashReport.getDescription();
+	}
+
 }

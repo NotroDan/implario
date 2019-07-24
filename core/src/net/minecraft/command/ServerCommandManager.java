@@ -8,6 +8,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
 public class ServerCommandManager extends CommandHandler implements IAdminCommand {
+
 	public ServerCommandManager() {
 		registerCommand(new CommandTime());
 		registerCommand(new CommandGameMode());

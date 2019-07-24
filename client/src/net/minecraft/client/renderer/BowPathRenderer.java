@@ -46,8 +46,8 @@ public class BowPathRenderer {
 			g.power = EnchantmentHelper.getEnchantmentLevel(Enchantments.power.effectId, player.getHeldItem());
 
 		} else if (player.getHeldItem().getItem() == Items.snowball ||
-					player.getHeldItem().getItem() == Items.ender_pearl ||
-					player.getHeldItem().getItem() == Items.egg) {
+				player.getHeldItem().getItem() == Items.ender_pearl ||
+				player.getHeldItem().getItem() == Items.egg) {
 			g = new SimulantSimpleProjectile(player.worldObj, player, 0);
 			s = new SimulantSimpleProjectile(player.worldObj, player, 1);
 			f = 0.3F;
@@ -70,7 +70,6 @@ public class BowPathRenderer {
 		worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
 
 
-
 		for (int i = 0; i < 300; i++) {
 			double aX = g.posX, aY = g.posY, aZ = g.posZ;
 			worldrenderer.pos(aX - x, aY - y, aZ - z).color((int) (200 * f), (int) (200 * (1 - f)), 0, 255).endVertex();
@@ -89,29 +88,31 @@ public class BowPathRenderer {
 		if (e != null) {
 			MC.i().getRenderManager().renderDebugBoundingBox(e, e.posX - x, e.posY - y, e.posZ - z, e.rotationYaw, partialTicks);
 		} else {
-			x = g.posX - x; y = g.posY - y; z = g.posZ - z;
+			x = g.posX - x;
+			y = g.posY - y;
+			z = g.posZ - z;
 			float ss = 0.3F;
 			worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
-			worldrenderer.pos(x + ss, y + ss, z + ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x - ss, y + ss, z + ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x - ss, y + ss, z - ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x + ss, y + ss, z - ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x + ss, y + ss, z + ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x + ss, y - ss, z + ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x - ss, y - ss, z + ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x - ss, y + ss, z + ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x - ss, y - ss, z + ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x - ss, y - ss, z - ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x - ss, y + ss, z - ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x - ss, y - ss, z - ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x + ss, y - ss, z - ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x + ss, y + ss, z - ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x + ss, y - ss, z - ss).color(200, 0,0 , 255).endVertex();
-			worldrenderer.pos(x + ss, y - ss, z + ss).color(200, 0,0 , 255).endVertex();
+			worldrenderer.pos(x + ss, y + ss, z + ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x - ss, y + ss, z + ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x - ss, y + ss, z - ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x + ss, y + ss, z - ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x + ss, y + ss, z + ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x + ss, y - ss, z + ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x - ss, y - ss, z + ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x - ss, y + ss, z + ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x - ss, y - ss, z + ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x - ss, y - ss, z - ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x - ss, y + ss, z - ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x - ss, y - ss, z - ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x + ss, y - ss, z - ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x + ss, y + ss, z - ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x + ss, y - ss, z - ss).color(200, 0, 0, 255).endVertex();
+			worldrenderer.pos(x + ss, y - ss, z + ss).color(200, 0, 0, 255).endVertex();
 			tessellator.draw();
 		}
 		lastParsed = g;
-//		GlStateManager.enableLighting();
+		//		GlStateManager.enableLighting();
 		G.enableTexture2D();
 		G.popMatrix();
 	}
@@ -124,7 +125,7 @@ public class BowPathRenderer {
 		if (f == null || l == null) return;
 		G.scale(2, 2, 2);
 		double sqrt = Math.sqrt(l.distanceSq(new Vec3i(lastParsed.posX, lastParsed.posY, lastParsed.posZ)));
-//		Gui.drawRect(x - 2, y - 1, x + 65, y + 15, 0x50202020);
+		//		Gui.drawRect(x - 2, y - 1, x + 65, y + 15, 0x50202020);
 		f.drawString("Расстояние: §a" + (double) (int) (sqrt * 10) / 10, x, y, 0xffffff);
 		String target = lastParsed.entityHit == null ? lastParsed.inTile == null ? "§7-" : "§e" + lastParsed.inTile.getLocalizedName() : "§a" + lastParsed.entityHit.getName();
 		G.scale(0.5, 0.5, 0.5);

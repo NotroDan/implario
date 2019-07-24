@@ -108,8 +108,6 @@ public class VanillaWorldServer extends WorldServer {
 		this.theProfiler.endSection();
 
 
-
-
 	}
 
 	public SpawnListEntry getSpawnListEntryForTypeAt(EnumCreatureType creatureType, BlockPos pos) {
@@ -119,6 +117,7 @@ public class VanillaWorldServer extends WorldServer {
 	}
 
 	private boolean isBasedOnNonVanilla, checkedBase;
+
 	private boolean isBasedOnNonVanilla() {
 		if (checkedBase) return isBasedOnNonVanilla;
 		checkedBase = true;
@@ -167,14 +166,13 @@ public class VanillaWorldServer extends WorldServer {
 	}
 
 
-
 	private void resetRainAndThunder() {
 		this.worldInfo.setRainTime(0);
 		this.worldInfo.setRaining(false);
 		this.worldInfo.setThunderTime(0);
 		this.worldInfo.setThundering(false);
 	}
-	
+
 	@Override
 	public boolean areAllPlayersAsleep() {
 		if (this.allPlayersSleeping && !this.isClientSide) {

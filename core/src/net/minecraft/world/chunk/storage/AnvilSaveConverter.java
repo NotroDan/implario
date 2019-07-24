@@ -16,6 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +38,7 @@ public class AnvilSaveConverter extends SaveFormatOld {
 
 	public List<SaveFormatComparator> getSaveList() throws AnvilConverterException {
 		if (this.savesDirectory != null && this.savesDirectory.exists() && this.savesDirectory.isDirectory()) {
-			List<SaveFormatComparator> list = new java.util.ArrayList<>();
+			List<SaveFormatComparator> list = new ArrayList<>();
 			File[] afile = this.savesDirectory.listFiles();
 
 			for (File file1 : afile) {
@@ -95,42 +96,42 @@ public class AnvilSaveConverter extends SaveFormatOld {
 	 */
 	public boolean convertMapFormat(String filename, IProgressUpdate progressCallback) {
 		throw new IllegalStateException("Конвертация старых карт в новые пока не поддерживается.");
-//		progressCallback.setLoadingProgress(0);
-//		List<File> list = new java.util.ArrayList<>();
-//		List<File> list1 = new java.util.ArrayList<>();
-//		List<File> list2 = new java.util.ArrayList<>();
-//		File file1 = new File(this.savesDirectory, filename);
-//		File file2 = new File(file1, "DIM-1");
-//		File file3 = new File(file1, "DIM1");
-//		logger.info("Scanning folders...");
-//		this.addRegionFilesToCollection(file1, list);
-//
-//		if (file2.exists()) {
-//			this.addRegionFilesToCollection(file2, list1);
-//		}
-//
-//		if (file3.exists()) {
-//			this.addRegionFilesToCollection(file3, list2);
-//		}
-//
-//		int i = list.size() + list1.size() + list2.size();
-//		logger.info("Total conversion count is " + i);
-//		WorldInfo worldinfo = this.getWorldInfo(filename);
-//		IChunkManager worldchunkmanager = worldinfo.getTerrainType().createChunkManager(worldinfo.getSeed(), worldinfo.getGeneratorOptions());
-//
-//		this.convertFile(new File(file1, "region"), list, worldchunkmanager, 0, i, progressCallback);
-//		this.convertFile(new File(file2, "region"), list1, new WorldChunkManagerHell(BiomeGenBase.hell, 0.0F), list.size(), i, progressCallback);
-//		this.convertFile(new File(file3, "region"), list2, new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F), list.size() + list1.size(), i, progressCallback);
-//		worldinfo.setSaveVersion(19133);
-//
-//		if (worldinfo.getTerrainType() == WorldType.DEFAULT_1_1) {
-//			worldinfo.setTerrainType(WorldType.DEFAULT);
-//		}
-//
-//		this.createFile(filename);
-//		ISaveHandler isavehandler = this.getSaveLoader(filename, false);
-//		isavehandler.saveWorldInfo(worldinfo);
-//		return true;
+		//		progressCallback.setLoadingProgress(0);
+		//		List<File> list = new java.util.ArrayList<>();
+		//		List<File> list1 = new java.util.ArrayList<>();
+		//		List<File> list2 = new java.util.ArrayList<>();
+		//		File file1 = new File(this.savesDirectory, filename);
+		//		File file2 = new File(file1, "DIM-1");
+		//		File file3 = new File(file1, "DIM1");
+		//		logger.info("Scanning folders...");
+		//		this.addRegionFilesToCollection(file1, list);
+		//
+		//		if (file2.exists()) {
+		//			this.addRegionFilesToCollection(file2, list1);
+		//		}
+		//
+		//		if (file3.exists()) {
+		//			this.addRegionFilesToCollection(file3, list2);
+		//		}
+		//
+		//		int i = list.size() + list1.size() + list2.size();
+		//		logger.info("Total conversion count is " + i);
+		//		WorldInfo worldinfo = this.getWorldInfo(filename);
+		//		IChunkManager worldchunkmanager = worldinfo.getTerrainType().createChunkManager(worldinfo.getSeed(), worldinfo.getGeneratorOptions());
+		//
+		//		this.convertFile(new File(file1, "region"), list, worldchunkmanager, 0, i, progressCallback);
+		//		this.convertFile(new File(file2, "region"), list1, new WorldChunkManagerHell(BiomeGenBase.hell, 0.0F), list.size(), i, progressCallback);
+		//		this.convertFile(new File(file3, "region"), list2, new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F), list.size() + list1.size(), i, progressCallback);
+		//		worldinfo.setSaveVersion(19133);
+		//
+		//		if (worldinfo.getTerrainType() == WorldType.DEFAULT_1_1) {
+		//			worldinfo.setTerrainType(WorldType.DEFAULT);
+		//		}
+		//
+		//		this.createFile(filename);
+		//		ISaveHandler isavehandler = this.getSaveLoader(filename, false);
+		//		isavehandler.saveWorldInfo(worldinfo);
+		//		return true;
 	}
 
 	/**

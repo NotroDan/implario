@@ -18,10 +18,9 @@ public class WorldType {
 	public static final WorldType[] worldTypes = new WorldType[16];
 
 
-
 	public static final WorldType VOID = new WorldType("empty",
-		(p, s, v, c) -> new BasicChunkBiomer(Biome.VOID),
-		p -> new ChunkProviderVoid(p.getWorld())).weakFog().hardcodeRegister();
+			(p, s, v, c) -> new BasicChunkBiomer(Biome.VOID),
+			p -> new ChunkProviderVoid(p.getWorld())).weakFog().hardcodeRegister();
 
 	private static final ChunkManagerFactory factoryDebugCM = (p, s, v, c) -> new BasicChunkBiomer(Biome.VOID);
 	private static final ChunkProviderFactory factoryDebugCP = p -> new ChunkProviderDebug(p.getWorld());
@@ -43,7 +42,7 @@ public class WorldType {
 	 */
 	private boolean canBeCreated = true;
 
- 	/**
+	/**
 	 * Whether this WorldType has a version or not.
 	 */
 	private boolean isWorldTypeVersioned;
@@ -64,6 +63,7 @@ public class WorldType {
 		int id = Util.firstEmpty(worldTypes);
 		worldTypes[id] = type;
 	}
+
 	public static void unregisterType(WorldType type) {
 		for (int i = 0; i < worldTypes.length; i++) if (worldTypes[i] == type) worldTypes[i] = null;
 		type.id = -1;
@@ -172,6 +172,7 @@ public class WorldType {
 	public IChunkBiomer createChunkManager(WorldProvider w) {
 		return chunkManagerFactory.generate(w, 0, this, w.getGeneratorSettings());
 	}
+
 	public IChunkBiomer createChunkManager(long seed, String settings) {
 		return chunkManagerFactory.generate(null, seed, this, settings);
 	}

@@ -10,7 +10,6 @@ import net.minecraft.world.datapacks.ChunkManagerFactory;
 import net.minecraft.world.datapacks.ChunkProviderFactory;
 import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.biome.WorldChunkBiomer;
-import vanilla.world.biome.WorldChunkBiomerHell;
 import vanilla.world.gen.provider.ChunkProviderFlat;
 import vanilla.world.gen.provider.ChunkProviderGenerate;
 
@@ -21,20 +20,20 @@ public class WorldTypes implements ServerSideLoadable {
 			factoryDefaultCM = (p, s, t, g) -> p == null ? new WorldChunkBiomer(s, t, g) : new WorldChunkBiomer(p.getWorld());
 	private static final ChunkManagerFactory factoryFlatCM = (p, s, t, g) -> {
 
-				FlatGeneratorInfo info = FlatGeneratorInfo.createFlatGeneratorFromString(g);
-				Biome biome = Biome.getBiomeFromBiomeList(info.getBiome(), BiomeGenBase.ocean);
-				return new BasicChunkBiomer(BiomeGenBase.toGenBase(biome), 0.5F);
-			};
+		FlatGeneratorInfo info = FlatGeneratorInfo.createFlatGeneratorFromString(g);
+		Biome biome = Biome.getBiomeFromBiomeList(info.getBiome(), BiomeGenBase.ocean);
+		return new BasicChunkBiomer(BiomeGenBase.toGenBase(biome), 0.5F);
+	};
 
 	private static final ChunkProviderFactory
 			factoryDefaultCP = p -> {
-				World w = p.getWorld();
-				return new ChunkProviderGenerate(w, w.getSeed(), w.getWorldInfo().isMapFeaturesEnabled(), p.getGeneratorSettings());
-			};
+		World w = p.getWorld();
+		return new ChunkProviderGenerate(w, w.getSeed(), w.getWorldInfo().isMapFeaturesEnabled(), p.getGeneratorSettings());
+	};
 	private static final ChunkProviderFactory factoryFlatCP = p -> {
-				World w = p.getWorld();
-				return new ChunkProviderFlat(w, w.getSeed(), w.getWorldInfo().isMapFeaturesEnabled(), p.getGeneratorSettings());
-			};
+		World w = p.getWorld();
+		return new ChunkProviderFlat(w, w.getSeed(), w.getWorldInfo().isMapFeaturesEnabled(), p.getGeneratorSettings());
+	};
 
 
 	public static final WorldType DEFAULT = new WorldType("default", factoryDefaultCM, factoryDefaultCP);

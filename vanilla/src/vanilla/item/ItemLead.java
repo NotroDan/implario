@@ -36,7 +36,6 @@ public class ItemLead extends Item {
 	}
 
 	public static boolean attachToFence(EntityPlayer player, World worldIn, BlockPos fence) {
-		System.out.println("Attaching entity to fence: " + fence + " | " + player.getName() + " | " + Thread.currentThread().getName());
 		EntityLeashKnot entityleashknot = EntityLeashKnot.getKnotForPosition(worldIn, fence);
 		boolean flag = false;
 		double d0 = 7.0D;

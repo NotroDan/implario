@@ -42,14 +42,14 @@ public abstract class World implements IBlockAccess {
 	 * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
 	 */
 	protected boolean scheduledUpdatesAreImmediate;
-	public final List<Entity> loadedEntityList = new java.util.ArrayList<>();
-	protected final List<Entity> unloadedEntityList = new java.util.ArrayList<>();
-	public final List<TileEntity> loadedTileEntityList = new java.util.ArrayList<>();
-	public final List<TileEntity> tickableTileEntities = new java.util.ArrayList<>();
-	private final List<TileEntity> addedTileEntityList = new java.util.ArrayList<>();
-	private final List<TileEntity> tileEntitiesToBeRemoved = new java.util.ArrayList<>();
-	public final List<EntityPlayer> playerEntities = new java.util.ArrayList<>();
-	public final List<Entity> weatherEffects = new java.util.ArrayList<>();
+	public final List<Entity> loadedEntityList = new ArrayList<>();
+	protected final List<Entity> unloadedEntityList = new ArrayList<>();
+	public final List<TileEntity> loadedTileEntityList = new ArrayList<>();
+	public final List<TileEntity> tickableTileEntities = new ArrayList<>();
+	private final List<TileEntity> addedTileEntityList = new ArrayList<>();
+	private final List<TileEntity> tileEntitiesToBeRemoved = new ArrayList<>();
+	public final List<EntityPlayer> playerEntities = new ArrayList<>();
+	public final List<Entity> weatherEffects = new ArrayList<>();
 	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
 	private long cloudColour = 16777215L;
 
@@ -89,7 +89,7 @@ public abstract class World implements IBlockAccess {
 	 * The WorldProvider instance that World uses.
 	 */
 	public final WorldProvider provider;
-	protected List<IWorldAccess> worldAccesses = new java.util.ArrayList<>();
+	protected List<IWorldAccess> worldAccesses = new ArrayList<>();
 
 	/**
 	 * Handles chunk operations and caching
@@ -292,6 +292,7 @@ public abstract class World implements IBlockAccess {
 	 * Sets the block state at a given location. Flag 1 will cause a block update. Flag 2 will send the change to
 	 * clients (you almost always want this). Flag 4 prevents the block from being re-rendered, if this is a client
 	 * world. Flags can be added together.
+	 *
 	 * @param flags 1 = cause a block update, 2 = send changes to client, 4 = do not re-render if the world is clientSide
 	 */
 	public boolean setBlockState(BlockPos pos, IBlockState newState, int flags) {
@@ -990,7 +991,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public List<AxisAlignedBB> getCollidingBoundingBoxes(Entity entityIn, AxisAlignedBB bb) {
-		List<AxisAlignedBB> list = new java.util.ArrayList<>();
+		List<AxisAlignedBB> list = new ArrayList<>();
 		int i = MathHelper.floor_double(bb.minX);
 		int j = MathHelper.floor_double(bb.maxX + 1.0D);
 		int k = MathHelper.floor_double(bb.minY);
@@ -1071,7 +1072,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public List<AxisAlignedBB> func_147461_a(AxisAlignedBB bb) {
-		List<AxisAlignedBB> list = new java.util.ArrayList<>();
+		List<AxisAlignedBB> list = new ArrayList<>();
 		int i = MathHelper.floor_double(bb.minX);
 		int j = MathHelper.floor_double(bb.maxX + 1.0D);
 		int k = MathHelper.floor_double(bb.minY);
@@ -2393,7 +2394,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public List<Entity> getEntitiesInAABBexcluding(Entity entityIn, AxisAlignedBB boundingBox, Predicate<? super Entity> predicate) {
-		List<Entity> list = new java.util.ArrayList<>();
+		List<Entity> list = new ArrayList<>();
 		int i = MathHelper.floor_double((boundingBox.minX - 2.0D) / 16.0D);
 		int j = MathHelper.floor_double((boundingBox.maxX + 2.0D) / 16.0D);
 		int k = MathHelper.floor_double((boundingBox.minZ - 2.0D) / 16.0D);
@@ -2411,7 +2412,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public <T extends Entity> List<T> getEntities(Class<? extends T> entityType, Predicate<? super T> filter) {
-		List<T> list = new java.util.ArrayList<>();
+		List<T> list = new ArrayList<>();
 
 		for (Entity entity : this.loadedEntityList) {
 			if (entityType.isAssignableFrom(entity.getClass()) && filter.apply((T) entity)) {
@@ -2423,7 +2424,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public <T extends Entity> List<T> getPlayers(Class<? extends T> playerType, Predicate<? super T> filter) {
-		List<T> list = new java.util.ArrayList<>();
+		List<T> list = new ArrayList<>();
 
 		for (Entity entity : this.playerEntities) {
 			if (playerType.isAssignableFrom(entity.getClass()) && filter.apply((T) entity)) {
@@ -2443,7 +2444,7 @@ public abstract class World implements IBlockAccess {
 		int j = MathHelper.floor_double((aabb.maxX + 2.0D) / 16.0D);
 		int k = MathHelper.floor_double((aabb.minZ - 2.0D) / 16.0D);
 		int l = MathHelper.floor_double((aabb.maxZ + 2.0D) / 16.0D);
-		List<T> list = new java.util.ArrayList<>();
+		List<T> list = new ArrayList<>();
 
 		for (int i1 = i; i1 <= j; ++i1) {
 			for (int j1 = k; j1 <= l; ++j1) {
@@ -2592,12 +2593,12 @@ public abstract class World implements IBlockAccess {
 
 	public boolean isBlockPowered(BlockPos pos) {
 		return
-				this.getRedstonePower(pos.down(),  EnumFacing.DOWN ) > 0 ||
-				this.getRedstonePower(pos.up(),    EnumFacing.UP   ) > 0 ||
-				this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0 ||
-				this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 ||
-				this.getRedstonePower(pos.west(),  EnumFacing.WEST ) > 0 ||
-				this.getRedstonePower(pos.east(),  EnumFacing.EAST ) > 0;
+				this.getRedstonePower(pos.down(), EnumFacing.DOWN) > 0 ||
+						this.getRedstonePower(pos.up(), EnumFacing.UP) > 0 ||
+						this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0 ||
+						this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 ||
+						this.getRedstonePower(pos.west(), EnumFacing.WEST) > 0 ||
+						this.getRedstonePower(pos.east(), EnumFacing.EAST) > 0;
 	}
 
 	/**

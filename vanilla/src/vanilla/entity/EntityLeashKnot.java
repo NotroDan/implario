@@ -12,7 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import vanilla.item.VanillaItems;
 
-public class EntityLeashKnot extends EntityHanging{
+public class EntityLeashKnot extends EntityHanging {
 
 	public EntityLeashKnot(World worldIn) {
 		super(worldIn);

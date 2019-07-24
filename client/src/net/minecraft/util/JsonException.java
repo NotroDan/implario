@@ -5,11 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonException extends IOException {
 
-	private final List<JsonException.Entry> list = new java.util.ArrayList<>();
+	private final List<JsonException.Entry> list = new ArrayList<>();
 	private final String message;
 
 	public JsonException(String message) {
@@ -56,7 +57,7 @@ public class JsonException extends IOException {
 
 		private Entry() {
 			this.field_151376_a = null;
-			this.field_151375_b = new java.util.ArrayList<>();
+			this.field_151375_b = new ArrayList<>();
 		}
 
 		private void func_151373_a(String p_151373_1_) {

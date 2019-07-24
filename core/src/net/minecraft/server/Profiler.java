@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,8 @@ public class Profiler {
 	public static Profiler in = new Profiler();
 
 	protected static final Logger logger = LogManager.getLogger();
-	protected final List<String> sectionList = Collections.synchronizedList(new java.util.ArrayList<>());
-	protected final List<Long> timestampList = Collections.synchronizedList(new java.util.ArrayList<>());
+	protected final List<String> sectionList = Collections.synchronizedList(new ArrayList<>());
+	protected final List<Long> timestampList = Collections.synchronizedList(new ArrayList<>());
 
 	public boolean profilingEnabled;
 
@@ -75,7 +76,7 @@ public class Profiler {
 			}
 			long i = this.profilingMap.containsKey("root") ? (Long) this.profilingMap.get("root") : 0L;
 			long j = this.profilingMap.containsKey(str) ? (Long) this.profilingMap.get(str) : -1L;
-			List<Profiler.Result> list = new java.util.ArrayList<>();
+			List<Profiler.Result> list = new ArrayList<>();
 
 			if (str.length() > 0) str += ".";
 

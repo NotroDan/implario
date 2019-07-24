@@ -10,6 +10,7 @@ import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.client.settings.Settings;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class GuiLanguage extends GuiScreen {
@@ -99,7 +100,7 @@ public class GuiLanguage extends GuiScreen {
 
 	class List extends GuiSlot {
 
-		private final java.util.List<String> langCodeList = new java.util.ArrayList<>();
+		private final java.util.List<String> langCodeList = new ArrayList<>();
 		private final Map<String, Language> languageMap = Maps.newHashMap();
 
 		public List(Minecraft mcIn) {

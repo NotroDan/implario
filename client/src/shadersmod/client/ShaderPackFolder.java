@@ -7,41 +7,34 @@ import java.io.InputStream;
 
 import optifine.StrUtils;
 
-public class ShaderPackFolder implements IShaderPack
-{
-    protected File packFile;
+public class ShaderPackFolder implements IShaderPack {
 
-    public ShaderPackFolder(String name, File file)
-    {
-        this.packFile = file;
-    }
+	protected File packFile;
 
-    public void close()
-    {
-    }
+	public ShaderPackFolder(String name, File file) {
+		this.packFile = file;
+	}
 
-    public InputStream getResourceAsStream(String resName)
-    {
-        try
-        {
-            String s = StrUtils.removePrefixSuffix(resName, "/", "/");
-            File file1 = new File(this.packFile, s);
-            return !file1.exists() ? null : new BufferedInputStream(new FileInputStream(file1));
-        }
-        catch (Exception var4)
-        {
-            return null;
-        }
-    }
+	public void close() {
+	}
 
-    public boolean hasDirectory(String name)
-    {
-        File file1 = new File(this.packFile, name.substring(1));
-        return !file1.exists() ? false : file1.isDirectory();
-    }
+	public InputStream getResourceAsStream(String resName) {
+		try {
+			String s = StrUtils.removePrefixSuffix(resName, "/", "/");
+			File file1 = new File(this.packFile, s);
+			return !file1.exists() ? null : new BufferedInputStream(new FileInputStream(file1));
+		} catch (Exception var4) {
+			return null;
+		}
+	}
 
-    public String getName()
-    {
-        return this.packFile.getName();
-    }
+	public boolean hasDirectory(String name) {
+		File file1 = new File(this.packFile, name.substring(1));
+		return !file1.exists() ? false : file1.isDirectory();
+	}
+
+	public String getName() {
+		return this.packFile.getName();
+	}
+
 }

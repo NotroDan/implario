@@ -121,7 +121,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	protected void channelRead0(ChannelHandlerContext context, Packet packet) throws Exception {
 		if (!this.channel.isOpen()) return;
 		try {
-//			if (packet instanceof S21PacketChunkData || packet instanceof S26PacketMapChunkBulk) System.out.println(packet);
+			//			if (packet instanceof S21PacketChunkData || packet instanceof S26PacketMapChunkBulk) System.out.println(packet);
 			packet.processPacket(this.packetListener);
 		} catch (ThreadQuickExitException ignored) {}
 	}

@@ -17,278 +17,238 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class EntitySpider extends EntityMob
-{
-    public EntitySpider(World worldIn)
-    {
-        super(worldIn);
-        this.setSize(1.4F, 0.9F);
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(4, new EntitySpider.AISpiderAttack(this, EntityPlayer.class));
-        this.tasks.addTask(4, new EntitySpider.AISpiderAttack(this, EntityIronGolem.class));
-        this.tasks.addTask(5, new EntityAIWander(this, 0.8D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(2, new EntitySpider.AISpiderTarget(this, EntityPlayer.class));
-        this.targetTasks.addTask(3, new EntitySpider.AISpiderTarget(this, EntityIronGolem.class));
-    }
+public class EntitySpider extends EntityMob {
 
-    /**
-     * Returns the Y offset from the entity's position for any entity riding this one.
-     */
-    public double getMountedYOffset()
-    {
-        return (double)(this.height * 0.5F);
-    }
+	public EntitySpider(World worldIn) {
+		super(worldIn);
+		this.setSize(1.4F, 0.9F);
+		this.tasks.addTask(1, new EntityAISwimming(this));
+		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
+		this.tasks.addTask(4, new EntitySpider.AISpiderAttack(this, EntityPlayer.class));
+		this.tasks.addTask(4, new EntitySpider.AISpiderAttack(this, EntityIronGolem.class));
+		this.tasks.addTask(5, new EntityAIWander(this, 0.8D));
+		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(6, new EntityAILookIdle(this));
+		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+		this.targetTasks.addTask(2, new EntitySpider.AISpiderTarget(this, EntityPlayer.class));
+		this.targetTasks.addTask(3, new EntitySpider.AISpiderTarget(this, EntityIronGolem.class));
+	}
 
-    /**
-     * Returns new PathNavigateGround instance
-     */
-    protected PathNavigate getNewNavigator(World worldIn)
-    {
-        return new PathNavigateClimber(this, worldIn);
-    }
+	/**
+	 * Returns the Y offset from the entity's position for any entity riding this one.
+	 */
+	public double getMountedYOffset() {
+		return (double) (this.height * 0.5F);
+	}
 
-    protected void entityInit()
-    {
-        super.entityInit();
-        this.dataWatcher.addObject(16, (byte) 0);
-    }
+	/**
+	 * Returns new PathNavigateGround instance
+	 */
+	protected PathNavigate getNewNavigator(World worldIn) {
+		return new PathNavigateClimber(this, worldIn);
+	}
 
-    /**
-     * Called to update the entity's position/logic.
-     */
-    public void onUpdate()
-    {
-        super.onUpdate();
+	protected void entityInit() {
+		super.entityInit();
+		this.dataWatcher.addObject(16, (byte) 0);
+	}
 
-        if (!this.worldObj.isClientSide)
-        {
-            this.setBesideClimbableBlock(this.isCollidedHorizontally);
-        }
-    }
+	/**
+	 * Called to update the entity's position/logic.
+	 */
+	public void onUpdate() {
+		super.onUpdate();
 
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(16.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30000001192092896D);
-    }
+		if (!this.worldObj.isClientSide) {
+			this.setBesideClimbableBlock(this.isCollidedHorizontally);
+		}
+	}
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
-    protected String getLivingSound()
-    {
-        return "mob.spider.say";
-    }
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(16.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30000001192092896D);
+	}
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
-    protected String getHurtSound()
-    {
-        return "mob.spider.say";
-    }
+	/**
+	 * Returns the sound this mob makes while it's alive.
+	 */
+	protected String getLivingSound() {
+		return "mob.spider.say";
+	}
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
-    protected String getDeathSound()
-    {
-        return "mob.spider.death";
-    }
+	/**
+	 * Returns the sound this mob makes when it is hurt.
+	 */
+	protected String getHurtSound() {
+		return "mob.spider.say";
+	}
 
-    protected void playStepSound(BlockPos pos, Block blockIn)
-    {
-        this.playSound("mob.spider.step", 0.15F, 1.0F);
-    }
+	/**
+	 * Returns the sound this mob makes on death.
+	 */
+	protected String getDeathSound() {
+		return "mob.spider.death";
+	}
 
-    protected Item getDropItem()
-    {
-        return Items.string;
-    }
+	protected void playStepSound(BlockPos pos, Block blockIn) {
+		this.playSound("mob.spider.step", 0.15F, 1.0F);
+	}
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
-    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
-    {
-        super.dropFewItems(p_70628_1_, p_70628_2_);
+	protected Item getDropItem() {
+		return Items.string;
+	}
 
-        if (p_70628_1_ && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + p_70628_2_) > 0))
-        {
-            this.dropItem(Items.spider_eye, 1);
-        }
-    }
+	/**
+	 * Drop 0-2 items of this living's type
+	 */
+	protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {
+		super.dropFewItems(p_70628_1_, p_70628_2_);
 
-    /**
-     * returns true if this entity is by a ladder, false otherwise
-     */
-    public boolean isOnLadder()
-    {
-        return this.isBesideClimbableBlock();
-    }
+		if (p_70628_1_ && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + p_70628_2_) > 0)) {
+			this.dropItem(Items.spider_eye, 1);
+		}
+	}
 
-    /**
-     * Sets the Entity inside a web block.
-     */
-    public void setInWeb()
-    {
-    }
+	/**
+	 * returns true if this entity is by a ladder, false otherwise
+	 */
+	public boolean isOnLadder() {
+		return this.isBesideClimbableBlock();
+	}
 
-    /**
-     * Get this Entity's EnumCreatureAttribute
-     */
-    public EnumCreatureAttribute getCreatureAttribute()
-    {
-        return EnumCreatureAttribute.ARTHROPOD;
-    }
+	/**
+	 * Sets the Entity inside a web block.
+	 */
+	public void setInWeb() {
+	}
 
-    public boolean isPotionApplicable(PotionEffect potioneffectIn)
-    {
-        return potioneffectIn.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(potioneffectIn);
-    }
+	/**
+	 * Get this Entity's EnumCreatureAttribute
+	 */
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return EnumCreatureAttribute.ARTHROPOD;
+	}
 
-    /**
-     * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false. The WatchableObject is updated using
-     * setBesideClimableBlock.
-     */
-    public boolean isBesideClimbableBlock()
-    {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
-    }
+	public boolean isPotionApplicable(PotionEffect potioneffectIn) {
+		return potioneffectIn.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(potioneffectIn);
+	}
 
-    /**
-     * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
-     * false.
-     */
-    public void setBesideClimbableBlock(boolean p_70839_1_)
-    {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+	/**
+	 * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false. The WatchableObject is updated using
+	 * setBesideClimableBlock.
+	 */
+	public boolean isBesideClimbableBlock() {
+		return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+	}
 
-        if (p_70839_1_)
-        {
-            b0 = (byte)(b0 | 1);
-        }
-        else
-        {
-            b0 = (byte)(b0 & -2);
-        }
+	/**
+	 * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
+	 * false.
+	 */
+	public void setBesideClimbableBlock(boolean p_70839_1_) {
+		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
-        this.dataWatcher.updateObject(16, b0);
-    }
+		if (p_70839_1_) {
+			b0 = (byte) (b0 | 1);
+		} else {
+			b0 = (byte) (b0 & -2);
+		}
 
-    /**
-     * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-     * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-     */
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata)
-    {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
+		this.dataWatcher.updateObject(16, b0);
+	}
 
-        if (this.worldObj.rand.nextInt(100) == 0)
-        {
-            EntitySkeleton entityskeleton = new EntitySkeleton(this.worldObj);
-            entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-            entityskeleton.onInitialSpawn(difficulty, (IEntityLivingData)null);
-            this.worldObj.spawnEntityInWorld(entityskeleton);
-            entityskeleton.mountEntity(this);
-        }
+	/**
+	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
+	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+	 */
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+		livingdata = super.onInitialSpawn(difficulty, livingdata);
 
-        if (livingdata == null)
-        {
-            livingdata = new EntitySpider.GroupData();
+		if (this.worldObj.rand.nextInt(100) == 0) {
+			EntitySkeleton entityskeleton = new EntitySkeleton(this.worldObj);
+			entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+			entityskeleton.onInitialSpawn(difficulty, (IEntityLivingData) null);
+			this.worldObj.spawnEntityInWorld(entityskeleton);
+			entityskeleton.mountEntity(this);
+		}
 
-            if (this.worldObj.getDifficulty() == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * difficulty.getClampedAdditionalDifficulty())
-            {
-                ((EntitySpider.GroupData)livingdata).func_111104_a(this.worldObj.rand);
-            }
-        }
+		if (livingdata == null) {
+			livingdata = new EntitySpider.GroupData();
 
-        if (livingdata instanceof EntitySpider.GroupData)
-        {
-            int i = ((EntitySpider.GroupData)livingdata).potionEffectId;
+			if (this.worldObj.getDifficulty() == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * difficulty.getClampedAdditionalDifficulty()) {
+				((EntitySpider.GroupData) livingdata).func_111104_a(this.worldObj.rand);
+			}
+		}
 
-            if (i > 0 && Potion.potionTypes[i] != null)
-            {
-                this.addPotionEffect(new PotionEffect(i, Integer.MAX_VALUE));
-            }
-        }
+		if (livingdata instanceof EntitySpider.GroupData) {
+			int i = ((EntitySpider.GroupData) livingdata).potionEffectId;
 
-        return livingdata;
-    }
+			if (i > 0 && Potion.potionTypes[i] != null) {
+				this.addPotionEffect(new PotionEffect(i, Integer.MAX_VALUE));
+			}
+		}
 
-    public float getEyeHeight()
-    {
-        return 0.65F;
-    }
+		return livingdata;
+	}
 
-    static class AISpiderAttack extends EntityAIAttackOnCollide
-    {
-        public AISpiderAttack(EntitySpider p_i45819_1_, Class <? extends Entity > targetClass)
-        {
-            super(p_i45819_1_, targetClass, 1.0D, true);
-        }
+	public float getEyeHeight() {
+		return 0.65F;
+	}
 
-        public boolean continueExecuting()
-        {
-            float f = this.attacker.getBrightness(1.0F);
+	static class AISpiderAttack extends EntityAIAttackOnCollide {
 
-            if (f >= 0.5F && this.attacker.getRNG().nextInt(100) == 0)
-            {
-                this.attacker.setAttackTarget((EntityLivingBase)null);
-                return false;
-            }
+		public AISpiderAttack(EntitySpider p_i45819_1_, Class<? extends Entity> targetClass) {
+			super(p_i45819_1_, targetClass, 1.0D, true);
+		}
+
+		public boolean continueExecuting() {
+			float f = this.attacker.getBrightness(1.0F);
+
+			if (f >= 0.5F && this.attacker.getRNG().nextInt(100) == 0) {
+				this.attacker.setAttackTarget((EntityLivingBase) null);
+				return false;
+			}
 			return super.continueExecuting();
 		}
 
-        protected double func_179512_a(EntityLivingBase attackTarget)
-        {
-            return (double)(4.0F + attackTarget.width);
-        }
-    }
+		protected double func_179512_a(EntityLivingBase attackTarget) {
+			return (double) (4.0F + attackTarget.width);
+		}
 
-    static class AISpiderTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget
-    {
-        public AISpiderTarget(EntitySpider p_i45818_1_, Class<T> classTarget)
-        {
-            super(p_i45818_1_, classTarget, true);
-        }
+	}
 
-        public boolean shouldExecute()
-        {
-            float f = this.taskOwner.getBrightness(1.0F);
-            return f >= 0.5F ? false : super.shouldExecute();
-        }
-    }
+	static class AISpiderTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget {
 
-    public static class GroupData implements IEntityLivingData
-    {
-        public int potionEffectId;
+		public AISpiderTarget(EntitySpider p_i45818_1_, Class<T> classTarget) {
+			super(p_i45818_1_, classTarget, true);
+		}
 
-        public void func_111104_a(Random rand)
-        {
-            int i = rand.nextInt(5);
+		public boolean shouldExecute() {
+			float f = this.taskOwner.getBrightness(1.0F);
+			return f >= 0.5F ? false : super.shouldExecute();
+		}
 
-            if (i <= 1)
-            {
-                this.potionEffectId = Potion.moveSpeed.id;
-            }
-            else if (i <= 2)
-            {
-                this.potionEffectId = Potion.damageBoost.id;
-            }
-            else if (i <= 3)
-            {
-                this.potionEffectId = Potion.regeneration.id;
-            }
-            else if (i <= 4)
-            {
-                this.potionEffectId = Potion.invisibility.id;
-            }
-        }
-    }
+	}
+
+	public static class GroupData implements IEntityLivingData {
+
+		public int potionEffectId;
+
+		public void func_111104_a(Random rand) {
+			int i = rand.nextInt(5);
+
+			if (i <= 1) {
+				this.potionEffectId = Potion.moveSpeed.id;
+			} else if (i <= 2) {
+				this.potionEffectId = Potion.damageBoost.id;
+			} else if (i <= 3) {
+				this.potionEffectId = Potion.regeneration.id;
+			} else if (i <= 4) {
+				this.potionEffectId = Potion.invisibility.id;
+			}
+		}
+
+	}
+
 }

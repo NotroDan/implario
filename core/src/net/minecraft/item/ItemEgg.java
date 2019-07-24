@@ -6,32 +6,29 @@ import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
-public class ItemEgg extends Item
-{
-    public ItemEgg()
-    {
-        this.maxStackSize = 16;
-        this.setCreativeTab(CreativeTabs.tabMaterials);
-    }
+public class ItemEgg extends Item {
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
-    {
-        if (!playerIn.capabilities.isCreativeMode)
-        {
-            --itemStackIn.stackSize;
-        }
+	public ItemEgg() {
+		this.maxStackSize = 16;
+		this.setCreativeTab(CreativeTabs.tabMaterials);
+	}
 
-        worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+	 */
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+		if (!playerIn.capabilities.isCreativeMode) {
+			--itemStackIn.stackSize;
+		}
 
-        if (!worldIn.isClientSide)
-        {
-            worldIn.spawnEntityInWorld(new EntityEgg(worldIn, playerIn));
-        }
+		worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-        playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-        return itemStackIn;
-    }
+		if (!worldIn.isClientSide) {
+			worldIn.spawnEntityInWorld(new EntityEgg(worldIn, playerIn));
+		}
+
+		playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+		return itemStackIn;
+	}
+
 }

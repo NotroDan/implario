@@ -11,12 +11,13 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldSettings;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 
 	private S38PacketPlayerListItem.Action action;
-	private final List<S38PacketPlayerListItem.AddPlayerData> players = new java.util.ArrayList<>();
+	private final List<S38PacketPlayerListItem.AddPlayerData> players = new ArrayList<>();
 
 	public S38PacketPlayerListItem() {
 	}

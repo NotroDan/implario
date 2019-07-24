@@ -45,6 +45,7 @@ import net.minecraft.world.WorldServer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -306,7 +307,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 						if (Events.eventPlayerMove.isUseful())
 							Events.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
 					}
-//					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);
+					//					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);
 
 					if (!this.playerEntity.noClip) {
 						boolean flag2 = worldserver.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(f3, f3, f3)).isEmpty();
@@ -647,7 +648,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 				boolean b = serverController.getConfigurationManager().canSendCommands(playerEntity.getGameProfile());
 				IChatComponent ichatcomponent =
 						new ChatComponentText((b ? "§c" : "§7") + this.playerEntity.getDisplayName().getFormattedText() + "§7: §f" + s);
-						//new ChatComponentTranslation("chat.type.text", new Object[] {this.playerEntity.getDisplayName(), s});
+				//new ChatComponentTranslation("chat.type.text", new Object[] {this.playerEntity.getDisplayName(), s});
 				this.serverController.getConfigurationManager().sendChatMsgImpl(ichatcomponent, false);
 			}
 
@@ -810,7 +811,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 		if (this.playerEntity.openContainer.windowId == packetIn.getWindowId() && this.playerEntity.openContainer.getCanCraft(this.playerEntity)) {
 			if (this.playerEntity.isSpectator()) {
-				List<ItemStack> list = new java.util.ArrayList<>();
+				List<ItemStack> list = new ArrayList<>();
 
 				for (int i = 0; i < this.playerEntity.openContainer.inventorySlots.size(); ++i) {
 					list.add(this.playerEntity.openContainer.inventorySlots.get(i).getStack());
@@ -830,7 +831,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					this.field_147372_n.addKey(this.playerEntity.openContainer.windowId, packetIn.getActionNumber());
 					this.playerEntity.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(packetIn.getWindowId(), packetIn.getActionNumber(), false));
 					this.playerEntity.openContainer.setCanCraft(this.playerEntity, false);
-					List<ItemStack> list1 = new java.util.ArrayList<>();
+					List<ItemStack> list1 = new ArrayList<>();
 
 					for (int j = 0; j < this.playerEntity.openContainer.inventorySlots.size(); ++j) {
 						list1.add(this.playerEntity.openContainer.inventorySlots.get(j).getStack());
@@ -980,7 +981,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	 */
 	public void processTabComplete(C14PacketTabComplete packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
-		List<String> list = new java.util.ArrayList<>();
+		List<String> list = new ArrayList<>();
 
 		list.addAll(this.serverController.getTabCompletions(this.playerEntity, packetIn.getMessage(), packetIn.getTargetBlock()));
 
