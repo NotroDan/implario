@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiYesNo extends GuiScreen {
-
-	private final List<String> text = new ArrayList<>();
 	protected GuiYesNoCallback parentScreen;
+	private String messageLine1;
+	private String messageLine2;
+	private final List<String> text = new ArrayList<>();
 	protected String confirmButtonText;
 	protected String cancelButtonText;
 	protected int parentButtonClickedId;
-	private String messageLine1;
-	private String messageLine2;
 	private int ticksUntilEnable;
 
 	public GuiYesNo(GuiYesNoCallback parentScreen, String line1, String line2, int parentButtonClickedId) {
@@ -78,5 +77,4 @@ public class GuiYesNo extends GuiScreen {
 			for (GuiButton guibutton : this.buttonList)
 				guibutton.enabled = true;
 	}
-
 }

@@ -24,7 +24,6 @@ import java.util.Random;
 public class ModulePlayerStats implements Module {
 
 
-	private final Random rand = new Random();
 	private int prevHealth = 0;
 	private int lastPlayerHealth = 0;
 	/**
@@ -35,6 +34,8 @@ public class ModulePlayerStats implements Module {
 	 * The last recorded system time
 	 */
 	private long lastSystemTime = 0L;
+	private final Random rand = new Random();
+
 
 	@Override
 	public void render(GuiIngame gui, float partialTicks, ScaledResolution res) {
@@ -120,7 +121,7 @@ public class ModulePlayerStats implements Module {
 			String s = String.valueOf(health + (int) absorption);
 			MC.FR.drawString(s, leftBorder + 77 - MC.FR.getStringWidth(s) / 2, y2 - (wide ? 14 : 8), absorption == 0 ? Colors.RED : Colors.YELLOW);
 			if (wide) MC.FR.drawString("HP", (leftBorder + 74), (y2 - 8), Colors.RED);
-		} else {
+		}else {
 
 			MC.bindTexture(Gui.icons);
 

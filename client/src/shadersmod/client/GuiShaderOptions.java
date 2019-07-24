@@ -1,9 +1,9 @@
 package shadersmod.client;
 
 import net.minecraft.Utils;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import optifine.Config;
@@ -16,17 +16,17 @@ import java.util.List;
 
 public class GuiShaderOptions extends GuiScreenOF {
 
-	public static final String OPTION_PROFILE = "<profile>";
-	public static final String OPTION_EMPTY = "<empty>";
-	public static final String OPTION_REST = "*";
-	protected String title;
 	private GuiScreen prevScreen;
+	protected String title;
 	private int lastMouseX;
 	private int lastMouseY;
 	private long mouseStillTime;
 	private String screenName;
 	private String screenText;
 	private boolean changed;
+	public static final String OPTION_PROFILE = "<profile>";
+	public static final String OPTION_EMPTY = "<empty>";
+	public static final String OPTION_REST = "*";
 
 	public GuiShaderOptions(GuiScreen guiscreen) {
 		this.lastMouseX = 0;

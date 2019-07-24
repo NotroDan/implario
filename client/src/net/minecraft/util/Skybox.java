@@ -21,10 +21,10 @@ public class Skybox implements Background {
 	private DynamicTexture viewportTexture;
 
 	//	private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[] {
-	//			new ResourceLocation("textures/gui/title/background/panorama_0.png"), new ResourceLocation("textures/gui/title/background/panorama_1.png"),
-	//			new ResourceLocation("textures/gui/title/background/panorama_2.png"), new ResourceLocation("textures/gui/title/background/panorama_3.png"),
-	//			new ResourceLocation("textures/gui/title/background/panorama_4.png"), new ResourceLocation("textures/gui/title/background/panorama_5.png")
-	//	};
+//			new ResourceLocation("textures/gui/title/background/panorama_0.png"), new ResourceLocation("textures/gui/title/background/panorama_1.png"),
+//			new ResourceLocation("textures/gui/title/background/panorama_2.png"), new ResourceLocation("textures/gui/title/background/panorama_3.png"),
+//			new ResourceLocation("textures/gui/title/background/panorama_4.png"), new ResourceLocation("textures/gui/title/background/panorama_5.png")
+//	};
 
 
 	public Skybox(ResourceLocation[] tiles, ResourceLocation background, DynamicTexture viewport, GuiScreen parent) {

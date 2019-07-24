@@ -3,6 +3,7 @@ package vanilla.world.gen.provider;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import vanilla.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
@@ -13,7 +14,6 @@ import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
-import vanilla.entity.EnumCreatureType;
 import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.gen.NoiseGeneratorOctaves;
 
@@ -22,23 +22,24 @@ import java.util.Random;
 
 public class ChunkProviderEnd implements VanillaChunkProvider {
 
+	private Random endRNG;
+	private NoiseGeneratorOctaves noiseGen1;
+	private NoiseGeneratorOctaves noiseGen2;
+	private NoiseGeneratorOctaves noiseGen3;
 	public NoiseGeneratorOctaves noiseGen4;
 	public NoiseGeneratorOctaves noiseGen5;
+	private World endWorld;
+	private double[] densities;
+
+	/**
+	 * The biomes that are used to generate the chunk
+	 */
+	private Biome[] biomesForGeneration;
 	double[] noiseData1;
 	double[] noiseData2;
 	double[] noiseData3;
 	double[] noiseData4;
 	double[] noiseData5;
-	private Random endRNG;
-	private NoiseGeneratorOctaves noiseGen1;
-	private NoiseGeneratorOctaves noiseGen2;
-	private NoiseGeneratorOctaves noiseGen3;
-	private World endWorld;
-	private double[] densities;
-	/**
-	 * The biomes that are used to generate the chunk
-	 */
-	private Biome[] biomesForGeneration;
 
 	public ChunkProviderEnd(World worldIn, long p_i2007_2_) {
 		this.endWorld = worldIn;

@@ -18,25 +18,6 @@ import vanilla.entity.passive.EntitySheep;
 public class VItemDye extends ItemDye {
 
 
-	public static boolean applyBonemeal(ItemStack item, World w, BlockPos target) {
-
-		IBlockState iblockstate = w.getBlockState(target);
-
-		if (!(iblockstate.getBlock() instanceof IGrowable)) return false;
-
-		IGrowable g = (IGrowable) iblockstate.getBlock();
-
-		if (!g.canGrow(w, target, iblockstate, w.isClientSide)) return false;
-		if (w.isClientSide) return true;
-
-		if (g.canUseBonemeal(w, w.rand, target, iblockstate))
-			g.grow(w, w.rand, target, iblockstate);
-
-		--item.stackSize;
-
-		return true;
-	}
-
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
@@ -80,11 +61,30 @@ public class VItemDye extends ItemDye {
 		return false;
 	}
 
+	public static boolean applyBonemeal(ItemStack item, World w, BlockPos target) {
+
+		IBlockState iblockstate = w.getBlockState(target);
+
+		if (!(iblockstate.getBlock() instanceof IGrowable)) return false;
+
+		IGrowable g = (IGrowable) iblockstate.getBlock();
+
+		if (!g.canGrow(w, target, iblockstate, w.isClientSide)) return false;
+		if (w.isClientSide) return true;
+
+		if (g.canUseBonemeal(w, w.rand, target, iblockstate))
+			g.grow(w, w.rand, target, iblockstate);
+
+		--item.stackSize;
+
+		return true;
+	}
+
 	@Override
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
 		if (!(target instanceof EntitySheep)) return false;
 
-		EntitySheep entitysheep = (EntitySheep) target;
+		EntitySheep entitysheep = (EntitySheep)target;
 		EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
 		if (!entitysheep.getSheared() && entitysheep.getFleeceColor() != enumdyecolor) {

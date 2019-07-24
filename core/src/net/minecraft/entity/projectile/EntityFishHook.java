@@ -31,7 +31,7 @@ public class EntityFishHook extends Entity {
 			new WeightedRandomFishable(new ItemStack(Blocks.tripwire_hook), 10), new WeightedRandomFishable(new ItemStack(Items.rotten_flesh), 10)
 	});
 	private static final List<WeightedRandomFishable> TREASURE = Arrays.asList(new WeightedRandomFishable[] {
-			//			new WeightedRandomFishable(new ItemStack(Blocks.waterlily), 1), new WeightedRandomFishable(new ItemStack(VanillaItems.name_tag), 1), new WeightedRandomFishable(new ItemStack(VanillaItems.saddle), 1),
+//			new WeightedRandomFishable(new ItemStack(Blocks.waterlily), 1), new WeightedRandomFishable(new ItemStack(VanillaItems.name_tag), 1), new WeightedRandomFishable(new ItemStack(VanillaItems.saddle), 1),
 			new WeightedRandomFishable(new ItemStack(Items.bow), 1).setMaxDamagePercent(0.25F).setEnchantable(),
 			new WeightedRandomFishable(new ItemStack(Items.fishing_rod), 1).setMaxDamagePercent(0.25F).setEnchantable(), new WeightedRandomFishable(new ItemStack(Items.book), 1).setEnchantable()
 	});
@@ -41,20 +41,20 @@ public class EntityFishHook extends Entity {
 			new WeightedRandomFishable(new ItemStack(Items.fish, 1, ItemFishFood.FishType.CLOWNFISH.getMetadata()), 2),
 			new WeightedRandomFishable(new ItemStack(Items.fish, 1, ItemFishFood.FishType.PUFFERFISH.getMetadata()), 13)
 	});
-	public int shake;
-	public EntityPlayer angler;
-	public Entity caughtEntity;
 	private int xTile;
 	private int yTile;
 	private int zTile;
 	private Block inTile;
 	private boolean inGround;
+	public int shake;
+	public EntityPlayer angler;
 	private int ticksInGround;
 	private int ticksInAir;
 	private int ticksCatchable;
 	private int ticksCaughtDelay;
 	private int ticksCatchableDelay;
 	private float fishApproachAngle;
+	public Entity caughtEntity;
 	private int fishPosRotationIncrements;
 	private double fishX;
 	private double fishY;
@@ -64,6 +64,10 @@ public class EntityFishHook extends Entity {
 	private double clientMotionX;
 	private double clientMotionY;
 	private double clientMotionZ;
+
+	public static List<WeightedRandomFishable> func_174855_j() {
+		return FISH;
+	}
 
 	public EntityFishHook(World worldIn) {
 		super(worldIn);
@@ -101,10 +105,6 @@ public class EntityFishHook extends Entity {
 		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * f);
 		this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI) * f);
 		this.handleHookCasting(this.motionX, this.motionY, this.motionZ, 1.5F, 1.0F);
-	}
-
-	public static List<WeightedRandomFishable> func_174855_j() {
-		return FISH;
 	}
 
 	protected void entityInit() {

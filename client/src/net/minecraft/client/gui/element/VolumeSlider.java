@@ -1,8 +1,8 @@
 package net.minecraft.client.gui.element;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.HoverButton;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.HoverButton;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.Settings;
@@ -11,8 +11,8 @@ import java.util.List;
 
 public class VolumeSlider extends SettingSlider implements HoverButton {
 
-	public boolean isMouseDown;
 	private float sliderPosition;
+	public boolean isMouseDown;
 
 	public VolumeSlider(Settings settings, int x, int y) {
 		super(x, y, settings);

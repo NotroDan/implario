@@ -73,10 +73,6 @@ public class BlockPlanks extends Block {
 		DARK_OAK(5, "dark_oak", "big_oak", MapColor.brownColor);
 
 		private static final BlockPlanks.EnumType[] META_LOOKUP = new BlockPlanks.EnumType[values().length];
-		static {
-			for (BlockPlanks.EnumType blockplanks$enumtype : values())
-				META_LOOKUP[blockplanks$enumtype.getMetadata()] = blockplanks$enumtype;
-		}
 		private final int meta;
 		private final String name;
 		private final String unlocalizedName;
@@ -93,11 +89,6 @@ public class BlockPlanks extends Block {
 			this.mapColor = mapColor;
 		}
 
-		public static BlockPlanks.EnumType byMetadata(int meta) {
-			if (meta < 0 || meta >= META_LOOKUP.length) meta = 0;
-			return META_LOOKUP[meta];
-		}
-
 		public int getMetadata() {
 			return this.meta;
 		}
@@ -110,12 +101,22 @@ public class BlockPlanks extends Block {
 			return this.name;
 		}
 
+		public static BlockPlanks.EnumType byMetadata(int meta) {
+			if (meta < 0 || meta >= META_LOOKUP.length) meta = 0;
+			return META_LOOKUP[meta];
+		}
+
 		public String getName() {
 			return this.name;
 		}
 
 		public String getUnlocalizedName() {
 			return this.unlocalizedName;
+		}
+
+		static {
+			for (BlockPlanks.EnumType blockplanks$enumtype : values())
+				META_LOOKUP[blockplanks$enumtype.getMetadata()] = blockplanks$enumtype;
 		}
 	}
 

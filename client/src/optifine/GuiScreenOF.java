@@ -9,21 +9,6 @@ import java.util.List;
 
 public class GuiScreenOF extends GuiScreen {
 
-	public static GuiButton getSelectedButton(List<GuiButton> buttons, int x, int y) {
-		for (int i = 0; i < buttons.size(); ++i) {
-			GuiButton guibutton = buttons.get(i);
-			if (!guibutton.visible) continue;
-
-			int j = GuiVideoSettings.getButtonWidth(guibutton);
-			int k = GuiVideoSettings.getButtonHeight(guibutton);
-
-			if (x >= guibutton.xPosition && y >= guibutton.yPosition && x < guibutton.xPosition + j && y < guibutton.yPosition + k)
-				return guibutton;
-		}
-
-		return null;
-	}
-
 	protected void actionPerformedRightClick(GuiButton p_actionPerformedRightClick_1_) throws IOException {
 	}
 
@@ -44,5 +29,20 @@ public class GuiScreenOF extends GuiScreen {
 
 	@Override
 	public void initGui() {}
+
+	public static GuiButton getSelectedButton(List<GuiButton> buttons, int x, int y) {
+		for (int i = 0; i < buttons.size(); ++i) {
+			GuiButton guibutton = buttons.get(i);
+			if (!guibutton.visible) continue;
+
+			int j = GuiVideoSettings.getButtonWidth(guibutton);
+			int k = GuiVideoSettings.getButtonHeight(guibutton);
+
+			if (x >= guibutton.xPosition && y >= guibutton.yPosition && x < guibutton.xPosition + j && y < guibutton.yPosition + k)
+				return guibutton;
+		}
+
+		return null;
+	}
 
 }

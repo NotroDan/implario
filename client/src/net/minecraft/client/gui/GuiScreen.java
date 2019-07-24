@@ -19,6 +19,8 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.EntityList;
+import net.minecraft.util.chat.event.ClickEvent;
+import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
@@ -26,14 +28,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.OpenableGui;
-import net.minecraft.util.Util;
+import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
-import net.minecraft.util.chat.event.ClickEvent;
-import net.minecraft.util.chat.event.HoverEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -51,25 +48,30 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 	private static final Logger LOGGER = Logger.getInstance();
 	private static final Set<String> PROTOCOLS = Sets.newHashSet("http", "https");
 	private static final Splitter NEWLINE_SPLITTER = Splitter.on('\n');
-	/**
-	 * Holds a instance of RenderItem, used to draw the achievement icons on screen (is based on ItemStack)
-	 */
-	public RenderItem itemRender;
-	/**
-	 * The width of the screen object.
-	 */
-	public int width;
-	/**
-	 * The height of the screen object.
-	 */
-	public int height;
-	public boolean allowUserInput;
+
 	/**
 	 * Reference to the Minecraft object.
 	 */
 	protected Minecraft mc;
+
+	/**
+	 * Holds a instance of RenderItem, used to draw the achievement icons on screen (is based on ItemStack)
+	 */
+	public RenderItem itemRender;
+
+	/**
+	 * The width of the screen object.
+	 */
+	public int width;
+
+	/**
+	 * The height of the screen object.
+	 */
+	public int height;
 	protected List<GuiButton> buttonList = new ArrayList<>();
 	protected List<GuiLabel> labelList = new ArrayList<>();
+	public boolean allowUserInput;
+
 	/**
 	 * The FontRenderer used by GuiScreen
 	 */
@@ -89,43 +91,6 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 	private int touchValue;
 	private URI clickedLinkURI;
 	private boolean supportButtonOverlap = false;
-
-	/**
-	 * Returns true if either windows ctrl key is down or if either mac meta key is down
-	 */
-	public static boolean isCtrlKeyDown() {
-		return Minecraft.isRunningOnMac ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
-	}
-
-	/**
-	 * Returns true if either shift key is down
-	 */
-	public static boolean isShiftKeyDown() {
-		return Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54);
-	}
-
-	/**
-	 * Returns true if either alt key is down
-	 */
-	public static boolean isAltKeyDown() {
-		return Keyboard.isKeyDown(56) || Keyboard.isKeyDown(184);
-	}
-
-	public static boolean isKeyComboCtrlX(int p_175277_0_) {
-		return p_175277_0_ == 45 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
-	}
-
-	public static boolean isKeyComboCtrlV(int p_175279_0_) {
-		return p_175279_0_ == 47 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
-	}
-
-	public static boolean isKeyComboCtrlC(int p_175280_0_) {
-		return p_175280_0_ == 46 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
-	}
-
-	public static boolean isKeyComboCtrlA(int p_175278_0_) {
-		return p_175278_0_ == 30 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
-	}
 
 	/**
 	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
@@ -183,6 +148,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 		if (Settings.ITEM_TOOLTIPS.b())
 			drawHoveringText(Collections.singletonList(advanced), x, y + k + 7, width, 0xd7000000, 0xd7ffa114);
 	}
+
 
 	/**
 	 * Draws the text when mouse is over creative inventory tab. Params: current creative tab to be checked, current
@@ -245,9 +211,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 
 		this.zLevel = 0.0F;
 		this.itemRender.zLevel = 0.0F;
-		//		GlStateManager.enableLighting();
-		//		RenderHelper.enableStandardItemLighting();
-		//		GlStateManager.enableRescaleNormal();
+//		GlStateManager.enableLighting();
+//		RenderHelper.enableStandardItemLighting();
+//		GlStateManager.enableRescaleNormal();
 		G.enableDepth();
 	}
 
@@ -256,7 +222,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 	}
 
 	protected void drawHoveringText(List<String> textLines, int x, int y, int width) {
-		//		drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
+//		drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
 		drawHoveringText(textLines, x, y, width, 0xe7252525, 0xd7ffa114);
 	}
 
@@ -379,8 +345,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 				System.out.println(f.getName());
 				if (isCtrlKeyDown()) showFile(f);
 				else openFile(f);
-				//				URI uri1 = new File(clickevent.getValue()).toURI();
-				//				this.openWebLink(uri1);
+//				URI uri1 = new File(clickevent.getValue()).toURI();
+//				this.openWebLink(uri1);
 			} else if (clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
 				this.setText(clickevent.getValue(), true);
 			} else if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
@@ -606,6 +572,43 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 		} catch (Throwable throwable) {
 			LOGGER.error("Couldn\'t open link", throwable);
 		}
+	}
+
+	/**
+	 * Returns true if either windows ctrl key is down or if either mac meta key is down
+	 */
+	public static boolean isCtrlKeyDown() {
+		return Minecraft.isRunningOnMac ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
+	}
+
+	/**
+	 * Returns true if either shift key is down
+	 */
+	public static boolean isShiftKeyDown() {
+		return Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54);
+	}
+
+	/**
+	 * Returns true if either alt key is down
+	 */
+	public static boolean isAltKeyDown() {
+		return Keyboard.isKeyDown(56) || Keyboard.isKeyDown(184);
+	}
+
+	public static boolean isKeyComboCtrlX(int p_175277_0_) {
+		return p_175277_0_ == 45 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+	}
+
+	public static boolean isKeyComboCtrlV(int p_175279_0_) {
+		return p_175279_0_ == 47 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+	}
+
+	public static boolean isKeyComboCtrlC(int p_175280_0_) {
+		return p_175280_0_ == 46 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
+	}
+
+	public static boolean isKeyComboCtrlA(int p_175278_0_) {
+		return p_175278_0_ == 30 && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown();
 	}
 
 	/**

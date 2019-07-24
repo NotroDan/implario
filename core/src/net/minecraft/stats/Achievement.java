@@ -3,11 +3,11 @@ package net.minecraft.stats;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.StatCollector;
-import net.minecraft.util.chat.ChatComponentTranslation;
 
 public class Achievement extends StatBase {
 
@@ -25,19 +25,23 @@ public class Achievement extends StatBase {
 	 * Holds the parent achievement, that must be taken before this achievement is avaiable.
 	 */
 	public final Achievement parentAchievement;
-	/**
-	 * Holds the ItemStack that will be used to draw the achievement into the GUI.
-	 */
-	public final ItemStack theItemStack;
+
 	/**
 	 * Holds the description of the achievement, ready to be formatted and/or displayed.
 	 */
 	private final String achievementDescription;
+
 	/**
 	 * Holds a string formatter for the achievement, some of then needs extra dynamic info - like the key used to open
 	 * the inventory.
 	 */
 	private IStatStringFormat statStringFormatter;
+
+	/**
+	 * Holds the ItemStack that will be used to draw the achievement into the GUI.
+	 */
+	public final ItemStack theItemStack;
+
 	/**
 	 * Special achievements have a 'spiked' (on normal texture pack) frame, special achievements are the hardest ones to
 	 * achieve.

@@ -13,6 +13,16 @@ public class ItemWritableBook extends Item {
 	}
 
 	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+	 */
+	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer p) {
+		p.openGui(ItemStack.class, stack);
+//		p.displayGUIBook(stack);
+		p.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+		return stack;
+	}
+
+	/**
 	 * this method returns true if the book's NBT Tag List "pages" is valid
 	 */
 	public static boolean isNBTValid(NBTTagCompound nbt) {
@@ -37,16 +47,6 @@ public class ItemWritableBook extends Item {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-	 */
-	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer p) {
-		p.openGui(ItemStack.class, stack);
-		//		p.displayGUIBook(stack);
-		p.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-		return stack;
 	}
 
 }

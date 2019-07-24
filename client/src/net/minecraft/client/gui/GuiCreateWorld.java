@@ -17,13 +17,6 @@ import java.util.Random;
 
 public class GuiCreateWorld extends GuiScreen {
 
-	/**
-	 * These filenames are known to be restricted on one or more OS's.
-	 */
-	private static final String[] disallowedFilenames = new String[] {
-			"CON", "COM", "PRN", "AUX", "CLOCK$", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
-	};
-	public String chunkProviderSettingsJson = "";
 	private GuiScreen parentScreen;
 	private GuiTextField txtName;
 	private GuiTextField txtSeed;
@@ -31,6 +24,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private String gameMode = "survival";
 	private String field_175300_s;
 	private boolean enableMapFeatures = true;
+
 	/**
 	 * If cheats are allowed
 	 */
@@ -52,28 +46,19 @@ public class GuiCreateWorld extends GuiScreen {
 	private String seed;
 	private String field_146330_J;
 	private int selectedIndex;
+	public String chunkProviderSettingsJson = "";
+
+	/**
+	 * These filenames are known to be restricted on one or more OS's.
+	 */
+	private static final String[] disallowedFilenames = new String[] {
+			"CON", "COM", "PRN", "AUX", "CLOCK$", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+	};
 
 	public GuiCreateWorld(GuiScreen parentScreen) {
 		this.parentScreen = parentScreen;
 		this.seed = "";
 		this.field_146330_J = Lang.format("selectWorld.newWorld");
-	}
-
-	public static String func_146317_a(ISaveFormat saveFormat, String name) {
-
-		StringBuilder b = new StringBuilder(name.replaceAll("[\\./\"]", "_"));
-		for (String s : disallowedFilenames) {
-			if (b.toString().equalsIgnoreCase(s)) {
-				b = new StringBuilder("_" + b + "_");
-			}
-		}
-		name = b.toString();
-
-		while (saveFormat.getWorldInfo(name) != null) {
-			name = name + "-";
-		}
-
-		return name;
 	}
 
 	/**
@@ -157,6 +142,23 @@ public class GuiCreateWorld extends GuiScreen {
 		} else {
 			this.btnAllowCommands.displayString = this.btnAllowCommands.displayString + Lang.format("options.off");
 		}
+	}
+
+	public static String func_146317_a(ISaveFormat saveFormat, String name) {
+
+		StringBuilder b = new StringBuilder(name.replaceAll("[\\./\"]", "_"));
+		for (String s : disallowedFilenames) {
+			if (b.toString().equalsIgnoreCase(s)) {
+				b = new StringBuilder("_" + b + "_");
+			}
+		}
+		name = b.toString();
+
+		while (saveFormat.getWorldInfo(name) != null) {
+			name = name + "-";
+		}
+
+		return name;
 	}
 
 	/**

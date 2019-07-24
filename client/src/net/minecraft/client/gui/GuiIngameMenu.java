@@ -8,13 +8,12 @@ import net.minecraft.client.resources.Lang;
 import java.io.IOException;
 
 public class GuiIngameMenu extends GuiScreen {
-
 	@Override
 	public void initGui() {
 		this.buttonList.clear();
 		int cacheWidth = width >> 1, cacheWidth2 = cacheWidth - 100, cacheWidth3 = cacheWidth + 2;
 		int cacheHeight = height >> 2, cacheHeight2 = cacheHeight + 80, cacheHeight3 = cacheHeight + 32;
-		buttonList.add(new GuiButton(1, cacheWidth2, cacheHeight + 104, Lang.format("menu.returnToMenu")));
+		buttonList.add(new GuiButton(1,  cacheWidth2, cacheHeight + 104, Lang.format("menu.returnToMenu")));
 
 		if (!mc.isIntegratedServerRunning()) buttonList.get(0).displayString = Lang.format("menu.disconnect");
 
@@ -71,5 +70,4 @@ public class GuiIngameMenu extends GuiScreen {
 		this.drawCenteredString(this.fontRendererObj, Lang.format("menu.game"), this.width / 2, 40, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
-
 }

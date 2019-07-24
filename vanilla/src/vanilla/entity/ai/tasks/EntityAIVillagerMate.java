@@ -1,18 +1,19 @@
 package vanilla.entity.ai.tasks;
 
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.entity.Entity;
 import vanilla.entity.passive.EntityVillager;
+import net.minecraft.util.BlockPos;
 import vanilla.world.gen.feature.village.Village;
+import net.minecraft.world.World;
 import vanilla.world.gen.feature.village.VillageCollection;
 
 public class EntityAIVillagerMate extends EntityAIBase {
 
-	Village villageObj;
 	private EntityVillager villagerObj;
 	private EntityVillager mate;
 	private World worldObj;
 	private int matingTimeout;
+	Village villageObj;
 
 	public EntityAIVillagerMate(EntityVillager villagerIn) {
 		this.villagerObj = villagerIn;

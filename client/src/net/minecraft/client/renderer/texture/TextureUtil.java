@@ -1,13 +1,13 @@
 package net.minecraft.client.renderer.texture;
 
-import net.minecraft.Logger;
-import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.Mipmaps;
 import org.apache.commons.io.IOUtils;
+import net.minecraft.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -22,26 +22,12 @@ import java.nio.IntBuffer;
 
 public class TextureUtil {
 
-	public static final DynamicTexture missingTexture = new DynamicTexture(16, 16);
-	public static final int[] missingTextureData = missingTexture.getTextureData();
 	private static final Logger logger = Logger.getInstance();
 	private static final IntBuffer dataBuffer = GLAllocation.createDirectIntBuffer(4194304);
+	public static final DynamicTexture missingTexture = new DynamicTexture(16, 16);
+	public static final int[] missingTextureData = missingTexture.getTextureData();
 	private static final int[] mipmapBuffer;
-	static {
-		int i = -16777216;
-		int j = -524040;
-		int[] aint = new int[] {-524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040};
-		int[] aint1 = new int[] {-16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216};
-		int k = aint.length;
 
-		for (int l = 0; l < 16; ++l) {
-			System.arraycopy(l < k ? aint : aint1, 0, missingTextureData, 16 * l, k);
-			System.arraycopy(l < k ? aint1 : aint, 0, missingTextureData, 16 * l + k, k);
-		}
-
-		missingTexture.updateDynamicTexture();
-		mipmapBuffer = new int[4];
-	}
 
 	public static int glGenTextures() {
 		return G.generateTexture();
@@ -300,5 +286,21 @@ public class TextureUtil {
 			System.arraycopy(p_147953_0_, (p_147953_2_ - 1 - j) * p_147953_1_, p_147953_0_, j * p_147953_1_, p_147953_1_);
 			System.arraycopy(aint, 0, p_147953_0_, (p_147953_2_ - 1 - j) * p_147953_1_, p_147953_1_);
 		}
+	}
+
+	static {
+		int i = -16777216;
+		int j = -524040;
+		int[] aint = new int[] {-524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040};
+		int[] aint1 = new int[] {-16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216};
+		int k = aint.length;
+
+		for (int l = 0; l < 16; ++l) {
+			System.arraycopy(l < k ? aint : aint1, 0, missingTextureData, 16 * l, k);
+			System.arraycopy(l < k ? aint1 : aint, 0, missingTextureData, 16 * l + k, k);
+		}
+
+		missingTexture.updateDynamicTexture();
+		mipmapBuffer = new int[4];
 	}
 }

@@ -29,8 +29,8 @@ public class VBlockMushroom extends BlockMushroom implements IGrowable {
 		worldIn.setBlockToAir(pos);
 		WorldGenerator gen = new WorldGenBigMushroom(
 				this == Blocks.brown_mushroom ? Blocks.brown_mushroom_block :
-						this == Blocks.red_mushroom ? Blocks.red_mushroom_block :
-								null);
+				this == Blocks.red_mushroom ? Blocks.red_mushroom_block :
+						null);
 
 		if (gen != null && gen.generate(worldIn, rand, pos)) return true;
 		worldIn.setBlockState(pos, state, 3);

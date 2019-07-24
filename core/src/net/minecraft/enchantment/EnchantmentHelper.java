@@ -13,7 +13,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.WeightedRandom;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class EnchantmentHelper {
 
@@ -165,9 +169,9 @@ public class EnchantmentHelper {
 			enchantmentModifierDamage.damageModifier = 0;
 		}
 
-		return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
+        return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
 				enchantmentRand.nextInt((enchantmentModifierDamage.damageModifier >> 1) + 1);
-	}
+    }
 
 	/**
 	 * Returns the modifier of protection enchantments on armors equipped on player.
@@ -184,9 +188,9 @@ public class EnchantmentHelper {
 			enchantmentModifierDamage.damageModifier = 0;
 		}
 
-		return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
+        return (enchantmentModifierDamage.damageModifier + 1 >> 1) +
 				(enchantmentModifierDamage.damageModifier >> 2);
-	}
+    }
 
 	public static float calcDamage(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_) {
 		enchantmentModifierLiving.livingModifier = 0.0F;
@@ -430,12 +434,6 @@ public class EnchantmentHelper {
 		return map;
 	}
 
-	interface IModifier {
-
-		void calculateModifier(Enchantment enchantmentIn, int enchantmentLevel);
-
-	}
-
 	static final class DamageIterator implements EnchantmentHelper.IModifier {
 
 		public EntityLivingBase user;
@@ -461,6 +459,12 @@ public class EnchantmentHelper {
 		public void calculateModifier(Enchantment enchantmentIn, int enchantmentLevel) {
 			enchantmentIn.onUserHurt(this.user, this.attacker, enchantmentLevel);
 		}
+
+	}
+
+	interface IModifier {
+
+		void calculateModifier(Enchantment enchantmentIn, int enchantmentLevel);
 
 	}
 

@@ -37,8 +37,8 @@ public class WorldEditUI {
 		z -= renderViewEntity.prevPosZ + (renderViewEntity.posZ - renderViewEntity.prevPosZ) * (double) partialTicks;
 
 		G.pushMatrix();
-		//		GL11.glPushAttrib(GL11.GL_DEPTH_BUFFER_BIT);
-		//		G.depthFunc(GL11.GL_ALWAYS);
+//		GL11.glPushAttrib(GL11.GL_DEPTH_BUFFER_BIT);
+//		G.depthFunc(GL11.GL_ALWAYS);
 		G.disableDepth();
 		GL11.glLineWidth(3);
 		float ss = 0.51F;
@@ -62,7 +62,7 @@ public class WorldEditUI {
 		t.draw();
 		G.enableDepth();
 		G.popMatrix();
-		//		GL11.glPopAttrib();
+//		GL11.glPopAttrib();
 
 	}
 

@@ -35,5 +35,4 @@ public class GuiErrorScreen extends GuiScreen {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		mc.displayGuiScreen(null);
 	}
-
 }

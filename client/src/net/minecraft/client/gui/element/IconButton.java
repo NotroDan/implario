@@ -27,6 +27,11 @@ public class IconButton extends SettingButton implements HoverButton {
 		this(settings, x, y, 60, 60, item);
 	}
 
+	public IconButton setHoverText(String... text) {
+		hoverText = Lists.newArrayList(text);
+		return this;
+	}
+
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
@@ -45,7 +50,8 @@ public class IconButton extends SettingButton implements HoverButton {
 			if (ago < 250) {
 				if (hovered) i = Utils.gradient(0xa07fff3f, 0xa0202020, (float) (ago % 250) / 250f);
 				else i = Utils.gradient(0xa0202020, 0xa07fff3f, (float) (ago % 250) / 250f);
-			} else if (hovered) i = 0xa07fff3f;
+			}
+			else if (hovered) i = 0xa07fff3f;
 			else hoverTime = 0;
 		}
 		drawRect(xPosition, yPosition, xPosition + width, yPosition + height, i);
@@ -60,11 +66,6 @@ public class IconButton extends SettingButton implements HoverButton {
 	@Override
 	public List<String> getHoverText() {
 		return hoverText;
-	}
-
-	public IconButton setHoverText(String... text) {
-		hoverText = Lists.newArrayList(text);
-		return this;
 	}
 
 }

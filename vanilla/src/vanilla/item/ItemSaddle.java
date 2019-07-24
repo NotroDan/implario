@@ -1,11 +1,11 @@
 package vanilla.item;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import vanilla.entity.passive.EntityPig;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ItemSaddle extends Item {
 

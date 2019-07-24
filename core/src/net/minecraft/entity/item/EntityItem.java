@@ -1,6 +1,5 @@
 package net.minecraft.entity.item;
 
-import net.minecraft.Logger;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,25 +14,29 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraft.Logger;
 
 public class EntityItem extends Entity {
 
 	private static final Logger logger = Logger.getInstance();
-	/**
-	 * The EntityItem's random initial float height.
-	 */
-	public float hoverStart;
+
 	/**
 	 * The age of this EntityItem (used to animate it up and down as well as expire it)
 	 */
 	private int age;
 	private int delayBeforeCanPickup;
+
 	/**
 	 * The health of this EntityItem. (For example, damage for tools)
 	 */
 	private int health;
 	private String thrower;
 	private String owner;
+
+	/**
+	 * The EntityItem's random initial float height.
+	 */
+	public float hoverStart;
 
 	public EntityItem(World worldIn, double x, double y, double z) {
 		super(worldIn);
@@ -52,20 +55,20 @@ public class EntityItem extends Entity {
 		this.setEntityItemStack(stack);
 	}
 
-	public EntityItem(World worldIn) {
-		super(worldIn);
-		this.health = 5;
-		this.hoverStart = (float) (Math.random() * Math.PI * 2.0D);
-		this.setSize(0.25F, 0.25F);
-		this.setEntityItemStack(new ItemStack(Blocks.air, 0));
-	}
-
 	/**
 	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
 	 * prevent them from trampling crops
 	 */
 	protected boolean canTriggerWalking() {
 		return false;
+	}
+
+	public EntityItem(World worldIn) {
+		super(worldIn);
+		this.health = 5;
+		this.hoverStart = (float) (Math.random() * Math.PI * 2.0D);
+		this.setSize(0.25F, 0.25F);
+		this.setEntityItemStack(new ItemStack(Blocks.air, 0));
 	}
 
 	protected void entityInit() {

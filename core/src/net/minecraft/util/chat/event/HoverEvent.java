@@ -71,11 +71,6 @@ public class HoverEvent {
 		SHOW_FILE("show_file", true);
 
 		private static final Map<String, HoverEvent.Action> nameMapping = Maps.newHashMap();
-		static {
-			for (HoverEvent.Action hoverevent$action : values()) {
-				nameMapping.put(hoverevent$action.getCanonicalName(), hoverevent$action);
-			}
-		}
 		private final boolean allowedInChat;
 		private final String canonicalName;
 
@@ -84,16 +79,22 @@ public class HoverEvent {
 			this.allowedInChat = allowedInChatIn;
 		}
 
-		public static HoverEvent.Action getValueByCanonicalName(String canonicalNameIn) {
-			return (HoverEvent.Action) nameMapping.get(canonicalNameIn);
-		}
-
 		public boolean shouldAllowInChat() {
 			return this.allowedInChat;
 		}
 
 		public String getCanonicalName() {
 			return this.canonicalName;
+		}
+
+		public static HoverEvent.Action getValueByCanonicalName(String canonicalNameIn) {
+			return (HoverEvent.Action) nameMapping.get(canonicalNameIn);
+		}
+
+		static {
+			for (HoverEvent.Action hoverevent$action : values()) {
+				nameMapping.put(hoverevent$action.getCanonicalName(), hoverevent$action);
+			}
 		}
 	}
 

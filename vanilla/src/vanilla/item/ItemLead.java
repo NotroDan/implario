@@ -19,6 +19,22 @@ public class ItemLead extends Item {
 		this.setCreativeTab(CreativeTabs.tabTools);
 	}
 
+	/**
+	 * Called when a Block is right-clicked with this Item
+	 */
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+		Block block = worldIn.getBlockState(pos).getBlock();
+
+		if (block instanceof BlockFence) {
+			if (worldIn.isClientSide) {
+				return true;
+			}
+			attachToFence(playerIn, worldIn, pos);
+			return true;
+		}
+		return false;
+	}
+
 	public static boolean attachToFence(EntityPlayer player, World worldIn, BlockPos fence) {
 		EntityLeashKnot entityleashknot = EntityLeashKnot.getKnotForPosition(worldIn, fence);
 		boolean flag = false;
@@ -40,22 +56,6 @@ public class ItemLead extends Item {
 		}
 
 		return flag;
-	}
-
-	/**
-	 * Called when a Block is right-clicked with this Item
-	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-		Block block = worldIn.getBlockState(pos).getBlock();
-
-		if (block instanceof BlockFence) {
-			if (worldIn.isClientSide) {
-				return true;
-			}
-			attachToFence(playerIn, worldIn, pos);
-			return true;
-		}
-		return false;
 	}
 
 }

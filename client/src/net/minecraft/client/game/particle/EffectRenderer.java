@@ -104,11 +104,9 @@ public class EffectRenderer {
 	public void registerParticle(int id, IParticleFactory particleFactory) {
 		this.particleTypes.put(id, particleFactory);
 	}
-
 	public void unregisterParticle(int id) {
 		this.particleTypes.remove(id);
 	}
-
 	public IParticleFactory getFactory(int id) {
 		return (IParticleFactory) this.particleTypes.get(id);
 	}

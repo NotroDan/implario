@@ -8,6 +8,7 @@ import net.minecraft.client.game.worldedit.WorldEdit;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiControls;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainerItems;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.ScreenShotHelper;
 import net.minecraft.client.settings.KeyBinding;
@@ -53,6 +54,9 @@ public final class InputHandler {
 	 * Profiler currently displayed in the debug screen pie chart
 	 */
 	private String debugProfilerName = "root";
+
+
+
 
 
 	public InputHandler(Minecraft mc) {
@@ -148,7 +152,7 @@ public final class InputHandler {
 				item = Items.painting;
 			} /*else if (mc.objectMouseOver.entityHit instanceof EntityLeashKnot) {
 				item = Items.lead; // ToDo: Кастомный результат при нажатии СКМ
-			} */ else if (mc.objectMouseOver.entityHit instanceof EntityItemFrame) {
+			} */else if (mc.objectMouseOver.entityHit instanceof EntityItemFrame) {
 				EntityItemFrame entityitemframe = (EntityItemFrame) mc.objectMouseOver.entityHit;
 				ItemStack itemstack = entityitemframe.getDisplayedItem();
 
@@ -191,13 +195,13 @@ public final class InputHandler {
 			} else if (mc.objectMouseOver.entityHit instanceof EntityArmorStand) {
 				item = Items.armor_stand;
 			} else {
-				//				item = VanillaItems.spawn_egg;
-				//				i = EntityList.getEntityID(mc.objectMouseOver.entityHit);
-				//				flag1 = true;
-				//
-				//				if (!EntityList.entityEggs.containsKey(i)) {
-				//					return;
-				//				}
+//				item = VanillaItems.spawn_egg;
+//				i = EntityList.getEntityID(mc.objectMouseOver.entityHit);
+//				flag1 = true;
+//
+//				if (!EntityList.entityEggs.containsKey(i)) {
+//					return;
+//				}
 				return;
 			}
 		}
@@ -466,7 +470,7 @@ public final class InputHandler {
 					if (mc.playerController.onPlayerDamageBlock(blockpos, mc.objectMouseOver.sideHit)) {
 						mc.effectRenderer.addBlockHitEffects(blockpos, mc.objectMouseOver.sideHit);
 						mc.thePlayer.swingItem();
-					}
+				}
 		}
 	}
 

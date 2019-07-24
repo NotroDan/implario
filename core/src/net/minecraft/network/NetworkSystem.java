@@ -1,5 +1,6 @@
 package net.minecraft.network;
 
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -19,9 +20,7 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.network.play.server.S40PacketDisconnect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.NetHandlerHandshakeTCP;
-import net.minecraft.util.LazyLoadBase;
-import net.minecraft.util.MessageSerialization;
-import net.minecraft.util.ReportedException;
+import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 
 import java.io.IOException;
@@ -34,6 +33,7 @@ import java.util.List;
 
 public class NetworkSystem {
 
+	private static final Logger logger = Logger.getInstance();
 	public static final LazyLoadBase<NioEventLoopGroup> eventLoops = new LazyLoadBase<NioEventLoopGroup>() {
 		protected NioEventLoopGroup load() {
 			return new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Server IO #%d").setDaemon(true).build());
@@ -49,17 +49,18 @@ public class NetworkSystem {
 			return new LocalEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Local Server IO #%d").setDaemon(true).build());
 		}
 	};
-	private static final Logger logger = Logger.getInstance();
+
 	/**
 	 * Reference to the MinecraftServer object.
 	 */
 	private final MinecraftServer mcServer;
-	private final List<ChannelFuture> endpoints = Collections.synchronizedList(new ArrayList<>());
-	private final List<NetworkManager> networkManagers = Collections.synchronizedList(new ArrayList<>());
+
 	/**
 	 * True if this NetworkSystem has never had his endpoints terminated
 	 */
 	public volatile boolean isAlive;
+	private final List<ChannelFuture> endpoints = Collections.synchronizedList(new ArrayList<>());
+	private final List<NetworkManager> networkManagers = Collections.synchronizedList(new ArrayList<>());
 
 	public NetworkSystem(MinecraftServer server) {
 		this.mcServer = server;

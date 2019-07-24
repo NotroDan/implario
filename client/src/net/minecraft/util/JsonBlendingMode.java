@@ -37,6 +37,56 @@ public class JsonBlendingMode {
 		this(true, false, p_i45086_1_, p_i45086_2_, p_i45086_3_, p_i45086_4_, p_i45086_5_);
 	}
 
+	public void func_148109_a() {
+		if (this.equals(instance)) return;
+		if (instance == null || this.field_148119_h != instance.func_148111_b()) {
+			instance = this;
+
+			if (this.field_148119_h) {
+				G.disableBlend();
+				return;
+			}
+
+			G.enableBlend();
+		}
+
+		GL14.glBlendEquation(this.field_148112_f);
+
+		if (this.field_148113_g) {
+			G.tryBlendFuncSeparate(this.field_148116_b, this.field_148114_d, this.field_148117_c, this.field_148115_e);
+		} else {
+			G.blendFunc(this.field_148116_b, this.field_148114_d);
+		}
+	}
+
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof JsonBlendingMode)) return false;
+		JsonBlendingMode m = (JsonBlendingMode) o;
+		return  this.field_148112_f == m.field_148112_f &&
+				this.field_148115_e == m.field_148115_e &&
+				this.field_148114_d == m.field_148114_d &&
+				this.field_148119_h == m.field_148119_h &&
+				this.field_148113_g == m.field_148113_g &&
+				this.field_148117_c == m.field_148117_c &&
+				this.field_148116_b == m.field_148116_b;
+	}
+
+	public int hashCode() {
+		int i = this.field_148116_b;
+		i = 31 * i + this.field_148117_c;
+		i = 31 * i + this.field_148114_d;
+		i = 31 * i + this.field_148115_e;
+		i = 31 * i + this.field_148112_f;
+		i = 31 * i + (this.field_148113_g ? 1 : 0);
+		i = 31 * i + (this.field_148119_h ? 1 : 0);
+		return i;
+	}
+
+	public boolean func_148111_b() {
+		return this.field_148119_h;
+	}
+
 	public static JsonBlendingMode deserialize(JsonObject json) {
 		if (json == null) return new JsonBlendingMode();
 		int func = 32774;
@@ -90,12 +140,12 @@ public class JsonBlendingMode {
 
 	private static int getBlendingFunc(String value) {
 		String s = value.trim().toLowerCase();
-		return s.equals("add") ? 32774 :
-				s.equals("subtract") ? 32778 :
-						s.equals("reversesubtract") ? 32779 :
-								s.equals("reverse_subtract") ? 32779 :
-										s.equals("min") ? 32775 :
-												s.equals("max") ? 32776 : 32774;
+		return  s.equals("add") ?              32774 :
+				s.equals("subtract") ?         32778 :
+				s.equals("reversesubtract") ?  32779 :
+				s.equals("reverse_subtract") ? 32779 :
+				s.equals("min") ?              32775 :
+				s.equals("max") ?              32776 : 32774;
 	}
 
 	private static int func_148107_b(String p_148107_0_) {
@@ -106,56 +156,6 @@ public class JsonBlendingMode {
 		s = s.replaceAll("minus", "-");
 		return s.equals("0") ? 0 : s.equals("1") ? 1 : s.equals("srccolor") ? 768 : s.equals("1-srccolor") ? 769 : s.equals("dstcolor") ? 774 : s.equals("1-dstcolor") ? 775 : s.equals(
 				"srcalpha") ? 770 : s.equals("1-srcalpha") ? 771 : s.equals("dstalpha") ? 772 : s.equals("1-dstalpha") ? 773 : -1;
-	}
-
-	public void func_148109_a() {
-		if (this.equals(instance)) return;
-		if (instance == null || this.field_148119_h != instance.func_148111_b()) {
-			instance = this;
-
-			if (this.field_148119_h) {
-				G.disableBlend();
-				return;
-			}
-
-			G.enableBlend();
-		}
-
-		GL14.glBlendEquation(this.field_148112_f);
-
-		if (this.field_148113_g) {
-			G.tryBlendFuncSeparate(this.field_148116_b, this.field_148114_d, this.field_148117_c, this.field_148115_e);
-		} else {
-			G.blendFunc(this.field_148116_b, this.field_148114_d);
-		}
-	}
-
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof JsonBlendingMode)) return false;
-		JsonBlendingMode m = (JsonBlendingMode) o;
-		return this.field_148112_f == m.field_148112_f &&
-				this.field_148115_e == m.field_148115_e &&
-				this.field_148114_d == m.field_148114_d &&
-				this.field_148119_h == m.field_148119_h &&
-				this.field_148113_g == m.field_148113_g &&
-				this.field_148117_c == m.field_148117_c &&
-				this.field_148116_b == m.field_148116_b;
-	}
-
-	public int hashCode() {
-		int i = this.field_148116_b;
-		i = 31 * i + this.field_148117_c;
-		i = 31 * i + this.field_148114_d;
-		i = 31 * i + this.field_148115_e;
-		i = 31 * i + this.field_148112_f;
-		i = 31 * i + (this.field_148113_g ? 1 : 0);
-		i = 31 * i + (this.field_148119_h ? 1 : 0);
-		return i;
-	}
-
-	public boolean func_148111_b() {
-		return this.field_148119_h;
 	}
 
 }

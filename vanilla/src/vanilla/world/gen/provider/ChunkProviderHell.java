@@ -4,6 +4,7 @@ import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockHelper;
+import vanilla.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
@@ -11,12 +12,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import vanilla.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
-import vanilla.entity.EnumCreatureType;
-import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.gen.GeneratorBushFeature;
 import vanilla.world.gen.MapGenBase;
 import vanilla.world.gen.MapGenCavesHell;
@@ -29,28 +29,43 @@ import java.util.Random;
 
 public class ChunkProviderHell implements VanillaChunkProvider {
 
-	public final NoiseGeneratorOctaves netherNoiseGen6;
-	public final NoiseGeneratorOctaves netherNoiseGen7;
 	/**
 	 * Is the world that the nether is getting generated.
 	 */
 	private final World worldObj;
 	private final boolean field_177466_i;
 	private final Random hellRNG;
+
+	/**
+	 * Holds the noise used to determine whether slowsand can be generated at a location
+	 */
+	private double[] slowsandNoise = new double[256];
+	private double[] gravelNoise = new double[256];
+
+	/**
+	 * Holds the noise used to determine whether something other than netherrack can be generated at a location
+	 */
+	private double[] netherrackExclusivityNoise = new double[256];
+	private double[] noiseField;
+
 	/**
 	 * A NoiseGeneratorOctaves used in generating nether terrain
 	 */
 	private final NoiseGeneratorOctaves netherNoiseGen1;
 	private final NoiseGeneratorOctaves netherNoiseGen2;
 	private final NoiseGeneratorOctaves netherNoiseGen3;
+
 	/**
 	 * Determines whether slowsand or gravel can be generated at a location
 	 */
 	private final NoiseGeneratorOctaves slowsandGravelNoiseGen;
+
 	/**
 	 * Determines whether something other than nettherack can be generated at a location
 	 */
 	private final NoiseGeneratorOctaves netherrackExculsivityNoiseGen;
+	public final NoiseGeneratorOctaves netherNoiseGen6;
+	public final NoiseGeneratorOctaves netherNoiseGen7;
 	private final WorldGenFire field_177470_t = new WorldGenFire();
 	private final WorldGenGlowStone1 field_177469_u = new WorldGenGlowStone1();
 	private final WorldGenGlowStone2 field_177468_v = new WorldGenGlowStone2();
@@ -66,16 +81,6 @@ public class ChunkProviderHell implements VanillaChunkProvider {
 	double[] noiseData3;
 	double[] noiseData4;
 	double[] noiseData5;
-	/**
-	 * Holds the noise used to determine whether slowsand can be generated at a location
-	 */
-	private double[] slowsandNoise = new double[256];
-	private double[] gravelNoise = new double[256];
-	/**
-	 * Holds the noise used to determine whether something other than netherrack can be generated at a location
-	 */
-	private double[] netherrackExclusivityNoise = new double[256];
-	private double[] noiseField;
 
 	public ChunkProviderHell(World worldIn, boolean p_i45637_2_, long p_i45637_3_) {
 		this.worldObj = worldIn;

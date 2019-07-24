@@ -22,9 +22,6 @@ public class Slider implements Element {
 	private final int length;
 	private final String caption;
 	private final int captionW;
-	private long approachStart;
-	private int approachFrom = -1;
-	private float lastReportedValue = -1;
 
 	public Slider(Settings setting, String caption) {
 		this.setting = setting;
@@ -35,9 +32,12 @@ public class Slider implements Element {
 		splits = (float) (1 / setStep);
 		step = length / splits;
 		this.caption = caption;
-		//		this.captionW = BakedFont.CALIBRI.getRenderer().getStringWidth(caption) / 2;
+//		this.captionW = BakedFont.CALIBRI.getRenderer().getStringWidth(caption) / 2;
 		this.captionW = BakedFont.CALIBRI.getRenderer().getStringWidth(caption) / 2;
 	}
+
+	private long approachStart;
+	private int approachFrom = -1;
 
 	@Override
 	public void render(float mx, float my, boolean hovered) {
@@ -108,6 +108,7 @@ public class Slider implements Element {
 		set(mx);
 	}
 
+	private float lastReportedValue = -1;
 	private void set(int mx) {
 		mx -= 3;
 		float l = s.getMax() - s.getMin();

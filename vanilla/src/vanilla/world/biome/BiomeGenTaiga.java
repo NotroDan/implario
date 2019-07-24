@@ -3,12 +3,12 @@ package vanilla.world.biome;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockTallGrass;
+import vanilla.entity.passive.EntityWolf;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.ChunkPrimer;
-import vanilla.entity.passive.EntityWolf;
 import vanilla.world.gen.feature.*;
 
 import java.util.Random;
@@ -91,7 +91,7 @@ public class BiomeGenTaiga extends BiomeGenBase {
 
 	protected BiomeGenBase createMutatedBiome(int id) {
 		return this.legacyId == BiomeGenBase.megaTaiga.getLegacyId() ?
-				this.createMutatedBiome(id, "Mega Spruce Taiga") :
+				this .createMutatedBiome(id, "Mega Spruce Taiga") :
 				super.createMutatedBiome(id);
 	}
 

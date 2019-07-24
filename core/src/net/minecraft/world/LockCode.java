@@ -11,14 +11,6 @@ public class LockCode {
 		this.lock = code;
 	}
 
-	public static LockCode fromNBT(NBTTagCompound nbt) {
-		if (nbt.hasKey("Lock", 8)) {
-			String s = nbt.getString("Lock");
-			return new LockCode(s);
-		}
-		return EMPTY_CODE;
-	}
-
 	public boolean isEmpty() {
 		return this.lock == null || this.lock.isEmpty();
 	}
@@ -29,6 +21,14 @@ public class LockCode {
 
 	public void toNBT(NBTTagCompound nbt) {
 		nbt.setString("Lock", this.lock);
+	}
+
+	public static LockCode fromNBT(NBTTagCompound nbt) {
+		if (nbt.hasKey("Lock", 8)) {
+			String s = nbt.getString("Lock");
+			return new LockCode(s);
+		}
+		return EMPTY_CODE;
 	}
 
 }

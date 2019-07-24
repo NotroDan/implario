@@ -170,6 +170,12 @@ public enum Settings {
 
 	private static final Settings[] SOUNDS;
 	private static final Settings[] MODELPARTS;
+	public static List<String> resourcePacks = new ArrayList<>();
+	public static List<String> incompatibleResourcePacks = new ArrayList<>();
+	public static EnumDifficulty difficulty = EnumDifficulty.NORMAL;
+	public static String lastServer = "";
+	public static String language = "ru_RU";
+
 	private static final Gson gson = new Gson();
 	private static final ParameterizedType gsonType = new ParameterizedType() {
 		public Type[] getActualTypeArguments() {return new Type[] {String.class};}
@@ -178,11 +184,7 @@ public enum Settings {
 
 		public Type getOwnerType() {return null;}
 	};
-	public static List<String> resourcePacks = new ArrayList<>();
-	public static List<String> incompatibleResourcePacks = new ArrayList<>();
-	public static EnumDifficulty difficulty = EnumDifficulty.NORMAL;
-	public static String lastServer = "";
-	public static String language = "ru_RU";
+
 	static {
 		List<Settings> sounds = new ArrayList<>();
 		List<Settings> modelparts = new ArrayList<>();
@@ -200,20 +202,18 @@ public enum Settings {
 	Settings(String caption, float min, float max, float step, float defaultValue) {
 		base = new SliderSetting(name(), caption, min, max, defaultValue, step);
 	}
-
 	Settings(String caption, int defaultState, String... variants) {
 		base = new SelectorSetting(name(), caption, defaultState, variants);
 	}
-
 	Settings(String caption, boolean defaultState) {
 		base = new ToggleSetting(name(), caption, defaultState);
 	}
-
 	Settings(String caption) {
 		if (name().startsWith("SOUND_")) {
 			base = new SliderSetting(name(), caption, 0, 1, 0.1f, 0.01f);
 			soundCategory = SoundCategory.valueOf(name().substring(6));
-		} else if (name().startsWith("MODEL_")) base = new ToggleSetting(name(), caption, true);
+		}
+		else if (name().startsWith("MODEL_")) base = new ToggleSetting(name(), caption, true);
 		else throw new IllegalArgumentException();
 	}
 
@@ -241,7 +241,7 @@ public enum Settings {
 						try {
 							KeyBinding key = KeyBinding.valueOf(args[0].substring(4));
 							key.setKeyCode(Integer.parseInt(args[1]));
-						} catch (IllegalArgumentException ex) {
+						}catch (IllegalArgumentException ex){
 							//Removed options ignored
 						}
 					} else if (s.startsWith("resourcePacks: ")) {
@@ -305,7 +305,6 @@ public enum Settings {
 		valueOf("SOUND_" + category.name()).set(level);
 		Minecraft.getMinecraft().getSoundHandler().setSoundLevel(category, level);
 	}
-
 	public static float getSoundLevel(SoundCategory category) {
 		try {
 			return valueOf("SOUND_" + category.name()).f();
@@ -332,24 +331,6 @@ public enum Settings {
 		for (Settings s : values()) if (s.name().contains("ANIMATED") || s.name().contains("PARTICLE")) s.set(b);
 	}
 
-	public static int getPerspective() {
-		return PERSPECTIVE.i();
-	}
-
-	public static void setModelPart(EnumPlayerModelParts part, boolean enabled) {
-		valueOf("MODEL_" + part.name()).set(enabled);
-		sendSettingsToServer();
-	}
-
-	public static void toggleModelPart(EnumPlayerModelParts part) {
-		valueOf("MODEL_" + part.name()).toggle();
-		sendSettingsToServer();
-	}
-
-	public static Settings getModelPart(EnumPlayerModelParts part) {
-		return valueOf("MODEL_" + part.name());
-	}
-
 	public float f() {
 		return base.floatValue();
 	}
@@ -369,13 +350,27 @@ public enum Settings {
 	public void set(boolean b) {
 		base.set(b);
 	}
-
 	public void set(float f) {
 		base.set(f);
 	}
-
 	public boolean toggle() {
 		return ((ToggleSetting) base).toggle();
+	}
+
+	public static int getPerspective() {
+		return PERSPECTIVE.i();
+	}
+
+	public static void setModelPart(EnumPlayerModelParts part, boolean enabled) {
+		valueOf("MODEL_" + part.name()).set(enabled);
+		sendSettingsToServer();
+	}
+	public static void toggleModelPart(EnumPlayerModelParts part) {
+		valueOf("MODEL_" + part.name()).toggle();
+		sendSettingsToServer();
+	}
+	public static Settings getModelPart(EnumPlayerModelParts part) {
+		return valueOf("MODEL_" + part.name());
 	}
 
 	public void change() {

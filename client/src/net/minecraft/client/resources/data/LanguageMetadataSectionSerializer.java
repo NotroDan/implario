@@ -5,12 +5,13 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import net.minecraft.client.resources.Language;
-import net.minecraft.util.JsonUtils;
 
 import java.lang.reflect.Type;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
+
+import net.minecraft.client.resources.Language;
+import net.minecraft.util.JsonUtils;
 
 public class LanguageMetadataSectionSerializer extends BaseMetadataSectionSerializer<LanguageMetadataSection> {
 

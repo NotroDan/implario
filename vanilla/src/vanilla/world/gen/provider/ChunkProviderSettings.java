@@ -250,10 +250,6 @@ public class ChunkProviderSettings {
 		public int lapisCenterHeight = 16;
 		public int lapisSpread = 16;
 
-		public Factory() {
-			this.func_177863_a();
-		}
-
 		public static ChunkProviderSettings.Factory jsonToFactory(String p_177865_0_) {
 			if (p_177865_0_.length() == 0) {
 				return new ChunkProviderSettings.Factory();
@@ -267,6 +263,10 @@ public class ChunkProviderSettings {
 
 		public String toString() {
 			return JSON_ADAPTER.toJson(this);
+		}
+
+		public Factory() {
+			this.func_177863_a();
 		}
 
 		public void func_177863_a() {

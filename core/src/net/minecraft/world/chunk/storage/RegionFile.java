@@ -1,290 +1,352 @@
 package net.minecraft.world.chunk.storage;
 
 import com.google.common.collect.Lists;
-import net.minecraft.server.MinecraftServer;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
+import net.minecraft.server.MinecraftServer;
 
-public class RegionFile {
+public class RegionFile
+{
+    private static final byte[] emptySector = new byte[4096];
+    private final File fileName;
+    private RandomAccessFile dataFile;
+    private final int[] offsets = new int[1024];
+    private final int[] chunkTimestamps = new int[1024];
+    private List<Boolean> sectorFree;
 
-	private static final byte[] emptySector = new byte[4096];
-	private final File fileName;
-	private final int[] offsets = new int[1024];
-	private final int[] chunkTimestamps = new int[1024];
-	private RandomAccessFile dataFile;
-	private List<Boolean> sectorFree;
+    /** McRegion sizeDelta */
+    private int sizeDelta;
+    private long lastModified;
 
-	/**
-	 * McRegion sizeDelta
-	 */
-	private int sizeDelta;
-	private long lastModified;
+    public RegionFile(File fileNameIn)
+    {
+        this.fileName = fileNameIn;
+        this.sizeDelta = 0;
 
-	public RegionFile(File fileNameIn) {
-		this.fileName = fileNameIn;
-		this.sizeDelta = 0;
+        try
+        {
+            if (fileNameIn.exists())
+            {
+                this.lastModified = fileNameIn.lastModified();
+            }
 
-		try {
-			if (fileNameIn.exists()) {
-				this.lastModified = fileNameIn.lastModified();
-			}
+            this.dataFile = new RandomAccessFile(fileNameIn, "rw");
 
-			this.dataFile = new RandomAccessFile(fileNameIn, "rw");
+            if (this.dataFile.length() < 4096L)
+            {
+                for (int i = 0; i < 1024; ++i)
+                {
+                    this.dataFile.writeInt(0);
+                }
 
-			if (this.dataFile.length() < 4096L) {
-				for (int i = 0; i < 1024; ++i) {
-					this.dataFile.writeInt(0);
-				}
+                for (int i1 = 0; i1 < 1024; ++i1)
+                {
+                    this.dataFile.writeInt(0);
+                }
 
-				for (int i1 = 0; i1 < 1024; ++i1) {
-					this.dataFile.writeInt(0);
-				}
+                this.sizeDelta += 8192;
+            }
 
-				this.sizeDelta += 8192;
-			}
+            if ((this.dataFile.length() & 4095L) != 0L)
+            {
+                for (int j1 = 0; (long)j1 < (this.dataFile.length() & 4095L); ++j1)
+                {
+                    this.dataFile.write(0);
+                }
+            }
 
-			if ((this.dataFile.length() & 4095L) != 0L) {
-				for (int j1 = 0; (long) j1 < (this.dataFile.length() & 4095L); ++j1) {
-					this.dataFile.write(0);
-				}
-			}
+            int k1 = (int)this.dataFile.length() / 4096;
+            this.sectorFree = Lists.newArrayListWithCapacity(k1);
 
-			int k1 = (int) this.dataFile.length() / 4096;
-			this.sectorFree = Lists.newArrayListWithCapacity(k1);
+            for (int j = 0; j < k1; ++j)
+            {
+                this.sectorFree.add(Boolean.TRUE);
+            }
 
-			for (int j = 0; j < k1; ++j) {
-				this.sectorFree.add(Boolean.TRUE);
-			}
+            this.sectorFree.set(0, Boolean.FALSE);
+            this.sectorFree.set(1, Boolean.FALSE);
+            this.dataFile.seek(0L);
 
-			this.sectorFree.set(0, Boolean.FALSE);
-			this.sectorFree.set(1, Boolean.FALSE);
-			this.dataFile.seek(0L);
+            for (int l1 = 0; l1 < 1024; ++l1)
+            {
+                int k = this.dataFile.readInt();
+                this.offsets[l1] = k;
 
-			for (int l1 = 0; l1 < 1024; ++l1) {
-				int k = this.dataFile.readInt();
-				this.offsets[l1] = k;
+                if (k != 0 && (k >> 8) + (k & 255) <= this.sectorFree.size())
+                {
+                    for (int l = 0; l < (k & 255); ++l)
+                    {
+                        this.sectorFree.set((k >> 8) + l, Boolean.FALSE);
+                    }
+                }
+            }
 
-				if (k != 0 && (k >> 8) + (k & 255) <= this.sectorFree.size()) {
-					for (int l = 0; l < (k & 255); ++l) {
-						this.sectorFree.set((k >> 8) + l, Boolean.FALSE);
-					}
-				}
-			}
+            for (int i2 = 0; i2 < 1024; ++i2)
+            {
+                int j2 = this.dataFile.readInt();
+                this.chunkTimestamps[i2] = j2;
+            }
+        }
+        catch (IOException ioexception)
+        {
+            ioexception.printStackTrace();
+        }
+    }
 
-			for (int i2 = 0; i2 < 1024; ++i2) {
-				int j2 = this.dataFile.readInt();
-				this.chunkTimestamps[i2] = j2;
-			}
-		} catch (IOException ioexception) {
-			ioexception.printStackTrace();
-		}
-	}
+    /**
+     * Returns an uncompressed chunk stream from the region file.
+     */
 
-	/**
-	 * Returns an uncompressed chunk stream from the region file.
-	 */
-
-	public synchronized DataInputStream getChunkDataInputStream(int x, int z) {
-		if (this.outOfBounds(x, z)) {
-			return null;
-		}
-		try {
+    public synchronized DataInputStream getChunkDataInputStream(int x, int z)
+    {
+        if (this.outOfBounds(x, z))
+        {
+            return null;
+        }
+		try
+		{
 			int i = this.getOffset(x, z);
 
-			if (i == 0) {
+			if (i == 0)
+			{
 				return null;
 			}
 			int j = i >> 8;
 			int k = i & 255;
 
-			if (j + k > this.sectorFree.size()) {
-				return null;
-			}
-			this.dataFile.seek((long) (j * 4096));
+			if (j + k > this.sectorFree.size())
+				{
+					return null;
+				}
+			this.dataFile.seek((long)(j * 4096));
 			int l = this.dataFile.readInt();
 
-			if (l > 4096 * k) {
-				return null;
-			}
-			if (l <= 0) {
-				return null;
-			}
+			if (l > 4096 * k)
+					{
+						return null;
+					}
+			if (l <= 0)
+					{
+						return null;
+					}
 			byte b0 = this.dataFile.readByte();
 
-			if (b0 == 1) {
-				byte[] abyte1 = new byte[l - 1];
-				this.dataFile.read(abyte1);
-				return new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(abyte1))));
-			}
-			if (b0 == 2) {
-				byte[] abyte = new byte[l - 1];
-				this.dataFile.read(abyte);
-				return new DataInputStream(new BufferedInputStream(new InflaterInputStream(new ByteArrayInputStream(abyte))));
-			}
-			return null;
-		} catch (IOException var9) {
-			return null;
-		}
-	}
-
-	/**
-	 * Returns an output stream used to write chunk data. Data is on disk when the returned stream is closed.
-	 */
-	public DataOutputStream getChunkDataOutputStream(int x, int z) {
-		return this.outOfBounds(x, z) ? null : new DataOutputStream(new DeflaterOutputStream(new RegionFile.ChunkBuffer(x, z)));
-	}
-
-	/**
-	 * args: x, z, data, length - write chunk data at (x, z) to disk
-	 */
-
-	protected synchronized void write(int x, int z, byte[] data, int length) {
-		try {
-			int i = this.getOffset(x, z);
-			int j = i >> 8;
-			int k = i & 255;
-			int l = (length + 5) / 4096 + 1;
-
-			if (l >= 256) {
-				return;
-			}
-
-			if (j != 0 && k == l) {
-				this.write(j, data, length);
-			} else {
-				for (int i1 = 0; i1 < k; ++i1) {
-					this.sectorFree.set(j + i1, Boolean.TRUE);
-				}
-
-				int l1 = this.sectorFree.indexOf(Boolean.TRUE);
-				int j1 = 0;
-
-				if (l1 != -1) {
-					for (int k1 = l1; k1 < this.sectorFree.size(); ++k1) {
-						if (j1 != 0) {
-							if (((Boolean) this.sectorFree.get(k1)).booleanValue()) {
-								++j1;
-							} else {
-								j1 = 0;
-							}
-						} else if (((Boolean) this.sectorFree.get(k1)).booleanValue()) {
-							l1 = k1;
-							j1 = 1;
+			if (b0 == 1)
+						{
+							byte[] abyte1 = new byte[l - 1];
+							this.dataFile.read(abyte1);
+							return new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(abyte1))));
 						}
-
-						if (j1 >= l) {
-							break;
+			if (b0 == 2)
+						{
+							byte[] abyte = new byte[l - 1];
+							this.dataFile.read(abyte);
+							return new DataInputStream(new BufferedInputStream(new InflaterInputStream(new ByteArrayInputStream(abyte))));
 						}
-					}
-				}
-
-				if (j1 >= l) {
-					j = l1;
-					this.setOffset(x, z, l1 << 8 | l);
-
-					for (int j2 = 0; j2 < l; ++j2) {
-						this.sectorFree.set(j + j2, Boolean.FALSE);
-					}
-
-					this.write(j, data, length);
-				} else {
-					this.dataFile.seek(this.dataFile.length());
-					j = this.sectorFree.size();
-
-					for (int i2 = 0; i2 < l; ++i2) {
-						this.dataFile.write(emptySector);
-						this.sectorFree.add(Boolean.FALSE);
-					}
-
-					this.sizeDelta += 4096 * l;
-					this.write(j, data, length);
-					this.setOffset(x, z, j << 8 | l);
-				}
-			}
-
-			this.setChunkTimestamp(x, z, (int) (MinecraftServer.getCurrentTimeMillis() / 1000L));
-		} catch (IOException ioexception) {
-			ioexception.printStackTrace();
+			return null;
+		}
+		catch (IOException var9)
+		{
+			return null;
 		}
 	}
 
-	/**
-	 * args: sectorNumber, data, length - write the chunk data to this RegionFile
-	 */
-	private void write(int sectorNumber, byte[] data, int length) throws IOException {
-		this.dataFile.seek((long) (sectorNumber * 4096));
-		this.dataFile.writeInt(length + 1);
-		this.dataFile.writeByte(2);
-		this.dataFile.write(data, 0, length);
-	}
+    /**
+     * Returns an output stream used to write chunk data. Data is on disk when the returned stream is closed.
+     */
+    public DataOutputStream getChunkDataOutputStream(int x, int z)
+    {
+        return this.outOfBounds(x, z) ? null : new DataOutputStream(new DeflaterOutputStream(new RegionFile.ChunkBuffer(x, z)));
+    }
 
-	/**
-	 * args: x, z - check region bounds
-	 */
-	private boolean outOfBounds(int x, int z) {
-		return x < 0 || x >= 32 || z < 0 || z >= 32;
-	}
+    /**
+     * args: x, z, data, length - write chunk data at (x, z) to disk
+     */
 
-	/**
-	 * args: x, z - get chunk's offset in region file
-	 */
-	private int getOffset(int x, int z) {
-		return this.offsets[x + z * 32];
-	}
+    protected synchronized void write(int x, int z, byte[] data, int length)
+    {
+        try
+        {
+            int i = this.getOffset(x, z);
+            int j = i >> 8;
+            int k = i & 255;
+            int l = (length + 5) / 4096 + 1;
 
-	/**
-	 * args: x, z, - true if chunk has been saved / converted
-	 */
-	public boolean isChunkSaved(int x, int z) {
-		return this.getOffset(x, z) != 0;
-	}
+            if (l >= 256)
+            {
+                return;
+            }
 
-	/**
-	 * args: x, z, offset - sets the chunk's offset in the region file
-	 */
-	private void setOffset(int x, int z, int offset) throws IOException {
-		this.offsets[x + z * 32] = offset;
-		this.dataFile.seek((long) ((x + z * 32) * 4));
-		this.dataFile.writeInt(offset);
-	}
+            if (j != 0 && k == l)
+            {
+                this.write(j, data, length);
+            }
+            else
+            {
+                for (int i1 = 0; i1 < k; ++i1)
+                {
+                    this.sectorFree.set(j + i1, Boolean.TRUE);
+                }
 
-	/**
-	 * args: x, z, timestamp - sets the chunk's write timestamp
-	 */
-	private void setChunkTimestamp(int x, int z, int timestamp) throws IOException {
-		this.chunkTimestamps[x + z * 32] = timestamp;
-		this.dataFile.seek((long) (4096 + (x + z * 32) * 4));
-		this.dataFile.writeInt(timestamp);
-	}
+                int l1 = this.sectorFree.indexOf(Boolean.TRUE);
+                int j1 = 0;
 
-	/**
-	 * close this RegionFile and prevent further writes
-	 */
-	public void close() throws IOException {
-		if (this.dataFile != null) {
-			this.dataFile.close();
-		}
-	}
+                if (l1 != -1)
+                {
+                    for (int k1 = l1; k1 < this.sectorFree.size(); ++k1)
+                    {
+                        if (j1 != 0)
+                        {
+                            if (((Boolean)this.sectorFree.get(k1)).booleanValue())
+                            {
+                                ++j1;
+                            }
+                            else
+                            {
+                                j1 = 0;
+                            }
+                        }
+                        else if (((Boolean)this.sectorFree.get(k1)).booleanValue())
+                        {
+                            l1 = k1;
+                            j1 = 1;
+                        }
 
-	class ChunkBuffer extends ByteArrayOutputStream {
+                        if (j1 >= l)
+                        {
+                            break;
+                        }
+                    }
+                }
 
-		private int chunkX;
-		private int chunkZ;
+                if (j1 >= l)
+                {
+                    j = l1;
+                    this.setOffset(x, z, l1 << 8 | l);
 
-		public ChunkBuffer(int x, int z) {
-			super(8096);
-			this.chunkX = x;
-			this.chunkZ = z;
-		}
+                    for (int j2 = 0; j2 < l; ++j2)
+                    {
+                        this.sectorFree.set(j + j2, Boolean.FALSE);
+                    }
 
-		public void close() throws IOException {
-			RegionFile.this.write(this.chunkX, this.chunkZ, this.buf, this.count);
-		}
+                    this.write(j, data, length);
+                }
+                else
+                {
+                    this.dataFile.seek(this.dataFile.length());
+                    j = this.sectorFree.size();
 
-	}
+                    for (int i2 = 0; i2 < l; ++i2)
+                    {
+                        this.dataFile.write(emptySector);
+                        this.sectorFree.add(Boolean.FALSE);
+                    }
 
+                    this.sizeDelta += 4096 * l;
+                    this.write(j, data, length);
+                    this.setOffset(x, z, j << 8 | l);
+                }
+            }
+
+            this.setChunkTimestamp(x, z, (int)(MinecraftServer.getCurrentTimeMillis() / 1000L));
+        }
+        catch (IOException ioexception)
+        {
+            ioexception.printStackTrace();
+        }
+    }
+
+    /**
+     * args: sectorNumber, data, length - write the chunk data to this RegionFile
+     */
+    private void write(int sectorNumber, byte[] data, int length) throws IOException
+    {
+        this.dataFile.seek((long)(sectorNumber * 4096));
+        this.dataFile.writeInt(length + 1);
+        this.dataFile.writeByte(2);
+        this.dataFile.write(data, 0, length);
+    }
+
+    /**
+     * args: x, z - check region bounds
+     */
+    private boolean outOfBounds(int x, int z)
+    {
+        return x < 0 || x >= 32 || z < 0 || z >= 32;
+    }
+
+    /**
+     * args: x, z - get chunk's offset in region file
+     */
+    private int getOffset(int x, int z)
+    {
+        return this.offsets[x + z * 32];
+    }
+
+    /**
+     * args: x, z, - true if chunk has been saved / converted
+     */
+    public boolean isChunkSaved(int x, int z)
+    {
+        return this.getOffset(x, z) != 0;
+    }
+
+    /**
+     * args: x, z, offset - sets the chunk's offset in the region file
+     */
+    private void setOffset(int x, int z, int offset) throws IOException
+    {
+        this.offsets[x + z * 32] = offset;
+        this.dataFile.seek((long)((x + z * 32) * 4));
+        this.dataFile.writeInt(offset);
+    }
+
+    /**
+     * args: x, z, timestamp - sets the chunk's write timestamp
+     */
+    private void setChunkTimestamp(int x, int z, int timestamp) throws IOException
+    {
+        this.chunkTimestamps[x + z * 32] = timestamp;
+        this.dataFile.seek((long)(4096 + (x + z * 32) * 4));
+        this.dataFile.writeInt(timestamp);
+    }
+
+    /**
+     * close this RegionFile and prevent further writes
+     */
+    public void close() throws IOException
+    {
+        if (this.dataFile != null)
+        {
+            this.dataFile.close();
+        }
+    }
+
+    class ChunkBuffer extends ByteArrayOutputStream
+    {
+        private int chunkX;
+        private int chunkZ;
+
+        public ChunkBuffer(int x, int z)
+        {
+            super(8096);
+            this.chunkX = x;
+            this.chunkZ = z;
+        }
+
+        public void close() throws IOException
+        {
+            RegionFile.this.write(this.chunkX, this.chunkZ, this.buf, this.count);
+        }
+    }
 }

@@ -28,6 +28,34 @@ public class BlockFire extends Block {
 	private final Map<Block, Integer> encouragements = Maps.newIdentityHashMap();
 	private final Map<Block, Integer> flammabilities = Maps.newIdentityHashMap();
 
+	/**
+	 * Get the actual Block state of this Block at the given position. This applies properties not visible in the
+	 * metadata, such as fence connections.
+	 */
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		int i = pos.getX();
+		int j = pos.getY();
+		int k = pos.getZ();
+
+		if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !Blocks.fire.canCatchFire(worldIn, pos.down())) {
+			boolean flag = (i + j + k & 1) == 1;
+			boolean flag1 = (i / 2 + j / 2 + k / 2 & 1) == 1;
+			int l = 0;
+
+			if (this.canCatchFire(worldIn, pos.up())) {
+				l = flag ? 1 : 2;
+			}
+
+			return state.withProperty(NORTH, this.canCatchFire(worldIn, pos.north())).withProperty(EAST, this.canCatchFire(worldIn, pos.east())).withProperty(SOUTH,
+					this.canCatchFire(worldIn, pos.south())).withProperty(WEST,
+					this.canCatchFire(worldIn, pos.west())).withProperty(UPPER,
+					l).withProperty(FLIP,
+					flag1).withProperty(ALT,
+					flag);
+		}
+		return this.getDefaultState();
+	}
+
 	protected BlockFire() {
 		super(Material.fire);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0).withProperty(FLIP, Boolean.FALSE).withProperty(ALT, Boolean.FALSE).withProperty(NORTH,
@@ -75,34 +103,6 @@ public class BlockFire extends Block {
 		Blocks.fire.setFireInfo(Blocks.coal_block, 5, 5);
 		Blocks.fire.setFireInfo(Blocks.hay_block, 60, 20);
 		Blocks.fire.setFireInfo(Blocks.carpet, 60, 20);
-	}
-
-	/**
-	 * Get the actual Block state of this Block at the given position. This applies properties not visible in the
-	 * metadata, such as fence connections.
-	 */
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		int i = pos.getX();
-		int j = pos.getY();
-		int k = pos.getZ();
-
-		if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !Blocks.fire.canCatchFire(worldIn, pos.down())) {
-			boolean flag = (i + j + k & 1) == 1;
-			boolean flag1 = (i / 2 + j / 2 + k / 2 & 1) == 1;
-			int l = 0;
-
-			if (this.canCatchFire(worldIn, pos.up())) {
-				l = flag ? 1 : 2;
-			}
-
-			return state.withProperty(NORTH, this.canCatchFire(worldIn, pos.north())).withProperty(EAST, this.canCatchFire(worldIn, pos.east())).withProperty(SOUTH,
-					this.canCatchFire(worldIn, pos.south())).withProperty(WEST,
-					this.canCatchFire(worldIn, pos.west())).withProperty(UPPER,
-					l).withProperty(FLIP,
-					flag1).withProperty(ALT,
-					flag);
-		}
-		return this.getDefaultState();
 	}
 
 	public void setFireInfo(Block blockIn, int encouragement, int flammability) {

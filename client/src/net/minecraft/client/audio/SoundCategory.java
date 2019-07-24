@@ -22,16 +22,6 @@ public enum SoundCategory {
 
 	private static final Map<String, SoundCategory> NAME_CATEGORY_MAP = Maps.newHashMap();
 	private static final Map<Integer, SoundCategory> ID_CATEGORY_MAP = Maps.newHashMap();
-	static {
-		for (SoundCategory soundcategory : values()) {
-			if (NAME_CATEGORY_MAP.containsKey(soundcategory.getCategoryName()) || ID_CATEGORY_MAP.containsKey(soundcategory.getCategoryId())) {
-				throw new Error("Clash in Sound Category ID & Name pools! Cannot insert " + soundcategory);
-			}
-
-			NAME_CATEGORY_MAP.put(soundcategory.getCategoryName(), soundcategory);
-			ID_CATEGORY_MAP.put(soundcategory.getCategoryId(), soundcategory);
-		}
-	}
 	private final String categoryName;
 	private final int categoryId;
 	private final ItemStack item;
@@ -44,10 +34,6 @@ public enum SoundCategory {
 		this.description = Lists.newArrayList(description);
 	}
 
-	public static SoundCategory getCategory(String name) {
-		return NAME_CATEGORY_MAP.get(name);
-	}
-
 	public String getCategoryName() {
 		return this.categoryName;
 	}
@@ -56,6 +42,20 @@ public enum SoundCategory {
 		return this.categoryId;
 	}
 
+	public static SoundCategory getCategory(String name) {
+		return NAME_CATEGORY_MAP.get(name);
+	}
+
+	static {
+		for (SoundCategory soundcategory : values()) {
+			if (NAME_CATEGORY_MAP.containsKey(soundcategory.getCategoryName()) || ID_CATEGORY_MAP.containsKey(soundcategory.getCategoryId())) {
+				throw new Error("Clash in Sound Category ID & Name pools! Cannot insert " + soundcategory);
+			}
+
+			NAME_CATEGORY_MAP.put(soundcategory.getCategoryName(), soundcategory);
+			ID_CATEGORY_MAP.put(soundcategory.getCategoryId(), soundcategory);
+		}
+	}
 	public ItemStack getItem() {
 		return item;
 	}

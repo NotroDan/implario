@@ -2,18 +2,25 @@ package vanilla.entity.monster;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
+import vanilla.entity.VanillaEntity;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.attributes.IAttribute;
 import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.attributes.RangedAttribute;
+import vanilla.entity.ai.tasks.*;
+import vanilla.entity.ai.tasks.village.EntityAIBreakDoor;
+import vanilla.entity.ai.tasks.village.EntityAIMoveThroughVillage;
+import vanilla.entity.passive.EntityChicken;
+import vanilla.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import vanilla.entity.ai.pathfinding.PathNavigateGround;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
@@ -21,13 +28,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import vanilla.entity.VanillaEntity;
-import vanilla.entity.ai.pathfinding.PathNavigateGround;
-import vanilla.entity.ai.tasks.*;
-import vanilla.entity.ai.tasks.village.EntityAIBreakDoor;
-import vanilla.entity.ai.tasks.village.EntityAIMoveThroughVillage;
-import vanilla.entity.passive.EntityChicken;
-import vanilla.entity.passive.EntityVillager;
 
 import java.util.Calendar;
 import java.util.List;
@@ -137,6 +137,17 @@ public class EntityZombie extends EntityMob {
 	}
 
 	/**
+	 * Get the experience points the entity currently has.
+	 */
+	protected int getExperiencePoints(EntityPlayer player) {
+		if (this.isChild()) {
+			this.experienceValue = (int) ((float) this.experienceValue * 2.5F);
+		}
+
+		return super.getExperiencePoints(player);
+	}
+
+	/**
 	 * Set whether this zombie is a child.
 	 */
 	public void setChild(boolean childZombie) {
@@ -152,17 +163,6 @@ public class EntityZombie extends EntityMob {
 		}
 
 		this.setChildSize(childZombie);
-	}
-
-	/**
-	 * Get the experience points the entity currently has.
-	 */
-	protected int getExperiencePoints(EntityPlayer player) {
-		if (this.isChild()) {
-			this.experienceValue = (int) ((float) this.experienceValue * 2.5F);
-		}
-
-		return super.getExperiencePoints(player);
 	}
 
 	/**

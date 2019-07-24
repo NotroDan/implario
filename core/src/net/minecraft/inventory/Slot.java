@@ -6,13 +6,15 @@ import net.minecraft.item.ItemStack;
 public class Slot {
 
 	/**
-	 * The inventory we want to extract a slot from.
-	 */
-	public final IInventory inventory;
-	/**
 	 * The index of the slot in the inventory.
 	 */
 	private final int slotIndex;
+
+	/**
+	 * The inventory we want to extract a slot from.
+	 */
+	public final IInventory inventory;
+
 	/**
 	 * the id of the slot(also the index in the inventory arraylist)
 	 */

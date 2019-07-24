@@ -2,21 +2,21 @@ package vanilla.world.gen.provider;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import vanilla.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
+import vanilla.world.SpawnerAnimals;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
+import vanilla.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
-import vanilla.entity.EnumCreatureType;
-import vanilla.world.SpawnerAnimals;
-import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.gen.*;
 import vanilla.world.gen.feature.WorldGenDungeons;
 import vanilla.world.gen.feature.WorldGenLakes;
@@ -28,25 +28,6 @@ import java.util.Random;
 public class ChunkProviderGenerate implements VanillaChunkProvider {
 
 	/**
-	 * are map structures going to be generated (e.g. strongholds)
-	 */
-	private final boolean mapFeaturesEnabled;
-	private final double[] field_147434_q;
-	private final float[] parabolicField;
-	/**
-	 * A NoiseGeneratorOctaves used in generating terrain
-	 */
-	public NoiseGeneratorOctaves noiseGen5;
-	/**
-	 * A NoiseGeneratorOctaves used in generating terrain
-	 */
-	public NoiseGeneratorOctaves noiseGen6;
-	public NoiseGeneratorOctaves mobSpawnerNoise;
-	double[] field_147427_d;
-	double[] field_147428_e;
-	double[] field_147425_f;
-	double[] field_147426_g;
-	/**
 	 * RNG.
 	 */
 	private Random rand;
@@ -54,37 +35,65 @@ public class ChunkProviderGenerate implements VanillaChunkProvider {
 	private NoiseGeneratorOctaves field_147432_k;
 	private NoiseGeneratorOctaves field_147429_l;
 	private NoiseGeneratorPerlin field_147430_m;
+
+	/**
+	 * A NoiseGeneratorOctaves used in generating terrain
+	 */
+	public NoiseGeneratorOctaves noiseGen5;
+
+	/**
+	 * A NoiseGeneratorOctaves used in generating terrain
+	 */
+	public NoiseGeneratorOctaves noiseGen6;
+	public NoiseGeneratorOctaves mobSpawnerNoise;
+
 	/**
 	 * Reference to the World object.
 	 */
 	private World worldObj;
+
+	/**
+	 * are map structures going to be generated (e.g. strongholds)
+	 */
+	private final boolean mapFeaturesEnabled;
 	private WorldType field_177475_o;
+	private final double[] field_147434_q;
+	private final float[] parabolicField;
 	private ChunkProviderSettings settings;
 	private Block field_177476_s = Blocks.water;
 	private double[] stoneNoise = new double[256];
 	private MapGenBase caveGenerator = new MapGenCaves();
+
 	/**
 	 * Holds Stronghold Generator
 	 */
 	private MapGenStronghold strongholdGenerator = new MapGenStronghold();
+
 	/**
 	 * Holds Village Generator
 	 */
 	private MapGenVillage villageGenerator = new MapGenVillage();
+
 	/**
 	 * Holds Mineshaft Generator
 	 */
 	private MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
 	private MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
+
 	/**
 	 * Holds ravine generator
 	 */
 	private MapGenBase ravineGenerator = new MapGenRavine();
 	private StructureOceanMonument oceanMonumentGenerator = new StructureOceanMonument();
+
 	/**
 	 * The biomes that are used to generate the chunk
 	 */
 	private Biome[] biomesForGeneration;
+	double[] field_147427_d;
+	double[] field_147428_e;
+	double[] field_147425_f;
+	double[] field_147426_g;
 
 	public ChunkProviderGenerate(World worldIn, long p_i45636_2_, boolean p_i45636_4_, String p_i45636_5_) {
 		this.worldObj = worldIn;

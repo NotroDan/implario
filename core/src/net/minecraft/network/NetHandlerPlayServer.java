@@ -307,7 +307,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 						if (Events.eventPlayerMove.isUseful())
 							Events.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
 					}
-					//					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);
+//					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);
 
 					if (!this.playerEntity.noClip) {
 						boolean flag2 = worldserver.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(f3, f3, f3)).isEmpty();
@@ -648,7 +648,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 				boolean b = serverController.getConfigurationManager().canSendCommands(playerEntity.getGameProfile());
 				IChatComponent ichatcomponent =
 						new ChatComponentText((b ? "§c" : "§7") + this.playerEntity.getDisplayName().getFormattedText() + "§7: §f" + s);
-				//new ChatComponentTranslation("chat.type.text", new Object[] {this.playerEntity.getDisplayName(), s});
+						//new ChatComponentTranslation("chat.type.text", new Object[] {this.playerEntity.getDisplayName(), s});
 				this.serverController.getConfigurationManager().sendChatMsgImpl(ichatcomponent, false);
 			}
 

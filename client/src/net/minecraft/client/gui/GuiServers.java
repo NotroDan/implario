@@ -19,72 +19,49 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GuiServers extends GuiScreen {
-
+	
 	private static final long SMOOTH_SCROLL_TIME = 150;
-	private static final int darkColor = 0xa0101010;
-	public static int H = 84;
-	public static int W = 72;
-	public final Animator darkener = new Animator(0, 0,
-			new Animation(0, 0, 0, 0, 0, 0, 500,
-					p -> drawRect(0, 0, width, height, Utils.gradient(darkColor, 0, p))));
-	private final GuiScreen parent;
-	private final int addX = -150, addY = -100;
-	public Server dragged;
-	public int lastMx = -1, lastMy = -1;
-	protected volatile int scroll, lastScroll;
-	protected volatile long lastScrolled;
-	protected boolean lastUpwards;
-	protected int cw, ch;
-	public final Animator addButton = new Animator(0, 0,
-			new Animation(-W / 2 + 2, -H / 2 + 2, 0x0, addX, addY, 0x0, 500,
-					this::drawForm, Easing.QUAD_B),
-			new Animation(0, 0, 0xff20ff20, -addX, -addY, 0xffd02030, 500,
-					p -> drawRect(cw - 24, ch - 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
-			new Animation(0, 0, 0xff20ff20, -addX, -addY, 0xffd02030, 500,
-					p -> drawRect(cw - 3, ch - 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
-			new Animation(0, 0, 0xff20ff20, addX, -addY, 0xffd02030, 500,
-					p -> drawRect(cw + 24, ch - 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
-			new Animation(0, 0, 0xff20ff20, addX, -addY, 0xffd02030, 500,
-					p -> drawRect(cw + 3, ch - 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
-			new Animation(0, 0, 0xff20ff20, addX, addY, 0xffd02030, 500,
-					p -> drawRect(cw + 24, ch + 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
-			new Animation(0, 0, 0xff20ff20, addX, addY, 0xffd02030, 500,
-					p -> drawRect(cw + 3, ch + 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
-			new Animation(0, 0, 0xff20ff20, -addX, addY, 0xffd02030, 500,
-					p -> drawRect(cw - 24, ch + 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
-			new Animation(0, 0, 0xff20ff20, -addX, addY, 0xffd02030, 500,
-					p -> drawRect(cw - 3, ch + 24, cw, ch, 0xff20ff20), Easing.QUAD_B)
-	);
 	private List<Server> servers = new ArrayList<>();
+	private final GuiScreen parent;
 	private ServerList serverList;
 	private int columns = -1;
 	private int rows = -1;
 	private int rightBorder;
+	public static int H = 84;
+	public static int W = 72;
+	protected volatile int scroll, lastScroll;
+	protected volatile long lastScrolled;
+	protected boolean lastUpwards;
+	protected int cw, ch;
 	private long lastClick;
 	private int wantDrag = -1;
+	public Server dragged;
 	private long addBtnHovertime;
 	private boolean addBtnHovered;
 	private Animator.Cycle addBtnAnim;
 	private boolean addingServer;
+	public int lastMx = -1, lastMy = -1;
 	private int draggedId = -1;
 	private Animator.Cycle darkenerAnim;
 	private GuiTextField serverName, serverIp;
-
+	
+	private static final int darkColor = 0xa0101010;
+	
 	public GuiServers(GuiScreen parent) {
 		this.parent = parent;
 	}
-
+	
 	public GuiScreen getParent() {
 		return parent;
 	}
-
+	
 	@Override
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		this.buttonList.clear();
 		cw = width / 2;
 		ch = height / 2;
-
+		
 		if (columns == -1 || servers.isEmpty()) {
 			serverList = new ServerList(mc);
 			serverList.loadServerList();
@@ -104,17 +81,17 @@ public class GuiServers extends GuiScreen {
 		serverIp = new GuiTextField(22, MC.FR, cw - 100, ch - 40, 200, 20);
 		serverIp.setMaxStringLength(128);
 	}
-
+	
 	@Override
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		int wheel = Mouse.getEventDWheel();
 		if (wheel != 0) {
 			if (wheel < -1) wheel = -1;
-			if (wheel > 1) wheel = 1;
+			if (wheel >  1) wheel = 1;
 			long time = System.currentTimeMillis();
 			int n = wheel * H / 2;
-			if (time - lastScrolled > SMOOTH_SCROLL_TIME) { //|| n > 0 != lastUpwards) {
+			if (time - lastScrolled > SMOOTH_SCROLL_TIME){ //|| n > 0 != lastUpwards) {
 				lastScroll = scroll;
 				lastScrolled = time;
 			}
@@ -122,16 +99,16 @@ public class GuiServers extends GuiScreen {
 			scroll -= n;
 			if (scroll > rows * H - height) scroll = rows * H - height;
 			if (scroll < 0) scroll = 0;
-
+			
 		}
 	}
-
+	
 	@Override
 	public void updateScreen() {
 		serverIp.updateCursorCounter();
 		serverName.updateCursorCounter();
 	}
-
+	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -142,9 +119,9 @@ public class GuiServers extends GuiScreen {
 		lastMx = mouseX;
 		lastMy = mouseY;
 		lastClick = System.currentTimeMillis();
-
+		
 	}
-
+	
 	@Override
 	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
 		if (dragged == null) {
@@ -158,10 +135,10 @@ public class GuiServers extends GuiScreen {
 			wantDrag = mouseX / W % columns + mouseY / H * columns;
 		}
 	}
-
+	
 	@Override
 	protected void mouseReleased(int mouseX, int mouseY, int state) {
-		//		super.mouseReleased(mouseX, mouseY, state);
+//		super.mouseReleased(mouseX, mouseY, state);
 		if (dragged == null && System.currentTimeMillis() - lastClick < 5000 && !addingServer) {
 			Server server = getServerAt(mouseX, mouseY);
 			if (server != null) {
@@ -174,8 +151,8 @@ public class GuiServers extends GuiScreen {
 			List<Server> list = new ArrayList<>();
 			int i = -1;
 			boolean inserted = false;
-
-
+			
+			
 			while (iter.hasNext()) {
 				i++;
 				Server server = iter.next();
@@ -192,22 +169,22 @@ public class GuiServers extends GuiScreen {
 			if (!inserted) list.add(dragged);
 			servers = list;
 		}
-
+		
 		if (addBtnHovered && addBtnAnim == null && !addingServer) {
 			updateAnims();
 			addBtnAnim = addButton.new Cycle(System.currentTimeMillis());
 			darkenerAnim = darkener.new Cycle(System.currentTimeMillis());
 			addBtnHovered = false;
 		}
-
+		
 		wantDrag = -1;
 		dragged = null;
 		draggedId = -1;
 		lastMy = -1;
 		lastMx = -1;
-
+		
 	}
-
+	
 	private int getServerId(int x, int y) {
 		x -= rightBorder;
 		y += scroll;
@@ -215,12 +192,41 @@ public class GuiServers extends GuiScreen {
 		if (i < 0 || i >= servers.size()) return -1;
 		return i;
 	}
-
+	
 	private Server getServerAt(int x, int y) {
 		int a = getServerId(x, y);
 		return a == -1 ? null : servers.get(a);
 	}
-
+	
+	
+	private final int addX = -150, addY = -100;
+	
+	public final Animator darkener = new Animator(0, 0,
+			new Animation(0, 0, 0, 0, 0, 0,500,
+					p -> drawRect(0, 0, width, height, Utils.gradient(darkColor, 0, p))));
+	
+	public final Animator addButton = new Animator(0, 0,
+			new Animation(-W/2 + 2, -H/2 + 2, 0x0, addX, addY, 0x0, 500,
+					this::drawForm, Easing.QUAD_B),
+			new Animation(0, 0, 0xff20ff20, -addX, -addY, 0xffd02030, 500,
+					p -> drawRect(cw - 24, ch - 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
+			new Animation(0, 0, 0xff20ff20, -addX, -addY, 0xffd02030, 500,
+					p -> drawRect(cw - 3, ch - 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
+			new Animation(0, 0, 0xff20ff20, addX, -addY, 0xffd02030, 500,
+					p -> drawRect(cw + 24, ch - 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
+			new Animation(0, 0, 0xff20ff20, addX, -addY, 0xffd02030, 500,
+					p -> drawRect(cw + 3, ch - 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
+			new Animation(0, 0, 0xff20ff20, addX, addY, 0xffd02030, 500,
+					p -> drawRect(cw + 24, ch + 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
+			new Animation(0, 0, 0xff20ff20, addX, addY, 0xffd02030, 500,
+					p -> drawRect(cw + 3, ch + 24, cw, ch, 0xff20ff20), Easing.QUAD_B),
+			new Animation(0, 0, 0xff20ff20, -addX, addY, 0xffd02030, 500,
+					p -> drawRect(cw - 24, ch + 3, cw, ch, 0xff20ff20), Easing.QUAD_B),
+			new Animation(0, 0, 0xff20ff20, -addX, addY, 0xffd02030, 500,
+					p -> drawRect(cw - 3, ch + 24, cw, ch, 0xff20ff20), Easing.QUAD_B)
+	);
+	
+	
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (addingServer) {
@@ -239,13 +245,12 @@ public class GuiServers extends GuiScreen {
 			}
 		} else super.keyTyped(typedChar, keyCode);
 	}
-
 	private void openAdddingServerGui() {
 		addingServer = true;
 		serverIp.setFocused(true);
-
+		
 	}
-
+	
 	private void closeAddingServerGUI() {
 		addingServer = false;
 		serverIp.setFocused(false);
@@ -253,7 +258,7 @@ public class GuiServers extends GuiScreen {
 		serverName.setText("");
 		serverIp.setText("");
 	}
-
+	
 	private void drawAddingServerGUI() {
 		drawRect(0, 0, width, height, darkColor);
 		drawRect(cw + addX, ch + addY, cw - addX, ch - addY, 0x90f4d442);
@@ -275,7 +280,7 @@ public class GuiServers extends GuiScreen {
 				(ch + addY) / 2 + 2, 0xffffe0e0);
 		G.scale(0.5, 0.5, 0.5);
 	}
-
+	
 	private void drawForm(float p) {
 		int dx = (int) (p * addX);
 		int dy = (int) (p * addY);
@@ -283,15 +288,15 @@ public class GuiServers extends GuiScreen {
 				cw - 2 * dx + (int) ((1 - p) * (W - 4)),
 				ch - 2 * dy + (int) ((1 - p) * (H - 4)), 0x90f4d442);
 	}
-
-
+	
+	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		Iterator<Server> iter = servers.iterator();
 		if (columns < 1) return;
-
+		
 		// плавная прокрутка
 		long time = System.currentTimeMillis();
 		int scroll = this.scroll - lastScroll;
@@ -306,14 +311,13 @@ public class GuiServers extends GuiScreen {
 				scroll = this.lastScroll + (int) (d * scroll);
 			}
 		}
-
+		
 		int c = 0;
 		int row;
 		int i = 0;
-
-
-		a:
-		for (row = 0; row < rows; row++) {
+		
+		
+		a: for (row = 0; row < rows; row++) {
 			int x = rightBorder + 4 - W;
 			int y0 = row * 84 - scroll, y1 = y0 + 4, y2 = y0 + H;
 			for (i = 0; i < columns; i++) {
@@ -327,7 +331,7 @@ public class GuiServers extends GuiScreen {
 				if (server == dragged)
 					if (iter.hasNext()) server = iter.next();
 					else break a;
-
+				
 				int color = 0xa0202020;
 				if (dragged == null) {
 					boolean hovered = mouseX >= x - 4 && mouseX < x + 68 && mouseY >= y0 && mouseY < y2;
@@ -340,11 +344,12 @@ public class GuiServers extends GuiScreen {
 						if (ago < 250) {
 							if (hovered) color = Utils.gradient(0xa07fff3f, 0xa0202020, (float) (ago % 250) / 250f);
 							else color = Utils.gradient(0xa0202020, 0xa07fff3f, (float) (ago % 250) / 250f);
-						} else if (hovered) color = 0xa07fff3f;
+						}
+						else if (hovered) color = 0xa07fff3f;
 						else server.hoverTime = 0;
 					}
 				}
-
+				
 				drawRect(x - 2, y0 + 2,
 						x + 66, y2 - 2, color);
 				server.prepareServerIcon();
@@ -354,8 +359,7 @@ public class GuiServers extends GuiScreen {
 			}
 		}
 		if (++i == columns) {
-			i = 0;
-			row++;
+			i = 0; row++;
 		}
 		int x = i * W + rightBorder + 2;
 		int y = row * H - scroll + 2;
@@ -370,10 +374,12 @@ public class GuiServers extends GuiScreen {
 		G.color(1, 1, 1, 1);
 		if (addingServer) drawAddingServerGUI();
 	}
-
-
+	
+	
+	
+	
 	private void drawAddButton(int mouseX, int mouseY, int x, int y, long time) {
-
+		
 		boolean hovered = mouseX >= x && mouseX < x + W && mouseY >= y && mouseY < y + H;
 		if (hovered != addBtnHovered) {
 			addBtnHovered = hovered;
@@ -385,29 +391,29 @@ public class GuiServers extends GuiScreen {
 			if (ago < 250) {
 				if (hovered) color = Utils.gradient(0x90f4d442, 0xa0202020, (float) (ago % 250) / 250f);
 				else color = Utils.gradient(0xa0202020, 0x90f4d442, (float) (ago % 250) / 250f);
-			} else if (hovered) color = 0x90f4d442;
+			}
+			else if (hovered) color = 0x90f4d442;
 			else addBtnHovertime = 0;
 		}
-
+		
 		drawRect(x, y, x + W - 4, y + H - 4, color);
 		int dx = x + W / 2 - 2;
 		int dy = y + H / 2 - 2;
 		drawRect(dx - 24, dy - 3, dx + 24, dy + 3, 0xff20ff20);
 		drawRect(dx - 3, dy - 24, dx + 3, dy + 24, 0xff20ff20);
 	}
-
-
+	
+	
 	private void updateAnims() {
 		int x = servers.size() % columns * W + rightBorder - cw + W / 2;
 		int y = servers.size() / columns * H - scroll - ch + H / 2;
 		addButton.setOffsets(x, y);
-
-
+		
+		
 	}
-
 	private void drawHUD(int mouseX, int mouseY) {
 		drawRect(width - 72, 0, width, height, 0x80505050);
 	}
-
-
+	
+	
 }

@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public class Session {
 
-	private final Session.Type sessionType;
 	public String username;
 	public String playerID;
 	public String token;
+	private final Session.Type sessionType;
 
 	public Session(String usernameIn, String playerIDIn, String tokenIn, String sessionTypeIn) {
 		this.username = usernameIn;
@@ -60,11 +60,6 @@ public class Session {
 		MOJANG("mojang");
 
 		private static final Map<String, Session.Type> SESSION_TYPES = Maps.newHashMap();
-		static {
-			for (Session.Type session$type : values()) {
-				SESSION_TYPES.put(session$type.sessionType, session$type);
-			}
-		}
 		private final String sessionType;
 
 		Type(String sessionTypeIn) {
@@ -73,6 +68,12 @@ public class Session {
 
 		public static Session.Type setSessionType(String sessionTypeIn) {
 			return SESSION_TYPES.get(sessionTypeIn.toLowerCase());
+		}
+
+		static {
+			for (Session.Type session$type : values()) {
+				SESSION_TYPES.put(session$type.sessionType, session$type);
+			}
 		}
 	}
 

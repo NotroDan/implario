@@ -1,53 +1,59 @@
 package net.minecraft.network.play.server;
 
+import java.io.IOException;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 
-import java.io.IOException;
+public class S3APacketTabComplete implements Packet<INetHandlerPlayClient>
+{
+    private String[] matches;
 
-public class S3APacketTabComplete implements Packet<INetHandlerPlayClient> {
+    public S3APacketTabComplete()
+    {
+    }
 
-	private String[] matches;
+    public S3APacketTabComplete(String[] matchesIn)
+    {
+        this.matches = matchesIn;
+    }
 
-	public S3APacketTabComplete() {
-	}
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(PacketBuffer buf) throws IOException
+    {
+        this.matches = new String[buf.readVarIntFromBuffer()];
 
-	public S3APacketTabComplete(String[] matchesIn) {
-		this.matches = matchesIn;
-	}
+        for (int i = 0; i < this.matches.length; ++i)
+        {
+            this.matches[i] = buf.readStringFromBuffer(32767);
+        }
+    }
 
-	/**
-	 * Reads the raw packet data from the data stream.
-	 */
-	public void readPacketData(PacketBuffer buf) throws IOException {
-		this.matches = new String[buf.readVarIntFromBuffer()];
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(PacketBuffer buf) throws IOException
+    {
+        buf.writeVarIntToBuffer(this.matches.length);
 
-		for (int i = 0; i < this.matches.length; ++i) {
-			this.matches[i] = buf.readStringFromBuffer(32767);
-		}
-	}
+        for (String s : this.matches)
+        {
+            buf.writeString(s);
+        }
+    }
 
-	/**
-	 * Writes the raw packet data to the data stream.
-	 */
-	public void writePacketData(PacketBuffer buf) throws IOException {
-		buf.writeVarIntToBuffer(this.matches.length);
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(INetHandlerPlayClient handler)
+    {
+        handler.handleTabComplete(this);
+    }
 
-		for (String s : this.matches) {
-			buf.writeString(s);
-		}
-	}
-
-	/**
-	 * Passes this Packet on to the NetHandler for processing.
-	 */
-	public void processPacket(INetHandlerPlayClient handler) {
-		handler.handleTabComplete(this);
-	}
-
-	public String[] func_149630_c() {
-		return this.matches;
-	}
-
+    public String[] func_149630_c()
+    {
+        return this.matches;
+    }
 }

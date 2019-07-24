@@ -1,59 +1,57 @@
 package net.minecraft.world.storage;
 
+import java.io.File;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 
-import java.io.File;
+public interface ISaveHandler
+{
+    /**
+     * Loads and returns the world info
+     */
+    WorldInfo loadWorldInfo();
 
-public interface ISaveHandler {
+    /**
+     * Checks the session lock to prevent save collisions
+     */
+    void checkSessionLock() throws MinecraftException;
 
-	/**
-	 * Loads and returns the world info
-	 */
-	WorldInfo loadWorldInfo();
+    /**
+     * initializes and returns the chunk loader for the specified world provider
+     */
+    IChunkLoader getChunkLoader(WorldProvider provider);
 
-	/**
-	 * Checks the session lock to prevent save collisions
-	 */
-	void checkSessionLock() throws MinecraftException;
+    /**
+     * Saves the given World Info with the given NBTTagCompound as the Player.
+     */
+    void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound);
 
-	/**
-	 * initializes and returns the chunk loader for the specified world provider
-	 */
-	IChunkLoader getChunkLoader(WorldProvider provider);
+    /**
+     * used to update level.dat from old format to MCRegion format
+     */
+    void saveWorldInfo(WorldInfo worldInformation);
 
-	/**
-	 * Saves the given World Info with the given NBTTagCompound as the Player.
-	 */
-	void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound);
+    IPlayerFileData getPlayerNBTManager();
 
-	/**
-	 * used to update level.dat from old format to MCRegion format
-	 */
-	void saveWorldInfo(WorldInfo worldInformation);
+    /**
+     * Called to flush all changes to disk, waiting for them to complete.
+     */
+    void flush();
 
-	IPlayerFileData getPlayerNBTManager();
+    /**
+     * Gets the File object corresponding to the base directory of this world.
+     */
+    File getWorldDirectory();
 
-	/**
-	 * Called to flush all changes to disk, waiting for them to complete.
-	 */
-	void flush();
+    /**
+     * Gets the file location of the given map
+     */
+    File getMapFileFromName(String mapName);
 
-	/**
-	 * Gets the File object corresponding to the base directory of this world.
-	 */
-	File getWorldDirectory();
-
-	/**
-	 * Gets the file location of the given map
-	 */
-	File getMapFileFromName(String mapName);
-
-	/**
-	 * Returns the name of the directory where world information is saved.
-	 */
-	String getWorldDirectoryName();
-
+    /**
+     * Returns the name of the directory where world information is saved.
+     */
+    String getWorldDirectoryName();
 }

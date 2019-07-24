@@ -5,8 +5,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BasicChunkBiomer;
-import net.minecraft.world.chunk.IChunkProvider;
 import vanilla.world.biome.BiomeGenBase;
+import vanilla.world.biome.WorldChunkBiomerHell;
+import net.minecraft.world.chunk.IChunkProvider;
 import vanilla.world.gen.provider.ChunkProviderEnd;
 
 import java.io.File;

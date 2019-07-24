@@ -1,7 +1,8 @@
 package net.minecraft.client.game.model;
 
-import net.minecraft.client.renderer.G;
+import com.google.common.collect.Lists;
 import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import optifine.ModelSprite;
@@ -12,49 +13,55 @@ import java.util.List;
 
 public class ModelRenderer {
 
-	public final String boxName;
 	/**
 	 * The size of the texture file's width in pixels.
 	 */
 	public float textureWidth;
+
 	/**
 	 * The size of the texture file's height in pixels.
 	 */
 	public float textureHeight;
+
+	/**
+	 * The X offset into the texture used for displaying this model
+	 */
+	private int textureOffsetX;
+
+	/**
+	 * The Y offset into the texture used for displaying this model
+	 */
+	private int textureOffsetY;
 	public float rotationPointX;
 	public float rotationPointY;
 	public float rotationPointZ;
 	public float rotateAngleX;
 	public float rotateAngleY;
 	public float rotateAngleZ;
+	private boolean compiled;
+
+	/**
+	 * The GL display list rendered by the Tessellator for this model
+	 */
+	private int displayList;
 	public boolean mirror;
 	public boolean showModel;
+
 	/**
 	 * Hides the model.
 	 */
 	public boolean isHidden;
 	public List cubeList;
 	public List childModels;
+	public final String boxName;
+	private ModelBase baseModel;
 	public float offsetX;
 	public float offsetY;
 	public float offsetZ;
+
 	public List spriteList;
 	public boolean mirrorV;
 	float savedScale;
-	/**
-	 * The X offset into the texture used for displaying this model
-	 */
-	private int textureOffsetX;
-	/**
-	 * The Y offset into the texture used for displaying this model
-	 */
-	private int textureOffsetY;
-	private boolean compiled;
-	/**
-	 * The GL display list rendered by the Tessellator for this model
-	 */
-	private int displayList;
-	private ModelBase baseModel;
 
 	public ModelRenderer(ModelBase model, String boxNameIn) {
 		this.spriteList = new ArrayList();

@@ -1,5 +1,6 @@
 package vanilla.world.gen.feature;
 
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
@@ -8,32 +9,34 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Random;
+public class WorldGenTallGrass extends WorldGenerator
+{
+    private final IBlockState tallGrassState;
 
-public class WorldGenTallGrass extends WorldGenerator {
+    public WorldGenTallGrass(BlockTallGrass.EnumType p_i45629_1_)
+    {
+        this.tallGrassState = Blocks.tallgrass.getDefaultState().withProperty(BlockTallGrass.TYPE, p_i45629_1_);
+    }
 
-	private final IBlockState tallGrassState;
+    public boolean generate(World worldIn, Random rand, BlockPos position)
+    {
+        Block block;
 
-	public WorldGenTallGrass(BlockTallGrass.EnumType p_i45629_1_) {
-		this.tallGrassState = Blocks.tallgrass.getDefaultState().withProperty(BlockTallGrass.TYPE, p_i45629_1_);
-	}
+        while (((block = worldIn.getBlockState(position).getBlock()).getMaterial() == Material.air || block.getMaterial() == Material.leaves) && position.getY() > 0)
+        {
+            position = position.down();
+        }
 
-	public boolean generate(World worldIn, Random rand, BlockPos position) {
-		Block block;
+        for (int i = 0; i < 128; ++i)
+        {
+            BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
 
-		while (((block = worldIn.getBlockState(position).getBlock()).getMaterial() == Material.air || block.getMaterial() == Material.leaves) && position.getY() > 0) {
-			position = position.down();
-		}
+            if (worldIn.isAirBlock(blockpos) && Blocks.tallgrass.canBlockStay(worldIn, blockpos, this.tallGrassState))
+            {
+                worldIn.setBlockState(blockpos, this.tallGrassState, 2);
+            }
+        }
 
-		for (int i = 0; i < 128; ++i) {
-			BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
-
-			if (worldIn.isAirBlock(blockpos) && Blocks.tallgrass.canBlockStay(worldIn, blockpos, this.tallGrassState)) {
-				worldIn.setBlockState(blockpos, this.tallGrassState, 2);
-			}
-		}
-
-		return true;
-	}
-
+        return true;
+    }
 }

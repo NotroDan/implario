@@ -53,9 +53,9 @@ import net.minecraft.server.Profiler;
 import net.minecraft.server.Todo;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.*;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
-import net.minecraft.util.*;
 import net.minecraft.world.EnumDifficulty;
 import org.apache.commons.lang3.Validate;
 import org.lwjgl.LWJGLException;
@@ -79,112 +79,124 @@ import static net.minecraft.util.Util.OS.OSX;
 public class Minecraft implements IThreadListener {
 
 	public static final boolean isRunningOnMac = Util.getOSType() == OSX;
-	protected static Minecraft theMinecraft;
-	/**
-	 * This is set to fpsCounter every debug screen update, and is shown on the debug screen. It's also sent as part of
-	 * the usage snooping.
-	 */
-	private static int debugFPS;
-	public final File mcDataDir;
-	public final FrameTimer frameTimer = new FrameTimer();
+
 	private final File fileResourcepacks;
 	private final PropertyMap propertyMap;
-	private final Session session;
-	private final Proxy proxy;
-	private final boolean jvm64bit;
-	private final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
-	private final List<IResourcePack> defaultResourcePacks = new ArrayList<>();
-	private final DefaultResourcePack mcDefaultResourcePack;
-	private final MinecraftSessionService sessionService;
-	private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
-	private final Thread mcThread = Thread.currentThread();
+	private ServerData currentServerData;
+
+	private TextureManager renderEngine;
+
+	protected static Minecraft theMinecraft;
 	public PlayerControllerMP playerController;
+	private boolean hasCrashed;
+
+	private CrashReport crashReport;
 	public int displayWidth;
 	public int displayHeight;
+	private Timer timer = new Timer(20.0F);
+
 	public WorldClient theWorld;
 	public RenderGlobal renderGlobal;
+	private RenderManager renderManager;
+	private RenderItem renderItem;
+	private ItemRenderer itemRenderer;
 	public EntityPlayerSP thePlayer;
 	public Entity pointedEntity;
 	public EffectRenderer effectRenderer;
+	private final Session session;
+	private boolean isGamePaused;
 	public AssetsFontRenderer fontRenderer;
 	public AssetsFontRenderer standardGalacticFontRenderer;
 	public GuiScreen currentScreen;
 	public LoadingScreenRenderer loadingScreen;
 	public EntityRenderer entityRenderer;
+
 	public IntegratedServer theIntegratedServer;
+
 	public GuiAchievement guiAchievement;
 	public GuiIngame ingameGUI;
+
 	public boolean skipRenderWorld;
+
 	// The ray trace hit that the mouse is over.
 	public MovingObjectPosition objectMouseOver;
+
 	public MouseHelper mouseHelper;
+	public final File mcDataDir;
+	private final Proxy proxy;
+
 	/**
-	 * Does the actual gameplay have focus. If so then mouse and keys will effect the player instead of menus.
+	 * This is set to fpsCounter every debug screen update, and is shown on the debug screen. It's also sent as part of
+	 * the usage snooping.
 	 */
-	public boolean inGameHasFocus;
-	public long systemTime = getSystemTime();
-	public NetworkManager myNetworkManager;
-	public boolean integratedServerIsRunning;
-	public LanguageManager mcLanguageManager;
-	/**
-	 * Set to true to keep the game loop running. Set to false by shutdown() to allow the game loop to exit cleanly.
-	 */
-	public volatile boolean running = true;
-	/**
-	 * String that shows the debug information
-	 */
-	public String debug = "";
-	public boolean renderChunksMany = true;
-	public InputHandler inputHandler;
-	public GameWorldController worldController;
-	public ErrorGuy errorGuy;
-	public DisplayGuy displayGuy;
-	public Preloader preloader;
-	long frameTiming = System.nanoTime();
-	/**
-	 * Approximate time (in ms) of last update to debug string
-	 */
-	long debugUpdateTime = getSystemTime();
-	/**
-	 * holds the current fps
-	 */
-	int fpsCounter;
-	long prevFrameTime = -1L;
-	private ServerData currentServerData;
-	private TextureManager renderEngine;
-	private boolean hasCrashed;
-	private CrashReport crashReport;
-	private Timer timer = new Timer(20.0F);
-	private RenderManager renderManager;
-	private RenderItem renderItem;
-	private ItemRenderer itemRenderer;
-	private boolean isGamePaused;
+	private static int debugFPS;
+
 	/**
 	 * When you place a block, it's set to 6, decremented once per tick, when it's 0, you can place another block.
 	 */
 	private String serverName;
 	private int serverPort;
+
+	/**
+	 * Does the actual gameplay have focus. If so then mouse and keys will effect the player instead of menus.
+	 */
+	public boolean inGameHasFocus;
+	public long systemTime = getSystemTime();
+
 	/**
 	 * Join player counter
 	 */
 	private int joinPlayerCounter;
+	public final FrameTimer frameTimer = new FrameTimer();
+	long frameTiming = System.nanoTime();
+	private final boolean jvm64bit;
+	public NetworkManager myNetworkManager;
+	public boolean integratedServerIsRunning;
+
 	private IReloadableResourceManager mcResourceManager;
+	private final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
+	private final List<IResourcePack> defaultResourcePacks = new ArrayList<>();
+	private final DefaultResourcePack mcDefaultResourcePack;
 	private ResourcePackRepository mcResourcePackRepository;
+	public LanguageManager mcLanguageManager;
 	private Framebuffer framebufferMc;
 	private TextureMap textureMapBlocks;
 	private SoundHandler mcSoundHandler;
 	private MusicTicker mcMusicTicker;
+	private final MinecraftSessionService sessionService;
 	private SkinManager skinManager;
+	private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
+	private final Thread mcThread = Thread.currentThread();
 	private ModelManager modelManager;
 	private BlockRendererDispatcher blockRenderDispatcher;
-	private boolean blabla;
-	private Drawable drawable;
-	private final Thread loader = new Thread(this::loadStuff);
-	/**
-	 * Runs the current tick.
-	 */
 
-	private ExecutorService executors = Executors.newSingleThreadExecutor();
+	/**
+	 * Set to true to keep the game loop running. Set to false by shutdown() to allow the game loop to exit cleanly.
+	 */
+	public volatile boolean running = true;
+
+	/**
+	 * String that shows the debug information
+	 */
+	public String debug = "";
+	public boolean renderChunksMany = true;
+
+	/**
+	 * Approximate time (in ms) of last update to debug string
+	 */
+	long debugUpdateTime = getSystemTime();
+
+	/**
+	 * holds the current fps
+	 */
+	int fpsCounter;
+	long prevFrameTime = -1L;
+
+	public InputHandler inputHandler;
+	public GameWorldController worldController;
+	public ErrorGuy errorGuy;
+	public DisplayGuy displayGuy;
+
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
 		Profiler.in = new ClientProfiler();
@@ -211,44 +223,6 @@ public class Minecraft implements IThreadListener {
 
 		ImageIO.setUseCache(false);
 		Bootstrap.register();
-	}
-
-	public static boolean isGuiEnabled() {
-		return !Settings.HIDE_GUI.b();
-	}
-
-	public static boolean isFancyGraphicsEnabled() {
-		return true;
-	}
-
-	public static boolean isAmbientOcclusionEnabled() {
-		return Settings.AO_LEVEL.f() > 0;
-	}
-
-	public static Minecraft getMinecraft() {
-		return theMinecraft;
-	}
-
-	public static void stopIntegratedServer() {
-		if (theMinecraft == null) return;
-		IntegratedServer integratedserver = theMinecraft.getIntegratedServer();
-		if (integratedserver != null) integratedserver.stopServer();
-	}
-
-	public static long getSystemTime() {
-		return Sys.getTime() * 1000L / Sys.getTimerResolution();
-	}
-
-	public static int getDebugFPS() {
-		return debugFPS;
-	}
-
-	public static Map<String, String> getSessionInfo() {
-		Map<String, String> map = Maps.newHashMap();
-		map.put("X-Minecraft-Username", getMinecraft().getSession().getUsername());
-		map.put("X-Minecraft-UUID", getMinecraft().getSession().getPlayerID());
-		map.put("X-Minecraft-Version", "1.8.8");
-		return map;
 	}
 
 	public void run() {
@@ -293,6 +267,11 @@ public class Minecraft implements IThreadListener {
 			this.shutdownMinecraftApplet();
 		}
 	}
+
+	private final Thread loader = new Thread(this::loadStuff);
+	public Preloader preloader;
+	private boolean blabla;
+	private Drawable drawable;
 
 	private void loadStuff() {
 
@@ -502,6 +481,7 @@ public class Minecraft implements IThreadListener {
 		if (this.renderGlobal != null) this.renderGlobal.loadRenderers();
 	}
 
+
 	/**
 	 * Sets the argument GuiScreen as the main (topmost visible) screen.
 	 */
@@ -693,9 +673,16 @@ public class Minecraft implements IThreadListener {
 		if (this.isSingleplayer() && !this.theIntegratedServer.getPublic()) this.mcSoundHandler.pauseSounds();
 	}
 
+
 	public MusicTicker getMusicTicker() {
 		return this.mcMusicTicker;
 	}
+
+	/**
+	 * Runs the current tick.
+	 */
+
+	private ExecutorService executors = Executors.newSingleThreadExecutor();
 
 	public void runTick() throws IOException {
 		inputHandler.runTick();
@@ -803,21 +790,21 @@ public class Minecraft implements IThreadListener {
 				this.theWorld.setAllowedSpawnTypes(this.theWorld.getDifficulty() != EnumDifficulty.PEACEFUL, true);
 
 				executors.submit(() -> {
-					try {
-						this.theWorld.tick();
-					} catch (Throwable throwable2) {
-						CrashReport crashreport2 = CrashReport.makeCrashReport(throwable2, "Exception in world tick");
+                    try {
+                        this.theWorld.tick();
+                    } catch (Throwable throwable2) {
+                        CrashReport crashreport2 = CrashReport.makeCrashReport(throwable2, "Exception in world tick");
 
-						if (this.theWorld == null) {
-							CrashReportCategory crashreportcategory2 = crashreport2.makeCategory("Affected level");
-							crashreportcategory2.addCrashSection("Problem", "Level is null!");
-						} else {
-							this.theWorld.addWorldInfoToCrashReport(crashreport2);
-						}
+                        if (this.theWorld == null) {
+                            CrashReportCategory crashreportcategory2 = crashreport2.makeCategory("Affected level");
+                            crashreportcategory2.addCrashSection("Problem", "Level is null!");
+                        } else {
+                            this.theWorld.addWorldInfoToCrashReport(crashreport2);
+                        }
 
-						throw new ReportedException(crashreport2);
-					}
-				});
+                        throw new ReportedException(crashreport2);
+                    }
+                });
 			}
 
 			in.endStartSection("animateTick");
@@ -839,6 +826,22 @@ public class Minecraft implements IThreadListener {
 
 	public NetHandlerPlayClient getNetHandler() {
 		return this.thePlayer != null ? this.thePlayer.sendQueue : null;
+	}
+
+	public static boolean isGuiEnabled() {
+		return !Settings.HIDE_GUI.b();
+	}
+
+	public static boolean isFancyGraphicsEnabled() {
+		return true;
+	}
+
+	public static boolean isAmbientOcclusionEnabled() {
+		return Settings.AO_LEVEL.f() > 0;
+	}
+
+	public static Minecraft getMinecraft() {
+		return theMinecraft;
 	}
 
 	public ListenableFuture<Object> scheduleResourcesRefresh() {
@@ -869,6 +872,16 @@ public class Minecraft implements IThreadListener {
 	 */
 	public IntegratedServer getIntegratedServer() {
 		return this.theIntegratedServer;
+	}
+
+	public static void stopIntegratedServer() {
+		if (theMinecraft == null) return;
+		IntegratedServer integratedserver = theMinecraft.getIntegratedServer();
+		if (integratedserver != null) integratedserver.stopServer();
+	}
+
+	public static long getSystemTime() {
+		return Sys.getTime() * 1000L / Sys.getTimerResolution();
 	}
 
 	public Session getSession() {
@@ -984,8 +997,19 @@ public class Minecraft implements IThreadListener {
 		return this.itemRenderer;
 	}
 
+	public static int getDebugFPS() {
+		return debugFPS;
+	}
+
 	public FrameTimer func_181539_aj() {
 		return this.frameTimer;
 	}
 
+	public static Map<String, String> getSessionInfo() {
+		Map<String, String> map = Maps.newHashMap();
+		map.put("X-Minecraft-Username", getMinecraft().getSession().getUsername());
+		map.put("X-Minecraft-UUID", getMinecraft().getSession().getPlayerID());
+		map.put("X-Minecraft-Version", "1.8.8");
+		return map;
+	}
 }

@@ -2,15 +2,14 @@ package vanilla.entity.boss;
 
 import net.minecraft.util.IChatComponent;
 
-public interface IBossDisplayData {
+public interface IBossDisplayData
+{
+    float getMaxHealth();
 
-	float getMaxHealth();
+    float getHealth();
 
-	float getHealth();
-
-	/**
-	 * Get the formatted ChatComponent that will be used for the sender's username in chat
-	 */
-	IChatComponent getDisplayName();
-
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
+    IChatComponent getDisplayName();
 }

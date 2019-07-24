@@ -7,22 +7,24 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class BlockBarrier extends Block {
+public class BlockBarrier extends Block
+{
+    protected BlockBarrier()
+    {
+        super(Material.barrier);
+        this.setBlockUnbreakable();
+        this.setResistance(6000001.0F);
+        this.disableStats();
+        this.translucent = true;
+    }
 
-	protected BlockBarrier() {
-		super(Material.barrier);
-		this.setBlockUnbreakable();
-		this.setResistance(6000001.0F);
-		this.disableStats();
-		this.translucent = true;
-	}
-
-	/**
-	 * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
-	 */
-	public int getRenderType() {
-		return -1;
-	}
+    /**
+     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     */
+    public int getRenderType()
+    {
+        return -1;
+    }
 
 	@Override
 	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
@@ -30,24 +32,26 @@ public class BlockBarrier extends Block {
 	}
 
 	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
-	 */
-	public boolean isOpaqueCube() {
-		return false;
-	}
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
 
 
-	/**
-	 * Returns the default ambient occlusion value based on block opacity
-	 */
-	public float getAmbientOcclusionLightValue() {
-		return 0.5F;
-	}
+    /**
+     * Returns the default ambient occlusion value based on block opacity
+     */
+    public float getAmbientOcclusionLightValue()
+    {
+        return 0.5F;
+    }
 
-	/**
-	 * Spawns this Block's drops into the World as EntityItems.
-	 */
-	public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-	}
-
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     */
+    public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
+    {
+    }
 }

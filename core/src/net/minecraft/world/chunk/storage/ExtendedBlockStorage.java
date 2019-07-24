@@ -197,17 +197,17 @@ public class ExtendedBlockStorage {
 	}
 
 	/**
-	 * Sets the NibbleArray instance used for Block-light values in this particular storage block.
-	 */
-	public void setBlocklightArray(NibbleArray newBlocklightArray) {
-		this.blocklightArray = newBlocklightArray;
-	}
-
-	/**
 	 * Returns the NibbleArray instance containing Sky-light data.
 	 */
 	public NibbleArray getSkylightArray() {
 		return this.skylightArray;
+	}
+
+	/**
+	 * Sets the NibbleArray instance used for Block-light values in this particular storage block.
+	 */
+	public void setBlocklightArray(NibbleArray newBlocklightArray) {
+		this.blocklightArray = newBlocklightArray;
 	}
 
 	/**

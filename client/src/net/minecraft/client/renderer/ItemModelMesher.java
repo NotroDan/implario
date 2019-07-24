@@ -29,10 +29,6 @@ public class ItemModelMesher {
 
 	private final ModelManager modelManager;
 
-	private static int getIndex(Item item, int meta) {
-		return Item.getIdFromItem(item) << 16 | meta;
-	}
-
 	public TextureAtlasSprite getParticleIcon(Item item) {
 		return this.getParticleIcon(item, 0);
 	}
@@ -55,6 +51,10 @@ public class ItemModelMesher {
 		if (model == null) model = modelManager.getMissingModel();
 
 		return model;
+	}
+
+	private static int getIndex(Item item, int meta) {
+		return Item.getIdFromItem(item) << 16 | meta;
 	}
 
 	public ModelResourceLocation getLocation(Item item, int meta) {

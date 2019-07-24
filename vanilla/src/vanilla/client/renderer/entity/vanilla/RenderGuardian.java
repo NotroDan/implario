@@ -1,10 +1,12 @@
 package vanilla.client.renderer.entity.vanilla;
 
+import vanilla.client.game.model.ModelGuardian;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.culling.ICamera;
+import vanilla.client.renderer.entity.RenderVanilla;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,8 +14,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
-import vanilla.client.game.model.ModelGuardian;
-import vanilla.client.renderer.entity.RenderVanilla;
 import vanilla.entity.monster.EntityGuardian;
 
 public class RenderGuardian extends RenderVanilla<EntityGuardian> {

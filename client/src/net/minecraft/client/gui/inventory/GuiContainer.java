@@ -34,40 +34,47 @@ public abstract class GuiContainer extends GuiScreen {
 	 * The location of the inventory background texture
 	 */
 	protected static final ResourceLocation inventoryBackground = new ResourceLocation("textures/gui/container/inventory.png");
-	protected final Set<Slot> dragSplittingSlots = Sets.newHashSet();
-	/**
-	 * A list of the players inventory slots
-	 */
-	public Container inventorySlots;
+
 	/**
 	 * The X size of the inventory window in pixels.
 	 */
 	protected int xSize = 176;
+
 	/**
 	 * The Y size of the inventory window in pixels.
 	 */
 	protected int ySize = 166;
+
+	/**
+	 * A list of the players inventory slots
+	 */
+	public Container inventorySlots;
+
 	/**
 	 * Starting X position for the Gui. Inconsistent use for Gui backgrounds.
 	 */
 	protected int guiLeft;
+
 	/**
 	 * Starting Y position for the Gui. Inconsistent use for Gui backgrounds.
 	 */
 	protected int guiTop;
-	protected boolean dragSplitting;
+
 	/**
 	 * holds the slot currently hovered
 	 */
 	private Slot theSlot;
+
 	/**
 	 * Used when touchscreen is enabled.
 	 */
 	private Slot clickedSlot;
+
 	/**
 	 * Used when touchscreen is enabled.
 	 */
 	private boolean isRightMouseClick;
+
 	/**
 	 * Used when touchscreen is enabled
 	 */
@@ -76,12 +83,15 @@ public abstract class GuiContainer extends GuiScreen {
 	private int touchUpY;
 	private Slot returningStackDestSlot;
 	private long returningStackTime;
+
 	/**
 	 * Used when touchscreen is enabled
 	 */
 	private ItemStack returningStack;
 	private Slot currentDragTargetSlot;
 	private long dragItemDropDelay;
+	protected final Set<Slot> dragSplittingSlots = Sets.newHashSet();
+	protected boolean dragSplitting;
 	private int dragSplittingLimit;
 	private int dragSplittingButton;
 	private boolean ignoreMouseUp;
@@ -95,16 +105,6 @@ public abstract class GuiContainer extends GuiScreen {
 	public GuiContainer(Container inventorySlotsIn) {
 		this.inventorySlots = inventorySlotsIn;
 		this.ignoreMouseUp = true;
-	}
-
-	public static void drawModernSlotGrid(int x, int y, int columns, int rows, int color) {
-		for (int row = 0; row < rows; row++) {
-			int x1 = x;
-			for (int col = 0; col < columns; col++) {
-				int y1 = y + row * 18;
-				drawRect(x1, y1, (x1 += 18) - 2, y1 + 16, color);
-			}
-		}
 	}
 
 	/**
@@ -210,6 +210,7 @@ public abstract class GuiContainer extends GuiScreen {
 		RenderHelper.enableStandardItemLighting();
 	}
 
+
 	private void drawItemStack(ItemStack stack, int x, int y, String altText) {
 		zLevel = 200;
 		drawItemStack0(this, stack, x, y, altText);
@@ -275,7 +276,7 @@ public abstract class GuiContainer extends GuiScreen {
 			}
 		}
 
-		if (Settings.MODERN_INVENTORIES.b() && Settings.SLOT_GRID.i() != 1) {
+		if(Settings.MODERN_INVENTORIES.b() && Settings.SLOT_GRID.i() != 1){
 			RenderHelper.disableStandardItemLighting();
 			RenderRec.render(i, j, 16, 16, Colors.GRAY);
 			RenderHelper.enableGUIStandardItemLighting();
@@ -470,7 +471,7 @@ public abstract class GuiContainer extends GuiScreen {
 				return;
 			}
 			if (this.dragSplitting && !this.dragSplittingSlots.isEmpty()) {
-				this.handleMouseClick(null, -999, Container.func_94534_d(0, this.dragSplittingLimit), DRAG);
+				this.handleMouseClick(null, -999, Container.func_94534_d(0, this.dragSplittingLimit),  DRAG);
 
 				for (Slot slot1 : this.dragSplittingSlots) {
 					this.handleMouseClick(slot1, slot1.slotNumber, Container.func_94534_d(1, this.dragSplittingLimit), DRAG);
@@ -583,4 +584,13 @@ public abstract class GuiContainer extends GuiScreen {
 		}
 	}
 
+	public static void drawModernSlotGrid(int x, int y, int columns, int rows, int color) {
+		for (int row = 0; row < rows; row++) {
+			int x1 = x;
+			for (int col = 0; col < columns; col++) {
+				int y1 = y + row * 18;
+				drawRect(x1, y1, (x1 += 18) - 2, y1 + 16, color);
+			}
+		}
+	}
 }

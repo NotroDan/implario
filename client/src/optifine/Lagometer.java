@@ -1,8 +1,8 @@
 package optifine;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.ingame.GuiIngame;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -13,6 +13,8 @@ import org.lwjgl.opengl.GL11;
 
 public class Lagometer {
 
+	private static Minecraft mc;
+	private static Profiler profiler;
 	public static boolean active = false;
 	public static Lagometer.TimerNano timerTick = new Lagometer.TimerNano();
 	public static Lagometer.TimerNano timerScheduledExecutables = new Lagometer.TimerNano();
@@ -21,8 +23,6 @@ public class Lagometer {
 	public static Lagometer.TimerNano timerVisibility = new Lagometer.TimerNano();
 	public static Lagometer.TimerNano timerTerrain = new Lagometer.TimerNano();
 	public static Lagometer.TimerNano timerServer = new Lagometer.TimerNano();
-	private static Minecraft mc;
-	private static Profiler profiler;
 	private static long[] timesFrame = new long[512];
 	private static long[] timesTick = new long[512];
 	private static long[] timesScheduledExecutables = new long[512];

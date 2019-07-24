@@ -27,18 +27,18 @@ public enum ModelRotation {
 	X270_Y270("X270_Y270", 15, 270, 270);
 
 	private static final Map mapRotations = Maps.newHashMap();
-	private static final ModelRotation[] $VALUES = new ModelRotation[] {
-			X0_Y0, X0_Y90, X0_Y180, X0_Y270, X90_Y0, X90_Y90, X90_Y180, X90_Y270, X180_Y0, X180_Y90, X180_Y180, X180_Y270, X270_Y0, X270_Y90, X270_Y180, X270_Y270
-	};
-	static {
-		for (ModelRotation modelrotation : values()) {
-			mapRotations.put(modelrotation.combinedXY, modelrotation);
-		}
-	}
 	private final int combinedXY;
 	private final Matrix4f matrix4d;
 	private final int quartersX;
 	private final int quartersY;
+	private static final ModelRotation[] $VALUES = new ModelRotation[] {
+			X0_Y0, X0_Y90, X0_Y180, X0_Y270, X90_Y0, X90_Y90, X90_Y180, X90_Y270, X180_Y0, X180_Y90, X180_Y180, X180_Y270, X270_Y0, X270_Y90, X270_Y180, X270_Y270
+	};
+
+
+	private static int combineXY(int p_177521_0_, int p_177521_1_) {
+		return p_177521_0_ * 360 + p_177521_1_;
+	}
 
 	ModelRotation(String p_i13_3_, int p_i13_4_, int p_i13_5_, int p_i13_6_) {
 		this.combinedXY = combineXY(p_i13_5_, p_i13_6_);
@@ -52,14 +52,6 @@ public enum ModelRotation {
 		Matrix4f.rotate((float) -p_i13_6_ * 0.017453292F, new Vector3f(0.0F, 1.0F, 0.0F), matrix4f1, matrix4f1);
 		this.quartersY = MathHelper.abs_int(p_i13_6_ / 90);
 		Matrix4f.mul(matrix4f1, matrix4f, this.matrix4d);
-	}
-
-	private static int combineXY(int p_177521_0_, int p_177521_1_) {
-		return p_177521_0_ * 360 + p_177521_1_;
-	}
-
-	public static ModelRotation getModelRotation(int p_177524_0_, int p_177524_1_) {
-		return (ModelRotation) mapRotations.get(combineXY(MathHelper.normalizeAngle(p_177524_0_, 360), MathHelper.normalizeAngle(p_177524_1_, 360)));
 	}
 
 	public Matrix4f getMatrix4d() {
@@ -102,11 +94,21 @@ public enum ModelRotation {
 		return i;
 	}
 
+	public static ModelRotation getModelRotation(int p_177524_0_, int p_177524_1_) {
+		return (ModelRotation) mapRotations.get(combineXY(MathHelper.normalizeAngle(p_177524_0_, 360), MathHelper.normalizeAngle(p_177524_1_, 360)));
+	}
+
 	public EnumFacing rotate(EnumFacing p_rotate_1_) {
 		return this.rotateFace(p_rotate_1_);
 	}
 
 	public int rotate(EnumFacing p_rotate_1_, int p_rotate_2_) {
 		return this.rotateVertex(p_rotate_1_, p_rotate_2_);
+	}
+
+	static {
+		for (ModelRotation modelrotation : values()) {
+			mapRotations.put(modelrotation.combinedXY, modelrotation);
+		}
 	}
 }

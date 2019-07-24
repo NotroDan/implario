@@ -28,9 +28,8 @@ public abstract class Scale {
 
 	/**
 	 * Рендерит шкалу на экране, используя заданные параметры
-	 *
-	 * @param value      Текущее значение шкалы
-	 * @param max        Максимальное значение шкалы
+	 * @param value Текущее значение шкалы
+	 * @param max Максимальное значение шкалы
 	 * @param additional Дополнительное значение шкалы, сверх максимального (Полезно при баффах, например Absorption)
 	 */
 	protected abstract void render(int value, int max, int additional);

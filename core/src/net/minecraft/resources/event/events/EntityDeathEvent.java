@@ -7,7 +7,7 @@ import net.minecraft.resources.event.Event;
 import net.minecraft.util.DamageSource;
 
 @Data
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode(callSuper = false)
 public class EntityDeathEvent extends Event<EntityDeathEvent> {
 
 	private final EntityLivingBase entity;

@@ -5,105 +5,108 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.Todo;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.*;
 
 import java.util.*;
 
 public abstract class Enchantment {
 
-	public static final Enchantment[] enchantmentsBookList;
-	protected static final Enchantment[] enchantmentsList = new Enchantment[256];
-	private static final Map<ResourceLocation, Enchantment> locationEnchantments = new HashMap<>();
-	static {
-		List<Enchantment> list = new ArrayList<>();
+    protected static final Enchantment[] enchantmentsList = new Enchantment[256];
+    public static final Enchantment[] enchantmentsBookList;
+    private static final Map<ResourceLocation, Enchantment> locationEnchantments = new HashMap<>();
 
-		for (Enchantment enchantment : enchantmentsList)
-			if (enchantment != null) list.add(enchantment);
 
-		enchantmentsBookList = list.toArray(new Enchantment[0]);
-	}
+
 	public final int effectId;
-	private final int weight;
-	public EnumEnchantmentType type;
-	protected String name;
+    private final int weight;
 
-	protected Enchantment(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType) {
-		this.effectId = enchID;
-		this.weight = enchWeight;
-		this.type = enchType;
+    public EnumEnchantmentType type;
 
-		if (enchantmentsList[enchID] != null)
-			throw new IllegalArgumentException("Duplicate enchantment id!");
-		enchantmentsList[enchID] = this;
-		locationEnchantments.put(enchName, this);
-	}
+    protected String name;
 
-	public static Enchantment getEnchantmentById(int enchID) {
-		return enchID >= 0 && enchID < enchantmentsList.length ? enchantmentsList[enchID] : null;
-	}
+    public static Enchantment getEnchantmentById(int enchID) {
+        return enchID >= 0 && enchID < enchantmentsList.length ? enchantmentsList[enchID] : null;
+    }
 
-	public static Enchantment getEnchantmentByLocation(String location) {
-		return locationEnchantments.get(new ResourceLocation(location));
-	}
+    protected Enchantment(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType) {
+        this.effectId = enchID;
+        this.weight = enchWeight;
+        this.type = enchType;
 
-	public static Set<ResourceLocation> func_181077_c() {
-		return locationEnchantments.keySet();
-	}
+        if(enchantmentsList[enchID] != null)
+            throw new IllegalArgumentException("Duplicate enchantment id!");
+        enchantmentsList[enchID] = this;
+        locationEnchantments.put(enchName, this);
+    }
 
-	public int getWeight() {
-		return this.weight;
-	}
+    public static Enchantment getEnchantmentByLocation(String location) {
+        return locationEnchantments.get(new ResourceLocation(location));
+    }
 
-	public int getMinLevel() {
-		return 1;
-	}
+    public static Set<ResourceLocation> func_181077_c() {
+        return locationEnchantments.keySet();
+    }
 
-	public int getMaxLevel() {
-		return 1;
-	}
+    public int getWeight() {
+        return this.weight;
+    }
 
-	public int getMinEnchantability(int enchantmentLevel) {
-		return 1 + enchantmentLevel * 10;
-	}
+    public int getMinLevel() {
+        return 1;
+    }
 
-	public int getMaxEnchantability(int enchantmentLevel) {
-		return this.getMinEnchantability(enchantmentLevel) + 5;
-	}
+    public int getMaxLevel() {
+        return 1;
+    }
 
-	public int calcModifierDamage(int level, DamageSource source) {
-		return 0;
-	}
+    public int getMinEnchantability(int enchantmentLevel) {
+        return 1 + enchantmentLevel * 10;
+    }
 
-	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		return 0.0F;
-	}
+    public int getMaxEnchantability(int enchantmentLevel) {
+        return this.getMinEnchantability(enchantmentLevel) + 5;
+    }
 
-	public boolean canApplyTogether(Enchantment ench) {
-		return this != ench;
-	}
+    public int calcModifierDamage(int level, DamageSource source) {
+        return 0;
+    }
 
-	public String getName() {
-		return "enchantment." + this.name;
-	}
+    public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
+        return 0.0F;
+    }
 
-	public Enchantment setName(String enchName) {
-		this.name = enchName;
-		return this;
-	}
+    public boolean canApplyTogether(Enchantment ench) {
+        return this != ench;
+    }
 
-	public String getTranslatedName(int level) {
-		String s = StatCollector.translateToLocal(this.getName());
-		return s + " " + (Todo.instance.shouldUseRomanianNotation(level) ? StringUtils.romanianNotation(level) : level);
-	}
+    public Enchantment setName(String enchName) {
+        this.name = enchName;
+        return this;
+    }
 
-	public boolean canApply(ItemStack stack) {
-		return this.type.canEnchantItem(stack.getItem());
-	}
+    public String getName() {
+        return "enchantment." + this.name;
+    }
 
-	public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {}
+    public String getTranslatedName(int level) {
+        String s = StatCollector.translateToLocal(this.getName());
+        return s + " " + (Todo.instance.shouldUseRomanianNotation(level) ? StringUtils.romanianNotation(level) : level);
+    }
 
-	public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {}
+    public boolean canApply(ItemStack stack) {
+        return this.type.canEnchantItem(stack.getItem());
+    }
+
+    public void onEntityDamaged(EntityLivingBase user, Entity target, int level){}
+
+    public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {}
+
+    static {
+        List<Enchantment> list = new ArrayList<>();
+
+        for (Enchantment enchantment : enchantmentsList)
+            if (enchantment != null) list.add(enchantment);
+
+        enchantmentsBookList = list.toArray(new Enchantment[0]);
+    }
 }

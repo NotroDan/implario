@@ -19,39 +19,19 @@ public abstract class TileEntity {
 	private static final Logger logger = Logger.getInstance();
 	private static Map<String, Class<? extends TileEntity>> nameToClassMap = Maps.newHashMap();
 	private static Map<Class<? extends TileEntity>, String> classToNameMap = Maps.newHashMap();
-	static {
-		addMapping(TileEntityFurnace.class, "Furnace");
-		addMapping(TileEntityChest.class, "Chest");
-		addMapping(TileEntityEnderChest.class, "EnderChest");
-		addMapping(BlockJukebox.TileEntityJukebox.class, "RecordPlayer");
-		addMapping(TileEntityDispenser.class, "Trap");
-		addMapping(TileEntityDropper.class, "Dropper");
-		addMapping(TileEntitySign.class, "Sign");
-		addMapping(TileEntityNote.class, "Music");
-		addMapping(TileEntityPiston.class, "Piston");
-		addMapping(TileEntityBrewingStand.class, "Cauldron");
-		addMapping(TileEntityEnchantmentTable.class, "EnchantTable");
-		addMapping(TileEntityEndPortal.class, "Airportal");
-		addMapping(TileEntityCommandBlock.class, "Control");
-		addMapping(TileEntityBeacon.class, "Beacon");
-		addMapping(TileEntitySkull.class, "Skull");
-		addMapping(TileEntityDaylightDetector.class, "DLDetector");
-		addMapping(TileEntityHopper.class, "Hopper");
-		addMapping(TileEntityComparator.class, "Comparator");
-		addMapping(TileEntityFlowerPot.class, "FlowerPot");
-		addMapping(TileEntityBanner.class, "Banner");
-	}
+
 	/**
 	 * the instance of the world the tile entity is in.
 	 */
 	protected World worldObj;
 	protected BlockPos pos = BlockPos.ORIGIN;
 	protected boolean tileEntityInvalid;
+	private int blockMetadata = -1;
+
 	/**
 	 * the Block type that this TileEntity is contained within
 	 */
 	protected Block blockType;
-	private int blockMetadata = -1;
 
 	/**
 	 * Adds a new two-way mapping between the class and its string name in both hashmaps.
@@ -67,39 +47,6 @@ public abstract class TileEntity {
 	public static void unregister(String name) {
 		Class<? extends TileEntity> removed = nameToClassMap.remove(name);
 		if (removed != null) classToNameMap.remove(removed);
-	}
-
-	public static Class<? extends TileEntity> getClassForName(String name) {
-		return nameToClassMap.get(name);
-	}
-
-	/**
-	 * Creates a new entity and loads its data from the specified NBT.
-	 */
-	public static TileEntity createAndLoadEntity(NBTTagCompound nbt) {
-		TileEntity tileentity = null;
-
-		try {
-			Class<? extends TileEntity> oclass = nameToClassMap.get(nbt.getString("id"));
-
-			if (oclass != null) {
-				tileentity = oclass.newInstance();
-			}
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-
-		if (tileentity != null) {
-			tileentity.readFromNBT(nbt);
-		} else {
-			logger.warn("Skipping BlockEntity with id " + nbt.getString("id"));
-		}
-
-		return tileentity;
-	}
-
-	public static void register(Class<? extends TileEntity> c, String id) {
-		addMapping(c, id);
 	}
 
 	/**
@@ -137,6 +84,35 @@ public abstract class TileEntity {
 		compound.setInteger("x", this.pos.getX());
 		compound.setInteger("y", this.pos.getY());
 		compound.setInteger("z", this.pos.getZ());
+	}
+
+	public static Class<? extends TileEntity> getClassForName(String name) {
+		return nameToClassMap.get(name);
+	}
+
+	/**
+	 * Creates a new entity and loads its data from the specified NBT.
+	 */
+	public static TileEntity createAndLoadEntity(NBTTagCompound nbt) {
+		TileEntity tileentity = null;
+
+		try {
+			Class<? extends TileEntity> oclass = nameToClassMap.get(nbt.getString("id"));
+
+			if (oclass != null) {
+				tileentity = oclass.newInstance();
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		if (tileentity != null) {
+			tileentity.readFromNBT(nbt);
+		} else {
+			logger.warn("Skipping BlockEntity with id " + nbt.getString("id"));
+		}
+
+		return tileentity;
 	}
 
 	public int getBlockMetadata() {
@@ -180,10 +156,6 @@ public abstract class TileEntity {
 
 	public BlockPos getPos() {
 		return this.pos;
-	}
-
-	public void setPos(BlockPos posIn) {
-		this.pos = posIn;
 	}
 
 	/**
@@ -259,7 +231,38 @@ public abstract class TileEntity {
 		}
 	}
 
+	public void setPos(BlockPos posIn) {
+		this.pos = posIn;
+	}
+
 	public boolean func_183000_F() {
 		return false;
+	}
+
+	public static void register(Class<? extends TileEntity> c, String id) {
+		addMapping(c, id);
+	}
+
+	static {
+		addMapping(TileEntityFurnace.class, "Furnace");
+		addMapping(TileEntityChest.class, "Chest");
+		addMapping(TileEntityEnderChest.class, "EnderChest");
+		addMapping(BlockJukebox.TileEntityJukebox.class, "RecordPlayer");
+		addMapping(TileEntityDispenser.class, "Trap");
+		addMapping(TileEntityDropper.class, "Dropper");
+		addMapping(TileEntitySign.class, "Sign");
+		addMapping(TileEntityNote.class, "Music");
+		addMapping(TileEntityPiston.class, "Piston");
+		addMapping(TileEntityBrewingStand.class, "Cauldron");
+		addMapping(TileEntityEnchantmentTable.class, "EnchantTable");
+		addMapping(TileEntityEndPortal.class, "Airportal");
+		addMapping(TileEntityCommandBlock.class, "Control");
+		addMapping(TileEntityBeacon.class, "Beacon");
+		addMapping(TileEntitySkull.class, "Skull");
+		addMapping(TileEntityDaylightDetector.class, "DLDetector");
+		addMapping(TileEntityHopper.class, "Hopper");
+		addMapping(TileEntityComparator.class, "Comparator");
+		addMapping(TileEntityFlowerPot.class, "FlowerPot");
+		addMapping(TileEntityBanner.class, "Banner");
 	}
 }

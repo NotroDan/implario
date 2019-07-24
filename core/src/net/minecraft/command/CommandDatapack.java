@@ -18,8 +18,8 @@ public class CommandDatapack extends CommandBase {
 		if (args.length == 0) throw new WrongUsageException("Использование: /dp [Class]");
 		try {
 			//todo команда для загрузки динамических датапаков
-			//			Datapack datapack = DatapackReflector.enable(args[0]);
-			//			sender.addChatMessage(new ChatComponentText("§aДатапак §f" + datapack.getDomain().getAddress() + "§a подключён и работает (§fSERVER-SIDE§a)."));
+//			Datapack datapack = DatapackReflector.enable(args[0]);
+//			sender.addChatMessage(new ChatComponentText("§aДатапак §f" + datapack.getDomain().getAddress() + "§a подключён и работает (§fSERVER-SIDE§a)."));
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}

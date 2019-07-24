@@ -14,6 +14,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +22,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
-import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.world.World;
 
 import java.text.DecimalFormat;
@@ -92,43 +92,17 @@ public final class ItemStack {
 		if (this.itemDamage < 0) this.itemDamage = 0;
 	}
 
-	private ItemStack() {
-		this.canDestroyCacheBlock = null;
-		this.canDestroyCacheResult = false;
-		this.canPlaceOnCacheBlock = null;
-		this.canPlaceOnCacheResult = false;
-	}
-
 	public static ItemStack loadItemStackFromNBT(NBTTagCompound nbt) {
 		ItemStack itemstack = new ItemStack();
 		itemstack.readFromNBT(nbt);
 		return itemstack.getItem() != null ? itemstack : null;
 	}
 
-	public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
-		return stackA == null && stackB == null || stackA != null && stackB != null && (stackA.stackTagCompound != null || stackB.stackTagCompound == null) && (stackA.stackTagCompound == null || stackA.stackTagCompound.equals(
-				stackB.stackTagCompound));
-	}
-
-	/**
-	 * compares ItemStack argument1 with ItemStack argument2; returns true if both ItemStacks are equal
-	 */
-	public static boolean areItemStacksEqual(ItemStack stackA, ItemStack stackB) {
-		return stackA == null && stackB == null || stackA != null && stackB != null && stackA.isItemStackEqual(stackB);
-	}
-
-	/**
-	 * Compares Item and damage value of the two stacks
-	 */
-	public static boolean areItemsEqual(ItemStack stackA, ItemStack stackB) {
-		return stackA == null && stackB == null || stackA != null && stackA.isItemEqual(stackB);
-	}
-
-	/**
-	 * Creates a copy of a ItemStack, a null parameters will return a null.
-	 */
-	public static ItemStack copyItemStack(ItemStack stack) {
-		return stack == null ? null : stack.copy();
+	private ItemStack() {
+		this.canDestroyCacheBlock = null;
+		this.canDestroyCacheResult = false;
+		this.canPlaceOnCacheBlock = null;
+		this.canPlaceOnCacheResult = false;
 	}
 
 	/**
@@ -148,10 +122,6 @@ public final class ItemStack {
 	 */
 	public Item getItem() {
 		return this.item;
-	}
-
-	public void setItem(Item newItem) {
-		this.item = newItem;
 	}
 
 	/**
@@ -254,14 +224,14 @@ public final class ItemStack {
 		return this.itemDamage;
 	}
 
+	public int getMetadata() {
+		return this.itemDamage;
+	}
+
 	public void setItemDamage(int meta) {
 		this.itemDamage = meta;
 
 		if (this.itemDamage < 0) this.itemDamage = 0;
-	}
-
-	public int getMetadata() {
-		return this.itemDamage;
 	}
 
 	/**
@@ -355,12 +325,31 @@ public final class ItemStack {
 		return itemstack;
 	}
 
+	public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
+		return stackA == null && stackB == null || stackA != null && stackB != null && (stackA.stackTagCompound != null || stackB.stackTagCompound == null) && (stackA.stackTagCompound == null || stackA.stackTagCompound.equals(
+				stackB.stackTagCompound));
+	}
+
+	/**
+	 * compares ItemStack argument1 with ItemStack argument2; returns true if both ItemStacks are equal
+	 */
+	public static boolean areItemStacksEqual(ItemStack stackA, ItemStack stackB) {
+		return stackA == null && stackB == null || stackA != null && stackB != null && stackA.isItemStackEqual(stackB);
+	}
+
 	/**
 	 * compares ItemStack argument to the instance ItemStack; returns true if both ItemStacks are equal
 	 */
 	private boolean isItemStackEqual(ItemStack other) {
 		return this.stackSize == other.stackSize && this.item == other.item && this.itemDamage == other.itemDamage && (this.stackTagCompound != null || other.stackTagCompound == null) && (this.stackTagCompound == null || this.stackTagCompound.equals(
 				other.stackTagCompound));
+	}
+
+	/**
+	 * Compares Item and damage value of the two stacks
+	 */
+	public static boolean areItemsEqual(ItemStack stackA, ItemStack stackB) {
+		return stackA == null && stackB == null || stackA != null && stackA.isItemEqual(stackB);
 	}
 
 	/**
@@ -373,6 +362,13 @@ public final class ItemStack {
 
 	public String getUnlocalizedName() {
 		return this.item.getUnlocalizedName(this);
+	}
+
+	/**
+	 * Creates a copy of a ItemStack, a null parameters will return a null.
+	 */
+	public static ItemStack copyItemStack(ItemStack stack) {
+		return stack == null ? null : stack.copy();
 	}
 
 	public String toString() {
@@ -428,13 +424,6 @@ public final class ItemStack {
 	}
 
 	/**
-	 * Assigns a NBTTagCompound to the ItemStack, minecraft validates that only non-stackable items can have it.
-	 */
-	public void setTagCompound(NBTTagCompound nbt) {
-		this.stackTagCompound = nbt;
-	}
-
-	/**
 	 * Get an NBTTagCompound from this stack's NBT data.
 	 */
 	public NBTTagCompound getSubCompound(String key, boolean create) {
@@ -449,6 +438,13 @@ public final class ItemStack {
 
 	public NBTTagList getEnchantmentTagList() {
 		return this.stackTagCompound == null ? null : this.stackTagCompound.getTagList("ench", 10);
+	}
+
+	/**
+	 * Assigns a NBTTagCompound to the ItemStack, minecraft validates that only non-stackable items can have it.
+	 */
+	public void setTagCompound(NBTTagCompound nbt) {
+		this.stackTagCompound = nbt;
 	}
 
 	/**
@@ -674,17 +670,17 @@ public final class ItemStack {
 	}
 
 	/**
-	 * Return the item frame this stack is on. Returns null if not on an item frame.
-	 */
-	public EntityItemFrame getItemFrame() {
-		return this.itemFrame;
-	}
-
-	/**
 	 * Set the item frame this stack is on.
 	 */
 	public void setItemFrame(EntityItemFrame frame) {
 		this.itemFrame = frame;
+	}
+
+	/**
+	 * Return the item frame this stack is on. Returns null if not on an item frame.
+	 */
+	public EntityItemFrame getItemFrame() {
+		return this.itemFrame;
 	}
 
 	/**
@@ -720,6 +716,10 @@ public final class ItemStack {
 		} else multimap = this.getItem().getItemAttributeModifiers();
 
 		return multimap;
+	}
+
+	public void setItem(Item newItem) {
+		this.item = newItem;
 	}
 
 	/**

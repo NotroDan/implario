@@ -18,16 +18,11 @@ public enum LogLevel {
 
 	public static LogLevel getLogLevel(char prefix) {
 		switch (prefix) {
-			case '>':
-				return INFO;
-			case '=':
-				return IMPORTANT;
-			case '!':
-				return WARNING;
-			case '*':
-				return ERROR;
-			default:
-				return COMMENT;
+			case '>': return INFO;
+			case '=': return IMPORTANT;
+			case '!': return WARNING;
+			case '*': return ERROR;
+			default: return COMMENT;
 		}
 	}
 

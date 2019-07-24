@@ -1,14 +1,18 @@
 package vanilla.world.gen.structure;
 
+import vanilla.entity.monster.EntityWitch;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.SpawnListEntry;
-import vanilla.entity.monster.EntityWitch;
 import vanilla.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.SpawnListEntry;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 public class MapGenScatteredFeature extends MapGenStructure {
 

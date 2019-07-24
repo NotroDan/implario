@@ -42,7 +42,7 @@ public class CommandSaveAll extends CommandBase {
 				world.disableLevelSaving = false;
 				world.saveAllChunks(true, null);
 				world.disableLevelSaving = flag;
-
+				
 			}
 			if (args.length > 0 && "flush".equals(args[0])) {
 				sender.sendMessage(new ChatComponentTranslation("commands.save.flushStart"));

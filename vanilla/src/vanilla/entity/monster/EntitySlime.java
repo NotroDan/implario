@@ -10,8 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ParticleType;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -49,13 +49,6 @@ public class EntitySlime extends VanillaEntity implements IMob {
 		this.dataWatcher.addObject(16, (byte) 1);
 	}
 
-	/**
-	 * Returns the size of the slime.
-	 */
-	public int getSlimeSize() {
-		return this.dataWatcher.getWatchableObjectByte(16);
-	}
-
 	protected void setSlimeSize(int size) {
 		this.dataWatcher.updateObject(16, (byte) size);
 		this.setSize(0.51000005F * (float) size, 0.51000005F * (float) size);
@@ -64,6 +57,13 @@ public class EntitySlime extends VanillaEntity implements IMob {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue((double) (0.2F + 0.1F * (float) size));
 		this.setHealth(this.getMaxHealth());
 		this.experienceValue = size;
+	}
+
+	/**
+	 * Returns the size of the slime.
+	 */
+	public int getSlimeSize() {
+		return this.dataWatcher.getWatchableObjectByte(16);
 	}
 
 	/**

@@ -2,6 +2,7 @@ package vanilla.entity.monster;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import vanilla.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.BlockPos;
@@ -10,7 +11,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
-import vanilla.entity.EntityCreature;
 
 public abstract class EntityMob extends EntityCreature implements IMob {
 

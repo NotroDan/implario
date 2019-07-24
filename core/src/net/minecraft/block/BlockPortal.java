@@ -26,28 +26,24 @@ public class BlockPortal extends BlockBreakable {
 		this.setTickRandomly(true);
 	}
 
-	public static int getMetaForAxis(EnumFacing.Axis axis) {
-		return axis == EnumFacing.Axis.X ? 1 : axis == EnumFacing.Axis.Z ? 2 : 0;
-	}
-
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
-		//		ToDo: Порталы должны спавнить свинозомби
-		//		if (worldIn.provider.isSurfaceWorld() && worldIn.getGameRules().getBoolean("doMobSpawning") && rand.nextInt(2000) < worldIn.getDifficulty().getDifficultyId()) {
-		//			int i = pos.getY();
-		//			BlockPos blockpos;
-		//
-		//			for (blockpos = pos; !World.doesBlockHaveSolidTopSurface(worldIn, blockpos) && blockpos.getY() > 0; blockpos = blockpos.down()) {
-		//			}
-		//
-		//			if (i > 0 && !worldIn.getBlockState(blockpos.up()).getBlock().isNormalCube()) {
-		//				Entity entity = ItemMonsterPlacer.spawnCreature(worldIn, 57, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 1.1D, (double) blockpos.getZ() + 0.5D);
-		//
-		//				if (entity != null) {
-		//					entity.timeUntilPortal = entity.getPortalCooldown();
-		//				}
-		//			}
-		//		}
+//		ToDo: Порталы должны спавнить свинозомби
+//		if (worldIn.provider.isSurfaceWorld() && worldIn.getGameRules().getBoolean("doMobSpawning") && rand.nextInt(2000) < worldIn.getDifficulty().getDifficultyId()) {
+//			int i = pos.getY();
+//			BlockPos blockpos;
+//
+//			for (blockpos = pos; !World.doesBlockHaveSolidTopSurface(worldIn, blockpos) && blockpos.getY() > 0; blockpos = blockpos.down()) {
+//			}
+//
+//			if (i > 0 && !worldIn.getBlockState(blockpos.up()).getBlock().isNormalCube()) {
+//				Entity entity = ItemMonsterPlacer.spawnCreature(worldIn, 57, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 1.1D, (double) blockpos.getZ() + 0.5D);
+//
+//				if (entity != null) {
+//					entity.timeUntilPortal = entity.getPortalCooldown();
+//				}
+//			}
+//		}
 	}
 
 	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
@@ -68,6 +64,10 @@ public class BlockPortal extends BlockBreakable {
 		}
 
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f1, 0.5F + f, 1.0F, 0.5F + f1);
+	}
+
+	public static int getMetaForAxis(EnumFacing.Axis axis) {
+		return axis == EnumFacing.Axis.X ? 1 : axis == EnumFacing.Axis.Z ? 2 : 0;
 	}
 
 	public boolean isFullCube() {

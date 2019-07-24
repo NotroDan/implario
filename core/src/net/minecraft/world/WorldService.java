@@ -14,12 +14,12 @@ public abstract class WorldService<T extends WorldServer> {
 		this.server = server;
 	}
 
-	public synchronized String getUserMessage() {
-		return this.userMessage;
-	}
-
 	public synchronized void setUserMessage(String message) {
 		this.userMessage = message;
+	}
+
+	public synchronized String getUserMessage() {
+		return this.userMessage;
 	}
 
 	public abstract T[] getAll();

@@ -13,13 +13,14 @@ import java.util.List;
 
 public class ItemArmor extends Item {
 
-	public static final String[] EMPTY_SLOT_NAMES = new String[] {
-			"minecraft:items/empty_armor_slot_helmet", "minecraft:items/empty_armor_slot_chestplate", "minecraft:items/empty_armor_slot_leggings", "minecraft:items/empty_armor_slot_boots"
-	};
 	/**
 	 * Holds the 'base' maxDamage that each armorType have.
 	 */
 	private static final int[] maxDamageArray = new int[] {11, 16, 15, 13};
+	public static final String[] EMPTY_SLOT_NAMES = new String[] {
+			"minecraft:items/empty_armor_slot_helmet", "minecraft:items/empty_armor_slot_chestplate", "minecraft:items/empty_armor_slot_leggings", "minecraft:items/empty_armor_slot_boots"
+	};
+
 	/**
 	 * Stores the armor type: 0 is helmet, 1 is plate, 2 is legs and 3 is boots
 	 */
@@ -183,16 +184,16 @@ public class ItemArmor extends Item {
 		int o = 25 - magic;
 		float m = 1 - o / 25.0F;
 		float material = 1 - damageReduceAmount / 25F;
-		return (int) ((1 - material * (1 - m)) * 1000) / 10F;
+		return (int) ((1 - material * (1-m)) * 1000) / 10F;
 
 	}
 
 	public static enum ArmorMaterial {
-		LEATHER("leather", 5, new int[] {1, 3, 2, 1}, 15),
-		CHAIN("chainmail", 15, new int[] {2, 5, 4, 1}, 12),
-		IRON("iron", 15, new int[] {2, 6, 5, 2}, 9),
-		GOLD("gold", 7, new int[] {2, 5, 3, 1}, 25),
-		DIAMOND("diamond", 33, new int[] {3, 8, 6, 3}, 10);
+		LEATHER("leather",   5,  new int[] {1, 3, 2, 1}, 15),
+		CHAIN  ("chainmail", 15, new int[] {2, 5, 4, 1}, 12),
+		IRON   ("iron",      15, new int[] {2, 6, 5, 2}, 9 ),
+		GOLD   ("gold",      7,  new int[] {2, 5, 3, 1}, 25),
+		DIAMOND("diamond",   33, new int[] {3, 8, 6, 3}, 10);
 
 		private final String name;
 		private final int maxDamageFactor;

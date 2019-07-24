@@ -10,6 +10,7 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.monster.IMob;
@@ -72,12 +73,13 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, ICo
 	 * Activated if the dragon is flying though obsidian, white stone or bedrock. Slows movement and animation speed.
 	 */
 	public boolean slowed;
+	private Entity target;
 	public int deathTicks;
+
 	/**
 	 * The current endercrystal that is healing this dragon
 	 */
 	public EntityEnderCrystal healingEnderCrystal;
-	private Entity target;
 
 	public EntityDragon(World worldIn) {
 		super(worldIn);
@@ -676,6 +678,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, ICo
 	protected float getSoundVolume() {
 		return 5.0F;
 	}
+
 
 
 	@Override

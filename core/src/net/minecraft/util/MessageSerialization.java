@@ -18,6 +18,7 @@ import java.util.List;
 public class MessageSerialization {
 
 
+
 	public static class Prepender extends MessageToByteEncoder<ByteBuf> {
 
 		protected void encode(ChannelHandlerContext chc, ByteBuf from, ByteBuf to) {

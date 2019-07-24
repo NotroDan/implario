@@ -106,6 +106,7 @@ public class EntityArmorStand extends EntityLivingBase {
 	}
 
 
+
 	@Override
 	public int getUpdateFrequency() {
 		return 3;
@@ -651,10 +652,6 @@ public class EntityArmorStand extends EntityLivingBase {
 		return this.isInvisible();
 	}
 
-	public boolean isSmall() {
-		return (this.dataWatcher.getWatchableObjectByte(10) & 1) != 0;
-	}
-
 	private void setSmall(boolean p_175420_1_) {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(10);
 
@@ -665,6 +662,10 @@ public class EntityArmorStand extends EntityLivingBase {
 		}
 
 		this.dataWatcher.updateObject(10, b0);
+	}
+
+	public boolean isSmall() {
+		return (this.dataWatcher.getWatchableObjectByte(10) & 1) != 0;
 	}
 
 	private void setNoGravity(boolean p_175425_1_) {
@@ -683,10 +684,6 @@ public class EntityArmorStand extends EntityLivingBase {
 		return (this.dataWatcher.getWatchableObjectByte(10) & 2) != 0;
 	}
 
-	public boolean getShowArms() {
-		return (this.dataWatcher.getWatchableObjectByte(10) & 4) != 0;
-	}
-
 	private void setShowArms(boolean p_175413_1_) {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(10);
 
@@ -697,6 +694,10 @@ public class EntityArmorStand extends EntityLivingBase {
 		}
 
 		this.dataWatcher.updateObject(10, b0);
+	}
+
+	public boolean getShowArms() {
+		return (this.dataWatcher.getWatchableObjectByte(10) & 4) != 0;
 	}
 
 	private void setNoBasePlate(boolean p_175426_1_) {
@@ -731,17 +732,9 @@ public class EntityArmorStand extends EntityLivingBase {
 		return (this.dataWatcher.getWatchableObjectByte(10) & 16) != 0;
 	}
 
-	public Rotations getHeadRotation() {
-		return this.headRotation;
-	}
-
 	public void setHeadRotation(Rotations p_175415_1_) {
 		this.headRotation = p_175415_1_;
 		this.dataWatcher.updateObject(11, p_175415_1_);
-	}
-
-	public Rotations getBodyRotation() {
-		return this.bodyRotation;
 	}
 
 	public void setBodyRotation(Rotations p_175424_1_) {
@@ -749,17 +742,9 @@ public class EntityArmorStand extends EntityLivingBase {
 		this.dataWatcher.updateObject(12, p_175424_1_);
 	}
 
-	public Rotations getLeftArmRotation() {
-		return this.leftArmRotation;
-	}
-
 	public void setLeftArmRotation(Rotations p_175405_1_) {
 		this.leftArmRotation = p_175405_1_;
 		this.dataWatcher.updateObject(13, p_175405_1_);
-	}
-
-	public Rotations getRightArmRotation() {
-		return this.rightArmRotation;
 	}
 
 	public void setRightArmRotation(Rotations p_175428_1_) {
@@ -767,22 +752,38 @@ public class EntityArmorStand extends EntityLivingBase {
 		this.dataWatcher.updateObject(14, p_175428_1_);
 	}
 
-	public Rotations getLeftLegRotation() {
-		return this.leftLegRotation;
-	}
-
 	public void setLeftLegRotation(Rotations p_175417_1_) {
 		this.leftLegRotation = p_175417_1_;
 		this.dataWatcher.updateObject(15, p_175417_1_);
 	}
 
-	public Rotations getRightLegRotation() {
-		return this.rightLegRotation;
-	}
-
 	public void setRightLegRotation(Rotations p_175427_1_) {
 		this.rightLegRotation = p_175427_1_;
 		this.dataWatcher.updateObject(16, p_175427_1_);
+	}
+
+	public Rotations getHeadRotation() {
+		return this.headRotation;
+	}
+
+	public Rotations getBodyRotation() {
+		return this.bodyRotation;
+	}
+
+	public Rotations getLeftArmRotation() {
+		return this.leftArmRotation;
+	}
+
+	public Rotations getRightArmRotation() {
+		return this.rightArmRotation;
+	}
+
+	public Rotations getLeftLegRotation() {
+		return this.leftLegRotation;
+	}
+
+	public Rotations getRightLegRotation() {
+		return this.rightLegRotation;
 	}
 
 	/**

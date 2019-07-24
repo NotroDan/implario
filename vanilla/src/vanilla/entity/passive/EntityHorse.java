@@ -5,9 +5,19 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.game.entity.EntityControllable;
 import net.minecraft.entity.Entity;
+import vanilla.client.gui.block.HorseInv;
+import vanilla.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import vanilla.entity.ai.tasks.EntityAIFollowParent;
+import vanilla.entity.ai.tasks.EntityAILookIdle;
+import vanilla.entity.ai.tasks.EntityAIMate;
+import vanilla.entity.ai.tasks.EntityAIPanic;
+import vanilla.entity.ai.tasks.EntityAIRunAroundLikeCrazy;
+import vanilla.entity.ai.tasks.EntityAISwimming;
+import vanilla.entity.ai.tasks.EntityAIWander;
+import vanilla.entity.ai.tasks.EntityAIWatchClosest;
 import net.minecraft.entity.attributes.IAttribute;
 import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.attributes.RangedAttribute;
@@ -19,17 +29,18 @@ import net.minecraft.inventory.IInvBasic;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.potion.Potion;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import vanilla.entity.ai.pathfinding.PathNavigateGround;
+import net.minecraft.item.potion.Potion;
 import net.minecraft.server.management.PreYggdrasilConverter;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ParticleType;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import vanilla.client.gui.block.HorseInv;
-import vanilla.entity.EntityAgeable;
-import vanilla.entity.ai.pathfinding.PathNavigateGround;
-import vanilla.entity.ai.tasks.*;
 import vanilla.item.VanillaItems;
 
 public class EntityHorse extends EntityAnimal implements IInvBasic, EntityControllable {
@@ -51,19 +62,20 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 			"textures/entity/horse/horse_markings_blackdots.png"
 	};
 	private static final String[] HORSE_MARKING_TEXTURES_ABBR = new String[] {"", "wo_", "wmo", "wdo", "bdo"};
+	private int eatingHaystackCounter;
+	private int openMouthCounter;
+	private int jumpRearingCounter;
 	public int field_110278_bp;
 	public int field_110279_bq;
 	protected boolean horseJumping;
+	private AnimalChest horseChest;
+	private boolean hasReproduced;
+
 	/**
 	 * "The higher this value, the more likely the horse is to be tamed next time a player rides it."
 	 */
 	protected int temper;
 	protected float jumpPower;
-	private int eatingHaystackCounter;
-	private int openMouthCounter;
-	private int jumpRearingCounter;
-	private AnimalChest horseChest;
-	private boolean hasReproduced;
 	private boolean field_110294_bI;
 	private float headLean;
 	private float prevHeadLean;
@@ -97,13 +109,6 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 		this.initHorseChest();
 	}
 
-	/**
-	 * Returns true if given item is horse armor
-	 */
-	public static boolean isArmorItem(Item p_146085_0_) {
-		return p_146085_0_ == Items.iron_horse_armor || p_146085_0_ == Items.golden_horse_armor || p_146085_0_ == Items.diamond_horse_armor;
-	}
-
 	protected void entityInit() {
 		super.entityInit();
 		this.dataWatcher.addObject(16, 0);
@@ -113,6 +118,11 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 		this.dataWatcher.addObject(22, 0);
 	}
 
+	public void setHorseType(int type) {
+		this.dataWatcher.updateObject(19, (byte) type);
+		this.resetTexturePrefix();
+	}
+
 	/**
 	 * Returns the horse type. 0 = Normal, 1 = Donkey, 2 = Mule, 3 = Undead Horse, 4 = Skeleton Horse
 	 */
@@ -120,18 +130,13 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 		return this.dataWatcher.getWatchableObjectByte(19);
 	}
 
-	public void setHorseType(int type) {
-		this.dataWatcher.updateObject(19, (byte) type);
+	public void setHorseVariant(int variant) {
+		this.dataWatcher.updateObject(20, variant);
 		this.resetTexturePrefix();
 	}
 
 	public int getHorseVariant() {
 		return this.dataWatcher.getWatchableObjectInt(20);
-	}
-
-	public void setHorseVariant(int variant) {
-		this.dataWatcher.updateObject(20, variant);
-		this.resetTexturePrefix();
 	}
 
 	/**
@@ -218,12 +223,12 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 		return this.horseJumping;
 	}
 
-	public void setHorseJumping(boolean jumping) {
-		this.horseJumping = jumping;
-	}
-
 	public void setHorseTamed(boolean tamed) {
 		this.setHorseWatchableBoolean(2, tamed);
+	}
+
+	public void setHorseJumping(boolean jumping) {
+		this.horseJumping = jumping;
 	}
 
 	public boolean allowLeashing() {
@@ -238,10 +243,6 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 
 	public boolean isChested() {
 		return this.getHorseWatchableBoolean(8);
-	}
-
-	public void setChested(boolean chested) {
-		this.setHorseWatchableBoolean(8, chested);
 	}
 
 	/**
@@ -266,36 +267,16 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 		return this.getHorseWatchableBoolean(32);
 	}
 
-	public void setEatingHaystack(boolean p_110227_1_) {
-		this.setEating(p_110227_1_);
-	}
-
 	public boolean isRearing() {
 		return this.getHorseWatchableBoolean(64);
-	}
-
-	public void setRearing(boolean rearing) {
-		if (rearing) {
-			this.setEatingHaystack(false);
-		}
-
-		this.setHorseWatchableBoolean(64, rearing);
 	}
 
 	public boolean isBreeding() {
 		return this.getHorseWatchableBoolean(16);
 	}
 
-	public void setBreeding(boolean breeding) {
-		this.setHorseWatchableBoolean(16, breeding);
-	}
-
 	public boolean getHasReproduced() {
 		return this.hasReproduced;
-	}
-
-	public void setHasReproduced(boolean hasReproducedIn) {
-		this.hasReproduced = hasReproducedIn;
 	}
 
 	/**
@@ -304,6 +285,18 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 	public void setHorseArmorStack(ItemStack itemStackIn) {
 		this.dataWatcher.updateObject(22, this.getHorseArmorIndex(itemStackIn));
 		this.resetTexturePrefix();
+	}
+
+	public void setBreeding(boolean breeding) {
+		this.setHorseWatchableBoolean(16, breeding);
+	}
+
+	public void setChested(boolean chested) {
+		this.setHorseWatchableBoolean(8, chested);
+	}
+
+	public void setHasReproduced(boolean hasReproducedIn) {
+		this.hasReproduced = hasReproducedIn;
 	}
 
 	public void setHorseSaddled(boolean saddled) {
@@ -1030,6 +1023,18 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 		this.setHorseWatchableBoolean(32, eating);
 	}
 
+	public void setEatingHaystack(boolean p_110227_1_) {
+		this.setEating(p_110227_1_);
+	}
+
+	public void setRearing(boolean rearing) {
+		if (rearing) {
+			this.setEatingHaystack(false);
+		}
+
+		this.setHorseWatchableBoolean(64, rearing);
+	}
+
 	private void makeHorseRear() {
 		if (!this.worldObj.isClientSide) {
 			this.jumpRearingCounter = 1;
@@ -1465,6 +1470,13 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 	 */
 	private double getModifiedMovementSpeed() {
 		return (0.44999998807907104D + this.rand.nextDouble() * 0.3D + this.rand.nextDouble() * 0.3D + this.rand.nextDouble() * 0.3D) * 0.25D;
+	}
+
+	/**
+	 * Returns true if given item is horse armor
+	 */
+	public static boolean isArmorItem(Item p_146085_0_) {
+		return p_146085_0_ == Items.iron_horse_armor || p_146085_0_ == Items.golden_horse_armor || p_146085_0_ == Items.diamond_horse_armor;
 	}
 
 	/**

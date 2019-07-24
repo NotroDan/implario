@@ -1,222 +1,248 @@
 package net.minecraft.item.potion;
 
-import net.minecraft.Logger;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.Logger;
 
-public class PotionEffect {
+public class PotionEffect
+{
+    private static final Logger LOGGER = Logger.getInstance();
 
-	private static final Logger LOGGER = Logger.getInstance();
+    /** ID value of the potion this effect matches. */
+    private int potionID;
 
-	/**
-	 * ID value of the potion this effect matches.
-	 */
-	private int potionID;
+    /** The duration of the potion effect */
+    private int duration;
 
-	/**
-	 * The duration of the potion effect
-	 */
-	private int duration;
+    /** The amplifier of the potion effect */
+    private int amplifier;
 
-	/**
-	 * The amplifier of the potion effect
-	 */
-	private int amplifier;
+    /** Whether the potion is a splash potion */
+    private boolean isSplashPotion;
 
-	/**
-	 * Whether the potion is a splash potion
-	 */
-	private boolean isSplashPotion;
+    /** Whether the potion effect came from a beacon */
+    private boolean isAmbient;
 
-	/**
-	 * Whether the potion effect came from a beacon
-	 */
-	private boolean isAmbient;
+    /** True if potion effect duration is at maximum, false otherwise. */
+    private boolean isPotionDurationMax;
+    private boolean showParticles;
 
-	/**
-	 * True if potion effect duration is at maximum, false otherwise.
-	 */
-	private boolean isPotionDurationMax;
-	private boolean showParticles;
+    public PotionEffect(int id, int effectDuration)
+    {
+        this(id, effectDuration, 0);
+    }
 
-	public PotionEffect(int id, int effectDuration) {
-		this(id, effectDuration, 0);
-	}
+    public PotionEffect(int id, int effectDuration, int effectAmplifier)
+    {
+        this(id, effectDuration, effectAmplifier, false, true);
+    }
 
-	public PotionEffect(int id, int effectDuration, int effectAmplifier) {
-		this(id, effectDuration, effectAmplifier, false, true);
-	}
+    public PotionEffect(int id, int effectDuration, int effectAmplifier, boolean ambient, boolean showParticles)
+    {
+        this.potionID = id;
+        this.duration = effectDuration;
+        this.amplifier = effectAmplifier;
+        this.isAmbient = ambient;
+        this.showParticles = showParticles;
+    }
 
-	public PotionEffect(int id, int effectDuration, int effectAmplifier, boolean ambient, boolean showParticles) {
-		this.potionID = id;
-		this.duration = effectDuration;
-		this.amplifier = effectAmplifier;
-		this.isAmbient = ambient;
-		this.showParticles = showParticles;
-	}
+    public PotionEffect(PotionEffect other)
+    {
+        this.potionID = other.potionID;
+        this.duration = other.duration;
+        this.amplifier = other.amplifier;
+        this.isAmbient = other.isAmbient;
+        this.showParticles = other.showParticles;
+    }
 
-	public PotionEffect(PotionEffect other) {
-		this.potionID = other.potionID;
-		this.duration = other.duration;
-		this.amplifier = other.amplifier;
-		this.isAmbient = other.isAmbient;
-		this.showParticles = other.showParticles;
-	}
+    /**
+     * merges the input PotionEffect into this one if this.amplifier <= tomerge.amplifier. The duration in the supplied
+     * potion effect is assumed to be greater.
+     */
+    public void combine(PotionEffect other)
+    {
+        if (this.potionID != other.potionID)
+        {
+            LOGGER.warn("This method should only be called for matching effects!");
+        }
 
-	/**
-	 * Read a custom potion effect from a potion item's NBT data.
-	 */
-	public static PotionEffect readCustomPotionEffectFromNBT(NBTTagCompound nbt) {
-		int i = nbt.getByte("Id");
+        if (other.amplifier > this.amplifier)
+        {
+            this.amplifier = other.amplifier;
+            this.duration = other.duration;
+        }
+        else if (other.amplifier == this.amplifier && this.duration < other.duration)
+        {
+            this.duration = other.duration;
+        }
+        else if (!other.isAmbient && this.isAmbient)
+        {
+            this.isAmbient = other.isAmbient;
+        }
 
-		if (i >= 0 && i < Potion.potionTypes.length && Potion.potionTypes[i] != null) {
-			int j = nbt.getByte("Amplifier");
-			int k = nbt.getInteger("Duration");
-			boolean flag = nbt.getBoolean("Ambient");
-			boolean flag1 = true;
+        this.showParticles = other.showParticles;
+    }
 
-			if (nbt.hasKey("ShowParticles", 1)) {
-				flag1 = nbt.getBoolean("ShowParticles");
-			}
+    /**
+     * Retrieve the ID of the potion this effect matches.
+     */
+    public int getPotionID()
+    {
+        return this.potionID;
+    }
 
-			return new PotionEffect(i, k, j, flag, flag1);
-		}
-		return null;
-	}
+    public int getDuration()
+    {
+        return this.duration;
+    }
 
-	/**
-	 * merges the input PotionEffect into this one if this.amplifier <= tomerge.amplifier. The duration in the supplied
-	 * potion effect is assumed to be greater.
-	 */
-	public void combine(PotionEffect other) {
-		if (this.potionID != other.potionID) {
-			LOGGER.warn("This method should only be called for matching effects!");
-		}
+    public int getAmplifier()
+    {
+        return this.amplifier;
+    }
 
-		if (other.amplifier > this.amplifier) {
-			this.amplifier = other.amplifier;
-			this.duration = other.duration;
-		} else if (other.amplifier == this.amplifier && this.duration < other.duration) {
-			this.duration = other.duration;
-		} else if (!other.isAmbient && this.isAmbient) {
-			this.isAmbient = other.isAmbient;
-		}
+    /**
+     * Set whether this potion is a splash potion.
+     */
+    public void setSplashPotion(boolean splashPotion)
+    {
+        this.isSplashPotion = splashPotion;
+    }
 
-		this.showParticles = other.showParticles;
-	}
+    /**
+     * Gets whether this potion effect originated from a beacon
+     */
+    public boolean getIsAmbient()
+    {
+        return this.isAmbient;
+    }
 
-	/**
-	 * Retrieve the ID of the potion this effect matches.
-	 */
-	public int getPotionID() {
-		return this.potionID;
-	}
+    public boolean getIsShowParticles()
+    {
+        return this.showParticles;
+    }
 
-	public int getDuration() {
-		return this.duration;
-	}
+    public boolean onUpdate(EntityLivingBase entityIn)
+    {
+        if (this.duration > 0)
+        {
+            if (Potion.potionTypes[this.potionID].isReady(this.duration, this.amplifier))
+            {
+                this.performEffect(entityIn);
+            }
 
-	public int getAmplifier() {
-		return this.amplifier;
-	}
+            this.deincrementDuration();
+        }
 
-	/**
-	 * Set whether this potion is a splash potion.
-	 */
-	public void setSplashPotion(boolean splashPotion) {
-		this.isSplashPotion = splashPotion;
-	}
+        return this.duration > 0;
+    }
 
-	/**
-	 * Gets whether this potion effect originated from a beacon
-	 */
-	public boolean getIsAmbient() {
-		return this.isAmbient;
-	}
+    private int deincrementDuration()
+    {
+        return --this.duration;
+    }
 
-	public boolean getIsShowParticles() {
-		return this.showParticles;
-	}
+    public void performEffect(EntityLivingBase entityIn)
+    {
+        if (this.duration > 0)
+        {
+            Potion.potionTypes[this.potionID].performEffect(entityIn, this.amplifier);
+        }
+    }
 
-	public boolean onUpdate(EntityLivingBase entityIn) {
-		if (this.duration > 0) {
-			if (Potion.potionTypes[this.potionID].isReady(this.duration, this.amplifier)) {
-				this.performEffect(entityIn);
-			}
+    public String getEffectName()
+    {
+        return Potion.potionTypes[this.potionID].getName();
+    }
 
-			this.deincrementDuration();
-		}
+    public int hashCode()
+    {
+        return this.potionID;
+    }
 
-		return this.duration > 0;
-	}
+    public String toString()
+    {
+        String s = "";
 
-	private int deincrementDuration() {
-		return --this.duration;
-	}
+        if (this.getAmplifier() > 0)
+        {
+            s = this.getEffectName() + " x " + (this.getAmplifier() + 1) + ", Duration: " + this.getDuration();
+        }
+        else
+        {
+            s = this.getEffectName() + ", Duration: " + this.getDuration();
+        }
 
-	public void performEffect(EntityLivingBase entityIn) {
-		if (this.duration > 0) {
-			Potion.potionTypes[this.potionID].performEffect(entityIn, this.amplifier);
-		}
-	}
+        if (this.isSplashPotion)
+        {
+            s = s + ", Splash: true";
+        }
 
-	public String getEffectName() {
-		return Potion.potionTypes[this.potionID].getName();
-	}
+        if (!this.showParticles)
+        {
+            s = s + ", Particles: false";
+        }
 
-	public int hashCode() {
-		return this.potionID;
-	}
+        return Potion.potionTypes[this.potionID].isUsable() ? "(" + s + ")" : s;
+    }
 
-	public String toString() {
-		String s = "";
-
-		if (this.getAmplifier() > 0) {
-			s = this.getEffectName() + " x " + (this.getAmplifier() + 1) + ", Duration: " + this.getDuration();
-		} else {
-			s = this.getEffectName() + ", Duration: " + this.getDuration();
-		}
-
-		if (this.isSplashPotion) {
-			s = s + ", Splash: true";
-		}
-
-		if (!this.showParticles) {
-			s = s + ", Particles: false";
-		}
-
-		return Potion.potionTypes[this.potionID].isUsable() ? "(" + s + ")" : s;
-	}
-
-	public boolean equals(Object p_equals_1_) {
-		if (!(p_equals_1_ instanceof PotionEffect)) {
-			return false;
-		}
-		PotionEffect potioneffect = (PotionEffect) p_equals_1_;
+    public boolean equals(Object p_equals_1_)
+    {
+        if (!(p_equals_1_ instanceof PotionEffect))
+        {
+            return false;
+        }
+		PotionEffect potioneffect = (PotionEffect)p_equals_1_;
 		return this.potionID == potioneffect.potionID && this.amplifier == potioneffect.amplifier && this.duration == potioneffect.duration && this.isSplashPotion == potioneffect.isSplashPotion && this.isAmbient == potioneffect.isAmbient;
 	}
 
-	/**
-	 * Write a custom potion effect to a potion item's NBT data.
-	 */
-	public NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound nbt) {
-		nbt.setByte("Id", (byte) this.getPotionID());
-		nbt.setByte("Amplifier", (byte) this.getAmplifier());
-		nbt.setInteger("Duration", this.getDuration());
-		nbt.setBoolean("Ambient", this.getIsAmbient());
-		nbt.setBoolean("ShowParticles", this.getIsShowParticles());
-		return nbt;
+    /**
+     * Write a custom potion effect to a potion item's NBT data.
+     */
+    public NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound nbt)
+    {
+        nbt.setByte("Id", (byte)this.getPotionID());
+        nbt.setByte("Amplifier", (byte)this.getAmplifier());
+        nbt.setInteger("Duration", this.getDuration());
+        nbt.setBoolean("Ambient", this.getIsAmbient());
+        nbt.setBoolean("ShowParticles", this.getIsShowParticles());
+        return nbt;
+    }
+
+    /**
+     * Read a custom potion effect from a potion item's NBT data.
+     */
+    public static PotionEffect readCustomPotionEffectFromNBT(NBTTagCompound nbt)
+    {
+        int i = nbt.getByte("Id");
+
+        if (i >= 0 && i < Potion.potionTypes.length && Potion.potionTypes[i] != null)
+        {
+            int j = nbt.getByte("Amplifier");
+            int k = nbt.getInteger("Duration");
+            boolean flag = nbt.getBoolean("Ambient");
+            boolean flag1 = true;
+
+            if (nbt.hasKey("ShowParticles", 1))
+            {
+                flag1 = nbt.getBoolean("ShowParticles");
+            }
+
+            return new PotionEffect(i, k, j, flag, flag1);
+        }
+		return null;
 	}
 
-	/**
-	 * Toggle the isPotionDurationMax field.
-	 */
-	public void setPotionDurationMax(boolean maxDuration) {
-		this.isPotionDurationMax = maxDuration;
-	}
+    /**
+     * Toggle the isPotionDurationMax field.
+     */
+    public void setPotionDurationMax(boolean maxDuration)
+    {
+        this.isPotionDurationMax = maxDuration;
+    }
 
-	public boolean getIsPotionDurationMax() {
-		return this.isPotionDurationMax;
-	}
-
+    public boolean getIsPotionDurationMax()
+    {
+        return this.isPotionDurationMax;
+    }
 }

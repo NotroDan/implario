@@ -1,8 +1,8 @@
 package vanilla.world.gen.layer;
 
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.TempCategory;
 import vanilla.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.TempCategory;
 
 public class GenLayerBiomeEdge extends GenLayer {
 

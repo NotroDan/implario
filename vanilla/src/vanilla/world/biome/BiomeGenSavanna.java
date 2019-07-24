@@ -2,12 +2,12 @@ package vanilla.world.biome;
 
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDoublePlant;
+import vanilla.entity.passive.EntityHorse;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.ChunkPrimer;
-import vanilla.entity.passive.EntityHorse;
 import vanilla.world.gen.feature.WorldGenAbstractTree;
 import vanilla.world.gen.feature.WorldGenSavannaTree;
 

@@ -7,12 +7,12 @@ import shadersmod.client.ShadersTex;
 
 public abstract class AbstractTexture implements ITextureObject {
 
-	public MultiTexID multiTex;
 	protected int glTextureId = -1;
 	protected boolean blur;
 	protected boolean mipmap;
 	protected boolean blurLast;
 	protected boolean mipmapLast;
+	public MultiTexID multiTex;
 
 	public void setBlurMipmapDirect(boolean p_174937_1_, boolean p_174937_2_) {
 		this.blur = p_174937_1_;

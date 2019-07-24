@@ -1,5 +1,6 @@
 package vanilla.world.gen;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -16,6 +17,89 @@ public class FlatGeneratorInfo {
 	private final List<FlatLayerInfo> flatLayers = new ArrayList<>();
 	private final Map<String, Map<String, String>> worldFeatures = Maps.newHashMap();
 	private int biomeToUse;
+
+	/**
+	 * Return the biome used on this preset.
+	 */
+	public int getBiome() {
+		return this.biomeToUse;
+	}
+
+	/**
+	 * Set the biome used on this preset.
+	 */
+	public void setBiome(int p_82647_1_) {
+		this.biomeToUse = p_82647_1_;
+	}
+
+	public Map<String, Map<String, String>> getWorldFeatures() {
+		return this.worldFeatures;
+	}
+
+	public List<FlatLayerInfo> getFlatLayers() {
+		return this.flatLayers;
+	}
+
+	public void func_82645_d() {
+		int i = 0;
+
+		for (FlatLayerInfo flatlayerinfo : this.flatLayers) {
+			flatlayerinfo.setMinY(i);
+			i += flatlayerinfo.getLayerCount();
+		}
+	}
+
+	public String toString() {
+		StringBuilder stringbuilder = new StringBuilder();
+		stringbuilder.append((int) 3);
+		stringbuilder.append(";");
+
+		for (int i = 0; i < this.flatLayers.size(); ++i) {
+			if (i > 0) {
+				stringbuilder.append(",");
+			}
+
+			stringbuilder.append(((FlatLayerInfo) this.flatLayers.get(i)).toString());
+		}
+
+		stringbuilder.append(";");
+		stringbuilder.append(this.biomeToUse);
+
+		if (!this.worldFeatures.isEmpty()) {
+			stringbuilder.append(";");
+			int k = 0;
+
+			for (Entry<String, Map<String, String>> entry : this.worldFeatures.entrySet()) {
+				if (k++ > 0) {
+					stringbuilder.append(",");
+				}
+
+				stringbuilder.append(((String) entry.getKey()).toLowerCase());
+				Map<String, String> map = (Map) entry.getValue();
+
+				if (!map.isEmpty()) {
+					stringbuilder.append("(");
+					int j = 0;
+
+					for (Entry<String, String> entry1 : map.entrySet()) {
+						if (j++ > 0) {
+							stringbuilder.append(" ");
+						}
+
+						stringbuilder.append((String) entry1.getKey());
+						stringbuilder.append("=");
+						stringbuilder.append((String) entry1.getValue());
+					}
+
+					stringbuilder.append(")");
+				}
+			}
+		} else {
+			stringbuilder.append(";");
+		}
+
+		return stringbuilder.toString();
+	}
 
 	private static FlatLayerInfo createLayerInfo(int p_180715_0_, String p_180715_1_, int p_180715_2_) {
 		String[] astring = p_180715_0_ >= 3 ? p_180715_1_.split("\\*", 2) : p_180715_1_.split("x", 2);
@@ -156,89 +240,6 @@ public class FlatGeneratorInfo {
 		flatgeneratorinfo.func_82645_d();
 		flatgeneratorinfo.getWorldFeatures().put("village", Maps.newHashMap());
 		return flatgeneratorinfo;
-	}
-
-	/**
-	 * Return the biome used on this preset.
-	 */
-	public int getBiome() {
-		return this.biomeToUse;
-	}
-
-	/**
-	 * Set the biome used on this preset.
-	 */
-	public void setBiome(int p_82647_1_) {
-		this.biomeToUse = p_82647_1_;
-	}
-
-	public Map<String, Map<String, String>> getWorldFeatures() {
-		return this.worldFeatures;
-	}
-
-	public List<FlatLayerInfo> getFlatLayers() {
-		return this.flatLayers;
-	}
-
-	public void func_82645_d() {
-		int i = 0;
-
-		for (FlatLayerInfo flatlayerinfo : this.flatLayers) {
-			flatlayerinfo.setMinY(i);
-			i += flatlayerinfo.getLayerCount();
-		}
-	}
-
-	public String toString() {
-		StringBuilder stringbuilder = new StringBuilder();
-		stringbuilder.append((int) 3);
-		stringbuilder.append(";");
-
-		for (int i = 0; i < this.flatLayers.size(); ++i) {
-			if (i > 0) {
-				stringbuilder.append(",");
-			}
-
-			stringbuilder.append(((FlatLayerInfo) this.flatLayers.get(i)).toString());
-		}
-
-		stringbuilder.append(";");
-		stringbuilder.append(this.biomeToUse);
-
-		if (!this.worldFeatures.isEmpty()) {
-			stringbuilder.append(";");
-			int k = 0;
-
-			for (Entry<String, Map<String, String>> entry : this.worldFeatures.entrySet()) {
-				if (k++ > 0) {
-					stringbuilder.append(",");
-				}
-
-				stringbuilder.append(((String) entry.getKey()).toLowerCase());
-				Map<String, String> map = (Map) entry.getValue();
-
-				if (!map.isEmpty()) {
-					stringbuilder.append("(");
-					int j = 0;
-
-					for (Entry<String, String> entry1 : map.entrySet()) {
-						if (j++ > 0) {
-							stringbuilder.append(" ");
-						}
-
-						stringbuilder.append((String) entry1.getKey());
-						stringbuilder.append("=");
-						stringbuilder.append((String) entry1.getValue());
-					}
-
-					stringbuilder.append(")");
-				}
-			}
-		} else {
-			stringbuilder.append(";");
-		}
-
-		return stringbuilder.toString();
 	}
 
 }

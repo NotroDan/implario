@@ -1,5 +1,6 @@
 package net.minecraft.util.chat;
 
+import java.util.List;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.EntityNotFoundException;
 import net.minecraft.command.ICommandSender;
@@ -7,68 +8,80 @@ import net.minecraft.command.PlayerSelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IChatComponent;
 
-import java.util.List;
+public class ChatComponentProcessor
+{
+    public static IChatComponent processComponent(ICommandSender commandSender, IChatComponent component, Entity entityIn) throws CommandException
+    {
+        IChatComponent ichatcomponent = null;
 
-public class ChatComponentProcessor {
+        if (component instanceof ChatComponentScore)
+        {
+            ChatComponentScore chatcomponentscore = (ChatComponentScore)component;
+            String s = chatcomponentscore.getName();
 
-	public static IChatComponent processComponent(ICommandSender commandSender, IChatComponent component, Entity entityIn) throws CommandException {
-		IChatComponent ichatcomponent = null;
+            if (PlayerSelector.hasArguments(s))
+            {
+                List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);
 
-		if (component instanceof ChatComponentScore) {
-			ChatComponentScore chatcomponentscore = (ChatComponentScore) component;
-			String s = chatcomponentscore.getName();
+                if (list.size() != 1)
+                {
+                    throw new EntityNotFoundException();
+                }
 
-			if (PlayerSelector.hasArguments(s)) {
-				List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);
+                s = ((Entity)list.get(0)).getName();
+            }
 
-				if (list.size() != 1) {
-					throw new EntityNotFoundException();
-				}
+            ichatcomponent = entityIn != null && s.equals("*") ? new ChatComponentScore(entityIn.getName(), chatcomponentscore.getObjective()) : new ChatComponentScore(s, chatcomponentscore.getObjective());
+            ((ChatComponentScore)ichatcomponent).setValue(chatcomponentscore.getUnformattedTextForChat());
+        }
+        else if (component instanceof ChatComponentSelector)
+        {
+            String s1 = ((ChatComponentSelector)component).getSelector();
+            ichatcomponent = PlayerSelector.matchEntitiesToChatComponent(commandSender, s1);
 
-				s = ((Entity) list.get(0)).getName();
-			}
+            if (ichatcomponent == null)
+            {
+                ichatcomponent = new ChatComponentText("");
+            }
+        }
+        else if (component instanceof ChatComponentText)
+        {
+            ichatcomponent = new ChatComponentText(((ChatComponentText)component).getChatComponentText_TextValue());
+        }
+        else
+        {
+            if (!(component instanceof ChatComponentTranslation))
+            {
+                return component;
+            }
 
-			ichatcomponent = entityIn != null && s.equals("*") ? new ChatComponentScore(entityIn.getName(), chatcomponentscore.getObjective()) : new ChatComponentScore(s,
-					chatcomponentscore.getObjective());
-			((ChatComponentScore) ichatcomponent).setValue(chatcomponentscore.getUnformattedTextForChat());
-		} else if (component instanceof ChatComponentSelector) {
-			String s1 = ((ChatComponentSelector) component).getSelector();
-			ichatcomponent = PlayerSelector.matchEntitiesToChatComponent(commandSender, s1);
+            Object[] aobject = ((ChatComponentTranslation)component).getFormatArgs();
 
-			if (ichatcomponent == null) {
-				ichatcomponent = new ChatComponentText("");
-			}
-		} else if (component instanceof ChatComponentText) {
-			ichatcomponent = new ChatComponentText(((ChatComponentText) component).getChatComponentText_TextValue());
-		} else {
-			if (!(component instanceof ChatComponentTranslation)) {
-				return component;
-			}
+            for (int i = 0; i < aobject.length; ++i)
+            {
+                Object object = aobject[i];
 
-			Object[] aobject = ((ChatComponentTranslation) component).getFormatArgs();
+                if (object instanceof IChatComponent)
+                {
+                    aobject[i] = processComponent(commandSender, (IChatComponent)object, entityIn);
+                }
+            }
 
-			for (int i = 0; i < aobject.length; ++i) {
-				Object object = aobject[i];
+            ichatcomponent = new ChatComponentTranslation(((ChatComponentTranslation)component).getKey(), aobject);
+        }
 
-				if (object instanceof IChatComponent) {
-					aobject[i] = processComponent(commandSender, (IChatComponent) object, entityIn);
-				}
-			}
+        ChatStyle chatstyle = component.getChatStyle();
 
-			ichatcomponent = new ChatComponentTranslation(((ChatComponentTranslation) component).getKey(), aobject);
-		}
+        if (chatstyle != null)
+        {
+            ichatcomponent.setChatStyle(chatstyle.createShallowCopy());
+        }
 
-		ChatStyle chatstyle = component.getChatStyle();
+        for (IChatComponent ichatcomponent1 : component.getSiblings())
+        {
+            ichatcomponent.appendSibling(processComponent(commandSender, ichatcomponent1, entityIn));
+        }
 
-		if (chatstyle != null) {
-			ichatcomponent.setChatStyle(chatstyle.createShallowCopy());
-		}
-
-		for (IChatComponent ichatcomponent1 : component.getSiblings()) {
-			ichatcomponent.appendSibling(processComponent(commandSender, ichatcomponent1, entityIn));
-		}
-
-		return ichatcomponent;
-	}
-
+        return ichatcomponent;
+    }
 }

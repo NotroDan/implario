@@ -28,36 +28,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Collections.EMPTY_LIST;
+import static java.util.Collections.emptyListIterator;
+
 public class GuiOverlayDebug extends Gui {
-
-	private static final int[] sides = new int[EnumFacing.values().length];
-	static {
-		try {
-			sides[EnumFacing.NORTH.ordinal()] = 1;
-		} catch (NoSuchFieldError ignored) {}
-
-		try {
-			sides[EnumFacing.SOUTH.ordinal()] = 2;
-		} catch (NoSuchFieldError ignored) {}
-
-		try {
-			sides[EnumFacing.WEST.ordinal()] = 3;
-		} catch (NoSuchFieldError ignored) {}
-
-		try {
-			sides[EnumFacing.EAST.ordinal()] = 4;
-		} catch (NoSuchFieldError ignored) {}
-	}
 	private final Minecraft mc;
 	private final AssetsFontRenderer fontRenderer;
 
 	public GuiOverlayDebug(Minecraft mc) {
 		this.mc = mc;
 		this.fontRenderer = mc.fontRenderer;
-	}
-
-	private static long bytesToMb(long bytes) {
-		return bytes >> 20L;
 	}
 
 	public void renderDebugInfo(ScaledResolution scaledResolutionIn) {
@@ -108,6 +88,7 @@ public class GuiOverlayDebug extends Gui {
 		}
 	}
 
+
 	private void renderDebugInfoRight(ScaledResolution resolution) {
 		List list = getDebugInfoRight();
 
@@ -152,7 +133,7 @@ public class GuiOverlayDebug extends Gui {
 		if (isReducedDebug()) {
 			list.add("Клиент §dImplario §f(Minecraft 1.8.8)");
 			list.add(mc.debug);
-		} else {
+		}else {
 			list.add("Клиент Implario (1.8.8), §a" + MC.getPlayer().getName());
 			list.add(mc.debug);
 			list.add(mc.renderGlobal.getDebugInfoRenders());
@@ -200,7 +181,7 @@ public class GuiOverlayDebug extends Gui {
 		return list;
 	}
 
-	@SuppressWarnings ("unchecked")
+	@SuppressWarnings("unchecked")
 	private List<String> getDebugInfoCenter() {
 		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return new ArrayList<>();
 		if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
@@ -225,7 +206,7 @@ public class GuiOverlayDebug extends Gui {
 			}
 			return list;
 		}
-		return (List<String>) Collections.EMPTY_LIST;
+		return (List<String>)Collections.EMPTY_LIST;
 	}
 
 	private List<String> getDebugInfoRight() {
@@ -235,7 +216,7 @@ public class GuiOverlayDebug extends Gui {
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
-		if (isReducedDebug()) {
+		if (isReducedDebug()){
 			List<String> list = new ArrayList<>();
 			list.add("Версия Java: §a" + System.getProperty("java.version") + "§fx" + (this.mc.isJava64bit() ? 64 : 32));
 			list.add("Память: §a" + l * 100L / i + "% " + bytesToMb(l) + " §f/§a " + bytesToMb(i) + " §fМБ");
@@ -313,5 +294,29 @@ public class GuiOverlayDebug extends Gui {
 		int k2 = MathHelper.clamp_int((int) ((float) k + (float) (k1 - k) * three), 0, 255);
 		int l2 = MathHelper.clamp_int((int) ((float) l + (float) (l1 - l) * three), 0, 255);
 		return i2 << 24 | j2 << 16 | k2 << 8 | l2;
+	}
+
+	private static long bytesToMb(long bytes) {
+		return bytes >> 20L;
+	}
+
+	private static final int[] sides = new int[EnumFacing.values().length];
+
+	static {
+		try {
+			sides[EnumFacing.NORTH.ordinal()] = 1;
+		} catch (NoSuchFieldError ignored) {}
+
+		try {
+			sides[EnumFacing.SOUTH.ordinal()] = 2;
+		} catch (NoSuchFieldError ignored) {}
+
+		try {
+			sides[EnumFacing.WEST.ordinal()] = 3;
+		} catch (NoSuchFieldError ignored) {}
+
+		try {
+			sides[EnumFacing.EAST.ordinal()] = 4;
+		} catch (NoSuchFieldError ignored) {}
 	}
 }

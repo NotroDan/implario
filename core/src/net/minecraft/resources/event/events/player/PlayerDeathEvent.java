@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 
 @Data
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode(callSuper = false)
 public class PlayerDeathEvent extends PlayerEvent<PlayerDeathEvent> {
 
 	private final EntityPlayer player;

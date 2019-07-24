@@ -49,46 +49,39 @@ import java.util.concurrent.FutureTask;
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
 
 	public static final Provider<MinecraftServer, WorldService> WORLD_SERVICE_PROVIDER = new Provider<>(SimpleWorldService::new);
-	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
 	private static final Logger logger = Logger.getInstance();
+	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
+
 	/**
 	 * Instance of Minecraft Server.
 	 */
 	private static MinecraftServer mcServer;
-	public final long[] tickTimeArray = new long[100];
-	protected final ICommandManager commandManager;
-	protected final Proxy serverProxy;
-	protected final Queue<FutureTask<?>> futureTaskQueue = Queues.newArrayDeque();
 	private final ISaveFormat anvilConverterForAnvilFile;
+
 	private final File anvilFile;
 	private final List<ITickable> playersOnline = new ArrayList<>();
+	protected final ICommandManager commandManager;
 	private final NetworkSystem networkSystem;
 	private final ServerStatusResponse statusResponse = new ServerStatusResponse();
 	private final Random random = new Random();
-	private final YggdrasilAuthenticationService authService;
-	private final MinecraftSessionService sessionService;
-	private final GameProfileRepository profileRepo;
-	private final PlayerProfileCache profileCache;
-	public WorldService worldService;
-	/**
-	 * The task the server is currently working on(and will output on outputPercentRemaining).
-	 */
-	public String currentTask;
-	/**
-	 * The percentage of the current task finished so far.
-	 */
-	public int percentDone;
-	/**
-	 * Stats are [dimension][tick%100] system.nanoTime is stored.
-	 */
-	public long[][] timeOfLastDimensionTick;
-	public boolean starterKit;
-	protected String hostname;
 	private int serverPort = -1;
+	public WorldService worldService;
 	private ServerConfigurationManager serverConfigManager;
 	private boolean serverRunning = true;
 	private boolean serverStopped;
 	private int tickCounter;
+	protected final Proxy serverProxy;
+
+	/**
+	 * The task the server is currently working on(and will output on outputPercentRemaining).
+	 */
+	public String currentTask;
+
+	/**
+	 * The percentage of the current task finished so far.
+	 */
+	public int percentDone;
+
 	private boolean onlineMode;
 	private boolean canSpawnAnimals;
 	private boolean canSpawnNPCs;
@@ -97,28 +90,44 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private String motd;
 	private int buildLimit;
 	private int maxPlayerIdleMinutes = 0;
+	public final long[] tickTimeArray = new long[100];
+
+	/**
+	 * Stats are [dimension][tick%100] system.nanoTime is stored.
+	 */
+	public long[][] timeOfLastDimensionTick;
 	private KeyPair serverKeyPair;
 	private String serverOwner;
 	private String folderName;
 	private String worldName;
 	private boolean isDemo;
+	public boolean starterKit;
+	protected String hostname;
+
 	/**
 	 * If true, there is no need to save chunks or stop the server, because that is already being done.
 	 */
 	private boolean worldIsBeingDeleted;
+
 	/**
 	 * The texture pack for the server
 	 */
 	private String resourcePackUrl = "";
 	private String resourcePackHash = "";
 	private boolean serverIsRunning;
+
 	/**
 	 * Set when warned for "Can't keep up", which triggers again after 15 seconds.
 	 */
 	private long timeOfLastWarning;
 	private boolean startProfiling;
 	private boolean isGamemodeForced;
+	private final YggdrasilAuthenticationService authService;
+	private final MinecraftSessionService sessionService;
 	private long nanoTimeSinceStatusRefresh = 0L;
+	private final GameProfileRepository profileRepo;
+	private final PlayerProfileCache profileCache;
+	protected final Queue<FutureTask<?>> futureTaskQueue = Queues.newArrayDeque();
 	private Thread serverThread;
 	private long currentTime = getCurrentTimeMillis();
 
@@ -146,17 +155,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		this.authService = new YggdrasilAuthenticationService(proxy, UUID.randomUUID().toString());
 		this.sessionService = this.authService.createMinecraftSessionService();
 		this.profileRepo = this.authService.createProfileRepository();
-	}
-
-	/**
-	 * Gets mcServer.
-	 */
-	public static MinecraftServer getServer() {
-		return mcServer;
-	}
-
-	public static long getCurrentTimeMillis() {
-		return System.currentTimeMillis();
 	}
 
 	protected ServerCommandManager createNewCommandManager() {
@@ -273,6 +271,10 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return hostname;
 	}
 
+	public void setServerPort(int serverPort) {
+		this.serverPort = serverPort;
+	}
+
 	public void setHostname(String hostname) {
 		this.hostname = hostname;
 	}
@@ -280,14 +282,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	public abstract boolean canStructuresSpawn();
 
 	public abstract WorldSettings.GameType getGameType();
-
-	/**
-	 * Sets the game type for all worlds.
-	 */
-	public void setGameType(WorldSettings.GameType gameMode) {
-		for (WorldServer world : getServer().getWorlds())
-			world.getWorldInfo().setGameType(gameMode);
-	}
 
 	/**
 	 * Get the server's difficulty
@@ -322,10 +316,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 	public int getServerPort() {
 		return serverPort;
-	}
-
-	public void setServerPort(int serverPort) {
-		this.serverPort = serverPort;
 	}
 
 	public WorldServer[] getWorlds() {
@@ -738,6 +728,13 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return list;
 	}
 
+	/**
+	 * Gets mcServer.
+	 */
+	public static MinecraftServer getServer() {
+		return mcServer;
+	}
+
 	public boolean isAnvilFileSet() {
 		return this.anvilFile != null;
 	}
@@ -774,10 +771,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return this.serverKeyPair;
 	}
 
-	public void setKeyPair(KeyPair keyPair) {
-		this.serverKeyPair = keyPair;
-	}
-
 	/**
 	 * Returns the username of the server owner (for integrated servers)
 	 */
@@ -804,12 +797,16 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		this.folderName = name;
 	}
 
+	public void setWorldName(String p_71246_1_) {
+		this.worldName = p_71246_1_;
+	}
+
 	public String getWorldName() {
 		return this.worldName;
 	}
 
-	public void setWorldName(String p_71246_1_) {
-		this.worldName = p_71246_1_;
+	public void setKeyPair(KeyPair keyPair) {
+		this.serverKeyPair = keyPair;
 	}
 
 	public void setDifficultyForAllWorlds(EnumDifficulty difficulty) {
@@ -894,11 +891,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return this.canSpawnNPCs;
 	}
 
+	public abstract boolean useEpoll();
+
 	public void setCanSpawnNPCs(boolean spawnNpcs) {
 		this.canSpawnNPCs = spawnNpcs;
 	}
-
-	public abstract boolean useEpoll();
 
 	public boolean isPVPEnabled() {
 		return this.pvpEnabled;
@@ -947,6 +944,14 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 	public void setConfigManager(ServerConfigurationManager configManager) {
 		this.serverConfigManager = configManager;
+	}
+
+	/**
+	 * Sets the game type for all worlds.
+	 */
+	public void setGameType(WorldSettings.GameType gameMode) {
+		for (WorldServer world : getServer().getWorlds())
+			world.getWorldInfo().setGameType(gameMode);
 	}
 
 	public NetworkSystem getNetworkSystem() {
@@ -1022,6 +1027,10 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 	public Proxy getServerProxy() {
 		return this.serverProxy;
+	}
+
+	public static long getCurrentTimeMillis() {
+		return System.currentTimeMillis();
 	}
 
 	public int getMaxPlayerIdleMinutes() {
@@ -1124,7 +1133,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	public void registerTickable(ITickable tickable) {
 		playersOnline.add(tickable);
 	}
-
 	public long getCurrentTime() {
 		return this.currentTime;
 	}

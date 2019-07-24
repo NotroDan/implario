@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.texture;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.Logger;
 import net.minecraft.client.resources.IResourceManager;

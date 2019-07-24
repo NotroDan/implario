@@ -9,65 +9,69 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
+public class RenderTNTPrimed extends Render<EntityTNTPrimed>
+{
+    public RenderTNTPrimed(RenderManager renderManagerIn)
+    {
+        super(renderManagerIn);
+        this.shadowSize = 0.5F;
+    }
 
-	public RenderTNTPrimed(RenderManager renderManagerIn) {
-		super(renderManagerIn);
-		this.shadowSize = 0.5F;
-	}
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doe
+     */
+    public void doRender(EntityTNTPrimed entity, double x, double y, double z, float entityYaw, float partialTicks)
+    {
+        BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+        G.pushMatrix();
+        G.translate((float)x, (float)y + 0.5F, (float)z);
 
-	/**
-	 * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-	 * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-	 * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
-	 * double d2, float f, float f1). But JAD is pre 1.5 so doe
-	 */
-	public void doRender(EntityTNTPrimed entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-		G.pushMatrix();
-		G.translate((float) x, (float) y + 0.5F, (float) z);
+        if ((float)entity.fuse - partialTicks + 1.0F < 10.0F)
+        {
+            float f = 1.0F - ((float)entity.fuse - partialTicks + 1.0F) / 10.0F;
+            f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+            f = f * f;
+            f = f * f;
+            float f1 = 1.0F + f * 0.3F;
+            G.scale(f1, f1, f1);
+        }
 
-		if ((float) entity.fuse - partialTicks + 1.0F < 10.0F) {
-			float f = 1.0F - ((float) entity.fuse - partialTicks + 1.0F) / 10.0F;
-			f = MathHelper.clamp_float(f, 0.0F, 1.0F);
-			f = f * f;
-			f = f * f;
-			float f1 = 1.0F + f * 0.3F;
-			G.scale(f1, f1, f1);
-		}
+        float f2 = (1.0F - ((float)entity.fuse - partialTicks + 1.0F) / 100.0F) * 0.8F;
+        this.bindEntityTexture(entity);
+        G.translate(-0.5F, -0.5F, 0.5F);
+        blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), entity.getBrightness(partialTicks));
+        G.translate(0.0F, 0.0F, 1.0F);
 
-		float f2 = (1.0F - ((float) entity.fuse - partialTicks + 1.0F) / 100.0F) * 0.8F;
-		this.bindEntityTexture(entity);
-		G.translate(-0.5F, -0.5F, 0.5F);
-		blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), entity.getBrightness(partialTicks));
-		G.translate(0.0F, 0.0F, 1.0F);
+        if (entity.fuse / 5 % 2 == 0)
+        {
+            G.disableTexture2D();
+            G.disableLighting();
+            G.enableBlend();
+            G.blendFunc(770, 772);
+            G.color(1.0F, 1.0F, 1.0F, f2);
+            G.doPolygonOffset(-3.0F, -3.0F);
+            G.enablePolygonOffset();
+            blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), 1.0F);
+            G.doPolygonOffset(0.0F, 0.0F);
+            G.disablePolygonOffset();
+            G.color(1.0F, 1.0F, 1.0F, 1.0F);
+            G.disableBlend();
+            G.enableLighting();
+            G.enableTexture2D();
+        }
 
-		if (entity.fuse / 5 % 2 == 0) {
-			G.disableTexture2D();
-			G.disableLighting();
-			G.enableBlend();
-			G.blendFunc(770, 772);
-			G.color(1.0F, 1.0F, 1.0F, f2);
-			G.doPolygonOffset(-3.0F, -3.0F);
-			G.enablePolygonOffset();
-			blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), 1.0F);
-			G.doPolygonOffset(0.0F, 0.0F);
-			G.disablePolygonOffset();
-			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			G.disableBlend();
-			G.enableLighting();
-			G.enableTexture2D();
-		}
+        G.popMatrix();
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+    }
 
-		G.popMatrix();
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
-	}
-
-	/**
-	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-	 */
-	protected ResourceLocation getEntityTexture(EntityTNTPrimed entity) {
-		return TextureMap.locationBlocksTexture;
-	}
-
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(EntityTNTPrimed entity)
+    {
+        return TextureMap.locationBlocksTexture;
+    }
 }

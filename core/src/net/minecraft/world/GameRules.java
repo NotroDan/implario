@@ -106,19 +106,13 @@ public class GameRules {
 		return gamerules$value != null && (gamerules$value.getType() == otherValue || otherValue == GameRules.ValueType.ANY_VALUE);
 	}
 
-	public enum ValueType {
-		ANY_VALUE,
-		BOOLEAN_VALUE,
-		NUMERICAL_VALUE
-	}
-
 	static class Value {
 
-		private final GameRules.ValueType type;
 		private String valueString;
 		private boolean valueBoolean;
 		private int valueInteger;
 		private double valueDouble;
+		private final GameRules.ValueType type;
 
 		public Value(String value, GameRules.ValueType type) {
 			this.type = type;
@@ -168,6 +162,12 @@ public class GameRules {
 			return this.type;
 		}
 
+	}
+
+	public enum ValueType {
+		ANY_VALUE,
+		BOOLEAN_VALUE,
+		NUMERICAL_VALUE
 	}
 
 }

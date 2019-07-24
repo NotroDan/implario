@@ -10,7 +10,6 @@ import java.nio.IntBuffer;
 public class G {
 
 
-	public static boolean clearEnabled = true;
 	private static G.AlphaState alphaState = new G.AlphaState(null);
 	private static G.BooleanState lightingState = new G.BooleanState(2896);
 	private static G.BooleanState[] lightState = new G.BooleanState[8];
@@ -31,15 +30,7 @@ public class G {
 	private static G.BooleanState rescaleNormalState = new G.BooleanState(32826);
 	private static G.ColorMask colorMaskState = new G.ColorMask(null);
 	private static G.Color colorState = new G.Color();
-	static {
-		for (int i = 0; i < 8; ++i) {
-			lightState[i] = new G.BooleanState(16384 + i);
-		}
-
-		for (int j = 0; j < textureState.length; ++j) {
-			textureState[j] = new G.TextureState(null);
-		}
-	}
+	public static boolean clearEnabled = true;
 
 	public static void pushAttrib() {
 		GL11.glPushAttrib(8256);
@@ -479,16 +470,13 @@ public class G {
 		p_deleteTextures_0_.rewind();
 	}
 
-	public enum TexGen {
-		S("S", 0),
-		T("T", 1),
-		R("R", 2),
-		Q("Q", 3);
+	static {
+		for (int i = 0; i < 8; ++i) {
+			lightState[i] = new G.BooleanState(16384 + i);
+		}
 
-		private static final G.TexGen[] $VALUES = new G.TexGen[] {S, T, R, Q};
-
-
-		TexGen(String p_i3_3_, int p_i3_4_) {
+		for (int j = 0; j < textureState.length; ++j) {
+			textureState[j] = new G.TextureState(null);
 		}
 	}
 
@@ -802,6 +790,19 @@ public class G {
 			this();
 		}
 
+	}
+
+	public enum TexGen {
+		S("S", 0),
+		T("T", 1),
+		R("R", 2),
+		Q("Q", 3);
+
+		private static final G.TexGen[] $VALUES = new G.TexGen[] {S, T, R, Q};
+
+
+		TexGen(String p_i3_3_, int p_i3_4_) {
+		}
 	}
 
 	static class TexGenCoord {

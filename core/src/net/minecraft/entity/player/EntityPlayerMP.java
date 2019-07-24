@@ -50,65 +50,64 @@ import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 
 	private static final Logger logger = Logger.getInstance();
-	/**
-	 * Reference to the MinecraftServer object.
-	 */
-	public final MinecraftServer mcServer;
-	/**
-	 * The ItemInWorldManager belonging to this player
-	 */
-	public final ItemInWorldManager theItemInWorldManager;
-	public final List<ChunkCoordIntPair> loadedChunks = Lists.newLinkedList();
-	private final List<Integer> destroyedItemsNetCache = Lists.newLinkedList();
-	private final StatisticsFile statsFile;
+
 	/**
 	 * The NetServerHandler assigned to this player by the ServerConfigurationManager.
 	 */
 	public NetHandlerPlayServer playerNetServerHandler;
+
+	/**
+	 * Reference to the MinecraftServer object.
+	 */
+	public final MinecraftServer mcServer;
+
+	/**
+	 * The ItemInWorldManager belonging to this player
+	 */
+	public final ItemInWorldManager theItemInWorldManager;
+
 	/**
 	 * player X position as seen by PlayerManager
 	 */
 	public double managedPosX;
+
 	/**
 	 * player Z position as seen by PlayerManager
 	 */
 	public double managedPosZ;
-	/**
-	 * The currently in use window ID. Incremented every time a window is opened.
-	 */
-	public int currentWindowId;
-	/**
-	 * set to true when player is moving quantity of items from one inventory to another(crafting) but item in either
-	 * slot is not changed
-	 */
-	public boolean isChangingQuantityOnly;
-	public int ping;
-	/**
-	 * Set when a player beats the ender dragon, used to respawn the player at the spawn point while retaining inventory
-	 * and XP
-	 */
-	public boolean playerConqueredTheEnd;
+	public final List<ChunkCoordIntPair> loadedChunks = Lists.newLinkedList();
+	private final List<Integer> destroyedItemsNetCache = Lists.newLinkedList();
+	private final StatisticsFile statsFile;
+
 	/**
 	 * the total health of the player, includes actual health and absorption health. Updated every tick.
 	 */
 	private float combinedHealth = Float.MIN_VALUE;
+
 	/**
 	 * amount of health the client was last set to
 	 */
 	private float lastHealth = -1.0E8F;
+
 	/**
 	 * set to foodStats.GetFoodLevel
 	 */
 	private int lastFoodLevel = -99999999;
+
 	/**
 	 * set to foodStats.getSaturationLevel() == 0.0F each tick
 	 */
 	private boolean wasHungry = true;
+
 	/**
 	 * Amount of experience the client was last set to
 	 */
@@ -116,10 +115,29 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	private int respawnInvulnerabilityTicks = 60;
 	private EntityPlayer.EnumChatVisibility chatVisibility;
 	private long playerLastActiveTime = System.currentTimeMillis();
+
 	/**
 	 * The entity the player is currently spectating through.
 	 */
 	private Entity spectatingEntity = null;
+
+	/**
+	 * The currently in use window ID. Incremented every time a window is opened.
+	 */
+	public int currentWindowId;
+
+	/**
+	 * set to true when player is moving quantity of items from one inventory to another(crafting) but item in either
+	 * slot is not changed
+	 */
+	public boolean isChangingQuantityOnly;
+	public int ping;
+
+	/**
+	 * Set when a player beats the ender dragon, used to respawn the player at the spawn point while retaining inventory
+	 * and XP
+	 */
+	public boolean playerConqueredTheEnd;
 
 	public EntityPlayerMP(MinecraftServer server, WorldServer worldIn, GameProfile profile, ItemInWorldManager interactionManager) {
 		super(worldIn, profile);
@@ -462,7 +480,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			if (item == Items.written_book) {
 				this.playerNetServerHandler.sendPacket(new S3FPacketCustomPayload("MC|BOpen", new PacketBuffer(Unpooled.buffer())));
 			}
-		} else if (type == IInventory.class) {
+		}  else if (type == IInventory.class) {
 			IInventory chest = (IInventory) base;
 			if (this.openContainer != this.inventoryContainer) {
 				this.closeScreen();
@@ -498,7 +516,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			this.openContainer = elem.createContainer(this.inventory, this);
 			this.openContainer.windowId = this.currentWindowId;
 			this.openContainer.onCraftGuiOpened(this);
-		} else PlayerGuiBridge.open(this, type, base, true);
+		}
+
+		else PlayerGuiBridge.open(this, type, base, true);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package net.minecraft.client.renderer;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.element.Colors;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -27,14 +28,40 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 	}
 
 	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+	 * window resizes, the buttonList is cleared beforehand.
+	 */
+	public void initGui() {
+		super.initGui();
+		this.updateActivePotionEffects();
+	}
+
+	protected void updateActivePotionEffects() {
+
+		hasActivePotionEffects = !MC.getPlayer().getActivePotionEffects().isEmpty();
+
+		if (hasActivePotionEffects && !Settings.MODERN_INVENTORIES.b()) this.guiLeft = 160 + (this.width - this.xSize - 200) / 2;
+		else this.guiLeft = (this.width - this.xSize) / 2;
+	}
+
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+	 */
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		if (this.hasActivePotionEffects) drawActivePotionEffects(this, mc, fontRendererObj);
+
+	}
+
+	/**
 	 * Display the potion effects list
 	 */
 	public static void drawActivePotionEffects(Gui screen, Minecraft mc, AssetsFontRenderer renderer) {
 		Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
 		if (collection.isEmpty()) return;
-		//		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		//		GlStateManager.disableLighting();
+//		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+//		GlStateManager.disableLighting();
 
 		if (Settings.MODERN_INVENTORIES.b()) {
 			drawPEnew(screen, mc, renderer, collection);
@@ -97,43 +124,16 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			if (e.getAmplifier() > 0) amplifier = ' ' + StringUtils.romanianNotation(e.getAmplifier() + 1);
 			String s1 = Lang.format(potion.getName()) + amplifier;
 
-			//			this.fontRenderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
+//			this.fontRenderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
 			String s = Potion.getDurationString(e);
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			fontRendererObj.drawString(s1, 4, y + 20, Colors.WHITE);
 			G.scale(2, 2, 2);
-			fontRendererObj.drawString(s, 16, y / 2 + 1, Colors.WHITE);
+			fontRendererObj.drawString(s, 16,  y / 2 + 1, Colors.WHITE);
 			G.scale(0.5, 0.5, 0.5);
 			y += 27 + 10;
 		}
 
 		RenderHelper.disableStandardItemLighting();
 	}
-
-	/**
-	 * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
-	 * window resizes, the buttonList is cleared beforehand.
-	 */
-	public void initGui() {
-		super.initGui();
-		this.updateActivePotionEffects();
-	}
-
-	protected void updateActivePotionEffects() {
-
-		hasActivePotionEffects = !MC.getPlayer().getActivePotionEffects().isEmpty();
-
-		if (hasActivePotionEffects && !Settings.MODERN_INVENTORIES.b()) this.guiLeft = 160 + (this.width - this.xSize - 200) / 2;
-		else this.guiLeft = (this.width - this.xSize) / 2;
-	}
-
-	/**
-	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
-	 */
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		super.drawScreen(mouseX, mouseY, partialTicks);
-		if (this.hasActivePotionEffects) drawActivePotionEffects(this, mc, fontRendererObj);
-
-	}
-
 }

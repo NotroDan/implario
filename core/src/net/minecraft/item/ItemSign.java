@@ -2,9 +2,9 @@ package net.minecraft.item;
 
 import net.minecraft.block.BlockStandingSign;
 import net.minecraft.block.BlockWallSign;
+import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.BlockPos;
@@ -52,7 +52,7 @@ public class ItemSign extends Item {
 
 		if (tileentity instanceof TileEntitySign && !ItemBlock.setTileEntityNBT(worldIn, playerIn, pos, stack)) {
 			playerIn.openGui(TileEntitySign.class, (TileEntitySign) tileentity);
-			//			playerIn.openEditSign((TileEntitySign) tileentity);
+//			playerIn.openEditSign((TileEntitySign) tileentity);
 		}
 
 		return true;

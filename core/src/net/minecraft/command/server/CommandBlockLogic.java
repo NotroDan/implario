@@ -24,24 +24,28 @@ public abstract class CommandBlockLogic implements ICommandSender {
 	 * The formatting for the timestamp on commands run.
 	 */
 	private static final SimpleDateFormat timestampFormat = new SimpleDateFormat("HH:mm:ss");
-	private final CommandResultStats resultStats = new CommandResultStats();
+
 	/**
 	 * The number of successful commands run. (used for redstone output)
 	 */
 	private int successCount;
 	private boolean trackOutput = true;
+
 	/**
 	 * The previously run command.
 	 */
 	private IChatComponent lastOutput = null;
+
 	/**
 	 * The command stored in the command block.
 	 */
 	private String commandStored = "";
+
 	/**
 	 * The custom name of the command block. (defaults to "@")
 	 */
 	private String customName = "@";
+	private final CommandResultStats resultStats = new CommandResultStats();
 
 	/**
 	 * returns the successCount int.
@@ -55,10 +59,6 @@ public abstract class CommandBlockLogic implements ICommandSender {
 	 */
 	public IChatComponent getLastOutput() {
 		return this.lastOutput;
-	}
-
-	public void setLastOutput(IChatComponent lastOutputMessage) {
-		this.lastOutput = lastOutputMessage;
 	}
 
 	/**
@@ -107,18 +107,18 @@ public abstract class CommandBlockLogic implements ICommandSender {
 	}
 
 	/**
-	 * Returns the command of the command block.
-	 */
-	public String getCommand() {
-		return this.commandStored;
-	}
-
-	/**
 	 * Sets the command.
 	 */
 	public void setCommand(String command) {
 		this.commandStored = command;
 		this.successCount = 0;
+	}
+
+	/**
+	 * Returns the command of the command block.
+	 */
+	public String getCommand() {
+		return this.commandStored;
 	}
 
 	public void trigger(World worldIn) {
@@ -161,15 +161,15 @@ public abstract class CommandBlockLogic implements ICommandSender {
 		return this.customName;
 	}
 
-	public void setName(String p_145754_1_) {
-		this.customName = p_145754_1_;
-	}
-
 	/**
 	 * Get the formatted ChatComponent that will be used for the sender's username in chat
 	 */
 	public IChatComponent getDisplayName() {
 		return new ChatComponentText(this.getName());
+	}
+
+	public void setName(String p_145754_1_) {
+		this.customName = p_145754_1_;
 	}
 
 	/**
@@ -199,6 +199,10 @@ public abstract class CommandBlockLogic implements ICommandSender {
 	public abstract int func_145751_f();
 
 	public abstract void func_145757_a(ByteBuf p_145757_1_);
+
+	public void setLastOutput(IChatComponent lastOutputMessage) {
+		this.lastOutput = lastOutputMessage;
+	}
 
 	public void setTrackOutput(boolean shouldTrackOutput) {
 		this.trackOutput = shouldTrackOutput;

@@ -1,10 +1,10 @@
 package net.minecraft.client.resources;
 
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.logging.Log;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
-import net.minecraft.logging.Log;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.image.BufferedImage;
@@ -64,7 +64,6 @@ public class DefaultResourcePack implements IResourcePack {
 	public Set getResourceDomains() {
 		return defaultResourceDomains;
 	}
-
 	public String getPackName() {
 		return "Стандартный";
 	}

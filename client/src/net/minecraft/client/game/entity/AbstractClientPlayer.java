@@ -40,26 +40,6 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
 		PlayerConfigurations.getPlayerConfiguration(this);
 	}
 
-	public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username) {
-		TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-		ITextureObject object = texturemanager.getTexture(resourceLocationIn);
-
-		if (object == null) {
-			object = new ThreadDownloadImageData(null, String.format("http://skins.minecraft.net/MinecraftSkins/%s.png",
-					StringUtils.stripControlCodes(username)), DefaultPlayerSkin.getDefaultSkin(getOfflineUUID(username)), new ImageBufferDownload());
-			texturemanager.loadTexture(resourceLocationIn, object);
-		}
-
-		return (ThreadDownloadImageData) object;
-	}
-
-	/**
-	 * Returns true if the username has an associated skin.
-	 */
-	public static ResourceLocation getLocationSkin(String username) {
-		return new ResourceLocation("skins/" + StringUtils.stripControlCodes(username));
-	}
-
 	/**
 	 * Returns true if the player is in spectator mode.
 	 */
@@ -113,6 +93,26 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
 		}
 		NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
 		return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
+	}
+
+	public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username) {
+		TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
+		ITextureObject object = texturemanager.getTexture(resourceLocationIn);
+
+		if (object == null) {
+			object = new ThreadDownloadImageData(null, String.format("http://skins.minecraft.net/MinecraftSkins/%s.png",
+					StringUtils.stripControlCodes(username)), DefaultPlayerSkin.getDefaultSkin(getOfflineUUID(username)), new ImageBufferDownload());
+			texturemanager.loadTexture(resourceLocationIn, object);
+		}
+
+		return (ThreadDownloadImageData) object;
+	}
+
+	/**
+	 * Returns true if the username has an associated skin.
+	 */
+	public static ResourceLocation getLocationSkin(String username) {
+		return new ResourceLocation("skins/" + StringUtils.stripControlCodes(username));
 	}
 
 	public String getSkinType() {

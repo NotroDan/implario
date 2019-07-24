@@ -73,6 +73,7 @@ public class IntegratedServer extends MinecraftServer {
 		if (worldinfo == null) {
 
 
+
 			worldinfo = new WorldInfo(worldsettings, p_71247_2_);
 		} else {
 			worldinfo.setWorldName(p_71247_2_);
@@ -87,10 +88,9 @@ public class IntegratedServer extends MinecraftServer {
 
 		this.getConfigurationManager().setPlayerManager(worldService.getWorld(0));
 		if (this.getEntityWorld().getWorldInfo().getDifficulty() == null)
-			this.setDifficultyForAllWorlds(Settings.difficulty);
+		this.setDifficultyForAllWorlds(Settings.difficulty);
 		this.initialWorldChunkLoad();
 	}
-
 	/**
 	 * Initialises the server and starts it.
 	 */
@@ -163,13 +163,6 @@ public class IntegratedServer extends MinecraftServer {
 
 	public WorldSettings.GameType getGameType() {
 		return this.theWorldSettings.getGameType();
-	}
-
-	/**
-	 * Sets the game type for all worlds.
-	 */
-	public void setGameType(WorldSettings.GameType gameMode) {
-		this.getConfigurationManager().setGameType(gameMode);
 	}
 
 	/**
@@ -294,6 +287,13 @@ public class IntegratedServer extends MinecraftServer {
 	 */
 	public boolean getPublic() {
 		return this.isPublic;
+	}
+
+	/**
+	 * Sets the game type for all worlds.
+	 */
+	public void setGameType(WorldSettings.GameType gameMode) {
+		this.getConfigurationManager().setGameType(gameMode);
 	}
 
 	/**

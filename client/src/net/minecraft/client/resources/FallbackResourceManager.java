@@ -1,5 +1,6 @@
 package net.minecraft.client.resources;
 
+import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
@@ -17,10 +18,6 @@ public class FallbackResourceManager implements IResourceManager {
 
 	public FallbackResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
 		this.frmMetadataSerializer = frmMetadataSerializerIn;
-	}
-
-	static ResourceLocation getLocationMcmeta(ResourceLocation location) {
-		return new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".mcmeta");
 	}
 
 	public void addResourcePack(IResourcePack resourcePack) {
@@ -76,6 +73,10 @@ public class FallbackResourceManager implements IResourceManager {
 			throw new FileNotFoundException(location.toString());
 		}
 		return list;
+	}
+
+	static ResourceLocation getLocationMcmeta(ResourceLocation location) {
+		return new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".mcmeta");
 	}
 
 	static class InputStreamLeakedResourceLogger extends InputStream {

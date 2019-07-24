@@ -4,54 +4,60 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.MathHelper;
 
-public class ScaledResolution {
+public class ScaledResolution
+{
+    private final double scaledWidthD;
+    private final double scaledHeightD;
+    private int scaledWidth;
+    private int scaledHeight;
+    private int scaleFactor;
 
-	private final double scaledWidthD;
-	private final double scaledHeightD;
-	private int scaledWidth;
-	private int scaledHeight;
-	private int scaleFactor;
+    public ScaledResolution(Minecraft p_i46445_1_)
+    {
+        this.scaledWidth = p_i46445_1_.displayWidth;
+        this.scaledHeight = p_i46445_1_.displayHeight;
+        this.scaleFactor = 1;
+        boolean flag = p_i46445_1_.isUnicode();
+        int i = Settings.GUI_SCALE.i();
 
-	public ScaledResolution(Minecraft p_i46445_1_) {
-		this.scaledWidth = p_i46445_1_.displayWidth;
-		this.scaledHeight = p_i46445_1_.displayHeight;
-		this.scaleFactor = 1;
-		boolean flag = p_i46445_1_.isUnicode();
-		int i = Settings.GUI_SCALE.i();
+        if (i == 0)
+        {
+            i = 1000;
+        }
 
-		if (i == 0) {
-			i = 1000;
-		}
-
-		while (this.scaleFactor < i && this.scaledWidth / this.scaleFactor >= 320 && this.scaledHeight / this.scaleFactor >= 240)
+        while (this.scaleFactor < i && this.scaledWidth / this.scaleFactor >= 320 && this.scaledHeight / this.scaleFactor >= 240)
 			++this.scaleFactor;
 
-		if (i == 1000) --this.scaleFactor;
+        if (i == 1000) --this.scaleFactor;
 
-		this.scaledWidthD = (double) this.scaledWidth / (double) this.scaleFactor;
-		this.scaledHeightD = (double) this.scaledHeight / (double) this.scaleFactor;
-		this.scaledWidth = MathHelper.ceiling_double_int(this.scaledWidthD);
-		this.scaledHeight = MathHelper.ceiling_double_int(this.scaledHeightD);
-	}
+        this.scaledWidthD = (double)this.scaledWidth / (double)this.scaleFactor;
+        this.scaledHeightD = (double)this.scaledHeight / (double)this.scaleFactor;
+        this.scaledWidth = MathHelper.ceiling_double_int(this.scaledWidthD);
+        this.scaledHeight = MathHelper.ceiling_double_int(this.scaledHeightD);
+    }
 
-	public int getScaledWidth() {
-		return this.scaledWidth;
-	}
+    public int getScaledWidth()
+    {
+        return this.scaledWidth;
+    }
 
-	public int getScaledHeight() {
-		return this.scaledHeight;
-	}
+    public int getScaledHeight()
+    {
+        return this.scaledHeight;
+    }
 
-	public double getScaledWidth_double() {
-		return this.scaledWidthD;
-	}
+    public double getScaledWidth_double()
+    {
+        return this.scaledWidthD;
+    }
 
-	public double getScaledHeight_double() {
-		return this.scaledHeightD;
-	}
+    public double getScaledHeight_double()
+    {
+        return this.scaledHeightD;
+    }
 
-	public int getScaleFactor() {
-		return this.scaleFactor;
-	}
-
+    public int getScaleFactor()
+    {
+        return this.scaleFactor;
+    }
 }

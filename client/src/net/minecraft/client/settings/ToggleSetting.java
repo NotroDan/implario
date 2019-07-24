@@ -16,11 +16,8 @@ public class ToggleSetting extends Setting {
 		return value = !value;
 	}
 
-	@Override
-	public boolean booleanValue() {return value;}
-
-	@Override
-	public void set(boolean b) {value = b;}
+	@Override public boolean booleanValue() {return value;}
+	@Override public void set(boolean b) {value = b;}
 
 	@Override
 	public void set(String arg) {

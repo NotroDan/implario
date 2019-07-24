@@ -1,11 +1,10 @@
 package net.minecraft.util;
 
 import com.google.common.primitives.Primitives;
+
 import net.minecraft.util.TokenMap.Key;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static net.minecraft.util.TokenMap.key;
 
@@ -56,18 +55,6 @@ public interface TokenMap<N, T> {
 		return new ProxiedTokenMap<>(map);
 	}
 
-	/**
-	 * Creates a {@code Key} with the given name and type.
-	 *
-	 * @param <N>  the type of the name
-	 * @param <T>  the type of the key
-	 * @param name the name of the key
-	 * @param type the type of the key
-	 * @return a {@code Key}
-	 */
-	static <N, T> Key<N, T> key(N name, Class<T> type) {
-		return new Key<>(name, type);
-	}
 
 	/**
 	 * Returns {@code true} if this map contains a mapping for the given name and
@@ -103,6 +90,7 @@ public interface TokenMap<N, T> {
 		return map().containsValue(value);
 	}
 
+
 	/**
 	 * Returns the value to which the given name and type are mapped, or {@code null}
 	 * if this map contains no mapping for the name and type.
@@ -127,6 +115,7 @@ public interface TokenMap<N, T> {
 	default <U extends T> U get(Key<N, U> key) {
 		return (U) map().get(key);
 	}
+
 
 	/**
 	 * Returns the value to which the given name and type are mapped, or {@code defaultValue}
@@ -160,6 +149,7 @@ public interface TokenMap<N, T> {
 		}
 	}
 
+
 	/**
 	 * Associates the given value with the given name and type. If this map previously
 	 * contained a mapping for the name and type, the old value is replaced and
@@ -190,6 +180,7 @@ public interface TokenMap<N, T> {
 		return (U) map().put(key, value);
 	}
 
+
 	/**
 	 * Removes the mapping for the name and type from this map if present. Returns
 	 * the value to which this map previously associated the name and type, or
@@ -217,6 +208,7 @@ public interface TokenMap<N, T> {
 		return (U) map().remove(key);
 	}
 
+
 	/**
 	 * Returns a {@code Map} view of this {@code TokenMap}. Modifications to the
 	 * map view will affect this {@code TokenMap}.
@@ -224,6 +216,20 @@ public interface TokenMap<N, T> {
 	 * @return a {@code Map} view
 	 */
 	Map<Key<N, ? extends T>, T> map();
+
+
+	/**
+	 * Creates a {@code Key} with the given name and type.
+	 *
+	 * @param <N>  the type of the name
+	 * @param <T>  the type of the key
+	 * @param name the name of the key
+	 * @param type the type of the key
+	 * @return a {@code Key}
+	 */
+	static <N, T> Key<N, T> key(N name, Class<T> type) {
+		return new Key<>(name, type);
+	}
 
 	/**
 	 * A {@code Key} to which a value is associated in a {@code TokenMap}.

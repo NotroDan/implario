@@ -18,25 +18,6 @@ public class PlayerItemsLayer implements LayerRenderer {
 		this.renderPlayer = p_i76_1_;
 	}
 
-	public static void register(Map p_register_0_) {
-		Set set = p_register_0_.keySet();
-		boolean flag = false;
-
-		for (Object object : set) {
-			Object object1 = p_register_0_.get(object);
-
-			if (object1 instanceof RenderPlayer) {
-				RenderPlayer renderplayer = (RenderPlayer) object1;
-				renderplayer.addLayer(new PlayerItemsLayer(renderplayer));
-				flag = true;
-			}
-		}
-
-		if (!flag) {
-			Config.warn("PlayerItemsLayer not registered");
-		}
-	}
-
 	public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
 		this.renderEquippedItems(entitylivingbaseIn, scale, partialTicks);
 	}
@@ -57,6 +38,25 @@ public class PlayerItemsLayer implements LayerRenderer {
 
 	public boolean shouldCombineTextures() {
 		return false;
+	}
+
+	public static void register(Map p_register_0_) {
+		Set set = p_register_0_.keySet();
+		boolean flag = false;
+
+		for (Object object : set) {
+			Object object1 = p_register_0_.get(object);
+
+			if (object1 instanceof RenderPlayer) {
+				RenderPlayer renderplayer = (RenderPlayer) object1;
+				renderplayer.addLayer(new PlayerItemsLayer(renderplayer));
+				flag = true;
+			}
+		}
+
+		if (!flag) {
+			Config.warn("PlayerItemsLayer not registered");
+		}
 	}
 
 }

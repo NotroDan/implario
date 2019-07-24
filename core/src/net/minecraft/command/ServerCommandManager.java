@@ -3,12 +3,11 @@ package net.minecraft.command;
 import net.minecraft.command.server.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.chat.ChatComponentTranslation;
 
 public class ServerCommandManager extends CommandHandler implements IAdminCommand {
-
 	public ServerCommandManager() {
 		registerCommand(new CommandTime());
 		registerCommand(new CommandGameMode());

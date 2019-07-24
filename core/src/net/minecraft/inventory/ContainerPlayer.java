@@ -11,16 +11,17 @@ import net.minecraft.item.crafting.CraftingManager;
 
 public class ContainerPlayer extends Container {
 
-	private final EntityPlayer thePlayer;
 	/**
 	 * The crafting matrix inventory.
 	 */
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 2, 2);
 	public IInventory craftResult = new InventoryCraftResult();
+
 	/**
 	 * Determines if inventory manipulation should be handled.
 	 */
 	public boolean isLocalWorld;
+	private final EntityPlayer thePlayer;
 
 	public ContainerPlayer(final InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player) {
 		this.isLocalWorld = localWorld;

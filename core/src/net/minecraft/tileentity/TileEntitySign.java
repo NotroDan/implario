@@ -6,200 +6,226 @@ import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S33PacketUpdateSign;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.Vec3;
 import net.minecraft.util.chat.ChatComponentProcessor;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatStyle;
-import net.minecraft.util.chat.event.ClickEvent;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntitySign extends TileEntity {
+public class TileEntitySign extends TileEntity
+{
+    public final IChatComponent[] signText = new IChatComponent[] {new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("")};
 
-	public final IChatComponent[] signText = new IChatComponent[] {new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("")};
-	private final CommandResultStats stats = new CommandResultStats();
-	/**
-	 * The index of the line currently being edited. Only used on client side, but defined on both. Note this is only
-	 * really used when the > < are going to be visible.
-	 */
-	public int lineBeingEdited = -1;
-	private boolean isEditable = true;
-	private EntityPlayer player;
+    /**
+     * The index of the line currently being edited. Only used on client side, but defined on both. Note this is only
+     * really used when the > < are going to be visible.
+     */
+    public int lineBeingEdited = -1;
+    private boolean isEditable = true;
+    private EntityPlayer player;
+    private final CommandResultStats stats = new CommandResultStats();
 
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+    public void writeToNBT(NBTTagCompound compound)
+    {
+        super.writeToNBT(compound);
 
-		for (int i = 0; i < 4; ++i) {
-			String s = IChatComponent.Serializer.componentToJson(this.signText[i]);
-			compound.setString("Text" + (i + 1), s);
-		}
+        for (int i = 0; i < 4; ++i)
+        {
+            String s = IChatComponent.Serializer.componentToJson(this.signText[i]);
+            compound.setString("Text" + (i + 1), s);
+        }
 
-		this.stats.writeStatsToNBT(compound);
-	}
+        this.stats.writeStatsToNBT(compound);
+    }
 
-	public void readFromNBT(NBTTagCompound compound) {
-		this.isEditable = false;
-		super.readFromNBT(compound);
-		ICommandSender icommandsender = new ICommandSender() {
-			public String getName() {
-				return "Sign";
-			}
+    public void readFromNBT(NBTTagCompound compound)
+    {
+        this.isEditable = false;
+        super.readFromNBT(compound);
+        ICommandSender icommandsender = new ICommandSender()
+        {
+            public String getName()
+            {
+                return "Sign";
+            }
+            public IChatComponent getDisplayName()
+            {
+                return new ChatComponentText(this.getName());
+            }
+            public void sendMessage(IChatComponent component)
+            {
+            }
+            public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+            {
+                return true;
+            }
+            public BlockPos getPosition()
+            {
+                return TileEntitySign.this.pos;
+            }
+            public Vec3 getPositionVector()
+            {
+                return new Vec3((double)TileEntitySign.this.pos.getX() + 0.5D, (double)TileEntitySign.this.pos.getY() + 0.5D, (double)TileEntitySign.this.pos.getZ() + 0.5D);
+            }
+            public World getEntityWorld()
+            {
+                return TileEntitySign.this.worldObj;
+            }
+            public Entity getCommandSenderEntity()
+            {
+                return null;
+            }
+            public boolean sendCommandFeedback()
+            {
+                return false;
+            }
+            public void setCommandStat(CommandResultStats.Type type, int amount)
+            {
+            }
+        };
 
-			public IChatComponent getDisplayName() {
-				return new ChatComponentText(this.getName());
-			}
+        for (int i = 0; i < 4; ++i)
+        {
+            String s = compound.getString("Text" + (i + 1));
 
-			public void sendMessage(IChatComponent component) {
-			}
+            try
+            {
+                IChatComponent ichatcomponent = IChatComponent.Serializer.jsonToComponent(s);
 
-			public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
-				return true;
-			}
+                try
+                {
+                    this.signText[i] = ChatComponentProcessor.processComponent(icommandsender, ichatcomponent, (Entity)null);
+                }
+                catch (CommandException var7)
+                {
+                    this.signText[i] = ichatcomponent;
+                }
+            }
+            catch (JsonParseException var8)
+            {
+                this.signText[i] = new ChatComponentText(s);
+            }
+        }
 
-			public BlockPos getPosition() {
-				return TileEntitySign.this.pos;
-			}
+        this.stats.readStatsFromNBT(compound);
+    }
 
-			public Vec3 getPositionVector() {
-				return new Vec3((double) TileEntitySign.this.pos.getX() + 0.5D, (double) TileEntitySign.this.pos.getY() + 0.5D, (double) TileEntitySign.this.pos.getZ() + 0.5D);
-			}
+    /**
+     * Allows for a specialized description packet to be created. This is often used to sync tile entity data from the
+     * server to the client easily. For example this is used by signs to synchronise the text to be displayed.
+     */
+    public Packet getDescriptionPacket()
+    {
+        IChatComponent[] aichatcomponent = new IChatComponent[4];
+        System.arraycopy(this.signText, 0, aichatcomponent, 0, 4);
+        return new S33PacketUpdateSign(this.worldObj, this.pos, aichatcomponent);
+    }
 
-			public World getEntityWorld() {
-				return TileEntitySign.this.worldObj;
-			}
+    public boolean func_183000_F()
+    {
+        return true;
+    }
 
-			public Entity getCommandSenderEntity() {
-				return null;
-			}
+    public boolean getIsEditable()
+    {
+        return this.isEditable;
+    }
 
-			public boolean sendCommandFeedback() {
-				return false;
-			}
+    /**
+     * Sets the sign's isEditable flag to the specified parameter.
+     */
+    public void setEditable(boolean isEditableIn)
+    {
+        this.isEditable = isEditableIn;
 
-			public void setCommandStat(CommandResultStats.Type type, int amount) {
-			}
-		};
+        if (!isEditableIn)
+        {
+            this.player = null;
+        }
+    }
 
-		for (int i = 0; i < 4; ++i) {
-			String s = compound.getString("Text" + (i + 1));
+    public void setPlayer(EntityPlayer playerIn)
+    {
+        this.player = playerIn;
+    }
 
-			try {
-				IChatComponent ichatcomponent = IChatComponent.Serializer.jsonToComponent(s);
+    public EntityPlayer getPlayer()
+    {
+        return this.player;
+    }
 
-				try {
-					this.signText[i] = ChatComponentProcessor.processComponent(icommandsender, ichatcomponent, (Entity) null);
-				} catch (CommandException var7) {
-					this.signText[i] = ichatcomponent;
-				}
-			} catch (JsonParseException var8) {
-				this.signText[i] = new ChatComponentText(s);
-			}
-		}
+    public boolean executeCommand(final EntityPlayer playerIn)
+    {
+        ICommandSender icommandsender = new ICommandSender()
+        {
+            public String getName()
+            {
+                return playerIn.getName();
+            }
+            public IChatComponent getDisplayName()
+            {
+                return playerIn.getDisplayName();
+            }
+            public void sendMessage(IChatComponent component)
+            {
+            }
+            public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+            {
+                return permLevel <= 2;
+            }
+            public BlockPos getPosition()
+            {
+                return TileEntitySign.this.pos;
+            }
+            public Vec3 getPositionVector()
+            {
+                return new Vec3((double)TileEntitySign.this.pos.getX() + 0.5D, (double)TileEntitySign.this.pos.getY() + 0.5D, (double)TileEntitySign.this.pos.getZ() + 0.5D);
+            }
+            public World getEntityWorld()
+            {
+                return playerIn.getEntityWorld();
+            }
+            public Entity getCommandSenderEntity()
+            {
+                return playerIn;
+            }
+            public boolean sendCommandFeedback()
+            {
+                return false;
+            }
+            public void setCommandStat(CommandResultStats.Type type, int amount)
+            {
+                TileEntitySign.this.stats.func_179672_a(this, type, amount);
+            }
+        };
 
-		this.stats.readStatsFromNBT(compound);
-	}
+        for (int i = 0; i < this.signText.length; ++i)
+        {
+            ChatStyle chatstyle = this.signText[i] == null ? null : this.signText[i].getChatStyle();
 
-	/**
-	 * Allows for a specialized description packet to be created. This is often used to sync tile entity data from the
-	 * server to the client easily. For example this is used by signs to synchronise the text to be displayed.
-	 */
-	public Packet getDescriptionPacket() {
-		IChatComponent[] aichatcomponent = new IChatComponent[4];
-		System.arraycopy(this.signText, 0, aichatcomponent, 0, 4);
-		return new S33PacketUpdateSign(this.worldObj, this.pos, aichatcomponent);
-	}
+            if (chatstyle != null && chatstyle.getChatClickEvent() != null)
+            {
+                ClickEvent clickevent = chatstyle.getChatClickEvent();
 
-	public boolean func_183000_F() {
-		return true;
-	}
+                if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND)
+                {
+                    MinecraftServer.getServer().getCommandManager().executeCommand(icommandsender, clickevent.getValue());
+                }
+            }
+        }
 
-	public boolean getIsEditable() {
-		return this.isEditable;
-	}
+        return true;
+    }
 
-	/**
-	 * Sets the sign's isEditable flag to the specified parameter.
-	 */
-	public void setEditable(boolean isEditableIn) {
-		this.isEditable = isEditableIn;
-
-		if (!isEditableIn) {
-			this.player = null;
-		}
-	}
-
-	public EntityPlayer getPlayer() {
-		return this.player;
-	}
-
-	public void setPlayer(EntityPlayer playerIn) {
-		this.player = playerIn;
-	}
-
-	public boolean executeCommand(final EntityPlayer playerIn) {
-		ICommandSender icommandsender = new ICommandSender() {
-			public String getName() {
-				return playerIn.getName();
-			}
-
-			public IChatComponent getDisplayName() {
-				return playerIn.getDisplayName();
-			}
-
-			public void sendMessage(IChatComponent component) {
-			}
-
-			public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
-				return permLevel <= 2;
-			}
-
-			public BlockPos getPosition() {
-				return TileEntitySign.this.pos;
-			}
-
-			public Vec3 getPositionVector() {
-				return new Vec3((double) TileEntitySign.this.pos.getX() + 0.5D, (double) TileEntitySign.this.pos.getY() + 0.5D, (double) TileEntitySign.this.pos.getZ() + 0.5D);
-			}
-
-			public World getEntityWorld() {
-				return playerIn.getEntityWorld();
-			}
-
-			public Entity getCommandSenderEntity() {
-				return playerIn;
-			}
-
-			public boolean sendCommandFeedback() {
-				return false;
-			}
-
-			public void setCommandStat(CommandResultStats.Type type, int amount) {
-				TileEntitySign.this.stats.func_179672_a(this, type, amount);
-			}
-		};
-
-		for (int i = 0; i < this.signText.length; ++i) {
-			ChatStyle chatstyle = this.signText[i] == null ? null : this.signText[i].getChatStyle();
-
-			if (chatstyle != null && chatstyle.getChatClickEvent() != null) {
-				ClickEvent clickevent = chatstyle.getChatClickEvent();
-
-				if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
-					MinecraftServer.getServer().getCommandManager().executeCommand(icommandsender, clickevent.getValue());
-				}
-			}
-		}
-
-		return true;
-	}
-
-	public CommandResultStats getStats() {
-		return this.stats;
-	}
-
+    public CommandResultStats getStats()
+    {
+        return this.stats;
+    }
 }

@@ -12,57 +12,11 @@ import java.util.*;
 
 public class ConnectedParser {
 
-	private static final MatchBlock[] NO_MATCH_BLOCKS = new MatchBlock[0];
 	private String context = null;
+	private static final MatchBlock[] NO_MATCH_BLOCKS = new MatchBlock[0];
 
 	public ConnectedParser(String p_i31_1_) {
 		this.context = p_i31_1_;
-	}
-
-	public static Comparable parsePropertyValue(IProperty p_parsePropertyValue_0_, String p_parsePropertyValue_1_) {
-		Class oclass = p_parsePropertyValue_0_.getValueClass();
-		Comparable comparable = parseValue(p_parsePropertyValue_1_, oclass);
-
-		if (comparable == null) {
-			Collection collection = p_parsePropertyValue_0_.getAllowedValues();
-			comparable = getPropertyValue(p_parsePropertyValue_1_, collection);
-		}
-
-		return comparable;
-	}
-
-	public static Comparable getPropertyValue(String p_getPropertyValue_0_, Collection p_getPropertyValue_1_) {
-		for (Object comparable : p_getPropertyValue_1_) {
-			if (String.valueOf(comparable).equals(p_getPropertyValue_0_)) {
-				return (Comparable) comparable;
-			}
-		}
-
-		return null;
-	}
-
-	public static Comparable parseValue(String p_parseValue_0_, Class p_parseValue_1_) {
-		return (p_parseValue_1_ == String.class ? p_parseValue_0_ : p_parseValue_1_ == Boolean.class ? Boolean.valueOf(p_parseValue_0_) : p_parseValue_1_ == Float.class ? Float.valueOf(
-				p_parseValue_0_) : p_parseValue_1_ == Double.class ? Double.valueOf(p_parseValue_0_) : p_parseValue_1_ == Integer.class ? Integer.valueOf(
-				p_parseValue_0_) : p_parseValue_1_ == Long.class ? Long.valueOf(p_parseValue_0_) : null);
-	}
-
-	public static boolean parseBoolean(String p_parseBoolean_0_) {
-		return p_parseBoolean_0_ != null && p_parseBoolean_0_.toLowerCase().equals("true");
-	}
-
-	public static int parseColor(String p_parseColor_0_, int p_parseColor_1_) {
-		if (p_parseColor_0_ == null) {
-			return p_parseColor_1_;
-		}
-		p_parseColor_0_ = p_parseColor_0_.trim();
-
-		try {
-			int i = Integer.parseInt(p_parseColor_0_, 16) & 16777215;
-			return i;
-		} catch (NumberFormatException var3) {
-			return p_parseColor_1_;
-		}
 	}
 
 	public String parseName(String p_parseName_1_) {
@@ -311,6 +265,34 @@ public class ConnectedParser {
 		}
 	}
 
+	public static Comparable parsePropertyValue(IProperty p_parsePropertyValue_0_, String p_parsePropertyValue_1_) {
+		Class oclass = p_parsePropertyValue_0_.getValueClass();
+		Comparable comparable = parseValue(p_parsePropertyValue_1_, oclass);
+
+		if (comparable == null) {
+			Collection collection = p_parsePropertyValue_0_.getAllowedValues();
+			comparable = getPropertyValue(p_parsePropertyValue_1_, collection);
+		}
+
+		return comparable;
+	}
+
+	public static Comparable getPropertyValue(String p_getPropertyValue_0_, Collection p_getPropertyValue_1_) {
+		for (Object comparable : p_getPropertyValue_1_) {
+			if (String.valueOf(comparable).equals(p_getPropertyValue_0_)) {
+				return (Comparable) comparable;
+			}
+		}
+
+		return null;
+	}
+
+	public static Comparable parseValue(String p_parseValue_0_, Class p_parseValue_1_) {
+		return (p_parseValue_1_ == String.class ? p_parseValue_0_ : p_parseValue_1_ == Boolean.class ? Boolean.valueOf(p_parseValue_0_) : p_parseValue_1_ == Float.class ? Float.valueOf(
+				p_parseValue_0_) : p_parseValue_1_ == Double.class ? Double.valueOf(p_parseValue_0_) : p_parseValue_1_ == Integer.class ? Integer.valueOf(
+				p_parseValue_0_) : p_parseValue_1_ == Long.class ? Long.valueOf(p_parseValue_0_) : null);
+	}
+
 	public boolean matchState(IBlockState p_matchState_1_, Map<IProperty, List<Comparable>> p_matchState_2_) {
 		for (IProperty iproperty : p_matchState_2_.keySet()) {
 			List<Comparable> list = p_matchState_2_.get(iproperty);
@@ -346,10 +328,10 @@ public class ConnectedParser {
 
 	public Biome findBiome(String name) {
 		name = name.toLowerCase();
-		// ToDo: Connected biomes in nether
+// ToDo: Connected biomes in nether
 		if (name.equals("nether")) return Biome.VOID;// BiomeGenBase.hell;
 
-		//		BiomeGenBase[] abiomegenbase = BiomeGenBase.getBiomeGenArray();
+//		BiomeGenBase[] abiomegenbase = BiomeGenBase.getBiomeGenArray();
 		Biome[] biomes = Biome.biomeList;
 
 		for (int i = 0; i < biomes.length; ++i) {
@@ -553,6 +535,24 @@ public class ConnectedParser {
 			return null;
 		}
 		return new RangeInt(i, i);
+	}
+
+	public static boolean parseBoolean(String p_parseBoolean_0_) {
+		return p_parseBoolean_0_ != null && p_parseBoolean_0_.toLowerCase().equals("true");
+	}
+
+	public static int parseColor(String p_parseColor_0_, int p_parseColor_1_) {
+		if (p_parseColor_0_ == null) {
+			return p_parseColor_1_;
+		}
+		p_parseColor_0_ = p_parseColor_0_.trim();
+
+		try {
+			int i = Integer.parseInt(p_parseColor_0_, 16) & 16777215;
+			return i;
+		} catch (NumberFormatException var3) {
+			return p_parseColor_1_;
+		}
 	}
 
 }

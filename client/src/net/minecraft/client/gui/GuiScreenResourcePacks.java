@@ -1,8 +1,8 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import net.minecraft.Logger;
 import net.minecraft.Utils;
+import net.minecraft.Logger;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.*;
 import net.minecraft.client.settings.Settings;
@@ -176,5 +176,4 @@ public class GuiScreenResourcePacks extends GuiScreen {
 	public void markChanged() {
 		changed = true;
 	}
-
 }

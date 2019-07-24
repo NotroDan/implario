@@ -15,7 +15,6 @@ import java.util.List;
 
 public class RenderEnv {
 
-	private static ThreadLocal threadLocalInstance = new ThreadLocal();
 	private IBlockAccess blockAccess;
 	private IBlockState blockState;
 	private BlockPos blockPos;
@@ -27,6 +26,7 @@ public class RenderEnv {
 	private BlockModelRenderer.AmbientOcclusionFace aoFace = new BlockModelRenderer.AmbientOcclusionFace();
 	private BlockPosM colorizerBlockPosM = null;
 	private boolean[] borderFlags = null;
+	private static ThreadLocal threadLocalInstance = new ThreadLocal();
 
 	private RenderEnv(IBlockAccess p_i94_1_, IBlockState p_i94_2_, BlockPos p_i94_3_) {
 		this.blockAccess = p_i94_1_;

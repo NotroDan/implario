@@ -1,5 +1,6 @@
 package net.minecraft.util;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.FileNotFoundException;
@@ -23,19 +24,6 @@ public class JsonException extends IOException {
 		this.message = p_i45280_1_;
 	}
 
-	public static JsonException func_151379_a(Exception p_151379_0_) {
-		if (p_151379_0_ instanceof JsonException) {
-			return (JsonException) p_151379_0_;
-		}
-		String s = p_151379_0_.getMessage();
-
-		if (p_151379_0_ instanceof FileNotFoundException) {
-			s = "File not found";
-		}
-
-		return new JsonException(s, p_151379_0_);
-	}
-
 	public void func_151380_a(String p_151380_1_) {
 		this.list.get(0).func_151373_a(p_151380_1_);
 	}
@@ -49,10 +37,23 @@ public class JsonException extends IOException {
 		return "Invalid " + this.list.get(this.list.size() - 1).toString() + ": " + this.message;
 	}
 
+	public static JsonException func_151379_a(Exception p_151379_0_) {
+		if (p_151379_0_ instanceof JsonException) {
+			return (JsonException) p_151379_0_;
+		}
+		String s = p_151379_0_.getMessage();
+
+		if (p_151379_0_ instanceof FileNotFoundException) {
+			s = "File not found";
+		}
+
+		return new JsonException(s, p_151379_0_);
+	}
+
 	public static class Entry {
 
-		private final List<String> field_151375_b;
 		private String field_151376_a;
+		private final List<String> field_151375_b;
 
 		private Entry() {
 			this.field_151376_a = null;

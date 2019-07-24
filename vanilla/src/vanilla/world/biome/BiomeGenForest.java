@@ -2,11 +2,11 @@ package vanilla.world.biome;
 
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
+import vanilla.entity.passive.EntityWolf;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
-import vanilla.entity.passive.EntityWolf;
 import vanilla.world.gen.feature.WorldGenAbstractTree;
 import vanilla.world.gen.feature.WorldGenBigMushroom;
 import vanilla.world.gen.feature.WorldGenCanopyTree;
@@ -16,10 +16,10 @@ import java.util.Random;
 
 public class BiomeGenForest extends BiomeGenBase {
 
+	private int field_150632_aF;
 	protected static final WorldGenForest field_150629_aC = new WorldGenForest(false, true);
 	protected static final WorldGenForest field_150630_aD = new WorldGenForest(false, false);
 	protected static final WorldGenCanopyTree field_150631_aE = new WorldGenCanopyTree(false);
-	private int field_150632_aF;
 
 	public BiomeGenForest(int id, String name, int v) {
 		super(id, name);

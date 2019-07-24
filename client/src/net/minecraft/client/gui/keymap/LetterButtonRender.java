@@ -14,12 +14,12 @@ public class LetterButtonRender implements IButtonRender {
 		this.color = color;
 	}
 
-	public boolean isSmall() {
-		return small;
-	}
-
 	public void setSmall(boolean small) {
 		this.small = small;
+	}
+
+	public boolean isSmall() {
+		return small;
 	}
 
 	public int getColor() {
@@ -49,11 +49,11 @@ public class LetterButtonRender implements IButtonRender {
 			width = MC.FR.getStringWidth(text);
 		}
 		G.scale(2, 2, 2);
-		if (width % 2 != 1) G.translate(0.5f, 0, 0);
-		//		MC.FR.render(text, (float) (btn.getWidth() / 4 - width / 2),
-		//				btn.getRenderY() + 2, 0xeeeeee, false);
+		if (width % 2 != 1) G.translate(0.5f,0, 0);
+//		MC.FR.render(text, (float) (btn.getWidth() / 4 - width / 2),
+//				btn.getRenderY() + 2, 0xeeeeee, false);
 		gui.drawShadowlessCenteredString(MC.FR, text, btn.getWidth() / 4, btn.getRenderY() + 2, color);
-		if (width % 2 == 1) G.translate(-0.5f, 0, 0);
+		if (width % 2 == 1) G.translate(-0.5f,0, 0);
 		G.scale(0.5, 0.5, 0.5);
 		return true;
 	}

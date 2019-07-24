@@ -13,23 +13,24 @@ import java.util.List;
 public abstract class GipThrowable {
 
 
-	private final World world;
-	public Block inTile;
-	public Entity shooter;
-	public double posX, posY, posZ;
-	public boolean destinated;
-	public Entity entityHit;
-	protected boolean inGround;
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
+	public Block inTile;
+
+	protected boolean inGround;
+	public Entity shooter;
 	private int ticksInGround;
 	private int ticksInAir;
+	public double posX, posY, posZ;
 	private double prevPosX, prevPosY, prevPosZ;
 	private float rotationYaw, rotationPitch;
 	private float prevRotationYaw, prevRotationPitch;
 	private double motionX, motionZ, motionY;
 	private AxisAlignedBB bb;
+	public boolean destinated;
+	public Entity entityHit;
+	private final World world;
 
 	public GipThrowable(World worldIn, Entity throwerIn) {
 		this.shooter = throwerIn;
@@ -57,13 +58,14 @@ public abstract class GipThrowable {
 		this.setPosition(this.posX, this.posY, this.posZ);
 	}
 
-	public void setPosition(double x, double y, double z) {
+	public void setPosition(double x, double y, double z)
+	{
 		this.posX = x;
 		this.posY = y;
 		this.posZ = z;
 		float f = 0.5F / 2.0F;
 		float f1 = 0.5F;
-		this.bb = new AxisAlignedBB(x - (double) f, y, z - (double) f, x + (double) f, y + (double) f1, z + (double) f);
+		this.bb = new AxisAlignedBB(x - (double)f, y, z - (double)f, x + (double)f, y + (double)f1, z + (double)f);
 	}
 
 
@@ -136,6 +138,48 @@ public abstract class GipThrowable {
 		}
 
 		if (movingobjectposition != null) destinated = true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		this.posX += this.motionX;

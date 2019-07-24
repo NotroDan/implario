@@ -8,6 +8,8 @@ import net.minecraft.block.BlockTorch;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.world.biome.IChunkBiomer;
+import vanilla.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -20,8 +22,6 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.StructureBoundingBox;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.IChunkBiomer;
-import vanilla.entity.passive.EntityVillager;
 import vanilla.item.VanillaItems;
 import vanilla.world.biome.BiomeGenBase;
 
@@ -343,13 +343,6 @@ public class StructureVillagePieces {
 			this.cropTypeD = this.func_151559_a(rand);
 		}
 
-		public static StructureVillagePieces.Field1 func_175851_a(StructureVillagePieces.Start start, List<StructureComponent> p_175851_1_, Random rand, int p_175851_3_, int p_175851_4_,
-																  int p_175851_5_, EnumFacing facing, int p_175851_7_) {
-			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175851_3_, p_175851_4_, p_175851_5_, 0, 0, 0, 13, 4, 9, facing);
-			return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175851_1_, structureboundingbox) == null ? new StructureVillagePieces.Field1(start, p_175851_7_,
-					rand, structureboundingbox, facing) : null;
-		}
-
 		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
 			super.writeStructureToNBT(tagCompound);
 			tagCompound.setInteger("CA", Block.blockRegistry.getIDForObject(this.cropTypeA));
@@ -377,6 +370,13 @@ public class StructureVillagePieces {
 				default:
 					return Blocks.wheat;
 			}
+		}
+
+		public static StructureVillagePieces.Field1 func_175851_a(StructureVillagePieces.Start start, List<StructureComponent> p_175851_1_, Random rand, int p_175851_3_, int p_175851_4_,
+																  int p_175851_5_, EnumFacing facing, int p_175851_7_) {
+			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175851_3_, p_175851_4_, p_175851_5_, 0, 0, 0, 13, 4, 9, facing);
+			return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175851_1_, structureboundingbox) == null ? new StructureVillagePieces.Field1(start, p_175851_7_,
+					rand, structureboundingbox, facing) : null;
 		}
 
 		public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
@@ -442,13 +442,6 @@ public class StructureVillagePieces {
 			this.cropTypeB = this.func_151560_a(rand);
 		}
 
-		public static StructureVillagePieces.Field2 func_175852_a(StructureVillagePieces.Start start, List<StructureComponent> p_175852_1_, Random rand, int p_175852_3_, int p_175852_4_,
-																  int p_175852_5_, EnumFacing facing, int p_175852_7_) {
-			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175852_3_, p_175852_4_, p_175852_5_, 0, 0, 0, 7, 4, 9, facing);
-			return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175852_1_, structureboundingbox) == null ? new StructureVillagePieces.Field2(start, p_175852_7_,
-					rand, structureboundingbox, facing) : null;
-		}
-
 		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
 			super.writeStructureToNBT(tagCompound);
 			tagCompound.setInteger("CA", Block.blockRegistry.getIDForObject(this.cropTypeA));
@@ -472,6 +465,13 @@ public class StructureVillagePieces {
 				default:
 					return Blocks.wheat;
 			}
+		}
+
+		public static StructureVillagePieces.Field2 func_175852_a(StructureVillagePieces.Start start, List<StructureComponent> p_175852_1_, Random rand, int p_175852_3_, int p_175852_4_,
+																  int p_175852_5_, EnumFacing facing, int p_175852_7_) {
+			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175852_3_, p_175852_4_, p_175852_5_, 0, 0, 0, 7, 4, 9, facing);
+			return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175852_1_, structureboundingbox) == null ? new StructureVillagePieces.Field2(start, p_175852_7_,
+					rand, structureboundingbox, facing) : null;
 		}
 
 		public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
@@ -1013,13 +1013,6 @@ public class StructureVillagePieces {
 			this.isRoofAccessible = rand.nextBoolean();
 		}
 
-		public static StructureVillagePieces.House4Garden func_175858_a(StructureVillagePieces.Start start, List<StructureComponent> p_175858_1_, Random rand, int p_175858_3_, int p_175858_4_,
-																		int p_175858_5_, EnumFacing facing, int p_175858_7_) {
-			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175858_3_, p_175858_4_, p_175858_5_, 0, 0, 0, 5, 6, 5, facing);
-			return StructureComponent.findIntersecting(p_175858_1_, structureboundingbox) != null ? null : new StructureVillagePieces.House4Garden(start, p_175858_7_, rand, structureboundingbox,
-					facing);
-		}
-
 		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
 			super.writeStructureToNBT(tagCompound);
 			tagCompound.setBoolean("Terrace", this.isRoofAccessible);
@@ -1028,6 +1021,13 @@ public class StructureVillagePieces {
 		protected void readStructureFromNBT(NBTTagCompound tagCompound) {
 			super.readStructureFromNBT(tagCompound);
 			this.isRoofAccessible = tagCompound.getBoolean("Terrace");
+		}
+
+		public static StructureVillagePieces.House4Garden func_175858_a(StructureVillagePieces.Start start, List<StructureComponent> p_175858_1_, Random rand, int p_175858_3_, int p_175858_4_,
+																		int p_175858_5_, EnumFacing facing, int p_175858_7_) {
+			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175858_3_, p_175858_4_, p_175858_5_, 0, 0, 0, 5, 6, 5, facing);
+			return StructureComponent.findIntersecting(p_175858_1_, structureboundingbox) != null ? null : new StructureVillagePieces.House4Garden(start, p_175858_7_, rand, structureboundingbox,
+					facing);
 		}
 
 		public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
@@ -1133,19 +1133,6 @@ public class StructureVillagePieces {
 			this.length = Math.max(p_i45562_4_.getXSize(), p_i45562_4_.getZSize());
 		}
 
-		public static StructureBoundingBox func_175848_a(StructureVillagePieces.Start start, List<StructureComponent> p_175848_1_, Random rand, int p_175848_3_, int p_175848_4_, int p_175848_5_,
-														 EnumFacing facing) {
-			for (int i = 7 * MathHelper.getRandomIntegerInRange(rand, 3, 5); i >= 7; i -= 7) {
-				StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175848_3_, p_175848_4_, p_175848_5_, 0, 0, 0, 3, 3, i, facing);
-
-				if (StructureComponent.findIntersecting(p_175848_1_, structureboundingbox) == null) {
-					return structureboundingbox;
-				}
-			}
-
-			return null;
-		}
-
 		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
 			super.writeStructureToNBT(tagCompound);
 			tagCompound.setInteger("Length", this.length);
@@ -1224,6 +1211,19 @@ public class StructureVillagePieces {
 			}
 		}
 
+		public static StructureBoundingBox func_175848_a(StructureVillagePieces.Start start, List<StructureComponent> p_175848_1_, Random rand, int p_175848_3_, int p_175848_4_, int p_175848_5_,
+														 EnumFacing facing) {
+			for (int i = 7 * MathHelper.getRandomIntegerInRange(rand, 3, 5); i >= 7; i -= 7) {
+				StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175848_3_, p_175848_4_, p_175848_5_, 0, 0, 0, 3, 3, i, facing);
+
+				if (StructureComponent.findIntersecting(p_175848_1_, structureboundingbox) == null) {
+					return structureboundingbox;
+				}
+			}
+
+			return null;
+		}
+
 		public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
 			IBlockState iblockstate = this.func_175847_a(Blocks.gravel.getDefaultState());
 			IBlockState iblockstate1 = this.func_175847_a(Blocks.cobblestone.getDefaultState());
@@ -1247,8 +1247,8 @@ public class StructureVillagePieces {
 
 	public static class PieceWeight {
 
-		public final int villagePieceWeight;
 		public Class<? extends StructureVillagePieces.Village> villagePieceClass;
+		public final int villagePieceWeight;
 		public int villagePiecesSpawned;
 		public int villagePiecesLimit;
 
@@ -1368,10 +1368,6 @@ public class StructureVillagePieces {
 			}
 		}
 
-		protected static boolean canVillageGoDeeper(StructureBoundingBox p_74895_0_) {
-			return p_74895_0_ != null && p_74895_0_.minY > 10;
-		}
-
 		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
 			tagCompound.setInteger("HPos", this.field_143015_k);
 			tagCompound.setInteger("VCount", this.villagersSpawned);
@@ -1452,6 +1448,10 @@ public class StructureVillagePieces {
 				return -1;
 			}
 			return i / j;
+		}
+
+		protected static boolean canVillageGoDeeper(StructureBoundingBox p_74895_0_) {
+			return p_74895_0_ != null && p_74895_0_.minY > 10;
 		}
 
 		protected void spawnVillagers(World worldIn, StructureBoundingBox p_74893_2_, int p_74893_3_, int p_74893_4_, int p_74893_5_, int p_74893_6_) {
@@ -1619,13 +1619,6 @@ public class StructureVillagePieces {
 			this.tablePosition = rand.nextInt(3);
 		}
 
-		public static StructureVillagePieces.WoodHut func_175853_a(StructureVillagePieces.Start start, List<StructureComponent> p_175853_1_, Random rand, int p_175853_3_, int p_175853_4_,
-																   int p_175853_5_, EnumFacing facing, int p_175853_7_) {
-			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175853_3_, p_175853_4_, p_175853_5_, 0, 0, 0, 4, 6, 5, facing);
-			return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175853_1_, structureboundingbox) == null ? new StructureVillagePieces.WoodHut(start, p_175853_7_,
-					rand, structureboundingbox, facing) : null;
-		}
-
 		protected void writeStructureToNBT(NBTTagCompound tagCompound) {
 			super.writeStructureToNBT(tagCompound);
 			tagCompound.setInteger("T", this.tablePosition);
@@ -1636,6 +1629,13 @@ public class StructureVillagePieces {
 			super.readStructureFromNBT(tagCompound);
 			this.tablePosition = tagCompound.getInteger("T");
 			this.isTallHouse = tagCompound.getBoolean("C");
+		}
+
+		public static StructureVillagePieces.WoodHut func_175853_a(StructureVillagePieces.Start start, List<StructureComponent> p_175853_1_, Random rand, int p_175853_3_, int p_175853_4_,
+																   int p_175853_5_, EnumFacing facing, int p_175853_7_) {
+			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175853_3_, p_175853_4_, p_175853_5_, 0, 0, 0, 4, 6, 5, facing);
+			return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175853_1_, structureboundingbox) == null ? new StructureVillagePieces.WoodHut(start, p_175853_7_,
+					rand, structureboundingbox, facing) : null;
 		}
 
 		public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {

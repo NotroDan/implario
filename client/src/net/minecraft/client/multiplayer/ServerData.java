@@ -1,8 +1,8 @@
 package net.minecraft.client.multiplayer;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.util.IChatComponent;
 
 public class ServerData {
 
@@ -36,29 +36,11 @@ public class ServerData {
 	private ServerData.ServerResourceMode resourceMode = ServerData.ServerResourceMode.PROMPT;
 	private String serverIcon;
 	private boolean field_181042_l;
-
+	
 	public ServerData(String p_i46420_1_, String p_i46420_2_, boolean p_i46420_3_) {
 		this.serverName = p_i46420_1_;
 		this.serverIP = p_i46420_2_;
 		this.field_181042_l = p_i46420_3_;
-	}
-
-	/**
-	 * Takes an NBTTagCompound with 'name' and 'ip' keys, returns a ServerData instance.
-	 */
-	public static ServerData getServerDataFromNBTCompound(NBTTagCompound nbtCompound) {
-		ServerData serverdata = new ServerData(nbtCompound.getString("name"), nbtCompound.getString("ip"), false);
-
-		if (nbtCompound.hasKey("icon", 8)) {
-			serverdata.setBase64EncodedIconData(nbtCompound.getString("icon"));
-		}
-
-		if (nbtCompound.hasKey("acceptTextures", 1)) {
-			serverdata.setResourceMode(
-					nbtCompound.getBoolean("acceptTextures") ? ServerResourceMode.ENABLED : ServerResourceMode.DISABLED);
-		} else serverdata.setResourceMode(ServerResourceMode.PROMPT);
-
-		return serverdata;
 	}
 
 	/**
@@ -88,6 +70,24 @@ public class ServerData {
 
 	public void setResourceMode(ServerData.ServerResourceMode mode) {
 		this.resourceMode = mode;
+	}
+
+	/**
+	 * Takes an NBTTagCompound with 'name' and 'ip' keys, returns a ServerData instance.
+	 */
+	public static ServerData getServerDataFromNBTCompound(NBTTagCompound nbtCompound) {
+		ServerData serverdata = new ServerData(nbtCompound.getString("name"), nbtCompound.getString("ip"), false);
+
+		if (nbtCompound.hasKey("icon", 8)) {
+			serverdata.setBase64EncodedIconData(nbtCompound.getString("icon"));
+		}
+
+		if (nbtCompound.hasKey("acceptTextures", 1)) {
+			serverdata.setResourceMode(
+					nbtCompound.getBoolean("acceptTextures") ? ServerResourceMode.ENABLED : ServerResourceMode.DISABLED);
+		} else serverdata.setResourceMode(ServerResourceMode.PROMPT);
+
+		return serverdata;
 	}
 
 	/**

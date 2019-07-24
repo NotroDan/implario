@@ -1,22 +1,21 @@
 package net.minecraft.resources.update;
 
-import java.io.File;
+import java.io.*;
 
 public class DatapackCreator {
 
-	public DatapackCreator(File file) {
-		try {
-			if (true) {
+    public DatapackCreator(File file){
+        try {
+            if(true) {
 
-			} else {
+            }else {
 
-			}
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
-	}
+            }
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
 
-	public void addDirectory(File file) {
-	}
-
+    public void addDirectory(File file){
+    }
 }

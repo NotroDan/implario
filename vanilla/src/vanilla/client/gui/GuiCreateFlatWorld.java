@@ -2,10 +2,7 @@ package vanilla.client.gui;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiCreateWorld;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSlot;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;

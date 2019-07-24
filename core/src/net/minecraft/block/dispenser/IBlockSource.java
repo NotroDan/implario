@@ -4,17 +4,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 
 public interface IBlockSource extends ILocatableSource {
+    double getX();
 
-	double getX();
+    double getY();
 
-	double getY();
+    double getZ();
 
-	double getZ();
+    BlockPos getBlockPos();
 
-	BlockPos getBlockPos();
+    int getBlockMetadata();
 
-	int getBlockMetadata();
-
-	<T extends TileEntity> T getBlockTileEntity();
-
+    <T extends TileEntity> T getBlockTileEntity();
 }

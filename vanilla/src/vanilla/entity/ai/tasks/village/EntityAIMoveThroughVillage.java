@@ -1,5 +1,6 @@
 package vanilla.entity.ai.tasks.village;
 
+import com.google.common.collect.Lists;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;

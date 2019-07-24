@@ -28,33 +28,6 @@ public class ItemMonsterPlacer extends Item {
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
-	/**
-	 * Spawns the creature specified by the egg's type in the location specified by the last three parameters.
-	 * Parameters: world, entityID, x, y, z.
-	 */
-	public static Entity spawnCreature(World worldIn, int entityID, double x, double y, double z) {
-		if (!EntityList.entityEggs.containsKey(entityID)) {
-			return null;
-		}
-		Entity entity = null;
-
-		for (int i = 0; i < 1; ++i) {
-			entity = EntityList.createEntityByID(entityID, worldIn);
-
-			if (entity instanceof EntityLivingBase) {
-				VanillaEntity entityliving = (VanillaEntity) entity;
-				entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(worldIn.rand.nextFloat() * 360.0F), 0.0F);
-				entityliving.rotationYawHead = entityliving.rotationYaw;
-				entityliving.renderYawOffset = entityliving.rotationYaw;
-				entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), null);
-				worldIn.spawnEntityInWorld(entity);
-				entityliving.playLivingSound();
-			}
-		}
-
-		return entity;
-	}
-
 	public String getItemStackDisplayName(ItemStack stack) {
 		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
 		String s1 = EntityList.getStringFromID(stack.getMetadata());
@@ -159,6 +132,33 @@ public class ItemMonsterPlacer extends Item {
 		}
 
 		return itemStackIn;
+	}
+
+	/**
+	 * Spawns the creature specified by the egg's type in the location specified by the last three parameters.
+	 * Parameters: world, entityID, x, y, z.
+	 */
+	public static Entity spawnCreature(World worldIn, int entityID, double x, double y, double z) {
+		if (!EntityList.entityEggs.containsKey(entityID)) {
+			return null;
+		}
+		Entity entity = null;
+
+		for (int i = 0; i < 1; ++i) {
+			entity = EntityList.createEntityByID(entityID, worldIn);
+
+			if (entity instanceof EntityLivingBase) {
+				VanillaEntity entityliving = (VanillaEntity) entity;
+				entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(worldIn.rand.nextFloat() * 360.0F), 0.0F);
+				entityliving.rotationYawHead = entityliving.rotationYaw;
+				entityliving.renderYawOffset = entityliving.rotationYaw;
+				entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), null);
+				worldIn.spawnEntityInWorld(entity);
+				entityliving.playLivingSound();
+			}
+		}
+
+		return entity;
 	}
 
 	/**

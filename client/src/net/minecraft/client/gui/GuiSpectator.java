@@ -12,9 +12,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
-
-	public static final ResourceLocation swidgetsResource = new ResourceLocation("textures/gui/spectator_widgets.png");
 	private static final ResourceLocation widgetsResource = new ResourceLocation("textures/gui/widgets.png");
+	public static final ResourceLocation swidgetsResource = new ResourceLocation("textures/gui/spectator_widgets.png");
 	private final Minecraft minecraft;
 	private long time;
 	private SpectatorMenu spectatorMenu;
@@ -97,42 +96,42 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 	}
 
 	public void render(ScaledResolution res) {
-		//
-		//		NetHandlerPlayClient nhpc = MC.getPlayer().sendQueue;
-		//		Collection<NetworkPlayerInfo> list = nhpc.getPlayerInfoMap();
-		//
-		//		Map<ScorePlayerTeam, List<NetworkPlayerInfo>> teams = new HashMap<>();
-		//		Collection<ScorePlayerTeam> ts = MC.getWorld().getScoreboard().getTeams();
-		//
-		//		for (ScorePlayerTeam t : ts) teams.put(t, new ArrayList<>());
-		//		for (NetworkPlayerInfo playerInfo : list) {
-		//			if (playerInfo.getPlayerTeam() != null && teams.containsKey(playerInfo.getPlayerTeam()))
-		//				teams.get(playerInfo.getPlayerTeam()).add(playerInfo);
-		//		}
-		//
-		//
-		//		for (ScorePlayerTeam team : teams.keySet()) {
-		//			String s = FontRenderer.getFormatFromString(team.getColorPrefix());
-		//			int i = -1;
-		//			if (s.length() >= 2) i = Minecraft.getMinecraft().fontRenderer.getColorCode(s.charAt(1));
-		//			drawRect(0, 2, 100, 8, i);
-		//
-		//			for (NetworkPlayerInfo player : teams.get(team)) {
-		//
-		//
-		//				GameProfile gameprofile = player.getGameProfile();
-		//
-		//				EntityPlayer entityplayer = MC.getWorld().getPlayerEntityByUUID(gameprofile.getId());
-		//				MC.i().getTextureManager().bindTexture(player.getLocationSkin());
-		//				Gui.drawScaledCustomSizeModalRect(100, 100, 8.0F, (float) 8, 8, 8, 8, 8, 64.0F, 64.0F);
-		//
-		//				if (entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.HAT)) {
-		//					Gui.drawScaledCustomSizeModalRect(100, 100, 40.0F, (float) 8, 8, 8, 8, 8, 64.0F, 64.0F);
-		//				}
-		//
-		//			}
-		//
-		//		}
+//
+//		NetHandlerPlayClient nhpc = MC.getPlayer().sendQueue;
+//		Collection<NetworkPlayerInfo> list = nhpc.getPlayerInfoMap();
+//
+//		Map<ScorePlayerTeam, List<NetworkPlayerInfo>> teams = new HashMap<>();
+//		Collection<ScorePlayerTeam> ts = MC.getWorld().getScoreboard().getTeams();
+//
+//		for (ScorePlayerTeam t : ts) teams.put(t, new ArrayList<>());
+//		for (NetworkPlayerInfo playerInfo : list) {
+//			if (playerInfo.getPlayerTeam() != null && teams.containsKey(playerInfo.getPlayerTeam()))
+//				teams.get(playerInfo.getPlayerTeam()).add(playerInfo);
+//		}
+//
+//
+//		for (ScorePlayerTeam team : teams.keySet()) {
+//			String s = FontRenderer.getFormatFromString(team.getColorPrefix());
+//			int i = -1;
+//			if (s.length() >= 2) i = Minecraft.getMinecraft().fontRenderer.getColorCode(s.charAt(1));
+//			drawRect(0, 2, 100, 8, i);
+//
+//			for (NetworkPlayerInfo player : teams.get(team)) {
+//
+//
+//				GameProfile gameprofile = player.getGameProfile();
+//
+//				EntityPlayer entityplayer = MC.getWorld().getPlayerEntityByUUID(gameprofile.getId());
+//				MC.i().getTextureManager().bindTexture(player.getLocationSkin());
+//				Gui.drawScaledCustomSizeModalRect(100, 100, 8.0F, (float) 8, 8, 8, 8, 8, 64.0F, 64.0F);
+//
+//				if (entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.HAT)) {
+//					Gui.drawScaledCustomSizeModalRect(100, 100, 40.0F, (float) 8, 8, 8, 8, 8, 64.0F, 64.0F);
+//				}
+//
+//			}
+//
+//		}
 
 
 		int i = (int) (this.func_175265_c() * 255.0F);
@@ -166,8 +165,7 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 	public void func_175259_b(int p_175259_1_) {
 		int i;
 
-		for (i = this.spectatorMenu.func_178648_e() + p_175259_1_; i >= 0 && i <= 8 && (this.spectatorMenu.func_178643_a(i) == SpectatorMenu.field_178657_a || !this.spectatorMenu.func_178643_a(
-				i).func_178662_A_()); i += p_175259_1_) {
+		for (i = this.spectatorMenu.func_178648_e() + p_175259_1_; i >= 0 && i <= 8 && (this.spectatorMenu.func_178643_a(i) == SpectatorMenu.field_178657_a || !this.spectatorMenu.func_178643_a(i).func_178662_A_()); i += p_175259_1_) {
 		}
 
 		if (i >= 0 && i <= 8) {
@@ -189,5 +187,4 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient {
 			this.spectatorMenu = new SpectatorMenu(this);
 		}
 	}
-
 }

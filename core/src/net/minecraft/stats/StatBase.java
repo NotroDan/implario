@@ -10,7 +10,7 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.event.HoverEvent;
 
 @ToString
-@RequiredArgsConstructor (access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class StatBase {
 
 	public final String statId;
@@ -23,14 +23,13 @@ public class StatBase {
 	public boolean independent;
 
 	@ToString.Exclude
-	@Accessors (fluent = true, chain = true)
-	@Getter
-	@Setter
+	@Accessors(fluent = true, chain = true)
+	@Getter @Setter
 	private Class<? extends IJsonSerializable> serializer;
 
 	public StatBase(String id, IChatComponent name, StatFormatter formatter) {
 		this(id, name, formatter, new ObjectiveStat(id));
-		//		IScoreObjectiveCriteria.INSTANCES.put(this.criteria.getName(), this.criteria);
+//		IScoreObjectiveCriteria.INSTANCES.put(this.criteria.getName(), this.criteria);
 	}
 
 	public StatBase(String statIdIn, IChatComponent statNameIn) {

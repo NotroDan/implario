@@ -7,7 +7,7 @@ import net.minecraft.resources.event.Event;
 import net.minecraft.util.MovingObjectPosition;
 
 @Data
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode(callSuper = false)
 public class ProjectileHitEvent extends Event<ProjectileHitEvent> {
 
 	private final EntityThrowable throwable;

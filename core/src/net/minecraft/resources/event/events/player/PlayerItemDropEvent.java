@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 @Data
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode(callSuper = false)
 public class PlayerItemDropEvent extends PlayerEvent<PlayerItemDropEvent> {
 
 	private final EntityPlayer player;

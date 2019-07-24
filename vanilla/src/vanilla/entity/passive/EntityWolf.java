@@ -3,8 +3,26 @@ package vanilla.entity.passive;
 import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import vanilla.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import vanilla.entity.ai.tasks.EntityAIAttackOnCollide;
+import vanilla.entity.ai.tasks.wolf.EntityAIBeg;
+import vanilla.entity.ai.tasks.EntityAIFollowOwner;
+import vanilla.entity.ai.tasks.EntityAIHurtByTarget;
+import vanilla.entity.ai.tasks.EntityAILeapAtTarget;
+import vanilla.entity.ai.tasks.EntityAILookIdle;
+import vanilla.entity.ai.tasks.EntityAIMate;
+import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
+import vanilla.entity.ai.tasks.wolf.EntityAIOwnerHurtByTarget;
+import vanilla.entity.ai.tasks.wolf.EntityAIOwnerHurtTarget;
+import vanilla.entity.ai.tasks.EntityAISwimming;
+import vanilla.entity.ai.tasks.EntityAITargetNonTamed;
+import vanilla.entity.ai.tasks.EntityAIWander;
+import vanilla.entity.ai.tasks.EntityAIWatchClosest;
+import vanilla.entity.monster.EntityCreeper;
+import vanilla.entity.monster.EntityGhast;
+import vanilla.entity.monster.EntitySkeleton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
@@ -13,20 +31,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import vanilla.entity.ai.pathfinding.PathNavigateGround;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ParticleType;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import vanilla.entity.EntityAgeable;
-import vanilla.entity.ai.pathfinding.PathNavigateGround;
-import vanilla.entity.ai.tasks.*;
-import vanilla.entity.ai.tasks.wolf.EntityAIBeg;
-import vanilla.entity.ai.tasks.wolf.EntityAIOwnerHurtByTarget;
-import vanilla.entity.ai.tasks.wolf.EntityAIOwnerHurtTarget;
-import vanilla.entity.monster.EntityCreeper;
-import vanilla.entity.monster.EntityGhast;
-import vanilla.entity.monster.EntitySkeleton;
 
 public class EntityWolf extends EntityTameable {
 
@@ -468,6 +478,14 @@ public class EntityWolf extends EntityTameable {
 		return entitywolf;
 	}
 
+	public void setBegging(boolean beg) {
+		if (beg) {
+			this.dataWatcher.updateObject(19, (byte) 1);
+		} else {
+			this.dataWatcher.updateObject(19, (byte) 0);
+		}
+	}
+
 	/**
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
@@ -487,14 +505,6 @@ public class EntityWolf extends EntityTameable {
 
 	public boolean isBegging() {
 		return this.dataWatcher.getWatchableObjectByte(19) == 1;
-	}
-
-	public void setBegging(boolean beg) {
-		if (beg) {
-			this.dataWatcher.updateObject(19, (byte) 1);
-		} else {
-			this.dataWatcher.updateObject(19, (byte) 0);
-		}
 	}
 
 	/**

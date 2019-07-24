@@ -4,21 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ITab {
+    void focus();
 
-	void focus();
+    default List<GuiButton> getButtons(){
+        return new ArrayList<>(0);
+    }
 
-	default List<GuiButton> getButtons() {
-		return new ArrayList<>(0);
-	}
+    default void add(GuiButton... buttons){}
 
-	default void add(GuiButton... buttons) {}
+    GuiButton getButton();
 
-	GuiButton getButton();
+    default void addTo(List<GuiButton> buttonList){
+        buttonList.add(getButton());
+    }
 
-	default void addTo(List<GuiButton> buttonList) {
-		buttonList.add(getButton());
-	}
-
-	void unfocus();
-
+    void unfocus();
 }

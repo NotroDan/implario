@@ -46,15 +46,14 @@ public interface IScoreObjectiveCriteria {
 		HEARTS("hearts");
 
 		private static final Map<String, IScoreObjectiveCriteria.EnumRenderType> field_178801_c = Maps.newHashMap();
-		static {
-			for (IScoreObjectiveCriteria.EnumRenderType iscoreobjectivecriteria$enumrendertype : values()) {
-				field_178801_c.put(iscoreobjectivecriteria$enumrendertype.func_178796_a(), iscoreobjectivecriteria$enumrendertype);
-			}
-		}
 		private final String field_178798_d;
 
 		EnumRenderType(String p_i45548_3_) {
 			this.field_178798_d = p_i45548_3_;
+		}
+
+		public String func_178796_a() {
+			return this.field_178798_d;
 		}
 
 		public static IScoreObjectiveCriteria.EnumRenderType func_178795_a(String p_178795_0_) {
@@ -62,8 +61,10 @@ public interface IScoreObjectiveCriteria {
 			return iscoreobjectivecriteria$enumrendertype == null ? INTEGER : iscoreobjectivecriteria$enumrendertype;
 		}
 
-		public String func_178796_a() {
-			return this.field_178798_d;
+		static {
+			for (IScoreObjectiveCriteria.EnumRenderType iscoreobjectivecriteria$enumrendertype : values()) {
+				field_178801_c.put(iscoreobjectivecriteria$enumrendertype.func_178796_a(), iscoreobjectivecriteria$enumrendertype);
+			}
 		}
 	}
 

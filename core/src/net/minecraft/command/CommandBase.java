@@ -10,15 +10,37 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.chat.ChatComponentText;
 
 import java.util.*;
 
 public abstract class CommandBase implements ICommand {
 
 	private static IAdminCommand theAdmin;
+
+	/**
+	 * Return the required permission level for this command.
+	 */
+	public int getRequiredPermissionLevel() {
+		return 4;
+	}
+
+	public List<String> getCommandAliases() {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Returns true if the given command sender is allowed to use this command.
+	 */
+	public boolean canCommandSenderUseCommand(ICommandSender sender) {
+		return sender.canCommandSenderUseCommand(this.getRequiredPermissionLevel(), this.getCommandName());
+	}
+
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+		return null;
+	}
 
 	public static int parseInt(String input) throws NumberInvalidException {
 		try {
@@ -491,6 +513,13 @@ public abstract class CommandBase implements ICommand {
 		return list;
 	}
 
+	/**
+	 * Return whether the specified command parameter index is a username parameter.
+	 */
+	public boolean isUsernameIndex(String[] args, int index) {
+		return false;
+	}
+
 	public static void notifyOperators(ICommandSender sender, ICommand command, String msgFormat, Object... msgParams) {
 		notifyOperators(sender, command, 0, msgFormat, msgParams);
 	}
@@ -506,35 +535,6 @@ public abstract class CommandBase implements ICommand {
 	 */
 	public static void setAdminCommander(IAdminCommand command) {
 		theAdmin = command;
-	}
-
-	/**
-	 * Return the required permission level for this command.
-	 */
-	public int getRequiredPermissionLevel() {
-		return 4;
-	}
-
-	public List<String> getCommandAliases() {
-		return Collections.emptyList();
-	}
-
-	/**
-	 * Returns true if the given command sender is allowed to use this command.
-	 */
-	public boolean canCommandSenderUseCommand(ICommandSender sender) {
-		return sender.canCommandSenderUseCommand(this.getRequiredPermissionLevel(), this.getCommandName());
-	}
-
-	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return null;
-	}
-
-	/**
-	 * Return whether the specified command parameter index is a username parameter.
-	 */
-	public boolean isUsernameIndex(String[] args, int index) {
-		return false;
 	}
 
 	public int compareTo(ICommand p_compareTo_1_) {

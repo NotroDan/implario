@@ -5,6 +5,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import vanilla.entity.ai.tasks.EntityAIBase;
+import vanilla.entity.ai.tasks.EntityAILookIdle;
+import vanilla.entity.ai.tasks.EntityAIMoveTowardsRestriction;
+import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
+import vanilla.entity.ai.tasks.EntityAIWander;
+import vanilla.entity.ai.tasks.EntityAIWatchClosest;
+import vanilla.entity.ai.EntityLookHelper;
+import vanilla.entity.ai.EntityMoveHelper;
+import vanilla.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityFishHook;
@@ -12,19 +21,21 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.potion.Potion;
-import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.util.*;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.World;
-import vanilla.entity.ai.EntityLookHelper;
-import vanilla.entity.ai.EntityMoveHelper;
 import vanilla.entity.ai.pathfinding.PathNavigate;
 import vanilla.entity.ai.pathfinding.PathNavigateSwimmer;
-import vanilla.entity.ai.tasks.*;
-import vanilla.entity.passive.EntitySquid;
+import net.minecraft.item.potion.Potion;
+import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ParticleType;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.WeightedRandomFishable;
+import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.World;
 
 public class EntityGuardian extends EntityMob {
 
@@ -150,6 +161,10 @@ public class EntityGuardian extends EntityMob {
 		this.field_175486_bm = this.field_175485_bl = 1.0F;
 	}
 
+	private void setTargetedEntity(int entityId) {
+		this.dataWatcher.updateObject(17, entityId);
+	}
+
 	public boolean hasTargetedEntity() {
 		return this.dataWatcher.getWatchableObjectInt(17) != 0;
 	}
@@ -171,10 +186,6 @@ public class EntityGuardian extends EntityMob {
 			return null;
 		}
 		return this.getAttackTarget();
-	}
-
-	private void setTargetedEntity(int entityId) {
-		this.dataWatcher.updateObject(17, entityId);
 	}
 
 	public void onDataWatcherUpdate(int dataID) {

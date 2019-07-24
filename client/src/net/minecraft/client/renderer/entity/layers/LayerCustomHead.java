@@ -38,8 +38,8 @@ public class LayerCustomHead implements LayerRenderer<EntityLivingBase> {
 			if (entity.isSneaking()) {
 				G.translate(0.0F, 0.2F, 0.0F);
 			}
-			// ToDo: Черепа, надетые на жителей, должны рендерится немного выше.
-			//			boolean flag = entity instanceof EntityVillager || entity instanceof EntityZombie && ((EntityZombie) entity).isVillager();
+// ToDo: Черепа, надетые на жителей, должны рендерится немного выше.
+//			boolean flag = entity instanceof EntityVillager || entity instanceof EntityZombie && ((EntityZombie) entity).isVillager();
 			boolean flag = false;
 
 			if (!flag && entity.isChild()) {

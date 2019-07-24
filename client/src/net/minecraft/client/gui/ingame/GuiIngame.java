@@ -2,6 +2,7 @@ package net.minecraft.client.gui.ingame;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.BowPathRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -18,8 +20,14 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.potion.Potion;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -29,58 +37,63 @@ import net.minecraft.util.*;
 import optifine.Config;
 import optifine.CustomColors;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.nio.ByteBuffer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GuiIngame extends Gui {
-
 	public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
-	public static String currentServer = "LOBBY_5";
-	public static IBlockState[][][] map;
-	public static DynamicTexture texture;
-	public static BlockPos[][][] mapblocks;
-	private static long lastUpdatedTexture;
-	public final RenderItem itemRenderer;
-	/**
-	 * The spectator GUI for this in-game GUI instance
-	 */
-	public final GuiSpectator spectatorGui;
 	private final Minecraft mc;
+	public final RenderItem itemRenderer;
+
 	/**
 	 * ChatGUI instance that retains all previous chat data
 	 */
 	private final GuiNewChat persistantChatGUI;
-	private final GuiOverlayDebug overlayDebug;
-	private final GuiPlayerTabOverlay overlayPlayerList;
 	private int updateCounter;
+
 	/**
 	 * The string specifying which record music is playing
 	 */
 	private String recordPlaying = "";
+
 	/**
 	 * How many ticks the record playing message will be displayed
 	 */
 	private int recordPlayingUpFor;
 	private boolean recordIsPlaying;
+
+
 	/**
 	 * Remaining ticks the item highlight should be visible
 	 */
 	private int remainingHighlightTicks;
+
 	/**
 	 * The ItemStack that is currently being highlighted
 	 */
 	private ItemStack highlightingItemStack;
+	private final GuiOverlayDebug overlayDebug;
+
+	/**
+	 * The spectator GUI for this in-game GUI instance
+	 */
+	public final GuiSpectator spectatorGui;
+	private final GuiPlayerTabOverlay overlayPlayerList;
 	private int titleTicks;
 	private String title = "";
 	private String subtitle = "";
 	private int fadeIn;
 	private int titleDuration;
 	private int fadeOut;
+
 	private long loadingStarted = 0;
 	private long loadingTime = 0;
 	private String loading = null;
+
+
+	public static String currentServer = "LOBBY_5";
+
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
 		this.itemRenderer = mcIn.getRenderItem();
@@ -111,13 +124,13 @@ public class GuiIngame extends Gui {
 		}
 
 		// Затемнение по краям экрана
-		//		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
+//		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
 
 		// Рисунок тыквы, надетой на голову
-		//		renderPumpkinOverlay(scaledresolution);
+//		renderPumpkinOverlay(scaledresolution);
 
 		// Фиолетовый эффект портала
-		//		renderPortal(scaledresolution, partialTicks);
+//		renderPortal(scaledresolution, partialTicks);
 
 		// Текст над инвентарём
 		//renderTooltip1(scaledresolution, partialTicks);
@@ -126,10 +139,10 @@ public class GuiIngame extends Gui {
 		renderCrosshair(width, height);
 
 		// Боссбар
-		//		renderBossHealth();
+//		renderBossHealth();
 
 		// Броня, еда, здоровье
-		//		renderPlayerStats(scaledresolution);
+//		renderPlayerStats(scaledresolution);
 
 		G.disableBlend();
 
@@ -164,25 +177,31 @@ public class GuiIngame extends Gui {
 		renderChat(height);
 
 		// Информация о эффектах
-		if (Settings.FINE_EFFECTS.b()) InventoryEffectRenderer.drawActivePotionEffects(this, mc, getFontRenderer());
+		if(Settings.FINE_EFFECTS.b()) InventoryEffectRenderer.drawActivePotionEffects(this, mc, getFontRenderer());
 
 		// Информация о траектории полёта стрелы
 		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
 
 		renderMinimap();
 
-		//		renderFakeVime(scaledresolution, width, height);
+//		renderFakeVime(scaledresolution, width, height);
 	}
 
-	private void generateTexture() {
-		for (int x = MC.getPlayer().chunkCoordX - 2; x < MC.getPlayer().chunkCoordX + 3; x++)
-			for (int z = MC.getPlayer().chunkCoordZ - 2; z < MC.getPlayer().chunkCoordZ + 3; z++)
+
+	public static IBlockState[][][] map;
+	public static DynamicTexture texture;
+	public static BlockPos[][][] mapblocks;
+	private static long lastUpdatedTexture;
+
+	private void generateTexture(){
+		for(int x = MC.getPlayer().chunkCoordX - 2; x < MC.getPlayer().chunkCoordX + 3; x++)
+			for(int z = MC.getPlayer().chunkCoordZ - 2; z < MC.getPlayer().chunkCoordZ + 3; z++)
 				Minimap.initChunk(MC.getWorld().getChunkFromChunkCoords(x, z));
 		lastUpdatedTexture = System.currentTimeMillis() + 100;
 	}
 
 	private void renderMinimap() {
-		if (true) return;
+		if(true)return;
 		if (lastUpdatedTexture < System.currentTimeMillis()) generateTexture();
 
 		Minimap.renderMinimap();
@@ -190,20 +209,20 @@ public class GuiIngame extends Gui {
 		//drawScaledCustomSizeModalRect(5, 5, 0, 0, 16, 16, 64, 64, 16, 16);
 
 
-		//		IBlockState state = Blocks.clay.getDefaultState();
-		//		IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
-		//		BakedQuad quad = model.getFaceQuads(EnumFacing.UP).get(0);
-		//		MC.bindTexture(TextureMap.locationBlocksTexture);
-		//		int[] vertexData = quad.getVertexData();
-		//
-		//		r.begin(7, DefaultVertexFormats.POSITION_TEX);
-		//		for (int i = 0; i < 4; i++) {
-		//			int j = i * 7;
-		//			r.pos(toFloat(vertexData[j]) * 16, toFloat(vertexData[j + 2]) * 16, 0).tex(toFloat(vertexData[j + 4]), toFloat(vertexData[j + 5])).endVertex();
-		//			System.out.print("\n");
-		//		}
-		//
-		//		Tessellator.getInstance().draw();
+//		IBlockState state = Blocks.clay.getDefaultState();
+//		IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
+//		BakedQuad quad = model.getFaceQuads(EnumFacing.UP).get(0);
+//		MC.bindTexture(TextureMap.locationBlocksTexture);
+//		int[] vertexData = quad.getVertexData();
+//
+//		r.begin(7, DefaultVertexFormats.POSITION_TEX);
+//		for (int i = 0; i < 4; i++) {
+//			int j = i * 7;
+//			r.pos(toFloat(vertexData[j]) * 16, toFloat(vertexData[j + 2]) * 16, 0).tex(toFloat(vertexData[j + 4]), toFloat(vertexData[j + 5])).endVertex();
+//			System.out.print("\n");
+//		}
+//
+//		Tessellator.getInstance().draw();
 		/*
 		int factor = 1;
 		float antifactor = 2F / factor;
@@ -311,6 +330,7 @@ public class GuiIngame extends Gui {
 
 		G.tryBlendFuncSeparate(770, 771, 1, 0);
 	}
+
 
 
 	private void renderTooltip0(ScaledResolution scaledresolution) {
@@ -567,10 +587,10 @@ public class GuiIngame extends Gui {
 				return true;
 			}
 			if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-				BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
+					BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
 
-				return this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
-			}
+					return this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
+				}
 
 			return false;
 		}
@@ -644,8 +664,7 @@ public class GuiIngame extends Gui {
 
 			if (itemstack == null) {
 				this.remainingHighlightTicks = 0;
-			} else if (this.highlightingItemStack != null && itemstack.getItem() == this.highlightingItemStack.getItem() && ItemStack.areItemStackTagsEqual(itemstack,
-					this.highlightingItemStack) && (itemstack.isItemStackDamageable() || itemstack.getMetadata() == this.highlightingItemStack.getMetadata())) {
+			} else if (this.highlightingItemStack != null && itemstack.getItem() == this.highlightingItemStack.getItem() && ItemStack.areItemStackTagsEqual(itemstack, this.highlightingItemStack) && (itemstack.isItemStackDamageable() || itemstack.getMetadata() == this.highlightingItemStack.getMetadata())) {
 				if (this.remainingHighlightTicks > 0) {
 					--this.remainingHighlightTicks;
 				}
@@ -725,5 +744,4 @@ public class GuiIngame extends Gui {
 		this.loadingTime = ms;
 		this.loadingStarted = System.currentTimeMillis();
 	}
-
 }

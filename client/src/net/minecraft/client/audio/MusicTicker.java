@@ -15,9 +15,10 @@ public class MusicTicker implements ITickable {
 
 	private final Random rand = new Random();
 	private final Minecraft mc;
-	public Supplier<MusicType> musicTypeSupplier = () -> MusicType.GAME;
 	private ISound currentMusic;
 	private int timeUntilNextMusic = 100;
+
+	public Supplier<MusicType> musicTypeSupplier = () -> MusicType.GAME;
 
 	public MusicTicker(Minecraft mcIn) {
 		this.mc = mcIn;

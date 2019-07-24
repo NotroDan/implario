@@ -21,10 +21,10 @@ import shadersmod.client.SVertexBuilder;
 
 public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 
+	private BlockModelShapes blockModelShapes;
 	private final BlockModelRenderer blockModelRenderer = new BlockModelRenderer();
 	private final ChestRenderer chestRenderer = new ChestRenderer();
 	private final BlockFluidRenderer fluidRenderer = new BlockFluidRenderer();
-	private BlockModelShapes blockModelShapes;
 
 
 	public BlockRendererDispatcher(BlockModelShapes blockModelShapesIn) {

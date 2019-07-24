@@ -17,16 +17,12 @@ public class CyclicIterator<T> implements Iterator<T> {
 		array = collection.toArray();
 	}
 
-	public static <T> CyclicIterator<T> empty() {
-		return new CyclicIterator<>(new ArrayList<>());
-	}
-
 	@Override
 	public boolean hasNext() {
 		return true;
 	}
 
-	@SuppressWarnings ("uncheked")
+	@SuppressWarnings("uncheked")
 	@Override
 	public T next() {
 		if (array.length <= ++pos) pos = 0;
@@ -37,9 +33,13 @@ public class CyclicIterator<T> implements Iterator<T> {
 		return array.length;
 	}
 
-	@SuppressWarnings ("uncheked")
+	@SuppressWarnings("uncheked")
 	public T current() {
 		return (T) array[pos];
+	}
+
+	public static <T> CyclicIterator<T> empty() {
+		return new CyclicIterator<>(new ArrayList<>());
 	}
 
 	public void add(T t) {
@@ -48,5 +48,4 @@ public class CyclicIterator<T> implements Iterator<T> {
 		a[array.length] = t;
 		array = a;
 	}
-
 }

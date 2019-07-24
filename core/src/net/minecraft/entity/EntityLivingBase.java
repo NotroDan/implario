@@ -35,30 +35,37 @@ public abstract class EntityLivingBase extends Entity {
 
 	private static final UUID sprintingSpeedBoostModifierUUID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
 	private static final AttributeModifier sprintingSpeedBoostModifier = new AttributeModifier(sprintingSpeedBoostModifierUUID, "Sprinting speed boost", 0.30000001192092896D, 2).setSaved(false);
+	private BaseAttributeMap attributeMap;
 	private final CombatTracker _combatTracker = new CombatTracker(this);
 	private final Map<Integer, PotionEffect> activePotionsMap = Maps.newHashMap();
+
 	/**
 	 * The equipment this mob was previously wearing, used for syncing.
 	 */
 	private final ItemStack[] previousEquipment = new ItemStack[5];
+
 	/**
 	 * Whether an arm swing is currently in progress.
 	 */
 	public boolean isSwingInProgress;
 	public int swingProgressInt;
 	public int arrowHitTimer;
+
 	/**
 	 * The amount of time remaining this entity should act 'hurt'. (Visual appearance of red tint)
 	 */
 	public int hurtTime;
+
 	/**
 	 * What the hurt time was max set to last.
 	 */
 	public int maxHurtTime;
+
 	/**
 	 * The yaw at which this entity was last attacked from.
 	 */
 	public float attackedAtYaw;
+
 	/**
 	 * The amount of time remaining this entity should act 'dead', i.e. have a corpse in the world.
 	 */
@@ -67,6 +74,7 @@ public abstract class EntityLivingBase extends Entity {
 	public float swingProgress;
 	public float prevLimbSwingAmount;
 	public float limbSwingAmount;
+
 	/**
 	 * Only relevant when limbYaw is not 0(the entity is moving). Influences where in its swing legs and arms currently
 	 * are.
@@ -79,33 +87,38 @@ public abstract class EntityLivingBase extends Entity {
 	public float field_70770_ap;
 	public float renderYawOffset;
 	public float prevRenderYawOffset;
+
 	/**
 	 * Entity head rotation yaw
 	 */
 	public float rotationYawHead;
+
 	/**
 	 * Entity head rotation yaw at previous tick
 	 */
 	public float prevRotationYawHead;
+
 	/**
 	 * A factor used to determine how far this entity will move each tick if it is jumping or falling.
 	 */
 	public float jumpMovementFactor = 0.02F;
-	public float moveStrafing;
-	public float moveForward;
+
 	/**
 	 * The most recent player that has attacked this entity
 	 */
 	protected EntityPlayer attackingPlayer;
+
 	/**
 	 * Set to 60 when hit by the player or the player's wolf, then decrements. Used to determine whether the entity
 	 * should drop items on death.
 	 */
 	protected int recentlyHit;
+
 	/**
 	 * This gets set on entity death, but never used. Looks like a duplicate of isDead
 	 */
 	protected boolean dead;
+
 	/**
 	 * The age of this EntityLiving (used to determine when it dies)
 	 */
@@ -115,41 +128,51 @@ public abstract class EntityLivingBase extends Entity {
 	protected float movedDistance;
 	protected float prevMovedDistance;
 	protected float field_70741_aB;
+
 	/**
 	 * The score value of the Mob, the amount of points the mob is worth.
 	 */
 	protected int scoreValue;
+
 	/**
 	 * Damage taken in the last hit. Mobs are resistant to damage less than this for a short time after taking damage.
 	 */
 	protected float lastDamage;
+
 	/**
 	 * used to check whether entity is jumping.
 	 */
 	protected boolean isJumping;
+	public float moveStrafing;
+	public float moveForward;
 	protected float randomYawVelocity;
+
 	/**
 	 * The number of updates over which the new position and rotation are to be applied to the entity.
 	 */
 	protected int newPosRotationIncrements;
+
 	/**
 	 * The new X position to be applied to the entity.
 	 */
 	protected double newPosX;
+
 	/**
 	 * The new Y position to be applied to the entity.
 	 */
 	protected double newPosY;
 	protected double newPosZ;
+
 	/**
 	 * The new yaw rotation to be applied to the entity.
 	 */
 	protected double newRotationYaw;
+
 	/**
 	 * The new yaw rotation to be applied to the entity.
 	 */
 	protected double newRotationPitch;
-	private BaseAttributeMap attributeMap;
+
 	/**
 	 * Whether the DataWatcher needs to be updated with the active potions
 	 */
@@ -179,19 +202,6 @@ public abstract class EntityLivingBase extends Entity {
 	private int jumpTicks;
 	private float absorptionAmount;
 
-	public EntityLivingBase(World worldIn) {
-		super(worldIn);
-		this.applyEntityAttributes();
-		this.setHealth(this.getMaxHealth());
-		this.preventEntitySpawning = true;
-		this.field_70770_ap = (float) ((Math.random() + 1.0D) * 0.009999999776482582D);
-		this.setPosition(this.posX, this.posY, this.posZ);
-		this.field_70769_ao = (float) Math.random() * 12398.0F;
-		this.rotationYaw = (float) (Math.random() * Math.PI * 2.0D);
-		this.rotationYawHead = this.rotationYaw;
-		this.stepHeight = 0.6F;
-	}
-
 	public static int getArmorPosition(ItemStack stack) {
 		if (stack.getItem() != Item.getItemFromBlock(Blocks.pumpkin) && stack.getItem() != Items.skull) {
 			if (stack.getItem() instanceof ItemArmor) {
@@ -220,6 +230,19 @@ public abstract class EntityLivingBase extends Entity {
 	 */
 	public void onKillCommand() {
 		this.attackEntityFrom(DamageSource.outOfWorld, Float.MAX_VALUE);
+	}
+
+	public EntityLivingBase(World worldIn) {
+		super(worldIn);
+		this.applyEntityAttributes();
+		this.setHealth(this.getMaxHealth());
+		this.preventEntitySpawning = true;
+		this.field_70770_ap = (float) ((Math.random() + 1.0D) * 0.009999999776482582D);
+		this.setPosition(this.posX, this.posY, this.posZ);
+		this.field_70769_ao = (float) Math.random() * 12398.0F;
+		this.rotationYaw = (float) (Math.random() * Math.PI * 2.0D);
+		this.rotationYawHead = this.rotationYaw;
+		this.stepHeight = 0.6F;
 	}
 
 	protected void entityInit() {
@@ -448,6 +471,10 @@ public abstract class EntityLivingBase extends Entity {
 		return this.lastAttacker;
 	}
 
+	public int getLastAttackerTime() {
+		return this.lastAttackerTime;
+	}
+
 	public void setLastAttacker(Entity entityIn) {
 		if (entityIn instanceof EntityLivingBase) {
 			this.lastAttacker = (EntityLivingBase) entityIn;
@@ -456,10 +483,6 @@ public abstract class EntityLivingBase extends Entity {
 		}
 
 		this.lastAttackerTime = this.ticksExisted;
-	}
-
-	public int getLastAttackerTime() {
-		return this.lastAttackerTime;
 	}
 
 	public int getAge() {

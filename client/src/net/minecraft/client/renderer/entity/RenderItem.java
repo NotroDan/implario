@@ -3,10 +3,7 @@ package net.minecraft.client.renderer.entity;
 import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
-import net.minecraft.client.renderer.G;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
@@ -39,16 +36,18 @@ import static org.lwjgl.opengl.GL11.*;
 public class RenderItem implements IResourceManagerReloadListener {
 
 	private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-	private final ItemModelMesher itemModelMesher;
-	private final TextureManager textureManager;
+	private boolean field_175058_l = true;
+
 	/**
 	 * Defines the zLevel of rendering of item on GUI.
 	 */
 	public float zLevel;
-	public ModelManager modelManager;
-	private boolean field_175058_l = true;
+	private final ItemModelMesher itemModelMesher;
+	private final TextureManager textureManager;
+
 	private ModelResourceLocation modelLocation = null;
 	private boolean renderItemGui = false;
+	public ModelManager modelManager;
 
 	public RenderItem(TextureManager textureManager, ModelManager modelManager) {
 		this.textureManager = textureManager;
@@ -58,28 +57,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 		this.registerItems();
 	}
 
-	public static void forgeHooksClient_putQuadColor(WorldRenderer worldRenderer, BakedQuad quad, int n) {
-		float f = (float) (n & 255);
-		float f1 = (float) (n >>> 8 & 255);
-		float f2 = (float) (n >>> 16 & 255);
-		float f3 = (float) (n >>> 24 & 255);
-		int[] aint = quad.getVertexData();
-		int i = aint.length / 4;
-
-		for (int j = 0; j < 4; ++j) {
-			int k = aint[3 + i * j];
-			float f4 = (float) (k & 255);
-			float f5 = (float) (k >>> 8 & 255);
-			float f6 = (float) (k >>> 16 & 255);
-			float f7 = (float) (k >>> 24 & 255);
-			int l = Math.min(255, (int) (f * f4 / 255.0F));
-			int i1 = Math.min(255, (int) (f1 * f5 / 255.0F));
-			int j1 = Math.min(255, (int) (f2 * f6 / 255.0F));
-			int k1 = Math.min(255, (int) (f3 * f7 / 255.0F));
-			worldRenderer.putColorRGBA(worldRenderer.getColorIndex(4 - j), l, i1, j1, k1);
-		}
-	}
-
 	public void func_175039_a(boolean p_175039_1_) {
 		this.field_175058_l = p_175039_1_;
 	}
@@ -87,6 +64,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	public ItemModelMesher getItemModelMesher() {
 		return this.itemModelMesher;
 	}
+
 
 	protected void registerItem(Item itm, int subType, String identifier) {
 		this.itemModelMesher.registerModelLocation(itm, subType, new ModelResourceLocation(identifier, "inventory"));
@@ -140,7 +118,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 	public void renderItem(ItemStack stack, IBakedModel model) {
 		renderItem(stack, model, 0.5f);
 	}
-
 	public void renderItem(ItemStack stack, IBakedModel model, float scale) {
 		if (stack == null) return;
 		G.pushMatrix();
@@ -184,18 +161,18 @@ public class RenderItem implements IResourceManagerReloadListener {
 
 		G.matrixMode(GL_TEXTURE);
 		G.pushMatrix();
-		G.scale(8.0F, 8.0F, 8.0F);
-		float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-		G.translate(f, 0.0F, 0.0F);
-		G.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-		this.renderModel(model, glintColor);
+			G.scale(8.0F, 8.0F, 8.0F);
+			float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+			G.translate(f, 0.0F, 0.0F);
+			G.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
+			this.renderModel(model, glintColor);
 		G.popMatrix();
 		G.pushMatrix();
-		G.scale(8.0F, 8.0F, 8.0F);
-		float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
-		G.translate(-f1, 0.0F, 0.0F);
-		G.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-		this.renderModel(model, glintColor);
+			G.scale(8.0F, 8.0F, 8.0F);
+			float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
+			G.translate(-f1, 0.0F, 0.0F);
+			G.rotate(10.0F, 0.0F, 0.0F, 1.0F);
+			this.renderModel(model, glintColor);
 		G.popMatrix();
 		G.matrixMode(GL_MODELVIEW);
 		G.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -338,7 +315,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 	public void renderItemIntoGUI(ItemStack stack, int x, int y) {
 		renderItemIntoGUI(stack, x, y, 0.5f);
 	}
-
 	public void renderItemIntoGUI(ItemStack stack, int x, int y, float scale) {
 		this.renderItemGui = true;
 		IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);
@@ -974,6 +950,28 @@ public class RenderItem implements IResourceManagerReloadListener {
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 		this.itemModelMesher.rebuildCache();
+	}
+
+	public static void forgeHooksClient_putQuadColor(WorldRenderer worldRenderer, BakedQuad quad, int n) {
+		float f = (float) (n & 255);
+		float f1 = (float) (n >>> 8 & 255);
+		float f2 = (float) (n >>> 16 & 255);
+		float f3 = (float) (n >>> 24 & 255);
+		int[] aint = quad.getVertexData();
+		int i = aint.length / 4;
+
+		for (int j = 0; j < 4; ++j) {
+			int k = aint[3 + i * j];
+			float f4 = (float) (k & 255);
+			float f5 = (float) (k >>> 8 & 255);
+			float f6 = (float) (k >>> 16 & 255);
+			float f7 = (float) (k >>> 24 & 255);
+			int l = Math.min(255, (int) (f * f4 / 255.0F));
+			int i1 = Math.min(255, (int) (f1 * f5 / 255.0F));
+			int j1 = Math.min(255, (int) (f2 * f6 / 255.0F));
+			int k1 = Math.min(255, (int) (f3 * f7 / 255.0F));
+			worldRenderer.putColorRGBA(worldRenderer.getColorIndex(4 - j), l, i1, j1, k1);
+		}
 	}
 
 }

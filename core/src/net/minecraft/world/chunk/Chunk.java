@@ -32,57 +32,69 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Chunk {
 
 	private static final Logger logger = Logger.getInstance();
-	/**
-	 * The x coordinate of the chunk.
-	 */
-	public final int xPosition;
-	/**
-	 * The z coordinate of the chunk.
-	 */
-	public final int zPosition;
+
 	/**
 	 * Used to store block IDs, block MSBs, Sky-light maps, Block-light maps, and metadata. Each entry corresponds to a
 	 * logical segment of 16x16x16 blocks, stacked vertically.
 	 */
 	private final ExtendedBlockStorage[] storageArrays;
+
 	/**
 	 * Contains a 16x16 mapping on the X/Z plane of the biome ID to which each colum belongs.
 	 */
 	private final byte[] blockBiomeArray;
+
 	/**
 	 * A map, similar to heightMap, that tracks how far down precipitation can fall.
 	 */
 	private final int[] precipitationHeightMap;
+
 	/**
 	 * Which columns need their skylightMaps updated.
 	 */
 	private final boolean[] updateSkylightColumns;
+
+	/**
+	 * Whether or not this Chunk is currently loaded into the World
+	 */
+	private boolean isChunkLoaded;
+
 	/**
 	 * Reference to the World object.
 	 */
 	private final World worldObj;
 	private final int[] heightMap;
+
+	/**
+	 * The x coordinate of the chunk.
+	 */
+	public final int xPosition;
+
+	/**
+	 * The z coordinate of the chunk.
+	 */
+	public final int zPosition;
+	private boolean isGapLightingUpdated;
 	private final Map<BlockPos, TileEntity> chunkTileEntityMap;
 	private final ClassInheritanceMultiMap<Entity>[] entityLists;
-	/**
-	 * Whether this Chunk has any Entities and thus requires saving on every tick
-	 */
-	public boolean hasEntities;
-	/**
-	 * Whether or not this Chunk is currently loaded into the World
-	 */
-	private boolean isChunkLoaded;
-	private boolean isGapLightingUpdated;
+
 	/**
 	 * Boolean value indicating if the terrain is populated.
 	 */
 	private boolean isTerrainPopulated;
 	private boolean isLightPopulated;
 	private boolean field_150815_m;
+
 	/**
 	 * Set to true if the chunk has been modified and needs to be updated internally.
 	 */
 	private boolean isModified;
+
+	/**
+	 * Whether this Chunk has any Entities and thus requires saving on every tick
+	 */
+	public boolean hasEntities;
+
 	/**
 	 * The time according to World.worldTime when this chunk was last saved
 	 */

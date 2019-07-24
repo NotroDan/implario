@@ -24,21 +24,24 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChunkProviderServer implements IChunkProvider {
 
 	private static final Logger logger = Logger.getInstance();
-	/**
-	 * if set, this flag forces a request to load a chunk to load the chunk rather than defaulting to the dummy if
-	 * possible
-	 */
-	public boolean chunkLoadOverride = true;
 	private Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap());
+
 	/**
 	 * a dummy chunk, returned in place of an actual chunk.
 	 */
 	private Chunk dummyChunk;
+
 	/**
 	 * chunk generator object. Calls to load nonexistent chunks are forwarded to this object.
 	 */
 	private IChunkProvider serverChunkGenerator;
 	private IChunkLoader chunkLoader;
+
+	/**
+	 * if set, this flag forces a request to load a chunk to load the chunk rather than defaulting to the dummy if
+	 * possible
+	 */
+	public boolean chunkLoadOverride = true;
 	private LongHashMap id2ChunkMap = new LongHashMap();
 	private List<Chunk> loadedChunks = new ArrayList<>();
 	private WorldServer worldObj;

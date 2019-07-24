@@ -14,18 +14,14 @@ import java.io.File;
 public abstract class WorldProvider {
 
 	public static final float[] moonPhaseFactors = new float[] {1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F};
-	/**
-	 * Light to brightness conversion table
-	 */
-	protected final float[] lightBrightnessTable = new float[16];
-	/**
-	 * Array for sunrise/sunset colors (RGBA)
-	 */
-	private final float[] colorsSunriseSunset = new float[4];
+
 	/**
 	 * world object being used
 	 */
 	protected World worldObj;
+	private WorldType terrainType;
+	private String generatorSettings;
+
 	/**
 	 * World chunk manager being used to generate chunks
 	 */
@@ -40,12 +36,21 @@ public abstract class WorldProvider {
 	 * A boolean that tells if a world does not have a sky. Used in calculating weather and skylight
 	 */
 	protected boolean hasNoSky;
+
+	/**
+	 * Light to brightness conversion table
+	 */
+	protected final float[] lightBrightnessTable = new float[16];
+
 	/**
 	 * The id for the dimension (ex. -1: Nether, 0: Overworld, 1: The End)
 	 */
 	protected int dimensionId;
-	private WorldType terrainType;
-	private String generatorSettings;
+
+	/**
+	 * Array for sunrise/sunset colors (RGBA)
+	 */
+	private final float[] colorsSunriseSunset = new float[4];
 
 	public WorldProvider() {}
 

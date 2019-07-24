@@ -16,6 +16,7 @@ import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
+import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.TrackerUpdateEvent;
 import net.minecraft.util.BlockPos;
@@ -70,13 +71,12 @@ public class EntityTrackerEntry {
 	public double lastTrackedEntityMotionY;
 	public double motionZ;
 	public int updateCounter;
-	public boolean playerEntitiesUpdated;
-	public Set<EntityPlayerMP> trackingPlayers = Sets.newHashSet();
 	private double lastTrackedEntityPosX;
 	private double lastTrackedEntityPosY;
 	private double lastTrackedEntityPosZ;
 	private boolean firstUpdateDone;
 	private boolean sendVelocityUpdates;
+
 	/**
 	 * every 400 ticks a  full teleport packet is sent, rather than just a "move me +x" command, so that position
 	 * remains fully synced.
@@ -85,6 +85,8 @@ public class EntityTrackerEntry {
 	private Entity field_85178_v;
 	private boolean ridingEntity;
 	private boolean onGround;
+	public boolean playerEntitiesUpdated;
+	public Set<EntityPlayerMP> trackingPlayers = Sets.newHashSet();
 
 	public EntityTrackerEntry(Entity trackedEntityIn, int trackingDistanceThresholdIn, int updateFrequencyIn, boolean sendVelocityUpdatesIn) {
 		this.trackedEntity = trackedEntityIn;

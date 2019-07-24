@@ -40,12 +40,12 @@ public class ShaderManager {
 	private final int program;
 	private final String programFilename;
 	private final boolean useFaceCulling;
+	private boolean isDirty;
 	private final JsonBlendingMode field_148016_p;
 	private final List<Integer> attribLocations;
 	private final List<String> attributes;
 	private final ShaderLoader vertexShaderLoader;
 	private final ShaderLoader fragmentShaderLoader;
-	private boolean isDirty;
 
 	public ShaderManager(IResourceManager resourceManager, String programName) throws IOException {
 		JsonParser jsonparser = new JsonParser();

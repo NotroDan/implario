@@ -3,22 +3,26 @@ package net.minecraft.util;
 public class LongHashMap {
 
 	/**
-	 * percent of the hasharray that can be used without hash colliding probably
-	 */
-	private final float percentUseable = 0.75F;
-	/**
 	 * the array of all elements in the hash
 	 */
 	private transient LongHashMap.Entry[] hashArray = new LongHashMap.Entry[4096];
+
 	/**
 	 * the number of elements in the hash array
 	 */
 	private transient int numHashElements;
 	private int mask;
+
 	/**
 	 * the maximum amount of elements in the hash (probably 3/4 the size due to meh hashing function)
 	 */
 	private int capacity = 3072;
+
+	/**
+	 * percent of the hasharray that can be used without hash colliding probably
+	 */
+	private final float percentUseable = 0.75F;
+
 	/**
 	 * count of times elements have been added/removed
 	 */
@@ -219,9 +223,9 @@ public class LongHashMap {
 	static class Entry {
 
 		final long key;
-		final int hash;
 		Object value;
 		LongHashMap.Entry nextEntry;
+		final int hash;
 
 
 		Entry(int p_i1553_1_, long p_i1553_2_, Object p_i1553_4_, LongHashMap.Entry p_i1553_5_) {

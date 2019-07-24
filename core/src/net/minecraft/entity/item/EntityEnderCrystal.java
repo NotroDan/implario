@@ -30,6 +30,7 @@ public class EntityEnderCrystal extends Entity {
 	}
 
 
+
 	@Override
 	public int getUpdateFrequency() {
 		return Integer.MAX_VALUE;

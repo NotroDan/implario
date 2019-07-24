@@ -56,15 +56,15 @@ public class ItemInWorldManager {
 		this.theWorld = worldIn;
 	}
 
-	public WorldSettings.GameType getGameType() {
-		return this.gameType;
-	}
-
 	public void setGameType(WorldSettings.GameType type) {
 		this.gameType = type;
 		type.configurePlayerCapabilities(this.thisPlayerMP.capabilities);
 		this.thisPlayerMP.sendPlayerAbilities();
 		this.thisPlayerMP.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.UPDATE_GAME_MODE, this.thisPlayerMP));
+	}
+
+	public WorldSettings.GameType getGameType() {
+		return this.gameType;
 	}
 
 	public boolean survivalOrAdventure() {

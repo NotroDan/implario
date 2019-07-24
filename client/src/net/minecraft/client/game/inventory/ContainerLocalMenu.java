@@ -1,6 +1,7 @@
 package net.minecraft.client.game.inventory;
 
 import com.google.common.collect.Maps;
+import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -9,47 +10,53 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.LockCode;
 
-import java.util.Map;
+public class ContainerLocalMenu extends InventoryBasic implements ILockableContainer
+{
+    private String guiID;
+    private Map<Integer, Integer> field_174895_b = Maps.newHashMap();
 
-public class ContainerLocalMenu extends InventoryBasic implements ILockableContainer {
+    public ContainerLocalMenu(String id, IChatComponent title, int slotCount)
+    {
+        super(title, slotCount);
+        this.guiID = id;
+    }
 
-	private String guiID;
-	private Map<Integer, Integer> field_174895_b = Maps.newHashMap();
+    public int getField(int id)
+    {
+        return this.field_174895_b.containsKey(id) ? ((Integer)this.field_174895_b.get(id)).intValue() : 0;
+    }
 
-	public ContainerLocalMenu(String id, IChatComponent title, int slotCount) {
-		super(title, slotCount);
-		this.guiID = id;
-	}
+    public void setField(int id, int value)
+    {
+        this.field_174895_b.put(id, value);
+    }
 
-	public int getField(int id) {
-		return this.field_174895_b.containsKey(id) ? ((Integer) this.field_174895_b.get(id)).intValue() : 0;
-	}
+    public int getFieldCount()
+    {
+        return this.field_174895_b.size();
+    }
 
-	public void setField(int id, int value) {
-		this.field_174895_b.put(id, value);
-	}
+    public boolean isLocked()
+    {
+        return false;
+    }
 
-	public int getFieldCount() {
-		return this.field_174895_b.size();
-	}
+    public void setLockCode(LockCode code)
+    {
+    }
 
-	public boolean isLocked() {
-		return false;
-	}
+    public LockCode getLockCode()
+    {
+        return LockCode.EMPTY_CODE;
+    }
 
-	public LockCode getLockCode() {
-		return LockCode.EMPTY_CODE;
-	}
+    public String getGuiID()
+    {
+        return this.guiID;
+    }
 
-	public void setLockCode(LockCode code) {
-	}
-
-	public String getGuiID() {
-		return this.guiID;
-	}
-
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-		throw new UnsupportedOperationException();
-	}
-
+    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+    {
+        throw new UnsupportedOperationException();
+    }
 }

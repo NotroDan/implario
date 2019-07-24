@@ -1,11 +1,11 @@
 package vanilla.client.renderer.entity.vanilla;
 
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
 import vanilla.client.game.model.ModelSpider;
 import vanilla.client.renderer.entity.RenderVanilla;
+import net.minecraft.client.renderer.entity.RenderManager;
 import vanilla.client.renderer.entity.layers.LayerSpiderEyes;
 import vanilla.entity.monster.EntitySpider;
+import net.minecraft.util.ResourceLocation;
 
 public class RenderSpider<T extends EntitySpider> extends RenderVanilla<T> {
 

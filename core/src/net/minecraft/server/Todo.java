@@ -18,7 +18,6 @@ public class Todo {
 
 	/**
 	 * Поскольку оптифайн ебучий долбаёб, оставлю всё вот так, лишь бы работало.
-	 *
 	 * @return true, если стоит даунский оптифайн и обрабатывает эту херню через ёбанное анальное отверстие выдры,
 	 * или false, если надо будет просто вызвать super.isEntityInsideOpaqueBlock();
 	 */
@@ -27,7 +26,9 @@ public class Todo {
 	}
 
 
-	public boolean isEntityInsideOpaqueBlockOptifineTupoeGovnoSdohniNahuyPozhaluysta(boolean noClip, double posX, double posY, double posZ, double width, double eyeHeight, World worldObj) {
+
+
+	public boolean isEntityInsideOpaqueBlockOptifineTupoeGovnoSdohniNahuyPozhaluysta(boolean noClip, double posX, double posY, double posZ, double width, double eyeHeight, World worldObj)  {
 		throw new NotImplementedException("Так нельзя!");
 	}
 

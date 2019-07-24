@@ -9,9 +9,9 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.ProfileLookupCallback;
 import com.mojang.authlib.yggdrasil.ProfileNotFoundException;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
 
@@ -23,11 +23,11 @@ import java.util.*;
 
 public class PreYggdrasilConverter {
 
+	private static final Logger LOGGER = LogManager.getLogger();
 	public static final File OLD_IPBAN_FILE = new File("banned-ips.txt");
 	public static final File OLD_PLAYERBAN_FILE = new File("banned-players.txt");
 	public static final File OLD_OPS_FILE = new File("ops.txt");
 	public static final File OLD_WHITELIST_FILE = new File("white-list.txt");
-	private static final Logger LOGGER = LogManager.getLogger();
 
 	static List<String> readFile(File inFile, Map<String, String[]> read) throws IOException {
 		List<String> list = Files.readLines(inFile, Charsets.UTF_8);

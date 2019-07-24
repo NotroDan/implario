@@ -30,11 +30,12 @@ public class ThreadDownloadImageData extends SimpleTexture {
 	private final File cacheFile;
 	private final String imageUrl;
 	private final IImageBuffer imageBuffer;
-	public Boolean imageFound = null;
-	public boolean pipeline = false;
 	private BufferedImage bufferedImage;
 	private Thread imageThread;
 	private boolean textureUploaded;
+
+	public Boolean imageFound = null;
+	public boolean pipeline = false;
 
 	public ThreadDownloadImageData(File cacheFileIn, String imageUrlIn, ResourceLocation textureResourceLocation, IImageBuffer imageBufferIn) {
 		super(textureResourceLocation);

@@ -11,9 +11,9 @@ import static net.minecraft.client.gui.keymap.KeyBinding.KEYMAP;
 
 public class GuiKeymap extends GuiScreen {
 
+	private final KeyboardRender keyboardRender = new KeyboardRender();//new LetterButtonRender(false));
 	public static final ResourceLocation actionTextures = new ResourceLocation("textures/gui/actions.png");
 	private final static int TOOLBAR_HEIGHT = 50;
-	private final KeyboardRender keyboardRender = new KeyboardRender();//new LetterButtonRender(false));
 
 	@Override
 	public void initGui() {

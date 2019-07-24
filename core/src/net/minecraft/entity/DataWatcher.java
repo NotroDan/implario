@@ -19,23 +19,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class DataWatcher {
 
-	private static final Map<Class<?>, Integer> dataTypes = Maps.newHashMap();
-	static {
-		dataTypes.put(Byte.class, 0);
-		dataTypes.put(Short.class, 1);
-		dataTypes.put(Integer.class, 2);
-		dataTypes.put(Float.class, 3);
-		dataTypes.put(String.class, 4);
-		dataTypes.put(ItemStack.class, 5);
-		dataTypes.put(BlockPos.class, 6);
-		dataTypes.put(Rotations.class, 7);
-	}
 	private final Entity owner;
-	private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.newHashMap();
+
 	/**
 	 * When isBlank is true the DataWatcher is not watching any objects
 	 */
 	private boolean isBlank = true;
+	private static final Map<Class<?>, Integer> dataTypes = Maps.newHashMap();
+	private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.newHashMap();
+
 	/**
 	 * true if one or more object was changed
 	 */
@@ -44,126 +36,6 @@ public class DataWatcher {
 
 	public DataWatcher(Entity owner) {
 		this.owner = owner;
-	}
-
-	/**
-	 * Writes the list of watched objects (entity attribute of type {byte, short, int, float, string, ItemStack,
-	 * ChunkCoordinates}) to the specified PacketBuffer
-	 */
-	public static void writeWatchedListToPacketBuffer(List<DataWatcher.WatchableObject> objectsList, PacketBuffer buffer) throws IOException {
-		if (objectsList != null) {
-			for (DataWatcher.WatchableObject datawatcher$watchableobject : objectsList) {
-				writeWatchableObjectToPacketBuffer(buffer, datawatcher$watchableobject);
-			}
-		}
-
-		buffer.writeByte(127);
-	}
-
-	/**
-	 * Writes a watchable object (entity attribute of type {byte, short, int, float, string, ItemStack,
-	 * ChunkCoordinates}) to the specified PacketBuffer
-	 */
-	private static void writeWatchableObjectToPacketBuffer(PacketBuffer buffer, DataWatcher.WatchableObject object) throws IOException {
-		int i = (object.getObjectType() << 5 | object.getDataValueId() & 31) & 255;
-		buffer.writeByte(i);
-
-		switch (object.getObjectType()) {
-			case 0:
-				buffer.writeByte((Byte) object.getObject());
-				break;
-
-			case 1:
-				buffer.writeShort((Short) object.getObject());
-				break;
-
-			case 2:
-				buffer.writeInt((Integer) object.getObject());
-				break;
-
-			case 3:
-				buffer.writeFloat((Float) object.getObject());
-				break;
-
-			case 4:
-				buffer.writeString((String) object.getObject());
-				break;
-
-			case 5:
-				ItemStack itemstack = (ItemStack) object.getObject();
-				buffer.writeItemStackToBuffer(itemstack);
-				break;
-
-			case 6:
-				BlockPos blockpos = (BlockPos) object.getObject();
-				buffer.writeInt(blockpos.getX());
-				buffer.writeInt(blockpos.getY());
-				buffer.writeInt(blockpos.getZ());
-				break;
-
-			case 7:
-				Rotations rotations = (Rotations) object.getObject();
-				buffer.writeFloat(rotations.getX());
-				buffer.writeFloat(rotations.getY());
-				buffer.writeFloat(rotations.getZ());
-		}
-	}
-
-	public static List<DataWatcher.WatchableObject> readWatchedListFromPacketBuffer(PacketBuffer buffer) throws IOException {
-		List<DataWatcher.WatchableObject> list = null;
-
-		for (int i = buffer.readByte(); i != 127; i = buffer.readByte()) {
-			if (list == null) {
-				list = new ArrayList<>();
-			}
-
-			int j = (i & 224) >> 5;
-			int k = i & 31;
-			DataWatcher.WatchableObject datawatcher$watchableobject = null;
-
-			switch (j) {
-				case 0:
-					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readByte());
-					break;
-
-				case 1:
-					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readShort());
-					break;
-
-				case 2:
-					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readInt());
-					break;
-
-				case 3:
-					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readFloat());
-					break;
-
-				case 4:
-					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readStringFromBuffer(32767));
-					break;
-
-				case 5:
-					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readItemStackFromBuffer());
-					break;
-
-				case 6:
-					int l = buffer.readInt();
-					int i1 = buffer.readInt();
-					int j1 = buffer.readInt();
-					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, new BlockPos(l, i1, j1));
-					break;
-
-				case 7:
-					float f = buffer.readFloat();
-					float f1 = buffer.readFloat();
-					float f2 = buffer.readFloat();
-					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, new Rotations(f, f1, f2));
-			}
-
-			list.add(datawatcher$watchableobject);
-		}
-
-		return list;
 	}
 
 	public <T> void addObject(int id, T object) {
@@ -275,6 +147,20 @@ public class DataWatcher {
 		return this.objectChanged;
 	}
 
+	/**
+	 * Writes the list of watched objects (entity attribute of type {byte, short, int, float, string, ItemStack,
+	 * ChunkCoordinates}) to the specified PacketBuffer
+	 */
+	public static void writeWatchedListToPacketBuffer(List<DataWatcher.WatchableObject> objectsList, PacketBuffer buffer) throws IOException {
+		if (objectsList != null) {
+			for (DataWatcher.WatchableObject datawatcher$watchableobject : objectsList) {
+				writeWatchableObjectToPacketBuffer(buffer, datawatcher$watchableobject);
+			}
+		}
+
+		buffer.writeByte(127);
+	}
+
 	public List<DataWatcher.WatchableObject> getChanged() {
 		List<DataWatcher.WatchableObject> list = null;
 
@@ -327,6 +213,112 @@ public class DataWatcher {
 		return list;
 	}
 
+	/**
+	 * Writes a watchable object (entity attribute of type {byte, short, int, float, string, ItemStack,
+	 * ChunkCoordinates}) to the specified PacketBuffer
+	 */
+	private static void writeWatchableObjectToPacketBuffer(PacketBuffer buffer, DataWatcher.WatchableObject object) throws IOException {
+		int i = (object.getObjectType() << 5 | object.getDataValueId() & 31) & 255;
+		buffer.writeByte(i);
+
+		switch (object.getObjectType()) {
+			case 0:
+				buffer.writeByte((Byte) object.getObject());
+				break;
+
+			case 1:
+				buffer.writeShort((Short) object.getObject());
+				break;
+
+			case 2:
+				buffer.writeInt((Integer) object.getObject());
+				break;
+
+			case 3:
+				buffer.writeFloat((Float) object.getObject());
+				break;
+
+			case 4:
+				buffer.writeString((String) object.getObject());
+				break;
+
+			case 5:
+				ItemStack itemstack = (ItemStack) object.getObject();
+				buffer.writeItemStackToBuffer(itemstack);
+				break;
+
+			case 6:
+				BlockPos blockpos = (BlockPos) object.getObject();
+				buffer.writeInt(blockpos.getX());
+				buffer.writeInt(blockpos.getY());
+				buffer.writeInt(blockpos.getZ());
+				break;
+
+			case 7:
+				Rotations rotations = (Rotations) object.getObject();
+				buffer.writeFloat(rotations.getX());
+				buffer.writeFloat(rotations.getY());
+				buffer.writeFloat(rotations.getZ());
+		}
+	}
+
+	public static List<DataWatcher.WatchableObject> readWatchedListFromPacketBuffer(PacketBuffer buffer) throws IOException {
+		List<DataWatcher.WatchableObject> list = null;
+
+		for (int i = buffer.readByte(); i != 127; i = buffer.readByte()) {
+			if (list == null) {
+				list = new ArrayList<>();
+			}
+
+			int j = (i & 224) >> 5;
+			int k = i & 31;
+			DataWatcher.WatchableObject datawatcher$watchableobject = null;
+
+			switch (j) {
+				case 0:
+					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readByte());
+					break;
+
+				case 1:
+					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readShort());
+					break;
+
+				case 2:
+					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readInt());
+					break;
+
+				case 3:
+					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readFloat());
+					break;
+
+				case 4:
+					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readStringFromBuffer(32767));
+					break;
+
+				case 5:
+					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, buffer.readItemStackFromBuffer());
+					break;
+
+				case 6:
+					int l = buffer.readInt();
+					int i1 = buffer.readInt();
+					int j1 = buffer.readInt();
+					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, new BlockPos(l, i1, j1));
+					break;
+
+				case 7:
+					float f = buffer.readFloat();
+					float f1 = buffer.readFloat();
+					float f2 = buffer.readFloat();
+					datawatcher$watchableobject = new DataWatcher.WatchableObject(j, k, new Rotations(f, f1, f2));
+			}
+
+			list.add(datawatcher$watchableobject);
+		}
+
+		return list;
+	}
+
 	public void updateWatchedObjectsFromList(List<DataWatcher.WatchableObject> p_75687_1_) {
 		this.lock.writeLock().lock();
 
@@ -351,6 +343,17 @@ public class DataWatcher {
 		this.objectChanged = false;
 	}
 
+	static {
+		dataTypes.put(Byte.class, 0);
+		dataTypes.put(Short.class, 1);
+		dataTypes.put(Integer.class, 2);
+		dataTypes.put(Float.class, 3);
+		dataTypes.put(String.class, 4);
+		dataTypes.put(ItemStack.class, 5);
+		dataTypes.put(BlockPos.class, 6);
+		dataTypes.put(Rotations.class, 7);
+	}
+
 	public static class WatchableObject {
 
 		private final int objectType;
@@ -369,12 +372,12 @@ public class DataWatcher {
 			return this.dataValueId;
 		}
 
-		public Object getObject() {
-			return this.watchedObject;
-		}
-
 		public void setObject(Object object) {
 			this.watchedObject = object;
+		}
+
+		public Object getObject() {
+			return this.watchedObject;
 		}
 
 		public int getObjectType() {

@@ -3,6 +3,8 @@ package net.minecraft.resources;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandHandler;
+import net.minecraft.command.CommandParticle;
+import net.minecraft.command.CommandSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.PlayerGuiBridge;
@@ -68,10 +70,11 @@ public class Registrar {
 	}
 
 	/**
+	 *
 	 * @param command гагагаг
-	 * @param <T>     гагага
+	 * @param <T> гагага
 	 */
-	public <T extends CommandBase> void regCommand(T command) {
+	public <T extends CommandBase> void regCommand(T command){
 		registerMapping(new MappingCommand(CommandHandler.getCommand(command.getCommandName()), command));
 	}
 
@@ -147,7 +150,6 @@ public class Registrar {
 
 	/**
 	 * Замена функции провайдера (Напр. WorldService или MusicType)
-	 *
 	 * @param function ваша новая функция
 	 */
 	public <I, O> void replaceProvider(Provider<I, O> provider, Function<I, O> function) {
@@ -207,6 +209,7 @@ public class Registrar {
 		mapping.map();
 		mappings.add(mapping);
 	}
+
 
 
 }

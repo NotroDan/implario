@@ -93,7 +93,8 @@ public class Main {
 				new GameConfiguration.ServerInformation(s6, integer)
 		);
 		Runtime.getRuntime().addShutdownHook(new Thread("Client Shutdown Thread") {
-			public void run() {
+			public void run()
+			{
 				Minecraft.stopIntegratedServer();
 			}
 		});
@@ -101,8 +102,8 @@ public class Main {
 		new Minecraft(gameconfiguration).run();
 	}
 
-	private static boolean isNullOrEmpty(String str) {
+	private static boolean isNullOrEmpty(String str)
+	{
 		return str != null && !str.isEmpty();
 	}
-
 }

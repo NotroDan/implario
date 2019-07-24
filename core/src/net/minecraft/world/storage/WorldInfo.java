@@ -130,10 +130,10 @@ public class WorldInfo {
 			if (this.terrainType == null) {
 				this.terrainType = WorldType.VOID;
 			} else if (this.terrainType.isVersioned()) {
-				//				int i = 0;
-				//				if (nbt.hasKey("generatorVersion", 99)) i = nbt.getInteger("generatorVersion");
+//				int i = 0;
+//				if (nbt.hasKey("generatorVersion", 99)) i = nbt.getInteger("generatorVersion");
 				throw new IllegalStateException("Делфик, ты забыл сделать поддержку старых миров");
-				//				this.terrainType = WorldType.DEFAULT_OLD;
+//				this.terrainType = WorldType.DEFAULT_OLD;
 			}
 
 			if (nbt.hasKey("generatorOptions", 8)) {
@@ -244,6 +244,16 @@ public class WorldInfo {
 		this.initialized = false;
 	}
 
+	public void populateFromWorldSettings(WorldSettings settings) {
+		this.randomSeed = settings.getSeed();
+		this.theGameType = settings.getGameType();
+		this.mapFeaturesEnabled = settings.isMapFeaturesEnabled();
+		this.hardcore = settings.getHardcoreEnabled();
+		this.terrainType = settings.getTerrainType();
+		this.generatorOptions = settings.getWorldName();
+		this.allowCommands = settings.areCommandsAllowed();
+	}
+
 	public WorldInfo(WorldInfo worldInformation) {
 		this.randomSeed = worldInformation.randomSeed;
 		this.terrainType = worldInformation.terrainType;
@@ -280,16 +290,6 @@ public class WorldInfo {
 		this.borderDamagePerBlock = worldInformation.borderDamagePerBlock;
 		this.borderWarningTime = worldInformation.borderWarningTime;
 		this.borderWarningDistance = worldInformation.borderWarningDistance;
-	}
-
-	public void populateFromWorldSettings(WorldSettings settings) {
-		this.randomSeed = settings.getSeed();
-		this.theGameType = settings.getGameType();
-		this.mapFeaturesEnabled = settings.isMapFeaturesEnabled();
-		this.hardcore = settings.getHardcoreEnabled();
-		this.terrainType = settings.getTerrainType();
-		this.generatorOptions = settings.getWorldName();
-		this.allowCommands = settings.areCommandsAllowed();
 	}
 
 	/**
@@ -371,24 +371,10 @@ public class WorldInfo {
 	}
 
 	/**
-	 * Set the x spawn position to the passed in value
-	 */
-	public void setSpawnX(int x) {
-		this.spawnX = x;
-	}
-
-	/**
 	 * Return the Y axis spawning point of the player.
 	 */
 	public int getSpawnY() {
 		return this.spawnY;
-	}
-
-	/**
-	 * Sets the y spawn position
-	 */
-	public void setSpawnY(int y) {
-		this.spawnY = y;
 	}
 
 	/**
@@ -398,19 +384,8 @@ public class WorldInfo {
 		return this.spawnZ;
 	}
 
-	/**
-	 * Set the z spawn position to the passed in value
-	 */
-	public void setSpawnZ(int z) {
-		this.spawnZ = z;
-	}
-
 	public long getWorldTotalTime() {
 		return this.totalTime;
-	}
-
-	public void setWorldTotalTime(long time) {
-		this.totalTime = time;
 	}
 
 	/**
@@ -418,13 +393,6 @@ public class WorldInfo {
 	 */
 	public long getWorldTime() {
 		return this.worldTime;
-	}
-
-	/**
-	 * Set current world time
-	 */
-	public void setWorldTime(long time) {
-		this.worldTime = time;
 	}
 
 	public long getSizeOnDisk() {
@@ -436,6 +404,38 @@ public class WorldInfo {
 	 */
 	public NBTTagCompound getPlayerNBTTagCompound() {
 		return this.playerTag;
+	}
+
+	/**
+	 * Set the x spawn position to the passed in value
+	 */
+	public void setSpawnX(int x) {
+		this.spawnX = x;
+	}
+
+	/**
+	 * Sets the y spawn position
+	 */
+	public void setSpawnY(int y) {
+		this.spawnY = y;
+	}
+
+	/**
+	 * Set the z spawn position to the passed in value
+	 */
+	public void setSpawnZ(int z) {
+		this.spawnZ = z;
+	}
+
+	public void setWorldTotalTime(long time) {
+		this.totalTime = time;
+	}
+
+	/**
+	 * Set current world time
+	 */
+	public void setWorldTime(long time) {
+		this.worldTime = time;
 	}
 
 	public void setSpawn(BlockPos spawnPoint) {
@@ -548,13 +548,6 @@ public class WorldInfo {
 	}
 
 	/**
-	 * Sets the GameType.
-	 */
-	public void setGameType(WorldSettings.GameType type) {
-		this.theGameType = type;
-	}
-
-	/**
 	 * Get whether the map features (e.g. strongholds) generation is enabled or disabled.
 	 */
 	public boolean isMapFeaturesEnabled() {
@@ -563,6 +556,13 @@ public class WorldInfo {
 
 	public void setMapFeaturesEnabled(boolean enabled) {
 		this.mapFeaturesEnabled = enabled;
+	}
+
+	/**
+	 * Sets the GameType.
+	 */
+	public void setGameType(WorldSettings.GameType type) {
+		this.theGameType = type;
 	}
 
 	/**
@@ -723,17 +723,17 @@ public class WorldInfo {
 	}
 
 	/**
-	 * Sets the border warning distance
-	 */
-	public void setBorderWarningDistance(int amountOfBlocks) {
-		this.borderWarningDistance = amountOfBlocks;
-	}
-
-	/**
 	 * Returns the border warning time
 	 */
 	public int getBorderWarningTime() {
 		return this.borderWarningTime;
+	}
+
+	/**
+	 * Sets the border warning distance
+	 */
+	public void setBorderWarningDistance(int amountOfBlocks) {
+		this.borderWarningDistance = amountOfBlocks;
 	}
 
 	/**

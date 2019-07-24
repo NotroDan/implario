@@ -8,7 +8,7 @@ import net.minecraft.util.BlockPos;
 @Getter
 @Setter
 @AllArgsConstructor
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode(callSuper = false)
 public class PlayerSleepEvent extends PlayerEvent<PlayerSleepEvent> {
 
 	private final EntityPlayer player;

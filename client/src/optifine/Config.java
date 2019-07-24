@@ -1,9 +1,9 @@
 package optifine;
 
-import net.minecraft.Logger;
 import net.minecraft.Utils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.LoadingScreenRenderer;
+import net.minecraft.Logger;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -23,8 +23,8 @@ import net.minecraft.world.WorldServer;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
 import shadersmod.client.Shaders;
 
@@ -35,8 +35,8 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,8 +47,8 @@ public class Config {
 	public static final String OF_EDITION = "HD_U";
 	public static final String OF_RELEASE = "H8";
 	public static final String VERSION = "OptiFine_1.8.8_HD_U_H8";
-	public static final Float DEF_ALPHA_FUNC_LEVEL = 0.1F;
-	private static final Logger LOGGER = Logger.getInstance();
+	private static String newRelease = null;
+	private static boolean notify64BitJava = false;
 	public static String openGlVersion = null;
 	public static String openGlRenderer = null;
 	public static String openGlVendor = null;
@@ -58,10 +58,6 @@ public class Config {
 	public static int minecraftVersionInt = -1;
 	public static boolean fancyFogAvailable = false;
 	public static boolean occlusionAvailable = false;
-	public static boolean zoomMode = false;
-	public static boolean waterOpacityChanged = false;
-	private static String newRelease = null;
-	private static boolean notify64BitJava = false;
 	private static Minecraft minecraft = Minecraft.getMinecraft();
 	private static boolean initialized = false;
 	private static Thread minecraftThread = null;
@@ -69,10 +65,14 @@ public class Config {
 	private static DisplayMode[] displayModes = null;
 	private static int antialiasingLevel = 0;
 	private static int availableProcessors = 0;
+	public static boolean zoomMode = false;
 	private static int texturePackClouds = 0;
+	public static boolean waterOpacityChanged = false;
 	private static boolean fullscreenModeChecked = false;
 	private static boolean desktopModeChecked = false;
 	private static DefaultResourcePack defaultResourcePackLazy = null;
+	public static final Float DEF_ALPHA_FUNC_LEVEL = 0.1F;
+	private static final Logger LOGGER = Logger.getInstance();
 
 	public static String getVersion() {
 		return "OptiFine_1.8.8_HD_U_H8";

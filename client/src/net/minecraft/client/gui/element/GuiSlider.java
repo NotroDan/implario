@@ -7,12 +7,12 @@ import net.minecraft.client.resources.Lang;
 
 public class GuiSlider extends GuiButton {
 
+	private float sliderPosition;
+	public boolean isMouseDown;
+	private String name;
 	private final float min;
 	private final float max;
 	private final GuiPageButtonList.GuiResponder responder;
-	public boolean isMouseDown;
-	private float sliderPosition;
-	private String name;
 	private GuiSlider.FormatHelper formatHelper;
 
 	public GuiSlider(GuiPageButtonList.GuiResponder guiResponder, int idIn, int x, int y, String name, float min, float max, float defaultValue, GuiSlider.FormatHelper formatter) {

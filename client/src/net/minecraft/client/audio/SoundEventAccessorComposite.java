@@ -1,69 +1,79 @@
 package net.minecraft.client.audio;
 
-import net.minecraft.util.ResourceLocation;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.util.ResourceLocation;
 
-public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoolEntry> {
+public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoolEntry>
+{
+    private final List<ISoundEventAccessor<SoundPoolEntry>> soundPool = new ArrayList<>();
+    private final Random rnd = new Random();
+    private final ResourceLocation soundLocation;
+    private final SoundCategory category;
+    private double eventPitch;
+    private double eventVolume;
 
-	private final List<ISoundEventAccessor<SoundPoolEntry>> soundPool = new ArrayList<>();
-	private final Random rnd = new Random();
-	private final ResourceLocation soundLocation;
-	private final SoundCategory category;
-	private double eventPitch;
-	private double eventVolume;
+    public SoundEventAccessorComposite(ResourceLocation soundLocation, double pitch, double volume, SoundCategory category)
+    {
+        this.soundLocation = soundLocation;
+        this.eventVolume = volume;
+        this.eventPitch = pitch;
+        this.category = category;
+    }
 
-	public SoundEventAccessorComposite(ResourceLocation soundLocation, double pitch, double volume, SoundCategory category) {
-		this.soundLocation = soundLocation;
-		this.eventVolume = volume;
-		this.eventPitch = pitch;
-		this.category = category;
-	}
+    public int getWeight()
+    {
+        int i = 0;
 
-	public int getWeight() {
-		int i = 0;
+        for (ISoundEventAccessor<SoundPoolEntry> isoundeventaccessor : this.soundPool)
+        {
+            i += isoundeventaccessor.getWeight();
+        }
 
-		for (ISoundEventAccessor<SoundPoolEntry> isoundeventaccessor : this.soundPool) {
-			i += isoundeventaccessor.getWeight();
-		}
+        return i;
+    }
 
-		return i;
-	}
+    public SoundPoolEntry cloneEntry()
+    {
+        int i = this.getWeight();
 
-	public SoundPoolEntry cloneEntry() {
-		int i = this.getWeight();
+        if (!this.soundPool.isEmpty() && i != 0)
+        {
+            int j = this.rnd.nextInt(i);
 
-		if (!this.soundPool.isEmpty() && i != 0) {
-			int j = this.rnd.nextInt(i);
+            for (ISoundEventAccessor<SoundPoolEntry> isoundeventaccessor : this.soundPool)
+            {
+                j -= isoundeventaccessor.getWeight();
 
-			for (ISoundEventAccessor<SoundPoolEntry> isoundeventaccessor : this.soundPool) {
-				j -= isoundeventaccessor.getWeight();
+                if (j < 0)
+                {
+                    SoundPoolEntry soundpoolentry = (SoundPoolEntry)isoundeventaccessor.cloneEntry();
+                    soundpoolentry.setPitch(soundpoolentry.getPitch() * this.eventPitch);
+                    soundpoolentry.setVolume(soundpoolentry.getVolume() * this.eventVolume);
+                    return soundpoolentry;
+                }
+            }
 
-				if (j < 0) {
-					SoundPoolEntry soundpoolentry = (SoundPoolEntry) isoundeventaccessor.cloneEntry();
-					soundpoolentry.setPitch(soundpoolentry.getPitch() * this.eventPitch);
-					soundpoolentry.setVolume(soundpoolentry.getVolume() * this.eventVolume);
-					return soundpoolentry;
-				}
-			}
-
-			return SoundHandler.missing_sound;
-		}
+            return SoundHandler.missing_sound;
+        }
 		return SoundHandler.missing_sound;
 	}
 
-	public void addSoundToEventPool(ISoundEventAccessor<SoundPoolEntry> sound) {
-		this.soundPool.add(sound);
-	}
+    public void addSoundToEventPool(ISoundEventAccessor<SoundPoolEntry> sound)
+    {
+        this.soundPool.add(sound);
+    }
 
-	public ResourceLocation getSoundEventLocation() {
-		return this.soundLocation;
-	}
+    public ResourceLocation getSoundEventLocation()
+    {
+        return this.soundLocation;
+    }
 
-	public SoundCategory getSoundCategory() {
-		return this.category;
-	}
-
+    public SoundCategory getSoundCategory()
+    {
+        return this.category;
+    }
 }

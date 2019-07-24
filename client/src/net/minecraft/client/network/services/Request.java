@@ -24,27 +24,19 @@ public class Request {
 		this.method = method;
 	}
 
-	private static String encode(String s) {
-		try {
-			return URLEncoder.encode(s, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			return s;
-		}
-	}
-
 	public HttpURLConnection prepare() {
 		try {
 			URL url = new URL(address + bakeParameters());
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod(method.name());
-			//			for (Map.Entry<String, String> stringStringEntry : headers.entrySet()) System.out.println(stringStringEntry);
+//			for (Map.Entry<String, String> stringStringEntry : headers.entrySet()) System.out.println(stringStringEntry);
 			headers.forEach(con::setRequestProperty);
 			if (!body.isEmpty()) {
 				con.setDoOutput(true);
 				DataOutputStream out = new DataOutputStream(con.getOutputStream());
 				for (Iterator<Map.Entry<String, String>> iterator = body.entrySet().iterator(); iterator.hasNext(); ) {
 					Map.Entry<String, String> entry = iterator.next();
-					//					System.out.println(entry.getKey() + "=" + entry.getValue());
+//					System.out.println(entry.getKey() + "=" + entry.getValue());
 					out.writeBytes(entry.getKey());
 					out.writeBytes("=");
 					out.writeBytes(entry.getValue());
@@ -64,8 +56,8 @@ public class Request {
 	public String execute() {
 		try {
 			HttpURLConnection con = prepare();
-			//			System.out.println(con.getResponseCode());
-			//			System.out.println(con.getResponseMessage());
+//			System.out.println(con.getResponseCode());
+//			System.out.println(con.getResponseMessage());
 
 			InputStream inputStream = con.getInputStream();
 			int i;
@@ -82,7 +74,6 @@ public class Request {
 		headers.put(header, value);
 		return this;
 	}
-
 	public Request body(String key, String value) {
 		body.put(encode(key), encode(value));
 		return this;
@@ -99,6 +90,15 @@ public class Request {
 		return sb.toString();
 
 	}
+
+	private static String encode(String s) {
+		try {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return s;
+		}
+	}
+
 
 	public Map<String, String> getBody() {
 		return body;

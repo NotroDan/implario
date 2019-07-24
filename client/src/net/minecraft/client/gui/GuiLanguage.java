@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
@@ -15,17 +16,19 @@ import java.util.Map;
 public class GuiLanguage extends GuiScreen {
 
 	/**
-	 * Reference to the LanguageManager object.
-	 */
-	private final LanguageManager languageManager;
-	/**
 	 * The parent Gui screen
 	 */
 	protected GuiScreen parentScreen;
+
 	/**
 	 * The List GuiSlot object reference.
 	 */
 	private GuiLanguage.List list;
+
+	/**
+	 * Reference to the LanguageManager object.
+	 */
+	private final LanguageManager languageManager;
 
 	public GuiLanguage(GuiScreen screen, LanguageManager manager) {
 		this.parentScreen = screen;

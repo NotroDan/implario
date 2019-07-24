@@ -18,10 +18,10 @@ import java.util.List;
 
 public class VillageCollection extends WorldSavedData {
 
+	private World worldObj;
 	private final List<BlockPos> villagerPositionsList = new ArrayList<>();
 	private final List<VillageDoorInfo> newDoors = new ArrayList<>();
 	private final List<Village> villageList = new ArrayList<>();
-	private World worldObj;
 	private int tickCounter;
 
 	public VillageCollection(String name) {
@@ -36,10 +36,6 @@ public class VillageCollection extends WorldSavedData {
 
 	public static VillageCollection get(World worldObj) {
 		return ((VanillaWorldServer) worldObj).villageCollection;
-	}
-
-	public static String fileNameForProvider(WorldProvider provider) {
-		return "villages" + provider.getInternalNameSuffix();
 	}
 
 	public void setWorldsForAll(World worldIn) {
@@ -257,6 +253,10 @@ public class VillageCollection extends WorldSavedData {
 		}
 
 		nbt.setTag("Villages", nbttaglist);
+	}
+
+	public static String fileNameForProvider(WorldProvider provider) {
+		return "villages" + provider.getInternalNameSuffix();
 	}
 
 }

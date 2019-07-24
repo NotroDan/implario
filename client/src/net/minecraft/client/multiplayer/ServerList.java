@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -23,22 +24,6 @@ public class ServerList {
 	public ServerList(Minecraft mcIn) {
 		this.mc = mcIn;
 		this.loadServerList();
-	}
-
-	public static void func_147414_b(ServerData p_147414_0_) {
-		ServerList serverlist = new ServerList(Minecraft.getMinecraft());
-		serverlist.loadServerList();
-
-		for (int i = 0; i < serverlist.countServers(); ++i) {
-			ServerData serverdata = serverlist.getServerData(i);
-
-			if (serverdata.serverName.equals(p_147414_0_.serverName) && serverdata.serverIP.equals(p_147414_0_.serverIP)) {
-				serverlist.put(i, p_147414_0_);
-				break;
-			}
-		}
-
-		serverlist.saveServerList();
 	}
 
 	/**
@@ -123,8 +108,23 @@ public class ServerList {
 		this.servers.set(id, serverData);
 	}
 
+	public static void func_147414_b(ServerData p_147414_0_) {
+		ServerList serverlist = new ServerList(Minecraft.getMinecraft());
+		serverlist.loadServerList();
+
+		for (int i = 0; i < serverlist.countServers(); ++i) {
+			ServerData serverdata = serverlist.getServerData(i);
+
+			if (serverdata.serverName.equals(p_147414_0_.serverName) && serverdata.serverIP.equals(p_147414_0_.serverIP)) {
+				serverlist.put(i, p_147414_0_);
+				break;
+			}
+		}
+
+		serverlist.saveServerList();
+	}
+	
 	public List<ServerData> getServers() {
 		return servers;
 	}
-
 }

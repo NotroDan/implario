@@ -22,13 +22,15 @@ import java.util.concurrent.Callable;
 
 public abstract class MapGenStructure extends MapGenBase {
 
+	private MapGenStructureData structureData;
+
 	/**
 	 * Used to store a list of all structures that have been recursively generated. Used so that during recursive
 	 * generation, the structure generator can avoid generating structures that intersect ones that have already been
 	 * placed.
 	 */
 	protected Map structureMap = Maps.newHashMap();
-	private MapGenStructureData structureData;
+
 	private LongHashMap structureLongMap = new LongHashMap();
 
 	public abstract String getStructureName();

@@ -19,16 +19,11 @@ public class Logger {
 	public void info(Object... ob) {
 		print(ob);
 	}
-
 	public void warn(Object... ob) {print(ob);}
-
 	public void error(Object... ob) {print(ob);}
-
 	public void fatal(Object... ob) {print(ob);}
-
 	public void debug(Object... ob) {
-		if (isDebugEnabled()) print(ob);
-	}
+		if (isDebugEnabled()) print(ob);}
 
 	public boolean isDebugEnabled() {
 		return false;

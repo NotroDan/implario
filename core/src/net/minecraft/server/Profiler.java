@@ -1,5 +1,6 @@
 package net.minecraft.server;
 
+import com.google.common.collect.Lists;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
 
@@ -11,13 +12,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Profiler {
 
-	protected static final Logger logger = LogManager.getLogger();
 	public static Profiler in = new Profiler();
+
+	protected static final Logger logger = LogManager.getLogger();
 	protected final List<String> sectionList = Collections.synchronizedList(new ArrayList<>());
 	protected final List<Long> timestampList = Collections.synchronizedList(new ArrayList<>());
-	protected final Map<String, Long> profilingMap = new ConcurrentHashMap<>();
+
 	public boolean profilingEnabled;
+
 	protected String profilingSection = "";
+	protected final Map<String, Long> profilingMap = new ConcurrentHashMap<>();
 
 	public Profiler() {}
 

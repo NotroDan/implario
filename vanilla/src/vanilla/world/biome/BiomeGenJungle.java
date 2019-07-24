@@ -2,24 +2,24 @@ package vanilla.world.biome;
 
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
+import vanilla.entity.passive.EntityChicken;
+import vanilla.entity.passive.EntityOcelot;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
-import vanilla.entity.passive.EntityChicken;
-import vanilla.entity.passive.EntityOcelot;
 import vanilla.world.gen.feature.*;
 
 import java.util.Random;
 
 public class BiomeGenJungle extends BiomeGenBase {
 
+	private boolean field_150614_aC;
 	private static final IBlockState field_181620_aE = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
 	private static final IBlockState field_181621_aF = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY,
 			Boolean.FALSE);
 	private static final IBlockState field_181622_aG = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockLeaves.CHECK_DECAY,
 			Boolean.FALSE);
-	private boolean field_150614_aC;
 
 	public BiomeGenJungle(int id, String name, boolean v) {
 		super(id, name);

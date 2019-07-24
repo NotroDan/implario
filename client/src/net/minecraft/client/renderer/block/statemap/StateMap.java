@@ -1,75 +1,84 @@
 package net.minecraft.client.renderer.block.statemap;
 
 import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+public class StateMap extends StateMapperBase
+{
+    private final IProperty<?> name;
+    private final String suffix;
+    private final List < IProperty<? >> ignored;
 
-public class StateMap extends StateMapperBase {
+    private StateMap(IProperty<?> name, String suffix, List < IProperty<? >> ignored)
+    {
+        this.name = name;
+        this.suffix = suffix;
+        this.ignored = ignored;
+    }
 
-	private final IProperty<?> name;
-	private final String suffix;
-	private final List<IProperty<?>> ignored;
+    protected ModelResourceLocation getModelResourceLocation(IBlockState state)
+    {
+        Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
+        String s;
 
-	private StateMap(IProperty<?> name, String suffix, List<IProperty<?>> ignored) {
-		this.name = name;
-		this.suffix = suffix;
-		this.ignored = ignored;
-	}
+        if (this.name == null)
+        {
+            s = ((ResourceLocation)Block.blockRegistry.getNameForObject(state.getBlock())).toString();
+        }
+        else
+        {
+            s = ((IProperty)this.name).getName((Comparable)map.remove(this.name));
+        }
 
-	protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-		Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
-		String s;
+        if (this.suffix != null)
+        {
+            s = s + this.suffix;
+        }
 
-		if (this.name == null) {
-			s = ((ResourceLocation) Block.blockRegistry.getNameForObject(state.getBlock())).toString();
-		} else {
-			s = ((IProperty) this.name).getName((Comparable) map.remove(this.name));
-		}
+        for (IProperty<?> iproperty : this.ignored)
+        {
+            map.remove(iproperty);
+        }
 
-		if (this.suffix != null) {
-			s = s + this.suffix;
-		}
+        return new ModelResourceLocation(s, this.getPropertyString(map));
+    }
 
-		for (IProperty<?> iproperty : this.ignored) {
-			map.remove(iproperty);
-		}
+    public static class Builder
+    {
+        private IProperty<?> name;
+        private String suffix;
+        private final List < IProperty<? >> ignored = new ArrayList<>();
 
-		return new ModelResourceLocation(s, this.getPropertyString(map));
-	}
+        public StateMap.Builder withName(IProperty<?> builderPropertyIn)
+        {
+            this.name = builderPropertyIn;
+            return this;
+        }
 
-	public static class Builder {
+        public StateMap.Builder withSuffix(String builderSuffixIn)
+        {
+            this.suffix = builderSuffixIn;
+            return this;
+        }
 
-		private final List<IProperty<?>> ignored = new ArrayList<>();
-		private IProperty<?> name;
-		private String suffix;
+        public StateMap.Builder ignore(IProperty<?>... p_178442_1_)
+        {
+            Collections.addAll(this.ignored, p_178442_1_);
+            return this;
+        }
 
-		public StateMap.Builder withName(IProperty<?> builderPropertyIn) {
-			this.name = builderPropertyIn;
-			return this;
-		}
-
-		public StateMap.Builder withSuffix(String builderSuffixIn) {
-			this.suffix = builderSuffixIn;
-			return this;
-		}
-
-		public StateMap.Builder ignore(IProperty<?>... p_178442_1_) {
-			Collections.addAll(this.ignored, p_178442_1_);
-			return this;
-		}
-
-		public StateMap build() {
-			return new StateMap(this.name, this.suffix, this.ignored);
-		}
-
-	}
-
+        public StateMap build()
+        {
+            return new StateMap(this.name, this.suffix, this.ignored);
+        }
+    }
 }

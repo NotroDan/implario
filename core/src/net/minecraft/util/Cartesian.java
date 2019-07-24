@@ -2,10 +2,16 @@ package net.minecraft.util;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Cartesian {
 
@@ -63,10 +69,10 @@ public class Cartesian {
 
 		static class ProductIterator<T> extends UnmodifiableIterator<T[]> {
 
+			private int index;
 			private final Iterable<? extends T>[] iterables;
 			private final Iterator<? extends T>[] iterators;
 			private final T[] results;
-			private int index;
 
 			private ProductIterator(Class<T> clazz, Iterable<? extends T>[] iterables) {
 				this.index = -2;

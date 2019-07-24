@@ -109,7 +109,7 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 		}
 
 		public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-			if (!super.mousePressed(mc, mouseX, mouseY)) return false;
+			if (!super.mousePressed(mc, mouseX, mouseY)) return false; 
 			this.field_146156_o = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
 			this.field_146156_o = MathHelper.clamp_float(this.field_146156_o, 0.0F, 1.0F);
 			Settings.setSoundLevel(this.field_146153_r, this.field_146156_o);

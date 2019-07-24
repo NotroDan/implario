@@ -59,12 +59,12 @@ public class NetworkPlayerInfo {
 		return this.gameType;
 	}
 
-	protected void setGameType(WorldSettings.GameType p_178839_1_) {
-		this.gameType = p_178839_1_;
-	}
-
 	public int getResponseTime() {
 		return this.responseTime;
+	}
+
+	protected void setGameType(WorldSettings.GameType p_178839_1_) {
+		this.gameType = p_178839_1_;
 	}
 
 	protected void setResponseTime(int p_178838_1_) {
@@ -120,12 +120,12 @@ public class NetworkPlayerInfo {
 		}
 	}
 
-	public IChatComponent getDisplayName() {
-		return this.displayName;
-	}
-
 	public void setDisplayName(IChatComponent displayNameIn) {
 		this.displayName = displayNameIn;
+	}
+
+	public IChatComponent getDisplayName() {
+		return this.displayName;
 	}
 
 	public int func_178835_l() {

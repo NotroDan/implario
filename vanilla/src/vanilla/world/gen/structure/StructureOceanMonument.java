@@ -1,6 +1,7 @@
 package vanilla.world.gen.structure;
 
 import com.google.common.collect.Sets;
+import vanilla.entity.monster.EntityGuardian;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
@@ -10,22 +11,18 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.StructureBoundingBox;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.SpawnListEntry;
-import vanilla.entity.monster.EntityGuardian;
 import vanilla.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.SpawnListEntry;
 
 import java.util.*;
 import java.util.Map.Entry;
 
 public class StructureOceanMonument extends MapGenStructure {
 
-	public static final List<Biome> field_175802_d = Arrays.asList(BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver);
-	private static final List<SpawnListEntry> field_175803_h = new ArrayList<>();
-	static {
-		field_175803_h.add(new SpawnListEntry(EntityGuardian.class, 1, 2, 4));
-	}
 	private int field_175800_f;
 	private int field_175801_g;
+	public static final List<Biome> field_175802_d = Arrays.asList(BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver);
+	private static final List<SpawnListEntry> field_175803_h = new ArrayList<>();
 
 	public StructureOceanMonument() {
 		this.field_175800_f = 32;
@@ -89,6 +86,10 @@ public class StructureOceanMonument extends MapGenStructure {
 
 	public List<SpawnListEntry> func_175799_b() {
 		return field_175803_h;
+	}
+
+	static {
+		field_175803_h.add(new SpawnListEntry(EntityGuardian.class, 1, 2, 4));
 	}
 
 	public static class StartMonument extends StructureStart {

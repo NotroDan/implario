@@ -1,8 +1,8 @@
 package vanilla.world.biome;
 
+import vanilla.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.SpawnListEntry;
-import vanilla.entity.monster.EntityEnderman;
 
 public class BiomeGenEnd extends BiomeGenBase {
 

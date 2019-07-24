@@ -12,10 +12,10 @@ public enum Easing {
 			1 - pow(-2 * x + 2, 2) / 2),
 
 	CUBE_I(x -> x * x * x),
-	CUBE_O(x -> 1 - pow(1 - x, 3)),
+	CUBE_O(x -> 1 - pow (1 - x, 3)),
 	CUBE_B(x -> x < 0.5 ?
-			4 * x * x * x :
-			1 - pow(-2 * x + 2, 3) / 2),
+				4 * x * x * x :
+				1 - pow(-2 * x + 2, 3) / 2),
 
 	QUAR_I(x -> x * x * x * x),
 	QUAR_O(x -> 1 - pow(1 - x, 4)),
@@ -26,8 +26,8 @@ public enum Easing {
 	QUIN_I(x -> x * x * x * x * x),
 	QUIN_O(x -> 1 - Math.pow(1 - x, 5)),
 	QUIN_B(x -> x < 0.5 ?
-			16 * x * x * x * x * x :
-			1 - pow(-2 * x + 2, 5) / 2),
+				16 * x * x * x * x * x :
+				1 - pow(-2 * x + 2, 5) / 2),
 
 	SINS_I(x -> 1 - cos(x * PI / 2)),
 	SINS_O(x -> sin(x * PI / 2)),

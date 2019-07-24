@@ -42,10 +42,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 
 	private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	private static int nextEntityID;
-	/**
-	 * The command result statistics for this Entity.
-	 */
-	private final CommandResultStats cmdResultStats;
+	private int entityId;
 	public double renderDistanceWeight;
 
 	/**
@@ -114,81 +111,121 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	public float rotationPitch;
 	public float prevRotationYaw;
 	public float prevRotationPitch;
+
+	/**
+	 * Axis aligned bounding box.
+	 */
+	private AxisAlignedBB boundingBox;
 	public boolean onGround;
+
 	/**
 	 * True if after a move this entity has collided with something on X- or Z-axis
 	 */
 	public boolean isCollidedHorizontally;
+
 	/**
 	 * True if after a move this entity has collided with something on Y-axis
 	 */
 	public boolean isCollidedVertically;
+
 	/**
 	 * True if after a move this entity has collided with something either vertically or horizontally
 	 */
 	public boolean isCollided;
 	public boolean velocityChanged;
+	protected boolean isInWeb;
+	private boolean isOutsideBorder;
+
 	/**
 	 * gets set by setEntityDead, so this must be the flag whether an Entity is dead (inactive may be better term)
 	 */
 	public boolean isDead;
+
 	/**
 	 * How wide this entity is considered to be
 	 */
 	public float width;
+
 	/**
 	 * How high this entity is considered to be
 	 */
 	public float height;
+
 	/**
 	 * The previous ticks distance walked multiplied by 0.6
 	 */
 	public float prevDistanceWalkedModified;
+
 	/**
 	 * The distance walked multiplied by 0.6
 	 */
 	public float distanceWalkedModified;
 	public float distanceWalkedOnStepModified;
 	public float fallDistance;
+
+	/**
+	 * The distance that has to be exceeded in order to triger a new step sound and an onEntityWalking event on a block
+	 */
+	private int nextStepDistance;
+
 	/**
 	 * The entity's X coordinate at the previous tick, used to calculate position during rendering routines
 	 */
 	public double lastTickPosX;
+
 	/**
 	 * The entity's Y coordinate at the previous tick, used to calculate position during rendering routines
 	 */
 	public double lastTickPosY;
+
 	/**
 	 * The entity's Z coordinate at the previous tick, used to calculate position during rendering routines
 	 */
 	public double lastTickPosZ;
+
 	/**
 	 * How high this entity can step up when running into a block to try to get over it (currently make note the entity
 	 * will always step up this amount and not just the amount needed)
 	 */
 	public float stepHeight;
+
 	/**
 	 * Whether this entity won't clip with collision or not (make note it won't disable gravity)
 	 */
 	public boolean noClip;
+
 	/**
 	 * Reduces the velocity applied by entity collisions by the specified percent.
 	 */
 	public float entityCollisionReduction;
 	public Random rand;
+
 	/**
 	 * How many ticks has this entity had ran since being alive
 	 */
 	public int ticksExisted;
+
 	/**
 	 * The amount of ticks you have to stand inside of fire before be set on fire
 	 */
 	public int fireResistance;
 	public int fire;
+
+	/**
+	 * Whether this entity is currently inside of water (if it handles water movement that is)
+	 */
+	protected boolean inWater;
+
 	/**
 	 * Remaining time an entity will be "immune" to further damage after being hurt.
 	 */
 	public int hurtResistantTime;
+	protected boolean firstUpdate;
+	protected boolean isImmuneToFire;
+	protected DataWatcher dataWatcher;
+	private double entityRiderPitchDelta;
+	private double entityRiderYawDelta;
+
 	/**
 	 * Has this entity been added to the chunk its within
 	 */
@@ -199,6 +236,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	public int serverPosX;
 	public int serverPosY;
 	public int serverPosZ;
+
 	/**
 	 * Render entity even if it is outside the camera frustum. Only true in EntityFish for now. Used in RenderGlobal:
 	 * render if ignoreFrustumCheck or in frustum.
@@ -206,40 +244,42 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	public boolean ignoreFrustumCheck;
 	public boolean isAirBorne;
 	public int timeUntilPortal;
-	/**
-	 * Which dimension the player is in (-1 = the Nether, 0 = normal world)
-	 */
-	public int dimension;
-	protected boolean isInWeb;
-	/**
-	 * Whether this entity is currently inside of water (if it handles water movement that is)
-	 */
-	protected boolean inWater;
-	protected boolean firstUpdate;
-	protected boolean isImmuneToFire;
-	protected DataWatcher dataWatcher;
+
 	/**
 	 * Whether the entity is inside a Portal
 	 */
 	protected boolean inPortal;
 	protected int portalCounter;
+
+	/**
+	 * Which dimension the player is in (-1 = the Nether, 0 = normal world)
+	 */
+	public int dimension;
 	protected BlockPos field_181016_an;
 	protected Vec3 field_181017_ao;
 	protected EnumFacing field_181018_ap;
-	protected UUID entityUniqueID;
-	private int entityId;
-	/**
-	 * Axis aligned bounding box.
-	 */
-	private AxisAlignedBB boundingBox;
-	private boolean isOutsideBorder;
-	/**
-	 * The distance that has to be exceeded in order to triger a new step sound and an onEntityWalking event on a block
-	 */
-	private int nextStepDistance;
-	private double entityRiderPitchDelta;
-	private double entityRiderYawDelta;
 	private boolean invulnerable;
+	protected UUID entityUniqueID;
+
+	/**
+	 * The command result statistics for this Entity.
+	 */
+	private final CommandResultStats cmdResultStats;
+
+	public int getEntityId() {
+		return this.entityId;
+	}
+
+	public void setEntityId(int id) {
+		this.entityId = id;
+	}
+
+	/**
+	 * Called by the /kill command.
+	 */
+	public void onKillCommand() {
+		this.setDead();
+	}
 
 	public Entity(World worldIn) {
 		this.entityId = nextEntityID++;
@@ -267,21 +307,6 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		this.dataWatcher.addObject(2, "");
 		this.dataWatcher.addObject(4, (byte) 0);
 		this.entityInit();
-	}
-
-	public int getEntityId() {
-		return this.entityId;
-	}
-
-	public void setEntityId(int id) {
-		this.entityId = id;
-	}
-
-	/**
-	 * Called by the /kill command.
-	 */
-	public void onKillCommand() {
-		this.setDead();
 	}
 
 	public Domain getDomain() {
@@ -1026,8 +1051,9 @@ public abstract class Entity implements ICommandSender, ITrackable {
 
 	/**
 	 * Used in both water and by flying objects
-	 *
 	 * @param friction - Коэффициент, на который умножается движение
+	 *
+	 *
 	 */
 	public void move(float strafe, float forward, float friction) {
 		float f = strafe * strafe + forward * forward;
@@ -1039,7 +1065,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 
 		f = friction / f;
 		strafe = strafe * f;
-		//		System.out.println("strafe = " + strafe + ", friction = " + friction);
+//		System.out.println("strafe = " + strafe + ", friction = " + friction);
 		forward = forward * f;
 		float dx = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F);
 		float dz = MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F);
@@ -1822,10 +1848,6 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		return this.getFlag(5);
 	}
 
-	public void setInvisible(boolean invisible) {
-		this.setFlag(5, invisible);
-	}
-
 	/**
 	 * Only used by renderer in EntityLivingBase subclasses.
 	 * Determines if an entity is visible or not to a specfic player, if the entity is normally invisible.
@@ -1833,6 +1855,10 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	 */
 	public boolean isInvisibleToPlayer(EntityPlayer player) {
 		return !player.isSpectator() && this.isInvisible();
+	}
+
+	public void setInvisible(boolean invisible) {
+		this.setFlag(5, invisible);
 	}
 
 	public boolean isEating() {
@@ -2180,15 +2206,15 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		return chatcomponenttext;
 	}
 
-	public String getCustomNameTag() {
-		return this.dataWatcher.getWatchableObjectString(2);
-	}
-
 	/**
 	 * Sets the custom name tag for this entity
 	 */
 	public void setCustomNameTag(String name) {
 		this.dataWatcher.updateObject(2, name);
+	}
+
+	public String getCustomNameTag() {
+		return this.dataWatcher.getWatchableObjectString(2);
 	}
 
 	/**
@@ -2198,12 +2224,12 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		return this.dataWatcher.getWatchableObjectString(2).length() > 0;
 	}
 
-	public boolean getAlwaysRenderNameTag() {
-		return this.dataWatcher.getWatchableObjectByte(3) == 1;
-	}
-
 	public void setAlwaysRenderNameTag(boolean alwaysRenderNameTag) {
 		this.dataWatcher.updateObject(3, (byte) (alwaysRenderNameTag ? 1 : 0));
+	}
+
+	public boolean getAlwaysRenderNameTag() {
+		return this.dataWatcher.getWatchableObjectByte(3) == 1;
 	}
 
 	/**

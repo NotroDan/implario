@@ -17,15 +17,20 @@ import java.util.Map;
 
 public class TileEntityRendererDispatcher {
 
+	private Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> mapSpecialRenderers = Maps.newHashMap();
 	public static TileEntityRendererDispatcher instance = new TileEntityRendererDispatcher();
+	private AssetsFontRenderer fontRenderer;
+
 	/**
 	 * The player's current X position (same as playerX)
 	 */
 	public static double staticPlayerX;
+
 	/**
 	 * The player's current Y position (same as playerY)
 	 */
 	public static double staticPlayerY;
+
 	/**
 	 * The player's current Z position (same as playerZ)
 	 */
@@ -38,8 +43,6 @@ public class TileEntityRendererDispatcher {
 	public double entityX;
 	public double entityY;
 	public double entityZ;
-	private Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> mapSpecialRenderers = Maps.newHashMap();
-	private AssetsFontRenderer fontRenderer;
 
 	private TileEntityRendererDispatcher() {
 		register(TileEntitySign.class, new TileEntitySignRenderer());

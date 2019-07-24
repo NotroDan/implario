@@ -6,41 +6,38 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Animator {
-
+	
 	private final List<Animation> list;
 	private int startX, startY;
-
+	
 	public Animator(int startX, int startY, List<Animation> list) {
 		this.list = list;
 		this.startX = startX;
 		this.startY = startY;
 	}
-
 	public Animator(int startX, int startY, Animation... list) {
 		this.startX = startX;
 		this.startY = startY;
 		this.list = Arrays.asList(list);
 	}
-
+	
 	public void setOffsets(int x, int y) {
 		this.startX = x;
 		this.startY = y;
 	}
-
+	
 	public class Cycle {
-
 		private final long startTime;
 		private final boolean reverse;
-
+		
 		public Cycle(long startTime) {
 			this(startTime, false);
 		}
-
 		public Cycle(long startTime, boolean reverse) {
 			this.startTime = startTime;
 			this.reverse = reverse;
 		}
-
+		
 		public boolean draw(long currentTime) {
 			boolean e = false;
 			for (Animation anim : list) {
@@ -57,7 +54,5 @@ public class Animator {
 			}
 			return e;
 		}
-
 	}
-
 }

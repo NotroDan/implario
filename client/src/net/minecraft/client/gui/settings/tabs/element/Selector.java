@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.SelectorSetting;
 import net.minecraft.client.settings.Settings;
 
+import static net.minecraft.client.gui.Gui.drawRect;
 import static net.minecraft.client.gui.settings.GuiSettings.*;
 
 public class Selector implements Element {
@@ -32,8 +33,8 @@ public class Selector implements Element {
 
 		G.pushMatrix();
 		for (int i = 0; i < s.titles.length; i++) {
-			//			drawRect(0, 0, 1, 20, 0xff545454);
-			//			drawRect(split - 1, 0, split, 20, 0xff545454);
+//			drawRect(0, 0, 1, 20, 0xff545454);
+//			drawRect(split - 1, 0, split, 20, 0xff545454);
 			if (i == s.state) {
 				drawRect(2, 19, split - 2, 20, -1);
 				drawRect(2, 0, split - 2, 19, 0xff3355aa);
@@ -50,7 +51,7 @@ public class Selector implements Element {
 		}
 		G.popMatrix();
 
-		G.color(1, 1, 1, 1);
+		G.color(1,1,1,1);
 		BakedFont.CALIBRI.getRenderer().renderString(caption, captionW, 22, false);
 
 	}

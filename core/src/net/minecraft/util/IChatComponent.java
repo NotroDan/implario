@@ -1,6 +1,16 @@
 package net.minecraft.util;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import net.minecraft.util.chat.*;
 
 import java.lang.reflect.Type;
@@ -9,9 +19,9 @@ import java.util.Map.Entry;
 
 public interface IChatComponent extends Iterable<IChatComponent> {
 
-	ChatStyle getChatStyle();
-
 	IChatComponent setChatStyle(ChatStyle style);
+
+	ChatStyle getChatStyle();
 
 	/**
 	 * Appends the given text to the end of this component.
@@ -49,21 +59,6 @@ public interface IChatComponent extends Iterable<IChatComponent> {
 	class Serializer implements JsonDeserializer<IChatComponent>, JsonSerializer<IChatComponent> {
 
 		private static final Gson GSON;
-		static {
-			GsonBuilder gsonbuilder = new GsonBuilder();
-			gsonbuilder.registerTypeHierarchyAdapter(IChatComponent.class, new IChatComponent.Serializer());
-			gsonbuilder.registerTypeHierarchyAdapter(ChatStyle.class, new ChatStyle.Serializer());
-			gsonbuilder.registerTypeAdapterFactory(new EnumTypeAdapterFactory());
-			GSON = gsonbuilder.create();
-		}
-
-		public static String componentToJson(IChatComponent component) {
-			return GSON.toJson(component);
-		}
-
-		public static IChatComponent jsonToComponent(String json) {
-			return GSON.fromJson(json, IChatComponent.class);
-		}
 
 		public IChatComponent deserialize(JsonElement json, Type type, JsonDeserializationContext ctx) throws JsonParseException {
 			if (json.isJsonPrimitive()) {
@@ -220,6 +215,22 @@ public interface IChatComponent extends Iterable<IChatComponent> {
 			}
 
 			return jsonobject;
+		}
+
+		public static String componentToJson(IChatComponent component) {
+			return GSON.toJson(component);
+		}
+
+		public static IChatComponent jsonToComponent(String json) {
+			return GSON.fromJson(json, IChatComponent.class);
+		}
+
+		static {
+			GsonBuilder gsonbuilder = new GsonBuilder();
+			gsonbuilder.registerTypeHierarchyAdapter(IChatComponent.class, new IChatComponent.Serializer());
+			gsonbuilder.registerTypeHierarchyAdapter(ChatStyle.class, new ChatStyle.Serializer());
+			gsonbuilder.registerTypeAdapterFactory(new EnumTypeAdapterFactory());
+			GSON = gsonbuilder.create();
 		}
 	}
 

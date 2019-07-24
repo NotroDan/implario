@@ -3,13 +3,13 @@ package vanilla.entity.ai.tasks.ocelot;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
+import vanilla.entity.ai.tasks.EntityAIMoveToBlock;
+import vanilla.entity.passive.EntityOcelot;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import vanilla.entity.ai.tasks.EntityAIMoveToBlock;
-import vanilla.entity.passive.EntityOcelot;
 
 public class EntityAIOcelotSit extends EntityAIMoveToBlock {
 

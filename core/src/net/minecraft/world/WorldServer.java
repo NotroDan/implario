@@ -11,18 +11,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EntityTracker;
+import net.minecraft.entity.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S19PacketEntityStatus;
-import net.minecraft.network.play.server.S24PacketBlockAction;
-import net.minecraft.network.play.server.S27PacketExplosion;
-import net.minecraft.network.play.server.S2APacketParticles;
+import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.events.WorldServerInitEvent;
 import net.minecraft.resources.event.events.WorldTickEvent;
@@ -45,6 +40,7 @@ import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class WorldServer extends World implements IThreadListener {
 
@@ -55,17 +51,20 @@ public class WorldServer extends World implements IThreadListener {
 	private final Set<NextTickListEntry> pendingTickListEntriesHashSet = Sets.newHashSet();
 	private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet();
 	private final Map<UUID, Entity> entitiesByUuid = Maps.newHashMap();
-	private final WorldTickEvent tickEvent = new WorldTickEvent(this);
 	public ChunkProviderServer theChunkProviderServer;
+
 	/**
 	 * Whether level saving is disabled or not
 	 */
 	public boolean disableLevelSaving;
-	protected IDimensionTranser dimensionTransfer;
+
 	private int updateEntityTick;
+
 	private WorldServer.ServerBlockEventList[] field_147490_S = new WorldServer.ServerBlockEventList[] {new WorldServer.ServerBlockEventList(), new WorldServer.ServerBlockEventList()};
 	private int blockEventCacheIndex;
 	private List<NextTickListEntry> pendingTickListEntriesThisTick = new ArrayList<>();
+	private final WorldTickEvent tickEvent = new WorldTickEvent(this);
+	protected IDimensionTranser dimensionTransfer;
 
 	public WorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo info, int dimensionId, Profiler profilerIn) {
 		super(saveHandlerIn, info, DIMENSION_PROVIDER.provide(dimensionId), profilerIn, false);
@@ -119,25 +118,25 @@ public class WorldServer extends World implements IThreadListener {
 
 		this.theProfiler.startSection("chunkSource");
 
-		this.chunkProvider.unloadQueuedChunks();
-		int j = this.calculateSkylightSubtracted(1.0F);
+			this.chunkProvider.unloadQueuedChunks();
+			int j = this.calculateSkylightSubtracted(1.0F);
 
-		if (j != this.getSkylightSubtracted())
-			this.setSkylightSubtracted(j);
+			if (j != this.getSkylightSubtracted())
+				this.setSkylightSubtracted(j);
 
-		this.worldInfo.setWorldTotalTime(this.worldInfo.getWorldTotalTime() + 1L);
+			this.worldInfo.setWorldTotalTime(this.worldInfo.getWorldTotalTime() + 1L);
 
-		if (this.getGameRules().getBoolean("doDaylightCycle"))
-			this.worldInfo.setWorldTime(this.worldInfo.getWorldTime() + 1L);
+			if (this.getGameRules().getBoolean("doDaylightCycle"))
+				this.worldInfo.setWorldTime(this.worldInfo.getWorldTime() + 1L);
 
 		this.theProfiler.endStartSection("tickPending");
-		this.tickUpdates(false);
+			this.tickUpdates(false);
 		this.theProfiler.endStartSection("tickBlocks");
-		this.updateBlocks();
+			this.updateBlocks();
 		this.theProfiler.endStartSection("chunkMap");
-		this.thePlayerManager.updatePlayerInstances();
+			this.thePlayerManager.updatePlayerInstances();
 		this.theProfiler.endStartSection("customTicking");
-		E.call(tickEvent);
+			E.call(tickEvent);
 		this.theProfiler.endSection();
 
 		this.sendQueuedBlockEvents();
@@ -741,12 +740,11 @@ public class WorldServer extends World implements IThreadListener {
 
 	/**
 	 * Создаёт частицы и отправляет пакеты о них нужным игрокам.
-	 *
-	 * @param type     Тип частицы.
-	 * @param amount   Количество частиц.
+	 * @param type Тип частицы.
+	 * @param amount Количество частиц.
 	 * @param dx,dy,dz Отклонение по осям.
-	 * @param speed    Скорость движения частиц.
-	 * @param args     Аргументы частиц (Например, ID блока для частиц кусочков блока).
+	 * @param speed Скорость движения частиц.
+	 * @param args Аргументы частиц (Например, ID блока для частиц кусочков блока).
 	 */
 	public void spawnParticle(ParticleType type, double x, double y, double z, int amount, double dx, double dy, double dz, double speed, int... args) {
 		this.spawnParticle(type, false, x, y, z, amount, dx, dy, dz, speed, args);
@@ -754,13 +752,12 @@ public class WorldServer extends World implements IThreadListener {
 
 	/**
 	 * Создаёт частицы и отправляет пакеты о них нужным игрокам.
-	 *
-	 * @param type     Тип частицы.
-	 * @param farMode  Режим отображения (false - обычный, true - с повышенной дальностью.
-	 * @param amount   Количество частиц.
+	 * @param type Тип частицы.
+	 * @param farMode Режим отображения (false - обычный, true - с повышенной дальностью.
+	 * @param amount Количество частиц.
 	 * @param dx,dy,dz Отклонение по осям.
-	 * @param speed    Скорость движения частиц.
-	 * @param args     Аргументы частиц (Например, ID блока для частиц кусочков блока).
+	 * @param speed Скорость движения частиц.
+	 * @param args Аргументы частиц (Например, ID блока для частиц кусочков блока).
 	 */
 	public void spawnParticle(ParticleType type, boolean farMode,
 							  double x, double y, double z, int amount,

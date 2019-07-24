@@ -35,11 +35,31 @@ import java.util.Map;
 
 public class RenderManager {
 
+	/**
+	 * A map of entity classes and the associated renderer.
+	 */
+	private Map entityRenderMap = Maps.newHashMap();
+
+	/**
+	 * lists the various player skin types with their associated Renderer class instances.
+	 */
+	private Map skinMap = Maps.newHashMap();
+	private RenderPlayer playerRenderer;
+
+	/**
+	 * Renders fonts
+	 */
+	private AssetsFontRenderer textRenderer;
+	private double renderPosX;
+	private double renderPosY;
+	private double renderPosZ;
 	public TextureManager renderEngine;
+
 	/**
 	 * Reference to the World object.
 	 */
 	public World worldObj;
+
 	/**
 	 * Rendermanager's variable for the player
 	 */
@@ -50,22 +70,6 @@ public class RenderManager {
 	public double viewerPosX;
 	public double viewerPosY;
 	public double viewerPosZ;
-	/**
-	 * A map of entity classes and the associated renderer.
-	 */
-	private Map entityRenderMap = Maps.newHashMap();
-	/**
-	 * lists the various player skin types with their associated Renderer class instances.
-	 */
-	private Map skinMap = Maps.newHashMap();
-	private RenderPlayer playerRenderer;
-	/**
-	 * Renders fonts
-	 */
-	private AssetsFontRenderer textRenderer;
-	private double renderPosX;
-	private double renderPosY;
-	private double renderPosZ;
 	private boolean renderOutlines = false;
 	private boolean renderShadow = true;
 
@@ -126,7 +130,6 @@ public class RenderManager {
 	public Render getRenderRaw(Class type) {
 		return (Render) entityRenderMap.get(type);
 	}
-
 	public Render getEntityClassRenderObject(Class type) {
 		Render render = getRenderRaw(type);
 
@@ -189,12 +192,12 @@ public class RenderManager {
 		this.renderShadow = renderShadowIn;
 	}
 
-	public boolean isDebugBoundingBox() {
-		return this.debugBoundingBox;
-	}
-
 	public void setDebugBoundingBox(boolean debugBoundingBoxIn) {
 		this.debugBoundingBox = debugBoundingBoxIn;
+	}
+
+	public boolean isDebugBoundingBox() {
+		return this.debugBoundingBox;
 	}
 
 	public boolean renderEntitySimple(Entity entityIn, float partialTicks) {

@@ -28,6 +28,37 @@ public class BlockCrops extends BlockBush implements IGrowable {
 		this.disableStats();
 	}
 
+	/**
+	 * is the block grass, dirt or farmland
+	 */
+	protected boolean canPlaceBlockOn(Block ground) {
+		return ground == Blocks.farmland;
+	}
+
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		super.updateTick(worldIn, pos, state, rand);
+
+		if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
+			int i = state.getValue(AGE);
+
+			if (i < 7) {
+				float f = getGrowthChance(this, worldIn, pos);
+
+				if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
+					worldIn.setBlockState(pos, state.withProperty(AGE, i + 1), 2);
+				}
+			}
+		}
+	}
+
+
+	public void grow(World worldIn, BlockPos pos, IBlockState state) {
+		int i = state.getValue(AGE) + MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
+		if (i > 7) i = 7;
+		worldIn.setBlockState(pos, state.withProperty(AGE, i), 2);
+	}
+
+
 	protected static float getGrowthChance(Block blockIn, World worldIn, BlockPos pos) {
 		float f = 1.0F;
 		BlockPos blockpos = pos.down();
@@ -72,35 +103,6 @@ public class BlockCrops extends BlockBush implements IGrowable {
 		}
 
 		return f;
-	}
-
-	/**
-	 * is the block grass, dirt or farmland
-	 */
-	protected boolean canPlaceBlockOn(Block ground) {
-		return ground == Blocks.farmland;
-	}
-
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		super.updateTick(worldIn, pos, state, rand);
-
-		if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
-			int i = state.getValue(AGE);
-
-			if (i < 7) {
-				float f = getGrowthChance(this, worldIn, pos);
-
-				if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
-					worldIn.setBlockState(pos, state.withProperty(AGE, i + 1), 2);
-				}
-			}
-		}
-	}
-
-	public void grow(World worldIn, BlockPos pos, IBlockState state) {
-		int i = state.getValue(AGE) + MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
-		if (i > 7) i = 7;
-		worldIn.setBlockState(pos, state.withProperty(AGE, i), 2);
 	}
 
 	public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
