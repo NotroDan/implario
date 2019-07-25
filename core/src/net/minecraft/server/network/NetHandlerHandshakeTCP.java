@@ -1,6 +1,6 @@
 package net.minecraft.server.network;
 
-import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.ConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.INetHandlerHandshakeServer;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -27,7 +27,7 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer {
 	public void processHandshake(C00Handshake packetIn) {
 		switch (packetIn.getRequestedState()) {
 			case LOGIN:
-				this.networkManager.setConnectionState(EnumConnectionState.LOGIN);
+				this.networkManager.setConnectionState(ConnectionState.LOGIN);
 
 				if (packetIn.getProtocolVersion() != 47) {
 					ChatComponentText chatcomponenttext = new ChatComponentText("Этот сервер использует протокол §eNotchian 47§f (версия 1.8.8)\n" +
@@ -42,7 +42,7 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer {
 				break;
 
 			case STATUS:
-				this.networkManager.setConnectionState(EnumConnectionState.STATUS);
+				this.networkManager.setConnectionState(ConnectionState.STATUS);
 				this.networkManager.setNetHandler(new NetHandlerStatusServer(this.server, this.networkManager));
 				break;
 

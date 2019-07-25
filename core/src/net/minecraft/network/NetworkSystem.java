@@ -96,11 +96,11 @@ public class NetworkSystem {
 							.addLast("timeout", new ReadTimeoutHandler(30))
 							.addLast("legacy_query", new PingResponseHandler(NetworkSystem.this))
 							.addLast("splitter", new MessageSerialization.Splitter())
-							.addLast("decoder", new MessageSerialization.Decoder(EnumPacketDirection.SERVERBOUND))
+							.addLast("decoder", new MessageSerialization.Decoder(true))
 							.addLast("prepender", new MessageSerialization.Prepender())
-							.addLast("encoder", new MessageSerialization.Encoder(EnumPacketDirection.CLIENTBOUND));
+							.addLast("encoder", new MessageSerialization.Encoder(false));
 
-					NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.SERVERBOUND);
+					NetworkManager networkmanager = new NetworkManager(true);
 					NetworkSystem.this.networkManagers.add(networkmanager);
 					channel.pipeline().addLast("packet_handler", networkmanager);
 					networkmanager.setNetHandler(new NetHandlerHandshakeTCP(NetworkSystem.this.mcServer, networkmanager));
@@ -118,7 +118,7 @@ public class NetworkSystem {
 		synchronized (this.endpoints) {
 			channelfuture = new ServerBootstrap().channel(LocalServerChannel.class).childHandler(new ChannelInitializer<Channel>() {
 				protected void initChannel(Channel p_initChannel_1_) throws Exception {
-					NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.SERVERBOUND);
+					NetworkManager networkmanager = new NetworkManager(true);
 					networkmanager.setNetHandler(new NetHandlerHandshakeMemory(NetworkSystem.this.mcServer, networkmanager));
 					NetworkSystem.this.networkManagers.add(networkmanager);
 					p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);

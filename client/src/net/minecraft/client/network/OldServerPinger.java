@@ -1,6 +1,5 @@
 package net.minecraft.client.network;
 
-import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -11,7 +10,7 @@ import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.ConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.ServerStatusResponse;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -47,7 +46,7 @@ public class OldServerPinger {
 		networkmanager.setNetHandler(new PingerNetHandlerStatusClient(networkmanager, server));
 
 		try {
-			networkmanager.sendPacket(new C00Handshake(47, serveraddress.getIP(), serveraddress.getPort(), EnumConnectionState.STATUS));
+			networkmanager.sendPacket(new C00Handshake(47, serveraddress.getIP(), serveraddress.getPort(), ConnectionState.STATUS));
 			networkmanager.sendPacket(new C00PacketServerQuery());
 		} catch (Throwable ex) {
 			logger.error(ex);
