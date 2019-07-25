@@ -29,14 +29,12 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer {
 			case LOGIN:
 				this.networkManager.setConnectionState(EnumConnectionState.LOGIN);
 
-				if (packetIn.getProtocolVersion() > 47) {
-					ChatComponentText chatcomponenttext = new ChatComponentText("Outdated server! I\'m still on 1.8.8");
+				if (packetIn.getProtocolVersion() != 47) {
+					ChatComponentText chatcomponenttext = new ChatComponentText("Этот сервер использует протокол §eNotchian 47§f (версия 1.8.8)\n" +
+							"§fВаш клиент использует протокол §eNotchian " + packetIn.getProtocolVersion() + "§f, который несовместим с Notchian 47.\n§f\n" +
+							"Используйте клиент §eImplario§f для входа на этот сервер.\n§7github.com/DelfikPro/Implario");
 					this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext));
 					this.networkManager.closeChannel(chatcomponenttext);
-				} else if (packetIn.getProtocolVersion() < 47) {
-					ChatComponentText chatcomponenttext1 = new ChatComponentText("Outdated client! Please use 1.8.8");
-					this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext1));
-					this.networkManager.closeChannel(chatcomponenttext1);
 				} else {
 					this.networkManager.setNetHandler(new NetHandlerLoginServer(this.server, this.networkManager));
 				}

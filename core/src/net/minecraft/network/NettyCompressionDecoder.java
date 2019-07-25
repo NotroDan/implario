@@ -20,30 +20,30 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder {
 		this.inflater = new Inflater();
 	}
 
-	protected void decode(ChannelHandlerContext p_decode_1_, ByteBuf p_decode_2_, List<Object> p_decode_3_) throws DataFormatException, Exception {
-		if (p_decode_2_.readableBytes() != 0) {
-			PacketBuffer packetbuffer = new PacketBuffer(p_decode_2_);
-			int i = packetbuffer.readVarIntFromBuffer();
+	protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> dst) throws Exception {
+		if (buf.readableBytes() == 0) return;
 
-			if (i == 0) {
-				p_decode_3_.add(packetbuffer.readBytes(packetbuffer.readableBytes()));
-			} else {
-				if (i < this.treshold) {
-					throw new DecoderException("Badly compressed packet - size of " + i + " is below server threshold of " + this.treshold);
-				}
+		PacketBuffer packetbuffer = new PacketBuffer(buf);
+		int i = packetbuffer.readVarIntFromBuffer();
 
-				if (i > 2097152) {
-					throw new DecoderException("Badly compressed packet - size of " + i + " is larger than protocol maximum of " + 2097152);
-				}
-
-				byte[] abyte = new byte[packetbuffer.readableBytes()];
-				packetbuffer.readBytes(abyte);
-				this.inflater.setInput(abyte);
-				byte[] abyte1 = new byte[i];
-				this.inflater.inflate(abyte1);
-				p_decode_3_.add(Unpooled.wrappedBuffer(abyte1));
-				this.inflater.reset();
+		if (i == 0) {
+			dst.add(packetbuffer.readBytes(packetbuffer.readableBytes()));
+		} else {
+			if (i < this.treshold) {
+				throw new DecoderException("Badly compressed packet - size of " + i + " is below server threshold of " + this.treshold);
 			}
+
+			if (i > 0x200000) {
+				throw new DecoderException("Badly compressed packet - size of " + i + " is larger than protocol maximum of " + 0x200000);
+			}
+
+			byte[] abyte = new byte[packetbuffer.readableBytes()];
+			packetbuffer.readBytes(abyte);
+			this.inflater.setInput(abyte);
+			byte[] abyte1 = new byte[i];
+			this.inflater.inflate(abyte1);
+			dst.add(Unpooled.wrappedBuffer(abyte1));
+			this.inflater.reset();
 		}
 	}
 
