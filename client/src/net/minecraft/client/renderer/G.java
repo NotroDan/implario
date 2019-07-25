@@ -289,11 +289,13 @@ public class G {
 		}
 	}
 
+	private static int lastTexture = -124124;
+
 	public static void bindTexture(int texture) {
-		if (texture != textureState[activeTextureUnit].textureName) {
-			textureState[activeTextureUnit].textureName = texture;
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
-		}
+		if (lastTexture == texture) return;
+		lastTexture = texture;
+		textureState[activeTextureUnit].textureName = texture;
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 	}
 
 	public static void bindCurrentTexture() {
