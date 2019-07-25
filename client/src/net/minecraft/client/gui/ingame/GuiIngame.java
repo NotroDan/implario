@@ -42,6 +42,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GuiIngame extends Gui {
+
 	public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
 	private final Minecraft mc;
 	public final RenderItem itemRenderer;
@@ -124,13 +125,13 @@ public class GuiIngame extends Gui {
 		}
 
 		// Затемнение по краям экрана
-//		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
+		//		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
 
 		// Рисунок тыквы, надетой на голову
-//		renderPumpkinOverlay(scaledresolution);
+		//		renderPumpkinOverlay(scaledresolution);
 
 		// Фиолетовый эффект портала
-//		renderPortal(scaledresolution, partialTicks);
+		//		renderPortal(scaledresolution, partialTicks);
 
 		// Текст над инвентарём
 		//renderTooltip1(scaledresolution, partialTicks);
@@ -139,10 +140,10 @@ public class GuiIngame extends Gui {
 		renderCrosshair(width, height);
 
 		// Боссбар
-//		renderBossHealth();
+		//		renderBossHealth();
 
 		// Броня, еда, здоровье
-//		renderPlayerStats(scaledresolution);
+		//		renderPlayerStats(scaledresolution);
 
 		G.disableBlend();
 
@@ -177,14 +178,14 @@ public class GuiIngame extends Gui {
 		renderChat(height);
 
 		// Информация о эффектах
-		if(Settings.FINE_EFFECTS.b()) InventoryEffectRenderer.drawActivePotionEffects(this, mc, getFontRenderer());
+		if (Settings.FINE_EFFECTS.b()) InventoryEffectRenderer.drawActivePotionEffects(this, mc, getFontRenderer());
 
 		// Информация о траектории полёта стрелы
 		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
 
 		renderMinimap();
 
-//		renderFakeVime(scaledresolution, width, height);
+		//		renderFakeVime(scaledresolution, width, height);
 	}
 
 
@@ -193,15 +194,15 @@ public class GuiIngame extends Gui {
 	public static BlockPos[][][] mapblocks;
 	private static long lastUpdatedTexture;
 
-	private void generateTexture(){
-		for(int x = MC.getPlayer().chunkCoordX - 2; x < MC.getPlayer().chunkCoordX + 3; x++)
-			for(int z = MC.getPlayer().chunkCoordZ - 2; z < MC.getPlayer().chunkCoordZ + 3; z++)
+	private void generateTexture() {
+		for (int x = MC.getPlayer().chunkCoordX - 2; x < MC.getPlayer().chunkCoordX + 3; x++)
+			for (int z = MC.getPlayer().chunkCoordZ - 2; z < MC.getPlayer().chunkCoordZ + 3; z++)
 				Minimap.initChunk(MC.getWorld().getChunkFromChunkCoords(x, z));
 		lastUpdatedTexture = System.currentTimeMillis() + 100;
 	}
 
 	private void renderMinimap() {
-		if(true)return;
+		if (true) return;
 		if (lastUpdatedTexture < System.currentTimeMillis()) generateTexture();
 
 		Minimap.renderMinimap();
@@ -209,20 +210,20 @@ public class GuiIngame extends Gui {
 		//drawScaledCustomSizeModalRect(5, 5, 0, 0, 16, 16, 64, 64, 16, 16);
 
 
-//		IBlockState state = Blocks.clay.getDefaultState();
-//		IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
-//		BakedQuad quad = model.getFaceQuads(EnumFacing.UP).get(0);
-//		MC.bindTexture(TextureMap.locationBlocksTexture);
-//		int[] vertexData = quad.getVertexData();
-//
-//		r.begin(7, DefaultVertexFormats.POSITION_TEX);
-//		for (int i = 0; i < 4; i++) {
-//			int j = i * 7;
-//			r.pos(toFloat(vertexData[j]) * 16, toFloat(vertexData[j + 2]) * 16, 0).tex(toFloat(vertexData[j + 4]), toFloat(vertexData[j + 5])).endVertex();
-//			System.out.print("\n");
-//		}
-//
-//		Tessellator.getInstance().draw();
+		//		IBlockState state = Blocks.clay.getDefaultState();
+		//		IBakedModel model = MC.i().getModelManager().getBlockModelShapes().getModelForState(state);
+		//		BakedQuad quad = model.getFaceQuads(EnumFacing.UP).get(0);
+		//		MC.bindTexture(TextureMap.locationBlocksTexture);
+		//		int[] vertexData = quad.getVertexData();
+		//
+		//		r.begin(7, DefaultVertexFormats.POSITION_TEX);
+		//		for (int i = 0; i < 4; i++) {
+		//			int j = i * 7;
+		//			r.pos(toFloat(vertexData[j]) * 16, toFloat(vertexData[j + 2]) * 16, 0).tex(toFloat(vertexData[j + 4]), toFloat(vertexData[j + 5])).endVertex();
+		//			System.out.print("\n");
+		//		}
+		//
+		//		Tessellator.getInstance().draw();
 		/*
 		int factor = 1;
 		float antifactor = 2F / factor;
@@ -330,7 +331,6 @@ public class GuiIngame extends Gui {
 
 		G.tryBlendFuncSeparate(770, 771, 1, 0);
 	}
-
 
 
 	private void renderTooltip0(ScaledResolution scaledresolution) {
@@ -587,10 +587,10 @@ public class GuiIngame extends Gui {
 				return true;
 			}
 			if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-					BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
+				BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
 
-					return this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
-				}
+				return this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
+			}
 
 			return false;
 		}
@@ -664,7 +664,8 @@ public class GuiIngame extends Gui {
 
 			if (itemstack == null) {
 				this.remainingHighlightTicks = 0;
-			} else if (this.highlightingItemStack != null && itemstack.getItem() == this.highlightingItemStack.getItem() && ItemStack.areItemStackTagsEqual(itemstack, this.highlightingItemStack) && (itemstack.isItemStackDamageable() || itemstack.getMetadata() == this.highlightingItemStack.getMetadata())) {
+			} else if (this.highlightingItemStack != null && itemstack.getItem() == this.highlightingItemStack.getItem() && ItemStack.areItemStackTagsEqual(itemstack,
+					this.highlightingItemStack) && (itemstack.isItemStackDamageable() || itemstack.getMetadata() == this.highlightingItemStack.getMetadata())) {
 				if (this.remainingHighlightTicks > 0) {
 					--this.remainingHighlightTicks;
 				}
@@ -744,4 +745,5 @@ public class GuiIngame extends Gui {
 		this.loadingTime = ms;
 		this.loadingStarted = System.currentTimeMillis();
 	}
+
 }

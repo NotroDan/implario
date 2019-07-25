@@ -39,9 +39,9 @@ public class Switch implements Element {
 	private static void drawButton(float p) {
 		G.pushMatrix();
 		G.translate(9, 0, 0);
-//		G.rotate(p * 90, 0, 0, 1);
+		//		G.rotate(p * 90, 0, 0, 1);
 		float s = p * 2F - 1;
-		float k = (-s*s + 1) * 0.5f;
+		float k = (-s * s + 1) * 0.5f;
 		G.scale(1 - k, 1 - k, 0);
 		drawRect(-9, 0, 9, 18, 0xffeeeeee);
 		G.popMatrix();

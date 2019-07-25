@@ -7,6 +7,7 @@ public interface IFontRenderer {
 
 	/**
 	 * Метод для получения высоты шрифта
+	 *
 	 * @return Высота строки, определённая для данного шрифта
 	 */
 	int getFontHeight();
@@ -18,6 +19,7 @@ public interface IFontRenderer {
 
 	/**
 	 * Метод для рисования текста на экране
+	 *
 	 * @param s Текст, который требуется отрендерить
 	 * @param x Отступ вправо от левого края экрана
 	 * @param y Отступ вниз от верхнего края экрана
@@ -49,11 +51,21 @@ public interface IFontRenderer {
 				int colorCode = "0123456789abcdef".indexOf(c);
 				if (colorCode < 0) {
 					switch (c) {
-						case 'k': magic = true; break;
-						case 'l': bold = true; break;
-						case 'm': strike = true; break;
-						case 'n': under = true; break;
-						case 'o': italic = true; break;
+						case 'k':
+							magic = true;
+							break;
+						case 'l':
+							bold = true;
+							break;
+						case 'm':
+							strike = true;
+							break;
+						case 'n':
+							under = true;
+							break;
+						case 'o':
+							italic = true;
+							break;
 						case 'r':
 							bold = italic = magic = strike = under = false;
 							G.color(1, 1, 1);

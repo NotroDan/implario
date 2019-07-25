@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.net.BindException;
 import java.net.InetAddress;
 import java.net.Proxy;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -30,7 +31,7 @@ import static net.minecraft.logging.Log.MAIN;
 
 public class DedicatedServer extends MinecraftServer {
 
-	private final List<ServerCommand> pendingCommandList = Collections.synchronizedList(new java.util.ArrayList<>());
+	private final List<ServerCommand> pendingCommandList = Collections.synchronizedList(new ArrayList<>());
 	private PropertyManager settings;
 	private boolean canSpawnStructures;
 	private WorldSettings.GameType gameType;

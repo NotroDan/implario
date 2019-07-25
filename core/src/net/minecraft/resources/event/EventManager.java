@@ -22,7 +22,7 @@ public class EventManager<T extends Event<T>> {
 	}
 
 	public void call(T event) {
-//		System.out.println(Thread.currentThread().getName() + " | " + event);
+		//		System.out.println(Thread.currentThread().getName() + " | " + event);
 		if (array == null) return;
 		for (Listener<T> listener : array) listener.process(event);
 	}

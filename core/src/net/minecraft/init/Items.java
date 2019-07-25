@@ -200,7 +200,7 @@ public class Items {
 	public static Item prismarine_crystals;
 	public static Item banner;
 
-	public static void reload()  {
+	public static void reload() {
 
 		iron_shovel = getRegisteredItem("iron_shovel");
 		iron_pickaxe = getRegisteredItem("iron_pickaxe");

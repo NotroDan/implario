@@ -24,6 +24,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -315,7 +316,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
 		public StatsBlock(Minecraft mcIn) {
 			super(mcIn);
-			this.statsHolder = new java.util.ArrayList<>();
+			this.statsHolder = new ArrayList<>();
 
 			for (StatCrafting statcrafting : StatList.objectMineStats) {
 				boolean flag = false;
@@ -428,7 +429,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
 		public StatsItem(Minecraft mcIn) {
 			super(mcIn);
-			this.statsHolder = new java.util.ArrayList<>();
+			this.statsHolder = new ArrayList<>();
 
 			for (StatCrafting statcrafting : StatList.itemStats) {
 				boolean flag = false;
@@ -504,7 +505,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
 	class StatsMobsList extends GuiSlot {
 
-		private final List<EntityList.EntityEggInfo> field_148222_l = new java.util.ArrayList<>();
+		private final List<EntityList.EntityEggInfo> field_148222_l = new ArrayList<>();
 
 		public StatsMobsList(Minecraft mcIn) {
 			super(mcIn, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, GuiStats.this.fontRendererObj.getFontHeight() * 4);

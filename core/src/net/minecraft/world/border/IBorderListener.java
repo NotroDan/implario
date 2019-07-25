@@ -1,18 +1,19 @@
 package net.minecraft.world.border;
 
-public interface IBorderListener
-{
-    void onSizeChanged(WorldBorder border, double newSize);
+public interface IBorderListener {
 
-    void onTransitionStarted(WorldBorder border, double oldSize, double newSize, long time);
+	void onSizeChanged(WorldBorder border, double newSize);
 
-    void onCenterChanged(WorldBorder border, double x, double z);
+	void onTransitionStarted(WorldBorder border, double oldSize, double newSize, long time);
 
-    void onWarningTimeChanged(WorldBorder border, int newTime);
+	void onCenterChanged(WorldBorder border, double x, double z);
 
-    void onWarningDistanceChanged(WorldBorder border, int newDistance);
+	void onWarningTimeChanged(WorldBorder border, int newTime);
 
-    void onDamageAmountChanged(WorldBorder border, double newAmount);
+	void onWarningDistanceChanged(WorldBorder border, int newDistance);
 
-    void onDamageBufferChanged(WorldBorder border, double newSize);
+	void onDamageAmountChanged(WorldBorder border, double newAmount);
+
+	void onDamageBufferChanged(WorldBorder border, double newSize);
+
 }

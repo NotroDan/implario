@@ -20,18 +20,22 @@ public class ChatComponentBuilder {
 		click = new ClickEvent(action, value);
 		return this;
 	}
+
 	public ChatComponentBuilder hover(HoverEvent.Action action, IChatComponent value) {
 		hover = new HoverEvent(action, value);
 		return this;
 	}
+
 	public ChatComponentBuilder hover(HoverEvent.Action action, String text) {
 		hover = new HoverEvent(action, new ChatComponentText(text));
 		return this;
 	}
+
 	public ChatComponentBuilder underline() {
 		underlined = true;
 		return this;
 	}
+
 	public ChatComponentBuilder translate(String s) {
 		translate = s;
 		return this;
@@ -44,4 +48,5 @@ public class ChatComponentBuilder {
 		c.getChatStyle().setUnderlined(underlined);
 		return translate == null ? c : new ChatComponentTranslation(translate, c);
 	}
+
 }

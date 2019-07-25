@@ -309,10 +309,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 			} else if ("minecraft:anvil".equals(s)) {
 				this.mc.displayGuiScreen(new GuiRepair(this.inventory, this.worldObj));
 			}
-		}
-
-
-		else PlayerGuiBridge.open(this, type, element, false);
+		} else PlayerGuiBridge.open(this, type, element, false);
 	}
 
 	/**

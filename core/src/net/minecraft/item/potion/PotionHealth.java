@@ -2,26 +2,24 @@ package net.minecraft.item.potion;
 
 import net.minecraft.util.ResourceLocation;
 
-public class PotionHealth extends Potion
-{
-    public PotionHealth(int potionID, ResourceLocation location, boolean badEffect, int potionColor)
-    {
-        super(potionID, location, badEffect, potionColor);
-    }
+public class PotionHealth extends Potion {
 
-    /**
-     * Returns true if the potion has an instant effect instead of a continuous one (eg Harming)
-     */
-    public boolean isInstant()
-    {
-        return true;
-    }
+	public PotionHealth(int potionID, ResourceLocation location, boolean badEffect, int potionColor) {
+		super(potionID, location, badEffect, potionColor);
+	}
 
-    /**
-     * checks if Potion effect is ready to be applied this tick.
-     */
-    public boolean isReady(int a, int b)
-    {
-        return a >= 1;
-    }
+	/**
+	 * Returns true if the potion has an instant effect instead of a continuous one (eg Harming)
+	 */
+	public boolean isInstant() {
+		return true;
+	}
+
+	/**
+	 * checks if Potion effect is ready to be applied this tick.
+	 */
+	public boolean isReady(int a, int b) {
+		return a >= 1;
+	}
+
 }

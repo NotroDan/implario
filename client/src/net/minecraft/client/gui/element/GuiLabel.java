@@ -7,6 +7,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuiLabel extends Gui {
@@ -34,7 +35,7 @@ public class GuiLabel extends Gui {
 		field_146174_h = p_i45540_4_;
 		this.width = width;
 		field_146161_f = p_i45540_6_;
-		lines = new java.util.ArrayList<>();
+		lines = new ArrayList<>();
 		centered = false;
 		labelBgEnabled = false;
 		this.color = color;

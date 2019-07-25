@@ -1,6 +1,5 @@
 package vanilla.client.gui;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.element.GuiButton;
@@ -15,11 +14,12 @@ import org.lwjgl.input.Keyboard;
 import vanilla.world.gen.provider.ChunkProviderSettings;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuiScreenCustomizePresets extends GuiScreen {
 
-	private static final List<GuiScreenCustomizePresets.Info> field_175310_f = new java.util.ArrayList<>();
+	private static final List<GuiScreenCustomizePresets.Info> field_175310_f = new ArrayList<>();
 	private GuiScreenCustomizePresets.ListPreset field_175311_g;
 	private GuiButton field_175316_h;
 	private GuiTextField field_175317_i;

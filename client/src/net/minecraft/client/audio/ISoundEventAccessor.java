@@ -1,8 +1,9 @@
 package net.minecraft.client.audio;
 
-public interface ISoundEventAccessor<T>
-{
-    int getWeight();
+public interface ISoundEventAccessor<T> {
 
-    T cloneEntry();
+	int getWeight();
+
+	T cloneEntry();
+
 }

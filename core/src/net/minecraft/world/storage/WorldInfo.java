@@ -130,10 +130,10 @@ public class WorldInfo {
 			if (this.terrainType == null) {
 				this.terrainType = WorldType.VOID;
 			} else if (this.terrainType.isVersioned()) {
-//				int i = 0;
-//				if (nbt.hasKey("generatorVersion", 99)) i = nbt.getInteger("generatorVersion");
+				//				int i = 0;
+				//				if (nbt.hasKey("generatorVersion", 99)) i = nbt.getInteger("generatorVersion");
 				throw new IllegalStateException("Делфик, ты забыл сделать поддержку старых миров");
-//				this.terrainType = WorldType.DEFAULT_OLD;
+				//				this.terrainType = WorldType.DEFAULT_OLD;
 			}
 
 			if (nbt.hasKey("generatorOptions", 8)) {

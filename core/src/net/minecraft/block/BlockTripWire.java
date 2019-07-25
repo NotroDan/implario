@@ -182,10 +182,11 @@ public class BlockTripWire extends Block {
 						(double) pos.getZ() + this.maxZ));
 
 		if (!list.isEmpty()) {
-			for (Entity entity : list) if (entity.canTriggerWire()) {
-				flag1 = true;
-				break;
-			}
+			for (Entity entity : list)
+				if (entity.canTriggerWire()) {
+					flag1 = true;
+					break;
+				}
 		}
 
 		if (flag1 != flag) {

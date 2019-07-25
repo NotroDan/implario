@@ -19,7 +19,6 @@ import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.Logger;
-import net.minecraft.resources.event.E;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -35,7 +34,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 	private static final Logger logger = Logger.getInstance();
-	public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey.valueOf("protocol");
+	public static final AttributeKey<ConnectionState> attrKeyConnectionState = AttributeKey.valueOf("protocol");
 	public static final LazyLoadBase<NioEventLoopGroup> CLIENT_NIO_EVENTLOOP = new LazyLoadBase<NioEventLoopGroup>() {
 		protected NioEventLoopGroup load() {
 			return new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Client IO #%d").setDaemon(true).build());
@@ -51,7 +50,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			return new LocalEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Local Client IO #%d").setDaemon(true).build());
 		}
 	};
-	private final EnumPacketDirection direction;
+	private final boolean isClientSide;
 	private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
 	private final ReentrantReadWriteLock field_181680_j = new ReentrantReadWriteLock();
 
@@ -77,8 +76,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private boolean isEncrypted;
 	private boolean disconnected;
 
-	public NetworkManager(EnumPacketDirection packetDirection) {
-		this.direction = packetDirection;
+	public NetworkManager(boolean isClientSide) {
+		this.isClientSide = isClientSide;
 	}
 
 	public void channelActive(ChannelHandlerContext p_channelActive_1_) throws Exception {
@@ -87,7 +86,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		this.socketAddress = this.channel.remoteAddress();
 
 		try {
-			this.setConnectionState(EnumConnectionState.HANDSHAKING);
+			this.setConnectionState(ConnectionState.HANDSHAKING);
 		} catch (Throwable throwable) {
 			logger.fatal((Object) throwable);
 		}
@@ -96,7 +95,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	/**
 	 * Sets the new connection state and registers which packets this channel may send and receive
 	 */
-	public void setConnectionState(EnumConnectionState newState) {
+	public void setConnectionState(ConnectionState newState) {
 		this.channel.attr(attrKeyConnectionState).set(newState);
 		this.channel.config().setAutoRead(true);
 		logger.debug("Enabled auto read");
@@ -121,7 +120,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	protected void channelRead0(ChannelHandlerContext context, Packet packet) throws Exception {
 		if (!this.channel.isOpen()) return;
 		try {
-//			if (packet instanceof S21PacketChunkData || packet instanceof S26PacketMapChunkBulk) System.out.println(packet);
+			//			if (packet instanceof S21PacketChunkData || packet instanceof S26PacketMapChunkBulk) System.out.println(packet);
 			packet.processPacket(this.packetListener);
 		} catch (ThreadQuickExitException ignored) {}
 	}
@@ -172,8 +171,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * packet, otherwise it will add a task for the channel eventloop thread to do that.
 	 */
 	private void dispatchPacket(final Packet inPacket, final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
-		final EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
-		final EnumConnectionState enumconnectionstate1 = this.channel.attr(attrKeyConnectionState).get();
+		final ConnectionState enumconnectionstate = ConnectionState.getFromPacket(inPacket);
+		final ConnectionState enumconnectionstate1 = this.channel.attr(attrKeyConnectionState).get();
 
 		if (enumconnectionstate1 != enumconnectionstate) {
 			logger.debug("Disabled auto read");
@@ -266,7 +265,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public static NetworkManager func_181124_a(InetAddress p_181124_0_, int p_181124_1_, boolean p_181124_2_) {
-		final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
+		final NetworkManager networkmanager = new NetworkManager(false);
 		Class<? extends SocketChannel> oclass;
 		LazyLoadBase<? extends EventLoopGroup> lazyloadbase;
 
@@ -279,18 +278,18 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 
 		new Bootstrap().group(lazyloadbase.getValue()).handler(new ChannelInitializer<Channel>() {
-			protected void initChannel(Channel p_initChannel_1_) throws Exception {
+			protected void initChannel(Channel channel) throws Exception {
 				try {
-					p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
+					channel.config().setOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
 				} catch (ChannelException ignored) {
 				}
 
-				p_initChannel_1_.pipeline()
+				channel.pipeline()
 						.addLast("timeout", new ReadTimeoutHandler(30))
 						.addLast("splitter", new MessageSerialization.Splitter())
-						.addLast("decoder", new MessageSerialization.Decoder(EnumPacketDirection.CLIENTBOUND))
+						.addLast("decoder", new MessageSerialization.Decoder(false))
 						.addLast("prepender", new MessageSerialization.Prepender())
-						.addLast("encoder", new MessageSerialization.Encoder(EnumPacketDirection.SERVERBOUND))
+						.addLast("encoder", new MessageSerialization.Encoder(true))
 						.addLast("packet_handler", networkmanager);
 			}
 		}).channel(oclass).connect(p_181124_0_, p_181124_1_).syncUninterruptibly();
@@ -302,7 +301,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * pipeline. Returns the newly created instance.
 	 */
 	public static NetworkManager provideLocalClient(SocketAddress address) {
-		final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
+		final NetworkManager networkmanager = new NetworkManager(false);
 		new Bootstrap().group(CLIENT_LOCAL_EVENTLOOP.getValue()).handler(new ChannelInitializer<Channel>() {
 			protected void initChannel(Channel p_initChannel_1_) throws Exception {
 				p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);

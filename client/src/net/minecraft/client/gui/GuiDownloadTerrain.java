@@ -8,40 +8,41 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 public class GuiDownloadTerrain extends GuiScreen {
-    private NetHandlerPlayClient netHandlerPlayClient;
-    private int progress;
 
-    public GuiDownloadTerrain(NetHandlerPlayClient netHandler)
-    {
-        this.netHandlerPlayClient = netHandler;
-    }
+	private NetHandlerPlayClient netHandlerPlayClient;
+	private int progress;
 
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {}
+	public GuiDownloadTerrain(NetHandlerPlayClient netHandler) {
+		this.netHandlerPlayClient = netHandler;
+	}
 
-    @Override
-    public void initGui() {
-        this.buttonList.clear();
-    }
+	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {}
 
-    @Override
-    public void updateScreen() {
-        if (++progress == 20) {
-            progress = 0;
-            netHandlerPlayClient.addToSendQueue(new C00PacketKeepAlive());
-        }
-    }
+	@Override
+	public void initGui() {
+		this.buttonList.clear();
+	}
 
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawBackground(0);
-        drawCenteredString(fontRendererObj, Lang.format("multiplayer.downloadingTerrain"),
-                width / 2, height / 2 - 50, 16777215);
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
+	@Override
+	public void updateScreen() {
+		if (++progress == 20) {
+			progress = 0;
+			netHandlerPlayClient.addToSendQueue(new C00PacketKeepAlive());
+		}
+	}
 
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
-    }
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		drawBackground(0);
+		drawCenteredString(fontRendererObj, Lang.format("multiplayer.downloadingTerrain"),
+				width / 2, height / 2 - 50, 16777215);
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
+
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
+
 }

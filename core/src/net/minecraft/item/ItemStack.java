@@ -14,8 +14,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.events.player.PlayerItemUseEvent;
 import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTBase;
@@ -27,6 +25,7 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -503,7 +502,7 @@ public final class ItemStack {
 	}
 
 	public List<String> getTooltip(EntityPlayer playerIn, boolean advanced) {
-		List<String> list = new java.util.ArrayList<>();
+		List<String> list = new ArrayList<>();
 		String s = this.getDisplayName();
 
 		if (this.hasDisplayName() && !s.startsWith("§")) s = EnumChatFormatting.ITALIC + s;

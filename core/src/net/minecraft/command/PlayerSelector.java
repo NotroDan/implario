@@ -62,7 +62,7 @@ public class PlayerSelector {
 		if (list.isEmpty()) {
 			return null;
 		}
-		List<IChatComponent> list1 = new java.util.ArrayList<>();
+		List<IChatComponent> list1 = new ArrayList<>();
 
 		for (Entity entity : list) {
 			list1.add(entity.getDisplayName());
@@ -83,11 +83,11 @@ public class PlayerSelector {
 			String s = matcher.group(1);
 			BlockPos blockpos = func_179664_b(map, sender.getPosition());
 			List<World> list = getWorlds(sender, map);
-			List<T> list1 = new java.util.ArrayList<>();
+			List<T> list1 = new ArrayList<>();
 
 			for (World world : list) {
 				if (world != null) {
-					List<Predicate<Entity>> list2 = new java.util.ArrayList<>();
+					List<Predicate<Entity>> list2 = new ArrayList<>();
 					list2.addAll(func_179663_a(map, s));
 					list2.addAll(func_179648_b(map));
 					list2.addAll(func_179649_c(map));
@@ -106,7 +106,7 @@ public class PlayerSelector {
 	}
 
 	private static List<World> getWorlds(ICommandSender sender, Map<String, String> argumentMap) {
-		List<World> list = new java.util.ArrayList<>();
+		List<World> list = new ArrayList<>();
 
 		if (func_179665_h(argumentMap)) {
 			list.add(sender.getEntityWorld());
@@ -131,7 +131,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_179663_a(Map<String, String> p_179663_0_, String p_179663_1_) {
-		List<Predicate<Entity>> list = new java.util.ArrayList<>();
+		List<Predicate<Entity>> list = new ArrayList<>();
 		String s = func_179651_b(p_179663_0_, "type");
 		final boolean flag = s != null && s.startsWith("!");
 
@@ -155,7 +155,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_179648_b(Map<String, String> p_179648_0_) {
-		List<Predicate<Entity>> list = new java.util.ArrayList<>();
+		List<Predicate<Entity>> list = new ArrayList<>();
 		final int i = parseIntWithDefault(p_179648_0_, "lm", -1);
 		final int j = parseIntWithDefault(p_179648_0_, "l", -1);
 
@@ -173,7 +173,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_179649_c(Map<String, String> p_179649_0_) {
-		List<Predicate<Entity>> list = new java.util.ArrayList<>();
+		List<Predicate<Entity>> list = new ArrayList<>();
 		final int i = parseIntWithDefault(p_179649_0_, "m", WorldSettings.GameType.NOT_SET.getID());
 
 		if (i != WorldSettings.GameType.NOT_SET.getID()) {
@@ -190,7 +190,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_179659_d(Map<String, String> p_179659_0_) {
-		List<Predicate<Entity>> list = new java.util.ArrayList<>();
+		List<Predicate<Entity>> list = new ArrayList<>();
 		String s = func_179651_b(p_179659_0_, "team");
 		final boolean flag = s != null && s.startsWith("!");
 
@@ -215,7 +215,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_179657_e(Map<String, String> p_179657_0_) {
-		List<Predicate<Entity>> list = new java.util.ArrayList<>();
+		List<Predicate<Entity>> list = new ArrayList<>();
 		final Map<String, Integer> map = func_96560_a(p_179657_0_);
 
 		if (map != null && map.size() > 0) {
@@ -263,7 +263,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_179647_f(Map<String, String> p_179647_0_) {
-		List<Predicate<Entity>> list = new java.util.ArrayList<>();
+		List<Predicate<Entity>> list = new ArrayList<>();
 		String s = func_179651_b(p_179647_0_, "name");
 		final boolean flag = s != null && s.startsWith("!");
 
@@ -280,7 +280,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_180698_a(Map<String, String> p_180698_0_, final BlockPos p_180698_1_) {
-		List<Predicate<Entity>> list = new java.util.ArrayList<>();
+		List<Predicate<Entity>> list = new ArrayList<>();
 		final int i = parseIntWithDefault(p_180698_0_, "rm", -1);
 		final int j = parseIntWithDefault(p_180698_0_, "r", -1);
 
@@ -297,7 +297,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_179662_g(Map<String, String> p_179662_0_) {
-		List<Predicate<Entity>> list = new java.util.ArrayList<>();
+		List<Predicate<Entity>> list = new ArrayList<>();
 
 		if (p_179662_0_.containsKey("rym") || p_179662_0_.containsKey("ry")) {
 			final int i = func_179650_a(parseIntWithDefault(p_179662_0_, "rym", 0));
@@ -322,7 +322,7 @@ public class PlayerSelector {
 
 	private static <T extends Entity> List<T> filterResults(Map<String, String> params, Class<? extends T> entityClass, List<Predicate<Entity>> inputList, String type, World worldIn,
 															BlockPos position) {
-		List<T> list = new java.util.ArrayList<>();
+		List<T> list = new ArrayList<>();
 		String s = func_179651_b(params, "type");
 		s = s != null && s.startsWith("!") ? s.substring(1) : s;
 		boolean flag = !type.equals("e");

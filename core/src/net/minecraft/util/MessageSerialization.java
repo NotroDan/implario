@@ -7,7 +7,6 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.MessageToByteEncoder;
 import net.minecraft.Logger;
-import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class MessageSerialization {
-
 
 
 	public static class Prepender extends MessageToByteEncoder<ByteBuf> {
@@ -36,14 +34,14 @@ public class MessageSerialization {
 	public static class Encoder extends MessageToByteEncoder<Packet> {
 
 		private static final Logger logger = Logger.getInstance();
-		private final EnumPacketDirection direction;
+		private final boolean isClientSided;
 
-		public Encoder(EnumPacketDirection direction) {
-			this.direction = direction;
+		public Encoder(boolean isClientSided) {
+			this.isClientSided = isClientSided;
 		}
 
 		protected void encode(ChannelHandlerContext chc, Packet packet, ByteBuf buf) throws Exception {
-			Integer integer = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(this.direction, packet);
+			Integer integer = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(isClientSided, packet);
 			if (integer == null) throw new IOException("Can\'t serialize unregistered packet");
 
 			PacketBuffer packetbuffer = new PacketBuffer(buf);
@@ -99,18 +97,17 @@ public class MessageSerialization {
 
 	public static class Decoder extends ByteToMessageDecoder {
 
-		private static final Logger logger = Logger.getInstance();
-		private final EnumPacketDirection direction;
+		private final boolean isClientSide;
 
-		public Decoder(EnumPacketDirection direction) {
-			this.direction = direction;
+		public Decoder(boolean isClientSide) {
+			this.isClientSide = isClientSide;
 		}
 
 		protected void decode(ChannelHandlerContext chc, ByteBuf buf, List<Object> list) throws Exception {
 			if (buf.readableBytes() != 0) {
 				PacketBuffer packetbuffer = new PacketBuffer(buf);
 				int i = packetbuffer.readVarIntFromBuffer();
-				Packet packet = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacket(this.direction, i);
+				Packet packet = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacket(isClientSide, i);
 
 				if (packet == null) {
 					throw new IOException("Bad packet id " + i);

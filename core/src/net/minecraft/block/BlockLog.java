@@ -10,86 +10,75 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.World;
 
-public abstract class BlockLog extends BlockRotatedPillar
-{
-    public static final PropertyEnum<BlockLog.EnumAxis> LOG_AXIS = PropertyEnum.create("axis", BlockLog.EnumAxis.class);
+public abstract class BlockLog extends BlockRotatedPillar {
 
-    public BlockLog()
-    {
-        super(Material.wood);
-        this.setCreativeTab(CreativeTabs.tabBlock);
-        this.setHardness(2.0F);
-        this.setStepSound(soundTypeWood);
-    }
+	public static final PropertyEnum<BlockLog.EnumAxis> LOG_AXIS = PropertyEnum.create("axis", BlockLog.EnumAxis.class);
 
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
-        int i = 4;
-        int j = i + 1;
+	public BlockLog() {
+		super(Material.wood);
+		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setHardness(2.0F);
+		this.setStepSound(soundTypeWood);
+	}
 
-        if (worldIn.isAreaLoaded(pos.add(-j, -j, -j), pos.add(j, j, j)))
-        {
-            for (BlockPos blockpos : BlockPos.getAllInBox(pos.add(-i, -i, -i), pos.add(i, i, i)))
-            {
-                IBlockState iblockstate = worldIn.getBlockState(blockpos);
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		int i = 4;
+		int j = i + 1;
 
-                if (iblockstate.getBlock().getMaterial() == Material.leaves && !((Boolean)iblockstate.getValue(BlockLeaves.CHECK_DECAY)).booleanValue())
-                {
-                    worldIn.setBlockState(blockpos, iblockstate.withProperty(BlockLeaves.CHECK_DECAY, Boolean.TRUE), 4);
-                }
-            }
-        }
-    }
+		if (worldIn.isAreaLoaded(pos.add(-j, -j, -j), pos.add(j, j, j))) {
+			for (BlockPos blockpos : BlockPos.getAllInBox(pos.add(-i, -i, -i), pos.add(i, i, i))) {
+				IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-    /**
-     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
-     * IBlockstate
-     */
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
-    {
-        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(LOG_AXIS, BlockLog.EnumAxis.fromFacingAxis(facing.getAxis()));
-    }
+				if (iblockstate.getBlock().getMaterial() == Material.leaves && !((Boolean) iblockstate.getValue(BlockLeaves.CHECK_DECAY)).booleanValue()) {
+					worldIn.setBlockState(blockpos, iblockstate.withProperty(BlockLeaves.CHECK_DECAY, Boolean.TRUE), 4);
+				}
+			}
+		}
+	}
 
-    public static enum EnumAxis implements IStringSerializable
-    {
-        X("x"),
-        Y("y"),
-        Z("z"),
-        NONE("none");
+	/**
+	 * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+	 * IBlockstate
+	 */
+	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(LOG_AXIS, BlockLog.EnumAxis.fromFacingAxis(facing.getAxis()));
+	}
 
-        private final String name;
+	public static enum EnumAxis implements IStringSerializable {
+		X("x"),
+		Y("y"),
+		Z("z"),
+		NONE("none");
 
-        private EnumAxis(String name)
-        {
-            this.name = name;
-        }
+		private final String name;
 
-        public String toString()
-        {
-            return this.name;
-        }
+		private EnumAxis(String name) {
+			this.name = name;
+		}
 
-        public static BlockLog.EnumAxis fromFacingAxis(EnumFacing.Axis axis)
-        {
-            switch (axis)
-            {
-                case X:
-                    return X;
+		public String toString() {
+			return this.name;
+		}
 
-                case Y:
-                    return Y;
+		public static BlockLog.EnumAxis fromFacingAxis(EnumFacing.Axis axis) {
+			switch (axis) {
+				case X:
+					return X;
 
-                case Z:
-                    return Z;
+				case Y:
+					return Y;
 
-                default:
-                    return NONE;
-            }
-        }
+				case Z:
+					return Z;
 
-        public String getName()
-        {
-            return this.name;
-        }
-    }
+				default:
+					return NONE;
+			}
+		}
+
+		public String getName() {
+			return this.name;
+		}
+	}
+
 }

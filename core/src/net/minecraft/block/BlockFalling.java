@@ -1,6 +1,7 @@
 package net.minecraft.block;
 
 import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
@@ -9,95 +10,78 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFalling extends Block
-{
-    public static boolean fallInstantly;
+public class BlockFalling extends Block {
 
-    public BlockFalling()
-    {
-        super(Material.sand);
-        this.setCreativeTab(CreativeTabs.tabBlock);
-    }
+	public static boolean fallInstantly;
 
-    public BlockFalling(Material materialIn)
-    {
-        super(materialIn);
-    }
+	public BlockFalling() {
+		super(Material.sand);
+		this.setCreativeTab(CreativeTabs.tabBlock);
+	}
 
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
-    {
-        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
-    }
+	public BlockFalling(Material materialIn) {
+		super(materialIn);
+	}
 
-    /**
-     * Called when a neighboring block changes.
-     */
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
-    {
-        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
-    }
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+		worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+	}
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-    {
-        if (!worldIn.isClientSide)
-        {
-            this.checkFallable(worldIn, pos);
-        }
-    }
+	/**
+	 * Called when a neighboring block changes.
+	 */
+	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+		worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+	}
 
-    private void checkFallable(World worldIn, BlockPos pos)
-    {
-        if (canFallInto(worldIn, pos.down()) && pos.getY() >= 0)
-        {
-            int i = 32;
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		if (!worldIn.isClientSide) {
+			this.checkFallable(worldIn, pos);
+		}
+	}
 
-            if (!fallInstantly && worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i)))
-            {
-                if (!worldIn.isClientSide)
-                {
-                    EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, worldIn.getBlockState(pos));
-                    this.onStartFalling(entityfallingblock);
-                    worldIn.spawnEntityInWorld(entityfallingblock);
-                }
-            }
-            else
-            {
-                worldIn.setBlockToAir(pos);
-                BlockPos blockpos;
+	private void checkFallable(World worldIn, BlockPos pos) {
+		if (canFallInto(worldIn, pos.down()) && pos.getY() >= 0) {
+			int i = 32;
 
-                for (blockpos = pos.down(); canFallInto(worldIn, blockpos) && blockpos.getY() > 0; blockpos = blockpos.down())
-                {
-                    ;
-                }
+			if (!fallInstantly && worldIn.isAreaLoaded(pos.add(-i, -i, -i), pos.add(i, i, i))) {
+				if (!worldIn.isClientSide) {
+					EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, worldIn.getBlockState(pos));
+					this.onStartFalling(entityfallingblock);
+					worldIn.spawnEntityInWorld(entityfallingblock);
+				}
+			} else {
+				worldIn.setBlockToAir(pos);
+				BlockPos blockpos;
 
-                if (blockpos.getY() > 0)
-                {
-                    worldIn.setBlockState(blockpos.up(), this.getDefaultState());
-                }
-            }
-        }
-    }
+				for (blockpos = pos.down(); canFallInto(worldIn, blockpos) && blockpos.getY() > 0; blockpos = blockpos.down()) {
+					;
+				}
 
-    protected void onStartFalling(EntityFallingBlock fallingEntity)
-    {
-    }
+				if (blockpos.getY() > 0) {
+					worldIn.setBlockState(blockpos.up(), this.getDefaultState());
+				}
+			}
+		}
+	}
 
-    /**
-     * How many world ticks before ticking
-     */
-    public int tickRate(World worldIn)
-    {
-        return 2;
-    }
+	protected void onStartFalling(EntityFallingBlock fallingEntity) {
+	}
 
-    public static boolean canFallInto(World worldIn, BlockPos pos)
-    {
-        Block block = worldIn.getBlockState(pos).getBlock();
-        Material material = block.blockMaterial;
-        return block == Blocks.fire || material == Material.air || material == Material.water || material == Material.lava;
-    }
+	/**
+	 * How many world ticks before ticking
+	 */
+	public int tickRate(World worldIn) {
+		return 2;
+	}
 
-    public void onEndFalling(World worldIn, BlockPos pos)
-    {
-    }
+	public static boolean canFallInto(World worldIn, BlockPos pos) {
+		Block block = worldIn.getBlockState(pos).getBlock();
+		Material material = block.blockMaterial;
+		return block == Blocks.fire || material == Material.air || material == Material.water || material == Material.lava;
+	}
+
+	public void onEndFalling(World worldIn, BlockPos pos) {
+	}
+
 }

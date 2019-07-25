@@ -13,6 +13,7 @@ import vanilla.world.gen.feature.village.Village;
 import vanilla.world.gen.feature.village.VillageCollection;
 import vanilla.world.gen.feature.village.VillageDoorInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntityAIMoveThroughVillage extends EntityAIBase {
@@ -26,7 +27,7 @@ public class EntityAIMoveThroughVillage extends EntityAIBase {
 	private PathEntity entityPathNavigate;
 	private VillageDoorInfo doorInfo;
 	private boolean isNocturnal;
-	private List<VillageDoorInfo> doorList = new java.util.ArrayList<>();
+	private List<VillageDoorInfo> doorList = new ArrayList<>();
 
 	public EntityAIMoveThroughVillage(EntityCreature theEntityIn, double movementSpeedIn, boolean isNocturnalIn) {
 		this.theEntity = theEntityIn;

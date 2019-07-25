@@ -1,6 +1,6 @@
 package net.minecraft.server.network;
 
-import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.ConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.INetHandlerHandshakeServer;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -9,62 +9,52 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
-public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer
-{
-    private final MinecraftServer server;
-    private final NetworkManager networkManager;
+public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer {
 
-    public NetHandlerHandshakeTCP(MinecraftServer serverIn, NetworkManager netManager)
-    {
-        this.server = serverIn;
-        this.networkManager = netManager;
-    }
+	private final MinecraftServer server;
+	private final NetworkManager networkManager;
 
-    /**
-     * There are two recognized intentions for initiating a handshake: logging in and acquiring server status. The
-     * NetworkManager's protocol will be reconfigured according to the specified intention, although a login-intention
-     * must pass a versioncheck or receive a disconnect otherwise
-     */
-    public void processHandshake(C00Handshake packetIn)
-    {
-        switch (packetIn.getRequestedState())
-        {
-            case LOGIN:
-                this.networkManager.setConnectionState(EnumConnectionState.LOGIN);
+	public NetHandlerHandshakeTCP(MinecraftServer serverIn, NetworkManager netManager) {
+		this.server = serverIn;
+		this.networkManager = netManager;
+	}
 
-                if (packetIn.getProtocolVersion() > 47)
-                {
-                    ChatComponentText chatcomponenttext = new ChatComponentText("Outdated server! I\'m still on 1.8.8");
-                    this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext));
-                    this.networkManager.closeChannel(chatcomponenttext);
-                }
-                else if (packetIn.getProtocolVersion() < 47)
-                {
-                    ChatComponentText chatcomponenttext1 = new ChatComponentText("Outdated client! Please use 1.8.8");
-                    this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext1));
-                    this.networkManager.closeChannel(chatcomponenttext1);
-                }
-                else
-                {
-                    this.networkManager.setNetHandler(new NetHandlerLoginServer(this.server, this.networkManager));
-                }
+	/**
+	 * There are two recognized intentions for initiating a handshake: logging in and acquiring server status. The
+	 * NetworkManager's protocol will be reconfigured according to the specified intention, although a login-intention
+	 * must pass a versioncheck or receive a disconnect otherwise
+	 */
+	public void processHandshake(C00Handshake packetIn) {
+		switch (packetIn.getRequestedState()) {
+			case LOGIN:
+				this.networkManager.setConnectionState(ConnectionState.LOGIN);
 
-                break;
+				if (packetIn.getProtocolVersion() != 47) {
+					ChatComponentText chatcomponenttext = new ChatComponentText("Этот сервер использует протокол §eNotchian 47§f (версия 1.8.8)\n" +
+							"§fВаш клиент использует протокол §eNotchian " + packetIn.getProtocolVersion() + "§f, который несовместим с Notchian 47.\n§f\n" +
+							"Используйте клиент §eImplario§f для входа на этот сервер.\n§7github.com/DelfikPro/Implario");
+					this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext));
+					this.networkManager.closeChannel(chatcomponenttext);
+				} else {
+					this.networkManager.setNetHandler(new NetHandlerLoginServer(this.server, this.networkManager));
+				}
 
-            case STATUS:
-                this.networkManager.setConnectionState(EnumConnectionState.STATUS);
-                this.networkManager.setNetHandler(new NetHandlerStatusServer(this.server, this.networkManager));
-                break;
+				break;
 
-            default:
-                throw new UnsupportedOperationException("Invalid intention " + packetIn.getRequestedState());
-        }
-    }
+			case STATUS:
+				this.networkManager.setConnectionState(ConnectionState.STATUS);
+				this.networkManager.setNetHandler(new NetHandlerStatusServer(this.server, this.networkManager));
+				break;
 
-    /**
-     * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
-     */
-    public void onDisconnect(IChatComponent reason)
-    {
-    }
+			default:
+				throw new UnsupportedOperationException("Invalid intention " + packetIn.getRequestedState());
+		}
+	}
+
+	/**
+	 * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
+	 */
+	public void onDisconnect(IChatComponent reason) {
+	}
+
 }

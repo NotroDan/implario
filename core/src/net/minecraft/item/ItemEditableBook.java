@@ -78,7 +78,7 @@ public class ItemEditableBook extends Item {
 		if (!worldIn.isClientSide) this.resolveContents(stack, p);
 
 		p.openGui(ItemStack.class, stack);
-//		p.displayGUIBook(stack);
+		//		p.displayGUIBook(stack);
 		p.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 		return stack;
 	}

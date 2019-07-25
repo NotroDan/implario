@@ -20,12 +20,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
 public class SoundHandler implements IResourceManagerReloadListener, ITickable {
+
 	private static final Logger logger = Logger.getInstance();
 	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(SoundList.class, new SoundListSerializer()).create();
 	private static final ParameterizedType TYPE = new ParameterizedType() {
@@ -136,7 +138,8 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 						IOUtils.closeQuietly(inputstream);
 					}
 
-					lvt_10_1_ = new SoundEventAccessor(new SoundPoolEntry(resourcelocation1, (double) soundlist$soundentry.getSoundEntryPitch(), (double) soundlist$soundentry.getSoundEntryVolume(), soundlist$soundentry.isStreaming()), soundlist$soundentry.getSoundEntryWeight());
+					lvt_10_1_ = new SoundEventAccessor(new SoundPoolEntry(resourcelocation1, (double) soundlist$soundentry.getSoundEntryPitch(), (double) soundlist$soundentry.getSoundEntryVolume(),
+							soundlist$soundentry.isStreaming()), soundlist$soundentry.getSoundEntryWeight());
 					break;
 
 				case SOUND_EVENT:
@@ -220,7 +223,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	 * Returns a random sound from one or more categories
 	 */
 	public SoundEventAccessorComposite getRandomSoundFromCategories(SoundCategory... categories) {
-		List<SoundEventAccessorComposite> list = new java.util.ArrayList<>();
+		List<SoundEventAccessorComposite> list = new ArrayList<>();
 
 		for (ResourceLocation resourcelocation : this.sndRegistry.getKeys()) {
 			SoundEventAccessorComposite soundeventaccessorcomposite = this.sndRegistry.getObject(resourcelocation);
@@ -234,4 +237,5 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	public boolean isSoundPlaying(ISound sound) {
 		return this.sndManager.isSoundPlaying(sound);
 	}
+
 }

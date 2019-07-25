@@ -48,6 +48,7 @@ public class ScreenShotHelper {
 
 	/**
 	 * Создаёт и сохраняет скриншот в папку screenshots.
+	 *
 	 * @return Чат-компонент, являющийся ссылкой на файл
 	 */
 	public static IChatComponent saveScreenshot(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer) {
@@ -58,15 +59,14 @@ public class ScreenShotHelper {
 
 			BufferedImage screenshot = takeScreenshot(width, height, buffer);
 			ImageIO.write(screenshot, "png", f);
-			if(Settings.SCREEN_TO_BUFFER.b())Clipboard.push(screenshot);
+			if (Settings.SCREEN_TO_BUFFER.b()) Clipboard.push(screenshot);
 
 			return new ChatComponentBuilder(f.getName())
 					.click(OPEN_FILE, f.getAbsolutePath())
 					.hover(SHOW_FILE, f.getName())
 					.underline()
 					.translate("screenshot.success")
-			.build();
-
+					.build();
 
 
 		} catch (Exception exception) {
@@ -78,6 +78,7 @@ public class ScreenShotHelper {
 
 	/**
 	 * Загружает изображение на хостинг картинок Imgur.
+	 *
 	 * @return URL-адрес изображения в сети.
 	 */
 	public static String uploadToImgur(BufferedImage image) {

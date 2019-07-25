@@ -176,4 +176,5 @@ public class GuiScreenResourcePacks extends GuiScreen {
 	public void markChanged() {
 		changed = true;
 	}
+
 }

@@ -43,6 +43,7 @@ import net.minecraft.world.storage.WorldInfo;
 import java.io.File;
 import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +62,7 @@ public abstract class ServerConfigurationManager {
 	 * Reference to the MinecraftServer object.
 	 */
 	private final MinecraftServer mcServer;
-	private final List<EntityPlayerMP> playerEntityList = new java.util.ArrayList<>();
+	private final List<EntityPlayerMP> playerEntityList = new ArrayList<>();
 	private final Map<UUID, EntityPlayerMP> uuidToPlayerMap = Maps.newHashMap();
 	private final UserListBans bannedPlayers;
 	private final BanList bannedIPs;
@@ -193,69 +194,69 @@ public abstract class ServerConfigurationManager {
 			}
 		}
 	}
-//	public void initializeBot(EntityPlayerMP playerIn) {
-//		GameProfile freshProfile = playerIn.getGameProfile();
-//		PlayerProfileCache playerprofilecache = this.mcServer.getPlayerProfileCache();
-//		GameProfile cachedProfile = playerprofilecache.getProfileByUUID(freshProfile.getId());
-//		String s = cachedProfile == null ? freshProfile.getName() : cachedProfile.getName();
-//		playerprofilecache.addEntry(freshProfile);
-//		NBTTagCompound nbttagcompound = this.readPlayerDataFromFile(playerIn);
-//		playerIn.setWorld(this.mcServer.worldServerForDimension(playerIn.dimension));
-//		playerIn.theItemInWorldManager.setWorld((WorldServer) playerIn.worldObj);
-//
-//		logger.info(playerIn.getName() + "[bot] вошёл на сервер. EID-" + playerIn.getEntityId() + ", " + (int) playerIn.posX + ", " + (int) playerIn.posY + ", " + (int) playerIn.posZ);
-//		WorldServer worldserver = this.mcServer.worldServerForDimension(playerIn.dimension);
-//		WorldInfo worldinfo = worldserver.getWorldInfo();
-//		BlockPos blockpos = worldserver.getSpawnPoint();
-//		this.setPlayerGameTypeBasedOnOther(playerIn, null, worldserver);
-//		NetHandlerPlayServer nethandlerplayserver = new NetHandlerPlayServer(this.mcServer, netManager, playerIn);
-//		nethandlerplayserver.sendPacket(
-//				new S01PacketJoinGame(playerIn.getEntityId(), playerIn.theItemInWorldManager.getGameType(), worldinfo.isHardcoreModeEnabled(), worldserver.provider.getDimensionId(),
-//						worldserver.getDifficulty(), this.getMaxPlayers(), worldinfo.getTerrainType(), worldserver.getGameRules().getBoolean("reducedDebugInfo")));
-//		nethandlerplayserver.sendPacket(new S3FPacketCustomPayload("MC|Brand", new PacketBuffer(Unpooled.buffer()).writeString(this.getServerInstance().getServerModName())));
-//		nethandlerplayserver.sendPacket(new S41PacketServerDifficulty(worldinfo.getDifficulty(), worldinfo.isDifficultyLocked()));
-//		nethandlerplayserver.sendPacket(new S05PacketSpawnPosition(blockpos));
-//		nethandlerplayserver.sendPacket(new S39PacketPlayerAbilities(playerIn.capabilities));
-//		nethandlerplayserver.sendPacket(new S09PacketHeldItemChange(playerIn.inventory.currentItem));
-//		playerIn.getStatFile().func_150877_d();
-//		playerIn.getStatFile().sendAchievements(playerIn);
-//		this.sendScoreboard((ServerScoreboard) worldserver.getScoreboard(), playerIn);
-//		this.mcServer.refreshStatusNextTick();
-//		ChatComponentTranslation chatcomponenttranslation;
-//
-//		if (!playerIn.getName().equalsIgnoreCase(s)) {
-//			chatcomponenttranslation = new ChatComponentTranslation("multiplayer.player.joined.renamed", playerIn.getDisplayName(), s);
-//		} else {
-//			chatcomponenttranslation = new ChatComponentTranslation("multiplayer.player.joined", playerIn.getDisplayName());
-//		}
-//
-//		chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.YELLOW);
-//		this.sendChatMsg(chatcomponenttranslation);
-//		this.playerLoggedIn(playerIn);
-//		nethandlerplayserver.setPlayerLocation(playerIn.posX, playerIn.posY, playerIn.posZ, playerIn.rotationYaw, playerIn.rotationPitch);
-//		this.updateTimeAndWeatherForPlayer(playerIn, worldserver);
-//
-//		if (this.mcServer.getResourcePackUrl().length() > 0) {
-//			playerIn.loadResourcePack(this.mcServer.getResourcePackUrl(), this.mcServer.getResourcePackHash());
-//		}
-//
-//		for (PotionEffect potioneffect : playerIn.getActivePotionEffects()) {
-//			nethandlerplayserver.sendPacket(new S1DPacketEntityEffect(playerIn.getEntityId(), potioneffect));
-//		}
-//
-//		playerIn.addSelfToInternalCraftingInventory();
-//
-//		if (nbttagcompound != null && nbttagcompound.hasKey("Riding", 10)) {
-//			Entity entity = EntityList.createEntityFromNBT(nbttagcompound.getCompoundTag("Riding"), worldserver);
-//
-//			if (entity != null) {
-//				entity.forceSpawn = true;
-//				worldserver.spawnEntityInWorld(entity);
-//				playerIn.mountEntity(entity);
-//				entity.forceSpawn = false;
-//			}
-//		}
-//	}
+	//	public void initializeBot(EntityPlayerMP playerIn) {
+	//		GameProfile freshProfile = playerIn.getGameProfile();
+	//		PlayerProfileCache playerprofilecache = this.mcServer.getPlayerProfileCache();
+	//		GameProfile cachedProfile = playerprofilecache.getProfileByUUID(freshProfile.getId());
+	//		String s = cachedProfile == null ? freshProfile.getName() : cachedProfile.getName();
+	//		playerprofilecache.addEntry(freshProfile);
+	//		NBTTagCompound nbttagcompound = this.readPlayerDataFromFile(playerIn);
+	//		playerIn.setWorld(this.mcServer.worldServerForDimension(playerIn.dimension));
+	//		playerIn.theItemInWorldManager.setWorld((WorldServer) playerIn.worldObj);
+	//
+	//		logger.info(playerIn.getName() + "[bot] вошёл на сервер. EID-" + playerIn.getEntityId() + ", " + (int) playerIn.posX + ", " + (int) playerIn.posY + ", " + (int) playerIn.posZ);
+	//		WorldServer worldserver = this.mcServer.worldServerForDimension(playerIn.dimension);
+	//		WorldInfo worldinfo = worldserver.getWorldInfo();
+	//		BlockPos blockpos = worldserver.getSpawnPoint();
+	//		this.setPlayerGameTypeBasedOnOther(playerIn, null, worldserver);
+	//		NetHandlerPlayServer nethandlerplayserver = new NetHandlerPlayServer(this.mcServer, netManager, playerIn);
+	//		nethandlerplayserver.sendPacket(
+	//				new S01PacketJoinGame(playerIn.getEntityId(), playerIn.theItemInWorldManager.getGameType(), worldinfo.isHardcoreModeEnabled(), worldserver.provider.getDimensionId(),
+	//						worldserver.getDifficulty(), this.getMaxPlayers(), worldinfo.getTerrainType(), worldserver.getGameRules().getBoolean("reducedDebugInfo")));
+	//		nethandlerplayserver.sendPacket(new S3FPacketCustomPayload("MC|Brand", new PacketBuffer(Unpooled.buffer()).writeString(this.getServerInstance().getServerModName())));
+	//		nethandlerplayserver.sendPacket(new S41PacketServerDifficulty(worldinfo.getDifficulty(), worldinfo.isDifficultyLocked()));
+	//		nethandlerplayserver.sendPacket(new S05PacketSpawnPosition(blockpos));
+	//		nethandlerplayserver.sendPacket(new S39PacketPlayerAbilities(playerIn.capabilities));
+	//		nethandlerplayserver.sendPacket(new S09PacketHeldItemChange(playerIn.inventory.currentItem));
+	//		playerIn.getStatFile().func_150877_d();
+	//		playerIn.getStatFile().sendAchievements(playerIn);
+	//		this.sendScoreboard((ServerScoreboard) worldserver.getScoreboard(), playerIn);
+	//		this.mcServer.refreshStatusNextTick();
+	//		ChatComponentTranslation chatcomponenttranslation;
+	//
+	//		if (!playerIn.getName().equalsIgnoreCase(s)) {
+	//			chatcomponenttranslation = new ChatComponentTranslation("multiplayer.player.joined.renamed", playerIn.getDisplayName(), s);
+	//		} else {
+	//			chatcomponenttranslation = new ChatComponentTranslation("multiplayer.player.joined", playerIn.getDisplayName());
+	//		}
+	//
+	//		chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.YELLOW);
+	//		this.sendChatMsg(chatcomponenttranslation);
+	//		this.playerLoggedIn(playerIn);
+	//		nethandlerplayserver.setPlayerLocation(playerIn.posX, playerIn.posY, playerIn.posZ, playerIn.rotationYaw, playerIn.rotationPitch);
+	//		this.updateTimeAndWeatherForPlayer(playerIn, worldserver);
+	//
+	//		if (this.mcServer.getResourcePackUrl().length() > 0) {
+	//			playerIn.loadResourcePack(this.mcServer.getResourcePackUrl(), this.mcServer.getResourcePackHash());
+	//		}
+	//
+	//		for (PotionEffect potioneffect : playerIn.getActivePotionEffects()) {
+	//			nethandlerplayserver.sendPacket(new S1DPacketEntityEffect(playerIn.getEntityId(), potioneffect));
+	//		}
+	//
+	//		playerIn.addSelfToInternalCraftingInventory();
+	//
+	//		if (nbttagcompound != null && nbttagcompound.hasKey("Riding", 10)) {
+	//			Entity entity = EntityList.createEntityFromNBT(nbttagcompound.getCompoundTag("Riding"), worldserver);
+	//
+	//			if (entity != null) {
+	//				entity.forceSpawn = true;
+	//				worldserver.spawnEntityInWorld(entity);
+	//				playerIn.mountEntity(entity);
+	//				entity.forceSpawn = false;
+	//			}
+	//		}
+	//	}
 
 	protected void sendScoreboard(ServerScoreboard scoreboardIn, EntityPlayerMP playerIn) {
 		Set<ScoreObjective> set = Sets.newHashSet();
@@ -443,7 +444,7 @@ public abstract class ServerConfigurationManager {
 	 */
 	public EntityPlayerMP createPlayerForUser(GameProfile profile) {
 		UUID uuid = EntityPlayer.getUUID(profile);
-		List<EntityPlayerMP> list = new java.util.ArrayList<>();
+		List<EntityPlayerMP> list = new ArrayList<>();
 
 		for (int i = 0; i < this.playerEntityList.size(); ++i) {
 			EntityPlayerMP entityplayermp = this.playerEntityList.get(i);
@@ -862,7 +863,7 @@ public abstract class ServerConfigurationManager {
 	}
 
 	public List<EntityPlayerMP> getPlayersMatchingAddress(String address) {
-		List<EntityPlayerMP> list = new java.util.ArrayList<>();
+		List<EntityPlayerMP> list = new ArrayList<>();
 
 		for (EntityPlayerMP entityplayermp : this.playerEntityList) {
 			if (entityplayermp.getPlayerIP().equals(address)) {

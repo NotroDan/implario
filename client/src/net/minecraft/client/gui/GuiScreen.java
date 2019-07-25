@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -67,8 +68,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 	 * The height of the screen object.
 	 */
 	public int height;
-	protected List<GuiButton> buttonList = new java.util.ArrayList<>();
-	protected List<GuiLabel> labelList = new java.util.ArrayList<>();
+	protected List<GuiButton> buttonList = new ArrayList<>();
+	protected List<GuiLabel> labelList = new ArrayList<>();
 	public boolean allowUserInput;
 
 	/**
@@ -210,9 +211,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 
 		this.zLevel = 0.0F;
 		this.itemRender.zLevel = 0.0F;
-//		GlStateManager.enableLighting();
-//		RenderHelper.enableStandardItemLighting();
-//		GlStateManager.enableRescaleNormal();
+		//		GlStateManager.enableLighting();
+		//		RenderHelper.enableStandardItemLighting();
+		//		GlStateManager.enableRescaleNormal();
 		G.enableDepth();
 	}
 
@@ -221,7 +222,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 	}
 
 	protected void drawHoveringText(List<String> textLines, int x, int y, int width) {
-//		drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
+		//		drawHoveringText(textLines, x, y, width, 0xd70f3842, 0xff217b91);
 		drawHoveringText(textLines, x, y, width, 0xe7252525, 0xd7ffa114);
 	}
 
@@ -248,7 +249,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 						NBTTagCompound nbtbase1 = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
 
 						if (nbtbase1 instanceof NBTTagCompound) {
-							List<String> list1 = new java.util.ArrayList<>();
+							List<String> list1 = new ArrayList<>();
 							list1.add(nbtbase1.getString("name"));
 
 							if (nbtbase1.hasKey("type", 8)) {
@@ -344,8 +345,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 				System.out.println(f.getName());
 				if (isCtrlKeyDown()) showFile(f);
 				else openFile(f);
-//				URI uri1 = new File(clickevent.getValue()).toURI();
-//				this.openWebLink(uri1);
+				//				URI uri1 = new File(clickevent.getValue()).toURI();
+				//				this.openWebLink(uri1);
 			} else if (clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
 				this.setText(clickevent.getValue(), true);
 			} else if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {

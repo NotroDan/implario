@@ -1,38 +1,35 @@
 package net.minecraft.block;
 
 import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.util.EnumWorldBlockLayer;
 
-public class BlockGlass extends BlockBreakable
-{
-    public BlockGlass(Material materialIn, boolean ignoreSimilarity)
-    {
-        super(materialIn, ignoreSimilarity);
-        this.setCreativeTab(CreativeTabs.tabBlock);
-    }
+public class BlockGlass extends BlockBreakable {
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
-    public int quantityDropped(Random random)
-    {
-        return 0;
-    }
+	public BlockGlass(Material materialIn, boolean ignoreSimilarity) {
+		super(materialIn, ignoreSimilarity);
+		this.setCreativeTab(CreativeTabs.tabBlock);
+	}
 
-    public EnumWorldBlockLayer getBlockLayer()
-    {
-        return EnumWorldBlockLayer.CUTOUT;
-    }
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
+	public int quantityDropped(Random random) {
+		return 0;
+	}
 
-    public boolean isFullCube()
-    {
-        return false;
-    }
+	public EnumWorldBlockLayer getBlockLayer() {
+		return EnumWorldBlockLayer.CUTOUT;
+	}
 
-    protected boolean canSilkHarvest()
-    {
-        return true;
-    }
+	public boolean isFullCube() {
+		return false;
+	}
+
+	protected boolean canSilkHarvest() {
+		return true;
+	}
+
 }

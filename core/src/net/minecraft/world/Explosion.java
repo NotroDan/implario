@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -52,7 +53,7 @@ public class Explosion {
 
 	public Explosion(World worldIn, Entity p_i45754_2_, double p_i45754_3_, double p_i45754_5_, double p_i45754_7_, float size, boolean p_i45754_10_, boolean p_i45754_11_) {
 		this.explosionRNG = new Random();
-		this.affectedBlockPositions = new java.util.ArrayList<>();
+		this.affectedBlockPositions = new ArrayList<>();
 		this.playerKnockbackMap = Maps.newHashMap();
 		this.worldObj = worldIn;
 		this.exploder = p_i45754_2_;

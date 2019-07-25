@@ -232,7 +232,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 	private int cachedPage = -213123;
 
 	private void loadGlyphTexture(int page) {
-		if(page == cachedPage)return;
+		if (page == cachedPage) return;
 		ResourceLocation unicodePageLocation = this.getUnicodePageLocation(page);
 		this.bindTexture(unicodePageLocation);
 		cachedPage = page;
@@ -252,7 +252,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		float tx = (float) (c % 16 * 16) + rightOffset;
 		float ty = (float) (c & 0xf0);
 		float tw = width - rightOffset;
-//		System.out.print(c + "-" + tx + "x" + ty + "  ");
+		//		System.out.print(c + "-" + tx + "x" + ty + "  ");
 
 		// Сдвиг верхней границы текста вправо, а нижней влево для создания эффекта курсива
 		float italicness = italic ? 1.0F : 0.0F;
@@ -260,7 +260,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		float oneYCached = this.posY, twoYCached = oneYCached + 8;
 		float txCached = tx / 256, oneTwCached = posX + tw / 2;
 		float tyCached = ty / 256, txTwCache = (tx + tw) / 256;
-		float tyCache =(ty + 16) / 256;
+		float tyCache = (ty + 16) / 256;
 		GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
 
 		GL11.glTexCoord2f(txCached, tyCached);
@@ -385,25 +385,24 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 			if (dropShadow) offset(offsetBold);
 
 
-
 			G.translate(posX, posY, 0);
-			if (strikethroughStyle)	net.minecraft.client.gui.font.FontUtils.strike(charWidth, 9);
+			if (strikethroughStyle) net.minecraft.client.gui.font.FontUtils.strike(charWidth, 9);
 			if (underlineStyle) net.minecraft.client.gui.font.FontUtils.underline(charWidth, 9, 0);
 			G.translate(-posX, -posY, 0);
 
-//			if (this.underlineStyle) {
-//				Tessellator tessellator1 = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
-//				WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
-//				G.disableTexture2D();
-//				worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
-//				int l = this.underlineStyle ? -1 : 0;
-//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
-//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
-//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
-//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
-//				tessellator1.draw();
-//				G.enableTexture2D();
-//			}
+			//			if (this.underlineStyle) {
+			//				Tessellator tessellator1 = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
+			//				WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
+			//				G.disableTexture2D();
+			//				worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
+			//				int l = this.underlineStyle ? -1 : 0;
+			//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
+			//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight()), 0.0D).endVertex();
+			//				worldrenderer1.pos((double) (this.posX + charWidth), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
+			//				worldrenderer1.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.getFontHeight() - 1.0F), 0.0D).endVertex();
+			//				tessellator1.draw();
+			//				G.enableTexture2D();
+			//			}
 
 			this.posX += charWidth;
 		}
@@ -440,8 +439,6 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		this.renderStringAtPos(text, dropShadow);
 		return (int) this.posX;
 	}
-
-
 
 
 	/**
@@ -505,7 +502,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 			int i = allChars.indexOf(c);
 
-//			if (c > 0 && i != -1 && !this.unicodeFlag) return this.charWidth[i];
+			//			if (c > 0 && i != -1 && !this.unicodeFlag) return this.charWidth[i];
 
 			if (this.glyphWidth[c] != 0) {
 				o = this.glyphWidth[c] >>> 4;

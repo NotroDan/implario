@@ -4,11 +4,12 @@ import net.minecraft.client.resources.ClientRegistrar;
 import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.resources.Datapack;
+import net.minecraft.server.Todo;
 import net.minecraft.world.World;
 import optifine.BlockPosM;
 import optifine.Config;
 
-public class TodoClient extends net.minecraft.server.Todo {
+public class TodoClient extends Todo {
 
 	@Override
 	public boolean isSmoothWorld() {

@@ -32,6 +32,7 @@ public class SettingButton extends GuiButton {
 		updateGraphics = true;
 		return this;
 	}
+
 	public SettingButton refreshResources() {
 		reloadRP = true;
 		return this;
@@ -74,4 +75,5 @@ public class SettingButton extends GuiButton {
 			Config.updateFramebufferSize();
 		}
 	}
+
 }

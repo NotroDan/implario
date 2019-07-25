@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,8 +16,8 @@ import static net.minecraft.inventory.ClickType.*;
 
 public abstract class Container {
 
-	public List<ItemStack> inventoryItemStacks = new java.util.ArrayList<>();
-	public List<Slot> inventorySlots = new java.util.ArrayList<>();
+	public List<ItemStack> inventoryItemStacks = new ArrayList<>();
+	public List<Slot> inventorySlots = new ArrayList<>();
 	public int windowId;
 	private short transactionID;
 
@@ -30,7 +31,7 @@ public abstract class Container {
 	 */
 	private int dragEvent;
 	private final Set<Slot> dragSlots = Sets.newHashSet();
-	protected List<ICrafting> crafters = new java.util.ArrayList<>();
+	protected List<ICrafting> crafters = new ArrayList<>();
 	private Set<EntityPlayer> playerList = Sets.newHashSet();
 
 	/**
@@ -58,7 +59,7 @@ public abstract class Container {
 	}
 
 	public List<ItemStack> getInventory() {
-		List<ItemStack> list = new java.util.ArrayList<>();
+		List<ItemStack> list = new ArrayList<>();
 
 		for (int i = 0; i < this.inventorySlots.size(); ++i) list.add(this.inventorySlots.get(i).getStack());
 

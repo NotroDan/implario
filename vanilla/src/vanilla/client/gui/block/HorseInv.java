@@ -4,6 +4,7 @@ import net.minecraft.inventory.IInventory;
 import vanilla.entity.passive.EntityHorse;
 
 public class HorseInv {
+
 	public final EntityHorse horse;
 	public final IInventory inv;
 

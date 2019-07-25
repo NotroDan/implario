@@ -12,6 +12,7 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -105,7 +106,7 @@ public class EntityTracker {
 	}
 
 	public void updateTrackedEntities() {
-		List<EntityPlayerMP> list = new java.util.ArrayList<>();
+		List<EntityPlayerMP> list = new ArrayList<>();
 
 		for (EntityTrackerEntry entitytrackerentry : this.trackedEntities) {
 			entitytrackerentry.updatePlayerList(this.theWorld.playerEntities);

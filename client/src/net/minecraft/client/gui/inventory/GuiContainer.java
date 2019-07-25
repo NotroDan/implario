@@ -276,7 +276,7 @@ public abstract class GuiContainer extends GuiScreen {
 			}
 		}
 
-		if(Settings.MODERN_INVENTORIES.b() && Settings.SLOT_GRID.i() != 1){
+		if (Settings.MODERN_INVENTORIES.b() && Settings.SLOT_GRID.i() != 1) {
 			RenderHelper.disableStandardItemLighting();
 			RenderRec.render(i, j, 16, 16, Colors.GRAY);
 			RenderHelper.enableGUIStandardItemLighting();
@@ -471,7 +471,7 @@ public abstract class GuiContainer extends GuiScreen {
 				return;
 			}
 			if (this.dragSplitting && !this.dragSplittingSlots.isEmpty()) {
-				this.handleMouseClick(null, -999, Container.func_94534_d(0, this.dragSplittingLimit),  DRAG);
+				this.handleMouseClick(null, -999, Container.func_94534_d(0, this.dragSplittingLimit), DRAG);
 
 				for (Slot slot1 : this.dragSplittingSlots) {
 					this.handleMouseClick(slot1, slot1.slotNumber, Container.func_94534_d(1, this.dragSplittingLimit), DRAG);
@@ -593,4 +593,5 @@ public abstract class GuiContainer extends GuiScreen {
 			}
 		}
 	}
+
 }

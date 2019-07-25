@@ -91,7 +91,7 @@ public class BiomeGenTaiga extends BiomeGenBase {
 
 	protected BiomeGenBase createMutatedBiome(int id) {
 		return this.legacyId == BiomeGenBase.megaTaiga.getLegacyId() ?
-				this .createMutatedBiome(id, "Mega Spruce Taiga") :
+				this.createMutatedBiome(id, "Mega Spruce Taiga") :
 				super.createMutatedBiome(id);
 	}
 

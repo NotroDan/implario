@@ -1,81 +1,68 @@
 package optifine;
 
-public class IntArray
-{
-    private int[] array = null;
-    private int position = 0;
-    private int limit = 0;
+public class IntArray {
 
-    public IntArray(int p_i62_1_)
-    {
-        this.array = new int[p_i62_1_];
-    }
+	private int[] array = null;
+	private int position = 0;
+	private int limit = 0;
 
-    public void put(int p_put_1_)
-    {
-        this.array[this.position] = p_put_1_;
-        ++this.position;
+	public IntArray(int p_i62_1_) {
+		this.array = new int[p_i62_1_];
+	}
 
-        if (this.limit < this.position)
-        {
-            this.limit = this.position;
-        }
-    }
+	public void put(int p_put_1_) {
+		this.array[this.position] = p_put_1_;
+		++this.position;
 
-    public void put(int p_put_1_, int p_put_2_)
-    {
-        this.array[p_put_1_] = p_put_2_;
+		if (this.limit < this.position) {
+			this.limit = this.position;
+		}
+	}
 
-        if (this.limit < p_put_1_)
-        {
-            this.limit = p_put_1_;
-        }
-    }
+	public void put(int p_put_1_, int p_put_2_) {
+		this.array[p_put_1_] = p_put_2_;
 
-    public void position(int p_position_1_)
-    {
-        this.position = p_position_1_;
-    }
+		if (this.limit < p_put_1_) {
+			this.limit = p_put_1_;
+		}
+	}
 
-    public void put(int[] p_put_1_)
-    {
-        int i = p_put_1_.length;
+	public void position(int p_position_1_) {
+		this.position = p_position_1_;
+	}
 
-        for (int j = 0; j < i; ++j)
-        {
-            this.array[this.position] = p_put_1_[j];
-            ++this.position;
-        }
+	public void put(int[] p_put_1_) {
+		int i = p_put_1_.length;
 
-        if (this.limit < this.position)
-        {
-            this.limit = this.position;
-        }
-    }
+		for (int j = 0; j < i; ++j) {
+			this.array[this.position] = p_put_1_[j];
+			++this.position;
+		}
 
-    public int get(int p_get_1_)
-    {
-        return this.array[p_get_1_];
-    }
+		if (this.limit < this.position) {
+			this.limit = this.position;
+		}
+	}
 
-    public int[] getArray()
-    {
-        return this.array;
-    }
+	public int get(int p_get_1_) {
+		return this.array[p_get_1_];
+	}
 
-    public void clear()
-    {
-        this.position = 0;
-        this.limit = 0;
-    }
+	public int[] getArray() {
+		return this.array;
+	}
 
-    public int getLimit()
-    {
-        return this.limit;
-    }
+	public void clear() {
+		this.position = 0;
+		this.limit = 0;
+	}
 
-    public int getPosition()
-    {
-        return this.position;
-    }
+	public int getLimit() {
+		return this.limit;
+	}
+
+	public int getPosition() {
+		return this.position;
+	}
+
 }

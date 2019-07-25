@@ -20,6 +20,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
+
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +28,7 @@ import net.minecraft.LogManager;
 import net.minecraft.Logger;
 
 public class ModelBlock {
+  
     private static final Logger LOGGER = Logger.getInstance();
     public static final Gson SERIALIZER = new GsonBuilder().registerTypeAdapter(ModelBlock.class, new ModelBlock.Deserializer()).registerTypeAdapter(BlockPart.class, new BlockPart.Deserializer()).registerTypeAdapter(BlockPartFace.class, new BlockPartFace.Deserializer()).registerTypeAdapter(BlockFaceUV.class, new BlockFaceUV.Deserializer()).registerTypeAdapter(ItemTransformVec3f.class, new ItemTransformVec3f.Deserializer()).registerTypeAdapter(ItemCameraTransforms.class, new ItemCameraTransforms.Deserializer()).create();
     private final List<BlockPart> elements;
@@ -147,8 +149,7 @@ public class ModelBlock {
 
 			p_178302_2_.modelExt = this;
 
-			if (s != null && this.startsWithHash(s))
-			{
+			if (s != null && this.startsWithHash(s)) {
 				s = p_178302_2_.model.resolveTextureName(s, p_178302_2_);
 			}
 
@@ -284,60 +285,52 @@ public class ModelBlock {
 			boolean flag2 = this.getAmbientOcclusionEnabled(jsonobject);
 			ItemCameraTransforms itemcameratransforms = ItemCameraTransforms.DEFAULT;
 
-			if (jsonobject.has("display"))
-			{
+			if (jsonobject.has("display")) {
 				JsonObject jsonobject1 = JsonUtils.getJsonObject(jsonobject, "display");
-				itemcameratransforms = (ItemCameraTransforms)p_deserialize_3_.deserialize(jsonobject1, ItemCameraTransforms.class);
+				itemcameratransforms = (ItemCameraTransforms) p_deserialize_3_.deserialize(jsonobject1, ItemCameraTransforms.class);
 			}
 
 			return flag1 ? new ModelBlock(new ResourceLocation(s), map, flag2, true, itemcameratransforms)
-                            : new ModelBlock(list, map, flag2, true, itemcameratransforms);
+					: new ModelBlock(list, map, flag2, true, itemcameratransforms);
 		}
 
-        private Map<String, String> getTextures(JsonObject p_178329_1_)
-        {
-            Map<String, String> map = Maps.newHashMap();
+		private Map<String, String> getTextures(JsonObject p_178329_1_) {
+			Map<String, String> map = Maps.newHashMap();
 
-            if (p_178329_1_.has("textures"))
-            {
-                JsonObject jsonobject = p_178329_1_.getAsJsonObject("textures");
+			if (p_178329_1_.has("textures")) {
+				JsonObject jsonobject = p_178329_1_.getAsJsonObject("textures");
 
-                for (Entry<String, JsonElement> entry : jsonobject.entrySet())
-                {
-                    map.put(entry.getKey(), ((JsonElement)entry.getValue()).getAsString());
-                }
-            }
+				for (Entry<String, JsonElement> entry : jsonobject.entrySet()) {
+					map.put(entry.getKey(), ((JsonElement) entry.getValue()).getAsString());
+				}
+			}
 
-            return map;
-        }
+			return map;
+		}
 
-        private String getParent(JsonObject p_178326_1_)
-        {
-            return JsonUtils.getString(p_178326_1_, "parent", "");
-        }
+		private String getParent(JsonObject p_178326_1_) {
+			return JsonUtils.getString(p_178326_1_, "parent", "");
+		}
 
-        protected boolean getAmbientOcclusionEnabled(JsonObject p_178328_1_)
-        {
-            return JsonUtils.getBoolean(p_178328_1_, "ambientocclusion", true);
-        }
+		protected boolean getAmbientOcclusionEnabled(JsonObject p_178328_1_) {
+			return JsonUtils.getBoolean(p_178328_1_, "ambientocclusion", true);
+		}
 
-        protected List<BlockPart> getModelElements(JsonDeserializationContext p_178325_1_, JsonObject p_178325_2_)
-        {
-            List<BlockPart> list = new java.util.ArrayList<>();
+		protected List<BlockPart> getModelElements(JsonDeserializationContext p_178325_1_, JsonObject p_178325_2_) {
+			List<BlockPart> list = new ArrayList<>();
 
-            if (p_178325_2_.has("elements"))
-            {
-                for (JsonElement jsonelement : JsonUtils.getJsonArray(p_178325_2_, "elements"))
-                {
-                    list.add((BlockPart)p_178325_1_.deserialize(jsonelement, BlockPart.class));
-                }
-            }
+			if (p_178325_2_.has("elements")) {
+				for (JsonElement jsonelement : JsonUtils.getJsonArray(p_178325_2_, "elements")) {
+					list.add((BlockPart) p_178325_1_.deserialize(jsonelement, BlockPart.class));
+				}
+			}
 
-            return list;
-        }
-    }
+			return list;
+		}
 
-    public static class LoopException extends RuntimeException
-    {
-    }
+	}
+
+	public static class LoopException extends RuntimeException {
+	}
+
 }

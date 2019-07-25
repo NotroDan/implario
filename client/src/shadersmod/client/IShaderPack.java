@@ -2,13 +2,14 @@ package shadersmod.client;
 
 import java.io.InputStream;
 
-public interface IShaderPack
-{
-    String getName();
+public interface IShaderPack {
 
-    InputStream getResourceAsStream(String var1);
+	String getName();
 
-    boolean hasDirectory(String var1);
+	InputStream getResourceAsStream(String var1);
 
-    void close();
+	boolean hasDirectory(String var1);
+
+	void close();
+
 }

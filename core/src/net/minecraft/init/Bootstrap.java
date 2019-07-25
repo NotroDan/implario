@@ -61,4 +61,5 @@ public class Bootstrap {
 	public static void print(String text) {
 		SYSOUT.println(text);
 	}
+
 }

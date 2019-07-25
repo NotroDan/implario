@@ -15,8 +15,7 @@ public class MappingItem extends LegacyMapping<Item> {
 		if (element == null) {
 			RegistryNamespaced<ResourceLocation, Item> r = Item.itemRegistry;
 			r.remove(r.getNameForObject(r.getObjectById(id)));
-		}
-		else Item.registerItem(id, address, element);
+		} else Item.registerItem(id, address, element);
 	}
 
 }

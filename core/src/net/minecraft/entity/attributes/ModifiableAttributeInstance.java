@@ -3,201 +3,176 @@ package net.minecraft.entity.attributes;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class ModifiableAttributeInstance implements IAttributeInstance
-{
-    /** The BaseAttributeMap this attributeInstance can be found in */
-    private final BaseAttributeMap attributeMap;
+public class ModifiableAttributeInstance implements IAttributeInstance {
 
-    /** The Attribute this is an instance of */
-    private final IAttribute genericAttribute;
-    private final Map<Integer, Set<AttributeModifier>> mapByOperation = Maps.newHashMap();
-    private final Map<String, Set<AttributeModifier>> mapByName = Maps.newHashMap();
-    private final Map<UUID, AttributeModifier> mapByUUID = Maps.newHashMap();
-    private double baseValue;
-    private boolean needsUpdate = true;
-    private double cachedValue;
+	/**
+	 * The BaseAttributeMap this attributeInstance can be found in
+	 */
+	private final BaseAttributeMap attributeMap;
 
-    public ModifiableAttributeInstance(BaseAttributeMap attributeMapIn, IAttribute genericAttributeIn)
-    {
-        this.attributeMap = attributeMapIn;
-        this.genericAttribute = genericAttributeIn;
-        this.baseValue = genericAttributeIn.getDefaultValue();
+	/**
+	 * The Attribute this is an instance of
+	 */
+	private final IAttribute genericAttribute;
+	private final Map<Integer, Set<AttributeModifier>> mapByOperation = Maps.newHashMap();
+	private final Map<String, Set<AttributeModifier>> mapByName = Maps.newHashMap();
+	private final Map<UUID, AttributeModifier> mapByUUID = Maps.newHashMap();
+	private double baseValue;
+	private boolean needsUpdate = true;
+	private double cachedValue;
 
-        for (int i = 0; i < 3; ++i)
-        {
-            this.mapByOperation.put(i, Sets.newHashSet());
-        }
-    }
+	public ModifiableAttributeInstance(BaseAttributeMap attributeMapIn, IAttribute genericAttributeIn) {
+		this.attributeMap = attributeMapIn;
+		this.genericAttribute = genericAttributeIn;
+		this.baseValue = genericAttributeIn.getDefaultValue();
 
-    /**
-     * Get the Attribute this is an instance of
-     */
-    public IAttribute getAttribute()
-    {
-        return this.genericAttribute;
-    }
+		for (int i = 0; i < 3; ++i) {
+			this.mapByOperation.put(i, Sets.newHashSet());
+		}
+	}
 
-    public double getBaseValue()
-    {
-        return this.baseValue;
-    }
+	/**
+	 * Get the Attribute this is an instance of
+	 */
+	public IAttribute getAttribute() {
+		return this.genericAttribute;
+	}
 
-    public void setBaseValue(double baseValue)
-    {
-        if (baseValue != this.getBaseValue())
-        {
-            this.baseValue = baseValue;
-            this.flagForUpdate();
-        }
-    }
+	public double getBaseValue() {
+		return this.baseValue;
+	}
 
-    public Collection<AttributeModifier> getModifiersByOperation(int operation)
-    {
-        return (Collection)this.mapByOperation.get(operation);
-    }
+	public void setBaseValue(double baseValue) {
+		if (baseValue != this.getBaseValue()) {
+			this.baseValue = baseValue;
+			this.flagForUpdate();
+		}
+	}
 
-    public Collection<AttributeModifier> func_111122_c()
-    {
-        Set<AttributeModifier> set = Sets.newHashSet();
+	public Collection<AttributeModifier> getModifiersByOperation(int operation) {
+		return (Collection) this.mapByOperation.get(operation);
+	}
 
-        for (int i = 0; i < 3; ++i)
-        {
-            set.addAll(this.getModifiersByOperation(i));
-        }
+	public Collection<AttributeModifier> func_111122_c() {
+		Set<AttributeModifier> set = Sets.newHashSet();
 
-        return set;
-    }
+		for (int i = 0; i < 3; ++i) {
+			set.addAll(this.getModifiersByOperation(i));
+		}
 
-    /**
-     * Returns attribute modifier, if any, by the given UUID
-     */
-    public AttributeModifier getModifier(UUID uuid)
-    {
-        return (AttributeModifier)this.mapByUUID.get(uuid);
-    }
+		return set;
+	}
 
-    public boolean hasModifier(AttributeModifier modifier)
-    {
-        return this.mapByUUID.get(modifier.getID()) != null;
-    }
+	/**
+	 * Returns attribute modifier, if any, by the given UUID
+	 */
+	public AttributeModifier getModifier(UUID uuid) {
+		return (AttributeModifier) this.mapByUUID.get(uuid);
+	}
 
-    public void applyModifier(AttributeModifier modifier)
-    {
-        if (this.getModifier(modifier.getID()) != null)
-        {
-            throw new IllegalArgumentException("Modifier is already applied on this attribute!");
-        }
-		Set<AttributeModifier> set = (Set)this.mapByName.get(modifier.getName());
+	public boolean hasModifier(AttributeModifier modifier) {
+		return this.mapByUUID.get(modifier.getID()) != null;
+	}
 
-		if (set == null)
-		{
+	public void applyModifier(AttributeModifier modifier) {
+		if (this.getModifier(modifier.getID()) != null) {
+			throw new IllegalArgumentException("Modifier is already applied on this attribute!");
+		}
+		Set<AttributeModifier> set = (Set) this.mapByName.get(modifier.getName());
+
+		if (set == null) {
 			set = Sets.newHashSet();
 			this.mapByName.put(modifier.getName(), set);
 		}
 
-		((Set)this.mapByOperation.get(modifier.getOperation())).add(modifier);
+		((Set) this.mapByOperation.get(modifier.getOperation())).add(modifier);
 		set.add(modifier);
 		this.mapByUUID.put(modifier.getID(), modifier);
 		this.flagForUpdate();
 	}
 
-    protected void flagForUpdate()
-    {
-        this.needsUpdate = true;
-        this.attributeMap.func_180794_a(this);
-    }
+	protected void flagForUpdate() {
+		this.needsUpdate = true;
+		this.attributeMap.func_180794_a(this);
+	}
 
-    public void removeModifier(AttributeModifier modifier)
-    {
-        for (int i = 0; i < 3; ++i)
-        {
-            Set<AttributeModifier> set = (Set)this.mapByOperation.get(i);
-            set.remove(modifier);
-        }
+	public void removeModifier(AttributeModifier modifier) {
+		for (int i = 0; i < 3; ++i) {
+			Set<AttributeModifier> set = (Set) this.mapByOperation.get(i);
+			set.remove(modifier);
+		}
 
-        Set<AttributeModifier> set1 = (Set)this.mapByName.get(modifier.getName());
+		Set<AttributeModifier> set1 = (Set) this.mapByName.get(modifier.getName());
 
-        if (set1 != null)
-        {
-            set1.remove(modifier);
+		if (set1 != null) {
+			set1.remove(modifier);
 
-            if (set1.isEmpty())
-            {
-                this.mapByName.remove(modifier.getName());
-            }
-        }
+			if (set1.isEmpty()) {
+				this.mapByName.remove(modifier.getName());
+			}
+		}
 
-        this.mapByUUID.remove(modifier.getID());
-        this.flagForUpdate();
-    }
+		this.mapByUUID.remove(modifier.getID());
+		this.flagForUpdate();
+	}
 
-    public void removeAllModifiers()
-    {
-        Collection<AttributeModifier> collection = this.func_111122_c();
+	public void removeAllModifiers() {
+		Collection<AttributeModifier> collection = this.func_111122_c();
 
-        if (collection != null)
-        {
-            for (AttributeModifier attributemodifier : Lists.newArrayList(collection))
-            {
-                this.removeModifier(attributemodifier);
-            }
-        }
-    }
+		if (collection != null) {
+			for (AttributeModifier attributemodifier : Lists.newArrayList(collection)) {
+				this.removeModifier(attributemodifier);
+			}
+		}
+	}
 
-    public double getAttributeValue()
-    {
-        if (this.needsUpdate)
-        {
-            this.cachedValue = this.computeValue();
-            this.needsUpdate = false;
-        }
+	public double getAttributeValue() {
+		if (this.needsUpdate) {
+			this.cachedValue = this.computeValue();
+			this.needsUpdate = false;
+		}
 
-        return this.cachedValue;
-    }
+		return this.cachedValue;
+	}
 
-    private double computeValue()
-    {
-        double d0 = this.getBaseValue();
+	private double computeValue() {
+		double d0 = this.getBaseValue();
 
-        for (AttributeModifier attributemodifier : this.func_180375_b(0))
-        {
-            d0 += attributemodifier.getAmount();
-        }
+		for (AttributeModifier attributemodifier : this.func_180375_b(0)) {
+			d0 += attributemodifier.getAmount();
+		}
 
-        double d1 = d0;
+		double d1 = d0;
 
-        for (AttributeModifier attributemodifier1 : this.func_180375_b(1))
-        {
-            d1 += d0 * attributemodifier1.getAmount();
-        }
+		for (AttributeModifier attributemodifier1 : this.func_180375_b(1)) {
+			d1 += d0 * attributemodifier1.getAmount();
+		}
 
-        for (AttributeModifier attributemodifier2 : this.func_180375_b(2))
-        {
-            d1 *= 1.0D + attributemodifier2.getAmount();
-        }
+		for (AttributeModifier attributemodifier2 : this.func_180375_b(2)) {
+			d1 *= 1.0D + attributemodifier2.getAmount();
+		}
 
-        return this.genericAttribute.clampValue(d1);
-    }
+		return this.genericAttribute.clampValue(d1);
+	}
 
-    private Collection<AttributeModifier> func_180375_b(int p_180375_1_)
-    {
-        Set<AttributeModifier> set = Sets.newHashSet(this.getModifiersByOperation(p_180375_1_));
+	private Collection<AttributeModifier> func_180375_b(int p_180375_1_) {
+		Set<AttributeModifier> set = Sets.newHashSet(this.getModifiersByOperation(p_180375_1_));
 
-        for (IAttribute iattribute = this.genericAttribute.func_180372_d(); iattribute != null; iattribute = iattribute.func_180372_d())
-        {
-            IAttributeInstance iattributeinstance = this.attributeMap.getAttributeInstance(iattribute);
+		for (IAttribute iattribute = this.genericAttribute.func_180372_d(); iattribute != null; iattribute = iattribute.func_180372_d()) {
+			IAttributeInstance iattributeinstance = this.attributeMap.getAttributeInstance(iattribute);
 
-            if (iattributeinstance != null)
-            {
-                set.addAll(iattributeinstance.getModifiersByOperation(p_180375_1_));
-            }
-        }
+			if (iattributeinstance != null) {
+				set.addAll(iattributeinstance.getModifiersByOperation(p_180375_1_));
+			}
+		}
 
-        return set;
-    }
+		return set;
+	}
+
 }

@@ -15,15 +15,17 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import optifine.Config;
+import optifine.Lang;
 import shadersmod.client.GuiShaders;
 
 import java.io.IOException;
 
 public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
+
 	private final TabSet tabs = new TabSet(0);
 
 	@SuppressWarnings ("UnusedAssignment")
-    @Override
+	@Override
 	public void initGui() {
 		buttonList.clear();
 		tabs.reset();
@@ -37,8 +39,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.REDUCED_DEBUG_INFO, x2, y),
 				createButton(Settings.RENDER_FIRE, x1, y += 22),
 				createButton(Settings.FAST_PLACE, x2, y),
-                createButton(Settings.DEBUG, x1, y += 22),
-                createButton(Settings.SCREEN_TO_BUFFER, x2, y),
+				createButton(Settings.DEBUG, x1, y += 22),
+				createButton(Settings.SCREEN_TO_BUFFER, x2, y),
 				createButton(Settings.BOW_PATH, x1, y += 22),
 				createButton(Settings.SENSITIVITY, x2, y)
 				);
@@ -60,14 +62,14 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.DYNAMIC_FOV, x1, y += 22),
 				createButton(Settings.MIPMAP_LEVELS, x2, y).updateGraphics(),
 				createButton(Settings.MIPMAP_TYPE, x1, y += 22).updateGraphics()
-//				createButton(Settings., x1, y += 22)
-//				createButton(Settings., x2, y),
-//				createButton(Settings., x1, y += 22),
-//				createButton(Settings., x2, y),
-//				createButton(Settings., x1, y += 22),
-//				createButton(Settings., x2, y),
-//				createButton(Settings., x1, y += 22),
-//				createButton(Settings., x2, y),
+				//				createButton(Settings., x1, y += 22)
+				//				createButton(Settings., x2, y),
+				//				createButton(Settings., x1, y += 22),
+				//				createButton(Settings., x2, y),
+				//				createButton(Settings., x1, y += 22),
+				//				createButton(Settings., x2, y),
+				//				createButton(Settings., x1, y += 22),
+				//				createButton(Settings., x2, y),
 				);
 
 		y = tabs.y;
@@ -106,7 +108,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		y = tabs.y + 22;
 		x1 = width / 2 - 162;
-		int x3 = width  / 2 - 192;
+		int x3 = width / 2 - 192;
 		tabs.add("Анимация",
 				new IconButton(Settings.ANIMATED_LAVA, x1, y, new ItemStack(Items.lava_bucket))
 						.setHoverText("§eАнимация лавы", "Включить/выключить анимацию", "течения лавы."),
@@ -159,14 +161,14 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		tabs.add("Текстуры", () -> mc.displayGuiScreen(new GuiScreenResourcePacks(this)));
 		tabs.add("Шейдеры", () -> {
-			if(Settings.FAST_RENDER.b()) {
-				if(Settings.DEBUG.b())
-					Config.showGuiMessage(optifine.Lang.get("Шейдеры не могут быть включены при быстром рендере"),
-						optifine.Lang.get("Выключите быстрый рендер если хотите шейдеров"));
+			if (Settings.FAST_RENDER.b()) {
+				if (Settings.DEBUG.b())
+					Config.showGuiMessage(Lang.get("Шейдеры не могут быть включены при быстром рендере"),
+							Lang.get("Выключите быстрый рендер если хотите шейдеров"));
 				else
 					Config.showGuiMessage("Пока не работает",
 							"Включите дебаг если хотите скрашить клиент");
-			}else mc.displayGuiScreen(new GuiShaders(this));
+			} else mc.displayGuiScreen(new GuiShaders(this));
 		});
 
 

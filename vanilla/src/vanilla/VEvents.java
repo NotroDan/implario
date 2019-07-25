@@ -1,7 +1,6 @@
 package vanilla;
 
 import net.minecraft.block.BlockFence;
-import net.minecraft.block.FenceClickedEvent;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;

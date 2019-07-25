@@ -23,6 +23,7 @@ public class SliderSetting extends Setting {
 	}
 
 	public float getMax() {return max;}
+
 	public float getMin() {return min;}
 
 	@Override

@@ -12,7 +12,6 @@ import java.util.List;
 public class WorldVertexBufferUploader {
 
 
-
 	public void func_181679_a(WorldRenderer p_181679_1_) {
 		if (p_181679_1_.getVertexCount() > 0) {
 			VertexFormat vertexformat = p_181679_1_.getVertexFormat();

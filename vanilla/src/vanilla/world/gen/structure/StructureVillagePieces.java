@@ -25,6 +25,7 @@ import net.minecraft.world.biome.Biome;
 import vanilla.item.VanillaItems;
 import vanilla.world.biome.BiomeGenBase;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -49,7 +50,7 @@ public class StructureVillagePieces {
 	}
 
 	public static List<StructureVillagePieces.PieceWeight> getStructureVillageWeightedPieceList(Random random, int p_75084_1_) {
-		List<StructureVillagePieces.PieceWeight> list = new java.util.ArrayList<>();
+		List<StructureVillagePieces.PieceWeight> list = new ArrayList<>();
 		list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House4Garden.class, 4, MathHelper.getRandomIntegerInRange(random, 2 + p_75084_1_, 4 + p_75084_1_ * 2)));
 		list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Church.class, 20, MathHelper.getRandomIntegerInRange(random, 0 + p_75084_1_, 1 + p_75084_1_)));
 		list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House1.class, 20, MathHelper.getRandomIntegerInRange(random, 0 + p_75084_1_, 2 + p_75084_1_)));
@@ -1285,8 +1286,8 @@ public class StructureVillagePieces {
 		public int terrainType;
 		public StructureVillagePieces.PieceWeight structVillagePieceWeight;
 		public List<StructureVillagePieces.PieceWeight> structureVillageWeightedPieceList;
-		public List<StructureComponent> field_74932_i = new java.util.ArrayList<>();
-		public List<StructureComponent> field_74930_j = new java.util.ArrayList<>();
+		public List<StructureComponent> field_74932_i = new ArrayList<>();
+		public List<StructureComponent> field_74930_j = new ArrayList<>();
 
 		public Start() {
 		}

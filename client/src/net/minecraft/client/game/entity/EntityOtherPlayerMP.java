@@ -85,7 +85,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
 			double d2 = this.posZ + (this.z - this.posZ) / (double) this.posrotIncrements;
 			double d3;
 
-			for (d3 = this.yaw - (double) this.rotationYaw; d3 < -180.0D; d3 += 360.0D);
+			for (d3 = this.yaw - (double) this.rotationYaw; d3 < -180.0D; d3 += 360.0D) ;
 
 			while (d3 >= 180.0D) {
 				d3 -= 360.0D;
@@ -111,7 +111,6 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
 		this.cameraYaw += (f1 - this.cameraYaw) * 0.4F;
 		this.cameraPitch += (f - this.cameraPitch) * 0.8F;
 	}
-
 
 
 	/**

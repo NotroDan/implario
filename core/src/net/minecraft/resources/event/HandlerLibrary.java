@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Библиотека со списками слушателей событий.
  * По классу события можно получить список слушателей событий этого класса.
+ *
  * @param <D> Тип данных (Event, Packet).
  */
 public class HandlerLibrary<D extends Listenable> {
@@ -46,6 +47,7 @@ public class HandlerLibrary<D extends Listenable> {
 	}
 
 	public class Cell<T extends D> {
+
 		private final Handler<D, T> handler;
 		private final Domain domain;
 

@@ -155,7 +155,7 @@ public class Minecraft implements IThreadListener {
 
 	private IReloadableResourceManager mcResourceManager;
 	private final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
-	private final List<IResourcePack> defaultResourcePacks = new java.util.ArrayList<>();
+	private final List<IResourcePack> defaultResourcePacks = new ArrayList<>();
 	private final DefaultResourcePack mcDefaultResourcePack;
 	private ResourcePackRepository mcResourcePackRepository;
 	public LanguageManager mcLanguageManager;
@@ -574,11 +574,11 @@ public class Minecraft implements IThreadListener {
 		this.mcSoundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
 		in.endSection();
 		in.startSection("render");
-		net.minecraft.client.renderer.G.pushMatrix();
-		net.minecraft.client.renderer.G.clear(16640);
+		G.pushMatrix();
+		G.clear(16640);
 		this.framebufferMc.bindFramebuffer(true);
 		in.startSection("display");
-		net.minecraft.client.renderer.G.enableTexture2D();
+		G.enableTexture2D();
 
 		if (this.thePlayer != null && this.thePlayer.isEntityInsideOpaqueBlock()) Settings.PERSPECTIVE.set(0);
 
@@ -604,10 +604,10 @@ public class Minecraft implements IThreadListener {
 
 		this.guiAchievement.updateAchievementWindow();
 		this.framebufferMc.unbindFramebuffer();
-		net.minecraft.client.renderer.G.popMatrix();
-		net.minecraft.client.renderer.G.pushMatrix();
+		G.popMatrix();
+		G.pushMatrix();
 		this.framebufferMc.framebufferRender(this.displayWidth, this.displayHeight);
-		net.minecraft.client.renderer.G.popMatrix();
+		G.popMatrix();
 		in.startSection("root");
 		this.displayGuy.updateDisplay(this);
 		Thread.yield();
@@ -790,21 +790,21 @@ public class Minecraft implements IThreadListener {
 				this.theWorld.setAllowedSpawnTypes(this.theWorld.getDifficulty() != EnumDifficulty.PEACEFUL, true);
 
 				executors.submit(() -> {
-                    try {
-                        this.theWorld.tick();
-                    } catch (Throwable throwable2) {
-                        CrashReport crashreport2 = CrashReport.makeCrashReport(throwable2, "Exception in world tick");
+					try {
+						this.theWorld.tick();
+					} catch (Throwable throwable2) {
+						CrashReport crashreport2 = CrashReport.makeCrashReport(throwable2, "Exception in world tick");
 
-                        if (this.theWorld == null) {
-                            CrashReportCategory crashreportcategory2 = crashreport2.makeCategory("Affected level");
-                            crashreportcategory2.addCrashSection("Problem", "Level is null!");
-                        } else {
-                            this.theWorld.addWorldInfoToCrashReport(crashreport2);
-                        }
+						if (this.theWorld == null) {
+							CrashReportCategory crashreportcategory2 = crashreport2.makeCategory("Affected level");
+							crashreportcategory2.addCrashSection("Problem", "Level is null!");
+						} else {
+							this.theWorld.addWorldInfoToCrashReport(crashreport2);
+						}
 
-                        throw new ReportedException(crashreport2);
-                    }
-                });
+						throw new ReportedException(crashreport2);
+					}
+				});
 			}
 
 			in.endStartSection("animateTick");
@@ -1012,4 +1012,5 @@ public class Minecraft implements IThreadListener {
 		map.put("X-Minecraft-Version", "1.8.8");
 		return map;
 	}
+
 }

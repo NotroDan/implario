@@ -36,7 +36,7 @@ public class MapItemRenderer {
 	}
 
 	/**
-	 * Returns {@link net.minecraft.client.gui.MapItemRenderer.Instance MapItemRenderer.Instance} with given map data
+	 * Returns {@link MapItemRenderer.Instance MapItemRenderer.Instance} with given map data
 	 */
 	private MapItemRenderer.Instance getMapRendererInstance(MapData mapdataIn) {
 		MapItemRenderer.Instance mapitemrenderer$instance = this.loadedMaps.get(mapdataIn.mapName);

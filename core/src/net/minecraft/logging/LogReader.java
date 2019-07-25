@@ -95,4 +95,5 @@ public class LogReader implements ILogInterceptor {
 		}
 
 	}
+
 }

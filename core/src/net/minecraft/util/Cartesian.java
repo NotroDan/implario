@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -27,7 +28,7 @@ public class Cartesian {
 	}
 
 	private static <T> T[] toArray(Class<? super T> clazz, Iterable<? extends T> it) {
-		List<T> list = new java.util.ArrayList<>();
+		List<T> list = new ArrayList<>();
 
 		for (T t : it) {
 			list.add(t);

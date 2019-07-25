@@ -11,6 +11,7 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -187,7 +188,7 @@ public class EntityList {
 
 	public static List<String> getEntityNameList() {
 		Set<String> set = stringToClassMapping.keySet();
-		List<String> list = new java.util.ArrayList<>();
+		List<String> list = new ArrayList<>();
 
 		for (String s : set) {
 			Class<? extends Entity> oclass = stringToClassMapping.get(s);
