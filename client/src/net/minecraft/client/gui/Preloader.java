@@ -27,17 +27,18 @@ public class Preloader {
 			"Загрузка стандартного ресурс-пака",
 			"Запуск обработчика чанков",
 			"Загрузка звукового ядра",
-			"Загрузка звуков",
 			"Проверка готовности систем",
-			"Загрузка текстур блоков",
 			"Запуск движка рендеринга",
 			"Загрузка моделей блоков",
-			"Обработка моделей блоков",
+			"Загрузка вариантов моделей",
+			"Загрузка проверки моделей",
+			"Загрузка спрайтов",
+			"Запекание моделей предметов",
+			"Запекание моделей блоков",
 			"Рендер предметов",
 			"Рендер мобов",
 			"Рендер блоков",
 			"Компоновка глобального рендера",
-			"Загрузка достижений",
 			"Можно играть!"
 	};
 
@@ -47,6 +48,7 @@ public class Preloader {
 	private final ResourceLocation logo;
 	private final Minecraft mc = MC.i();
 	private volatile int state = 3;
+	private volatile long start = 0;
 	private Framebuffer framebuffer;
 	private final Tessellator t = new Tessellator(2097152);
 
@@ -157,6 +159,8 @@ public class Preloader {
 	}
 
 	public void nextState() {
+		if (start != 0) System.out.println(states[state] + " - " + (System.currentTimeMillis() - start) + "ms.");
+		start = System.currentTimeMillis();
 		state++;
 	}
 

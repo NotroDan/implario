@@ -35,9 +35,9 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 	private static final Logger logger = Logger.getInstance();
 	public static final ResourceLocation LOCATION_MISSING_TEXTURE = new ResourceLocation("missingno");
 	public static final ResourceLocation locationBlocksTexture = new ResourceLocation("textures/atlas/blocks.png");
-	private final List listAnimatedSprites;
-	private final Map mapRegisteredSprites;
-	private final Map mapUploadedSprites;
+	private final List<TextureAtlasSprite> listAnimatedSprites;
+	private final Map<String, TextureAtlasSprite> mapRegisteredSprites;
+	private final Map<String, TextureAtlasSprite> mapUploadedSprites;
 	private final String basePath;
 	private final IIconCreator iconCreator;
 	private int mipmapLevels;
@@ -118,10 +118,10 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		}
 	}
 
-	public void loadSprites(IResourceManager resourceManager, IIconCreator p_174943_2_) {
+	public void loadSprites(IResourceManager resourceManager, IIconCreator iconCreator) {
 		this.mapRegisteredSprites.clear();
 		this.counterIndexInMap = 0;
-		p_174943_2_.registerSprites(this);
+		iconCreator.registerSprites(this);
 
 		if (this.mipmapLevels >= 4) {
 			this.mipmapLevels = this.detectMaxMipmapLevel(this.mapRegisteredSprites, resourceManager);
@@ -134,6 +134,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 	}
 
 	public void loadTextureAtlas(IResourceManager resourceManager) {
+		long start = System.currentTimeMillis();
 		Config.dbg("Multitexture: " + Config.isMultiTexture());
 
 		if (Config.isMultiTexture()) {
@@ -247,24 +248,9 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			} catch (Throwable throwable1) {
 				CrashReport crashreport = CrashReport.makeCrashReport(throwable1, "Applying mipmap");
 				CrashReportCategory crashreportcategory = crashreport.makeCategory("Sprite being mipmapped");
-				crashreportcategory.addCrashSectionCallable("Sprite name", new Callable() {
-
-					public String call() {
-						return textureatlassprite2.getIconName();
-					}
-				});
-				crashreportcategory.addCrashSectionCallable("Sprite size", new Callable() {
-
-					public String call() {
-						return textureatlassprite2.getIconWidth() + " x " + textureatlassprite2.getIconHeight();
-					}
-				});
-				crashreportcategory.addCrashSectionCallable("Sprite frames", new Callable() {
-
-					public String call() {
-						return textureatlassprite2.getFrameCount() + " frames";
-					}
-				});
+				crashreportcategory.addCrashSectionCallable("Sprite name", textureatlassprite2::getIconName);
+				crashreportcategory.addCrashSectionCallable("Sprite size", () -> textureatlassprite2.getIconWidth() + " x " + textureatlassprite2.getIconHeight());
+				crashreportcategory.addCrashSectionCallable("Sprite frames", () -> textureatlassprite2.getFrameCount() + " frames");
 				crashreportcategory.addCrashSection("Mipmap levels", this.mipmapLevels);
 				throw new ReportedException(crashreport);
 			}
@@ -334,6 +320,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		if (Config.equals(System.getProperty("saveTextureMap"), "true")) {
 			TextureUtil.saveGlTexture(this.basePath.replaceAll("/", "_"), this.getGlTextureId(), this.mipmapLevels, stitcher.getCurrentWidth(), stitcher.getCurrentHeight());
 		}
+		long end = System.currentTimeMillis();
+		System.out.println("Генерация атласа заняла " + (end - start) + " ms.");
 	}
 
 	public ResourceLocation completeResourceLocation(ResourceLocation location, int p_147634_2_) {
@@ -344,7 +332,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 	}
 
 	public TextureAtlasSprite getAtlasSprite(String iconName) {
-		TextureAtlasSprite textureatlassprite = (TextureAtlasSprite) this.mapUploadedSprites.get(iconName);
+		TextureAtlasSprite textureatlassprite = this.mapUploadedSprites.get(iconName);
 
 		if (textureatlassprite == null) {
 			textureatlassprite = this.missingImage;
