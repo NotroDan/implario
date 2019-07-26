@@ -8,7 +8,7 @@ import java.io.IOException;
 public class Converter {
 
 	public static void main(String[] args) throws IOException {
-		File dir = new File("\\Users\\DelfikPro\\Desktop\\Разное\\Git\\Implario\\client\\resources\\assets\\minecraft\\models\\item");
+		File dir = new File("\\Users\\DelfikPro\\Desktop\\Разное\\Git\\Implario\\client\\resources\\assets\\minecraft\\models\\block");
 		for (File file : dir.listFiles()) {
 			ModelBakery.rewriteModel(file);
 			System.out.println("Converted " + file + " successfully");
