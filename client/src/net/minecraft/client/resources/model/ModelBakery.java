@@ -50,14 +50,14 @@ public class ModelBakery {
 	private final BlockModelShapes blockModelShapes;
 	private final FaceBakery faceBakery = new FaceBakery();
 	private final ItemModelGenerator itemModelGenerator = new ItemModelGenerator();
-	private RegistrySimple<ModelResourceLocation, IBakedModel> bakedRegistry = new RegistrySimple();
-	private static final ModelBlock MODEL_GENERATED = ModelBlock.deserialize(
+	private RegistrySimple<ModelResourceLocation, IBakedModel> bakedRegistry = new RegistrySimple<>();
+	private static final ModelBlock MODEL_GENERATED = ModelBlock.readJsonModel(
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
-	private static final ModelBlock MODEL_COMPASS = ModelBlock.deserialize(
+	private static final ModelBlock MODEL_COMPASS = ModelBlock.readJsonModel(
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
-	private static final ModelBlock MODEL_CLOCK = ModelBlock.deserialize(
+	private static final ModelBlock MODEL_CLOCK = ModelBlock.readJsonModel(
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
-	private static final ModelBlock MODEL_ENTITY = ModelBlock.deserialize(
+	private static final ModelBlock MODEL_ENTITY = ModelBlock.readJsonModel(
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
 	private Map<String, ResourceLocation> itemLocations = Maps.newLinkedHashMap();
 	private final Map<ResourceLocation, ModelBlockDefinition> blockDefinitions = Maps.newHashMap();
@@ -165,7 +165,7 @@ public class ModelBakery {
 	}
 
 	public static void rewriteModel(File file) throws IOException{
-		ModelBlock load = ModelBlock.deserialize(new FileInputStream(file));
+		ModelBlock load = ModelBlock.readModel(new FileInputStream(file));
 		FileIO.writeBytes(file, ModelBlock.serialize(load));
 	}
 
@@ -203,7 +203,7 @@ public class ModelBakery {
 		ModelBlock modelblock1;
 
 		try {
-			ModelBlock modelblock = ModelBlock.deserialize(in);
+			ModelBlock modelblock = ModelBlock.readModel(in);
 			modelblock.name = p_177594_1_.toString();
 			modelblock1 = modelblock;
 		} finally {

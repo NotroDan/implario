@@ -623,7 +623,7 @@ public class CustomItemProperties {
 
 		stringbuffer.append("}}");
 		String s1 = stringbuffer.toString();
-		ModelBlock modelblock = ModelBlock.deserialize(s1);
+		ModelBlock modelblock = ModelBlock.readJsonModel(s1);
 		return modelblock;
 	}
 
