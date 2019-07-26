@@ -2,7 +2,7 @@
   <configuration default="false" name="client" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="Start" />
     <module name="client" />
-    <option name="VM_PARAMETERS" value="-Djava.library.path=gamedata/natives/ -Xmn64M -Xms128M -Xmx2G -server -XX:+AggressiveOpts -XX:+UseCompressedOops -XX:+OptimizeStringConcat -XX:+UseLargePages -noverify" />
+    <option name="VM_PARAMETERS" value="-Djava.library.path=gamedata/natives/ -Xmn64M -Xms128M -Xmx2G -server -XX:+AggressiveOpts -XX:+UseCompressedOops -XX:+OptimizeStringConcat -noverify" />
     <option name="WORKING_DIRECTORY" value="client/env" />
     <method v="2">
       <option name="Make" enabled="true" />

@@ -287,7 +287,6 @@ public class Minecraft implements IThreadListener {
 
 		this.mcSoundHandler = new SoundHandler(this.mcResourceManager);
 		this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
-		preloader.nextState();
 
 		this.mcMusicTicker = new MusicTicker(this);
 		preloader.nextState();
@@ -305,7 +304,6 @@ public class Minecraft implements IThreadListener {
 		this.errorGuy.checkGLError("Startup");
 		this.textureMapBlocks = new TextureMap("textures");
 		this.textureMapBlocks.setMipmapLevels((int) Settings.MIPMAP_LEVELS.f());
-		preloader.nextState();
 		this.renderEngine.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
 		this.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 		this.textureMapBlocks.setBlurMipmapDirect(false, Settings.MIPMAP_LEVELS.i() > 0);
@@ -329,7 +327,6 @@ public class Minecraft implements IThreadListener {
 		this.mcResourceManager.registerReloadListener(this.renderGlobal);
 		preloader.nextState();
 		this.guiAchievement = new GuiAchievement(this);
-		preloader.nextState();
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		for (Datapack datapack : Datapacks.getDatapacks()) {
 			if (datapack instanceof ClientSideDatapack) {

@@ -43,7 +43,7 @@ public class DynamicTexture extends AbstractTexture {
 		}
 	}
 
-	public void loadTexture(IResourceManager resourceManager) throws IOException {
+	public void loadTexture(IResourceManager resourceManager) {
 	}
 
 	public void writeBufferedImage(BufferedImage bufferedImage) {

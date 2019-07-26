@@ -8,9 +8,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 import net.minecraft.Logger;
+import net.minecraft.client.MC;
+import net.minecraft.client.gui.Preloader;
 import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.IIconCreator;
+import net.minecraft.client.renderer.texture.IIconCreatorImpl;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.IResource;
@@ -43,7 +46,7 @@ public class ModelBakery {
 	private static final Map<String, String> BUILT_IN_MODELS = Maps.newHashMap();
 	private static final Joiner JOINER = Joiner.on(" -> ");
 	private final IResourceManager resourceManager;
-	private final Map<ResourceLocation, TextureAtlasSprite> sprites = Maps.newHashMap();
+	public final Map<ResourceLocation, TextureAtlasSprite> sprites = Maps.newHashMap();
 	private final Map<ResourceLocation, ModelBlock> models = Maps.newLinkedHashMap();
 	private final Map<ModelResourceLocation, ModelBlockDefinition.Variants> variants = Maps.newLinkedHashMap();
 	private final TextureMap textureMap;
@@ -70,24 +73,36 @@ public class ModelBakery {
 	}
 
 	public IRegistry<ModelResourceLocation, IBakedModel> setupModelRegistry() {
+		Preloader preloader = MC.i().preloader;
 		this.loadVariantItemModels();
+		preloader.nextState();
 		this.loadModelsCheck();
+		preloader.nextState();
 		this.loadSprites();
+		preloader.nextState();
 		this.bakeItemModels();
+		preloader.nextState();
 		this.bakeBlockModels();
 		return this.bakedRegistry;
 	}
 
 	private void loadVariantItemModels() {
-		this.loadVariants(this.blockModelShapes.getBlockStateMapper().putAllStateModelLocations().values());
+		long time = System.currentTimeMillis();
+		Collection<ModelResourceLocation> models = this.blockModelShapes.getBlockStateMapper().putAllStateModelLocations().values();
+		System.out.println("### Загрузка моделей вариантов - " + -(time - (time = System.currentTimeMillis())) + "ms.");
+		this.loadVariants(models);
+		System.out.println("### Загрузка вариантов - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 		this.variants.put(MODEL_MISSING, new ModelBlockDefinition.Variants(MODEL_MISSING.getVariant(), Lists.newArrayList(
 				new ModelBlockDefinition.Variant(new ResourceLocation(MODEL_MISSING.getResourcePath()), ModelRotation.X0_Y0, false, 1))));
 		ResourceLocation resourcelocation = new ResourceLocation("item_frame");
 		ModelBlockDefinition modelblockdefinition = this.getModelBlockDefinition(resourcelocation);
 		this.registerVariant(modelblockdefinition, new ModelResourceLocation(resourcelocation, "normal"));
 		this.registerVariant(modelblockdefinition, new ModelResourceLocation(resourcelocation, "map"));
+		System.out.println("### Загрузка мелкой херни - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 		this.loadVariantModels();
+		System.out.println("### Загрузка моделей блоков - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 		this.loadItemModels();
+		System.out.println("### Загрузка моделей предметов - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 	}
 
 	private void loadVariants(Collection<ModelResourceLocation> models) {
@@ -109,38 +124,37 @@ public class ModelBakery {
 		this.variants.put(p_177569_2_, p_177569_1_.getVariants(p_177569_2_.getVariant()));
 	}
 
-	private ModelBlockDefinition getModelBlockDefinition(ResourceLocation loc) {
-		ResourceLocation resourcelocation = this.getBlockStateLocation(loc);
-		ModelBlockDefinition modelblockdefinition = this.blockDefinitions.get(resourcelocation);
+	private ModelBlockDefinition getModelBlockDefinition(ResourceLocation resourceLocation) {
+		ResourceLocation loc = this.getBlockStateLocation(resourceLocation);
+		ModelBlockDefinition model = this.blockDefinitions.get(loc);
+		if (model != null) return model;
 
-		if (modelblockdefinition == null) {
-			List<ModelBlockDefinition> list = new ArrayList<>();
+		List<ModelBlockDefinition> list = new ArrayList<>();
 
-			try {
-				for (IResource iresource : this.resourceManager.getAllResources(resourcelocation)) {
-					InputStream inputstream = null;
+		try {
+			for (IResource iresource : this.resourceManager.getAllResources(loc)) {
+				InputStream inputstream = null;
 
-					try {
-						inputstream = iresource.getInputStream();
-						ModelBlockDefinition modelblockdefinition1 = ModelBlockDefinition.parseFromReader(new InputStreamReader(inputstream, Charsets.UTF_8));
-						list.add(modelblockdefinition1);
-					} catch (Exception exception) {
-						throw new RuntimeException(
-								"Encountered an exception when loading model definition of \'" + loc + "\' from: \'" + iresource.getResourceLocation() + "\' in resourcepack: \'" + iresource.getResourcePackName() + "\'",
-								exception);
-					} finally {
-						IOUtils.closeQuietly(inputstream);
-					}
+				try {
+					inputstream = iresource.getInputStream();
+					ModelBlockDefinition modelblockdefinition1 = ModelBlockDefinition.parseFromReader(new InputStreamReader(inputstream, Charsets.UTF_8));
+					list.add(modelblockdefinition1);
+				} catch (Exception exception) {
+					throw new RuntimeException(
+							"Encountered an exception when loading model definition of \'" + resourceLocation + "\' from: \'" + iresource.getResourceLocation() + "\' in resourcepack: \'" + iresource.getResourcePackName() + "\'",
+							exception);
+				} finally {
+					IOUtils.closeQuietly(inputstream);
 				}
-			} catch (IOException ioexception) {
-				throw new RuntimeException("Encountered an exception when loading model definition of model " + resourcelocation.toString(), ioexception);
 			}
-
-			modelblockdefinition = new ModelBlockDefinition(list);
-			this.blockDefinitions.put(resourcelocation, modelblockdefinition);
+		} catch (IOException ioexception) {
+			throw new RuntimeException("Encountered an exception when loading model definition of model " + loc.toString(), ioexception);
 		}
 
-		return modelblockdefinition;
+		model = new ModelBlockDefinition(list);
+		this.blockDefinitions.put(loc, model);
+
+		return model;
 	}
 
 	private ResourceLocation getBlockStateLocation(ResourceLocation p_177584_1_) {
@@ -490,12 +504,7 @@ public class ModelBakery {
 		final Set<ResourceLocation> set = this.getVariantsTextureLocations();
 		set.addAll(this.getItemsTextureLocations());
 		set.remove(TextureMap.LOCATION_MISSING_TEXTURE);
-		IIconCreator iiconcreator = iconRegistry -> {
-			for (ResourceLocation resourcelocation : set) {
-				TextureAtlasSprite textureatlassprite = iconRegistry.registerSprite(resourcelocation);
-				this.sprites.put(resourcelocation, textureatlassprite);
-			}
-		};
+		IIconCreator iiconcreator = new IIconCreatorImpl(set, this);
 		this.textureMap.loadSprites(this.resourceManager, iiconcreator);
 		this.sprites.put(new ResourceLocation("missingno"), this.textureMap.getMissingSprite());
 	}
