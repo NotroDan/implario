@@ -9,7 +9,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.SyntaxErrorException;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentProcessor;
@@ -46,7 +46,7 @@ public class CommandMessageRaw extends CommandBase {
 		if (args.length < 2) {
 			throw new WrongUsageException("commands.tellraw.usage", new Object[0]);
 		}
-		EntityPlayer entityplayer = getPlayer(sender, args[0]);
+		Player entityplayer = getPlayer(sender, args[0]);
 		String s = buildString(args, 1);
 
 		try {

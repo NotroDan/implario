@@ -7,8 +7,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import net.minecraft.Logger;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.play.server.S37PacketStatistics;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IJsonSerializable;
@@ -61,7 +61,7 @@ public class StatisticsFile extends StatFileWriter {
 	/**
 	 * Triggers the logging of an achievement and attempts to announce to server
 	 */
-	public void unlockAchievement(EntityPlayer playerIn, StatBase statIn, int p_150873_3_) {
+	public void unlockAchievement(Player playerIn, StatBase statIn, int p_150873_3_) {
 		int i = statIn.isAchievement() ? this.readStat(statIn) : 0;
 		super.unlockAchievement(playerIn, statIn, p_150873_3_);
 		this.field_150888_e.add(statIn);
@@ -164,7 +164,7 @@ public class StatisticsFile extends StatFileWriter {
 		}
 	}
 
-	public void func_150876_a(EntityPlayerMP p_150876_1_) {
+	public void func_150876_a(MPlayer p_150876_1_) {
 		int i = this.mcServer.getTickCounter();
 		Map<StatBase, Integer> map = Maps.newHashMap();
 
@@ -179,7 +179,7 @@ public class StatisticsFile extends StatFileWriter {
 		p_150876_1_.playerNetServerHandler.sendPacket(new S37PacketStatistics(map));
 	}
 
-	public void sendAchievements(EntityPlayerMP player) {
+	public void sendAchievements(MPlayer player) {
 		Map<StatBase, Integer> map = Maps.newHashMap();
 
 		for (Achievement achievement : AchievementList.achievementList) {

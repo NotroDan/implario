@@ -9,7 +9,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListBansEntry;
 import net.minecraft.util.BlockPos;
@@ -63,7 +63,7 @@ public class CommandBanPlayer extends CommandBase {
 
 			UserListBansEntry userlistbansentry = new UserListBansEntry(gameprofile, (Date) null, sender.getName(), (Date) null, s);
 			minecraftserver.getConfigurationManager().getBannedPlayers().addEntry(userlistbansentry);
-			EntityPlayerMP entityplayermp = minecraftserver.getConfigurationManager().getPlayerByUsername(args[0]);
+			MPlayer entityplayermp = minecraftserver.getConfigurationManager().getPlayerByUsername(args[0]);
 
 			if (entityplayermp != null) {
 				entityplayermp.playerNetServerHandler.kickPlayerFromServer("You are banned from this server.");

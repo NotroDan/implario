@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -21,14 +21,14 @@ public class SlotCrafting extends Slot {
 	/**
 	 * The player that is using the GUI where this slot resides.
 	 */
-	private final EntityPlayer thePlayer;
+	private final Player thePlayer;
 
 	/**
 	 * The number of items that have been crafted so far. Gets passed to ItemStack.onCrafting before being reset.
 	 */
 	private int amountCrafted;
 
-	public SlotCrafting(EntityPlayer player, InventoryCrafting craftingInventory, IInventory p_i45790_3_, int slotIndex, int xPosition, int yPosition) {
+	public SlotCrafting(Player player, InventoryCrafting craftingInventory, IInventory p_i45790_3_, int slotIndex, int xPosition, int yPosition) {
 		super(p_i45790_3_, slotIndex, xPosition, yPosition);
 		this.thePlayer = player;
 		this.craftMatrix = craftingInventory;
@@ -117,7 +117,7 @@ public class SlotCrafting extends Slot {
 		}
 	}
 
-	public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+	public void onPickupFromSlot(Player playerIn, ItemStack stack) {
 		this.onCrafting(stack);
 		ItemStack[] aitemstack = CraftingManager.getInstance().func_180303_b(this.craftMatrix, playerIn.worldObj);
 

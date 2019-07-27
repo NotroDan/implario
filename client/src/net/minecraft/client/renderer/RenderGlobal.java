@@ -40,7 +40,7 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -607,7 +607,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 					boolean flag2 = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) this.mc.getRenderViewEntity()).isPlayerSleeping();
 					boolean flag3 = entity3.isInRangeToRender3d(d0, d1, d2) && (entity3.ignoreFrustumCheck || camera.isBoundingBoxInFrustum(
-							entity3.getEntityBoundingBox()) || entity3.riddenByEntity == this.mc.thePlayer) && entity3 instanceof EntityPlayer;
+							entity3.getEntityBoundingBox()) || entity3.riddenByEntity == this.mc.thePlayer) && entity3 instanceof Player;
 
 					if ((entity3 != this.mc.getRenderViewEntity() || Settings.PERSPECTIVE.i() != 0 || flag2) && flag3) {
 						this.renderManager.renderEntitySimple(entity3, partialTicks);
@@ -731,7 +731,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 						Class oclass = tileentity.getClass();
 
 						if (oclass == TileEntitySign.class && !Config.zoomMode) {
-							EntityPlayer entityplayer = this.mc.thePlayer;
+							Player entityplayer = this.mc.thePlayer;
 							double d6 = tileentity.getDistanceSq(entityplayer.posX, entityplayer.posY, entityplayer.posZ);
 
 							if (d6 > 256.0D) {
@@ -758,7 +758,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					Class oclass1 = tileentity1.getClass();
 
 					if (oclass1 == TileEntitySign.class && !Config.zoomMode) {
-						EntityPlayer entityplayer1 = this.mc.thePlayer;
+						Player entityplayer1 = this.mc.thePlayer;
 						double d7 = ((TileEntity) tileentity1).getDistanceSq(entityplayer1.posX, entityplayer1.posY, entityplayer1.posZ);
 
 						if (d7 > 256.0D) {
@@ -2119,7 +2119,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	/**
 	 * Draws the selection box for the player. Args: entityPlayer, rayTraceHit, i, itemStack, partialTickTime
 	 */
-	public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int p_72731_3_, float partialTicks) {
+	public void drawSelectionBox(Player player, MovingObjectPosition movingObjectPositionIn, int p_72731_3_, float partialTicks) {
 		if (p_72731_3_ == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 			G.enableBlend();
 			G.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -2274,7 +2274,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	/**
 	 * Plays sound to all near players except the player reference given
 	 */
-	public void playSoundToNearExcept(EntityPlayer except, String soundName, double x, double y, double z, float volume, float pitch) {
+	public void playSoundToNearExcept(Player except, String soundName, double x, double y, double z, float volume, float pitch) {
 	}
 
 	public void spawnParticle(int particleID, boolean ignoreRange, final double xCoord, final double yCoord, final double zCoord, double xOffset, double yOffset, double zOffset, int... p_180442_15_) {
@@ -2477,7 +2477,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		}
 	}
 
-	public void playAuxSFX(EntityPlayer player, int sfxType, BlockPos blockPosIn, int p_180439_4_) {
+	public void playAuxSFX(Player player, int sfxType, BlockPos blockPosIn, int p_180439_4_) {
 		Random random = this.theWorld.rand;
 
 		switch (sfxType) {

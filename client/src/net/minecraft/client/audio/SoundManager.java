@@ -5,7 +5,7 @@ import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.logging.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import paulscode.sound.*;
@@ -398,7 +398,7 @@ public class SoundManager {
 	/**
 	 * Sets the listener of sounds
 	 */
-	public void setListener(EntityPlayer player, float p_148615_2_) {
+	public void setListener(Player player, float p_148615_2_) {
 		if (this.loaded && player != null) {
 			float f = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * p_148615_2_;
 			float f1 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * p_148615_2_;

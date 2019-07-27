@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,7 +33,7 @@ public class ItemSkull extends Item {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World w, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World w, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (side == EnumFacing.DOWN) return false;
 		IBlockState iblockstate = w.getBlockState(pos);
 		Block block = iblockstate.getBlock();

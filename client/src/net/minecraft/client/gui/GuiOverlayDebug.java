@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.Profiler;
 import net.minecraft.util.*;
 import net.minecraft.world.DifficultyInstance;
@@ -27,9 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import static java.util.Collections.EMPTY_LIST;
-import static java.util.Collections.emptyListIterator;
 
 public class GuiOverlayDebug extends Gui {
 
@@ -165,7 +162,7 @@ public class GuiOverlayDebug extends Gui {
 			if (!isReducedDebug()) {
 				DifficultyInstance difficultyinstance = mc.theWorld.getDifficultyForLocation(blockpos);
 				if (mc.isIntegratedServerRunning() && mc.getIntegratedServer() != null) {
-					EntityPlayerMP entityplayermp = mc.getIntegratedServer().getConfigurationManager()
+					MPlayer entityplayermp = mc.getIntegratedServer().getConfigurationManager()
 							.getPlayerByUUID(mc.thePlayer.getUniqueID());
 					if (entityplayermp != null)
 						difficultyinstance = entityplayermp.worldObj.getDifficultyForLocation(new BlockPos(entityplayermp));

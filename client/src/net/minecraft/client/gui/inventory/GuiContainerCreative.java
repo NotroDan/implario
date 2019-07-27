@@ -13,7 +13,7 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.*;
@@ -66,7 +66,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 	private boolean succeedSearch;
 	private CreativeCrafting crafting;
 
-	public GuiContainerCreative(EntityPlayer p_i1088_1_) {
+	public GuiContainerCreative(Player p_i1088_1_) {
 		super(new GuiContainerCreative.ContainerCreative(p_i1088_1_));
 		p_i1088_1_.openContainer = this.inventorySlots;
 		this.allowUserInput = true;
@@ -681,7 +681,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 
 		public List<ItemStack> itemList = new ArrayList<>();
 
-		public ContainerCreative(EntityPlayer p_i1086_1_) {
+		public ContainerCreative(Player p_i1086_1_) {
 			InventoryPlayer inventoryplayer = p_i1086_1_.inventory;
 
 			for (int i = 0; i < 5; ++i) {
@@ -697,7 +697,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			this.scrollTo(0.0F);
 		}
 
-		public boolean canInteractWith(EntityPlayer playerIn) {
+		public boolean canInteractWith(Player playerIn) {
 			return true;
 		}
 
@@ -726,10 +726,10 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			return this.itemList.size() > 45;
 		}
 
-		protected void retrySlotClick(int slotId, int clickedButton, boolean mode, EntityPlayer playerIn) {
+		protected void retrySlotClick(int slotId, int clickedButton, boolean mode, Player playerIn) {
 		}
 
-		public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+		public ItemStack transferStackInSlot(Player playerIn, int index) {
 			if (index >= this.inventorySlots.size() - 9 && index < this.inventorySlots.size()) {
 				Slot slot = this.inventorySlots.get(index);
 
@@ -760,7 +760,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			this.slot = p_i46313_2_;
 		}
 
-		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+		public void onPickupFromSlot(Player playerIn, ItemStack stack) {
 			this.slot.onPickupFromSlot(playerIn, stack);
 		}
 

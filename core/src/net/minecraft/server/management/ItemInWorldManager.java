@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -32,7 +32,7 @@ public class ItemInWorldManager {
 	/**
 	 * The EntityPlayerMP object that this object is connected to.
 	 */
-	public EntityPlayerMP thisPlayerMP;
+	public MPlayer thisPlayerMP;
 	private WorldSettings.GameType gameType = WorldSettings.GameType.NOT_SET;
 
 	/**
@@ -138,7 +138,7 @@ public class ItemInWorldManager {
 	 */
 	public void onBlockClicked(BlockPos pos, EnumFacing side) {
 		if (this.isCreative()) {
-			if (!this.theWorld.extinguishFire((EntityPlayer) null, pos, side)) {
+			if (!this.theWorld.extinguishFire((Player) null, pos, side)) {
 				this.tryHarvestBlock(pos);
 			}
 		} else {
@@ -162,7 +162,7 @@ public class ItemInWorldManager {
 				}
 			}
 
-			this.theWorld.extinguishFire((EntityPlayer) null, pos, side);
+			this.theWorld.extinguishFire((Player) null, pos, side);
 			this.initialDamage = this.curblockDamage;
 			float f = 1.0F;
 
@@ -284,7 +284,7 @@ public class ItemInWorldManager {
 	/**
 	 * Attempts to right-click use an item by the given EntityPlayer in the given World
 	 */
-	public boolean tryUseItem(EntityPlayer player, World worldIn, ItemStack stack) {
+	public boolean tryUseItem(Player player, World worldIn, ItemStack stack) {
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
 			return false;
 		}
@@ -308,7 +308,7 @@ public class ItemInWorldManager {
 			}
 
 			if (!player.isUsingItem()) {
-				((EntityPlayerMP) player).sendContainerToPlayer(player.inventoryContainer);
+				((MPlayer) player).sendContainerToPlayer(player.inventoryContainer);
 			}
 
 			return true;
@@ -319,7 +319,7 @@ public class ItemInWorldManager {
 	/**
 	 * Activate the clicked on block, otherwise use the held item.
 	 */
-	public boolean activateBlockOrUseItem(EntityPlayer player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
+	public boolean activateBlockOrUseItem(Player player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
 		IBlockState b = worldIn.getBlockState(pos);
 		if (Events.eventPlayerInteract.isUseful()) {
 			PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, stack, pos, b, side, offsetX, offsetY, offsetZ);

@@ -11,7 +11,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
@@ -34,7 +34,7 @@ public class BlockPistonExtension extends Block {
 		this.setHardness(0.5F);
 	}
 
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, Player player) {
 		if (player.capabilities.isCreativeMode) {
 			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
 

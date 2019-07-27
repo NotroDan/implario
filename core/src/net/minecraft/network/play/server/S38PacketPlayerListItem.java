@@ -3,7 +3,7 @@ package net.minecraft.network.play.server;
 import com.google.common.base.Objects;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -22,19 +22,19 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 	public S38PacketPlayerListItem() {
 	}
 
-	public S38PacketPlayerListItem(S38PacketPlayerListItem.Action actionIn, EntityPlayerMP... players) {
+	public S38PacketPlayerListItem(S38PacketPlayerListItem.Action actionIn, MPlayer... players) {
 		this.action = actionIn;
 
-		for (EntityPlayerMP entityplayermp : players) {
+		for (MPlayer entityplayermp : players) {
 			this.players.add(new S38PacketPlayerListItem.AddPlayerData(entityplayermp.getGameProfile(), entityplayermp.ping, entityplayermp.theItemInWorldManager.getGameType(),
 					entityplayermp.getTabListDisplayName()));
 		}
 	}
 
-	public S38PacketPlayerListItem(S38PacketPlayerListItem.Action actionIn, Iterable<EntityPlayerMP> players) {
+	public S38PacketPlayerListItem(S38PacketPlayerListItem.Action actionIn, Iterable<MPlayer> players) {
 		this.action = actionIn;
 
-		for (EntityPlayerMP entityplayermp : players) {
+		for (MPlayer entityplayermp : players) {
 			this.players.add(new S38PacketPlayerListItem.AddPlayerData(entityplayermp.getGameProfile(), entityplayermp.ping, entityplayermp.theItemInWorldManager.getGameType(),
 					entityplayermp.getTabListDisplayName()));
 		}

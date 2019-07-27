@@ -3,7 +3,7 @@ package net.minecraft.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
@@ -23,7 +23,7 @@ public class BlockWorkbench extends Block {
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isClientSide) {
 			return true;
 		}
@@ -55,7 +55,7 @@ public class BlockWorkbench extends Block {
 			return new ChatComponentTranslation(Blocks.crafting_table.getUnlocalizedName() + ".name", new Object[0]);
 		}
 
-		public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+		public Container createContainer(InventoryPlayer playerInventory, Player playerIn) {
 			return new ContainerWorkbench(playerInventory, this.world, this.position);
 		}
 

@@ -9,7 +9,7 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -106,7 +106,7 @@ public class BlockTrapDoor extends Block {
 		}
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (this.blockMaterial == Material.iron) {
 			return true;
 		}
@@ -134,7 +134,7 @@ public class BlockTrapDoor extends Block {
 
 					if (flag1 != flag) {
 						worldIn.setBlockState(pos, state.withProperty(OPEN, flag), 2);
-						worldIn.playAuxSFXAtEntity((EntityPlayer) null, flag ? 1003 : 1006, pos, 0);
+						worldIn.playAuxSFXAtEntity((Player) null, flag ? 1003 : 1006, pos, 0);
 					}
 				}
 			}

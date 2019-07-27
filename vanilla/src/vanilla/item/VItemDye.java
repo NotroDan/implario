@@ -5,7 +5,7 @@ import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemDye;
@@ -21,7 +21,7 @@ public class VItemDye extends ItemDye {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (!playerIn.canPlayerEdit(pos.offset(side), side, stack)) return false;
 		EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
@@ -81,7 +81,7 @@ public class VItemDye extends ItemDye {
 	}
 
 	@Override
-	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+	public boolean itemInteractionForEntity(ItemStack stack, Player playerIn, EntityLivingBase target) {
 		if (!(target instanceof EntitySheep)) return false;
 
 		EntitySheep entitysheep = (EntitySheep) target;

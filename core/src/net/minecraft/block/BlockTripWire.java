@@ -6,7 +6,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -120,7 +120,7 @@ public class BlockTripWire extends Block {
 		this.notifyHook(worldIn, pos, state.withProperty(POWERED, Boolean.TRUE));
 	}
 
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, Player player) {
 		if (!worldIn.isClientSide) {
 			if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears) {
 				worldIn.setBlockState(pos, state.withProperty(DISARMED, Boolean.TRUE), 4);

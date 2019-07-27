@@ -12,7 +12,6 @@ import net.minecraft.client.game.entity.AbstractClientPlayer;
 import net.minecraft.client.game.particle.EffectRenderer;
 import net.minecraft.client.game.shader.ShaderGroup;
 import net.minecraft.client.game.shader.ShaderLinkHelper;
-import net.minecraft.client.game.worldedit.WorldEditUI;
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.MapItemRenderer;
@@ -28,7 +27,6 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.settings.Setting;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -36,7 +34,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -304,7 +302,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	public void activateNextShader() {
-		if (OpenGlHelper.shadersSupported && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+		if (OpenGlHelper.shadersSupported && this.mc.getRenderViewEntity() instanceof Player) {
 			if (this.theShaderGroup != null) {
 				this.theShaderGroup.deleteShaderGroup();
 			}
@@ -606,8 +604,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 * Setups all the GL settings for view bobbing. Args: partialTickTime
 	 */
 	private void setupViewBobbing(float partialTicks) {
-		if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+		if (this.mc.getRenderViewEntity() instanceof Player) {
+			Player entityplayer = (Player) this.mc.getRenderViewEntity();
 			float f = entityplayer.distanceWalkedModified - entityplayer.prevDistanceWalkedModified;
 			float f1 = -(entityplayer.distanceWalkedModified + f * partialTicks);
 			float f2 = entityplayer.prevCameraYaw + (entityplayer.cameraYaw - entityplayer.prevCameraYaw) * partialTicks;
@@ -1164,10 +1162,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			return false;
 		}
 		Entity entity = this.mc.getRenderViewEntity();
-		boolean flag = entity instanceof EntityPlayer && !Settings.HIDE_GUI.b();
+		boolean flag = entity instanceof Player && !Settings.HIDE_GUI.b();
 
-		if (flag && !((EntityPlayer) entity).capabilities.allowEdit) {
-			ItemStack itemstack = ((EntityPlayer) entity).getCurrentEquippedItem();
+		if (flag && !((Player) entity).capabilities.allowEdit) {
+			ItemStack itemstack = ((Player) entity).getCurrentEquippedItem();
 
 			if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 				BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
@@ -1398,7 +1396,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			G.pushMatrix();
 
 			if (this.mc.objectMouseOver != null && entity.isInsideOfMaterial(Material.water) && flag1) {
-				EntityPlayer entityplayer = (EntityPlayer) entity;
+				Player entityplayer = (Player) entity;
 				G.disableAlpha();
 				Profiler.in.endStartSection("outline");
 
@@ -1412,7 +1410,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		G.popMatrix();
 
 		if (flag1 && this.mc.objectMouseOver != null && !entity.isInsideOfMaterial(Material.water)) {
-			EntityPlayer entityplayer1 = (EntityPlayer) entity;
+			Player entityplayer1 = (Player) entity;
 			G.disableAlpha();
 			Profiler.in.endStartSection("outline");
 

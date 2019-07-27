@@ -8,7 +8,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -96,7 +96,7 @@ public class BlockSnow extends Block {
 		return true;
 	}
 
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+	public void harvestBlock(World worldIn, Player player, BlockPos pos, IBlockState state, TileEntity te) {
 		spawnAsEntity(worldIn, pos, new ItemStack(Items.snowball, ((Integer) state.getValue(LAYERS)).intValue() + 1, 0));
 		worldIn.setBlockToAir(pos);
 		player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);

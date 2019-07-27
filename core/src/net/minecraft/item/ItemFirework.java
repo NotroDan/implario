@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
@@ -17,7 +17,7 @@ public class ItemFirework extends Item {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (!worldIn.isClientSide) {
 			EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(worldIn, (double) ((float) pos.getX() + hitX), (double) ((float) pos.getY() + hitY),
 					(double) ((float) pos.getZ() + hitZ), stack);
@@ -35,7 +35,7 @@ public class ItemFirework extends Item {
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, Player playerIn, List<String> tooltip, boolean advanced) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Fireworks");
 

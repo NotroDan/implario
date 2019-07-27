@@ -8,7 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityMinecartCommandBlock;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -159,7 +159,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 			this.setRollingAmplitude(10);
 			this.setBeenAttacked();
 			this.setDamage(this.getDamage() + amount * 10.0F);
-			boolean flag = source.getEntity() instanceof EntityPlayer && ((EntityPlayer) source.getEntity()).capabilities.isCreativeMode;
+			boolean flag = source.getEntity() instanceof Player && ((Player) source.getEntity()).capabilities.isCreativeMode;
 
 			if (flag || this.getDamage() > 40.0F) {
 				if (this.riddenByEntity != null) {

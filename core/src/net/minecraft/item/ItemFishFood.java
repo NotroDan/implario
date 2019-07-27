@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.item.potion.PotionHelper;
@@ -38,7 +38,7 @@ public class ItemFishFood extends ItemFood {
 		return ItemFishFood.FishType.byItemStack(stack) == ItemFishFood.FishType.PUFFERFISH ? PotionHelper.pufferfishEffect : null;
 	}
 
-	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+	protected void onFoodEaten(ItemStack stack, World worldIn, Player player) {
 		ItemFishFood.FishType itemfishfood$fishtype = ItemFishFood.FishType.byItemStack(stack);
 
 		if (itemfishfood$fishtype == ItemFishFood.FishType.PUFFERFISH) {

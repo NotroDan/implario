@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -94,8 +94,8 @@ public class EntityPainting extends EntityHanging {
 	 */
 	public void onBroken(Entity brokenEntity) {
 		if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
-			if (brokenEntity instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) brokenEntity;
+			if (brokenEntity instanceof Player) {
+				Player entityplayer = (Player) brokenEntity;
 
 				if (entityplayer.capabilities.isCreativeMode) {
 					return;

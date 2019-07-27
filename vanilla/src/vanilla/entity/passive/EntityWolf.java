@@ -23,7 +23,7 @@ import vanilla.entity.ai.tasks.EntityAIWatchClosest;
 import vanilla.entity.monster.EntityCreeper;
 import vanilla.entity.monster.EntityGhast;
 import vanilla.entity.monster.EntitySkeleton;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -74,7 +74,7 @@ public class EntityWolf extends EntityTameable {
 		this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
 		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(8, new EntityAIBeg(this, 8.0F));
-		this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(9, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasks.addTask(9, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
@@ -299,7 +299,7 @@ public class EntityWolf extends EntityTameable {
 		Entity entity = source.getEntity();
 		this.aiSit.setSitting(false);
 
-		if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow)) {
+		if (entity != null && !(entity instanceof Player) && !(entity instanceof EntityArrow)) {
 			amount = (amount + 1.0F) / 2.0F;
 		}
 
@@ -336,7 +336,7 @@ public class EntityWolf extends EntityTameable {
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	public boolean interact(EntityPlayer player) {
+	public boolean interact(Player player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (this.isTamed()) {
@@ -521,8 +521,8 @@ public class EntityWolf extends EntityTameable {
 				if (entitywolf.isTamed() && entitywolf.getOwner() == e2) return false;
 			}
 
-			return (!(e1 instanceof EntityPlayer) || !(e2 instanceof EntityPlayer) || ((EntityPlayer) e2).canAttackPlayer(
-					(EntityPlayer) e1)) && (!(e1 instanceof EntityHorse) || !((EntityHorse) e1).isTame());
+			return (!(e1 instanceof Player) || !(e2 instanceof Player) || ((Player) e2).canAttackPlayer(
+					(Player) e1)) && (!(e1 instanceof EntityHorse) || !((EntityHorse) e1).isTame());
 		}
 		return false;
 	}

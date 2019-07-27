@@ -1,7 +1,7 @@
 package vanilla.item;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ public class ItemNameTag extends Item {
 	/**
 	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
 	 */
-	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+	public boolean itemInteractionForEntity(ItemStack stack, Player playerIn, EntityLivingBase target) {
 		if (!stack.hasDisplayName()) {
 			return false;
 		}

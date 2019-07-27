@@ -3,7 +3,7 @@ package vanilla.entity.passive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.IAnimals;
 import vanilla.entity.EntityAgeable;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -18,7 +18,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
 
 	protected Block spawnableBlock = Blocks.grass;
 	private int inLove;
-	private EntityPlayer playerInLove;
+	private Player playerInLove;
 
 	public EntityAnimal(World worldIn) {
 		super(worldIn);
@@ -116,7 +116,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
 	/**
 	 * Get the experience points the entity currently has.
 	 */
-	protected int getExperiencePoints(EntityPlayer player) {
+	protected int getExperiencePoints(Player player) {
 		return 1 + this.worldObj.rand.nextInt(3);
 	}
 
@@ -131,7 +131,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	public boolean interact(EntityPlayer player) {
+	public boolean interact(Player player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (itemstack != null) {
@@ -154,7 +154,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
 	/**
 	 * Decreases ItemStack size by one
 	 */
-	protected void consumeItemFromStack(EntityPlayer player, ItemStack stack) {
+	protected void consumeItemFromStack(Player player, ItemStack stack) {
 		if (!player.capabilities.isCreativeMode) {
 			--stack.stackSize;
 
@@ -164,13 +164,13 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
 		}
 	}
 
-	public void setInLove(EntityPlayer player) {
+	public void setInLove(Player player) {
 		this.inLove = 600;
 		this.playerInLove = player;
 		this.worldObj.setEntityState(this, (byte) 18);
 	}
 
-	public EntityPlayer getPlayerInLove() {
+	public Player getPlayerInLove() {
 		return this.playerInLove;
 	}
 

@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -29,7 +29,7 @@ public class BlockIce extends BlockBreakable {
 		return EnumWorldBlockLayer.TRANSLUCENT;
 	}
 
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+	public void harvestBlock(World worldIn, Player player, BlockPos pos, IBlockState state, TileEntity te) {
 		player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
 		player.addExhaustion(0.025F);
 

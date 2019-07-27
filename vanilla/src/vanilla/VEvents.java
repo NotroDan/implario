@@ -6,8 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -65,7 +65,7 @@ public class VEvents implements ServerSideLoadable {
 	}
 
 	private void handlePlayerFall(PlayerFallEvent e) {
-		EntityPlayer p = e.getPlayer();
+		Player p = e.getPlayer();
 		float distance = e.getDistance();
 		if (distance >= 2.0F) p.addStat(StatList.distanceFallenStat, (int) Math.round((double) distance * 100.0D));
 	}
@@ -77,7 +77,7 @@ public class VEvents implements ServerSideLoadable {
 	}
 
 	private void handleMountMove(MountMoveEvent e) {
-		EntityPlayer player = e.getPlayer();
+		Player player = e.getPlayer();
 		Entity entity = player.ridingEntity;
 		if (entity == null) return;
 
@@ -109,7 +109,7 @@ public class VEvents implements ServerSideLoadable {
 
 	private void handlePlayerMove(PlayerMoveEvent event) {
 
-		EntityPlayer p = event.getPlayer();
+		Player p = event.getPlayer();
 
 		if (p.ridingEntity != null) return;
 
@@ -159,7 +159,7 @@ public class VEvents implements ServerSideLoadable {
 	}
 
 	private void handleInteract(PlayerInteractEvent e) {
-		EntityPlayer p = e.getPlayer();
+		Player p = e.getPlayer();
 		ItemStack item = p.getHeldItem();
 		if (item != null && p.isSneaking()) return;
 		if (p.getEntityWorld().isClientSide) return;
@@ -230,7 +230,7 @@ public class VEvents implements ServerSideLoadable {
 
 	private void handlePlayerEnderPearl(PlayerEnderPearlEvent e) {
 		EntityEnderPearl p = e.getPearl();
-		EntityPlayerMP m = e.getPlayer();
+		MPlayer m = e.getPlayer();
 		if (p.rand.nextFloat() < 0.05F && p.worldObj.getGameRules().getBoolean("doMobSpawning")) {
 			EntityEndermite entityendermite = new EntityEndermite(p.worldObj);
 			entityendermite.setSpawnedByPlayer(true);

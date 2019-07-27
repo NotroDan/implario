@@ -1,7 +1,6 @@
 package net.minecraft.inventory;
 
-import com.google.common.collect.Lists;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Group.Unit;
 import net.minecraft.item.Groups;
@@ -22,7 +21,7 @@ public class ContainerCreativeItems extends Container {
 
 	public List<ItemStack> itemList = new ArrayList<>();
 
-	public ContainerCreativeItems(EntityPlayer p) {
+	public ContainerCreativeItems(Player p) {
 		InventoryPlayer inventoryplayer = p.inventory;
 
 
@@ -65,7 +64,7 @@ public class ContainerCreativeItems extends Container {
 
 	}
 
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(Player playerIn) {
 		return true;
 	}
 
@@ -73,10 +72,10 @@ public class ContainerCreativeItems extends Container {
 		return this.itemList.size() > 45;
 	}
 
-	protected void retrySlotClick(int slotId, int clickedButton, boolean mode, EntityPlayer playerIn) {
+	protected void retrySlotClick(int slotId, int clickedButton, boolean mode, Player playerIn) {
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(Player playerIn, int index) {
 		if (index < this.inventorySlots.size() - 9 || index >= this.inventorySlots.size()) return null;
 
 		Slot slot = this.inventorySlots.get(index);

@@ -5,7 +5,7 @@ import com.google.common.base.Predicates;
 import net.minecraft.entity.Entity;
 import vanilla.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.EntitySelectors;
 
 import java.util.Collections;
@@ -43,7 +43,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 				if (targetSelector != null && !targetSelector.apply(p_apply_1_)) {
 					return false;
 				}
-				if (p_apply_1_ instanceof EntityPlayer) {
+				if (p_apply_1_ instanceof Player) {
 					double d0 = EntityAINearestAttackableTarget.this.getTargetDistance();
 
 					if (p_apply_1_.isSneaking()) {
@@ -51,7 +51,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 					}
 
 					if (p_apply_1_.isInvisible()) {
-						float f = ((EntityPlayer) p_apply_1_).getArmorVisibility();
+						float f = ((Player) p_apply_1_).getArmorVisibility();
 
 						if (f < 0.1F) {
 							f = 0.1F;

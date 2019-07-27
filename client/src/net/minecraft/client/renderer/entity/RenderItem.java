@@ -19,7 +19,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
@@ -252,8 +252,8 @@ public class RenderItem implements IResourceManagerReloadListener {
 		if (stack != null && entityToRenderFor != null) {
 			IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);
 
-			if (entityToRenderFor instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) entityToRenderFor;
+			if (entityToRenderFor instanceof Player) {
+				Player entityplayer = (Player) entityToRenderFor;
 				Item item = stack.getItem();
 				ModelResourceLocation modelresourcelocation = null;
 

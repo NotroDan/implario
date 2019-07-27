@@ -1,8 +1,8 @@
 package net.minecraft.world;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.play.server.S25PacketBlockBreakAnim;
 import net.minecraft.network.play.server.S28PacketEffect;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
@@ -57,7 +57,7 @@ public class WorldManager implements IWorldAccess {
 	/**
 	 * Plays sound to all near players except the player reference given
 	 */
-	public void playSoundToNearExcept(EntityPlayer except, String soundName, double x, double y, double z, float volume, float pitch) {
+	public void playSoundToNearExcept(Player except, String soundName, double x, double y, double z, float volume, float pitch) {
 		this.mcServer.getConfigurationManager().sendToAllNearExcept(except, x, y, z, volume > 1.0F ? (double) (16.0F * volume) : 16.0D, this.theWorldServer.provider.getDimensionId(),
 				new S29PacketSoundEffect(soundName, x, y, z, volume, pitch));
 	}
@@ -79,7 +79,7 @@ public class WorldManager implements IWorldAccess {
 	public void playRecord(String recordName, BlockPos blockPosIn) {
 	}
 
-	public void playAuxSFX(EntityPlayer player, int sfxType, BlockPos blockPosIn, int p_180439_4_) {
+	public void playAuxSFX(Player player, int sfxType, BlockPos blockPosIn, int p_180439_4_) {
 		this.mcServer.getConfigurationManager().sendToAllNearExcept(player, (double) blockPosIn.getX(), (double) blockPosIn.getY(), (double) blockPosIn.getZ(), 64.0D,
 				this.theWorldServer.provider.getDimensionId(), new S28PacketEffect(sfxType, blockPosIn, p_180439_4_, false));
 	}
@@ -89,7 +89,7 @@ public class WorldManager implements IWorldAccess {
 	}
 
 	public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
-		for (EntityPlayerMP entityplayermp : this.mcServer.getConfigurationManager().getPlayers()) {
+		for (MPlayer entityplayermp : this.mcServer.getConfigurationManager().getPlayers()) {
 			if (entityplayermp != null && entityplayermp.worldObj == this.theWorldServer && entityplayermp.getEntityId() != breakerId) {
 				double d0 = (double) pos.getX() - entityplayermp.posX;
 				double d1 = (double) pos.getY() - entityplayermp.posY;

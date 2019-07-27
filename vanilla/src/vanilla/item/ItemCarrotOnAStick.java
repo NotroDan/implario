@@ -4,7 +4,7 @@ import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import vanilla.entity.passive.EntityPig;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
@@ -35,7 +35,7 @@ public class ItemCarrotOnAStick extends Item {
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, Player playerIn) {
 		if (playerIn.isRiding() && playerIn.ridingEntity instanceof EntityPig) {
 			EntityPig entitypig = (EntityPig) playerIn.ridingEntity;
 

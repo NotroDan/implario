@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -207,7 +207,7 @@ public class EnchantmentHelper {
 			applyEnchantmentModifierArray(ENCHANTMENT_ITERATOR_HURT, p_151384_0_.getInventory());
 		}
 
-		if (p_151384_1_ instanceof EntityPlayer) {
+		if (p_151384_1_ instanceof Player) {
 			applyEnchantmentModifier(ENCHANTMENT_ITERATOR_HURT, p_151384_0_.getHeldItem());
 		}
 	}
@@ -220,7 +220,7 @@ public class EnchantmentHelper {
 			applyEnchantmentModifierArray(ENCHANTMENT_ITERATOR_DAMAGE, p_151385_0_.getInventory());
 		}
 
-		if (p_151385_0_ instanceof EntityPlayer) {
+		if (p_151385_0_ instanceof Player) {
 			applyEnchantmentModifier(ENCHANTMENT_ITERATOR_DAMAGE, p_151385_0_.getHeldItem());
 		}
 	}

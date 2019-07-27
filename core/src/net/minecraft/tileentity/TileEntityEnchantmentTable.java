@@ -2,7 +2,7 @@ package net.minecraft.tileentity;
 
 import java.util.Random;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerEnchantment;
@@ -51,7 +51,7 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
 	public void update() {
 		this.bookSpreadPrev = this.bookSpread;
 		this.bookRotationPrev = this.bookRotation;
-		EntityPlayer entityplayer = this.worldObj.getClosestPlayer((double) ((float) this.pos.getX() + 0.5F), (double) ((float) this.pos.getY() + 0.5F), (double) ((float) this.pos.getZ() + 0.5F),
+		Player entityplayer = this.worldObj.getClosestPlayer((double) ((float) this.pos.getX() + 0.5F), (double) ((float) this.pos.getY() + 0.5F), (double) ((float) this.pos.getZ() + 0.5F),
 				3.0D);
 
 		if (entityplayer != null) {
@@ -138,7 +138,7 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
 		return (IChatComponent) (this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
 	}
 
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(InventoryPlayer playerInventory, Player playerIn) {
 		return new ContainerEnchantment(playerInventory, this.worldObj, this.pos);
 	}
 

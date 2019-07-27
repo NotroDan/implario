@@ -5,7 +5,7 @@ import java.util.Random;
 
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -203,7 +203,7 @@ public class ContainerEnchantment extends Container {
 	/**
 	 * Handles the given Button-click on the server, currently only used by enchanting. Name is for legacy.
 	 */
-	public boolean enchantItem(EntityPlayer playerIn, int id) {
+	public boolean enchantItem(Player playerIn, int id) {
 		ItemStack itemstack = this.tableInventory.getStackInSlot(0);
 		ItemStack itemstack1 = this.tableInventory.getStackInSlot(1);
 		int i = id + 1;
@@ -272,7 +272,7 @@ public class ContainerEnchantment extends Container {
 	/**
 	 * Called when the container is closed.
 	 */
-	public void onContainerClosed(EntityPlayer playerIn) {
+	public void onContainerClosed(Player playerIn) {
 		super.onContainerClosed(playerIn);
 
 		if (!this.worldPointer.isClientSide) {
@@ -286,7 +286,7 @@ public class ContainerEnchantment extends Container {
 		}
 	}
 
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(Player playerIn) {
 		return this.worldPointer.getBlockState(this.position).getBlock() != Blocks.enchanting_table ? false : playerIn.getDistanceSq((double) this.position.getX() + 0.5D,
 				(double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
 	}
@@ -294,7 +294,7 @@ public class ContainerEnchantment extends Container {
 	/**
 	 * Take a stack from the specified inventory slot.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(Player playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 

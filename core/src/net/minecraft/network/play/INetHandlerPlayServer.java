@@ -1,6 +1,6 @@
 package net.minecraft.network.play;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.play.client.*;
 
@@ -121,6 +121,6 @@ public interface INetHandlerPlayServer extends INetHandler {
 
 	void handleResourcePackStatus(C19PacketResourcePackStatus packetIn);
 
-	EntityPlayer getPlayer();
+	Player getPlayer();
 
 }

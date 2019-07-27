@@ -11,7 +11,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
@@ -54,7 +54,7 @@ public class CommandAchievement extends CommandBase {
 		if (statbase == null && !args[1].equals("*")) {
 			throw new CommandException("commands.achievement.unknownAchievement", new Object[] {args[1]});
 		}
-		final EntityPlayerMP entityplayermp = args.length >= 3 ? getPlayer(sender, args[2]) : getCommandSenderAsPlayer(sender);
+		final MPlayer entityplayermp = args.length >= 3 ? getPlayer(sender, args[2]) : getCommandSenderAsPlayer(sender);
 		boolean flag = args[0].equalsIgnoreCase("give");
 		boolean flag1 = args[0].equalsIgnoreCase("take");
 

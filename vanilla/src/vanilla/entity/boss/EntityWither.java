@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Items;
@@ -51,7 +51,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIArrowAttack(this, 1.0D, 40, 20.0F));
 		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(6, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, VanillaEntity.class, 0, false, false, attackEntitySelector));
@@ -236,7 +236,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 						Entity entity = this.worldObj.getEntityByID(k1);
 
 						if (entity != null && entity.isEntityAlive() && this.getDistanceSqToEntity(entity) <= 900.0D && this.canEntityBeSeen(entity)) {
-							if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.disableDamage) {
+							if (entity instanceof Player && ((Player) entity).capabilities.disableDamage) {
 								this.updateWatchedTargetId(i, 0);
 							} else {
 								this.launchWitherSkullToEntity(i + 1, (EntityLivingBase) entity);
@@ -254,8 +254,8 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 							EntityLivingBase entitylivingbase = list.get(this.rand.nextInt(list.size()));
 
 							if (entitylivingbase != this && entitylivingbase.isEntityAlive() && this.canEntityBeSeen(entitylivingbase)) {
-								if (entitylivingbase instanceof EntityPlayer) {
-									if (!((EntityPlayer) entitylivingbase).capabilities.disableDamage) {
+								if (entitylivingbase instanceof Player) {
+									if (!((Player) entitylivingbase).capabilities.disableDamage) {
 										this.updateWatchedTargetId(i, entitylivingbase.getEntityId());
 									}
 								} else {
@@ -423,7 +423,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 
 			Entity entity1 = source.getEntity();
 
-			if (entity1 != null && !(entity1 instanceof EntityPlayer) && entity1 instanceof EntityLivingBase && ((EntityLivingBase) entity1).getCreatureAttribute() == this.getCreatureAttribute()) {
+			if (entity1 != null && !(entity1 instanceof Player) && entity1 instanceof EntityLivingBase && ((EntityLivingBase) entity1).getCreatureAttribute() == this.getCreatureAttribute()) {
 				return false;
 			}
 			if (this.blockBreakCounter <= 0) {
@@ -450,7 +450,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		}
 
 		if (!this.worldObj.isClientSide) {
-			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(50.0D, 100.0D, 50.0D))) {
+			for (Player entityplayer : this.worldObj.getEntitiesWithinAABB(Player.class, this.getEntityBoundingBox().expand(50.0D, 100.0D, 50.0D))) {
 				entityplayer.triggerAchievement(AchievementList.killWither);
 			}
 		}

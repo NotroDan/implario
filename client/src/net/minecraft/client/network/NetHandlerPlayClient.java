@@ -7,8 +7,8 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.game.entity.EntityOtherPlayerMP;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.OPlayer;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.game.inventory.ContainerLocalMenu;
 import net.minecraft.client.game.inventory.LocalBlockIntercommunication;
 import net.minecraft.client.game.particle.EntityPickupFX;
@@ -30,7 +30,7 @@ import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.attributes.RangedAttribute;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.init.Items;
@@ -162,8 +162,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			case 90:
 				Entity entity1 = this.clientWorldController.getEntityByID(packetIn.getXi());
 
-				if (entity1 instanceof EntityPlayer)
-					entity = new EntityFishHook(this.clientWorldController, d0, d1, d2, (EntityPlayer) entity1);
+				if (entity1 instanceof Player)
+					entity = new EntityFishHook(this.clientWorldController, d0, d1, d2, (Player) entity1);
 
 				packetIn.setXi(0);
 				break;
@@ -352,7 +352,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			Log.MAIN.warn("Сервер не отправил данных об игроке '" + packetIn.getPlayer() + "' перед тем как заспавнить его.");
 			return;
 		}
-		EntityOtherPlayerMP p = new EntityOtherPlayerMP(this.gameController.theWorld, playerInfo.getGameProfile());
+		OPlayer p = new OPlayer(this.gameController.theWorld, playerInfo.getGameProfile());
 		p.prevPosX = p.lastTickPosX = (double) (p.serverPosX = packetIn.getX());
 		p.prevPosY = p.lastTickPosY = (double) (p.serverPosY = packetIn.getY());
 		p.prevPosZ = p.lastTickPosZ = (double) (p.serverPosZ = packetIn.getZ());
@@ -461,7 +461,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handlePlayerPosLook(S08PacketPlayerPosLook packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		EntityPlayer entityplayer = this.gameController.thePlayer;
+		Player entityplayer = this.gameController.thePlayer;
 		double d0 = packetIn.getX();
 		double d1 = packetIn.getY();
 		double d2 = packetIn.getZ();
@@ -616,7 +616,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			} else if (packetIn.getAnimationType() == 1)
 				entity.performHurtAnimation();
 			else if (packetIn.getAnimationType() == 2) {
-				EntityPlayer entityplayer = (EntityPlayer) entity;
+				Player entityplayer = (Player) entity;
 				entityplayer.wakeUpPlayer(false, false, false);
 			} else if (packetIn.getAnimationType() == 4)
 				this.gameController.effectRenderer.emitParticleAtEntity(entity, ParticleType.CRIT);
@@ -745,7 +745,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handleOpenWindow(S2DPacketOpenWindow packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		EntityPlayerSP entityplayersp = this.gameController.thePlayer;
+		CPlayer entityplayersp = this.gameController.thePlayer;
 
 		if ("minecraft:container".equals(packetIn.getGuiId())) {
 			entityplayersp.displayGUIChest(new InventoryBasic(packetIn.getWindowTitle(), packetIn.getSlotCount()));
@@ -766,7 +766,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handleSetSlot(S2FPacketSetSlot packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		EntityPlayer entityplayer = this.gameController.thePlayer;
+		Player entityplayer = this.gameController.thePlayer;
 
 		if (packetIn.getSlot() == -1)
 			entityplayer.inventory.setItemStack(packetIn.func_149174_e());
@@ -797,7 +797,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	public void handleConfirmTransaction(S32PacketConfirmTransaction packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 		Container container = null;
-		EntityPlayer entityplayer = this.gameController.thePlayer;
+		Player entityplayer = this.gameController.thePlayer;
 
 		if (packetIn.getWindowId() == 0)
 			container = entityplayer.inventoryContainer;
@@ -813,7 +813,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handleWindowItems(S30PacketWindowItems packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		EntityPlayer entityplayer = this.gameController.thePlayer;
+		Player entityplayer = this.gameController.thePlayer;
 
 		if (packetIn.func_148911_c() == 0)
 			entityplayer.inventoryContainer.putStacksInSlots(packetIn.getItemStacks());
@@ -892,7 +892,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handleWindowProperty(S31PacketWindowProperty packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		EntityPlayer entityplayer = this.gameController.thePlayer;
+		Player entityplayer = this.gameController.thePlayer;
 
 		if (entityplayer.openContainer != null && entityplayer.openContainer.windowId == packetIn.getWindowId())
 			entityplayer.openContainer.updateProgressBar(packetIn.getVarIndex(), packetIn.getVarValue());
@@ -952,7 +952,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 	public void handleChangeGameState(S2BPacketChangeGameState packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		EntityPlayer entityplayer = this.gameController.thePlayer;
+		Player entityplayer = this.gameController.thePlayer;
 		int i = packetIn.getGameState();
 		float f = packetIn.func_149137_d();
 		int j = MathHelper.floor_float(f + 0.5F);
@@ -1170,7 +1170,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 	public void handlePlayerAbilities(S39PacketPlayerAbilities packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		EntityPlayer entityplayer = this.gameController.thePlayer;
+		Player entityplayer = this.gameController.thePlayer;
 		entityplayer.capabilities.isFlying = packetIn.isFlying();
 		entityplayer.capabilities.isCreativeMode = packetIn.isCreativeMode();
 		entityplayer.capabilities.disableDamage = packetIn.isInvulnerable();

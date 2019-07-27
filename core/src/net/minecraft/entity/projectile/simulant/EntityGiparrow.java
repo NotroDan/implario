@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
@@ -161,10 +161,10 @@ public class EntityGiparrow {
 			movingobjectposition = new MovingObjectPosition(entity);
 		}
 
-		if (movingobjectposition != null && movingobjectposition.entityHit instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) movingobjectposition.entityHit;
+		if (movingobjectposition != null && movingobjectposition.entityHit instanceof Player) {
+			Player entityplayer = (Player) movingobjectposition.entityHit;
 
-			if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof EntityPlayer && !((EntityPlayer) this.shootingEntity).canAttackPlayer(entityplayer)) {
+			if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof Player && !((Player) this.shootingEntity).canAttackPlayer(entityplayer)) {
 				movingobjectposition = null;
 			}
 		}

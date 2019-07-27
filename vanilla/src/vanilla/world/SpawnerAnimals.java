@@ -3,7 +3,7 @@ package vanilla.world;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -42,7 +42,7 @@ public final class SpawnerAnimals {
 		this.eligibleChunksForSpawning.clear();
 		int i = 0;
 
-		for (EntityPlayer entityplayer : w.playerEntities) {
+		for (Player entityplayer : w.playerEntities) {
 			if (!entityplayer.isSpectator()) {
 				int j = MathHelper.floor_double(entityplayer.posX / 16.0D);
 				int k = MathHelper.floor_double(entityplayer.posZ / 16.0D);

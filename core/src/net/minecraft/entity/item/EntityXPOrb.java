@@ -2,7 +2,7 @@ package net.minecraft.entity.item;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
@@ -35,7 +35,7 @@ public class EntityXPOrb extends Entity {
 	/**
 	 * The closest EntityPlayer to this orb.
 	 */
-	private EntityPlayer closestPlayer;
+	private Player closestPlayer;
 
 	/**
 	 * Threshold color for tracking players
@@ -224,7 +224,7 @@ public class EntityXPOrb extends Entity {
 	/**
 	 * Called by a player entity when they collide with an entity
 	 */
-	public void onCollideWithPlayer(EntityPlayer entityIn) {
+	public void onCollideWithPlayer(Player entityIn) {
 		if (!this.worldObj.isClientSide) {
 			if (this.delayBeforeCanPickup == 0 && entityIn.xpCooldown == 0) {
 				entityIn.xpCooldown = 2;

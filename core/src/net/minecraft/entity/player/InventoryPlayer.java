@@ -35,7 +35,7 @@ public class InventoryPlayer implements IInventory {
 	/**
 	 * The player whose inventory this is.
 	 */
-	public EntityPlayer player;
+	public Player player;
 	private ItemStack itemStack;
 
 	/**
@@ -44,7 +44,7 @@ public class InventoryPlayer implements IInventory {
 	 */
 	public boolean inventoryChanged;
 
-	public InventoryPlayer(EntityPlayer playerIn) {
+	public InventoryPlayer(Player playerIn) {
 		this.player = playerIn;
 	}
 
@@ -644,7 +644,7 @@ public class InventoryPlayer implements IInventory {
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(Player player) {
 		return !this.player.isDead && player.getDistanceSqToEntity(this.player) <= 64.0D;
 	}
 
@@ -667,10 +667,10 @@ public class InventoryPlayer implements IInventory {
 		return false;
 	}
 
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(Player player) {
 	}
 
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(Player player) {
 	}
 
 	/**

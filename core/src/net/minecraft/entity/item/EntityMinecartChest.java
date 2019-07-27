@@ -2,7 +2,7 @@ package net.minecraft.entity.item;
 
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
@@ -53,7 +53,7 @@ public class EntityMinecartChest extends EntityMinecartContainer {
 		return "minecraft:chest";
 	}
 
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(InventoryPlayer playerInventory, Player playerIn) {
 		return new ContainerChest(playerInventory, this, playerIn);
 	}
 

@@ -14,8 +14,8 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.ClientRegistrar;
 import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.network.PacketBuffer;
@@ -156,7 +156,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 
 
 		registrar.replaceProvider(MusicTicker.MUSIC_TYPE_PROVIDER, musicTicker -> {
-			EntityPlayer p = MC.getPlayer();
+			Player p = MC.getPlayer();
 			return p != null ? p.worldObj.provider instanceof WorldProviderHell ? MusicTicker.MusicType.NETHER :
 					p.worldObj.provider instanceof WorldProviderEnd ? BossStatus.bossName != null && BossStatus.statusBarTime > 0 ?
 							MusicTicker.MusicType.END_BOSS : MusicTicker.MusicType.END : p.capabilities.isCreativeMode &&
@@ -172,8 +172,8 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		registrar.registerIngameGui(IMerchant.class, (p, merchant, serverSide) -> {
 			if (serverSide) {
 
-				if (!(p instanceof EntityPlayerMP)) return;
-				EntityPlayerMP player = (EntityPlayerMP) p;
+				if (!(p instanceof MPlayer)) return;
+				MPlayer player = (MPlayer) p;
 				player.getNextWindowId();
 				player.openContainer = new ContainerMerchant(player.inventory, merchant, player.worldObj);
 				player.openContainer.windowId = player.currentWindowId;
@@ -199,9 +199,9 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 				if (p.openContainer != p.inventoryContainer) {
 					p.closeScreen();
 				}
-				if (!(p instanceof EntityPlayerMP)) return;
-				EntityPlayerMP player = (EntityPlayerMP) p;
-				((EntityPlayerMP) p).getNextWindowId();
+				if (!(p instanceof MPlayer)) return;
+				MPlayer player = (MPlayer) p;
+				((MPlayer) p).getNextWindowId();
 				IInventory inv = horseinv.inv;
 				player.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(player.currentWindowId, "EntityHorse", inv.getDisplayName(), inv.getSizeInventory(),
 						horseinv.horse.getEntityId()));

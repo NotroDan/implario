@@ -51,8 +51,7 @@ import java.util.UUID;
 
 import static net.minecraft.entity.EnumCreatureAttribute.UNDEFINED;
 
-@SuppressWarnings ("incomplete-switch")
-public abstract class EntityPlayer extends EntityLivingBase {
+public abstract class Player extends EntityLivingBase {
 
 	/**
 	 * Inventory of the player
@@ -169,7 +168,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 */
 	public EntityFishHook fishEntity;
 
-	public EntityPlayer(World worldIn, GameProfile gameProfileIn) {
+	public Player(World worldIn, GameProfile gameProfileIn) {
 		super(worldIn);
 		this.entityUniqueID = getUUID(gameProfileIn);
 		this.gameProfile = gameProfileIn;
@@ -634,7 +633,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		this.addScore(amount);
 		Collection<ScoreObjective> collection = this.getWorldScoreboard().getObjectivesFromCriteria(IScoreObjectiveCriteria.totalKillCount);
 
-		if (entityIn instanceof EntityPlayer) {
+		if (entityIn instanceof Player) {
 			this.triggerAchievement(StatList.playerKillsStat);
 			collection.addAll(this.getWorldScoreboard().getObjectivesFromCriteria(IScoreObjectiveCriteria.playerKillCount));
 			collection.addAll(this.func_175137_e(entityIn));
@@ -915,7 +914,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		return super.attackEntityFrom(source, amount);
 	}
 
-	public boolean canAttackPlayer(EntityPlayer other) {
+	public boolean canAttackPlayer(Player other) {
 		Team team = this.getTeam();
 		Team team1 = other.getTeam();
 		return team == null || (!team.isSameTeam(team1) || team.getAllowFriendlyFire());
@@ -1106,8 +1105,8 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			this.setSprinting(false);
 		}
 
-		if (targetEntity instanceof EntityPlayerMP && targetEntity.velocityChanged) {
-			((EntityPlayerMP) targetEntity).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(targetEntity));
+		if (targetEntity instanceof MPlayer && targetEntity.velocityChanged) {
+			((MPlayer) targetEntity).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(targetEntity));
 			targetEntity.velocityChanged = false;
 			targetEntity.motionX = mx;
 			targetEntity.motionY = my;
@@ -1650,7 +1649,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	/**
 	 * Get the experience points the entity currently has.
 	 */
-	protected int getExperiencePoints(EntityPlayer player) {
+	protected int getExperiencePoints(Player player) {
 		if (this.worldObj.getGameRules().getBoolean("keepInventory")) {
 			return 0;
 		}
@@ -1673,7 +1672,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Copies the values from the given player into this player if boolean par2 is true. Always clones Ender Chest
 	 * Inventory.
 	 */
-	public void clonePlayer(EntityPlayer oldPlayer, boolean respawnFromEnd) {
+	public void clonePlayer(Player oldPlayer, boolean respawnFromEnd) {
 		if (respawnFromEnd) {
 			this.inventory.copyInventory(oldPlayer.inventory);
 			this.setHealth(oldPlayer.getHealth());
@@ -1758,7 +1757,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Determines if an entity is visible or not to a specfic player, if the entity is normally invisible.
 	 * For EntityLivingBase subclasses, returning false when invisible will render the entity semitransparent.
 	 */
-	public boolean isInvisibleToPlayer(EntityPlayer player) {
+	public boolean isInvisibleToPlayer(Player player) {
 		if (!this.isInvisible()) {
 			return false;
 		}
@@ -1917,7 +1916,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		SYSTEM(1, "options.chat.visibility.system"),
 		HIDDEN(2, "options.chat.visibility.hidden");
 
-		private static final EntityPlayer.EnumChatVisibility[] ID_LOOKUP = new EntityPlayer.EnumChatVisibility[values().length];
+		private static final Player.EnumChatVisibility[] ID_LOOKUP = new Player.EnumChatVisibility[values().length];
 		private final int chatVisibility;
 		private final String resourceKey;
 
@@ -1930,7 +1929,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 			return this.chatVisibility;
 		}
 
-		public static EntityPlayer.EnumChatVisibility getEnumChatVisibility(int id) {
+		public static Player.EnumChatVisibility getEnumChatVisibility(int id) {
 			return ID_LOOKUP[id % ID_LOOKUP.length];
 		}
 
@@ -1939,7 +1938,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		}
 
 		static {
-			for (EntityPlayer.EnumChatVisibility entityplayer$enumchatvisibility : values()) {
+			for (Player.EnumChatVisibility entityplayer$enumchatvisibility : values()) {
 				ID_LOOKUP[entityplayer$enumchatvisibility.chatVisibility] = entityplayer$enumchatvisibility;
 			}
 		}
@@ -1947,7 +1946,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 
 	@Override
 	public boolean equals(Object object) {
-		return object instanceof EntityPlayer && ((EntityPlayer) object).getName().equals(getName());
+		return object instanceof Player && ((Player) object).getName().equals(getName());
 	}
 
 	@Override

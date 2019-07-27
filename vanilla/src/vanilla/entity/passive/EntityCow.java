@@ -11,7 +11,7 @@ import vanilla.entity.ai.tasks.EntityAISwimming;
 import vanilla.entity.ai.tasks.EntityAITempt;
 import vanilla.entity.ai.tasks.EntityAIWander;
 import vanilla.entity.ai.tasks.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,7 +31,7 @@ public class EntityCow extends EntityAnimal {
 		this.tasks.addTask(3, new EntityAITempt(this, 1.25D, Items.wheat, false));
 		this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
 		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(6, new EntityAIWatchClosest(this, Player.class, 6.0F));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
 	}
 
@@ -101,7 +101,7 @@ public class EntityCow extends EntityAnimal {
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	public boolean interact(EntityPlayer player) {
+	public boolean interact(Player player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.getItem() == Items.bucket && !player.capabilities.isCreativeMode && !this.isChild()) {

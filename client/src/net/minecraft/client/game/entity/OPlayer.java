@@ -9,7 +9,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityOtherPlayerMP extends AbstractClientPlayer {
+public class OPlayer extends AbstractClientPlayer {
 
 	private boolean isItemInUse;
 	private int posrotIncrements;
@@ -19,7 +19,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
 	private double yaw;
 	private double pitch;
 
-	public EntityOtherPlayerMP(World worldIn, GameProfile gameProfileIn) {
+	public OPlayer(World worldIn, GameProfile gameProfileIn) {
 		super(worldIn, gameProfileIn);
 		this.stepHeight = 0.0F;
 		this.noClip = true;

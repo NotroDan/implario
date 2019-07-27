@@ -15,10 +15,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.util.Color;
+import net.minecraft.entity.player.Player;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class GuiInventory extends InventoryEffectRenderer {
@@ -26,7 +24,7 @@ public class GuiInventory extends InventoryEffectRenderer {
 	private float oldMouseX;
 	private float oldMouseY;
 
-	public GuiInventory(EntityPlayer player) {
+	public GuiInventory(Player player) {
 		super(player.inventoryContainer);
 		this.allowUserInput = true;
 	}

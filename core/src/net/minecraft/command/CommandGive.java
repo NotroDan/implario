@@ -3,7 +3,7 @@ package net.minecraft.command;
 import java.util.List;
 
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
@@ -41,7 +41,7 @@ public class CommandGive extends CommandBase {
 		if (args.length < 2) {
 			throw new WrongUsageException("commands.give.usage", new Object[0]);
 		}
-		EntityPlayer entityplayer = getPlayer(sender, args[0]);
+		Player entityplayer = getPlayer(sender, args[0]);
 		Item item = getItemByText(sender, args[1]);
 		int i = args.length >= 3 ? parseInt(args[2], 1, 64) : 1;
 		int j = args.length >= 4 ? parseInt(args[3]) : 0;

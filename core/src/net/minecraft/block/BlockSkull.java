@@ -6,7 +6,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -111,7 +111,7 @@ public class BlockSkull extends BlockContainer {
 	public void dropBlockAsItemWithChance0(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
 	}
 
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, Player player) {
 		if (player.capabilities.isCreativeMode) {
 			state = state.withProperty(NODROP, Boolean.TRUE);
 			worldIn.setBlockState(pos, state, 4);

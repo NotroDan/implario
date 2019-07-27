@@ -7,7 +7,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -130,16 +130,16 @@ public class CommandReplaceItem extends CommandBase {
 			Entity entity = func_175768_b(sender, args[1]);
 			sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
 
-			if (entity instanceof EntityPlayer) {
-				((EntityPlayer) entity).inventoryContainer.detectAndSendChanges();
+			if (entity instanceof Player) {
+				((Player) entity).inventoryContainer.detectAndSendChanges();
 			}
 
 			if (!entity.replaceItemInInventory(j, itemstack)) {
 				throw new CommandException("commands.replaceitem.failed", new Object[] {j, k, itemstack == null ? "Air" : itemstack.getChatComponent()});
 			}
 
-			if (entity instanceof EntityPlayer) {
-				((EntityPlayer) entity).inventoryContainer.detectAndSendChanges();
+			if (entity instanceof Player) {
+				((Player) entity).inventoryContainer.detectAndSendChanges();
 			}
 		}
 

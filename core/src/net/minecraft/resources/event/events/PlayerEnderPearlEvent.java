@@ -3,7 +3,7 @@ package net.minecraft.resources.event.events;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.entity.item.EntityEnderPearl;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.resources.event.events.player.PlayerEvent;
 
 @Data
@@ -11,6 +11,6 @@ import net.minecraft.resources.event.events.player.PlayerEvent;
 public class PlayerEnderPearlEvent extends PlayerEvent<PlayerEnderPearlEvent> {
 
 	private final EntityEnderPearl pearl;
-	private final EntityPlayerMP player;
+	private final MPlayer player;
 
 }

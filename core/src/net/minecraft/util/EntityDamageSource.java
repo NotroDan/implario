@@ -2,7 +2,7 @@ package net.minecraft.util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.chat.ChatComponentTranslation;
 
@@ -52,7 +52,7 @@ public class EntityDamageSource extends DamageSource {
 	 * Return whether this damage source will have its damage amount scaled based on the current difficulty.
 	 */
 	public boolean isDifficultyScaled() {
-		return this.damageSourceEntity instanceof EntityLivingBase && !(this.damageSourceEntity instanceof EntityPlayer);
+		return this.damageSourceEntity instanceof EntityLivingBase && !(this.damageSourceEntity instanceof Player);
 	}
 
 }

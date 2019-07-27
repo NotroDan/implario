@@ -1,6 +1,5 @@
 package net.minecraft.world;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
@@ -10,7 +9,7 @@ import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
 
@@ -39,7 +38,7 @@ public class Explosion {
 	private final Entity exploder;
 	private final float explosionSize;
 	private final List<BlockPos> affectedBlockPositions;
-	private final Map<EntityPlayer, Vec3> playerKnockbackMap;
+	private final Map<Player, Vec3> playerKnockbackMap;
 
 	public Explosion(World worldIn, Entity p_i45752_2_, double p_i45752_3_, double p_i45752_5_, double p_i45752_7_, float p_i45752_9_, List<BlockPos> p_i45752_10_) {
 		this(worldIn, p_i45752_2_, p_i45752_3_, p_i45752_5_, p_i45752_7_, p_i45752_9_, false, true, p_i45752_10_);
@@ -146,8 +145,8 @@ public class Explosion {
 						entity.motionY += d7 * d11;
 						entity.motionZ += d9 * d11;
 
-						if (entity instanceof EntityPlayer && !((EntityPlayer) entity).capabilities.disableDamage) {
-							this.playerKnockbackMap.put((EntityPlayer) entity, new Vec3(d5 * d10, d7 * d10, d9 * d10));
+						if (entity instanceof Player && !((Player) entity).capabilities.disableDamage) {
+							this.playerKnockbackMap.put((Player) entity, new Vec3(d5 * d10, d7 * d10, d9 * d10));
 						}
 					}
 				}
@@ -214,7 +213,7 @@ public class Explosion {
 		}
 	}
 
-	public Map<EntityPlayer, Vec3> getPlayerKnockbackMap() {
+	public Map<Player, Vec3> getPlayerKnockbackMap() {
 		return this.playerKnockbackMap;
 	}
 

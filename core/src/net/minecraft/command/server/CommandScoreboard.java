@@ -17,7 +17,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.SyntaxErrorException;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
@@ -187,13 +187,13 @@ public class CommandScoreboard extends CommandBase {
 
 					this.emptyTeam(sender, args, 2);
 				} else if (args[1].equalsIgnoreCase("join")) {
-					if (args.length < 4 && (args.length != 3 || !(sender instanceof EntityPlayer))) {
+					if (args.length < 4 && (args.length != 3 || !(sender instanceof Player))) {
 						throw new WrongUsageException("commands.scoreboard.teams.join.usage", new Object[0]);
 					}
 
 					this.joinTeam(sender, args, 2);
 				} else if (args[1].equalsIgnoreCase("leave")) {
-					if (args.length < 3 && !(sender instanceof EntityPlayer)) {
+					if (args.length < 3 && !(sender instanceof Player)) {
 						throw new WrongUsageException("commands.scoreboard.teams.leave.usage", new Object[0]);
 					}
 
@@ -479,7 +479,7 @@ public class CommandScoreboard extends CommandBase {
 		Set<String> set = Sets.newHashSet();
 		Set<String> set1 = Sets.newHashSet();
 
-		if (p_147190_1_ instanceof EntityPlayer && p_147190_3_ == p_147190_2_.length) {
+		if (p_147190_1_ instanceof Player && p_147190_3_ == p_147190_2_.length) {
 			String s4 = getCommandSenderAsPlayer(p_147190_1_).getName();
 
 			if (scoreboard.addPlayerToTeam(s4, s)) {
@@ -528,7 +528,7 @@ public class CommandScoreboard extends CommandBase {
 		Set<String> set = Sets.newHashSet();
 		Set<String> set1 = Sets.newHashSet();
 
-		if (p_147199_1_ instanceof EntityPlayer && p_147199_3_ == p_147199_2_.length) {
+		if (p_147199_1_ instanceof Player && p_147199_3_ == p_147199_2_.length) {
 			String s3 = getCommandSenderAsPlayer(p_147199_1_).getName();
 
 			if (scoreboard.removePlayerFromTeams(s3)) {

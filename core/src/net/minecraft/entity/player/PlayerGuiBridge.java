@@ -9,13 +9,13 @@ public class PlayerGuiBridge {
 
 	public interface GuiOpener<D> {
 
-		void open(EntityPlayer p, D gui, boolean serverSide);
+		void open(Player p, D gui, boolean serverSide);
 
 	}
 
 	private static final List<Entry> list = new ArrayList<>();
 
-	public static <T> void open(EntityPlayer p, Class<T> type, T gui, boolean serverSide) {
+	public static <T> void open(Player p, Class<T> type, T gui, boolean serverSide) {
 		GuiOpener<T> opener = getOpener(type);
 		if (opener != null) opener.open(p, gui, serverSide);
 		else Log.MAIN.warn("Для типа IngameGui '" + type + "' не найдено слушателя!");

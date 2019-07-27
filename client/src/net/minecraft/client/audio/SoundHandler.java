@@ -1,13 +1,12 @@
 package net.minecraft.client.audio;
 
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.Logger;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
@@ -183,7 +182,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		this.sndManager.playDelayedSound(sound, delay);
 	}
 
-	public void setListener(EntityPlayer player, float p_147691_2_) {
+	public void setListener(Player player, float p_147691_2_) {
 		this.sndManager.setListener(player, p_147691_2_);
 	}
 

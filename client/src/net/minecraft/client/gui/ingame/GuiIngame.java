@@ -2,7 +2,6 @@ package net.minecraft.client.gui.ingame;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
@@ -12,7 +11,6 @@ import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.BowPathRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -20,14 +18,8 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.potion.Potion;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -37,7 +29,6 @@ import net.minecraft.util.*;
 import optifine.Config;
 import optifine.CustomColors;
 
-import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.stream.Collectors;
 

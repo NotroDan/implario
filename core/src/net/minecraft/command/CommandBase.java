@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Doubles;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -134,15 +134,15 @@ public abstract class CommandBase implements ICommand {
 	/**
 	 * Returns the given ICommandSender as a EntityPlayer or throw an exception.
 	 */
-	public static EntityPlayerMP getCommandSenderAsPlayer(ICommandSender sender) throws PlayerNotFoundException {
-		if (sender instanceof EntityPlayerMP) {
-			return (EntityPlayerMP) sender;
+	public static MPlayer getCommandSenderAsPlayer(ICommandSender sender) throws PlayerNotFoundException {
+		if (sender instanceof MPlayer) {
+			return (MPlayer) sender;
 		}
 		throw new PlayerNotFoundException("You must specify which player you wish to perform this action on.");
 	}
 
-	public static EntityPlayerMP getPlayer(ICommandSender sender, String username) throws PlayerNotFoundException {
-		EntityPlayerMP entityplayermp = PlayerSelector.matchOnePlayer(sender, username);
+	public static MPlayer getPlayer(ICommandSender sender, String username) throws PlayerNotFoundException {
+		MPlayer entityplayermp = PlayerSelector.matchOnePlayer(sender, username);
 
 		if (entityplayermp == null) {
 			try {

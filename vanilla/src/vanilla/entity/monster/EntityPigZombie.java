@@ -6,7 +6,7 @@ import net.minecraft.entity.attributes.IAttributeInstance;
 import vanilla.entity.EntityCreature;
 import vanilla.entity.ai.tasks.EntityAIHurtByTarget;
 import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -83,7 +83,7 @@ public class EntityPigZombie extends EntityZombie {
 		}
 
 		if (this.angerLevel > 0 && this.angerTargetUUID != null && this.getAITarget() == null) {
-			EntityPlayer entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
+			Player entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
 			this.setRevengeTarget(entityplayer);
 			this.attackingPlayer = entityplayer;
 			this.recentlyHit = this.getRevengeTimer();
@@ -131,7 +131,7 @@ public class EntityPigZombie extends EntityZombie {
 
 		if (s.length() > 0) {
 			this.angerTargetUUID = UUID.fromString(s);
-			EntityPlayer entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
+			Player entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
 			this.setRevengeTarget(entityplayer);
 
 			if (entityplayer != null) {
@@ -150,7 +150,7 @@ public class EntityPigZombie extends EntityZombie {
 		}
 		Entity entity = source.getEntity();
 
-		if (entity instanceof EntityPlayer) {
+		if (entity instanceof Player) {
 			this.becomeAngryAt(entity);
 		}
 
@@ -214,7 +214,7 @@ public class EntityPigZombie extends EntityZombie {
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	public boolean interact(EntityPlayer player) {
+	public boolean interact(Player player) {
 		return false;
 	}
 
@@ -258,10 +258,10 @@ public class EntityPigZombie extends EntityZombie {
 
 	}
 
-	static class AITargetAggressor extends EntityAINearestAttackableTarget<EntityPlayer> {
+	static class AITargetAggressor extends EntityAINearestAttackableTarget<Player> {
 
 		public AITargetAggressor(EntityPigZombie p_i45829_1_) {
-			super(p_i45829_1_, EntityPlayer.class, true);
+			super(p_i45829_1_, Player.class, true);
 		}
 
 		public boolean shouldExecute() {

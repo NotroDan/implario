@@ -1,7 +1,7 @@
 package vanilla.world.gen.feature.village;
 
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -81,7 +81,7 @@ public class VillageSiege {
 	}
 
 	private boolean func_75529_b() {
-		List<EntityPlayer> list = this.worldObj.playerEntities;
+		List<Player> list = this.worldObj.playerEntities;
 		Iterator iterator = list.iterator();
 
 		while (true) {
@@ -89,7 +89,7 @@ public class VillageSiege {
 				return false;
 			}
 
-			EntityPlayer entityplayer = (EntityPlayer) iterator.next();
+			Player entityplayer = (Player) iterator.next();
 
 			if (!entityplayer.isSpectator()) {
 				this.theVillage = VillageCollection.get(worldObj).getNearestVillage(new BlockPos(entityplayer), 1);

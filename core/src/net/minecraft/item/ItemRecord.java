@@ -8,7 +8,7 @@ import java.util.Map;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
@@ -35,7 +35,7 @@ public class ItemRecord extends Item {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 
 		if (iblockstate.getBlock() == Blocks.jukebox && !((Boolean) iblockstate.getValue(BlockJukebox.HAS_RECORD)).booleanValue()) {
@@ -43,7 +43,7 @@ public class ItemRecord extends Item {
 				return true;
 			}
 			((BlockJukebox) Blocks.jukebox).insertRecord(worldIn, pos, iblockstate, stack);
-			worldIn.playAuxSFXAtEntity((EntityPlayer) null, 1005, pos, Item.getIdFromItem(this));
+			worldIn.playAuxSFXAtEntity((Player) null, 1005, pos, Item.getIdFromItem(this));
 			--stack.stackSize;
 			playerIn.triggerAchievement(StatList.recordsPlayedStat);
 			return true;
@@ -54,7 +54,7 @@ public class ItemRecord extends Item {
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, Player playerIn, List<String> tooltip, boolean advanced) {
 		tooltip.add(this.getRecordNameLocal());
 	}
 

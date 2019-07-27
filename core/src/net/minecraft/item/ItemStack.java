@@ -13,7 +13,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTBase;
@@ -128,7 +128,7 @@ public final class ItemStack {
 	 * Called when the player uses this ItemStack on a Block (right-click). Places blocks, etc. (Legacy name:
 	 * tryPlaceItemIntoWorld)
 	 */
-	public boolean onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		boolean flag = this.getItem().onItemUse(this, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
 
 		if (flag) playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this.item)]);
@@ -144,14 +144,14 @@ public final class ItemStack {
 	 * Called whenever this item stack is equipped and right clicked. Returns the new item stack to put in the position
 	 * where this item is. Args: world, player
 	 */
-	public ItemStack useItemRightClick(World worldIn, EntityPlayer playerIn) {
+	public ItemStack useItemRightClick(World worldIn, Player playerIn) {
 		return this.getItem().onItemRightClick(this, worldIn, playerIn);
 	}
 
 	/**
 	 * Called when the item in use count reach 0, e.g. item food eaten. Return the new ItemStack. Args : world, entity
 	 */
-	public ItemStack onItemUseFinish(World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemUseFinish(World worldIn, Player playerIn) {
 		return this.getItem().onItemUseFinish(this, worldIn, playerIn);
 	}
 
@@ -268,12 +268,12 @@ public final class ItemStack {
 	 * Damages the item in the ItemStack
 	 */
 	public void damageItem(int amount, EntityLivingBase entityIn) {
-		if (!(entityIn instanceof EntityPlayer) || !((EntityPlayer) entityIn).capabilities.isCreativeMode) if (this.isItemStackDamageable()) if (this.attemptDamageItem(amount, entityIn.getRNG())) {
+		if (!(entityIn instanceof Player) || !((Player) entityIn).capabilities.isCreativeMode) if (this.isItemStackDamageable()) if (this.attemptDamageItem(amount, entityIn.getRNG())) {
 			entityIn.renderBrokenItemStack(this);
 			--this.stackSize;
 
-			if (entityIn instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) entityIn;
+			if (entityIn instanceof Player) {
+				Player entityplayer = (Player) entityIn;
 				entityplayer.triggerAchievement(StatList.objectBreakStats[Item.getIdFromItem(this.item)]);
 
 				if (this.stackSize == 0 && this.getItem() instanceof ItemBow) entityplayer.destroyCurrentEquippedItem();
@@ -288,7 +288,7 @@ public final class ItemStack {
 	/**
 	 * Calls the corresponding fct in di
 	 */
-	public void hitEntity(EntityLivingBase entityIn, EntityPlayer playerIn) {
+	public void hitEntity(EntityLivingBase entityIn, Player playerIn) {
 		boolean flag = this.item.hitEntity(this, entityIn, playerIn);
 
 		if (flag) playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this.item)]);
@@ -297,7 +297,7 @@ public final class ItemStack {
 	/**
 	 * Called when a Block is destroyed using this ItemStack
 	 */
-	public void onBlockDestroyed(World worldIn, Block blockIn, BlockPos pos, EntityPlayer playerIn) {
+	public void onBlockDestroyed(World worldIn, Block blockIn, BlockPos pos, Player playerIn) {
 		boolean flag = this.item.onBlockDestroyed(this, worldIn, blockIn, pos, playerIn);
 
 		if (flag) playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this.item)]);
@@ -310,7 +310,7 @@ public final class ItemStack {
 		return this.item.canHarvestBlock(blockIn);
 	}
 
-	public boolean interactWithEntity(EntityPlayer playerIn, EntityLivingBase entityIn) {
+	public boolean interactWithEntity(Player playerIn, EntityLivingBase entityIn) {
 		return this.item.itemInteractionForEntity(this, playerIn, entityIn);
 	}
 
@@ -385,7 +385,7 @@ public final class ItemStack {
 		this.item.onUpdate(this, worldIn, entityIn, inventorySlot, isCurrentItem);
 	}
 
-	public void onCrafting(World worldIn, EntityPlayer playerIn, int amount) {
+	public void onCrafting(World worldIn, Player playerIn, int amount) {
 		playerIn.addStat(StatList.objectCraftStats[Item.getIdFromItem(this.item)], amount);
 		this.item.onCreated(this, worldIn, playerIn);
 	}
@@ -405,7 +405,7 @@ public final class ItemStack {
 	/**
 	 * Called when the player releases the use item button. Args: world, entityplayer, itemInUseCount
 	 */
-	public void onPlayerStoppedUsing(World worldIn, EntityPlayer playerIn, int timeLeft) {
+	public void onPlayerStoppedUsing(World worldIn, Player playerIn, int timeLeft) {
 		this.getItem().onPlayerStoppedUsing(this, worldIn, playerIn, timeLeft);
 	}
 
@@ -501,7 +501,7 @@ public final class ItemStack {
 		return description;
 	}
 
-	public List<String> getTooltip(EntityPlayer playerIn, boolean advanced) {
+	public List<String> getTooltip(Player playerIn, boolean advanced) {
 		List<String> list = new ArrayList<>();
 		String s = this.getDisplayName();
 

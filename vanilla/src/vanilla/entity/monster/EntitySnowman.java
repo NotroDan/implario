@@ -10,7 +10,7 @@ import vanilla.entity.ai.tasks.EntityAILookIdle;
 import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
 import vanilla.entity.ai.tasks.EntityAIWander;
 import vanilla.entity.ai.tasks.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -29,7 +29,7 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob {
 		((PathNavigateGround) this.getNavigator()).setAvoidsWater(true);
 		this.tasks.addTask(1, new EntityAIArrowAttack(this, 1.25D, 20, 10.0F));
 		this.tasks.addTask(2, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(3, new EntityAIWatchClosest(this, Player.class, 6.0F));
 		this.tasks.addTask(4, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, VanillaEntity.class, 10, true, false, IMob.mobSelector));
 	}

@@ -3,7 +3,7 @@ package net.minecraft.item;
 import net.minecraft.block.BlockStandingSign;
 import net.minecraft.block.BlockWallSign;
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -30,7 +30,7 @@ public class ItemBanner extends ItemBlock {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (side == EnumFacing.DOWN) {
 			return false;
 		}
@@ -75,7 +75,7 @@ public class ItemBanner extends ItemBlock {
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, Player playerIn, List<String> tooltip, boolean advanced) {
 		NBTTagCompound nbttagcompound = stack.getSubCompound("BlockEntityTag", false);
 
 		if (nbttagcompound != null && nbttagcompound.hasKey("Patterns")) {

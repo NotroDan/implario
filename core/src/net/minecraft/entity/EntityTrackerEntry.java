@@ -6,8 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.attributes.ServersideAttributeMap;
 import net.minecraft.entity.item.*;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMap;
@@ -16,7 +16,6 @@ import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
-import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.TrackerUpdateEvent;
 import net.minecraft.util.BlockPos;
@@ -86,7 +85,7 @@ public class EntityTrackerEntry {
 	private boolean ridingEntity;
 	private boolean onGround;
 	public boolean playerEntitiesUpdated;
-	public Set<EntityPlayerMP> trackingPlayers = Sets.newHashSet();
+	public Set<MPlayer> trackingPlayers = Sets.newHashSet();
 
 	public EntityTrackerEntry(Entity trackedEntityIn, int trackingDistanceThresholdIn, int updateFrequencyIn, boolean sendVelocityUpdatesIn) {
 		this.trackedEntity = trackedEntityIn;
@@ -110,7 +109,7 @@ public class EntityTrackerEntry {
 		return this.trackedEntity.getEntityId();
 	}
 
-	public void updatePlayerList(List<EntityPlayer> p_73122_1_) {
+	public void updatePlayerList(List<Player> p_73122_1_) {
 		this.playerEntitiesUpdated = false;
 
 		if (!this.firstUpdateDone || this.trackedEntity.getDistanceSq(this.lastTrackedEntityPosX, this.lastTrackedEntityPosY, this.lastTrackedEntityPosZ) > 16.0D) {
@@ -134,8 +133,8 @@ public class EntityTrackerEntry {
 			if (itemstack != null && itemstack.getItem() instanceof ItemMap) {
 				MapData mapdata = Items.filled_map.getMapData(itemstack, this.trackedEntity.worldObj);
 
-				for (EntityPlayer entityplayer : p_73122_1_) {
-					EntityPlayerMP entityplayermp = (EntityPlayerMP) entityplayer;
+				for (Player entityplayer : p_73122_1_) {
+					MPlayer entityplayermp = (MPlayer) entityplayer;
 					mapdata.updateVisiblePlayers(entityplayermp, itemstack);
 					Packet packet = Items.filled_map.createMapDataPacket(itemstack, this.trackedEntity.worldObj, entityplayermp);
 
@@ -277,7 +276,7 @@ public class EntityTrackerEntry {
 	 * Send the given packet to all players tracking this entity.
 	 */
 	public void sendPacketToTrackedPlayers(Packet packetIn) {
-		for (EntityPlayerMP entityplayermp : this.trackingPlayers) {
+		for (MPlayer entityplayermp : this.trackingPlayers) {
 			entityplayermp.playerNetServerHandler.sendPacket(packetIn);
 		}
 	}
@@ -285,25 +284,25 @@ public class EntityTrackerEntry {
 	public void func_151261_b(Packet packetIn) {
 		this.sendPacketToTrackedPlayers(packetIn);
 
-		if (this.trackedEntity instanceof EntityPlayerMP) {
-			((EntityPlayerMP) this.trackedEntity).playerNetServerHandler.sendPacket(packetIn);
+		if (this.trackedEntity instanceof MPlayer) {
+			((MPlayer) this.trackedEntity).playerNetServerHandler.sendPacket(packetIn);
 		}
 	}
 
 	public void sendDestroyEntityPacketToTrackedPlayers() {
-		for (EntityPlayerMP entityplayermp : this.trackingPlayers) {
+		for (MPlayer entityplayermp : this.trackingPlayers) {
 			entityplayermp.removeEntity(this.trackedEntity);
 		}
 	}
 
-	public void removeFromTrackedPlayers(EntityPlayerMP playerMP) {
+	public void removeFromTrackedPlayers(MPlayer playerMP) {
 		if (this.trackingPlayers.contains(playerMP)) {
 			playerMP.removeEntity(this.trackedEntity);
 			this.trackingPlayers.remove(playerMP);
 		}
 	}
 
-	public void updatePlayerEntity(EntityPlayerMP playerMP) {
+	public void updatePlayerEntity(MPlayer playerMP) {
 		if (playerMP == this.trackedEntity) return;
 		if (this.isSpectatedBy(playerMP)) {
 			if (!this.trackingPlayers.contains(playerMP) && (this.isPlayerWatchingThisChunk(playerMP) || this.trackedEntity.forceSpawn)) {
@@ -356,8 +355,8 @@ public class EntityTrackerEntry {
 					}
 				}
 
-				if (this.trackedEntity instanceof EntityPlayer) {
-					EntityPlayer entityplayer = (EntityPlayer) this.trackedEntity;
+				if (this.trackedEntity instanceof Player) {
+					Player entityplayer = (Player) this.trackedEntity;
 
 					if (entityplayer.isPlayerSleeping()) {
 						playerMP.playerNetServerHandler.sendPacket(new S0APacketUseBed(entityplayer, new BlockPos(this.trackedEntity)));
@@ -378,7 +377,7 @@ public class EntityTrackerEntry {
 		}
 	}
 
-	public boolean isSpectatedBy(EntityPlayerMP playerMP) {
+	public boolean isSpectatedBy(MPlayer playerMP) {
 		double d0 = playerMP.posX - (double) (this.encodedPosX / 32);
 		double d1 = playerMP.posZ - (double) (this.encodedPosZ / 32);
 		return d0 >= (double) -this.trackingDistanceThreshold &&
@@ -388,13 +387,13 @@ public class EntityTrackerEntry {
 				this.trackedEntity.isSpectatedByPlayer(playerMP);
 	}
 
-	private boolean isPlayerWatchingThisChunk(EntityPlayerMP playerMP) {
+	private boolean isPlayerWatchingThisChunk(MPlayer playerMP) {
 		return playerMP.getServerForPlayer().getPlayerManager().isPlayerWatchingChunk(playerMP, this.trackedEntity.chunkCoordX, this.trackedEntity.chunkCoordZ);
 	}
 
-	public void updatePlayerEntities(List<EntityPlayer> p_73125_1_) {
+	public void updatePlayerEntities(List<Player> p_73125_1_) {
 		for (int i = 0; i < p_73125_1_.size(); ++i) {
-			this.updatePlayerEntity((EntityPlayerMP) p_73125_1_.get(i));
+			this.updatePlayerEntity((MPlayer) p_73125_1_.get(i));
 		}
 	}
 
@@ -406,8 +405,8 @@ public class EntityTrackerEntry {
 		if (this.trackedEntity instanceof EntityItem) {
 			return new S0EPacketSpawnObject(this.trackedEntity, 2, 1);
 		}
-		if (this.trackedEntity instanceof EntityPlayerMP) {
-			return new S0CPacketSpawnPlayer((EntityPlayer) this.trackedEntity);
+		if (this.trackedEntity instanceof MPlayer) {
+			return new S0CPacketSpawnPlayer((Player) this.trackedEntity);
 		}
 		if (this.trackedEntity instanceof EntityMinecart) {
 			EntityMinecart entityminecart = (EntityMinecart) this.trackedEntity;
@@ -514,7 +513,7 @@ public class EntityTrackerEntry {
 	/**
 	 * Remove a tracked player from our list and tell the tracked player to destroy us from their world.
 	 */
-	public void removeTrackedPlayerSymmetric(EntityPlayerMP playerMP) {
+	public void removeTrackedPlayerSymmetric(MPlayer playerMP) {
 		if (this.trackingPlayers.contains(playerMP)) {
 			this.trackingPlayers.remove(playerMP);
 			playerMP.removeEntity(this.trackedEntity);

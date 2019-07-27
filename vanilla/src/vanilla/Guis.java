@@ -1,7 +1,7 @@
 package vanilla;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S2DPacketOpenWindow;
@@ -15,7 +15,7 @@ import vanilla.world.gen.feature.village.MerchantRecipeList;
 
 public class Guis {
 
-	public static void displayVillagerTradeGui(EntityPlayerMP player, IMerchant villager) {
+	public static void displayVillagerTradeGui(MPlayer player, IMerchant villager) {
 		player.getNextWindowId();
 		player.openContainer = new ContainerMerchant(player.inventory, villager, player.worldObj);
 		player.openContainer.windowId = player.currentWindowId;
@@ -33,7 +33,7 @@ public class Guis {
 		}
 	}
 
-	public static void displayGUIHorse(EntityPlayerMP player, EntityHorse horse, IInventory horseInventory) {
+	public static void displayGUIHorse(MPlayer player, EntityHorse horse, IInventory horseInventory) {
 		if (player.openContainer != player.inventoryContainer) player.closeScreen();
 
 		player.getNextWindowId();

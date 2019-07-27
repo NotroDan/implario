@@ -4,7 +4,7 @@ import net.minecraft.block.BlockEndPortalFrame;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityEnderEye;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
@@ -22,7 +22,7 @@ public class ItemEnderEye extends Item {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 
 		if (playerIn.canPlayerEdit(pos.offset(side), side, stack) && iblockstate.getBlock() == Blocks.end_portal_frame && !((Boolean) iblockstate.getValue(BlockEndPortalFrame.EYE)).booleanValue()) {
@@ -116,7 +116,7 @@ public class ItemEnderEye extends Item {
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, Player playerIn) {
 		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, false);
 
 		if (movingobjectposition != null && movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && worldIn.getBlockState(
@@ -131,7 +131,7 @@ public class ItemEnderEye extends Item {
 				entityendereye.moveTowards(blockpos);
 				worldIn.spawnEntityInWorld(entityendereye);
 				worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-				worldIn.playAuxSFXAtEntity((EntityPlayer) null, 1002, new BlockPos(playerIn), 0);
+				worldIn.playAuxSFXAtEntity((Player) null, 1002, new BlockPos(playerIn), 0);
 
 				if (!playerIn.capabilities.isCreativeMode) {
 					--itemStackIn.stackSize;

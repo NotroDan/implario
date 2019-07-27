@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -60,14 +60,14 @@ public class ContainerBrewingStand extends Container {
 		this.tileBrewingStand.setField(id, data);
 	}
 
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(Player playerIn) {
 		return this.tileBrewingStand.isUseableByPlayer(playerIn);
 	}
 
 	/**
 	 * Take a stack from the specified inventory slot.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(Player playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 
@@ -137,9 +137,9 @@ public class ContainerBrewingStand extends Container {
 
 	static class Potion extends Slot {
 
-		private EntityPlayer player;
+		private Player player;
 
-		public Potion(EntityPlayer playerIn, IInventory inventoryIn, int index, int xPosition, int yPosition) {
+		public Potion(Player playerIn, IInventory inventoryIn, int index, int xPosition, int yPosition) {
 			super(inventoryIn, index, xPosition, yPosition);
 			this.player = playerIn;
 		}
@@ -152,7 +152,7 @@ public class ContainerBrewingStand extends Container {
 			return 1;
 		}
 
-		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+		public void onPickupFromSlot(Player playerIn, ItemStack stack) {
 			if (stack.getItem() == Items.potionitem && stack.getMetadata() > 0) {
 				this.player.triggerAchievement(AchievementList.potion);
 			}

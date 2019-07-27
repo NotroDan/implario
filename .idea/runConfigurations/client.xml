@@ -6,9 +6,6 @@
     <option name="WORKING_DIRECTORY" value="client/env" />
     <method v="2">
       <option name="Make" enabled="true" />
-      <option name="BuildArtifacts" enabled="true">
-        <artifact name="vanilla" />
-      </option>
     </method>
   </configuration>
 </component>

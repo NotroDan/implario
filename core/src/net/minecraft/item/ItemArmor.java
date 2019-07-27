@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.nbt.NBTTagCompound;
@@ -157,7 +157,7 @@ public class ItemArmor extends Item {
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, Player playerIn) {
 		int i = EntityLivingBase.getArmorPosition(itemStackIn) - 1;
 		ItemStack itemstack = playerIn.getCurrentArmor(i);
 
@@ -170,11 +170,11 @@ public class ItemArmor extends Item {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, Player player, List<String> tooltip, boolean advanced) {
 		tooltip.add("§9Защита: §a-" + getProtection(stack, player) + "%");
 	}
 
-	private float getProtection(ItemStack item, EntityPlayer player) {
+	private float getProtection(ItemStack item, Player player) {
 
 		DamageSource src = DamageSource.causePlayerDamage(player);
 		int magic = EnchantmentHelper.getEnchantmentModifierDamageNoRandom(new ItemStack[] {item}, src);

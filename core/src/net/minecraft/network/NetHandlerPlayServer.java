@@ -13,8 +13,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityMinecartCommandBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
@@ -55,7 +55,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	private static final Logger logger = Logger.getInstance();
 	public final NetworkManager netManager;
 	private final MinecraftServer serverController;
-	public EntityPlayerMP playerEntity;
+	public MPlayer playerEntity;
 	private int networkTickCount;
 	private int field_175090_f;
 
@@ -81,7 +81,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	private double lastPosZ;
 	private boolean hasMoved = true;
 
-	public NetHandlerPlayServer(MinecraftServer server, NetworkManager networkManagerIn, EntityPlayerMP playerIn) {
+	public NetHandlerPlayServer(MinecraftServer server, NetworkManager networkManagerIn, MPlayer playerIn) {
 		this.serverController = server;
 		this.netManager = networkManagerIn;
 		networkManagerIn.setNetHandler(this);
@@ -560,7 +560,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	}
 
 	@Override
-	public EntityPlayer getPlayer() {
+	public Player getPlayer() {
 		return playerEntity;
 	}
 
@@ -585,13 +585,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	public void sendPacket(final Packet packetIn) {
 		if (packetIn instanceof S02PacketChat) {
 			S02PacketChat s02packetchat = (S02PacketChat) packetIn;
-			EntityPlayer.EnumChatVisibility entityplayer$enumchatvisibility = this.playerEntity.getChatVisibility();
+			Player.EnumChatVisibility entityplayer$enumchatvisibility = this.playerEntity.getChatVisibility();
 
-			if (entityplayer$enumchatvisibility == EntityPlayer.EnumChatVisibility.HIDDEN) {
+			if (entityplayer$enumchatvisibility == Player.EnumChatVisibility.HIDDEN) {
 				return;
 			}
 
-			if (entityplayer$enumchatvisibility == EntityPlayer.EnumChatVisibility.SYSTEM && !s02packetchat.isChat()) {
+			if (entityplayer$enumchatvisibility == Player.EnumChatVisibility.SYSTEM && !s02packetchat.isChat()) {
 				return;
 			}
 		}
@@ -626,7 +626,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	public void processChatMessage(C01PacketChatMessage packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
 
-		if (this.playerEntity.getChatVisibility() == EntityPlayer.EnumChatVisibility.HIDDEN) {
+		if (this.playerEntity.getChatVisibility() == Player.EnumChatVisibility.HIDDEN) {
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("chat.cannotSend");
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
 			this.sendPacket(new S02PacketChat(chatcomponenttranslation));

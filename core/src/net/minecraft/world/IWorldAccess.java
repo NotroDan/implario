@@ -1,7 +1,7 @@
 package net.minecraft.world;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.BlockPos;
 
 public interface IWorldAccess {
@@ -24,7 +24,7 @@ public interface IWorldAccess {
 	/**
 	 * Plays sound to all near players except the player reference given
 	 */
-	void playSoundToNearExcept(EntityPlayer except, String soundName, double x, double y, double z, float volume, float pitch);
+	void playSoundToNearExcept(Player except, String soundName, double x, double y, double z, float volume, float pitch);
 
 	void spawnParticle(int particleID, boolean ignoreRange, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... p_180442_15_);
 
@@ -44,7 +44,7 @@ public interface IWorldAccess {
 
 	void broadcastSound(int p_180440_1_, BlockPos p_180440_2_, int p_180440_3_);
 
-	void playAuxSFX(EntityPlayer player, int sfxType, BlockPos blockPosIn, int p_180439_4_);
+	void playAuxSFX(Player player, int sfxType, BlockPos blockPosIn, int p_180439_4_);
 
 	void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress);
 

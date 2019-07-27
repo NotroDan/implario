@@ -2,7 +2,7 @@ package net.minecraft.util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -67,7 +67,7 @@ public class DamageSource {
 	/**
 	 * returns an EntityDamageSource of type player
 	 */
-	public static DamageSource causePlayerDamage(EntityPlayer player) {
+	public static DamageSource causePlayerDamage(Player player) {
 		return new EntityDamageSource("player", player);
 	}
 
@@ -250,7 +250,7 @@ public class DamageSource {
 
 	public boolean isCreativePlayer() {
 		Entity entity = this.getEntity();
-		return entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode;
+		return entity instanceof Player && ((Player) entity).capabilities.isCreativeMode;
 	}
 
 }

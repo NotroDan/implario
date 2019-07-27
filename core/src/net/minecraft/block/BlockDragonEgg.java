@@ -6,7 +6,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -57,12 +57,12 @@ public class BlockDragonEgg extends Block {
 		}
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		this.teleport(worldIn, pos);
 		return true;
 	}
 
-	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+	public void onBlockClicked(World worldIn, BlockPos pos, Player playerIn) {
 		this.teleport(worldIn, pos);
 	}
 

@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
@@ -56,7 +56,7 @@ public class ItemFireworkCharge extends Item {
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, Player playerIn, List<String> tooltip, boolean advanced) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Explosion");
 

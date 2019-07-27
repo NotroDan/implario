@@ -8,7 +8,7 @@ import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.attributes.BaseAttributeMap;
 import net.minecraft.entity.attributes.IAttribute;
 import net.minecraft.entity.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -192,11 +192,11 @@ public class Potion {
 			}
 		} else if (this.id == wither.id) {
 			entityLivingBaseIn.attackEntityFrom(DamageSource.wither, 1.0F);
-		} else if (this.id == hunger.id && entityLivingBaseIn instanceof EntityPlayer) {
-			((EntityPlayer) entityLivingBaseIn).addExhaustion(0.025F * (float) (p_76394_2_ + 1));
-		} else if (this.id == saturation.id && entityLivingBaseIn instanceof EntityPlayer) {
+		} else if (this.id == hunger.id && entityLivingBaseIn instanceof Player) {
+			((Player) entityLivingBaseIn).addExhaustion(0.025F * (float) (p_76394_2_ + 1));
+		} else if (this.id == saturation.id && entityLivingBaseIn instanceof Player) {
 			if (!entityLivingBaseIn.worldObj.isClientSide) {
-				((EntityPlayer) entityLivingBaseIn).getFoodStats().addStats(p_76394_2_ + 1, 1.0F);
+				((Player) entityLivingBaseIn).getFoodStats().addStats(p_76394_2_ + 1, 1.0F);
 			}
 		} else if ((this.id != heal.id || entityLivingBaseIn.isEntityUndead()) && (this.id != harm.id || !entityLivingBaseIn.isEntityUndead())) {
 			if (this.id == harm.id && !entityLivingBaseIn.isEntityUndead() || this.id == heal.id && entityLivingBaseIn.isEntityUndead()) {

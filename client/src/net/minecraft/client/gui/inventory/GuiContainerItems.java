@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.Groups;
@@ -28,7 +28,7 @@ public class GuiContainerItems extends InventoryEffectRenderer {
 	private CreativeCrafting field_147059_E;
 	private boolean showInv;
 
-	public GuiContainerItems(EntityPlayer p) {
+	public GuiContainerItems(Player p) {
 		super(new ContainerCreativeItems(p));
 		guiLeft = width / 2 - ((ContainerCreativeItems) inventorySlots).left;
 		p.openContainer = this.inventorySlots;
@@ -309,7 +309,7 @@ public class GuiContainerItems extends InventoryEffectRenderer {
 			this.slot = slot;
 		}
 
-		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+		public void onPickupFromSlot(Player playerIn, ItemStack stack) {
 			this.slot.onPickupFromSlot(playerIn, stack);
 		}
 

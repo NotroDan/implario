@@ -1,10 +1,9 @@
 package net.minecraft.server.dedicated;
 
-import com.google.common.collect.Lists;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.ServerCommand;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.CryptManager;
@@ -326,7 +325,7 @@ public class DedicatedServer extends MinecraftServer {
 		return this.settings.getIntProperty("spawn-protection", super.getSpawnProtectionSize());
 	}
 
-	public boolean isBlockProtected(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+	public boolean isBlockProtected(World worldIn, BlockPos pos, Player playerIn) {
 		if (worldIn.provider.getDimensionId() != 0) return false;
 		if (this.getConfigurationManager().canSendCommands(playerIn.getGameProfile())) return false;
 		if (this.getSpawnProtectionSize() <= 0) return false;

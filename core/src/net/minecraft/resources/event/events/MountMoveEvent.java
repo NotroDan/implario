@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.resources.event.Event;
 
 @RequiredArgsConstructor
@@ -12,7 +12,7 @@ import net.minecraft.resources.event.Event;
 @ToString
 public class MountMoveEvent extends Event<MountMoveEvent> {
 
-	private final EntityPlayer player;
+	private final Player player;
 	private final Entity mount;
 
 	private final double srcX, srcY, srcZ;

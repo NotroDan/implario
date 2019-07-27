@@ -1,6 +1,6 @@
 package vanilla.world;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.resources.event.Listener;
 import net.minecraft.resources.event.events.player.PlayerSleepEvent;
 import net.minecraft.util.AxisAlignedBB;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class SleepChecker implements Listener<PlayerSleepEvent> {
 
-	public static final EntityPlayer.SleepStatus NOT_SAFE = new EntityPlayer.SleepStatus(new ChatComponentTranslation("tile.bed.notSafe"));
+	public static final Player.SleepStatus NOT_SAFE = new Player.SleepStatus(new ChatComponentTranslation("tile.bed.notSafe"));
 
 	@Override
 	public void process(PlayerSleepEvent event) {

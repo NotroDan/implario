@@ -1,6 +1,6 @@
 package vanilla.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IChatComponent;
@@ -14,11 +14,11 @@ public class InventoryMerchant implements IInventory {
 
 	private final IMerchant theMerchant;
 	private ItemStack[] theInventory = new ItemStack[3];
-	private final EntityPlayer thePlayer;
+	private final Player thePlayer;
 	private MerchantRecipe currentRecipe;
 	private int currentRecipeIndex;
 
-	public InventoryMerchant(EntityPlayer thePlayerIn, IMerchant theMerchantIn) {
+	public InventoryMerchant(Player thePlayerIn, IMerchant theMerchantIn) {
 		this.thePlayer = thePlayerIn;
 		this.theMerchant = theMerchantIn;
 	}
@@ -137,14 +137,14 @@ public class InventoryMerchant implements IInventory {
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(Player player) {
 		return this.theMerchant.getCustomer() == player;
 	}
 
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(Player player) {
 	}
 
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(Player player) {
 	}
 
 	/**

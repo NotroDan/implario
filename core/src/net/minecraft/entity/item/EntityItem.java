@@ -2,7 +2,7 @@ package net.minecraft.entity.item;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -298,7 +298,7 @@ public class EntityItem extends Entity {
 	/**
 	 * Called by a player entity when they collide with an entity
 	 */
-	public void onCollideWithPlayer(EntityPlayer entityIn) {
+	public void onCollideWithPlayer(Player entityIn) {
 		if (!this.worldObj.isClientSide) {
 			ItemStack itemstack = this.getEntityItem();
 			int i = itemstack.stackSize;
@@ -325,7 +325,7 @@ public class EntityItem extends Entity {
 				}
 
 				if (itemstack.getItem() == Items.diamond && this.getThrower() != null) {
-					EntityPlayer entityplayer = this.worldObj.getPlayerEntityByName(this.getThrower());
+					Player entityplayer = this.worldObj.getPlayerEntityByName(this.getThrower());
 
 					if (entityplayer != null && entityplayer != entityIn) {
 						entityplayer.triggerAchievement(AchievementList.diamondsToYou);

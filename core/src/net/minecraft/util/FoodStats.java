@@ -1,6 +1,6 @@
 package net.minecraft.util;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,7 +44,7 @@ public class FoodStats {
 	/**
 	 * Handles the food game logic.
 	 */
-	public void onUpdate(EntityPlayer player) {
+	public void onUpdate(Player player) {
 		EnumDifficulty enumdifficulty = player.worldObj.getDifficulty();
 		this.prevFoodLevel = this.foodLevel;
 

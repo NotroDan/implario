@@ -8,7 +8,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -49,12 +49,12 @@ public class CommandMessage extends CommandBase {
 		if (args.length < 2) {
 			throw new WrongUsageException("commands.message.usage", new Object[0]);
 		}
-		EntityPlayer entityplayer = getPlayer(sender, args[0]);
+		Player entityplayer = getPlayer(sender, args[0]);
 
 		if (entityplayer == sender) {
 			throw new PlayerNotFoundException("commands.message.sameTarget", new Object[0]);
 		}
-		IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 1, !(sender instanceof EntityPlayer));
+		IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 1, !(sender instanceof Player));
 		ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.message.display.incoming", new Object[] {sender.getDisplayName(), ichatcomponent.createCopy()});
 		ChatComponentTranslation chatcomponenttranslation1 = new ChatComponentTranslation("commands.message.display.outgoing",
 				new Object[] {entityplayer.getDisplayName(), ichatcomponent.createCopy()});

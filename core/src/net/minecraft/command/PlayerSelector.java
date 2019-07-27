@@ -9,8 +9,8 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
@@ -47,8 +47,8 @@ public class PlayerSelector {
 	/**
 	 * Returns the one player that matches the given at-token.  Returns null if more than one player matches.
 	 */
-	public static EntityPlayerMP matchOnePlayer(ICommandSender sender, String token) {
-		return matchOneEntity(sender, token, EntityPlayerMP.class);
+	public static MPlayer matchOnePlayer(ICommandSender sender, String token) {
+		return matchOneEntity(sender, token, MPlayer.class);
 	}
 
 	public static <T extends Entity> T matchOneEntity(ICommandSender sender, String token, Class<? extends T> targetClass) {
@@ -144,7 +144,7 @@ public class PlayerSelector {
 
 		if ((s == null || !p_179663_1_.equals("e")) && !flag2) {
 			if (flag1) {
-				list.add(b -> b instanceof EntityPlayer);
+				list.add(b -> b instanceof Player);
 			}
 		} else {
 			final String s_f = s;
@@ -161,10 +161,10 @@ public class PlayerSelector {
 
 		if (i > -1 || j > -1) {
 			list.add(b -> {
-				if (!(b instanceof EntityPlayerMP)) {
+				if (!(b instanceof MPlayer)) {
 					return false;
 				}
-				EntityPlayerMP entityplayermp = (EntityPlayerMP) b;
+				MPlayer entityplayermp = (MPlayer) b;
 				return (i <= -1 || entityplayermp.experienceLevel >= i) && (j <= -1 || entityplayermp.experienceLevel <= j);
 			});
 		}
@@ -178,10 +178,10 @@ public class PlayerSelector {
 
 		if (i != WorldSettings.GameType.NOT_SET.getID()) {
 			list.add(b -> {
-				if (!(b instanceof EntityPlayerMP)) {
+				if (!(b instanceof MPlayer)) {
 					return false;
 				}
-				EntityPlayerMP entityplayermp = (EntityPlayerMP) b;
+				MPlayer entityplayermp = (MPlayer) b;
 				return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
 			});
 		}
@@ -237,7 +237,7 @@ public class PlayerSelector {
 						return false;
 					}
 
-					String s1 = b instanceof EntityPlayerMP ? b.getName() : b.getUniqueID().toString();
+					String s1 = b instanceof MPlayer ? b.getName() : b.getUniqueID().toString();
 
 					if (!scoreboard.entityHasObjective(s1, scoreobjective)) {
 						return false;

@@ -1,6 +1,6 @@
 package net.minecraft.client;
 
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
@@ -31,7 +31,7 @@ public final class MC {
 		return theMinecraft.getRenderItem();
 	}
 
-	public static EntityPlayerSP getPlayer() {
+	public static CPlayer getPlayer() {
 		return theMinecraft.thePlayer;
 	}
 

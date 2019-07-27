@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.Logger;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
@@ -205,7 +205,7 @@ public class EntityList {
 	public static boolean isStringEntityName(Entity entityIn, String entityName) {
 		String s = getEntityString(entityIn);
 
-		if (s == null && entityIn instanceof EntityPlayer) {
+		if (s == null && entityIn instanceof Player) {
 			s = "Player";
 		} else if (s == null && entityIn instanceof EntityLightningBolt) {
 			s = "LightningBolt";

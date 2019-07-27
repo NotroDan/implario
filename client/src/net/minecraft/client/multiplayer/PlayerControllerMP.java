@@ -5,10 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.IInvBasic;
 import net.minecraft.item.ItemBlock;
@@ -80,7 +80,7 @@ public class PlayerControllerMP {
 	/**
 	 * Sets player capabilities depending on current gametype. params: player
 	 */
-	public void setPlayerCapabilities(EntityPlayer p_78748_1_) {
+	public void setPlayerCapabilities(Player p_78748_1_) {
 		this.currentGameType.configurePlayerCapabilities(p_78748_1_.capabilities);
 	}
 
@@ -102,7 +102,7 @@ public class PlayerControllerMP {
 	/**
 	 * Flips the player around.
 	 */
-	public void flipPlayer(EntityPlayer playerIn) {
+	public void flipPlayer(Player playerIn) {
 		playerIn.rotationYaw = -180.0F;
 	}
 
@@ -323,7 +323,7 @@ public class PlayerControllerMP {
 		}
 	}
 
-	public boolean onPlayerRightClick(EntityPlayerSP player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3 hitVec) {
+	public boolean onPlayerRightClick(CPlayer player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3 hitVec) {
 		this.syncCurrentPlayItem();
 		float f = (float) (hitVec.xCoord - (double) hitPos.getX());
 		float f1 = (float) (hitVec.yCoord - (double) hitPos.getY());
@@ -386,7 +386,7 @@ public class PlayerControllerMP {
 	/**
 	 * Notifies the server of things like consuming food, etc...
 	 */
-	public boolean sendUseItem(EntityPlayer playerIn, World worldIn, ItemStack itemStackIn) {
+	public boolean sendUseItem(Player playerIn, World worldIn, ItemStack itemStackIn) {
 		if (this.currentGameType == WorldSettings.GameType.SPECTATOR) {
 			return false;
 		}
@@ -407,14 +407,14 @@ public class PlayerControllerMP {
 		return false;
 	}
 
-	public EntityPlayerSP func_178892_a(World worldIn, StatFileWriter p_178892_2_) {
-		return new EntityPlayerSP(this.mc, worldIn, this.netClientHandler, p_178892_2_);
+	public CPlayer func_178892_a(World worldIn, StatFileWriter p_178892_2_) {
+		return new CPlayer(this.mc, worldIn, this.netClientHandler, p_178892_2_);
 	}
 
 	/**
 	 * Attacks an entity
 	 */
-	public void attackEntity(EntityPlayer playerIn, Entity targetEntity) {
+	public void attackEntity(Player playerIn, Entity targetEntity) {
 		this.syncCurrentPlayItem();
 		this.netClientHandler.addToSendQueue(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.ATTACK));
 
@@ -426,13 +426,13 @@ public class PlayerControllerMP {
 	/**
 	 * Send packet to server - player is interacting with another entity (left click)
 	 */
-	public boolean interactWithEntitySendPacket(EntityPlayer playerIn, Entity targetEntity) {
+	public boolean interactWithEntitySendPacket(Player playerIn, Entity targetEntity) {
 		this.syncCurrentPlayItem();
 		this.netClientHandler.addToSendQueue(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.INTERACT));
 		return this.currentGameType != WorldSettings.GameType.SPECTATOR && playerIn.interactWith(targetEntity);
 	}
 
-	public boolean interactAt(EntityPlayer p, Entity e, MovingObjectPosition obj) {
+	public boolean interactAt(Player p, Entity e, MovingObjectPosition obj) {
 		this.syncCurrentPlayItem();
 		Vec3 vec3 = new Vec3(obj.hitVec.xCoord - e.posX, obj.hitVec.yCoord - e.posY, obj.hitVec.zCoord - e.posZ);
 		this.netClientHandler.addToSendQueue(new C02PacketUseEntity(e, vec3));
@@ -442,7 +442,7 @@ public class PlayerControllerMP {
 	/**
 	 * Handles slot clicks sends a packet to the server.
 	 */
-	public ItemStack windowClick(int windowId, int slotId, int mouseButtonClicked, int mode, EntityPlayer playerIn) {
+	public ItemStack windowClick(int windowId, int slotId, int mouseButtonClicked, int mode, Player playerIn) {
 		short short1 = playerIn.openContainer.getNextTransactionID(playerIn.inventory);
 		ItemStack itemstack = playerIn.openContainer.slotClick(slotId, mouseButtonClicked, ClickType.values()[mode], playerIn);
 		this.netClientHandler.addToSendQueue(new C0EPacketClickWindow(windowId, slotId, mouseButtonClicked, mode, itemstack, short1));
@@ -475,7 +475,7 @@ public class PlayerControllerMP {
 		}
 	}
 
-	public void onStoppedUsingItem(EntityPlayer playerIn) {
+	public void onStoppedUsingItem(Player playerIn) {
 		this.syncCurrentPlayItem();
 		this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 		playerIn.stopUsingItem();

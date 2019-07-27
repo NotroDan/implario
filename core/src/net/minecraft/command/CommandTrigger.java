@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -42,18 +42,18 @@ public class CommandTrigger extends CommandBase {
 		if (args.length < 3) {
 			throw new WrongUsageException("commands.trigger.usage", new Object[0]);
 		}
-		EntityPlayerMP entityplayermp;
+		MPlayer entityplayermp;
 
-		if (sender instanceof EntityPlayerMP) {
-			entityplayermp = (EntityPlayerMP) sender;
+		if (sender instanceof MPlayer) {
+			entityplayermp = (MPlayer) sender;
 		} else {
 			Entity entity = sender.getCommandSenderEntity();
 
-			if (!(entity instanceof EntityPlayerMP)) {
+			if (!(entity instanceof MPlayer)) {
 				throw new CommandException("commands.trigger.invalidPlayer", new Object[0]);
 			}
 
-			entityplayermp = (EntityPlayerMP) entity;
+			entityplayermp = (MPlayer) entity;
 		}
 
 		Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();

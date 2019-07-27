@@ -2,7 +2,7 @@ package net.minecraft.entity.item;
 
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -118,7 +118,7 @@ public class EntityMinecartFurnace extends EntityMinecart {
 	/**
 	 * First layer of player interaction
 	 */
-	public boolean interactFirst(EntityPlayer playerIn) {
+	public boolean interactFirst(Player playerIn) {
 		ItemStack itemstack = playerIn.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.getItem() == Items.coal) {

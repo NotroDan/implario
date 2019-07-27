@@ -1,11 +1,11 @@
 package optifine;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -40,14 +40,14 @@ public class PlayerControllerOF extends PlayerControllerMP {
 	/**
 	 * Notifies the server of things like consuming food, etc...
 	 */
-	public boolean sendUseItem(EntityPlayer playerIn, World worldIn, ItemStack itemStackIn) {
+	public boolean sendUseItem(Player playerIn, World worldIn, ItemStack itemStackIn) {
 		this.acting = true;
 		boolean flag = super.sendUseItem(playerIn, worldIn, itemStackIn);
 		this.acting = false;
 		return flag;
 	}
 
-	public boolean onPlayerRightClick(EntityPlayerSP player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3 hitVec) {
+	public boolean onPlayerRightClick(CPlayer player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3 hitVec) {
 		this.acting = true;
 		boolean flag = super.onPlayerRightClick(player, worldIn, heldStack, hitPos, side, hitVec);
 		this.acting = false;

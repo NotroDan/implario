@@ -1,7 +1,7 @@
 package net.minecraft.item;
 
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
@@ -65,7 +65,7 @@ public class ItemFood extends Item {
 	 * Called when the player finishes using this Item (E.g. finishes eating.). Not called when the player stops using
 	 * the Item before the action is complete.
 	 */
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, Player playerIn) {
 		--stack.stackSize;
 		playerIn.getFoodStats().addStats(this, stack);
 		worldIn.playSoundAtEntity(playerIn, "random.burp", 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
@@ -74,7 +74,7 @@ public class ItemFood extends Item {
 		return stack;
 	}
 
-	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+	protected void onFoodEaten(ItemStack stack, World worldIn, Player player) {
 		if (!worldIn.isClientSide && this.potionId > 0 && worldIn.rand.nextFloat() < this.potionEffectProbability) {
 			player.addPotionEffect(new PotionEffect(this.potionId, this.potionDuration * 20, this.potionAmplifier));
 		}
@@ -97,7 +97,7 @@ public class ItemFood extends Item {
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, Player playerIn) {
 		if (playerIn.canEat(this.alwaysEdible)) {
 			playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
 		}

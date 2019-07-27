@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -37,7 +37,7 @@ public class LayerHeldItem implements LayerRenderer<EntityLivingBase> {
 			((ModelBiped) this.livingEntityRenderer.getMainModel()).postRenderArm(0.0625F);
 			G.translate(-0.0625F, 0.4375F, 0.0625F);
 
-			if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).fishEntity != null) {
+			if (entitylivingbaseIn instanceof Player && ((Player) entitylivingbaseIn).fishEntity != null) {
 				itemstack = new ItemStack(Items.fishing_rod, 0);
 			}
 

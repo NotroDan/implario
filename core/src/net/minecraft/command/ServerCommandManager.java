@@ -1,7 +1,7 @@
 package net.minecraft.command;
 
 import net.minecraft.command.server.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
@@ -94,7 +94,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		ichatcomponent.getChatStyle().setItalic(Boolean.TRUE);
 
 		if (flag) {
-			for (EntityPlayer entityplayer : minecraftserver.getConfigurationManager().getPlayers()) {
+			for (Player entityplayer : minecraftserver.getConfigurationManager().getPlayers()) {
 				if (entityplayer != sender && minecraftserver.getConfigurationManager().canSendCommands(entityplayer.getGameProfile()) && command.canCommandSenderUseCommand(sender)) {
 					boolean flag1 = sender instanceof MinecraftServer && MinecraftServer.getServer().opsSeeConsole();
 

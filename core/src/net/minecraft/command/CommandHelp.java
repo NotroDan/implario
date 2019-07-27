@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -79,7 +79,7 @@ public class CommandHelp extends CommandBase {
 			sender.sendMessage(chatcomponenttranslation);
 		}
 
-		if (k == 0 && sender instanceof EntityPlayer) {
+		if (k == 0 && sender instanceof Player) {
 			ChatComponentTranslation chatcomponenttranslation2 = new ChatComponentTranslation("commands.help.footer", new Object[0]);
 			chatcomponenttranslation2.getChatStyle().setColor(EnumChatFormatting.GREEN);
 			sender.sendMessage(chatcomponenttranslation2);

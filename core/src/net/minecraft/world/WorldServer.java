@@ -13,8 +13,8 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
@@ -40,7 +40,6 @@ import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class WorldServer extends World implements IThreadListener {
 
@@ -465,7 +464,7 @@ public class WorldServer extends World implements IThreadListener {
 		return list;
 	}
 
-	public boolean isBlockModifiable(EntityPlayer player, BlockPos pos) {
+	public boolean isBlockModifiable(Player player, BlockPos pos) {
 		return !this.mcServer.isBlockProtected(this, pos, player) && this.getWorldBorder().contains(pos);
 	}
 
@@ -664,9 +663,9 @@ public class WorldServer extends World implements IThreadListener {
 			explosion.func_180342_d();
 		}
 
-		for (EntityPlayer entityplayer : this.playerEntities) {
+		for (Player entityplayer : this.playerEntities) {
 			if (entityplayer.getDistanceSq(x, y, z) < 4096.0D) {
-				((EntityPlayerMP) entityplayer).playerNetServerHandler.sendPacket(
+				((MPlayer) entityplayer).playerNetServerHandler.sendPacket(
 						new S27PacketExplosion(x, y, z, strength, explosion.getAffectedBlockPositions(), explosion.getPlayerKnockbackMap().get(entityplayer)));
 			}
 		}
@@ -768,12 +767,12 @@ public class WorldServer extends World implements IThreadListener {
 
 		Packet packet = new S2APacketParticles(type, farMode, (float) x, (float) y, (float) z, (float) dx, (float) dy, (float) dz, (float) speed, amount, args);
 
-		for (EntityPlayer player : this.playerEntities) {
+		for (Player player : this.playerEntities) {
 			BlockPos blockpos = player.getPosition();
 			double distanceToPlayer = blockpos.distanceSq(x, y, z);
 
 			if (distanceToPlayer <= 256.0D || farMode && distanceToPlayer <= 65536.0D) {
-				EntityPlayerMP impl = (EntityPlayerMP) player;
+				MPlayer impl = (MPlayer) player;
 				impl.playerNetServerHandler.sendPacket(packet);
 			}
 		}

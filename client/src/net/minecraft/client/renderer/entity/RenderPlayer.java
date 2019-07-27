@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.game.entity.AbstractClientPlayer;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.game.model.ModelPlayer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.layers.*;
@@ -42,7 +42,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 		if (entity.isUser() && this.renderManager.livingPlayer != entity) return;
 		double d0 = y;
 
-		if (entity.isSneaking() && !(entity instanceof EntityPlayerSP)) d0 = y - 0.125D;
+		if (entity.isSneaking() && !(entity instanceof CPlayer)) d0 = y - 0.125D;
 
 		this.setModelVisibilities(entity);
 		super.doRender(entity, x, d0, z, entityYaw, partialTicks);

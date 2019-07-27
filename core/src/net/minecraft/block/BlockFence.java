@@ -6,7 +6,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.resources.event.E;
@@ -164,7 +164,7 @@ public class BlockFence extends Block {
 		return true;
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		return worldIn.isClientSide || E.call(new FenceClickedEvent(playerIn, worldIn, pos)).returnValue;
 	}
 

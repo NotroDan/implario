@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -41,7 +41,7 @@ public class ItemSlab extends ItemBlock {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (stack.stackSize == 0) {
 			return false;
 		}
@@ -72,7 +72,7 @@ public class ItemSlab extends ItemBlock {
 		return this.tryPlace(stack, worldIn, pos.offset(side), object) ? true : super.onItemUse(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
 	}
 
-	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
+	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, Player player, ItemStack stack) {
 		BlockPos blockpos = pos;
 		IProperty iproperty = this.singleSlab.getVariantProperty();
 		Object object = this.singleSlab.getVariant(stack);

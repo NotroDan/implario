@@ -12,8 +12,8 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -573,7 +573,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		double d3 = x;
 		double d4 = y;
 		double d5 = z;
-		boolean flag = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
+		boolean flag = this.onGround && this.isSneaking() && this instanceof Player;
 
 		if (flag) {
 			double d6;
@@ -1040,7 +1040,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 			float f = BlockLiquid.getLiquidHeightPercent(iblockstate.getBlock().getMetaFromState(iblockstate)) - 0.11111111F;
 			float f1 = (float) (blockpos.getY() + 1) - f;
 			boolean flag = d0 < (double) f1;
-			return (flag || !(this instanceof EntityPlayer)) && flag;
+			return (flag || !(this instanceof Player)) && flag;
 		}
 		return false;
 	}
@@ -1182,7 +1182,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	/**
 	 * Called by a player entity when they collide with an entity
 	 */
-	public void onCollideWithPlayer(EntityPlayer entityIn) {
+	public void onCollideWithPlayer(Player entityIn) {
 	}
 
 	/**
@@ -1588,7 +1588,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	/**
 	 * First layer of player interaction
 	 */
-	public boolean interactFirst(EntityPlayer playerIn) {
+	public boolean interactFirst(Player playerIn) {
 		return false;
 	}
 
@@ -1852,7 +1852,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	 * Determines if an entity is visible or not to a specfic player, if the entity is normally invisible.
 	 * For EntityLivingBase subclasses, returning false when invisible will render the entity semitransparent.
 	 */
-	public boolean isInvisibleToPlayer(EntityPlayer player) {
+	public boolean isInvisibleToPlayer(Player player) {
 		return !player.isSpectator() && this.isInvisible();
 	}
 
@@ -2262,7 +2262,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		return new HoverEvent(HoverEvent.Action.SHOW_ENTITY, new ChatComponentText(nbttagcompound.toString()));
 	}
 
-	public boolean isSpectatedByPlayer(EntityPlayerMP player) {
+	public boolean isSpectatedByPlayer(MPlayer player) {
 		return true;
 	}
 
@@ -2366,7 +2366,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	/**
 	 * New version of interactWith that includes vector information on where precisely the player targeted.
 	 */
-	public boolean interactAt(EntityPlayer player, Vec3 targetVec3) {
+	public boolean interactAt(Player player, Vec3 targetVec3) {
 		return false;
 	}
 

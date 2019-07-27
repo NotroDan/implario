@@ -3,7 +3,7 @@ package net.minecraft.item;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -18,7 +18,7 @@ public class ItemRedstone extends Item {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
 		BlockPos blockpos = flag ? pos : pos.offset(side);
 

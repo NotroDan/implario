@@ -11,7 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.item.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -53,7 +53,7 @@ public class Dispensers implements ServerSideLoadable {
 
 			if (list.size() > 0) {
 				EntityLivingBase entitylivingbase = list.get(0);
-				int l = entitylivingbase instanceof EntityPlayer ? 1 : 0;
+				int l = entitylivingbase instanceof Player ? 1 : 0;
 				int i1 = VanillaEntity.getArmorPosition(stack);
 				ItemStack itemstack = stack.copy();
 				itemstack.stackSize = 1;
@@ -90,7 +90,7 @@ public class Dispensers implements ServerSideLoadable {
 			return entitylivingbase.getEquipmentInSlot(
 					VanillaEntity.getArmorPosition(this.armor)) == null && (entitylivingbase instanceof VanillaEntity ?
 					((VanillaEntity) entitylivingbase).canPickUpLoot() :
-					entitylivingbase instanceof EntityArmorStand || entitylivingbase instanceof EntityPlayer
+					entitylivingbase instanceof EntityArmorStand || entitylivingbase instanceof Player
 			);
 		}
 

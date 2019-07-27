@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import vanilla.entity.ai.tasks.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -36,7 +36,7 @@ public class EntityCreeper extends EntityMob {
 		super(worldIn);
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAICreeperSwell(this));
-		this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityPlayer.class, 6.0F, 1.0D, 1.2D));
+		this.tasks.addTask(1, new EntityAIAvoidEntity(this, Player.class, 6.0F, 1.0D, 1.2D));
 		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.8D));
 		//        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
@@ -218,7 +218,7 @@ public class EntityCreeper extends EntityMob {
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	protected boolean interact(EntityPlayer player) {
+	protected boolean interact(Player player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.getItem() == Items.flint_and_steel) {

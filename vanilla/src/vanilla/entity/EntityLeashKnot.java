@@ -3,7 +3,7 @@ package vanilla.entity;
 import net.minecraft.block.BlockFence;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -87,7 +87,7 @@ public class EntityLeashKnot extends EntityHanging {
 	/**
 	 * First layer of player interaction
 	 */
-	public boolean interactFirst(EntityPlayer playerIn) {
+	public boolean interactFirst(Player playerIn) {
 		ItemStack itemstack = playerIn.getHeldItem();
 		boolean flag = false;
 

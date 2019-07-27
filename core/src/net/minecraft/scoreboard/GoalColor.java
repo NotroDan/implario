@@ -2,7 +2,7 @@ package net.minecraft.scoreboard;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.EnumChatFormatting;
 
 public class GoalColor implements IScoreObjectiveCriteria {
@@ -18,7 +18,7 @@ public class GoalColor implements IScoreObjectiveCriteria {
 		return this.goalName;
 	}
 
-	public int func_96635_a(List<EntityPlayer> p_96635_1_) {
+	public int func_96635_a(List<Player> p_96635_1_) {
 		return 0;
 	}
 

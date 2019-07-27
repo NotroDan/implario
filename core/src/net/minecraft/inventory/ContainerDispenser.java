@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 
 public class ContainerDispenser extends Container {
@@ -27,14 +27,14 @@ public class ContainerDispenser extends Container {
 		}
 	}
 
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(Player playerIn) {
 		return this.dispenserInventory.isUseableByPlayer(playerIn);
 	}
 
 	/**
 	 * Take a stack from the specified inventory slot.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(Player playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 

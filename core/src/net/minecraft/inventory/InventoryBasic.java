@@ -1,11 +1,9 @@
 package net.minecraft.inventory;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -190,14 +188,14 @@ public class InventoryBasic implements IInventory {
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(Player player) {
 		return true;
 	}
 
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(Player player) {
 	}
 
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(Player player) {
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -56,7 +56,7 @@ public class ContainerWorkbench extends Container {
 	/**
 	 * Called when the container is closed.
 	 */
-	public void onContainerClosed(EntityPlayer playerIn) {
+	public void onContainerClosed(Player playerIn) {
 		super.onContainerClosed(playerIn);
 
 		if (!this.worldObj.isClientSide) {
@@ -70,7 +70,7 @@ public class ContainerWorkbench extends Container {
 		}
 	}
 
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(Player playerIn) {
 		return this.worldObj.getBlockState(this.pos).getBlock() != Blocks.crafting_table ? false : playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
 				(double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
@@ -78,7 +78,7 @@ public class ContainerWorkbench extends Container {
 	/**
 	 * Take a stack from the specified inventory slot.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(Player playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 

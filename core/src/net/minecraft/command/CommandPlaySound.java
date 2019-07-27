@@ -1,6 +1,6 @@
 package net.minecraft.command;
 
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -40,7 +40,7 @@ public class CommandPlaySound extends CommandBase {
 		}
 		int i = 0;
 		String s = args[i++];
-		EntityPlayerMP entityplayermp = getPlayer(sender, args[i++]);
+		MPlayer entityplayermp = getPlayer(sender, args[i++]);
 		Vec3 vec3 = sender.getPositionVector();
 		double d0 = vec3.xCoord;
 

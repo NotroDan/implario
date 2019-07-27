@@ -2,7 +2,7 @@ package net.minecraft.command;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.play.server.S19PacketEntityStatus;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -70,7 +70,7 @@ public class CommandGameRule extends CommandBase {
 		if ("reducedDebugInfo".equals(p_175773_1_)) {
 			byte b0 = (byte) (p_175773_0_.getBoolean(p_175773_1_) ? 22 : 23);
 
-			for (EntityPlayerMP entityplayermp : MinecraftServer.getServer().getConfigurationManager().getPlayers()) {
+			for (MPlayer entityplayermp : MinecraftServer.getServer().getConfigurationManager().getPlayers()) {
 				entityplayermp.playerNetServerHandler.sendPacket(new S19PacketEntityStatus(entityplayermp, b0));
 			}
 		}

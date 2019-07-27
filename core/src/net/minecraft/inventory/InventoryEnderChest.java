@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -53,11 +53,11 @@ public class InventoryEnderChest extends InventoryBasic {
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(Player player) {
 		return this.associatedChest != null && !this.associatedChest.canBeUsed(player) ? false : super.isUseableByPlayer(player);
 	}
 
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(Player player) {
 		if (this.associatedChest != null) {
 			this.associatedChest.openChest();
 		}
@@ -65,7 +65,7 @@ public class InventoryEnderChest extends InventoryBasic {
 		super.openInventory(player);
 	}
 
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(Player player) {
 		if (this.associatedChest != null) {
 			this.associatedChest.closeChest();
 		}

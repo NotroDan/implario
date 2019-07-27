@@ -6,7 +6,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -42,7 +42,7 @@ public class CommandEmote extends CommandBase {
 		if (args.length <= 0) {
 			throw new WrongUsageException("commands.me.usage", new Object[0]);
 		}
-		IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 0, !(sender instanceof EntityPlayer));
+		IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 0, !(sender instanceof Player));
 		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.emote", new Object[] {sender.getDisplayName(), ichatcomponent}));
 	}
 

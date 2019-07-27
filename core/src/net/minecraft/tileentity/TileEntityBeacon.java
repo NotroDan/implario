@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -87,14 +87,14 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 			int l = this.pos.getZ();
 			AxisAlignedBB axisalignedbb = new AxisAlignedBB((double) j, (double) k, (double) l, (double) (j + 1), (double) (k + 1), (double) (l + 1)).expand(d0, d0, d0).addCoord(0.0D,
 					(double) this.worldObj.getHeight(), 0.0D);
-			List<EntityPlayer> list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, axisalignedbb);
+			List<Player> list = this.worldObj.getEntitiesWithinAABB(Player.class, axisalignedbb);
 
-			for (EntityPlayer entityplayer : list) {
+			for (Player entityplayer : list) {
 				entityplayer.addPotionEffect(new PotionEffect(this.primaryEffect, 180, i, true, true));
 			}
 
 			if (this.levels >= 4 && this.primaryEffect != this.secondaryEffect && this.secondaryEffect > 0) {
-				for (EntityPlayer entityplayer1 : list) {
+				for (Player entityplayer1 : list) {
 					entityplayer1.addPotionEffect(new PotionEffect(this.secondaryEffect, 180, 0, true, true));
 				}
 			}
@@ -184,7 +184,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		}
 
 		if (!this.worldObj.isClientSide && this.levels == 4 && i < this.levels) {
-			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+			for (Player entityplayer : this.worldObj.getEntitiesWithinAABB(Player.class,
 					new AxisAlignedBB((double) j, (double) k, (double) l, (double) j, (double) (k - 4), (double) l).expand(10.0D, 5.0D, 10.0D))) {
 				entityplayer.triggerAchievement(AchievementList.fullBeacon);
 			}
@@ -334,15 +334,15 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(Player player) {
 		return this.worldObj.getTileEntity(this.pos) == this &&
 				player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
 	}
 
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(Player player) {
 	}
 
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(Player player) {
 	}
 
 	/**
@@ -356,7 +356,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		return "minecraft:beacon";
 	}
 
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(InventoryPlayer playerInventory, Player playerIn) {
 		return new ContainerBeacon(playerInventory, this);
 	}
 

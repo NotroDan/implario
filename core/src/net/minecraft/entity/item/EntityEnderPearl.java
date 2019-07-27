@@ -1,8 +1,8 @@
 package net.minecraft.entity.item;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.PlayerEnderPearlEvent;
@@ -48,14 +48,14 @@ public class EntityEnderPearl extends EntityThrowable {
 		}
 
 		if (!this.worldObj.isClientSide) {
-			if (entitylivingbase instanceof EntityPlayerMP) {
-				EntityPlayerMP entityplayermp = (EntityPlayerMP) entitylivingbase;
+			if (entitylivingbase instanceof MPlayer) {
+				MPlayer entityplayermp = (MPlayer) entitylivingbase;
 
 
 				if (entityplayermp.playerNetServerHandler.getNetworkManager().isChannelOpen() && entityplayermp.worldObj == this.worldObj && !entityplayermp.isPlayerSleeping()) {
 
 					if (Events.eventPlayerEnderPearl.isUseful())
-						Events.eventPlayerEnderPearl.call(new PlayerEnderPearlEvent(this, (EntityPlayerMP) entitylivingbase));
+						Events.eventPlayerEnderPearl.call(new PlayerEnderPearlEvent(this, (MPlayer) entitylivingbase));
 
 					if (entitylivingbase.isRiding()) entitylivingbase.mountEntity(null);
 
@@ -78,7 +78,7 @@ public class EntityEnderPearl extends EntityThrowable {
 	public void onUpdate() {
 		EntityLivingBase entitylivingbase = this.getThrower();
 
-		if (entitylivingbase instanceof EntityPlayer && !entitylivingbase.isEntityAlive()) {
+		if (entitylivingbase instanceof Player && !entitylivingbase.isEntityAlive()) {
 			this.setDead();
 		} else {
 			super.onUpdate();

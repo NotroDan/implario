@@ -2,7 +2,7 @@ package vanilla.entity.ai.tasks.wolf;
 
 import vanilla.entity.ai.tasks.EntityAIBase;
 import vanilla.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class EntityAIBeg extends EntityAIBase {
 
 	private EntityWolf theWolf;
-	private EntityPlayer thePlayer;
+	private Player thePlayer;
 	private World worldObject;
 	private float minPlayerDistance;
 	private int timeoutCounter;
@@ -66,7 +66,7 @@ public class EntityAIBeg extends EntityAIBase {
 	/**
 	 * Gets if the Player has the Bone in the hand.
 	 */
-	private boolean hasPlayerGotBoneInHand(EntityPlayer player) {
+	private boolean hasPlayerGotBoneInHand(Player player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 		return itemstack != null && (!this.theWolf.isTamed() && itemstack.getItem() == Items.bone || this.theWolf.isBreedingItem(itemstack));
 	}

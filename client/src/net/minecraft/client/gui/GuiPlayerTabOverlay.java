@@ -8,7 +8,7 @@ import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.G;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -128,7 +128,7 @@ public class GuiPlayerTabOverlay extends Gui {
 				GameProfile gameprofile = networkplayerinfo1.getGameProfile();
 
 				if (flag) {
-					EntityPlayer entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
+					Player entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
 					boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
 					this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
 					int l2 = 8 + (flag1 ? 8 : 0);

@@ -6,7 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -179,8 +179,8 @@ public class DynamicLights {
 		if (p_getLightLevel_0_ == Config.getMinecraft().getRenderViewEntity() && !Config.isDynamicHandLight()) {
 			return 0;
 		}
-		if (p_getLightLevel_0_ instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) p_getLightLevel_0_;
+		if (p_getLightLevel_0_ instanceof Player) {
+			Player entityplayer = (Player) p_getLightLevel_0_;
 
 			if (entityplayer.isSpectator()) {
 				return 0;

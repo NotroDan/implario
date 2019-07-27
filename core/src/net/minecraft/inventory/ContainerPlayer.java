@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -21,9 +21,9 @@ public class ContainerPlayer extends Container {
 	 * Determines if inventory manipulation should be handled.
 	 */
 	public boolean isLocalWorld;
-	private final EntityPlayer thePlayer;
+	private final Player thePlayer;
 
-	public ContainerPlayer(final InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player) {
+	public ContainerPlayer(final InventoryPlayer playerInventory, boolean localWorld, Player player) {
 		this.isLocalWorld = localWorld;
 		this.thePlayer = player;
 		this.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 144, 36));
@@ -75,7 +75,7 @@ public class ContainerPlayer extends Container {
 	/**
 	 * Called when the container is closed.
 	 */
-	public void onContainerClosed(EntityPlayer playerIn) {
+	public void onContainerClosed(Player playerIn) {
 		super.onContainerClosed(playerIn);
 
 		for (int i = 0; i < 4; ++i) {
@@ -89,14 +89,14 @@ public class ContainerPlayer extends Container {
 		this.craftResult.setInventorySlotContents(0, null);
 	}
 
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(Player playerIn) {
 		return true;
 	}
 
 	/**
 	 * Take a stack from the specified inventory slot.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(Player playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = this.inventorySlots.get(index);
 

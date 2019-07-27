@@ -1,7 +1,7 @@
 package net.minecraft.command;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,7 +38,7 @@ public class CommandEntityData extends CommandBase {
 		}
 		Entity entity = func_175768_b(sender, args[0]);
 
-		if (entity instanceof EntityPlayer) {
+		if (entity instanceof Player) {
 			throw new CommandException("commands.entitydata.noPlayers", new Object[] {entity.getDisplayName()});
 		}
 		NBTTagCompound nbttagcompound = new NBTTagCompound();

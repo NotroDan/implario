@@ -14,8 +14,8 @@ import vanilla.entity.ai.tasks.EntityAIWatchClosest;
 import vanilla.entity.ai.EntityLookHelper;
 import vanilla.entity.ai.EntityMoveHelper;
 import vanilla.entity.passive.EntitySquid;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -57,7 +57,7 @@ public class EntityGuardian extends EntityMob {
 		EntityAIMoveTowardsRestriction entityaimovetowardsrestriction;
 		this.tasks.addTask(5, entityaimovetowardsrestriction = new EntityAIMoveTowardsRestriction(this, 1.0D));
 		this.tasks.addTask(7, this.wander = new EntityAIWander(this, 1.0D, 80));
-		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(8, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityGuardian.class, 12.0F, 0.01F));
 		this.tasks.addTask(9, new EntityAILookIdle(this));
 		this.wander.setMutexBits(3);
@@ -363,8 +363,8 @@ public class EntityGuardian extends EntityMob {
 			if ((this.ticksExisted + this.getEntityId()) % 1200 == 0) {
 				Potion potion = Potion.digSlowdown;
 
-				for (EntityPlayerMP entityplayermp : this.worldObj.getPlayers(EntityPlayerMP.class, new Predicate<EntityPlayerMP>() {
-					public boolean apply(EntityPlayerMP p_apply_1_) {
+				for (MPlayer entityplayermp : this.worldObj.getPlayers(MPlayer.class, new Predicate<MPlayer>() {
+					public boolean apply(MPlayer p_apply_1_) {
 						return EntityGuardian.this.getDistanceSqToEntity(p_apply_1_) < 2500.0D && p_apply_1_.theItemInWorldManager.survivalOrAdventure();
 					}
 				})) {
@@ -612,7 +612,7 @@ public class EntityGuardian extends EntityMob {
 		}
 
 		public boolean apply(EntityLivingBase p_apply_1_) {
-			return (p_apply_1_ instanceof EntityPlayer || p_apply_1_ instanceof EntitySquid) && p_apply_1_.getDistanceSqToEntity(this.parentEntity) > 9.0D;
+			return (p_apply_1_ instanceof Player || p_apply_1_ instanceof EntitySquid) && p_apply_1_.getDistanceSqToEntity(this.parentEntity) > 9.0D;
 		}
 
 	}

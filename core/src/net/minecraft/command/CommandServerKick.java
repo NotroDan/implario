@@ -2,7 +2,7 @@ package net.minecraft.command;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
@@ -34,7 +34,7 @@ public class CommandServerKick extends CommandBase {
 	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length > 0 && args[0].length() > 1) {
-			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(args[0]);
+			MPlayer entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(args[0]);
 			String s = "Kicked by an operator.";
 			boolean flag = false;
 

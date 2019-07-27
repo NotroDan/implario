@@ -2,7 +2,7 @@ package net.minecraft.command;
 
 import com.google.gson.JsonParseException;
 import net.minecraft.Logger;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.play.server.S45PacketTitle;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -54,7 +54,7 @@ public class CommandTitle extends CommandBase {
 			}
 		}
 
-		EntityPlayerMP entityplayermp = getPlayer(sender, args[0]);
+		MPlayer entityplayermp = getPlayer(sender, args[0]);
 		S45PacketTitle.Type s45packettitle$type = S45PacketTitle.Type.byName(args[1]);
 
 		if (s45packettitle$type != S45PacketTitle.Type.CLEAR && s45packettitle$type != S45PacketTitle.Type.RESET) {

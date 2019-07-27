@@ -1,7 +1,7 @@
 package vanilla.entity.ai.tasks;
 
 import vanilla.entity.EntityCreature;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import vanilla.entity.ai.pathfinding.PathNavigateGround;
@@ -42,7 +42,7 @@ public class EntityAITempt extends EntityAIBase {
 	/**
 	 * The player that is tempting the entity that is using this AI.
 	 */
-	private EntityPlayer temptingPlayer;
+	private Player temptingPlayer;
 
 	/**
 	 * A counter that is decremented each time the shouldExecute method is called. The shouldExecute method will always

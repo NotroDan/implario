@@ -10,7 +10,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.IPBanEntry;
 import net.minecraft.util.BlockPos;
@@ -60,7 +60,7 @@ public class CommandBanIp extends CommandBase {
 			if (matcher.matches()) {
 				this.func_147210_a(sender, args[0], ichatcomponent == null ? null : ichatcomponent.getUnformattedText());
 			} else {
-				EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(args[0]);
+				MPlayer entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(args[0]);
 
 				if (entityplayermp == null) {
 					throw new PlayerNotFoundException("commands.banip.invalid", new Object[0]);
@@ -80,11 +80,11 @@ public class CommandBanIp extends CommandBase {
 	protected void func_147210_a(ICommandSender p_147210_1_, String p_147210_2_, String p_147210_3_) {
 		IPBanEntry ipbanentry = new IPBanEntry(p_147210_2_, (Date) null, p_147210_1_.getName(), (Date) null, p_147210_3_);
 		MinecraftServer.getServer().getConfigurationManager().getBannedIPs().addEntry(ipbanentry);
-		List<EntityPlayerMP> list = MinecraftServer.getServer().getConfigurationManager().getPlayersMatchingAddress(p_147210_2_);
+		List<MPlayer> list = MinecraftServer.getServer().getConfigurationManager().getPlayersMatchingAddress(p_147210_2_);
 		String[] astring = new String[list.size()];
 		int i = 0;
 
-		for (EntityPlayerMP entityplayermp : list) {
+		for (MPlayer entityplayermp : list) {
 			entityplayermp.playerNetServerHandler.kickPlayerFromServer("You have been IP banned.");
 			astring[i++] = entityplayermp.getName();
 		}

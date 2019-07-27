@@ -1,7 +1,7 @@
 package net.minecraft.resources.event.events.player;
 
 import lombok.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.BlockPos;
 
 @ToString
@@ -11,8 +11,8 @@ import net.minecraft.util.BlockPos;
 @EqualsAndHashCode (callSuper = false)
 public class PlayerSleepEvent extends PlayerEvent<PlayerSleepEvent> {
 
-	private final EntityPlayer player;
+	private final Player player;
 	private final BlockPos bedLocation;
-	private EntityPlayer.SleepStatus sleepStatus;
+	private Player.SleepStatus sleepStatus;
 
 }

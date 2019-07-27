@@ -10,7 +10,7 @@ import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.Lang;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.util.MathHelper;
@@ -69,7 +69,7 @@ public class GameSettings {
 	public int ambientOcclusion = 2;
 	public List resourcePacks = new ArrayList<>();
 	public List field_183018_l = new ArrayList<>();
-	public EntityPlayer.EnumChatVisibility chatVisibility = EntityPlayer.EnumChatVisibility.FULL;
+	public Player.EnumChatVisibility chatVisibility = Player.EnumChatVisibility.FULL;
 	public boolean chatColours = true;
 	public boolean chatLinks = true;
 	public boolean chatLinksPrompt = true;
@@ -420,7 +420,7 @@ public class GameSettings {
 		}
 
 		if (p_74306_1_ == GameSettings.Options.CHAT_VISIBILITY) {
-			this.chatVisibility = EntityPlayer.EnumChatVisibility.getEnumChatVisibility((this.chatVisibility.getChatVisibility() + p_74306_2_) % 3);
+			this.chatVisibility = Player.EnumChatVisibility.getEnumChatVisibility((this.chatVisibility.getChatVisibility() + p_74306_2_) % 3);
 		}
 
 		if (p_74306_1_ == GameSettings.Options.CHAT_COLOR) {
@@ -696,7 +696,7 @@ public class GameSettings {
 						this.lastServer = s.substring(s.indexOf(58) + 1);
 					if (args[0].equals("lang") && args.length >= 2) this.language = args[1];
 					if (args[0].equals("chatVisibility"))
-						this.chatVisibility = EntityPlayer.EnumChatVisibility.getEnumChatVisibility(Integer.parseInt(args[1]));
+						this.chatVisibility = Player.EnumChatVisibility.getEnumChatVisibility(Integer.parseInt(args[1]));
 					if (args[0].equals("chatColors")) this.chatColours = args[1].equals("true");
 					if (args[0].equals("chatLinks")) this.chatLinks = args[1].equals("true");
 					if (args[0].equals("chatLinksPrompt")) this.chatLinksPrompt = args[1].equals("true");

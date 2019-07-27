@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryBasic;
@@ -49,7 +49,7 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
 		return this.guiID;
 	}
 
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(InventoryPlayer playerInventory, Player playerIn) {
 		throw new UnsupportedOperationException();
 	}
 

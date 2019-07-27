@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
@@ -216,7 +216,7 @@ public class EntitySlime extends VanillaEntity implements IMob {
 	/**
 	 * Called by a player entity when they collide with an entity
 	 */
-	public void onCollideWithPlayer(EntityPlayer entityIn) {
+	public void onCollideWithPlayer(Player entityIn) {
 		if (this.canDamagePlayer()) {
 			this.func_175451_e(entityIn);
 		}
@@ -359,7 +359,7 @@ public class EntitySlime extends VanillaEntity implements IMob {
 
 		public boolean shouldExecute() {
 			EntityLivingBase entitylivingbase = this.slime.getAttackTarget();
-			return entitylivingbase == null ? false : !entitylivingbase.isEntityAlive() ? false : !(entitylivingbase instanceof EntityPlayer) || !((EntityPlayer) entitylivingbase).capabilities.disableDamage;
+			return entitylivingbase == null ? false : !entitylivingbase.isEntityAlive() ? false : !(entitylivingbase instanceof Player) || !((Player) entitylivingbase).capabilities.disableDamage;
 		}
 
 		public void startExecuting() {
@@ -369,7 +369,7 @@ public class EntitySlime extends VanillaEntity implements IMob {
 
 		public boolean continueExecuting() {
 			EntityLivingBase entitylivingbase = this.slime.getAttackTarget();
-			return entitylivingbase == null ? false : !entitylivingbase.isEntityAlive() ? false : entitylivingbase instanceof EntityPlayer && ((EntityPlayer) entitylivingbase).capabilities.disableDamage ? false : --this.field_179465_b > 0;
+			return entitylivingbase == null ? false : !entitylivingbase.isEntityAlive() ? false : entitylivingbase instanceof Player && ((Player) entitylivingbase).capabilities.disableDamage ? false : --this.field_179465_b > 0;
 		}
 
 		public void updateTask() {

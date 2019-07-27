@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.BlockPos;
 import org.lwjgl.opengl.GL11;
 
@@ -23,7 +23,7 @@ public class WorldEditUI {
 
 	private static void drawCube(BlockPos pos, int color, float partialTicks) {
 		Utils.glColor(color);
-		EntityPlayer p = MC.getPlayer();
+		Player p = MC.getPlayer();
 		double x = pos.getX() + 0.5;
 		double y = pos.getY() + 0.5;
 		double z = pos.getZ() + 0.5;

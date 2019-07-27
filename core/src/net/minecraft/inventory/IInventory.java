@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IWorldNameable;
 
@@ -45,11 +45,11 @@ public interface IInventory extends IWorldNameable {
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	boolean isUseableByPlayer(EntityPlayer player);
+	boolean isUseableByPlayer(Player player);
 
-	void openInventory(EntityPlayer player);
+	void openInventory(Player player);
 
-	void closeInventory(EntityPlayer player);
+	void closeInventory(Player player);
 
 	/**
 	 * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.

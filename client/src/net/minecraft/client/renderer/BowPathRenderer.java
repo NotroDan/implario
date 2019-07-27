@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.simulant.Simulant;
 import net.minecraft.entity.projectile.simulant.SimulantArrow;
 import net.minecraft.entity.projectile.simulant.SimulantSimpleProjectile;
@@ -19,7 +19,7 @@ public class BowPathRenderer {
 	private static volatile Simulant lastParsed;
 
 	public static void render(float partialTicks) {
-		EntityPlayer player = MC.getPlayer();
+		Player player = MC.getPlayer();
 		if (player.getHeldItem() == null) {
 			lastParsed = null;
 			return;

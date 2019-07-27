@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.TupleIntJsonSerializable;
 
@@ -39,7 +39,7 @@ public class StatFileWriter {
 		return i;
 	}
 
-	public void increaseStat(EntityPlayer player, StatBase stat, int amount) {
+	public void increaseStat(Player player, StatBase stat, int amount) {
 		if (!stat.isAchievement() || this.canUnlockAchievement((Achievement) stat)) {
 			this.unlockAchievement(player, stat, this.readStat(stat) + amount);
 		}
@@ -48,7 +48,7 @@ public class StatFileWriter {
 	/**
 	 * Triggers the logging of an achievement and attempts to announce to server
 	 */
-	public void unlockAchievement(EntityPlayer playerIn, StatBase statIn, int p_150873_3_) {
+	public void unlockAchievement(Player playerIn, StatBase statIn, int p_150873_3_) {
 		TupleIntJsonSerializable tupleintjsonserializable = (TupleIntJsonSerializable) this.statsData.get(statIn);
 
 		if (tupleintjsonserializable == null) {

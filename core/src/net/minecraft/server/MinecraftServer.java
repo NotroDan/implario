@@ -17,8 +17,8 @@ import net.minecraft.Logger;
 import net.minecraft.command.*;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.NetworkSystem;
 import net.minecraft.network.ServerStatusResponse;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
@@ -380,7 +380,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Sets the serverRunning variable to false, in order to get the server to shut down.
 	 */
 	public void initiateShutdown() {
-		for (EntityPlayerMP player : getConfigurationManager().getPlayers()) {
+		for (MPlayer player : getConfigurationManager().getPlayers()) {
 			player.playerNetServerHandler.kickPlayerFromServer("§eСервер выключен.\nВозможно, он сейчас даже не включится.");
 		}
 		this.serverRunning = false;
@@ -1017,7 +1017,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return 16;
 	}
 
-	public boolean isBlockProtected(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+	public boolean isBlockProtected(World worldIn, BlockPos pos, Player playerIn) {
 		return false;
 	}
 

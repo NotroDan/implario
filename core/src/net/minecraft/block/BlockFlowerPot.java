@@ -5,7 +5,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -79,7 +79,7 @@ public class BlockFlowerPot extends BlockContainer {
 		return 16777215;
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack itemstack = playerIn.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.getItem() instanceof ItemBlock) {
@@ -155,7 +155,7 @@ public class BlockFlowerPot extends BlockContainer {
 		super.breakBlock(worldIn, pos, state);
 	}
 
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, Player player) {
 		super.onBlockHarvested(worldIn, pos, state, player);
 
 		if (player.capabilities.isCreativeMode) {

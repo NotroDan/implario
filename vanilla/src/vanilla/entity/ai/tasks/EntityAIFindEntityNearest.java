@@ -10,7 +10,7 @@ import vanilla.entity.VanillaEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.Logger;
 
 public class EntityAIFindEntityNearest extends EntityAIBase {
@@ -74,7 +74,7 @@ public class EntityAIFindEntityNearest extends EntityAIBase {
 		}
 		double d0 = this.func_179438_f();
 		return this.field_179442_b.getDistanceSqToEntity(
-				entitylivingbase) > d0 * d0 ? false : !(entitylivingbase instanceof EntityPlayerMP) || !((EntityPlayerMP) entitylivingbase).theItemInWorldManager.isCreative();
+				entitylivingbase) > d0 * d0 ? false : !(entitylivingbase instanceof MPlayer) || !((MPlayer) entitylivingbase).theItemInWorldManager.isCreative();
 	}
 
 	/**

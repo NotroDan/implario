@@ -3,10 +3,8 @@ package net.minecraft.server.network;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationUnavailableException;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import net.minecraft.Logger;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.login.INetHandlerLoginServer;
 import net.minecraft.network.login.client.C00PacketLoginStart;
@@ -47,7 +45,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 	private GameProfile loginGameProfile;
 	private String serverId = "";
 	private SecretKey secretKey;
-	private EntityPlayerMP player;
+	private MPlayer player;
 
 	public NetHandlerLoginServer(MinecraftServer p_i45298_1_, NetworkManager p_i45298_2_) {
 		this.server = p_i45298_1_;
@@ -62,7 +60,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 		if (this.currentLoginState == NetHandlerLoginServer.LoginState.READY_TO_ACCEPT) {
 			this.tryAcceptPlayer();
 		} else if (this.currentLoginState == NetHandlerLoginServer.LoginState.DELAY_ACCEPT) {
-			EntityPlayerMP entityplayermp = this.server.getConfigurationManager().getPlayerByUUID(this.loginGameProfile.getId());
+			MPlayer entityplayermp = this.server.getConfigurationManager().getPlayerByUUID(this.loginGameProfile.getId());
 
 			if (entityplayermp == null) {
 				this.currentLoginState = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
@@ -105,7 +103,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 			}
 
 			this.networkManager.sendPacket(new S02PacketLoginSuccess(this.loginGameProfile));
-			EntityPlayerMP entityplayermp = this.server.getConfigurationManager().getPlayerByUUID(this.loginGameProfile.getId());
+			MPlayer entityplayermp = this.server.getConfigurationManager().getPlayerByUUID(this.loginGameProfile.getId());
 
 			if (entityplayermp != null) {
 				this.currentLoginState = NetHandlerLoginServer.LoginState.DELAY_ACCEPT;

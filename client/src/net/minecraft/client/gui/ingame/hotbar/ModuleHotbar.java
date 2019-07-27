@@ -12,7 +12,7 @@ import net.minecraft.client.gui.ingame.Module;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -32,8 +32,8 @@ public class ModuleHotbar implements Module {
 	}
 
 	private void renderHotbar(Minecraft mc, GuiIngame gui, float partialTicks, ScaledResolution res) {
-		EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
-		if (!(mc.getRenderViewEntity() instanceof EntityPlayer)) return;
+		Player entityplayer = (Player) mc.getRenderViewEntity();
+		if (!(mc.getRenderViewEntity() instanceof Player)) return;
 		int i = res.getScaledWidth() >> 1;
 		boolean settings = Settings.MODERN_INVENTORIES.b();
 		if (settings != lastValue || lastSize != res.getScaledHeight()) generateRender(mc, gui, res, i);
@@ -68,7 +68,7 @@ public class ModuleHotbar implements Module {
 		G.disableBlend();
 	}
 
-	private void renderHotbarItem(GuiIngame gui, Minecraft mc, int index, int xPos, int yPos, float partialTicks, EntityPlayer p_175184_5_) {
+	private void renderHotbarItem(GuiIngame gui, Minecraft mc, int index, int xPos, int yPos, float partialTicks, Player p_175184_5_) {
 		ItemStack itemstack = p_175184_5_.inventory.mainInventory[index];
 
 		if (itemstack != null) {

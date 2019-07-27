@@ -9,7 +9,7 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.ProfileLookupCallback;
 import com.mojang.authlib.yggdrasil.ProfileNotFoundException;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
 import net.minecraft.server.MinecraftServer;
@@ -49,7 +49,7 @@ public class PreYggdrasilConverter {
 
 		if (server.isServerInOnlineMode()) server.getGameProfileRepository().findProfilesByNames(astring, Agent.MINECRAFT, callback);
 		else for (String s : astring) {
-			UUID uuid = EntityPlayer.getUUID(new GameProfile(null, s));
+			UUID uuid = Player.getUUID(new GameProfile(null, s));
 			GameProfile gameprofile = new GameProfile(uuid, s);
 			callback.onProfileLookupSucceeded(gameprofile);
 		}
@@ -254,7 +254,7 @@ public class PreYggdrasilConverter {
 				lookupNames(minecraftserver, Lists.newArrayList(p_152719_0_), profilelookupcallback);
 				return list.size() > 0 && list.get(0).getId() != null ? list.get(0).getId().toString() : "";
 			}
-			return EntityPlayer.getUUID(new GameProfile(null, p_152719_0_)).toString();
+			return Player.getUUID(new GameProfile(null, p_152719_0_)).toString();
 		}
 		return p_152719_0_;
 	}

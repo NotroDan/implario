@@ -15,7 +15,7 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.game.DisplayGuy;
 import net.minecraft.client.game.ErrorGuy;
 import net.minecraft.client.game.GameWorldController;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.game.input.InputHandler;
 import net.minecraft.client.game.input.MouseHelper;
 import net.minecraft.client.game.particle.EffectRenderer;
@@ -100,7 +100,7 @@ public class Minecraft implements IThreadListener {
 	private RenderManager renderManager;
 	private RenderItem renderItem;
 	private ItemRenderer itemRenderer;
-	public EntityPlayerSP thePlayer;
+	public CPlayer thePlayer;
 	public Entity pointedEntity;
 	public EffectRenderer effectRenderer;
 	private final Session session;

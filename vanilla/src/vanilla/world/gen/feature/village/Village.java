@@ -14,7 +14,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import vanilla.entity.monster.EntityIronGolem;
 import vanilla.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
@@ -276,13 +276,13 @@ public class Village {
 		return village$villageaggressor != null ? village$villageaggressor.agressor : null;
 	}
 
-	public EntityPlayer getNearestTargetPlayer(EntityLivingBase villageDefender) {
+	public Player getNearestTargetPlayer(EntityLivingBase villageDefender) {
 		double d0 = Double.MAX_VALUE;
-		EntityPlayer entityplayer = null;
+		Player entityplayer = null;
 
 		for (String s : this.playerReputation.keySet()) {
 			if (this.isPlayerReputationTooLow(s)) {
-				EntityPlayer entityplayer1 = this.worldObj.getPlayerEntityByName(s);
+				Player entityplayer1 = this.worldObj.getPlayerEntityByName(s);
 
 				if (entityplayer1 != null) {
 					double d1 = entityplayer1.getDistanceSqToEntity(villageDefender);

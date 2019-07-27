@@ -1,18 +1,18 @@
 package net.minecraft.block;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.resources.event.Event;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class FenceClickedEvent extends Event {
 
-	private final EntityPlayer player;
+	private final Player player;
 	private final World world;
 	private final BlockPos pos;
 	public boolean returnValue;
 
-	public FenceClickedEvent(EntityPlayer player, World world, BlockPos pos) {
+	public FenceClickedEvent(Player player, World world, BlockPos pos) {
 		this.player = player;
 		this.world = world;
 		this.pos = pos;
@@ -26,7 +26,7 @@ public class FenceClickedEvent extends Event {
 		return pos;
 	}
 
-	public EntityPlayer getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 

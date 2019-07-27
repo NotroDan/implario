@@ -1,14 +1,14 @@
 package net.minecraft.resources.event.events.player;
 
 import lombok.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 
 @RequiredArgsConstructor
 @Getter
 @ToString
 public class PlayerMoveEvent extends PlayerEvent<PlayerMoveEvent> {
 
-	private final EntityPlayer player;
+	private final Player player;
 
 	private final double srcX, srcY, srcZ;
 

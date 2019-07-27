@@ -5,7 +5,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.*;
@@ -26,7 +26,7 @@ public class BlockBed extends BlockDirectional {
 		this.setBedBounds();
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isClientSide) {
 			return true;
 		}
@@ -41,7 +41,7 @@ public class BlockBed extends BlockDirectional {
 
 		if (worldIn.provider.canRespawnHere()) {
 			if (state.getValue(OCCUPIED)) {
-				EntityPlayer entityplayer = this.getPlayerInBed(worldIn, pos);
+				Player entityplayer = this.getPlayerInBed(worldIn, pos);
 
 				if (entityplayer != null) {
 					playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.occupied"));
@@ -52,9 +52,9 @@ public class BlockBed extends BlockDirectional {
 				worldIn.setBlockState(pos, state, 4);
 			}
 
-			EntityPlayer.SleepStatus status = playerIn.trySleep(pos);
+			Player.SleepStatus status = playerIn.trySleep(pos);
 
-			if (status == EntityPlayer.SleepStatus.OK) {
+			if (status == Player.SleepStatus.OK) {
 				state = state.withProperty(OCCUPIED, Boolean.TRUE);
 				worldIn.setBlockState(pos, state, 4);
 				return true;
@@ -74,8 +74,8 @@ public class BlockBed extends BlockDirectional {
 		return true;
 	}
 
-	private EntityPlayer getPlayerInBed(World worldIn, BlockPos pos) {
-		for (EntityPlayer entityplayer : worldIn.playerEntities) {
+	private Player getPlayerInBed(World worldIn, BlockPos pos) {
+		for (Player entityplayer : worldIn.playerEntities) {
 			if (entityplayer.isPlayerSleeping() && entityplayer.playerLocation.equals(pos)) {
 				return entityplayer;
 			}
@@ -186,7 +186,7 @@ public class BlockBed extends BlockDirectional {
 		return Items.bed;
 	}
 
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, Player player) {
 		if (player.capabilities.isCreativeMode && state.getValue(PART) == BlockBed.EnumPartType.HEAD) {
 			BlockPos blockpos = pos.offset(state.getValue(FACING).getOpposite());
 

@@ -1,6 +1,6 @@
 package net.minecraft.command;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -40,7 +40,7 @@ public class CommandGameMode extends CommandBase {
 			throw new WrongUsageException("commands.gamemode.usage", new Object[0]);
 		}
 		WorldSettings.GameType worldsettings$gametype = this.getGameModeFromCommand(sender, args[0]);
-		EntityPlayer entityplayer = args.length >= 2 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
+		Player entityplayer = args.length >= 2 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
 		entityplayer.setGameType(worldsettings$gametype);
 		entityplayer.fallDistance = 0.0F;
 

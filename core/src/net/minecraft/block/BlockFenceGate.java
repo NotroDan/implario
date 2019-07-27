@@ -7,7 +7,7 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -91,7 +91,7 @@ public class BlockFenceGate extends BlockDirectional {
 				Boolean.FALSE);
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (((Boolean) state.getValue(OPEN)).booleanValue()) {
 			state = state.withProperty(OPEN, Boolean.FALSE);
 			worldIn.setBlockState(pos, state, 2);
@@ -120,10 +120,10 @@ public class BlockFenceGate extends BlockDirectional {
 			if (flag || neighborBlock.canProvidePower()) {
 				if (flag && !((Boolean) state.getValue(OPEN)).booleanValue() && !((Boolean) state.getValue(POWERED)).booleanValue()) {
 					worldIn.setBlockState(pos, state.withProperty(OPEN, Boolean.TRUE).withProperty(POWERED, Boolean.TRUE), 2);
-					worldIn.playAuxSFXAtEntity((EntityPlayer) null, 1003, pos, 0);
+					worldIn.playAuxSFXAtEntity((Player) null, 1003, pos, 0);
 				} else if (!flag && ((Boolean) state.getValue(OPEN)).booleanValue() && ((Boolean) state.getValue(POWERED)).booleanValue()) {
 					worldIn.setBlockState(pos, state.withProperty(OPEN, Boolean.FALSE).withProperty(POWERED, Boolean.FALSE), 2);
-					worldIn.playAuxSFXAtEntity((EntityPlayer) null, 1006, pos, 0);
+					worldIn.playAuxSFXAtEntity((Player) null, 1006, pos, 0);
 				} else if (flag != ((Boolean) state.getValue(POWERED)).booleanValue()) {
 					worldIn.setBlockState(pos, state.withProperty(POWERED, flag), 2);
 				}

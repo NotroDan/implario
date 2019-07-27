@@ -9,7 +9,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -119,7 +119,7 @@ public class BlockDoor extends Block {
 		}
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (this.blockMaterial == Material.iron) {
 			return true;
 		}
@@ -146,7 +146,7 @@ public class BlockDoor extends Block {
 			if (iblockstate1.getBlock() == this && ((Boolean) iblockstate1.getValue(OPEN)).booleanValue() != open) {
 				worldIn.setBlockState(blockpos, iblockstate1.withProperty(OPEN, open), 2);
 				worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-				worldIn.playAuxSFXAtEntity((EntityPlayer) null, open ? 1003 : 1006, pos, 0);
+				worldIn.playAuxSFXAtEntity((Player) null, open ? 1003 : 1006, pos, 0);
 			}
 		}
 	}
@@ -196,7 +196,7 @@ public class BlockDoor extends Block {
 					if (flag != ((Boolean) state.getValue(OPEN)).booleanValue()) {
 						worldIn.setBlockState(pos, state.withProperty(OPEN, flag), 2);
 						worldIn.markBlockRangeForRenderUpdate(pos, pos);
-						worldIn.playAuxSFXAtEntity((EntityPlayer) null, flag ? 1003 : 1006, pos, 0);
+						worldIn.playAuxSFXAtEntity((Player) null, flag ? 1003 : 1006, pos, 0);
 					}
 				}
 			}
@@ -249,7 +249,7 @@ public class BlockDoor extends Block {
 		return this == Blocks.iron_door ? Items.iron_door : this == Blocks.spruce_door ? Items.spruce_door : this == Blocks.birch_door ? Items.birch_door : this == Blocks.jungle_door ? Items.jungle_door : this == Blocks.acacia_door ? Items.acacia_door : this == Blocks.dark_oak_door ? Items.dark_oak_door : Items.oak_door;
 	}
 
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, Player player) {
 		BlockPos blockpos = pos.down();
 
 		if (player.capabilities.isCreativeMode && state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER && worldIn.getBlockState(blockpos).getBlock() == this) {

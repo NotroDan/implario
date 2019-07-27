@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S3BPacketScoreboardObjective;
 import net.minecraft.network.play.server.S3CPacketUpdateScore;
@@ -178,7 +178,7 @@ public class ServerScoreboard extends Scoreboard {
 	public void func_96549_e(ScoreObjective p_96549_1_) {
 		List<Packet> list = this.func_96550_d(p_96549_1_);
 
-		for (EntityPlayerMP entityplayermp : this.scoreboardMCServer.getConfigurationManager().getPlayers()) {
+		for (MPlayer entityplayermp : this.scoreboardMCServer.getConfigurationManager().getPlayers()) {
 			for (Packet packet : list) {
 				entityplayermp.playerNetServerHandler.sendPacket(packet);
 			}
@@ -203,7 +203,7 @@ public class ServerScoreboard extends Scoreboard {
 	public void getPlayerIterator(ScoreObjective p_96546_1_) {
 		List<Packet> list = this.func_96548_f(p_96546_1_);
 
-		for (EntityPlayerMP entityplayermp : this.scoreboardMCServer.getConfigurationManager().getPlayers()) {
+		for (MPlayer entityplayermp : this.scoreboardMCServer.getConfigurationManager().getPlayers()) {
 			for (Packet packet : list) {
 				entityplayermp.playerNetServerHandler.sendPacket(packet);
 			}

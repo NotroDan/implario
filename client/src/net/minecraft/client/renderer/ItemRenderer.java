@@ -5,7 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.AbstractClientPlayer;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -114,7 +114,7 @@ public class ItemRenderer {
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, f, f1);
 	}
 
-	private void func_178110_a(EntityPlayerSP entityplayerspIn, float partialTicks) {
+	private void func_178110_a(CPlayer entityplayerspIn, float partialTicks) {
 		float f = entityplayerspIn.prevRenderArmPitch + (entityplayerspIn.renderArmPitch - entityplayerspIn.prevRenderArmPitch) * partialTicks;
 		float f1 = entityplayerspIn.prevRenderArmYaw + (entityplayerspIn.renderArmYaw - entityplayerspIn.prevRenderArmYaw) * partialTicks;
 		G.rotate((entityplayerspIn.rotationPitch - f) * 0.1F, 1.0F, 0.0F, 0.0F);
@@ -303,7 +303,7 @@ public class ItemRenderer {
 	 */
 	public void renderItemInFirstPerson(float partialTicks) {
 		float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
-		EntityPlayerSP entityplayersp = this.mc.thePlayer;
+		CPlayer entityplayersp = this.mc.thePlayer;
 		float f1 = entityplayersp.getSwingProgress(partialTicks);
 		float f2 = entityplayersp.prevRotationPitch + (entityplayersp.rotationPitch - entityplayersp.prevRotationPitch) * partialTicks;
 		float f3 = entityplayersp.prevRotationYaw + (entityplayersp.rotationYaw - entityplayersp.prevRotationYaw) * partialTicks;
@@ -362,7 +362,7 @@ public class ItemRenderer {
 
 		if (this.mc.thePlayer.isEntityInsideOpaqueBlock()) {
 			IBlockState iblockstate = this.mc.theWorld.getBlockState(new BlockPos(this.mc.thePlayer));
-			EntityPlayerSP entityplayersp = this.mc.thePlayer;
+			CPlayer entityplayersp = this.mc.thePlayer;
 
 			for (int i = 0; i < 8; ++i) {
 				double d0 = entityplayersp.posX + (double) (((float) ((i >> 0) % 2) - 0.5F) * entityplayersp.width * 0.8F);
@@ -500,7 +500,7 @@ public class ItemRenderer {
 
 	public void updateEquippedItem() {
 		this.prevEquippedProgress = this.equippedProgress;
-		EntityPlayerSP entityplayersp = this.mc.thePlayer;
+		CPlayer entityplayersp = this.mc.thePlayer;
 		ItemStack itemstack = entityplayersp.inventory.getCurrentItem();
 		boolean flag = false;
 

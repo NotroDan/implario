@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -66,7 +66,7 @@ public class ActiveRenderInfo {
 	/**
 	 * Updates the current render info and camera location based on entity look angles and 1st/3rd person view mode
 	 */
-	public static void updateRenderInfo(EntityPlayer entityplayerIn, boolean p_74583_1_) {
+	public static void updateRenderInfo(Player entityplayerIn, boolean p_74583_1_) {
 		G.getFloat(2982, MODELVIEW);
 		G.getFloat(2983, PROJECTION);
 		GL11.glGetInteger(GL11.GL_VIEWPORT, VIEWPORT);

@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -36,7 +36,7 @@ public class BlockRedstoneOre extends Block {
 		return 30;
 	}
 
-	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+	public void onBlockClicked(World worldIn, BlockPos pos, Player playerIn) {
 		this.activate(worldIn, pos);
 		super.onBlockClicked(worldIn, pos, playerIn);
 	}
@@ -49,7 +49,7 @@ public class BlockRedstoneOre extends Block {
 		super.onEntityCollidedWithBlock(worldIn, pos, entityIn);
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		this.activate(worldIn, pos);
 		return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
 	}

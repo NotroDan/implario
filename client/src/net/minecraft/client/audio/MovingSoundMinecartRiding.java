@@ -1,16 +1,16 @@
 package net.minecraft.client.audio;
 
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class MovingSoundMinecartRiding extends MovingSound {
 
-	private final EntityPlayer player;
+	private final Player player;
 	private final EntityMinecart minecart;
 
-	public MovingSoundMinecartRiding(EntityPlayer playerRiding, EntityMinecart minecart) {
+	public MovingSoundMinecartRiding(Player playerRiding, EntityMinecart minecart) {
 		super(new ResourceLocation("minecraft:minecart.inside"));
 		this.player = playerRiding;
 		this.minecart = minecart;

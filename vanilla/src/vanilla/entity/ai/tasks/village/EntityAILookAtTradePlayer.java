@@ -2,14 +2,14 @@ package vanilla.entity.ai.tasks.village;
 
 import vanilla.entity.ai.tasks.EntityAIWatchClosest;
 import vanilla.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 
 public class EntityAILookAtTradePlayer extends EntityAIWatchClosest {
 
 	private final EntityVillager theMerchant;
 
 	public EntityAILookAtTradePlayer(EntityVillager theMerchantIn) {
-		super(theMerchantIn, EntityPlayer.class, 8.0F);
+		super(theMerchantIn, Player.class, 8.0F);
 		this.theMerchant = theMerchantIn;
 	}
 

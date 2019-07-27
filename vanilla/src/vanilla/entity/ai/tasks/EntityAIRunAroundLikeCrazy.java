@@ -3,7 +3,7 @@ package vanilla.entity.ai.tasks;
 import net.minecraft.entity.Entity;
 import vanilla.entity.ai.RandomPositionGenerator;
 import vanilla.entity.passive.EntityHorse;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.Vec3;
 
 public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
@@ -57,12 +57,12 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
 	 */
 	public void updateTask() {
 		if (this.horseHost.getRNG().nextInt(50) == 0) {
-			if (this.horseHost.riddenByEntity instanceof EntityPlayer) {
+			if (this.horseHost.riddenByEntity instanceof Player) {
 				int i = this.horseHost.getTemper();
 				int j = this.horseHost.getMaxTemper();
 
 				if (j > 0 && this.horseHost.getRNG().nextInt(j) < i) {
-					this.horseHost.setTamedBy((EntityPlayer) this.horseHost.riddenByEntity);
+					this.horseHost.setTamedBy((Player) this.horseHost.riddenByEntity);
 					this.horseHost.worldObj.setEntityState(this.horseHost, (byte) 7);
 					return;
 				}

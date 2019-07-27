@@ -1,7 +1,7 @@
 package net.minecraft.item;
 
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
@@ -16,7 +16,7 @@ public class ItemSnowball extends Item {
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, Player playerIn) {
 		if (!playerIn.capabilities.isCreativeMode) {
 			--itemStackIn.stackSize;
 		}

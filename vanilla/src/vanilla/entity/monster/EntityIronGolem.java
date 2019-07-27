@@ -21,7 +21,7 @@ import vanilla.entity.ai.tasks.village.EntityAIMoveTowardsTarget;
 import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
 import vanilla.entity.ai.tasks.EntityAIWander;
 import vanilla.entity.ai.tasks.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -55,7 +55,7 @@ public class EntityIronGolem extends EntityGolem {
 		this.tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		this.tasks.addTask(5, new EntityAILookAtVillager(this));
 		this.tasks.addTask(6, new EntityAIWander(this, 0.6D));
-		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, Player.class, 6.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIDefendVillage(this));
 		this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
@@ -278,7 +278,7 @@ public class EntityIronGolem extends EntityGolem {
 					if (p_apply_1_ instanceof EntityCreeper) {
 						return false;
 					}
-					if (p_apply_1_ instanceof EntityPlayer) {
+					if (p_apply_1_ instanceof Player) {
 						double d0 = AINearestAttackableTargetNonCreeper.this.getTargetDistance();
 
 						if (p_apply_1_.isSneaking()) {
@@ -286,7 +286,7 @@ public class EntityIronGolem extends EntityGolem {
 						}
 
 						if (p_apply_1_.isInvisible()) {
-							float f = ((EntityPlayer) p_apply_1_).getArmorVisibility();
+							float f = ((Player) p_apply_1_).getArmorVisibility();
 
 							if (f < 0.1F) {
 								f = 0.1F;

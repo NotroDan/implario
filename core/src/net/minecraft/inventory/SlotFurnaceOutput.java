@@ -1,7 +1,7 @@
 package net.minecraft.inventory;
 
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -13,10 +13,10 @@ public class SlotFurnaceOutput extends Slot {
 	/**
 	 * The player that is using the GUI where this slot resides.
 	 */
-	private EntityPlayer thePlayer;
+	private Player thePlayer;
 	private int field_75228_b;
 
-	public SlotFurnaceOutput(EntityPlayer player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
+	public SlotFurnaceOutput(Player player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
 		super(inventoryIn, slotIndex, xPosition, yPosition);
 		this.thePlayer = player;
 	}
@@ -40,7 +40,7 @@ public class SlotFurnaceOutput extends Slot {
 		return super.decrStackSize(amount);
 	}
 
-	public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+	public void onPickupFromSlot(Player playerIn, ItemStack stack) {
 		this.onCrafting(stack);
 		super.onPickupFromSlot(playerIn, stack);
 	}

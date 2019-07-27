@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -107,7 +107,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
 	/**
 	 * First layer of player interaction
 	 */
-	public boolean interactFirst(EntityPlayer playerIn) {
+	public boolean interactFirst(Player playerIn) {
 		this.commandBlockLogic.tryOpenEditCommandBlock(playerIn);
 		return false;
 	}

@@ -1,14 +1,14 @@
 package vanilla;
 
 import net.minecraft.client.MC;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.AnimalChest;
 import net.minecraft.inventory.Container;
 import net.minecraft.logging.Log;
@@ -55,7 +55,7 @@ public class VPackets implements ServerSideLoadable {
 	}
 
 	private boolean handleOpenWindow(S2DPacketOpenWindow p, INetHandlerPlayClient l) {
-		EntityPlayerSP player = MC.getPlayer();
+		CPlayer player = MC.getPlayer();
 		if ("minecraft:villager".equals(p.getGuiId())) {
 			player.openGui(IMerchant.class, new NpcMerchant(player, p.getWindowTitle()));
 			player.openContainer.windowId = p.getWindowId();
@@ -162,7 +162,7 @@ public class VPackets implements ServerSideLoadable {
 	private boolean handleGameStateChange(S2BPacketChangeGameState p, INetHandlerPlayClient l) {
 		int i = p.getGameState();
 		WorldClient w = ((NetHandlerPlayClient) l).getClientWorldController();
-		EntityPlayer player = MC.getPlayer();
+		Player player = MC.getPlayer();
 		if (i == 10) {
 			w.spawnParticle(VanillaParticles.MOB_APPEARANCE, player.posX, player.posY, player.posZ, 0.0D, 0.0D, 0.0D);
 			w.playSound(player.posX, player.posY, player.posZ, "mob.guardian.curse", 1.0F, 1.0F, false);

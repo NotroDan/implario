@@ -2,7 +2,7 @@ package net.minecraft.tileentity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
@@ -204,7 +204,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(Player player) {
 		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
@@ -299,7 +299,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 			this.numPlayersUsing = 0;
 			float f = 5.0F;
 
-			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+			for (Player entityplayer : this.worldObj.getEntitiesWithinAABB(Player.class,
 					new AxisAlignedBB((double) ((float) i - f), (double) ((float) j - f), (double) ((float) k - f), (double) ((float) (i + 1) + f), (double) ((float) (j + 1) + f),
 							(double) ((float) (k + 1) + f)))) {
 				if (entityplayer.openContainer instanceof ContainerChest) {
@@ -374,7 +374,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 		return super.receiveClientEvent(id, type);
 	}
 
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(Player player) {
 		if (!player.isSpectator()) {
 			if (this.numPlayersUsing < 0) {
 				this.numPlayersUsing = 0;
@@ -387,7 +387,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 		}
 	}
 
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(Player player) {
 		if (!player.isSpectator() && this.getBlockType() instanceof BlockChest) {
 			--this.numPlayersUsing;
 			this.worldObj.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
@@ -428,7 +428,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 		return "minecraft:chest";
 	}
 
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(InventoryPlayer playerInventory, Player playerIn) {
 		return new ContainerChest(playerInventory, this, playerIn);
 	}
 

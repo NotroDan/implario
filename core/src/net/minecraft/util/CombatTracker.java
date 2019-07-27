@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -111,14 +111,14 @@ public class CombatTracker {
 
 	public EntityLivingBase func_94550_c() {
 		EntityLivingBase entitylivingbase = null;
-		EntityPlayer entityplayer = null;
+		Player entityplayer = null;
 		float f = 0.0F;
 		float f1 = 0.0F;
 
 		for (CombatEntry combatentry : this.combatEntries) {
-			if (combatentry.getDamageSrc().getEntity() instanceof EntityPlayer && (entityplayer == null || combatentry.func_94563_c() > f1)) {
+			if (combatentry.getDamageSrc().getEntity() instanceof Player && (entityplayer == null || combatentry.func_94563_c() > f1)) {
 				f1 = combatentry.func_94563_c();
-				entityplayer = (EntityPlayer) combatentry.getDamageSrc().getEntity();
+				entityplayer = (Player) combatentry.getDamageSrc().getEntity();
 			}
 
 			if (combatentry.getDamageSrc().getEntity() instanceof EntityLivingBase && (entitylivingbase == null || combatentry.func_94563_c() > f)) {

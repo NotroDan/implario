@@ -6,7 +6,7 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import vanilla.entity.EntityCreature;
 import vanilla.entity.VanillaEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -60,14 +60,14 @@ public class EntityAIControlledByPlayer extends EntityAIBase {
 	 * Returns whether the EntityAIBase should begin execution.
 	 */
 	public boolean shouldExecute() {
-		return this.thisEntity.isEntityAlive() && this.thisEntity.riddenByEntity instanceof EntityPlayer && (this.speedBoosted || this.thisEntity.canBeSteered());
+		return this.thisEntity.isEntityAlive() && this.thisEntity.riddenByEntity instanceof Player && (this.speedBoosted || this.thisEntity.canBeSteered());
 	}
 
 	/**
 	 * Updates the task
 	 */
 	public void updateTask() {
-		EntityPlayer entityplayer = (EntityPlayer) this.thisEntity.riddenByEntity;
+		Player entityplayer = (Player) this.thisEntity.riddenByEntity;
 		EntityCreature entitycreature = (EntityCreature) this.thisEntity;
 		float f = MathHelper.wrapAngleTo180_float(entityplayer.rotationYaw - this.thisEntity.rotationYaw) * 0.5F;
 

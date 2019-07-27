@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.resources.WrongSideException;
 import net.minecraft.util.DamageSource;
@@ -22,7 +22,7 @@ import optifine.CapeUtils;
 import optifine.Config;
 import optifine.PlayerConfigurations;
 
-public abstract class AbstractClientPlayer extends EntityPlayer {
+public abstract class AbstractClientPlayer extends Player {
 
 	private NetworkPlayerInfo playerInfo;
 	private ResourceLocation locationOfCape = null;

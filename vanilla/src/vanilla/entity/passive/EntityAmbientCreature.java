@@ -2,7 +2,7 @@ package vanilla.entity.passive;
 
 import net.minecraft.entity.IAnimals;
 import vanilla.entity.VanillaEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.world.World;
 
 public abstract class EntityAmbientCreature extends VanillaEntity implements IAnimals {
@@ -18,7 +18,7 @@ public abstract class EntityAmbientCreature extends VanillaEntity implements IAn
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	protected boolean interact(EntityPlayer player) {
+	protected boolean interact(Player player) {
 		return false;
 	}
 

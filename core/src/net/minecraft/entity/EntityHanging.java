@@ -2,7 +2,7 @@ package net.minecraft.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneDiode;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -163,7 +163,7 @@ public abstract class EntityHanging extends Entity {
 	 * Called when a player attacks an entity. If this returns true the attack will not happen.
 	 */
 	public boolean hitByEntity(Entity entityIn) {
-		return entityIn instanceof EntityPlayer ? this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) entityIn), 0.0F) : false;
+		return entityIn instanceof Player ? this.attackEntityFrom(DamageSource.causePlayerDamage((Player) entityIn), 0.0F) : false;
 	}
 
 	public EnumFacing getHorizontalFacing() {

@@ -1,7 +1,7 @@
 package vanilla.entity.ai.tasks;
 
 import vanilla.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.Container;
 
 public class EntityAITradePlayer extends EntityAIBase {
@@ -29,7 +29,7 @@ public class EntityAITradePlayer extends EntityAIBase {
 		if (this.villager.velocityChanged) {
 			return false;
 		}
-		EntityPlayer entityplayer = this.villager.getCustomer();
+		Player entityplayer = this.villager.getCustomer();
 		return entityplayer == null ? false : this.villager.getDistanceSqToEntity(entityplayer) > 16.0D ? false : entityplayer.openContainer instanceof Container;
 	}
 
@@ -44,7 +44,7 @@ public class EntityAITradePlayer extends EntityAIBase {
 	 * Resets the task
 	 */
 	public void resetTask() {
-		this.villager.setCustomer((EntityPlayer) null);
+		this.villager.setCustomer((Player) null);
 	}
 
 }

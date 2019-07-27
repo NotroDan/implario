@@ -3,7 +3,7 @@ package net.minecraft.item;
 import java.util.List;
 
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.world.World;
@@ -26,7 +26,7 @@ public class ItemAppleGold extends ItemFood {
 		return stack.getMetadata() == 0 ? EnumRarity.RARE : EnumRarity.EPIC;
 	}
 
-	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+	protected void onFoodEaten(ItemStack stack, World worldIn, Player player) {
 		if (!worldIn.isClientSide) {
 			player.addPotionEffect(new PotionEffect(Potion.absorption.id, 2400, 0));
 		}

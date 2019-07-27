@@ -5,7 +5,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
@@ -29,7 +29,7 @@ public class TileEntitySign extends TileEntity {
 	 */
 	public int lineBeingEdited = -1;
 	private boolean isEditable = true;
-	private EntityPlayer player;
+	private Player player;
 	private final CommandResultStats stats = new CommandResultStats();
 
 	public void writeToNBT(NBTTagCompound compound) {
@@ -134,15 +134,15 @@ public class TileEntitySign extends TileEntity {
 		}
 	}
 
-	public void setPlayer(EntityPlayer playerIn) {
+	public void setPlayer(Player playerIn) {
 		this.player = playerIn;
 	}
 
-	public EntityPlayer getPlayer() {
+	public Player getPlayer() {
 		return this.player;
 	}
 
-	public boolean executeCommand(final EntityPlayer playerIn) {
+	public boolean executeCommand(final Player playerIn) {
 		ICommandSender icommandsender = new ICommandSender() {
 			public String getName() {
 				return playerIn.getName();

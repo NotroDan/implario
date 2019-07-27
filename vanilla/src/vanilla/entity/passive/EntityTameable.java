@@ -5,7 +5,7 @@ import java.util.UUID;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
 import vanilla.entity.ai.tasks.EntityAISit;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.management.PreYggdrasilConverter;
@@ -192,8 +192,8 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 	 * Called when the mob's health reaches 0.
 	 */
 	public void onDeath(DamageSource cause) {
-		if (!this.worldObj.isClientSide && this.worldObj.getGameRules().getBoolean("showDeathMessages") && this.hasCustomName() && this.getOwner() instanceof EntityPlayerMP) {
-			((EntityPlayerMP) this.getOwner()).sendMessage(this.getCombatTracker().getDeathMessage());
+		if (!this.worldObj.isClientSide && this.worldObj.getGameRules().getBoolean("showDeathMessages") && this.hasCustomName() && this.getOwner() instanceof MPlayer) {
+			((MPlayer) this.getOwner()).sendMessage(this.getCombatTracker().getDeathMessage());
 		}
 
 		super.onDeath(cause);

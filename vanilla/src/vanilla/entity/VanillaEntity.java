@@ -10,7 +10,7 @@ import vanilla.entity.monster.EntityGhast;
 import vanilla.entity.monster.EntityMob;
 import vanilla.entity.monster.IMob;
 import vanilla.entity.passive.EntityTameable;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
@@ -227,7 +227,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 	/**
 	 * Get the experience points the entity currently has.
 	 */
-	protected int getExperiencePoints(EntityPlayer player) {
+	protected int getExperiencePoints(Player player) {
 		if (this.experienceValue > 0) {
 			int i = this.experienceValue;
 			ItemStack[] aitemstack = this.getInventory();
@@ -484,7 +484,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 				}
 
 				if (itemstack.getItem() == Items.diamond && itemEntity.getThrower() != null) {
-					EntityPlayer entityplayer = this.worldObj.getPlayerEntityByName(itemEntity.getThrower());
+					Player entityplayer = this.worldObj.getPlayerEntityByName(itemEntity.getThrower());
 
 					if (entityplayer != null) {
 						entityplayer.triggerAchievement(AchievementList.diamondsToYou);
@@ -520,7 +520,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 		if (this.persistenceRequired) this.entityAge = 0;
 		else if ((this.entityAge & 31) == 31) this.setDead();
 		else {
-			EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, -1.0D);
+			Player entityplayer = this.worldObj.getClosestPlayerToEntity(this, -1.0D);
 
 			if (entityplayer != null) {
 				double d0 = entityplayer.posX - this.posX;
@@ -907,7 +907,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 	/**
 	 * First layer of player interaction
 	 */
-	public final boolean interactFirst(EntityPlayer playerIn) {
+	public final boolean interactFirst(Player playerIn) {
 		if (this.getLeashed() && this.getLeashedToEntity() == playerIn) {
 			this.clearLeashed(true, !playerIn.capabilities.isCreativeMode);
 			return true;
@@ -934,7 +934,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	protected boolean interact(EntityPlayer player) {
+	protected boolean interact(Player player) {
 		return false;
 	}
 

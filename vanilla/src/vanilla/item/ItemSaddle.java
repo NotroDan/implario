@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import vanilla.entity.passive.EntityPig;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 
 public class ItemSaddle extends Item {
 
@@ -17,7 +17,7 @@ public class ItemSaddle extends Item {
 	/**
 	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
 	 */
-	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+	public boolean itemInteractionForEntity(ItemStack stack, Player playerIn, EntityLivingBase target) {
 		if (target instanceof EntityPig) {
 			EntityPig entitypig = (EntityPig) target;
 
@@ -37,7 +37,7 @@ public class ItemSaddle extends Item {
 	 * the damage on the stack.
 	 */
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-		this.itemInteractionForEntity(stack, (EntityPlayer) null, target);
+		this.itemInteractionForEntity(stack, (Player) null, target);
 		return true;
 	}
 

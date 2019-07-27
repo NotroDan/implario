@@ -1,6 +1,6 @@
 package vanilla.worldedit;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Domain;
 
@@ -15,7 +15,7 @@ public class WorldEdit extends Datapack {
 		super(domain);
 	}
 
-	public static final Map<EntityPlayer, Selection> map = new HashMap<>();
+	public static final Map<Player, Selection> map = new HashMap<>();
 
 	@Override
 	public void preinit() {

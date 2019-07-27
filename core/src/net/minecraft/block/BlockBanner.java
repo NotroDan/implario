@@ -8,7 +8,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -112,7 +112,7 @@ public class BlockBanner extends BlockContainer {
 		return !this.func_181087_e(worldIn, pos) && super.canPlaceBlockAt(worldIn, pos);
 	}
 
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+	public void harvestBlock(World worldIn, Player player, BlockPos pos, IBlockState state, TileEntity te) {
 		if (te instanceof TileEntityBanner) {
 			TileEntityBanner tileentitybanner = (TileEntityBanner) te;
 			ItemStack itemstack = new ItemStack(Items.banner, 1, ((TileEntityBanner) te).getBaseColor());

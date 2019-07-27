@@ -1,7 +1,7 @@
 package net.minecraft.client.gui.ingame;
 
 import net.minecraft.client.MC;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
@@ -16,7 +16,7 @@ public class ModulePortal implements Module {
 
 	@Override
 	public void render(GuiIngame gui, float partialTicks, ScaledResolution res) {
-		EntityPlayerSP p = MC.getPlayer();
+		CPlayer p = MC.getPlayer();
 		if (p.isPotionActive(Potion.confusion)) return;
 		float time = p.prevTimeInPortal + (p.timeInPortal - p.prevTimeInPortal) * partialTicks;
 		if (time <= 0) return;

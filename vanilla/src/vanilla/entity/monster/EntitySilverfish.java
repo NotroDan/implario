@@ -13,7 +13,7 @@ import vanilla.entity.ai.tasks.EntityAIHurtByTarget;
 import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
 import vanilla.entity.ai.tasks.EntityAISwimming;
 import vanilla.entity.ai.tasks.EntityAIWander;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
@@ -31,10 +31,10 @@ public class EntitySilverfish extends EntityMob {
 		this.setSize(0.4F, 0.3F);
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(3, this.summonSilverfish = new EntitySilverfish.AISummonSilverfish(this));
-		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, Player.class, 1.0D, false));
 		this.tasks.addTask(5, new EntitySilverfish.AIHideInStone(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, Player.class, true));
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class EntitySilverfish extends EntityMob {
 	 */
 	public boolean getCanSpawnHere() {
 		if (super.getCanSpawnHere()) {
-			EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
+			Player entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
 			return entityplayer == null;
 		}
 		return false;

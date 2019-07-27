@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 
 public class Slot {
@@ -58,7 +58,7 @@ public class Slot {
 	 */
 	protected void onCrafting(ItemStack stack) {}
 
-	public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+	public void onPickupFromSlot(Player playerIn, ItemStack stack) {
 		this.onSlotChanged();
 	}
 
@@ -136,7 +136,7 @@ public class Slot {
 	/**
 	 * Return whether this slot's stack can be taken from this slot.
 	 */
-	public boolean canTakeStack(EntityPlayer playerIn) {
+	public boolean canTakeStack(Player playerIn) {
 		return true;
 	}
 

@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.world.EnumDifficulty;
@@ -322,7 +322,7 @@ public enum Settings {
 		int i = 0;
 		for (Settings modelpart : MODELPARTS) i |= EnumPlayerModelParts.valueOf(modelpart.name().substring(6)).getPartMask();
 		mc.thePlayer.sendQueue.addToSendQueue(new C15PacketClientSettings(language, RENDER_DISTANCE.i(),
-				EntityPlayer.EnumChatVisibility.values()[CHAT_VISIBILITY.i()], CHAT_COLOR.b(), i));
+				Player.EnumChatVisibility.values()[CHAT_VISIBILITY.i()], CHAT_COLOR.b(), i));
 	}
 
 	public static void resetSettings() {

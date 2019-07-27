@@ -16,7 +16,7 @@ import vanilla.entity.ai.tasks.EntityAIWander;
 import vanilla.entity.ai.tasks.EntityAIWatchClosest;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -50,10 +50,10 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob {
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIArrowAttack(this, 1.0D, 60, 10.0F));
 		this.tasks.addTask(2, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(3, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasks.addTask(3, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, Player.class, true));
 	}
 
 	protected void entityInit() {

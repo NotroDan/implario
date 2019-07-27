@@ -4,7 +4,7 @@ import vanilla.entity.EntityAgeable;
 import net.minecraft.entity.item.EntityXPOrb;
 import vanilla.entity.passive.EntityAnimal;
 import vanilla.entity.passive.EntityCow;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ParticleType;
@@ -102,7 +102,7 @@ public class EntityAIMate extends EntityAIBase {
 		EntityAgeable entityageable = this.theAnimal.createChild(this.targetMate);
 
 		if (entityageable != null) {
-			EntityPlayer entityplayer = this.theAnimal.getPlayerInLove();
+			Player entityplayer = this.theAnimal.getPlayerInLove();
 
 			if (entityplayer == null && this.targetMate.getPlayerInLove() != null) {
 				entityplayer = this.targetMate.getPlayerInLove();

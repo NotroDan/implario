@@ -13,7 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.server.Profiler;
 import net.minecraft.util.FoodStats;
@@ -41,8 +41,8 @@ public class ModulePlayerStats implements Module {
 	public void render(GuiIngame gui, float partialTicks, ScaledResolution res) {
 		Minecraft mc = MC.i();
 		if (!mc.playerController.shouldDrawHUD()) return;
-		if (!(mc.getRenderViewEntity() instanceof EntityPlayer)) return;
-		EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
+		if (!(mc.getRenderViewEntity() instanceof Player)) return;
+		Player entityplayer = (Player) mc.getRenderViewEntity();
 		int health = MathHelper.ceiling_float_int(entityplayer.getHealth());
 		int updateCounter = gui.getUpdateCounter();
 		boolean flag = healthUpdateCounter > (long) updateCounter && (healthUpdateCounter - (long) updateCounter) / 3L % 2L == 1L;

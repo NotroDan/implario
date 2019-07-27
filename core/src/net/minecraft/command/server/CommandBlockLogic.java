@@ -6,7 +6,7 @@ import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IChatComponent;
@@ -212,7 +212,7 @@ public abstract class CommandBlockLogic implements ICommandSender {
 		return this.trackOutput;
 	}
 
-	public boolean tryOpenEditCommandBlock(EntityPlayer playerIn) {
+	public boolean tryOpenEditCommandBlock(Player playerIn) {
 		if (!playerIn.capabilities.isCreativeMode) return false;
 		if (playerIn.getEntityWorld().isClientSide) {
 			playerIn.openGui(CommandBlockLogic.class, this);

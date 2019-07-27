@@ -5,7 +5,7 @@ import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerHopper;
@@ -161,14 +161,14 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(Player player) {
 		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(Player player) {
 	}
 
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(Player player) {
 	}
 
 	/**
@@ -580,7 +580,7 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 		return "minecraft:hopper";
 	}
 
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(InventoryPlayer playerInventory, Player playerIn) {
 		return new ContainerHopper(playerInventory, this, playerIn);
 	}
 

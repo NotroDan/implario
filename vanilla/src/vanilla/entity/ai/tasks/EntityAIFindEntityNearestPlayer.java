@@ -11,8 +11,8 @@ import vanilla.entity.VanillaEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.Logger;
 
@@ -33,10 +33,10 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
 
 		this.field_179435_c = new Predicate<Entity>() {
 			public boolean apply(Entity p_apply_1_) {
-				if (!(p_apply_1_ instanceof EntityPlayer)) {
+				if (!(p_apply_1_ instanceof Player)) {
 					return false;
 				}
-				if (((EntityPlayer) p_apply_1_).capabilities.disableDamage) {
+				if (((Player) p_apply_1_).capabilities.disableDamage) {
 					return false;
 				}
 				double d0 = EntityAIFindEntityNearestPlayer.this.func_179431_f();
@@ -46,7 +46,7 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
 				}
 
 				if (p_apply_1_.isInvisible()) {
-					float f = ((EntityPlayer) p_apply_1_).getArmorVisibility();
+					float f = ((Player) p_apply_1_).getArmorVisibility();
 
 					if (f < 0.1F) {
 						f = 0.1F;
@@ -67,7 +67,7 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
 	 */
 	public boolean shouldExecute() {
 		double d0 = this.func_179431_f();
-		List<EntityPlayer> list = this.field_179434_b.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.field_179434_b.getEntityBoundingBox().expand(d0, 4.0D, d0), this.field_179435_c);
+		List<Player> list = this.field_179434_b.worldObj.getEntitiesWithinAABB(Player.class, this.field_179434_b.getEntityBoundingBox().expand(d0, 4.0D, d0), this.field_179435_c);
 		Collections.sort(list, this.field_179432_d);
 
 		if (list.isEmpty()) {
@@ -89,7 +89,7 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
 		if (!entitylivingbase.isEntityAlive()) {
 			return false;
 		}
-		if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer) entitylivingbase).capabilities.disableDamage) {
+		if (entitylivingbase instanceof Player && ((Player) entitylivingbase).capabilities.disableDamage) {
 			return false;
 		}
 		Team team = this.field_179434_b.getTeam();
@@ -100,7 +100,7 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
 		}
 		double d0 = this.func_179431_f();
 		return this.field_179434_b.getDistanceSqToEntity(
-				entitylivingbase) > d0 * d0 ? false : !(entitylivingbase instanceof EntityPlayerMP) || !((EntityPlayerMP) entitylivingbase).theItemInWorldManager.isCreative();
+				entitylivingbase) > d0 * d0 ? false : !(entitylivingbase instanceof MPlayer) || !((MPlayer) entitylivingbase).theItemInWorldManager.isCreative();
 	}
 
 	/**

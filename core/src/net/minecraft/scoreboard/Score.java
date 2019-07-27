@@ -3,7 +3,7 @@ package net.minecraft.scoreboard;
 import java.util.Comparator;
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 
 public class Score {
 
@@ -85,7 +85,7 @@ public class Score {
 		this.locked = locked;
 	}
 
-	public void func_96651_a(List<EntityPlayer> p_96651_1_) {
+	public void func_96651_a(List<Player> p_96651_1_) {
 		this.setScorePoints(this.theScoreObjective.getCriteria().func_96635_a(p_96651_1_));
 	}
 

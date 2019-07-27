@@ -2,7 +2,7 @@ package vanilla.world;
 
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -141,7 +141,7 @@ public class VanillaWorldServer extends WorldServer {
 			int i = 0;
 			int j = 0;
 
-			for (EntityPlayer entityplayer : this.playerEntities) {
+			for (Player entityplayer : this.playerEntities) {
 				if (entityplayer.isSpectator()) {
 					++i;
 				} else if (entityplayer.isPlayerSleeping()) {
@@ -156,7 +156,7 @@ public class VanillaWorldServer extends WorldServer {
 	protected void wakeAllPlayers() {
 		this.allPlayersSleeping = false;
 
-		for (EntityPlayer entityplayer : this.playerEntities) {
+		for (Player entityplayer : this.playerEntities) {
 			if (entityplayer.isPlayerSleeping()) {
 				entityplayer.wakeUpPlayer(false, false, true);
 			}
@@ -176,7 +176,7 @@ public class VanillaWorldServer extends WorldServer {
 	@Override
 	public boolean areAllPlayersAsleep() {
 		if (this.allPlayersSleeping && !this.isClientSide) {
-			for (EntityPlayer entityplayer : this.playerEntities) {
+			for (Player entityplayer : this.playerEntities) {
 				if (entityplayer.isSpectator() || !entityplayer.isPlayerFullyAsleep()) {
 					return false;
 				}

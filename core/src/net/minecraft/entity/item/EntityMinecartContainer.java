@@ -1,6 +1,6 @@
 package net.minecraft.entity.item;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -98,14 +98,14 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUseableByPlayer(Player player) {
 		return this.isDead ? false : player.getDistanceSqToEntity(this) <= 64.0D;
 	}
 
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(Player player) {
 	}
 
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(Player player) {
 	}
 
 	/**
@@ -188,7 +188,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 	/**
 	 * First layer of player interaction
 	 */
-	public boolean interactFirst(EntityPlayer playerIn) {
+	public boolean interactFirst(Player playerIn) {
 		if (!this.worldObj.isClientSide) {
 			playerIn.displayGUIChest(this);
 		}

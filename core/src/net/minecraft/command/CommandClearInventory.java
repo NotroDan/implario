@@ -2,7 +2,7 @@ package net.minecraft.command;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
@@ -38,7 +38,7 @@ public class CommandClearInventory extends CommandBase {
 	 * Callback when the command is invoked
 	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		EntityPlayerMP entityplayermp = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(sender, args[0]);
+		MPlayer entityplayermp = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(sender, args[0]);
 		Item item = args.length >= 2 ? getItemByText(sender, args[1]) : null;
 		int i = args.length >= 3 ? parseInt(args[2], -1) : -1;
 		int j = args.length >= 4 ? parseInt(args[3], -1) : -1;

@@ -18,7 +18,7 @@ import vanilla.entity.ai.tasks.EntityAITargetNonTamed;
 import vanilla.entity.ai.tasks.EntityAITempt;
 import vanilla.entity.ai.tasks.EntityAIWander;
 import vanilla.entity.ai.tasks.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -33,7 +33,7 @@ import net.minecraft.world.World;
 
 public class EntityOcelot extends EntityTameable {
 
-	private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
+	private EntityAIAvoidEntity<Player> avoidEntity;
 
 	/**
 	 * The tempt AI task for this mob, used to prevent taming while it is fleeing.
@@ -53,7 +53,7 @@ public class EntityOcelot extends EntityTameable {
 		this.tasks.addTask(8, new EntityAIOcelotAttack(this));
 		this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
 		this.tasks.addTask(10, new EntityAIWander(this, 0.8D));
-		this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
+		this.tasks.addTask(11, new EntityAIWatchClosest(this, Player.class, 10.0F));
 		this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
 	}
 
@@ -170,7 +170,7 @@ public class EntityOcelot extends EntityTameable {
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	public boolean interact(EntityPlayer player) {
+	public boolean interact(Player player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (this.isTamed()) {
@@ -293,7 +293,7 @@ public class EntityOcelot extends EntityTameable {
 
 	protected void setupTamedAI() {
 		if (this.avoidEntity == null) {
-			this.avoidEntity = new EntityAIAvoidEntity(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
+			this.avoidEntity = new EntityAIAvoidEntity(this, Player.class, 16.0F, 0.8D, 1.33D);
 		}
 
 		this.tasks.removeTask(this.avoidEntity);

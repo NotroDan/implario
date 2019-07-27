@@ -4,7 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.creativetab.CreativeTabs;
@@ -73,7 +73,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
 		return 1 + random.nextInt(fortune * 2 + 1);
 	}
 
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+	public void harvestBlock(World worldIn, Player player, BlockPos pos, IBlockState state, TileEntity te) {
 		if (!worldIn.isClientSide && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears) {
 			player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
 			spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 1, state.getValue(TYPE).getMeta()));

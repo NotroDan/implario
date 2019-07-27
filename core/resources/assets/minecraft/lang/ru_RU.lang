@@ -70,6 +70,7 @@ achievement.theEnd.desc=Найти измерение Энд
 achievement.theEnd2=Конец.
 achievement.theEnd2.desc=Убить Дракона Эндера
 achievement.unknown=???
+
 addServer.add=Готово
 addServer.enterIp=Адрес сервера
 addServer.enterName=Название сервера
@@ -79,6 +80,7 @@ addServer.resourcePack.disabled=Отключено
 addServer.resourcePack.enabled=Включены
 addServer.resourcePack.prompt=Запрашивать
 addServer.title=Информация о сервере
+
 advMode.allEntities=Используйте "@e", чтобы пометить всех существ
 advMode.allPlayers=Используйте "@a" для выбора всех игроков
 advMode.command=Команда консоли
@@ -89,6 +91,7 @@ advMode.previousOutput=Предыдущий вывод
 advMode.randomPlayer=Используйте "@r" для выбора случайного игрока
 advMode.setCommand=Задать команду для блока
 advMode.setCommand.success=Команда выполнена: %s
+
 attribute.modifier.plus.0=+%s %s
 attribute.modifier.plus.1=+%s%% %s
 attribute.modifier.plus.2=+%s%% %s
@@ -176,7 +179,9 @@ book.generation.2=Копия копии
 book.generation.3=Отрёпанная
 book.pageIndicator=Страница %1$s из %2$s
 book.signButton=Подписать
+
 build.tooHigh=Ограничение по высоте строительства %s блоков
+
 chat.cannotSend=Не удается отправить сообщение
 chat.copy=Копировать
 chat.link.confirm=Вы действительно хотите перейти по ссылке?
@@ -189,6 +194,7 @@ chat.type.admin=[%s: %s]
 chat.type.announcement=[%s] %s
 chat.type.emote=---------- %s %s
 chat.type.text=<%s> %s
+
 commands.achievement.alreadyHave=Игрок %s уже имеет достижение %s
 commands.achievement.dontHave=Игрок %s не имеет достижения %s
 commands.achievement.give.success.all=Успешно зачислены все достижения игроку %s
@@ -198,22 +204,27 @@ commands.achievement.take.success.all=Успешно взяты все дост�
 commands.achievement.take.success.one=Успешно взято достижение %s из %s
 commands.achievement.unknownAchievement=Неизвестное достижение или статистика «%s»
 commands.achievement.usage=/achievement <дать|убрать> <название статистики|*> [игрок]
+
 commands.ban.failed=Не удалось забанить игрока %s
 commands.ban.success=%s забанен
 commands.ban.usage=/ban <имя игрока> [причина ...]
+
 commands.banip.invalid=Введен неверный IP-адрес или игрок отключен от сервера
 commands.banip.success=IP адрес %s забанен
 commands.banip.success.players=Забанен IP %s, принадлежащий игроку %s
 commands.banip.usage=/ban-ip <адрес|имя игрока> [причина ...]
+
 commands.banlist.ips=%s всего забанненых IP адресов:
 commands.banlist.players=%s всего забанненых игроков:
 commands.banlist.usage=/banlist [ip|игроки]
+
 commands.blockdata.failed=Data тег не был изменен: %s
 commands.blockdata.notValid=Выбранный блок не может содержать параметров
 commands.blockdata.outOfWorld=Не удается разместить блок за пределами мира
 commands.blockdata.success=Данные блока обновлены: %s
 commands.blockdata.tagError=Ошибка разбора тегов: %s
 commands.blockdata.usage=/blockdata <x> <y> <z> <теги>
+
 commands.chunkinfo.compiled=Чанк скомпилирован.
 commands.chunkinfo.data=Первые 64 вершины: %s
 commands.chunkinfo.empty=Чанк пуст.
@@ -226,34 +237,43 @@ commands.chunkinfo.notCompiled=Чанк не скомпилирован.
 commands.chunkinfo.notEmpty=Чанк не пуст.
 commands.chunkinfo.usage=/chunkinfo [<x> <y> <z>]
 commands.chunkinfo.vertices=%s буфер слоя содержит %s вершин
+
 commands.clear.failure=Нельзя очистить инвентарь %s, нет предметов для удаления
 commands.clear.success=Инвентарь игрока %s очищен, удалено %s предметов
 commands.clear.tagError=Ошибка разбора тегов: %s
 commands.clear.testing=%s имеет %s предметов, соответствующих критериям
 commands.clear.usage=/clear [цель] [предмет] [доп. информация] [макс. кол-во] [теги]
+
 commands.clone.failed=Ни один блок не был клонирован
 commands.clone.noOverlap=Источник и место назначения не могут совпадать
 commands.clone.outOfWorld=Доступ к блокам за границей мира запрещен
 commands.clone.success=%s блоков клонировано
 commands.clone.tooManyBlocks=Слишком много блоков в указанной области (%s > %s)
 commands.clone.usage=/clone <x1> <y1> <z1> <x2> <y2> <z2> <x> <y> <z> [режим]
+
 commands.compare.failed=Источник и назначение не идентичны
 commands.compare.outOfWorld=Не удается получить доступ к блокам вне мира
 commands.compare.success=%s блоков в сравнении
 commands.compare.tooManyBlocks=Слишком много блоков в указанной области (%s > %s)
 commands.compare.usage=/testforblocks <x1> <y1> <z1> <x2> <y2> <z2> <x> <y> <z> [режим]
+
 commands.debug.notStarted=Невозможно остановить профилирование, т.к. оно не запущено!
 commands.debug.start=Начало профилирования отладки
 commands.debug.stop=Остановка профилирования отладки после %s секунд (%s тиков)
+
 commands.defaultgamemode.success=Режим игры по умолчанию в этом мире теперь %s
 commands.defaultgamemode.usage=/defaultgamemode <режим игры>
+
 commands.deop.failed=Не удалось убрать %s из списка операторов
 commands.deop.success=%s больше не оператор
 commands.deop.usage=/deop <имя игрока>
+
 commands.difficulty.success=Сложность игры изменена на %s
 commands.difficulty.usage=/difficulty <сложность>
+
 commands.downfall.success=Погода успешно изменена
 commands.downfall.usage=/toggledownfall
+
 commands.effect.failure.notActive=Нельзя забрать %1$s от %2$s, поскольку  эффект отсутствует
 commands.effect.failure.notActive.all=Невозможно удалить эффекты у %s так как они отсутствуют
 commands.effect.notFound=Не существует эффекта с ID %s
@@ -261,33 +281,40 @@ commands.effect.success=Наложен эффект "%1$s" (ID %2$s) * %3$s на
 commands.effect.success.removed=Взято %1$s из %2$s
 commands.effect.success.removed.all=Все эффекты удалены у %s
 commands.effect.usage=/effect <цель> <эффект> [длительность] [уровень] [скрывать частицы]
+
 commands.enchant.cantCombine=%1$s не может сочетаться с %2$s
 commands.enchant.cantEnchant=Невозможно добавить выбранное зачарование к данному предмету
 commands.enchant.noItem=Цель не держит предмет
 commands.enchant.notFound=Зачарования с ID %s не существует
 commands.enchant.success=Зачарование успешно
 commands.enchant.usage=/enchant <игрок> <ID зачарования> [уровень]
+
 commands.entitydata.failed=Data тег не был изменен: %s
 commands.entitydata.noPlayers=%s является игроком и не может быть изменен
 commands.entitydata.success=Информация сущности была изменена на: %s
 commands.entitydata.tagError=Ошибка разбора тегов: %s
 commands.entitydata.usage=/entitydata <сущность> <Data Тег>
+
 commands.execute.allInvocationsFailed=Все вызовы не удались: "%s"
 commands.execute.failed=Не удалось выполнить «%s» как %s
 commands.execute.usage=/execute <цель> <x> <y> <z> <команда> ИЛИ /execute <цель> <x> <y> <z> detect <x> <y> <z> <блок> <доп. параметры> <команда>
+
 commands.fill.failed=Ни один блок не был заполнен
 commands.fill.outOfWorld=Нельзя разместить блок за границей мира
 commands.fill.success=%s блоков заполнено
 commands.fill.tagError=Ошибка разбора тегов: %s
 commands.fill.tooManyBlocks=Слишком много блоков в указанной области (%s > %s)
 commands.fill.usage=/fill <x1> <y1> <z1> <x2> <y2> <z2> <имя блока> [доп. параметры] [блок для замены] [доп. параметры]
+
 commands.gamemode.success.other=Режим игры игрока %s изменён на %s
 commands.gamemode.success.self=Ваш режим игры изменён на %s
 commands.gamemode.usage=/gamemode <режим> [игрок]
+
 commands.gamerule.nopermission=Только владельцы сервера могут изменить «%s»
 commands.gamerule.norule=Игровое правило под названием '%s' недоступно
 commands.gamerule.success=Игровые правила были обновлены
 commands.gamerule.usage=/gamerule <игровое правило> [значение]
+
 commands.generic.boolean.invalid='%s' не является "true" или "false"
 commands.generic.double.tooBig=Вы указали слишком большое число (%s). Укажите число не более %s
 commands.generic.double.tooSmall=Введенное число (%s) слишком мало, оно должно быть не меньше %s
@@ -304,37 +331,48 @@ commands.generic.permission=У вас нет прав на использова�
 commands.generic.player.notFound=Указанный игрок не найден
 commands.generic.syntax=Неверный синтаксис команды
 commands.generic.usage=Использование: %s
+
 commands.give.notFound=Предмет с идентификатором %s не существует
 commands.give.success=Дано %s * %s игроку %s
 commands.give.tagError=Ошибка разбора тегов: %s
 commands.give.usage=/give <игрок> <предмет> [количество] [данные] [тег данных]
+
 commands.help.footer=Подсказка: Используйте <tab> для автоматического ввода команды или её аргументов
 commands.help.header=--- Помощь, стр. %s из %s (/help <стр>) ---
 commands.help.usage=/help [страница|команда]
+
 commands.kick.success=Игрок %s выкинут из игры
 commands.kick.success.reason=%s выкинут из игры: '%s'
 commands.kick.usage=/kick <игрок> [причина ...]
 commands.kill.successful=%s убит
 commands.kill.usage=/kill [игрок|сущность]
+
 commands.me.usage=/me <действие ...>
+
 commands.message.display.incoming=%s прошептал вам: %s
 commands.message.display.outgoing=Вы прошептали %s: %s
 commands.message.sameTarget=Невозможно отправить личное сообщение самому себе!
 commands.message.usage=/tell <игрок> <сообщение...>
+
 commands.op.failed=Не удалось добавить %s в список операторов
 commands.op.success=%s теперь оператор
 commands.op.usage=/op <имя игрока>
+
 commands.particle.notFound=Имя эффекта неизвестно (%s)
 commands.particle.success=Показано %s частиц %s раз
 commands.particle.usage=/particle <имя> <x> <y> <z> <xd> <yd> <zd> <скорость> [кол-во] [режим]
+
 commands.players.list=%s/%s игроков на сервере:
 commands.players.usage=/list
+
 commands.playsound.playerTooFar=Игрок %s слишком далеко, чтобы услышать звук
 commands.playsound.success=Проигран звук «%s» игроку %s
 commands.playsound.usage=/playsound <звук> <игрок> [x] [y] [z] [громкость] [высота] [минимальная громкость]
+
 commands.publish.failed=Невозможно запустить локальный сервер
 commands.publish.started=Локальный сервер работает на порте %s
 commands.publish.usage=/publish
+
 commands.replaceitem.block.usage=/replaceitem block <x> <y> <z> <ячейка> <предмет> [amount] [data] [dataTag]
 commands.replaceitem.entity.usage=/replaceitem entity <цель> <слот> <предмет> [количество] [доп. параметры] [теги]
 commands.replaceitem.failed=Невозможно заменить слот %s с %s * %s
@@ -342,6 +380,7 @@ commands.replaceitem.noContainer=Блок на %s, %s, %s не является 
 commands.replaceitem.success=Заменить ячейку %s с %s * %s
 commands.replaceitem.tagError=Ошибка разбора тегов: %s
 commands.replaceitem.usage=/replaceitem <entity|block>...
+
 commands.save-off.alreadyOff=Сохранение уже выключено.
 commands.save-off.usage=/save-off
 commands.save-on.alreadyOn=Сохранение уже включено.
@@ -352,12 +391,15 @@ commands.save.failed=Ошибка сохранения: %s
 commands.save.start=Сохранение...
 commands.save.success=Мир успешно сохранён
 commands.save.usage=/save-all
+
 commands.say.usage=/say <сообщение ...>
+
 commands.scoreboard.allMatchesFailed=Все совпадения провалились
 commands.scoreboard.noMultiWildcard=Допускается шаблон только для одного пользователя
 commands.scoreboard.objectiveNotFound=Ни одна цель с именем '%s' не была найдена
 commands.scoreboard.objectiveReadOnly=Цель '%s' только для чтения и не может быть установлена
 commands.scoreboard.objectives.add.alreadyExists=Цель с названием '%s' уже существует
+
 commands.scoreboard.objectives.add.displayTooLong=Отображаемое имя '%s' является слишком длинным для цели, оно должно быть до %s символов в длину
 commands.scoreboard.objectives.add.success=Новая цель '%s' успешно добавлена
 commands.scoreboard.objectives.add.tooLong=Имя '%s' является слишком длинным для цели, оно должно быть до %s символов в длину
@@ -373,6 +415,7 @@ commands.scoreboard.objectives.setdisplay.successCleared=Очищены цели
 commands.scoreboard.objectives.setdisplay.successSet=Цель установлена в слоте отображения '%s' - '%s'
 commands.scoreboard.objectives.setdisplay.usage=/scoreboard objectives setdisplay <слот> [цель]
 commands.scoreboard.objectives.usage=/scoreboard objectives <list|add|remove|setdisplay> ...
+
 commands.scoreboard.players.add.usage=/scoreboard players add <игрок> <объектив> <кол-во> [dataTag]
 commands.scoreboard.players.enable.noTrigger=Цель %s не является триггером
 commands.scoreboard.players.enable.success=Включен триггер %s для %s
@@ -399,6 +442,7 @@ commands.scoreboard.players.test.notFound=Не найден счёт %s для %
 commands.scoreboard.players.test.success=Счёт %s находится в диапазоне %s -- %s
 commands.scoreboard.players.test.usage=/scoreboard players test <игрок> <объектив> <мин.> <макс.>
 commands.scoreboard.players.usage=/scoreboard players <set|add|remove|reset|list|enable|test|operation> ...
+
 commands.scoreboard.teamNotFound=Ни одна команда с именем '%s' не была найдена
 commands.scoreboard.teams.add.alreadyExists=Команда с именем '%s' уже существует
 commands.scoreboard.teams.add.displayTooLong=Отображаемое имя команды '%s' слишком длинное, оно должно быть не более %s символов
@@ -429,8 +473,10 @@ commands.scoreboard.teams.remove.success=Команда %s удалена
 commands.scoreboard.teams.remove.usage=/scoreboard teams remove <имя>
 commands.scoreboard.teams.usage=/scoreboard teams <list|add|remove|empty|join|leave|option> ...
 commands.scoreboard.usage=/scoreboard <objectives|players|teams> ...
+
 commands.seed.success=Сид: %s
 commands.seed.usage=/seed
+
 commands.setblock.failed=Не удается разместить блок
 commands.setblock.noChange=Блок не может быть размещен
 commands.setblock.notFound=Блока с ID/именем %s не существует
@@ -438,12 +484,16 @@ commands.setblock.outOfWorld=Не удается разместить блок �
 commands.setblock.success=Блок размещен
 commands.setblock.tagError=Ошибка разбора тегов: %s
 commands.setblock.usage=/setblock <x> <y> <z> <ИмяТайла> [значениеДаты] [обработкаСтарогоБлока] [датаТега]
+
 commands.setidletimeout.success=Тайм-аут простоя успешно установлен до %s минут.
 commands.setidletimeout.usage=/setidletimeout <Минут до кика>
+
 commands.setworldspawn.success=Точка возрождения в мире установлена на (%s, %s, %s)
 commands.setworldspawn.usage=/setworldspawn [<x> <y> <z>]
+
 commands.spawnpoint.success=Точка возрождения %s установлена на координаты %s, %s, %s
 commands.spawnpoint.usage=/spawnpoint [игрок] [<x> <y> <z>]
+
 commands.spreadplayers.failure.players=Невозможно распространить %s игроков вокруг %s,%s (слишком много игроков - попробуйте использовать распространение больше чем %s)
 commands.spreadplayers.failure.teams=Невозможно распространить %s команды вокруг %s,%s (слишком много игроков - попробуйте использовать распространение больше чем %s)
 commands.spreadplayers.info.players=(Среднее расстояние между игроками %s блоков друг от друга после %s повторений)
@@ -453,6 +503,7 @@ commands.spreadplayers.spreading.teams=Распространение %s ком�
 commands.spreadplayers.success.players=Успешное распространение %s игроков вокруг %s,%s
 commands.spreadplayers.success.teams=Успешное распространение %s команд вокруг %s,%s
 commands.spreadplayers.usage=/spreadplayers <x> <z> <дистанция распространения> <максимальный диапазон> <respectTeams true|false> <игрок ...>
+
 commands.stats.block.clear.usage=/stats block <x> <y> <z> clear <статистика>
 commands.stats.block.set.usage=/stats block <x> <y> <z> set <статистика> <селектор> <объектив>
 commands.stats.block.usage=/stats block <x> <y> <z> <режим> ...
@@ -464,19 +515,24 @@ commands.stats.failed=Недопустимые параметры
 commands.stats.noCompatibleBlock=Нельзя получить информацию о блоке на %s, %s, %s
 commands.stats.success=Записана статистика %s в %s для %s
 commands.stats.usage=/ stats <entity|block>...
+
 commands.stop.start=Выключение сервера
 commands.stop.usage=/stop
+
 commands.summon.failed=Не удается вызвать объект
 commands.summon.outOfWorld=Не удается вызвать объект за пределами мира
 commands.summon.success=Объект успешно вызван
 commands.summon.tagError=Ошибка разбора тегов: %s
 commands.summon.usage=/summon <существо> [x] [y] [z] [тег данных]
+
 commands.tellraw.jsonException=Недопустимый формат: %s
 commands.tellraw.usage=/tellraw <игрок> <raw json message>
+
 commands.testfor.failure=%s не соответствует требуемым структурам данных
 commands.testfor.success=Найдено %s
 commands.testfor.tagError=Ошибка разбора тегов: %s
 commands.testfor.usage=/testfor <цель> [dataTag]
+
 commands.testforblock.failed.data=Блок на %s, %s, %s имел значение данных %s (ожидаемое: %s).
 commands.testforblock.failed.nbt=Блок на %s, %s, %s не имеет необходимые ключи NBT.
 commands.testforblock.failed.tile=Блок на %s, %s, %s является %s (ожидаемое: %s).
@@ -484,35 +540,43 @@ commands.testforblock.failed.tileEntity=Блок на координатах %s,
 commands.testforblock.outOfWorld=Нельзя проверить блок за пределами мира
 commands.testforblock.success=Блок успешно найден на %s,%s,%s.
 commands.testforblock.usage=/testforblock <x> <y> <z> <TileName> [dataValue] [dataTag]
+
 commands.time.added=Добавлено %s к текущему времени
 commands.time.query=Сейчас %s
 commands.time.set=Установлено время: %s
 commands.time.usage=/time <set|add|query> <значение>
+
 commands.title.success=Команда "Заглавие" успешно выполнена
 commands.title.usage=/title <игрок> <title|subtitle|clear|reset|times> ...
 commands.title.usage.clear=/title <игрок> clear|reset
 commands.title.usage.times=/title <игрок> times <появление> <задержка> <исчезание>
 commands.title.usage.title=/title <игрок> title|subtitle <текст в json формате>
+
 commands.tp.notSameDimension=Телепортация невозможна, так как игроки находятся в разных измерениях
 commands.tp.success=%s телепортирован к %s
 commands.tp.success.coordinates=%s телепортирован в точку %s,%s,%s
 commands.tp.usage=/tp [цель] <к игроку> ИЛИ /tp [цель] <x> <y> <z> [<y-градусы> <x-градусы>]
+
 commands.trigger.disabled=Триггер %s не активен
 commands.trigger.invalidMode=Недопустимый режим триггера %s
 commands.trigger.invalidObjective=Недопустимое имя триггера %s
 commands.trigger.invalidPlayer=Только игроки могут использовать команду /trigger
 commands.trigger.success=Триггер %s изменился на режим %s и значение %s
 commands.trigger.usage=/trigger <объектив> <add|set> <значение>
+
 commands.unban.failed=Не удалось разбанить игрока %s
 commands.unban.success=%s разбанен
 commands.unban.usage=/pardon <имя игрока>
+
 commands.unbanip.invalid=Вы ввели неверный IP адрес
 commands.unbanip.success=IP адрес %s разбанен
 commands.unbanip.usage=/pardon-ip <IP-адрес>
+
 commands.weather.clear=Изменение на ясную погоду
 commands.weather.rain=Изменение на дождливую погоду
 commands.weather.thunder=Погода изменена на грозовую
 commands.weather.usage=/weather <clear/rain/thunder> [длительность в секундах]
+
 commands.whitelist.add.failed=Не удалось добавить %s в белый список
 commands.whitelist.add.success=%s добавлен в белый список
 commands.whitelist.add.usage=/whitelist add <имя игрока>
@@ -524,6 +588,7 @@ commands.whitelist.remove.failed=Не удалось убрать %s из бел
 commands.whitelist.remove.success=%s удалён из белого списка
 commands.whitelist.remove.usage=/whitelist remove <имя игрока>
 commands.whitelist.usage=/whitelist <on|off|list|add|remove|reload>
+
 commands.worldborder.add.usage=/worldborder add <размер в блоках> [время в секундах]
 commands.worldborder.center.success=Установлен центр границы мира в %s,%s
 commands.worldborder.center.usage=/worldborder center <x> <z>
@@ -543,15 +608,18 @@ commands.worldborder.warning.distance.usage=/worldborder warning distance <ко�
 commands.worldborder.warning.time.success=Задержать предупреждение о нахождении за пределами мира на %s секунд (с %s секунд)
 commands.worldborder.warning.time.usage=/worldborder warning time <время в секундах>
 commands.worldborder.warning.usage=/worldborder warning <time|distance>
+
 commands.xp.failure.widthdrawXp=Нельзя выдать игроку отрицательное количество опыта
 commands.xp.success=Выдано %s опыта игроку %s
 commands.xp.success.levels=%s получил %s уровней
 commands.xp.success.negative.levels=%s потерял %s уровней
 commands.xp.usage=/xp <количество> [игрок] ИЛИ /xp <количество>L [игрок]
+
 connect.authorizing=Обмен игровыми данными...
 connect.connecting=Установка соединения...
 connect.failed=Не удалось подключиться к серверу
 connect.denied=Подключение было отвергнуто сервером
+
 container.beacon=Маяк
 container.brewing=Варочная стойка
 container.chest=Сундук
@@ -575,9 +643,11 @@ container.minecart=Вагонетка
 container.repair=Ремонт и переименование
 container.repair.cost=Стоимость зачарования: %1$s
 container.repair.expensive=Слишком дорого!
+
 controls.reset=Сброс
 controls.resetAll=Сбросить настройки
 controls.title=Управление
+
 createWorld.customize.custom.baseSize=Базовый размер глубины
 createWorld.customize.custom.biomeDepthOffset=Глубина смещения биома
 createWorld.customize.custom.biomeDepthWeight=Глубина биома

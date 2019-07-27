@@ -2,7 +2,7 @@ package net.minecraft.command;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
@@ -36,7 +36,7 @@ public class CommandSetSpawnpoint extends CommandBase {
 		if (args.length > 1 && args.length < 4) {
 			throw new WrongUsageException("commands.spawnpoint.usage", new Object[0]);
 		}
-		EntityPlayerMP entityplayermp = args.length > 0 ? getPlayer(sender, args[0]) : getCommandSenderAsPlayer(sender);
+		MPlayer entityplayermp = args.length > 0 ? getPlayer(sender, args[0]) : getCommandSenderAsPlayer(sender);
 		BlockPos blockpos = args.length > 3 ? parseBlockPos(sender, args, 1, true) : entityplayermp.getPosition();
 
 		if (entityplayermp.worldObj != null) {

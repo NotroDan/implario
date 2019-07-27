@@ -1,7 +1,7 @@
 package net.minecraft.scoreboard;
 
 import com.google.common.collect.Maps;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public interface IScoreObjectiveCriteria {
 
 	String getName();
 
-	int func_96635_a(List<EntityPlayer> p_96635_1_);
+	int func_96635_a(List<Player> p_96635_1_);
 
 	boolean isReadOnly();
 

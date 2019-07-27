@@ -9,8 +9,8 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.attributes.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -106,7 +106,7 @@ public abstract class EntityLivingBase extends Entity {
 	/**
 	 * The most recent player that has attacked this entity
 	 */
-	protected EntityPlayer attackingPlayer;
+	protected Player attackingPlayer;
 
 	/**
 	 * Set to 60 when hit by the player or the player's wolf, then decrements. Used to determine whether the entity
@@ -292,7 +292,7 @@ public abstract class EntityLivingBase extends Entity {
 		this.prevSwingProgress = this.swingProgress;
 		super.onEntityUpdate();
 		this.worldObj.theProfiler.startSection("livingEntityBaseTick");
-		boolean flag = this instanceof EntityPlayer;
+		boolean flag = this instanceof Player;
 
 		if (this.isEntityAlive()) {
 			if (this.isEntityInsideOpaqueBlock()) {
@@ -310,7 +310,7 @@ public abstract class EntityLivingBase extends Entity {
 			this.extinguish();
 		}
 
-		boolean flag1 = flag && ((EntityPlayer) this).capabilities.disableDamage;
+		boolean flag1 = flag && ((Player) this).capabilities.disableDamage;
 
 		if (this.isEntityAlive()) {
 			if (this.isInsideOfMaterial(Material.water)) {
@@ -350,7 +350,7 @@ public abstract class EntityLivingBase extends Entity {
 			--this.hurtTime;
 		}
 
-		if (this.hurtResistantTime > 0 && !(this instanceof EntityPlayerMP)) {
+		if (this.hurtResistantTime > 0 && !(this instanceof MPlayer)) {
 			--this.hurtResistantTime;
 		}
 
@@ -439,7 +439,7 @@ public abstract class EntityLivingBase extends Entity {
 	/**
 	 * Get the experience points the entity currently has.
 	 */
-	protected int getExperiencePoints(EntityPlayer player) {
+	protected int getExperiencePoints(Player player) {
 		return 0;
 	}
 
@@ -818,9 +818,9 @@ public abstract class EntityLivingBase extends Entity {
 				this.setRevengeTarget((EntityLivingBase) entity);
 			}
 
-			if (entity instanceof EntityPlayer) {
+			if (entity instanceof Player) {
 				this.recentlyHit = 100;
-				this.attackingPlayer = (EntityPlayer) entity;
+				this.attackingPlayer = (Player) entity;
 			} else if (entity instanceof EntityLivingBase) {
 				EntityLivingBase e = (EntityLivingBase) entity;
 				if (e.shouldOverridePlayerAttack()) {
@@ -916,7 +916,7 @@ public abstract class EntityLivingBase extends Entity {
 		if (!this.worldObj.isClientSide) {
 			int i = 0;
 
-			if (entity instanceof EntityPlayer) {
+			if (entity instanceof Player) {
 				i = EnchantmentHelper.getLootingModifier((EntityLivingBase) entity);
 			}
 
@@ -994,7 +994,7 @@ public abstract class EntityLivingBase extends Entity {
 		int j = MathHelper.floor_double(this.getEntityBoundingBox().minY);
 		int k = MathHelper.floor_double(this.posZ);
 		Block block = this.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock();
-		return (block == Blocks.ladder || block == Blocks.vine) && (!(this instanceof EntityPlayer) || !((EntityPlayer) this).isSpectator());
+		return (block == Blocks.ladder || block == Blocks.vine) && (!(this instanceof Player) || !((Player) this).isSpectator());
 	}
 
 	/**
@@ -1387,8 +1387,8 @@ public abstract class EntityLivingBase extends Entity {
 	public void moveEntityWithHeading(float strafe, float forward) {
 		//		System.out.println("forward = " + forward + ", strafe = " + strafe);
 		if (this.isServerWorld()) {
-			if (!this.isInWater() || this instanceof EntityPlayer && ((EntityPlayer) this).capabilities.isFlying) {
-				if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer) this).capabilities.isFlying) {
+			if (!this.isInWater() || this instanceof Player && ((Player) this).capabilities.isFlying) {
+				if (!this.isInLava() || this instanceof Player && ((Player) this).capabilities.isFlying) {
 					float slip = 0.91F;
 
 					// Скользкость
@@ -1412,7 +1412,7 @@ public abstract class EntityLivingBase extends Entity {
 							this.motionY = -0.15D;
 						}
 
-						boolean flag = this.isSneaking() && this instanceof EntityPlayer;
+						boolean flag = this.isSneaking() && this instanceof Player;
 
 						if (flag && this.motionY < 0.0D) {
 							this.motionY = 0.0D;

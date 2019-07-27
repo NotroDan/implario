@@ -8,7 +8,7 @@ import net.minecraft.client.multiplayer.ThreadLanServerPing;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.HttpUtil;
@@ -266,7 +266,7 @@ public class IntegratedServer extends MinecraftServer {
 	 */
 	public void initiateShutdown() {
 		Futures.getUnchecked(this.addScheduledTask(() -> {
-			for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().getPlayers())) {
+			for (MPlayer entityplayermp : Lists.newArrayList(IntegratedServer.this.getConfigurationManager().getPlayers())) {
 				IntegratedServer.this.getConfigurationManager().playerLoggedOut(entityplayermp);
 			}
 		}));

@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import vanilla.entity.passive.EntityTameable;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import vanilla.entity.ai.pathfinding.PathNavigate;
 import vanilla.entity.ai.pathfinding.PathNavigateGround;
@@ -47,7 +47,7 @@ public class EntityAIFollowOwner extends EntityAIBase {
 		if (entitylivingbase == null) {
 			return false;
 		}
-		if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer) entitylivingbase).isSpectator()) {
+		if (entitylivingbase instanceof Player && ((Player) entitylivingbase).isSpectator()) {
 			return false;
 		}
 		if (this.thePet.isSitting()) {

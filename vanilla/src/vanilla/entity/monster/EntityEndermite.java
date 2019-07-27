@@ -11,7 +11,7 @@ import vanilla.entity.ai.tasks.EntityAINearestAttackableTarget;
 import vanilla.entity.ai.tasks.EntityAISwimming;
 import vanilla.entity.ai.tasks.EntityAIWander;
 import vanilla.entity.ai.tasks.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -28,12 +28,12 @@ public class EntityEndermite extends EntityMob implements ArrowDodger {
 		this.experienceValue = 3;
 		this.setSize(0.4F, 0.3F);
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, Player.class, 1.0D, false));
 		this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, Player.class, true));
 	}
 
 	public float getEyeHeight() {
@@ -157,7 +157,7 @@ public class EntityEndermite extends EntityMob implements ArrowDodger {
 	 */
 	public boolean getCanSpawnHere() {
 		if (super.getCanSpawnHere()) {
-			EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
+			Player entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
 			return entityplayer == null;
 		}
 		return false;

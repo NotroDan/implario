@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEditableBook;
@@ -35,7 +35,7 @@ public class GuiScreenBook extends GuiScreen {
 	/**
 	 * The player editing the book
 	 */
-	private final EntityPlayer editingPlayer;
+	private final Player editingPlayer;
 	private final ItemStack bookObj;
 
 	/**
@@ -76,7 +76,7 @@ public class GuiScreenBook extends GuiScreen {
 	private GuiButton buttonFinalize;
 	private GuiButton buttonCancel;
 
-	public GuiScreenBook(EntityPlayer player, ItemStack book, boolean isUnsigned) {
+	public GuiScreenBook(Player player, ItemStack book, boolean isUnsigned) {
 		this.editingPlayer = player;
 		this.bookObj = book;
 		this.bookIsUnsigned = isUnsigned;

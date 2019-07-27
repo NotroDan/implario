@@ -10,7 +10,7 @@ import net.minecraft.client.game.model.ModelSkeletonHead;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -75,7 +75,7 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
 						if (map.containsKey(Type.SKIN)) {
 							resourcelocation = minecraft.getSkinManager().loadSkin(map.get(Type.SKIN), Type.SKIN);
 						} else {
-							UUID uuid = EntityPlayer.getUUID(p_180543_7_);
+							UUID uuid = Player.getUUID(p_180543_7_);
 							resourcelocation = DefaultPlayerSkin.getDefaultSkin(uuid);
 						}
 					}

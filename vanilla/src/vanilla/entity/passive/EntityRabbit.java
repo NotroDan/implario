@@ -21,7 +21,7 @@ import vanilla.entity.ai.tasks.EntityAIWander;
 import vanilla.entity.ai.tasks.EntityAIWatchClosest;
 import vanilla.entity.ai.EntityJumpHelper;
 import vanilla.entity.ai.EntityMoveHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -48,7 +48,7 @@ public class EntityRabbit extends EntityAnimal {
 	private int currentMoveTypeDuration = 0;
 	private EntityRabbit.EnumMoveType moveType = EntityRabbit.EnumMoveType.HOP;
 	private int carrotTicks = 0;
-	private EntityPlayer field_175543_bt = null;
+	private Player field_175543_bt = null;
 
 	public EntityRabbit(World worldIn) {
 		super(worldIn);
@@ -65,7 +65,7 @@ public class EntityRabbit extends EntityAnimal {
 		this.tasks.addTask(3, new EntityAIMate(this, 0.8D));
 		this.tasks.addTask(5, new EntityRabbit.AIRaidFarm(this));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
-		this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
+		this.tasks.addTask(11, new EntityAIWatchClosest(this, Player.class, 10.0F));
 		this.aiAvoidWolves = new EntityRabbit.AIAvoidEntity(this, EntityWolf.class, 16.0F, 1.33D, 1.33D);
 		this.tasks.addTask(4, this.aiAvoidWolves);
 		this.setMovementSpeed(0.0D);
@@ -352,7 +352,7 @@ public class EntityRabbit extends EntityAnimal {
 			this.tasks.removeTask(this.aiAvoidWolves);
 			this.tasks.addTask(4, new EntityRabbit.AIEvilAttack(this));
 			this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-			this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+			this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, Player.class, true));
 			this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityWolf.class, true));
 
 			if (!this.hasCustomName()) {

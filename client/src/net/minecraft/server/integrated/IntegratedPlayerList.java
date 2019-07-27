@@ -1,7 +1,7 @@
 package net.minecraft.server.integrated;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.management.ServerConfigurationManager;
 
@@ -22,7 +22,7 @@ public class IntegratedPlayerList extends ServerConfigurationManager {
 	/**
 	 * also stores the NBTTags if this is an intergratedPlayerList
 	 */
-	protected void writePlayerData(EntityPlayerMP playerIn) {
+	protected void writePlayerData(MPlayer playerIn) {
 		if (playerIn.getName().equals(this.getServerInstance().getServerOwner())) {
 			this.hostPlayerData = new NBTTagCompound();
 			playerIn.writeToNBT(this.hostPlayerData);

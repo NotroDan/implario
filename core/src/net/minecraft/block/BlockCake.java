@@ -7,7 +7,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.stats.StatList;
@@ -67,16 +67,16 @@ public class BlockCake extends Block {
 		return false;
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		this.eatCake(worldIn, pos, state, playerIn);
 		return true;
 	}
 
-	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+	public void onBlockClicked(World worldIn, BlockPos pos, Player playerIn) {
 		this.eatCake(worldIn, pos, worldIn.getBlockState(pos), playerIn);
 	}
 
-	private void eatCake(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	private void eatCake(World worldIn, BlockPos pos, IBlockState state, Player player) {
 		if (player.canEat(false)) {
 			player.triggerAchievement(StatList.cakeSlicesEatenStat);
 			player.getFoodStats().addStats(2, 0.1F);

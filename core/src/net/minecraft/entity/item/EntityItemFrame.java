@@ -2,7 +2,7 @@ package net.minecraft.entity.item;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMap;
@@ -86,8 +86,8 @@ public class EntityItemFrame extends EntityHanging {
 		if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
 			ItemStack itemstack = this.getDisplayedItem();
 
-			if (p_146065_1_ instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) p_146065_1_;
+			if (p_146065_1_ instanceof Player) {
+				Player entityplayer = (Player) p_146065_1_;
 
 				if (entityplayer.capabilities.isCreativeMode) {
 					this.removeFrameFromMap(itemstack);
@@ -201,7 +201,7 @@ public class EntityItemFrame extends EntityHanging {
 	/**
 	 * First layer of player interaction
 	 */
-	public boolean interactFirst(EntityPlayer playerIn) {
+	public boolean interactFirst(Player playerIn) {
 		if (this.getDisplayedItem() == null) {
 			ItemStack itemstack = playerIn.getHeldItem();
 

@@ -3,7 +3,7 @@ package vanilla.entity.monster;
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
 import vanilla.entity.ai.tasks.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import vanilla.entity.ai.pathfinding.PathNavigate;
@@ -24,13 +24,13 @@ public class EntitySpider extends EntityMob {
 		this.setSize(1.4F, 0.9F);
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-		this.tasks.addTask(4, new EntitySpider.AISpiderAttack(this, EntityPlayer.class));
+		this.tasks.addTask(4, new EntitySpider.AISpiderAttack(this, Player.class));
 		this.tasks.addTask(4, new EntitySpider.AISpiderAttack(this, EntityIronGolem.class));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.8D));
-		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(6, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-		this.targetTasks.addTask(2, new EntitySpider.AISpiderTarget(this, EntityPlayer.class));
+		this.targetTasks.addTask(2, new EntitySpider.AISpiderTarget(this, Player.class));
 		this.targetTasks.addTask(3, new EntitySpider.AISpiderTarget(this, EntityIronGolem.class));
 	}
 

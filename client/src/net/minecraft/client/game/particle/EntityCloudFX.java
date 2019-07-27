@@ -2,7 +2,7 @@ package net.minecraft.client.game.particle;
 
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -55,7 +55,7 @@ public class EntityCloudFX extends EntityFX {
 		this.motionX *= 0.9599999785423279D;
 		this.motionY *= 0.9599999785423279D;
 		this.motionZ *= 0.9599999785423279D;
-		EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 2.0D);
+		Player entityplayer = this.worldObj.getClosestPlayerToEntity(this, 2.0D);
 
 		if (entityplayer != null && this.posY > entityplayer.getEntityBoundingBox().minY) {
 			this.posY += (entityplayer.getEntityBoundingBox().minY - this.posY) * 0.2D;

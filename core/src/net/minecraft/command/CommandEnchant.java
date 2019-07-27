@@ -1,7 +1,7 @@
 package net.minecraft.command;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
@@ -38,7 +38,7 @@ public class CommandEnchant extends CommandBase {
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 2) throw new WrongUsageException("commands.enchant.usage");
 
-		EntityPlayer entityplayer = getPlayer(sender, args[0]);
+		Player entityplayer = getPlayer(sender, args[0]);
 		sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
 		int i;
 

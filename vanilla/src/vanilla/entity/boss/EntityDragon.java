@@ -7,10 +7,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.monster.IMob;
@@ -415,8 +414,8 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, ICo
 	 */
 	private void setNewTarget() {
 		this.forceNewTarget = false;
-		List<EntityPlayer> list = Lists.newArrayList(this.worldObj.playerEntities);
-		Iterator<EntityPlayer> iterator = list.iterator();
+		List<Player> list = Lists.newArrayList(this.worldObj.playerEntities);
+		Iterator<Player> iterator = list.iterator();
 
 		while (iterator.hasNext()) {
 			if (iterator.next().isSpectator()) {
@@ -508,7 +507,7 @@ public class EntityDragon extends VanillaEntity implements IBossDisplayData, ICo
 		this.targetZ = this.posZ - (double) (f2 * 5.0F) + (double) ((this.rand.nextFloat() - 0.5F) * 2.0F);
 		this.target = null;
 
-		if (source.getEntity() instanceof EntityPlayer || source.isExplosion()) {
+		if (source.getEntity() instanceof Player || source.isExplosion()) {
 			this.attackDragonFrom(source, damage);
 		}
 

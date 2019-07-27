@@ -1,6 +1,6 @@
 package net.minecraft.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -8,7 +8,7 @@ public class ContainerHopper extends Container {
 
 	private final IInventory hopperInventory;
 
-	public ContainerHopper(InventoryPlayer playerInventory, IInventory hopperInventoryIn, EntityPlayer player) {
+	public ContainerHopper(InventoryPlayer playerInventory, IInventory hopperInventoryIn, Player player) {
 		this.hopperInventory = hopperInventoryIn;
 		hopperInventoryIn.openInventory(player);
 		int i = 51;
@@ -28,14 +28,14 @@ public class ContainerHopper extends Container {
 		}
 	}
 
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(Player playerIn) {
 		return this.hopperInventory.isUseableByPlayer(playerIn);
 	}
 
 	/**
 	 * Take a stack from the specified inventory slot.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(Player playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 
@@ -64,7 +64,7 @@ public class ContainerHopper extends Container {
 	/**
 	 * Called when the container is closed.
 	 */
-	public void onContainerClosed(EntityPlayer playerIn) {
+	public void onContainerClosed(Player playerIn) {
 		super.onContainerClosed(playerIn);
 		this.hopperInventory.closeInventory(playerIn);
 	}

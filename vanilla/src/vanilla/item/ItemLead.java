@@ -2,7 +2,7 @@ package vanilla.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,7 +22,7 @@ public class ItemLead extends Item {
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		Block block = worldIn.getBlockState(pos).getBlock();
 
 		if (block instanceof BlockFence) {
@@ -35,7 +35,7 @@ public class ItemLead extends Item {
 		return false;
 	}
 
-	public static boolean attachToFence(EntityPlayer player, World worldIn, BlockPos fence) {
+	public static boolean attachToFence(Player player, World worldIn, BlockPos fence) {
 		EntityLeashKnot entityleashknot = EntityLeashKnot.getKnotForPosition(worldIn, fence);
 		boolean flag = false;
 		double d0 = 7.0D;

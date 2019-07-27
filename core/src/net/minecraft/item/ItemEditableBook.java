@@ -1,7 +1,7 @@
 package net.minecraft.item;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.Player;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -58,7 +58,7 @@ public class ItemEditableBook extends Item {
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, Player playerIn, List<String> tooltip, boolean advanced) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbttagcompound = stack.getTagCompound();
 			String s = nbttagcompound.getString("author");
@@ -74,7 +74,7 @@ public class ItemEditableBook extends Item {
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer p) {
+	public ItemStack onItemRightClick(ItemStack stack, World worldIn, Player p) {
 		if (!worldIn.isClientSide) this.resolveContents(stack, p);
 
 		p.openGui(ItemStack.class, stack);
@@ -83,7 +83,7 @@ public class ItemEditableBook extends Item {
 		return stack;
 	}
 
-	private void resolveContents(ItemStack stack, EntityPlayer player) {
+	private void resolveContents(ItemStack stack, Player player) {
 		if (stack == null || stack.getTagCompound() == null) return;
 		NBTTagCompound nbttagcompound = stack.getTagCompound();
 
@@ -110,9 +110,9 @@ public class ItemEditableBook extends Item {
 
 		nbttagcompound.setTag("pages", nbttaglist);
 
-		if (player instanceof EntityPlayerMP && player.getCurrentEquippedItem() == stack) {
+		if (player instanceof MPlayer && player.getCurrentEquippedItem() == stack) {
 			Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
-			((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new S2FPacketSetSlot(0, slot.slotNumber, stack));
+			((MPlayer) player).playerNetServerHandler.sendPacket(new S2FPacketSetSlot(0, slot.slotNumber, stack));
 		}
 	}
 

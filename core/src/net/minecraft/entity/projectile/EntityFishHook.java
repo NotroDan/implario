@@ -6,7 +6,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -47,7 +47,7 @@ public class EntityFishHook extends Entity {
 	private Block inTile;
 	private boolean inGround;
 	public int shake;
-	public EntityPlayer angler;
+	public Player angler;
 	private int ticksInGround;
 	private int ticksInAir;
 	private int ticksCatchable;
@@ -78,7 +78,7 @@ public class EntityFishHook extends Entity {
 		this.ignoreFrustumCheck = true;
 	}
 
-	public EntityFishHook(World worldIn, double x, double y, double z, EntityPlayer anglerIn) {
+	public EntityFishHook(World worldIn, double x, double y, double z, Player anglerIn) {
 		this(worldIn);
 		this.setPosition(x, y, z);
 		this.ignoreFrustumCheck = true;
@@ -86,7 +86,7 @@ public class EntityFishHook extends Entity {
 		anglerIn.fishEntity = this;
 	}
 
-	public EntityFishHook(World worldIn, EntityPlayer fishingPlayer) {
+	public EntityFishHook(World worldIn, Player fishingPlayer) {
 		super(worldIn);
 		this.xTile = -1;
 		this.yTile = -1;

@@ -3,7 +3,7 @@ package net.minecraft.entity.item;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -317,7 +317,7 @@ public class EntityArmorStand extends EntityLivingBase {
 	/**
 	 * New version of interactWith that includes vector information on where precisely the player targeted.
 	 */
-	public boolean interactAt(EntityPlayer player, Vec3 targetVec3) {
+	public boolean interactAt(Player player, Vec3 targetVec3) {
 		if (this.func_181026_s()) {
 			return false;
 		}
@@ -390,7 +390,7 @@ public class EntityArmorStand extends EntityLivingBase {
 		return true;
 	}
 
-	private void func_175422_a(EntityPlayer p_175422_1_, int p_175422_2_) {
+	private void func_175422_a(Player p_175422_1_, int p_175422_2_) {
 		ItemStack itemstack = this.contents[p_175422_2_];
 
 		if (itemstack == null || (this.disabledSlots & 1 << p_175422_2_ + 8) == 0) {
@@ -457,7 +457,7 @@ public class EntityArmorStand extends EntityLivingBase {
 				source.getSourceOfDamage().setDead();
 			}
 
-			if (source.getEntity() instanceof EntityPlayer && !((EntityPlayer) source.getEntity()).capabilities.allowEdit) {
+			if (source.getEntity() instanceof Player && !((Player) source.getEntity()).capabilities.allowEdit) {
 				return false;
 			}
 			if (source.isCreativePlayer()) {

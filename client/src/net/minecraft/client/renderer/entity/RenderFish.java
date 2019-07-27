@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -52,7 +52,7 @@ public class RenderFish extends Render<EntityFishHook> {
 		G.disableRescaleNormal();
 		G.popMatrix();
 
-		EntityPlayer player = entity.angler;
+		Player player = entity.angler;
 		if (player != null) {
 			float f7 = player.getSwingProgress(partialTicks);
 			float f8 = MathHelper.sin(MathHelper.sqrt_float(f7) * (float) Math.PI);

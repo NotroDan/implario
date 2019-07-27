@@ -1,7 +1,7 @@
 package net.minecraft.network.play.server;
 
 import net.minecraft.entity.DataWatcher;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
@@ -29,7 +29,7 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient> {
 	public S0CPacketSpawnPlayer() {
 	}
 
-	public S0CPacketSpawnPlayer(EntityPlayer player) {
+	public S0CPacketSpawnPlayer(Player player) {
 		this.entityId = player.getEntityId();
 		this.playerId = player.getGameProfile().getId();
 		this.x = MathHelper.floor_double(player.posX * 32.0D);

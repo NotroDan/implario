@@ -1,9 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
-import com.google.common.collect.Lists;
 import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.font.FontUtils;
@@ -12,7 +11,7 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team;
@@ -158,7 +157,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
 				G.depthMask(true);
 
-				if (!(entity instanceof EntityPlayer) || !((EntityPlayer) entity).isSpectator()) {
+				if (!(entity instanceof Player) || !((Player) entity).isSpectator()) {
 					this.renderLayers(entity, f6, f5, partialTicks, f7, f2, f8, 0.0625F);
 				}
 			}
@@ -183,7 +182,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 	protected boolean setScoreTeamColor(EntityLivingBase entityLivingBaseIn) {
 		int i = 16777215;
 
-		if (entityLivingBaseIn instanceof EntityPlayer) {
+		if (entityLivingBaseIn instanceof Player) {
 			ScorePlayerTeam scoreplayerteam = (ScorePlayerTeam) entityLivingBaseIn.getTeam();
 
 			if (scoreplayerteam != null) {
@@ -396,7 +395,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 		} else {
 			String s = EnumChatFormatting.getTextWithoutFormattingCodes(bat.getName());
 
-			if (s != null && (s.equals("Dinnerbone") || s.equals("Grumm")) && (!(bat instanceof EntityPlayer) || ((EntityPlayer) bat).isWearing(EnumPlayerModelParts.CAPE))) {
+			if (s != null && (s.equals("Dinnerbone") || s.equals("Grumm")) && (!(bat instanceof Player) || ((Player) bat).isWearing(EnumPlayerModelParts.CAPE))) {
 				G.translate(0.0F, bat.height + 0.1F, 0.0F);
 				G.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 			}
@@ -493,9 +492,9 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 	}
 
 	protected boolean canRenderName(T entity) {
-		EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
+		CPlayer entityplayersp = Minecraft.getMinecraft().thePlayer;
 
-		if (entity instanceof EntityPlayer && entity != entityplayersp) {
+		if (entity instanceof Player && entity != entityplayersp) {
 			Team team = entity.getTeam();
 			Team team1 = entityplayersp.getTeam();
 

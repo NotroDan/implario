@@ -5,7 +5,7 @@ import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.stats.StatList;
@@ -30,7 +30,7 @@ public class ItemBucket extends Item {
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, Player playerIn) {
 		boolean flag = this.isFull == Blocks.air;
 		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, flag);
 
@@ -84,7 +84,7 @@ public class ItemBucket extends Item {
 		return itemStackIn;
 	}
 
-	private ItemStack fillBucket(ItemStack emptyBuckets, EntityPlayer player, Item fullBucket) {
+	private ItemStack fillBucket(ItemStack emptyBuckets, Player player, Item fullBucket) {
 		if (player.capabilities.isCreativeMode) {
 			return emptyBuckets;
 		}

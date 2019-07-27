@@ -9,7 +9,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -124,7 +124,7 @@ public class BlockOldLeaf extends BlockLeaves {
 		return ((BlockPlanks.EnumType) state.getValue(VARIANT)).getMetadata();
 	}
 
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+	public void harvestBlock(World worldIn, Player player, BlockPos pos, IBlockState state, TileEntity te) {
 		if (!worldIn.isClientSide && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears) {
 			player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
 			spawnAsEntity(worldIn, pos, new ItemStack(Item.getItemFromBlock(this), 1, ((BlockPlanks.EnumType) state.getValue(VARIANT)).getMetadata()));

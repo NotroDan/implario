@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
@@ -30,7 +30,7 @@ public class EntitySheep extends EntityAnimal {
 	 * breeding sheep.
 	 */
 	private final InventoryCrafting inventoryCrafting = new InventoryCrafting(new Container() {
-		public boolean canInteractWith(EntityPlayer playerIn) {
+		public boolean canInteractWith(Player playerIn) {
 			return false;
 		}
 	}, 2, 1);
@@ -53,7 +53,7 @@ public class EntitySheep extends EntityAnimal {
 		this.tasks.addTask(4, new EntityAIFollowParent(this, 1.1D));
 		this.tasks.addTask(5, this.entityAIEatGrass);
 		this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, Player.class, 6.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.inventoryCrafting.setInventorySlotContents(0, new ItemStack(Items.dye, 1, 0));
 		this.inventoryCrafting.setInventorySlotContents(1, new ItemStack(Items.dye, 1, 0));
@@ -133,7 +133,7 @@ public class EntitySheep extends EntityAnimal {
 	/**
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
-	public boolean interact(EntityPlayer player) {
+	public boolean interact(Player player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.getItem() == Items.shears && !this.getSheared() && !this.isChild()) {

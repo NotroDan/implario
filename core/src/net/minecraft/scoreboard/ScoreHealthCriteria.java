@@ -2,7 +2,7 @@ package net.minecraft.scoreboard;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.MathHelper;
 
 public class ScoreHealthCriteria extends ScoreDummyCriteria {
@@ -11,10 +11,10 @@ public class ScoreHealthCriteria extends ScoreDummyCriteria {
 		super(name);
 	}
 
-	public int func_96635_a(List<EntityPlayer> p_96635_1_) {
+	public int func_96635_a(List<Player> p_96635_1_) {
 		float f = 0.0F;
 
-		for (EntityPlayer entityplayer : p_96635_1_) {
+		for (Player entityplayer : p_96635_1_) {
 			f += entityplayer.getHealth() + entityplayer.getAbsorptionAmount();
 		}
 

@@ -1,7 +1,6 @@
 package net.minecraft.item;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
@@ -14,7 +13,7 @@ import java.util.Map.Entry;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.attributes.IAttribute;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
@@ -80,7 +79,7 @@ public class ItemPotion extends Item {
 	 * Called when the player finishes using this Item (E.g. finishes eating.). Not called when the player stops using
 	 * the Item before the action is complete.
 	 */
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, Player playerIn) {
 		if (!playerIn.capabilities.isCreativeMode) {
 			--stack.stackSize;
 		}
@@ -125,7 +124,7 @@ public class ItemPotion extends Item {
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, Player playerIn) {
 		if (isSplash(itemStackIn.getMetadata())) {
 			if (!playerIn.capabilities.isCreativeMode) {
 				--itemStackIn.stackSize;
@@ -198,7 +197,7 @@ public class ItemPotion extends Item {
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, Player playerIn, List<String> tooltip, boolean advanced) {
 		if (stack.getMetadata() != 0) {
 			List<PotionEffect> list = Items.potionitem.getEffects(stack);
 			Multimap<String, AttributeModifier> multimap = HashMultimap.create();

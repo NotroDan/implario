@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -281,7 +281,7 @@ public abstract class Render<T extends Entity> {
 			if (f > 0.0F) this.renderShadow(entityIn, x, y, z, f, partialTicks);
 		}
 
-		if (entityIn.canRenderOnFire() && (!(entityIn instanceof EntityPlayer) || !((EntityPlayer) entityIn).isSpectator())) this.renderEntityOnFire(entityIn, x, y, z, partialTicks);
+		if (entityIn.canRenderOnFire() && (!(entityIn instanceof Player) || !((Player) entityIn).isSpectator())) this.renderEntityOnFire(entityIn, x, y, z, partialTicks);
 	}
 
 	/**

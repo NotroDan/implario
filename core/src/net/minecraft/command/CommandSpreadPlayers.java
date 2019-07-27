@@ -11,7 +11,7 @@ import java.util.Set;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -70,7 +70,7 @@ public class CommandSpreadPlayers extends CommandBase {
 
 				list.addAll(list1);
 			} else {
-				EntityPlayer entityplayer = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(s);
+				Player entityplayer = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(s);
 
 				if (entityplayer == null) {
 					throw new PlayerNotFoundException();
@@ -121,8 +121,8 @@ public class CommandSpreadPlayers extends CommandBase {
 		Set<Team> set = Sets.newHashSet();
 
 		for (Entity entity : p_110667_1_) {
-			if (entity instanceof EntityPlayer) {
-				set.add(((EntityPlayer) entity).getTeam());
+			if (entity instanceof Player) {
+				set.add(((Player) entity).getTeam());
 			} else {
 				set.add((Team) null);
 			}
@@ -211,7 +211,7 @@ public class CommandSpreadPlayers extends CommandBase {
 			CommandSpreadPlayers.Position commandspreadplayers$position;
 
 			if (p_110671_4_) {
-				Team team = entity instanceof EntityPlayer ? ((EntityPlayer) entity).getTeam() : null;
+				Team team = entity instanceof Player ? ((Player) entity).getTeam() : null;
 
 				if (!map.containsKey(team)) {
 					map.put(team, p_110671_3_[i++]);

@@ -1,7 +1,7 @@
 package net.minecraft.client.game;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.game.entity.EntityPlayerSP;
+import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.game.input.MovementInputFromOptions;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -52,7 +52,7 @@ public class GameWorldController {
 		}
 
 		renderViewEntity = null;
-		EntityPlayerSP entityplayersp = mc.thePlayer;
+		CPlayer entityplayersp = mc.thePlayer;
 		mc.thePlayer = mc.playerController.func_178892_a(mc.theWorld, mc.thePlayer == null ? new StatFileWriter() : mc.thePlayer.getStatFileWriter());
 		mc.thePlayer.getDataWatcher().updateWatchedObjectsFromList(entityplayersp.getDataWatcher().getAllWatched());
 		mc.thePlayer.dimension = dimension;

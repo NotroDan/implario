@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 
 import static net.minecraft.network.play.client.C0BPacketEntityAction.Action.*;
 
-public class EntityPlayerSP extends AbstractClientPlayer {
+public class CPlayer extends AbstractClientPlayer {
 
 	public final NetHandlerPlayClient sendQueue;
 	private final StatFileWriter statWriter;
@@ -114,7 +114,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 */
 	public float prevTimeInPortal;
 
-	public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile) {
+	public CPlayer(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile) {
 		super(worldIn, netHandler.getGameProfile());
 		this.sendQueue = netHandler;
 		this.statWriter = statFile;
