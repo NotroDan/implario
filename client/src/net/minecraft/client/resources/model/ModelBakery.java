@@ -87,22 +87,16 @@ public class ModelBakery {
 	}
 
 	private void loadVariantItemModels() {
-		long time = System.currentTimeMillis();
 		Collection<ModelResourceLocation> models = this.blockModelShapes.getBlockStateMapper().putAllStateModelLocations().values();
-		System.out.println("### Загрузка моделей вариантов - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 		this.loadVariants(models);
-		System.out.println("### Загрузка вариантов - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 		this.variants.put(MODEL_MISSING, new ModelBlockDefinition.Variants(MODEL_MISSING.getVariant(), Lists.newArrayList(
 				new ModelBlockDefinition.Variant(new ResourceLocation(MODEL_MISSING.getResourcePath()), ModelRotation.X0_Y0, false, 1))));
 		ResourceLocation resourcelocation = new ResourceLocation("item_frame");
 		ModelBlockDefinition modelblockdefinition = this.getModelBlockDefinition(resourcelocation);
 		this.registerVariant(modelblockdefinition, new ModelResourceLocation(resourcelocation, "normal"));
 		this.registerVariant(modelblockdefinition, new ModelResourceLocation(resourcelocation, "map"));
-		System.out.println("### Загрузка мелкой херни - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 		this.loadVariantModels();
-		System.out.println("### Загрузка моделей блоков - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 		this.loadItemModels();
-		System.out.println("### Загрузка моделей предметов - " + -(time - (time = System.currentTimeMillis())) + "ms.");
 	}
 
 	private void loadVariants(Collection<ModelResourceLocation> models) {

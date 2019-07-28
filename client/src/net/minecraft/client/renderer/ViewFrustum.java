@@ -24,25 +24,24 @@ public class ViewFrustum {
 	}
 
 	protected void createRenderChunks(IRenderChunkFactory renderChunkFactory) {
-		int i = this.countChunksX * this.countChunksY * this.countChunksZ;
-		this.renderChunks = new RenderChunk[i];
-		int j = 0;
+		int volume = this.countChunksX * this.countChunksY * this.countChunksZ;
+		this.renderChunks = new RenderChunk[volume];
+		int total = 0;
 
-		for (int k = 0; k < this.countChunksX; ++k) {
-			for (int l = 0; l < this.countChunksY; ++l) {
-				for (int i1 = 0; i1 < this.countChunksZ; ++i1) {
-					int j1 = (i1 * this.countChunksY + l) * this.countChunksX + k;
-					BlockPos blockpos = new BlockPos(k * 16, l * 16, i1 * 16);
-					this.renderChunks[j1] = renderChunkFactory.makeRenderChunk(this.world, this.renderGlobal, blockpos, j++);
+		for (int x = 0; x < this.countChunksX; ++x) {
+			for (int y = 0; y < this.countChunksY; ++y) {
+				for (int z = 0; z < this.countChunksZ; ++z) {
+					int id = (z * this.countChunksY + y) * this.countChunksX + x;
+					BlockPos blockpos = new BlockPos(x * 16, y * 16, z * 16);
+					this.renderChunks[id] = renderChunkFactory.makeRenderChunk(this.world, this.renderGlobal, blockpos, total++);
 				}
 			}
 		}
 	}
 
 	public void deleteGlResources() {
-		for (RenderChunk renderchunk : this.renderChunks) {
+		for (RenderChunk renderchunk : this.renderChunks)
 			renderchunk.deleteGlResources();
-		}
 	}
 
 	protected void setCountChunksXYZ(int renderDistanceChunks) {

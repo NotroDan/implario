@@ -7,6 +7,7 @@ import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.data.AnimationMetadataSection;
 import net.minecraft.client.resources.data.TextureMetadataSection;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.MathHelper;
@@ -261,7 +262,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
 		stitcher.doStitch();
 
-		logger.info("Сгенерирован атлас спрайтов типа '" + basePath + "' с разрешением " + stitcher.getCurrentWidth() + "x" + stitcher.getCurrentHeight() + ".");
+		if (Settings.DEBUG.b()) logger.info("Сгенерирован атлас спрайтов типа '" + basePath + "' с разрешением " + stitcher.getCurrentWidth() + "x" + stitcher.getCurrentHeight() + ".");
 		TextureUtil.allocateTextureImpl(this.getGlTextureId(), this.mipmapLevels, stitcher.getCurrentWidth(), stitcher.getCurrentHeight());
 		HashMap hashmap = Maps.newHashMap(this.mapRegisteredSprites);
 
@@ -321,7 +322,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			TextureUtil.saveGlTexture(this.basePath.replaceAll("/", "_"), this.getGlTextureId(), this.mipmapLevels, stitcher.getCurrentWidth(), stitcher.getCurrentHeight());
 		}
 		long end = System.currentTimeMillis();
-		System.out.println("Генерация атласа заняла " + (end - start) + " ms.");
+		if (Settings.DEBUG.b()) System.out.println("Генерация атласа заняла " + (end - start) + " ms.");
 	}
 
 	public ResourceLocation completeResourceLocation(ResourceLocation location, int p_147634_2_) {

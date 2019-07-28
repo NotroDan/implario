@@ -10,7 +10,7 @@ import java.nio.IntBuffer;
 public class G {
 
 
-	private static G.AlphaState alphaState = new G.AlphaState(null);
+	private static G.AlphaState alphaState = new G.AlphaState();
 	private static G.BooleanState lightingState = new G.BooleanState(2896);
 	private static G.BooleanState[] lightState = new G.BooleanState[8];
 	private static G.ColorMaterialState colorMaterialState = new G.ColorMaterialState(null);
@@ -22,7 +22,6 @@ public class G {
 	private static G.ColorLogicState colorLogicState = new G.ColorLogicState(null);
 	private static G.TexGenState texGenState = new G.TexGenState(null);
 	private static G.ClearState clearState = new G.ClearState(null);
-	private static G.StencilState stencilState = new G.StencilState(null);
 	private static G.BooleanState normalizeState = new G.BooleanState(2977);
 	private static int activeTextureUnit = 0;
 	private static G.TextureState[] textureState = new G.TextureState[32];
@@ -41,11 +40,11 @@ public class G {
 	}
 
 	public static void disableAlpha() {
-		alphaState.field_179208_a.setDisabled();
+		alphaState.state.setDisabled();
 	}
 
 	public static void enableAlpha() {
-		alphaState.field_179208_a.setEnabled();
+		alphaState.state.setEnabled();
 	}
 
 	public static void alphaFunc(int func, float ref) {
@@ -241,8 +240,6 @@ public class G {
 
 	private static G.TexGenCoord texGenCoord(G.TexGen p_179125_0_) {
 		switch (G.GlStateManager$1.field_179175_a[p_179125_0_.ordinal()]) {
-			case 1:
-				return texGenState.field_179064_a;
 
 			case 2:
 				return texGenState.field_179062_b;
@@ -253,6 +250,7 @@ public class G {
 			case 4:
 				return texGenState.field_179061_d;
 
+			case 1:
 			default:
 				return texGenState.field_179064_a;
 		}
@@ -507,18 +505,14 @@ public class G {
 
 	static class AlphaState {
 
-		public G.BooleanState field_179208_a;
+		public G.BooleanState state;
 		public int func;
 		public float ref;
 
 		private AlphaState() {
-			this.field_179208_a = new G.BooleanState(3008);
+			this.state = new G.BooleanState(3008);
 			this.func = 519;
 			this.ref = -1.0F;
-		}
-
-		AlphaState(G.GlStateManager$1 p_i46489_1_) {
-			this();
 		}
 
 	}
@@ -752,59 +746,8 @@ public class G {
 
 	}
 
-	static class StencilFunc {
-
-		public int field_179081_a;
-		public int field_179079_b;
-		public int field_179080_c;
-
-
-		private StencilFunc() {
-			this.field_179081_a = 519;
-			this.field_179079_b = 0;
-			this.field_179080_c = -1;
-		}
-
-		StencilFunc(G.GlStateManager$1 p_i46479_1_) {
-			this();
-		}
-
-	}
-
-	static class StencilState {
-
-		public G.StencilFunc field_179078_a;
-		public int field_179076_b;
-		public int field_179077_c;
-		public int field_179074_d;
-		public int field_179075_e;
-
-
-		private StencilState() {
-			this.field_179078_a = new G.StencilFunc(null);
-			this.field_179076_b = -1;
-			this.field_179077_c = 7680;
-			this.field_179074_d = 7680;
-			this.field_179075_e = 7680;
-		}
-
-		StencilState(G.GlStateManager$1 p_i46478_1_) {
-			this();
-		}
-
-	}
-
 	public enum TexGen {
-		S("S", 0),
-		T("T", 1),
-		R("R", 2),
-		Q("Q", 3);
-
-		private static final G.TexGen[] $VALUES = new G.TexGen[] {S, T, R, Q};
-
-
-		TexGen(String p_i3_3_, int p_i3_4_) {
-		}
+		S, T, R, Q
 	}
 
 	static class TexGenCoord {

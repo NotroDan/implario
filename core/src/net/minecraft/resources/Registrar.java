@@ -50,7 +50,6 @@ public class Registrar {
 		E.getPacketLib().LIB.disable(domain);
 		Collections.reverse(mappings);
 		for (Mapping entry : mappings) {
-			System.out.println(entry);
 			entry.undo();
 		}
 		mappings.clear();

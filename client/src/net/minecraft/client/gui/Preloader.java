@@ -159,7 +159,7 @@ public class Preloader {
 	}
 
 	public void nextState() {
-		if (start != 0) System.out.println(states[state] + " - " + (System.currentTimeMillis() - start) + "ms.");
+//		if (start != 0) System.out.println(states[state] + " - " + (System.currentTimeMillis() - start) + "ms.");
 		start = System.currentTimeMillis();
 		state++;
 	}
