@@ -78,7 +78,6 @@ public class BlockPart {
 		else {
 			ByteUnzip unz = new ByteUnzip(next);
 			Vector3f v3f = parse(unz.getBytes());
-			v3f.scale(0.0625F);
 			EnumFacing.Axis axis = EnumFacing.Axis.values()[unz.getInt()];
 			float f = Utils.toFloat(unz.getBytes());
 			boolean flag = unz.getBoolean();
