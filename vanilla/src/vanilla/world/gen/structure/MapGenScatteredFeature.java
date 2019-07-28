@@ -1,5 +1,6 @@
 package vanilla.world.gen.structure;
 
+import net.minecraft.world.biome.Biome;
 import vanilla.entity.monster.EntityWitch;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -16,8 +17,8 @@ import java.util.Random;
 
 public class MapGenScatteredFeature extends MapGenStructure {
 
-	private static final List<BiomeGenBase> biomelist = Arrays.asList(
-			new BiomeGenBase[] {BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.swampland});
+	private static final List<Biome> biomelist = Arrays.asList(
+			BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.swampland);
 	private List<SpawnListEntry> scatteredFeatureSpawnList;
 
 	/**
@@ -73,14 +74,12 @@ public class MapGenScatteredFeature extends MapGenStructure {
 		l = l + random.nextInt(this.maxDistanceBetweenScatteredFeatures - this.minDistanceBetweenScatteredFeatures);
 
 		if (i == k && j == l) {
-			BiomeGenBase biomegenbase = BiomeGenBase.toGenBase(BiomeGenBase.desert);//TODO: Понять контекст и починить
+			Biome actual = this.worldObj.getWorldChunkManager().getBiome(new BlockPos(i * 16 + 8, 0, j * 16 + 8));
 
-			if (biomegenbase == null) return false;
+			if (actual == null) return false;
 
-			for (BiomeGenBase biomegenbase1 : biomelist) {
-				if (biomegenbase == biomegenbase1) {
-					return true;
-				}
+			for (Biome required : biomelist) {
+				if (actual == required) return true;
 			}
 		}
 
@@ -112,7 +111,8 @@ public class MapGenScatteredFeature extends MapGenStructure {
 
 		public Start(World worldIn, Random p_i2060_2_, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
-			BiomeGenBase biomegenbase = BiomeGenBase.toGenBase(BiomeGenBase.desert);//TODO: Вернуть по координатам чанка
+			Biome biomegenbase = worldIn.getBiomeGenForCoords(new BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8));
+
 
 			if (biomegenbase != BiomeGenBase.jungle && biomegenbase != BiomeGenBase.jungleHills) {
 				if (biomegenbase == BiomeGenBase.swampland) {
