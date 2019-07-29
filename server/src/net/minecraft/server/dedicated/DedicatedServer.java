@@ -107,13 +107,24 @@ public class DedicatedServer extends MinecraftServer {
 
 		MAIN.info("Генерирация ключи шифрования...");
 		this.setKeyPair(CryptManager.generateKeyPair());
-		MAIN.info("Создание слушателя адреса '" + (this.getServerHostname().length() == 0 ? "*" : this.getServerHostname()) + ":" + this.getServerPort());
+		String address = (this.getServerHostname().length() == 0 ? "*" : this.getServerHostname()) + ":" + this.getServerPort();
+		MAIN.info("Создание слушателя адреса " + address);
 
 		try {
 			this.getNetworkSystem().addLanEndpoint(inetaddress, this.getServerPort());
-		} catch (IOException ioexception) {
-			MAIN.warn("**** ПОРТ " + getServerPort() + " ЗАНЯТ!");
-			if (!(ioexception instanceof BindException)) ioexception.printStackTrace();
+		} catch (IOException ex) {
+			if (ex instanceof BindException) {
+				String msg = ex.getMessage();
+				if (msg.contains("Cannot assign requested address: bind")) {
+					MAIN.error("**** К адресу " + address + " отсутствует доступ!");
+					return false;
+				} else if (msg.contains("Address already in use: bind")) {
+					MAIN.error("**** Порт " + getServerPort() + " занят!");
+					return false;
+				}
+			}
+			MAIN.error("**** При создании сетевого слушателя возникла ошибка!");
+			MAIN.exception(ex);
 			return false;
 		}
 
