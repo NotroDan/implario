@@ -25,29 +25,27 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer {
 	 * must pass a versioncheck or receive a disconnect otherwise
 	 */
 	public void processHandshake(C00Handshake packetIn) {
-		switch (packetIn.getRequestedState()) {
-			case LOGIN:
-				this.networkManager.setConnectionState(ConnectionState.LOGIN);
+		ConnectionState r = packetIn.getRequestedState();
+		if (r == ConnectionState.LOGIN) {
+			this.networkManager.setConnectionState(ConnectionState.LOGIN);
 
-				if (packetIn.getProtocolVersion() != 47) {
-					ChatComponentText chatcomponenttext = new ChatComponentText("Этот сервер использует протокол §eNotchian 47§f (версия 1.8.8)\n" +
-							"§fВаш клиент использует протокол §eNotchian " + packetIn.getProtocolVersion() + "§f, который несовместим с Notchian 47.\n§f\n" +
-							"Используйте клиент §eImplario§f для входа на этот сервер.\n§7github.com/DelfikPro/Implario");
-					this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext));
-					this.networkManager.closeChannel(chatcomponenttext);
-				} else {
-					this.networkManager.setNetHandler(new NetHandlerLoginServer(this.server, this.networkManager));
-				}
-
-				break;
-
-			case STATUS:
-				this.networkManager.setConnectionState(ConnectionState.STATUS);
-				this.networkManager.setNetHandler(new NetHandlerStatusServer(this.server, this.networkManager));
-				break;
-
-			default:
-				throw new UnsupportedOperationException("Invalid intention " + packetIn.getRequestedState());
+			if (packetIn.getProtocolVersion() != 47) {
+				ChatComponentText chatcomponenttext = new ChatComponentText("Этот сервер использует протокол §eNotchian 47§f (версия 1.8.8)\n" +
+						"§fВаш клиент использует протокол §eNotchian " + packetIn.getProtocolVersion() + "§f, который несовместим с Notchian 47.\n§f\n" +
+						"Используйте клиент §eImplario§f для входа на этот сервер.\n§7github.com/DelfikPro/Implario");
+				this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext));
+				this.networkManager.closeChannel(chatcomponenttext);
+			} else {
+				this.networkManager.setNetHandler(new NetHandlerLoginServer(this.server, this.networkManager));
+			}
+		} else if (r == ConnectionState.STATUS) {
+			this.networkManager.setConnectionState(ConnectionState.STATUS);
+			this.networkManager.setNetHandler(new NetHandlerStatusServer(this.server, this.networkManager));
+		} else {
+			ChatComponentText chatcomponenttext = new ChatComponentText("§4Критическая ошибка:\n§cОтправленный статус хендшейка невозможно обработать (§f" + r + "§c)");
+			this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext));
+			this.networkManager.closeChannel(chatcomponenttext);
+			throw new UnsupportedOperationException("Invalid intention " + r);
 		}
 	}
 
