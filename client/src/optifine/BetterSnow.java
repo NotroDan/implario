@@ -25,7 +25,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 
 public class BetterSnow {
-
 	private static IBakedModel modelSnowLayer = null;
 
 	public static void update() {
@@ -44,34 +43,24 @@ public class BetterSnow {
 		return !checkBlock(p_shouldRender_1_, p_shouldRender_2_) ? false : hasSnowNeighbours(p_shouldRender_0_, p_shouldRender_3_);
 	}
 
-	private static boolean hasSnowNeighbours(IBlockAccess p_hasSnowNeighbours_0_, BlockPos p_hasSnowNeighbours_1_) {
+	private static boolean hasSnowNeighbours(IBlockAccess access, BlockPos blockPos) {
 		Block block = Blocks.snow_layer;
-		return p_hasSnowNeighbours_0_.getBlockState(p_hasSnowNeighbours_1_.north()).getBlock() != block && p_hasSnowNeighbours_0_.getBlockState(
-				p_hasSnowNeighbours_1_.south()).getBlock() != block && p_hasSnowNeighbours_0_.getBlockState(p_hasSnowNeighbours_1_.west()).getBlock() != block && p_hasSnowNeighbours_0_.getBlockState(
-				p_hasSnowNeighbours_1_.east()).getBlock() != block ? false : p_hasSnowNeighbours_0_.getBlockState(p_hasSnowNeighbours_1_.down()).getBlock().isOpaqueCube();
+		return access.getBlockState(blockPos.north()).getBlock() != block && access.getBlockState(
+				blockPos.south()).getBlock() != block && access.getBlockState(blockPos.west()).getBlock() != block && access.getBlockState(
+				blockPos.east()).getBlock() != block ? false : access.getBlockState(blockPos.down()).getBlock().isOpaqueCube();
 	}
 
-	private static boolean checkBlock(Block p_checkBlock_0_, IBlockState p_checkBlock_1_) {
-		if (p_checkBlock_0_.isFullCube()) {
+	private static boolean checkBlock(Block block, IBlockState blockState) {
+		if (block.isFullCube() ||block.isOpaqueCube() || block instanceof BlockSnow)
 			return false;
-		}
-		if (p_checkBlock_0_.isOpaqueCube()) {
-			return false;
-		}
-		if (p_checkBlock_0_ instanceof BlockSnow) {
-			return false;
-		}
-		if (!(p_checkBlock_0_ instanceof BlockBush) || !(p_checkBlock_0_ instanceof BlockDoublePlant) && !(p_checkBlock_0_ instanceof BlockFlower) && !(p_checkBlock_0_ instanceof BlockMushroom) && !(p_checkBlock_0_ instanceof BlockSapling) && !(p_checkBlock_0_ instanceof BlockTallGrass)) {
-			if (!(p_checkBlock_0_ instanceof BlockFence) && !(p_checkBlock_0_ instanceof BlockFenceGate) && !(p_checkBlock_0_ instanceof BlockFlowerPot) && !(p_checkBlock_0_ instanceof BlockPane) && !(p_checkBlock_0_ instanceof BlockReed) && !(p_checkBlock_0_ instanceof BlockWall)) {
-				if (p_checkBlock_0_ instanceof BlockRedstoneTorch && p_checkBlock_1_.getValue(BlockTorch.FACING) == EnumFacing.UP) {
+		if (!(block instanceof BlockBush) || !(block instanceof BlockDoublePlant) && !(block instanceof BlockFlower) && !(block instanceof BlockMushroom) && !(block instanceof BlockSapling) && !(block instanceof BlockTallGrass)) {
+			if (!(block instanceof BlockFence) && !(block instanceof BlockFenceGate) && !(block instanceof BlockFlowerPot) && !(block instanceof BlockPane) && !(block instanceof BlockReed) && !(block instanceof BlockWall)) {
+				if (block instanceof BlockRedstoneTorch && blockState.getValue(BlockTorch.FACING) == EnumFacing.UP)
 					return true;
-				}
-				if (p_checkBlock_0_ instanceof BlockLever) {
-					Object object = p_checkBlock_1_.getValue(BlockLever.FACING);
 
-					if (object == BlockLever.EnumOrientation.UP_X || object == BlockLever.EnumOrientation.UP_Z) {
-						return true;
-					}
+				if (block instanceof BlockLever) {
+					Object object = blockState.getValue(BlockLever.FACING);
+					return object == BlockLever.EnumOrientation.UP_X || object == BlockLever.EnumOrientation.UP_Z;
 				}
 
 				return false;
@@ -80,5 +69,4 @@ public class BetterSnow {
 		}
 		return true;
 	}
-
 }

@@ -13,7 +13,6 @@ import net.minecraft.world.chunk.EmptyChunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class ClearWater {
-
 	public static void updateWaterOpacity(World world) {
 		int i = Settings.CLEAR_WATER.b() ? 1 : 3;
 		BlockLeavesBase.setLightOpacity(Blocks.water, i);
@@ -72,5 +71,4 @@ public class ClearWater {
 			if (l1 > 0) Config.dbg("ClearWater (" + (Config.isMinecraftThread() ? "client" : "server") + ") relighted " + l1 + " chunks");
 		}
 	}
-
 }

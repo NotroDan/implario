@@ -35,72 +35,6 @@ import shadersmod.client.MultiTexID;
 import shadersmod.client.Shaders;
 
 public class TextureUtils {
-
-	public static final String texGrassTop = "grass_top";
-	public static final String texStone = "stone";
-	public static final String texDirt = "dirt";
-	public static final String texCoarseDirt = "coarse_dirt";
-	public static final String texGrassSide = "grass_side";
-	public static final String texStoneslabSide = "stone_slab_side";
-	public static final String texStoneslabTop = "stone_slab_top";
-	public static final String texBedrock = "bedrock";
-	public static final String texSand = "sand";
-	public static final String texGravel = "gravel";
-	public static final String texLogOak = "log_oak";
-	public static final String texLogBigOak = "log_big_oak";
-	public static final String texLogAcacia = "log_acacia";
-	public static final String texLogSpruce = "log_spruce";
-	public static final String texLogBirch = "log_birch";
-	public static final String texLogJungle = "log_jungle";
-	public static final String texLogOakTop = "log_oak_top";
-	public static final String texLogBigOakTop = "log_big_oak_top";
-	public static final String texLogAcaciaTop = "log_acacia_top";
-	public static final String texLogSpruceTop = "log_spruce_top";
-	public static final String texLogBirchTop = "log_birch_top";
-	public static final String texLogJungleTop = "log_jungle_top";
-	public static final String texLeavesOak = "leaves_oak";
-	public static final String texLeavesBigOak = "leaves_big_oak";
-	public static final String texLeavesAcacia = "leaves_acacia";
-	public static final String texLeavesBirch = "leaves_birch";
-	public static final String texLeavesSpuce = "leaves_spruce";
-	public static final String texLeavesJungle = "leaves_jungle";
-	public static final String texGoldOre = "gold_ore";
-	public static final String texIronOre = "iron_ore";
-	public static final String texCoalOre = "coal_ore";
-	public static final String texObsidian = "obsidian";
-	public static final String texGrassSideOverlay = "grass_side_overlay";
-	public static final String texSnow = "snow";
-	public static final String texGrassSideSnowed = "grass_side_snowed";
-	public static final String texMyceliumSide = "mycelium_side";
-	public static final String texMyceliumTop = "mycelium_top";
-	public static final String texDiamondOre = "diamond_ore";
-	public static final String texRedstoneOre = "redstone_ore";
-	public static final String texLapisOre = "lapis_ore";
-	public static final String texCactusSide = "cactus_side";
-	public static final String texClay = "clay";
-	public static final String texFarmlandWet = "farmland_wet";
-	public static final String texFarmlandDry = "farmland_dry";
-	public static final String texNetherrack = "netherrack";
-	public static final String texSoulSand = "soul_sand";
-	public static final String texGlowstone = "glowstone";
-	public static final String texLeavesSpruce = "leaves_spruce";
-	public static final String texLeavesSpruceOpaque = "leaves_spruce_opaque";
-	public static final String texEndStone = "end_stone";
-	public static final String texSandstoneTop = "sandstone_top";
-	public static final String texSandstoneBottom = "sandstone_bottom";
-	public static final String texRedstoneLampOff = "redstone_lamp_off";
-	public static final String texRedstoneLampOn = "redstone_lamp_on";
-	public static final String texWaterStill = "water_still";
-	public static final String texWaterFlow = "water_flow";
-	public static final String texLavaStill = "lava_still";
-	public static final String texLavaFlow = "lava_flow";
-	public static final String texFireLayer0 = "fire_layer_0";
-	public static final String texFireLayer1 = "fire_layer_1";
-	public static final String texPortal = "portal";
-	public static final String texGlass = "glass";
-	public static final String texGlassPaneTop = "glass_pane_top";
-	public static final String texCompass = "compass";
-	public static final String texClock = "clock";
 	public static TextureAtlasSprite iconGrassTop;
 	public static TextureAtlasSprite iconGrassSide;
 	public static TextureAtlasSprite iconGrassSideOverlay;
@@ -121,98 +55,68 @@ public class TextureUtils {
 	public static TextureAtlasSprite iconClock;
 	public static final String SPRITE_PREFIX_BLOCKS = "minecraft:blocks/";
 	public static final String SPRITE_PREFIX_ITEMS = "minecraft:items/";
-	private static IntBuffer staticBuffer = GLAllocation.createDirectIntBuffer(256);
 
 	public static void update() {
 		TextureMap texturemap = getTextureMapBlocks();
 
 		if (texturemap != null) {
-			String s = "minecraft:blocks/";
-			iconGrassTop = texturemap.getSpriteSafe(s + "grass_top");
-			iconGrassSide = texturemap.getSpriteSafe(s + "grass_side");
-			iconGrassSideOverlay = texturemap.getSpriteSafe(s + "grass_side_overlay");
-			iconSnow = texturemap.getSpriteSafe(s + "snow");
-			iconGrassSideSnowed = texturemap.getSpriteSafe(s + "grass_side_snowed");
-			iconMyceliumSide = texturemap.getSpriteSafe(s + "mycelium_side");
-			iconMyceliumTop = texturemap.getSpriteSafe(s + "mycelium_top");
-			iconWaterStill = texturemap.getSpriteSafe(s + "water_still");
-			iconWaterFlow = texturemap.getSpriteSafe(s + "water_flow");
-			iconLavaStill = texturemap.getSpriteSafe(s + "lava_still");
-			iconLavaFlow = texturemap.getSpriteSafe(s + "lava_flow");
-			iconFireLayer0 = texturemap.getSpriteSafe(s + "fire_layer_0");
-			iconFireLayer1 = texturemap.getSpriteSafe(s + "fire_layer_1");
-			iconPortal = texturemap.getSpriteSafe(s + "portal");
-			iconGlass = texturemap.getSpriteSafe(s + "glass");
-			iconGlassPaneTop = texturemap.getSpriteSafe(s + "glass_pane_top");
-			String s1 = "minecraft:items/";
-			iconCompass = texturemap.getSpriteSafe(s1 + "compass");
-			iconClock = texturemap.getSpriteSafe(s1 + "clock");
+			iconGrassTop = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "grass_top");
+			iconGrassSide = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "grass_side");
+			iconGrassSideOverlay = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "grass_side_overlay");
+			iconSnow = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "snow");
+			iconGrassSideSnowed = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "grass_side_snowed");
+			iconMyceliumSide = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "mycelium_side");
+			iconMyceliumTop = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "mycelium_top");
+			iconWaterStill = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "water_still");
+			iconWaterFlow = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "water_flow");
+			iconLavaStill = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "lava_still");
+			iconLavaFlow = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "lava_flow");
+			iconFireLayer0 = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "fire_layer_0");
+			iconFireLayer1 = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "fire_layer_1");
+			iconPortal = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "portal");
+			iconGlass = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "glass");
+			iconGlassPaneTop = texturemap.getSpriteSafe(SPRITE_PREFIX_BLOCKS + "glass_pane_top");
+			iconCompass = texturemap.getSpriteSafe(SPRITE_PREFIX_ITEMS + "compass");
+			iconClock = texturemap.getSpriteSafe(SPRITE_PREFIX_ITEMS + "clock");
 		}
 	}
 
-	public static BufferedImage fixTextureDimensions(String p_fixTextureDimensions_0_, BufferedImage p_fixTextureDimensions_1_) {
-		if (p_fixTextureDimensions_0_.startsWith("/mob/zombie") || p_fixTextureDimensions_0_.startsWith("/mob/pigzombie")) {
-			int i = p_fixTextureDimensions_1_.getWidth();
-			int j = p_fixTextureDimensions_1_.getHeight();
+	public static BufferedImage fixTextureDimensions(String path, BufferedImage image) {
+		if (path.startsWith("/mob/zombie") || path.startsWith("/mob/pigzombie")) {
+			int width = image.getWidth();
+			int height = image.getHeight();
 
-			if (i == j * 2) {
-				BufferedImage bufferedimage = new BufferedImage(i, j * 2, 2);
+			if (width == height * 2) {
+				BufferedImage bufferedimage = new BufferedImage(width, height * 2, 2);
 				Graphics2D graphics2d = bufferedimage.createGraphics();
 				graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-				graphics2d.drawImage(p_fixTextureDimensions_1_, 0, 0, i, j, (ImageObserver) null);
+				graphics2d.drawImage(image, 0, 0, width, height, null);
 				return bufferedimage;
 			}
 		}
 
-		return p_fixTextureDimensions_1_;
+		return image;
 	}
 
-	public static int ceilPowerOfTwo(int p_ceilPowerOfTwo_0_) {
+	public static int ceilPowerOfTwo(int j) {
 		int i;
-
-		for (i = 1; i < p_ceilPowerOfTwo_0_; i *= 2) {
-			;
-		}
-
+		for (i = 1; i < j; i <<= 1);
 		return i;
 	}
 
-	public static int getPowerOfTwo(int p_getPowerOfTwo_0_) {
-		int i = 1;
-		int j;
+	public static ITextureObject getTexture(ResourceLocation location) {
+		ITextureObject itextureobject = Config.getTextureManager().getTexture(location);
 
-		for (j = 0; i < p_getPowerOfTwo_0_; ++j) {
-			i *= 2;
-		}
-
-		return j;
-	}
-
-	public static int twoToPower(int p_twoToPower_0_) {
-		int i = 1;
-
-		for (int j = 0; j < p_twoToPower_0_; ++j) {
-			i *= 2;
-		}
-
-		return i;
-	}
-
-	public static ITextureObject getTexture(ResourceLocation p_getTexture_0_) {
-		ITextureObject itextureobject = Config.getTextureManager().getTexture(p_getTexture_0_);
-
-		if (itextureobject != null) {
+		if (itextureobject != null)
 			return itextureobject;
-		}
-		if (!Config.hasResource(p_getTexture_0_)) {
+		if (!Config.hasResource(location))
 			return null;
-		}
-		SimpleTexture simpletexture = new SimpleTexture(p_getTexture_0_);
-		Config.getTextureManager().loadTexture(p_getTexture_0_, simpletexture);
+		SimpleTexture simpletexture = new SimpleTexture(location);
+		Config.getTextureManager().loadTexture(location, simpletexture);
 		return simpletexture;
 	}
 
-	public static void resourcesReloaded(IResourceManager p_resourcesReloaded_0_) {
+	public static void resourcesReloaded() {
 		if (getTextureMapBlocks() != null) {
 			Config.dbg("*** Reloading custom textures ***");
 			CustomSky.reset();
@@ -243,11 +147,7 @@ public class TextureUtils {
 
 		if (iresourcemanager instanceof IReloadableResourceManager) {
 			IReloadableResourceManager ireloadableresourcemanager = (IReloadableResourceManager) iresourcemanager;
-			IResourceManagerReloadListener iresourcemanagerreloadlistener = new IResourceManagerReloadListener() {
-				public void onResourceManagerReload(IResourceManager resourceManager) {
-					TextureUtils.resourcesReloaded(resourceManager);
-				}
-			};
+			IResourceManagerReloadListener iresourcemanagerreloadlistener = (unused) -> TextureUtils.resourcesReloaded();
 			ireloadableresourcemanager.registerReloadListener(iresourcemanagerreloadlistener);
 		}
 
@@ -256,18 +156,15 @@ public class TextureUtils {
 				TextureAnimations.updateCustomAnimations();
 			}
 
-			public void loadTexture(IResourceManager resourceManager) throws IOException {
-			}
+			public void loadTexture(IResourceManager resourceManager){}
 
 			public int getGlTextureId() {
 				return 0;
 			}
 
-			public void setBlurMipmap(boolean p_174936_1_, boolean p_174936_2_) {
-			}
+			public void setBlurMipmap(boolean p_174936_1_, boolean p_174936_2_) {}
 
-			public void restoreLastBlurMipmap() {
-			}
+			public void restoreLastBlurMipmap() {}
 
 			public MultiTexID getMultiTexID() {
 				return null;
@@ -277,44 +174,34 @@ public class TextureUtils {
 		Config.getTextureManager().loadTickableTexture(resourcelocation, itickabletextureobject);
 	}
 
-	public static String fixResourcePath(String p_fixResourcePath_0_, String p_fixResourcePath_1_) {
+	public static String fixResourcePath(String pathOne, String pathTwo) {
 		String s = "assets/minecraft/";
 
-		if (p_fixResourcePath_0_.startsWith(s)) {
-			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(s.length());
-			return p_fixResourcePath_0_;
-		}
-		if (p_fixResourcePath_0_.startsWith("./")) {
-			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
+		if (pathOne.startsWith(s))
+			return pathOne.substring(s.length());
+		if (pathOne.startsWith("./")) {
+			pathOne = pathOne.substring(2);
 
-			if (!p_fixResourcePath_1_.endsWith("/")) {
-				p_fixResourcePath_1_ = p_fixResourcePath_1_ + "/";
-			}
+			if (!pathTwo.endsWith("/"))
+				pathTwo = pathTwo + "/";
 
-			p_fixResourcePath_0_ = p_fixResourcePath_1_ + p_fixResourcePath_0_;
-			return p_fixResourcePath_0_;
+			return pathTwo + pathOne;
 		}
-		if (p_fixResourcePath_0_.startsWith("/~")) {
-			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(1);
-		}
+		if (pathOne.startsWith("/~"))
+			pathOne = pathOne.substring(1);
 
 		String s1 = "mcpatcher/";
 
-		if (p_fixResourcePath_0_.startsWith("~/")) {
-			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
-			p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_;
-			return p_fixResourcePath_0_;
-		}
-		if (p_fixResourcePath_0_.startsWith("/")) {
-			p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_.substring(1);
-			return p_fixResourcePath_0_;
-		}
-		return p_fixResourcePath_0_;
+		if (pathOne.startsWith("~/"))
+			return s1 + pathOne.substring(2);
+		if (pathOne.startsWith("/"))
+			return s1 + pathOne.substring(1);
+		return pathOne;
 	}
 
-	public static String getBasePath(String p_getBasePath_0_) {
-		int i = p_getBasePath_0_.lastIndexOf(47);
-		return i < 0 ? "" : p_getBasePath_0_.substring(0, i);
+	public static String getBasePath(String path) {
+		int i = path.lastIndexOf(47);
+		return i < 0 ? "" : path.substring(0, i);
 	}
 
 	public static void applyAnisotropicLevel() {
