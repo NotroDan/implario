@@ -30,6 +30,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import vanilla.block.BlockMobSpawner;
 import vanilla.block.VBlockMushroom;
+import vanilla.block.VBlockPortal;
 import vanilla.block.VBlockSapling;
 import vanilla.client.game.VanillaIngameModules;
 import vanilla.client.game.model.*;
@@ -108,7 +109,7 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		RenderManager m = MC.i().getRenderManager();
 
 		registrar.registerEntity(EntityCaveSpider.class, new RenderCaveSpider(m));
-		registrar.registerEntity(EntitySpider.class, new RenderSpider(m));
+		registrar.registerEntity(EntitySpider.class, new RenderSpider<>(m));
 		registrar.registerEntity(EntityPig.class, new RenderPig(m, new ModelPig(), 0.7F));
 		registrar.registerEntity(EntitySheep.class, new RenderSheep(m, new ModelSheep2(), 0.7F));
 		registrar.registerEntity(EntityCow.class, new RenderCow(m, new ModelCow(), 0.7F));
@@ -231,6 +232,8 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		registrar.registerBlock(39, "brown_mushroom", redMushroom);
 		Block brownBushroom = new VBlockMushroom().setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("mushroom");
 		registrar.registerBlock(40, "red_mushroom", brownBushroom);
+		registrar.registerBlock(90, "portal", new VBlockPortal().setHardness(-1).setStepSound(soundTypeGlass).setLightLevel(0.75F).setUnlocalizedName("portal"));
+
 		registrar.registerBlock(99, "brown_mushroom_block",
 				new BlockHugeMushroom(Material.wood, MapColor.dirtColor, redMushroom).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
 		registrar.registerBlock(100, "red_mushroom_block",

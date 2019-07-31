@@ -186,8 +186,8 @@ public enum ConnectionState {
 	}
 
 	public static ConnectionState getById(int stateId) {
-		int id = stateId - 1;
-		return values().length >= id || id < 0 ? null : values()[id];
+		int id = stateId + 1;
+		return id < 0 || values().length <= id ? null : values()[id];
 	}
 
 	public static ConnectionState getFromPacket(Packet packetIn) {
