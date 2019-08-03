@@ -41,12 +41,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Config {
-
-	public static final String OF_NAME = "OptiFine";
-	public static final String MC_VERSION = "1.8.8";
-	public static final String OF_EDITION = "HD_U";
-	public static final String OF_RELEASE = "H8";
-	public static final String VERSION = "OptiFine_1.8.8_HD_U_H8";
 	private static String newRelease = null;
 	private static boolean notify64BitJava = false;
 	public static String openGlVersion = null;

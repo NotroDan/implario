@@ -11,55 +11,45 @@ import net.minecraft.world.biome.Biome;
 import java.util.*;
 
 public class ConnectedParser {
-
-	private String context = null;
+	private String context;
 	private static final MatchBlock[] NO_MATCH_BLOCKS = new MatchBlock[0];
 
-	public ConnectedParser(String p_i31_1_) {
-		this.context = p_i31_1_;
+	public ConnectedParser(String context) {
+		this.context = context;
 	}
 
-	public String parseName(String p_parseName_1_) {
-		String s = p_parseName_1_;
-		int i = p_parseName_1_.lastIndexOf(47);
+	public String parseName(String parse) {
+		String s = parse;
+		int i = parse.lastIndexOf(47);
 
-		if (i >= 0) {
-			s = p_parseName_1_.substring(i + 1);
-		}
+		if (i >= 0) s = parse.substring(i + 1);
 
 		int j = s.lastIndexOf(46);
 
-		if (j >= 0) {
-			s = s.substring(0, j);
-		}
+		if (j >= 0) s = s.substring(0, j);
 
 		return s;
 	}
 
-	public String parseBasePath(String p_parseBasePath_1_) {
-		int i = p_parseBasePath_1_.lastIndexOf(47);
-		return i < 0 ? "" : p_parseBasePath_1_.substring(0, i);
+	public String parseBasePath(String path) {
+		int i = path.lastIndexOf(47);
+		return i < 0 ? "" : path.substring(0, i);
 	}
 
-	public MatchBlock[] parseMatchBlocks(String p_parseMatchBlocks_1_) {
-		if (p_parseMatchBlocks_1_ == null) {
-			return null;
-		}
-		List list = new ArrayList();
-		String[] astring = Config.tokenize(p_parseMatchBlocks_1_, " ");
+	public MatchBlock[] parseMatchBlocks(String parse) {
+		if (parse == null) return null;
+		List<MatchBlock> list = new ArrayList<>();
+		String[] astring = Config.tokenize(parse, " ");
 
-		for (int i = 0; i < astring.length; ++i) {
-			String s = astring[i];
-			MatchBlock[] amatchblock = this.parseMatchBlock(s);
+		for (String parseMatchBlock : astring) {
+			MatchBlock[] amatchblock = parseMatchBlock(parseMatchBlock);
 
-			if (amatchblock == null) {
-				return NO_MATCH_BLOCKS;
-			}
+			if (amatchblock == null) return NO_MATCH_BLOCKS;
 
 			list.addAll(Arrays.asList(amatchblock));
 		}
 
-		return (MatchBlock[]) list.toArray(new MatchBlock[0]);
+		return list.toArray(new MatchBlock[0]);
 	}
 
 	public MatchBlock[] parseMatchBlock(String st) {
@@ -70,8 +60,8 @@ public class ConnectedParser {
 			return null;
 		}
 		String[] astring = Config.tokenize(st, ":");
-		String s = "minecraft";
-		int i = 0;
+		String s;
+		int i;
 
 		if (astring.length > 1 && this.isFullBlockName(astring)) {
 			s = astring[0];

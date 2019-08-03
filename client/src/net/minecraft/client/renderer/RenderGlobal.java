@@ -910,7 +910,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 						BlockPos blockpos1 = renderchunk1.getPosition();
 
-						if (ChunkUtils.hasEntities(this.theWorld.getChunkFromBlockCoords(blockpos1))) {
+						if (theWorld.getChunkFromBlockCoords(blockpos1).hasEntities) {
 							this.renderInfosEntities.add(renderinfolazy.getRenderInfo());
 						}
 
@@ -988,7 +988,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					this.renderInfos.add(renderglobal$containerlocalrenderinformation1);
 				}
 
-				if (ChunkUtils.hasEntities(this.theWorld.getChunkFromBlockCoords(blockpos3))) {
+				if (theWorld.getChunkFromBlockCoords(blockpos3).hasEntities) {
 					this.renderInfosEntities.add(renderglobal$containerlocalrenderinformation1);
 				}
 
