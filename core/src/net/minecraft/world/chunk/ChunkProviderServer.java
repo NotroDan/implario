@@ -1,6 +1,7 @@
 package net.minecraft.world.chunk;
 
 import com.google.common.collect.Lists;
+import lombok.Getter;
 import net.minecraft.Logger;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -24,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChunkProviderServer implements IChunkProvider {
 
 	private static final Logger logger = Logger.getInstance();
-	private Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap());
+	private Set<Long> droppedChunksSet = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
 	/**
 	 * a dummy chunk, returned in place of an actual chunk.
@@ -34,7 +35,8 @@ public class ChunkProviderServer implements IChunkProvider {
 	/**
 	 * chunk generator object. Calls to load nonexistent chunks are forwarded to this object.
 	 */
-	private IChunkProvider serverChunkGenerator;
+	@Getter
+	private IChunkProvider base;
 	private IChunkLoader chunkLoader;
 
 	/**
@@ -50,7 +52,7 @@ public class ChunkProviderServer implements IChunkProvider {
 		this.dummyChunk = new EmptyChunk(p_i1520_1_, 0, 0);
 		this.worldObj = p_i1520_1_;
 		this.chunkLoader = p_i1520_2_;
-		this.serverChunkGenerator = p_i1520_3_;
+		this.base = p_i1520_3_;
 	}
 
 	/**
@@ -95,17 +97,17 @@ public class ChunkProviderServer implements IChunkProvider {
 			chunk = this.loadChunkFromFile(x, z);
 
 			if (chunk == null) {
-				if (this.serverChunkGenerator == null) {
+				if (this.base == null) {
 					chunk = this.dummyChunk;
 				} else {
 					try {
-						chunk = this.serverChunkGenerator.provideChunk(x, z);
+						chunk = this.base.provideChunk(x, z);
 					} catch (Throwable throwable) {
 						CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception generating new chunk");
 						CrashReportCategory crashreportcategory = crashreport.makeCategory("Chunk to be generated");
 						crashreportcategory.addCrashSection("Location", String.format("%d,%d", x, z));
 						crashreportcategory.addCrashSection("Position hash", i);
-						crashreportcategory.addCrashSection("Generator", this.serverChunkGenerator.makeString());
+						crashreportcategory.addCrashSection("Generator", this.base.makeString());
 						throw new ReportedException(crashreport);
 					}
 				}
@@ -139,8 +141,8 @@ public class ChunkProviderServer implements IChunkProvider {
 			if (chunk != null) {
 				chunk.setLastSaveTime(this.worldObj.getTotalWorldTime());
 
-				if (this.serverChunkGenerator != null) {
-					this.serverChunkGenerator.recreateStructures(chunk, x, z);
+				if (this.base != null) {
+					this.base.recreateStructures(chunk, x, z);
 				}
 			}
 
@@ -183,15 +185,15 @@ public class ChunkProviderServer implements IChunkProvider {
 		if (!chunk.isTerrainPopulated()) {
 			chunk.func_150809_p();
 
-			if (this.serverChunkGenerator != null) {
-				this.serverChunkGenerator.populate(p_73153_1_, p_73153_2_, p_73153_3_);
+			if (this.base != null) {
+				this.base.populate(p_73153_1_, p_73153_2_, p_73153_3_);
 				chunk.setChunkModified();
 			}
 		}
 	}
 
 	public boolean func_177460_a(IChunkProvider p_177460_1_, Chunk p_177460_2_, int p_177460_3_, int p_177460_4_) {
-		if (this.serverChunkGenerator != null && this.serverChunkGenerator.func_177460_a(p_177460_1_, p_177460_2_, p_177460_3_, p_177460_4_)) {
+		if (this.base != null && this.base.func_177460_a(p_177460_1_, p_177460_2_, p_177460_3_, p_177460_4_)) {
 			Chunk chunk = this.provideChunk(p_177460_3_, p_177460_4_);
 			chunk.setChunkModified();
 			return true;
@@ -265,7 +267,7 @@ public class ChunkProviderServer implements IChunkProvider {
 			}
 		}
 
-		return this.serverChunkGenerator.unloadQueuedChunks();
+		return this.base.unloadQueuedChunks();
 	}
 
 	/**
@@ -283,7 +285,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	}
 
 	public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position) {
-		return this.serverChunkGenerator.getStrongholdGen(worldIn, structureName, position);
+		return this.base.getStrongholdGen(worldIn, structureName, position);
 	}
 
 	public int getLoadedChunkCount() {

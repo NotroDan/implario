@@ -444,7 +444,7 @@ public class WorldServer extends World implements IThreadListener {
 	/**
 	 * Creates the chunk provider for this world. Called in the constructor. Retrieves provider from worldProvider?
 	 */
-	protected IChunkProvider createChunkProvider() {
+	protected ChunkProviderServer createChunkProvider() {
 		IChunkLoader ichunkloader = this.saveHandler.getChunkLoader(this.provider);
 		IChunkProvider chunkGenerator = this.provider.createChunkGenerator();
 		this.theChunkProviderServer = new ChunkProviderServer(this, ichunkloader, chunkGenerator);

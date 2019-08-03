@@ -16,6 +16,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.SpawnListEntry;
+import net.minecraft.world.chunk.ChunkProviderServer;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import vanilla.entity.EnumCreatureType;
@@ -111,22 +112,29 @@ public class VanillaWorldServer extends WorldServer {
 	}
 
 	public SpawnListEntry getSpawnListEntryForTypeAt(EnumCreatureType creatureType, BlockPos pos) {
-		if (isBasedOnNonVanilla()) return null;
-		List<SpawnListEntry> list = ((VanillaChunkProvider) this.getChunkProvider()).getPossibleCreatures(creatureType, pos);
+		if (isBasedOnNonVanilla) return null;
+		List<SpawnListEntry> list = getActualProvider().getPossibleCreatures(creatureType, pos);
 		return list != null && !list.isEmpty() ? WeightedRandom.getRandomItem(this.rand, list) : null;
 	}
 
-	private boolean isBasedOnNonVanilla, checkedBase;
-
-	private boolean isBasedOnNonVanilla() {
-		if (checkedBase) return isBasedOnNonVanilla;
-		checkedBase = true;
-		return isBasedOnNonVanilla = !(getChunkProvider() instanceof VanillaChunkProvider);
+	public VanillaChunkProvider getActualProvider() {
+		return (VanillaChunkProvider) ((ChunkProviderServer) getChunkProvider()).getBase();
 	}
 
+	/**
+	 * Creates the chunk provider for this world. Called in the constructor. Retrieves provider from worldProvider?
+	 */
+	protected ChunkProviderServer createChunkProvider() {
+		ChunkProviderServer p = super.createChunkProvider();
+		this.isBasedOnNonVanilla = !(p.getBase() instanceof VanillaChunkProvider);
+		return p;
+	}
+
+	private boolean isBasedOnNonVanilla;
+
 	public boolean canCreatureTypeSpawnHere(EnumCreatureType creatureType, SpawnListEntry spawnListEntry, BlockPos pos) {
-		if (isBasedOnNonVanilla()) return false;
-		List<SpawnListEntry> list = ((VanillaChunkProvider) this.getChunkProvider()).getPossibleCreatures(creatureType, pos);
+		if (isBasedOnNonVanilla) return false;
+		List<SpawnListEntry> list = getActualProvider().getPossibleCreatures(creatureType, pos);
 		return list != null && !list.isEmpty() && list.contains(spawnListEntry);
 	}
 

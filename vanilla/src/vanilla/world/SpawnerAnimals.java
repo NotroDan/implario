@@ -91,7 +91,7 @@ public final class SpawnerAnimals {
 								int i3 = l1;
 								int j3 = i2;
 								int k3 = 6;
-								SpawnListEntry biomegenbase$spawnlistentry = null;
+								SpawnListEntry entry = null;
 								IEntityLivingData ientitylivingdata = null;
 
 								for (int l3 = 0; l3 < 4; ++l3) {
@@ -103,20 +103,19 @@ public final class SpawnerAnimals {
 									float f1 = (float) j3 + 0.5F;
 
 									if (!w.isAnyPlayerWithinRangeAt((double) f, (double) i3, (double) f1, 24.0D) && blockpos2.distanceSq((double) f, (double) i3, (double) f1) >= 576.0D) {
-										if (biomegenbase$spawnlistentry == null) {
-											biomegenbase$spawnlistentry = w.getSpawnListEntryForTypeAt(enumcreaturetype, blockpos1);
-
-											if (biomegenbase$spawnlistentry == null) {
+										if (entry == null) {
+											entry = w.getSpawnListEntryForTypeAt(enumcreaturetype, blockpos1);
+											if (entry == null) {
 												break;
 											}
 										}
 
-										if (w.canCreatureTypeSpawnHere(enumcreaturetype, biomegenbase$spawnlistentry, blockpos1) && canCreatureTypeSpawnAtLocation(
-												EntitySpawnPlacementRegistry.getPlacementForEntity(biomegenbase$spawnlistentry.entityClass), w, blockpos1)) {
+										if (w.canCreatureTypeSpawnHere(enumcreaturetype, entry, blockpos1) && canCreatureTypeSpawnAtLocation(
+												EntitySpawnPlacementRegistry.getPlacementForEntity(entry.entityClass), w, blockpos1)) {
 											VanillaEntity entityliving;
 
 											try {
-												entityliving = (VanillaEntity) biomegenbase$spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {w});
+												entityliving = (VanillaEntity) entry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {w});
 											} catch (Exception exception) {
 												exception.printStackTrace();
 												return i4;
