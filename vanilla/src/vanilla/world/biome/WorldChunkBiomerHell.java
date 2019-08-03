@@ -10,26 +10,17 @@ import java.util.Random;
 @Deprecated
 public class WorldChunkBiomerHell extends WorldChunkBiomer {
 
-	/**
-	 * The biome generator object.
-	 */
-	private BiomeGenBase biomeGenerator;
 
-	/**
-	 * The rainfall in the world
-	 */
-	private float rainfall;
+	private final BiomeGenBase biome;
+	private final float rainfall;
 
 	public WorldChunkBiomerHell(BiomeGenBase p_i45374_1_, float p_i45374_2_) {
-		this.biomeGenerator = p_i45374_1_;
+		this.biome = p_i45374_1_;
 		this.rainfall = p_i45374_2_;
 	}
 
-	/**
-	 * Returns the biome generator
-	 */
 	public BiomeGenBase getBiome(BlockPos pos, Biome alternative) {
-		return this.biomeGenerator;
+		return this.biome;
 	}
 
 	/**
@@ -40,7 +31,7 @@ public class WorldChunkBiomerHell extends WorldChunkBiomer {
 			biomes = new BiomeGenBase[width * height];
 		}
 
-		Arrays.fill(biomes, 0, width * height, this.biomeGenerator);
+		Arrays.fill(biomes, 0, width * height, this.biome);
 		return biomes;
 	}
 
@@ -65,7 +56,7 @@ public class WorldChunkBiomerHell extends WorldChunkBiomer {
 			oldBiomeList = new BiomeGenBase[width * depth];
 		}
 
-		Arrays.fill(oldBiomeList, 0, width * depth, this.biomeGenerator);
+		Arrays.fill(oldBiomeList, 0, width * depth, this.biome);
 		return oldBiomeList;
 	}
 
@@ -78,14 +69,14 @@ public class WorldChunkBiomerHell extends WorldChunkBiomer {
 	}
 
 	public BlockPos findBiomePosition(int x, int z, int range, List<Biome> biomes, Random random) {
-		return biomes.contains(this.biomeGenerator) ? new BlockPos(x - range + random.nextInt(range * 2 + 1), 0, z - range + random.nextInt(range * 2 + 1)) : null;
+		return biomes.contains(this.biome) ? new BlockPos(x - range + random.nextInt(range * 2 + 1), 0, z - range + random.nextInt(range * 2 + 1)) : null;
 	}
 
 	/**
 	 * checks given Chunk's Biomes against List of allowed ones
 	 */
 	public boolean areBiomesViable(int x, int z, int radius, List<Biome> allowed) {
-		return allowed.contains(this.biomeGenerator);
+		return allowed.contains(this.biome);
 	}
 
 }
