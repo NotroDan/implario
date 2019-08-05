@@ -41,7 +41,7 @@ public enum Settings {
 			return f() == 0 ? "sync" : f() == 260 ? "max" : (int) f() + "";
 		}
 	}, //0, 260, 5, 260),
-	FBO_ENABLE("Использовать FBO", false),
+	FBO_ENABLE("Использовать FBO", true),
 	GUI_SCALE("Интерфейс", 0, "Авто", "x1", "x2", "x3", "x4") {
 		@Override
 		public void change() {
