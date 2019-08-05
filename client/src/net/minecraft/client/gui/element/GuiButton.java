@@ -39,14 +39,8 @@ public class GuiButton extends Gui {
 	public String displayString;
 	public int id;
 
-	/**
-	 * True if this control is enabled, false to disable.
-	 */
 	public boolean enabled;
 
-	/**
-	 * Hides the button completely if false.
-	 */
 	public boolean visible;
 	public boolean hovered;
 
@@ -75,13 +69,9 @@ public class GuiButton extends Gui {
 		return !this.enabled ? 0 : mouseOver ? 2 : 1;
 	}
 
-	/**
-	 * Draws this button to the screen.
-	 */
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
 		AssetsFontRenderer fontrenderer = mc.fontRenderer;
-		mc.getTextureManager().bindTexture(buttonTextures);
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 		int i = this.getHoverState(this.hovered);
@@ -91,16 +81,15 @@ public class GuiButton extends Gui {
 
 
 		if (Settings.FANCY_BUTTONS.b()) {
-
 			int color = i == 0 ? Colors.DARK_GRAY : Colors.GRAY;
-			int borderColor = Colors.GRAY;
+			int borderColor = Colors.DARK;
 			if (i == 2) borderColor = Colors.YELLOW;
 			int border = 1;
 
 			drawRect(xPosition, yPosition, xPosition + width, yPosition + height, borderColor);
 			drawRect(xPosition + border, yPosition + border, xPosition + width - border, yPosition + height - border, color);
-
 		} else {
+			mc.getTextureManager().bindTexture(buttonTextures);
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
 			this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
 		}

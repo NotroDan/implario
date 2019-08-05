@@ -1,6 +1,9 @@
 package net.minecraft.client.gui.inventory;
 
+import net.minecraft.client.gui.element.Colors;
+import net.minecraft.client.gui.element.RenderRec;
 import net.minecraft.client.renderer.G;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.inventory.IInventory;
@@ -38,9 +41,20 @@ public class GuiFurnace extends GuiContainer {
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(furnaceGuiTextures);
-		int i = (this.width - this.xSize) / 2;
-		int j = (this.height - this.ySize) / 2;
-		this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+		int i = guiLeft;
+		int j = guiTop;
+		if(Settings.MODERN_INVENTORIES.b() && Settings.DEBUG.b()){
+			int x = guiLeft + 4;
+			int y = guiTop + 4;
+			RenderRec.render(x, y, 168, 158, Colors.DARK);
+			if(Settings.SLOT_GRID.i() != 2) {
+				RenderRec.render(x + 2, y + 78, 164, 56, Colors.DARK_GRAY);
+				RenderRec.render(x + 2, y + 136, 164, 20, Colors.DARK_GRAY);
+				RenderRec.render(x + 56, y + 11, 56, 56, Colors.DARK_GRAY);
+			}
+		}else {
+			drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+		}
 
 		if (TileEntityFurnace.isBurning(this.tileFurnace)) {
 			int k = this.getBurnLeftScaled(13);

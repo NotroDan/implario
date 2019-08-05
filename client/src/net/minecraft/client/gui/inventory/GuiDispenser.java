@@ -46,9 +46,11 @@ public class GuiDispenser extends GuiContainer {
 			int x = guiLeft + 4;
 			int y = guiTop + 4;
 			RenderRec.render(x, y, 168, 158, Colors.DARK);
-			RenderRec.render(x + 2, y + 78, 164, 56, Colors.DARK_GRAY);
-			RenderRec.render(x + 2, y + 136, 164, 20, Colors.DARK_GRAY);
-			RenderRec.render(x + 56, y + 11, 56, 56, Colors.DARK_GRAY);
+			if(Settings.SLOT_GRID.i() != 2) {
+				RenderRec.render(x + 2, y + 78, 164, 56, Colors.DARK_GRAY);
+				RenderRec.render(x + 2, y + 136, 164, 20, Colors.DARK_GRAY);
+				RenderRec.render(x + 56, y + 11, 56, 56, Colors.DARK_GRAY);
+			}
 		} else {
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(dispenserGuiTextures);

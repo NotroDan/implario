@@ -42,7 +42,7 @@ public enum Settings {
 		}
 	}, //0, 260, 5, 260),
 	FBO_ENABLE("Использовать FBO", false),
-	GUI_SCALE("Интерфейс", 2, "Авто", "x1", "x2", "x3", "x4") {
+	GUI_SCALE("Интерфейс", 0, "Авто", "x1", "x2", "x3", "x4") {
 		@Override
 		public void change() {
 			Minecraft mc = Minecraft.getMinecraft();
