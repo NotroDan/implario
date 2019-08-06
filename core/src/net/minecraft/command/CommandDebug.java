@@ -1,8 +1,8 @@
 package net.minecraft.command;
 
 import net.minecraft.Logger;
+import net.minecraft.logging.ProfilerResult;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.util.BlockPos;
 
 import java.io.File;
@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static net.minecraft.server.MinecraftServer.profiler;
 
 public class CommandDebug extends CommandBase {
 
@@ -63,7 +65,7 @@ public class CommandDebug extends CommandBase {
 				throw new WrongUsageException("commands.debug.usage");
 			}
 
-			if (!Profiler.in.profilingEnabled) {
+			if (!MinecraftServer.profiler.isEnabled()) {
 				throw new CommandException("commands.debug.notStarted");
 			}
 
@@ -72,7 +74,7 @@ public class CommandDebug extends CommandBase {
 			long k = i - this.field_147206_b;
 			int l = j - this.field_147207_c;
 			this.func_147205_a(k, l);
-			Profiler.in.profilingEnabled = false;
+			profiler.setEnabled(false);
 			notifyOperators(sender, this, "commands.debug.stop", (float) k / 1000.0F, l);
 		}
 	}
@@ -107,20 +109,22 @@ public class CommandDebug extends CommandBase {
 	}
 
 	private void func_147202_a(int p_147202_1_, String p_147202_2_, StringBuilder b) {
-		List<Profiler.Result> list = Profiler.in.getProfilingData(p_147202_2_);
+		List<ProfilerResult> list = profiler.getProfilingData(p_147202_2_);
 
 		if (list != null && list.size() >= 3) {
 			for (int i = 1; i < list.size(); ++i) {
-				Profiler.Result res = list.get(i);
+				ProfilerResult res = list.get(i);
 				b.append(String.format("[%02d] ", p_147202_1_));
 
 				for (int j = 0; j < p_147202_1_; ++j) b.append(" ");
 
-				b.append(res.s).append(" - ").append(String.format("%.2f", res.a)).append("%/").append(String.format("%.2f", res.b)).append("%\n");
+				b.append(res.name).append(" - ")
+						.append(String.format("%.2f", res.localPercentage)).append("%/")
+						.append(String.format("%.2f", res.globalPercentage)).append("%\n");
 
-				if (!res.s.equals("unspecified")) {
+				if (!res.name.equals("unspecified")) {
 					try {
-						this.func_147202_a(p_147202_1_ + 1, p_147202_2_ + "." + res.s, b);
+						this.func_147202_a(p_147202_1_ + 1, p_147202_2_ + "." + res.name, b);
 					} catch (Exception exception) {
 						b.append("[[ EXCEPTION ").append(exception).append(" ]]");
 					}

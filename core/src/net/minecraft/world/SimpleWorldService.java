@@ -1,7 +1,6 @@
 package net.minecraft.world;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 
@@ -22,7 +21,7 @@ public class SimpleWorldService extends WorldService<WorldServer> {
 
 	@Override
 	public WorldServer loadDim(int dim, String worldName, WorldInfo info, WorldSettings settings, ISaveHandler isavehandler) {
-		world = (WorldServer) new WorldServer(server, isavehandler, info, dim, Profiler.in).init();
+		world = (WorldServer) new WorldServer(server, isavehandler, info, dim, MinecraftServer.profiler).init();
 		world.initialize(settings);
 		return world;
 	}

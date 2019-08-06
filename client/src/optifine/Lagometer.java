@@ -1,20 +1,20 @@
 package optifine;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.server.Profiler;
+import net.minecraft.logging.IProfiler;
 import org.lwjgl.opengl.GL11;
 
 public class Lagometer {
 
 	private static Minecraft mc;
-	private static Profiler profiler;
+	private static IProfiler profiler;
 	public static boolean active = false;
 	public static Lagometer.TimerNano timerTick = new Lagometer.TimerNano();
 	public static Lagometer.TimerNano timerScheduledExecutables = new Lagometer.TimerNano();
@@ -80,7 +80,7 @@ public class Lagometer {
 	public static void updateLagometer() {
 		if (mc == null) {
 			mc = Minecraft.getMinecraft();
-			profiler = Profiler.in;
+			profiler = mc.getProfiler();
 		}
 
 		if (Settings.SHOW_DEBUG.b() && Settings.LAGOMETER.b()) {

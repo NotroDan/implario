@@ -12,7 +12,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.server.Profiler;
+import net.minecraft.logging.IProfiler;
+import net.minecraft.logging.ProfilerResult;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.FileUtil;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Util;
@@ -33,7 +35,6 @@ import java.util.List;
 import java.util.Set;
 
 import static net.minecraft.logging.Log.MAIN;
-import static net.minecraft.server.Profiler.in;
 import static net.minecraft.util.Util.OS.OSX;
 
 public class DisplayGuy {
@@ -41,6 +42,7 @@ public class DisplayGuy {
 	private static final List<DisplayMode> macDisplayModes = Lists.newArrayList(new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
 	private final Minecraft mc;
 	public boolean fullscreen;
+	public IProfiler activeProfiler = MinecraftServer.profiler;
 	private int tempDisplayWidth;
 	private int tempDisplayHeight;
 
@@ -155,9 +157,9 @@ public class DisplayGuy {
 	}
 
 	public void updateDisplay(Minecraft mc) {
-		in.startSection("display_update");
+		mc.getProfiler().startSection("display_update");
 		Display.update();
-		in.endSection();
+		mc.getProfiler().endSection();
 		checkWindowResize();
 	}
 
@@ -231,9 +233,10 @@ public class DisplayGuy {
 	 * Parameter appears to be unused
 	 */
 	public void displayDebugInfo(long elapsedTicksTime) {
-		if (!in.profilingEnabled) return;
-		List<Profiler.Result> list = in.getProfilingData(mc.inputHandler.getDebugProfilerName());
-		Profiler.Result profiler$result = list.remove(0);
+		IProfiler profiler = activeProfiler;
+		if (!profiler.isEnabled()) return;
+		List<ProfilerResult> list = profiler.getProfilingData(mc.inputHandler.getDebugProfilerName());
+		ProfilerResult profiler$result = list.remove(0);
 		G.clear(256);
 		G.matrixMode(5889);
 		G.enableColorMaterial();
@@ -260,17 +263,17 @@ public class DisplayGuy {
 		G.disableBlend();
 		double d0 = 0.0D;
 
-		for (Profiler.Result res : list) {
-			int i1 = MathHelper.floor_double(res.a / 4.0D) + 1;
+		for (ProfilerResult res : list) {
+			int i1 = MathHelper.floor_double(res.localPercentage / 4.0D) + 1;
 			worldrenderer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-			int j1 = res.hash();
+			int j1 = res.hashCode();
 			int k1 = j1 >> 16 & 255;
 			int l1 = j1 >> 8 & 255;
 			int i2 = j1 & 255;
 			worldrenderer.pos((double) j, (double) k, 0.0D).color(k1, l1, i2, 255).endVertex();
 
 			for (int j2 = i1; j2 >= 0; --j2) {
-				float f = (float) ((d0 + res.a * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
+				float f = (float) ((d0 + res.localPercentage * (double) j2 / (double) i1) * Math.PI * 2.0D / 100.0D);
 				float f1 = MathHelper.sin(f) * (float) i;
 				float f2 = MathHelper.cos(f) * (float) i * 0.5F;
 				worldrenderer.pos((double) ((float) j + f1), (double) ((float) k - f2), 0.0D).color(k1, l1, i2, 255).endVertex();
@@ -280,7 +283,7 @@ public class DisplayGuy {
 			worldrenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
 
 			for (int i3 = i1; i3 >= 0; --i3) {
-				float f3 = (float) ((d0 + res.a * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
+				float f3 = (float) ((d0 + res.localPercentage * (double) i3 / (double) i1) * Math.PI * 2.0D / 100.0D);
 				float f4 = MathHelper.sin(f3) * (float) i;
 				float f5 = MathHelper.cos(f3) * (float) i * 0.5F;
 				worldrenderer.pos((double) ((float) j + f4), (double) ((float) k - f5), 0.0D).color(k1 >> 1, l1 >> 1, i2 >> 1, 255).endVertex();
@@ -288,34 +291,35 @@ public class DisplayGuy {
 			}
 
 			tessellator.draw();
-			d0 += res.a;
+			d0 += res.localPercentage;
 		}
 
 		DecimalFormat decimalformat = new DecimalFormat("##0.00");
 		G.enableTexture2D();
 		String s = "";
 
-		if (!profiler$result.s.equals("unspecified")) s = s + "[0] ";
-		if (profiler$result.s.length() == 0) s = s + "ROOT ";
-		else s = s + profiler$result.s + " ";
+		if (!profiler$result.name.equals("unspecified")) s = s + "[0] ";
+		if (profiler$result.name.length() == 0) s = s + "ROOT ";
+		else s = s + profiler$result.name + " ";
 
 		int l2 = 16777215;
 		mc.fontRenderer.drawStringWithShadow(s, (float) (j - i), (float) (k - i / 2 - 16), l2);
-		mc.fontRenderer.drawStringWithShadow(s = decimalformat.format(profiler$result.b) + "%", (float) (j + i - mc.fontRenderer.getStringWidth(s)), (float) (k - i / 2 - 16), l2);
+		mc.fontRenderer.drawStringWithShadow(s = decimalformat.format(profiler$result.globalPercentage) + "%",
+				(float) (j + i - mc.fontRenderer.getStringWidth(s)), (float) (k - i / 2 - 16), l2);
 
 		for (int k2 = 0; k2 < list.size(); k2++) {
-			Profiler.Result profiler$result2 = list.get(k2);
+			ProfilerResult profiler$result2 = list.get(k2);
 			String s1 = "";
 
-			if (profiler$result2.s.equals("unspecified")) s1 = s1 + "[?] ";
+			if (profiler$result2.name.equals("unspecified")) s1 = s1 + "[?] ";
 			else s1 = s1 + "[" + (k2 + 1) + "] ";
 
-			s1 = s1 + profiler$result2.s;
-			mc.fontRenderer.drawStringWithShadow(s1, (float) (j - i), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
-			mc.fontRenderer.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.a) + "%", (float) (j + i - 50 - mc.fontRenderer.getStringWidth(s1)),
-					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
-			mc.fontRenderer.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.b) + "%", (float) (j + i - mc.fontRenderer.getStringWidth(s1)),
-					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hash());
+			s1 = s1 + profiler$result2.name;
+			mc.fontRenderer.drawStringWithShadow(s1, (float) (j - i), (float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hashCode());
+			mc.fontRenderer.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.localPercentage) + "%", (float) (j + i - 50 - mc.fontRenderer.getStringWidth(s1)),
+					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hashCode());
+			mc.fontRenderer.drawStringWithShadow(s1 = decimalformat.format(profiler$result2.globalPercentage) + "%", (float) (j + i - mc.fontRenderer.getStringWidth(s1)),
+					(float) (k + i / 2 + k2 * 8 + 20), profiler$result2.hashCode());
 		}
 		G.scale(0.5, 0.5, 0.5);
 	}

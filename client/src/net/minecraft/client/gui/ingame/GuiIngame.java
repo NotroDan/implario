@@ -24,7 +24,6 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.server.Profiler;
 import net.minecraft.util.*;
 import optifine.Config;
 import optifine.CustomColors;
@@ -110,9 +109,9 @@ public class GuiIngame extends Gui {
 		G.enableBlend();
 
 		for (Map.Entry<String, Module> e : Modules.getEntries()) {
-			Profiler.in.startSection(e.getKey());
+			mc.getProfiler().startSection(e.getKey());
 			e.getValue().render(this, partialTicks, scaledresolution);
-			Profiler.in.endSection();
+			mc.getProfiler().endSection();
 		}
 
 		// Затемнение по краям экрана
@@ -335,9 +334,9 @@ public class GuiIngame extends Gui {
 		G.disableAlpha();
 		G.pushMatrix();
 		G.translate(0.0F, (float) (height - 48), 0.0F);
-		Profiler.in.startSection("chat");
+		mc.getProfiler().startSection("chat");
 		this.persistantChatGUI.drawChat(this.updateCounter);
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 		G.popMatrix();
 
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -370,7 +369,7 @@ public class GuiIngame extends Gui {
 
 	private void renderSleeping(int width, int height) {
 		if (this.mc.thePlayer.getSleepTimer() <= 0) return;
-		Profiler.in.startSection("sleep");
+		mc.getProfiler().startSection("sleep");
 		G.disableDepth();
 		G.disableAlpha();
 		int l = this.mc.thePlayer.getSleepTimer();
@@ -384,7 +383,7 @@ public class GuiIngame extends Gui {
 		drawRect(0, 0, width, height, k);
 		G.enableAlpha();
 		G.enableDepth();
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 	}
 
 	private void renderFireIcon(int width, int height) {
@@ -425,7 +424,7 @@ public class GuiIngame extends Gui {
 
 	private void renderRecord(float partialTicks, int width, int height) {
 		if (this.recordPlayingUpFor <= 0) return;
-		Profiler.in.startSection("overlayMessage");
+		mc.getProfiler().startSection("overlayMessage");
 		float f3 = (float) this.recordPlayingUpFor - partialTicks;
 		int k1 = (int) (f3 * 255.0F / 20.0F);
 
@@ -449,12 +448,12 @@ public class GuiIngame extends Gui {
 			G.popMatrix();
 		}
 
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 	}
 
 	public void renderTitle(float partialTicks, int width, int height) {
 		if (titleTicks <= 0) return;
-		Profiler.in.startSection("titleAndSubtitle");
+		mc.getProfiler().startSection("titleAndSubtitle");
 		float f4 = (float) this.titleTicks - partialTicks;
 		int opacity = 0xff;
 
@@ -485,11 +484,11 @@ public class GuiIngame extends Gui {
 			G.popMatrix();
 		}
 
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 	}
 
 	public void renderHorseJumpBar(ScaledResolution p_175186_1_, int p_175186_2_) {
-		Profiler.in.startSection("jumpBar");
+		mc.getProfiler().startSection("jumpBar");
 		this.mc.getTextureManager().bindTexture(Gui.icons);
 		float f = this.mc.thePlayer.getHorseJumpPower();
 		short short1 = 182;
@@ -501,11 +500,11 @@ public class GuiIngame extends Gui {
 			this.drawTexturedModalRect(p_175186_2_, j, 0, 89, i, 5);
 		}
 
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 	}
 
 	public void renderExpBar(ScaledResolution p_175176_1_, int p_175176_2_) {
-		Profiler.in.startSection("expBar");
+		mc.getProfiler().startSection("expBar");
 		this.mc.getTextureManager().bindTexture(Gui.icons);
 		int i = this.mc.thePlayer.xpBarCap();
 
@@ -520,10 +519,10 @@ public class GuiIngame extends Gui {
 			}
 		}
 
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 
 		if (this.mc.thePlayer.experienceLevel > 0) {
-			Profiler.in.startSection("expLevel");
+			mc.getProfiler().startSection("expLevel");
 			int j1 = 8453920;
 
 			if (Config.isCustomColors()) {
@@ -539,13 +538,13 @@ public class GuiIngame extends Gui {
 			this.getFontRenderer().drawString(s, i1, l + 1, 0);
 			this.getFontRenderer().drawString(s, i1, l - 1, 0);
 			this.getFontRenderer().drawString(s, i1, l, j1);
-			Profiler.in.endSection();
+			mc.getProfiler().endSection();
 		}
 	}
 
 	public void renderTooltip(ScaledResolution res) {
 		if (this.remainingHighlightTicks <= 0 || this.highlightingItemStack == null) return;
-		Profiler.in.startSection("selectedItemName");
+		mc.getProfiler().startSection("selectedItemName");
 
 		String s = this.highlightingItemStack.getDisplayName();
 
@@ -565,7 +564,7 @@ public class GuiIngame extends Gui {
 			G.disableBlend();
 			G.popMatrix();
 		}
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 
 	}
 

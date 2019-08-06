@@ -16,6 +16,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.logging.IProfiler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.E;
@@ -24,7 +25,6 @@ import net.minecraft.resources.event.events.WorldTickEvent;
 import net.minecraft.scoreboard.ScoreboardSaveData;
 import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -65,7 +65,7 @@ public class WorldServer extends World implements IThreadListener {
 	private final WorldTickEvent tickEvent = new WorldTickEvent(this);
 	protected IDimensionTranser dimensionTransfer;
 
-	public WorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo info, int dimensionId, Profiler profilerIn) {
+	public WorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo info, int dimensionId, IProfiler profilerIn) {
 		super(saveHandlerIn, info, DIMENSION_PROVIDER.provide(dimensionId), profilerIn, false);
 		this.mcServer = server;
 		this.theEntityTracker = new EntityTracker(this);

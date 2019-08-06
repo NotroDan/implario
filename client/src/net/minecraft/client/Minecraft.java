@@ -10,6 +10,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import lombok.Getter;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.game.DisplayGuy;
@@ -45,11 +46,11 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Bootstrap;
+import net.minecraft.logging.IProfiler;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
-import net.minecraft.server.Profiler;
 import net.minecraft.server.Todo;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
@@ -72,7 +73,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
-import static net.minecraft.client.ClientProfiler.in;
 import static net.minecraft.logging.Log.MAIN;
 import static net.minecraft.util.Util.OS.OSX;
 
@@ -197,9 +197,12 @@ public class Minecraft implements IThreadListener {
 	public ErrorGuy errorGuy;
 	public DisplayGuy displayGuy;
 
+	@Getter
+	private IProfiler profiler;
+
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
-		Profiler.in = new ClientProfiler();
+		profiler = new OptifineProfiler();
 		Todo.instance = new TodoClient();
 		this.errorGuy = new ErrorGuy(this);
 		this.mcDataDir = gameConfig.folderInfo.mcDataDir;
@@ -341,7 +344,6 @@ public class Minecraft implements IThreadListener {
 	 * Starts the game: initializes the canvas, the title, the settings, etcetera.
 	 */
 	private void startGame() throws LWJGLException {
-		long start = System.currentTimeMillis();
 		Log.init();
 		Settings.init();
 		this.inputHandler = new InputHandler(this);
@@ -541,7 +543,7 @@ public class Minecraft implements IThreadListener {
 	 */
 	private void runGameLoop() throws IOException {
 		long i = System.nanoTime();
-		in.startSection("root");
+		profiler.startSection("root");
 
 		if (Display.isCreated() && Display.isCloseRequested()) this.shutdown();
 
@@ -552,50 +554,50 @@ public class Minecraft implements IThreadListener {
 			this.timer.renderPartialTicks = f;
 		}
 
-		in.startSection("scheduledExecutables");
+		profiler.startSection("scheduledExecutables");
 
 		synchronized (this.scheduledTasks) {
 			while (!this.scheduledTasks.isEmpty()) Util.schedule(scheduledTasks.poll());
 		}
 
-		in.endSection();
+		profiler.endSection();
 		long l = System.nanoTime();
-		in.startSection("tick");
+		profiler.startSection("tick");
 
 		for (int j = 0; j < this.timer.elapsedTicks; ++j) this.runTick();
 
-		in.endStartSection("preRenderErrors");
+		profiler.endStartSection("preRenderErrors");
 		long i1 = System.nanoTime() - l;
 		this.errorGuy.checkGLError("Pre render");
-		in.endStartSection("sound");
+		profiler.endStartSection("sound");
 		this.mcSoundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
-		in.endSection();
-		in.startSection("render");
+		profiler.endSection();
+		profiler.startSection("render");
 		G.pushMatrix();
 		G.clear(16640);
 		this.framebufferMc.bindFramebuffer(true);
-		in.startSection("display");
+		profiler.startSection("display");
 		G.enableTexture2D();
 
 		if (this.thePlayer != null && this.thePlayer.isEntityInsideOpaqueBlock()) Settings.PERSPECTIVE.set(0);
 
-		in.endSection();
+		profiler.endSection();
 
 		if (!this.skipRenderWorld) {
-			in.endStartSection("gameRenderer");
+			profiler.endStartSection("gameRenderer");
 			this.entityRenderer.func_181560_a(this.timer.renderPartialTicks, i);
-			in.endSection();
+			profiler.endSection();
 		}
 
-		in.endSection();
+		profiler.endSection();
 
 		if (Settings.SHOW_DEBUG.b() && Settings.PROFILER.b() && !Settings.HIDE_GUI.b()) {
-			if (!in.profilingEnabled) in.clearProfiling();
+			if (!profiler.isEnabled()) profiler.clearProfiling();
 
-			in.profilingEnabled = true;
+			profiler.setEnabled(true);
 			this.displayGuy.displayDebugInfo(i1);
 		} else {
-			in.profilingEnabled = false;
+			profiler.setEnabled(false);
 			this.prevFrameTime = System.nanoTime();
 		}
 
@@ -605,7 +607,7 @@ public class Minecraft implements IThreadListener {
 		G.pushMatrix();
 		this.framebufferMc.framebufferRender(this.displayWidth, this.displayHeight);
 		G.popMatrix();
-		in.startSection("root");
+		profiler.startSection("root");
 		this.displayGuy.updateDisplay(this);
 		Thread.yield();
 		this.errorGuy.checkGLError("Post render");
@@ -624,12 +626,12 @@ public class Minecraft implements IThreadListener {
 		}
 
 		if (this.isFramerateLimitBelowMax()) {
-			in.startSection("fpslimit_wait");
+			profiler.startSection("fpslimit_wait");
 			Display.sync(this.getLimitFramerate());
-			in.endSection();
+			profiler.endSection();
 		}
 
-		in.endSection();
+		profiler.endSection();
 	}
 
 	public int getLimitFramerate() {
@@ -679,22 +681,22 @@ public class Minecraft implements IThreadListener {
 	 * Runs the current tick.
 	 */
 
-	private ExecutorService executors = Executors.newSingleThreadExecutor();
+//	private ExecutorService executors = Executors.newSingleThreadExecutor();
 
 	public void runTick() throws IOException {
 		inputHandler.runTick();
 
-		in.startSection("gui");
+		profiler.startSection("gui");
 		if (!this.isGamePaused) this.ingameGUI.updateTick();
-		in.endSection();
+		profiler.endSection();
 
 		this.entityRenderer.getMouseOver(1.0F);
 
 		// Передвижение игрока
-		in.startSection("gameMode");
+		profiler.startSection("gameMode");
 		if (!this.isGamePaused && this.theWorld != null) this.playerController.updateController();
 
-		in.endStartSection("textures");
+		profiler.endStartSection("textures");
 
 		// Рендер мира
 		if (!this.isGamePaused) this.renderEngine.tick();
@@ -734,10 +736,10 @@ public class Minecraft implements IThreadListener {
 
 		if (this.currentScreen == null || this.currentScreen.allowUserInput) {
 
-			in.endStartSection("mouse");
+			profiler.endStartSection("mouse");
 			inputHandler.processMouse();
 
-			in.endStartSection("keyboard");
+			profiler.endStartSection("keyboard");
 			inputHandler.processKeyboard();
 
 		}
@@ -752,19 +754,19 @@ public class Minecraft implements IThreadListener {
 				}
 			}
 
-			in.endStartSection("gameRenderer");
+			profiler.endStartSection("gameRenderer");
 
 			if (!this.isGamePaused) {
 				this.entityRenderer.updateRenderer();
 			}
 
-			in.endStartSection("levelRenderer");
+			profiler.endStartSection("levelRenderer");
 
 			if (!this.isGamePaused) {
 				this.renderGlobal.updateClouds();
 			}
 
-			in.endStartSection("level");
+			profiler.endStartSection("level");
 
 			if (!this.isGamePaused) {
 				if (this.theWorld.getLastLightningBolt() > 0) {
@@ -786,7 +788,7 @@ public class Minecraft implements IThreadListener {
 			if (!this.isGamePaused) {
 				this.theWorld.setAllowedSpawnTypes(this.theWorld.getDifficulty() != EnumDifficulty.PEACEFUL, true);
 
-				executors.submit(() -> {
+//				executors.submit(() -> {
 					try {
 						this.theWorld.tick();
 					} catch (Throwable throwable2) {
@@ -801,23 +803,23 @@ public class Minecraft implements IThreadListener {
 
 						throw new ReportedException(crashreport2);
 					}
-				});
+//				});
 			}
 
-			in.endStartSection("animateTick");
+			profiler.endStartSection("animateTick");
 
 			if (!this.isGamePaused && this.theWorld != null)
 				this.theWorld.doVoidFogParticles(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ));
 
-			in.endStartSection("particles");
+			profiler.endStartSection("particles");
 
 			if (!this.isGamePaused) this.effectRenderer.updateEffects();
 		} else if (this.myNetworkManager != null) {
-			in.endStartSection("pendingConnection");
+			profiler.endStartSection("pendingConnection");
 			this.myNetworkManager.processReceivedPackets();
 		}
 
-		in.endSection();
+		profiler.endSection();
 		this.systemTime = getSystemTime();
 	}
 

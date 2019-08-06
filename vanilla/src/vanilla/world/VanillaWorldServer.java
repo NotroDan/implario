@@ -6,10 +6,10 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.logging.IProfiler;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.network.play.server.S2CPacketSpawnGlobalEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -49,7 +49,7 @@ public class VanillaWorldServer extends WorldServer {
 	public VillageSiege villageSiege;
 	private SpawnerAnimals spawnerAnimals = new SpawnerAnimals();
 
-	public VanillaWorldServer(MinecraftServer server, ISaveHandler saver, WorldInfo info, int dim, Profiler profiler) {
+	public VanillaWorldServer(MinecraftServer server, ISaveHandler saver, WorldInfo info, int dim, IProfiler profiler) {
 		super(server, saver, info, dim, profiler);
 		this.dimensionTransfer = new Teleporter(this);
 	}

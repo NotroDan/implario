@@ -46,7 +46,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
-import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySign;
@@ -805,7 +804,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 			this.postRenderDamagedBlocks();
 			this.mc.entityRenderer.disableLightmap();
-			Profiler.in.endSection();
+			this.theWorld.theProfiler.endSection();
 		}
 	}
 
@@ -873,7 +872,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			camera = frustum;
 		}
 
-		Profiler.in.endStartSection("culling");
+		this.theWorld.theProfiler.endStartSection("culling");
 		BlockPos blockpos2 = new BlockPos(d3, d4 + (double) viewEntity.getEyeHeight(), d5);
 		RenderChunk renderchunk = this.viewFrustum.getRenderChunk(blockpos2);
 		BlockPos blockpos = new BlockPos(MathHelper.floor_double(d3 / 16.0D) * 16, MathHelper.floor_double(d4 / 16.0D) * 16, MathHelper.floor_double(d5 / 16.0D) * 16);
@@ -1041,10 +1040,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 						if (!renderchunk5.isPlayerUpdate()) {
 							this.chunksToUpdateForced.add(renderchunk5);
 						} else {
-							Profiler.in.startSection("build near");
+							this.theWorld.theProfiler.startSection("build near");
 							this.renderDispatcher.updateChunkNow(renderchunk5);
 							renderchunk5.setNeedsUpdate(false);
-							Profiler.in.endSection();
+							this.theWorld.theProfiler.endSection();
 						}
 					} else {
 						this.chunksToUpdate.add(renderchunk5);
@@ -1054,7 +1053,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 			Lagometer.timerChunkUpdate.end();
 			this.chunksToUpdate.addAll(set);
-			Profiler.in.endSection();
+			this.theWorld.theProfiler.endSection();
 		}
 	}
 
@@ -1150,7 +1149,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		RenderHelper.disableStandardItemLighting();
 
 		if (blockLayerIn == EnumWorldBlockLayer.TRANSLUCENT) {
-			Profiler.in.startSection("translucent_sort");
+			this.theWorld.theProfiler.startSection("translucent_sort");
 			double d0 = entityIn.posX - this.prevRenderSortX;
 			double d1 = entityIn.posY - this.prevRenderSortY;
 			double d2 = entityIn.posZ - this.prevRenderSortZ;
@@ -1172,10 +1171,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				}
 			}
 
-			Profiler.in.endSection();
+			this.theWorld.theProfiler.endSection();
 		}
 
-		Profiler.in.startSection("filterempty");
+		this.theWorld.theProfiler.startSection("filterempty");
 		int l = 0;
 		boolean flag = blockLayerIn == EnumWorldBlockLayer.TRANSLUCENT;
 		int i1 = flag ? this.renderInfos.size() - 1 : 0;
@@ -1192,16 +1191,16 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		}
 
 		if (l == 0) {
-			Profiler.in.endSection();
+			this.theWorld.theProfiler.endSection();
 			return l;
 		}
 		if (Config.isFogOff() && this.mc.entityRenderer.fogStandard) {
 			G.disableFog();
 		}
 
-		Profiler.in.endStartSection("render_" + blockLayerIn);
+		this.theWorld.theProfiler.endStartSection("render_" + blockLayerIn);
 		this.renderBlockLayer(blockLayerIn);
-		Profiler.in.endSection();
+		this.theWorld.theProfiler.endSection();
 		return l;
 	}
 

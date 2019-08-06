@@ -1,8 +1,8 @@
 package vanilla.entity.ai;
 
 import net.minecraft.Logger;
+import net.minecraft.logging.IProfiler;
 import vanilla.entity.ai.tasks.EntityAIBase;
-import net.minecraft.server.Profiler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,11 +17,11 @@ public class EntityAITasks {
 	/**
 	 * Instance of Profiler.
 	 */
-	private final Profiler theProfiler;
+	private final IProfiler theProfiler;
 	private int tickCount;
 	private int tickRate = 3;
 
-	public EntityAITasks(Profiler profilerIn) {
+	public EntityAITasks(IProfiler profilerIn) {
 		this.theProfiler = profilerIn;
 	}
 

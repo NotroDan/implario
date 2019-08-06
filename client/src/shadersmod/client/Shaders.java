@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.Potion;
-import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -2491,7 +2490,7 @@ public class Shaders {
 		checkGLError("pre beginRender");
 		checkWorldChanged(mc.theWorld);
 		mc = minecraft;
-		Profiler.in.startSection("init");
+		mc.getProfiler().startSection("init");
 		entityRenderer = mc.entityRenderer;
 
 		if (!isShaderPackInitialized) try {
@@ -2641,7 +2640,7 @@ public class Shaders {
 		modelView.position(0);
 		checkGLError("beginRender");
 		ShadersRender.renderShadowMap(entityRenderer, 0, partialTicks, finishTimeNano);
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 		EXTFramebufferObject.glBindFramebufferEXT(36160, dfb);
 
 		for (int i1 = 0; i1 < usedColorBuffers; ++i1) {
@@ -3494,7 +3493,7 @@ public class Shaders {
 	}
 
 	public static void mcProfilerEndSection() {
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 	}
 
 	public static String getShaderPackName() {
