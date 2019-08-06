@@ -44,4 +44,15 @@ public interface IProfiler {
 	 */
 	String getNameOfLastSection();
 
+	/**
+	 * Включён ли профайлер
+	 * Если профайлер выключен, то он игнорирует все вызовы методов
+	 */
+	boolean isEnabled();
+
+	/**
+	 * Включить/выключить профайлер
+	 */
+	void setEnabled(boolean enabled);
+
 }

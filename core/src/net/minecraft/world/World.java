@@ -12,13 +12,13 @@ import net.minecraft.entity.IPersistenceAllowed;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.logging.IProfiler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.resources.Provider;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.player.PlayerUpdateEvent;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.biome.Biome;
@@ -108,7 +108,7 @@ public abstract class World implements IBlockAccess {
 	 */
 	protected boolean findingSpawnPoint;
 	protected MapStorage mapStorage;
-	public final Profiler theProfiler;
+	public final IProfiler theProfiler;
 	private final Calendar theCalendar = Calendar.getInstance();
 	protected Scoreboard worldScoreboard = new Scoreboard();
 
@@ -144,7 +144,7 @@ public abstract class World implements IBlockAccess {
 	 */
 	int[] lightUpdateBlockList;
 
-	protected World(ISaveHandler saveHandlerIn, WorldInfo info, WorldProvider providerIn, Profiler profilerIn, boolean client) {
+	protected World(ISaveHandler saveHandlerIn, WorldInfo info, WorldProvider providerIn, IProfiler profilerIn, boolean client) {
 		this.ambientTickCountdown = this.rand.nextInt(12000);
 		this.spawnHostileMobs = true;
 		this.spawnPeacefulMobs = true;

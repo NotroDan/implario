@@ -1,8 +1,8 @@
 package net.minecraft.logging;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public final class ProfilerResult implements Comparable<ProfilerResult> {
 
 	public final String name;
@@ -13,6 +13,11 @@ public final class ProfilerResult implements Comparable<ProfilerResult> {
 		return that.localPercentage < this.localPercentage ? -1 :
 				that.localPercentage > this.localPercentage ? 1 :
 						that.name.compareTo(this.name);
+	}
+
+	@Override
+	public int hashCode() {
+		return (this.name.hashCode() & 0xaaaaaa) + 0x444444;
 	}
 
 }

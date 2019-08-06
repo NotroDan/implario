@@ -1,7 +1,6 @@
 package vanilla.world;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldService;
 import net.minecraft.world.WorldSettings;
@@ -21,11 +20,11 @@ public class VanillaWorldService extends WorldService<VanillaWorldServer> {
 	public WorldServer loadDim(int dim, String worldName, WorldInfo info, WorldSettings settings, ISaveHandler isavehandler) {
 		int level = dim == 0 ? 0 : dim == 1 ? -1 : dim == 2 ? 1 : dim;
 		if (level == 0) {
-			worlds[dim] = (VanillaWorldServer) new VanillaWorldServer(server, isavehandler, info, level, Profiler.in).init();
+			worlds[dim] = (VanillaWorldServer) new VanillaWorldServer(server, isavehandler, info, level, MinecraftServer.profiler).init();
 			worlds[dim].initialize(settings);
 			return worlds[dim];
 		}
-		return worlds[dim] = (VanillaWorldServer) new WorldServerExtra(server, isavehandler, level, worlds[0], Profiler.in).init();
+		return worlds[dim] = (VanillaWorldServer) new WorldServerExtra(server, isavehandler, level, worlds[0], MinecraftServer.profiler).init();
 	}
 
 	@Override

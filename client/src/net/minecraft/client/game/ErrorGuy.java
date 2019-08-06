@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static net.minecraft.logging.Log.MAIN;
-import static net.minecraft.server.Profiler.in;
 
 public class ErrorGuy {
 
@@ -52,7 +51,7 @@ public class ErrorGuy {
 		crash.getCategory().addCrashSectionCallable("Язык",
 				() -> mc.mcLanguageManager.getCurrentLanguage().toString());
 		crash.getCategory().addCrashSectionCallable("Позиция профайлера",
-				() -> in.profilingEnabled ? in.getNameOfLastSection() : "N/A (профайлер отключен)");
+				() -> mc.getProfiler().isEnabled() ? mc.getProfiler().getNameOfLastSection() : "N/A (профайлер отключен)");
 		crash.getCategory().addCrashSectionCallable("CPU", OpenGlHelper::getCPU);
 
 		if (mc.theWorld != null) {

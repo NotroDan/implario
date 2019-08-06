@@ -2,21 +2,19 @@ package net.minecraft.logging;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Profiler implements IProfiler {
 
 	private final List<String> sectionList = Lists.newArrayList();
 	private final List<Long> timestampList = Lists.newArrayList();
-	private final Map<String, Long> profilingMap = Maps.newHashMap();
-	/**
-	 * Flag profiling enabled
-	 */
-	public boolean profilingEnabled;
+	private final Map<String, Long> profilingMap = Maps.newConcurrentMap();
+
+	@Getter @Setter
+	private boolean enabled;
 
 	/**
 	 * Current profiling section
@@ -32,10 +30,11 @@ public class Profiler implements IProfiler {
 
 	@Override
 	public void startSection(String name) {
-		if (!this.profilingEnabled) return;
+		if (!this.enabled) return;
 
 		if (this.profilingSection.length() > 0) this.profilingSection += ".";
 		this.profilingSection += name;
+//		System.out.println(Thread.currentThread().getName() + " > " + Arrays.toString(sectionList.toArray(new String[0])) + " ДОБАВЛЕНА "  + profilingSection);
 
 		this.sectionList.add(this.profilingSection);
 		this.timestampList.add(System.nanoTime());
@@ -43,10 +42,11 @@ public class Profiler implements IProfiler {
 
 	@Override
 	public void endSection() {
-		if (!this.profilingEnabled) return;
+		if (!this.enabled) return;
 
 		long endTime = System.nanoTime();
 		long startTime = this.timestampList.remove(this.timestampList.size() - 1);
+//		System.out.println(Thread.currentThread().getName() + " < " + Arrays.toString(sectionList.toArray(new String[0])) + " УДАЛЕНА " + sectionList.get(sectionList.size() - 1));
 		this.sectionList.remove(this.sectionList.size() - 1);
 		long time = endTime - startTime;
 
@@ -62,7 +62,7 @@ public class Profiler implements IProfiler {
 
 	@Override
 	public List<ProfilerResult> getProfilingData(String task) {
-		if (!this.profilingEnabled) return null;
+		if (!this.enabled) return null;
 
 		// Общее время, потраченное на все существующие задачи
 		long rootTime = this.profilingMap.getOrDefault("root", 0L);

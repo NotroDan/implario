@@ -6,8 +6,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecart;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.game.particle.EntityFirework;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -15,14 +15,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.logging.IProfiler;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.ParticleType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.*;
+import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.SaveDataMemoryStorage;
@@ -64,7 +67,7 @@ public class WorldClient extends World {
 	private BlockPosM randomTickPosM = new BlockPosM(0, 0, 0, 3);
 	private boolean playerUpdate = false;
 
-	public WorldClient(NetHandlerPlayClient netHandler, WorldSettings settings, int dim, EnumDifficulty difficulty, Profiler profiler) {
+	public WorldClient(NetHandlerPlayClient netHandler, WorldSettings settings, int dim, EnumDifficulty difficulty, IProfiler profiler) {
 		super(new SaveHandlerMP(), new WorldInfo(settings, "MpServer"), DIMENSION_PROVIDER.provide(dim), profiler, true);
 		this.sendQueue = netHandler;
 		this.getWorldInfo().setDifficulty(difficulty);

@@ -31,7 +31,6 @@ import net.minecraft.resources.event.Events;
 import net.minecraft.resources.event.events.player.PlayerActionEvent;
 import net.minecraft.resources.event.events.player.PlayerMoveEvent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.server.management.UserListBansEntry;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.tileentity.TileEntity;
@@ -95,7 +94,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	public void update() {
 		this.field_147366_g = false;
 		++this.networkTickCount;
-		Profiler.in.startSection("keepAlive");
+		MinecraftServer.profiler.startSection("keepAlive");
 
 		if ((long) this.networkTickCount - this.lastSentPingPacket > 40L) {
 			this.lastSentPingPacket = this.networkTickCount;
@@ -104,7 +103,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 			this.sendPacket(new S00PacketKeepAlive(this.field_147378_h));
 		}
 
-		Profiler.in.endSection();
+		MinecraftServer.profiler.endSection();
 
 		if (this.chatSpamThresholdCount > 0) {
 			--this.chatSpamThresholdCount;

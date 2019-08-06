@@ -1,9 +1,9 @@
 package vanilla.world;
 
+import net.minecraft.logging.IProfiler;
 import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.events.WorldServerInitEvent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Profiler;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;
 import net.minecraft.world.border.IBorderListener;
@@ -21,7 +21,7 @@ public class WorldServerExtra extends VanillaWorldServer {
 
 	private VanillaWorldServer delegate;
 
-	public WorldServerExtra(MinecraftServer server, ISaveHandler saveHandlerIn, int dimensionId, VanillaWorldServer delegate, Profiler profilerIn) {
+	public WorldServerExtra(MinecraftServer server, ISaveHandler saveHandlerIn, int dimensionId, VanillaWorldServer delegate, IProfiler profilerIn) {
 		super(server, saveHandlerIn, new DerivedWorldInfo(delegate.getWorldInfo()), dimensionId, profilerIn);
 		this.delegate = delegate;
 		delegate.getWorldBorder().addListener(new IBorderListener() {

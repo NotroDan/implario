@@ -3,6 +3,7 @@ package net.minecraft.server;
 import com.google.common.collect.Lists;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
+import net.minecraft.logging.ProfilerResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Profiler {
+public class Profiler1 {
 
-	public static Profiler in = new Profiler();
+//	public static Profiler in = new Profiler();
 
 	protected static final Logger logger = LogManager.getLogger();
 	protected final List<String> sectionList = Collections.synchronizedList(new ArrayList<>());
@@ -129,7 +130,7 @@ public class Profiler {
 		return this.sectionList.size() == 0 ? "[UNKNOWN]" : this.sectionList.get(this.sectionList.size() - 1);
 	}
 
-	public static final class Result implements Comparable<Profiler.Result> {
+	public static final class Result implements Comparable<Result> {
 
 		public double a;
 		public double b;
@@ -145,7 +146,7 @@ public class Profiler {
 			return (this.s.hashCode() & 11184810) + 4473924;
 		}
 
-		public int compareTo(Profiler.Result r) {
+		public int compareTo(Result r) {
 			return r.a < this.a ? -1 : r.a > this.a ? 1 : r.s.compareTo(this.s);
 		}
 

@@ -8,7 +8,6 @@ import net.minecraft.client.game.worldedit.WorldEdit;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiControls;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainerItems;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.ScreenShotHelper;
 import net.minecraft.client.settings.KeyBinding;
@@ -21,11 +20,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.logging.IProfiler;
+import net.minecraft.logging.ProfilerResult;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import net.minecraft.server.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -41,7 +41,6 @@ import java.util.List;
 import static net.minecraft.client.Minecraft.getSystemTime;
 import static net.minecraft.client.settings.KeyBinding.*;
 import static net.minecraft.logging.Log.MAIN;
-import static net.minecraft.server.Profiler.in;
 import static net.minecraft.util.MovingObjectPosition.MovingObjectType.BLOCK;
 
 public final class InputHandler {
@@ -476,25 +475,26 @@ public final class InputHandler {
 	 * Update debugProfilerName in response to number keys in debug screen
 	 */
 	private void updateDebugProfilerName(int keyCount) {
-		List<Profiler.Result> list = in.getProfilingData(this.debugProfilerName);
+		IProfiler profiler = mc.displayGuy.activeProfiler;
+		List<ProfilerResult> list = profiler.getProfilingData(this.debugProfilerName);
 
 		if (list == null || list.isEmpty()) return;
-		Profiler.Result res = list.remove(0);
+		ProfilerResult res = list.remove(0);
 
 		if (keyCount == 0) {
-			if (res.s.length() > 0) {
+			if (res.name.length() > 0) {
 				int i = this.debugProfilerName.lastIndexOf(".");
 				if (i >= 0) this.debugProfilerName = this.debugProfilerName.substring(0, i);
 			}
 		} else {
 			--keyCount;
 
-			if (keyCount < list.size() && !list.get(keyCount).s.equals("unspecified")) {
+			if (keyCount < list.size() && !list.get(keyCount).name.equals("unspecified")) {
 				if (this.debugProfilerName.length() > 0) {
 					this.debugProfilerName = this.debugProfilerName + ".";
 				}
 
-				this.debugProfilerName = this.debugProfilerName + list.get(keyCount).s;
+				this.debugProfilerName = this.debugProfilerName + list.get(keyCount).name;
 			}
 		}
 	}

@@ -1,13 +1,14 @@
 package vanilla.ingame;
 
 import net.minecraft.client.MC;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.gui.ingame.Module;
 import net.minecraft.client.renderer.G;
-import net.minecraft.server.Profiler;
+import net.minecraft.logging.IProfiler;
 import optifine.Config;
 import optifine.CustomColors;
 import vanilla.entity.boss.BossStatus;
@@ -19,7 +20,8 @@ public class ModuleBossStatus implements Module {
 
 		if (BossStatus.bossName == null || BossStatus.statusBarTime <= 0) return;
 
-		Profiler.in.startSection("bossHealth");
+		IProfiler profiler = Minecraft.getMinecraft().getProfiler();
+		profiler.startSection("bossHealth");
 		--BossStatus.statusBarTime;
 		AssetsFontRenderer fontrenderer = MC.getFontRenderer();
 		ScaledResolution scaledresolution = new ScaledResolution(MC.i());
@@ -40,7 +42,7 @@ public class ModuleBossStatus implements Module {
 
 		gui.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - gui.getFontRenderer().getStringWidth(s) / 2), (float) (b0 - 10), l);
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
-		Profiler.in.endSection();
+		profiler.endSection();
 	}
 
 }

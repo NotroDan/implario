@@ -14,7 +14,6 @@ import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.MPlayer;
-import net.minecraft.server.Profiler;
 import net.minecraft.util.*;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumSkyBlock;
@@ -40,13 +39,13 @@ public class GuiOverlayDebug extends Gui {
 
 	public void renderDebugInfo(ScaledResolution scaledResolutionIn) {
 		if (!Settings.SHOW_DEBUG.b()) return;
-		Profiler.in.startSection("debug");
+		mc.getProfiler().startSection("debug");
 		G.pushMatrix();
 		renderDebugInfoLeft();
 		renderDebugInfoRight(scaledResolutionIn);
 		renderDebugInfoCenter(scaledResolutionIn);
 		G.popMatrix();
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 	}
 
 	private boolean isReducedDebug() {

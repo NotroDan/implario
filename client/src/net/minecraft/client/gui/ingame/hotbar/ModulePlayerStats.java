@@ -15,7 +15,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.player.Player;
 import net.minecraft.item.potion.Potion;
-import net.minecraft.server.Profiler;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 
@@ -80,7 +79,7 @@ public class ModulePlayerStats implements Module {
 		MC.bindTexture(Gui.icons);
 
 		// Броня
-		Profiler.in.startSection("armor");
+		mc.getProfiler().startSection("armor");
 		if (iArmor > 0) for (int i = 0; i < 10; ++i) {
 			int x = leftBorder + i * 8;
 			int armor = i * 2 + 1;
@@ -88,7 +87,7 @@ public class ModulePlayerStats implements Module {
 			int tx = armor < iArmor ? 34 : armor == iArmor ? 25 : 16;
 			gui.drawTexturedModalRect(x, j2, tx, 9, 9, 9);
 		}
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 
 
 		int regenerationWobble = -1;
@@ -98,7 +97,7 @@ public class ModulePlayerStats implements Module {
 
 
 		// Здоровье
-		Profiler.in.startSection("health");
+		mc.getProfiler().startSection("health");
 
 		boolean wide = false;
 		int hm = wide ? 2 : 1; // Множитель высоты
@@ -192,7 +191,7 @@ public class ModulePlayerStats implements Module {
 		Entity entity = entityplayer.ridingEntity;
 
 		if (entity == null) {
-			Profiler.in.endStartSection("food");
+			mc.getProfiler().endStartSection("food");
 
 			for (int l5 = 0; l5 < 10; ++l5) {
 				int i8 = y1;
@@ -234,7 +233,7 @@ public class ModulePlayerStats implements Module {
 				}
 			}
 		} else if (entity instanceof EntityLivingBase) {
-			Profiler.in.endStartSection("mountHealth");
+			mc.getProfiler().endStartSection("mountHealth");
 			EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
 			int l7 = (int) Math.ceil(entitylivingbase.getHealth());
 			float f3 = entitylivingbase.getMaxHealth();
@@ -274,7 +273,7 @@ public class ModulePlayerStats implements Module {
 			}
 		}
 
-		Profiler.in.endStartSection("air");
+		mc.getProfiler().endStartSection("air");
 
 		if (entityplayer.isInsideOfMaterial(Material.water)) {
 			int i6 = mc.thePlayer.getAir();
@@ -290,7 +289,7 @@ public class ModulePlayerStats implements Module {
 			}
 		}
 
-		Profiler.in.endSection();
+		mc.getProfiler().endSection();
 	}
 
 
