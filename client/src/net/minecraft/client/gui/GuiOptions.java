@@ -162,13 +162,14 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		tabs.add("Текстуры", () -> mc.displayGuiScreen(new GuiScreenResourcePacks(this)));
 		tabs.add("Шейдеры", () -> {
 			if (Settings.FAST_RENDER.b()) {
-				if (Settings.DEBUG.b())
-					Config.showGuiMessage(Lang.get("Шейдеры не могут быть включены при быстром рендере"),
-							Lang.get("Выключите быстрый рендер если хотите шейдеров"));
-				else
-					Config.showGuiMessage("Пока не работает",
-							"Включите дебаг если хотите скрашить клиент");
-			} else mc.displayGuiScreen(new GuiShaders(this));
+				Config.showGuiMessage(Lang.get("Шейдеры не могут быть включены при быстром рендере"),
+						Lang.get("Выключите быстрый рендер если хотите шейдеров"));
+			} else if(Settings.FBO_ENABLE.b()){
+				mc.displayGuiScreen(new GuiShaders(this));
+			}else{
+				Config.showGuiMessage(Lang.get("Включите FBO"),
+						Lang.get("Для работы шейдеров нужен FBO, не знаю зачем"));
+			}
 		});
 
 
