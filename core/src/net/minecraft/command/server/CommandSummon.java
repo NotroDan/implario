@@ -72,13 +72,14 @@ public class CommandSummon extends CommandBase {
 			return;
 		}
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
-		boolean flag = false;
+		boolean customNbt = false;
 
 		if (args.length >= 5) {
 			IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 4);
 
 			try {
 				nbttagcompound = JsonToNBT.getTagFromJson(ichatcomponent.getUnformattedText());
+				customNbt = true;
 			} catch (NBTException nbtexception) {
 				throw new CommandException("commands.summon.tagError", nbtexception.getMessage());
 			}
@@ -98,7 +99,8 @@ public class CommandSummon extends CommandBase {
 		}
 		entity2.setLocationAndAngles(d0, d1, d2, entity2.rotationYaw, entity2.rotationPitch);
 
-		entity2.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity2)), null);
+		if (!customNbt)
+			entity2.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity2)), null);
 
 		world.spawnEntityInWorld(entity2);
 		Entity entity = entity2;
