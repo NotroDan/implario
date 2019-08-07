@@ -2502,7 +2502,8 @@ public abstract class World implements IBlockAccess {
 		int i = 0;
 
 		for (Entity entity : this.loadedEntityList) {
-			if (!(entity instanceof IPersistenceAllowed && ((IPersistenceAllowed) entity).isNoDespawnRequired()) && entityType.isAssignableFrom(entity.getClass())) {
+			boolean isPersistent = entity instanceof IPersistenceAllowed && ((IPersistenceAllowed) entity).isNoDespawnRequired();
+			if (!isPersistent && entityType.isAssignableFrom(entity.getClass())) {
 				++i;
 			}
 		}

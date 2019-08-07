@@ -211,7 +211,7 @@ public class EntitySheep extends EntityAnimal {
 	 */
 	public void setFleeceColor(EnumDyeColor color) {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
-		this.dataWatcher.updateObject(16, (byte) (b0 & 240 | color.getMetadata() & 15));
+		this.dataWatcher.updateObject(16, (byte) (b0 & 0xf0 | color.getMetadata() & 0xf));
 	}
 
 	/**

@@ -68,12 +68,12 @@ public final class SpawnerAnimals {
 		int i4 = 0;
 		BlockPos blockpos2 = w.getSpawnPoint();
 
-		for (EnumCreatureType enumcreaturetype : EnumCreatureType.values()) {
-			if ((!enumcreaturetype.getPeacefulCreature() || spawnPeacefulMobs) && (enumcreaturetype.getPeacefulCreature() || spawnHostileMobs) && (!enumcreaturetype.getAnimal() || p_77192_4_)) {
-				int j4 = w.countEntities(enumcreaturetype.getCreatureClass());
-				int k4 = enumcreaturetype.getMaxNumberOfCreature() * i / MOB_COUNT_DIV;
+		for (EnumCreatureType type : EnumCreatureType.values()) {
+			if ((!type.getPeacefulCreature() || spawnPeacefulMobs) && (type.getPeacefulCreature() || spawnHostileMobs) && (!type.getAnimal() || p_77192_4_)) {
+				int actualEntitiesAmount = w.countEntities(type.getCreatureClass());
+				int maxEntitiesAmount = type.getMaxNumberOfCreature() * i / MOB_COUNT_DIV;
 
-				if (j4 <= k4) {
+				if (actualEntitiesAmount <= maxEntitiesAmount) {
 					label374:
 
 					for (ChunkCoordIntPair chunkcoordintpair1 : this.eligibleChunksForSpawning) {
@@ -104,13 +104,13 @@ public final class SpawnerAnimals {
 
 									if (!w.isAnyPlayerWithinRangeAt((double) f, (double) i3, (double) f1, 24.0D) && blockpos2.distanceSq((double) f, (double) i3, (double) f1) >= 576.0D) {
 										if (entry == null) {
-											entry = w.getSpawnListEntryForTypeAt(enumcreaturetype, blockpos1);
+											entry = w.getSpawnListEntryForTypeAt(type, blockpos1);
 											if (entry == null) {
 												break;
 											}
 										}
 
-										if (w.canCreatureTypeSpawnHere(enumcreaturetype, entry, blockpos1) && canCreatureTypeSpawnAtLocation(
+										if (w.canCreatureTypeSpawnHere(type, entry, blockpos1) && canCreatureTypeSpawnAtLocation(
 												EntitySpawnPlacementRegistry.getPlacementForEntity(entry.entityClass), w, blockpos1)) {
 											VanillaEntity entityliving;
 
