@@ -397,47 +397,47 @@ public class BlockModelRenderer {
 		}
 	}
 
-	public void renderModelBrightnessColor(IBakedModel bakedModel, float p_178262_2_, float p_178262_3_, float p_178262_4_, float p_178262_5_) {
+	public void renderModelBrightnessColor(IBakedModel model, float brightness, float r, float g, float b) {
 		for (EnumFacing enumfacing : EnumFacing.VALUES) {
-			this.renderModelBrightnessColorQuads(p_178262_2_, p_178262_3_, p_178262_4_, p_178262_5_, bakedModel.getFaceQuads(enumfacing));
+			this.renderModelBrightnessColorQuads(brightness, r, g, b, model.getFaceQuads(enumfacing));
 		}
 
-		this.renderModelBrightnessColorQuads(p_178262_2_, p_178262_3_, p_178262_4_, p_178262_5_, bakedModel.getGeneralQuads());
+		this.renderModelBrightnessColorQuads(brightness, r, g, b, model.getGeneralQuads());
 	}
 
-	public void renderModelBrightness(IBakedModel p_178266_1_, IBlockState p_178266_2_, float p_178266_3_, boolean p_178266_4_) {
-		Block block = p_178266_2_.getBlock();
+	public void renderModelBrightness(IBakedModel model, IBlockState state, float brightness, boolean alreadyColored) {
+		Block block = state.getBlock();
 		block.setBlockBoundsForItemRender();
 		G.rotate(90.0F, 0.0F, 1.0F, 0.0F);
-		int i = block.getRenderColor(block.getStateForEntityRender(p_178266_2_));
+		int i = block.getRenderColor(block.getStateForEntityRender(state));
 
-		float f = (float) (i >> 16 & 255) / 255.0F;
-		float f1 = (float) (i >> 8 & 255) / 255.0F;
-		float f2 = (float) (i & 255) / 255.0F;
+		float r = (float) (i >> 16 & 255) / 255.0F;
+		float g = (float) (i >> 8 & 255) / 255.0F;
+		float b = (float) (i & 255) / 255.0F;
 
-		if (!p_178266_4_) {
-			G.color(p_178266_3_, p_178266_3_, p_178266_3_, 1.0F);
+		if (!alreadyColored) {
+			G.color(brightness, brightness, brightness, 1.0F);
 		}
 
-		this.renderModelBrightnessColor(p_178266_1_, p_178266_3_, f, f1, f2);
+		this.renderModelBrightnessColor(model, brightness, r, g, b);
 	}
 
-	private void renderModelBrightnessColorQuads(float p_178264_1_, float p_178264_2_, float p_178264_3_, float p_178264_4_, List p_178264_5_) {
+	private void renderModelBrightnessColorQuads(float brightness, float r, float g, float b, List<BakedQuad> quads) {
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-		for (Object bakedquad0 : p_178264_5_) {
-			BakedQuad bakedquad = (BakedQuad) bakedquad0;
+		brightness = 1;
+		for (BakedQuad quad : quads) {
 			worldrenderer.begin(7, DefaultVertexFormats.ITEM);
-			worldrenderer.addVertexData(bakedquad.getVertexData());
+			worldrenderer.addVertexData(quad.getVertexData());
 
-			if (bakedquad.hasTintIndex()) {
-				worldrenderer.putColorRGB_F4(p_178264_2_ * p_178264_1_, p_178264_3_ * p_178264_1_, p_178264_4_ * p_178264_1_);
+			if (quad.hasTintIndex()) {
+				worldrenderer.putColorRGB_F4(r * brightness, g * brightness, b * brightness);
 			} else {
-				worldrenderer.putColorRGB_F4(p_178264_1_, p_178264_1_, p_178264_1_);
+				worldrenderer.putColorRGB_F4(brightness, brightness, brightness);
 			}
 
-			Vec3i vec3i = bakedquad.getFace().getDirectionVec();
+			Vec3i vec3i = quad.getFace().getDirectionVec();
 			worldrenderer.putNormal((float) vec3i.getX(), (float) vec3i.getY(), (float) vec3i.getZ());
 			tessellator.draw();
 		}

@@ -14,7 +14,7 @@ public class RenderTntMinecart extends RenderMinecart<EntityMinecartTNT> {
 		super(renderManagerIn);
 	}
 
-	protected void func_180560_a(EntityMinecartTNT minecart, float partialTicks, IBlockState state) {
+	protected void renderTileInside(EntityMinecartTNT minecart, float partialTicks, IBlockState state) {
 		int i = minecart.getFuseTicks();
 
 		if (i > -1 && (float) i - partialTicks + 1.0F < 10.0F) {
@@ -26,7 +26,7 @@ public class RenderTntMinecart extends RenderMinecart<EntityMinecartTNT> {
 			G.scale(f1, f1, f1);
 		}
 
-		super.func_180560_a(minecart, partialTicks, state);
+		super.renderTileInside(minecart, partialTicks, state);
 
 		if (i > -1 && i / 5 % 2 == 0) {
 			BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();

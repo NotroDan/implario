@@ -94,7 +94,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T> {
 			float f4 = 0.75F;
 			G.scale(f4, f4, f4);
 			G.translate(-0.5F, (float) (j - 8) / 16.0F, 0.5F);
-			this.func_180560_a(entity, partialTicks, iblockstate);
+			this.renderTileInside(entity, partialTicks, iblockstate);
 			G.popMatrix();
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.bindEntityTexture(entity);
@@ -113,7 +113,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T> {
 		return minecartTextures;
 	}
 
-	protected void func_180560_a(T minecart, float partialTicks, IBlockState state) {
+	protected void renderTileInside(T minecart, float partialTicks, IBlockState state) {
 		G.pushMatrix();
 		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(state, minecart.getBrightness(partialTicks));
 		G.popMatrix();

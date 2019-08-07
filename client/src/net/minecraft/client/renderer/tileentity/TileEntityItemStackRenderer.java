@@ -20,8 +20,8 @@ import net.minecraft.util.EnumFacing;
 public class TileEntityItemStackRenderer {
 
 	public static TileEntityItemStackRenderer instance = new TileEntityItemStackRenderer();
-	private TileEntityChest field_147717_b = new TileEntityChest(0);
-	private TileEntityChest field_147718_c = new TileEntityChest(1);
+	private TileEntityChest chest = new TileEntityChest(0);
+	private TileEntityChest trappedChest = new TileEntityChest(1);
 	private TileEntityEnderChest enderChest = new TileEntityEnderChest();
 	private TileEntityBanner banner = new TileEntityBanner();
 	private TileEntitySkull skull = new TileEntitySkull();
@@ -61,9 +61,9 @@ public class TileEntityItemStackRenderer {
 			if (block == Blocks.ender_chest) {
 				TileEntityRendererDispatcher.instance.renderTileEntityAt(this.enderChest, 0.0D, 0.0D, 0.0D, 0.0F);
 			} else if (block == Blocks.trapped_chest) {
-				TileEntityRendererDispatcher.instance.renderTileEntityAt(this.field_147718_c, 0.0D, 0.0D, 0.0D, 0.0F);
+				TileEntityRendererDispatcher.instance.renderTileEntityAt(this.trappedChest, 0.0D, 0.0D, 0.0D, 0.0F);
 			} else {
-				TileEntityRendererDispatcher.instance.renderTileEntityAt(this.field_147717_b, 0.0D, 0.0D, 0.0D, 0.0F);
+				TileEntityRendererDispatcher.instance.renderTileEntityAt(this.chest, 0.0D, 0.0D, 0.0D, 0.0F);
 			}
 		}
 	}

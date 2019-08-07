@@ -13,8 +13,8 @@ public class RenderMinecartMobSpawner extends RenderMinecart<EntityMinecartMobSp
 		super(renderManagerIn);
 	}
 
-	protected void func_180560_a(EntityMinecartMobSpawner minecart, float partialTicks, IBlockState state) {
-		super.func_180560_a(minecart, partialTicks, state);
+	protected void renderTileInside(EntityMinecartMobSpawner minecart, float partialTicks, IBlockState state) {
+		super.renderTileInside(minecart, partialTicks, state);
 
 		if (state.getBlock() == Blocks.mob_spawner) {
 			TileEntityMobSpawnerRenderer.renderMob(minecart.func_98039_d(), minecart.posX, minecart.posY, minecart.posZ, partialTicks);
