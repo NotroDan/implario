@@ -42,13 +42,14 @@ public class DisplayGuy {
 	private static final List<DisplayMode> macDisplayModes = Lists.newArrayList(new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
 	private final Minecraft mc;
 	public boolean fullscreen;
-	public IProfiler activeProfiler = MinecraftServer.profiler;
+	public IProfiler activeProfiler;
 	private int tempDisplayWidth;
 	private int tempDisplayHeight;
 
 	public DisplayGuy(Minecraft mc, GameConfiguration.DisplayInformation info) {
 		this.mc = mc;
 		this.fullscreen = info.fullscreen;
+		this.activeProfiler = mc.getProfiler();
 		this.tempDisplayWidth = info.width;
 		this.tempDisplayHeight = info.height;
 	}

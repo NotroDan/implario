@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.game.DisplayGuy;
 import net.minecraft.client.game.worldedit.WorldEdit;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiControls;
@@ -26,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -42,6 +44,8 @@ import static net.minecraft.client.Minecraft.getSystemTime;
 import static net.minecraft.client.settings.KeyBinding.*;
 import static net.minecraft.logging.Log.MAIN;
 import static net.minecraft.util.MovingObjectPosition.MovingObjectType.BLOCK;
+import static org.lwjgl.input.Keyboard.KEY_0;
+import static org.lwjgl.input.Keyboard.KEY_EQUALS;
 
 public final class InputHandler {
 
@@ -344,8 +348,9 @@ public final class InputHandler {
 				}
 
 				if (Settings.SHOW_DEBUG.b() && Settings.PROFILER.b()) {
-					if (k == 11) updateDebugProfilerName(0);
+					if (k == KEY_0) updateDebugProfilerName(0);
 					for (int j1 = 0; j1 < 9; ++j1) if (k == 2 + j1) updateDebugProfilerName(j1 + 1);
+					if (k == KEY_EQUALS) switchActiveProfiler();
 				}
 			}
 		}
@@ -390,6 +395,12 @@ public final class InputHandler {
 		if (USE.isKeyDown() && rightClickDelayTimer == 0 && !mc.thePlayer.isUsingItem()) rightClickMouse();
 
 		sendClickBlockToController(mc.currentScreen == null && ATTACK.isKeyDown() && mc.inGameHasFocus);
+	}
+
+	private void switchActiveProfiler() {
+		DisplayGuy d = mc.displayGuy;
+		d.activeProfiler = d.activeProfiler == mc.getProfiler() ? MinecraftServer.profiler : mc.getProfiler();
+		debugProfilerName = "root";
 	}
 
 
