@@ -1,10 +1,12 @@
 package net.minecraft.client.gui.font;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.logging.IProfiler;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.CustomColors;
@@ -172,7 +174,8 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 	public float renderChar(char c, boolean bold, boolean italic) {
 		if (c == 32) return this.unicodeFlag ? 4.0F : this.charWidth[c];
-
+		IProfiler profiler = getMinecraft().getProfiler();
+		profiler.startSection("fontrender");
 
 		int i = allChars.indexOf(c);
 		boolean unicode = i == -1 || unicodeFlag;
@@ -185,6 +188,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 			this.posX -= offsetBold;
 			w += offsetBold;
 		}
+		profiler.endSection();
 		return f + w;
 	}
 
