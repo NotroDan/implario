@@ -2,6 +2,7 @@ package vanilla.entity;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
+import net.minecraft.logging.Log;
 import vanilla.Vanilla;
 import vanilla.entity.ai.*;
 import net.minecraft.entity.attributes.AttributeModifier;
@@ -515,10 +516,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 	 * Makes the entity despawn if requirements are reached
 	 */
 	protected void despawnEntity() {
-		Object object;
-
 		if (this.persistenceRequired) this.entityAge = 0;
-		else if ((this.entityAge & 31) == 31) this.setDead();
 		else {
 			Player entityplayer = this.worldObj.getClosestPlayerToEntity(this, -1.0D);
 
