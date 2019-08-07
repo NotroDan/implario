@@ -267,6 +267,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 					double dX = pX - this.playerEntity.posX;
 					double dY = pY - this.playerEntity.posY;
+					double upwardsMotion = dY;
 					double dZ = pZ - this.playerEntity.posZ;
 					double motionVector = this.playerEntity.motionX * this.playerEntity.motionX + this.playerEntity.motionY * this.playerEntity.motionY + this.playerEntity.motionZ * this.playerEntity.motionZ;
 					double distanceVector = dX * dX + dY * dY + dZ * dZ;
@@ -319,13 +320,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 					AxisAlignedBB axisalignedbb = this.playerEntity.getEntityBoundingBox().expand(f3, f3, f3).addCoord(0.0D, -0.55D, 0.0D);
 
-					if (!serverController.isFlightAllowed() && !playerEntity.capabilities.allowFlying && !worldserver.checkBlockCollision(axisalignedbb)) {
-						if (dY >= -0.03125D) {
+					if (!playerEntity.capabilities.allowFlying && !serverController.isFlightAllowed() && !worldserver.checkBlockCollision(axisalignedbb)) {
+						if (upwardsMotion >= -0.03125D) {
 							++floatingTickCount;
 
 							if (floatingTickCount > 80) {
 								logger.warn(playerEntity.getName() + " был кикнут за флай.");
-								kickPlayerFromServer("§eТебя кикнуло за флай. Обидно, правда?");
+								kickPlayerFromServer("§eТы двигался вверх без касания блоков больше 80 тиков.\n§eТы читер или это перк за 40 гривен?");
 								return;
 							}
 						}
