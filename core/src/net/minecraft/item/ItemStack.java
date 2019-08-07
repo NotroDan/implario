@@ -14,6 +14,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.Player;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTBase;
@@ -86,6 +87,7 @@ public final class ItemStack {
 		this.canPlaceOnCacheBlock = null;
 		this.canPlaceOnCacheResult = false;
 		this.item = itemIn;
+		if (this.item == null) this.item = Item.getItemFromBlock(Blocks.air);
 		this.stackSize = amount;
 		this.itemDamage = meta;
 
@@ -175,6 +177,8 @@ public final class ItemStack {
 	public void readFromNBT(NBTTagCompound nbt) {
 		if (nbt.hasKey("id", 8)) this.item = Item.getByNameOrId(nbt.getString("id"));
 		else this.item = Item.getItemById(nbt.getShort("id"));
+
+		if (this.item == null) this.item = Item.getItemFromBlock(Blocks.air);
 
 		this.stackSize = nbt.getByte("Count");
 		this.itemDamage = nbt.getShort("Damage");
