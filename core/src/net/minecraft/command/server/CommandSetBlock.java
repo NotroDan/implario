@@ -92,7 +92,6 @@ public class CommandSetBlock extends CommandBase {
 		}
 
 		IBlockState iblockstate = block.getStateFromMeta(i);
-		System.out.println(iblockstate);
 		if (!world.setBlockState(blockpos, iblockstate, 2)) {
 			throw new CommandException("commands.setblock.noChange");
 		}
