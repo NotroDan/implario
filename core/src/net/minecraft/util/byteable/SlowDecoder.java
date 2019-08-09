@@ -6,14 +6,19 @@ import java.nio.charset.StandardCharsets;
 
 public class SlowDecoder implements Decoder{
     private final byte array[];
-    private int i, metadataI = 2;
+    private int i, metadataI;
     private byte metadata;
     private byte bitMetadata = 0;
 
-    public SlowDecoder(byte array[]){
+    public SlowDecoder(byte array[], int offset){
         this.array = array;
-        i = (((array[0] & 0xFF) << 8) | (array[1] & 0xFF)) + 2;
+        i = (((array[offset] & 0xFF) << 8) | (array[1 + offset] & 0xFF)) + 2 + offset;
+        metadataI = 2 + offset;
         if(i != 2) metadata = array[metadataI++];
+    }
+
+    public SlowDecoder(byte array[]){
+        this(array, 0);
     }
 
     @Override
@@ -62,7 +67,7 @@ public class SlowDecoder implements Decoder{
                 return rslt;
             }
         }
-        return ((array[i++] & 0xFF) << 24) | ((array[i++] & 0xFF) << 16) | ((array[i++] & 0xFF) << 8) | (array[i++] & 0xFF);
+        return readIntDirectly();
     }
 
     @Setter
@@ -78,18 +83,24 @@ public class SlowDecoder implements Decoder{
                 return rslt;
             }
         }
-        return (((long)array[i++] & 0xFF) << 56) | (((long)array[i++] & 0xFF) << 48) | (((long)array[i++] & 0xFF) << 40) |
-                (((long)array[i++] & 0xFF) << 32) | (((long)array[i++] & 0xFF) << 24) | (((long)array[i++] & 0xFF) << 16) |
-                (((long)array[i++] & 0xFF) << 8) | ((long)array[i++] & 0xFF);
+        return readLongDirectly();
     }
+
+    @Setter
+    private boolean readFloatDirectly = true;
 
     @Override
     public float readFloat() {
+        if(readFloatDirectly)return Float.intBitsToFloat(readIntDirectly());
         return Float.intBitsToFloat(readInt());
     }
 
+    @Setter
+    private boolean readDoubleDirectly = true;
+
     @Override
     public double readDouble() {
+        if(readDoubleDirectly)return Double.longBitsToDouble(readLongDirectly());
         return Double.longBitsToDouble(readLong());
     }
 
@@ -103,5 +114,15 @@ public class SlowDecoder implements Decoder{
             return new String(readBytes(), bool ? StandardCharsets.US_ASCII : StandardCharsets.UTF_8);
         }
         return new String(readBytes(), StandardCharsets.UTF_8);
+    }
+
+    private int readIntDirectly(){
+        return ((array[i++] & 0xFF) << 24) | ((array[i++] & 0xFF) << 16) | ((array[i++] & 0xFF) << 8) | (array[i++] & 0xFF);
+    }
+
+    private long readLongDirectly(){
+        return (((long)array[i++] & 0xFF) << 56) | (((long)array[i++] & 0xFF) << 48) | (((long)array[i++] & 0xFF) << 40) |
+                (((long)array[i++] & 0xFF) << 32) | (((long)array[i++] & 0xFF) << 24) | (((long)array[i++] & 0xFF) << 16) |
+                (((long)array[i++] & 0xFF) << 8) | ((long)array[i++] & 0xFF);
     }
 }

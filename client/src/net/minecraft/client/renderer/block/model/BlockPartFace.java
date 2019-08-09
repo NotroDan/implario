@@ -12,10 +12,10 @@ import java.lang.reflect.Type;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.JsonUtils;
+import net.minecraft.util.byteable.Decoder;
+import net.minecraft.util.byteable.Encoder;
 
 public class BlockPartFace {
-
-	public static final EnumFacing FACING_DEFAULT = null;
 	public final EnumFacing cullFace;
 	public final int tintIndex;
 	public final String texture;
@@ -26,6 +26,14 @@ public class BlockPartFace {
 		this.tintIndex = tintIndexIn;
 		this.texture = textureIn;
 		this.blockFaceUV = blockFaceUVIn;
+	}
+
+	public static BlockPartFace readByteable(Decoder decoder){
+		return null;
+	}
+
+	public static void writeByteable(Encoder encoder, BlockPartFace face){
+
 	}
 
 	public static BlockPartFace deserialize(byte array[]) {

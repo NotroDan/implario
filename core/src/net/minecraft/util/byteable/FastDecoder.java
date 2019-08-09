@@ -6,6 +6,11 @@ public class FastDecoder implements Decoder{
     private final byte array[];
     private int i = 0;
 
+    public FastDecoder(byte array[], int offset){
+        this.array = array;
+        i = offset;
+    }
+
     public FastDecoder(byte array[]){
         this.array = array;
     }

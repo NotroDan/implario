@@ -76,4 +76,9 @@ public class FastEncoder implements Encoder{
     public byte[] generate() {
         return bytes.generate();
     }
+
+    @Override
+    public byte[] generate(byte[] array, int offset) {
+        return bytes.generate(array, offset);
+    }
 }

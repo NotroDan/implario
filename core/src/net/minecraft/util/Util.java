@@ -5,7 +5,6 @@ import net.minecraft.network.ThreadQuickExitException;
 import java.util.concurrent.FutureTask;
 
 public class Util {
-
 	public static OS getOSType() {
 		String s = System.getProperty("os.name").toLowerCase();
 		return

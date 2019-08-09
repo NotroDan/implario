@@ -23,7 +23,9 @@ public class ByteableTest {
         encoder.writeDouble(0.125125125125D);
         encoder.writeString("String");
         //
-        SlowDecoder decoder = new SlowDecoder(encoder.generate());
+        byte array[] = new byte[24124124];
+        encoder.generate(array, 6666);
+        SlowDecoder decoder = new SlowDecoder(array, 6666);
         decoder.setUseCompressOfShort(true);
         decoder.setUsingCompressACSII(true);
         decoder.setSizeCompressOfInt(3);
