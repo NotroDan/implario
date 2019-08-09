@@ -12,11 +12,14 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.byteable.Decoder;
+import net.minecraft.util.byteable.Encoder;
 import optifine.CustomColormap;
 import optifine.CustomSkyLayer;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector3f;
 import shadersmod.client.ShaderOption;
 
 import java.nio.ByteBuffer;
@@ -39,6 +42,14 @@ public class Utils {
 	public static void drawFloatingText(String text, float x, float y, float z) {
 		drawFloatingText0(text, x, y, z, false);
 		drawFloatingText0(text, x, y, z, true);
+	}
+
+	public static Vector3f readVector3f(Decoder decoder){
+		return new Vector3f(decoder.readFloat(), decoder.readFloat(), decoder.readFloat());
+	}
+
+	public static void writeVector3f(Encoder encoder, Vector3f vec3f){
+		encoder.writeFloat(vec3f.x).writeFloat(vec3f.y).writeFloat(vec3f.z);
 	}
 
 	private static void drawFloatingText0(String text, float x, float y, float z, boolean back) {

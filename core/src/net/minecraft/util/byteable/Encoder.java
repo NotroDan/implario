@@ -20,4 +20,6 @@ public interface Encoder {
     Encoder writeString(String s);
 
     byte[] generate();
+
+    byte[] generate(byte array[], int offset);
 }

@@ -67,10 +67,7 @@ public class SlowEncoder implements Encoder{
                 return this;
             }
         }
-        bytes.write((byte)(i >> 24));
-        bytes.write((byte)(i >> 16));
-        bytes.write((byte)(i >> 8));
-        bytes.write((byte)i);
+        writeIntDirectly(i);
         return this;
     }
 
@@ -88,31 +85,34 @@ public class SlowEncoder implements Encoder{
                 return this;
             }
         }
-        bytes.write((byte)(l >> 56));
-        bytes.write((byte)(l >> 48));
-        bytes.write((byte)(l >> 40));
-        bytes.write((byte)(l >> 32));
-        bytes.write((byte)(l >> 24));
-        bytes.write((byte)(l >> 16));
-        bytes.write((byte)(l >> 8));
-        bytes.write((byte)l);
-        return this;
-    }
-
-    @Override
-    public Encoder writeFloat(float f) {
-        writeInt(Float.floatToIntBits(f));
-        return this;
-    }
-
-    @Override
-    public Encoder writeDouble(double d) {
-        writeLong(Double.doubleToLongBits(d));
+        writeLongDirectly(l);
         return this;
     }
 
     @Setter
-    private boolean usingCompressACSII;
+    private boolean writeFloatDirectly = true;
+
+    @Override
+    public Encoder writeFloat(float f) {
+        int i = Float.floatToIntBits(f);
+        if(writeFloatDirectly)writeIntDirectly(i);
+        else writeInt(i);
+        return this;
+    }
+
+    @Setter
+    private boolean writeDoubleDirectly = true;
+
+    @Override
+    public Encoder writeDouble(double d) {
+        long l = Double.doubleToLongBits(d);
+        if(writeDoubleDirectly)writeLongDirectly(l);
+        else writeLong(l);
+        return this;
+    }
+
+    @Setter
+    private boolean usingCompressACSII = false;
 
     @Override
     public Encoder writeString(String s) {
@@ -135,12 +135,40 @@ public class SlowEncoder implements Encoder{
 
     @Override
     public byte[] generate() {
-        if(bitMetadata != 0)metadatas.write(metadata);
+        if(bitMetadata != 0){
+            metadatas.write(metadata);
+            bitMetadata = 0;
+        }
         byte array[] = new byte[metadatas.getSize() + bytes.getSize() + 2];
-        array[0] = (byte)((metadatas.getSize() & 0xFF) >>> 8);
-        array[1] = (byte)(metadatas.getSize());
-        metadatas.generate(array, 2);
-        bytes.generate(array, metadatas.getSize() + 2);
+        return generate(array, 0);
+    }
+
+    @Override
+    public byte[] generate(byte[] array, int offset) {
+        if(bitMetadata != 0)metadatas.write(metadata);
+        array[offset] = (byte)((metadatas.getSize() & 0xFF) >>> 8);
+        array[offset + 1] = (byte)(metadatas.getSize());
+        metadatas.generate(array, 2 + offset);
+        bytes.generate(array, metadatas.getSize() + 2 + offset);
         return array;
+    }
+
+    private void writeIntDirectly(int i){
+
+        bytes.write((byte)(i >> 24));
+        bytes.write((byte)(i >> 16));
+        bytes.write((byte)(i >> 8));
+        bytes.write((byte)i);
+    }
+
+    private void writeLongDirectly(long l){
+        bytes.write((byte)(l >> 56));
+        bytes.write((byte)(l >> 48));
+        bytes.write((byte)(l >> 40));
+        bytes.write((byte)(l >> 32));
+        bytes.write((byte)(l >> 24));
+        bytes.write((byte)(l >> 16));
+        bytes.write((byte)(l >> 8));
+        bytes.write((byte)l);
     }
 }

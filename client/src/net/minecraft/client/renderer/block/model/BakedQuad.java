@@ -24,7 +24,6 @@ public class BakedQuad {
 		this.face = p_i9_3_;
 		this.sprite = p_i9_4_;
 		this.fixVertexData();
-		int i = 0b111111100000000000000000000000;
 	}
 
 	public TextureAtlasSprite getSprite() {

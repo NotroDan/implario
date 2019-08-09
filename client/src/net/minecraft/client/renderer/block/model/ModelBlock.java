@@ -7,6 +7,7 @@ import com.google.gson.*;
 import net.minecraft.logging.Log;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.byteable.Decoder;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -90,6 +91,10 @@ public class ModelBlock {
 			} catch (NullPointerException ignored) {
 			}
 		}
+	}
+
+	public static ModelBlock readByteable(Decoder decoder){
+		return null;
 	}
 
 	public static ModelBlock readBinModel(byte[] array) {
