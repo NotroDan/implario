@@ -51,18 +51,16 @@ import java.util.concurrent.FutureTask;
 
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
 
+	public static final IProfiler profiler = new Profiler();
 	public static final Provider<MinecraftServer, WorldService> WORLD_SERVICE_PROVIDER = new Provider<>(SimpleWorldService::new);
 	private static final Logger logger = Logger.getInstance();
 	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
+	public static MinecraftServer mcServer;
 
-	/**
-	 * Instance of Minecraft Server.
-	 */
-	private static MinecraftServer mcServer;
-	private final ISaveFormat anvilConverterForAnvilFile;
+
 
 	private final File anvilFile;
-	private final List<ITickable> playersOnline = new ArrayList<>();
+	private final ISaveFormat anvilConverterForAnvilFile;
 	protected final ICommandManager commandManager;
 	private final NetworkSystem networkSystem;
 	private final ServerStatusResponse statusResponse = new ServerStatusResponse();
@@ -123,7 +121,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 */
 	private long timeOfLastWarning;
 	private boolean startProfiling;
-	private boolean isGamemodeForced;
 	private final YggdrasilAuthenticationService authService;
 	private final MinecraftSessionService sessionService;
 	private long nanoTimeSinceStatusRefresh = 0L;
@@ -133,7 +130,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private Thread serverThread;
 	private long currentTime = getCurrentTimeMillis();
 
-	public static final IProfiler profiler = new Profiler();
 
 	public MinecraftServer(Proxy proxy, File workDir) {
 		this.serverProxy = proxy;
@@ -235,28 +231,25 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	}
 
 	public void initialWorldChunkLoad() {
-		int i = 16;
-		int j = 4;
-		int k = 192;
-		int l = 625;
-		int i1 = 0;
+		int loaded = 0;
 		worldService.setUserMessage("menu.generatingTerrain");
 		logger.info("Подготовка чанков спавна для мира " + 0);
 		WorldServer worldserver = worldService.getWorld(0);
-		BlockPos blockpos = worldserver.getSpawnPoint();
-		long k1 = getCurrentTimeMillis();
+		BlockPos pos = worldserver.getSpawnPoint();
+		long lastMessageTime = getCurrentTimeMillis();
 
-		for (int l1 = -192; l1 <= 192 && this.isServerRunning(); l1 += 16) {
-			for (int i2 = -192; i2 <= 192 && this.isServerRunning(); i2 += 16) {
-				long j2 = getCurrentTimeMillis();
+		int centerX = pos.getX() >> 2, centerZ = pos.getZ() >> 2;
 
-				if (j2 - k1 > 1000L) {
-					this.outputPercentRemaining("Preparing spawn area", i1 * 100 / 625);
-					k1 = j2;
+		for (int x = -12; x <= 12; x++) {
+			for (int z = -12; z <= 12; z++) {
+				long time = getCurrentTimeMillis();
+				if (time - lastMessageTime > 1000L) {
+					this.outputPercentRemaining("Прогружаем центральные чанки", loaded, 625);
+					lastMessageTime = time;
 				}
 
-				++i1;
-				worldserver.theChunkProviderServer.loadChunk(blockpos.getX() + l1 >> 4, blockpos.getZ() + i2 >> 4);
+				++loaded;
+				worldserver.theChunkProviderServer.loadChunk(centerX + x, centerZ + z);
 			}
 		}
 
@@ -304,10 +297,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	/**
 	 * Used to display a percent remaining given text and the percentage.
 	 */
-	protected void outputPercentRemaining(String message, int percent) {
+	protected void outputPercentRemaining(String message, int done, int total) {
 		this.currentTask = message;
+		int percent = done * 100 / total;
 		this.percentDone = percent;
-		logger.info(message + ": " + percent + "%");
+		logger.info(message + ": " + done + " из " + total + " (" + percent + "%)");
 	}
 
 	/**
@@ -608,12 +602,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		this.getNetworkSystem().networkTick();
 		profiler.endStartSection("players");
 		this.serverConfigManager.onTick();
-		profiler.endStartSection("tickables");
-
-		for (ITickable aPlayersOnline : this.playersOnline) {
-			aPlayersOnline.update();
-		}
-
 		profiler.endSection();
 	}
 
@@ -1026,7 +1014,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	}
 
 	public boolean getForceGamemode() {
-		return this.isGamemodeForced;
+		return false;
 	}
 
 	public Proxy getServerProxy() {
@@ -1132,10 +1120,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 */
 	public int getNetworkCompressionTreshold() {
 		return 256;
-	}
-
-	public void registerTickable(ITickable tickable) {
-		playersOnline.add(tickable);
 	}
 
 	public long getCurrentTime() {

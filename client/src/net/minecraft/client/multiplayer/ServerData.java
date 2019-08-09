@@ -35,12 +35,12 @@ public class ServerData {
 	public String playerList;
 	private ServerData.ServerResourceMode resourceMode = ServerData.ServerResourceMode.PROMPT;
 	private String serverIcon;
-	private boolean field_181042_l;
+	private boolean isOnlineMode;
 
-	public ServerData(String p_i46420_1_, String p_i46420_2_, boolean p_i46420_3_) {
+	public ServerData(String p_i46420_1_, String p_i46420_2_, boolean isOnlineMode) {
 		this.serverName = p_i46420_1_;
 		this.serverIP = p_i46420_2_;
-		this.field_181042_l = p_i46420_3_;
+		this.isOnlineMode = isOnlineMode;
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class ServerData {
 		this.serverIcon = icon;
 	}
 
-	public boolean func_181041_d() {
-		return this.field_181042_l;
+	public boolean isLAN() {
+		return this.isOnlineMode;
 	}
 
 	public void copyFrom(ServerData serverDataIn) {
@@ -110,7 +110,7 @@ public class ServerData {
 		this.serverName = serverDataIn.serverName;
 		this.setResourceMode(serverDataIn.getResourceMode());
 		this.serverIcon = serverDataIn.serverIcon;
-		this.field_181042_l = serverDataIn.field_181042_l;
+		this.isOnlineMode = serverDataIn.isOnlineMode;
 	}
 
 	public static enum ServerResourceMode {

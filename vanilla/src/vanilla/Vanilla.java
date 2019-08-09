@@ -93,13 +93,13 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		new Dispensers().load(registrar);
 		new WorldTypes().load(registrar);
 
+		registerGuis();
 
 		if (isServerSide()) return;
 
 		WorldTypes.FLAT.setCustomizer(GuiCreateFlatWorld::new);
 		WorldTypes.CUSTOMIZED.setCustomizer(GuiCustomizeWorldScreen::new);
 
-		registerGuis();
 
 	}
 
