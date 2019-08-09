@@ -13,6 +13,10 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
+import net.minecraft.resources.Datapack;
+import net.minecraft.resources.Datapacks;
+import net.minecraft.resources.load.DatapackLoader;
+import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
@@ -22,6 +26,7 @@ import optifine.Config;
 import org.lwjgl.opengl.GLContext;
 import shadersmod.client.GuiShaders;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -94,7 +99,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		int cacheWidth = width >> 1;
 		buttonList.add(new GuiButton(0, cacheWidth - 100, j + 84, 98, 20, Lang.format("menu.options")));
 		buttonList.add(new GuiButton(97, cacheWidth + 2, j + 84, 98, 20, "Смена ника"));
-		buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, Lang.format("menu.quit")));
+		buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, "Toggle vanilla"));
 		buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "Бета настроек"));
 
 		synchronized (this.threadLock) {
@@ -132,7 +137,19 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 97) this.mc.displayGuiScreen(new GuiPlayername(this));
 		//		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
 
-		if (button.id == 4) this.mc.shutdown();
+		if (button.id == 4) {
+			if (Datapacks.getLoaders().isEmpty()) {
+				Datapack datapack = Datapacks.load(new JarDatapackLoader(new File("gamedata/datapacks/vanilla.jar")));
+				long time = System.currentTimeMillis();
+				Datapacks.initSingleDatapack(datapack);
+				System.out.println("Vanilla loaded in " + (System.currentTimeMillis() - time));
+			}
+			else {
+				long time = System.currentTimeMillis();
+				Datapacks.shutdown();
+				System.out.println("Vanilla UNloaded in " + (System.currentTimeMillis() - time));
+			}
+		}
 
 		if (button.id == 12) {
 			ISaveFormat isaveformat = this.mc.worldController.getSaveLoader();

@@ -4,10 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.*;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.statemap.BlockStateMapper;
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
-import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.block.statemap.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelManager;
@@ -150,34 +147,16 @@ public class BlockModelShapes {
 		this.registerBlockWithStateMapper(Blocks.sand, new StateMap.Builder().withName(BlockSand.VARIANT).build());
 		this.registerBlockWithStateMapper(Blocks.hopper, new StateMap.Builder().ignore(BlockHopper.ENABLED).build());
 		this.registerBlockWithStateMapper(Blocks.flower_pot, new StateMap.Builder().ignore(BlockFlowerPot.LEGACY_DATA).build());
-		this.registerBlockWithStateMapper(Blocks.quartz_block, new StateMapperBase() {
-			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-				BlockQuartz.EnumType blockquartz$enumtype = state.getValue(BlockQuartz.VARIANT);
-
-				switch (blockquartz$enumtype) {
-					case DEFAULT:
-					default:
-						return new ModelResourceLocation("quartz_block", "normal");
-
-					case CHISELED:
-						return new ModelResourceLocation("chiseled_quartz_block", "normal");
-
-					case LINES_Y:
-						return new ModelResourceLocation("quartz_column", "axis=y");
-
-					case LINES_X:
-						return new ModelResourceLocation("quartz_column", "axis=x");
-
-					case LINES_Z:
-						return new ModelResourceLocation("quartz_column", "axis=z");
-				}
+		this.registerBlockWithStateMapper(Blocks.quartz_block, new FunctionalStateMapper(state -> {
+			switch (state.getValue(BlockQuartz.VARIANT)) {
+				case CHISELED: return new ModelResourceLocation("chiseled_quartz_block", "normal");
+				case LINES_Y: return new ModelResourceLocation("quartz_column", "axis=y");
+				case LINES_X: return new ModelResourceLocation("quartz_column", "axis=x");
+				case LINES_Z: return new ModelResourceLocation("quartz_column", "axis=z");
+				default: return new ModelResourceLocation("quartz_block", "normal");
 			}
-		});
-		this.registerBlockWithStateMapper(Blocks.deadbush, new StateMapperBase() {
-			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-				return new ModelResourceLocation("dead_bush", "normal");
-			}
-		});
+		}));
+		this.registerBlockWithStateMapper(Blocks.deadbush, new FunctionalStateMapper(state -> new ModelResourceLocation("dead_bush", "normal")));
 		this.registerBlockWithStateMapper(Blocks.pumpkin_stem, new StateMapperBase() {
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
 				Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());

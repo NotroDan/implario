@@ -281,12 +281,12 @@ public class ModelBlock {
 			return JsonUtils.getBoolean(p_178328_1_, "ambientocclusion", true);
 		}
 
-		protected List<BlockPart> getModelElements(JsonDeserializationContext p_178325_1_, JsonObject p_178325_2_) {
+		protected List<BlockPart> getModelElements(JsonDeserializationContext ctx, JsonObject p_178325_2_) {
 			List<BlockPart> list = new ArrayList<>();
 
 			if (p_178325_2_.has("elements")) {
 				for (JsonElement jsonelement : JsonUtils.getJsonArray(p_178325_2_, "elements")) {
-					list.add(p_178325_1_.deserialize(jsonelement, BlockPart.class));
+					list.add(ctx.deserialize(jsonelement, BlockPart.class));
 				}
 			}
 

@@ -127,8 +127,8 @@ public class RenderManager {
 		this.renderPosZ = renderPosZIn;
 	}
 
-	public Render getRenderRaw(Class type) {
-		return (Render) entityRenderMap.get(type);
+	public <T extends Entity> Render<T> getRenderRaw(Class<T> type) {
+		return (Render<T>) entityRenderMap.get(type);
 	}
 
 	public Render getEntityClassRenderObject(Class type) {

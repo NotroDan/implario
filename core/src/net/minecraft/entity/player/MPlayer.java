@@ -421,7 +421,7 @@ public class MPlayer extends Player implements ICrafting {
 			EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs.get(EntityList.getEntityID(entitylivingbase));
 
 			if (entitylist$entityegginfo != null) {
-				this.triggerAchievement(entitylist$entityegginfo.stat);
+				this.triggerAchievement(entitylist$entityegginfo.statKilledBy);
 			}
 
 			entitylivingbase.addToPlayerScore(this, this.scoreValue);

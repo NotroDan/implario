@@ -1,10 +1,12 @@
 package net.minecraft.client.resources.model;
 
+import lombok.Getter;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
 
 public class ModelResourceLocation extends ResourceLocation {
 
+	@Getter
 	private final String variant;
 
 	protected ModelResourceLocation(String... p_i46078_2_) {
@@ -20,13 +22,13 @@ public class ModelResourceLocation extends ResourceLocation {
 		this(p_i46080_1_.toString(), p_i46080_2_);
 	}
 
-	public ModelResourceLocation(String p_i46081_1_, String p_i46081_2_) {
-		this(parsePathString(p_i46081_1_ + '#' + (p_i46081_2_ == null ? "normal" : p_i46081_2_)));
+	public ModelResourceLocation(String path, String params) {
+		this(parsePathString(path + '#' + (params == null ? "normal" : params)));
 	}
 
 	protected static String[] parsePathString(String input) {
 		String[] split = new String[] {null, input, null};
-		int i = input.indexOf(35);
+		int i = input.indexOf('#');
 		String s = input;
 
 		if (i >= 0) {
@@ -38,9 +40,6 @@ public class ModelResourceLocation extends ResourceLocation {
 		return split;
 	}
 
-	public String getVariant() {
-		return this.variant;
-	}
 
 	public boolean equals(Object p_equals_1_) {
 		if (this == p_equals_1_) {
