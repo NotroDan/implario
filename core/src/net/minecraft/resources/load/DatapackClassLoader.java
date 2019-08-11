@@ -1,5 +1,7 @@
 package net.minecraft.resources.load;
 
+import net.minecraft.logging.Log;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -10,9 +12,11 @@ import java.util.zip.ZipInputStream;
 public class DatapackClassLoader extends ClassLoader {
 
 	private final Map<String, byte[]> datapack;
+	private final String filename;
 
 	public DatapackClassLoader(File f, ClassLoader parent) throws IOException {
 		super(parent);
+		this.filename = f.getName();
 		ZipInputStream input = new ZipInputStream(new FileInputStream(f), Charset.forName("ASCII"));
 		this.datapack = new HashMap<>();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -39,7 +43,13 @@ public class DatapackClassLoader extends ClassLoader {
 			datapack.remove(name2);
 			return defineClass(name.replace('/', '.'), entry, 0, entry.length - 1);
 		} catch (IOException ex) {
-			return DatapackClassLoader.getSystemClassLoader().loadClass(name);
+			try {
+				return DatapackClassLoader.getSystemClassLoader().loadClass(name);
+			} catch (ClassNotFoundException e) {
+				Log.MAIN.error("Tried to load class '" + name + "' from datapack " + filename + " but failed!");
+				Log.MAIN.exception(ex);
+				throw new RuntimeException(ex);
+			}
 		}
 	}
 

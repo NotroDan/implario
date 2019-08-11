@@ -233,18 +233,23 @@ public class StatList {
 		}
 	}
 
-	public static StatBase getStatKillEntity(EntityList.EntityEggInfo eggInfo) {
+	public static StatBase createStatKillEntity(EntityList.EntityEggInfo eggInfo) {
 		String s = EntityList.getStringFromID(eggInfo.spawnedID);
 		return s == null ? null : new StatBase("stat.killEntity." + s, new ChatComponentTranslation("stat.entityKill", new ChatComponentTranslation("entity." + s + ".name"))).registerStat();
 	}
 
-	public static StatBase getStatEntityKilledBy(EntityList.EntityEggInfo eggInfo) {
+	public static StatBase createStatEntityKilledBy(EntityList.EntityEggInfo eggInfo) {
 		String s = EntityList.getStringFromID(eggInfo.spawnedID);
 		return s == null ? null : new StatBase("stat.entityKilledBy." + s, new ChatComponentTranslation("stat.entityKilledBy", new ChatComponentTranslation("entity." + s + ".name"))).registerStat();
 	}
 
 	public static StatBase getOneShotStat(String p_151177_0_) {
 		return oneShotStats.get(p_151177_0_);
+	}
+
+	public static void unregister(StatBase stat) {
+		oneShotStats.remove(stat.statId);
+		allStats.remove(stat);
 	}
 
 }

@@ -1,13 +1,13 @@
 package net.minecraft.resources;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandHandler;
-import net.minecraft.command.CommandParticle;
-import net.minecraft.command.CommandSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.PlayerGuiBridge;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
@@ -50,7 +50,8 @@ public class Registrar {
 		E.getPacketLib().LIB.disable(domain);
 		Collections.reverse(mappings);
 		for (Mapping entry : mappings) {
-			entry.undo();
+			System.out.println("Reverting mapping " + entry);
+			entry.revert();
 		}
 		mappings.clear();
 	}
@@ -111,7 +112,9 @@ public class Registrar {
 	 * @see Block
 	 */
 	public void registerBlock(int id, String address, Block block) {
-		registerMapping(new MappingBlock(id, address, Block.blockRegistry.getObjectById(id), block));
+		Block old = Block.blockRegistry.getObjectById(id);
+		if (old == null || old.getMaterial() == Material.air) old = null;
+		registerMapping(new MappingBlock(id, address, old, block));
 	}
 
 	/**
@@ -152,7 +155,7 @@ public class Registrar {
 	 * @param function ваша новая функция
 	 */
 	public <I, O> void replaceProvider(Provider<I, O> provider, Function<I, O> function) {
-		registerMapping(new MappingProvider(provider, function));
+		registerMapping(new MappingProvider<>(provider, function));
 	}
 
 	/**
@@ -163,7 +166,7 @@ public class Registrar {
 	 * @see PlayerGuiBridge.GuiOpener
 	 */
 	public <T> void registerIngameGui(Class<T> type, PlayerGuiBridge.GuiOpener<T> opener) {
-		registerMapping(new MappingIngameGui(type, PlayerGuiBridge.getOpener(type), opener));
+		registerMapping(new MappingIngameGui<>(type, PlayerGuiBridge.getOpener(type), opener));
 	}
 
 	/**
@@ -179,7 +182,9 @@ public class Registrar {
 	}
 
 	/**
-	 * Кастомные энтити, которых можно заспавнить яйцами спавна.
+	 * Кастомные мобы.
+	 * Отличаются от обычных энтити наличием собственных статистик и яиц спавна.
+	 * Если вам не нужно яйцо и статистика, используйте registerEntity()
 	 * Поддерживает замену.
 	 *
 	 * @param type      Класс сущности
@@ -188,9 +193,10 @@ public class Registrar {
 	 * @param baseColor Цвет яйца в формате 0xAARRGGBB (AlphaRedGreenBlue)
 	 * @param spotColor Цвет пятнышек на яйце в аналогичном формате
 	 */
-	public void registerEntity(Class<? extends Entity> type, String address, int id, int baseColor, int spotColor) {
-		registerEntity(type, address, id);
-		EntityList.regEgg(id, baseColor, spotColor);
+	public void registerMob(Class<? extends Entity> type, String address, int id, int baseColor, int spotColor) {
+		Class<? extends Entity> oldType = EntityList.getClassFromID(id);
+		EntityList.EntityEggInfo oldEgg = EntityList.entityEggs.get(id);
+		registerMapping(new MappingMob(id, address, oldType, type, oldEgg, baseColor, spotColor));
 	}
 
 	/**
@@ -205,7 +211,8 @@ public class Registrar {
 	 * Регистрация кастомного маппинга для тех, кто хочет модифицировать датапак из другого датапака.
 	 */
 	public void registerMapping(Mapping mapping) {
-		mapping.map();
+		System.out.println("Applying mapping " + mapping);
+		mapping.apply();
 		mappings.add(mapping);
 	}
 

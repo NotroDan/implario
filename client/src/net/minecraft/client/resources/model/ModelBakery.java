@@ -114,8 +114,8 @@ public class ModelBakery {
 		}
 	}
 
-	private void registerVariant(ModelBlockDefinition p_177569_1_, ModelResourceLocation p_177569_2_) {
-		this.variants.put(p_177569_2_, p_177569_1_.getVariants(p_177569_2_.getVariant()));
+	private void registerVariant(ModelBlockDefinition blockDefinition, ModelResourceLocation loc) {
+		this.variants.put(loc, blockDefinition.getVariants(loc.getVariant()));
 	}
 
 	private ModelBlockDefinition getModelBlockDefinition(ResourceLocation resourceLocation) {
@@ -145,7 +145,7 @@ public class ModelBakery {
 			throw new RuntimeException("Encountered an exception when loading model definition of model " + loc.toString(), ioexception);
 		}
 
-		model = new ModelBlockDefinition(list);
+		model = ModelBlockDefinition.mergeDefinitions(list);
 		this.blockDefinitions.put(loc, model);
 
 		return model;

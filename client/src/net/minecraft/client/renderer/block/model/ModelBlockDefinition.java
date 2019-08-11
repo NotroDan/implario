@@ -24,12 +24,15 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelBlockDefinition {
 
-	static final Gson GSON = new GsonBuilder().registerTypeAdapter(ModelBlockDefinition.class, new ModelBlockDefinition.Deserializer()).registerTypeAdapter(ModelBlockDefinition.Variant.class,
-			new ModelBlockDefinition.Variant.Deserializer()).create();
+	static final Gson GSON = new GsonBuilder()
+			.registerTypeAdapter(ModelBlockDefinition.class, new ModelBlockDefinition.Deserializer())
+			.registerTypeAdapter(             Variant.class, new Variant.Deserializer())
+			.create();
+
 	private final Map<String, ModelBlockDefinition.Variants> mapVariants = Maps.newHashMap();
 
-	public static ModelBlockDefinition parseFromReader(Reader p_178331_0_) {
-		return (ModelBlockDefinition) GSON.fromJson(p_178331_0_, ModelBlockDefinition.class);
+	public static ModelBlockDefinition parseFromReader(Reader reader) {
+		return GSON.fromJson(reader, ModelBlockDefinition.class);
 	}
 
 	public ModelBlockDefinition(Collection<ModelBlockDefinition.Variants> p_i46221_1_) {
@@ -38,19 +41,20 @@ public class ModelBlockDefinition {
 		}
 	}
 
-	public ModelBlockDefinition(List<ModelBlockDefinition> p_i46222_1_) {
-		for (ModelBlockDefinition modelblockdefinition : p_i46222_1_) {
+	public static ModelBlockDefinition mergeDefinitions(List<ModelBlockDefinition> toMerge) {
+		return new ModelBlockDefinition(toMerge);
+	}
+
+	private ModelBlockDefinition(List<ModelBlockDefinition> toMerge) {
+		for (ModelBlockDefinition modelblockdefinition : toMerge) {
 			this.mapVariants.putAll(modelblockdefinition.mapVariants);
 		}
 	}
 
-	public ModelBlockDefinition.Variants getVariants(String p_178330_1_) {
-		ModelBlockDefinition.Variants modelblockdefinition$variants = (ModelBlockDefinition.Variants) this.mapVariants.get(p_178330_1_);
-
-		if (modelblockdefinition$variants == null) {
-			throw new ModelBlockDefinition.MissingVariantException();
-		}
-		return modelblockdefinition$variants;
+	public ModelBlockDefinition.Variants getVariants(String variant) {
+		ModelBlockDefinition.Variants variants = this.mapVariants.get(variant);
+		if (variants == null) throw new MissingVariantException();
+		return variants;
 	}
 
 	public boolean equals(Object p_equals_1_) {
@@ -70,18 +74,18 @@ public class ModelBlockDefinition {
 
 	public static class Deserializer implements JsonDeserializer<ModelBlockDefinition> {
 
-		public ModelBlockDefinition deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
-			JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-			List<ModelBlockDefinition.Variants> list = this.parseVariantsList(p_deserialize_3_, jsonobject);
+		public ModelBlockDefinition deserialize(JsonElement json, Type type, JsonDeserializationContext ctx) throws JsonParseException {
+			JsonObject obj = json.getAsJsonObject();
+			List<ModelBlockDefinition.Variants> list = this.parseVariantsList(ctx, obj);
 			return new ModelBlockDefinition(list);
 		}
 
-		protected List<ModelBlockDefinition.Variants> parseVariantsList(JsonDeserializationContext p_178334_1_, JsonObject p_178334_2_) {
-			JsonObject jsonobject = JsonUtils.getJsonObject(p_178334_2_, "variants");
+		protected List<ModelBlockDefinition.Variants> parseVariantsList(JsonDeserializationContext ctx, JsonObject json) {
+			JsonObject obj = JsonUtils.getJsonObject(json, "variants");
 			List<ModelBlockDefinition.Variants> list = new ArrayList<>();
 
-			for (Entry<String, JsonElement> entry : jsonobject.entrySet()) {
-				list.add(this.parseVariants(p_178334_1_, entry));
+			for (Entry<String, JsonElement> entry : obj.entrySet()) {
+				list.add(this.parseVariants(ctx, entry));
 			}
 
 			return list;

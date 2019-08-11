@@ -12,7 +12,7 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
 	protected final Map<V, K> inverseObjectRegistry;
 
 	public RegistryNamespaced() {
-		this.inverseObjectRegistry = ((BiMap) this.registryObjects).inverse();
+		this.inverseObjectRegistry = ((BiMap<K, V>) this.registryObjects).inverse();
 	}
 
 	public void register(int id, K key, V value) {

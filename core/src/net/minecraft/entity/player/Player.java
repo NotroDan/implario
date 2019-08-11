@@ -1510,7 +1510,7 @@ public abstract class Player extends EntityLivingBase {
 		EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs.get(EntityList.getEntityID(e));
 
 		if (entitylist$entityegginfo != null) {
-			this.triggerAchievement(entitylist$entityegginfo.field_151512_d);
+			this.triggerAchievement(entitylist$entityegginfo.statKills);
 		}
 	}
 

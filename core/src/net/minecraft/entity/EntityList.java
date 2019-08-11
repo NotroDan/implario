@@ -57,8 +57,10 @@ public class EntityList {
 		if (baseColor != -2) entityEggs.put(entityID, new EntityEggInfo(entityID, baseColor, spotColor));
 	}
 
-	public static void regEgg(int id, int baseColor, int spotColor) {
-		entityEggs.put(id, new EntityEggInfo(id, baseColor, spotColor));
+	public static EntityEggInfo regEgg(int id, int baseColor, int spotColor) {
+		EntityEggInfo egg = new EntityEggInfo(id, baseColor, spotColor);
+		entityEggs.put(id, egg);
+		return egg;
 	}
 
 
@@ -252,15 +254,15 @@ public class EntityList {
 		public final int spawnedID;
 		public final int primaryColor;
 		public final int secondaryColor;
-		public final StatBase field_151512_d;
-		public final StatBase stat;
+		public final StatBase statKills;
+		public final StatBase statKilledBy;
 
 		public EntityEggInfo(int id, int baseColor, int spotColor) {
 			this.spawnedID = id;
 			this.primaryColor = baseColor;
 			this.secondaryColor = spotColor;
-			this.field_151512_d = StatList.getStatKillEntity(this);
-			this.stat = StatList.getStatEntityKilledBy(this);
+			this.statKills = StatList.createStatKillEntity(this);
+			this.statKilledBy = StatList.createStatEntityKilledBy(this);
 		}
 
 	}

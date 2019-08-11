@@ -34,11 +34,11 @@ public abstract class Mapping<T> {
 	 */
 	protected abstract void map(T element);
 
-	public void map() {
+	public void apply() {
 		map(actual);
 	}
 
-	public void undo() {
+	public void revert() {
 		map(overridden);
 	}
 

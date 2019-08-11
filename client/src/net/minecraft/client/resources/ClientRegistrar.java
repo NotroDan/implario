@@ -24,8 +24,8 @@ public class ClientRegistrar {
 	}
 
 	public <T extends Entity> void registerEntity(Class<T> type, Render<T> render) {
-		Render overridden = render.getRenderManager().getRenderRaw(type);
-		delegate.registerMapping(new MappingRender(render.getRenderManager(), type, overridden, render));
+		Render<T> overridden = render.getRenderManager().getRenderRaw(type);
+		delegate.registerMapping(new MappingRender<T>(render.getRenderManager(), type, overridden, render));
 	}
 
 
