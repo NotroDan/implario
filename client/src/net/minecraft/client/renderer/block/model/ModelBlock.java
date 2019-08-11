@@ -5,9 +5,11 @@ import __google_.util.ByteZip;
 import com.google.common.collect.Maps;
 import com.google.gson.*;
 import net.minecraft.logging.Log;
+import net.minecraft.util.FileUtil;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.byteable.Decoder;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -60,6 +62,7 @@ public class ModelBlock {
 		byte[] data;
 		int i = 0;
 		try {
+
 			data = new byte[in.available()];
 			while (true) {
 				int read = in.read();

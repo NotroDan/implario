@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.logging.Log;
 import net.minecraft.server.management.ServerConfigurationManager;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class DedicatedPlayerList extends ServerConfigurationManager {

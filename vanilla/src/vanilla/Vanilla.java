@@ -18,13 +18,17 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.network.ConnectionState;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S2DPacketOpenWindow;
 import net.minecraft.network.play.server.S3FPacketCustomPayload;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.Domain;
+import net.minecraft.resources.event.Events;
 import net.minecraft.resources.load.SimpleDatapackLoader;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Govnokod;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
@@ -55,6 +59,7 @@ import vanilla.entity.passive.*;
 import vanilla.inventory.ContainerHorseInventory;
 import vanilla.inventory.ContainerMerchant;
 import vanilla.item.*;
+import vanilla.packet.CKekPacket;
 import vanilla.tileentity.TileEntityMobSpawner;
 import vanilla.world.VanillaDimensionManager;
 import vanilla.world.VanillaWorldService;
@@ -94,7 +99,6 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		new WorldTypes().load(registrar);
 
 		registerGuis();
-
 		if (isServerSide()) return;
 
 		WorldTypes.FLAT.setCustomizer(GuiCreateFlatWorld::new);
