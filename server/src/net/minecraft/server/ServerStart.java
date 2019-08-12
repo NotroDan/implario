@@ -4,12 +4,17 @@ import net.minecraft.init.Bootstrap;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.SimpleDatapackLoader;
+import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.server.dedicated.DedicatedServer;
 import vanilla.Vanilla;
 
 import java.io.File;
 
 public class ServerStart {
+	static{
+		if(System.getSecurityManager() == null) System.setSecurityManager(new MinecraftSecurityManager());
+	}
+
 	public static void main(String[] args) {
 		Datapacks.load(new SimpleDatapackLoader(new Vanilla()), "LolKek");
 		Bootstrap.register();

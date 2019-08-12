@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.load.DatapackLoadException;
 import net.minecraft.resources.load.DatapackLoader;
+import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.server.Todo;
 
 import java.nio.charset.StandardCharsets;
@@ -83,5 +84,4 @@ public class Datapacks {
 		datapack.disable();
 		loader.close();
 	}
-
 }

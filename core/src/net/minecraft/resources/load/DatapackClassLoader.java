@@ -36,6 +36,15 @@ public class DatapackClassLoader extends ClassLoader {
 
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
+		/*if(name.startsWith("java.lang.reflect"))
+			throw new SecurityException("Reflect not allowed!");
+		if(name.equals("java.lang.Class"))
+			throw new SecurityException("Getting class not allowed!");
+		if(name.equals("java.lang.ClassLoader"))
+			throw new SecurityException("ClassLoader not allowed!");*/
+		if(name.startsWith("net.minecraft.security"))
+			throw new SecurityException("Security not allowed!");
+
 		try {
 			String name2 = name.replace('.', '/') + ".class";
 			byte entry[] = datapack.get(name2);

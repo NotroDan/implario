@@ -26,6 +26,7 @@ import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.Events;
 import net.minecraft.resources.load.SimpleDatapackLoader;
+import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Govnokod;
 import net.minecraft.util.IChatComponent;
@@ -57,6 +58,12 @@ import vanilla.world.gen.WorldTypes;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 import vanilla.worldedit.WorldEdit;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.security.PermissionCollection;
+import java.security.SecurityPermission;
+
 import static net.minecraft.block.Block.*;
 import static net.minecraft.inventory.creativetab.CreativeTabs.tabRedstone;
 
@@ -75,7 +82,6 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 		registrar.setWorldServiceProvider(VanillaWorldService::new);
 		registrar.replaceProvider(World.DIMENSION_PROVIDER, VanillaDimensionManager::generate);
 		new VEntities().load(registrar);
-
 	}
 
 	@Override

@@ -2,11 +2,15 @@ import net.minecraft.client.main.Main;
 import net.minecraft.client.resources.Language;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.Datapacks;
+import net.minecraft.security.MinecraftSecurityManager;
 
 import java.io.File;
 import java.util.Arrays;
 
 public class Start {
+	static{
+		if(System.getSecurityManager() == null) System.setSecurityManager(new MinecraftSecurityManager());
+	}
 
 	public static void main(String[] args) throws Exception {
 		Main.main(concat(new String[] {
