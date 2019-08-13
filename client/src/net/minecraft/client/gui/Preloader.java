@@ -13,11 +13,16 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.FloatBuffer;
 
 public class Preloader {
 
@@ -42,30 +47,13 @@ public class Preloader {
 			"Можно играть!"
 	};
 
-	private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
-
 	private final ScaledResolution res;
-	private final ResourceLocation logo;
 	private final Minecraft mc = MC.i();
 	private volatile int state = 3;
-	private volatile long start = 0;
-	private Framebuffer framebuffer;
 	private final Tessellator t = new Tessellator(2097152);
 
 	public Preloader(ScaledResolution res, DefaultResourcePack rp, TextureManager txtmgr) {
 		this.res = res;
-		ResourceLocation loc = null;
-		InputStream inputstream = null;
-		try {
-			inputstream = rp.getInputStream(locationMojangPng);
-			loc = txtmgr.getDynamicTextureLocation("logo", new DynamicTexture(ImageIO.read(inputstream)));
-			txtmgr.bindTexture(loc);
-		} catch (IOException ioexception) {
-			Logger.getInstance().error("Unable to load logo: " + locationMojangPng, ioexception);
-		} finally {
-			IOUtils.closeQuietly(inputstream);
-		}
-		logo = loc;
 		header();
 	}
 
@@ -73,35 +61,20 @@ public class Preloader {
 		int i = res.getScaleFactor();
 
 		G.disableAlpha();
-		//		Tessellator tessellator = Tessellator.getInstance();
-		//		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		//		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-		//		worldrenderer.pos(0.0D, mc.displayHeight, 0.0D).tex(0.0D, 0.0D).color(32, 32, 32, 255).endVertex();
-		//		worldrenderer.pos(mc.displayWidth, mc.displayHeight, 0.0D).tex(0.0D, 0.0D).color(32, 32, 32, 255).endVertex();
-		//		worldrenderer.pos(mc.displayWidth, 0.0D, 0.0D).tex(0.0D, 0.0D).color(32, 32, 32, 255).endVertex();
-		//		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, 0.0D).color(32, 32, 32, 255).endVertex();
-		//		tessellator.draw();
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		int j = 256;
 		int k = 256;
-		//		this.draw((res.getScaledWidth() - j) / 2, (res.getScaledHeight() - k) / 2, 0, 0, j, k, 255, 0, 255, 255);
 		G.disableLighting();
 		G.disableFog();
-//		framebuffer.unbindFramebuffer();
-//		framebuffer.framebufferRender(res.getScaledWidth() * i, res.getScaledHeight() * i);
 		G.enableAlpha();
-		//		G.alphaFunc(516, 0F);
-
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);     // Clear Screen And Depth Buffer
+		GL11.glClearColor(0x1p-4f, 0x1p-4f, 0x1p-4f, 1);
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		drawInfo();
 
 		MC.frame();
 	}
 
 	public void header() {
-		int i = res.getScaleFactor();
-//		framebuffer = new Framebuffer(res.getScaledWidth() * i, res.getScaledHeight() * i, true);
-//		framebuffer.bindFramebuffer(false);
 
 		G.matrixMode(GL11.GL_PROJECTION);                        // Select The Projection Matrix
 		G.loadIdentity();                                   // Reset The Projection Matrix
@@ -121,17 +94,13 @@ public class Preloader {
 		BakedFont.CALIBRI_SMALL.getRenderer();
 		BakedFont.CALIBRI.getRenderer();
 
-		mc.getTextureManager().bindTexture(logo);
 	}
 
 	private void drawInfo() {
-
 		G.enableTexture2D();
 		G.color(0, 1, 1, 1);
 		G.translate(300, 300, 0);
-		//		Utils.drawHexagonOutline(t, 20);
 		G.translate(100, 0, 0);
-		//		Utils.drawCircle(t,100, 30, state * 30);
 		G.enableBlend();
 		G.translate(-400, -300, 0);
 		for (int i = 0; i < states.length; i++) {
@@ -159,8 +128,6 @@ public class Preloader {
 	}
 
 	public void nextState() {
-//		if (start != 0) System.out.println(states[state] + " - " + (System.currentTimeMillis() - start) + "ms.");
-		start = System.currentTimeMillis();
 		state++;
 	}
 

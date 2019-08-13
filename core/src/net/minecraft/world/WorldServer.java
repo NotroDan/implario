@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ListenableFuture;
-import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEventData;
 import net.minecraft.block.material.Material;
@@ -17,6 +16,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.logging.IProfiler;
+import net.minecraft.logging.Log;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.E;
@@ -43,23 +43,19 @@ import java.util.*;
 
 public class WorldServer extends World implements IThreadListener {
 
-	private static final Logger logger = Logger.getInstance();
 	protected final MinecraftServer mcServer;
 	private final EntityTracker theEntityTracker;
 	private final PlayerManager thePlayerManager;
-	private final Set<NextTickListEntry> pendingTickListEntriesHashSet = Sets.newHashSet();
-	private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet();
+	private final Set<NextTickListEntry> pendingTickListEntriesHashSet = new HashSet<>();
+	private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet<>();
 	private final Map<UUID, Entity> entitiesByUuid = Maps.newHashMap();
 	public ChunkProviderServer theChunkProviderServer;
 
-	/**
-	 * Whether level saving is disabled or not
-	 */
 	public boolean disableLevelSaving;
 
 	private int updateEntityTick;
 
-	private WorldServer.ServerBlockEventList[] field_147490_S = new WorldServer.ServerBlockEventList[] {new WorldServer.ServerBlockEventList(), new WorldServer.ServerBlockEventList()};
+	private ServerBlockEventList[] serverBlockEvents = {new ServerBlockEventList(), new ServerBlockEventList()};
 	private int blockEventCacheIndex;
 	private List<NextTickListEntry> pendingTickListEntriesThisTick = new ArrayList<>();
 	private final WorldTickEvent tickEvent = new WorldTickEvent(this);
@@ -528,7 +524,7 @@ public class WorldServer extends World implements IThreadListener {
 				i = blockpos.getX();
 				k = blockpos.getZ();
 			} else {
-				logger.warn("Unable to find spawn biome");
+				Log.MAIN.warn("Unable to find spawn biome");
 			}
 
 			int l = 0;
@@ -676,21 +672,21 @@ public class WorldServer extends World implements IThreadListener {
 	public void addBlockEvent(BlockPos pos, Block blockIn, int eventID, int eventParam) {
 		BlockEventData blockeventdata = new BlockEventData(pos, blockIn, eventID, eventParam);
 
-		for (BlockEventData blockeventdata1 : this.field_147490_S[this.blockEventCacheIndex]) {
+		for (BlockEventData blockeventdata1 : this.serverBlockEvents[this.blockEventCacheIndex]) {
 			if (blockeventdata1.equals(blockeventdata)) {
 				return;
 			}
 		}
 
-		this.field_147490_S[this.blockEventCacheIndex].add(blockeventdata);
+		this.serverBlockEvents[this.blockEventCacheIndex].add(blockeventdata);
 	}
 
 	private void sendQueuedBlockEvents() {
-		while (!this.field_147490_S[this.blockEventCacheIndex].isEmpty()) {
+		while (!this.serverBlockEvents[this.blockEventCacheIndex].isEmpty()) {
 			int i = this.blockEventCacheIndex;
 			this.blockEventCacheIndex ^= 1;
 
-			for (BlockEventData blockeventdata : this.field_147490_S[i]) {
+			for (BlockEventData blockeventdata : this.serverBlockEvents[i]) {
 				if (this.fireBlockEvent(blockeventdata)) {
 					this.mcServer.getConfigurationManager().sendToAllNear((double) blockeventdata.getPosition().getX(), (double) blockeventdata.getPosition().getY(),
 							(double) blockeventdata.getPosition().getZ(), 64.0D, this.provider.getDimensionId(),
@@ -698,7 +694,7 @@ public class WorldServer extends World implements IThreadListener {
 				}
 			}
 
-			this.field_147490_S[i].clear();
+			this.serverBlockEvents[i].clear();
 		}
 	}
 

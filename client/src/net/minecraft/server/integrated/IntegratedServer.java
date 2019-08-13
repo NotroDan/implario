@@ -60,7 +60,7 @@ public class IntegratedServer extends MinecraftServer {
 		return new IntegratedServerCommandManager();
 	}
 
-	protected void loadAllWorlds(String name, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
+	protected void loadAllWorlds(String name, String globalName, long seed, WorldType type, String p_71247_6_) {
 		this.convertMapIfNeeded(name);
 		worldService = WORLD_SERVICE_PROVIDER.provide(this);
 		worldService.setUserMessage("menu.loadingLevel");
@@ -73,14 +73,14 @@ public class IntegratedServer extends MinecraftServer {
 		if (worldinfo == null) {
 
 
-			worldinfo = new WorldInfo(worldsettings, p_71247_2_);
+			worldinfo = new WorldInfo(worldsettings, globalName);
 		} else {
-			worldinfo.setWorldName(p_71247_2_);
+			worldinfo.setWorldName(globalName);
 
 		}
 
 		for (int i = 0; i < worldService.getDimensionAmount(); ++i) {
-			WorldServer server = worldService.loadDim(i, p_71247_2_, worldinfo, worldsettings, isavehandler);
+			WorldServer server = worldService.loadDim(i, globalName, worldinfo, worldsettings, isavehandler);
 			server.addWorldAccess(new WorldManager(this, server));
 
 		}
