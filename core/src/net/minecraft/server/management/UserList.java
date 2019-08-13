@@ -142,6 +142,7 @@ public class UserList<K, V extends UserListEntry<K>> {
 	}
 
 	public void readSavedFile() throws IOException, FileNotFoundException {
+		if(!saveFile.exists())return;
 		Collection<UserListEntry<K>> collection = null;
 		BufferedReader bufferedreader = null;
 

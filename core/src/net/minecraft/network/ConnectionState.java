@@ -152,6 +152,7 @@ public enum ConnectionState {
 	};
 
 	private static final Map<Class<? extends Packet>, ConnectionState> STATES_BY_CLASS = Maps.newHashMap();
+	private static boolean initialized = false;
 
 	@Getter
 	private final int id;
@@ -171,8 +172,8 @@ public enum ConnectionState {
 			Log.MAIN.error(msg);
 			throw new IllegalArgumentException(msg);
 
-
 		}
+		if(initialized) STATES_BY_CLASS.put(packetClass, this);
 		map.put(map.size(), packetClass);
 	}
 
@@ -192,9 +193,6 @@ public enum ConnectionState {
 
 	public static ConnectionState getFromPacket(Packet packetIn) {
 		return STATES_BY_CLASS.get(packetIn.getClass());
-	}
-
-	static {
 	}
 
 	private static void init(ConnectionState state, boolean isClient) {
@@ -218,5 +216,6 @@ public enum ConnectionState {
 			init(state, true);
 			init(state, false);
 		}
+		initialized = true;
 	}
 }
