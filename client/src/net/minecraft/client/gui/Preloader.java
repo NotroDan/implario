@@ -87,8 +87,8 @@ public class Preloader {
 		//		this.draw((res.getScaledWidth() - j) / 2, (res.getScaledHeight() - k) / 2, 0, 0, j, k, 255, 0, 255, 255);
 		G.disableLighting();
 		G.disableFog();
-		framebuffer.unbindFramebuffer();
-		framebuffer.framebufferRender(res.getScaledWidth() * i, res.getScaledHeight() * i);
+//		framebuffer.unbindFramebuffer();
+//		framebuffer.framebufferRender(res.getScaledWidth() * i, res.getScaledHeight() * i);
 		G.enableAlpha();
 		//		G.alphaFunc(516, 0F);
 
@@ -100,8 +100,8 @@ public class Preloader {
 
 	public void header() {
 		int i = res.getScaleFactor();
-		framebuffer = new Framebuffer(res.getScaledWidth() * i, res.getScaledHeight() * i, true);
-		framebuffer.bindFramebuffer(false);
+//		framebuffer = new Framebuffer(res.getScaledWidth() * i, res.getScaledHeight() * i, true);
+//		framebuffer.bindFramebuffer(false);
 
 		G.matrixMode(GL11.GL_PROJECTION);                        // Select The Projection Matrix
 		G.loadIdentity();                                   // Reset The Projection Matrix
