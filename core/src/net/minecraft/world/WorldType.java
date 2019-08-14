@@ -62,6 +62,7 @@ public class WorldType {
 	public static void registerType(WorldType type) {
 		int id = Util.firstEmpty(worldTypes);
 		worldTypes[id] = type;
+		type.id = id;
 	}
 
 	public static void unregisterType(WorldType type) {
@@ -150,6 +151,7 @@ public class WorldType {
 	}
 
 	public int getWorldTypeID() {
+		System.out.println("typeid: " + id);
 		return this.id;
 	}
 
