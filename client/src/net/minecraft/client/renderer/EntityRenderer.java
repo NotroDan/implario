@@ -2206,33 +2206,43 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 	private void updateMainMenu(GuiMainMenu p_updateMainMenu_1_) {
 		try {
-			String s = null;
+			String birthday, comment;
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(new Date());
-			int i = calendar.get(5);
-			int j = calendar.get(2) + 1;
+			int day = calendar.get(Calendar.DATE);
+			int month = calendar.get(Calendar.MONTH) + 1;
 
-			if (i == 8 && j == 4) {
-				s = "Happy birthday, OptiFine!";
+			if (day == 8 && month == 4) {
+				// Восьмое апреля - день рождения оптифайна
+				birthday = "OptiFine";
+				comment = "Поздравим гениальную штуковину!";
+			} else if (day == 14 && month == 8) {
+				// Четырнадцатое августа - день рождения создателя оптифайна
+				birthday = "sp614x";
+				comment = "Поднимем бокалы за создателя OptiFine!";
+			} else if (day == 11 && month == 9) {
+				birthday = "xtrafrancyz";
+				comment = "Слава бессмертному гениальному божеству!";
+			} else if (day == 17 && month == 11) {
+				birthday = "DelfikPro";
+				comment = "Не болей, делфик!";
+			} else if (day == 1 && month == 6) {
+				birthday = "Notch";
+				comment = "Вспомним великого бога и создателя игры!";
+			} else if (day == 7 && month == 6) {
+				birthday = "вкусной жирной свиньи";
+				comment = "С каждым годом она жиреет всё больше";
+			} else if (day == 19 && month == 9) {
+				birthday = "6oogle";
+				comment = "В этот день надо торжественно сделать 42 удара в бубен";
+			} else {
+				birthday = null;
+				comment = null;
 			}
 
-			if (i == 14 && j == 8) {
-				s = "Happy birthday, sp614x!";
-			}
+			GuiMainMenu.birthday = birthday;
+			GuiMainMenu.birthdayComment = comment;
 
-			if (s == null) {
-				return;
-			}
-
-			Field[] afield = GuiMainMenu.class.getDeclaredFields();
-
-			for (Field anAfield : afield) {
-				if (anAfield.getType() == String.class) {
-					anAfield.setAccessible(true);
-					anAfield.set(p_updateMainMenu_1_, s);
-					break;
-				}
-			}
 		} catch (Throwable ignored) {}
 	}
 

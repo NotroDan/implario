@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
+import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.DatapackLoader;
@@ -41,16 +42,8 @@ import java.util.List;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
-	private static final Logger logger = Logger.getInstance();
+	public static String birthday, birthdayComment;
 	private final long openedAt;
-
-	/**
-	 * The Object object utilized as a thread lock when performing non thread-safe operations
-	 */
-	private final Object threadLock = new Object();
-	private String openGLWarning1;
-	private String openGLWarning2;
-	private String openGLWarningLink;
 
 	private static final ResourceLocation[] skyboxTiles = new ResourceLocation[] {
 			new ResourceLocation("textures/gui/title/background/panorama_0.png"),
@@ -60,24 +53,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			new ResourceLocation("textures/gui/title/background/panorama_4.png"),
 			new ResourceLocation("textures/gui/title/background/panorama_5.png")
 	};
-	public static final String openGLWarning = "Нажмите " + EnumChatFormatting.UNDERLINE + "здесь" + EnumChatFormatting.RESET + ", чтобы узнать больше.";
-	private int field_92024_r;
-	private int field_92022_t;
-	private int field_92021_u;
-	private int field_92020_v;
-	private int field_92019_w;
 
 	private Skybox skybox;
 
 	public GuiMainMenu() {
-		this.openGLWarning2 = openGLWarning;
 		this.openedAt = System.currentTimeMillis();
 
-		this.openGLWarning1 = "";
 		if (!GLContext.getCapabilities().OpenGL20 && !OpenGlHelper.areShadersSupported()) {
-			this.openGLWarning1 = Lang.format("title.oldgl1");
-			this.openGLWarning2 = Lang.format("title.oldgl2");
-			this.openGLWarningLink = "https://help.mojang.com/customer/portal/articles/325948?ref=game";
+			Log.MAIN.warn("Ваш компьютер не удовлетворяет минимальным системным требованиям. Вы что, сидите через картошку?");
 		}
 	}
 
@@ -109,14 +92,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, "Toggle vanilla"));
 		buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "Бета настроек"));
 
-		synchronized (this.threadLock) {
-			this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
-			int k = Math.max(fontRendererObj.getStringWidth(openGLWarning1), this.field_92024_r);
-			this.field_92022_t = (this.width - k) / 2;
-			this.field_92021_u = this.buttonList.get(0).yPosition - 24;
-			this.field_92020_v = this.field_92022_t + k;
-			this.field_92019_w = this.field_92021_u + 24;
-		}
 	}
 
 	private void addSingleplayerMultiplayerButtons(int y) {
@@ -177,21 +152,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
-	public void confirmClicked(boolean result, int id) {
-		if (id != 13) return;
-		if (result) {
-			try {
-				Class<?> oclass = Class.forName("java.awt.Desktop");
-				Object object = oclass.getMethod("getDesktop", Utils.CLASS).invoke(null);
-				oclass.getMethod("browse", URI.class).invoke(object, new URI(this.openGLWarningLink));
-			} catch (Throwable throwable) {
-				logger.error("Couldn\'t open link", throwable);
-			}
-		}
-
-		this.mc.displayGuiScreen(this);
-	}
-
 	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
 
@@ -212,16 +172,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 		this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
 		Date date = new Date();
-		String today = "Сегодня §a" + DATE_FORMAT.format(date);
-		String time = "Сейчас §a" + TIME_FORMAT.format(date);
+		String today = birthday == null ? "Сегодня §a" + DATE_FORMAT.format(date) : "§eСегодня день рождения у " + birthday;
+		String time = birthdayComment == null ? "Сейчас §a" + TIME_FORMAT.format(date) : birthdayComment + "";
 		this.drawString(this.fontRendererObj, today, this.width - this.fontRendererObj.getStringWidth(today) - 6, this.height - 10 - fontRendererObj.getFontHeight(), -1);
 		this.drawString(this.fontRendererObj, time, this.width - this.fontRendererObj.getStringWidth(time) - 6, this.height - 10, -1);
-
-		if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0) {
-			drawRect(this.field_92022_t - 2, this.field_92021_u - 2, this.field_92020_v + 2, this.field_92019_w - 1, 1428160512);
-			this.drawString(this.fontRendererObj, this.openGLWarning1, this.field_92022_t, this.field_92021_u, -1);
-			this.drawString(this.fontRendererObj, this.openGLWarning2, (this.width - this.field_92024_r) / 2, this.buttonList.get(0).yPosition - 12, -1);
-		}
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
@@ -330,20 +284,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (d < 0) d = -d;
 		if ((d -= 4500) > 0) offset = d / 10;
 		drawCenteredString(fontRendererObj, header, width / 4, 6 - offset, 0xf4d742);
-	}
-
-	/**
-	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
-	 */
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		super.mouseClicked(mouseX, mouseY, mouseButton);
-		synchronized (this.threadLock) {
-			if (this.openGLWarning1.length() > 0 && mouseX >= this.field_92022_t && mouseX <= this.field_92020_v && mouseY >= this.field_92021_u && mouseY <= this.field_92019_w) {
-				GuiConfirmOpenLink guiconfirmopenlink = new GuiConfirmOpenLink(this, this.openGLWarningLink, 13, true);
-				guiconfirmopenlink.disableSecurityWarning();
-				this.mc.displayGuiScreen(guiconfirmopenlink);
-			}
-		}
 	}
 
 }
