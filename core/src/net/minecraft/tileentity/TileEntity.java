@@ -240,9 +240,6 @@ public abstract class TileEntity {
 	}
 
 	public static void register(Class<? extends TileEntity> c, String id) {
-		System.out.println("Adding mapping " + id + " to " + c);
-		System.out.println(nameToClassMap);
-		System.out.println(classToNameMap);
 		if (c == null || id == null) return;
 		addMapping(c, id);
 	}

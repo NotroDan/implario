@@ -128,7 +128,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private final PlayerProfileCache profileCache;
 	protected final Queue<FutureTask<?>> futureTaskQueue = new ArrayDeque<>();
 	private Thread serverThread;
-	private long currentTime = getCurrentTimeMillis();
+	private volatile long currentTime = getCurrentTimeMillis();
 
 
 	public MinecraftServer(Proxy proxy, File workDir) {

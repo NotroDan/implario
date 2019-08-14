@@ -381,22 +381,8 @@ public class DedicatedServer extends MinecraftServer {
 		return this.settings.getIntProperty("network-compression-threshold", super.getNetworkCompressionTreshold());
 	}
 
-	private void sleepFiveSeconds() {
-		try {
-			Thread.sleep(5000L);
-		} catch (InterruptedException ignored) {
-		}
-	}
-
 	public long getMaxTickTime() {
 		return this.settings.getLongProperty("max-tick-time", TimeUnit.MINUTES.toMillis(1L));
-	}
-
-	/**
-	 * Used by RCon's Query in the form of "MajorServerMod 1.2.3: MyPlugin 1.3; AnotherPlugin 2.1; AndSoForth 1.0".
-	 */
-	public String getPlugins() {
-		return "";
 	}
 
 }
