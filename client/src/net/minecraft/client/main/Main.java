@@ -15,6 +15,7 @@ import net.minecraft.util.Session;
 import net.minecraft.util.StringUtils;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
@@ -24,6 +25,18 @@ import java.util.List;
 import java.util.UUID;
 
 public class Main {
+	public static void restart(){
+		try {
+			Runtime.getRuntime().exec("java -cp " + ManagementFactory.getRuntimeMXBean().getClassPath() + " "
+					+ String.join(" ", ManagementFactory.getRuntimeMXBean().getInputArguments()) + " Start " +
+					String.join(" ", args));
+		}catch (Exception error){
+			error.printStackTrace();
+		}
+		System.exit(0);
+	}
+
+	public static String args[];
 
 	public static void main(String[] args) {
 		System.setProperty("java.net.preferIPv4Stack", "true");

@@ -2,17 +2,22 @@ import net.minecraft.client.main.Main;
 import net.minecraft.client.resources.Language;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.Datapacks;
+import net.minecraft.resources.update.FileDatapackEdit;
 import net.minecraft.security.MinecraftSecurityManager;
+import org.lwjgl.Sys;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.util.Arrays;
+import java.util.List;
 
 public class Start {
-	static{
-		if(System.getSecurityManager() == null) System.setSecurityManager(new MinecraftSecurityManager());
+	static {
+		if (System.getSecurityManager() == null) System.setSecurityManager(new MinecraftSecurityManager());
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
+		Main.args = args;
 		Main.main(concat(new String[] {
 				"--accessToken", "0", "--assetsDir", "assets",
 				"--height", "600", "--width", "1000"

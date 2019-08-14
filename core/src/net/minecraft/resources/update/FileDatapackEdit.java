@@ -1,9 +1,9 @@
 package net.minecraft.resources.update;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import __google_.util.FileIO;
+import net.minecraft.util.FileUtil;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class FileDatapackEdit {
 			entry = iterator.nextElement();
 			in = zip.getInputStream(entry);
 			array = new byte[(int) entry.getSize()];
-			in.read(array);
+			FileUtil.readInputStream(in, array);
 			in.close();
 			files.put(entry.getName(), array);
 		}
@@ -36,15 +36,24 @@ public class FileDatapackEdit {
 	}
 
 	public void writeToJar(File file) throws IOException {
-		ZipOutputStream jar = new ZipOutputStream(new FileOutputStream(file), Charset.forName("UTF-8"));
+		FileIO.writeBytes(file, writeToByteArray());
+	}
+
+	public byte[] writeToByteArray() throws IOException{
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ZipOutputStream jar = new ZipOutputStream(out, Charset.forName("UTF-8"));
 		ZipEntry entry;
 		for (Map.Entry<String, byte[]> iter : files.entrySet()) {
 			entry = new ZipEntry(iter.getKey());
 			jar.putNextEntry(entry);
-			if (iter.getValue() != null) jar.write(iter.getValue());
+			if (iter.getValue() != null)
+				jar.write(iter.getValue());
 			jar.closeEntry();
 		}
+		jar.flush();
+		jar.finish();
 		jar.close();
+		return out.toByteArray();
 	}
 
 	public void add(String name, byte array[]) {

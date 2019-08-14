@@ -211,7 +211,6 @@ public class Registrar {
 	 * Регистрация кастомного маппинга для тех, кто хочет модифицировать датапак из другого датапака.
 	 */
 	public void registerMapping(Mapping mapping) {
-		System.out.println("Applying mapping " + mapping);
 		mapping.apply();
 		mappings.add(mapping);
 	}

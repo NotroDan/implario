@@ -5,9 +5,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 public class FileUtil {
+	public static void readInputStream(InputStream in, byte array[]) throws IOException{
+		int i = 0;
+		while (i != array.length)
+			i = i + in.read(array, i, array.length - i);
+	}
 
 	public static File getFile(String s) {
 		// ToDo: Кастомизация рабочей папки

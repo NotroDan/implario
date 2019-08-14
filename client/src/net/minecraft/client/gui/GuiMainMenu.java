@@ -5,6 +5,7 @@ import net.minecraft.Logger;
 import net.minecraft.Utils;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.settings.GuiSettings;
+import net.minecraft.client.main.Main;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -17,6 +18,7 @@ import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.resources.load.JarDatapackLoader;
+import net.minecraft.resources.update.FileDatapackEdit;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
@@ -27,10 +29,15 @@ import org.lwjgl.opengl.GLContext;
 import shadersmod.client.GuiShaders;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
@@ -124,9 +131,17 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		//		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
 		if (button.id == 5) this.mc.displayGuiScreen(new GuiShaders(this));
 		if (button.id == 54) {
-			if (Settings.DEBUG.b())
-				this.mc.displayGuiScreen(new GuiSettings(this));
-			else
+			if (Settings.DEBUG.b()) {
+				try {
+					FileDatapackEdit edit = new FileDatapackEdit(new File("gamedata/client.jar"));
+					edit.writeToJar(new File("gamedata/client.jar"));
+				}catch (IOException ex){
+					System.err.println("eto norma");
+					ex.printStackTrace();
+				}
+				Main.restart();
+				//this.mc.displayGuiScreen(new GuiSettings(this));
+			}else
 				Config.showGuiMessage("Включите дебаг", "Иначе работать не будет");
 		}
 
