@@ -126,7 +126,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private long nanoTimeSinceStatusRefresh = 0L;
 	private final GameProfileRepository profileRepo;
 	private final PlayerProfileCache profileCache;
-	protected final Queue<FutureTask<?>> futureTaskQueue = Queues.newArrayDeque();
+	protected final Queue<FutureTask<?>> futureTaskQueue = new ArrayDeque<>();
 	private Thread serverThread;
 	private long currentTime = getCurrentTimeMillis();
 
@@ -176,29 +176,23 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			this.getActiveAnvilConverter().convertMapFormat(worldNameIn, new IProgressUpdate() {
 				private long startTime = System.currentTimeMillis();
 
-				public void displaySavingString(String message) {
-				}
-
-				public void resetProgressAndMessage(String message) {
-				}
+				public void displaySavingString(String message) {}
+				public void resetProgressAndMessage(String message) {}
 
 				public void setLoadingProgress(int progress) {
-					if (System.currentTimeMillis() - this.startTime >= 1000L) {
-						this.startTime = System.currentTimeMillis();
-						MinecraftServer.logger.info("Converting... " + progress + "%");
-					}
+					if (System.currentTimeMillis() - this.startTime < 1000L) return;
+					this.startTime = System.currentTimeMillis();
+					MinecraftServer.logger.info("Converting... " + progress + "%");
 				}
 
-				public void setDoneWorking() {
-				}
+				public void setDoneWorking() {}
 
-				public void displayLoadingString(String message) {
-				}
+				public void displayLoadingString(String message) {}
 			});
 		}
 	}
 
-	protected void loadAllWorlds(String name, String p_71247_2_, long seed, WorldType type, String p_71247_6_) {
+	protected void loadAllWorlds(String name, String globalName, long seed, WorldType type, String p_71247_6_) {
 		this.convertMapIfNeeded(name);
 		worldService = WORLD_SERVICE_PROVIDER.provide(this);
 		worldService.setUserMessage("menu.loadingLevel");
@@ -212,14 +206,14 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(), this.isHardcore(), type);
 			worldsettings.setWorldName(p_71247_6_);
 			if (this.starterKit) worldsettings.enableStarterKit();
-			worldinfo = new WorldInfo(worldsettings, p_71247_2_);
+			worldinfo = new WorldInfo(worldsettings, globalName);
 		} else {
-			worldinfo.setWorldName(p_71247_2_);
+			worldinfo.setWorldName(globalName);
 			worldsettings = new WorldSettings(worldinfo);
 		}
 
 		for (int i = 0; i < worldService.getDimensionAmount(); ++i) {
-			WorldServer server = worldService.loadDim(i, p_71247_2_, worldinfo, worldsettings, isavehandler);
+			WorldServer server = worldService.loadDim(i, globalName, worldinfo, worldsettings, isavehandler);
 			server.addWorldAccess(new WorldManager(this, server));
 			if (!this.isSinglePlayer()) server.getWorldInfo().setGameType(this.getGameType());
 		}
@@ -257,11 +251,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	}
 
 	public void setResourcePackFromWorld(String worldNameIn, ISaveHandler saveHandlerIn) {
-		File file1 = new File(saveHandlerIn.getWorldDirectory(), "resources.zip");
-
-		if (file1.isFile()) {
-			this.setResourcePack("level://" + worldNameIn + "/" + file1.getName(), "");
-		}
+		File resourcePackFile = new File(saveHandlerIn.getWorldDirectory(), "resources.zip");
+		if (resourcePackFile.isFile()) this.setResourcePack("level://" + worldNameIn + "/" + resourcePackFile.getName(), "");
 	}
 
 	public String getServerHostname() {

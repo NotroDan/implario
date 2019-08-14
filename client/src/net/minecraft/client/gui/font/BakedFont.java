@@ -2,6 +2,8 @@ package net.minecraft.client.gui.font;
 
 public enum BakedFont {
 
+	SEGOE_BIG("Segoe UI", 72),
+
 	ARIAL("Arial Unicode MS", 22),
 	SEGOE("Segoe UI", 22),
 	VERDANA("Verdana", 22),
