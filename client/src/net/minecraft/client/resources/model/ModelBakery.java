@@ -73,15 +73,15 @@ public class ModelBakery {
 	}
 
 	public IRegistry<ModelResourceLocation, IBakedModel> setupModelRegistry() {
-		Preloader preloader = MC.i().preloader;
+		Preloader Preloader = MC.i().preloader;
 		this.loadVariantItemModels();
-		preloader.nextState();
+		Preloader.nextState();
 		this.loadModelsCheck();
-		preloader.nextState();
+		Preloader.nextState();
 		this.loadSprites();
-		preloader.nextState();
+		Preloader.nextState();
 		this.bakeItemModels();
-		preloader.nextState();
+		Preloader.nextState();
 		this.bakeBlockModels();
 		return this.bakedRegistry;
 	}

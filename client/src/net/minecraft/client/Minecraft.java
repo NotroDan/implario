@@ -69,7 +69,6 @@ import java.io.IOException;
 import java.net.Proxy;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
@@ -273,7 +272,7 @@ public class Minecraft implements IThreadListener {
 
 	private final Thread loader = new Thread(this::loadStuff);
 	public Preloader preloader;
-	private boolean blabla;
+	private volatile boolean blabla;
 	private Drawable drawable;
 
 	private void loadStuff() {
@@ -372,15 +371,16 @@ public class Minecraft implements IThreadListener {
 		this.fontRenderer = new AssetsFontRenderer(new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
 		if (Settings.language != null) this.fontRenderer.setUnicodeFlag(this.isUnicode());
 
-		preloader = new Preloader(new ScaledResolution(this), mcDefaultResourcePack, renderEngine);
-		preloader.drawLogo();
+		preloader = new AdvPreloader(new ScaledResolution(this));
+		preloader.header();
+		preloader.render();
 		drawable = new SharedDrawable(Display.getDrawable());
 		for (Datapack datapack : Datapacks.getDatapacks()) datapack.init();
 		loader.start();
-		preloader.drawLogo();
+		preloader.render();
 		while (!blabla) {
 			Display.sync(60);
-			preloader.drawLogo();
+			preloader.render();
 		}
 
 		G.enableTexture2D();

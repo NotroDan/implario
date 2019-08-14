@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GL30;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
+import static java.lang.Math.*;
+
 @UtilityClass
 public class VBOHelper {
 
@@ -80,6 +82,29 @@ public class VBOHelper {
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
 
+	}
+
+	public int circle(int verts) {
+
+		double radius1 = 0.2f, radius2 = 0.16f;
+
+		double[] array = new double[verts * 8 + 4];
+
+		int a = 0;
+		for (double i = 0; i <= 2 * PI; i += PI / (double) verts) {
+			array[a] = cos(i) * radius2;
+			array[a + 1] = -sin(i) * radius2;
+			array[a + 2] = cos(i) * radius1;
+			array[a + 3] = -sin(i) * radius1;
+			a += 4;
+		}
+		int l = array.length;
+		array[l - 4] = radius2;
+		array[l - 3] = 0;
+		array[l - 2] = radius1;
+		array[l - 1] = 0;
+
+		return VBOHelper.create(array, 2);
 	}
 
 
