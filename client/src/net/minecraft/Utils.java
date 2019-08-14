@@ -179,7 +179,7 @@ public class Utils {
 		float f1 = (float) (color >> 8 & 255) / 255.0F;
 		float f2 = (float) (color & 255) / 255.0F;
 
-		G.color(f, f1, f2, 1);
+		GL11.glColor4f(f, f1, f2, 1);
 	}
 
 	private static void chunkInfo() {

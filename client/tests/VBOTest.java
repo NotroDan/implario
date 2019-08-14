@@ -58,8 +58,6 @@ public class VBOTest {
 
 			glMatrixMode(GL11.GL_PROJECTION);                        // Select The Projection Matrix
 			glOrtho(0.0D, WIDTH, HEIGHT, 0.0D, -100, 100);//1000.0D, 3000.0D);
-//			glDisable(GL_LIGHTING);
-//			glEnable(GL_TEXTURE_2D);
 
 
 
@@ -68,17 +66,12 @@ public class VBOTest {
 			GL11.glBlendFunc(GL_SRC_ALPHA, GL_SRC_COLOR); // selects blending method
 			glEnable(GL_LINE_SMOOTH);
 			glLineWidth(2);
-//			GL11.glShadeModel(GL_SMOOTH);
-//			glEnable( GL_POLYGON_SMOOTH );
-//			glHint( GL_POLYGON_SMOOTH_HINT, GL_FASTEST );
 
-			GL11.glViewport(0, 0, WIDTH, HEIGHT);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
 
-		// Setup an XNA like background color
 		GL11.glClearColor(0.1f, 0.1f, 0.1f, 0f);
 
 		// Map the internal OpenGL coordinate system to the entire screen
@@ -90,27 +83,7 @@ public class VBOTest {
 	int verts = 32;
 	public void createCircle() {
 
-		double radius1 = 0.2f, radius2 = 0.16f;
-
-		double[] array = new double[verts * 8 + 4];
-
-		int a = 0;
-		for (double i = 0; i <= 2 * PI; i += PI / (double) verts) {
-			System.out.println("a=" + a + ", i=" + i + " " + PI);
-			array[a] = cos(i) * radius2;
-			array[a + 1] = -sin(i) * radius2;
-			array[a + 2] = cos(i) * radius1;
-			array[a + 3] = -sin(i) * radius1;
-			a += 4;
-		}
-		int l = array.length;
-		array[l - 4] = radius2;
-		array[l - 3] = 0;
-		array[l - 2] = radius1;
-		array[l - 1] = 0;
-		System.out.println(a);
-
-		this.vaoId = VBOHelper.create(array, 2);
+		this.vaoId = VBOHelper.circle(verts);
 		this.exitOnGLError("Error in setupQuad");
 	}
 

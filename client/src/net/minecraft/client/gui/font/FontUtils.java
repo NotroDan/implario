@@ -49,7 +49,7 @@ public class FontUtils {
 	}
 
 	public static void rect(float x1, float x2, float y1, float y2) {
-		Tessellator t = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
+		Tessellator t = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTessellator();
 		WorldRenderer r = t.getWorldRenderer();
 		G.disableTexture2D();
 		r.begin(7, DefaultVertexFormats.POSITION);
