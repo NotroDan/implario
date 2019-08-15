@@ -10,6 +10,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.renderer.G;
 import net.minecraft.util.Easing;
+import net.minecraft.util.Govnokod;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 

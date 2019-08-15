@@ -1,9 +1,11 @@
 package net.minecraft.client.gui;
 
+import __google_.util.Exceptions;
 import net.minecraft.CyclicIterator;
 import net.minecraft.Logger;
 import net.minecraft.Utils;
 import net.minecraft.client.gui.element.GuiButton;
+import net.minecraft.client.gui.element.GuiGridTest;
 import net.minecraft.client.gui.settings.GuiSettings;
 import net.minecraft.client.main.Main;
 import net.minecraft.client.renderer.G;
@@ -27,6 +29,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import optifine.Config;
 import org.apache.logging.log4j.core.config.NullConfiguration;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GLContext;
 import shadersmod.client.GuiShaders;
 
@@ -56,6 +59,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	};
 
 	private Skybox skybox;
+	private int devCounter;
 
 	public GuiMainMenu() {
 		this.openedAt = System.currentTimeMillis();
@@ -76,10 +80,19 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	}
 
 	@Override
-	protected void keyTyped(char typedChar, int keyCode) throws IOException {}
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		if (keyCode == Keyboard.KEY_RETURN) {
+			if (++devCounter >= 5) {
+				Settings.DEBUG.toggle();
+				devCounter = 0;
+				initGui();
+			}
+		}
+	}
 
 	@Override
 	public void initGui() {
+		buttonList.clear();
 		DynamicTexture viewport = new DynamicTexture(256, 256);
 		ResourceLocation background = mc.getTextureManager().getDynamicTextureLocation("background", viewport);
 		if (skybox == null) skybox = new Skybox(skyboxTiles, background, viewport, this);
@@ -90,8 +103,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		int cacheWidth = width >> 1;
 		buttonList.add(new GuiButton(0, cacheWidth - 100, j + 84, 98, 20, Lang.format("menu.options")));
 		buttonList.add(new GuiButton(97, cacheWidth + 2, j + 84, 98, 20, "Смена ника"));
-		buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, "Toggle vanilla"));
-		buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "Бета настроек"));
+		if (Settings.DEBUG.b()) {
+			buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, "§8Dev §fVanilla"));
+			buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "§8Dev §fПерезапуск"));
+			buttonList.add(new GuiButton(5, cacheWidth - 100, j + 132, 98, 20, "§8Dev §fЛоги"));
+			buttonList.add(new GuiButton(6, cacheWidth + 2, j + 132, 98, 20, "§8Dev §fНастройки"));
+			buttonList.add(new GuiButton(3, cacheWidth - 100, j + 156, 98, 20, "§8Dev §fСервера"));
+			buttonList.add(new GuiButton(7, cacheWidth + 2, j + 156, 98, 20, "§8Dev §fСетка"));
+		}
 
 	}
 
@@ -103,36 +122,32 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == 0) this.mc.displayGuiScreen(new GuiOptions());
-
-		//		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
-		if (button.id == 5) this.mc.displayGuiScreen(new GuiShaders(this));
-		if (button.id == 54) {
-			if (Settings.DEBUG.b()) {
-				if(false)try {
-					NullConfiguration.class.getName();
-					try {
-						Class.forName("org.lwjgl.opengl.ContextGL").getName();
-					}catch (Exception ex){
-						ex.printStackTrace();
-					}
-					FileDatapackEdit edit = new FileDatapackEdit(new File("gamedata/client.jar"));
-					edit.writeToJar(new File("gamedata/client.jar"));
-				}catch (IOException ex){
-					System.err.println("eto norma");
-					ex.printStackTrace();
-				}
-				Main.restart();
-				//this.mc.displayGuiScreen(new GuiSettings(this));
-			}else
-				Config.showGuiMessage("Включите дебаг", "Иначе работать не будет");
-		}
-
 		if (button.id == 1) this.mc.displayGuiScreen(new GuiSelectWorld(this));
-
 		if (button.id == 2) this.mc.displayGuiScreen(new GuiMultiplayer(this));
+		if (button.id == 3) this.mc.displayGuiScreen(new GuiServers(this));
+		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
+		if (button.id == 7) this.mc.displayGuiScreen(new GuiGridTest());
+		if (button.id == 54) {
+            try {
+                NullConfiguration.class.getName();
+                Exceptions.RunOutException.class.getName();
+                try {
+                    Class.forName("org.lwjgl.opengl.CallbackUtil").getName();
+                    Class.forName("org.lwjgl.opengl.ContextGL").getName();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                FileDatapackEdit edit = new FileDatapackEdit(new File("gamedata/client.jar"));
+                edit.writeToJar(new File("gamedata/client.jar"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Main.restart();
+        }
+		if (button.id == 6) this.mc.displayGuiScreen(new GuiSettings(this));
+
 
 		if (button.id == 97) this.mc.displayGuiScreen(new GuiPlayername(this));
-		//		if (button.id == 54) this.mc.displayGuiScreen(new GuiSettings(this));
 
 		if (button.id == 4) {
 			if (Datapacks.getLoaders().isEmpty()) {
@@ -148,16 +163,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			}
 		}
 
-		if (button.id == 12) {
-			ISaveFormat isaveformat = this.mc.worldController.getSaveLoader();
-			WorldInfo worldinfo = isaveformat.getWorldInfo("Demo_World");
-
-			if (worldinfo != null) {
-				GuiYesNo guiyesno = GuiSelectWorld.guiDeleteWorld(this, worldinfo.getWorldName(), 12);
-				this.mc.displayGuiScreen(guiyesno);
-			}
-		}
 	}
+
+
 
 	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd MMMM yyyy");

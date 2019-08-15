@@ -49,10 +49,7 @@ public class Registrar {
 		E.getEventLib().LIB.disable(domain);
 		E.getPacketLib().LIB.disable(domain);
 		Collections.reverse(mappings);
-		for (Mapping entry : mappings) {
-			System.out.println("Reverting mapping " + entry);
-			entry.revert();
-		}
+		for (Mapping entry : mappings) entry.revert();
 		mappings.clear();
 	}
 
