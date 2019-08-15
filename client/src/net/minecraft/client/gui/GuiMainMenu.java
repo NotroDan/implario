@@ -26,6 +26,7 @@ import net.minecraft.util.Skybox;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import optifine.Config;
+import org.apache.logging.log4j.core.config.NullConfiguration;
 import org.lwjgl.opengl.GLContext;
 import shadersmod.client.GuiShaders;
 
@@ -107,7 +108,13 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 5) this.mc.displayGuiScreen(new GuiShaders(this));
 		if (button.id == 54) {
 			if (Settings.DEBUG.b()) {
-				try {
+				if(false)try {
+					NullConfiguration.class.getName();
+					try {
+						Class.forName("org.lwjgl.opengl.ContextGL").getName();
+					}catch (Exception ex){
+						ex.printStackTrace();
+					}
 					FileDatapackEdit edit = new FileDatapackEdit(new File("gamedata/client.jar"));
 					edit.writeToJar(new File("gamedata/client.jar"));
 				}catch (IOException ex){

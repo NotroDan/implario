@@ -15,7 +15,9 @@ import net.minecraft.util.Session;
 import net.minecraft.util.StringUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.lang.management.ManagementFactory;
+import java.lang.reflect.Array;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;

@@ -523,7 +523,7 @@ public class Minecraft implements IThreadListener {
 
 			this.mcSoundHandler.unloadSounds();
 		} finally {
-			Display.destroy();
+		    Display.destroy();
 			Date date = new Date();
 			String end = "Конец сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date) + "\n";
 			Log.SOUND.comment(end);
