@@ -4,7 +4,6 @@ import net.minecraft.Utils;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.font.BakedFont;
 import net.minecraft.client.gui.font.TrueTypeFontRenderer;
-import net.minecraft.util.Easing;
 import net.minecraft.util.VBOHelper;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -55,6 +54,7 @@ public class AdvPreloader extends Preloader {
 		glPushMatrix(); {
 			glTranslatef(width / 2, height / 2, 0);
 			glPushMatrix(); {
+				glDisable(GL_TEXTURE_2D);
 				glColor4f(1, 1, 1, 1);
 				int scale = 1000;
 				glScaled(scale, scale, scale);
@@ -85,7 +85,6 @@ public class AdvPreloader extends Preloader {
 				BakedFont.VERDANA.getRenderer().renderString(elapsed, -60, 30, false);
 				TrueTypeFontRenderer renderer = BakedFont.VERDANA.getRenderer();
 				renderer.renderString(states[state] + "...", renderer.getStringWidth(states[state] + "...") / -4 - 5, height / 2 - 40, false);
-				glDisable(GL_TEXTURE_2D);
 			} glPopMatrix();
 		} glPopMatrix();
 
@@ -103,6 +102,12 @@ public class AdvPreloader extends Preloader {
 			if (Display.isCreated()) Display.destroy();
 			System.exit(-1);
 		}
+	}
+
+	@Override
+	public void dissolve() {
+		super.dissolve();
+		glEnable(GL_TEXTURE_2D);
 	}
 
 }

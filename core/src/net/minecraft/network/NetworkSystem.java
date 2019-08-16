@@ -86,11 +86,10 @@ public class NetworkSystem {
 			}
 
 			this.endpoints.add(new ServerBootstrap().channel(oclass).childHandler(new ChannelInitializer<Channel>() {
-				protected void initChannel(Channel channel) throws Exception {
+				protected void initChannel(Channel channel) {
 					try {
 						channel.config().setOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
-					} catch (ChannelException ignored) {
-					}
+					} catch (ChannelException ignored) {}
 
 					channel.pipeline()
 							.addLast("timeout", new ReadTimeoutHandler(30))
@@ -117,11 +116,11 @@ public class NetworkSystem {
 
 		synchronized (this.endpoints) {
 			channelfuture = new ServerBootstrap().channel(LocalServerChannel.class).childHandler(new ChannelInitializer<Channel>() {
-				protected void initChannel(Channel p_initChannel_1_) throws Exception {
+				protected void initChannel(Channel channel) {
 					NetworkManager networkmanager = new NetworkManager(true);
 					networkmanager.setNetHandler(new NetHandlerHandshakeMemory(NetworkSystem.this.mcServer, networkmanager));
-					NetworkSystem.this.networkManagers.add(networkmanager);
-					p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
+					networkManagers.add(networkmanager);
+					channel.pipeline().addLast("packet_handler", networkmanager);
 				}
 			}).group(eventLoops.getValue()).localAddress(LocalAddress.ANY).bind().syncUninterruptibly();
 			this.endpoints.add(channelfuture);
