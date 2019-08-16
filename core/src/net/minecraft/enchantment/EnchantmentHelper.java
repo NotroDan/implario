@@ -417,7 +417,7 @@ public class EnchantmentHelper {
 		Map<Integer, EnchantmentData> map = null;
 		boolean flag = p_77505_1_.getItem() == Items.book;
 
-		for (Enchantment enchantment : Enchantment.enchantmentsBookList) {
+		for (Enchantment enchantment : Enchantment.enchantmentList) {
 			if (enchantment != null && (enchantment.type.canEnchantItem(item) || flag)) {
 				for (int i = enchantment.getMinLevel(); i <= enchantment.getMaxLevel(); ++i) {
 					if (p_77505_0_ >= enchantment.getMinEnchantability(i) && p_77505_0_ <= enchantment.getMaxEnchantability(i)) {

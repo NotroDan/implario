@@ -27,7 +27,7 @@ public class PlayerGuiBridge {
 	}
 
 	public static <T> void register(Class<T> type, GuiOpener<T> opener) {
-		list.add(new Entry(type, opener));
+		list.add(new Entry<>(type, opener));
 	}
 
 	public static void unregister(final Class type) {

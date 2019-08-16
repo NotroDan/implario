@@ -55,6 +55,7 @@ import vanilla.world.VanillaWorldService;
 import vanilla.world.WorldProviderEnd;
 import vanilla.world.WorldProviderHell;
 import vanilla.world.gen.WorldTypes;
+import vanilla.world.gen.feature.village.MerchantRecipe;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 import vanilla.worldedit.WorldEdit;
 
@@ -135,7 +136,6 @@ public class Vanilla extends Datapack implements ClientSideDatapack {
 	private void registerGuis() {
 		registrar.registerIngameGui(IMerchant.class, (p, merchant, serverSide) -> {
 			if (serverSide) {
-
 				if (!(p instanceof MPlayer)) return;
 				MPlayer player = (MPlayer) p;
 				player.getNextWindowId();

@@ -47,7 +47,7 @@ public class Bootstrap {
 		Items.reload();
 
 		StatList.init();
-		Enchantments.protection.getClass().getCanonicalName();
+		Enchantments.init();
 		for (Datapack datapack : datapacks) {
 			System.out.println("Преинициализация датапака " + datapack.getDomain());
 			datapack.preinit();

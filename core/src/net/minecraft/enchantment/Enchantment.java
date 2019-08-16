@@ -11,8 +11,8 @@ import java.util.*;
 
 public abstract class Enchantment {
 
-	protected static final Enchantment[] enchantmentsList = new Enchantment[256];
-	public static final Enchantment[] enchantmentsBookList;
+	protected static final Enchantment[] enchantments = new Enchantment[256];
+	public static final List<Enchantment> enchantmentList = new ArrayList<>();
 	private static final Map<ResourceLocation, Enchantment> locationEnchantments = new HashMap<>();
 
 
@@ -24,7 +24,7 @@ public abstract class Enchantment {
 	protected String name;
 
 	public static Enchantment getEnchantmentById(int enchID) {
-		return enchID >= 0 && enchID < enchantmentsList.length ? enchantmentsList[enchID] : null;
+		return enchID >= 0 && enchID < enchantments.length ? enchantments[enchID] : null;
 	}
 
 	protected Enchantment(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType) {
@@ -32,9 +32,10 @@ public abstract class Enchantment {
 		this.weight = enchWeight;
 		this.type = enchType;
 
-		if (enchantmentsList[enchID] != null)
+		if (enchantments[enchID] != null)
 			throw new IllegalArgumentException("Duplicate enchantment id!");
-		enchantmentsList[enchID] = this;
+		enchantments[enchID] = this;
+		enchantmentList.add(this);
 		locationEnchantments.put(enchName, this);
 	}
 
@@ -100,12 +101,5 @@ public abstract class Enchantment {
 
 	public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {}
 
-	static {
-		List<Enchantment> list = new ArrayList<>();
 
-		for (Enchantment enchantment : enchantmentsList)
-			if (enchantment != null) list.add(enchantment);
-
-		enchantmentsBookList = list.toArray(new Enchantment[0]);
-	}
 }
