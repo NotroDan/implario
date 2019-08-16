@@ -1,8 +1,9 @@
-package net.minecraft.resources.update;
+package net.minecraft.security.update;
 
 import __google_.util.ByteUnzip;
 import __google_.util.ByteZip;
 import __google_.util.FileIO;
+import net.minecraft.util.crypt.SHA;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class ManifestCreator {
 		Map<String, byte[]> nextHash = new HashMap<>();
 		for (Map.Entry<String, byte[]> entry : files.entrySet()) {
 			byte hash[] = this.hash.get(entry.getKey());
-			byte currentHash[] = RSA.hashing(entry.getValue());
+			byte currentHash[] = SHA.SHA_256(entry.getValue());
 			nextHash.put(entry.getKey(), currentHash);
 			if (hash == null || !Arrays.equals(hash, currentHash))
 				manifest.addNeedUpdate(entry.getKey(), entry.getValue());

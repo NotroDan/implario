@@ -18,7 +18,7 @@ public class CryptTest {
         public static void main(String[] args) {
             AES aes = new AES(AES.getRandomAESKey());
             aes = new AES(aes.key());
-            System.out.println(new String(aes.decrypt(aes.encrypt("lol".getBytes()))));
+            System.out.println(new String(aes.decrypt(aes.encrypt("loyiuyiyiuyuiyiuyiuyiuiyiu ydreutgrfuruikyruruгглнегненгоьооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооооl".getBytes()))));
         }
     }
 

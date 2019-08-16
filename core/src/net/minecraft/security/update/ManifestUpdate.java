@@ -1,7 +1,9 @@
-package net.minecraft.resources.update;
+package net.minecraft.security.update;
 
 import __google_.util.ByteUnzip;
 import __google_.util.ByteZip;
+import net.minecraft.util.crypt.ECDSA;
+import net.minecraft.util.crypt.SHA;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -26,19 +28,20 @@ public class ManifestUpdate {
 	}
 
 	public boolean check() {
-		return Arrays.equals(RSA.PUBLIC_KEY.encrypt(new BigInteger(hashed)).toByteArray(), getHash().toByteArray());
+		return false;
+		//return Arrays.equals(RSA.PUBLIC_KEY.encrypt(new BigInteger(hashed)).toByteArray(), getHash().toByteArray());
 	}
 
 	public byte[] toByteArray() {
 		return new ByteZip().add(hashed).add(files).build();
 	}
 
-	private BigInteger getHash() {
-		return new BigInteger(RSA.hashing(files));
+	private byte[] getHash() {
+		return SHA.SHA_256(files);
 	}
 
-	public void verify(RSA privateKey) {
-		hashed = privateKey.decrypt(getHash()).toByteArray();
+	public void verify(ECDSA privateKey) {
+		hashed = privateKey.signature(getHash());
 	}
 
 	public void setFiles(byte array[]) {

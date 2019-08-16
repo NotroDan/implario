@@ -2,8 +2,6 @@ package net.minecraft.client.gui;
 
 import __google_.util.Exceptions;
 import net.minecraft.CyclicIterator;
-import net.minecraft.Logger;
-import net.minecraft.Utils;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiGridTest;
 import net.minecraft.client.gui.settings.GuiSettings;
@@ -19,30 +17,18 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
-import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.resources.load.JarDatapackLoader;
-import net.minecraft.resources.update.FileDatapackEdit;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.security.update.FileDatapackEdit;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
-import net.minecraft.world.storage.ISaveFormat;
-import net.minecraft.world.storage.WorldInfo;
-import optifine.Config;
 import org.apache.logging.log4j.core.config.NullConfiguration;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GLContext;
-import shadersmod.client.GuiShaders;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 

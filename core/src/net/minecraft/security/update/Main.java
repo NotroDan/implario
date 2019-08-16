@@ -1,4 +1,4 @@
-package net.minecraft.resources.update;
+package net.minecraft.security.update;
 
 import java.io.File;
 
