@@ -5,6 +5,7 @@ import net.minecraft.util.crypt.ECDSA;
 import net.minecraft.util.crypt.TimedSertificate;
 
 import java.io.File;
+import java.security.SecureRandom;
 
 public class SupportTest {
     private static int rounds = 99999;
