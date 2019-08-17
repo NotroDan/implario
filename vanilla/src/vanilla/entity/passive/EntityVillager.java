@@ -943,8 +943,10 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 	static class ListEnchantedBookForEmeralds implements EntityVillager.ITradeList {
 
 		public void modifyMerchantRecipeList(MerchantRecipeList recipeList, Random random) {
+			System.out.println(recipeList);
 			try {
-				Enchantment enchantment = Enchantment.enchantmentList.get(random.nextInt(Enchantment.enchantmentList.size()));
+				System.out.println(Enchantment.enchantmentsBookList.length);
+				Enchantment enchantment = Enchantment.enchantmentsBookList[random.nextInt(Enchantment.enchantmentsBookList.length)];
 				int i = MathHelper.getRandomIntegerInRange(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
 				ItemStack itemstack = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(enchantment, i));
 				int j = 2 + random.nextInt(5 + i * 10) + 3 * i;
