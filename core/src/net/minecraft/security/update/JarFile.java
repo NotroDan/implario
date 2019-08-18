@@ -12,13 +12,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-public class FileDatapackEdit {
+public class JarFile {
 
 	final Map<String, byte[]> files = new HashMap<>();
 
-	public FileDatapackEdit() {}
+	public JarFile() {}
 
-	public FileDatapackEdit(File file) throws IOException {
+	public JarFile(File file) throws IOException {
 		ZipFile zip = new ZipFile(file);
 		ZipEntry entry;
 		byte array[];
