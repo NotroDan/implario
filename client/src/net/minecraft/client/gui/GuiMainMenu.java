@@ -18,7 +18,7 @@ import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.JarDatapackLoader;
-import net.minecraft.security.update.FileDatapackEdit;
+import net.minecraft.security.update.JarFile;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
 import org.apache.logging.log4j.core.config.NullConfiguration;
@@ -123,7 +123,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                FileDatapackEdit edit = new FileDatapackEdit(new File("gamedata/client.jar"));
+                JarFile edit = new JarFile(new File("gamedata/client.jar"));
                 edit.writeToJar(new File("gamedata/client.jar"));
             } catch (IOException ex) {
                 ex.printStackTrace();
