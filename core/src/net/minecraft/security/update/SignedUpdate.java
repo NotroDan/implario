@@ -5,6 +5,7 @@ import net.minecraft.util.byteable.Decoder;
 import net.minecraft.util.byteable.Encoder;
 import net.minecraft.util.crypt.ECDSA;
 import net.minecraft.util.crypt.SHA;
+import net.minecraft.util.crypt.SecurityKey;
 import net.minecraft.util.crypt.TimedSertificate;
 
 public class SignedUpdate {
@@ -30,6 +31,11 @@ public class SignedUpdate {
 
 	public boolean check(ECDSA sert) {
 		return sert.verify(getHash(), hashed);
+	}
+
+	public boolean check(SecurityKey key){
+		if(key == null)return true;
+		return key.check(isRootUpdate(), files, hashed);
 	}
 
 	public void encode(Encoder encoder){
