@@ -38,6 +38,7 @@ public class Utils {
 	public static final CustomSkyLayer[] CUSTOMSKYLAYER = new CustomSkyLayer[0];
 	public static final IResourcePack[] IRESOURCEPACK = new IResourcePack[0];
 	public static final DisplayMode[] DISPLAYMODE = new DisplayMode[0];
+	public static boolean implarioServer;
 
 	public static void drawFloatingText(String text, float x, float y, float z) {
 		drawFloatingText0(text, x, y, z, false);

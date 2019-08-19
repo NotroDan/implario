@@ -8,6 +8,7 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.Logger;
+import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
@@ -83,6 +84,7 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
 
 	public void handleLoginSuccess(S02PacketLoginSuccess packetIn) {
 		this.gameProfile = packetIn.getProfile();
+		Utils.implarioServer = true;
 		this.networkManager.setConnectionState(ConnectionState.PLAY);
 		this.networkManager.setNetHandler(new NetHandlerPlayClient(this.mc, this.previousGuiScreen, this.networkManager, this.gameProfile));
 	}

@@ -1,6 +1,5 @@
 package net.minecraft.network;
 
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -8,7 +7,6 @@ import io.netty.channel.epoll.Epoll;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.local.LocalAddress;
-import io.netty.channel.local.LocalEventLoopGroup;
 import io.netty.channel.local.LocalServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.ServerSocketChannel;
@@ -34,19 +32,14 @@ import java.util.List;
 public class NetworkSystem {
 
 	private static final Logger logger = Logger.getInstance();
-	public static final LazyLoadBase<NioEventLoopGroup> eventLoops = new LazyLoadBase<NioEventLoopGroup>() {
+	public static final LazySupplier<NioEventLoopGroup> NIO_SERVER = new LazySupplier<NioEventLoopGroup>() {
 		protected NioEventLoopGroup load() {
 			return new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Server IO #%d").setDaemon(true).build());
 		}
 	};
-	public static final LazyLoadBase<EpollEventLoopGroup> field_181141_b = new LazyLoadBase<EpollEventLoopGroup>() {
+	public static final LazySupplier<EpollEventLoopGroup> EPOLL_SERVER = new LazySupplier<EpollEventLoopGroup>() {
 		protected EpollEventLoopGroup load() {
 			return new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Server IO #%d").setDaemon(true).build());
-		}
-	};
-	public static final LazyLoadBase<LocalEventLoopGroup> SERVER_LOCAL_EVENTLOOP = new LazyLoadBase<LocalEventLoopGroup>() {
-		protected LocalEventLoopGroup load() {
-			return new LocalEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Local Server IO #%d").setDaemon(true).build());
 		}
 	};
 
@@ -73,15 +66,15 @@ public class NetworkSystem {
 	public void addLanEndpoint(InetAddress address, int port) throws IOException {
 		synchronized (this.endpoints) {
 			Class<? extends ServerSocketChannel> oclass;
-			LazyLoadBase<? extends EventLoopGroup> lazyloadbase;
+			LazySupplier<? extends EventLoopGroup> lazyloadbase;
 
 			if (Epoll.isAvailable() && this.mcServer.useEpoll()) {
 				oclass = EpollServerSocketChannel.class;
-				lazyloadbase = field_181141_b;
+				lazyloadbase = EPOLL_SERVER;
 				logger.info("Тип системы подключений - Epoll");
 			} else {
 				oclass = NioServerSocketChannel.class;
-				lazyloadbase = eventLoops;
+				lazyloadbase = NIO_SERVER;
 				logger.info("Тип системы подключений - NIO");
 			}
 
@@ -94,10 +87,10 @@ public class NetworkSystem {
 					channel.pipeline()
 							.addLast("timeout", new ReadTimeoutHandler(30))
 							.addLast("legacy_query", new PingResponseHandler(NetworkSystem.this))
-							.addLast("splitter", new MessageSerialization.Splitter())
-							.addLast("decoder", new MessageSerialization.Decoder(true))
-							.addLast("prepender", new MessageSerialization.Prepender())
-							.addLast("encoder", new MessageSerialization.Encoder(false));
+							.addLast("splitter", new NettyCommunication.Splitter())
+							.addLast("decoder", new NettyCommunication.Decoder(true))
+							.addLast("prepender", new NettyCommunication.Prepender())
+							.addLast("encoder", new NettyCommunication.Encoder(false));
 
 					NetworkManager networkmanager = new NetworkManager(true);
 					NetworkSystem.this.networkManagers.add(networkmanager);
@@ -122,7 +115,7 @@ public class NetworkSystem {
 					networkManagers.add(networkmanager);
 					channel.pipeline().addLast("packet_handler", networkmanager);
 				}
-			}).group(eventLoops.getValue()).localAddress(LocalAddress.ANY).bind().syncUninterruptibly();
+			}).group(NIO_SERVER.getValue()).localAddress(LocalAddress.ANY).bind().syncUninterruptibly();
 			this.endpoints.add(channelfuture);
 		}
 

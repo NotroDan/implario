@@ -56,7 +56,7 @@ public class OldServerPinger {
 	private void tryCompatibilityPing(final ServerData server) {
 		final ServerAddress serveraddress = ServerAddress.func_78860_a(server.serverIP);
 		ChannelInitializer<Channel> initializer = new PingerChannelInitializer(server, serveraddress);
-		EventLoopGroup group = NetworkManager.CLIENT_NIO_EVENTLOOP.getValue();
+		EventLoopGroup group = NetworkManager.NIO_CLIENT.getValue();
 		new Bootstrap().group(group).handler(initializer).channel(NioSocketChannel.class)
 				.connect(serveraddress.getIP(), serveraddress.getPort());
 	}
