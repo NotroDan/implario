@@ -1,3 +1,6 @@
+![Implario](https://i.imgur.com/vAdI2Kc.png)
+
+
 # Implario
 Модифицируемое ядро для игры Minecraft.
 В отличие от Forge, Implario не является обёрткой, Implario - и есть ядро игры.
