@@ -4,6 +4,7 @@ import __google_.util.FileIO;
 import net.minecraft.util.FileUtil;
 import net.minecraft.util.crypt.AES;
 import net.minecraft.util.crypt.ECDSA;
+import net.minecraft.util.crypt.SecurityKey;
 import net.minecraft.util.crypt.TimedSertificate;
 
 import java.io.File;
@@ -12,8 +13,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class SecurityKeys {
-    public static final ECDSA rootKey;
-    public static final TimedSertificate sertificate;
+    public static final SecurityKey root;
 
     public static ECDSA getTimed(String passwd, int rounds){
         try {
@@ -32,17 +32,11 @@ public class SecurityKeys {
 
     static{
         try{
-            URL url = SecurityKeys.class.getClassLoader().getResource("net/minecraft/security/update/publicRoot.key");
+            URL url = SecurityKeys.class.getClassLoader().getResource("net/minecraft/security/update/public.keys");
             InputStream in = url.openStream();
             byte read[] = new byte[in.available()];
             FileUtil.readInputStream(in, read);
-            rootKey = ECDSA.decodePublic(read);
-            in.close();
-            url = SecurityKeys.class.getClassLoader().getResource("net/minecraft/security/update/public.sertificate");
-            in = url.openStream();
-            read = new byte[in.available()];
-            FileUtil.readInputStream(in, read);
-            sertificate = TimedSertificate.decode(read);
+            root = SecurityKey.decodePublic(read);
         }catch (IOException ex){
             throw new Error("Root key not found", ex);
         }

@@ -1,5 +1,6 @@
 package net.minecraft.security.update;
 
+import lombok.Getter;
 import net.minecraft.util.byteable.Decoder;
 import net.minecraft.util.byteable.Encoder;
 import net.minecraft.util.crypt.ECDSA;
@@ -9,6 +10,7 @@ import net.minecraft.util.crypt.TimedSertificate;
 public class SignedUpdate {
 	private byte[] hashed;
 	private byte[] files;
+	@Getter
 	private boolean rootUpdate;
 
 	public SignedUpdate(Decoder decoder) {
@@ -19,16 +21,15 @@ public class SignedUpdate {
 
 	private SignedUpdate() {}
 
-	static SignedUpdate fromStructManifest(byte files[], boolean rootUpdate) {
+	static SignedUpdate fromUpdate(byte files[], boolean rootUpdate) {
 		SignedUpdate signedUpdate = new SignedUpdate();
 		signedUpdate.files = files;
 		signedUpdate.rootUpdate = rootUpdate;
 		return signedUpdate;
 	}
 
-	public boolean check() {
-		return ((TimedSertificate)(rootUpdate ? SecurityKeys.rootKey :
-				SecurityKeys.sertificate)).getSert().verify(getHash(), hashed);
+	public boolean check(ECDSA sert) {
+		return sert.verify(getHash(), hashed);
 	}
 
 	public void encode(Encoder encoder){

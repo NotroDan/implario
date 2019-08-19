@@ -36,7 +36,7 @@ public class DatapackClassLoader extends ClassLoader {
 
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
-		/*if(name.startsWith("java.lang.reflect"))
+		/*if(name.startsWith("java.lang.reflect") sun.reflect)
 			throw new SecurityException("Reflect not allowed!");
 		if(name.equals("java.lang.Class"))
 			throw new SecurityException("Getting class not allowed!");

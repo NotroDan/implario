@@ -1,7 +1,5 @@
 package net.minecraft.util.byteable;
 
-import lombok.Setter;
-
 import java.nio.charset.StandardCharsets;
 
 public class SlowEncoder implements Encoder{
@@ -35,8 +33,12 @@ public class SlowEncoder implements Encoder{
         return this;
     }
 
-    @Setter
     private boolean useCompressOfShort = false;
+
+    public SlowEncoder setUseCompressOfShort(boolean b) {
+        useCompressOfShort = b;
+        return this;
+    }
 
     @Override
     public Encoder writeShort(short s) {
@@ -53,8 +55,12 @@ public class SlowEncoder implements Encoder{
         return this;
     }
 
-    @Setter
     private int sizeCompressOfInt = -1;
+
+    public SlowEncoder setSizeCompressOfInt(int i) {
+        sizeCompressOfInt = i;
+        return this;
+    }
 
     @Override
     public Encoder writeInt(int i) {
@@ -71,8 +77,12 @@ public class SlowEncoder implements Encoder{
         return this;
     }
 
-    @Setter
     private int sizeCompressOfLong = -1;
+
+    public SlowEncoder setSizeCompressOfLong(int i){
+        sizeCompressOfLong = i;
+        return this;
+    }
 
     @Override
     public Encoder writeLong(long l) {
@@ -89,8 +99,12 @@ public class SlowEncoder implements Encoder{
         return this;
     }
 
-    @Setter
     private boolean writeFloatDirectly = true;
+
+    public SlowEncoder setWriteFloatDirectly(boolean b) {
+        writeFloatDirectly = b;
+        return this;
+    }
 
     @Override
     public Encoder writeFloat(float f) {
@@ -100,8 +114,12 @@ public class SlowEncoder implements Encoder{
         return this;
     }
 
-    @Setter
     private boolean writeDoubleDirectly = true;
+
+    public SlowEncoder setWriteDoubleDirectly(boolean b) {
+        writeDoubleDirectly = b;
+        return this;
+    }
 
     @Override
     public Encoder writeDouble(double d) {
@@ -111,8 +129,12 @@ public class SlowEncoder implements Encoder{
         return this;
     }
 
-    @Setter
     private boolean usingCompressACSII = false;
+
+    public SlowEncoder setUsingCompressACSII(boolean b){
+        usingCompressACSII = b;
+        return this;
+    }
 
     @Override
     public Encoder writeString(String s) {
@@ -154,7 +176,6 @@ public class SlowEncoder implements Encoder{
     }
 
     private void writeIntDirectly(int i){
-
         bytes.write((byte)(i >> 24));
         bytes.write((byte)(i >> 16));
         bytes.write((byte)(i >> 8));
@@ -170,5 +191,9 @@ public class SlowEncoder implements Encoder{
         bytes.write((byte)(l >> 16));
         bytes.write((byte)(l >> 8));
         bytes.write((byte)l);
+    }
+
+    public static SlowEncoder defaultEncoder(){
+        return new SlowEncoder().setSizeCompressOfInt(2).setSizeCompressOfLong(6).setUsingCompressACSII(true).setUseCompressOfShort(true);
     }
 }

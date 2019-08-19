@@ -1,7 +1,5 @@
 package net.minecraft.security.update;
 
-import __google_.util.ByteUnzip;
-import __google_.util.ByteZip;
 import net.minecraft.util.byteable.Decoder;
 import net.minecraft.util.byteable.Encoder;
 import net.minecraft.util.byteable.SlowDecoder;
@@ -11,10 +9,18 @@ import net.minecraft.util.crypt.SHA;
 import java.util.*;
 
 public class Update {
-	public static Update generateUpdate(JarFile jar, Decoder cache, Encoder newCache, boolean rootUpdate){
+	public static Update generate(JarFile jar, Encoder newCache, boolean rootUpdate){
+		return generate(jar, null, newCache, rootUpdate);
+	}
+
+	public static Update generate(JarFile jar, Decoder decoder, boolean rootUpdate){
+		return generate(jar, decoder, null, rootUpdate);
+	}
+
+	public static Update generate(JarFile jar, Decoder cache, Encoder newCache, boolean rootUpdate){
 		Update update = new Update();
 		update.rootUpdate = rootUpdate;
-		int size = cache.readInt();
+		int size = cache == null ? 0 : cache.readInt();
 		Map<String, byte[]> hash = new HashMap<>(size);
 		Map<String, byte[]> newHash = new HashMap<>();
 		for(int i = 0; i < size; i++)
@@ -23,12 +29,14 @@ public class Update {
 			byte lastHash[] = hash.get(entry.getKey());
 			byte currentHash[] = SHA.SHA_256(entry.getValue());
 			newHash.put(entry.getKey(), currentHash);
-			if (hash == null || !Arrays.equals(lastHash, currentHash))
+			if (lastHash == null || !Arrays.equals(lastHash, currentHash))
 				update.addNeedUpdate(entry.getKey(), entry.getValue());
 		}
-		newCache.writeInt(newHash.size());
-		for(Map.Entry<String, byte[]> entry : newHash.entrySet())
-			newCache.writeString(entry.getKey()).writeBytes(entry.getValue());
+		if(newCache != null) {
+			newCache.writeInt(newHash.size());
+			for (Map.Entry<String, byte[]> entry : newHash.entrySet())
+				newCache.writeString(entry.getKey()).writeBytes(entry.getValue());
+		}
 		for (String entry : hash.keySet())
 			if (jar.files.get(entry) == null)
 				update.addRemove(entry);
@@ -57,7 +65,7 @@ public class Update {
 		encoder.writeInt(needRemove.size());
 		for (String entry : needRemove)
 			encoder.writeString(entry);
-		return SignedUpdate.fromStructManifest(encoder.generate(), rootUpdate);
+		return SignedUpdate.fromUpdate(encoder.generate(), rootUpdate);
 	}
 
 	Update(byte array[], boolean rootUpdate) {

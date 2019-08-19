@@ -1,12 +1,12 @@
 package net.minecraft.resources.load;
 
 import net.minecraft.resources.Datapack;
+import net.minecraft.util.FileUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public abstract class DatapackLoader {
-
 	protected Datapack datapack;
 
 	public abstract Datapack load(String main) throws DatapackLoadException;
@@ -27,8 +27,7 @@ public abstract class DatapackLoader {
 		InputStream in = getResource(name);
 		try {
 			byte array[] = new byte[in.available()];
-			in.read(array);
-			in.close();
+			FileUtil.readInputStream(in, array);
 			return array;
 		} catch (IOException ex) {
 			return null;

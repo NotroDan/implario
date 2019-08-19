@@ -2,10 +2,10 @@ import __google_.util.FileIO;
 import net.minecraft.security.update.SecurityKeys;
 import net.minecraft.util.crypt.AES;
 import net.minecraft.util.crypt.ECDSA;
+import net.minecraft.util.crypt.SecurityKey;
 import net.minecraft.util.crypt.TimedSertificate;
 
 import java.io.File;
-import java.security.SecureRandom;
 
 public class SupportTest {
     private static int rounds = 99999;
@@ -15,7 +15,7 @@ public class SupportTest {
         public static void main(String[] args) {
             ECDSA ecdsa = SecurityKeys.getTimed(pswd, rounds);
             byte lol[] = "kek".getBytes();
-            System.out.println(SecurityKeys.sertificate.getSert().verify(lol, ecdsa.signature(lol)));
+            System.out.println(SecurityKeys.root.getTimed().getSert().verify(lol, ecdsa.signature(lol)));
         }
     }
 
@@ -25,8 +25,15 @@ public class SupportTest {
             AES aes = AES.generateAES(pswd, rounds);
             ECDSA serti = new ECDSA(384);
             TimedSertificate sertificate = new TimedSertificate(System.currentTimeMillis() + 31557600000L * 2, serti, pvlt);
+            SecurityKey key = new SecurityKey(pvlt, sertificate);
             FileIO.writeBytes(new File("core/src/net/minecraft/security/update/privateTimedKey.aes"), aes.encrypt(serti.encodePrivate()));
-            FileIO.writeBytes(new File("core/src/net/minecraft/security/update/public.sertificate"), sertificate.encode());
+            FileIO.writeBytes(new File("core/src/net/minecraft/security/update/public.keys"), key.encodePublic());
         }
+    }
+
+    public static void main(String[] args) {
+        SecurityKey key = new SecurityKey(ECDSA.decodePublic(FileIO.readBytes("core/src/net/minecraft/security/update/publicRoot.key")),
+                        TimedSertificate.decodePublic(FileIO.readBytes("core/src/net/minecraft/security/update/public.sertificate")));
+        FileIO.writeBytes(new File("core/src/net/minecraft/security/update/public.keys"), key.encodePublic());
     }
 }

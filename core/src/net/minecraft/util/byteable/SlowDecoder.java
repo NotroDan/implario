@@ -43,8 +43,12 @@ public class SlowDecoder implements Decoder{
         return (byte)(array[i++] & 0xFF);
     }
 
-    @Setter
     private boolean useCompressOfShort = false;
+
+    public SlowDecoder setUseCompressOfShort(boolean b) {
+        useCompressOfShort = b;
+        return this;
+    }
 
     @Override
     public short readShort() {
@@ -54,8 +58,12 @@ public class SlowDecoder implements Decoder{
         return (short)(((array[i++] & 0xFF) << 8) | (array[i++] & 0xFF));
     }
 
-    @Setter
     private int sizeCompressOfInt = -1;
+
+    public SlowDecoder setSizeCompressOfInt(int i) {
+        sizeCompressOfInt = i;
+        return this;
+    }
 
     @Override
     public int readInt() {
@@ -70,8 +78,12 @@ public class SlowDecoder implements Decoder{
         return readIntDirectly();
     }
 
-    @Setter
     public int sizeCompressOfLong;
+
+    public SlowDecoder setSizeCompressOfLong(int i){
+        sizeCompressOfLong = i;
+        return this;
+    }
 
     @Override
     public long readLong() {
@@ -86,8 +98,12 @@ public class SlowDecoder implements Decoder{
         return readLongDirectly();
     }
 
-    @Setter
     private boolean readFloatDirectly = true;
+
+    public SlowDecoder setReadFloatDirectly(boolean b) {
+        readFloatDirectly = b;
+        return this;
+    }
 
     @Override
     public float readFloat() {
@@ -95,8 +111,12 @@ public class SlowDecoder implements Decoder{
         return Float.intBitsToFloat(readInt());
     }
 
-    @Setter
     private boolean readDoubleDirectly = true;
+
+    public SlowDecoder setReadDoubleDirectly(boolean b) {
+        readDoubleDirectly = b;
+        return this;
+    }
 
     @Override
     public double readDouble() {
@@ -104,8 +124,12 @@ public class SlowDecoder implements Decoder{
         return Double.longBitsToDouble(readLong());
     }
 
-    @Setter
     private boolean usingCompressACSII;
+
+    public SlowDecoder setUsingCompressACSII(boolean b){
+        usingCompressACSII = b;
+        return this;
+    }
 
     @Override
     public String readStr() {
@@ -124,5 +148,9 @@ public class SlowDecoder implements Decoder{
         return (((long)array[i++] & 0xFF) << 56) | (((long)array[i++] & 0xFF) << 48) | (((long)array[i++] & 0xFF) << 40) |
                 (((long)array[i++] & 0xFF) << 32) | (((long)array[i++] & 0xFF) << 24) | (((long)array[i++] & 0xFF) << 16) |
                 (((long)array[i++] & 0xFF) << 8) | ((long)array[i++] & 0xFF);
+    }
+
+    public static SlowDecoder defaultDecoder(byte array[]){
+        return new SlowDecoder(array).setSizeCompressOfInt(2).setSizeCompressOfLong(6).setUsingCompressACSII(true).setUseCompressOfShort(true);
     }
 }
