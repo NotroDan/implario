@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -48,6 +49,7 @@ public class GuiPlayerTabOverlay extends Gui {
 	}
 
 	public void renderPlayerlist(int width, Scoreboard sb, ScoreObjective ob) {
+		drawCenteredString(MC.FR, "implario-server", width / 2, 1, -1);
 		NetHandlerPlayClient nhpc = this.mc.thePlayer.sendQueue;
 		List<NetworkPlayerInfo> list = players.sortedCopy(nhpc.getPlayerInfoMap());
 		int i = 0;

@@ -23,7 +23,9 @@ public class Util {
 		try {
 			task.run();
 			task.get();
-		} catch (ThreadQuickExitException ignored) {} catch (ExecutionException | InterruptedException e) {
+		} catch (ThreadQuickExitException ignored) {
+		} catch (ExecutionException | InterruptedException e) {
+			if (e.getCause() == ThreadQuickExitException.EXIT_EXCEPTION) return;
 			Log.MAIN.error("Ошибка при выполнении задачи");
 			Log.MAIN.exception(e);
 		}

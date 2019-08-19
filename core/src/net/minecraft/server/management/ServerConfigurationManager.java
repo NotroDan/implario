@@ -671,7 +671,7 @@ public abstract class ServerConfigurationManager {
 		}
 	}
 
-	public String func_181058_b(boolean p_181058_1_) {
+	public String serializeOnlinePlayers(boolean showUuids) {
 		StringBuilder s = new StringBuilder();
 		List<MPlayer> list = Lists.newArrayList(this.playerEntityList);
 
@@ -679,7 +679,7 @@ public abstract class ServerConfigurationManager {
 			if (i > 0) s.append(", ");
 
 			s.append(list.get(i).getName());
-			if (p_181058_1_) s.append(" (").append(list.get(i).getUniqueID().toString()).append(")");
+			if (showUuids) s.append(" (").append(list.get(i).getUniqueID().toString()).append(")");
 		}
 
 		return s.toString();

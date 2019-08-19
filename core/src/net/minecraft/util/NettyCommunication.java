@@ -7,6 +7,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.MessageToByteEncoder;
 import net.minecraft.Logger;
+import net.minecraft.network.ConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -14,7 +15,7 @@ import net.minecraft.network.PacketBuffer;
 import java.io.IOException;
 import java.util.List;
 
-public class MessageSerialization {
+public class NettyCommunication {
 
 
 	public static class Prepender extends MessageToByteEncoder<ByteBuf> {
@@ -107,7 +108,8 @@ public class MessageSerialization {
 			if (buf.readableBytes() != 0) {
 				PacketBuffer packetbuffer = new PacketBuffer(buf);
 				int i = packetbuffer.readVarIntFromBuffer();
-				Packet packet = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacket(isClientSide, i);
+				ConnectionState state = chc.channel().attr(NetworkManager.attrKeyConnectionState).get();
+				Packet packet = state.getPacket(isClientSide, i);
 
 				if (packet == null) {
 					throw new IOException("Bad packet id " + i);
@@ -115,8 +117,8 @@ public class MessageSerialization {
 				packet.readPacketData(packetbuffer);
 
 				if (packetbuffer.readableBytes() > 0) {
-					throw new IOException("Packet " + chc.channel().attr(
-							NetworkManager.attrKeyConnectionState).get().getId() + "/" + i + " (" + packet.getClass().getSimpleName() + ") was larger than I expected, found " + packetbuffer.readableBytes() + " bytes extra whilst reading packet " + i);
+					throw new IOException("Packet " + state.name() + "/" + i + " (" + packet.getClass().getSimpleName() + ") was " +
+							"larger than I expected, found " + packetbuffer.readableBytes() + " bytes extra whilst reading packet " + i);
 				}
 				list.add(packet);
 			}
