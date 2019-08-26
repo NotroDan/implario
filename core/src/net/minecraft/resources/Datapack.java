@@ -6,6 +6,7 @@ public abstract class Datapack implements ServerSideDatapack {
 
 	private final Domain domain;
 	protected final Registrar registrar;
+	public Object clientSide;
 
 	public Datapack(Domain domain) {
 		this.domain = domain;

@@ -1,5 +1,6 @@
 package net.minecraft.client.resources;
 
+import lombok.Getter;
 import net.minecraft.client.MC;
 import net.minecraft.client.game.particle.EffectRenderer;
 import net.minecraft.client.game.particle.IParticleFactory;
@@ -10,13 +11,15 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.resources.IClientRegistrar;
 import net.minecraft.resources.Provider;
 import net.minecraft.resources.Registrar;
 
 import java.util.function.Function;
 
-public class ClientRegistrar {
+public class ClientRegistrar implements IClientRegistrar {
 
+	@Getter
 	private final Registrar delegate;
 
 	public ClientRegistrar(Registrar delegate) {

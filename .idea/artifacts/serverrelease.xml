@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact name="serverrelease">
+    <output-path>$PROJECT_DIR$/out/artifacts/release</output-path>
+    <root id="root">
+      <element id="archive" name="server.zip">
+        <element id="archive" name="server.jar">
+          <element id="module-output" name="server" />
+          <element id="extracted-dir" path="$PROJECT_DIR$/core/Util.jar" path-in-jar="/" />
+          <element id="extracted-dir" path="$PROJECT_DIR$/core/libs.jar" path-in-jar="/" />
+          <element id="module-output" name="core" />
+        </element>
+        <element id="directory" name="datapacks">
+          <element id="artifact" artifact-name="vanilla" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

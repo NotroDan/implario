@@ -1,4 +1,4 @@
-package net.minecraft.client.game.entity;
+package net.minecraft.entity;
 
 public interface EntityControllable {
 

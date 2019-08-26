@@ -2,44 +2,8 @@
   <artifact name="release">
     <output-path>$PROJECT_DIR$/out/artifacts/release</output-path>
     <root id="root">
-      <element id="archive" name="client.zip">
-        <element id="directory" name="gamedata">
-          <element id="archive" name="client.jar">
-            <element id="module-output" name="client" />
-            <element id="module-output" name="core" />
-            <element id="extracted-dir" path="$PROJECT_DIR$/core/Util.jar" path-in-jar="/" />
-            <element id="extracted-dir" path="$PROJECT_DIR$/core/libs.jar" path-in-jar="/" />
-            <element id="extracted-dir" path="$PROJECT_DIR$/client/libs_client.jar" path-in-jar="/" />
-          </element>
-          <element id="directory" name="datapacks">
-            <element id="artifact" artifact-name="vanilla" />
-          </element>
-          <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/Что это за папка.html" />
-          <element id="directory" name="natives">
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/jinput-dx8.dll" />
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/jinput-dx8_64.dll" />
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/jinput-raw.dll" />
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/jinput-raw_64.dll" />
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/jinput-wintab.dll" />
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/lwjgl.dll" />
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/lwjgl64.dll" />
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/OpenAL32.dll" />
-            <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/natives/OpenAL64.dll" />
-          </element>
-          <element id="directory" name="defaultresourcepack">
-            <element id="dir-copy" path="$PROJECT_DIR$/client/env/gamedata/defaultresourcepack" />
-          </element>
-        </element>
-        <element id="file-copy" path="$PROJECT_DIR$/client/env/console.bat" />
-        <element id="file-copy" path="$PROJECT_DIR$/client/env/launcher.vbs" />
-      </element>
-      <element id="archive" name="server.zip">
-        <element id="archive" name="server.jar">
-          <element id="module-output" name="server" />
-          <element id="extracted-dir" path="$PROJECT_DIR$/core/Util.jar" path-in-jar="/" />
-          <element id="extracted-dir" path="$PROJECT_DIR$/core/libs.jar" path-in-jar="/" />
-        </element>
-      </element>
+      <element id="artifact" artifact-name="serverrelease" />
+      <element id="artifact" artifact-name="clientrelease" />
     </root>
   </artifact>
 </component>

@@ -2,6 +2,7 @@ package net.minecraft.resources.load;
 
 import lombok.Getter;
 import net.minecraft.resources.Datapack;
+import net.minecraft.server.Todo;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,13 +30,18 @@ public class JarDatapackLoader extends DatapackLoader {
 	}
 
 	@Override
-	public Datapack load(String main) throws DatapackLoadException {
+	public Datapack load(String main, String clientMain) throws DatapackLoadException {
 		try {
 			if (datapack != null) return datapack;
+			System.out.println("Loading main class " + main);
 
 			Class mainClass = loadClass(main);
 
-			return (datapack = (Datapack) mainClass.getConstructors()[0].newInstance());
+			this.datapack = (Datapack) mainClass.getConstructors()[0].newInstance();
+			if (clientMain == null || Todo.instance.isServerSide()) return datapack;
+			Class client = loadClass(clientMain);
+			datapack.clientSide = client.getConstructors()[0].newInstance();
+			return datapack;
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
 			throw new DatapackLoadException(ex);
 		}

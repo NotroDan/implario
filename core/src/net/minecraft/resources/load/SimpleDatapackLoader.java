@@ -11,7 +11,10 @@ public class SimpleDatapackLoader extends DatapackLoader {
 	private final Datapack datapack;
 
 	@Override
-	public Datapack load(String name) throws DatapackLoadException {
+	public Datapack load(String name, String clientName) {
+		try {
+			datapack.clientSide = Class.forName(clientName);
+		} catch (ClassNotFoundException ignored) {}
 		return datapack;
 	}
 

@@ -10,7 +10,7 @@ import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.Registrar;
 import vanilla.client.game.model.*;
 import vanilla.client.renderer.entity.RenderLeashKnot;
-import vanilla.client.renderer.entity.RenderMinecartMobSpawner;
+//import vanilla.client.renderer.entity.RenderMinecartMobSpawner;
 import vanilla.client.renderer.entity.vanilla.*;
 import vanilla.entity.EntityLeashKnot;
 import vanilla.entity.VanillaEntity;
@@ -20,7 +20,7 @@ import vanilla.entity.boss.EntityWither;
 import vanilla.entity.monster.*;
 import vanilla.entity.passive.*;
 
-public class VEntities implements ServerSideLoadable, ClientSideLoadable {
+public class VEntities implements ServerSideLoadable {
 
 
 	@Override
@@ -63,47 +63,6 @@ public class VEntities implements ServerSideLoadable, ClientSideLoadable {
 		registrar.registerMob(EntityRabbit.class, "Rabbit", 101, 10051392, 7555121);
 		registrar.registerMob(EntityVillager.class, "Villager", 120, 5651507, 12422002);
 
-	}
-
-	@Override
-	public void load(ClientRegistrar registrar) {
-
-		RenderManager m = MC.i().getRenderManager();
-
-		registrar.registerEntity(EntityCaveSpider.class, new RenderCaveSpider(m));
-		registrar.registerEntity(EntitySpider.class, new RenderSpider<>(m));
-		registrar.registerEntity(EntityPig.class, new RenderPig(m, new ModelPig(), 0.7F));
-		registrar.registerEntity(EntitySheep.class, new RenderSheep(m, new ModelSheep2(), 0.7F));
-		registrar.registerEntity(EntityCow.class, new RenderCow(m, new ModelCow(), 0.7F));
-		registrar.registerEntity(EntityMooshroom.class, new RenderMooshroom(m, new ModelCow(), 0.7F));
-		registrar.registerEntity(EntityWolf.class, new RenderWolf(m, new ModelWolf(), 0.5F));
-		registrar.registerEntity(EntityChicken.class, new RenderChicken(m, new ModelChicken(), 0.3F));
-		registrar.registerEntity(EntityOcelot.class, new RenderOcelot(m, new ModelOcelot(), 0.4F));
-		registrar.registerEntity(EntityRabbit.class, new RenderRabbit(m, new ModelRabbit(), 0.3F));
-		registrar.registerEntity(EntitySilverfish.class, new RenderSilverfish(m));
-		registrar.registerEntity(EntityEndermite.class, new RenderEndermite(m));
-		registrar.registerEntity(EntityCreeper.class, new RenderCreeper(m));
-		registrar.registerEntity(EntityEnderman.class, new RenderEnderman(m));
-		registrar.registerEntity(EntitySnowman.class, new RenderSnowMan(m));
-		registrar.registerEntity(EntitySkeleton.class, new RenderSkeleton(m));
-		registrar.registerEntity(EntityWitch.class, new RenderWitch(m));
-		registrar.registerEntity(EntityBlaze.class, new RenderBlaze(m));
-		registrar.registerEntity(EntityPigZombie.class, new RenderPigZombie(m));
-		registrar.registerEntity(EntityZombie.class, new RenderZombie(m));
-		registrar.registerEntity(EntitySlime.class, new RenderSlime(m, new ModelSlime(16), 0.25F));
-		registrar.registerEntity(EntityMagmaCube.class, new RenderMagmaCube(m));
-		registrar.registerEntity(EntityGiantZombie.class, new RenderGiantZombie(m, new ModelZombie(), 0.5F, 6.0F));
-		registrar.registerEntity(EntityGhast.class, new RenderGhast(m));
-		registrar.registerEntity(EntitySquid.class, new RenderSquid(m, new ModelSquid(), 0.7F));
-		registrar.registerEntity(EntityVillager.class, new RenderVillager(m));
-		registrar.registerEntity(EntityIronGolem.class, new RenderIronGolem(m));
-		registrar.registerEntity(EntityBat.class, new RenderBat(m));
-		registrar.registerEntity(EntityGuardian.class, new RenderGuardian(m));
-		registrar.registerEntity(EntityDragon.class, new RenderDragon(m));
-		registrar.registerEntity(EntityWither.class, new RenderWither(m));
-		registrar.registerEntity(EntityLeashKnot.class, new RenderLeashKnot(m));
-		registrar.registerEntity(EntityMinecartMobSpawner.class, new RenderMinecartMobSpawner(m));
-		registrar.registerEntity(EntityHorse.class, new RenderHorse(m, new ModelHorse(), 0.75F));
 	}
 
 }

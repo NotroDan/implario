@@ -3,7 +3,7 @@ package vanilla.entity.passive;
 import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.game.entity.EntityControllable;
+import net.minecraft.entity.EntityControllable;
 import net.minecraft.entity.Entity;
 import vanilla.client.gui.block.HorseInv;
 import vanilla.entity.EntityAgeable;

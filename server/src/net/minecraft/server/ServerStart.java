@@ -3,6 +3,7 @@ package net.minecraft.server;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
+import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.resources.load.SimpleDatapackLoader;
 import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.server.dedicated.DedicatedServer;
@@ -16,18 +17,13 @@ public class ServerStart {
 	}
 
 	public static void main(String[] args) {
-		Datapacks.load(new SimpleDatapackLoader(new Vanilla()), "LolKek");
-		Bootstrap.register();
-		for (Datapack datapack : Datapacks.getDatapacks()) {
-			datapack.init();
-			datapack.ready();
-		}
 
 		String serverOwner = null;
 		String workDir = ".";
 		String worldName = null;
 		boolean starterKit = false;
 		int i = -1;
+		boolean vanilla = false;
 
 		for (int j = 0; j < args.length; ++j) {
 			String s3 = args[j];
@@ -50,9 +46,18 @@ public class ServerStart {
 				wasArgumentUsed = true;
 				worldName = s4;
 			} else if (s3.equals("--bonusChest")) starterKit = true;
+			else if (s3.equals("--vanilla")) vanilla = true;
 
 			if (wasArgumentUsed) ++j;
 		}
+
+		if (vanilla) Datapacks.load(new JarDatapackLoader(new File("datapacks/vanilla.jar")));
+		Bootstrap.register();
+		for (Datapack datapack : Datapacks.getDatapacks()) {
+			datapack.init();
+			datapack.ready();
+		}
+
 
 		final DedicatedServer dedicatedserver = new DedicatedServer(new File(workDir));
 

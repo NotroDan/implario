@@ -37,8 +37,10 @@ public class Datapacks {
 
 		try {
 			loader.init();
-			datapack = loader.load(name == null ?
-					new String(loader.read("datapack.resource"), StandardCharsets.UTF_8) : name);
+			byte[] read = loader.read("datapack.resource");
+			String names = new String(read, StandardCharsets.UTF_8);
+			String[] classes = names.split("\\|");
+			datapack = loader.load(name == null ? classes[0] : name, classes.length > 1 ? classes[1] : null);
 		} catch (DatapackLoadException ex) {
 			throw new RuntimeException(ex.getMessage(), ex);
 		}

@@ -9,7 +9,7 @@ import java.io.InputStream;
 public abstract class DatapackLoader {
 	protected Datapack datapack;
 
-	public abstract Datapack load(String main) throws DatapackLoadException;
+	public abstract Datapack load(String main, String clientMain) throws DatapackLoadException;
 
 	public InputStream getResource(String name) {
 		return DatapackLoader.class.getResourceAsStream(name);

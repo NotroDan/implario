@@ -14,6 +14,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityControllable;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.PlayerGuiBridge;

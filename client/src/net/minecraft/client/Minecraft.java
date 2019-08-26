@@ -49,6 +49,8 @@ import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.IProfiler;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.client.resources.ClientRegistrar;
+import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.server.Todo;
@@ -331,8 +333,9 @@ public class Minecraft implements IThreadListener {
 		this.guiAchievement = new GuiAchievement(this);
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		for (Datapack datapack : Datapacks.getDatapacks()) {
-			if (datapack instanceof ClientSideDatapack) {
-				((ClientSideDatapack) datapack).clientInit(new ClientRegistrar(datapack.getRegistrar()));
+			System.out.println(datapack.clientSide);
+			if (datapack.clientSide instanceof ClientSideDatapack) {
+				((ClientSideDatapack) datapack.clientSide).clientInit(new ClientRegistrar(datapack.getRegistrar()));
 			}
 			datapack.ready();
 		}
