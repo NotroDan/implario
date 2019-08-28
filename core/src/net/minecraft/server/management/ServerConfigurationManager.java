@@ -460,9 +460,11 @@ public abstract class ServerConfigurationManager {
 			list.add(entityplayermp2);
 		}
 
-		for (MPlayer entityplayermp1 : list) {
-			entityplayermp1.playerNetServerHandler.kickPlayerFromServer("You logged in from another location");
-		}
+
+//		for (MPlayer entityplayermp1 : list) {
+//			entityplayermp1.playerNetServerHandler.kickPlayerFromServer("You logged in from another location");
+//		}
+		if (!list.isEmpty()) return null;
 
 		ItemInWorldManager iteminworldmanager;
 
