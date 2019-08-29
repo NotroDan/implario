@@ -76,17 +76,14 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 			for (; matcher.find(j); j = l) {
 				int k = matcher.start();
 				l = matcher.end();
-
 				if (k > j) {
-					ChatComponentText chatcomponenttext = new ChatComponentText(String.format(format.substring(j, k), new Object[0]));
+					ChatComponentText chatcomponenttext = new ChatComponentText(format.substring(j, k));
 					chatcomponenttext.getChatStyle().setParentStyle(this.getChatStyle());
 					this.children.add(chatcomponenttext);
 				}
 
 				String s2 = matcher.group(2);
 				String s = format.substring(k, l);
-
-				"".toCharArray();
 
 				if ("%".equals(s2) && "%%".equals(s)) {
 					ChatComponentText chatcomponenttext2 = new ChatComponentText("%");
@@ -107,7 +104,7 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 			}
 
 			if (j < format.length()) {
-				ChatComponentText chatcomponenttext1 = new ChatComponentText(String.format(format.substring(j), new Object[0]));
+				ChatComponentText chatcomponenttext1 = new ChatComponentText(format.substring(j));
 				chatcomponenttext1.getChatStyle().setParentStyle(this.getChatStyle());
 				this.children.add(chatcomponenttext1);
 			}

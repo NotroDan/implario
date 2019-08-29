@@ -38,6 +38,9 @@
           <element id="module-output" name="server" />
           <element id="extracted-dir" path="$PROJECT_DIR$/core/Util.jar" path-in-jar="/" />
           <element id="extracted-dir" path="$PROJECT_DIR$/core/libs.jar" path-in-jar="/" />
+          <element id="module-output" name="core" />
+          <element id="module-output" name="vanilla" />
+          <element id="module-output" name="client" />
         </element>
       </element>
     </root>

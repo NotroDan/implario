@@ -14,11 +14,12 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.chat.ChatStyle;
 
 public class CommandMessage extends CommandBase {
 
 	public List<String> getCommandAliases() {
-		return Arrays.asList(new String[] {"w", "msg"});
+		return Arrays.asList("w", "msg");
 	}
 
 	/**
@@ -42,24 +43,21 @@ public class CommandMessage extends CommandBase {
 		return "commands.message.usage";
 	}
 
-	/**
-	 * Callback when the command is invoked
-	 */
+	@Override
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		if (args.length < 2) {
-			throw new WrongUsageException("commands.message.usage", new Object[0]);
-		}
+		if (args.length < 2)
+			throw new WrongUsageException("commands.message.usage");
 		Player entityplayer = getPlayer(sender, args[0]);
 
-		if (entityplayer == sender) {
-			throw new PlayerNotFoundException("commands.message.sameTarget", new Object[0]);
-		}
+		//if (entityplayer == sender)
+		//	throw new PlayerNotFoundException("commands.message.sameTarget");
 		IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 1, !(sender instanceof Player));
-		ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.message.display.incoming", new Object[] {sender.getDisplayName(), ichatcomponent.createCopy()});
+		ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.message.display.incoming",
+				sender.getDisplayName(), ichatcomponent);
 		ChatComponentTranslation chatcomponenttranslation1 = new ChatComponentTranslation("commands.message.display.outgoing",
-				new Object[] {entityplayer.getDisplayName(), ichatcomponent.createCopy()});
-		chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.GRAY).setItalic(Boolean.TRUE);
-		chatcomponenttranslation1.getChatStyle().setColor(EnumChatFormatting.GRAY).setItalic(Boolean.TRUE);
+				entityplayer.getDisplayName(), ichatcomponent);
+		chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.GRAY);
+		chatcomponenttranslation1.getChatStyle().setColor(EnumChatFormatting.GRAY);
 		entityplayer.sendMessage(chatcomponenttranslation);
 		sender.sendMessage(chatcomponenttranslation1);
 	}

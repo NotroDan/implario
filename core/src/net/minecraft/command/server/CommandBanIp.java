@@ -1,5 +1,6 @@
 package net.minecraft.command.server;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,42 +17,34 @@ import net.minecraft.server.management.IPBanEntry;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 
+import javax.annotation.PostConstruct;
+
 public class CommandBanIp extends CommandBase {
 
 	public static final Pattern field_147211_a = Pattern.compile(
 			"^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
-	/**
-	 * Gets the name of the command
-	 */
+	@Override
 	public String getCommandName() {
 		return "ban-ip";
 	}
 
-	/**
-	 * Return the required permission level for this command.
-	 */
+	@Override
 	public int getRequiredPermissionLevel() {
 		return 3;
 	}
 
-	/**
-	 * Returns true if the given command sender is allowed to use this command.
-	 */
+	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender sender) {
 		return MinecraftServer.getServer().getConfigurationManager().getBannedIPs().isLanServer() && super.canCommandSenderUseCommand(sender);
 	}
 
-	/**
-	 * Gets the usage string for the command.
-	 */
+	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.banip.usage";
 	}
 
-	/**
-	 * Callback when the command is invoked
-	 */
+	@Override
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length >= 1 && args[0].length() > 1) {
 			IChatComponent ichatcomponent = args.length >= 2 ? getChatComponentFromNthArg(sender, args, 1) : null;

@@ -53,11 +53,11 @@ public class CommandWhitelist extends CommandBase {
 			notifyOperators(sender, this, "commands.whitelist.disabled", new Object[0]);
 		} else if (args[0].equals("list")) {
 			sender.sendMessage(new ChatComponentTranslation("commands.whitelist.list", new Object[] {
-					minecraftserver.getConfigurationManager().getWhitelistedPlayerNames().length,
+					minecraftserver.getConfigurationManager().getWhitelistedPlayerNames().size(),
 					minecraftserver.getConfigurationManager().getAvailablePlayerDat().length
 			}));
-			String[] astring = minecraftserver.getConfigurationManager().getWhitelistedPlayerNames();
-			sender.sendMessage(new ChatComponentText(joinNiceString(astring)));
+			List<String> list= minecraftserver.getConfigurationManager().getWhitelistedPlayerNames();
+			sender.sendMessage(new ChatComponentText(joinNiceString(list)));
 		} else if (args[0].equals("add")) {
 			if (args.length < 2) {
 				throw new WrongUsageException("commands.whitelist.add.usage", new Object[0]);
@@ -69,20 +69,16 @@ public class CommandWhitelist extends CommandBase {
 				throw new CommandException("commands.whitelist.add.failed", new Object[] {args[1]});
 			}
 
-			minecraftserver.getConfigurationManager().addWhitelistedPlayer(gameprofile);
+			minecraftserver.getConfigurationManager().addWhitelistedPlayer(gameprofile.getName());
 			notifyOperators(sender, this, "commands.whitelist.add.success", new Object[] {args[1]});
 		} else if (args[0].equals("remove")) {
-			if (args.length < 2) {
+			if (args.length < 2)
 				throw new WrongUsageException("commands.whitelist.remove.usage", new Object[0]);
-			}
 
-			GameProfile gameprofile1 = minecraftserver.getConfigurationManager().getWhitelistedPlayers().func_152706_a(args[1]);
-
-			if (gameprofile1 == null) {
+			if (!minecraftserver.getConfigurationManager().getWhitelistedPlayers().contains(args[1]))
 				throw new CommandException("commands.whitelist.remove.failed", new Object[] {args[1]});
-			}
 
-			minecraftserver.getConfigurationManager().removePlayerFromWhitelist(gameprofile1);
+			minecraftserver.getConfigurationManager().removePlayerFromWhitelist(args[1]);
 			notifyOperators(sender, this, "commands.whitelist.remove.success", new Object[] {args[1]});
 		} else if (args[0].equals("reload")) {
 			minecraftserver.getConfigurationManager().loadWhiteList();

@@ -65,10 +65,10 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 			registerCommand(new CommandSaveOff());
 			registerCommand(new CommandSaveOn());
 			registerCommand(new CommandBanIp());
-			registerCommand(new CommandPardonIp());
+			registerCommand(new CommandUnbanIp());
 			registerCommand(new CommandBanPlayer());
 			registerCommand(new CommandListBans());
-			registerCommand(new CommandPardonPlayer());
+			registerCommand(new CommandUnbanPlayer());
 			registerCommand(new CommandServerKick());
 			registerCommand(new CommandListPlayers());
 			registerCommand(new CommandWhitelist());

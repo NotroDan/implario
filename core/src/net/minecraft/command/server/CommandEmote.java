@@ -39,9 +39,8 @@ public class CommandEmote extends CommandBase {
 	 * Callback when the command is invoked
 	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		if (args.length <= 0) {
-			throw new WrongUsageException("commands.me.usage", new Object[0]);
-		}
+		if (args.length <= 0)
+			throw new WrongUsageException("commands.me.usage");
 		IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 0, !(sender instanceof Player));
 		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.emote", new Object[] {sender.getDisplayName(), ichatcomponent}));
 	}
@@ -49,5 +48,4 @@ public class CommandEmote extends CommandBase {
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
 	}
-
 }

@@ -44,19 +44,18 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 		this.saveOpsList();
 	}
 
-	public void removePlayerFromWhitelist(GameProfile profile) {
-		super.removePlayerFromWhitelist(profile);
+	@Override
+	public void removePlayerFromWhitelist(String nick) {
+		super.removePlayerFromWhitelist(nick);
 		this.saveWhiteList();
 	}
 
-	public void addWhitelistedPlayer(GameProfile profile) {
-		super.addWhitelistedPlayer(profile);
+	@Override
+	public void addWhitelistedPlayer(String nick) {
+		super.addWhitelistedPlayer(nick);
 		this.saveWhiteList();
 	}
 
-	/**
-	 * Either does nothing, or calls readWhiteList.
-	 */
 	public void loadWhiteList() {
 		this.readWhiteList();
 	}
@@ -99,7 +98,7 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 
 	private void readWhiteList() {
 		try {
-			this.getWhitelistedPlayers().readSavedFile();
+			this.getWhitelistedPlayers().read();
 		} catch (Exception exception) {
 			Log.MAIN.warn("Не удалось прогрузить вайтлист: ");
 			Log.MAIN.exception(exception);
@@ -108,7 +107,7 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 
 	private void saveWhiteList() {
 		try {
-			this.getWhitelistedPlayers().writeChanges();
+			this.getWhitelistedPlayers().save();
 		} catch (Exception exception) {
 			Log.MAIN.warn("Не удалось сохранить вайтлист: ");
 			Log.MAIN.exception(exception);
@@ -116,7 +115,7 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 	}
 
 	public boolean canJoin(GameProfile profile) {
-		return !this.isWhiteListEnabled() || this.canSendCommands(profile) || this.getWhitelistedPlayers().isWhitelisted(profile);
+		return !this.isWhiteListEnabled() || this.canSendCommands(profile) || this.getWhitelistedPlayers().contains(profile.getName());
 	}
 
 	public DedicatedServer getServerInstance() {

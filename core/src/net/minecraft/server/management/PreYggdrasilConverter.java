@@ -189,23 +189,17 @@ public class PreYggdrasilConverter {
 	}
 
 	public static boolean convertWhitelist(final MinecraftServer server) throws IOException {
-		final UserListWhitelist userlistwhitelist = new UserListWhitelist(ServerConfigurationManager.FILE_WHITELIST);
+		final Whitelist whitelist = new Whitelist(server.getStorage().getCoreTable());
 
 		if (OLD_WHITELIST_FILE.exists() && OLD_WHITELIST_FILE.isFile()) {
-			if (userlistwhitelist.getSaveFile().exists()) {
-				try {
-					userlistwhitelist.readSavedFile();
-				} catch (FileNotFoundException filenotfoundexception) {
-					LOGGER.warn("Could not load existing file " + userlistwhitelist.getSaveFile().getName(), filenotfoundexception);
-				}
-			}
+			whitelist.read();
 
 			try {
 				List<String> list = Files.readLines(OLD_WHITELIST_FILE, Charsets.UTF_8);
 				ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
 					public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_) {
 						server.getPlayerProfileCache().addEntry(p_onProfileLookupSucceeded_1_);
-						userlistwhitelist.addEntry(new UserListWhitelistEntry(p_onProfileLookupSucceeded_1_));
+						whitelist.add(p_onProfileLookupSucceeded_1_.getName());
 					}
 
 					public void onProfileLookupFailed(GameProfile p_onProfileLookupFailed_1_, Exception p_onProfileLookupFailed_2_) {
@@ -217,7 +211,7 @@ public class PreYggdrasilConverter {
 					}
 				};
 				lookupNames(server, list, profilelookupcallback);
-				userlistwhitelist.writeChanges();
+				whitelist.save();
 				backupConverted(OLD_WHITELIST_FILE);
 				return true;
 			} catch (IOException ioexception) {

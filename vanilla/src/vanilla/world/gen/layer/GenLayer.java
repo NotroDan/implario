@@ -109,7 +109,7 @@ public abstract class GenLayer {
 	}
 
 	/**
-	 * Initialize layer's local worldGenSeed based on its own baseSeed and the world's global seed (passed in as an
+	 * Initialize layer's memory worldGenSeed based on its own baseSeed and the world's global seed (passed in as an
 	 * argument).
 	 */
 	public void initWorldGenSeed(long seed) {
@@ -128,7 +128,7 @@ public abstract class GenLayer {
 	}
 
 	/**
-	 * Initialize layer's current chunkSeed based on the local worldGenSeed and the (x,z) chunk coordinates.
+	 * Initialize layer's current chunkSeed based on the memory worldGenSeed and the (x,z) chunk coordinates.
 	 */
 	public void initChunkSeed(long p_75903_1_, long p_75903_3_) {
 		this.chunkSeed = this.worldGenSeed;

@@ -71,7 +71,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 		if (this.bufferedImage == null && this.textureLocation != null) super.loadTexture(resourceManager);
 
 		if (this.imageThread == null) if (this.cacheFile != null && this.cacheFile.isFile()) {
-			logger.debug("Loading http texture from local cache ({})", new Object[] {this.cacheFile});
+			logger.debug("Loading http texture from memory cache ({})", new Object[] {this.cacheFile});
 
 			try {
 				this.bufferedImage = ImageIO.read(this.cacheFile);

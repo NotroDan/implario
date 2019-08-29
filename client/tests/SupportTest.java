@@ -31,9 +31,6 @@ public class SupportTest {
         }
     }
 
-    public static void main(String[] args) {
-        SecurityKey key = new SecurityKey(ECDSA.decodePublic(FileIO.readBytes("core/src/net/minecraft/security/update/publicRoot.key")),
-                        TimedSertificate.decodePublic(FileIO.readBytes("core/src/net/minecraft/security/update/public.sertificate")));
-        FileIO.writeBytes(new File("core/src/net/minecraft/security/update/public.keys"), key.encodePublic());
+    public static void main(String[] args) throws Exception{
     }
 }

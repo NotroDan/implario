@@ -413,6 +413,26 @@ public abstract class CommandBase implements ICommand {
 		return stringbuilder.toString();
 	}
 
+	public static String joinNiceString(Iterable<String> iterable){
+		Iterator<String> iterator = iterable.iterator();
+		StringBuilder builder = new StringBuilder();
+
+		String str;
+		boolean start = false;
+		while(iterator.hasNext()){
+			str = iterator.next();
+			if(start)
+				if(iterator.hasNext())
+					builder.append(" and ");
+				else
+					builder.append(", ");
+			start = true;
+			builder.append(str);
+		}
+
+		return builder.toString();
+	}
+
 	public static IChatComponent join(List<IChatComponent> components) {
 		IChatComponent ichatcomponent = new ChatComponentText("");
 

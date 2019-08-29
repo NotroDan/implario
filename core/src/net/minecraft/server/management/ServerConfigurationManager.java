@@ -75,7 +75,7 @@ public abstract class ServerConfigurationManager {
 	/**
 	 * The Set of all whitelisted players.
 	 */
-	private final UserListWhitelist whiteListedPlayers;
+	private final Whitelist whiteListedPlayers;
 	private final Map<UUID, StatisticsFile> playerStatFiles;
 
 	/**
@@ -113,11 +113,11 @@ public abstract class ServerConfigurationManager {
 		this.gameType = gameType;
 	}
 
-	public ServerConfigurationManager(MinecraftServer server) {
+	public 	ServerConfigurationManager(MinecraftServer server) {
 		this.bannedPlayers = new UserListBans(FILE_PLAYERBANS);
 		this.bannedIPs = new BanList(FILE_IPBANS);
 		this.ops = new UserListOps(FILE_OPS);
-		this.whiteListedPlayers = new UserListWhitelist(FILE_WHITELIST);
+		this.whiteListedPlayers = new Whitelist(server.getStorage().getCoreTable());
 		this.playerStatFiles = Maps.newHashMap();
 		this.mcServer = server;
 		this.bannedPlayers.setLanServer(false);
@@ -134,7 +134,7 @@ public abstract class ServerConfigurationManager {
 		NBTTagCompound nbttagcompound = this.readPlayerDataFromFile(playerIn);
 		playerIn.setWorld(this.mcServer.worldServerForDimension(playerIn.dimension));
 		playerIn.theItemInWorldManager.setWorld((WorldServer) playerIn.worldObj);
-		String s1 = "local";
+		String s1 = "memory";
 
 		if (netManager.getRemoteAddress() != null) {
 			s1 = netManager.getRemoteAddress().toString().substring(1);
@@ -727,7 +727,7 @@ public abstract class ServerConfigurationManager {
 	}
 
 	public boolean canJoin(GameProfile profile) {
-		return !this.whiteListEnforced || this.ops.hasEntry(profile) || this.whiteListedPlayers.hasEntry(profile);
+		return !this.whiteListEnforced || this.ops.hasEntry(profile) || this.whiteListedPlayers.contains(profile.getName());
 	}
 
 	public boolean canSendCommands(GameProfile profile) {
@@ -781,20 +781,20 @@ public abstract class ServerConfigurationManager {
 		}
 	}
 
-	public void addWhitelistedPlayer(GameProfile profile) {
-		this.whiteListedPlayers.addEntry(new UserListWhitelistEntry(profile));
+	public void addWhitelistedPlayer(String name) {
+		whiteListedPlayers.add(name);
 	}
 
-	public void removePlayerFromWhitelist(GameProfile profile) {
-		this.whiteListedPlayers.removeEntry(profile);
+	public void removePlayerFromWhitelist(String nick) {
+		whiteListedPlayers.remove(nick);
 	}
 
-	public UserListWhitelist getWhitelistedPlayers() {
-		return this.whiteListedPlayers;
+	public Whitelist getWhitelistedPlayers() {
+		return whiteListedPlayers;
 	}
 
-	public String[] getWhitelistedPlayerNames() {
-		return this.whiteListedPlayers.getKeys();
+	public List<String> getWhitelistedPlayerNames() {
+		return whiteListedPlayers.values();
 	}
 
 	public UserListOps getOppedPlayers() {
