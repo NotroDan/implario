@@ -137,10 +137,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 		if (button.id == 4) {
 			if (Datapacks.getLoaders().isEmpty()) {
-				Datapack datapack = Datapacks.load(new JarDatapackLoader(new File("gamedata/datapacks/vanilla.jar")));
 				long time = System.currentTimeMillis();
-				Datapacks.initSingleDatapack(datapack);
+				Datapack datapack = Datapacks.load(new JarDatapackLoader(new File("gamedata/datapacks/vanilla.jar")));
 				System.out.println("Vanilla loaded in " + (System.currentTimeMillis() - time));
+				Datapacks.initSingleDatapack(datapack);
 			}
 			else {
 				long time = System.currentTimeMillis();

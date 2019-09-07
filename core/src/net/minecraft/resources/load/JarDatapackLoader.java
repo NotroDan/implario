@@ -34,8 +34,8 @@ public class JarDatapackLoader extends DatapackLoader {
 			if (datapack != null) return datapack;
 
 			Class mainClass = loadClass(main);
-
-			return (datapack = (Datapack) mainClass.getConstructors()[0].newInstance());
+			datapack = (Datapack) mainClass.getConstructors()[0].newInstance();
+			return datapack;
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
 			throw new DatapackLoadException(ex);
 		}

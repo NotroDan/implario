@@ -1,11 +1,15 @@
 package net.minecraft.resources.load;
 
+import __google_.util.FileIO;
 import net.minecraft.logging.Log;
+import net.minecraft.util.FileUtil;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.InflaterInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -16,16 +20,22 @@ public class DatapackClassLoader extends ClassLoader {
 
 	public DatapackClassLoader(File f, ClassLoader parent) throws IOException {
 		super(parent);
+		byte array[] = new byte[(int)f.length()];
+		InputStream in = new FileInputStream(f);
+		FileUtil.readInputStream(in, array);
+		in.close();
 		this.filename = f.getName();
-		ZipInputStream input = new ZipInputStream(new FileInputStream(f), Charset.forName("ASCII"));
 		this.datapack = new HashMap<>();
+		ZipInputStream input = new ZipInputStream(new ByteArrayInputStream(array), Charset.forName("ASCII"));
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ZipEntry file;
+		byte b[] = new byte[2048];
 		while (true) {
 			file = input.getNextEntry();
 			if (file == null) break;
-			while (input.available() > 0)
-				out.write(input.read());
+			int i;
+			while ((i = input.read(b)) != -1)
+				out.write(b, 0, i);
 			input.closeEntry();
 			datapack.put(file.getName(), out.toByteArray());
 			out.reset();
@@ -49,8 +59,9 @@ public class DatapackClassLoader extends ClassLoader {
 			String name2 = name.replace('.', '/') + ".class";
 			byte entry[] = datapack.get(name2);
 			if (entry == null) throw new IOException();
+			FileIO.writeBytes("./kek", entry);
 			datapack.remove(name2);
-			return defineClass(name.replace('/', '.'), entry, 0, entry.length - 1);
+			return defineClass(name.replace('/', '.'), entry, 0, entry.length);
 		} catch (IOException ex) {
 			try {
 				return DatapackClassLoader.getSystemClassLoader().loadClass(name);
@@ -65,7 +76,7 @@ public class DatapackClassLoader extends ClassLoader {
 	@Override
 	public InputStream getResourceAsStream(String name) {
 		byte array[] = datapack.get(name);
-		return array == null ? null : new ByteArrayInputStream(array, 0, array.length - 1);
+		return array == null ? null : new ByteArrayInputStream(array, 0, array.length);
 	}
 
 	public void close() {
