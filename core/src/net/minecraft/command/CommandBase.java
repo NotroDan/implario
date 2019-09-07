@@ -20,9 +20,6 @@ public abstract class CommandBase implements ICommand {
 
 	private static IAdminCommand theAdmin;
 
-	/**
-	 * Return the required permission level for this command.
-	 */
 	public int getRequiredPermissionLevel() {
 		return 4;
 	}
@@ -31,9 +28,6 @@ public abstract class CommandBase implements ICommand {
 		return Collections.emptyList();
 	}
 
-	/**
-	 * Returns true if the given command sender is allowed to use this command.
-	 */
 	public boolean canCommandSenderUseCommand(ICommandSender sender) {
 		return sender.canCommandSenderUseCommand(this.getRequiredPermissionLevel(), this.getCommandName());
 	}

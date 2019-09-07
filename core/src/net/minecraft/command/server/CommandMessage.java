@@ -17,28 +17,22 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.chat.ChatStyle;
 
 public class CommandMessage extends CommandBase {
-
+	@Override
 	public List<String> getCommandAliases() {
 		return Arrays.asList("w", "msg");
 	}
 
-	/**
-	 * Gets the name of the command
-	 */
+	@Override
 	public String getCommandName() {
 		return "tell";
 	}
 
-	/**
-	 * Return the required permission level for this command.
-	 */
+	@Override
 	public int getRequiredPermissionLevel() {
 		return 0;
 	}
 
-	/**
-	 * Gets the usage string for the command.
-	 */
+	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.message.usage";
 	}
@@ -49,8 +43,8 @@ public class CommandMessage extends CommandBase {
 			throw new WrongUsageException("commands.message.usage");
 		Player entityplayer = getPlayer(sender, args[0]);
 
-		//if (entityplayer == sender)
-		//	throw new PlayerNotFoundException("commands.message.sameTarget");
+		if (entityplayer == sender)
+			throw new PlayerNotFoundException("commands.message.sameTarget");
 		IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 1, !(sender instanceof Player));
 		ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.message.display.incoming",
 				sender.getDisplayName(), ichatcomponent);
@@ -66,11 +60,8 @@ public class CommandMessage extends CommandBase {
 		return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
 	}
 
-	/**
-	 * Return whether the specified command parameter index is a username parameter.
-	 */
+	@Override
 	public boolean isUsernameIndex(String[] args, int index) {
 		return index == 0;
 	}
-
 }

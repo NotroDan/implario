@@ -1693,6 +1693,7 @@ public abstract class Player extends EntityLivingBase {
 		}
 
 		this.xpSeed = oldPlayer.xpSeed;
+		this.capabilities.allowFlying = oldPlayer.capabilities.allowFlying;
 		this.theInventoryEnderChest = oldPlayer.theInventoryEnderChest;
 		this.getDataWatcher().updateObject(10, oldPlayer.getDataWatcher().getWatchableObjectByte(10));
 	}

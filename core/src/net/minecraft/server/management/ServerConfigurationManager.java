@@ -526,6 +526,7 @@ public abstract class ServerConfigurationManager {
 		this.uuidToPlayerMap.put(entityplayermp.getUniqueID(), entityplayermp);
 		entityplayermp.addSelfToInternalCraftingInventory();
 		entityplayermp.setHealth(entityplayermp.getHealth());
+		entityplayermp.sendPlayerAbilities();
 		return entityplayermp;
 	}
 
@@ -894,14 +895,19 @@ public abstract class ServerConfigurationManager {
 		return null;
 	}
 
-	private void setPlayerGameTypeBasedOnOther(MPlayer p_72381_1_, MPlayer p_72381_2_, World worldIn) {
-		if (p_72381_2_ != null) {
-			p_72381_1_.theItemInWorldManager.setGameType(p_72381_2_.theItemInWorldManager.getGameType());
-		} else if (this.gameType != null) {
-			p_72381_1_.theItemInWorldManager.setGameType(this.gameType);
-		}
+	private void setPlayerGameTypeBasedOnOther(MPlayer to, MPlayer from, World worldIn) {
+		if (from != null) {
+			to.theItemInWorldManager.setOptimizedGameType(from.theItemInWorldManager.getGameType());
+		}else if (this.gameType != null)
+			to.theItemInWorldManager.setOptimizedGameType(this.gameType);
 
-		p_72381_1_.theItemInWorldManager.initializeGameType(worldIn.getWorldInfo().getGameType());
+		to.theItemInWorldManager.initializeOptimisedGameType(worldIn.getWorldInfo().getGameType());
+
+		to.theItemInWorldManager.getGameType().configurePlayerCapabilities(to.capabilities);
+		if(from != null)
+			to.capabilities.allowFlying = from.capabilities.allowFlying;
+
+		to.sendPlayerAbilities();
 	}
 
 	/**

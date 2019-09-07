@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="lz4-java-1.6.0">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../download/lz4-java-1.6.0.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

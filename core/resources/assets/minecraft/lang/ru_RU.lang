@@ -283,6 +283,12 @@ commands.execute.allInvocationsFailed=Все вызовы не удались: "
 commands.execute.failed=Не удалось выполнить «%s» как %s
 commands.execute.usage=/execute <Цель> <x> <y> <z> <Команда> §6Или:§c /execute <Цель> <x> <y> <z> detect <x> <y> <z> <Блок> <Доп. параметры> <Команда>
 
+commands.fly.myself.on=Вы включили флай
+commands.fly.myself.off=Вы выключили флай
+commands.fly.himself.on=Вы включили флай игроку %s
+commands.fly.himself.off=Вы выключили флай игроку %s
+commands.fly.usage=/fly [Игрок] [on|off]
+
 commands.fill.failed=Ни один блок не был заполнен
 commands.fill.outOfWorld=Нельзя разместить блок за границей мира
 commands.fill.success=%s блоков заполнено

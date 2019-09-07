@@ -9,31 +9,23 @@ import net.minecraft.world.MinecraftException;
 import net.minecraft.world.WorldServer;
 
 public class CommandSaveAll extends CommandBase {
-
-	/**
-	 * Gets the name of the command
-	 */
+	@Override
 	public String getCommandName() {
 		return "save-all";
 	}
 
-	/**
-	 * Gets the usage string for the command.
-	 */
+	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.save.usage";
 	}
 
-	/**
-	 * Callback when the command is invoked
-	 */
+	@Override
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
 		sender.sendMessage(new ChatComponentTranslation("commands.save.start"));
 
-		if (minecraftserver.getConfigurationManager() != null) {
+		if (minecraftserver.getConfigurationManager() != null)
 			minecraftserver.getConfigurationManager().saveAllPlayerData();
-		}
 
 		try {
 			for (WorldServer world : minecraftserver.getWorlds()) {
@@ -42,8 +34,8 @@ public class CommandSaveAll extends CommandBase {
 				world.disableLevelSaving = false;
 				world.saveAllChunks(true, null);
 				world.disableLevelSaving = flag;
-
 			}
+
 			if (args.length > 0 && "flush".equals(args[0])) {
 				sender.sendMessage(new ChatComponentTranslation("commands.save.flushStart"));
 

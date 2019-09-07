@@ -27,6 +27,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		registerCommand(new CommandParticle());
 		registerCommand(new CommandEmote());
 		registerCommand(new CommandShowSeed());
+		registerCommand(new CommandFly());
 		registerCommand(new CommandHelp());
 		registerCommand(new CommandDebug());
 		registerCommand(new CommandMessage());

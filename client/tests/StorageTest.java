@@ -7,7 +7,7 @@ public class StorageTest {
     public static class MariaDB{
         public static void main(String[] args) {
             //Тестовые данные от локальной базы данных
-            Storage storage = new MariaDBStorage("192.168.43.200", 3306, "minecraft", "123456", "minecraft");
+            Storage storage = new MariaDBStorage("192.168.43.201", 3306, "minecraft", "minecraft", "minecraft");
             storageTest(storage);
         }
     }

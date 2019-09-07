@@ -18,35 +18,25 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class CommandSummon extends CommandBase {
-
-	/**
-	 * Gets the name of the command
-	 */
+	@Override
 	public String getCommandName() {
 		return "summon";
 	}
 
-	/**
-	 * Return the required permission level for this command.
-	 */
+	@Override
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
-	/**
-	 * Gets the usage string for the command.
-	 */
+	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.summon.usage";
 	}
 
-	/**
-	 * Callback when the command is invoked
-	 */
+	@Override
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		if (args.length < 1) {
+		if (args.length < 1)
 			throw new WrongUsageException("commands.summon.usage");
-		}
 		String s = args[0];
 		BlockPos blockpos = sender.getPosition();
 		Vec3 vec3 = sender.getPositionVector();
@@ -63,14 +53,15 @@ public class CommandSummon extends CommandBase {
 
 		World world = sender.getEntityWorld();
 
-		if (!world.isBlockLoaded(blockpos)) {
+		if (!world.isBlockLoaded(blockpos))
 			throw new CommandException("commands.summon.outOfWorld");
-		}
+
 		if ("LightningBolt".equals(s)) {
 			world.addWeatherEffect(new EntityLightningBolt(world, d0, d1, d2));
 			notifyOperators(sender, this, "commands.summon.success");
 			return;
 		}
+
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		boolean customNbt = false;
 
@@ -120,8 +111,8 @@ public class CommandSummon extends CommandBase {
 		notifyOperators(sender, this, "commands.summon.success");
 	}
 
+	@Override
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length == 1 ? getListOfStringsMatchingLastWord(args, EntityList.getEntityNameList()) : args.length > 1 && args.length <= 4 ? completePos(args, 1, pos) : null;
 	}
-
 }

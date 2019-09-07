@@ -4,6 +4,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.ServerCommand;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.database.Storage;
+import net.minecraft.database.mariadb.MariaDBStorage;
 import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;

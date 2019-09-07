@@ -56,6 +56,11 @@ public class ItemInWorldManager {
 		this.theWorld = worldIn;
 	}
 
+	public void setOptimizedGameType(WorldSettings.GameType type){
+		this.gameType = type;
+		this.thisPlayerMP.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.UPDATE_GAME_MODE, this.thisPlayerMP));
+	}
+
 	public void setGameType(WorldSettings.GameType type) {
 		this.gameType = type;
 		type.configurePlayerCapabilities(this.thisPlayerMP.capabilities);
@@ -78,9 +83,13 @@ public class ItemInWorldManager {
 		return this.gameType.isCreative();
 	}
 
-	/**
-	 * if the gameType is currently NOT_SET then change it to par1
-	 */
+	public void initializeOptimisedGameType(WorldSettings.GameType type){
+		if (gameType == WorldSettings.GameType.NOT_SET)
+			gameType = type;
+
+		setOptimizedGameType(gameType);
+	}
+
 	public void initializeGameType(WorldSettings.GameType type) {
 		if (this.gameType == WorldSettings.GameType.NOT_SET) {
 			this.gameType = type;

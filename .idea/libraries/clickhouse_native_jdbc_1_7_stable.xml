@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="clickhouse-native-jdbc-1.7-stable">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../download/clickhouse-native-jdbc-1.7-stable.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
