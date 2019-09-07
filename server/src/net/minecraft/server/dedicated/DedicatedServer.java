@@ -7,9 +7,11 @@ import net.minecraft.database.Storage;
 import net.minecraft.database.mariadb.MariaDBStorage;
 import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.entity.player.Player;
+import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.CryptManager;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -308,6 +310,11 @@ public class DedicatedServer extends MinecraftServer {
 	 */
 	public void saveProperties() {
 		this.settings.saveProperties();
+	}
+
+	@Override
+	public void sendMessage(IChatComponent component) {
+		Log.CHAT.info(component.getUnformattedText().replaceAll("§.", ""));
 	}
 
 	/**
