@@ -131,7 +131,7 @@ public enum Settings {
 	DROPPED_ITEMS("3D-Предметы", true),
 	LAZY_CHUNK_LOADING("Ленивая загрузка чанков", false),
 	CUSTOM_SKY("Кастомное небо", true),
-	FAST_RENDER("Быстрый рендер", true),
+	FAST_RENDER(new FastRenderSetting("FAST_RENDER")),
 	TRANSLUCENT_BLOCKS("Просвечивание блоков", 0, "Быстрое", "Детальное"),
 	DYNAMIC_FOV("Динамика поля зрения", true),
 	DYNAMIC_LIGHTS("Динамическое освещение", true),
@@ -219,7 +219,7 @@ public enum Settings {
 		else throw new IllegalArgumentException();
 	}
 
-	Settings(FpsSetting setting) {
+	Settings(Setting setting) {
 		base = setting;
 	}
 
