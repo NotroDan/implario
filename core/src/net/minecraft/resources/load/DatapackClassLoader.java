@@ -59,7 +59,6 @@ public class DatapackClassLoader extends ClassLoader {
 			String name2 = name.replace('.', '/') + ".class";
 			byte entry[] = datapack.get(name2);
 			if (entry == null) throw new IOException();
-			FileIO.writeBytes("./kek", entry);
 			datapack.remove(name2);
 			return defineClass(name.replace('/', '.'), entry, 0, entry.length);
 		} catch (IOException ex) {
