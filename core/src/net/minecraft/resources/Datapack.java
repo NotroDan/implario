@@ -20,19 +20,17 @@ public abstract class Datapack implements ServerSideDatapack {
 		return Todo.instance.isServerSide();
 	}
 
-	public abstract void preinit();
+	public void preinit(){}
 
-	public abstract void init();
+	public void init(){}
 
-	public void ready() {
-
-	}
+	public void ready() {}
 
 	public void disable() {
 		registrar.unregister();
 	}
 
-	protected abstract void unload();
+	protected void unload(){}
 
 	public void loadBlocks() {}
 

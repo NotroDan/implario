@@ -13,7 +13,7 @@ public class CommandFly extends CommandBase{
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "commands.fly.usage";//потом сделаю
+        return "commands.fly.usage";
     }
 
     @Override

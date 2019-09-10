@@ -17,21 +17,28 @@ import net.minecraft.util.ResourceLocation;
 import java.util.*;
 
 public abstract class CommandBase implements ICommand {
-
 	private static IAdminCommand theAdmin;
 
 	public int getRequiredPermissionLevel() {
 		return 4;
 	}
 
+	@Override
+	public String getCommandUsage(ICommandSender sender) {
+		return "";
+	}
+
+	@Override
 	public List<String> getCommandAliases() {
 		return Collections.emptyList();
 	}
 
+	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender sender) {
 		return sender.canCommandSenderUseCommand(this.getRequiredPermissionLevel(), this.getCommandName());
 	}
 
+	@Override
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return null;
 	}
