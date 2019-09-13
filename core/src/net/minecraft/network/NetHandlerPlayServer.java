@@ -27,7 +27,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerActionEvent;
 import net.minecraft.resources.event.events.player.PlayerMoveEvent;
 import net.minecraft.server.MinecraftServer;
@@ -304,8 +304,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 					this.playerEntity.setPositionAndRotation(pX, pY, pZ, pYaw, pPitch);
 					if (x != playerEntity.posX || y != playerEntity.posY || z != playerEntity.posZ) {
-						if (Events.eventPlayerMove.isUseful())
-							Events.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
+						if (ServerEvents.eventPlayerMove.isUseful())
+							ServerEvents.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
 					}
 					//					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);
 
@@ -706,8 +706,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 			case RIDING_JUMP:
 			case OPEN_INVENTORY:
 				System.out.println("Action: " + packetIn.getAction());
-				if (Events.eventPlayerAction.isUseful())
-					Events.eventPlayerAction.call(new PlayerActionEvent(playerEntity, packetIn.getAction(), packetIn.getAuxData()));
+				if (ServerEvents.eventPlayerAction.isUseful())
+					ServerEvents.eventPlayerAction.call(new PlayerActionEvent(playerEntity, packetIn.getAction(), packetIn.getAuxData()));
 				break;
 
 			default:
