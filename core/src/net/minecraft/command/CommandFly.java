@@ -22,6 +22,16 @@ public class CommandFly extends CommandBase{
     }
 
     @Override
+    public boolean clientProcessSupported() {
+        return false;
+    }
+
+    @Override
+    public void processClientCommand(ICommandSender sender, String args[]) {
+        sender.sendMessage("LoL");
+    }
+
+    @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         Player player;
         boolean fly;

@@ -12,6 +12,7 @@ import net.minecraft.client.gui.block.GuiRepair;
 import net.minecraft.client.gui.inventory.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.command.CommandHandler;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -22,6 +23,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.network.play.client.*;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntitySign;
@@ -243,6 +245,9 @@ public class CPlayer extends AbstractClientPlayer {
 	 * Sends a chat message from the player. Args: chatMessage
 	 */
 	public void sendChatMessage(String message) {
+		if(message.startsWith("/")) {
+			if(CommandHandler.executeClientSide(this, message) == 0)return;
+		}
 		if (message.startsWith("=")) Utils.processCommand(message.substring(1));
 		else this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
 	}

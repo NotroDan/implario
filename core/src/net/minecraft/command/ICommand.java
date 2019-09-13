@@ -21,7 +21,7 @@ public interface ICommand extends Comparable<ICommand> {
 		return false;
 	}
 
-	default void processCommand(){}
+	default void processClientCommand(ICommandSender sender, String args[]){}
 
 	/**
 	 * Return whether the specified command parameter index is a username parameter.

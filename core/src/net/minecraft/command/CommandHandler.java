@@ -17,6 +17,7 @@ public class CommandHandler implements ICommandManager {
 	private static final Logger logger = Logger.getInstance();
 	private static final Map<String, ICommand> commandMap = Maps.newHashMap();
 
+	@Override
 	public int executeCommand(ICommandSender sender, String rawCommand) {
 		rawCommand = rawCommand.trim();
 
@@ -27,7 +28,8 @@ public class CommandHandler implements ICommandManager {
 		String s = astring[0];
 		astring = dropFirstString(astring);
 		ICommand icommand = commandMap.get(s);
-		int i = this.getUsernameIndex(icommand, astring);
+
+		int i = getUsernameIndex(icommand, astring);
 		int j = 0;
 
 		if (icommand == null) {
@@ -43,7 +45,7 @@ public class CommandHandler implements ICommandManager {
 				for (Entity entity : list) {
 					astring[i] = entity.getUniqueID().toString();
 
-					if (this.tryExecute(sender, astring, icommand, rawCommand)) {
+					if (tryExecute(sender, astring, icommand, rawCommand)) {
 						++j;
 					}
 				}
@@ -52,7 +54,7 @@ public class CommandHandler implements ICommandManager {
 			} else {
 				sender.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, 1);
 
-				if (this.tryExecute(sender, astring, icommand, rawCommand)) {
+				if (tryExecute(sender, astring, icommand, rawCommand)) {
 					++j;
 				}
 			}
@@ -66,7 +68,25 @@ public class CommandHandler implements ICommandManager {
 		return j;
 	}
 
-	protected boolean tryExecute(ICommandSender sender, String[] args, ICommand command, String input) {
+	public static int executeClientSide(ICommandSender sender, String rawCommand) {
+		String[] astring = rawCommand.split(" ");
+		String s = astring[0];
+		astring = dropFirstString(astring);
+		ICommand icommand = commandMap.get(s);
+
+		if(icommand == null)return -1;
+		if(icommand.clientProcessSupported()){
+			try{
+				icommand.processClientCommand(sender, astring);
+			}catch (Exception ex){
+				ex.printStackTrace();
+				sender.sendMessage("ошибко привет");
+			}
+		}
+		return 0;
+	}
+
+	protected static boolean tryExecute(ICommandSender sender, String[] args, ICommand command, String input) {
 		try {
 			command.processCommand(sender, args);
 			return true;
@@ -167,7 +187,7 @@ public class CommandHandler implements ICommandManager {
 	/**
 	 * Return a command's first parameter index containing a valid username.
 	 */
-	private int getUsernameIndex(ICommand command, String[] args) {
+	private static int getUsernameIndex(ICommand command, String[] args) {
 		if (command == null) {
 			return -1;
 		}
