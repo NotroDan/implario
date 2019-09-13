@@ -17,7 +17,7 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.resources.Registrar;
 import net.minecraft.resources.ServerSideLoadable;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.resources.event.events.player.*;
@@ -42,21 +42,21 @@ public class VEvents implements ServerSideLoadable {
 	@Override
 	public void load(Registrar registrar) {
 
-		Events.eventPlayerMove.add(this::handlePlayerMove);
-		Events.eventMountMove.add(this::handleMountMove);
-		Events.eventPlayerTick.add(this::handlePlayerTick);
-		Events.eventPlayerFall.add(this::handlePlayerFall);
-		Events.eventPlayerDisconnect.add(e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat));
-		Events.eventPlayerJump.add(e -> e.getPlayer().triggerAchievement(StatList.jumpStat));
-		Events.eventPlayerItemDrop.add(this::handleItemDrop);
-		Events.eventPlayerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat));
-		Events.eventPlayerSleep.add(new SleepChecker());
-		Events.eventPlayerAction.add(this::handleEntityAction);
-		Events.eventTrackerUpdate.add(this::handlerTrackerUpdate);
-		Events.eventProjectileHit.add(this::handleProjectileHit);
-		Events.eventPlayerEnderPearl.add(this::handlePlayerEnderPearl);
-		Events.eventBlockDrop.add(this::handleBlockDrop);
-		Events.eventPlayerInteract.add(this::handleInteract);
+		ServerEvents.eventPlayerMove.add(this::handlePlayerMove);
+		ServerEvents.eventMountMove.add(this::handleMountMove);
+		ServerEvents.eventPlayerTick.add(this::handlePlayerTick);
+		ServerEvents.eventPlayerFall.add(this::handlePlayerFall);
+		ServerEvents.eventPlayerDisconnect.add(e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat));
+		ServerEvents.eventPlayerJump.add(e -> e.getPlayer().triggerAchievement(StatList.jumpStat));
+		ServerEvents.eventPlayerItemDrop.add(this::handleItemDrop);
+		ServerEvents.eventPlayerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat));
+		ServerEvents.eventPlayerSleep.add(new SleepChecker());
+		ServerEvents.eventPlayerAction.add(this::handleEntityAction);
+		ServerEvents.eventTrackerUpdate.add(this::handlerTrackerUpdate);
+		ServerEvents.eventProjectileHit.add(this::handleProjectileHit);
+		ServerEvents.eventPlayerEnderPearl.add(this::handlePlayerEnderPearl);
+		ServerEvents.eventBlockDrop.add(this::handleBlockDrop);
+		ServerEvents.eventPlayerInteract.add(this::handleInteract);
 
 	}
 
