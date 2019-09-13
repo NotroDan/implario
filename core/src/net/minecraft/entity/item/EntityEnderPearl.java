@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.PlayerEnderPearlEvent;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ParticleType;
@@ -54,8 +54,8 @@ public class EntityEnderPearl extends EntityThrowable {
 
 				if (entityplayermp.playerNetServerHandler.getNetworkManager().isChannelOpen() && entityplayermp.worldObj == this.worldObj && !entityplayermp.isPlayerSleeping()) {
 
-					if (Events.eventPlayerEnderPearl.isUseful())
-						Events.eventPlayerEnderPearl.call(new PlayerEnderPearlEvent(this, (MPlayer) entitylivingbase));
+					if (ServerEvents.eventPlayerEnderPearl.isUseful())
+						ServerEvents.eventPlayerEnderPearl.call(new PlayerEnderPearlEvent(this, (MPlayer) entitylivingbase));
 
 					if (entitylivingbase.isRiding()) entitylivingbase.mountEntity(null);
 

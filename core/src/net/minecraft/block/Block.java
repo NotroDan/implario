@@ -14,7 +14,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
@@ -534,9 +534,9 @@ public class Block {
 
 	public final void dropBlockAsItemWithChance(World w, BlockPos pos, IBlockState block, float chance, int fortune) {
 		if (w.isClientSide) return;
-		if (Events.eventBlockDrop.isUseful()) {
+		if (ServerEvents.eventBlockDrop.isUseful()) {
 			BlockDropEvent event = new BlockDropEvent(w, pos, block, chance, fortune);
-			Events.eventBlockDrop.call(event);
+			ServerEvents.eventBlockDrop.call(event);
 			if (event.isDefaultDropCancelled()) return;
 		}
 		dropBlockAsItemWithChance0(w, pos, block, chance, fortune);

@@ -7,7 +7,7 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.ProjectileHitEvent;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -203,8 +203,8 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.portal) {
 				this.func_181015_d(movingobjectposition.getBlockPos());
 			} else {
-				if (Events.eventProjectileHit.isUseful())
-					Events.eventProjectileHit.call(new ProjectileHitEvent(this, movingobjectposition));
+				if (ServerEvents.eventProjectileHit.isUseful())
+					ServerEvents.eventProjectileHit.call(new ProjectileHitEvent(this, movingobjectposition));
 				this.onImpact(movingobjectposition);
 			}
 		}

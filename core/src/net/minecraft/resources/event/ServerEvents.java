@@ -4,7 +4,7 @@ import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.resources.event.events.player.*;
 
-public enum Events {
+public enum ServerEvents {
 	;
 
 	public static EventManager<MountMoveEvent> eventMountMove = new EventManager<>();
@@ -25,6 +25,4 @@ public enum Events {
 	public static EventManager<TrackerUpdateEvent> eventTrackerUpdate = new EventManager<>();
 	public static EventManager<PlayerEnderPearlEvent> eventPlayerEnderPearl = new EventManager<>();
 	public static EventManager<PlayerInteractEvent> eventPlayerInteract = new EventManager<>();
-
-
 }

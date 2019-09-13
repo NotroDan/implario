@@ -29,7 +29,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.network.play.server.*;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerDeathEvent;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
@@ -427,8 +427,8 @@ public class MPlayer extends Player implements ICrafting {
 			entitylivingbase.addToPlayerScore(this, this.scoreValue);
 		}
 
-		if (Events.eventPlayerDeath.isUseful())
-			Events.eventPlayerDeath.call(new PlayerDeathEvent(this, cause));
+		if (ServerEvents.eventPlayerDeath.isUseful())
+			ServerEvents.eventPlayerDeath.call(new PlayerDeathEvent(this, cause));
 
 		this.func_175145_a(StatList.timeSinceDeathStat);
 		this.getCombatTracker().reset();

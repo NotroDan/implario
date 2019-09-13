@@ -18,7 +18,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.*;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerLeaveDisconnect;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -385,8 +385,8 @@ public abstract class ServerConfigurationManager {
 	 * Called when a player disconnects from the game. Writes player data to disk and removes them from the world.
 	 */
 	public void playerLoggedOut(MPlayer playerIn) {
-		if (Events.eventPlayerDisconnect.isUseful())
-			Events.eventPlayerDisconnect.call(new PlayerLeaveDisconnect(playerIn));
+		if (ServerEvents.eventPlayerDisconnect.isUseful())
+			ServerEvents.eventPlayerDisconnect.call(new PlayerLeaveDisconnect(playerIn));
 		this.writePlayerData(playerIn);
 		WorldServer worldserver = playerIn.getServerForPlayer();
 

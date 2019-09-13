@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.logging.IProfiler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.resources.Provider;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerUpdateEvent;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
@@ -1509,8 +1509,8 @@ public abstract class World implements IBlockAccess {
 				if (entity.ridingEntity != null) entity.updateRidden();
 				else entity.onUpdate();
 
-				if (Events.eventPlayerUpdate.isUseful() && entity instanceof Player)
-					Events.eventPlayerUpdate.call(new PlayerUpdateEvent((Player) entity));
+				if (ServerEvents.eventPlayerUpdate.isUseful() && entity instanceof Player)
+					ServerEvents.eventPlayerUpdate.call(new PlayerUpdateEvent((Player) entity));
 			}
 
 			this.theProfiler.startSection("chunkCheck");

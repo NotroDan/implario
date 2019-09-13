@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.network.play.server.S38PacketPlayerListItem;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerInteractEvent;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -330,9 +330,9 @@ public class ItemInWorldManager {
 	 */
 	public boolean activateBlockOrUseItem(Player player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
 		IBlockState b = worldIn.getBlockState(pos);
-		if (Events.eventPlayerInteract.isUseful()) {
+		if (ServerEvents.eventPlayerInteract.isUseful()) {
 			PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, stack, pos, b, side, offsetX, offsetY, offsetZ);
-			Events.eventPlayerInteract.call(event);
+			ServerEvents.eventPlayerInteract.call(event);
 			if (event.isCancelled()) return true;
 		}
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
