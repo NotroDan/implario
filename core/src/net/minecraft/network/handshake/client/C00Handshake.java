@@ -31,7 +31,8 @@ public class C00Handshake implements Packet<INetHandlerHandshakeServer> {
 		this.protocolVersion = buf.readVarIntFromBuffer();
 		this.ip = buf.readStringFromBuffer(255);
 		this.port = buf.readUnsignedShort();
-		this.requestedState = ConnectionState.getById(buf.readVarIntFromBuffer());
+		int id = buf.readVarIntFromBuffer();
+		this.requestedState = id == 1 ? ConnectionState.STATUS : ConnectionState.LOGIN;
 	}
 
 	/**

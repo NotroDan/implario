@@ -42,11 +42,11 @@ public class NettyCommunication {
 		}
 
 		protected void encode(ChannelHandlerContext chc, Packet packet, ByteBuf buf) throws Exception {
-			Integer integer = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(isClientSided, packet);
-			if (integer == null) throw new IOException("Can\'t serialize unregistered packet");
+			int id = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(isClientSided, packet);
+			if (id == -1) throw new IOException("Can\'t serialize unregistered packet");
 
 			PacketBuffer packetbuffer = new PacketBuffer(buf);
-			packetbuffer.writeVarIntToBuffer(integer);
+			packetbuffer.writeVarIntToBuffer(id);
 
 			try {
 				packet.writePacketData(packetbuffer);
@@ -117,7 +117,7 @@ public class NettyCommunication {
 				packet.readPacketData(packetbuffer);
 
 				if (packetbuffer.readableBytes() > 0) {
-					throw new IOException("Packet " + state.name() + "/" + i + " (" + packet.getClass().getSimpleName() + ") was " +
+					throw new IOException("Packet " + state.getId() + "/" + i + " (" + packet.getClass().getSimpleName() + ") was " +
 							"larger than I expected, found " + packetbuffer.readableBytes() + " bytes extra whilst reading packet " + i);
 				}
 				list.add(packet);

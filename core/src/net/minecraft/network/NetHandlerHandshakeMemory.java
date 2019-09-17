@@ -6,6 +6,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.NetHandlerLoginServer;
 import net.minecraft.util.IChatComponent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NetHandlerHandshakeMemory implements INetHandlerHandshakeServer {
 
 	private final MinecraftServer mcServer;
