@@ -1475,12 +1475,6 @@ public abstract class Player extends EntityLivingBase {
 		return (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
 	}
 
-	/**
-	 * Adds a value to a mounted movement statistic field - by minecart, boat, or pig.
-	 */
-	private void addMountedMovementStat(double p_71015_1_, double p_71015_3_, double p_71015_5_) {
-	}
-
 	public void fall(float distance, float damageMultiplier) {
 		if (this.capabilities.allowFlying) return;
 

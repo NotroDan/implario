@@ -18,6 +18,7 @@ import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.ItemInteractForEntityEvent;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -202,7 +203,7 @@ public class Item {
 	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
 	 */
 	public boolean itemInteractionForEntity(ItemStack stack, Player playerIn, EntityLivingBase target) {
-		return E.call(new ItemInteractForEntityEvent(playerIn, this, stack, target)).isCanBeUsed();
+		return ServerEvents.playerItemInteract.call(new ItemInteractForEntityEvent(playerIn, this, stack, target)).isCanBeUsed();
 	}
 
 	/**

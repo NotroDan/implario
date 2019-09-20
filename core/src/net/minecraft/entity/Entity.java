@@ -23,6 +23,7 @@ import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.entity.EntityKilledEntityEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
@@ -1913,7 +1914,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	 * This method gets called when the entity kills another one.
 	 */
 	public void onKillEntity(EntityLivingBase entityLivingIn) {
-		E.call(new EntityKilledEntityEvent(this, entityLivingIn));
+		ServerEvents.entityKill.call(new EntityKilledEntityEvent(this, entityLivingIn));
 	}
 
 	protected boolean pushOutOfBlocks(double x, double y, double z) {

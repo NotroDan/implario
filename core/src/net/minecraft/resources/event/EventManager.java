@@ -20,12 +20,19 @@ public class EventManager<T extends Event> {
 		            array[i] = listener;
 		            i++;
 		            break;
+                }else{
+		            array[i] = this.array[i];
                 }
             }
+            System.out.println(i + " " + array.length + " " + listener + " " + this.array.length);
 		    if(i == this.array.length){
 		        array[this.array.length] = listener;
             }else{
                 System.arraycopy(this.array, i - 1, array, i, this.array.length - i);
+            }
+            if(i == 1){
+                System.out.println(array[0]);
+                System.out.println(array[1]);
             }
         }else {
             array[array.length - 1] = listener;
