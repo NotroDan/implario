@@ -2,7 +2,7 @@ package vanilla.entity;
 
 import net.minecraft.entity.player.Player;
 import net.minecraft.resources.event.SHandler;
-import net.minecraft.resources.event.events.EntityKilledEntityEvent;
+import net.minecraft.resources.event.events.entity.EntityKilledEntityEvent;
 import net.minecraft.stats.AchievementList;
 import vanilla.entity.monster.IMob;
 

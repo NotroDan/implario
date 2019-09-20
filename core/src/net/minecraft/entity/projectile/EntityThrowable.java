@@ -203,8 +203,8 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.portal) {
 				this.func_181015_d(movingobjectposition.getBlockPos());
 			} else {
-				if (ServerEvents.eventProjectileHit.isUseful())
-					ServerEvents.eventProjectileHit.call(new ProjectileHitEvent(this, movingobjectposition));
+				if (ServerEvents.projectileHit.isUseful())
+					ServerEvents.projectileHit.call(new ProjectileHitEvent(this, movingobjectposition));
 				this.onImpact(movingobjectposition);
 			}
 		}

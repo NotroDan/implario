@@ -5,7 +5,7 @@ import net.minecraft.resources.event.Event;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class FenceClickedEvent extends Event {
+public class FenceClickedEvent implements Event {
 
 	private final Player player;
 	private final World world;

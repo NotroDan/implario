@@ -2,27 +2,27 @@ package net.minecraft.resources.event;
 
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
+import net.minecraft.resources.event.events.entity.EntityDeathEvent;
 import net.minecraft.resources.event.events.player.*;
 
-public enum ServerEvents {
-	;
+public class ServerEvents {
+	public static EventManager<EntityDeathEvent> entityDeath = new EventManager<>();
+	public static EventManager<ProjectileHitEvent> projectileHit = new EventManager<>();
+	public static EventManager<BlockDropEvent> blockDrop = new EventManager<>();
 
-	public static EventManager<MountMoveEvent> eventMountMove = new EventManager<>();
-	public static EventManager<EntityDeathEvent> eventEntityDeath = new EventManager<>();
-	public static EventManager<ProjectileHitEvent> eventProjectileHit = new EventManager<>();
-	public static EventManager<BlockDropEvent> eventBlockDrop = new EventManager<>();
-
-	public static EventManager<PlayerMoveEvent> eventPlayerMove = new EventManager<>();
-	public static EventManager<PlayerUpdateEvent> eventPlayerUpdate = new EventManager<>();
-	public static EventManager<PlayerTickEvent> eventPlayerTick = new EventManager<>();
-	public static EventManager<PlayerFallEvent> eventPlayerFall = new EventManager<>();
-	public static EventManager<PlayerLeaveDisconnect> eventPlayerDisconnect = new EventManager<>();
-	public static EventManager<PlayerJumpEvent> eventPlayerJump = new EventManager<>();
-	public static EventManager<PlayerItemDropEvent> eventPlayerItemDrop = new EventManager<>();
-	public static EventManager<PlayerDeathEvent> eventPlayerDeath = new EventManager<>();
-	public static EventManager<PlayerSleepEvent> eventPlayerSleep = new EventManager<>();
-	public static EventManager<PlayerActionEvent> eventPlayerAction = new EventManager<>();
-	public static EventManager<TrackerUpdateEvent> eventTrackerUpdate = new EventManager<>();
-	public static EventManager<PlayerEnderPearlEvent> eventPlayerEnderPearl = new EventManager<>();
-	public static EventManager<PlayerInteractEvent> eventPlayerInteract = new EventManager<>();
+	public static EventManager<PlayerMoveEvent> playerMove = new EventManager<>();
+	public static EventManager<PlayerUpdateEvent> playerUpdate = new EventManager<>();
+	public static EventManager<PlayerTickEvent> playerTick = new EventManager<>();
+	public static EventManager<PlayerFallEvent> playerFall = new EventManager<>();
+	public static EventManager<PlayerLeaveDisconnect> playerDisconnect = new EventManager<>();
+	public static EventManager<PlayerJumpEvent> playerJump = new EventManager<>();
+	public static EventManager<PlayerItemDropEvent> playerItemDrop = new EventManager<>();
+	public static EventManager<PlayerDeathEvent> playerDeath = new EventManager<>();
+	public static EventManager<PlayerSleepEvent> playerSleep = new EventManager<>();
+	public static EventManager<PlayerActionEvent> playerAction = new EventManager<>();
+	public static EventManager<TrackerUpdateEvent> trackerUpdate = new EventManager<>();
+	public static EventManager<PlayerInteractEvent> playerInteract = new EventManager<>();
+	public static EventManager<PlayerRespawnEvent> playerRespawn = new EventManager<>();
+	public static EventManager<PlayerTeleportPearlEvent> playerTeleportPearl = new EventManager<>();
+	public static EventManager<PlayerMountMoveEvent> playerMountMove = new EventManager<>();
 }

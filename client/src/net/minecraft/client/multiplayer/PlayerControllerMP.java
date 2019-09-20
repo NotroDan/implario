@@ -338,11 +338,11 @@ public class PlayerControllerMP {
 		boolean cancelled = false;
 		if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			IBlockState iblockstate = worldIn.getBlockState(hitPos);
-			if (ServerEvents.eventPlayerInteract.isUseful()) {
-				PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, heldStack, hitPos, iblockstate, side,
+			if (ServerEvents.playerInteract.isUseful()) {
+				PlayerInteractEvent event = new PlayerInteractEvent(player, heldStack, hitPos, iblockstate, side,
 						(float) hitVec.xCoord, (float) hitVec.yCoord, (float) hitVec.zCoord);
-				ServerEvents.eventPlayerInteract.call(event);
-				if (event.isCancelled()) {
+				ServerEvents.playerInteract.call(event);
+				if (event.isCanceled()) {
 					cancelled = true;
 					sendToServer = event.isSendToServer();
 					swingArm = event.isArmSwing();

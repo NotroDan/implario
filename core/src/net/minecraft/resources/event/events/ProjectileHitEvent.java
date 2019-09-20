@@ -8,9 +8,7 @@ import net.minecraft.util.MovingObjectPosition;
 
 @Data
 @EqualsAndHashCode (callSuper = false)
-public class ProjectileHitEvent extends Event<ProjectileHitEvent> {
-
+public class ProjectileHitEvent implements Event {
 	private final EntityThrowable throwable;
 	private final MovingObjectPosition bumpedInto;
-
 }

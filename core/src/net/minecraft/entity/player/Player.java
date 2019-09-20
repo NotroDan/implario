@@ -28,7 +28,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.resources.event.ServerEvents;
-import net.minecraft.resources.event.events.MountMoveEvent;
+import net.minecraft.resources.event.events.player.PlayerMountMoveEvent;
 import net.minecraft.resources.event.events.player.*;
 import net.minecraft.scoreboard.*;
 import net.minecraft.server.MinecraftServer;
@@ -348,8 +348,8 @@ public abstract class Player extends EntityLivingBase {
 
 		if (!this.worldObj.isClientSide) this.foodStats.onUpdate(this);
 
-		if (ServerEvents.eventPlayerTick.isUseful())
-			ServerEvents.eventPlayerTick.call(new PlayerTickEvent(this));
+		if (ServerEvents.playerTick.isUseful())
+			ServerEvents.playerTick.call(new PlayerTickEvent(this));
 
 		double d3 = MathHelper.clamp_double(this.posX, -29999999, 29999999);
 		double d4 = MathHelper.clamp_double(this.posZ, -29999999, 29999999);
@@ -481,8 +481,9 @@ public abstract class Player extends EntityLivingBase {
 			this.prevCameraYaw = this.cameraYaw;
 			this.cameraYaw = 0.0F;
 
-			if (ServerEvents.eventMountMove.isUseful())
-				ServerEvents.eventMountMove.call(new MountMoveEvent(this, ridingEntity, d0, d1, d2, posX, posY, posZ));
+			if (ServerEvents.playerMountMove.isUseful())
+				ServerEvents.playerMountMove.call(new PlayerMountMoveEvent(this, ridingEntity,
+						d0, d1, d2, posX, posY, posZ));
 
 			if (this.ridingEntity instanceof ICameraMagnet) {
 				this.rotationPitch = f1;
@@ -695,6 +696,10 @@ public abstract class Player extends EntityLivingBase {
 		if (droppedItem.stackSize == 0) {
 			return null;
 		}
+		if (ServerEvents.playerItemDrop.isUseful())
+			if(ServerEvents.playerItemDrop.call(new PlayerItemDropEvent(this,
+					droppedItem, dropAround, traceItem)).isCanceled())return null;
+
 		double d0 = this.posY - 0.3F + (double) this.getEyeHeight();
 		EntityItem entityitem = new EntityItem(this.worldObj, this.posX, d0, this.posZ, droppedItem);
 		entityitem.setPickupDelay(40);
@@ -720,10 +725,6 @@ public abstract class Player extends EntityLivingBase {
 		}
 
 		this.joinEntityItemWithWorld(entityitem);
-
-
-		if (ServerEvents.eventPlayerItemDrop.isUseful())
-			ServerEvents.eventPlayerItemDrop.call(new PlayerItemDropEvent(this, droppedItem, dropAround, traceItem));
 
 		return entityitem;
 	}
@@ -1221,10 +1222,10 @@ public abstract class Player extends EntityLivingBase {
 				status = SleepStatus.TOO_FAR_AWAY;
 			} else status = SleepStatus.OK;
 
-			if (ServerEvents.eventPlayerSleep.isUseful()) {
+			if (ServerEvents.playerSleep.isUseful()) {
 				PlayerSleepEvent event = new PlayerSleepEvent(this, bedLocation, status);
-				ServerEvents.eventPlayerSleep.call(event);
-				status = event.getSleepStatus();
+				ServerEvents.playerSleep.call(event);
+				status = event.isCanceled() ? SleepStatus.OTHER_PROBLEM : event.getSleepStatus();
 			}
 			if (status != null && status != SleepStatus.OK) return status;
 		}
@@ -1433,10 +1434,10 @@ public abstract class Player extends EntityLivingBase {
 	 * Causes this entity to do an upwards motion (jumping).
 	 */
 	public void jump() {
-		super.jump();
+		if (ServerEvents.playerJump.isUseful())
+			if(ServerEvents.playerJump.call(new PlayerJumpEvent(this)).isCanceled())return;
 
-		if (ServerEvents.eventPlayerJump.isUseful())
-			ServerEvents.eventPlayerJump.call(new PlayerJumpEvent(this));
+		super.jump();
 
 		this.addExhaustion(this.isSprinting() ? 0.8F : 0.2F);
 	}
@@ -1483,8 +1484,8 @@ public abstract class Player extends EntityLivingBase {
 	public void fall(float distance, float damageMultiplier) {
 		if (this.capabilities.allowFlying) return;
 
-		if (ServerEvents.eventPlayerFall.isUseful())
-			ServerEvents.eventPlayerFall.call(new PlayerFallEvent(this, distance, damageMultiplier));
+		if (ServerEvents.playerFall.isUseful())
+			if(ServerEvents.playerFall.call(new PlayerFallEvent(this, distance, damageMultiplier)).isCanceled())return;
 
 		super.fall(distance, damageMultiplier);
 	}

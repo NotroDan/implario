@@ -2,7 +2,7 @@ package vanilla.world;
 
 import net.minecraft.logging.IProfiler;
 import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.events.WorldServerInitEvent;
+import net.minecraft.resources.event.events.world.WorldServerInitEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;

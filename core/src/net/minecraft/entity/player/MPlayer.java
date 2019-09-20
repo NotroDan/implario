@@ -395,6 +395,9 @@ public class MPlayer extends Player implements ICrafting {
 	 * Called when the mob's health reaches 0.
 	 */
 	public void onDeath(DamageSource cause) {
+		if (ServerEvents.playerDeath.isUseful())
+			if(ServerEvents.playerDeath.call(new PlayerDeathEvent(this, cause)).isCanceled())return;
+
 		if (this.worldObj.getGameRules().getBoolean("showDeathMessages")) {
 			Team team = this.getTeam();
 
@@ -426,9 +429,6 @@ public class MPlayer extends Player implements ICrafting {
 
 			entitylivingbase.addToPlayerScore(this, this.scoreValue);
 		}
-
-		if (ServerEvents.eventPlayerDeath.isUseful())
-			ServerEvents.eventPlayerDeath.call(new PlayerDeathEvent(this, cause));
 
 		this.func_175145_a(StatList.timeSinceDeathStat);
 		this.getCombatTracker().reset();

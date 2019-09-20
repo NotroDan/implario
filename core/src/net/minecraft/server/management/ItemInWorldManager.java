@@ -330,10 +330,10 @@ public class ItemInWorldManager {
 	 */
 	public boolean activateBlockOrUseItem(Player player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
 		IBlockState b = worldIn.getBlockState(pos);
-		if (ServerEvents.eventPlayerInteract.isUseful()) {
-			PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, stack, pos, b, side, offsetX, offsetY, offsetZ);
-			ServerEvents.eventPlayerInteract.call(event);
-			if (event.isCancelled()) return true;
+		if (ServerEvents.playerInteract.isUseful()) {
+			PlayerInteractEvent event = new PlayerInteractEvent(player, stack, pos, b, side, offsetX, offsetY, offsetZ);
+			ServerEvents.playerInteract.call(event);
+			if (event.isCanceled()) return true;
 		}
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);

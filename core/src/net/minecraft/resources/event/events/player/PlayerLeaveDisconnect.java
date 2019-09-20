@@ -5,10 +5,8 @@ import lombok.EqualsAndHashCode;
 import net.minecraft.entity.player.Player;
 import net.minecraft.resources.event.Event;
 
-@Data
-@EqualsAndHashCode (callSuper = false)
-public class PlayerLeaveDisconnect extends Event<PlayerLeaveDisconnect> {
-
-	private final Player player;
-
+public class PlayerLeaveDisconnect extends APlayerEvent {
+	public PlayerLeaveDisconnect(Player player){
+		super(player);
+	}
 }

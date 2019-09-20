@@ -302,11 +302,15 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 						logger.warn(this.playerEntity.getName() + " moved wrongly!");
 					}
 
-					this.playerEntity.setPositionAndRotation(pX, pY, pZ, pYaw, pPitch);
 					if (x != playerEntity.posX || y != playerEntity.posY || z != playerEntity.posZ) {
-						if (ServerEvents.eventPlayerMove.isUseful())
-							ServerEvents.eventPlayerMove.call(new PlayerMoveEvent(playerEntity, x, y, z, playerEntity.posX, playerEntity.posY, playerEntity.posZ));
+						if (ServerEvents.playerMove.isUseful())
+							if(ServerEvents.playerMove.call(new PlayerMoveEvent(playerEntity,
+								x, y, z, pX, pY, pZ)).isCanceled()){
+								playerEntity.setPositionAndUpdate(x, y, z);
+								return;
+							}
 					}
+					this.playerEntity.setPositionAndRotation(pX, pY, pZ, pYaw, pPitch);
 					//					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);
 
 					if (!this.playerEntity.noClip) {
@@ -681,6 +685,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
 		this.playerEntity.markPlayerActive();
 
+		if (ServerEvents.playerAction.isUseful())
+			ServerEvents.playerAction.call(new PlayerActionEvent(playerEntity, packetIn.getAction(), packetIn.getAuxData()));
+
 		switch (packetIn.getAction()) {
 			case START_SNEAKING:
 				this.playerEntity.setSneaking(true);
@@ -705,9 +712,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 			case RIDING_JUMP:
 			case OPEN_INVENTORY:
-				System.out.println("Action: " + packetIn.getAction());
-				if (ServerEvents.eventPlayerAction.isUseful())
-					ServerEvents.eventPlayerAction.call(new PlayerActionEvent(playerEntity, packetIn.getAction(), packetIn.getAuxData()));
 				break;
 
 			default:

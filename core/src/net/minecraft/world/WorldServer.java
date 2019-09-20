@@ -2,7 +2,6 @@ package net.minecraft.world;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ListenableFuture;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEventData;
@@ -20,8 +19,8 @@ import net.minecraft.logging.Log;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.events.WorldServerInitEvent;
-import net.minecraft.resources.event.events.WorldTickEvent;
+import net.minecraft.resources.event.events.world.WorldServerInitEvent;
+import net.minecraft.resources.event.events.world.WorldTickEvent;
 import net.minecraft.scoreboard.ScoreboardSaveData;
 import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.server.MinecraftServer;

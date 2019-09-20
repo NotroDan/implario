@@ -5,7 +5,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.resources.event.ServerEvents;
-import net.minecraft.resources.event.events.PlayerEnderPearlEvent;
+import net.minecraft.resources.event.events.player.PlayerTeleportPearlEvent;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ParticleType;
 import net.minecraft.util.MovingObjectPosition;
@@ -49,19 +49,25 @@ public class EntityEnderPearl extends EntityThrowable {
 
 		if (!this.worldObj.isClientSide) {
 			if (entitylivingbase instanceof MPlayer) {
-				MPlayer entityplayermp = (MPlayer) entitylivingbase;
+				MPlayer player = (MPlayer) entitylivingbase;
 
-
-				if (entityplayermp.playerNetServerHandler.getNetworkManager().isChannelOpen() && entityplayermp.worldObj == this.worldObj && !entityplayermp.isPlayerSleeping()) {
-
-					if (ServerEvents.eventPlayerEnderPearl.isUseful())
-						ServerEvents.eventPlayerEnderPearl.call(new PlayerEnderPearlEvent(this, (MPlayer) entitylivingbase));
+				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == this.worldObj && !player.isPlayerSleeping()) {
+					float damage = 5.0F;
+					if (ServerEvents.playerTeleportPearl.isUseful()) {
+						PlayerTeleportPearlEvent event = new PlayerTeleportPearlEvent(player, this);
+						ServerEvents.playerTeleportPearl.call(event);
+						if(event.isCanceled()){
+							setDead();
+							return;
+						}
+						damage = event.getDamage();
+					}
 
 					if (entitylivingbase.isRiding()) entitylivingbase.mountEntity(null);
 
 					entitylivingbase.setPositionAndUpdate(this.posX, this.posY, this.posZ);
 					entitylivingbase.fallDistance = 0.0F;
-					entitylivingbase.attackEntityFrom(DamageSource.fall, 5.0F);
+					if(damage > 0.0F)entitylivingbase.attackEntityFrom(DamageSource.fall, damage);
 				}
 			} else if (entitylivingbase != null) {
 				entitylivingbase.setPositionAndUpdate(this.posX, this.posY, this.posZ);

@@ -4,12 +4,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.resources.event.Event;
+import net.minecraft.resources.event.events.Cancelable;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 @Data
-@EqualsAndHashCode (callSuper = false)
-public class BlockDropEvent extends Event<BlockDropEvent> {
+@EqualsAndHashCode(callSuper = false)
+public class BlockDropEvent implements Event, Cancelable {
 
 	private final World world;
 	private final BlockPos position;
@@ -22,4 +23,13 @@ public class BlockDropEvent extends Event<BlockDropEvent> {
 		isDefaultDropCancelled = true;
 	}
 
+	@Override
+	public void cancel(boolean cancel) {
+		isDefaultDropCancelled = cancel;
+	}
+
+	@Override
+	public boolean isCanceled() {
+		return isDefaultDropCancelled;
+	}
 }

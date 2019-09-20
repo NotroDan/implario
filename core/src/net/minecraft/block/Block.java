@@ -534,10 +534,10 @@ public class Block {
 
 	public final void dropBlockAsItemWithChance(World w, BlockPos pos, IBlockState block, float chance, int fortune) {
 		if (w.isClientSide) return;
-		if (ServerEvents.eventBlockDrop.isUseful()) {
+		if (ServerEvents.blockDrop.isUseful()) {
 			BlockDropEvent event = new BlockDropEvent(w, pos, block, chance, fortune);
-			ServerEvents.eventBlockDrop.call(event);
-			if (event.isDefaultDropCancelled()) return;
+			ServerEvents.blockDrop.call(event);
+			if (event.isCanceled()) return;
 		}
 		dropBlockAsItemWithChance0(w, pos, block, chance, fortune);
 	}

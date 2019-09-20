@@ -4,10 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.entity.player.Player;
 
-@Data
-@EqualsAndHashCode (callSuper = false)
-public class PlayerJumpEvent extends PlayerEvent<PlayerJumpEvent> {
-
-	private final Player player;
-
+public class PlayerJumpEvent extends APlayerСancelableEvent {
+	public PlayerJumpEvent(Player player){
+		super(player);
+	}
 }

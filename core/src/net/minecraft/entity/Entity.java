@@ -23,7 +23,7 @@ import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.events.EntityKilledEntityEvent;
+import net.minecraft.resources.event.events.entity.EntityKilledEntityEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
