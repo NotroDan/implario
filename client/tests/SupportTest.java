@@ -1,5 +1,6 @@
 import __google_.util.FileIO;
 import net.minecraft.security.update.SecurityKeys;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.crypt.AES;
 import net.minecraft.util.crypt.ECDSA;
 import net.minecraft.util.crypt.SecurityKey;
@@ -32,20 +33,5 @@ public class SupportTest {
     }
 
     public static void main(String[] args) throws Exception{
-        Kek kek = new Kek();
-        kek.edit(10);
-        System.out.println(Kek.i);
-        System.out.println(LOL.i);
-    }
-
-
-    public static class LOL{
-        static int i;
-    }
-
-    public static class Kek extends LOL{
-        public void edit(int a){
-            i = a;
-        }
     }
 }

@@ -31,6 +31,7 @@ import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerDeathEvent;
+import net.minecraft.resources.event.events.player.PlayerJumpEvent;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -1014,4 +1015,13 @@ public class MPlayer extends Player implements ICrafting {
 		return null;
 	}
 
+	@Override
+	public void jump() {
+		if (ServerEvents.playerJump.isUseful()){
+			PlayerJumpEvent event = new PlayerJumpEvent(this);
+			ServerEvents.playerJump.call(event);
+			if(event.isCanceled())return;
+		}
+		super.jump();
+	}
 }

@@ -1421,22 +1421,14 @@ public abstract class Player extends EntityLivingBase {
 		this.addStat(achievementIn, 1);
 	}
 
-	/**
-	 * Adds a value to a statistic field.
-	 */
-	public void addStat(StatBase stat, int amount) {
-	}
+	public void addStat(StatBase stat, int amount) {}
 
-	public void func_175145_a(StatBase p_175145_1_) {
-	}
+	public void func_175145_a(StatBase p_175145_1_) {}
 
 	/**
 	 * Causes this entity to do an upwards motion (jumping).
 	 */
 	public void jump() {
-		if (ServerEvents.playerJump.isUseful())
-			if(ServerEvents.playerJump.call(new PlayerJumpEvent(this)).isCanceled())return;
-
 		super.jump();
 
 		this.addExhaustion(this.isSprinting() ? 0.8F : 0.2F);

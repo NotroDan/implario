@@ -17,7 +17,6 @@ public abstract class BlockStateBase implements IBlockState {
 
 	private static final Joiner COMMA_JOINER = Joiner.on(',');
 	private static final Function MAP_ENTRY_TO_STRING = new Function() {
-
 		public String apply(Entry p_apply_1_) {
 			if (p_apply_1_ == null) {
 				return "<NULL>";
@@ -26,6 +25,7 @@ public abstract class BlockStateBase implements IBlockState {
 			return iproperty.getName() + "=" + iproperty.getName((Comparable) p_apply_1_.getValue());
 		}
 
+		@Override
 		public Object apply(Object p_apply_1_) {
 			return this.apply((Entry) p_apply_1_);
 		}

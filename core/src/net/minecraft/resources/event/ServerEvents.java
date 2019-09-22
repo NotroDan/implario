@@ -5,6 +5,8 @@ import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.resources.event.events.entity.EntityDeathEvent;
 import net.minecraft.resources.event.events.entity.EntityKilledEntityEvent;
 import net.minecraft.resources.event.events.player.*;
+import net.minecraft.resources.event.events.world.WorldServerInitEvent;
+import net.minecraft.resources.event.events.world.WorldTickEvent;
 
 public class ServerEvents {
 	public static EventManager<EntityDeathEvent> entityDeath = new EventManager<>();
@@ -28,4 +30,9 @@ public class ServerEvents {
 	public static EventManager<PlayerTeleportPearlEvent> playerTeleportPearl = new EventManager<>();
 	public static EventManager<PlayerMountMoveEvent> playerMountMove = new EventManager<>();
 	public static EventManager<ItemInteractForEntityEvent> playerItemInteract = new EventManager<>();
+	public static EventManager<PlayerFenceClickedEvent> playerFenceClicked = new EventManager<>();
+	public static EventManager<PlayerBlockBreakEvent> playerBlockBreak = new EventManager<>();
+
+	public static EventManager<WorldServerInitEvent> worldInit = new EventManager<>();
+	public static EventManager<WorldTickEvent> worldTick = new EventManager<>();
 }

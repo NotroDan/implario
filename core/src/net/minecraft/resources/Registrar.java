@@ -46,7 +46,6 @@ public class Registrar {
 
 
 	protected void unregister() {
-		E.getEventLib().LIB.disable(domain);
 		E.getPacketLib().LIB.disable(domain);
 		Collections.reverse(mappings);
 		for (Mapping entry : mappings) entry.revert();

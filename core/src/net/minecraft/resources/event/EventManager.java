@@ -24,7 +24,6 @@ public class EventManager<T extends Event> {
 		            array[i] = this.array[i];
                 }
             }
-            System.out.println(i + " " + array.length + " " + listener + " " + this.array.length);
 		    if(i == this.array.length){
 		        array[this.array.length] = listener;
             }else{

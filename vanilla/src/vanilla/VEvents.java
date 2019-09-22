@@ -28,6 +28,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import org.lwjgl.Sys;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.monster.EntityBlaze;
 import vanilla.entity.monster.EntityEndermite;
@@ -35,8 +36,11 @@ import vanilla.entity.monster.EntitySilverfish;
 import vanilla.entity.passive.EntityChicken;
 import vanilla.entity.passive.EntityHorse;
 import vanilla.entity.passive.EntityPig;
+import vanilla.entity.passive.EntityRabbit;
 import vanilla.item.ItemLead;
 import vanilla.world.SleepChecker;
+
+import java.util.Random;
 
 import static vanilla.Vanilla.VANILLA;
 
@@ -44,7 +48,6 @@ public class VEvents implements ServerSideLoadable {
 
 	@Override
 	public void load(Registrar registrar) {
-
 		ServerEvents.playerMove.add(this::handlePlayerMove, VANILLA, -5);
 		ServerEvents.playerMountMove.add(this::handleMountMove, VANILLA, true, -5);
 		ServerEvents.playerTick.add(this::handlePlayerTick, VANILLA, -5);
@@ -60,7 +63,6 @@ public class VEvents implements ServerSideLoadable {
 		ServerEvents.playerTeleportPearl.add(this::handlePlayerEnderPearl, VANILLA, true, -5);
 		ServerEvents.blockDrop.add(this::handleBlockDrop, VANILLA, true, -5);
 		ServerEvents.playerInteract.add(this::handleInteract, VANILLA, true, -5);
-
 	}
 
 	private void handleItemDrop(PlayerItemDropEvent e) {
