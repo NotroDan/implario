@@ -70,8 +70,8 @@ public class CommandCompare extends CommandBase {
 				for (int j = structureboundingbox.minZ; j <= structureboundingbox.maxZ; ++j) {
 					for (int k = structureboundingbox.minY; k <= structureboundingbox.maxY; ++k) {
 						for (int l = structureboundingbox.minX; l <= structureboundingbox.maxX; ++l) {
-							blockpos$mutableblockpos.func_181079_c(l, k, j);
-							blockpos$mutableblockpos1.func_181079_c(l + blockpos3.getX(), k + blockpos3.getY(), j + blockpos3.getZ());
+							blockpos$mutableblockpos.setXyz(l, k, j);
+							blockpos$mutableblockpos1.setXyz(l + blockpos3.getX(), k + blockpos3.getY(), j + blockpos3.getZ());
 							boolean flag1 = false;
 							IBlockState iblockstate = world.getBlockState(blockpos$mutableblockpos);
 

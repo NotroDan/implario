@@ -22,7 +22,6 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.resources.Domain;
-import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.entity.EntityKilledEntityEvent;
 import net.minecraft.server.MinecraftServer;
@@ -1567,20 +1566,16 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		if (this.noClip) {
 			return false;
 		}
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
 		for (int i = 0; i < 8; ++i) {
-			int y = MathHelper.floor_double(this.posY + (double) (((float) ((i >> 0) % 2) - 0.5F) * 0.1F) + (double) this.getEyeHeight());
-			int x = MathHelper.floor_double(this.posX + (double) (((float) ((i >> 1) % 2) - 0.5F) * this.width * 0.8F));
-			int z = MathHelper.floor_double(this.posZ + (double) (((float) ((i >> 2) % 2) - 0.5F) * this.width * 0.8F));
+			int x = MathHelper.floor_double(this.posX + (double) (((float) ((i / 2) % 2) - 0.5F) * this.width * 0.8F));
+			int y = MathHelper.floor_double(this.posY + (double) (((float) ((i) % 2) - 0.5F) * 0.1F) + (double) this.getEyeHeight());
+			int z = MathHelper.floor_double(this.posZ + (double) (((float) ((i / 4) % 2) - 0.5F) * this.width * 0.8F));
 
-			if (blockpos$mutableblockpos.getX() != x || blockpos$mutableblockpos.getY() != y || blockpos$mutableblockpos.getZ() != z) {
-				blockpos$mutableblockpos.func_181079_c(x, y, z);
+			pos.setXyz(x, y, z);
 
-				if (this.worldObj.getBlockState(blockpos$mutableblockpos).getBlock().isVisuallyOpaque()) {
-					return true;
-				}
-			}
+			if (this.worldObj.getBlockState(pos).getBlock().isVisuallyOpaque()) return true;
 		}
 
 		return false;

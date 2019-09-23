@@ -50,7 +50,7 @@ public class WorldGenForest extends WorldGenAbstractTree {
 				for (int l = position.getX() - k; l <= position.getX() + k && flag; ++l) {
 					for (int i1 = position.getZ() - k; i1 <= position.getZ() + k && flag; ++i1) {
 						if (j >= 0 && j < 256) {
-							if (!this.func_150523_a(worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(l, j, i1)).getBlock())) {
+							if (!this.func_150523_a(worldIn.getBlockState(blockpos$mutableblockpos.setXyz(l, j, i1)).getBlock())) {
 								flag = false;
 							}
 						} else {

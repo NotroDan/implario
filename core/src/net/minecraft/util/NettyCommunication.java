@@ -7,7 +7,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.MessageToByteEncoder;
 import net.minecraft.Logger;
-import net.minecraft.network.ConnectionState;
+import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -108,7 +108,7 @@ public class NettyCommunication {
 			if (buf.readableBytes() != 0) {
 				PacketBuffer packetbuffer = new PacketBuffer(buf);
 				int i = packetbuffer.readVarIntFromBuffer();
-				ConnectionState state = chc.channel().attr(NetworkManager.attrKeyConnectionState).get();
+				Protocol state = chc.channel().attr(NetworkManager.attrKeyConnectionState).get();
 				Packet packet = state.getPacket(isClientSide, i);
 
 				if (packet == null) {

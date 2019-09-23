@@ -1071,15 +1071,6 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 		return this.dataWatcher.getWatchableObjectByte(15) != 0;
 	}
 
-	/**
-	 * Checks if this entity is inside of an opaque block
-	 */
-	public boolean isEntityInsideOpaqueBlock() {
-		if (!Todo.instance.shouldUseOptifineOpaquenessChecking()) return super.isEntityInsideOpaqueBlock();
-		return Todo.instance.isEntityInsideOpaqueBlockOptifineTupoeGovnoSdohniNahuyPozhaluysta(
-				noClip, posX, posY, posZ, width, getEyeHeight(), worldObj);
-	}
-
 	private boolean canSkipUpdate() {
 		if (this.isChild()) {
 			return false;

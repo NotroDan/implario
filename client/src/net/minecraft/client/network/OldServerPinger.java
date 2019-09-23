@@ -10,10 +10,10 @@ import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.network.ConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.ServerStatusResponse;
 import net.minecraft.network.handshake.client.C00Handshake;
+import net.minecraft.network.protocol.Protocols;
 import net.minecraft.network.status.INetHandlerStatusClient;
 import net.minecraft.network.status.client.C00PacketServerQuery;
 import net.minecraft.network.status.client.C01PacketPing;
@@ -46,7 +46,7 @@ public class OldServerPinger {
 		networkmanager.setNetHandler(new PingerNetHandlerStatusClient(networkmanager, server));
 
 		try {
-			networkmanager.sendPacket(new C00Handshake(47, serveraddress.getIP(), serveraddress.getPort(), ConnectionState.STATUS));
+			networkmanager.sendPacket(new C00Handshake(47, serveraddress.getIP(), serveraddress.getPort(), Protocols.STATUS));
 			networkmanager.sendPacket(new C00PacketServerQuery());
 		} catch (Throwable ex) {
 			logger.error(ex);

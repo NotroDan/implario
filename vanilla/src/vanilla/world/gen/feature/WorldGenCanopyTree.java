@@ -153,7 +153,7 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
 
 			for (int j1 = -i1; j1 <= i1; ++j1) {
 				for (int k1 = -i1; k1 <= i1; ++k1) {
-					if (!this.func_150523_a(p_181638_1_.getBlockState(blockpos$mutableblockpos.func_181079_c(i + j1, j + l, k + k1)).getBlock())) {
+					if (!this.func_150523_a(p_181638_1_.getBlockState(blockpos$mutableblockpos.setXyz(i + j1, j + l, k + k1)).getBlock())) {
 						return false;
 					}
 				}

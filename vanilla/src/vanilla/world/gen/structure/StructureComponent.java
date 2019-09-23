@@ -137,11 +137,11 @@ public abstract class StructureComponent {
 
 		for (int k1 = i; k1 <= l; ++k1) {
 			for (int l1 = k; l1 <= j1; ++l1) {
-				if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, j, l1)).getBlock().getMaterial().isLiquid()) {
+				if (worldIn.getBlockState(blockpos$mutableblockpos.setXyz(k1, j, l1)).getBlock().getMaterial().isLiquid()) {
 					return true;
 				}
 
-				if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, i1, l1)).getBlock().getMaterial().isLiquid()) {
+				if (worldIn.getBlockState(blockpos$mutableblockpos.setXyz(k1, i1, l1)).getBlock().getMaterial().isLiquid()) {
 					return true;
 				}
 			}
@@ -149,11 +149,11 @@ public abstract class StructureComponent {
 
 		for (int i2 = i; i2 <= l; ++i2) {
 			for (int k2 = j; k2 <= i1; ++k2) {
-				if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(i2, k2, k)).getBlock().getMaterial().isLiquid()) {
+				if (worldIn.getBlockState(blockpos$mutableblockpos.setXyz(i2, k2, k)).getBlock().getMaterial().isLiquid()) {
 					return true;
 				}
 
-				if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(i2, k2, j1)).getBlock().getMaterial().isLiquid()) {
+				if (worldIn.getBlockState(blockpos$mutableblockpos.setXyz(i2, k2, j1)).getBlock().getMaterial().isLiquid()) {
 					return true;
 				}
 			}
@@ -161,11 +161,11 @@ public abstract class StructureComponent {
 
 		for (int j2 = k; j2 <= j1; ++j2) {
 			for (int l2 = j; l2 <= i1; ++l2) {
-				if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(i, l2, j2)).getBlock().getMaterial().isLiquid()) {
+				if (worldIn.getBlockState(blockpos$mutableblockpos.setXyz(i, l2, j2)).getBlock().getMaterial().isLiquid()) {
 					return true;
 				}
 
-				if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(l, l2, j2)).getBlock().getMaterial().isLiquid()) {
+				if (worldIn.getBlockState(blockpos$mutableblockpos.setXyz(l, l2, j2)).getBlock().getMaterial().isLiquid()) {
 					return true;
 				}
 			}
