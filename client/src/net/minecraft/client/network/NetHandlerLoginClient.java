@@ -84,7 +84,7 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
 
 	public void handleLoginSuccess(S02PacketLoginSuccess packetIn) {
 		this.gameProfile = packetIn.getProfile();
-		Utils.implarioServer = true;
+		Utils.implarioServer = packetIn.isImplario();
 		this.networkManager.setConnectionState(ConnectionState.PLAY);
 		this.networkManager.setNetHandler(new NetHandlerPlayClient(this.mc, this.previousGuiScreen, this.networkManager, this.gameProfile));
 	}

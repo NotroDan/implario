@@ -27,8 +27,8 @@ public class ConnectionState {
 	public static ConnectionState
 			HANDSHAKING,
 			PLAY,
-			STATUS,
-			LOGIN;
+			LOGIN,
+			STATUS;
 
 	@Getter
 	private final int id;
