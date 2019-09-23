@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
-public class TileEntitySignRenderer extends TileEntitySpecialRenderer {
+public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntitySign> {
 
 	private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation("textures/entity/sign.png");
 
@@ -112,10 +112,6 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer {
 			G.popMatrix();
 			G.matrixMode(5888);
 		}
-	}
-
-	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
-		this.renderTileEntityAt((TileEntitySign) te, x, y, z, partialTicks, destroyStage);
 	}
 
 }

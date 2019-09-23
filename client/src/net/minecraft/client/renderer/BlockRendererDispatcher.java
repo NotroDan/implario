@@ -37,14 +37,13 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 
 	public void renderBlockDamage(IBlockState state, BlockPos pos, TextureAtlasSprite texture, IBlockAccess blockAccess) {
 		Block block = state.getBlock();
-		int i = block.getRenderType();
+		int renderType = block.getRenderType();
+		if (renderType != 3) return;
 
-		if (i == 3) {
-			state = block.getActualState(state, blockAccess, pos);
-			IBakedModel ibakedmodel = this.blockModelShapes.getModelForState(state);
-			IBakedModel ibakedmodel1 = new SimpleBakedModel.Builder(ibakedmodel, texture).makeBakedModel();
-			this.blockModelRenderer.renderModel(blockAccess, ibakedmodel1, state, pos, Tessellator.getInstance().getWorldRenderer());
-		}
+		state = block.getActualState(state, blockAccess, pos);
+		IBakedModel ibakedmodel = this.blockModelShapes.getModelForState(state);
+		IBakedModel ibakedmodel1 = new SimpleBakedModel.Builder(ibakedmodel, texture).makeBakedModel();
+		this.blockModelRenderer.renderModel(blockAccess, ibakedmodel1, state, pos, Tessellator.getInstance().getWorldRenderer());
 	}
 
 	public boolean renderBlock(IBlockState state, BlockPos pos, IBlockAccess world, WorldRenderer worldRendererIn) {
@@ -55,27 +54,18 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 			switch (i) {
 				case 1:
 					if (Config.isShaders()) SVertexBuilder.pushEntity(state, pos, world, worldRendererIn);
-
-					boolean flag1 = this.fluidRenderer.renderFluid(world, state, pos, worldRendererIn);
-
+					boolean success = this.fluidRenderer.renderFluid(world, state, pos, worldRendererIn);
 					if (Config.isShaders()) SVertexBuilder.popEntity(worldRendererIn);
-
-					return flag1;
-
-				case 2:
-					return false;
+					return success;
 
 				case 3:
 					IBakedModel ibakedmodel = this.getModelFromBlockState(state, world, pos);
-
 					if (Config.isShaders()) SVertexBuilder.pushEntity(state, pos, world, worldRendererIn);
-
 					boolean flag = this.blockModelRenderer.renderModel(world, ibakedmodel, state, pos, worldRendererIn);
-
 					if (Config.isShaders()) SVertexBuilder.popEntity(worldRendererIn);
-
 					return flag;
 
+				case 2:
 				default:
 					return false;
 			}

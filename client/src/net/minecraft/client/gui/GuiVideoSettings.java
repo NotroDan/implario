@@ -91,7 +91,7 @@ public class GuiVideoSettings extends GuiScreen {
 					return;
 				}
 
-				if (Config.isFastRender()) {
+				if (Config.isDirectRender()) {
 					Config.showGuiMessage(Lang.get("of.message.shaders.fr1"), Lang.get("of.message.shaders.fr2"));
 					return;
 				}

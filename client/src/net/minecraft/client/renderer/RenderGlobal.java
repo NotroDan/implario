@@ -269,20 +269,20 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	public void renderEntityOutlineFramebuffer() {
 		if (this.isRenderEntityOutlines()) {
 			G.enableBlend();
-			G.tryBlendFuncSeparate(770, 771, 0, 1);
+			G.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 0, 1);
 			this.entityOutlineFramebuffer.framebufferRenderExt(this.mc.displayWidth, this.mc.displayHeight, false);
 			G.disableBlend();
 		}
 	}
 
 	protected boolean isRenderEntityOutlines() {
-		return !Config.isFastRender() &&
-				!Config.isShaders() &&
+		return !Config.isShaders() &&
+//				!Config.isFastRender() &&
 				!Config.isAntialiasing() &&
 				this.entityOutlineFramebuffer != null &&
 				this.entityOutlineShader != null &&
 				this.mc.thePlayer != null &&
-				this.mc.thePlayer.isSpectator() &&
+//				this.mc.thePlayer.isSpectator() &&
 				KeyBinding.SPECTATOR_GLOW.isKeyDown();
 	}
 

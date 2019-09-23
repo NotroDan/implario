@@ -718,7 +718,7 @@ public class OpenGlHelper {
 	}
 
 	public static boolean isFramebufferEnabled() {
-		return !Config.isFastRender() && !Config.isAntialiasing() && framebufferSupported && Settings.FBO_ENABLE.b();
+		return !Config.isDirectRender() && !Config.isAntialiasing() && framebufferSupported && Settings.FBO_ENABLE.b();
 	}
 
 	public static String getCPU() {

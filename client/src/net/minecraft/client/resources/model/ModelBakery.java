@@ -8,10 +8,14 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 import net.minecraft.Logger;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.Preloader;
 import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.texture.IIconCreator;
 import net.minecraft.client.renderer.texture.IIconCreatorImpl;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -99,6 +103,14 @@ public class ModelBakery {
 		this.loadItemModels();
 	}
 
+	public Collection<ModelResourceLocation> findAndRegisterBlockModels(Block block, IStateMapper mapper) {
+		if (mapper != null) blockModelShapes.getBlockStateMapper().registerBlockStateMapper(block, mapper);
+		else mapper = new DefaultStateMapper();
+		Map<IBlockState, ModelResourceLocation> map = mapper.putStateModelLocations(block);
+		loadVariants(map.values());
+		return map.values();
+	}
+
 	private void loadVariants(Collection<ModelResourceLocation> models) {
 		for (ModelResourceLocation model : models) {
 			try {
@@ -114,8 +126,8 @@ public class ModelBakery {
 		}
 	}
 
-	private void registerVariant(ModelBlockDefinition blockDefinition, ModelResourceLocation loc) {
-		this.variants.put(loc, blockDefinition.getVariants(loc.getVariant()));
+	private ModelBlockDefinition.Variants registerVariant(ModelBlockDefinition blockDefinition, ModelResourceLocation loc) {
+		return this.variants.put(loc, blockDefinition.getVariants(loc.getVariant()));
 	}
 
 	private ModelBlockDefinition getModelBlockDefinition(ResourceLocation resourceLocation) {

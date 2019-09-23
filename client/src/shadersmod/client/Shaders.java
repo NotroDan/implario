@@ -633,28 +633,30 @@ public class Shaders {
 			flag2 = true;
 		}
 
-		if (Config.isFastRender()) {
+		if (Config.isDirectRender()) {
 			SMCLog.info("Шейдеры не могут быть запущены, пока включён быстрый рендер.");
 			flag2 = true;
 		}
 
 		String s = shadersConfig.getProperty(EnumShaderOption.SHADER_PACK.getPropertyKey(), packNameDefault);
 
-		if (!s.isEmpty() && !s.equals(packNameNone) && !flag2) if (s.equals(packNameDefault)) {
-			shaderPack = new ShaderPackDefault();
-			shaderPackLoaded = true;
-		} else try {
-			File file1 = new File(shaderpacksdir, s);
+		if (!s.isEmpty() && !s.equals(packNameNone) && !flag2) {
+			if (s.equals(packNameDefault)) {
+				shaderPack = new ShaderPackDefault();
+				shaderPackLoaded = true;
+			} else try {
+				File file1 = new File(shaderpacksdir, s);
 
-			if (file1.isDirectory()) {
-				shaderPack = new ShaderPackFolder(s, file1);
-				shaderPackLoaded = true;
-			} else if (file1.isFile() && s.toLowerCase().endsWith(".zip")) {
-				shaderPack = new ShaderPackZip(s, file1);
-				shaderPackLoaded = true;
+				if (file1.isDirectory()) {
+					shaderPack = new ShaderPackFolder(s, file1);
+					shaderPackLoaded = true;
+				} else if (file1.isFile() && s.toLowerCase().endsWith(".zip")) {
+					shaderPack = new ShaderPackZip(s, file1);
+					shaderPackLoaded = true;
+				}
+			} catch (Exception var6) {
+				;
 			}
-		} catch (Exception var6) {
-			;
 		}
 
 		if (shaderPack != null) SMCLog.info("Используемый шейдерпак: " + getShaderPackName());

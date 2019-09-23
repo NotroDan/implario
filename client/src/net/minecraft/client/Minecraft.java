@@ -53,7 +53,6 @@ import net.minecraft.client.resources.ClientRegistrar;
 import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
-import net.minecraft.server.Todo;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.*;
@@ -116,8 +115,6 @@ public class Minecraft implements IThreadListener {
 
 	public GuiAchievement guiAchievement;
 	public GuiIngame ingameGUI;
-
-	public boolean skipRenderWorld;
 
 	// The ray trace hit that the mouse is over.
 	public MovingObjectPosition objectMouseOver;
@@ -204,7 +201,6 @@ public class Minecraft implements IThreadListener {
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
 		profiler = new OptifineProfiler();
-		Todo.instance = new TodoClient();
 		this.errorGuy = new ErrorGuy(this);
 		this.mcDataDir = gameConfig.folderInfo.mcDataDir;
 		this.fileResourcepacks = gameConfig.folderInfo.resourcePacksDir;
@@ -333,7 +329,6 @@ public class Minecraft implements IThreadListener {
 		this.guiAchievement = new GuiAchievement(this);
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		for (Datapack datapack : Datapacks.getDatapacks()) {
-			System.out.println(datapack.clientSide);
 			if (datapack.clientSide instanceof ClientSideDatapack) {
 				((ClientSideDatapack) datapack.clientSide).clientInit(new ClientRegistrar(datapack.getRegistrar()));
 			}
@@ -349,12 +344,11 @@ public class Minecraft implements IThreadListener {
 		Log.init();
 		Settings.init();
 		this.inputHandler = new InputHandler(this);
-		MAIN.info("Установлено имя " + this.session.getUsername() + ", ID сессии: " + session.getSessionID());
+		MAIN.info("Сессия аккаунта " + this.session.getUsername() + ", ID сессии: " + session.getSessionID());
 
 		this.defaultResourcePacks.add(this.mcDefaultResourcePack);
 		this.startTimerHackThread();
 
-		MAIN.info("Используемая версия LWJGL: " + Sys.getVersion() + " (Вау, почти как новая)");
 		this.displayGuy.setWindowIcon();
 		this.displayGuy.setInitialDisplayMode();
 		this.displayGuy.createDisplay();
@@ -506,7 +500,6 @@ public class Minecraft implements IThreadListener {
 			int i = scaledresolution.getScaledWidth();
 			int j = scaledresolution.getScaledHeight();
 			guiScreenIn.setWorldAndResolution(this, i, j);
-			this.skipRenderWorld = false;
 		} else {
 			this.mcSoundHandler.resumeSounds();
 			this.inputHandler.setIngameFocus();
@@ -577,7 +570,7 @@ public class Minecraft implements IThreadListener {
 		profiler.endSection();
 		profiler.startSection("render");
 		G.pushMatrix();
-		G.clear(16640);
+		if (!Settings.DIRECT_RENDER.b()) G.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		this.framebufferMc.bindFramebuffer(true);
 		profiler.startSection("display");
 		G.enableTexture2D();
@@ -586,11 +579,9 @@ public class Minecraft implements IThreadListener {
 
 		profiler.endSection();
 
-		if (!this.skipRenderWorld) {
-			profiler.endStartSection("gameRenderer");
-			this.entityRenderer.func_181560_a(this.timer.renderPartialTicks, i);
-			profiler.endSection();
-		}
+		profiler.endStartSection("gameRenderer");
+		this.entityRenderer.func_181560_a(this.timer.renderPartialTicks, i);
+		profiler.endSection();
 
 		profiler.endSection();
 

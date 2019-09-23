@@ -18,6 +18,7 @@ public class ModelManager implements IResourceManagerReloadListener {
 		this.modelProvider = new BlockModelShapes(this);
 	}
 
+	// ToDo: Отменить жёсткую привязку "один за всех, и все за одного"
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 		ModelBakery modelbakery = new ModelBakery(resourceManager, this.texMap, this.modelProvider);
 		this.modelRegistry = modelbakery.setupModelRegistry();

@@ -9,8 +9,10 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.TodoClient;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.JarDatapackLoader;
+import net.minecraft.server.Todo;
 import net.minecraft.util.Session;
 import net.minecraft.util.StringUtils;
 
@@ -41,6 +43,8 @@ public class Main {
 	public static String args[];
 
 	public static void main(String[] args) {
+		Todo.instance = new TodoClient();
+
 		System.setProperty("java.net.preferIPv4Stack", "true");
 		OptionParser optionparser = new OptionParser();
 		optionparser.allowsUnrecognizedOptions();

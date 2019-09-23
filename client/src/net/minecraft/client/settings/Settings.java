@@ -41,7 +41,12 @@ public enum Settings {
 			return f() == 0 ? "sync" : f() == 260 ? "max" : (int) f() + "";
 		}
 	}, //0, 260, 5, 260),
-	FBO_ENABLE("Использовать FBO", true),
+	FBO_ENABLE("Использовать FBO", true) {
+		@Override
+		public void change() {
+			Config.updateFramebufferSize();
+		}
+	},
 	GUI_SCALE("Интерфейс", 0, "Авто", "x1", "x2", "x3", "x4") {
 		@Override
 		public void change() {
@@ -131,7 +136,7 @@ public enum Settings {
 	DROPPED_ITEMS("3D-Предметы", true),
 	LAZY_CHUNK_LOADING("Ленивая загрузка чанков", false),
 	CUSTOM_SKY("Кастомное небо", true),
-	FAST_RENDER("Быстрый рендер", true),
+	DIRECT_RENDER("Быстрый рендер", true),
 	TRANSLUCENT_BLOCKS("Просвечивание блоков", 0, "Быстрое", "Детальное"),
 	DYNAMIC_FOV("Динамика поля зрения", true),
 	DYNAMIC_LIGHTS("Динамическое освещение", true),

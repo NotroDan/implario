@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer.tileentity;
 
 import com.google.common.collect.Maps;
+import lombok.Getter;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 public class TileEntityRendererDispatcher {
 
+	@Getter
 	private Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> mapSpecialRenderers = Maps.newHashMap();
 	public static TileEntityRendererDispatcher instance = new TileEntityRendererDispatcher();
 	private AssetsFontRenderer fontRenderer;
@@ -62,12 +64,13 @@ public class TileEntityRendererDispatcher {
 		renderer.setRendererDispatcher(this);
 	}
 
+	@SuppressWarnings ("unchecked")
 	public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRendererByClass(Class<? extends TileEntity> teClass) {
 		TileEntitySpecialRenderer<? extends TileEntity> tileentityspecialrenderer = this.mapSpecialRenderers.get(teClass);
 
 		if (tileentityspecialrenderer == null && teClass != TileEntity.class) {
 			tileentityspecialrenderer = this.getSpecialRendererByClass((Class<? extends TileEntity>) teClass.getSuperclass());
-			this.mapSpecialRenderers.put(teClass, tileentityspecialrenderer);
+			if (tileentityspecialrenderer != null) this.mapSpecialRenderers.put(teClass, tileentityspecialrenderer);
 		}
 
 		return (TileEntitySpecialRenderer<T>) tileentityspecialrenderer;

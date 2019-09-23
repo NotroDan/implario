@@ -57,13 +57,10 @@ public class Datapacks {
 
 		BlockFire.init();
 
-		Item.registerItems();
 		datapack.loadItems();
 		Items.reload();
 
 		datapack.preinit();
-		Blocks.reload();
-		Block.reloadBlockStates();
 		datapack.init();
 		Todo.instance.clientInit(datapack);
 		datapack.ready();

@@ -1073,81 +1073,78 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 		mc.getProfiler().endSection();
 
-		if (!this.mc.skipRenderWorld) {
-			//			anaglyphEnable = this.mc.gameSettings.anaglyph;
-			final ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-			int l = scaledresolution.getScaledWidth();
-			int i1 = scaledresolution.getScaledHeight();
-			final int j1 = Mouse.getX() * l / this.mc.displayWidth;
-			final int k1 = i1 - Mouse.getY() * i1 / this.mc.displayHeight - 1;
-			int l1 = (int) Settings.FRAMERATE_LIMIT.f();
+		final ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+		int l = scaledresolution.getScaledWidth();
+		int i1 = scaledresolution.getScaledHeight();
+		final int j1 = Mouse.getX() * l / this.mc.displayWidth;
+		final int k1 = i1 - Mouse.getY() * i1 / this.mc.displayHeight - 1;
+		int l1 = (int) Settings.FRAMERATE_LIMIT.f();
 
-			if (this.mc.theWorld != null) {
-				mc.getProfiler().startSection("level");
-				int i = Math.min(Minecraft.getDebugFPS(), l1);
-				i = Math.max(i, 60);
-				long j = System.nanoTime() - p_181560_2_;
-				long k = Math.max((long) (1000000000 / i / 4) - j, 0L);
-				this.renderWorld(p_181560_1_, System.nanoTime() + k);
+		if (this.mc.theWorld != null) {
+			mc.getProfiler().startSection("level");
+			int i = Math.min(Minecraft.getDebugFPS(), l1);
+			i = Math.max(i, 60);
+			long j = System.nanoTime() - p_181560_2_;
+			long k = Math.max((long) (1000000000 / i / 4) - j, 0L);
+			this.renderWorld(p_181560_1_, System.nanoTime() + k);
 
-				if (OpenGlHelper.shadersSupported) {
-					this.mc.renderGlobal.renderEntityOutlineFramebuffer();
+			if (OpenGlHelper.shadersSupported) {
+				this.mc.renderGlobal.renderEntityOutlineFramebuffer();
 
-					if (this.theShaderGroup != null && this.useShader) {
-						G.matrixMode(5890);
-						G.pushMatrix();
-						G.loadIdentity();
-						this.theShaderGroup.loadShaderGroup(p_181560_1_);
-						G.popMatrix();
-					}
-
-					this.mc.getFramebuffer().bindFramebuffer(true);
+				if (this.theShaderGroup != null && this.useShader) {
+					G.matrixMode(5890);
+					G.pushMatrix();
+					G.loadIdentity();
+					this.theShaderGroup.loadShaderGroup(p_181560_1_);
+					G.popMatrix();
 				}
 
-				this.renderEndNanoTime = System.nanoTime();
-				mc.getProfiler().endStartSection("gui");
-
-				if (!Settings.HIDE_GUI.b() || this.mc.currentScreen != null) {
-					G.alphaFunc(516, 0.1F);
-					this.mc.ingameGUI.renderGameOverlay(p_181560_1_);
-
-					//                    if (this.mc.gameSettings.ofShowFps && !this.mc.gameSettings.showDebugInfo)
-					//                    {
-					//                        Config.drawFps();
-					//                    }
-
-					if (Settings.SHOW_DEBUG.b()) {
-						Lagometer.showLagometer(scaledresolution);
-					}
-				}
-
-				mc.getProfiler().endSection();
-			} else {
-				G.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-				G.matrixMode(5889);
-				G.loadIdentity();
-				G.matrixMode(5888);
-				G.loadIdentity();
-				this.setupOverlayRendering();
-				this.renderEndNanoTime = System.nanoTime();
-				TileEntityRendererDispatcher.instance.renderEngine = this.mc.getTextureManager();
+				this.mc.getFramebuffer().bindFramebuffer(true);
 			}
 
-			if (this.mc.currentScreen != null) {
-				G.clear(256);
+			this.renderEndNanoTime = System.nanoTime();
+			mc.getProfiler().endStartSection("gui");
 
-				try {
-					this.mc.currentScreen.drawScreen(j1, k1, p_181560_1_);
-				} catch (Throwable throwable) {
-					CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
-					CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
-					crashreportcategory.addCrashSectionCallable("Screen name", () -> Minecraft.getMinecraft().currentScreen.getClass().getCanonicalName());
-					crashreportcategory.addCrashSectionCallable("Mouse location", (Callable) () -> String.format("Scaled: (%d, %d). Absolute: (%d, %d)", j1, k1, Mouse.getX(), Mouse.getY()));
-					crashreportcategory.addCrashSectionCallable("Screen size",
-							(Callable) () -> String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(),
-									EntityRenderer.this.mc.displayWidth, EntityRenderer.this.mc.displayHeight, scaledresolution.getScaleFactor()));
-					throw new ReportedException(crashreport);
+			if (!Settings.HIDE_GUI.b() || this.mc.currentScreen != null) {
+				G.alphaFunc(516, 0.1F);
+				this.mc.ingameGUI.renderGameOverlay(p_181560_1_);
+
+				//                    if (this.mc.gameSettings.ofShowFps && !this.mc.gameSettings.showDebugInfo)
+				//                    {
+				//                        Config.drawFps();
+				//                    }
+
+				if (Settings.SHOW_DEBUG.b()) {
+					Lagometer.showLagometer(scaledresolution);
 				}
+			}
+
+			mc.getProfiler().endSection();
+		} else {
+			G.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
+			G.matrixMode(5889);
+			G.loadIdentity();
+			G.matrixMode(5888);
+			G.loadIdentity();
+			this.setupOverlayRendering();
+			this.renderEndNanoTime = System.nanoTime();
+			TileEntityRendererDispatcher.instance.renderEngine = this.mc.getTextureManager();
+		}
+
+		if (this.mc.currentScreen != null) {
+			G.clear(256);
+
+			try {
+				this.mc.currentScreen.drawScreen(j1, k1, p_181560_1_);
+			} catch (Throwable throwable) {
+				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
+				CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
+				crashreportcategory.addCrashSectionCallable("Screen name", () -> Minecraft.getMinecraft().currentScreen.getClass().getCanonicalName());
+				crashreportcategory.addCrashSectionCallable("Mouse location", (Callable) () -> String.format("Scaled: (%d, %d). Absolute: (%d, %d)", j1, k1, Mouse.getX(), Mouse.getY()));
+				crashreportcategory.addCrashSectionCallable("Screen size",
+						(Callable) () -> String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(),
+								EntityRenderer.this.mc.displayWidth, EntityRenderer.this.mc.displayHeight, scaledresolution.getScaleFactor()));
+				throw new ReportedException(crashreport);
 			}
 		}
 

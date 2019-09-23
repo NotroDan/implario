@@ -1,6 +1,7 @@
 package net.minecraft;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.AssetsFontRenderer;
 import net.minecraft.client.gui.ingame.GuiIngame;
@@ -8,6 +9,7 @@ import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.item.Item;
@@ -26,6 +28,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Random;
 
+import static net.minecraft.client.gui.Gui.icons;
 import static net.minecraft.client.gui.ingame.GuiIngame.map;
 
 public class Utils {
@@ -125,6 +128,12 @@ public class Utils {
 	public static void processCommand(String line) {
 		if (line.equals("c")) {
 			Minecraft.getMinecraft().ingameGUI.setLoading(5000, "Тестовая загрузка");
+		}
+		if (line.equals("itemmesh")) {
+			MC.printMap(MC.i().getRenderItem().getItemModelMesher().getShapers());
+		}
+		if (line.equals("temesh")) {
+			MC.printMap(TileEntityRendererDispatcher.instance.getMapSpecialRenderers());
 		}
 		if (line.equals("chunk")) chunkInfo();
 		if (line.startsWith("s")) {

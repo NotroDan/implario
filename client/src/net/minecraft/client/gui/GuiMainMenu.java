@@ -21,7 +21,6 @@ import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.security.update.JarFile;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
-import org.apache.logging.log4j.core.config.NullConfiguration;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GLContext;
 
@@ -115,7 +114,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 7) this.mc.displayGuiScreen(new GuiGridTest());
 		if (button.id == 54) {
             try {
-                NullConfiguration.class.getName();
                 Exceptions.RunOutException.class.getName();
                 try {
                     Class.forName("org.lwjgl.opengl.CallbackUtil").getName();

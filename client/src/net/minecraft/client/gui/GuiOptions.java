@@ -51,7 +51,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				createButton(Settings.USE_VBO, x1, y += 22).updateGraphics(),
 				createButton(Settings.VIEW_BOBBING, x2, y),
 				createButton(Settings.FRAMERATE_LIMIT, x1, y += 22).updateGraphics(),
-				createButton(Settings.FAST_RENDER, x2, y).updateGraphics().refreshResources(),
+				createButton(Settings.DIRECT_RENDER, x2, y).updateGraphics().refreshResources(),
 				createButton(Settings.AA_LEVEL, x1, y += 22).updateGraphics(),
 				createButton(Settings.AO_LEVEL, x2, y).updateGraphics(),
 				createButton(Settings.AF_LEVEL, x1, y += 22).updateGraphics(),
@@ -162,7 +162,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		tabs.add("Текстуры", () -> mc.displayGuiScreen(new GuiScreenResourcePacks(this)));
 		tabs.add("Шейдеры", () -> {
-			if (Settings.FAST_RENDER.b()) {
+			if (Settings.DIRECT_RENDER.b()) {
 				Config.showGuiMessage(Lang.get("Шейдеры не могут быть включены при быстром рендере"),
 						Lang.get("Выключите быстрый рендер если хотите шейдеров"));
 			} else if(Settings.FBO_ENABLE.b()){

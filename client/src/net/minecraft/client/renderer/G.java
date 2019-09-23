@@ -29,7 +29,6 @@ public class G {
 	private static G.BooleanState rescaleNormalState = new G.BooleanState(32826);
 	private static G.ColorMask colorMaskState = new G.ColorMask(null);
 	private static G.Color colorState = new G.Color();
-	public static boolean clearEnabled = true;
 
 	public static void pushAttrib() {
 		GL11.glPushAttrib(8256);
@@ -355,9 +354,7 @@ public class G {
 	}
 
 	public static void clear(int mask) {
-		if (clearEnabled) {
-			GL11.glClear(mask);
-		}
+		GL11.glClear(mask);
 	}
 
 	public static void matrixMode(int mode) {

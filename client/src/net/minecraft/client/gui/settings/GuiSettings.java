@@ -34,7 +34,7 @@ public class GuiSettings extends GuiScreen {
 
 		BasicTabScreen graphics = new BasicTabScreen().add(
 				new Switch("Покачивание камеры", Settings.SMOOTH_CAMERA),
-				new Switch("Быстрый рендер", Settings.FAST_RENDER),
+				new Switch("Сквозной рендер", Settings.DIRECT_RENDER),
 				new Switch("Динамическое освещение", Settings.DYNAMIC_LIGHTS),
 				new Selector(Settings.MIPMAP_TYPE, "Уровень сглаживания"),
 				new Switch("Динамические чанки", Settings.CHUNK_UPDATES_DYNAMIC),

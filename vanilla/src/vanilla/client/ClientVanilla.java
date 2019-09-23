@@ -23,6 +23,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.Registrar;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import vanilla.client.audio.GuardianSound;
@@ -57,7 +58,6 @@ public class ClientVanilla implements ClientSideDatapack {
 
 	@Override
 	public void clientInit(ClientRegistrar registrar) {
-		System.out.println("Registering datapack client side");
 
 		Registrar base = registrar.getDelegate();
 
@@ -107,17 +107,14 @@ public class ClientVanilla implements ClientSideDatapack {
 		registrar.registerEntity(EntityMinecartMobSpawner.class, new RenderMinecartMobSpawner(m));
 		registrar.registerEntity(EntityHorse.class, new RenderHorse(m, new ModelHorse(), 0.75F));
 
-		RenderItem r = MC.getRenderItem();
 
-		registrar.registerItem(VanillaItems.saddle, 0, new ModelResourceLocation("saddle"));
-		r.registerItem(VanillaItems.saddle, "saddle");
-		r.getItemModelMesher().registerMeshDefinition(VanillaItems.spawn_egg, stack -> new ModelResourceLocation("spawn_egg", "inventory"));
-		r.registerItem(VanillaItems.carrot_on_a_stick, "carrot_on_a_stick");
-		r.registerItem(VanillaItems.lead, "lead");
-		r.registerItem(VanillaItems.name_tag, "name_tag");
+		registrar.registerItem(VanillaItems.saddle, 0, new ModelResourceLocation("saddle", "inventory"));
+		registrar.registerItemModelDefinition(VanillaItems.spawn_egg, stack -> new ModelResourceLocation("spawn_egg", "inventory"));
+		registrar.registerItem(VanillaItems.carrot_on_a_stick, 0, new ModelResourceLocation("carrot_on_a_stick", "inventory"));
+		registrar.registerItem(VanillaItems.lead, 0, new ModelResourceLocation("lead", "inventory"));
+		registrar.registerItem(VanillaItems.name_tag, 0, new ModelResourceLocation("name_tag", "inventory"));
 
-		TileEntityRendererDispatcher.instance.register(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
-
+		registrar.registerTileEntity(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
 
 		registrar.replaceProvider(MusicTicker.MUSIC_TYPE_PROVIDER, musicTicker -> {
 			Player p = MC.getPlayer();

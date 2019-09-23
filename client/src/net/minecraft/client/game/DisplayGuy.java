@@ -18,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.FileUtil;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Util;
+import optifine.Config;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -36,6 +37,7 @@ import java.util.Set;
 
 import static net.minecraft.logging.Log.MAIN;
 import static net.minecraft.util.Util.OS.OSX;
+import static optifine.Config.updateFramebufferSize;
 
 public class DisplayGuy {
 
@@ -56,7 +58,7 @@ public class DisplayGuy {
 
 	public void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle("Implario");
+		Display.setTitle("implario");
 
 		try {
 			Display.create(new PixelFormat().withDepthBits(24));
@@ -222,13 +224,6 @@ public class DisplayGuy {
 	}
 
 
-	private void updateFramebufferSize() {
-		mc.getFramebuffer().createBindFramebuffer(mc.displayWidth, mc.displayHeight);
-
-		if (mc.entityRenderer != null) {
-			mc.entityRenderer.updateShaderGroupSize(mc.displayWidth, mc.displayHeight);
-		}
-	}
 
 	/**
 	 * Parameter appears to be unused

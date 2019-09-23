@@ -10,11 +10,14 @@ import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
+import net.minecraft.logging.Log;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Govnokod;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
+@Govnokod(levelOfPizdec = "Хардкод всего что связано с рендером блоков")
 public class BlockModelShapes {
 
 	private final Map<IBlockState, IBakedModel> bakedModelStore = Maps.newIdentityHashMap();
@@ -65,10 +68,8 @@ public class BlockModelShapes {
 	}
 
 	public IBakedModel getModelForState(IBlockState state) {
-		IBakedModel ibakedmodel = this.bakedModelStore.get(state);
-
-		if (ibakedmodel == null) ibakedmodel = this.modelManager.getMissingModel();
-		return ibakedmodel;
+		IBakedModel model = this.bakedModelStore.get(state);
+		return model == null ? this.modelManager.getMissingModel() : model;
 	}
 
 	public ModelManager getModelManager() {

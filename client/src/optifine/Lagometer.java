@@ -120,7 +120,7 @@ public class Lagometer {
 	public static void showLagometer(ScaledResolution resolution) {
 		if (Settings.LAGOMETER.b()) {
 			long i = System.nanoTime();
-			G.clear(256);
+			G.clear(GL11.GL_DEPTH_BUFFER_BIT);
 			G.matrixMode(5889);
 			G.pushMatrix();
 			G.enableColorMaterial();

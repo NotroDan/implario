@@ -16,12 +16,12 @@ public class BlockStateMapper {
 	private Map<Block, IStateMapper> blockStateMap = Maps.newIdentityHashMap();
 	private Set<Block> setBuiltInBlocks = Sets.newIdentityHashSet();
 
-	public void registerBlockStateMapper(Block p_178447_1_, IStateMapper p_178447_2_) {
-		this.blockStateMap.put(p_178447_1_, p_178447_2_);
+	public void registerBlockStateMapper(Block block, IStateMapper mapper) {
+		this.blockStateMap.put(block, mapper);
 	}
 
-	public void registerBuiltInBlocks(Block... p_178448_1_) {
-		Collections.addAll(this.setBuiltInBlocks, p_178448_1_);
+	public void registerBuiltInBlocks(Block... blocks) {
+		Collections.addAll(this.setBuiltInBlocks, blocks);
 	}
 
 	public Map<IBlockState, ModelResourceLocation> putAllStateModelLocations() {

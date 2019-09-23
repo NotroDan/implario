@@ -1015,8 +1015,8 @@ public class Config {
 		return isConnectedTextures();
 	}
 
-	public static boolean isFastRender() {
-		return Settings.FAST_RENDER.b();
+	public static boolean isDirectRender() {
+		return Settings.DIRECT_RENDER.b();
 	}
 
 	public static boolean isTranslucentBlocksFancy() {

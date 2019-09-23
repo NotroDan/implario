@@ -7,7 +7,6 @@ import net.minecraft.command.CommandHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.PlayerGuiBridge;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
@@ -67,6 +66,7 @@ public class Registrar {
 	}
 
 	/**
+	 * гагагагага
 	 * @param command гагагаг
 	 * @param <T>     гагага
 	 */

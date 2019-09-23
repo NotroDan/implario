@@ -11,6 +11,8 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.chat.ChatComponentText;
 
+import java.util.Map;
+
 import static net.minecraft.client.Minecraft.theMinecraft;
 
 public final class MC {
@@ -41,6 +43,10 @@ public final class MC {
 
 	public static void chat(String s) {
 		MC.i().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(s));
+	}
+
+	public static void printMap(Map<?, ?> map) {
+		map.forEach((k, v) -> chat("§e" + k + "§7: §f" + v));
 	}
 
 	public static int getWidth() {

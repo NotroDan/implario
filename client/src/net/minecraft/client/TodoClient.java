@@ -56,7 +56,9 @@ public class TodoClient extends Todo {
 
 	@Override
 	public void clientInit(Datapack datapack) {
-		if (datapack instanceof ClientSideDatapack) ((ClientSideDatapack) datapack).clientInit(new ClientRegistrar(datapack.getRegistrar()));
+		System.out.println("Toggling datapack " + datapack.clientSide);
+		if (datapack.clientSide instanceof ClientSideDatapack)
+			((ClientSideDatapack) datapack.clientSide).clientInit(new ClientRegistrar(datapack.getRegistrar()));
 	}
 
 }
