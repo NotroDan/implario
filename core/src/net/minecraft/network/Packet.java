@@ -5,7 +5,6 @@ import net.minecraft.resources.event.Listenable;
 import java.io.IOException;
 
 public interface Packet<T extends INetHandler> extends Listenable {
-
 	/**
 	 * Reads the raw packet data from the data stream.
 	 */

@@ -45,7 +45,6 @@ public class Registrar {
 
 
 	protected void unregister() {
-		E.getEventLib().LIB.disable(domain);
 		E.getPacketLib().LIB.disable(domain);
 		Collections.reverse(mappings);
 		for (Mapping entry : mappings) entry.revert();
@@ -53,20 +52,6 @@ public class Registrar {
 	}
 
 	/**
-	 * Регистрация слушателя событий.
-	 * События это сомнительная штука, и ими лучше не пользоваться.
-	 * События не поддерживают наследование!
-	 *
-	 * @param c        Класс события
-	 * @param listener Слушатель этого типа событий (Наследуйтесь от Handler<Event, T>)
-	 * @param <T>      Тип события
-	 */
-	public <T extends Event> void regListener(Class<T> c, Handler<Event, T> listener) {
-		E.getEventLib().registerListener(domain, c, listener);
-	}
-
-	/**
-	 * гагагагага
 	 * @param command гагагаг
 	 * @param <T>     гагага
 	 */

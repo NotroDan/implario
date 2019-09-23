@@ -2,7 +2,8 @@ package vanilla.world;
 
 import net.minecraft.logging.IProfiler;
 import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.events.WorldServerInitEvent;
+import net.minecraft.resources.event.ServerEvents;
+import net.minecraft.resources.event.events.world.WorldServerInitEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;
@@ -77,7 +78,8 @@ public class WorldServerExtra extends VanillaWorldServer {
 			this.villageCollection.setWorldsForAll(this);
 		}
 
-		E.call(new WorldServerInitEvent(this));
+		if(ServerEvents.worldInit.isUseful())
+			ServerEvents.worldInit.call(new WorldServerInitEvent(this));
 
 		return this;
 	}

@@ -2,6 +2,7 @@ package vanilla;
 
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.Server;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -17,7 +18,7 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.resources.Registrar;
 import net.minecraft.resources.ServerSideLoadable;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.resources.event.events.player.*;
@@ -27,6 +28,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import org.lwjgl.Sys;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.monster.EntityBlaze;
 import vanilla.entity.monster.EntityEndermite;
@@ -34,30 +36,33 @@ import vanilla.entity.monster.EntitySilverfish;
 import vanilla.entity.passive.EntityChicken;
 import vanilla.entity.passive.EntityHorse;
 import vanilla.entity.passive.EntityPig;
+import vanilla.entity.passive.EntityRabbit;
 import vanilla.item.ItemLead;
 import vanilla.world.SleepChecker;
+
+import java.util.Random;
+
+import static vanilla.Vanilla.VANILLA;
 
 public class VEvents implements ServerSideLoadable {
 
 	@Override
 	public void load(Registrar registrar) {
-
-		Events.eventPlayerMove.add(this::handlePlayerMove);
-		Events.eventMountMove.add(this::handleMountMove);
-		Events.eventPlayerTick.add(this::handlePlayerTick);
-		Events.eventPlayerFall.add(this::handlePlayerFall);
-		Events.eventPlayerDisconnect.add(e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat));
-		Events.eventPlayerJump.add(e -> e.getPlayer().triggerAchievement(StatList.jumpStat));
-		Events.eventPlayerItemDrop.add(this::handleItemDrop);
-		Events.eventPlayerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat));
-		Events.eventPlayerSleep.add(new SleepChecker());
-		Events.eventPlayerAction.add(this::handleEntityAction);
-		Events.eventTrackerUpdate.add(this::handlerTrackerUpdate);
-		Events.eventProjectileHit.add(this::handleProjectileHit);
-		Events.eventPlayerEnderPearl.add(this::handlePlayerEnderPearl);
-		Events.eventBlockDrop.add(this::handleBlockDrop);
-		Events.eventPlayerInteract.add(this::handleInteract);
-
+		ServerEvents.playerMove.add(this::handlePlayerMove, VANILLA, -5);
+		ServerEvents.playerMountMove.add(this::handleMountMove, VANILLA, true, -5);
+		ServerEvents.playerTick.add(this::handlePlayerTick, VANILLA, -5);
+		ServerEvents.playerFall.add(this::handlePlayerFall, VANILLA, true, -5);
+		ServerEvents.playerDisconnect.add(e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat), VANILLA, -5);
+		ServerEvents.playerJump.add(e -> e.getPlayer().triggerAchievement(StatList.jumpStat), VANILLA, -5);
+		ServerEvents.playerItemDrop.add(this::handleItemDrop, VANILLA, true, -5);
+		ServerEvents.playerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat), VANILLA, -5);
+		ServerEvents.playerSleep.add(new SleepChecker());
+		ServerEvents.playerAction.add(this::handleEntityAction, VANILLA, -5);
+		ServerEvents.trackerUpdate.add(this::handlerTrackerUpdate, VANILLA, -5);
+		ServerEvents.projectileHit.add(this::handleProjectileHit, VANILLA, -5);
+		ServerEvents.playerTeleportPearl.add(this::handlePlayerEnderPearl, VANILLA, true, -5);
+		ServerEvents.blockDrop.add(this::handleBlockDrop, VANILLA, true, -5);
+		ServerEvents.playerInteract.add(this::handleInteract, VANILLA, true, -5);
 	}
 
 	private void handleItemDrop(PlayerItemDropEvent e) {
@@ -76,7 +81,7 @@ public class VEvents implements ServerSideLoadable {
 		if (e.getPlayer().isEntityAlive()) e.getPlayer().triggerAchievement(StatList.timeSinceDeathStat);
 	}
 
-	private void handleMountMove(MountMoveEvent e) {
+	private void handleMountMove(PlayerMountMoveEvent e) {
 		Player player = e.getPlayer();
 		Entity entity = player.ridingEntity;
 		if (entity == null) return;
@@ -108,7 +113,6 @@ public class VEvents implements ServerSideLoadable {
 	}
 
 	private void handlePlayerMove(PlayerMoveEvent event) {
-
 		Player p = event.getPlayer();
 
 		if (p.ridingEntity != null) return;
@@ -163,12 +167,11 @@ public class VEvents implements ServerSideLoadable {
 		ItemStack item = p.getHeldItem();
 		if (item != null && p.isSneaking()) return;
 		if (p.getEntityWorld().isClientSide) return;
-		if (e.getBlock().getBlock() instanceof BlockFence) {
-			ItemLead.attachToFence(e.getPlayer(), e.getWorld(), e.getPos());
-			e.setCancelled(true);
+		if (e.getBlockState().getBlock() instanceof BlockFence) {
+			ItemLead.attachToFence(e.getPlayer(), e.getPlayer().getEntityWorld(), e.getPos());
+			e.cancel(true);
 		}
 	}
-
 
 	private void handleBlockDrop(BlockDropEvent e) {
 		World w = e.getWorld();
@@ -183,7 +186,6 @@ public class VEvents implements ServerSideLoadable {
 		}
 	}
 
-
 	private void handleEntityAction(PlayerActionEvent e) {
 		if (e.getAction() == C0BPacketEntityAction.Action.OPEN_INVENTORY)
 			if (e.getPlayer().ridingEntity instanceof EntityHorse)
@@ -194,12 +196,12 @@ public class VEvents implements ServerSideLoadable {
 	}
 
 	private void handlerTrackerUpdate(TrackerUpdateEvent e) {
-		Entity entity = e.getTrackerEntry().trackedEntity;
+		Entity entity = e.getEntry().trackedEntity;
 		if (!(entity instanceof VanillaEntity)) return;
 		VanillaEntity ve = (VanillaEntity) entity;
 		Entity leashed = ve.getLeashedToEntity();
 		if (leashed != null) {
-			e.getPlayer().playerNetServerHandler.sendPacket(new S1BPacketEntityAttach(1, entity, leashed));
+			((MPlayer)e.getPlayer()).playerNetServerHandler.sendPacket(new S1BPacketEntityAttach(1, entity, leashed));
 		}
 	}
 
@@ -228,9 +230,9 @@ public class VEvents implements ServerSideLoadable {
 		}
 	}
 
-	private void handlePlayerEnderPearl(PlayerEnderPearlEvent e) {
+	private void handlePlayerEnderPearl(PlayerTeleportPearlEvent e) {
 		EntityEnderPearl p = e.getPearl();
-		MPlayer m = e.getPlayer();
+		Player m = e.getPlayer();
 		if (p.rand.nextFloat() < 0.05F && p.worldObj.getGameRules().getBoolean("doMobSpawning")) {
 			EntityEndermite entityendermite = new EntityEndermite(p.worldObj);
 			entityendermite.setSpawnedByPlayer(true);

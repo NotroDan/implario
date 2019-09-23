@@ -11,7 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.network.play.server.S38PacketPlayerListItem;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
+import net.minecraft.resources.event.events.player.PlayerBlockBreakEvent;
 import net.minecraft.resources.event.events.player.PlayerInteractEvent;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -56,6 +57,11 @@ public class ItemInWorldManager {
 		this.theWorld = worldIn;
 	}
 
+	public void setOptimizedGameType(WorldSettings.GameType type){
+		this.gameType = type;
+		this.thisPlayerMP.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.UPDATE_GAME_MODE, this.thisPlayerMP));
+	}
+
 	public void setGameType(WorldSettings.GameType type) {
 		this.gameType = type;
 		type.configurePlayerCapabilities(this.thisPlayerMP.capabilities);
@@ -78,9 +84,13 @@ public class ItemInWorldManager {
 		return this.gameType.isCreative();
 	}
 
-	/**
-	 * if the gameType is currently NOT_SET then change it to par1
-	 */
+	public void initializeOptimisedGameType(WorldSettings.GameType type){
+		if (gameType == WorldSettings.GameType.NOT_SET)
+			gameType = type;
+
+		setOptimizedGameType(gameType);
+	}
+
 	public void initializeGameType(WorldSettings.GameType type) {
 		if (this.gameType == WorldSettings.GameType.NOT_SET) {
 			this.gameType = type;
@@ -231,27 +241,33 @@ public class ItemInWorldManager {
 	/**
 	 * Attempts to harvest a block
 	 */
-	public boolean tryHarvestBlock(BlockPos pos) {
+	public void tryHarvestBlock(BlockPos pos) {
+        if(ServerEvents.playerBlockBreak.isUseful()) {
+            if(ServerEvents.playerBlockBreak.call(new PlayerBlockBreakEvent(thisPlayerMP, pos)).isCanceled()){
+                thisPlayerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(theWorld, pos));
+                return;
+            }
+        }
 		if (this.gameType.isCreative() && this.thisPlayerMP.getHeldItem() != null && this.thisPlayerMP.getHeldItem().getItem() instanceof ItemSword) {
-			return false;
+			return;
 		}
 		IBlockState iblockstate = this.theWorld.getBlockState(pos);
 		TileEntity tileentity = this.theWorld.getTileEntity(pos);
 
 		if (this.gameType.isAdventure()) {
 			if (this.gameType == WorldSettings.GameType.SPECTATOR) {
-				return false;
+				return;
 			}
 
 			if (!this.thisPlayerMP.isAllowEdit()) {
 				ItemStack itemstack = this.thisPlayerMP.getCurrentEquippedItem();
 
 				if (itemstack == null) {
-					return false;
+					return;
 				}
 
 				if (!itemstack.canDestroy(iblockstate.getBlock())) {
-					return false;
+					return;
 				}
 			}
 		}
@@ -278,7 +294,7 @@ public class ItemInWorldManager {
 			}
 		}
 
-		return flag1;
+		return;
 	}
 
 	/**
@@ -321,10 +337,10 @@ public class ItemInWorldManager {
 	 */
 	public boolean activateBlockOrUseItem(Player player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
 		IBlockState b = worldIn.getBlockState(pos);
-		if (Events.eventPlayerInteract.isUseful()) {
-			PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, stack, pos, b, side, offsetX, offsetY, offsetZ);
-			Events.eventPlayerInteract.call(event);
-			if (event.isCancelled()) return true;
+		if (ServerEvents.playerInteract.isUseful()) {
+			PlayerInteractEvent event = new PlayerInteractEvent(player, stack, pos, b, side, offsetX, offsetY, offsetZ);
+			ServerEvents.playerInteract.call(event);
+			if (event.isCanceled()) return true;
 		}
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);

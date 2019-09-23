@@ -1,7 +1,6 @@
 package net.minecraft.server;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
@@ -17,6 +16,7 @@ import lombok.Getter;
 import net.minecraft.Logger;
 import net.minecraft.command.*;
 import net.minecraft.crash.CrashReport;
+import net.minecraft.database.Storage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
@@ -56,8 +56,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private static final Logger logger = Logger.getInstance();
 	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
 	public static MinecraftServer mcServer;
-
-
 
 	private final File anvilFile;
 	private final ISaveFormat anvilConverterForAnvilFile;
@@ -129,7 +127,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	protected final Queue<FutureTask<?>> futureTaskQueue = new ArrayDeque<>();
 	private Thread serverThread;
 	private volatile long currentTime = getCurrentTimeMillis();
-
 
 	public MinecraftServer(Proxy proxy, File workDir) {
 		this.serverProxy = proxy;
@@ -223,6 +220,11 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		this.setDifficultyForAllWorlds(this.getDifficulty());
 		this.initialWorldChunkLoad();
 	}
+
+	/*
+		а в чом смысол этих комментов, и так понятно что тут нужно вернуть хранилище
+	 */
+	public abstract Storage getStorage();
 
 	public void initialWorldChunkLoad() {
 		int loaded = 0;

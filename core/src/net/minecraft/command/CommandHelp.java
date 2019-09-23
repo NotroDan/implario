@@ -38,7 +38,7 @@ public class CommandHelp extends CommandBase {
 	}
 
 	public List<String> getCommandAliases() {
-		return Arrays.asList(new String[] {"?"});
+		return Collections.singletonList("?");
 	}
 
 	/**

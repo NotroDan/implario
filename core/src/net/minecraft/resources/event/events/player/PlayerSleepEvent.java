@@ -4,15 +4,15 @@ import lombok.*;
 import net.minecraft.entity.player.Player;
 import net.minecraft.util.BlockPos;
 
-@ToString
 @Getter
-@Setter
-@AllArgsConstructor
-@EqualsAndHashCode (callSuper = false)
-public class PlayerSleepEvent extends PlayerEvent<PlayerSleepEvent> {
-
-	private final Player player;
+public class PlayerSleepEvent extends APlayerСancelableEvent {
 	private final BlockPos bedLocation;
+	@Setter
 	private Player.SleepStatus sleepStatus;
 
+	public PlayerSleepEvent(Player player, BlockPos bedLocation, Player.SleepStatus sleepStatus){
+		super(player);
+		this.bedLocation = bedLocation;
+		this.sleepStatus = sleepStatus;
+	}
 }

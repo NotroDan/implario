@@ -177,7 +177,7 @@ public class ModelBakery {
 						ModelBlock modelblock = loadModel(resourcelocation, resourceManager);
 						this.models.put(resourcelocation, modelblock);
 					} catch (Exception exception) {
-						LOGGER.warn("Unable to load block model: \'" + resourcelocation + "\' for variant: \'" + modelresourcelocation + "\'", exception);
+						LOGGER.warn("Unable to load block model: \'" + resourcelocation + "\' for variant: \'" + modelresourcelocation + "\'");
 					}
 				}
 			}
@@ -462,7 +462,7 @@ public class ModelBakery {
 					deque.add(resourcelocation3);
 				}
 			} catch (Exception exception) {
-				LOGGER.warn("In parent chain: " + JOINER.join(this.getParentPath(resourcelocation2)) + "; unable to load model: \'" + resourcelocation2 + "\'", exception);
+				LOGGER.warn("In parent chain: " + JOINER.join(this.getParentPath(resourcelocation2)) + "; unable to load model: \'" + resourcelocation2 + "\'");
 			}
 
 			set.add(resourcelocation2);

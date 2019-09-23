@@ -1,6 +1,5 @@
 package net.minecraft.command.server;
 
-import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 
 import java.util.ArrayList;

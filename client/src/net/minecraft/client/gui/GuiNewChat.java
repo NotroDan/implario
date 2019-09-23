@@ -72,7 +72,7 @@ public class GuiNewChat extends Gui {
 							int i2 = 0;
 							int j2 = -i1 * 9;
 							drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
-							String s = chatline.getChatComponent().getFormattedText();
+							String s = chatline.getChatComponent().getUnformattedText();
 							G.enableBlend();
 							this.mc.fontRenderer.drawStringWithShadow(s, (float) i2, (float) (j2 - 8), 16777215 + (l1 << 24));
 							G.disableAlpha();

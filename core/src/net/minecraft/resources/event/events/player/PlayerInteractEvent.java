@@ -1,27 +1,21 @@
 package net.minecraft.resources.event.events.player;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
 
-@Data
-@EqualsAndHashCode (callSuper = false)
-public class PlayerInteractEvent extends PlayerEvent<PlayerInteractEvent> {
+@Getter
+public class PlayerInteractEvent extends PlayerItemUseEvent {
+	@Setter
+	private boolean sendToServer = true, armSwing = true;
+	private final IBlockState blockState;
 
-	private final Player player;
-	private final World world;
-	private final ItemStack stack;
-	private final BlockPos pos;
-	private final IBlockState block;
-	private final EnumFacing side;
-	private final float hitX, hitY, hitZ;
-	private boolean cancelled;
-	private boolean sendToServer = true;
-	private boolean armSwing = true;
-
+	public PlayerInteractEvent(Player player, ItemStack stack, BlockPos pos, IBlockState state, EnumFacing side, float hitX, float hitY, float hitZ){
+		super(player, stack, pos, side, hitX, hitY, hitZ);
+		this.blockState = state;
+	}
 }

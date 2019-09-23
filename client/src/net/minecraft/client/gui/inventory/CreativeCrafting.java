@@ -33,7 +33,7 @@ public class CreativeCrafting implements ICrafting {
 	/**
 	 * Sends two ints to the client-side Container. Used for furnace burning time, smelting progress, brewing progress,
 	 * and enchanting level. Normally the first int identifies which variable to update, and the second contains the new
-	 * value. Both are truncated to shorts in non-local SMP.
+	 * value. Both are truncated to shorts in non-memory SMP.
 	 */
 	public void sendProgressBarUpdate(Container containerIn, int varToUpdate, int newValue) {
 	}

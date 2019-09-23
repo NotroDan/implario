@@ -1,5 +1,6 @@
 import __google_.util.FileIO;
 import net.minecraft.security.update.SecurityKeys;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.crypt.AES;
 import net.minecraft.util.crypt.ECDSA;
 import net.minecraft.util.crypt.SecurityKey;
@@ -31,9 +32,6 @@ public class SupportTest {
         }
     }
 
-    public static void main(String[] args) {
-        SecurityKey key = new SecurityKey(ECDSA.decodePublic(FileIO.readBytes("core/src/net/minecraft/security/update/publicRoot.key")),
-                        TimedSertificate.decodePublic(FileIO.readBytes("core/src/net/minecraft/security/update/public.sertificate")));
-        FileIO.writeBytes(new File("core/src/net/minecraft/security/update/public.keys"), key.encodePublic());
+    public static void main(String[] args) throws Exception{
     }
 }

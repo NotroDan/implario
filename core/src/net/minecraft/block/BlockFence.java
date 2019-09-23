@@ -10,6 +10,8 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.resources.event.E;
+import net.minecraft.resources.event.ServerEvents;
+import net.minecraft.resources.event.events.player.PlayerFenceClickedEvent;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -165,7 +167,9 @@ public class BlockFence extends Block {
 	}
 
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		return worldIn.isClientSide || E.call(new FenceClickedEvent(playerIn, worldIn, pos)).returnValue;
+		return worldIn.isClientSide ||
+				(ServerEvents.playerFenceClicked.isUseful() &&
+				ServerEvents.playerFenceClicked.call(new PlayerFenceClickedEvent(playerIn, worldIn, pos)).isReturnValue());
 	}
 
 	/**

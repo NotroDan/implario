@@ -14,7 +14,7 @@ public class GenLayerRiverMix extends GenLayer {
 	}
 
 	/**
-	 * Initialize layer's local worldGenSeed based on its own baseSeed and the world's global seed (passed in as an
+	 * Initialize layer's memory worldGenSeed based on its own baseSeed and the world's global seed (passed in as an
 	 * argument).
 	 */
 	public void initWorldGenSeed(long seed) {

@@ -15,7 +15,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.*;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerInteractEvent;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.*;
@@ -113,36 +113,30 @@ public class PlayerControllerMP {
 	/**
 	 * Called when a player completes the destruction of a block
 	 */
-	public boolean onPlayerDestroyBlock(BlockPos pos, EnumFacing side) {
+	public void onPlayerDestroyBlock(BlockPos pos, EnumFacing side) {
 		if (this.currentGameType.isAdventure()) {
-			if (this.currentGameType == WorldSettings.GameType.SPECTATOR) {
-				return false;
-			}
+			if (this.currentGameType == WorldSettings.GameType.SPECTATOR)
+				return;
 
 			if (!this.mc.thePlayer.isAllowEdit()) {
 				Block block = this.mc.theWorld.getBlockState(pos).getBlock();
 				ItemStack itemstack = this.mc.thePlayer.getCurrentEquippedItem();
 
-				if (itemstack == null) {
-					return false;
-				}
+				if (itemstack == null)
+					return;
 
-				if (!itemstack.canDestroy(block)) {
-					return false;
-				}
+				if (!itemstack.canDestroy(block))
+					return;
 			}
 		}
 
-		if (this.currentGameType.isCreative() && this.mc.thePlayer.getHeldItem() != null && this.mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-			return false;
-		}
+		if (this.currentGameType.isCreative() && this.mc.thePlayer.getHeldItem() != null && this.mc.thePlayer.getHeldItem().getItem() instanceof ItemSword)
+			return;
 		World world = this.mc.theWorld;
 		IBlockState iblockstate = world.getBlockState(pos);
 		Block block1 = iblockstate.getBlock();
 
-		if (block1.getMaterial() == Material.air) {
-			return false;
-		}
+		if (block1.getMaterial() == Material.air) return;
 		world.playAuxSFX(2001, pos, Block.getStateId(iblockstate));
 		boolean flag = world.setBlockToAir(pos);
 
@@ -163,8 +157,6 @@ public class PlayerControllerMP {
 				}
 			}
 		}
-
-		return flag;
 	}
 
 	/**
@@ -338,11 +330,11 @@ public class PlayerControllerMP {
 		boolean cancelled = false;
 		if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			IBlockState iblockstate = worldIn.getBlockState(hitPos);
-			if (Events.eventPlayerInteract.isUseful()) {
-				PlayerInteractEvent event = new PlayerInteractEvent(player, worldIn, heldStack, hitPos, iblockstate, side,
+			if (ServerEvents.playerInteract.isUseful()) {
+				PlayerInteractEvent event = new PlayerInteractEvent(player, heldStack, hitPos, iblockstate, side,
 						(float) hitVec.xCoord, (float) hitVec.yCoord, (float) hitVec.zCoord);
-				Events.eventPlayerInteract.call(event);
-				if (event.isCancelled()) {
+				ServerEvents.playerInteract.call(event);
+				if (event.isCanceled()) {
 					cancelled = true;
 					sendToServer = event.isSendToServer();
 					swingArm = event.isArmSwing();

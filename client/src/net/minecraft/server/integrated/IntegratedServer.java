@@ -8,6 +8,8 @@ import net.minecraft.client.multiplayer.ThreadLanServerPing;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.crash.CrashReport;
+import net.minecraft.database.Storage;
+import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.CryptManager;
@@ -28,15 +30,12 @@ public class IntegratedServer extends MinecraftServer {
 
 	private static final Logger logger = Logger.getInstance();
 
-	/**
-	 * The Minecraft instance.
-	 */
 	private final Minecraft mc;
 	private final WorldSettings theWorldSettings;
 	private boolean isGamePaused;
 	private boolean isPublic;
 	private ThreadLanServerPing lanServerPing;
-
+    private Storage storage = new MemoryStorage(null, false);
 
 	public IntegratedServer(Minecraft mcIn) {
 		super(mcIn.getProxy(), USER_CACHE_FILE);
@@ -54,6 +53,11 @@ public class IntegratedServer extends MinecraftServer {
 		this.setConfigManager(new IntegratedPlayerList(this));
 		this.mc = mcIn;
 		this.theWorldSettings = settings;
+	}
+
+	@Override
+	public Storage getStorage() {
+		return storage;
 	}
 
 	protected ServerCommandManager createNewCommandManager() {

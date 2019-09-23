@@ -20,40 +20,29 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 
 public class CommandAchievement extends CommandBase {
-
-	/**
-	 * Gets the name of the command
-	 */
+	@Override
 	public String getCommandName() {
 		return "achievement";
 	}
 
-	/**
-	 * Return the required permission level for this command.
-	 */
+	@Override
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
-	/**
-	 * Gets the usage string for the command.
-	 */
+	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.achievement.usage";
 	}
 
-	/**
-	 * Callback when the command is invoked
-	 */
+	@Override
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		if (args.length < 2) {
-			throw new WrongUsageException("commands.achievement.usage", new Object[0]);
-		}
+		if (args.length < 2)
+			throw new WrongUsageException("commands.achievement.usage");
 		final StatBase statbase = StatList.getOneShotStat(args[1]);
 
-		if (statbase == null && !args[1].equals("*")) {
-			throw new CommandException("commands.achievement.unknownAchievement", new Object[] {args[1]});
-		}
+		if (statbase == null && !args[1].equals("*"))
+			throw new CommandException("commands.achievement.unknownAchievement", args[1]);
 		final MPlayer entityplayermp = args.length >= 3 ? getPlayer(sender, args[2]) : getCommandSenderAsPlayer(sender);
 		boolean flag = args[0].equalsIgnoreCase("give");
 		boolean flag1 = args[0].equalsIgnoreCase("take");

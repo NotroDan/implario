@@ -2,13 +2,18 @@ package net.minecraft.resources.event.events.player;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.entity.player.Player;
 
-@Data
-@EqualsAndHashCode (callSuper = false)
-public class PlayerFallEvent extends PlayerEvent<PlayerFallEvent> {
+public class PlayerFallEvent extends APlayerСancelableEvent {
+	@Setter
+	@Getter
+	private float distance, damageMultiplier;
 
-	private final Player player;
-	private final float distance, damageMultiplier;
-
+	public PlayerFallEvent(Player player, float distance, float damageMultiplier){
+		super(player);
+		this.distance = distance;
+		this.damageMultiplier = damageMultiplier;
+	}
 }

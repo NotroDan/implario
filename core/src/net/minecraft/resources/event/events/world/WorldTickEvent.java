@@ -1,10 +1,9 @@
-package net.minecraft.resources.event.events;
+package net.minecraft.resources.event.events.world;
 
 import net.minecraft.resources.event.Event;
 import net.minecraft.world.WorldServer;
 
-public class WorldTickEvent extends Event {
-
+public class WorldTickEvent implements Event {
 	private final WorldServer world;
 
 	public WorldTickEvent(WorldServer worldServer) {
@@ -14,5 +13,4 @@ public class WorldTickEvent extends Event {
 	public WorldServer getWorld() {
 		return world;
 	}
-
 }

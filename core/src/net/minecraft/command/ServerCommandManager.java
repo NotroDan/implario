@@ -27,6 +27,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		registerCommand(new CommandParticle());
 		registerCommand(new CommandEmote());
 		registerCommand(new CommandShowSeed());
+		registerCommand(new CommandFly());
 		registerCommand(new CommandHelp());
 		registerCommand(new CommandDebug());
 		registerCommand(new CommandMessage());
@@ -65,10 +66,10 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 			registerCommand(new CommandSaveOff());
 			registerCommand(new CommandSaveOn());
 			registerCommand(new CommandBanIp());
-			registerCommand(new CommandPardonIp());
+			registerCommand(new CommandUnbanIp());
 			registerCommand(new CommandBanPlayer());
 			registerCommand(new CommandListBans());
-			registerCommand(new CommandPardonPlayer());
+			registerCommand(new CommandUnbanPlayer());
 			registerCommand(new CommandServerKick());
 			registerCommand(new CommandListPlayers());
 			registerCommand(new CommandWhitelist());

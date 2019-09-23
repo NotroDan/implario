@@ -21,6 +21,8 @@ import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.security.update.JarFile;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
+import org.apache.logging.log4j.core.config.NullConfiguration;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GLContext;
 
@@ -135,8 +137,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 		if (button.id == 4) {
 			if (Datapacks.getLoaders().isEmpty()) {
-				Datapack datapack = Datapacks.load(new JarDatapackLoader(new File("gamedata/datapacks/vanilla.jar")));
 				long time = System.currentTimeMillis();
+				Datapack datapack = Datapacks.load(new JarDatapackLoader(new File("gamedata/datapacks/vanilla.jar")));
+				System.out.println("Vanilla loaded to memory in " + (System.currentTimeMillis() - time));
+				time = System.currentTimeMillis();
 				Datapacks.initSingleDatapack(datapack);
 				System.out.println("Vanilla loaded in " + (System.currentTimeMillis() - time));
 			}

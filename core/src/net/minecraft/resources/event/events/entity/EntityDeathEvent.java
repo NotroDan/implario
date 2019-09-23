@@ -1,4 +1,4 @@
-package net.minecraft.resources.event.events;
+package net.minecraft.resources.event.events.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,9 +8,7 @@ import net.minecraft.util.DamageSource;
 
 @Data
 @EqualsAndHashCode (callSuper = false)
-public class EntityDeathEvent extends Event<EntityDeathEvent> {
-
+public class EntityDeathEvent implements Event {
 	private final EntityLivingBase entity;
 	private final DamageSource cause;
-
 }

@@ -169,9 +169,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * Will commit the packet to the channel. If the current thread 'owns' the channel it will write and flush the
 	 * packet, otherwise it will add a task for the channel eventloop thread to do that.
 	 */
+	private int i = 0;
 	private void dispatchPacket(final Packet inPacket, final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
-		final ConnectionState newState = ConnectionState.getFromPacket(inPacket);
-		final ConnectionState oldState = this.channel.attr(attrKeyConnectionState).get();
+		boolean kek = i == 3;
+		final ConnectionState newState = kek ? null : ConnectionState.getFromPacket(inPacket);
+		final ConnectionState oldState = kek ? null : this.channel.attr(attrKeyConnectionState).get();
 
 		if (oldState != newState) {
 			logger.debug("Disabled auto read");
@@ -193,6 +195,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 				f.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 			});
 		}
+		if(!kek)i++;
 	}
 
 	/**

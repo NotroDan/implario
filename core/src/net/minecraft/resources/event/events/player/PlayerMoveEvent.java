@@ -2,17 +2,19 @@ package net.minecraft.resources.event.events.player;
 
 import lombok.*;
 import net.minecraft.entity.player.Player;
+import net.minecraft.util.Vec3;
 
-@RequiredArgsConstructor
 @Getter
-@ToString
-public class PlayerMoveEvent extends PlayerEvent<PlayerMoveEvent> {
+public class PlayerMoveEvent extends APlayerСancelableEvent {
+	private final double srcX, srcY, srcZ, dstX, dstY, dstZ;
 
-	private final Player player;
-
-	private final double srcX, srcY, srcZ;
-
-	@ToString.Exclude
-	private final double dstX, dstY, dstZ;
-
+	public PlayerMoveEvent(Player player, double srcX, double srcY, double srcZ, double dstX, double dstY, double dstZ){
+		super(player);
+		this.srcX = srcX;
+		this.srcY = srcY;
+		this.srcZ = srcZ;
+		this.dstX = dstX;
+		this.dstY = dstY;
+		this.dstZ = dstZ;
+	}
 }

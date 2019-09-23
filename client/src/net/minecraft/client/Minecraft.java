@@ -674,9 +674,6 @@ public class Minecraft implements IThreadListener {
 	/**
 	 * Runs the current tick.
 	 */
-
-//	private ExecutorService executors = Executors.newSingleThreadExecutor();
-
 	public void runTick() throws IOException {
 		inputHandler.runTick();
 
@@ -782,22 +779,20 @@ public class Minecraft implements IThreadListener {
 			if (!this.isGamePaused) {
 				this.theWorld.setAllowedSpawnTypes(this.theWorld.getDifficulty() != EnumDifficulty.PEACEFUL, true);
 
-//				executors.submit(() -> {
-					try {
-						this.theWorld.tick();
-					} catch (Throwable throwable2) {
-						CrashReport crashreport2 = CrashReport.makeCrashReport(throwable2, "Exception in world tick");
+				try {
+					this.theWorld.tick();
+				} catch (Throwable throwable2) {
+					CrashReport crashreport2 = CrashReport.makeCrashReport(throwable2, "Exception in world tick");
 
-						if (this.theWorld == null) {
-							CrashReportCategory crashreportcategory2 = crashreport2.makeCategory("Affected level");
-							crashreportcategory2.addCrashSection("Problem", "Level is null!");
-						} else {
-							this.theWorld.addWorldInfoToCrashReport(crashreport2);
-						}
-
-						throw new ReportedException(crashreport2);
+					if (this.theWorld == null) {
+						CrashReportCategory crashreportcategory2 = crashreport2.makeCategory("Affected level");
+						crashreportcategory2.addCrashSection("Problem", "Level is null!");
+					} else {
+						this.theWorld.addWorldInfoToCrashReport(crashreport2);
 					}
-//				});
+
+					throw new ReportedException(crashreport2);
+				}
 			}
 
 			profiler.endStartSection("animateTick");

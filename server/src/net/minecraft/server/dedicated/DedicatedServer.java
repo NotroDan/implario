@@ -3,10 +3,15 @@ package net.minecraft.server.dedicated;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.ServerCommand;
 import net.minecraft.crash.CrashReport;
+import net.minecraft.database.Storage;
+import net.minecraft.database.mariadb.MariaDBStorage;
+import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.entity.player.Player;
+import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.CryptManager;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -29,11 +34,11 @@ import java.util.concurrent.TimeUnit;
 import static net.minecraft.logging.Log.MAIN;
 
 public class DedicatedServer extends MinecraftServer {
-
 	private final List<ServerCommand> pendingCommandList = Collections.synchronizedList(new ArrayList<>());
 	private PropertyManager settings;
 	private boolean canSpawnStructures;
 	private WorldSettings.GameType gameType;
+	private Storage storage;
 
 	public DedicatedServer(File workDir) {
 		super(workDir, Proxy.NO_PROXY, USER_CACHE_FILE);
@@ -50,10 +55,8 @@ public class DedicatedServer extends MinecraftServer {
 		};
 	}
 
-	/**
-	 * Initialises the server and starts it.
-	 */
 	protected boolean startServer() throws IOException {
+		storage = new MemoryStorage(getDataDirectory(), true);
 		Thread thread = new Thread("Server console handler") {
 			public void run() {
 				BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
@@ -177,9 +180,11 @@ public class DedicatedServer extends MinecraftServer {
 		return true;
 	}
 
-	/**
-	 * Sets the game type for all worlds.
-	 */
+	@Override
+	public Storage getStorage() {
+		return storage;
+	}
+
 	public void setGameType(WorldSettings.GameType gameMode) {
 		super.setGameType(gameMode);
 		this.gameType = gameMode;
@@ -305,6 +310,11 @@ public class DedicatedServer extends MinecraftServer {
 	 */
 	public void saveProperties() {
 		this.settings.saveProperties();
+	}
+
+	@Override
+	public void sendMessage(IChatComponent component) {
+		Log.CHAT.info(component.getUnformattedText().replaceAll("§.", ""));
 	}
 
 	/**

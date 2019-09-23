@@ -107,7 +107,12 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 
 			if (entityplayermp != null) {
 				this.currentLoginState = NetHandlerLoginServer.LoginState.DELAY_ACCEPT;
-				this.player = this.server.getConfigurationManager().createPlayerForUser(this.loginGameProfile);
+				MPlayer p = this.server.getConfigurationManager().createPlayerForUser(this.loginGameProfile);
+				if (p == null) {
+					networkManager.closeChannel(new ChatComponentText("§cИгрок с ником §f" + loginGameProfile.getName() + "§c уже на сервере."));
+					return;
+				}
+				this.player = p;
 			} else {
 				this.server.getConfigurationManager().initializeConnectionToPlayer(this.networkManager, this.server.getConfigurationManager().createPlayerForUser(this.loginGameProfile));
 			}

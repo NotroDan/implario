@@ -43,9 +43,8 @@ public class CommandMessageRaw extends CommandBase {
 	 * Callback when the command is invoked
 	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		if (args.length < 2) {
-			throw new WrongUsageException("commands.tellraw.usage", new Object[0]);
-		}
+		if (args.length < 2)
+			throw new WrongUsageException("commands.tellraw.usage");
 		Player entityplayer = getPlayer(sender, args[0]);
 		String s = buildString(args, 1);
 

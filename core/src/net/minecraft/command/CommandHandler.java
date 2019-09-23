@@ -3,10 +3,7 @@ package net.minecraft.command;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.Map.Entry;
 
 import net.minecraft.entity.Entity;
@@ -19,24 +16,24 @@ public class CommandHandler implements ICommandManager {
 
 	private static final Logger logger = Logger.getInstance();
 	private static final Map<String, ICommand> commandMap = Maps.newHashMap();
-	private static final Set<ICommand> commandSet = Sets.newHashSet();
 
+	@Override
 	public int executeCommand(ICommandSender sender, String rawCommand) {
 		rawCommand = rawCommand.trim();
 
-		if (rawCommand.startsWith("/")) {
+		if (rawCommand.startsWith("/"))
 			rawCommand = rawCommand.substring(1);
-		}
 
 		String[] astring = rawCommand.split(" ");
 		String s = astring[0];
 		astring = dropFirstString(astring);
 		ICommand icommand = commandMap.get(s);
-		int i = this.getUsernameIndex(icommand, astring);
+
+		int i = getUsernameIndex(icommand, astring);
 		int j = 0;
 
 		if (icommand == null) {
-			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.generic.notFound", new Object[0]);
+			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.generic.notFound");
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
 			sender.sendMessage(chatcomponenttranslation);
 		} else if (icommand.canCommandSenderUseCommand(sender)) {
@@ -48,7 +45,7 @@ public class CommandHandler implements ICommandManager {
 				for (Entity entity : list) {
 					astring[i] = entity.getUniqueID().toString();
 
-					if (this.tryExecute(sender, astring, icommand, rawCommand)) {
+					if (tryExecute(sender, astring, icommand, rawCommand)) {
 						++j;
 					}
 				}
@@ -57,7 +54,7 @@ public class CommandHandler implements ICommandManager {
 			} else {
 				sender.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, 1);
 
-				if (this.tryExecute(sender, astring, icommand, rawCommand)) {
+				if (tryExecute(sender, astring, icommand, rawCommand)) {
 					++j;
 				}
 			}
@@ -71,7 +68,25 @@ public class CommandHandler implements ICommandManager {
 		return j;
 	}
 
-	protected boolean tryExecute(ICommandSender sender, String[] args, ICommand command, String input) {
+	public static int executeClientSide(ICommandSender sender, String rawCommand) {
+		String[] astring = rawCommand.split(" ");
+		String s = astring[0];
+		astring = dropFirstString(astring);
+		ICommand icommand = commandMap.get(s);
+
+		if(icommand == null)return -1;
+		if(icommand.clientProcessSupported()){
+			try{
+				icommand.processClientCommand(sender, astring);
+			}catch (Exception ex){
+				ex.printStackTrace();
+				sender.sendMessage("ошибко привет");
+			}
+		}
+		return 0;
+	}
+
+	protected static boolean tryExecute(ICommandSender sender, String[] args, ICommand command, String input) {
 		try {
 			command.processCommand(sender, args);
 			return true;
@@ -96,7 +111,6 @@ public class CommandHandler implements ICommandManager {
 
 	public static ICommand registerCommand(ICommand command) {
 		commandMap.put(command.getCommandName(), command);
-		commandSet.add(command);
 
 		for (String s : command.getCommandAliases()) {
 			ICommand icommand = commandMap.get(s);
@@ -110,7 +124,6 @@ public class CommandHandler implements ICommandManager {
 
 	public static void unregisterCommand(ICommand command) {
 		commandMap.remove(command.getCommandName());
-		commandSet.remove(command);
 		for (String commands : command.getCommandAliases()) {
 			ICommand icommand = commandMap.get(commands);
 
@@ -160,24 +173,21 @@ public class CommandHandler implements ICommandManager {
 
 	public List<ICommand> getPossibleCommands(ICommandSender sender) {
 		List<ICommand> list = new ArrayList<>();
-
-		for (ICommand icommand : this.commandSet) {
-			if (icommand.canCommandSenderUseCommand(sender)) {
+		for (ICommand icommand : commandMap.values())
+			if (icommand.canCommandSenderUseCommand(sender))
 				list.add(icommand);
-			}
-		}
 
 		return list;
 	}
 
 	public Map<String, ICommand> getCommands() {
-		return this.commandMap;
+		return commandMap;
 	}
 
 	/**
 	 * Return a command's first parameter index containing a valid username.
 	 */
-	private int getUsernameIndex(ICommand command, String[] args) {
+	private static int getUsernameIndex(ICommand command, String[] args) {
 		if (command == null) {
 			return -1;
 		}

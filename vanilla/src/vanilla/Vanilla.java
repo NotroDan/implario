@@ -14,6 +14,7 @@ import net.minecraft.network.play.server.S2DPacketOpenWindow;
 import net.minecraft.network.play.server.S3FPacketCustomPayload;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Domain;
+import net.minecraft.resources.load.SimpleDatapackLoader;
 import net.minecraft.util.Govnokod;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;

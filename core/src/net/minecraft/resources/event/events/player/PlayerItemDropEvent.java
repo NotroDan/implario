@@ -1,17 +1,19 @@
 package net.minecraft.resources.event.events.player;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 
-@Data
-@EqualsAndHashCode (callSuper = false)
-public class PlayerItemDropEvent extends PlayerEvent<PlayerItemDropEvent> {
-
-	private final Player player;
+@Getter
+public class PlayerItemDropEvent extends APlayerСancelableEvent	{
 	private final ItemStack droppedItem;
 	private final boolean dropAround;
 	private final boolean traceItem;
 
+	public PlayerItemDropEvent(Player player, ItemStack droppedItem, boolean dropAround, boolean traceItem){
+		super(player);
+		this.droppedItem = droppedItem;
+		this.dropAround = dropAround;
+		this.traceItem = traceItem;
+	}
 }

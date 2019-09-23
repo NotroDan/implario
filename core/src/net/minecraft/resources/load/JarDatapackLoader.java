@@ -36,7 +36,6 @@ public class JarDatapackLoader extends DatapackLoader {
 			System.out.println("Loading main class " + main);
 
 			Class mainClass = loadClass(main);
-
 			this.datapack = (Datapack) mainClass.getConstructors()[0].newInstance();
 			System.out.println("clientMain: " + clientMain);
 			if (clientMain == null || Todo.instance.isServerSide()) return datapack;

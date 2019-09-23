@@ -224,7 +224,7 @@ public enum Settings {
 		else throw new IllegalArgumentException();
 	}
 
-	Settings(FpsSetting setting) {
+	Settings(Setting setting) {
 		base = setting;
 	}
 

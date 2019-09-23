@@ -18,6 +18,8 @@ public class ChatComponentText extends ChatComponentStyle {
 		return this.text;
 	}
 
+
+
 	/**
 	 * Gets the text of this component, without any special formatting codes added, for chat.  TODO: why is this two
 	 * different methods?

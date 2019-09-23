@@ -29,8 +29,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.network.play.server.*;
-import net.minecraft.resources.event.Events;
+import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerDeathEvent;
+import net.minecraft.resources.event.events.player.PlayerJumpEvent;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -395,6 +396,9 @@ public class MPlayer extends Player implements ICrafting {
 	 * Called when the mob's health reaches 0.
 	 */
 	public void onDeath(DamageSource cause) {
+		if (ServerEvents.playerDeath.isUseful())
+			if(ServerEvents.playerDeath.call(new PlayerDeathEvent(this, cause)).isCanceled())return;
+
 		if (this.worldObj.getGameRules().getBoolean("showDeathMessages")) {
 			Team team = this.getTeam();
 
@@ -426,9 +430,6 @@ public class MPlayer extends Player implements ICrafting {
 
 			entitylivingbase.addToPlayerScore(this, this.scoreValue);
 		}
-
-		if (Events.eventPlayerDeath.isUseful())
-			Events.eventPlayerDeath.call(new PlayerDeathEvent(this, cause));
 
 		this.func_175145_a(StatList.timeSinceDeathStat);
 		this.getCombatTracker().reset();
@@ -679,7 +680,7 @@ public class MPlayer extends Player implements ICrafting {
 	/**
 	 * Sends two ints to the client-side Container. Used for furnace burning time, smelting progress, brewing progress,
 	 * and enchanting level. Normally the first int identifies which variable to update, and the second contains the new
-	 * value. Both are truncated to shorts in non-local SMP.
+	 * value. Both are truncated to shorts in non-memory SMP.
 	 */
 	public void sendProgressBarUpdate(Container containerIn, int varToUpdate, int newValue) {
 		this.playerNetServerHandler.sendPacket(new S31PacketWindowProperty(containerIn.windowId, varToUpdate, newValue));
@@ -1014,4 +1015,13 @@ public class MPlayer extends Player implements ICrafting {
 		return null;
 	}
 
+	@Override
+	public void jump() {
+		if (ServerEvents.playerJump.isUseful()){
+			PlayerJumpEvent event = new PlayerJumpEvent(this);
+			ServerEvents.playerJump.call(event);
+			if(event.isCanceled())return;
+		}
+		super.jump();
+	}
 }

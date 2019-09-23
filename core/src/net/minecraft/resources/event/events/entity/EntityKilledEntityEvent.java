@@ -1,11 +1,10 @@
-package net.minecraft.resources.event.events;
+package net.minecraft.resources.event.events.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.resources.event.Event;
 
-public class EntityKilledEntityEvent extends Event {
-
+public class EntityKilledEntityEvent implements Event {
 	private final Entity killer;
 	private final EntityLivingBase killed;
 
@@ -21,5 +20,4 @@ public class EntityKilledEntityEvent extends Event {
 	public EntityLivingBase getKilled() {
 		return killed;
 	}
-
 }
