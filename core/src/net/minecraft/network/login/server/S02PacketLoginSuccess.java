@@ -50,7 +50,9 @@ public class S02PacketLoginSuccess implements Packet<INetHandlerLoginClient> {
 
 	private String decode(String name) {
 		implario = name.endsWith("*");
-//		if (implario) System.out.println("Joined Implario server as '" + name + "'");
+		if (implario) {
+			System.out.println("Joined Implario server as '" + name + "'");
+		}
 		return name.replace("*", "");
 	}
 

@@ -115,7 +115,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
 		for (int i1 = k + 1; i1 < 256; ++i1) {
-			IBlockState iblockstate = this.worldObj.getBlockState(blockpos$mutableblockpos.func_181079_c(j, i1, l));
+			IBlockState iblockstate = this.worldObj.getBlockState(blockpos$mutableblockpos.setXyz(j, i1, l));
 			float[] afloat;
 
 			if (iblockstate.getBlock() == Blocks.stained_glass) {

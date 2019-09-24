@@ -330,7 +330,7 @@ public class ComponentScatteredFeaturePieces {
 
 			for (int k = this.boundingBox.minZ; k <= this.boundingBox.maxZ; ++k) {
 				for (int l = this.boundingBox.minX; l <= this.boundingBox.maxX; ++l) {
-					blockpos$mutableblockpos.func_181079_c(l, 64, k);
+					blockpos$mutableblockpos.setXyz(l, 64, k);
 
 					if (p_74935_2_.isVecInside(blockpos$mutableblockpos)) {
 						i += Math.max(worldIn.getTopSolidOrLiquidBlock(blockpos$mutableblockpos).getY(), worldIn.provider.getAverageGroundLevel());

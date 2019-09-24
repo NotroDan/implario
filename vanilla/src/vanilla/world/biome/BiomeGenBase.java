@@ -1,6 +1,5 @@
 package vanilla.world.biome;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.Logger;
 import net.minecraft.block.BlockSand;
@@ -400,7 +399,7 @@ public abstract class BiomeGenBase extends Biome {
 						}
 
 						if (j1 < i && (iblockstate == null || iblockstate.getBlock().getMaterial() == Material.air)) {
-							if (this.getFloatTemperature(blockpos$mutableblockpos.func_181079_c(p_180628_4_, j1, p_180628_5_)) < 0.15F) {
+							if (this.getFloatTemperature(blockpos$mutableblockpos.setXyz(p_180628_4_, j1, p_180628_5_)) < 0.15F) {
 								iblockstate = Blocks.ice.getDefaultState();
 							} else {
 								iblockstate = Blocks.water.getDefaultState();

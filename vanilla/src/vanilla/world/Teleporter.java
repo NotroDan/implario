@@ -1,6 +1,5 @@
 package vanilla.world;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -198,8 +197,8 @@ public class Teleporter implements IDimensionTranser {
 				label142:
 
 				for (int j3 = this.world.getActualHeight() - 1; j3 >= 0; --j3) {
-					if (this.world.isAirBlock(blockpos$mutableblockpos.func_181079_c(j2, j3, l2))) {
-						while (j3 > 0 && this.world.isAirBlock(blockpos$mutableblockpos.func_181079_c(j2, j3 - 1, l2))) {
+					if (this.world.isAirBlock(blockpos$mutableblockpos.setXyz(j2, j3, l2))) {
+						while (j3 > 0 && this.world.isAirBlock(blockpos$mutableblockpos.setXyz(j2, j3 - 1, l2))) {
 							--j3;
 						}
 
@@ -218,7 +217,7 @@ public class Teleporter implements IDimensionTranser {
 										int i5 = j2 + (k4 - 1) * l3 + j4 * i4;
 										int j5 = j3 + l4;
 										int k5 = l2 + (k4 - 1) * i4 - j4 * l3;
-										blockpos$mutableblockpos.func_181079_c(i5, j5, k5);
+										blockpos$mutableblockpos.setXyz(i5, j5, k5);
 
 										if (l4 < 0 && !this.world.getBlockState(
 												blockpos$mutableblockpos).getBlock().getMaterial().isSolid() || l4 >= 0 && !this.world.isAirBlock(blockpos$mutableblockpos)) {
@@ -253,8 +252,8 @@ public class Teleporter implements IDimensionTranser {
 					label562:
 
 					for (int i7 = this.world.getActualHeight() - 1; i7 >= 0; --i7) {
-						if (this.world.isAirBlock(blockpos$mutableblockpos.func_181079_c(l5, i7, j6))) {
-							while (i7 > 0 && this.world.isAirBlock(blockpos$mutableblockpos.func_181079_c(l5, i7 - 1, j6))) {
+						if (this.world.isAirBlock(blockpos$mutableblockpos.setXyz(l5, i7, j6))) {
+							while (i7 > 0 && this.world.isAirBlock(blockpos$mutableblockpos.setXyz(l5, i7 - 1, j6))) {
 								--i7;
 							}
 
@@ -267,7 +266,7 @@ public class Teleporter implements IDimensionTranser {
 										int j12 = l5 + (j10 - 1) * j8;
 										int i13 = i7 + j11;
 										int j13 = j6 + (j10 - 1) * j9;
-										blockpos$mutableblockpos.func_181079_c(j12, i13, j13);
+										blockpos$mutableblockpos.setXyz(j12, i13, j13);
 
 										if (j11 < 0 && !this.world.getBlockState(
 												blockpos$mutableblockpos).getBlock().getMaterial().isSolid() || j11 >= 0 && !this.world.isAirBlock(blockpos$mutableblockpos)) {

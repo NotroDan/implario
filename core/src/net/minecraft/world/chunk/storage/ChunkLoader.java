@@ -97,7 +97,7 @@ public class ChunkLoader {
 
 		for (int l2 = 0; l2 < 16; ++l2) {
 			for (int i3 = 0; i3 < 16; ++i3) {
-				blockpos$mutableblockpos.func_181079_c(p_76690_0_.x << 4 | l2, 0, p_76690_0_.z << 4 | i3);
+				blockpos$mutableblockpos.setXyz(p_76690_0_.x << 4 | l2, 0, p_76690_0_.z << 4 | i3);
 				abyte[i3 << 4 | l2] = (byte) (biomer.getBiome(blockpos$mutableblockpos).getLegacyId() & 255);
 			}
 		}

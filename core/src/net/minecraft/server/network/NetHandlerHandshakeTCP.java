@@ -1,10 +1,11 @@
 package net.minecraft.server.network;
 
-import net.minecraft.network.ConnectionState;
+import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.INetHandlerHandshakeServer;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.server.S00PacketDisconnect;
+import net.minecraft.network.protocol.Protocols;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.IChatComponent;
@@ -25,9 +26,9 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer {
 	 * must pass a versioncheck or receive a disconnect otherwise
 	 */
 	public void processHandshake(C00Handshake packetIn) {
-		ConnectionState r = packetIn.getRequestedState();
-		if (r == ConnectionState.LOGIN) {
-			this.networkManager.setConnectionState(ConnectionState.LOGIN);
+		Protocol r = packetIn.getRequestedState();
+		if (r == Protocols.LOGIN) {
+			this.networkManager.setConnectionState(Protocols.LOGIN);
 
 			if (packetIn.getProtocolVersion() != 47) {
 				ChatComponentText chatcomponenttext = new ChatComponentText("Этот сервер использует протокол §eNotchian 47§f (версия 1.8.8)\n" +
@@ -38,8 +39,8 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer {
 			} else {
 				this.networkManager.setNetHandler(new NetHandlerLoginServer(this.server, this.networkManager));
 			}
-		} else if (r == ConnectionState.STATUS) {
-			this.networkManager.setConnectionState(ConnectionState.STATUS);
+		} else if (r == Protocols.STATUS) {
+			this.networkManager.setConnectionState(Protocols.STATUS);
 			this.networkManager.setNetHandler(new NetHandlerStatusServer(this.server, this.networkManager));
 		} else {
 			ChatComponentText chatcomponenttext = new ChatComponentText("§4Критическая ошибка:\n§cОтправленный статус хендшейка невозможно обработать (§f" + r + "§c)");

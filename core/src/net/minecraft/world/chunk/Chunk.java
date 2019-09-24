@@ -1281,7 +1281,7 @@ public class Chunk {
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos((this.xPosition << 4) + x, 0, (this.zPosition << 4) + z);
 
 		for (int j = i + 16 - 1; j > this.worldObj.getSeaLevel() || j > 0 && !flag1; --j) {
-			blockpos$mutableblockpos.func_181079_c(blockpos$mutableblockpos.getX(), j, blockpos$mutableblockpos.getZ());
+			blockpos$mutableblockpos.setXyz(blockpos$mutableblockpos.getX(), j, blockpos$mutableblockpos.getZ());
 			int k = this.getBlockLightOpacity(blockpos$mutableblockpos);
 
 			if (k == 255 && blockpos$mutableblockpos.getY() < this.worldObj.getSeaLevel()) {
@@ -1296,7 +1296,7 @@ public class Chunk {
 		}
 
 		for (int l = blockpos$mutableblockpos.getY(); l > 0; --l) {
-			blockpos$mutableblockpos.func_181079_c(blockpos$mutableblockpos.getX(), l, blockpos$mutableblockpos.getZ());
+			blockpos$mutableblockpos.setXyz(blockpos$mutableblockpos.getX(), l, blockpos$mutableblockpos.getZ());
 
 			if (this.getBlock(blockpos$mutableblockpos).getLightValue() > 0) {
 				this.worldObj.checkLight(blockpos$mutableblockpos);

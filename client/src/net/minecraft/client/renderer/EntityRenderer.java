@@ -56,7 +56,6 @@ import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.FloatBuffer;
 import java.util.Calendar;
 import java.util.Date;
@@ -1663,7 +1662,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					int k1 = (i1 - k + 16) * 32 + j1 - i + 16;
 					double d3 = (double) this.rainXCoords[k1] * 0.5D;
 					double d4 = (double) this.rainYCoords[k1] * 0.5D;
-					blockpos$mutableblockpos.func_181079_c(j1, 0, i1);
+					blockpos$mutableblockpos.setXyz(j1, 0, i1);
 					Biome biomegenbase = worldclient.getBiomeGenForCoords(blockpos$mutableblockpos);
 
 					if (biomegenbase.canSpawnLightningBolt() || biomegenbase.getEnableSnow()) {
@@ -1687,7 +1686,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 						if (i2 != j2) {
 							this.random.setSeed((long) (j1 * j1 * 3121 + j1 * 45238971 ^ i1 * i1 * 418711 + i1 * 13761));
-							blockpos$mutableblockpos.func_181079_c(j1, i2, i1);
+							blockpos$mutableblockpos.setXyz(j1, i2, i1);
 							float f1 = biomegenbase.getFloatTemperature(blockpos$mutableblockpos);
 
 							if (f1 >= 0.15F) {
@@ -1706,7 +1705,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 								double d7 = (double) ((float) i1 + 0.5F) - entity.posZ;
 								float f2 = MathHelper.sqrt_double(d6 * d6 + d7 * d7) / (float) b0;
 								float f3 = ((1.0F - f2 * f2) * 0.5F + 0.5F) * f5;
-								blockpos$mutableblockpos.func_181079_c(j1, k2, i1);
+								blockpos$mutableblockpos.setXyz(j1, k2, i1);
 								int l2 = worldclient.getCombinedLight(blockpos$mutableblockpos, 0);
 								int i3 = l2 >> 16 & 65535;
 								int j3 = l2 & 65535;
@@ -1736,7 +1735,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 								double d12 = (double) ((float) i1 + 0.5F) - entity.posZ;
 								float f6 = MathHelper.sqrt_double(d11 * d11 + d12 * d12) / (float) b0;
 								float f4 = ((1.0F - f6 * f6) * 0.3F + 0.5F) * f5;
-								blockpos$mutableblockpos.func_181079_c(j1, k2, i1);
+								blockpos$mutableblockpos.setXyz(j1, k2, i1);
 								int k3 = (worldclient.getCombinedLight(blockpos$mutableblockpos, 0) * 3 + 15728880) / 4;
 								int l3 = k3 >> 16 & 65535;
 								int i4 = k3 & 65535;

@@ -121,7 +121,7 @@ public class ItemMap extends ItemMapBase {
 												{
 													while (true) {
 														--k4;
-														iblockstate = chunk.getBlockState(blockpos$mutableblockpos.func_181079_c(i4 + i3, k4, j4 + j3));
+														iblockstate = chunk.getBlockState(blockpos$mutableblockpos.setXyz(i4 + i3, k4, j4 + j3));
 
 														if (iblockstate.getBlock().getMapColor(iblockstate) != MapColor.airColor || k4 <= 0) {
 															break;

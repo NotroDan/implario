@@ -19,6 +19,9 @@ import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.Logger;
+import net.minecraft.logging.Log;
+import net.minecraft.network.protocol.Protocol;
+import net.minecraft.network.protocol.Protocols;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -34,7 +37,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 	private static final Logger logger = Logger.getInstance();
-	public static final AttributeKey<ConnectionState> attrKeyConnectionState = AttributeKey.valueOf("protocol");
+	public static final AttributeKey<Protocol> attrKeyConnectionState = AttributeKey.valueOf("protocol");
 	public static final LazySupplier<NioEventLoopGroup> NIO_CLIENT = new LazySupplier<NioEventLoopGroup>() {
 		protected NioEventLoopGroup load() {
 			return new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Client IO #%d").setDaemon(true).build());
@@ -80,25 +83,25 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		this.isClientSide = isClientSide;
 	}
 
-	public void channelActive(ChannelHandlerContext p_channelActive_1_) throws Exception {
-		super.channelActive(p_channelActive_1_);
-		this.channel = p_channelActive_1_.channel();
+	public void channelActive(ChannelHandlerContext context) throws Exception {
+		super.channelActive(context);
+		this.channel = context.channel();
 		this.socketAddress = this.channel.remoteAddress();
 
 		try {
-			this.setConnectionState(ConnectionState.HANDSHAKING);
+			this.setConnectionState(Protocols.HANDSHAKING);
 		} catch (Throwable throwable) {
-			logger.fatal((Object) throwable);
+			logger.fatal(throwable);
 		}
 	}
 
 	/**
 	 * Sets the new connection state and registers which packets this channel may send and receive
 	 */
-	public void setConnectionState(ConnectionState newState) {
+	public void setConnectionState(Protocol newState) {
 		this.channel.attr(attrKeyConnectionState).set(newState);
 		this.channel.config().setAutoRead(true);
-		logger.debug("Enabled auto read");
+		Log.MAIN.debug("Enabled auto read");
 	}
 
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
@@ -130,7 +133,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 */
 	public void setNetHandler(INetHandler handler) {
 		Validate.notNull(handler, "packetListener");
-		logger.debug("Set listener of {} to {}", new Object[] {this, handler});
+		Log.MAIN.debug("Set listener of " + this + " to " + handler);
 		this.packetListener = handler;
 	}
 
@@ -172,8 +175,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private int i = 0;
 	private void dispatchPacket(final Packet inPacket, final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
 		boolean kek = i == 3;
-		final ConnectionState newState = kek ? null : ConnectionState.getFromPacket(inPacket);
-		final ConnectionState oldState = kek ? null : this.channel.attr(attrKeyConnectionState).get();
+		final Protocol newState = kek ? null : Protocol.getFromPacket(inPacket);
+		final Protocol oldState = kek ? null : this.channel.attr(attrKeyConnectionState).get();
 
 		if (oldState != newState) {
 			logger.debug("Disabled auto read");

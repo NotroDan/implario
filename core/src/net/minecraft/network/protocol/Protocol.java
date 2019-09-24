@@ -1,9 +1,8 @@
-package net.minecraft.network;
+package net.minecraft.network.protocol;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import lombok.Getter;
 import net.minecraft.logging.Log;
+import net.minecraft.network.Packet;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.login.client.C01PacketEncryptionResponse;
@@ -23,12 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class ConnectionState {
-	public static ConnectionState
-			HANDSHAKING,
-			PLAY,
-			STATUS,
-			LOGIN;
+public class Protocol {
 
 	@Getter
 	private final int id;
@@ -37,7 +31,7 @@ public class ConnectionState {
 			serverPackets = new IntDoubleMap<>(10);
 	private int idClientPacket, idServerPacket;
 
-	public ConnectionState(int protocolId) {
+	public Protocol(int protocolId) {
 		this.id = protocolId;
 	}
 
@@ -64,20 +58,20 @@ public class ConnectionState {
 		return supplier == null ? null : supplier.get();
 	}
 
-	public static ConnectionState getFromPacket(Packet packetIn) {
+	public static Protocol getFromPacket(Packet packetIn) {
 		return STATES_BY_CLASS.get(packetIn.getClass());
 	}
 
-	private static final Map<Class<? extends Packet>, ConnectionState> STATES_BY_CLASS;
+	private static final Map<Class<? extends Packet>, Protocol> STATES_BY_CLASS;
 
 	static {
 		STATES_BY_CLASS = new HashMap<>();
-		HANDSHAKING = new ConnectionState(-1) {
+		Protocols.HANDSHAKING = new Protocol(-1) {
 			{
 				this.registerPacket(true, C00Handshake.class, C00Handshake::new);
 			}
 		};
-		PLAY = new ConnectionState(0) {
+		Protocols.PLAY_47 = new Protocol(0) {
 			{
 				this.registerPacket(false, S00PacketKeepAlive.class, S00PacketKeepAlive::new);
 				this.registerPacket(false, S01PacketJoinGame.class, S01PacketJoinGame::new);
@@ -181,7 +175,7 @@ public class ConnectionState {
 				this.registerPacket(true, C19PacketResourcePackStatus.class, C19PacketResourcePackStatus::new);
 			}
 		};
-		STATUS = new ConnectionState(1) {
+		Protocols.STATUS = new Protocol(1) {
 			{
 				this.registerPacket(true, C00PacketServerQuery.class, C00PacketServerQuery::new);
 				this.registerPacket(false, S00PacketServerInfo.class, S00PacketServerInfo::new);
@@ -189,7 +183,7 @@ public class ConnectionState {
 				this.registerPacket(false, S01PacketPong.class, S01PacketPong::new);
 			}
 		};
-		LOGIN = new ConnectionState(2) {
+		Protocols.LOGIN = new Protocol(2) {
 			{
 				this.registerPacket(false, S00PacketDisconnect.class, S00PacketDisconnect::new);
 				this.registerPacket(false, S01PacketEncryptionRequest.class, S01PacketEncryptionRequest::new);

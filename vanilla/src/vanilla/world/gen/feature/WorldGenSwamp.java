@@ -50,7 +50,7 @@ public class WorldGenSwamp extends WorldGenAbstractTree {
 				for (int l = position.getX() - k; l <= position.getX() + k && flag; ++l) {
 					for (int i1 = position.getZ() - k; i1 <= position.getZ() + k && flag; ++i1) {
 						if (j >= 0 && j < 256) {
-							Block block = worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(l, j, i1)).getBlock();
+							Block block = worldIn.getBlockState(blockpos$mutableblockpos.setXyz(l, j, i1)).getBlock();
 
 							if (block.getMaterial() != Material.air && block.getMaterial() != Material.leaves) {
 								if (block != Blocks.water && block != Blocks.flowing_water) {
@@ -110,7 +110,7 @@ public class WorldGenSwamp extends WorldGenAbstractTree {
 
 					for (int i4 = position.getX() - j3; i4 <= position.getX() + j3; ++i4) {
 						for (int j4 = position.getZ() - j3; j4 <= position.getZ() + j3; ++j4) {
-							blockpos$mutableblockpos1.func_181079_c(i4, j2, j4);
+							blockpos$mutableblockpos1.setXyz(i4, j2, j4);
 
 							if (worldIn.getBlockState(blockpos$mutableblockpos1).getBlock().getMaterial() == Material.leaves) {
 								BlockPos blockpos3 = blockpos$mutableblockpos1.west();

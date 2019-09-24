@@ -683,8 +683,8 @@ public abstract class World implements IBlockAccess {
 	/**
 	 * ray traces all blocks, including non-collideable ones
 	 */
-	public MovingObjectPosition rayTraceBlocks(Vec3 p_72933_1_, Vec3 p_72933_2_) {
-		return this.rayTraceBlocks(p_72933_1_, p_72933_2_, false, false, false);
+	public MovingObjectPosition rayTraceBlocks(Vec3 start, Vec3 end) {
+		return this.rayTraceBlocks(start, end, false, false, false);
 	}
 
 	public MovingObjectPosition rayTraceBlocks(Vec3 start, Vec3 end, boolean stopOnLiquid) {
@@ -695,21 +695,21 @@ public abstract class World implements IBlockAccess {
 	 * Performs a raycast against all blocks in the world. Args : Vec1, Vec2, stopOnLiquid,
 	 * ignoreBlockWithoutBoundingBox, returnLastUncollidableBlock
 	 */
-	public MovingObjectPosition rayTraceBlocks(Vec3 vec31, Vec3 vec32, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock) {
-		if (!Double.isNaN(vec31.xCoord) && !Double.isNaN(vec31.yCoord) && !Double.isNaN(vec31.zCoord)) {
-			if (!Double.isNaN(vec32.xCoord) && !Double.isNaN(vec32.yCoord) && !Double.isNaN(vec32.zCoord)) {
-				int i = MathHelper.floor_double(vec32.xCoord);
-				int j = MathHelper.floor_double(vec32.yCoord);
-				int k = MathHelper.floor_double(vec32.zCoord);
-				int l = MathHelper.floor_double(vec31.xCoord);
-				int i1 = MathHelper.floor_double(vec31.yCoord);
-				int j1 = MathHelper.floor_double(vec31.zCoord);
+	public MovingObjectPosition rayTraceBlocks(Vec3 start, Vec3 end, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock) {
+		if (!Double.isNaN(start.xCoord) && !Double.isNaN(start.yCoord) && !Double.isNaN(start.zCoord)) {
+			if (!Double.isNaN(end.xCoord) && !Double.isNaN(end.yCoord) && !Double.isNaN(end.zCoord)) {
+				int i = MathHelper.floor_double(end.xCoord);
+				int j = MathHelper.floor_double(end.yCoord);
+				int k = MathHelper.floor_double(end.zCoord);
+				int l = MathHelper.floor_double(start.xCoord);
+				int i1 = MathHelper.floor_double(start.yCoord);
+				int j1 = MathHelper.floor_double(start.zCoord);
 				BlockPos blockpos = new BlockPos(l, i1, j1);
 				IBlockState iblockstate = this.getBlockState(blockpos);
 				Block block = iblockstate.getBlock();
 
 				if ((!ignoreBlockWithoutBoundingBox || block.getCollisionBoundingBox(this, blockpos, iblockstate) != null) && block.canCollideCheck(iblockstate, stopOnLiquid)) {
-					MovingObjectPosition movingobjectposition = block.collisionRayTrace(this, blockpos, vec31, vec32);
+					MovingObjectPosition movingobjectposition = block.collisionRayTrace(this, blockpos, start, end);
 
 					if (movingobjectposition != null) {
 						return movingobjectposition;
@@ -720,7 +720,7 @@ public abstract class World implements IBlockAccess {
 				int k1 = 200;
 
 				while (k1-- >= 0) {
-					if (Double.isNaN(vec31.xCoord) || Double.isNaN(vec31.yCoord) || Double.isNaN(vec31.zCoord)) {
+					if (Double.isNaN(start.xCoord) || Double.isNaN(start.yCoord) || Double.isNaN(start.zCoord)) {
 						return null;
 					}
 
@@ -762,20 +762,20 @@ public abstract class World implements IBlockAccess {
 					double d3 = 999.0D;
 					double d4 = 999.0D;
 					double d5 = 999.0D;
-					double d6 = vec32.xCoord - vec31.xCoord;
-					double d7 = vec32.yCoord - vec31.yCoord;
-					double d8 = vec32.zCoord - vec31.zCoord;
+					double d6 = end.xCoord - start.xCoord;
+					double d7 = end.yCoord - start.yCoord;
+					double d8 = end.zCoord - start.zCoord;
 
 					if (flag2) {
-						d3 = (d0 - vec31.xCoord) / d6;
+						d3 = (d0 - start.xCoord) / d6;
 					}
 
 					if (flag) {
-						d4 = (d1 - vec31.yCoord) / d7;
+						d4 = (d1 - start.yCoord) / d7;
 					}
 
 					if (flag1) {
-						d5 = (d2 - vec31.zCoord) / d8;
+						d5 = (d2 - start.zCoord) / d8;
 					}
 
 					if (d3 == -0.0D) {
@@ -794,31 +794,31 @@ public abstract class World implements IBlockAccess {
 
 					if (d3 < d4 && d3 < d5) {
 						enumfacing = i > l ? EnumFacing.WEST : EnumFacing.EAST;
-						vec31 = new Vec3(d0, vec31.yCoord + d7 * d3, vec31.zCoord + d8 * d3);
+						start = new Vec3(d0, start.yCoord + d7 * d3, start.zCoord + d8 * d3);
 					} else if (d4 < d5) {
 						enumfacing = j > i1 ? EnumFacing.DOWN : EnumFacing.UP;
-						vec31 = new Vec3(vec31.xCoord + d6 * d4, d1, vec31.zCoord + d8 * d4);
+						start = new Vec3(start.xCoord + d6 * d4, d1, start.zCoord + d8 * d4);
 					} else {
 						enumfacing = k > j1 ? EnumFacing.NORTH : EnumFacing.SOUTH;
-						vec31 = new Vec3(vec31.xCoord + d6 * d5, vec31.yCoord + d7 * d5, d2);
+						start = new Vec3(start.xCoord + d6 * d5, start.yCoord + d7 * d5, d2);
 					}
 
-					l = MathHelper.floor_double(vec31.xCoord) - (enumfacing == EnumFacing.EAST ? 1 : 0);
-					i1 = MathHelper.floor_double(vec31.yCoord) - (enumfacing == EnumFacing.UP ? 1 : 0);
-					j1 = MathHelper.floor_double(vec31.zCoord) - (enumfacing == EnumFacing.SOUTH ? 1 : 0);
+					l = MathHelper.floor_double(start.xCoord) - (enumfacing == EnumFacing.EAST ? 1 : 0);
+					i1 = MathHelper.floor_double(start.yCoord) - (enumfacing == EnumFacing.UP ? 1 : 0);
+					j1 = MathHelper.floor_double(start.zCoord) - (enumfacing == EnumFacing.SOUTH ? 1 : 0);
 					blockpos = new BlockPos(l, i1, j1);
 					IBlockState iblockstate1 = this.getBlockState(blockpos);
 					Block block1 = iblockstate1.getBlock();
 
 					if (!ignoreBlockWithoutBoundingBox || block1.getCollisionBoundingBox(this, blockpos, iblockstate1) != null) {
 						if (block1.canCollideCheck(iblockstate1, stopOnLiquid)) {
-							MovingObjectPosition movingobjectposition1 = block1.collisionRayTrace(this, blockpos, vec31, vec32);
+							MovingObjectPosition movingobjectposition1 = block1.collisionRayTrace(this, blockpos, start, end);
 
 							if (movingobjectposition1 != null) {
 								return movingobjectposition1;
 							}
 						} else {
-							movingobjectposition2 = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec31, enumfacing, blockpos);
+							movingobjectposition2 = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, start, enumfacing, blockpos);
 						}
 					}
 				}
@@ -1006,9 +1006,9 @@ public abstract class World implements IBlockAccess {
 
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = i1; l1 < j1; ++l1) {
-				if (this.isBlockLoaded(blockpos$mutableblockpos.func_181079_c(k1, 64, l1))) {
+				if (this.isBlockLoaded(blockpos$mutableblockpos.setXyz(k1, 64, l1))) {
 					for (int i2 = k - 1; i2 < l; ++i2) {
-						blockpos$mutableblockpos.func_181079_c(k1, i2, l1);
+						blockpos$mutableblockpos.setXyz(k1, i2, l1);
 
 						if (flag && flag1) {
 							entityIn.setOutsideBorder(false);
@@ -1083,9 +1083,9 @@ public abstract class World implements IBlockAccess {
 
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = i1; l1 < j1; ++l1) {
-				if (this.isBlockLoaded(blockpos$mutableblockpos.func_181079_c(k1, 64, l1))) {
+				if (this.isBlockLoaded(blockpos$mutableblockpos.setXyz(k1, 64, l1))) {
 					for (int i2 = k - 1; i2 < l; ++i2) {
-						blockpos$mutableblockpos.func_181079_c(k1, i2, l1);
+						blockpos$mutableblockpos.setXyz(k1, i2, l1);
 						IBlockState iblockstate;
 
 						if (k1 >= -30000000 && k1 < 30000000 && l1 >= -30000000 && l1 < 30000000) {
@@ -1596,7 +1596,7 @@ public abstract class World implements IBlockAccess {
 		for (int x = aX; x <= bX; ++x) {
 			for (int y = aY; y <= bY; ++y) {
 				for (int z = aZ; z <= bZ; ++z) {
-					Block block = this.getBlockState(pos.func_181079_c(x, y, z)).getBlock();
+					Block block = this.getBlockState(pos.setXyz(x, y, z)).getBlock();
 					if (block.getMaterial() != Material.air) return true;
 				}
 			}
@@ -1620,7 +1620,7 @@ public abstract class World implements IBlockAccess {
 		for (int k1 = i; k1 <= j; ++k1) {
 			for (int l1 = k; l1 <= l; ++l1) {
 				for (int i2 = i1; i2 <= j1; ++i2) {
-					Block block = this.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, l1, i2)).getBlock();
+					Block block = this.getBlockState(blockpos$mutableblockpos.setXyz(k1, l1, i2)).getBlock();
 
 					if (block.getMaterial().isLiquid()) {
 						return true;
@@ -1646,7 +1646,7 @@ public abstract class World implements IBlockAccess {
 			for (int k1 = i; k1 < j; ++k1) {
 				for (int l1 = k; l1 < l; ++l1) {
 					for (int i2 = i1; i2 < j1; ++i2) {
-						Block block = this.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, l1, i2)).getBlock();
+						Block block = this.getBlockState(blockpos$mutableblockpos.setXyz(k1, l1, i2)).getBlock();
 
 						if (block == Blocks.fire || block == Blocks.flowing_lava || block == Blocks.lava) {
 							return true;
@@ -1680,7 +1680,7 @@ public abstract class World implements IBlockAccess {
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = k; l1 < l; ++l1) {
 				for (int i2 = i1; i2 < j1; ++i2) {
-					blockpos$mutableblockpos.func_181079_c(k1, l1, i2);
+					blockpos$mutableblockpos.setXyz(k1, l1, i2);
 					IBlockState iblockstate = this.getBlockState(blockpos$mutableblockpos);
 					Block block = iblockstate.getBlock();
 
@@ -1722,7 +1722,7 @@ public abstract class World implements IBlockAccess {
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = k; l1 < l; ++l1) {
 				for (int i2 = i1; i2 < j1; ++i2) {
-					if (this.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, l1, i2)).getBlock().getMaterial() == materialIn) {
+					if (this.getBlockState(blockpos$mutableblockpos.setXyz(k1, l1, i2)).getBlock().getMaterial() == materialIn) {
 						return true;
 					}
 				}
@@ -1747,7 +1747,7 @@ public abstract class World implements IBlockAccess {
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = k; l1 < l; ++l1) {
 				for (int i2 = i1; i2 < j1; ++i2) {
-					IBlockState iblockstate = this.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, l1, i2));
+					IBlockState iblockstate = this.getBlockState(blockpos$mutableblockpos.setXyz(k1, l1, i2));
 					Block block = iblockstate.getBlock();
 
 					if (block.getMaterial() == materialIn) {
@@ -2304,7 +2304,7 @@ public abstract class World implements IBlockAccess {
 								int i4 = i2 + enumfacing.getFrontOffsetX();
 								int j4 = j2 + enumfacing.getFrontOffsetY();
 								int k4 = k2 + enumfacing.getFrontOffsetZ();
-								blockpos$mutableblockpos.func_181079_c(i4, j4, k4);
+								blockpos$mutableblockpos.setXyz(i4, j4, k4);
 								int l4 = Math.max(1, this.getBlockState(blockpos$mutableblockpos).getBlock().getLightOpacity());
 								i3 = this.getLightFor(lightType, blockpos$mutableblockpos);
 
