@@ -94,7 +94,9 @@ public class Datapacks {
 	}
 
 	public static void initializeDatapacks(File directory){
-		for(File file : directory.listFiles()){
+		File files[] = directory.listFiles();
+		if(files == null)return;
+		for(File file : files){
 			if(file.isDirectory() || !file.getName().endsWith(".jar"))continue;
 			initializeDatapack(file);
 		}

@@ -7,6 +7,7 @@ import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldSettings;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CommandGameMode extends CommandBase {
@@ -16,6 +17,11 @@ public class CommandGameMode extends CommandBase {
 	 */
 	public String getCommandName() {
 		return "gamemode";
+	}
+
+	@Override
+	public List<String> getCommandAliases() {
+		return Collections.singletonList("gm");
 	}
 
 	/**

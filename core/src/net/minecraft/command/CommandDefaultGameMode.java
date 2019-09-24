@@ -5,6 +5,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.WorldSettings;
 
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.Collections.EMPTY_LIST;
+
 public class CommandDefaultGameMode extends CommandGameMode {
 
 	/**
@@ -19,6 +24,11 @@ public class CommandDefaultGameMode extends CommandGameMode {
 	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.defaultgamemode.usage";
+	}
+
+	@Override
+	public List<String> getCommandAliases() {
+		return Collections.EMPTY_LIST;
 	}
 
 	/**
