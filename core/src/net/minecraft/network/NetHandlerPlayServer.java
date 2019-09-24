@@ -466,17 +466,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		BlockPos l = packetIn.getPosition();
 		EnumFacing enumfacing = EnumFacing.getFront(packetIn.getPlacedBlockDirection());
 		this.playerEntity.markPlayerActive();
+		boolean isBlock = itemstack.getItem().isBlock();
 
 		if (packetIn.getPlacedBlockDirection() == 255) {
-			if (itemstack == null) {
-				return;
-			}
+			if (itemstack == null) return;
 
 			this.playerEntity.theItemInWorldManager.tryUseItem(this.playerEntity, worldserver, itemstack);
-		} else if (l.getY() < this.serverController.getBuildLimit() - 1 || enumfacing != EnumFacing.UP && l.getY() < this.serverController.getBuildLimit()) {
+		} else if (!isBlock ||
+				(l.getY() < this.serverController.getBuildLimit() - 1 || enumfacing != EnumFacing.UP
+						&& l.getY() < this.serverController.getBuildLimit())) {
 			flag = true;
 			boolean using = true;
-			if(itemstack.getItem().isBlock() && ServerEvents.playerBlockPlace.isUseful()){
+			if(isBlock && ServerEvents.playerBlockPlace.isUseful()){
 				PlayerBlockPlaceEvent event = new PlayerBlockPlaceEvent(playerEntity,
 						((ItemBlock)itemstack.getItem()).getBlock(), l.offset(enumfacing));
 				ServerEvents.playerBlockPlace.call(event);
