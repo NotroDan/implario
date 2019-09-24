@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="vanilla_server">
+    <output-path>$PROJECT_DIR$/server/env/datapacks</output-path>
+    <root id="archive" name="vanilla_server.jar">
+      <element id="module-output" name="vanilla" />
+    </root>
+  </artifact>
+</component>

@@ -10,9 +10,11 @@ import net.minecraft.item.Item;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.load.DatapackLoadException;
 import net.minecraft.resources.load.DatapackLoader;
+import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.server.Todo;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,24 +28,20 @@ public class Datapacks {
 	@Getter
 	private final List<Datapack> datapacks = new ArrayList<>();
 
-	public Datapack load(DatapackLoader loader) {
+	public Datapack load(DatapackLoader loader) throws DatapackLoadException{
 		return load(loader, null);
 	}
 
-	public Datapack load(DatapackLoader loader, String name) {
+	public Datapack load(DatapackLoader loader, String name) throws DatapackLoadException {
 		loaders.add(loader);
 
 		Datapack datapack;
 
-		try {
-			loader.init();
-			byte[] read = loader.read("datapack.resource");
-			String names = new String(read, StandardCharsets.UTF_8);
-			String[] classes = names.split("\\|");
-			datapack = loader.load(name == null ? classes[0] : name, classes.length > 1 ? classes[1] : null);
-		} catch (DatapackLoadException ex) {
-			throw new RuntimeException(ex.getMessage(), ex);
-		}
+		loader.init();
+		byte[] read = loader.read("datapack.resource");
+		String names = new String(read, StandardCharsets.UTF_8);
+		String[] classes = names.split("\\|");
+		datapack = loader.load(name == null ? classes[0] : name, classes.length > 1 ? classes[1] : null);
 
 		datapacks.add(datapack);
 		return datapack;
@@ -82,5 +80,23 @@ public class Datapacks {
 		datapack.unload();
 		datapack.disable();
 		loader.close();
+	}
+
+	public static Datapack initializeDatapack(File datapack){
+		DatapackLoader loader = new JarDatapackLoader(datapack);
+		try{
+			return load(loader);
+		}catch (DatapackLoadException ex){
+			System.out.println("Не удалось загрузить " + datapack.getAbsolutePath());
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public static void initializeDatapacks(File directory){
+		for(File file : directory.listFiles()){
+			if(file.isDirectory() || !file.getName().endsWith(".jar"))continue;
+			initializeDatapack(file);
+		}
 	}
 }

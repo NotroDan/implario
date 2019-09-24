@@ -5,6 +5,9 @@
     <option name="WORKING_DIRECTORY" value="server/env" />
     <method v="2">
       <option name="Make" enabled="true" />
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="vanilla_server" />
+      </option>
     </method>
   </configuration>
 </component>

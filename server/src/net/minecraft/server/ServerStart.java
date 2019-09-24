@@ -23,7 +23,6 @@ public class ServerStart {
 		String worldName = null;
 		boolean starterKit = false;
 		int i = -1;
-		boolean vanilla = false;
 
 		for (int j = 0; j < args.length; ++j) {
 			String s3 = args[j];
@@ -46,12 +45,11 @@ public class ServerStart {
 				wasArgumentUsed = true;
 				worldName = s4;
 			} else if (s3.equals("--bonusChest")) starterKit = true;
-			else if (s3.equals("--vanilla")) vanilla = true;
 
 			if (wasArgumentUsed) ++j;
 		}
 
-		if (vanilla) Datapacks.load(new JarDatapackLoader(new File("datapacks/vanilla.jar")));
+		Datapacks.initializeDatapacks(new File("datapacks"));
 		Bootstrap.register();
 		for (Datapack datapack : Datapacks.getDatapacks()) {
 			datapack.init();

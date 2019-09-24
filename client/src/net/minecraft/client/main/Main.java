@@ -93,8 +93,7 @@ public class Main {
 		int j = optionset.valueOf(optionspec14);
 		boolean flag = optionset.has("fullscreen");
 		boolean flag1 = optionset.has("checkGlErrors");
-		boolean vanilla = optionset.has("vanilla");
-		if (vanilla) Datapacks.load(new JarDatapackLoader(new File("gamedata/datapacks/vanilla.jar")));
+		Datapacks.initializeDatapacks(new File("gamedata/datapacks"));
 		Gson gson = new GsonBuilder().registerTypeAdapter(PropertyMap.class, new Serializer()).create();
 		PropertyMap propertymap1 = gson.fromJson(optionset.valueOf(optionspec16), PropertyMap.class);
 		File file1 = optionset.valueOf(optionspec2);
