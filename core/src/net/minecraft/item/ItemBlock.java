@@ -23,6 +23,11 @@ public class ItemBlock extends Item {
 		this.block = block;
 	}
 
+	@Override
+	public boolean isBlock(){
+		return true;
+	}
+
 	/**
 	 * Sets the unlocalized name of this item to the string passed as the parameter, prefixed by "item."
 	 */
@@ -148,5 +153,4 @@ public class ItemBlock extends Item {
 	public Block getBlock() {
 		return this.block;
 	}
-
 }

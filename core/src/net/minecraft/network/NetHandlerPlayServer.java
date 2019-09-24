@@ -19,6 +19,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.*;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemEditableBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemWritableBook;
@@ -29,6 +30,7 @@ import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerActionEvent;
+import net.minecraft.resources.event.events.player.PlayerBlockPlaceEvent;
 import net.minecraft.resources.event.events.player.PlayerMoveEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListBansEntry;
@@ -42,6 +44,7 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.WorldServer;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -471,13 +474,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 			this.playerEntity.theItemInWorldManager.tryUseItem(this.playerEntity, worldserver, itemstack);
 		} else if (l.getY() < this.serverController.getBuildLimit() - 1 || enumfacing != EnumFacing.UP && l.getY() < this.serverController.getBuildLimit()) {
-			if (this.hasMoved && this.playerEntity.getDistanceSq(l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5) < 64.0D &&
-					!this.serverController.isBlockProtected(worldserver, l, this.playerEntity) && worldserver.getWorldBorder().contains(l)) {
+			flag = true;
+			boolean using = true;
+			if(itemstack.getItem().isBlock() && ServerEvents.playerBlockPlace.isUseful()){
+				PlayerBlockPlaceEvent event = new PlayerBlockPlaceEvent(playerEntity,
+						((ItemBlock)itemstack.getItem()).getBlock(), l.offset(enumfacing));
+				ServerEvents.playerBlockPlace.call(event);
+				using = !event.isCanceled();
+			}
+			if (using && this.hasMoved && this.playerEntity.getDistanceSq(l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5) < 64.0D &&
+					!this.serverController.isBlockProtected(worldserver, l, this.playerEntity) && worldserver.getWorldBorder().contains(l))
 				this.playerEntity.theItemInWorldManager.activateBlockOrUseItem(this.playerEntity, worldserver, itemstack, l, enumfacing, packetIn.getPlacedBlockOffsetX(),
 						packetIn.getPlacedBlockOffsetY(), packetIn.getPlacedBlockOffsetZ());
-			}
-
-			flag = true;
 		} else {
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("build.tooHigh", this.serverController.getBuildLimit());
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);

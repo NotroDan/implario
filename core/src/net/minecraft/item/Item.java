@@ -308,6 +308,10 @@ public class Item {
 		return false;
 	}
 
+	public boolean isBlock(){
+		return false;
+	}
+
 	/**
 	 * returns the action that specifies what animation to play when the items is being used
 	 */

@@ -300,9 +300,9 @@ public class ItemInWorldManager {
 	/**
 	 * Attempts to right-click use an item by the given EntityPlayer in the given World
 	 */
-	public boolean tryUseItem(Player player, World worldIn, ItemStack stack) {
+	public void tryUseItem(Player player, World worldIn, ItemStack stack) {
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
-			return false;
+			return;
 		}
 		int i = stack.stackSize;
 		int j = stack.getMetadata();
@@ -326,21 +326,18 @@ public class ItemInWorldManager {
 			if (!player.isUsingItem()) {
 				((MPlayer) player).sendContainerToPlayer(player.inventoryContainer);
 			}
-
-			return true;
 		}
-		return false;
 	}
 
 	/**
 	 * Activate the clicked on block, otherwise use the held item.
 	 */
-	public boolean activateBlockOrUseItem(Player player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
+	public void activateBlockOrUseItem(Player player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
 		IBlockState b = worldIn.getBlockState(pos);
 		if (ServerEvents.playerInteract.isUseful()) {
 			PlayerInteractEvent event = new PlayerInteractEvent(player, stack, pos, b, side, offsetX, offsetY, offsetZ);
 			ServerEvents.playerInteract.call(event);
-			if (event.isCanceled()) return true;
+			if (event.isCanceled()) return;
 		}
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -355,35 +352,35 @@ public class ItemInWorldManager {
 
 				if (ilockablecontainer != null) {
 					player.displayGUIChest(ilockablecontainer);
-					return true;
+					return;
 				}
 			} else if (tileentity instanceof IInventory) {
 				player.displayGUIChest((IInventory) tileentity);
-				return true;
+				return;
 			}
 
-			return false;
+			return;
 		}
 		boolean preventBlockActivation = player.isSneaking() && player.getHeldItem() != null;
 		if (!preventBlockActivation) {
 
 			if (b.getBlock().onBlockActivated(worldIn, pos, b, player, side, offsetX, offsetY, offsetZ)) {
-				return true;
+				return;
 			}
 		}
 
 		if (stack == null) {
-			return false;
+			return;
 		}
 		if (this.isCreative()) {
 			int j = stack.getMetadata();
 			int i = stack.stackSize;
-			boolean flag = stack.onItemUse(player, worldIn, pos, side, offsetX, offsetY, offsetZ);
+			stack.onItemUse(player, worldIn, pos, side, offsetX, offsetY, offsetZ);
 			stack.setItemDamage(j);
 			stack.stackSize = i;
-			return flag;
+			return;
 		}
-		return stack.onItemUse(player, worldIn, pos, side, offsetX, offsetY, offsetZ);
+		stack.onItemUse(player, worldIn, pos, side, offsetX, offsetY, offsetZ);
 	}
 
 	/**
