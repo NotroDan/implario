@@ -1,1 +1,2 @@
-vanilla.Vanilla|vanilla.client.ClientVanilla
+vanilla.Vanilla
+vanilla.client.ClientVanilla

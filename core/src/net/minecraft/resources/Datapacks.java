@@ -28,20 +28,18 @@ public class Datapacks {
 	@Getter
 	private final List<Datapack> datapacks = new ArrayList<>();
 
-	public Datapack load(DatapackLoader loader) throws DatapackLoadException{
-		return load(loader, null);
-	}
-
-	public Datapack load(DatapackLoader loader, String name) throws DatapackLoadException {
+	public Datapack load(DatapackLoader loader) throws DatapackLoadException {
 		loaders.add(loader);
 
 		Datapack datapack;
 
 		loader.init();
 		byte[] read = loader.read("datapack.resource");
-		String names = new String(read, StandardCharsets.UTF_8);
-		String[] classes = names.split("\\|");
-		datapack = loader.load(name == null ? classes[0] : name, classes.length > 1 ? classes[1] : null);
+		if(read == null)throw new DatapackLoadException(null, "Can't read datapack.resource");
+		String names = new String(read);
+		String[] classes = names.split("\n");
+		classes[0] = classes[0].replace(((char)13) + "", "");
+		datapack = loader.load(classes[0], classes.length > 1 ? classes[1] : null);
 
 		datapacks.add(datapack);
 		return datapack;

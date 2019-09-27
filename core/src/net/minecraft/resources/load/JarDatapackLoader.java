@@ -1,6 +1,7 @@
 package net.minecraft.resources.load;
 
 import lombok.Getter;
+import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 import net.minecraft.server.Todo;
 
@@ -33,11 +34,12 @@ public class JarDatapackLoader extends DatapackLoader {
 	public Datapack load(String main, String clientMain) throws DatapackLoadException {
 		try {
 			if (datapack != null) return datapack;
-			System.out.println("Loading main class " + main);
+			Log.DEBUG.info("Loading main class " + main);
 
 			Class mainClass = loadClass(main);
 			this.datapack = (Datapack) mainClass.getConstructors()[0].newInstance();
-			System.out.println("clientMain: " + clientMain);
+			Log.DEBUG.info("clientMain: " + clientMain);
+
 			if (clientMain == null || Todo.instance.isServerSide()) return datapack;
 			Class client = loadClass(clientMain);
 			datapack.clientSide = client.getConstructors()[0].newInstance();
