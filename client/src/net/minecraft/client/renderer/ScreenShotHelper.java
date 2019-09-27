@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer;
 
 import net.minecraft.client.game.shader.Framebuffer;
-import net.minecraft.client.network.services.imgur.ImgurAPI;
+import net.minecraft.network.services.imgur.ImgurAPI;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.logging.Log;

@@ -1,4 +1,4 @@
-package net.minecraft.client.network.services.github;
+package net.minecraft.network.services.github;
 
 import lombok.Data;
 

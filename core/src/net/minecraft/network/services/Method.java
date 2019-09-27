@@ -1,4 +1,4 @@
-package net.minecraft.client.network.services;
+package net.minecraft.network.services;
 
 public enum Method {
 	GET,

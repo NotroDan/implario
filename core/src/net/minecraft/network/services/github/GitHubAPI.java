@@ -1,15 +1,7 @@
-package net.minecraft.client.network.services.github;
+package net.minecraft.network.services.github;
 
-import net.minecraft.client.network.services.Method;
-import net.minecraft.client.network.services.Request;
-import net.minecraft.util.StringUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import static net.minecraft.client.network.services.Method.POST;
+import net.minecraft.network.services.Method;
+import net.minecraft.network.services.Request;
 
 public class GitHubAPI {
 
@@ -18,6 +10,8 @@ public class GitHubAPI {
 	private static Request request(String path, Method method) {
 		return new Request(ADDRESS + path, method).header("Authorization", "Client-ID d7044dce12f4f92");
 	}
+
+
 
 
 //	public static String postImage(BufferedImage image) {

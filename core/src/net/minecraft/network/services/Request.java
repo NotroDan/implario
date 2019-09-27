@@ -1,4 +1,4 @@
-package net.minecraft.client.network.services;
+package net.minecraft.network.services;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

@@ -28,6 +28,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
+import net.minecraft.network.protocol.Protocols;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerActionEvent;
 import net.minecraft.resources.event.events.player.PlayerBlockPlaceEvent;
@@ -86,6 +87,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	public NetHandlerPlayServer(MinecraftServer server, NetworkManager networkManagerIn, MPlayer playerIn) {
 		this.serverController = server;
 		this.netManager = networkManagerIn;
+		networkManagerIn.setConnectionState(Protocols.PLAY_47);
 		networkManagerIn.setNetHandler(this);
 		this.playerEntity = playerIn;
 		playerIn.playerNetServerHandler = this;

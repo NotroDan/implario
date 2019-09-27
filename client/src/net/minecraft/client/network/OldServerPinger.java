@@ -43,6 +43,7 @@ public class OldServerPinger {
 		server.serverMOTD = "Pinging...";
 		server.pingToServer = -1L;
 		server.playerList = null;
+		networkmanager.setConnectionState(Protocols.STATUS);
 		networkmanager.setNetHandler(new PingerNetHandlerStatusClient(networkmanager, server));
 
 		try {
