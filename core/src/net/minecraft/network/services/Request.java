@@ -24,7 +24,7 @@ public class Request {
 		this.method = method;
 	}
 
-	public HttpURLConnection prepare() {
+	private HttpURLConnection prepare() {
 		try {
 			URL url = new URL(address + bakeParameters());
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
