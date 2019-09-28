@@ -1,6 +1,9 @@
 package net.minecraft.network;
 
+import net.minecraft.entity.player.MPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.resources.event.Listenable;
+import net.minecraft.util.byteable.Encoder;
 
 import java.io.IOException;
 
@@ -20,4 +23,10 @@ public interface Packet<T extends INetHandler> extends Listenable {
 	 */
 	void processPacket(T handler);
 
+
+	default void minecraft_netty(Player player){}
+
+	default void startSend(NetworkManager manager){}
+
+	default void endSend(NetworkManager manager){}
 }

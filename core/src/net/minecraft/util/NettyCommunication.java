@@ -43,6 +43,7 @@ public class NettyCommunication {
 
 		protected void encode(ChannelHandlerContext chc, Packet packet, ByteBuf buf) throws Exception {
 			int id = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(isClientSided, packet);
+
 			if (id == -1) throw new IOException("Can\'t serialize unregistered packet");
 
 			PacketBuffer packetbuffer = new PacketBuffer(buf);

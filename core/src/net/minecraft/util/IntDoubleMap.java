@@ -1,5 +1,7 @@
 package net.minecraft.util;
 
+import java.util.Arrays;
+
 public class IntDoubleMap<T, V> {
     private Object[] valuesT;
     private Object[] valuesV;
@@ -15,8 +17,9 @@ public class IntDoubleMap<T, V> {
     }
 
     public int get(T value){
-        for(int i = 0; i < valuesT.length; i++)
-            if(valuesT[i] == value)return i;
+        for(int i = 0; i < valuesT.length; i++) {
+            if (value.equals(valuesT[i])) return i;
+        }
         return -1;
     }
 
@@ -40,5 +43,13 @@ public class IntDoubleMap<T, V> {
         System.arraycopy(valuesV, 0, newValuesV, 0, length);
         this.valuesT = newValuesT;
         this.valuesV = newValuesV;
+    }
+
+    @Override
+    public String toString() {
+        return "IntDoubleMap{" +
+                "valuesT=" + Arrays.toString(valuesT) +
+                ", valuesV=" + Arrays.toString(valuesV) +
+                '}';
     }
 }

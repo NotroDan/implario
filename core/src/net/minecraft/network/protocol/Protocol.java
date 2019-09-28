@@ -45,7 +45,6 @@ public class Protocol {
 			throw new IllegalArgumentException(msg);
 		}
 
-		STATES_BY_CLASS.put(packetClass, this);
 		map.put(isClientPacket ? idClientPacket++ : idServerPacket++, packetClass, supplier);
 	}
 
@@ -58,14 +57,7 @@ public class Protocol {
 		return supplier == null ? null : supplier.get();
 	}
 
-	public static Protocol getFromPacket(Packet packetIn) {
-		return STATES_BY_CLASS.get(packetIn.getClass());
-	}
-
-	private static final Map<Class<? extends Packet>, Protocol> STATES_BY_CLASS;
-
 	static {
-		STATES_BY_CLASS = new HashMap<>();
 		Protocols.HANDSHAKING = new Protocol(-1) {
 			{
 				this.registerPacket(true, C00Handshake.class, C00Handshake::new);

@@ -2,6 +2,7 @@ package net.minecraft.network.handshake.client;
 
 import java.io.IOException;
 
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -61,4 +62,12 @@ public class C00Handshake implements Packet<INetHandlerHandshakeServer> {
 		return this.protocolVersion;
 	}
 
+	@Override
+	public void startSend(NetworkManager manager) {
+	}
+
+	@Override
+	public void endSend(NetworkManager manager) {
+		manager.setConnectionState(requestedState);
+	}
 }

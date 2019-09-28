@@ -5,9 +5,11 @@ import com.mojang.authlib.GameProfile;
 import java.io.IOException;
 import java.util.UUID;
 
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.login.INetHandlerLoginServer;
+import net.minecraft.network.protocol.Protocols;
 
 public class C00PacketLoginStart implements Packet<INetHandlerLoginServer> {
 
@@ -44,5 +46,4 @@ public class C00PacketLoginStart implements Packet<INetHandlerLoginServer> {
 	public GameProfile getProfile() {
 		return this.profile;
 	}
-
 }

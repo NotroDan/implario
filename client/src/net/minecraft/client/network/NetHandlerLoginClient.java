@@ -17,6 +17,7 @@ import net.minecraft.network.login.server.S00PacketDisconnect;
 import net.minecraft.network.login.server.S01PacketEncryptionRequest;
 import net.minecraft.network.login.server.S02PacketLoginSuccess;
 import net.minecraft.network.login.server.S03PacketEnableCompression;
+import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.protocol.Protocols;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;

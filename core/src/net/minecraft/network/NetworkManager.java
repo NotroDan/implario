@@ -95,6 +95,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	public void setAutoRead(boolean autoRead){
+		channel.config().setAutoRead(autoRead);
+	}
+
 	/**
 	 * Sets the new connection state and registers which packets this channel may send and receive
 	 */
@@ -173,25 +177,18 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * packet, otherwise it will add a task for the channel eventloop thread to do that.
 	 */
 	private void dispatchPacket(final Packet inPacket, final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
-
-//		if (oldState != newState) {
-//			logger.debug("Disabled auto read");
-//			this.channel.config().setAutoRead(false);
-//		}
-
+		inPacket.startSend(this);
 		if (this.channel.eventLoop().inEventLoop()) {
-//			if (newState != oldState) this.setConnectionState(newState);
-
 			ChannelFuture f = this.channel.writeAndFlush(inPacket);
 			if (futureListeners != null) f.addListeners(futureListeners);
 			f.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+			inPacket.endSend(this);
 		} else {
 			this.channel.eventLoop().execute(() -> {
-//				if (newState != oldState) this.setConnectionState(newState);
-
 				ChannelFuture f = this.channel.writeAndFlush(inPacket);
 				if (futureListeners != null) f.addListeners(futureListeners);
 				f.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+				inPacket.endSend(this);
 			});
 		}
 	}
