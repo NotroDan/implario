@@ -33,6 +33,7 @@ public class ServerEvents {
 	public static EventManager<PlayerFenceClickedEvent> playerFenceClicked = new EventManager<>();
 	public static EventManager<PlayerBlockBreakEvent> playerBlockBreak = new EventManager<>();
 	public static EventManager<PlayerBlockPlaceEvent> playerBlockPlace = new EventManager<>();
+	public static EventManager<PlayerChatMessageEvent> playerChatMessage = new EventManager<>();
 
 	public static EventManager<WorldServerInitEvent> worldInit = new EventManager<>();
 	public static EventManager<WorldTickEvent> worldTick = new EventManager<>();

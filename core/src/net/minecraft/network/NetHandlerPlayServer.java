@@ -32,6 +32,7 @@ import net.minecraft.network.protocol.Protocols;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerActionEvent;
 import net.minecraft.resources.event.events.player.PlayerBlockPlaceEvent;
+import net.minecraft.resources.event.events.player.PlayerChatMessageEvent;
 import net.minecraft.resources.event.events.player.PlayerMoveEvent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListBansEntry;
@@ -661,6 +662,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 				this.handleSlashCommand(s);
 			} else {
 				boolean b = serverController.getConfigurationManager().canSendCommands(playerEntity.getGameProfile());
+				if(ServerEvents.playerChatMessage.isUseful()){
+					PlayerChatMessageEvent event = new PlayerChatMessageEvent(playerEntity, s);
+					ServerEvents.playerChatMessage.call(event);
+					if(event.isCanceled())return;
+					s = event.getMessage();
+				}
 				IChatComponent ichatcomponent =
 						new ChatComponentText((b ? "§c" : "§7") + this.playerEntity.getDisplayName().getFormattedText() + "§7: §f" + s);
 				//new ChatComponentTranslation("chat.type.text", new Object[] {this.playerEntity.getDisplayName(), s});
