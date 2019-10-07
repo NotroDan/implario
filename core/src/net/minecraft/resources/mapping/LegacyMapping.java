@@ -1,12 +1,10 @@
 package net.minecraft.resources.mapping;
 
-public abstract class LegacyMapping<T> extends Mapping<T> {
-
+public abstract class LegacyMapping<T> extends AbstractMapping<T> {
 	protected final int id;
 
 	public LegacyMapping(int id, String address, T overridden, T actual) {
 		super(address, overridden, actual);
 		this.id = id;
 	}
-
 }

@@ -1,8 +1,6 @@
 package net.minecraft.server;
 
 import net.minecraft.resources.Datapack;
-import net.minecraft.world.World;
-import org.apache.commons.lang3.NotImplementedException;
 
 public class Todo {
 

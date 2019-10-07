@@ -4,7 +4,7 @@ import net.minecraft.resources.Provider;
 
 import java.util.function.Function;
 
-public class MappingProvider<I, O> extends Mapping<Function<I, O>> {
+public class MappingProvider<I, O> extends AbstractMapping<Function<I, O>> {
 
 	private final Provider provider;
 

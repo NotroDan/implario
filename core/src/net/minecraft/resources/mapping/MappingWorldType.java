@@ -2,7 +2,7 @@ package net.minecraft.resources.mapping;
 
 import net.minecraft.world.WorldType;
 
-public class MappingWorldType extends Mapping<WorldType> {
+public class MappingWorldType extends AbstractMapping<WorldType> {
 
 	private final WorldType type;
 

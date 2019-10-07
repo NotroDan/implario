@@ -2,10 +2,11 @@ package net.minecraft.client.resources;
 
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.resources.mapping.AbstractMapping;
 import net.minecraft.resources.mapping.Mapping;
 import net.minecraft.tileentity.TileEntity;
 
-public class MappingTileEntityRenderer<T extends TileEntity> extends Mapping<TileEntitySpecialRenderer<T>> {
+public class MappingTileEntityRenderer<T extends TileEntity> extends AbstractMapping<TileEntitySpecialRenderer<T>> {
 
 	private final Class<T> type;
 

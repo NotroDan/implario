@@ -11,12 +11,14 @@ public class EventManager<T extends Event> {
 	private Listener<T>[] array;
 
     @SuppressWarnings("unchecked")
-	public void add(Listener<T> listener) {
+	public int add(Listener<T> listener) {
 		Listener<T>[] array = new Listener[this.array == null ? 1 : this.array.length + 1];
+		int id = -1;
 		if (this.array != null) {
 		    int i = 0;
 		    for(; i < this.array.length; i++){
 		        if(listener.priority() <= this.array[i].priority()){
+		            id = i;
 		            array[i] = listener;
 		            i++;
 		            break;
@@ -25,73 +27,30 @@ public class EventManager<T extends Event> {
                 }
             }
 		    if(i == this.array.length){
+		        id = i;
 		        array[this.array.length] = listener;
             }else{
                 System.arraycopy(this.array, i - 1, array, i, this.array.length - i);
             }
-            if(i == 1){
-                System.out.println(array[0]);
-                System.out.println(array[1]);
-            }
         }else {
-            array[array.length - 1] = listener;
+		    id = 0;
+            array[0] = listener;
         }
         this.array = array;
+		return id;
 	}
 
-	public void add(Consumer<T> consumer, Domain domain, boolean ignoreCancelled, int priority){
-	    add(new Listener<T>() {
-            @Override
-            public void process(T event) {
-                consumer.accept(event);
-            }
 
-            @Override
-            public Domain domain() {
-                return domain;
-            }
-
-            @Override
-            public boolean ignoreCancelled() {
-                return ignoreCancelled;
-            }
-
-            @Override
-            public int priority() {
-                return priority;
-            }
-        });
-    }
-
-    public void add(Consumer<T> consumer, Domain domain, int priority){
-        add(consumer, domain, false, priority);
-    }
-
-    public void add(Consumer<T> consumer, Domain domain, boolean ignoreCancelled){
-	    add(consumer, domain, ignoreCancelled, 0);
-    }
-
-	public void add(Consumer<T> consumer, Domain domain){
-		add(consumer, domain, false);
-	}
 
 	@SuppressWarnings("unchecked")
-	public void remove(Domain domain) {
-		if (array == null) return;
-		int newArraySize = array.length;
-		for (int i = 0; i < array.length; i++)
-		    if (array[i].domain() == domain) newArraySize--;
-		Listener<T> newArray[] = (Listener<T>[]) new Listener[newArraySize];
-		for(int i = 0, j = 0; i < newArraySize;) {
-		    Listener<T> listener = array[i + j];
-            if(listener.domain() == domain)
-                j++;
-            else{
-                newArray[i] = array[i + j];
-                i++;
-            }
+	public void remove(int id) {
+		if (array == null ) return;
+		int newArraySize = array.length - 1;
+		if(newArraySize == 0){
+		    array = null;
+		    return;
         }
-		this.array = newArray;
+		this.array = ArrayUtils.remove(this.array, id);
 	}
 
 	public T call(T event) {

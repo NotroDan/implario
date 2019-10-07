@@ -10,10 +10,7 @@ import net.minecraft.entity.player.PlayerGuiBridge;
 import net.minecraft.item.Item;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
-import net.minecraft.resources.event.E;
-import net.minecraft.resources.event.Event;
-import net.minecraft.resources.event.Handler;
-import net.minecraft.resources.event.PacketInterceptor;
+import net.minecraft.resources.event.*;
 import net.minecraft.resources.mapping.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -23,6 +20,7 @@ import net.minecraft.world.WorldType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Registrar {
@@ -56,7 +54,7 @@ public class Registrar {
 	 * @param <T>     гагага
 	 */
 	public <T extends CommandBase> void regCommand(T command) {
-		registerMapping(new MappingCommand(CommandHandler.getCommand(command.getCommandName()), command));
+		registerMapping(new MappingCommand(command));
 	}
 
 	/**
@@ -179,6 +177,53 @@ public class Registrar {
 		Class<? extends Entity> oldType = EntityList.getClassFromID(id);
 		EntityList.EntityEggInfo oldEgg = EntityList.entityEggs.get(id);
 		registerMapping(new MappingMob(id, address, oldType, type, oldEgg, baseColor, spotColor));
+	}
+
+	public <T extends Event> void registerListener(EventManager<T> manager, Listener<T> listener){
+		registerMapping(new MappingEvent<>(manager, listener));
+	}
+
+	/**
+	 * @param manager Что то вроде ServerEvents.playerMove
+	 * @param listener Тот кто будет слушать
+	 * @param priority Ниже, раньше выполнится
+	 * @param ignoreCancelled Отменять вызов метода когда был вызван cancel(true)
+	 * @param <T> Класс эвента
+	 */
+	public <T extends Event> void registerListener(EventManager<T> manager, Consumer<T> listener, int priority, boolean ignoreCancelled){
+		registerListener(manager, new Listener<T>() {
+			@Override
+			public void process(T event) {
+				listener.accept(event);
+			}
+
+			@Override
+			public Domain domain() {
+				return domain;
+			}
+
+			@Override
+			public boolean ignoreCancelled() {
+				return ignoreCancelled;
+			}
+
+			@Override
+			public int priority() {
+				return priority;
+			}
+		});
+	}
+
+	public <T extends Event> void registerListener(EventManager<T> manager, Consumer<T> listener, int priority){
+		registerListener(manager, listener, priority, false);
+	}
+
+	public <T extends Event> void registerListener(EventManager<T> manager, Consumer<T> listener, boolean ignoreCancelled){
+		registerListener(manager, listener, 0, ignoreCancelled);
+	}
+
+	public <T extends Event> void registerListener(EventManager<T> manager, Consumer<T> listener){
+		registerListener(manager, listener, false);
 	}
 
 	/**

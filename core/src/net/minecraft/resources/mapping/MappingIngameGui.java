@@ -2,9 +2,7 @@ package net.minecraft.resources.mapping;
 
 import net.minecraft.entity.player.PlayerGuiBridge;
 
-public class MappingIngameGui<T> extends Mapping<PlayerGuiBridge.GuiOpener<T>> {
-
-
+public class MappingIngameGui<T> extends AbstractMapping<PlayerGuiBridge.GuiOpener<T>> {
 	private final Class<T> type;
 
 	public MappingIngameGui(Class<T> type, PlayerGuiBridge.GuiOpener overridden, PlayerGuiBridge.GuiOpener actual) {

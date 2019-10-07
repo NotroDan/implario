@@ -6,6 +6,7 @@ import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.resources.load.SimpleDatapackLoader;
 import net.minecraft.security.MinecraftSecurityManager;
+import net.minecraft.security.Restart;
 import net.minecraft.server.dedicated.DedicatedServer;
 import vanilla.Vanilla;
 
@@ -17,7 +18,7 @@ public class ServerStart {
 	}
 
 	public static void main(String[] args) {
-
+		Restart.setArgs(args);
 		String serverOwner = null;
 		String workDir = ".";
 		String worldName = null;

@@ -2,9 +2,10 @@ package net.minecraft.client.resources;
 
 import net.minecraft.client.gui.ingame.Module;
 import net.minecraft.client.gui.ingame.Modules;
+import net.minecraft.resources.mapping.AbstractMapping;
 import net.minecraft.resources.mapping.Mapping;
 
-public class MappingIngameModule extends Mapping<Module> {
+public class MappingIngameModule extends AbstractMapping<Module> {
 
 	public MappingIngameModule(String name, Module existing, Module replacement) {
 		super(name, existing, replacement);

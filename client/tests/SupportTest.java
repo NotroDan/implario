@@ -5,8 +5,14 @@ import net.minecraft.util.crypt.AES;
 import net.minecraft.util.crypt.ECDSA;
 import net.minecraft.util.crypt.SecurityKey;
 import net.minecraft.util.crypt.TimedSertificate;
+import org.lwjgl.Sys;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.lang.reflect.ReflectPermission;
+import java.security.Permission;
+import java.util.Scanner;
 
 public class SupportTest {
     private static int rounds = 99999;
@@ -32,6 +38,27 @@ public class SupportTest {
         }
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (true){
+            if(!scanner.hasNextInt())
+                continue;
+            System.out.println(scanner.nextInt());
+        }
+    }
+
+    public static int getNumber(Scanner scanner){
+        while (true){
+            if(scanner.hasNextInt()){
+                int i = scanner.nextInt();
+                if(i < 0){
+                    System.out.println("Отрицательное число");
+                    continue;
+                }
+                return i;
+            }
+            scanner.next();
+            System.out.println("Не число");
+        }
     }
 }

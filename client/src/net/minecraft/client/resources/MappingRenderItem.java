@@ -3,9 +3,10 @@ package net.minecraft.client.resources;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.resources.mapping.AbstractMapping;
 import net.minecraft.resources.mapping.Mapping;
 
-public class MappingRenderItem extends Mapping<ModelResourceLocation> {
+public class MappingRenderItem extends AbstractMapping<ModelResourceLocation> {
 
 	private final ItemModelMesher modelMesher;
 	private final Item item;

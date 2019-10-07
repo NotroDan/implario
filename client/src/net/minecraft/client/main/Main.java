@@ -29,19 +29,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class Main {
-	public static void restart(){
-		try {
-			Runtime.getRuntime().exec("java -cp " + ManagementFactory.getRuntimeMXBean().getClassPath() + " "
-					+ String.join(" ", ManagementFactory.getRuntimeMXBean().getInputArguments()) + " Start " +
-					String.join(" ", args));
-		}catch (Exception error){
-			error.printStackTrace();
-		}
-		System.exit(0);
-	}
-
-	public static String args[];
-
 	public static void main(String[] args) {
 		Todo.instance = new TodoClient();
 

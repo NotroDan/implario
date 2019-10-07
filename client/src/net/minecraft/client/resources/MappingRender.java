@@ -3,9 +3,10 @@ package net.minecraft.client.resources;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.resources.mapping.AbstractMapping;
 import net.minecraft.resources.mapping.Mapping;
 
-public class MappingRender<T extends Entity> extends Mapping<Render<T>> {
+public class MappingRender<T extends Entity> extends AbstractMapping<Render<T>> {
 
 	private final RenderManager renderManager;
 	private final Class<T> entity;

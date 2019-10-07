@@ -2,6 +2,7 @@
   <configuration default="false" name="server" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="net.minecraft.server.ServerStart" />
     <module name="server" />
+    <option name="VM_PARAMETERS" value="-Xmn32M -Xms64M -Xmx2G -server -XX:+AggressiveOpts -XX:+UseCompressedOops -XX:+OptimizeStringConcat -noverify -XX:+CompactStrings" />
     <option name="WORKING_DIRECTORY" value="server/env" />
     <method v="2">
       <option name="Make" enabled="true" />

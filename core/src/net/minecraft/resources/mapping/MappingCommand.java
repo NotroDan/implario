@@ -3,19 +3,20 @@ package net.minecraft.resources.mapping;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommand;
 
-public class MappingCommand extends Mapping<ICommand> {
+public class MappingCommand implements Mapping {
+	private final ICommand command;
 
-	public MappingCommand(ICommand overriden, ICommand actual) {
-		super(actual.getCommandName(), overriden, actual);
+	public MappingCommand(ICommand command) {
+		this.command = command;
 	}
 
 	@Override
-	protected void map(ICommand element) {
-		if (element == null) CommandHandler.unregisterCommand(actual);
-		else {
-			CommandHandler.unregisterCommand(element);
-			CommandHandler.registerCommand(element);
-		}
+	public void apply() {
+		CommandHandler.registerCommand(command);
 	}
 
+	@Override
+	public void revert() {
+		CommandHandler.unregisterCommand(command);
+	}
 }

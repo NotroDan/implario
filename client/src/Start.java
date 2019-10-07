@@ -1,6 +1,9 @@
 import net.minecraft.client.main.Main;
 import net.minecraft.security.MinecraftSecurityManager;
+import net.minecraft.security.Restart;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Arrays;
 
 public class Start {
@@ -9,7 +12,7 @@ public class Start {
 	}
 
 	public static void main(String[] args) {
-		Main.args = args;
+		Restart.setArgs(args);
 		Main.main(concat(new String[] {
 				"--accessToken", "0", "--assetsDir", "assets",
 				"--height", "600", "--width", "1000"

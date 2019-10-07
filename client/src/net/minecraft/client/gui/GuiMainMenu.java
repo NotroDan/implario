@@ -18,6 +18,7 @@ import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.JarDatapackLoader;
+import net.minecraft.security.Restart;
 import net.minecraft.security.update.JarFile;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
@@ -128,7 +129,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            Main.restart();
+            Restart.restart();
         }
 		if (button.id == 6) this.mc.displayGuiScreen(new GuiSettings(this));
 

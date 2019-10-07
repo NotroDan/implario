@@ -3,9 +3,10 @@ package net.minecraft.client.resources;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.item.Item;
+import net.minecraft.resources.mapping.AbstractMapping;
 import net.minecraft.resources.mapping.Mapping;
 
-public class MappingItemMeshDefinition extends Mapping<ItemMeshDefinition> {
+public class MappingItemMeshDefinition extends AbstractMapping<ItemMeshDefinition> {
 
 	private final ItemModelMesher modelMesher;
 	private final Item item;

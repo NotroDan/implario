@@ -22,6 +22,7 @@ import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.resources.event.events.player.*;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
@@ -42,27 +43,28 @@ import vanilla.world.SleepChecker;
 
 import java.util.Random;
 
+import static net.minecraft.resources.Datapack.isServerSide;
 import static vanilla.Vanilla.VANILLA;
 
 public class VEvents implements ServerSideLoadable {
 
 	@Override
 	public void load(Registrar registrar) {
-		ServerEvents.playerMove.add(this::handlePlayerMove, VANILLA, -5);
-		ServerEvents.playerMountMove.add(this::handleMountMove, VANILLA, true, -5);
-		ServerEvents.playerTick.add(this::handlePlayerTick, VANILLA, -5);
-		ServerEvents.playerFall.add(this::handlePlayerFall, VANILLA, true, -5);
-		ServerEvents.playerDisconnect.add(e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat), VANILLA, -5);
-		ServerEvents.playerJump.add(e -> e.getPlayer().triggerAchievement(StatList.jumpStat), VANILLA, -5);
-		ServerEvents.playerItemDrop.add(this::handleItemDrop, VANILLA, true, -5);
-		ServerEvents.playerDeath.add(e -> e.getPlayer().triggerAchievement(StatList.deathsStat), VANILLA, -5);
-		ServerEvents.playerSleep.add(new SleepChecker());
-		ServerEvents.playerAction.add(this::handleEntityAction, VANILLA, -5);
-		ServerEvents.trackerUpdate.add(this::handlerTrackerUpdate, VANILLA, -5);
-		ServerEvents.projectileHit.add(this::handleProjectileHit, VANILLA, -5);
-		ServerEvents.playerTeleportPearl.add(this::handlePlayerEnderPearl, VANILLA, true, -5);
-		ServerEvents.blockDrop.add(this::handleBlockDrop, VANILLA, true, -5);
-		ServerEvents.playerInteract.add(this::handleInteract, VANILLA, true, -5);
+		registrar.registerListener(ServerEvents.playerMove, this::handlePlayerMove, -5);
+		registrar.registerListener(ServerEvents.playerMountMove, this::handleMountMove, -5, true);
+		registrar.registerListener(ServerEvents.playerTick, this::handlePlayerTick, -5);
+		registrar.registerListener(ServerEvents.playerFall, this::handlePlayerFall, -5, true);
+		registrar.registerListener(ServerEvents.playerDisconnect, e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat), -5);
+		registrar.registerListener(ServerEvents.playerJump, e -> e.getPlayer().triggerAchievement(StatList.jumpStat), -5);
+		registrar.registerListener(ServerEvents.playerItemDrop, this::handleItemDrop, -5, true);
+		registrar.registerListener(ServerEvents.playerDeath, e -> e.getPlayer().triggerAchievement(StatList.deathsStat), -5);
+		registrar.registerListener(ServerEvents.playerSleep, new SleepChecker());
+		registrar.registerListener(ServerEvents.playerAction, this::handleEntityAction, -5);
+		registrar.registerListener(ServerEvents.trackerUpdate, this::handlerTrackerUpdate, -5);
+		registrar.registerListener(ServerEvents.projectileHit, this::handleProjectileHit, -5);
+		registrar.registerListener(ServerEvents.playerTeleportPearl, this::handlePlayerEnderPearl, -5, true);
+		registrar.registerListener(ServerEvents.blockDrop, this::handleBlockDrop, -5, true);
+		registrar.registerListener(ServerEvents.playerInteract, this::handleInteract, -5, true);
 	}
 
 	private void handleItemDrop(PlayerItemDropEvent e) {
