@@ -202,7 +202,7 @@ public class ItemRenderer {
 		}
 	}
 
-	private void func_178095_a(AbstractClientPlayer clientPlayer, float p_178095_2_, float p_178095_3_) {
+	private void renderPlayerHand(AbstractClientPlayer clientPlayer, float p_178095_2_, float p_178095_3_) {
 		float f = -0.3F * MathHelper.sin(MathHelper.sqrt_float(p_178095_3_) * (float) Math.PI);
 		float f1 = 0.4F * MathHelper.sin(MathHelper.sqrt_float(p_178095_3_) * (float) Math.PI * 2.0F);
 		float f2 = -0.4F * MathHelper.sin(p_178095_3_ * (float) Math.PI);
@@ -228,10 +228,10 @@ public class ItemRenderer {
 		G.enableCull();
 	}
 
-	private void func_178105_d(float p_178105_1_) {
-		float f = -0.4F * MathHelper.sin(MathHelper.sqrt_float(p_178105_1_) * (float) Math.PI);
-		float f1 = 0.2F * MathHelper.sin(MathHelper.sqrt_float(p_178105_1_) * (float) Math.PI * 2.0F);
-		float f2 = -0.2F * MathHelper.sin(p_178105_1_ * (float) Math.PI);
+	private void swingHandItem(float ticks) {
+		float f = -0.4F * MathHelper.sin(MathHelper.sqrt_float(ticks) * (float) Math.PI);
+		float f1 = 0.2F * MathHelper.sin(MathHelper.sqrt_float(ticks) * (float) Math.PI * 2.0F);
+		float f2 = -0.2F * MathHelper.sin(ticks * (float) Math.PI);
 		G.translate(f, f1, f2);
 	}
 
@@ -340,13 +340,13 @@ public class ItemRenderer {
 						this.func_178098_a(partialTicks, entityplayersp);
 				}
 			} else {
-				this.func_178105_d(f1);
+				this.swingHandItem(f1);
 				this.transformFirstPersonItem(f, f1);
 			}
 
 			this.renderItem(entityplayersp, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
 		} else if (!entityplayersp.isInvisible()) {
-			this.func_178095_a(entityplayersp, f, f1);
+			this.renderPlayerHand(entityplayersp, f, f1);
 		}
 
 		G.popMatrix();

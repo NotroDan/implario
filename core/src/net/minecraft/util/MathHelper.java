@@ -18,6 +18,8 @@ public class MathHelper {
 	private static final float degToIndex = 11.377778F;
 	public static final float deg2Rad = 0.017453292F;
 	private static final float[] SIN_TABLE_FAST = new float[4096];
+
+	// ToDo: Return fast math
 	public static boolean fastMath = false;
 
 	/**
@@ -42,7 +44,7 @@ public class MathHelper {
 	 * sin looked up in a table
 	 */
 	public static float sin(float a) {
-		return fastMath ? SIN_TABLE_FAST[(int) (a * 651.8986F) & 4095] : SIN_TABLE[(int) (a * 10430.378F) & 65535];
+		return fastMath ? SIN_TABLE_FAST[(int) (a * 651.8986F) & 0xfff] : SIN_TABLE[(int) (a * 10430.378F) & 65535];
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package net.minecraft.block;
 
+import lombok.Getter;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
@@ -34,7 +35,7 @@ public class Block {
 	 * ResourceLocation for the Air block
 	 */
 	private static final ResourceLocation AIR_ID = new ResourceLocation("air");
-	public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey(AIR_ID);
+	public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey<>(AIR_ID);
 	public static ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
 	private CreativeTabs displayOnCreativeTab;
 	public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
@@ -152,8 +153,11 @@ public class Block {
 	private IBlockState defaultBlockState;
 	private String unlocalizedName;
 
+	@Getter
+	private int id = -1;
+
 	public static int getIdFromBlock(Block blockIn) {
-		return blockRegistry.getIDForObject(blockIn);
+		return blockIn.getId();
 	}
 
 	/**
@@ -172,9 +176,9 @@ public class Block {
 	 * Get a BlockState by it's ID (see getStateId)
 	 */
 	public static IBlockState getStateById(int id) {
-		int i = id & 4095;
-		int j = id >> 12 & 15;
-		return getBlockById(i).getStateFromMeta(j);
+		int blockId = id & 4095;
+		int stateId = id >> 12 & 0xF;
+		return getBlockById(blockId).getStateFromMeta(stateId);
 	}
 
 	public static Block getBlockFromItem(Item itemIn) {
@@ -1342,6 +1346,7 @@ public class Block {
 
 	private static void registerBlock(int id, ResourceLocation textualID, Block block_) {
 		blockRegistry.register(id, textualID, block_);
+		block_.id = id;
 	}
 
 	public static void registerBlock(int id, String textualID, Block block_) {

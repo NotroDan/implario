@@ -527,14 +527,14 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	/**
 	 * Changes the field of view of the player depending on if they are underwater or not
 	 */
-	private float getFOVModifier(float partialTicks, boolean p_78481_2_) {
+	private float getFOVModifier(float partialTicks, boolean doSettingsMatter) {
 		if (this.debugView) {
 			return 90.0F;
 		}
 		Entity entity = this.mc.getRenderViewEntity();
 		float f = 70.0F;
 
-		if (p_78481_2_) {
+		if (doSettingsMatter) {
 			f = Settings.FOV.f();
 
 			if (Config.isDynamicFov()) {
@@ -796,60 +796,60 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	public void renderHand(float partialTicks, int xOffset, boolean p_renderHand_3_, boolean p_renderHand_4_, boolean p_renderHand_5_) {
-		if (!this.debugView) {
-			G.matrixMode(5889);
-			G.loadIdentity();
-			float f = 0.07F;
+		if (this.debugView) return;
 
-			if (Config.isShaders()) {
-				Shaders.applyHandDepth();
-			}
+		G.matrixMode(GL11.GL_PROJECTION);
+		G.loadIdentity();
+		float f = 0.07F;
 
-			Project.gluPerspective(this.getFOVModifier(partialTicks, false), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
-			G.matrixMode(5888);
-			G.loadIdentity();
+		if (Config.isShaders()) {
+			Shaders.applyHandDepth();
+		}
 
-			boolean flag = false;
+		Project.gluPerspective(this.getFOVModifier(partialTicks, false), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
+		G.matrixMode(5888);
+		G.loadIdentity();
 
-			if (p_renderHand_3_) {
-				G.pushMatrix();
-				this.hurtCameraEffect(partialTicks);
+		boolean flag = false;
 
-				if (Settings.VIEW_BOBBING.b()) {
-					this.setupViewBobbing(partialTicks);
-				}
-
-				flag = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) this.mc.getRenderViewEntity()).isPlayerSleeping();
-
-				if (Settings.PERSPECTIVE.i() == 0 && !flag && !Settings.HIDE_GUI.b() && !this.mc.playerController.isSpectator()) {
-					this.enableLightmap();
-
-					if (Config.isShaders()) {
-						ShadersRender.renderItemFP(this.itemRenderer, partialTicks, p_renderHand_5_);
-					} else {
-						this.itemRenderer.renderItemInFirstPerson(partialTicks);
-					}
-
-					this.disableLightmap();
-				}
-
-				G.popMatrix();
-			}
-
-			if (!p_renderHand_4_) {
-				return;
-			}
-
-			this.disableLightmap();
-
-			if (Settings.PERSPECTIVE.i() == 0 && !flag) {
-				this.itemRenderer.renderOverlays(partialTicks);
-				this.hurtCameraEffect(partialTicks);
-			}
+		if (p_renderHand_3_) {
+			G.pushMatrix();
+			this.hurtCameraEffect(partialTicks);
 
 			if (Settings.VIEW_BOBBING.b()) {
 				this.setupViewBobbing(partialTicks);
 			}
+
+			flag = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) this.mc.getRenderViewEntity()).isPlayerSleeping();
+
+			if (Settings.PERSPECTIVE.i() == 0 && !flag && !Settings.HIDE_GUI.b() && !this.mc.playerController.isSpectator()) {
+				this.enableLightmap();
+
+				if (Config.isShaders()) {
+					ShadersRender.renderItemFP(this.itemRenderer, partialTicks, p_renderHand_5_);
+				} else {
+					this.itemRenderer.renderItemInFirstPerson(partialTicks);
+				}
+
+				this.disableLightmap();
+			}
+
+			G.popMatrix();
+		}
+
+		if (!p_renderHand_4_) {
+			return;
+		}
+
+		this.disableLightmap();
+
+		if (Settings.PERSPECTIVE.i() == 0 && !flag) {
+			this.itemRenderer.renderOverlays(partialTicks);
+			this.hurtCameraEffect(partialTicks);
+		}
+
+		if (Settings.VIEW_BOBBING.b()) {
+			this.setupViewBobbing(partialTicks);
 		}
 	}
 
