@@ -1384,6 +1384,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 			renderglobal.renderEntities(entity, frustum, partialTicks);
 
+			if (Settings.BOW_PATH.b()) BowPathRenderer.render(partialTicks);
+			//WorldEditUI.render(partialTicks);
 			RenderHelper.disableStandardItemLighting();
 			this.disableLightmap();
 			G.matrixMode(5888);
@@ -1399,6 +1401,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 				G.enableAlpha();
 			}
+
 		}
 
 		G.matrixMode(5888);
@@ -1499,8 +1502,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			mc.getProfiler().endStartSection("aboveClouds");
 			this.renderCloudsCheck(renderglobal, partialTicks, pass);
 		}
-		if (Settings.BOW_PATH.b()) BowPathRenderer.render(partialTicks);
-		//WorldEditUI.render(partialTicks);
 
 		mc.getProfiler().endStartSection("hand");
 

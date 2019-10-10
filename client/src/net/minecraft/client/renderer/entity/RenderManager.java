@@ -224,7 +224,7 @@ public class RenderManager {
 		int i = entity.getBrightnessForRender(partialTicks);
 
 		if (entity.isBurning()) {
-			i = 0b111100000000000011110000;
+			i = 0xf000f0;
 		}
 
 		int j = i % 65536;

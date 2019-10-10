@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderArrow extends Render<EntityArrow> {
 
-	private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
+	public static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
 
 	public RenderArrow(RenderManager renderManagerIn) {
 		super(renderManagerIn);

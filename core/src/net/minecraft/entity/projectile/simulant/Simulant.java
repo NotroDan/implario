@@ -24,9 +24,9 @@ public abstract class Simulant {
 	private int ticksInGround;
 	public int ticksInAir;
 	public double posX, posY, posZ;
-	private double prevPosX, prevPosY, prevPosZ;
-	private float rotationYaw, rotationPitch;
-	private float prevRotationYaw, prevRotationPitch;
+	public double prevPosX, prevPosY, prevPosZ;
+	public float rotationYaw, rotationPitch;
+	public float prevRotationYaw, prevRotationPitch;
 	protected double motionX, motionZ, motionY;
 	private AxisAlignedBB bb;
 	public boolean destinated;
@@ -154,11 +154,11 @@ public abstract class Simulant {
 				this.damage = getDamage(damage);
 
 
-				this.motionX *= -0.1;
-				this.motionY *= -0.1;
-				this.motionZ *= -0.1;
-				this.rotationYaw += 180.0F;
-				this.prevRotationYaw += 180.0F;
+//				this.motionX *= -0.1;
+//				this.motionY *= -0.1;
+//				this.motionZ *= -0.1;
+//				this.rotationYaw += 180.0F;
+//				this.prevRotationYaw += 180.0F;
 				//				this.ticksInAir = 0;
 			} else {
 				// Врезались в блок
