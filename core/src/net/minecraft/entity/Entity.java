@@ -265,6 +265,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	 * The command result statistics for this Entity.
 	 */
 	private final CommandResultStats cmdResultStats;
+	public boolean isAirWalker;
 
 	public int getEntityId() {
 		return this.entityId;
@@ -620,93 +621,82 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		}
 
 		List<AxisAlignedBB> list1 = this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox().addCoord(x, y, z));
-		AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
+		AxisAlignedBB box = this.getEntityBoundingBox();
 
-		for (AxisAlignedBB axisalignedbb1 : list1) {
-			y = axisalignedbb1.calculateYOffset(this.getEntityBoundingBox(), y);
-		}
+		for (AxisAlignedBB aabb : list1)
+			y = aabb.calculateYOffset(this.getEntityBoundingBox(), y);
+		setEntityBoundingBox(getEntityBoundingBox().offset(0.0D, y, 0.0D));
+		boolean allowInstantStep = this.onGround || d4 != y && d4 < 0.0D;
 
-		this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, y, 0.0D));
-		boolean flag1 = this.onGround || d4 != y && d4 < 0.0D;
 
-		for (AxisAlignedBB axisalignedbb2 : list1) {
-			x = axisalignedbb2.calculateXOffset(this.getEntityBoundingBox(), x);
-		}
+		for (AxisAlignedBB aabb : list1)
+			x = aabb.calculateXOffset(getEntityBoundingBox(), x);
+		setEntityBoundingBox(getEntityBoundingBox().offset(x, 0.0D, 0.0D));
 
-		this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, 0.0D, 0.0D));
 
-		for (AxisAlignedBB axisalignedbb13 : list1) {
-			z = axisalignedbb13.calculateZOffset(this.getEntityBoundingBox(), z);
-		}
+		for (AxisAlignedBB aabb : list1)
+			z = aabb.calculateZOffset(getEntityBoundingBox(), z);
+		setEntityBoundingBox(getEntityBoundingBox().offset(0.0D, 0.0D, z));
 
-		this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, 0.0D, z));
-
-		if (this.stepHeight > 0.0F && flag1 && (d3 != x || d5 != z)) {
+		if (this.stepHeight > 0.0F && allowInstantStep && (d3 != x || d5 != z)) {
 			double d11 = x;
 			double d7 = y;
 			double d8 = z;
 			AxisAlignedBB axisalignedbb3 = this.getEntityBoundingBox();
-			this.setEntityBoundingBox(axisalignedbb);
+			this.setEntityBoundingBox(box);
 			y = (double) this.stepHeight;
 			List<AxisAlignedBB> list = this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox().addCoord(d3, y, d5));
-			AxisAlignedBB axisalignedbb4 = this.getEntityBoundingBox();
-			AxisAlignedBB axisalignedbb5 = axisalignedbb4.addCoord(d3, 0.0D, d5);
+			AxisAlignedBB hitbox = this.getEntityBoundingBox();
+			AxisAlignedBB alteredHitbox = hitbox.addCoord(d3, 0.0D, d5);
 			double d9 = y;
 
 			for (AxisAlignedBB axisalignedbb6 : list) {
-				d9 = axisalignedbb6.calculateYOffset(axisalignedbb5, d9);
+				d9 = axisalignedbb6.calculateYOffset(alteredHitbox, d9);
 			}
 
-			axisalignedbb4 = axisalignedbb4.offset(0.0D, d9, 0.0D);
-			double d15 = d3;
+			hitbox = hitbox.offset(0.0D, d9, 0.0D);
 
-			for (AxisAlignedBB axisalignedbb7 : list) {
-				d15 = axisalignedbb7.calculateXOffset(axisalignedbb4, d15);
-			}
+			double xOffset = d3;
+			for (AxisAlignedBB aabb : list)
+				xOffset = aabb.calculateXOffset(hitbox, xOffset);
+			hitbox = hitbox.offset(xOffset, 0.0D, 0.0D);
 
-			axisalignedbb4 = axisalignedbb4.offset(d15, 0.0D, 0.0D);
-			double d16 = d5;
+			double zOffset = d5;
+			for (AxisAlignedBB aabb : list)
+				zOffset = aabb.calculateZOffset(hitbox, zOffset);
+			hitbox = hitbox.offset(0.0D, 0.0D, zOffset);
 
-			for (AxisAlignedBB axisalignedbb8 : list) {
-				d16 = axisalignedbb8.calculateZOffset(axisalignedbb4, d16);
-			}
+			AxisAlignedBB hitbox2 = this.getEntityBoundingBox();
 
-			axisalignedbb4 = axisalignedbb4.offset(0.0D, 0.0D, d16);
-			AxisAlignedBB axisalignedbb14 = this.getEntityBoundingBox();
-			double d17 = y;
+			double yOffset2 = y;
+			for (AxisAlignedBB aabb : list)
+				yOffset2 = aabb.calculateYOffset(hitbox2, yOffset2);
+			hitbox2 = hitbox2.offset(0.0D, yOffset2, 0.0D);
 
-			for (AxisAlignedBB axisalignedbb9 : list) {
-				d17 = axisalignedbb9.calculateYOffset(axisalignedbb14, d17);
-			}
+			double xOffset2 = d3;
+			for (AxisAlignedBB aabb : list)
+				xOffset2 = aabb.calculateXOffset(hitbox2, xOffset2);
+			hitbox2 = hitbox2.offset(xOffset2, 0.0D, 0.0D);
 
-			axisalignedbb14 = axisalignedbb14.offset(0.0D, d17, 0.0D);
-			double d18 = d3;
+			double zOffset2 = d5;
+			for (AxisAlignedBB aabb : list)
+				zOffset2 = aabb.calculateZOffset(hitbox2, zOffset2);
+			hitbox2 = hitbox2.offset(0.0D, 0.0D, zOffset2);
 
-			for (AxisAlignedBB axisalignedbb10 : list) {
-				d18 = axisalignedbb10.calculateXOffset(axisalignedbb14, d18);
-			}
 
-			axisalignedbb14 = axisalignedbb14.offset(d18, 0.0D, 0.0D);
-			double d19 = d5;
-
-			for (AxisAlignedBB axisalignedbb11 : list) {
-				d19 = axisalignedbb11.calculateZOffset(axisalignedbb14, d19);
-			}
-
-			axisalignedbb14 = axisalignedbb14.offset(0.0D, 0.0D, d19);
-			double d20 = d15 * d15 + d16 * d16;
-			double d10 = d18 * d18 + d19 * d19;
+			double d20 = xOffset * xOffset + zOffset * zOffset;
+			double d10 = xOffset2 * xOffset2 + zOffset2 * zOffset2;
 
 			if (d20 > d10) {
-				x = d15;
-				z = d16;
+				x = xOffset;
+				z = zOffset;
 				y = -d9;
-				this.setEntityBoundingBox(axisalignedbb4);
+				this.setEntityBoundingBox(hitbox);
 			} else {
-				x = d18;
-				z = d19;
-				y = -d17;
-				this.setEntityBoundingBox(axisalignedbb14);
+				x = xOffset2;
+				z = zOffset2;
+				y = -yOffset2;
+				this.setEntityBoundingBox(hitbox2);
 			}
 
 			for (AxisAlignedBB axisalignedbb12 : list) {
@@ -728,7 +718,9 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		this.resetPositionToBB();
 		this.isCollidedHorizontally = d3 != x || d5 != z;
 		this.isCollidedVertically = d4 != y;
-		this.onGround = this.isCollidedVertically && d4 < 0.0D;
+		this.onGround = this.isCollidedVertically && d4 < 0.0D || isAirWalker;
+		// todo эта штука довольно интересно себя ведёт
+//		this.onGround = true;
 		this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
 		int i = MathHelper.floor_double(this.posX);
 		int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);

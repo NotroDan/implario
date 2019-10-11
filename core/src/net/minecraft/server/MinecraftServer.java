@@ -63,6 +63,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private final NetworkSystem networkSystem;
 	private final ServerStatusResponse statusResponse = new ServerStatusResponse();
 	private final Random random = new Random();
+	public long tickLength = 50L;
 	private int serverPort = -1;
 	public WorldService worldService;
 	private ServerConfigurationManager serverConfigManager;
@@ -395,9 +396,10 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 					long k = getCurrentTimeMillis();
 					long j = k - this.currentTime;
 
-					if (j > 2000L && this.currentTime - this.timeOfLastWarning >= 15000L) {
-						logger.warn("Скип тиков (" + j + " т. или " + j / 50L + "мс.)");
-						j = 2000L;
+					long tickLength = this.tickLength;
+					if (j > 40L * tickLength && this.currentTime - this.timeOfLastWarning >= 15000L) {
+						logger.warn("Скип тиков (" + j + " т. или " + j / tickLength + "мс.)");
+						j = 40L * tickLength;
 						this.timeOfLastWarning = this.currentTime;
 					}
 
@@ -408,18 +410,17 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 					i += j;
 					this.currentTime = k;
-
 					if (worldService.getWorld(0).areAllPlayersAsleep()) {
 						this.tick();
 						i = 0L;
 					} else {
-						while (i > 50L) {
-							i -= 50L;
+						while (i > tickLength) {
+							i -= tickLength;
 							this.tick();
 						}
 					}
 
-					Thread.sleep(Math.max(1L, 50L - i));
+					Thread.sleep(Math.max(1L, tickLength - i));
 					this.serverIsRunning = true;
 				}
 			} else {

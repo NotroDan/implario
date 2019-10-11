@@ -29,10 +29,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ReportedException;
+import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -53,6 +50,9 @@ public final class InputHandler {
 	private long debugCrashKeyPressTime = -1L;
 	private int rightClickDelayTimer;
 	private int leftClickCounter;
+
+
+
 	/**
 	 * Profiler currently displayed in the debug screen pie chart
 	 */
@@ -221,6 +221,10 @@ public final class InputHandler {
 		}
 	}
 
+	float stashedTps;
+	long stashedSpt;
+	int stashedPtm;
+
 	public void processMouse() throws IOException {
 
 		while (Mouse.next()) {
@@ -303,6 +307,37 @@ public final class InputHandler {
 				else {
 					if (k == Keyboard.KEY_ESCAPE) mc.displayInGameMenu();
 
+					Timer t = mc.getTimer();
+					MinecraftServer s = MinecraftServer.getServer();
+					if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+						t.ticksPerSecond++;
+						if (s != null) s.tickLength = (long) (1000 / t.ticksPerSecond);
+					}
+					if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+						t.ticksPerSecond--;
+						if (t.ticksPerSecond <= 1) t.ticksPerSecond = 1F;
+						if (s != null) s.tickLength = (long) (1000 / t.ticksPerSecond);
+					}
+					if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+						t.partialTicksMode++;
+						if (t.partialTicksMode > 2) t.partialTicksMode = 0;
+					}
+					if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
+						if (stashedTps != 0) {
+							t.partialTicksMode = stashedPtm;
+							t.ticksPerSecond = stashedTps;
+							if (s != null) s.tickLength = stashedSpt;
+							stashedTps = 0;
+						} else {
+							stashedPtm = t.partialTicksMode;
+							stashedTps = t.ticksPerSecond;
+							if (s != null) stashedSpt = s.tickLength;
+
+							t.partialTicksMode = 0;
+							t.ticksPerSecond = 20;
+							if (s != null) s.tickLength = 50;
+						}
+					}
 					if (Keyboard.isKeyDown(Keyboard.KEY_F3)) switch (k) {
 						case 32:
 							MC.clearChat();

@@ -298,13 +298,13 @@ public class Utils {
 		WorldRenderer ren = t.getWorldRenderer();
 
 		ren.begin(3, DefaultVertexFormats.POSITION);
-		ren.pos(r, 0, 0.5).endVertex();
-		ren.pos(s, -c, 0.5).endVertex();
-		ren.pos(-s, -c, 0.5).endVertex();
-		ren.pos(-r, 0, 0.5).endVertex();
-		ren.pos(-s, c, 0.5).endVertex();
-		ren.pos(s, c, 0.5).endVertex();
-		ren.pos(r, 0, 0.5).endVertex();
+		ren.pos(r, 0, 0).endVertex();
+		ren.pos(s, -c, 0).endVertex();
+		ren.pos(-s, -c, 0).endVertex();
+		ren.pos(-r, 0, 0).endVertex();
+		ren.pos(-s, c, 0).endVertex();
+		ren.pos(s, c, 0).endVertex();
+		ren.pos(r, 0, 0).endVertex();
 		t.draw();
 		GL11.glLineWidth(1);
 	}

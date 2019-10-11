@@ -100,7 +100,7 @@ public class IntegratedServer extends MinecraftServer {
 	 */
 	protected boolean startServer() {
 		logger.info("Запуск виртуального сервера...");
-		this.setOnlineMode(true);
+		this.setOnlineMode(false);
 		this.setCanSpawnAnimals(true);
 		this.setCanSpawnNPCs(true);
 		this.setAllowPvp(true);

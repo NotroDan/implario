@@ -2,6 +2,7 @@ package net.minecraft.client.gui.ingame;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import net.minecraft.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.BowPathRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -24,7 +26,9 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
+import net.minecraft.util.Timer;
 import optifine.Config;
 import optifine.CustomColors;
 
@@ -102,29 +106,29 @@ public class GuiIngame extends Gui {
 	}
 
 	public void renderGameOverlay(float partialTicks) {
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-		int width = scaledresolution.getScaledWidth();
-		int height = scaledresolution.getScaledHeight();
+		ScaledResolution res = new ScaledResolution(this.mc);
+		int width = res.getScaledWidth();
+		int height = res.getScaledHeight();
 		this.mc.entityRenderer.setupOverlayRendering();
 		G.enableBlend();
 
 		for (Map.Entry<String, Module> e : Modules.getEntries()) {
 			mc.getProfiler().startSection(e.getKey());
-			e.getValue().render(this, partialTicks, scaledresolution);
+			e.getValue().render(this, partialTicks, res);
 			mc.getProfiler().endSection();
 		}
 
 		// Затемнение по краям экрана
-		//		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
+		//		renderVignette(this.mc.thePlayer.getBrightness(partialTicks), res);
 
 		// Рисунок тыквы, надетой на голову
-		//		renderPumpkinOverlay(scaledresolution);
+		//		renderPumpkinOverlay(res);
 
 		// Фиолетовый эффект портала
-		//		renderPortal(scaledresolution, partialTicks);
+		//		renderPortal(res, partialTicks);
 
 		// Текст над инвентарём
-		//renderTooltip1(scaledresolution, partialTicks);
+		//renderTooltip1(res, partialTicks);
 
 		// Крестик в центре экрана
 		renderCrosshair(width, height);
@@ -133,7 +137,7 @@ public class GuiIngame extends Gui {
 		//		renderBossHealth();
 
 		// Броня, еда, здоровье
-		//		renderPlayerStats(scaledresolution);
+		//		renderPlayerStats(res);
 
 		G.disableBlend();
 
@@ -141,16 +145,16 @@ public class GuiIngame extends Gui {
 		renderSleeping(width, height);
 
 		// Полоска с опытом / силой прыжка на лошади
-		renderBar(scaledresolution, width);
+		renderBar(res, width);
 
 		// Интерфейс наблюдателя
-		renderTooltip0(scaledresolution);
+		renderTooltip0(res);
 
 		// Загрузка (Таймер из текстерии)
-		renderLoading(scaledresolution);
+		renderLoading(res);
 
 		// Экран отладки (F3)
-		overlayDebug.renderDebugInfo(scaledresolution);
+		overlayDebug.renderDebugInfo(res);
 
 		// Название играющей пластинки
 		renderRecord(partialTicks, width, height);
@@ -162,7 +166,7 @@ public class GuiIngame extends Gui {
 		renderTitle(partialTicks, width, height);
 
 		// Скорборд
-		renderScoreboard(scaledresolution);
+		renderScoreboard(res);
 
 		// Чат
 		renderChat(height);
@@ -171,11 +175,21 @@ public class GuiIngame extends Gui {
 		if (Settings.FINE_EFFECTS.b()) InventoryEffectRenderer.drawActivePotionEffects(this, mc, getFontRenderer());
 
 		// Информация о траектории полёта стрелы
-		BowPathRenderer.renderOverlay(scaledresolution.getScaledWidth() / 4 - 80, scaledresolution.getScaledHeight() / 4 - 10);
+		BowPathRenderer.renderOverlay(res.getScaledWidth() / 4 - 80, res.getScaledHeight() / 4 - 10);
 
 		renderMinimap();
 
-		//		renderFakeVime(scaledresolution, width, height);
+		Timer t = mc.getTimer();
+		getFontRenderer().drawString("tps: §e" + t.ticksPerSecond, 10, 10, -1);
+		int m = t.partialTicksMode;
+		getFontRenderer().drawString("ptm: " + (m == 0 ? "§aforwarded" : m == 1 ? "§eeased" : "§anullified"), 10, 19, -1);
+		if (MinecraftServer.getServer() != null) getFontRenderer().drawString("server_tick_length: §e" + MinecraftServer.getServer().tickLength, 10, 28, -1);
+		if (MC.getPlayer().isCollidedVertically)
+			getFontRenderer().drawString("onGround", res.getScaledWidth() / 2,
+					res.getScaledHeight() / 2 + 10, -1);
+//			Utils.drawHexagonOutline(Tessellator.getInstance(), 10);
+
+		//		renderFakeVime(res, width, height);
 	}
 
 

@@ -93,6 +93,8 @@ public class Minecraft implements IThreadListener {
 	private CrashReport crashReport;
 	public int displayWidth;
 	public int displayHeight;
+
+	@Getter
 	private Timer timer = new Timer(20.0F);
 
 	public WorldClient theWorld;

@@ -612,10 +612,10 @@ public class CPlayer extends AbstractClientPlayer {
 			--this.timeUntilPortal;
 		}
 
-		boolean flag = this.movementInput.jump;
-		boolean flag1 = this.movementInput.sneak;
+		boolean jump = this.movementInput.jump;
+		boolean sneak = this.movementInput.sneak;
 		float f = 0.8F;
-		boolean flag2 = this.movementInput.moveForward >= f;
+		boolean fastForward = this.movementInput.moveForward >= f;
 		this.movementInput.updatePlayerMoveState();
 
 		if (this.isUsingItem() && !this.isRiding()) {
@@ -628,9 +628,9 @@ public class CPlayer extends AbstractClientPlayer {
 		this.pushOutOfBlocks(this.posX - (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ - (double) this.width * 0.35D);
 		this.pushOutOfBlocks(this.posX + (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ - (double) this.width * 0.35D);
 		this.pushOutOfBlocks(this.posX + (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ + (double) this.width * 0.35D);
-		boolean flag3 = (float) this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
+		boolean canRun = (float) this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
-		if (this.onGround && !flag1 && !flag2 && this.movementInput.moveForward >= f && !this.isSprinting() && flag3 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness)) {
+		if (this.onGround && !sneak && !fastForward && this.movementInput.moveForward >= f && !this.isSprinting() && canRun && !this.isUsingItem() && !this.isPotionActive(Potion.blindness)) {
 			if (this.sprintToggleTimer <= 0 && !KeyBinding.SPRINT.isKeyDown()) {
 				this.sprintToggleTimer = 7;
 			} else {
@@ -638,11 +638,11 @@ public class CPlayer extends AbstractClientPlayer {
 			}
 		}
 
-		if (!this.isSprinting() && this.movementInput.moveForward >= f && flag3 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness) && KeyBinding.SPRINT.isKeyDown()) {
+		if (!this.isSprinting() && this.movementInput.moveForward >= f && canRun && !this.isUsingItem() && !this.isPotionActive(Potion.blindness) && KeyBinding.SPRINT.isKeyDown()) {
 			this.setSprinting(true);
 		}
 
-		if (this.isSprinting() && (this.movementInput.moveForward < f || this.isCollidedHorizontally || !flag3)) {
+		if (this.isSprinting() && (this.movementInput.moveForward < f || this.isCollidedHorizontally || !canRun)) {
 			this.setSprinting(false);
 		}
 
@@ -652,7 +652,7 @@ public class CPlayer extends AbstractClientPlayer {
 					this.capabilities.isFlying = true;
 					this.sendPlayerAbilities();
 				}
-			} else if (!flag && this.movementInput.jump) {
+			} else if (!jump && this.movementInput.jump) {
 				if (this.flyToggleTimer == 0) {
 					this.flyToggleTimer = 7;
 				} else {
@@ -682,13 +682,13 @@ public class CPlayer extends AbstractClientPlayer {
 				}
 			}
 
-			if (flag && !this.movementInput.jump) {
+			if (jump && !this.movementInput.jump) {
 				this.horseJumpPowerCounter = -10;
 				this.sendHorseJump();
-			} else if (!flag && this.movementInput.jump) {
+			} else if (!jump && this.movementInput.jump) {
 				this.horseJumpPowerCounter = 0;
 				this.horseJumpPower = 0.0F;
-			} else if (flag) {
+			} else if (jump) {
 				++this.horseJumpPowerCounter;
 
 				if (this.horseJumpPowerCounter < 10) {

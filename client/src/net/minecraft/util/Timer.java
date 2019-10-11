@@ -7,7 +7,8 @@ public class Timer {
 	/**
 	 * The number of timer ticks per second of real time
 	 */
-	float ticksPerSecond;
+	public float ticksPerSecond;
+	public int partialTicksMode;
 
 	/**
 	 * The time reported by the high-resolution clock at the last call of updateTimer(), in seconds
@@ -97,7 +98,7 @@ public class Timer {
 			this.elapsedTicks = 10;
 		}
 
-		this.renderPartialTicks = this.elapsedPartialTicks;
+		this.renderPartialTicks = partialTicksMode == 2 ? 0 : partialTicksMode == 0 ? this.elapsedPartialTicks : (float) Easing.QUIN_B.ease(elapsedPartialTicks);
 	}
 
 }
