@@ -31,7 +31,11 @@ public class DatapackUpdate {
 
     public List<Release> checkUpdate() {
         List<Release> releases = GitHubAPI.getReleases(owner, repo);
-        if(releases.get(0).getTag().equals(tagRelease))return null;
+        for(Release release : releases){
+            if(release.isPrerelease())
+                if(!preRelease)continue;
+            if(release.getTag().equals(tagRelease))return null;
+        }
         return releases;
     }
 
@@ -40,10 +44,20 @@ public class DatapackUpdate {
         int release = 1;
         for(; release < list.size(); release++)
             if(list.get(release).getTag().equals(tagRelease) && (list.get(release).isPrerelease() && preRelease))break;
-        if(release == 1)
-            for(GitHubAsset asset : list.get(0).getAssets())
+        if(release == 1){
+            Release rlz = null;
+            for(Release rel : list){
+                if(rel.isPrerelease())
+                    if(!preRelease)continue;
+                rlz = rel;
+                break;
+            }
+            if(rlz == null)throw new Error("шта");
+            for(GitHubAsset asset : rlz.getAssets()){
                 if(asset.getName().equals("client.jar"))
                     FileIO.writeBytes(datapack, new Request(asset.getPath(), Method.GET).execute((int)asset.getSize()));
+            }
+        }
 
         for(; release > -1; release--){
             Release r = list.get(release);
