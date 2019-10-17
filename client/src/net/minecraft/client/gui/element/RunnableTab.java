@@ -1,7 +1,7 @@
 package net.minecraft.client.gui.element;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 
 public class RunnableTab implements ITab {
 
@@ -10,7 +10,7 @@ public class RunnableTab implements ITab {
 	private boolean enabled = false;
 
 	public RunnableTab(String name, Runnable runnable, int id, int x, int y) {
-		AssetsFontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+		MCFontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 		this.button = new GuiButton(id, x, y, fr.getStringWidth(name) + 12, 18, name);
 		this.runnable = runnable;
 	}

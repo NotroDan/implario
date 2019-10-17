@@ -3,8 +3,7 @@ package net.minecraft.client.renderer;
 import net.minecraft.Utils;
 import net.minecraft.client.MC;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
-import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -12,15 +11,11 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.simulant.Simulant;
 import net.minecraft.entity.projectile.simulant.SimulantArrow;
 import net.minecraft.entity.projectile.simulant.SimulantSimpleProjectile;
 import net.minecraft.init.Items;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Util;
-import net.minecraft.util.Vec3i;
 import org.lwjgl.opengl.GL11;
 
 public class BowPathRenderer {
@@ -145,7 +140,7 @@ public class BowPathRenderer {
 	public static void renderOverlay(int x, int y) {
 		if (lastParsed == null) return;
 		if (MC.getPlayer() == null) return;
-		AssetsFontRenderer f = MC.getFontRenderer();
+		MCFontRenderer f = MC.getFontRenderer();
 		BlockPos l = MC.getPlayer().getPosition();
 		if (f == null || l == null) return;
 		G.scale(2, 2, 2);

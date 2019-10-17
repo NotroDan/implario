@@ -7,7 +7,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.Lang;
@@ -30,7 +30,7 @@ import java.util.Map;
 public class GuiOverlayDebug extends Gui {
 
 	private final Minecraft mc;
-	private final AssetsFontRenderer fontRenderer;
+	private final MCFontRenderer fontRenderer;
 
 	public GuiOverlayDebug(Minecraft mc) {
 		this.mc = mc;

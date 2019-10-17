@@ -4,7 +4,7 @@ import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.game.model.ModelBase;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.font.FontUtils;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -186,7 +186,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 			ScorePlayerTeam scoreplayerteam = (ScorePlayerTeam) entityLivingBaseIn.getTeam();
 
 			if (scoreplayerteam != null) {
-				String s = AssetsFontRenderer.getFormatFromString(scoreplayerteam.getColorPrefix());
+				String s = MCFontRenderer.getFormatFromString(scoreplayerteam.getColorPrefix());
 
 				if (s.length() >= 2) {
 					i = FontUtils.getColorCode(s.charAt(1));
@@ -459,7 +459,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 			this.renderOffsetLivingLabel(entity, x, y - (entity.isChild() ? (double) (entity.height / 2.0F) : 0.0D), z, s, 0.02666667F, d0);
 			return;
 		}
-		AssetsFontRenderer fontrenderer = this.getFontRendererFromRenderManager();
+		MCFontRenderer fontrenderer = this.getFontRendererFromRenderManager();
 		G.pushMatrix();
 		G.translate((float) x, (float) y + entity.height + 0.5F - (entity.isChild() ? entity.height / 2.0F : 0.0F), (float) z);
 		GL11.glNormal3f(0.0F, 1.0F, 0.0F);

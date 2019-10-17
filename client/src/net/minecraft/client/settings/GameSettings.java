@@ -391,7 +391,7 @@ public class GameSettings {
 
 		if (p_74306_1_ == GameSettings.Options.FORCE_UNICODE_FONT) {
 			this.forceUnicodeFont = !this.forceUnicodeFont;
-			this.mc.fontRenderer.setUnicodeFlag(this.mc.getLanguageManager().isCurrentLocaleUnicode() || this.forceUnicodeFont);
+			this.mc.fontRenderer.setUcEnabled(this.mc.getLanguageManager().isCurrentLocaleUnicode() || this.forceUnicodeFont);
 		}
 
 		if (p_74306_1_ == GameSettings.Options.FBO_ENABLE) {

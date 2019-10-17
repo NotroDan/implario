@@ -1,8 +1,7 @@
 package net.minecraft.client.gui.element;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.Lang;
@@ -25,10 +24,10 @@ public class GuiLabel extends Gui {
 	private int field_146169_o;
 	private int field_146166_p;
 	private int field_146165_q;
-	private AssetsFontRenderer fontRenderer;
+	private MCFontRenderer fontRenderer;
 	private int field_146163_s;
 
-	public GuiLabel(AssetsFontRenderer renderer, int p_i45540_2_, int x, int p_i45540_4_, int width, int p_i45540_6_, int color) {
+	public GuiLabel(MCFontRenderer renderer, int p_i45540_2_, int x, int p_i45540_4_, int width, int p_i45540_6_, int color) {
 		fontRenderer = renderer;
 		field_175204_i = p_i45540_2_;
 		this.x = x;

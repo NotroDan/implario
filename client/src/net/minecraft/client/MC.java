@@ -3,7 +3,7 @@ package net.minecraft.client;
 import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -17,11 +17,11 @@ import static net.minecraft.client.Minecraft.theMinecraft;
 
 public final class MC {
 
-	public static AssetsFontRenderer FR;
+	public static MCFontRenderer FR;
 
 	private MC() {throw new Error("Ну ты чо совсем шоле ебанулся");}
 
-	public static AssetsFontRenderer getFontRenderer() {
+	public static MCFontRenderer getFontRenderer() {
 		return theMinecraft.fontRenderer;
 	}
 

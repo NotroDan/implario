@@ -1,9 +1,8 @@
 package net.minecraft.client.gui.spectator.categories;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;
 import net.minecraft.client.gui.font.FontUtils;
@@ -99,7 +98,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
 
 		public void render(float p_178663_1_, int alpha) {
 			int i = -1;
-			String s = AssetsFontRenderer.getFormatFromString(this.team.getColorPrefix());
+			String s = MCFontRenderer.getFormatFromString(this.team.getColorPrefix());
 
 			if (s.length() >= 2) {
 				i = FontUtils.getColorCode(s.charAt(1));

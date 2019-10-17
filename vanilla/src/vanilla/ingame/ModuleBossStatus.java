@@ -4,7 +4,7 @@ import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.gui.ingame.Module;
 import net.minecraft.client.renderer.G;
@@ -23,7 +23,7 @@ public class ModuleBossStatus implements Module {
 		IProfiler profiler = Minecraft.getMinecraft().getProfiler();
 		profiler.startSection("bossHealth");
 		--BossStatus.statusBarTime;
-		AssetsFontRenderer fontrenderer = MC.getFontRenderer();
+		MCFontRenderer fontrenderer = MC.getFontRenderer();
 		ScaledResolution scaledresolution = new ScaledResolution(MC.i());
 		int i = scaledresolution.getScaledWidth();
 		short short1 = 182;

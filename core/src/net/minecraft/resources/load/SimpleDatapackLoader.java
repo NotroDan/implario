@@ -24,6 +24,11 @@ public class SimpleDatapackLoader extends DatapackLoader {
 	}
 
 	@Override
+	public String getName() {
+		return datapack.getDomain().getAddress();
+	}
+
+	@Override
 	public void close() {}
 
 }

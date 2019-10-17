@@ -98,6 +98,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			buttonList.add(new GuiButton(6, cacheWidth + 2, j + 132, 98, 20, "§8Dev §fНастройки"));
 			buttonList.add(new GuiButton(3, cacheWidth - 100, j + 156, 98, 20, "§8Dev §fСервера"));
 			buttonList.add(new GuiButton(7, cacheWidth + 2, j + 156, 98, 20, "§8Dev §fСетка"));
+			buttonList.add(new GuiButton(8, cacheWidth - 100, j + 180, 98, 20, "§8Dev §f§nДатапаки"));
 		}
 
 	}
@@ -115,6 +116,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 3) this.mc.displayGuiScreen(new GuiServers(this));
 		if (button.id == 5) this.mc.displayGuiScreen(new GuiLogs());
 		if (button.id == 7) this.mc.displayGuiScreen(new GuiGridTest());
+		if (button.id == 8) this.mc.displayGuiScreen(new GuiDatapacks());
 		if (button.id == 54) {
             try {
                 Exceptions.RunOutException.class.getName();

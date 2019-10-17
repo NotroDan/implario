@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity;
 
 import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -380,14 +380,14 @@ public class RenderItem implements IResourceManagerReloadListener {
 		}
 	}
 
-	public void renderItemOverlays(AssetsFontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
+	public void renderItemOverlays(MCFontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
 		this.renderItemOverlayIntoGUI(fr, stack, xPosition, yPosition, null);
 	}
 
 	/**
 	 * Renders the stack size and/or damage bar for the given ItemStack.
 	 */
-	public void renderItemOverlayIntoGUI(AssetsFontRenderer fr, ItemStack stack, int xPosition, int yPosition, String text) {
+	public void renderItemOverlayIntoGUI(MCFontRenderer fr, ItemStack stack, int xPosition, int yPosition, String text) {
 		if (stack == null) return;
 		if (stack.stackSize != 1 || text != null) {
 			String s = text == null ? String.valueOf(stack.stackSize) : text;

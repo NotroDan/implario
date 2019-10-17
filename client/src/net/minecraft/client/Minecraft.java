@@ -23,7 +23,7 @@ import net.minecraft.client.game.particle.EffectRenderer;
 import net.minecraft.client.game.shader.Framebuffer;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.achievement.GuiAchievement;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.main.GameConfiguration;
 import net.minecraft.client.multiplayer.GuiConnecting;
@@ -107,8 +107,8 @@ public class Minecraft implements IThreadListener {
 	public EffectRenderer effectRenderer;
 	private final Session session;
 	private boolean isGamePaused;
-	public AssetsFontRenderer fontRenderer;
-	public AssetsFontRenderer standardGalacticFontRenderer;
+	public MCFontRenderer fontRenderer;
+	public MCFontRenderer standardGalacticFontRenderer;
 	public GuiScreen currentScreen;
 	public LoadingScreenRenderer loadingScreen;
 	public EntityRenderer entityRenderer;
@@ -294,7 +294,7 @@ public class Minecraft implements IThreadListener {
 		preloader.nextState();
 
 
-		this.standardGalacticFontRenderer = new AssetsFontRenderer(new ResourceLocation("textures/font/ascii_sga.png"), this.renderEngine, false);
+		this.standardGalacticFontRenderer = new MCFontRenderer(new ResourceLocation("textures/font/ascii_sga.png"), false);
 		this.mcResourceManager.registerReloadListener(this.fontRenderer);
 		this.mcResourceManager.registerReloadListener(this.standardGalacticFontRenderer);
 		this.mcResourceManager.registerReloadListener(new GrassColorReloadListener());
@@ -367,8 +367,8 @@ public class Minecraft implements IThreadListener {
 		this.renderEngine = new TextureManager(this.mcResourceManager);
 		this.mcResourceManager.registerReloadListener(this.renderEngine);
 		this.skinManager = new SkinManager(this.renderEngine, new File("gamedata/defaultresourcepack/skins"), this.sessionService);
-		this.fontRenderer = new AssetsFontRenderer(new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
-		if (Settings.language != null) this.fontRenderer.setUnicodeFlag(this.isUnicode());
+		this.fontRenderer = new MCFontRenderer(new ResourceLocation("textures/font/ascii.png"), false);
+		if (Settings.language != null) this.fontRenderer.setUcEnabled(this.isUnicode());
 
 		preloader = new AdvPreloader(new ScaledResolution(this));
 		preloader.header();

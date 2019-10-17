@@ -2,7 +2,7 @@ package net.minecraft.client.gui.element;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPageButtonList;
 import net.minecraft.client.gui.GuiScreen;
@@ -17,7 +17,7 @@ import net.minecraft.util.MathHelper;
 public class GuiTextField extends Gui {
 
 	private final int id;
-	private final AssetsFontRenderer fontRendererInstance;
+	private final MCFontRenderer fontRendererInstance;
 	public int xPosition;
 	public int yPosition;
 
@@ -70,7 +70,7 @@ public class GuiTextField extends Gui {
 	private GuiPageButtonList.GuiResponder field_175210_x;
 	private Predicate<String> field_175209_y = Predicates.alwaysTrue();
 
-	public GuiTextField(int componentId, AssetsFontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
+	public GuiTextField(int componentId, MCFontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
 		this.id = componentId;
 		this.fontRendererInstance = fontrendererObj;
 		this.xPosition = x;

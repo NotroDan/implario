@@ -171,7 +171,8 @@ public enum Settings {
 	MODERN_INVENTORIES("Улучшенные инвентари", false),
 	SLOT_GRID("Сетка слотов", 0, "С боксом", "§cВыкл", "Без бокса"),
 	ROMANIAN_NOTATION("Римские цифры", 0, "До сотни", "Всегда", "Никогда"),
-	DEBUG("Дебаг", false);
+	DEBUG("Дебаг", false),
+	DEBUGGER("Отладчик тиков", false);
 
 	private static final Settings[] SOUNDS;
 	private static final Settings[] MODELPARTS;

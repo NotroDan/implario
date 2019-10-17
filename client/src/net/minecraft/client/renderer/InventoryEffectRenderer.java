@@ -3,9 +3,8 @@ package net.minecraft.client.renderer;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.element.Colors;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
@@ -56,7 +55,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 	/**
 	 * Display the potion effects list
 	 */
-	public static void drawActivePotionEffects(Gui screen, Minecraft mc, AssetsFontRenderer renderer) {
+	public static void drawActivePotionEffects(Gui screen, Minecraft mc, MCFontRenderer renderer) {
 		Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
 		if (collection.isEmpty()) return;
@@ -100,7 +99,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 		}
 	}
 
-	private static void drawPEnew(Gui screen, Minecraft mc, AssetsFontRenderer fontRendererObj, Collection<PotionEffect> effects) {
+	private static void drawPEnew(Gui screen, Minecraft mc, MCFontRenderer fontRendererObj, Collection<PotionEffect> effects) {
 		RenderHelper.enableGUIStandardItemLighting();
 
 		int y = 5;

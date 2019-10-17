@@ -1,17 +1,18 @@
 package net.minecraft.client.gui.font;
 
-import net.minecraft.client.Minecraft;
+import lombok.Getter;
+import lombok.Setter;
+import net.minecraft.client.MC;
 import net.minecraft.client.renderer.G;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.logging.IProfiler;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.VBOHelper;
 import optifine.Config;
 import optifine.CustomColors;
 import optifine.FontUtils;
-import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.image.BufferedImage;
@@ -25,36 +26,103 @@ import java.util.Random;
 
 import static net.minecraft.client.Minecraft.getMinecraft;
 
-public class AssetsFontRenderer implements IResourceManagerReloadListener, IFontRenderer {
+public class MCFontRenderer implements IResourceManagerReloadListener, IFontRenderer {
 
-	private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
-	private final String allChars = "\u00c0\u00c1\u00c2\u00c8\u00ca\u00cb\u00cd\u00d3\u00d4\u00d5\u00da\u00df\u00e3\u00f5\u011f\u0130\u0131\u0152\u0153\u015e\u015f\u0174\u0175\u017e\u0207\u0000" +
-			"\u0000\u0000\u0000" +
-			"\u0000\u0000\u0000 !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000\u00c7\u00fc\u00e9\u00e2\u00e4\u00e0\u00e5\u00e7\u00ea\u00eb" +
-			"\u00e8\u00ef\u00ee\u00ec\u00c4\u00c5\u00c9\u00e6\u00c6\u00f4\u00f6\u00f2\u00fb\u00f9\u00ff\u00d6\u00dc\u00f8\u00a3\u00d8\u00d7\u0192\u00e1\u00ed\u00f3\u00fa\u00f1\u00d1\u00aa\u00ba" +
-			"\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c" +
-			"\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0" +
-			"\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000";
+	/**
+	 * Есть шрифт Minecraftia - изначальный шрифт на английском языке без поддержки кириллицы.
+	 * Чуть меньше чем все ресурс-паки с заменой шрифтов используют именно его.
+	 *
+	 * Есть шрифт UC - шрифт с поддержкой большинства первых 65536 символов из юникода, включая русский язык.
+	 * Если в Minecraftia нет нужного символа, то он обращается к UC.
+	 * UC в два раза меньше чем Minecraftia.
+	 * UC несовместим с размерами интерфейса х1, х3, х5... (Искажается)
+	 *
+	 * Этот флаг позволяет включить принудительное использование UC для английских букв
+	 * и других символов, которые поддерживаются в Minecraftia.
+	 */
+	@Getter
+	@Setter
+	private boolean ucEnabled;
 
-	// Массив с ширинами всех символов из default.png
+	/**
+	 * Таблица символов шрифта Minecraftia
+	 * Minecraftia использует всего 256 символов юникода.
+	 * Используется модифицированная кодировка CP437 (первые 32 символа заменены на интернациональные)
+	 */
+	private final String allChars = new String(new char[] {
+			'À', 'Á', 'Â', 'È', 'Ê', 'Ë', 'Í', 'Ó', 'Ô', 'Õ', 'Ú', 'ß', 'ã', 'õ', 'ğ', 'İ',
+			'ı', 'Œ', 'œ', 'Ş', 'ş', 'Ŵ', 'ŵ', 'ž', 'ȇ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
+			' ', '!', '"', '#', '$', '%', '&',  39, '(', ')', '*', '+', ',', '-', '.', '/',
+			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?',
+			'@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[',  92, ']', '^', '_',
+			'`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',  0 ,
+			'Ç', 'ü', 'é', 'â', 'ä', 'à', 'å', 'ç', 'ê', 'ë', 'è', 'ï', 'î', 'ì', 'Ä', 'Å',
+			'É', 'æ', 'Æ', 'ô', 'ö', 'ò', 'û', 'ù', 'ÿ', 'Ö', 'Ü', 'ø', '£', 'Ø', '×', 'ƒ',
+			'á', 'í', 'ó', 'ú', 'ñ', 'Ñ', 'ª', 'º', '¿', '®', '¬', '½', '¼', '¡', '«', '»',
+			'░', '▒', '▓', '│', '┤', '╡', '╢', '╖', '╕', '╣', '║', '╗', '╝', '╜', '╛', '┐',
+			'└', '┴', '┬', '├', '─', '┼', '╞', '╟', '╚', '╔', '╩', '╦', '╠', '═', '╬', '╧',
+			'╨', '╤', '╥', '╙', '╘', '╒', '╓', '╫', '╪', '┘', '┌', '█', '▄', '▌', '▐', '▀',
+			'α', 'β', 'Γ', 'π', 'Σ', 'σ', 'μ', 'τ', 'Φ', 'Θ', 'Ω', 'δ', '∞',8709, '∈', '∩',
+			'≡', '±', '≥', '≤', '⌠', '⌡', '÷', '≈', '°', '∙', '·', '√', 'ⁿ', '²', '■',  0 ,
+
+	});
+
+	/**
+	 * Массив с ширинами всех символов для шрифта Minecraftia
+	 * В отличие от minecraftUC, ширины для этого шрифта определяются автоматически.
+	 */
 	private float[] charWidth = new float[256];
+
+	/**
+	 * Текстура шрифта Minercaftia
+	 */
+	private ResourceLocation minecraftiaTexture;
+
+	/**
+	 * Базовая текстура шрифта.
+	 * Отличается от аналога в случае если шрифт заменён через OptiFine
+	 */
+	private ResourceLocation minecraftiaTextureBase;
+
+	/**
+	 * Таблица Юникода (65536 символов) делится на 256 страниц по 256 символов.
+	 * В этом массиве хранятся ссылки на текстуры для соответствующих страниц.
+	 * Запись происходит при первом обращении к странице. Большую часть времени этот массив полупуст.
+	 * @apiNote Общая для всех рендереров (static).
+	 */
+	private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
+
+	/**
+	 * Массив с ширинами всех символов для шрифта minecraftUC
+	 * <p>
+	 * У каждого символа есть ширина и отступ слева (и то и другое занимает по 4 бита)
+	 * Они записываются друг за другом в файле glyph_sizes.bin для всех 65536 символов.
+	 * Ширина может быть от 1 до 16 и указывает саму ширину символа (место, занимаемое в строке)
+	 * Отступ слева нужен для повышения читабельности текстур, вычитается из ширины в качестве коррекции.
+	 */
+	private byte[] glyphWidth = new byte[65536];
+
+	private VBOHelper.VBO[] vaos = new VBOHelper.VBO[256];
+
+
+	/**
+	 * Высота шрифта одинакова для всех символов.
+	 * 8 пикселей на символ и 1 пиксель в промежуток между строками.
+	 * Из-за ScaledResolution при стандартном интерфейсе эта цифра увеличивается вдвое.
+	 */
+	@Getter
+	public final int fontHeight = 9;
+
 
 	// RNG для обфусцированного текста
 	public Random fontRandom = new Random();
-
-	// Массив с ширинами всех глифов в папке /font
-	private byte[] glyphWidth = new byte[65536];
-
-	private ResourceLocation locationFontTexture;
-	public ResourceLocation locationFontTextureBase;
-	private final TextureManager renderEngine;
 
 	// Текущие координаты, на которых будет нарисован следующий символ
 	private float posX;
 	private float posY;
 
-	// Использовать шрифты Unicode вместо default.png
-	private boolean unicodeFlag;
 
 	// Текущие цвета
 	private float red;
@@ -73,113 +141,92 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 	public boolean enabled = true;
 	public float offsetBold = 1.0F;
 
-	public AssetsFontRenderer(ResourceLocation location, TextureManager textureManagerIn, boolean unicode) {
-		this.locationFontTextureBase = location;
-		this.locationFontTexture = location;
-		this.renderEngine = textureManagerIn;
-		this.unicodeFlag = unicode;
-		this.locationFontTexture = FontUtils.getHdFontLocation(this.locationFontTextureBase);
-		this.bindTexture(this.locationFontTexture);
+	public MCFontRenderer(ResourceLocation location, boolean unicode) {
+		this.minecraftiaTextureBase = location;
+		this.minecraftiaTexture = location;
+		this.ucEnabled = unicode;
+		this.minecraftiaTexture = FontUtils.getHdFontLocation(this.minecraftiaTextureBase);
+		MC.bindTexture(this.minecraftiaTexture);
 
 
-		this.readGlyphSizes();
+		this.prepareUc();
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-		this.locationFontTexture = FontUtils.getHdFontLocation(this.locationFontTextureBase);
+		this.minecraftiaTexture = FontUtils.getHdFontLocation(this.minecraftiaTextureBase);
 
-		for (int i = 0; i < unicodePageLocations.length; ++i) {
-			unicodePageLocations[i] = null;
-		}
+		Arrays.fill(unicodePageLocations, null);
 
-		this.readFontTexture();
-		this.readGlyphSizes();
+		this.prepareMinecraftia();
+		this.prepareUc();
 	}
 
-	private void readFontTexture() {
-		BufferedImage bufferedimage;
+	private void prepareMinecraftia() {
+		BufferedImage img = TextureUtil.readImageOrPanic(getResourceInputStream(minecraftiaTexture));
+		Properties properties = FontUtils.readFontProperties(minecraftiaTexture);
 
-		try {
-			bufferedimage = TextureUtil.readBufferedImage(this.getResourceInputStream(this.locationFontTexture));
-		} catch (IOException ioexception) {
-			throw new RuntimeException(ioexception);
-		}
-
-		Properties properties = FontUtils.readFontProperties(this.locationFontTexture);
-		int i = bufferedimage.getWidth();
-		int j = bufferedimage.getHeight();
-		int k = i / 16;
-		int l = j / 16;
-		float f = (float) i / 128.0F;
+		int width = img.getWidth();
+		int height = img.getHeight();
+		int xStep = width / 16;
+		int yStep = height / 16;
+		float f = (float) width / 128.0F;
 		float f1 = Config.limit(f, 1.0F, 2.0F);
 		this.offsetBold = 1.0F / f1;
 
 		float f2 = FontUtils.readFloat(properties, "offsetBold", -1.0F);
 		if (f2 >= 0.0F) this.offsetBold = f2;
 
-		int[] aint = new int[i * j];
-		bufferedimage.getRGB(0, 0, i, j, aint, 0, i);
+		int[] aint = new int[width * height];
+		img.getRGB(0, 0, width, height, aint, 0, width);
 
-		for (int i1 = 0; i1 < 256; ++i1) {
-			int j1 = i1 % 16;
-			int k1 = i1 / 16;
+		for (int charId = 0; charId < 256; ++charId) {
+			int col = charId % 16;
+			int row = charId / 16;
 			int l1;
 
-			for (l1 = k - 1; l1 >= 0; --l1) {
-				int i2 = j1 * k + l1;
+			for (l1 = xStep - 1; l1 >= 0; --l1) {
+				int i2 = col * xStep + l1;
 				boolean flag = true;
 
-				for (int j2 = 0; j2 < l && flag; ++j2) {
-					int k2 = (k1 * l + j2) * i;
+				for (int i = 0; i < yStep; ++i) {
+					int k2 = (row * yStep + i) * width;
 					int l2 = aint[i2 + k2];
 					int i3 = l2 >> 24 & 255;
 
 					if (i3 > 16) {
 						flag = false;
+						break;
 					}
 				}
 
-				if (!flag) {
-					break;
-				}
+				if (!flag) break;
 			}
 
-			if (i1 == 32) {
-				if (k <= 8) {
-					l1 = (int) (2.0F * f);
-				} else {
-					l1 = (int) (1.5F * f);
-				}
-			}
+			if (charId == 32) l1 = (int) ((xStep <= 8 ? 2.0F : 1.5F) * f);
 
-			this.charWidth[i1] = (float) (l1 + 1) / f + 1.0F;
+			this.charWidth[charId] = (float) (l1 + 1) / f + 1.0F;
 		}
 
 		FontUtils.readCustomCharWidths(properties, this.charWidth);
 	}
 
-	private void readGlyphSizes() {
-		InputStream inputstream = null;
-
-		try {
-			inputstream = this.getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin"));
-			inputstream.read(this.glyphWidth);
+	private void prepareUc() {
+		try (InputStream is = getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin"))) {
+			is.read(this.glyphWidth);
 		} catch (IOException ioexception) {
 			throw new RuntimeException(ioexception);
-		} finally {
-			IOUtils.closeQuietly(inputstream);
 		}
 	}
 
 
 	public float renderChar(char c, boolean bold, boolean italic) {
-		if (c == 32) return this.unicodeFlag ? 4.0F : this.charWidth[c];
+		if (c == 32) return this.ucEnabled ? 4.0F : this.charWidth[c];
 		IProfiler profiler = getMinecraft().getProfiler();
 		profiler.startSection("fontrender");
 
 		int i = allChars.indexOf(c);
-		boolean unicode = i == -1 || unicodeFlag;
-		float f = unicode ? renderUnicodeChar(c, italic) : renderDefaultChar(i, italic);
+		boolean unicode = i == -1 || ucEnabled;
+		float f = unicode ? renderCharUc(c, italic) : renderCharMinecraftia(i, italic);
 		float w = 0;
 		if (bold) {
 			float offsetBold = unicode ? 0.5F : this.offsetBold;
@@ -192,20 +239,15 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		return f + w;
 	}
 
-	@Override
-	public int getFontHeight() {
-		return 9;
-	}
-
 	/**
 	 * Render a single character with the default.png font at current (posX,posY) location...
 	 */
-	private float renderDefaultChar(int p_78266_1_, boolean p_78266_2_) {
-		int i = p_78266_1_ % 16 * 8;
-		int j = p_78266_1_ / 16 * 8;
-		int k = p_78266_2_ ? 1 : 0;
-		this.bindTexture(this.locationFontTexture);
-		float f = this.charWidth[p_78266_1_];
+	private float renderCharMinecraftia(int character, boolean italic) {
+		int i = character % 16 * 8;
+		int j = character / 16 * 8;
+		int k = italic ? 1 : 0;
+		MC.bindTexture(this.minecraftiaTexture);
+		float f = this.charWidth[character];
 		float f1 = 7.99F;
 		GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
 		GL11.glTexCoord2f((float) i / 128.0F, (float) j / 128.0F);
@@ -229,34 +271,78 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		return unicodePageLocations[number];
 	}
 
-	/**
-	 * Load one of the /font/glyph_XX.png into a new GL texture and store the texture ID in glyphTextureName array.
-	 */
-
-	private int cachedPage = -213123;
+	private int cachedPage = -1;
 
 	private void loadGlyphTexture(int page) {
 		if (page == cachedPage) return;
+		if (vaos[page] == null) {
+			float[] buf = new float[256 * 4 * 4];
+			for (int c = 0; c < 256; c++) {
+				byte bin = this.glyphWidth[page * 256 + c];
+				int rightOffset = bin >>> 4 & 0b1111;
+				int width = (bin & 15) + 1;
+				float tx = (float) (c % 16 * 16 + rightOffset);
+				float ty = (float) (c & 0xf0);
+				int tw = width - rightOffset;
+
+				float u1 = tx / 256, x2 = tw / 2F;
+				float v1 = ty / 256, u2 = (tx + tw) / 256;
+				float v2 = (ty + 16) / 256;
+
+				int cc = c * 16;
+				buf[cc + 0] = 0;
+				buf[cc + 1] = 0;
+				buf[cc + 2] = u1;
+				buf[cc + 3] = v1;
+
+				buf[cc + 4] = 0;
+				buf[cc + 5] = 8;
+				buf[cc + 6] = u1;
+				buf[cc + 7] = v2;
+
+				buf[cc + 8] = x2;
+				buf[cc + 9] = 0;
+				buf[cc + 10] = u2;
+				buf[cc + 11] = v1;
+
+				buf[cc + 12] = x2;
+				buf[cc + 13] = 8;
+				buf[cc + 14] = u2;
+				buf[cc + 15] = v2;
+
+			}
+			vaos[page] = VBOHelper.create2Dtextured(buf);
+
+		}
 		ResourceLocation unicodePageLocation = this.getUnicodePageLocation(page);
-		this.bindTexture(unicodePageLocation);
+		MC.bindTexture(unicodePageLocation);
 		cachedPage = page;
 	}
 
 	/**
 	 * Render a single Unicode character at current (posX,posY) location using one of the /font/glyph_XX.png files...
 	 */
-	public float renderUnicodeChar(char c, boolean italic) {
+	private float renderCharUc(char c, boolean italic) {
 		if (this.glyphWidth[c] == 0) return 0.0F;
 
-		int i = c / 256;
-		this.loadGlyphTexture(i);
+		int page = c / 256;
+		this.loadGlyphTexture(page);
+
 		int rightOffset = this.glyphWidth[c] >>> 4 & 0b1111;
-		int w = (this.glyphWidth[c] & 15) + 1;
-		float width = (float) w;
+		float width = (this.glyphWidth[c] & 15) + 1;
+
+		G.pushMatrix();
+		G.translate(posX, posY, 0);
+//		G.scale(2, 2, 1);
+		VBOHelper.draw2DTextured(vaos[page], GL11.GL_TRIANGLE_STRIP, (int) c % 256 * 4, 4);
+		G.popMatrix();
+
+		if (true) return (width - rightOffset) / 2.0F + 1.0F;
+
+
 		float tx = (float) (c % 16 * 16) + rightOffset;
 		float ty = (float) (c & 0xf0);
 		float tw = width - rightOffset;
-		//		System.out.print(c + "-" + tx + "x" + ty + "  ");
 
 		// Сдвиг верхней границы текста вправо, а нижней влево для создания эффекта курсива
 		float italicness = italic ? 1.0F : 0.0F;
@@ -381,8 +467,8 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 			}
 
-			float offsetBold = index == -1 || this.unicodeFlag ? 0.5F : this.offsetBold;
-			dropShadow &= c == 0 || index == -1 || this.unicodeFlag;
+			float offsetBold = index == -1 || this.ucEnabled ? 0.5F : this.offsetBold;
+			dropShadow &= c == 0 || index == -1 || this.ucEnabled;
 
 			if (dropShadow) offset(-offsetBold);
 			float charWidth = this.renderChar(c, boldStyle, this.italicStyle);
@@ -469,30 +555,28 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 			}
 
 			f += f1;
-			if (flag && f1 > 0.0F) f += this.unicodeFlag ? 1.0F : this.offsetBold;
+			if (flag && f1 > 0.0F) f += this.ucEnabled ? 1.0F : this.offsetBold;
 		}
 
 		return (int) f;
 	}
 
 	private float getCharWidthFloat(char c) {
-		if (c == 167) {
-			return -1.0F;
-		}
+		if (c == 167) return -1.0F;
 		if (c == 32) return this.charWidth[32];
 
-		int i = allChars.indexOf(c);
-
-		if (c > 0 && i != -1 && !this.unicodeFlag) return this.charWidth[i];
-
-		if (this.glyphWidth[c] != 0) {
-			int rightOffset = this.glyphWidth[c] >>> 4;
-			int width = this.glyphWidth[c] & 15;
-			rightOffset = rightOffset & 15;
-			++width;
-			return (float) (width - rightOffset) / 2F + 1F;
+		if (!ucEnabled) {
+			int i = allChars.indexOf(c);
+			if (c > 0 && i != -1) return this.charWidth[i];
 		}
-		return 0.0F;
+
+		if (this.glyphWidth[c] == 0) return 0;
+
+		int rightOffset = this.glyphWidth[c] >>> 4;
+		int width = this.glyphWidth[c] & 15;
+		rightOffset = rightOffset & 15;
+		++width;
+		return (float) (width - rightOffset) / 2F + 1F;
 	}
 
 	public void dlyaLogana() throws IOException {
@@ -506,7 +590,7 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 
 			int i = allChars.indexOf(c);
 
-			//			if (c > 0 && i != -1 && !this.unicodeFlag) return this.charWidth[i];
+			//			if (c > 0 && i != -1 && !this.ucEnabled) return this.charWidth[i];
 
 			if (this.glyphWidth[c] != 0) {
 				o = this.glyphWidth[c] >>> 4;
@@ -599,22 +683,6 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 	 */
 	public int splitStringWidth(String p_78267_1_, int p_78267_2_) {
 		return this.getFontHeight() * this.listFormattedStringToWidth(p_78267_1_, p_78267_2_).size();
-	}
-
-	/**
-	 * Set unicodeFlag controlling whether strings should be rendered with Unicode fonts instead of the default.png
-	 * font.
-	 */
-	public void setUnicodeFlag(boolean unicodeFlagIn) {
-		this.unicodeFlag = unicodeFlagIn;
-	}
-
-	/**
-	 * Get unicodeFlag controlling whether strings should be rendered with Unicode fonts instead of the default.png
-	 * font.
-	 */
-	public boolean getUnicodeFlag() {
-		return false;
 	}
 
 	/**
@@ -736,12 +804,12 @@ public class AssetsFontRenderer implements IResourceManagerReloadListener, IFont
 		G.color(r, b, g, a);
 	}
 
-	protected void bindTexture(ResourceLocation p_bindTexture_1_) {
-		this.renderEngine.bindTexture(p_bindTexture_1_);
-	}
-
-	protected InputStream getResourceInputStream(ResourceLocation p_getResourceInputStream_1_) throws IOException {
-		return getMinecraft().getResourceManager().getResource(p_getResourceInputStream_1_).getInputStream();
+	protected InputStream getResourceInputStream(ResourceLocation loc) {
+		try {
+			return getMinecraft().getResourceManager().getResource(loc).getInputStream();
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 

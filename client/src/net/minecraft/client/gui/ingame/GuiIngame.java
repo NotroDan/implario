@@ -2,17 +2,15 @@ package net.minecraft.client.gui.ingame;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import net.minecraft.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.BowPathRenderer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -179,6 +177,8 @@ public class GuiIngame extends Gui {
 
 		renderMinimap();
 
+
+		if (!Settings.DEBUGGER.b()) return;
 		Timer t = mc.getTimer();
 		getFontRenderer().drawString("tps: §e" + t.ticksPerSecond, 10, 10, -1);
 		int m = t.partialTicksMode;
@@ -728,7 +728,7 @@ public class GuiIngame extends Gui {
 		return this.updateCounter;
 	}
 
-	public AssetsFontRenderer getFontRenderer() {
+	public MCFontRenderer getFontRenderer() {
 		return this.mc.fontRenderer;
 	}
 

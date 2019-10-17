@@ -1,7 +1,9 @@
 package net.minecraft.util;
 
+import lombok.Data;
 import lombok.experimental.UtilityClass;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL12;
 
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
@@ -41,6 +43,67 @@ public class VBOHelper {
 		// Deselect (bind to 0) the VAO
 		glBindVertexArray(0);
 		return vaoId;
+	}
+
+	@Data
+	public static class VBO {
+		public final int vaoId;
+		public final int vboId;
+	}
+
+	public VBO create2Dtextured(float[] data) {
+
+		// Sending data to OpenGL requires the usage of (flipped) byte buffers
+		FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(data.length);
+		verticesBuffer.put(data);
+		verticesBuffer.flip();
+
+		// Create a new Vertex Array Object in memory and select it (bind)
+		// A VAO can have up to 16 attributes (VBO's) assigned to it by default
+		int vaoId = glGenVertexArrays();
+		glBindVertexArray(vaoId);
+
+		// Create a new Vertex Buffer Object in memory and select it (bind)
+		// A VBO is a collection of Vectors which in this case resemble the location of each vertex.
+		int vboId = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vboId);
+		glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
+		// Put the VBO in the attributes list at index 0
+		int lol = 8;
+//		glVertexAttribPointer(0, 2, GL_FLOAT, false, 2 * lol, 0);
+//		glTexCoordPointer(2, GL_FLOAT, 2 * lol, lol);
+		// Deselect (bind to 0) the VBO
+
+		// Deselect (bind to 0) the VAO
+//		glBindVertexArray(0);
+//		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		return new VBO(vaoId, vboId);
+	}
+
+
+	public void draw2DTextured(VBO vbo, int method, int from, int size) {
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+		// Bind to the VAO that has all the information about the quad vertices
+		glBindBuffer(GL_ARRAY_BUFFER, vbo.vboId);
+		glTexCoordPointer(2, GL_FLOAT, 16, 8);
+		glVertexPointer(2, GL_FLOAT, 16, 0);
+		glBindVertexArray(vbo.vaoId);
+		glDrawArrays(method, from, size);
+//		glEnableVertexAttribArray(0);
+
+
+		// Draw the vertices
+//		GL12.glDrawRangeElements(method, from, from + size, size, GL_FLOAT, 0);
+
+
+		// Put everything back to default (deselect)
+//		glDisableVertexAttribArray(0);
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	}
 
 	public int create(float[] vertices, int dim) {

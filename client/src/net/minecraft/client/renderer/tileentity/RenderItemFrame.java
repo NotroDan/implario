@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.tileentity;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.RenderHelper;
@@ -180,7 +180,7 @@ public class RenderItemFrame extends Render {
 				String s = entity.getDisplayedItem().getDisplayName();
 
 				if (entity.isSneaking()) {
-					AssetsFontRenderer fontrenderer = this.getFontRendererFromRenderManager();
+					MCFontRenderer fontrenderer = this.getFontRendererFromRenderManager();
 					G.pushMatrix();
 					G.translate((float) x + 0.0F, (float) y + entity.height + 0.5F, (float) z);
 					GL11.glNormal3f(0.0F, 1.0F, 0.0F);

@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -16,7 +16,7 @@ public class GuiUtilRenderComponents {
 		return !p_178909_1_ && !Settings.CHAT_COLOR.b() ? EnumChatFormatting.getTextWithoutFormattingCodes(p_178909_0_) : p_178909_0_;
 	}
 
-	public static List<IChatComponent> func_178908_a(IChatComponent p_178908_0_, int p_178908_1_, AssetsFontRenderer p_178908_2_, boolean p_178908_3_, boolean p_178908_4_) {
+	public static List<IChatComponent> func_178908_a(IChatComponent p_178908_0_, int p_178908_1_, MCFontRenderer p_178908_2_, boolean p_178908_3_, boolean p_178908_4_) {
 		int i = 0;
 		IChatComponent ichatcomponent = new ChatComponentText("");
 		List<IChatComponent> list = new ArrayList<>();

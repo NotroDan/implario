@@ -31,6 +31,11 @@ public class JarDatapackLoader extends DatapackLoader {
 	}
 
 	@Override
+	public String getName() {
+		return jarFile.getName();
+	}
+
+	@Override
 	public Datapack load(String main, String clientMain) throws DatapackLoadException {
 		try {
 			if (datapack != null) return datapack;

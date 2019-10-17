@@ -15,7 +15,7 @@ import net.minecraft.client.game.particle.EntityFX;
 import net.minecraft.client.game.shader.Framebuffer;
 import net.minecraft.client.game.shader.ShaderGroup;
 import net.minecraft.client.game.shader.ShaderLinkHelper;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.chunk.*;
 import net.minecraft.client.renderer.culling.ClippingHelper;
@@ -696,7 +696,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				}
 			}
 
-			AssetsFontRenderer fontrenderer = TileEntityRendererDispatcher.instance.getFontRenderer();
+			MCFontRenderer fontrenderer = TileEntityRendererDispatcher.instance.getFontRenderer();
 
 			if (flag7) {
 				Shaders.endEntities();

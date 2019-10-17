@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
@@ -121,7 +120,7 @@ public class GuiLanguage extends GuiScreen {
 			GuiLanguage.this.languageManager.setCurrentLanguage(language);
 			Settings.language = language.getLanguageCode();
 			this.mc.refreshResources();
-			GuiLanguage.this.fontRendererObj.setUnicodeFlag(GuiLanguage.this.languageManager.isCurrentLocaleUnicode() || Settings.FORCE_UNICODE_FONT.b());
+			GuiLanguage.this.fontRendererObj.setUcEnabled(GuiLanguage.this.languageManager.isCurrentLocaleUnicode() || Settings.FORCE_UNICODE_FONT.b());
 			Settings.saveOptions();
 		}
 

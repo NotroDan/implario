@@ -225,6 +225,14 @@ public class TextureUtil {
 		return aint;
 	}
 
+	public static BufferedImage readImageOrPanic(InputStream imageStream) {
+		try {
+			return readBufferedImage(imageStream);
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
 	public static BufferedImage readBufferedImage(InputStream imageStream) throws IOException {
 		if (imageStream == null) {
 			return null;

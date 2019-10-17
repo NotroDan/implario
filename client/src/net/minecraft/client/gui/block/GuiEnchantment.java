@@ -1,13 +1,11 @@
 package net.minecraft.client.gui.block;
 
-import com.google.common.collect.Lists;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.game.model.ModelBook;
@@ -187,7 +185,7 @@ public class GuiEnchantment extends GuiContainer {
 				this.drawTexturedModalRect(i1, j + 14 + 19 * l, 0, 185, 108, 19);
 			} else {
 				String s1 = "" + l1;
-				AssetsFontRenderer fontrenderer = this.mc.standardGalacticFontRenderer;
+				MCFontRenderer fontrenderer = this.mc.standardGalacticFontRenderer;
 				int i2 = 6839882;
 
 				if ((k < l + 1 || this.mc.thePlayer.experienceLevel < l1) && !this.mc.thePlayer.capabilities.isCreativeMode) {

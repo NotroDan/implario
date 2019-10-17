@@ -3,7 +3,7 @@ package net.minecraft;
 import net.minecraft.block.Block;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.ingame.GuiIngame;
 import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.G;
@@ -28,7 +28,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Random;
 
-import static net.minecraft.client.gui.Gui.icons;
 import static net.minecraft.client.gui.ingame.GuiIngame.map;
 
 public class Utils {
@@ -57,7 +56,7 @@ public class Utils {
 	}
 
 	private static void drawFloatingText0(String text, float x, float y, float z, boolean back) {
-		AssetsFontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
+		MCFontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
 		float f = 1.6F;
 		float f1 = 0.016666668F * f;
 		G.pushMatrix();

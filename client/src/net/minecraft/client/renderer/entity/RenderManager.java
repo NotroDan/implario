@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.game.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.font.AssetsFontRenderer;
+import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -49,7 +49,7 @@ public class RenderManager {
 	/**
 	 * Renders fonts
 	 */
-	private AssetsFontRenderer textRenderer;
+	private MCFontRenderer textRenderer;
 	private double renderPosX;
 	private double renderPosY;
 	private double renderPosZ;
@@ -151,7 +151,7 @@ public class RenderManager {
 		return this.getEntityClassRenderObject(entityIn.getClass());
 	}
 
-	public void cacheActiveRenderInfo(World worldIn, AssetsFontRenderer textRendererIn, Entity livingPlayerIn, Entity pointedEntityIn, float partialTicks) {
+	public void cacheActiveRenderInfo(World worldIn, MCFontRenderer textRendererIn, Entity livingPlayerIn, Entity pointedEntityIn, float partialTicks) {
 		this.worldObj = worldIn;
 		this.livingPlayer = livingPlayerIn;
 		this.pointedEntity = pointedEntityIn;
@@ -353,7 +353,7 @@ public class RenderManager {
 	/**
 	 * Returns the font renderer
 	 */
-	public AssetsFontRenderer getFontRenderer() {
+	public MCFontRenderer getFontRenderer() {
 		return this.textRenderer;
 	}
 
