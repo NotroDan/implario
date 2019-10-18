@@ -15,10 +15,12 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.logging.Log;
+import net.minecraft.network.services.github.Release;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.security.Restart;
+import net.minecraft.security.update.DatapackUpdate;
 import net.minecraft.security.update.JarFile;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
@@ -31,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
@@ -91,9 +94,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		int cacheWidth = width >> 1;
 		buttonList.add(new GuiButton(0, cacheWidth - 100, j + 84, 98, 20, Lang.format("menu.options")));
 		buttonList.add(new GuiButton(97, cacheWidth + 2, j + 84, 98, 20, "Смена ника"));
+		buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "Обновление"));
 		if (Settings.DEBUG.b()) {
 			buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, "§8Dev §fVanilla"));
-			buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "§8Dev §fПерезапуск"));
 			buttonList.add(new GuiButton(5, cacheWidth - 100, j + 132, 98, 20, "§8Dev §fЛоги"));
 			buttonList.add(new GuiButton(6, cacheWidth + 2, j + 132, 98, 20, "§8Dev §fНастройки"));
 			buttonList.add(new GuiButton(3, cacheWidth - 100, j + 156, 98, 20, "§8Dev §fСервера"));
@@ -118,6 +121,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		if (button.id == 7) this.mc.displayGuiScreen(new GuiGridTest());
 		if (button.id == 8) this.mc.displayGuiScreen(new GuiDatapacks());
 		if (button.id == 54) {
+			File core = new File("gamedata/client.jar");
+			if(!core.exists()){
+				System.out.println("как я могу обновится если майнкрафта нету");
+				return;
+			}
             try {
                 Exceptions.RunOutException.class.getName();
                 try {
@@ -126,12 +134,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                JarFile edit = new JarFile(new File("gamedata/client.jar"));
-                edit.writeToJar(new File("gamedata/client.jar"));
+				List<Release> list = DatapackUpdate.minecraft.checkUpdate();
+				if (list != null) {
+					DatapackUpdate.minecraft.update(core, list);
+					Restart.restart();
+				}
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            Restart.restart();
         }
 		if (button.id == 6) this.mc.displayGuiScreen(new GuiSettings(this));
 

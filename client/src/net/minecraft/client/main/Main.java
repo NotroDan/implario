@@ -10,13 +10,16 @@ import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.TodoClient;
+import net.minecraft.network.services.github.Release;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.JarDatapackLoader;
+import net.minecraft.security.update.DatapackUpdate;
 import net.minecraft.server.Todo;
 import net.minecraft.util.Session;
 import net.minecraft.util.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Array;
