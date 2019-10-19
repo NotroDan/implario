@@ -16,22 +16,21 @@ public class Bootstrap {
 
 	private static final PrintStream SYSOUT = System.out;
 
-	private static boolean alreadyRegistered = false;
+	private static boolean registered = false, alreadyRegistered;
 	private static final Logger LOGGER = Logger.getInstance();
 
 	/**
 	 * Is Bootstrap registration already done?
 	 */
 	public static boolean isRegistered() {
-		return alreadyRegistered;
+		return registered;
 	}
 
 	/**
 	 * Registers blocks, items, stats, etc.
 	 */
 	public static void register() {
-		if (alreadyRegistered) return;
-		alreadyRegistered = true;
+		registered = true;
 
 		Collection<Datapack> datapacks = Datapacks.getDatapacks();
 
@@ -46,8 +45,10 @@ public class Bootstrap {
 		for (Datapack datapack : datapacks) datapack.loadItems();
 		Items.reload();
 
-		StatList.init();
-		Enchantments.init();
+		if(!alreadyRegistered){
+			StatList.init();
+			Enchantments.init();
+		}
 		for (Datapack datapack : datapacks) {
 			System.out.println("Преинициализация датапака " + datapack.getDomain());
 			datapack.preinit();
@@ -56,6 +57,7 @@ public class Bootstrap {
 			Blocks.reload();
 			Block.reloadBlockStates();
 		}
+		alreadyRegistered = true;
 	}
 
 	public static void print(String text) {

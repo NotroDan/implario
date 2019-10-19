@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.logging.Log;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
@@ -100,6 +101,7 @@ public class CommandHandler implements ICommandManager {
 			chatcomponenttranslation1.getChatStyle().setColor(EnumChatFormatting.RED);
 			sender.sendMessage(chatcomponenttranslation1);
 		} catch (Throwable var9) {
+			Log.DEBUG.exception(var9);
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.generic.exception", new Object[0]);
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
 			sender.sendMessage(chatcomponenttranslation);

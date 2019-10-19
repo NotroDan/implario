@@ -50,13 +50,7 @@ public class ServerStart {
 			if (wasArgumentUsed) ++j;
 		}
 
-		Datapacks.initializeDatapacks(new File("datapacks"));
-		Bootstrap.register();
-		for (Datapack datapack : Datapacks.getDatapacks()) {
-			datapack.init();
-			datapack.ready();
-		}
-
+		Datapacks.fullInitializeDatapacks(new File("datapacks"));
 
 		final DedicatedServer dedicatedserver = new DedicatedServer(new File(workDir));
 

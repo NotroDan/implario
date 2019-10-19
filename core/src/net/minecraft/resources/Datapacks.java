@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Bootstrap;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.logging.Log;
@@ -59,7 +60,6 @@ public class Datapacks {
 		datapack.preinit();
 		datapack.init();
 		Todo.instance.clientInit(datapack);
-		datapack.ready();
 
 	}
 
@@ -98,5 +98,11 @@ public class Datapacks {
 			if(file.isDirectory() || !file.getName().endsWith(".jar"))continue;
 			initializeDatapack(file);
 		}
+	}
+
+	public static void fullInitializeDatapacks(File directory){
+		initializeDatapacks(directory);
+		Bootstrap.register();
+		for (Datapack datapack : Datapacks.getDatapacks()) datapack.init();
 	}
 }

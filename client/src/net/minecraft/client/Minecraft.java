@@ -330,12 +330,9 @@ public class Minecraft implements IThreadListener {
 		preloader.nextState();
 		this.guiAchievement = new GuiAchievement(this);
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
-		for (Datapack datapack : Datapacks.getDatapacks()) {
-			if (datapack.clientSide instanceof ClientSideDatapack) {
+		for (Datapack datapack : Datapacks.getDatapacks())
+			if (datapack.clientSide instanceof ClientSideDatapack)
 				((ClientSideDatapack) datapack.clientSide).clientInit(new ClientRegistrar(datapack.getRegistrar()));
-			}
-			datapack.ready();
-		}
 		blabla = true;
 	}
 
