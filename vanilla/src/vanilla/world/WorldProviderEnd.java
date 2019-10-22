@@ -2,7 +2,7 @@ package vanilla.world;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BasicChunkBiomer;
 import vanilla.world.biome.BiomeGenBase;
@@ -46,7 +46,7 @@ public class WorldProviderEnd extends WorldProvider {
 	/**
 	 * Return Vec3D with biome specific fog color
 	 */
-	public Vec3 getFogColor(float p_76562_1_, float p_76562_2_) {
+	public Vec3d getFogColor(float p_76562_1_, float p_76562_2_) {
 		int i = 10518688;
 		float f = MathHelper.cos(p_76562_1_ * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
 		f = MathHelper.clamp_float(f, 0.0F, 1.0F);
@@ -56,7 +56,7 @@ public class WorldProviderEnd extends WorldProvider {
 		f1 = f1 * (f * 0.0F + 0.15F);
 		f2 = f2 * (f * 0.0F + 0.15F);
 		f3 = f3 * (f * 0.0F + 0.15F);
-		return new Vec3((double) f1, (double) f2, (double) f3);
+		return new Vec3d((double) f1, (double) f2, (double) f3);
 	}
 
 	public boolean isSkyColored() {

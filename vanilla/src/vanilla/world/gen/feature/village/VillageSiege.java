@@ -4,7 +4,7 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.Player;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 import vanilla.entity.SpawnPlacementType;
 import vanilla.entity.monster.EntityZombie;
@@ -122,9 +122,9 @@ public class VillageSiege {
 						return false;
 					}
 
-					Vec3 vec3 = this.func_179867_a(new BlockPos(this.field_75532_g, this.field_75538_h, this.field_75539_i));
+					Vec3d vec3D = this.func_179867_a(new BlockPos(this.field_75532_g, this.field_75538_h, this.field_75539_i));
 
-					if (vec3 != null) {
+					if (vec3D != null) {
 						break;
 					}
 				}
@@ -137,9 +137,9 @@ public class VillageSiege {
 	}
 
 	private boolean spawnZombie() {
-		Vec3 vec3 = this.func_179867_a(new BlockPos(this.field_75532_g, this.field_75538_h, this.field_75539_i));
+		Vec3d vec3D = this.func_179867_a(new BlockPos(this.field_75532_g, this.field_75538_h, this.field_75539_i));
 
-		if (vec3 == null) {
+		if (vec3D == null) {
 			return false;
 		}
 		EntityZombie entityzombie;
@@ -153,19 +153,19 @@ public class VillageSiege {
 			return false;
 		}
 
-		entityzombie.setLocationAndAngles(vec3.xCoord, vec3.yCoord, vec3.zCoord, this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
+		entityzombie.setLocationAndAngles(vec3D.xCoord, vec3D.yCoord, vec3D.zCoord, this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
 		this.worldObj.spawnEntityInWorld(entityzombie);
 		BlockPos blockpos = this.theVillage.getCenter();
 		entityzombie.setHomePosAndDistance(blockpos, this.theVillage.getVillageRadius());
 		return true;
 	}
 
-	private Vec3 func_179867_a(BlockPos p_179867_1_) {
+	private Vec3d func_179867_a(BlockPos p_179867_1_) {
 		for (int i = 0; i < 10; ++i) {
 			BlockPos blockpos = p_179867_1_.add(this.worldObj.rand.nextInt(16) - 8, this.worldObj.rand.nextInt(6) - 3, this.worldObj.rand.nextInt(16) - 8);
 
 			if (this.theVillage.func_179866_a(blockpos) && SpawnerAnimals.canCreatureTypeSpawnAtLocation(SpawnPlacementType.ON_GROUND, this.worldObj, blockpos)) {
-				return new Vec3((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
+				return new Vec3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
 			}
 		}
 

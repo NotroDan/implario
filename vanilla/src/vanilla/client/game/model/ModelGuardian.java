@@ -6,7 +6,7 @@ import net.minecraft.client.game.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import vanilla.entity.monster.EntityGuardian;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class ModelGuardian extends ModelBase {
 
@@ -95,9 +95,9 @@ public class ModelGuardian extends ModelBase {
 		}
 
 		if (entity != null) {
-			Vec3 vec3 = entity.getPositionEyes(0.0F);
-			Vec3 vec31 = entityIn.getPositionEyes(0.0F);
-			double d0 = vec3.yCoord - vec31.yCoord;
+			Vec3d vec3D = entity.getPositionEyes(0.0F);
+			Vec3d vec31D = entityIn.getPositionEyes(0.0F);
+			double d0 = vec3D.yCoord - vec31D.yCoord;
 
 			if (d0 > 0.0D) {
 				this.guardianEye.rotationPointY = 0.0F;
@@ -105,10 +105,10 @@ public class ModelGuardian extends ModelBase {
 				this.guardianEye.rotationPointY = 1.0F;
 			}
 
-			Vec3 vec32 = entityIn.getLook(0.0F);
-			vec32 = new Vec3(vec32.xCoord, 0.0D, vec32.zCoord);
-			Vec3 vec33 = new Vec3(vec31.xCoord - vec3.xCoord, 0.0D, vec31.zCoord - vec3.zCoord).normalize().rotateYaw((float) Math.PI / 2F);
-			double d1 = vec32.dotProduct(vec33);
+			Vec3d vec32D = entityIn.getLook(0.0F);
+			vec32D = new Vec3d(vec32D.xCoord, 0.0D, vec32D.zCoord);
+			Vec3d vec33D = new Vec3d(vec31D.xCoord - vec3D.xCoord, 0.0D, vec31D.zCoord - vec3D.zCoord).normalize().rotateYaw((float) Math.PI / 2F);
+			double d1 = vec32D.dotProduct(vec33D);
 			this.guardianEye.rotationPointX = MathHelper.sqrt_float((float) Math.abs(d1)) * 2.0F * (float) Math.signum(d1);
 		}
 

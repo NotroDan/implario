@@ -17,7 +17,6 @@ import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionHelper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.resources.event.E;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.ItemInteractForEntityEvent;
 import net.minecraft.util.*;
@@ -382,7 +381,7 @@ public class Item {
 		double d0 = playerIn.posX;
 		double d1 = playerIn.posY + (double) playerIn.getEyeHeight();
 		double d2 = playerIn.posZ;
-		Vec3 vec3 = new Vec3(d0, d1, d2);
+		Vec3d vec3D = new Vec3d(d0, d1, d2);
 		float f2 = MathHelper.cos(-f1 * 0.017453292F - (float) Math.PI);
 		float f3 = MathHelper.sin(-f1 * 0.017453292F - (float) Math.PI);
 		float f4 = -MathHelper.cos(-f * 0.017453292F);
@@ -390,8 +389,8 @@ public class Item {
 		float f6 = f3 * f4;
 		float f7 = f2 * f4;
 		double d3 = 5.0D;
-		Vec3 vec31 = vec3.addVector((double) f6 * d3, (double) f5 * d3, (double) f7 * d3);
-		return worldIn.rayTraceBlocks(vec3, vec31, useLiquids, !useLiquids, false);
+		Vec3d vec31D = vec3D.addVector((double) f6 * d3, (double) f5 * d3, (double) f7 * d3);
+		return worldIn.rayTraceBlocks(vec3D, vec31D, useLiquids, !useLiquids, false);
 	}
 
 	/**

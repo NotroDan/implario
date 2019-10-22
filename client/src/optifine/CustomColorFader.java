@@ -1,15 +1,15 @@
 package optifine;
 
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class CustomColorFader {
 
-	private Vec3 color = null;
+	private Vec3d color = null;
 	private long timeUpdate = System.currentTimeMillis();
 
-	public Vec3 getColor(double p_getColor_1_, double p_getColor_3_, double p_getColor_5_) {
+	public Vec3d getColor(double p_getColor_1_, double p_getColor_3_, double p_getColor_5_) {
 		if (this.color == null) {
-			this.color = new Vec3(p_getColor_1_, p_getColor_3_, p_getColor_5_);
+			this.color = new Vec3d(p_getColor_1_, p_getColor_3_, p_getColor_5_);
 			return this.color;
 		}
 		long i = System.currentTimeMillis();
@@ -31,7 +31,7 @@ public class CustomColorFader {
 		double d4 = this.color.xCoord + d1 * d0;
 		double d5 = this.color.yCoord + d2 * d0;
 		double d6 = this.color.zCoord + d3 * d0;
-		this.color = new Vec3(d4, d5, d6);
+		this.color = new Vec3d(d4, d5, d6);
 		return this.color;
 	}
 

@@ -1,9 +1,8 @@
 package vanilla.entity.ai.tasks.village;
 
-import com.google.common.collect.Lists;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import vanilla.entity.EntityCreature;
 import vanilla.entity.ai.RandomPositionGenerator;
 import vanilla.entity.ai.pathfinding.PathEntity;
@@ -64,14 +63,14 @@ public class EntityAIMoveThroughVillage extends EntityAIBase {
 		if (this.entityPathNavigate != null) {
 			return true;
 		}
-		Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 10, 7,
-				new Vec3((double) this.doorInfo.getDoorBlockPos().getX(), (double) this.doorInfo.getDoorBlockPos().getY(), (double) this.doorInfo.getDoorBlockPos().getZ()));
+		Vec3d vec3D = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 10, 7,
+				new Vec3d((double) this.doorInfo.getDoorBlockPos().getX(), (double) this.doorInfo.getDoorBlockPos().getY(), (double) this.doorInfo.getDoorBlockPos().getZ()));
 
-		if (vec3 == null) {
+		if (vec3D == null) {
 			return false;
 		}
 		pathnavigateground.setBreakDoors(false);
-		this.entityPathNavigate = this.theEntity.getNavigator().getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+		this.entityPathNavigate = this.theEntity.getNavigator().getPathToXYZ(vec3D.xCoord, vec3D.yCoord, vec3D.zCoord);
 		pathnavigateground.setBreakDoors(flag);
 		return this.entityPathNavigate != null;
 	}

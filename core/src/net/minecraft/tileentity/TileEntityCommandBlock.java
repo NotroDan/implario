@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 
 public class TileEntityCommandBlock extends TileEntity {
@@ -18,8 +18,8 @@ public class TileEntityCommandBlock extends TileEntity {
 			return TileEntityCommandBlock.this.pos;
 		}
 
-		public Vec3 getPositionVector() {
-			return new Vec3((double) TileEntityCommandBlock.this.pos.getX() + 0.5D, (double) TileEntityCommandBlock.this.pos.getY() + 0.5D, (double) TileEntityCommandBlock.this.pos.getZ() + 0.5D);
+		public Vec3d getPositionVector() {
+			return new Vec3d((double) TileEntityCommandBlock.this.pos.getX() + 0.5D, (double) TileEntityCommandBlock.this.pos.getY() + 0.5D, (double) TileEntityCommandBlock.this.pos.getZ() + 0.5D);
 		}
 
 		public World getEntityWorld() {

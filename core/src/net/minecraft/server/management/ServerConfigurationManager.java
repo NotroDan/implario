@@ -19,6 +19,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.ServerEvents;
+import net.minecraft.resources.event.events.player.PlayerJoinEvent;
 import net.minecraft.resources.event.events.player.PlayerLeaveDisconnect;
 import net.minecraft.resources.event.events.player.PlayerRespawnEvent;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -362,6 +363,9 @@ public abstract class ServerConfigurationManager {
 	 * Called when a player successfully logs in. Reads player data from disk and inserts the player into the world.
 	 */
 	public void playerLoggedIn(MPlayer playerIn) {
+		if (ServerEvents.playerJoin.isUseful()){
+			ServerEvents.playerJoin.call(new PlayerJoinEvent(playerIn));
+		}
 		this.playerEntityList.add(playerIn);
 		this.uuidToPlayerMap.put(playerIn.getUniqueID(), playerIn);
 		this.sendPacketToAllPlayers(new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.ADD_PLAYER, playerIn));

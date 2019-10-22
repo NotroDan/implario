@@ -133,7 +133,7 @@ public class BlockTorch extends Block {
 	/**
 	 * Ray traces through the blocks collision from start vector to end vector returning a ray trace hit.
 	 */
-	public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 start, Vec3 end) {
+	public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
 		EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
 		float f = 0.15F;
 

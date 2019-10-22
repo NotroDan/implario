@@ -2,7 +2,7 @@ package vanilla.entity.ai.pathfinding;
 
 import vanilla.entity.VanillaEntity;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 import vanilla.world.pathfinder.SwimNodeProcessor;
 
@@ -23,29 +23,29 @@ public class PathNavigateSwimmer extends PathNavigate {
 		return this.isInLiquid();
 	}
 
-	protected Vec3 getEntityPosition() {
-		return new Vec3(this.theEntity.posX, this.theEntity.posY + (double) this.theEntity.height * 0.5D, this.theEntity.posZ);
+	protected Vec3d getEntityPosition() {
+		return new Vec3d(this.theEntity.posX, this.theEntity.posY + (double) this.theEntity.height * 0.5D, this.theEntity.posZ);
 	}
 
 	protected void pathFollow() {
-		Vec3 vec3 = this.getEntityPosition();
+		Vec3d vec3D = this.getEntityPosition();
 		float f = this.theEntity.width * this.theEntity.width;
 		int i = 6;
 
-		if (vec3.squareDistanceTo(this.currentPath.getVectorFromIndex(this.theEntity, this.currentPath.getCurrentPathIndex())) < (double) f) {
+		if (vec3D.squareDistanceTo(this.currentPath.getVectorFromIndex(this.theEntity, this.currentPath.getCurrentPathIndex())) < (double) f) {
 			this.currentPath.incrementPathIndex();
 		}
 
 		for (int j = Math.min(this.currentPath.getCurrentPathIndex() + i, this.currentPath.getCurrentPathLength() - 1); j > this.currentPath.getCurrentPathIndex(); --j) {
-			Vec3 vec31 = this.currentPath.getVectorFromIndex(this.theEntity, j);
+			Vec3d vec31D = this.currentPath.getVectorFromIndex(this.theEntity, j);
 
-			if (vec31.squareDistanceTo(vec3) <= 36.0D && this.isDirectPathBetweenPoints(vec3, vec31, 0, 0, 0)) {
+			if (vec31D.squareDistanceTo(vec3D) <= 36.0D && this.isDirectPathBetweenPoints(vec3D, vec31D, 0, 0, 0)) {
 				this.currentPath.setCurrentPathIndex(j);
 				break;
 			}
 		}
 
-		this.checkForStuck(vec3);
+		this.checkForStuck(vec3D);
 	}
 
 	/**
@@ -59,8 +59,8 @@ public class PathNavigateSwimmer extends PathNavigate {
 	 * Returns true when an entity of specified size could safely walk in a straight line between the two points. Args:
 	 * pos1, pos2, entityXSize, entityYSize, entityZSize
 	 */
-	protected boolean isDirectPathBetweenPoints(Vec3 posVec31, Vec3 posVec32, int sizeX, int sizeY, int sizeZ) {
-		MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(posVec31, new Vec3(posVec32.xCoord, posVec32.yCoord + (double) this.theEntity.height * 0.5D, posVec32.zCoord), false,
+	protected boolean isDirectPathBetweenPoints(Vec3d posVec31D, Vec3d posVec32D, int sizeX, int sizeY, int sizeZ) {
+		MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(posVec31D, new Vec3d(posVec32D.xCoord, posVec32D.yCoord + (double) this.theEntity.height * 0.5D, posVec32D.zCoord), false,
 				true, false);
 		return movingobjectposition == null || movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.MISS;
 	}

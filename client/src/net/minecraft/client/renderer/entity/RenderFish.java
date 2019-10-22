@@ -8,7 +8,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class RenderFish extends Render<EntityFishHook> {
 
@@ -56,14 +56,14 @@ public class RenderFish extends Render<EntityFishHook> {
 		if (player != null) {
 			float f7 = player.getSwingProgress(partialTicks);
 			float f8 = MathHelper.sin(MathHelper.sqrt_float(f7) * (float) Math.PI);
-			Vec3 vec3 = new Vec3(-0.36D, 0.03D, 0.35D);
-			vec3 = vec3.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * (float) Math.PI / 180.0F);
-			vec3 = vec3.rotateYaw(-(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks) * (float) Math.PI / 180.0F);
-			vec3 = vec3.rotateYaw(f8 * 0.5F);
-			vec3 = vec3.rotatePitch(-f8 * 0.7F);
-			double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double) partialTicks + vec3.xCoord;
-			double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double) partialTicks + vec3.yCoord;
-			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) partialTicks + vec3.zCoord;
+			Vec3d vec3D = new Vec3d(-0.36D, 0.03D, 0.35D);
+			vec3D = vec3D.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * (float) Math.PI / 180.0F);
+			vec3D = vec3D.rotateYaw(-(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks) * (float) Math.PI / 180.0F);
+			vec3D = vec3D.rotateYaw(f8 * 0.5F);
+			vec3D = vec3D.rotatePitch(-f8 * 0.7F);
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double) partialTicks + vec3D.xCoord;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double) partialTicks + vec3D.yCoord;
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) partialTicks + vec3D.zCoord;
 			double d3 = (double) player.getEyeHeight();
 
 			//            if (Settings.getPerspective() > 0 || entity.angler != Minecraft.getMinecraft().thePlayer)

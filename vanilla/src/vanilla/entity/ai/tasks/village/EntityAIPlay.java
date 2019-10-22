@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 import vanilla.entity.ai.RandomPositionGenerator;
 import vanilla.entity.ai.tasks.EntityAIBase;
 import vanilla.entity.passive.EntityVillager;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 import java.util.List;
 
@@ -46,9 +46,9 @@ public class EntityAIPlay extends EntityAIBase {
 		}
 
 		if (this.targetVillager == null) {
-			Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
+			Vec3d vec3D = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
 
-			if (vec3 == null) {
+			if (vec3D == null) {
 				return false;
 			}
 		}
@@ -93,13 +93,13 @@ public class EntityAIPlay extends EntityAIBase {
 				this.villagerObj.getNavigator().tryMoveToEntityLiving(this.targetVillager, this.speed);
 			}
 		} else if (this.villagerObj.getNavigator().noPath()) {
-			Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
+			Vec3d vec3D = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
 
-			if (vec3 == null) {
+			if (vec3D == null) {
 				return;
 			}
 
-			this.villagerObj.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, this.speed);
+			this.villagerObj.getNavigator().tryMoveToXYZ(vec3D.xCoord, vec3D.yCoord, vec3D.zCoord, this.speed);
 		}
 	}
 

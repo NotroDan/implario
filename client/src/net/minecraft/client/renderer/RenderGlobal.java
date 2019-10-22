@@ -1339,16 +1339,16 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				Shaders.disableTexture2D();
 			}
 
-			Vec3 vec3 = this.theWorld.getSkyColor(this.mc.getRenderViewEntity(), partialTicks);
-			vec3 = CustomColors.getSkyColor(vec3, this.mc.theWorld, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
+			Vec3d vec3D = this.theWorld.getSkyColor(this.mc.getRenderViewEntity(), partialTicks);
+			vec3D = CustomColors.getSkyColor(vec3D, this.mc.theWorld, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
 
 			if (flag1) {
-				Shaders.setSkyColor(vec3);
+				Shaders.setSkyColor(vec3D);
 			}
 
-			float f = (float) vec3.xCoord;
-			float f1 = (float) vec3.yCoord;
-			float f2 = (float) vec3.zCoord;
+			float f = (float) vec3D.xCoord;
+			float f1 = (float) vec3D.yCoord;
+			float f2 = (float) vec3D.zCoord;
 
 			if (pass != 2) {
 				float f3 = (f * 30.0F + f1 * 59.0F + f2 * 11.0F) / 100.0F;
@@ -1632,10 +1632,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 					if (this.cloudRenderer.shouldUpdateGlList()) {
 						this.cloudRenderer.startUpdateGlList();
-						Vec3 vec3 = this.theWorld.getCloudColour(partialTicks);
-						float f = (float) vec3.xCoord;
-						float f1 = (float) vec3.yCoord;
-						float f2 = (float) vec3.zCoord;
+						Vec3d vec3D = this.theWorld.getCloudColour(partialTicks);
+						float f = (float) vec3D.xCoord;
+						float f1 = (float) vec3D.yCoord;
+						float f2 = (float) vec3D.zCoord;
 
 						if (pass != 2) {
 							float f3 = (f * 30.0F + f1 * 59.0F + f2 * 11.0F) / 100.0F;
@@ -1718,10 +1718,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		this.renderEngine.bindTexture(locationCloudsPng);
 		G.enableBlend();
 		G.tryBlendFuncSeparate(770, 771, 1, 0);
-		Vec3 vec3 = this.theWorld.getCloudColour(partialTicks);
-		float f4 = (float) vec3.xCoord;
-		float f5 = (float) vec3.yCoord;
-		float f6 = (float) vec3.zCoord;
+		Vec3d vec3D = this.theWorld.getCloudColour(partialTicks);
+		float f4 = (float) vec3D.xCoord;
+		float f5 = (float) vec3D.yCoord;
+		float f6 = (float) vec3D.zCoord;
 
 		if (pass != 2) {
 			float f7 = (f4 * 30.0F + f5 * 59.0F + f6 * 11.0F) / 100.0F;

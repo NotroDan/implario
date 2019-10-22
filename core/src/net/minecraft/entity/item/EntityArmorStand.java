@@ -317,7 +317,7 @@ public class EntityArmorStand extends EntityLivingBase {
 	/**
 	 * New version of interactWith that includes vector information on where precisely the player targeted.
 	 */
-	public boolean interactAt(Player player, Vec3 targetVec3) {
+	public boolean interactAt(Player player, Vec3d targetVec3D) {
 		if (this.func_181026_s()) {
 			return false;
 		}
@@ -350,7 +350,7 @@ public class EntityArmorStand extends EntityLivingBase {
 			double d2 = 1.6D;
 			int j = 0;
 			boolean flag1 = this.isSmall();
-			double d3 = flag1 ? targetVec3.yCoord * 2.0D : targetVec3.yCoord;
+			double d3 = flag1 ? targetVec3D.yCoord * 2.0D : targetVec3D.yCoord;
 
 			if (d3 >= 0.1D && d3 < 0.1D + (flag1 ? 0.8D : 0.45D) && this.contents[1] != null) {
 				j = 1;

@@ -9,7 +9,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class S27PacketExplosion implements Packet<INetHandlerPlayClient> {
 
@@ -25,7 +25,7 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient> {
 	public S27PacketExplosion() {
 	}
 
-	public S27PacketExplosion(double p_i45193_1_, double y, double z, float strengthIn, List<BlockPos> affectedBlocksIn, Vec3 p_i45193_9_) {
+	public S27PacketExplosion(double p_i45193_1_, double y, double z, float strengthIn, List<BlockPos> affectedBlocksIn, Vec3d p_i45193_9_) {
 		this.posX = p_i45193_1_;
 		this.posY = y;
 		this.posZ = z;

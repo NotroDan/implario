@@ -3,7 +3,7 @@ package net.minecraft.client.game.model;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import optifine.Config;
 import shadersmod.client.SVertexFormat;
 
@@ -44,12 +44,12 @@ public class TexturedQuad {
 	 * renderer and reused later.
 	 */
 	public void draw(WorldRenderer renderer, float scale) {
-		Vec3 vec3 = this.vertexPositions[1].vector3D.subtractReverse(this.vertexPositions[0].vector3D);
-		Vec3 vec31 = this.vertexPositions[1].vector3D.subtractReverse(this.vertexPositions[2].vector3D);
-		Vec3 vec32 = vec31.crossProduct(vec3).normalize();
-		float f = (float) vec32.xCoord;
-		float f1 = (float) vec32.yCoord;
-		float f2 = (float) vec32.zCoord;
+		Vec3d vec3D = this.vertexPositions[1].vector3D.subtractReverse(this.vertexPositions[0].vector3D);
+		Vec3d vec31D = this.vertexPositions[1].vector3D.subtractReverse(this.vertexPositions[2].vector3D);
+		Vec3d vec32D = vec31D.crossProduct(vec3D).normalize();
+		float f = (float) vec32D.xCoord;
+		float f1 = (float) vec32D.yCoord;
+		float f2 = (float) vec32D.zCoord;
 
 		if (this.invertNormal) {
 			f = -f;

@@ -191,7 +191,7 @@ public class AxisAlignedBB {
 	/**
 	 * Returns if the supplied Vec3D is completely inside the bounding box
 	 */
-	public boolean isVecInside(Vec3 vec) {
+	public boolean isVecInside(Vec3d vec) {
 		return vec.xCoord > this.minX && vec.xCoord < this.maxX ? vec.yCoord > this.minY && vec.yCoord < this.maxY ? vec.zCoord > this.minZ && vec.zCoord < this.maxZ : false : false;
 	}
 
@@ -218,104 +218,104 @@ public class AxisAlignedBB {
 		return new AxisAlignedBB(d0, d1, d2, d3, d4, d5);
 	}
 
-	public MovingObjectPosition calculateIntercept(Vec3 vecA, Vec3 vecB) {
-		Vec3 vec3 = vecA.getIntermediateWithXValue(vecB, this.minX);
-		Vec3 vec31 = vecA.getIntermediateWithXValue(vecB, this.maxX);
-		Vec3 vec32 = vecA.getIntermediateWithYValue(vecB, this.minY);
-		Vec3 vec33 = vecA.getIntermediateWithYValue(vecB, this.maxY);
-		Vec3 vec34 = vecA.getIntermediateWithZValue(vecB, this.minZ);
-		Vec3 vec35 = vecA.getIntermediateWithZValue(vecB, this.maxZ);
+	public MovingObjectPosition calculateIntercept(Vec3d vecA, Vec3d vecB) {
+		Vec3d vec3D = vecA.getIntermediateWithXValue(vecB, this.minX);
+		Vec3d vec31D = vecA.getIntermediateWithXValue(vecB, this.maxX);
+		Vec3d vec32D = vecA.getIntermediateWithYValue(vecB, this.minY);
+		Vec3d vec33D = vecA.getIntermediateWithYValue(vecB, this.maxY);
+		Vec3d vec34D = vecA.getIntermediateWithZValue(vecB, this.minZ);
+		Vec3d vec35D = vecA.getIntermediateWithZValue(vecB, this.maxZ);
 
-		if (!this.isVecInYZ(vec3)) {
-			vec3 = null;
+		if (!this.isVecInYZ(vec3D)) {
+			vec3D = null;
 		}
 
-		if (!this.isVecInYZ(vec31)) {
-			vec31 = null;
+		if (!this.isVecInYZ(vec31D)) {
+			vec31D = null;
 		}
 
-		if (!this.isVecInXZ(vec32)) {
-			vec32 = null;
+		if (!this.isVecInXZ(vec32D)) {
+			vec32D = null;
 		}
 
-		if (!this.isVecInXZ(vec33)) {
-			vec33 = null;
+		if (!this.isVecInXZ(vec33D)) {
+			vec33D = null;
 		}
 
-		if (!this.isVecInXY(vec34)) {
-			vec34 = null;
+		if (!this.isVecInXY(vec34D)) {
+			vec34D = null;
 		}
 
-		if (!this.isVecInXY(vec35)) {
-			vec35 = null;
+		if (!this.isVecInXY(vec35D)) {
+			vec35D = null;
 		}
 
-		Vec3 vec36 = null;
+		Vec3d vec36D = null;
 
-		if (vec3 != null) {
-			vec36 = vec3;
+		if (vec3D != null) {
+			vec36D = vec3D;
 		}
 
-		if (vec31 != null && (vec36 == null || vecA.squareDistanceTo(vec31) < vecA.squareDistanceTo(vec36))) {
-			vec36 = vec31;
+		if (vec31D != null && (vec36D == null || vecA.squareDistanceTo(vec31D) < vecA.squareDistanceTo(vec36D))) {
+			vec36D = vec31D;
 		}
 
-		if (vec32 != null && (vec36 == null || vecA.squareDistanceTo(vec32) < vecA.squareDistanceTo(vec36))) {
-			vec36 = vec32;
+		if (vec32D != null && (vec36D == null || vecA.squareDistanceTo(vec32D) < vecA.squareDistanceTo(vec36D))) {
+			vec36D = vec32D;
 		}
 
-		if (vec33 != null && (vec36 == null || vecA.squareDistanceTo(vec33) < vecA.squareDistanceTo(vec36))) {
-			vec36 = vec33;
+		if (vec33D != null && (vec36D == null || vecA.squareDistanceTo(vec33D) < vecA.squareDistanceTo(vec36D))) {
+			vec36D = vec33D;
 		}
 
-		if (vec34 != null && (vec36 == null || vecA.squareDistanceTo(vec34) < vecA.squareDistanceTo(vec36))) {
-			vec36 = vec34;
+		if (vec34D != null && (vec36D == null || vecA.squareDistanceTo(vec34D) < vecA.squareDistanceTo(vec36D))) {
+			vec36D = vec34D;
 		}
 
-		if (vec35 != null && (vec36 == null || vecA.squareDistanceTo(vec35) < vecA.squareDistanceTo(vec36))) {
-			vec36 = vec35;
+		if (vec35D != null && (vec36D == null || vecA.squareDistanceTo(vec35D) < vecA.squareDistanceTo(vec36D))) {
+			vec36D = vec35D;
 		}
 
-		if (vec36 == null) {
+		if (vec36D == null) {
 			return null;
 		}
 		EnumFacing enumfacing = null;
 
-		if (vec36 == vec3) {
+		if (vec36D == vec3D) {
 			enumfacing = EnumFacing.WEST;
-		} else if (vec36 == vec31) {
+		} else if (vec36D == vec31D) {
 			enumfacing = EnumFacing.EAST;
-		} else if (vec36 == vec32) {
+		} else if (vec36D == vec32D) {
 			enumfacing = EnumFacing.DOWN;
-		} else if (vec36 == vec33) {
+		} else if (vec36D == vec33D) {
 			enumfacing = EnumFacing.UP;
-		} else if (vec36 == vec34) {
+		} else if (vec36D == vec34D) {
 			enumfacing = EnumFacing.NORTH;
 		} else {
 			enumfacing = EnumFacing.SOUTH;
 		}
 
-		return new MovingObjectPosition(vec36, enumfacing);
+		return new MovingObjectPosition(vec36D, enumfacing);
 	}
 
 	/**
 	 * Checks if the specified vector is within the YZ dimensions of the bounding box. Args: Vec3D
 	 */
-	private boolean isVecInYZ(Vec3 vec) {
+	private boolean isVecInYZ(Vec3d vec) {
 		return vec == null ? false : vec.yCoord >= this.minY && vec.yCoord <= this.maxY && vec.zCoord >= this.minZ && vec.zCoord <= this.maxZ;
 	}
 
 	/**
 	 * Checks if the specified vector is within the XZ dimensions of the bounding box. Args: Vec3D
 	 */
-	private boolean isVecInXZ(Vec3 vec) {
+	private boolean isVecInXZ(Vec3d vec) {
 		return vec == null ? false : vec.xCoord >= this.minX && vec.xCoord <= this.maxX && vec.zCoord >= this.minZ && vec.zCoord <= this.maxZ;
 	}
 
 	/**
 	 * Checks if the specified vector is within the XY dimensions of the bounding box. Args: Vec3D
 	 */
-	private boolean isVecInXY(Vec3 vec) {
+	private boolean isVecInXY(Vec3d vec) {
 		return vec == null ? false : vec.xCoord >= this.minX && vec.xCoord <= this.maxX && vec.yCoord >= this.minY && vec.yCoord <= this.maxY;
 	}
 

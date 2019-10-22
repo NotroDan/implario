@@ -9,7 +9,7 @@ import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.World;
 
@@ -42,7 +42,7 @@ public abstract class PathNavigate {
 	/**
 	 * Coordinates of the entity's position last time a check was done (part of monitoring getting 'stuck')
 	 */
-	private Vec3 lastPosCheck = new Vec3(0.0D, 0.0D, 0.0D);
+	private Vec3d lastPosCheck = new Vec3d(0.0D, 0.0D, 0.0D);
 	private float heightRequirement = 1.0F;
 	private final PathFinder pathFinder;
 
@@ -152,9 +152,9 @@ public abstract class PathNavigate {
 			return false;
 		}
 		this.speed = speedIn;
-		Vec3 vec3 = this.getEntityPosition();
+		Vec3d vec3D = this.getEntityPosition();
 		this.ticksAtLastPos = this.totalTicks;
-		this.lastPosCheck = vec3;
+		this.lastPosCheck = vec3D;
 		return true;
 	}
 
@@ -172,20 +172,20 @@ public abstract class PathNavigate {
 			if (this.canNavigate()) {
 				this.pathFollow();
 			} else if (this.currentPath != null && this.currentPath.getCurrentPathIndex() < this.currentPath.getCurrentPathLength()) {
-				Vec3 vec3 = this.getEntityPosition();
-				Vec3 vec31 = this.currentPath.getVectorFromIndex(this.theEntity, this.currentPath.getCurrentPathIndex());
+				Vec3d vec3D = this.getEntityPosition();
+				Vec3d vec31D = this.currentPath.getVectorFromIndex(this.theEntity, this.currentPath.getCurrentPathIndex());
 
-				if (vec3.yCoord > vec31.yCoord && !this.theEntity.onGround && MathHelper.floor_double(vec3.xCoord) == MathHelper.floor_double(vec31.xCoord) && MathHelper.floor_double(
-						vec3.zCoord) == MathHelper.floor_double(vec31.zCoord)) {
+				if (vec3D.yCoord > vec31D.yCoord && !this.theEntity.onGround && MathHelper.floor_double(vec3D.xCoord) == MathHelper.floor_double(vec31D.xCoord) && MathHelper.floor_double(
+						vec3D.zCoord) == MathHelper.floor_double(vec31D.zCoord)) {
 					this.currentPath.setCurrentPathIndex(this.currentPath.getCurrentPathIndex() + 1);
 				}
 			}
 
 			if (!this.noPath()) {
-				Vec3 vec32 = this.currentPath.getPosition(this.theEntity);
+				Vec3d vec32D = this.currentPath.getPosition(this.theEntity);
 
-				if (vec32 != null) {
-					AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(vec32.xCoord, vec32.yCoord, vec32.zCoord, vec32.xCoord, vec32.yCoord, vec32.zCoord).expand(0.5D, 0.5D, 0.5D);
+				if (vec32D != null) {
+					AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(vec32D.xCoord, vec32D.yCoord, vec32D.zCoord, vec32D.xCoord, vec32D.yCoord, vec32D.zCoord).expand(0.5D, 0.5D, 0.5D);
 					List<AxisAlignedBB> list = this.worldObj.getCollidingBoundingBoxes(this.theEntity, axisalignedbb1.addCoord(0.0D, -1.0D, 0.0D));
 					double d0 = -1.0D;
 					axisalignedbb1 = axisalignedbb1.offset(0.0D, 1.0D, 0.0D);
@@ -194,18 +194,18 @@ public abstract class PathNavigate {
 						d0 = axisalignedbb.calculateYOffset(axisalignedbb1, d0);
 					}
 
-					this.theEntity.getMoveHelper().setMoveTo(vec32.xCoord, vec32.yCoord + d0, vec32.zCoord, this.speed);
+					this.theEntity.getMoveHelper().setMoveTo(vec32D.xCoord, vec32D.yCoord + d0, vec32D.zCoord, this.speed);
 				}
 			}
 		}
 	}
 
 	protected void pathFollow() {
-		Vec3 vec3 = this.getEntityPosition();
+		Vec3d vec3D = this.getEntityPosition();
 		int i = this.currentPath.getCurrentPathLength();
 
 		for (int j = this.currentPath.getCurrentPathIndex(); j < this.currentPath.getCurrentPathLength(); ++j) {
-			if (this.currentPath.getPathPointFromIndex(j).yCoord != (int) vec3.yCoord) {
+			if (this.currentPath.getPathPointFromIndex(j).yCoord != (int) vec3D.yCoord) {
 				i = j;
 				break;
 			}
@@ -214,9 +214,9 @@ public abstract class PathNavigate {
 		float f = this.theEntity.width * this.theEntity.width * this.heightRequirement;
 
 		for (int k = this.currentPath.getCurrentPathIndex(); k < i; ++k) {
-			Vec3 vec31 = this.currentPath.getVectorFromIndex(this.theEntity, k);
+			Vec3d vec31D = this.currentPath.getVectorFromIndex(this.theEntity, k);
 
-			if (vec3.squareDistanceTo(vec31) < (double) f) {
+			if (vec3D.squareDistanceTo(vec31D) < (double) f) {
 				this.currentPath.setCurrentPathIndex(k + 1);
 			}
 		}
@@ -226,27 +226,27 @@ public abstract class PathNavigate {
 		int l = j1;
 
 		for (int i1 = i - 1; i1 >= this.currentPath.getCurrentPathIndex(); --i1) {
-			if (this.isDirectPathBetweenPoints(vec3, this.currentPath.getVectorFromIndex(this.theEntity, i1), j1, k1, l)) {
+			if (this.isDirectPathBetweenPoints(vec3D, this.currentPath.getVectorFromIndex(this.theEntity, i1), j1, k1, l)) {
 				this.currentPath.setCurrentPathIndex(i1);
 				break;
 			}
 		}
 
-		this.checkForStuck(vec3);
+		this.checkForStuck(vec3D);
 	}
 
 	/**
 	 * Checks if entity haven't been moved when last checked and if so, clears current {@link
 	 * PathEntity}
 	 */
-	protected void checkForStuck(Vec3 positionVec3) {
+	protected void checkForStuck(Vec3d positionVec3D) {
 		if (this.totalTicks - this.ticksAtLastPos > 100) {
-			if (positionVec3.squareDistanceTo(this.lastPosCheck) < 2.25D) {
+			if (positionVec3D.squareDistanceTo(this.lastPosCheck) < 2.25D) {
 				this.clearPathEntity();
 			}
 
 			this.ticksAtLastPos = this.totalTicks;
-			this.lastPosCheck = positionVec3;
+			this.lastPosCheck = positionVec3D;
 		}
 	}
 
@@ -264,7 +264,7 @@ public abstract class PathNavigate {
 		this.currentPath = null;
 	}
 
-	protected abstract Vec3 getEntityPosition();
+	protected abstract Vec3d getEntityPosition();
 
 	/**
 	 * If on ground or swimming and can swim
@@ -288,6 +288,6 @@ public abstract class PathNavigate {
 	 * Returns true when an entity of specified size could safely walk in a straight line between the two points. Args:
 	 * pos1, pos2, entityXSize, entityYSize, entityZSize
 	 */
-	protected abstract boolean isDirectPathBetweenPoints(Vec3 posVec31, Vec3 posVec32, int sizeX, int sizeY, int sizeZ);
+	protected abstract boolean isDirectPathBetweenPoints(Vec3d posVec31D, Vec3d posVec32D, int sizeX, int sizeY, int sizeZ);
 
 }

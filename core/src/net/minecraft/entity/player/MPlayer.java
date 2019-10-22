@@ -32,6 +32,7 @@ import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerDeathEvent;
 import net.minecraft.resources.event.events.player.PlayerJumpEvent;
+import net.minecraft.resources.event.events.player.PlayerTeleportEvent;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -51,6 +52,7 @@ import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 
+import javax.jws.Oneway;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -65,15 +67,7 @@ public class MPlayer extends Player implements ICrafting {
 	 * The NetServerHandler assigned to this player by the ServerConfigurationManager.
 	 */
 	public NetHandlerPlayServer playerNetServerHandler;
-
-	/**
-	 * Reference to the MinecraftServer object.
-	 */
 	public final MinecraftServer mcServer;
-
-	/**
-	 * The ItemInWorldManager belonging to this player
-	 */
 	public final ItemInWorldManager theItemInWorldManager;
 
 	/**
@@ -171,9 +165,14 @@ public class MPlayer extends Player implements ICrafting {
 		}
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
+	@Override
+	public void teleport(Location location){
+		if(ServerEvents.playerTeleport.isUseful())
+			location = ServerEvents.playerTeleport.call(new PlayerTeleportEvent(this, location)).getLocation();
+		playerNetServerHandler.setPlayerLocation(location.x(), location.y(), location.z(), location.yaw(), location.pitch());
+	}
+
+	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 
@@ -186,22 +185,19 @@ public class MPlayer extends Player implements ICrafting {
 		}
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
+	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setInteger("playerGameType", this.theItemInWorldManager.getGameType().getID());
 	}
 
-	/**
-	 * Add experience levels to this player.
-	 */
+	@Override
 	public void addExperienceLevel(int levels) {
 		super.addExperienceLevel(levels);
 		this.lastExperience = -1;
 	}
 
+	@Override
 	public void removeExperienceLevel(int levels) {
 		super.removeExperienceLevel(levels);
 		this.lastExperience = -1;
@@ -211,25 +207,19 @@ public class MPlayer extends Player implements ICrafting {
 		this.openContainer.onCraftGuiOpened(this);
 	}
 
-	/**
-	 * Sends an ENTER_COMBAT packet to the client
-	 */
+	@Override
 	public void sendEnterCombat() {
 		super.sendEnterCombat();
 		this.playerNetServerHandler.sendPacket(new S42PacketCombatEvent(this.getCombatTracker(), S42PacketCombatEvent.Event.ENTER_COMBAT));
 	}
 
-	/**
-	 * Sends an END_COMBAT packet to the client
-	 */
+	@Override
 	public void sendEndCombat() {
 		super.sendEndCombat();
 		this.playerNetServerHandler.sendPacket(new S42PacketCombatEvent(this.getCombatTracker(), S42PacketCombatEvent.Event.END_COMBAT));
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
+	@Override
 	public void onUpdate() {
 		this.theItemInWorldManager.updateBlockRemoving();
 		--this.respawnInvulnerabilityTicks;
@@ -392,9 +382,7 @@ public class MPlayer extends Player implements ICrafting {
 		}
 	}
 
-	/**
-	 * Called when the mob's health reaches 0.
-	 */
+	@Override
 	public void onDeath(DamageSource cause) {
 		if (ServerEvents.playerDeath.isUseful())
 			if(ServerEvents.playerDeath.call(new PlayerDeathEvent(this, cause)).isCanceled())return;
@@ -435,9 +423,7 @@ public class MPlayer extends Player implements ICrafting {
 		this.getCombatTracker().reset();
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
+	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
@@ -466,6 +452,7 @@ public class MPlayer extends Player implements ICrafting {
 		return super.attackEntityFrom(source, amount);
 	}
 
+	@Override
 	public boolean canAttackPlayer(Player other) {
 		return this.canPlayersAttack() && super.canAttackPlayer(other);
 	}
@@ -520,9 +507,6 @@ public class MPlayer extends Player implements ICrafting {
 		} else PlayerGuiBridge.open(this, type, base, true);
 	}
 
-	/**
-	 * Returns if other players can attack this player
-	 */
 	private boolean canPlayersAttack() {
 		return this.mcServer.isPVPEnabled();
 	}
@@ -571,14 +555,13 @@ public class MPlayer extends Player implements ICrafting {
 		}
 	}
 
-	/**
-	 * Called whenever an item is picked up from walking over it. Args: pickedUpEntity, stackSize
-	 */
+	@Override
 	public void onItemPickup(Entity p_71001_1_, int p_71001_2_) {
 		super.onItemPickup(p_71001_1_, p_71001_2_);
 		this.openContainer.detectAndSendChanges();
 	}
 
+	@Override
 	public SleepStatus trySleep(BlockPos bedLocation) {
 		SleepStatus entityplayer$enumstatus = super.trySleep(bedLocation);
 
@@ -592,13 +575,10 @@ public class MPlayer extends Player implements ICrafting {
 		return entityplayer$enumstatus;
 	}
 
-	/**
-	 * Wake up the player if they're sleeping.
-	 */
+	@Override
 	public void wakeUpPlayer(boolean p_70999_1_, boolean updateWorldFlag, boolean setSpawn) {
-		if (this.isPlayerSleeping()) {
+		if (this.isPlayerSleeping())
 			this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(this, 2));
-		}
 
 		super.wakeUpPlayer(p_70999_1_, updateWorldFlag, setSpawn);
 
@@ -607,9 +587,7 @@ public class MPlayer extends Player implements ICrafting {
 		}
 	}
 
-	/**
-	 * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
-	 */
+	@Override
 	public void mountEntity(Entity entityIn) {
 		Entity entity = this.ridingEntity;
 		super.mountEntity(entityIn);
@@ -620,8 +598,7 @@ public class MPlayer extends Player implements ICrafting {
 		}
 	}
 
-	protected void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos) {
-	}
+	protected void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos) {}
 
 	/**
 	 * process player falling based on movement packet
@@ -651,7 +628,6 @@ public class MPlayer extends Player implements ICrafting {
 	public void getNextWindowId() {
 		this.currentWindowId = this.currentWindowId % 100 + 1;
 	}
-
 
 	/**
 	 * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual
@@ -800,10 +776,7 @@ public class MPlayer extends Player implements ICrafting {
 		}
 	}
 
-	/**
-	 * Copies the values from the given player into this player if boolean par2 is true. Always clones Ender Chest
-	 * Inventory.
-	 */
+	@Override
 	public void clonePlayer(Player oldPlayer, boolean respawnFromEnd) {
 		super.clonePlayer(oldPlayer, respawnFromEnd);
 		this.lastExperience = -1;
@@ -812,26 +785,27 @@ public class MPlayer extends Player implements ICrafting {
 		this.destroyedItemsNetCache.addAll(((MPlayer) oldPlayer).destroyedItemsNetCache);
 	}
 
+	@Override
 	protected void onNewPotionEffect(PotionEffect id) {
 		super.onNewPotionEffect(id);
 		this.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(this.getEntityId(), id));
 	}
 
+	@Override
 	protected void onChangedPotionEffect(PotionEffect id, boolean p_70695_2_) {
 		super.onChangedPotionEffect(id, p_70695_2_);
 		this.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(this.getEntityId(), id));
 	}
 
+	@Override
 	protected void onFinishedPotionEffect(PotionEffect p_70688_1_) {
 		super.onFinishedPotionEffect(p_70688_1_);
 		this.playerNetServerHandler.sendPacket(new S1EPacketRemoveEntityEffect(this.getEntityId(), p_70688_1_));
 	}
 
-	/**
-	 * Sets the position of the entity and updates the 'last' variables
-	 */
+	@Override
 	public void setPositionAndUpdate(double x, double y, double z) {
-		this.playerNetServerHandler.setPlayerLocation(x, y, z, this.rotationYaw, this.rotationPitch);
+		playerNetServerHandler.setPlayerLocation(x, y, z, this.rotationYaw, this.rotationPitch);
 	}
 
 	/**
@@ -859,9 +833,7 @@ public class MPlayer extends Player implements ICrafting {
 		return (WorldServer) this.worldObj;
 	}
 
-	/**
-	 * Sets the player's game mode and sends it to them.
-	 */
+	@Override
 	public void setGameType(WorldSettings.GameType gameType) {
 		this.theItemInWorldManager.setGameType(gameType);
 		this.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(3, (float) gameType.getID()));
@@ -876,16 +848,12 @@ public class MPlayer extends Player implements ICrafting {
 		this.markPotionsDirty();
 	}
 
-	/**
-	 * Returns true if the player is in spectator mode.
-	 */
+	@Override
 	public boolean isSpectator() {
-		return this.theItemInWorldManager.getGameType() == WorldSettings.GameType.SPECTATOR;
+		return theItemInWorldManager.getGameType() == WorldSettings.GameType.SPECTATOR;
 	}
 
-	/**
-	 * Send a chat message to the CommandSender
-	 */
+	@Override
 	public void sendMessage(IChatComponent component) {
 		this.playerNetServerHandler.sendPacket(new S02PacketChat(component));
 	}
@@ -1017,11 +985,8 @@ public class MPlayer extends Player implements ICrafting {
 
 	@Override
 	public void jump() {
-		if (ServerEvents.playerJump.isUseful()){
-			PlayerJumpEvent event = new PlayerJumpEvent(this);
-			ServerEvents.playerJump.call(event);
-			if(event.isCanceled())return;
-		}
+		if (ServerEvents.playerJump.isUseful())
+			ServerEvents.playerJump.call(new PlayerJumpEvent(this));
 		super.jump();
 	}
 }

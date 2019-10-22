@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import org.lwjgl.opengl.GL11;
 import vanilla.entity.monster.EntityGuardian;
 
@@ -34,10 +34,10 @@ public class RenderGuardian extends RenderVanilla<EntityGuardian> {
 			EntityLivingBase entitylivingbase = livingEntity.getTargetedEntity();
 
 			if (entitylivingbase != null) {
-				Vec3 vec3 = this.func_177110_a(entitylivingbase, (double) entitylivingbase.height * 0.5D, 1.0F);
-				Vec3 vec31 = this.func_177110_a(livingEntity, (double) livingEntity.getEyeHeight(), 1.0F);
+				Vec3d vec3D = this.func_177110_a(entitylivingbase, (double) entitylivingbase.height * 0.5D, 1.0F);
+				Vec3d vec31D = this.func_177110_a(livingEntity, (double) livingEntity.getEyeHeight(), 1.0F);
 
-				if (camera.isBoundingBoxInFrustum(AxisAlignedBB.fromBounds(vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord, vec3.zCoord))) {
+				if (camera.isBoundingBoxInFrustum(AxisAlignedBB.fromBounds(vec31D.xCoord, vec31D.yCoord, vec31D.zCoord, vec3D.xCoord, vec3D.yCoord, vec3D.zCoord))) {
 					return true;
 				}
 			}
@@ -46,11 +46,11 @@ public class RenderGuardian extends RenderVanilla<EntityGuardian> {
 		return false;
 	}
 
-	private Vec3 func_177110_a(EntityLivingBase entityLivingBaseIn, double p_177110_2_, float p_177110_4_) {
+	private Vec3d func_177110_a(EntityLivingBase entityLivingBaseIn, double p_177110_2_, float p_177110_4_) {
 		double d0 = entityLivingBaseIn.lastTickPosX + (entityLivingBaseIn.posX - entityLivingBaseIn.lastTickPosX) * (double) p_177110_4_;
 		double d1 = p_177110_2_ + entityLivingBaseIn.lastTickPosY + (entityLivingBaseIn.posY - entityLivingBaseIn.lastTickPosY) * (double) p_177110_4_;
 		double d2 = entityLivingBaseIn.lastTickPosZ + (entityLivingBaseIn.posZ - entityLivingBaseIn.lastTickPosZ) * (double) p_177110_4_;
-		return new Vec3(d0, d1, d2);
+		return new Vec3d(d0, d1, d2);
 	}
 
 	/**
@@ -87,13 +87,13 @@ public class RenderGuardian extends RenderVanilla<EntityGuardian> {
 			float f4 = entity.getEyeHeight();
 			G.pushMatrix();
 			G.translate((float) x, (float) y + f4, (float) z);
-			Vec3 vec3 = this.func_177110_a(entitylivingbase, (double) entitylivingbase.height * 0.5D, partialTicks);
-			Vec3 vec31 = this.func_177110_a(entity, (double) f4, partialTicks);
-			Vec3 vec32 = vec3.subtract(vec31);
-			double d0 = vec32.lengthVector() + 1.0D;
-			vec32 = vec32.normalize();
-			float f5 = (float) Math.acos(vec32.yCoord);
-			float f6 = (float) Math.atan2(vec32.zCoord, vec32.xCoord);
+			Vec3d vec3D = this.func_177110_a(entitylivingbase, (double) entitylivingbase.height * 0.5D, partialTicks);
+			Vec3d vec31D = this.func_177110_a(entity, (double) f4, partialTicks);
+			Vec3d vec32D = vec3D.subtract(vec31D);
+			double d0 = vec32D.lengthVector() + 1.0D;
+			vec32D = vec32D.normalize();
+			float f5 = (float) Math.acos(vec32D.yCoord);
+			float f6 = (float) Math.atan2(vec32D.zCoord, vec32D.xCoord);
 			G.rotate(((float) Math.PI / 2F + -f6) * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
 			G.rotate(f5 * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
 			int i = 1;

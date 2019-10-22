@@ -2,7 +2,7 @@ package vanilla.entity.ai.tasks;
 
 import vanilla.entity.EntityCreature;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -36,14 +36,14 @@ public class EntityAIFleeSun extends EntityAIBase {
 		if (!this.theWorld.canSeeSky(new BlockPos(this.theCreature.posX, this.theCreature.getEntityBoundingBox().minY, this.theCreature.posZ))) {
 			return false;
 		}
-		Vec3 vec3 = this.findPossibleShelter();
+		Vec3d vec3D = this.findPossibleShelter();
 
-		if (vec3 == null) {
+		if (vec3D == null) {
 			return false;
 		}
-		this.shelterX = vec3.xCoord;
-		this.shelterY = vec3.yCoord;
-		this.shelterZ = vec3.zCoord;
+		this.shelterX = vec3D.xCoord;
+		this.shelterY = vec3D.yCoord;
+		this.shelterZ = vec3D.zCoord;
 		return true;
 	}
 
@@ -61,7 +61,7 @@ public class EntityAIFleeSun extends EntityAIBase {
 		this.theCreature.getNavigator().tryMoveToXYZ(this.shelterX, this.shelterY, this.shelterZ, this.movementSpeed);
 	}
 
-	private Vec3 findPossibleShelter() {
+	private Vec3d findPossibleShelter() {
 		Random random = this.theCreature.getRNG();
 		BlockPos blockpos = new BlockPos(this.theCreature.posX, this.theCreature.getEntityBoundingBox().minY, this.theCreature.posZ);
 
@@ -69,7 +69,7 @@ public class EntityAIFleeSun extends EntityAIBase {
 			BlockPos blockpos1 = blockpos.add(random.nextInt(20) - 10, random.nextInt(6) - 3, random.nextInt(20) - 10);
 
 			if (!this.theWorld.canSeeSky(blockpos1) && this.theCreature.getBlockPathWeight(blockpos1) < 0.0F) {
-				return new Vec3((double) blockpos1.getX(), (double) blockpos1.getY(), (double) blockpos1.getZ());
+				return new Vec3d((double) blockpos1.getX(), (double) blockpos1.getY(), (double) blockpos1.getZ());
 			}
 		}
 

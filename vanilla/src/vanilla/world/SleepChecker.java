@@ -31,11 +31,6 @@ public class SleepChecker implements Listener<PlayerSleepEvent> {
 	}
 
 	@Override
-	public Domain domain() {
-		return Vanilla.VANILLA;
-	}
-
-	@Override
 	public int priority() {
 		return -5;
 	}

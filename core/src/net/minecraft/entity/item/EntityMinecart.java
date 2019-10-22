@@ -391,7 +391,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 	@SuppressWarnings ("incomplete-switch")
 	protected void func_180460_a(BlockPos p_180460_1_, IBlockState p_180460_2_) {
 		this.fallDistance = 0.0F;
-		Vec3 vec3 = this.func_70489_a(this.posX, this.posY, this.posZ);
+		Vec3d vec3D = this.func_70489_a(this.posX, this.posY, this.posZ);
 		this.posY = (double) p_180460_1_.getY();
 		boolean flag = false;
 		boolean flag1 = false;
@@ -519,10 +519,10 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		}
 
 		this.applyDrag();
-		Vec3 vec31 = this.func_70489_a(this.posX, this.posY, this.posZ);
+		Vec3d vec31D = this.func_70489_a(this.posX, this.posY, this.posZ);
 
-		if (vec31 != null && vec3 != null) {
-			double d14 = (vec3.yCoord - vec31.yCoord) * 0.05D;
+		if (vec31D != null && vec3D != null) {
+			double d14 = (vec3D.yCoord - vec31D.yCoord) * 0.05D;
 			d5 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
 			if (d5 > 0.0D) {
@@ -530,7 +530,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 				this.motionZ = this.motionZ / d5 * (d5 + d14);
 			}
 
-			this.setPosition(this.posX, vec31.yCoord, this.posZ);
+			this.setPosition(this.posX, vec31D.yCoord, this.posZ);
 		}
 
 		int j = MathHelper.floor_double(this.posX);
@@ -594,7 +594,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		this.setEntityBoundingBox(new AxisAlignedBB(x - (double) f, y, z - (double) f, x + (double) f, y + (double) f1, z + (double) f));
 	}
 
-	public Vec3 func_70495_a(double p_70495_1_, double p_70495_3_, double p_70495_5_, double p_70495_7_) {
+	public Vec3d func_70495_a(double p_70495_1_, double p_70495_3_, double p_70495_5_, double p_70495_7_) {
 		int i = MathHelper.floor_double(p_70495_1_);
 		int j = MathHelper.floor_double(p_70495_3_);
 		int k = MathHelper.floor_double(p_70495_5_);
@@ -633,7 +633,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		return null;
 	}
 
-	public Vec3 func_70489_a(double p_70489_1_, double p_70489_3_, double p_70489_5_) {
+	public Vec3d func_70489_a(double p_70489_1_, double p_70489_3_, double p_70489_5_) {
 		int i = MathHelper.floor_double(p_70489_1_);
 		int j = MathHelper.floor_double(p_70489_3_);
 		int k = MathHelper.floor_double(p_70489_5_);
@@ -682,7 +682,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 				p_70489_3_ += 0.5D;
 			}
 
-			return new Vec3(p_70489_1_, p_70489_3_, p_70489_5_);
+			return new Vec3d(p_70489_1_, p_70489_3_, p_70489_5_);
 		}
 		return null;
 	}
@@ -776,10 +776,10 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 						if (entityIn instanceof EntityMinecart) {
 							double d4 = entityIn.posX - this.posX;
 							double d5 = entityIn.posZ - this.posZ;
-							Vec3 vec3 = new Vec3(d4, 0.0D, d5).normalize();
-							Vec3 vec31 = new Vec3((double) MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F), 0.0D,
+							Vec3d vec3D = new Vec3d(d4, 0.0D, d5).normalize();
+							Vec3d vec31D = new Vec3d((double) MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F), 0.0D,
 									(double) MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F)).normalize();
-							double d6 = Math.abs(vec3.dotProduct(vec31));
+							double d6 = Math.abs(vec3D.dotProduct(vec31D));
 
 							if (d6 < 0.800000011920929D) {
 								return;

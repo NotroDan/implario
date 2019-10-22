@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import vanilla.entity.ai.RandomPositionGenerator;
 import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.player.Player;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
 
@@ -25,14 +25,14 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
 	 */
 	public boolean shouldExecute() {
 		if (!this.horseHost.isTame() && this.horseHost.riddenByEntity != null) {
-			Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
+			Vec3d vec3D = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
 
-			if (vec3 == null) {
+			if (vec3D == null) {
 				return false;
 			}
-			this.targetX = vec3.xCoord;
-			this.targetY = vec3.yCoord;
-			this.targetZ = vec3.zCoord;
+			this.targetX = vec3D.xCoord;
+			this.targetY = vec3D.yCoord;
+			this.targetZ = vec3D.zCoord;
 			return true;
 		}
 		return false;

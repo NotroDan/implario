@@ -23,7 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 import optifine.*;
 import org.apache.commons.io.IOUtils;
@@ -2559,11 +2559,11 @@ public class Shaders {
 				}
 			}
 
-			Vec3 vec3 = mc.theWorld.getSkyColor(entity, partialTicks);
-			vec3 = CustomColors.getWorldSkyColor(vec3, currentWorld, entity, partialTicks);
-			skyColorR = (float) vec3.xCoord;
-			skyColorG = (float) vec3.yCoord;
-			skyColorB = (float) vec3.zCoord;
+			Vec3d vec3D = mc.theWorld.getSkyColor(entity, partialTicks);
+			vec3D = CustomColors.getWorldSkyColor(vec3D, currentWorld, entity, partialTicks);
+			skyColorR = (float) vec3D.xCoord;
+			skyColorG = (float) vec3D.yCoord;
+			skyColorB = (float) vec3D.zCoord;
 		}
 
 		isRenderingWorld = true;
@@ -3062,7 +3062,7 @@ public class Shaders {
 		pushEntity(-2, 0);
 	}
 
-	public static void setSkyColor(Vec3 v3color) {
+	public static void setSkyColor(Vec3d v3color) {
 		skyColorR = (float) v3color.xCoord;
 		skyColorG = (float) v3color.yCoord;
 		skyColorB = (float) v3color.zCoord;

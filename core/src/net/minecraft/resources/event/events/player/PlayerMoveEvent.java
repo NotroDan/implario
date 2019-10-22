@@ -2,7 +2,6 @@ package net.minecraft.resources.event.events.player;
 
 import lombok.*;
 import net.minecraft.entity.player.Player;
-import net.minecraft.util.Vec3;
 
 @Getter
 public class PlayerMoveEvent extends APlayerСancelableEvent {

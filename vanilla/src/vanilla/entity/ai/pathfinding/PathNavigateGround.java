@@ -8,7 +8,7 @@ import vanilla.entity.passive.EntityChicken;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 import vanilla.world.pathfinder.WalkNodeProcessor;
 
@@ -34,8 +34,8 @@ public class PathNavigateGround extends PathNavigate {
 		return this.theEntity.onGround || this.getCanSwim() && this.isInLiquid() || this.theEntity.isRiding() && this.theEntity instanceof EntityZombie && this.theEntity.ridingEntity instanceof EntityChicken;
 	}
 
-	protected Vec3 getEntityPosition() {
-		return new Vec3(this.theEntity.posX, (double) this.getPathablePosY(), this.theEntity.posZ);
+	protected Vec3d getEntityPosition() {
+		return new Vec3d(this.theEntity.posX, (double) this.getPathablePosY(), this.theEntity.posZ);
 	}
 
 	/**
@@ -89,11 +89,11 @@ public class PathNavigateGround extends PathNavigate {
 	 * Returns true when an entity of specified size could safely walk in a straight line between the two points. Args:
 	 * pos1, pos2, entityXSize, entityYSize, entityZSize
 	 */
-	protected boolean isDirectPathBetweenPoints(Vec3 posVec31, Vec3 posVec32, int sizeX, int sizeY, int sizeZ) {
-		int i = MathHelper.floor_double(posVec31.xCoord);
-		int j = MathHelper.floor_double(posVec31.zCoord);
-		double d0 = posVec32.xCoord - posVec31.xCoord;
-		double d1 = posVec32.zCoord - posVec31.zCoord;
+	protected boolean isDirectPathBetweenPoints(Vec3d posVec31D, Vec3d posVec32D, int sizeX, int sizeY, int sizeZ) {
+		int i = MathHelper.floor_double(posVec31D.xCoord);
+		int j = MathHelper.floor_double(posVec31D.zCoord);
+		double d0 = posVec32D.xCoord - posVec31D.xCoord;
+		double d1 = posVec32D.zCoord - posVec31D.zCoord;
 		double d2 = d0 * d0 + d1 * d1;
 
 		if (d2 < 1.0E-8D) {
@@ -105,15 +105,15 @@ public class PathNavigateGround extends PathNavigate {
 		sizeX = sizeX + 2;
 		sizeZ = sizeZ + 2;
 
-		if (!this.isSafeToStandAt(i, (int) posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
+		if (!this.isSafeToStandAt(i, (int) posVec31D.yCoord, j, sizeX, sizeY, sizeZ, posVec31D, d0, d1)) {
 			return false;
 		}
 		sizeX = sizeX - 2;
 		sizeZ = sizeZ - 2;
 		double d4 = 1.0D / Math.abs(d0);
 		double d5 = 1.0D / Math.abs(d1);
-		double d6 = (double) (i * 1) - posVec31.xCoord;
-		double d7 = (double) (j * 1) - posVec31.zCoord;
+		double d6 = (double) (i * 1) - posVec31D.xCoord;
+		double d7 = (double) (j * 1) - posVec31D.zCoord;
 
 		if (d0 >= 0.0D) {
 			++d6;
@@ -127,8 +127,8 @@ public class PathNavigateGround extends PathNavigate {
 		d7 = d7 / d1;
 		int k = d0 < 0.0D ? -1 : 1;
 		int l = d1 < 0.0D ? -1 : 1;
-		int i1 = MathHelper.floor_double(posVec32.xCoord);
-		int j1 = MathHelper.floor_double(posVec32.zCoord);
+		int i1 = MathHelper.floor_double(posVec32D.xCoord);
+		int j1 = MathHelper.floor_double(posVec32D.zCoord);
 		int k1 = i1 - i;
 		int l1 = j1 - j;
 
@@ -143,7 +143,7 @@ public class PathNavigateGround extends PathNavigate {
 				l1 = j1 - j;
 			}
 
-			if (!this.isSafeToStandAt(i, (int) posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
+			if (!this.isSafeToStandAt(i, (int) posVec31D.yCoord, j, sizeX, sizeY, sizeZ, posVec31D, d0, d1)) {
 				return false;
 			}
 		}
@@ -154,17 +154,17 @@ public class PathNavigateGround extends PathNavigate {
 	/**
 	 * Returns true when an entity could stand at a position, including solid blocks under the entire entity.
 	 */
-	private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3 vec31, double p_179683_8_, double p_179683_10_) {
+	private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3d vec31D, double p_179683_8_, double p_179683_10_) {
 		int i = x - sizeX / 2;
 		int j = z - sizeZ / 2;
 
-		if (!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, p_179683_8_, p_179683_10_)) {
+		if (!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31D, p_179683_8_, p_179683_10_)) {
 			return false;
 		}
 		for (int k = i; k < i + sizeX; ++k) {
 			for (int l = j; l < j + sizeZ; ++l) {
-				double d0 = (double) k + 0.5D - vec31.xCoord;
-				double d1 = (double) l + 0.5D - vec31.zCoord;
+				double d0 = (double) k + 0.5D - vec31D.xCoord;
+				double d1 = (double) l + 0.5D - vec31D.zCoord;
 
 				if (d0 * p_179683_8_ + d1 * p_179683_10_ >= 0.0D) {
 					Block block = this.worldObj.getBlockState(new BlockPos(k, y - 1, l)).getBlock();
@@ -191,7 +191,7 @@ public class PathNavigateGround extends PathNavigate {
 	/**
 	 * Returns true if an entity does not collide with any solid blocks at the position.
 	 */
-	private boolean isPositionClear(int p_179692_1_, int p_179692_2_, int p_179692_3_, int p_179692_4_, int p_179692_5_, int p_179692_6_, Vec3 p_179692_7_, double p_179692_8_, double p_179692_10_) {
+	private boolean isPositionClear(int p_179692_1_, int p_179692_2_, int p_179692_3_, int p_179692_4_, int p_179692_5_, int p_179692_6_, Vec3d p_179692_7_, double p_179692_8_, double p_179692_10_) {
 		for (BlockPos blockpos : BlockPos.getAllInBox(new BlockPos(p_179692_1_, p_179692_2_, p_179692_3_),
 				new BlockPos(p_179692_1_ + p_179692_4_ - 1, p_179692_2_ + p_179692_5_ - 1, p_179692_3_ + p_179692_6_ - 1))) {
 			double d0 = (double) blockpos.getX() + 0.5D - p_179692_7_.xCoord;

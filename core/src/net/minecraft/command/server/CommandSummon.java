@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -39,10 +39,10 @@ public class CommandSummon extends CommandBase {
 			throw new WrongUsageException("commands.summon.usage");
 		String s = args[0];
 		BlockPos blockpos = sender.getPosition();
-		Vec3 vec3 = sender.getPositionVector();
-		double d0 = vec3.xCoord;
-		double d1 = vec3.yCoord;
-		double d2 = vec3.zCoord;
+		Vec3d vec3D = sender.getPositionVector();
+		double d0 = vec3D.xCoord;
+		double d1 = vec3D.yCoord;
+		double d2 = vec3D.zCoord;
 
 		if (args.length >= 4) {
 			d0 = parseDouble(d0, args[1], true);

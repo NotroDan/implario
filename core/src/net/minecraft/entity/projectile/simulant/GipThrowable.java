@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -99,14 +99,14 @@ public abstract class GipThrowable {
 		if (this.posY < -64.0D) destinated = true;
 
 
-		Vec3 from = new Vec3(this.posX, this.posY, this.posZ);
-		Vec3 to = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+		Vec3d from = new Vec3d(this.posX, this.posY, this.posZ);
+		Vec3d to = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 		MovingObjectPosition movingobjectposition = this.world.rayTraceBlocks(from, to);
-		from = new Vec3(this.posX, this.posY, this.posZ);
-		to = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+		from = new Vec3d(this.posX, this.posY, this.posZ);
+		to = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
 		if (movingobjectposition != null) {
-			to = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+			to = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 
 		Entity entity = null;

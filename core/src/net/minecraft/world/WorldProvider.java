@@ -3,7 +3,7 @@ package net.minecraft.world;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -156,7 +156,7 @@ public abstract class WorldProvider {
 	/**
 	 * Return Vec3D with biome specific fog color
 	 */
-	public Vec3 getFogColor(float p_76562_1_, float p_76562_2_) {
+	public Vec3d getFogColor(float p_76562_1_, float p_76562_2_) {
 		float f = MathHelper.cos(p_76562_1_ * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
 		f = MathHelper.clamp_float(f, 0.0F, 1.0F);
 		float f1 = 0.7529412F;
@@ -165,7 +165,7 @@ public abstract class WorldProvider {
 		f1 = f1 * (f * 0.94F + 0.06F);
 		f2 = f2 * (f * 0.94F + 0.06F);
 		f3 = f3 * (f * 0.91F + 0.09F);
-		return new Vec3((double) f1, (double) f2, (double) f3);
+		return new Vec3d((double) f1, (double) f2, (double) f3);
 	}
 
 	/**

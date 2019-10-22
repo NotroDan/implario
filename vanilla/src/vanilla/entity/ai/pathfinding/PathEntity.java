@@ -1,7 +1,7 @@
 package vanilla.entity.ai.pathfinding;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class PathEntity {
 
@@ -72,17 +72,17 @@ public class PathEntity {
 	/**
 	 * Gets the vector of the PathPoint associated with the given index.
 	 */
-	public Vec3 getVectorFromIndex(Entity entityIn, int index) {
+	public Vec3d getVectorFromIndex(Entity entityIn, int index) {
 		double d0 = (double) this.points[index].xCoord + (double) (int) (entityIn.width + 1.0F) * 0.5D;
 		double d1 = (double) this.points[index].yCoord;
 		double d2 = (double) this.points[index].zCoord + (double) (int) (entityIn.width + 1.0F) * 0.5D;
-		return new Vec3(d0, d1, d2);
+		return new Vec3d(d0, d1, d2);
 	}
 
 	/**
 	 * returns the current PathEntity target node as Vec3D
 	 */
-	public Vec3 getPosition(Entity entityIn) {
+	public Vec3d getPosition(Entity entityIn) {
 		return this.getVectorFromIndex(entityIn, this.currentPathIndex);
 	}
 
@@ -108,7 +108,7 @@ public class PathEntity {
 	/**
 	 * Returns true if the final PathPoint in the PathEntity is equal to Vec3D coords.
 	 */
-	public boolean isDestinationSame(Vec3 vec) {
+	public boolean isDestinationSame(Vec3d vec) {
 		PathPoint pathpoint = this.getFinalPathPoint();
 		return pathpoint == null ? false : pathpoint.xCoord == (int) vec.xCoord && pathpoint.zCoord == (int) vec.zCoord;
 	}

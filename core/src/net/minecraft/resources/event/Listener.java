@@ -1,11 +1,8 @@
 package net.minecraft.resources.event;
 
-import net.minecraft.resources.Domain;
-
+@FunctionalInterface
 public interface Listener<T extends Event> {
 	void process(T event);
-
-	Domain domain();
 
 	default boolean ignoreCancelled(){
 		return false;

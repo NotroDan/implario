@@ -15,33 +15,33 @@ public class MovingObjectPosition {
 	/**
 	 * The vector position of the hit
 	 */
-	public Vec3 hitVec;
+	public Vec3d hitVec;
 
 	/**
 	 * The hit entity
 	 */
 	public Entity entityHit;
 
-	public MovingObjectPosition(Vec3 hitVecIn, EnumFacing facing, BlockPos blockPosIn) {
+	public MovingObjectPosition(Vec3d hitVecIn, EnumFacing facing, BlockPos blockPosIn) {
 		this(MovingObjectPosition.MovingObjectType.BLOCK, hitVecIn, facing, blockPosIn);
 	}
 
-	public MovingObjectPosition(Vec3 p_i45552_1_, EnumFacing facing) {
+	public MovingObjectPosition(Vec3d p_i45552_1_, EnumFacing facing) {
 		this(MovingObjectPosition.MovingObjectType.BLOCK, p_i45552_1_, facing, BlockPos.ORIGIN);
 	}
 
 	public MovingObjectPosition(Entity p_i2304_1_) {
-		this(p_i2304_1_, new Vec3(p_i2304_1_.posX, p_i2304_1_.posY, p_i2304_1_.posZ));
+		this(p_i2304_1_, new Vec3d(p_i2304_1_.posX, p_i2304_1_.posY, p_i2304_1_.posZ));
 	}
 
-	public MovingObjectPosition(MovingObjectPosition.MovingObjectType typeOfHitIn, Vec3 hitVecIn, EnumFacing sideHitIn, BlockPos blockPosIn) {
+	public MovingObjectPosition(MovingObjectPosition.MovingObjectType typeOfHitIn, Vec3d hitVecIn, EnumFacing sideHitIn, BlockPos blockPosIn) {
 		this.typeOfHit = typeOfHitIn;
 		this.blockPos = blockPosIn;
 		this.sideHit = sideHitIn;
-		this.hitVec = new Vec3(hitVecIn.xCoord, hitVecIn.yCoord, hitVecIn.zCoord);
+		this.hitVec = new Vec3d(hitVecIn.xCoord, hitVecIn.yCoord, hitVecIn.zCoord);
 	}
 
-	public MovingObjectPosition(Entity entityHitIn, Vec3 hitVecIn) {
+	public MovingObjectPosition(Entity entityHitIn, Vec3d hitVecIn) {
 		this.typeOfHit = MovingObjectPosition.MovingObjectType.ENTITY;
 		this.entityHit = entityHitIn;
 		this.hitVec = hitVecIn;

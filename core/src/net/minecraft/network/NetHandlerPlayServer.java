@@ -505,14 +505,14 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		itemstack = this.playerEntity.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.stackSize == 0) {
-			this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem] = null;
+			this.playerEntity.inventory.setItem(this.playerEntity.inventory.currentItem, null);
 			itemstack = null;
 		}
 
 		if (itemstack == null || itemstack.getMaxItemUseDuration() == 0) {
 			this.playerEntity.isChangingQuantityOnly = true;
-			this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem] = ItemStack.copyItemStack(
-					this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem]);
+			this.playerEntity.inventory.setItem(this.playerEntity.inventory.currentItem, ItemStack.copyItemStack(
+					this.playerEntity.inventory.getItem(this.playerEntity.inventory.currentItem)));
 			Slot slot = this.playerEntity.openContainer.getSlotFromInventory(this.playerEntity.inventory, this.playerEntity.inventory.currentItem);
 			this.playerEntity.openContainer.detectAndSendChanges();
 			this.playerEntity.isChangingQuantityOnly = false;

@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import net.minecraft.entity.Entity;
 
-public class BlockPos extends Vec3i {
+public class BlockPos extends Vec3i{
 
 	/**
 	 * The BlockPos with all coordinates 0
@@ -33,12 +33,27 @@ public class BlockPos extends Vec3i {
 		this(source.posX, source.posY, source.posZ);
 	}
 
-	public BlockPos(Vec3 source) {
+	public BlockPos(Vec3d source) {
 		this(source.xCoord, source.yCoord, source.zCoord);
 	}
 
 	public BlockPos(Vec3i source) {
 		this(source.getX(), source.getY(), source.getZ());
+	}
+
+	@Override
+	public double x() {
+		return x + 0.5;
+	}
+
+	@Override
+	public double y() {
+		return y + 0.5;
+	}
+
+	@Override
+	public double z() {
+		return z + 0.5;
 	}
 
 	/**

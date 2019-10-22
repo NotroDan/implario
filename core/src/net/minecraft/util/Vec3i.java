@@ -2,27 +2,14 @@ package net.minecraft.util;
 
 import com.google.common.base.Objects;
 
-public class Vec3i implements Comparable<Vec3i> {
+public class Vec3i implements Comparable<Vec3i>, Location {
 
 	/**
 	 * The Null vector constant (0, 0, 0)
 	 */
 	public static final Vec3i NULL_VECTOR = new Vec3i(0, 0, 0);
 
-	/**
-	 * X coordinate
-	 */
-	private final int x;
-
-	/**
-	 * Y coordinate
-	 */
-	private final int y;
-
-	/**
-	 * Z coordinate
-	 */
-	private final int z;
+	public final int x, y, z;
 
 	public Vec3i(int xIn, int yIn, int zIn) {
 		this.x = xIn;
@@ -32,6 +19,21 @@ public class Vec3i implements Comparable<Vec3i> {
 
 	public Vec3i(double xIn, double yIn, double zIn) {
 		this(MathHelper.floor_double(xIn), MathHelper.floor_double(yIn), MathHelper.floor_double(zIn));
+	}
+
+	@Override
+	public double x() {
+		return x;
+	}
+
+	@Override
+	public double y() {
+		return y;
+	}
+
+	@Override
+	public double z() {
+		return z;
 	}
 
 	public boolean equals(Object p_equals_1_) {

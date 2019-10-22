@@ -7,7 +7,7 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 
 public class CommandResultStats {
@@ -50,7 +50,7 @@ public class CommandResultStats {
 					return sender.getPosition();
 				}
 
-				public Vec3 getPositionVector() {
+				public Vec3d getPositionVector() {
 					return sender.getPositionVector();
 				}
 

@@ -256,7 +256,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	 */
 	public int dimension;
 	protected BlockPos field_181016_an;
-	protected Vec3 field_181017_ao;
+	protected Vec3d field_181017_ao;
 	protected EnumFacing field_181018_ap;
 	private boolean invulnerable;
 	protected UUID entityUniqueID;
@@ -1247,7 +1247,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	/**
 	 * interpolated look vector
 	 */
-	public Vec3 getLook(float partialTicks) {
+	public Vec3d getLook(float partialTicks) {
 		if (partialTicks == 1.0F) {
 			return this.getVectorForRotation(this.rotationPitch, this.rotationYaw);
 		}
@@ -1259,29 +1259,29 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	/**
 	 * Creates a Vec3 using the pitch and yaw of the entities rotation.
 	 */
-	protected final Vec3 getVectorForRotation(float pitch, float yaw) {
+	protected final Vec3d getVectorForRotation(float pitch, float yaw) {
 		float f = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
 		float f1 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
 		float f2 = -MathHelper.cos(-pitch * 0.017453292F);
 		float f3 = MathHelper.sin(-pitch * 0.017453292F);
-		return new Vec3((double) (f1 * f2), (double) f3, (double) (f * f2));
+		return new Vec3d((double) (f1 * f2), (double) f3, (double) (f * f2));
 	}
 
-	public Vec3 getPositionEyes(float partialTicks) {
+	public Vec3d getPositionEyes(float partialTicks) {
 		if (partialTicks == 1.0F) {
-			return new Vec3(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ);
+			return new Vec3d(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ);
 		}
 		double d0 = this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks;
 		double d1 = this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks + (double) this.getEyeHeight();
 		double d2 = this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks;
-		return new Vec3(d0, d1, d2);
+		return new Vec3d(d0, d1, d2);
 	}
 
 	public MovingObjectPosition rayTrace(double blockReachDistance, float partialTicks) {
-		Vec3 vec3 = this.getPositionEyes(partialTicks);
-		Vec3 vec31 = this.getLook(partialTicks);
-		Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
-		return this.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
+		Vec3d vec3D = this.getPositionEyes(partialTicks);
+		Vec3d vec31D = this.getLook(partialTicks);
+		Vec3d vec32D = vec3D.addVector(vec31D.xCoord * blockReachDistance, vec31D.yCoord * blockReachDistance, vec31D.zCoord * blockReachDistance);
+		return this.worldObj.rayTraceBlocks(vec3D, vec32D, false, false, true);
 	}
 
 	/**
@@ -1724,7 +1724,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	/**
 	 * returns a (normalized) vector of where this entity is looking
 	 */
-	public Vec3 getLookVec() {
+	public Vec3d getLookVec() {
 		return null;
 	}
 
@@ -1741,7 +1741,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 						d0 - (double) blockpattern$patternhelper.func_181118_d()));
 				double d2 = MathHelper.func_181160_c(this.posY - 1.0D, (double) blockpattern$patternhelper.func_181117_a().getY(),
 						(double) (blockpattern$patternhelper.func_181117_a().getY() - blockpattern$patternhelper.func_181119_e()));
-				this.field_181017_ao = new Vec3(d1, d2, 0.0D);
+				this.field_181017_ao = new Vec3d(d1, d2, 0.0D);
 				this.field_181018_ap = blockpattern$patternhelper.getFinger();
 			}
 
@@ -2125,7 +2125,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 		return 3;
 	}
 
-	public Vec3 func_181014_aG() {
+	public Vec3d func_181014_aG() {
 		return this.field_181017_ao;
 	}
 
@@ -2303,8 +2303,8 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	 * Get the position vector. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return 0.0D,
 	 * 0.0D, 0.0D
 	 */
-	public Vec3 getPositionVector() {
-		return new Vec3(this.posX, this.posY, this.posZ);
+	public Vec3d getPositionVector() {
+		return new Vec3d(this.posX, this.posY, this.posZ);
 	}
 
 	/**
@@ -2354,7 +2354,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	/**
 	 * New version of interactWith that includes vector information on where precisely the player targeted.
 	 */
-	public boolean interactAt(Player player, Vec3 targetVec3) {
+	public boolean interactAt(Player player, Vec3d targetVec3D) {
 		return false;
 	}
 

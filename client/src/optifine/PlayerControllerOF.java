@@ -9,7 +9,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 
 public class PlayerControllerOF extends PlayerControllerMP {
@@ -47,7 +47,7 @@ public class PlayerControllerOF extends PlayerControllerMP {
 		return flag;
 	}
 
-	public boolean onPlayerRightClick(CPlayer player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3 hitVec) {
+	public boolean onPlayerRightClick(CPlayer player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3d hitVec) {
 		this.acting = true;
 		boolean flag = super.onPlayerRightClick(player, worldIn, heldStack, hitPos, side, hitVec);
 		this.acting = false;

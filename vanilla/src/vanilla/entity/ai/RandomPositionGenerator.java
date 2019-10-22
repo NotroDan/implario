@@ -5,7 +5,7 @@ import java.util.Random;
 import vanilla.entity.EntityCreature;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class RandomPositionGenerator {
 
@@ -13,28 +13,28 @@ public class RandomPositionGenerator {
 	 * used to store a driection when the user passes a point to move towards or away from. WARNING: NEVER THREAD SAFE.
 	 * MULTIPLE findTowards and findAway calls, will share this var
 	 */
-	private static Vec3 staticVector = new Vec3(0.0D, 0.0D, 0.0D);
+	private static Vec3d staticVector = new Vec3d(0.0D, 0.0D, 0.0D);
 
 	/**
 	 * finds a random target within par1(x,z) and par2 (y) blocks
 	 */
-	public static Vec3 findRandomTarget(EntityCreature entitycreatureIn, int xz, int y) {
-		return findRandomTargetBlock(entitycreatureIn, xz, y, (Vec3) null);
+	public static Vec3d findRandomTarget(EntityCreature entitycreatureIn, int xz, int y) {
+		return findRandomTargetBlock(entitycreatureIn, xz, y, (Vec3d) null);
 	}
 
 	/**
 	 * finds a random target within par1(x,z) and par2 (y) blocks in the direction of the point par3
 	 */
-	public static Vec3 findRandomTargetBlockTowards(EntityCreature entitycreatureIn, int xz, int y, Vec3 targetVec3) {
-		staticVector = targetVec3.subtract(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ);
+	public static Vec3d findRandomTargetBlockTowards(EntityCreature entitycreatureIn, int xz, int y, Vec3d targetVec3D) {
+		staticVector = targetVec3D.subtract(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ);
 		return findRandomTargetBlock(entitycreatureIn, xz, y, staticVector);
 	}
 
 	/**
 	 * finds a random target within par1(x,z) and par2 (y) blocks in the reverse direction of the point par3
 	 */
-	public static Vec3 findRandomTargetBlockAwayFrom(EntityCreature entitycreatureIn, int xz, int y, Vec3 targetVec3) {
-		staticVector = new Vec3(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ).subtract(targetVec3);
+	public static Vec3d findRandomTargetBlockAwayFrom(EntityCreature entitycreatureIn, int xz, int y, Vec3d targetVec3D) {
+		staticVector = new Vec3d(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ).subtract(targetVec3D);
 		return findRandomTargetBlock(entitycreatureIn, xz, y, staticVector);
 	}
 
@@ -42,7 +42,7 @@ public class RandomPositionGenerator {
 	 * searches 10 blocks at random in a within par1(x,z) and par2 (y) distance, ignores those not in the direction of
 	 * par3Vec3, then points to the tile for which creature.getBlockPathWeight returns the highest number
 	 */
-	private static Vec3 findRandomTargetBlock(EntityCreature entitycreatureIn, int xz, int y, Vec3 targetVec3) {
+	private static Vec3d findRandomTargetBlock(EntityCreature entitycreatureIn, int xz, int y, Vec3d targetVec3D) {
 		Random random = entitycreatureIn.getRNG();
 		boolean flag = false;
 		int i = 0;
@@ -65,7 +65,7 @@ public class RandomPositionGenerator {
 			int k1 = random.nextInt(2 * y + 1) - y;
 			int i1 = random.nextInt(2 * xz + 1) - xz;
 
-			if (targetVec3 == null || (double) l * targetVec3.xCoord + (double) i1 * targetVec3.zCoord >= 0.0D) {
+			if (targetVec3D == null || (double) l * targetVec3D.xCoord + (double) i1 * targetVec3D.zCoord >= 0.0D) {
 				if (entitycreatureIn.hasHome() && xz > 1) {
 					BlockPos blockpos = entitycreatureIn.getHomePosition();
 
@@ -102,7 +102,7 @@ public class RandomPositionGenerator {
 		}
 
 		if (flag) {
-			return new Vec3((double) i, (double) j, (double) k);
+			return new Vec3d((double) i, (double) j, (double) k);
 		}
 		return null;
 	}

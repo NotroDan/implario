@@ -15,27 +15,13 @@ import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ReportedException;
 
+import java.util.Arrays;
+
 public class InventoryPlayer implements IInventory {
-
-	/**
-	 * An array of 36 item stacks indicating the main player inventory (including the visible bar).
-	 */
-	public ItemStack[] mainInventory = new ItemStack[36];
-
-	/**
-	 * An array of 4 item stacks containing the currently worn armor pieces.
-	 */
-	public ItemStack[] armorInventory = new ItemStack[4];
-
-	/**
-	 * The index of the currently held item (0-8).
-	 */
+	public final ItemStack[] mainInventory = new ItemStack[36];
+	public final ItemStack[] armorInventory = new ItemStack[4];
 	public int currentItem;
-
-	/**
-	 * The player whose inventory this is.
-	 */
-	public Player player;
+	public final Player player;
 	private ItemStack itemStack;
 
 	/**
@@ -53,6 +39,22 @@ public class InventoryPlayer implements IInventory {
 	 */
 	public ItemStack getCurrentItem() {
 		return this.currentItem < 9 && this.currentItem >= 0 ? this.mainInventory[this.currentItem] : null;
+	}
+
+	public ItemStack getItem(int slot){
+		return mainInventory[slot];
+	}
+
+	public void setItem(int slot, ItemStack stack){
+		mainInventory[slot] = stack;
+	}
+
+	public ItemStack getArmor(int slot){
+		return armorInventory[slot];
+	}
+
+	public void setArmor(int slot, ItemStack stack){
+		armorInventory[slot] = stack;
 	}
 
 	/**
@@ -475,9 +477,7 @@ public class InventoryPlayer implements IInventory {
 	 * Reads from the given tag list and fills the slots in the inventory with the correct items.
 	 */
 	public void readFromNBT(NBTTagList p_70443_1_) {
-		this.mainInventory = new ItemStack[36];
-		this.armorInventory = new ItemStack[4];
-
+		clear();
 		for (int i = 0; i < p_70443_1_.tagCount(); ++i) {
 			NBTTagCompound nbttagcompound = p_70443_1_.getCompoundTagAt(i);
 			int j = nbttagcompound.getByte("Slot") & 255;
@@ -707,13 +707,7 @@ public class InventoryPlayer implements IInventory {
 	}
 
 	public void clear() {
-		for (int i = 0; i < this.mainInventory.length; ++i) {
-			this.mainInventory[i] = null;
-		}
-
-		for (int j = 0; j < this.armorInventory.length; ++j) {
-			this.armorInventory[j] = null;
-		}
+		Arrays.fill(mainInventory, null);
+		Arrays.fill(armorInventory, null);
 	}
-
 }

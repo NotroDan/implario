@@ -2,7 +2,7 @@ package vanilla.entity.ai.tasks;
 
 import vanilla.entity.EntityCreature;
 import vanilla.entity.ai.RandomPositionGenerator;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class EntityAIWander extends EntityAIBase {
 
@@ -36,14 +36,14 @@ public class EntityAIWander extends EntityAIBase {
 			if (this.entity.getRNG().nextInt(this.executionChance) != 0) return false;
 		}
 
-		Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
+		Vec3d vec3D = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
 
-		if (vec3 == null) {
+		if (vec3D == null) {
 			return false;
 		}
-		this.xPosition = vec3.xCoord;
-		this.yPosition = vec3.yCoord;
-		this.zPosition = vec3.zCoord;
+		this.xPosition = vec3D.xCoord;
+		this.yPosition = vec3D.yCoord;
+		this.zPosition = vec3D.zCoord;
 		this.mustUpdate = false;
 		return true;
 	}

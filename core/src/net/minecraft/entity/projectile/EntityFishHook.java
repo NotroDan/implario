@@ -230,14 +230,14 @@ public class EntityFishHook extends Entity {
 				++this.ticksInAir;
 			}
 
-			Vec3 vec31 = new Vec3(this.posX, this.posY, this.posZ);
-			Vec3 vec3 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec31, vec3);
-			vec31 = new Vec3(this.posX, this.posY, this.posZ);
-			vec3 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			Vec3d vec31D = new Vec3d(this.posX, this.posY, this.posZ);
+			Vec3d vec3D = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec31D, vec3D);
+			vec31D = new Vec3d(this.posX, this.posY, this.posZ);
+			vec3D = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
 			if (movingobjectposition != null) {
-				vec3 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+				vec3D = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 			}
 
 			Entity entity = null;
@@ -250,10 +250,10 @@ public class EntityFishHook extends Entity {
 				if (entity1.canBeCollidedWith() && (entity1 != this.angler || this.ticksInAir >= 5)) {
 					float f = 0.3F;
 					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
-					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec31, vec3);
+					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec31D, vec3D);
 
 					if (movingobjectposition1 != null) {
-						double d2 = vec31.squareDistanceTo(movingobjectposition1.hitVec);
+						double d2 = vec31D.squareDistanceTo(movingobjectposition1.hitVec);
 
 						if (d2 < d0 || d0 == 0.0D) {
 							entity = entity1;

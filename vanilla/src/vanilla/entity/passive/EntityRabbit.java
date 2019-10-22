@@ -34,7 +34,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ParticleType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
@@ -159,13 +159,13 @@ public class EntityRabbit extends EntityAnimal {
 			if (!entityrabbit$rabbitjumphelper.getIsJumping()) {
 				if (this.moveHelper.isUpdating() && this.currentMoveTypeDuration == 0) {
 					PathEntity pathentity = this.navigator.getPath();
-					Vec3 vec3 = new Vec3(this.moveHelper.getX(), this.moveHelper.getY(), this.moveHelper.getZ());
+					Vec3d vec3D = new Vec3d(this.moveHelper.getX(), this.moveHelper.getY(), this.moveHelper.getZ());
 
 					if (pathentity != null && pathentity.getCurrentPathIndex() < pathentity.getCurrentPathLength()) {
-						vec3 = pathentity.getPosition(this);
+						vec3D = pathentity.getPosition(this);
 					}
 
-					this.calculateRotationYaw(vec3.xCoord, vec3.zCoord);
+					this.calculateRotationYaw(vec3D.xCoord, vec3D.zCoord);
 					this.doMovementAction(this.moveType);
 				}
 			} else if (!entityrabbit$rabbitjumphelper.func_180065_d()) {

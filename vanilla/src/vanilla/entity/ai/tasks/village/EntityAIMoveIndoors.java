@@ -1,7 +1,7 @@
 package vanilla.entity.ai.tasks.village;
 
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import vanilla.entity.EntityCreature;
 import vanilla.entity.ai.RandomPositionGenerator;
 import vanilla.entity.ai.tasks.EntityAIBase;
@@ -64,10 +64,10 @@ public class EntityAIMoveIndoors extends EntityAIBase {
 		int k = blockpos.getZ();
 
 		if (this.entityObj.getDistanceSq(blockpos) > 256.0D) {
-			Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entityObj, 14, 3, new Vec3((double) i + 0.5D, (double) j, (double) k + 0.5D));
+			Vec3d vec3D = RandomPositionGenerator.findRandomTargetBlockTowards(this.entityObj, 14, 3, new Vec3d((double) i + 0.5D, (double) j, (double) k + 0.5D));
 
-			if (vec3 != null) {
-				this.entityObj.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, 1.0D);
+			if (vec3D != null) {
+				this.entityObj.getNavigator().tryMoveToXYZ(vec3D.xCoord, vec3D.yCoord, vec3D.zCoord, 1.0D);
 			}
 		} else {
 			this.entityObj.getNavigator().tryMoveToXYZ((double) i + 0.5D, (double) j, (double) k + 0.5D, 1.0D);

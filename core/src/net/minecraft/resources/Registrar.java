@@ -198,11 +198,6 @@ public class Registrar {
 			}
 
 			@Override
-			public Domain domain() {
-				return domain;
-			}
-
-			@Override
 			public boolean ignoreCancelled() {
 				return ignoreCancelled;
 			}
@@ -220,10 +215,6 @@ public class Registrar {
 
 	public <T extends Event> void registerListener(EventManager<T> manager, Consumer<T> listener, boolean ignoreCancelled){
 		registerListener(manager, listener, 0, ignoreCancelled);
-	}
-
-	public <T extends Event> void registerListener(EventManager<T> manager, Consumer<T> listener){
-		registerListener(manager, listener, false);
 	}
 
 	/**

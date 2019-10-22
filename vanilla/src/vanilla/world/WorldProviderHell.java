@@ -1,6 +1,6 @@
 package vanilla.world;
 
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BasicChunkBiomer;
 import vanilla.world.biome.BiomeGenBase;
@@ -25,8 +25,8 @@ public class WorldProviderHell extends WorldProvider {
 	/**
 	 * Return Vec3D with biome specific fog color
 	 */
-	public Vec3 getFogColor(float p_76562_1_, float p_76562_2_) {
-		return new Vec3(0.2, 0.02, 0.02);
+	public Vec3d getFogColor(float p_76562_1_, float p_76562_2_) {
+		return new Vec3d(0.2, 0.02, 0.02);
 	}
 
 	/**

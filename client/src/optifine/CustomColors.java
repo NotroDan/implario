@@ -22,7 +22,7 @@ import net.minecraft.item.potion.PotionHelper;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -72,9 +72,9 @@ public class CustomColors {
 	private static int expBarTextColor = -1;
 	private static int bossTextColor = -1;
 	private static int signTextColor = -1;
-	private static Vec3 fogColorNether = null;
-	private static Vec3 fogColorEnd = null;
-	private static Vec3 skyColorEnd = null;
+	private static Vec3d fogColorNether = null;
+	private static Vec3d fogColorEnd = null;
+	private static Vec3d skyColorEnd = null;
 	private static int[] spawnEggPrimaryColors = null;
 	private static int[] spawnEggSecondaryColors = null;
 	private static float[][] wolfCollarColors = null;
@@ -507,7 +507,7 @@ public class CustomColors {
 		}
 	}
 
-	private static Vec3 readColorVec3(Properties p_readColorVec3_0_, String p_readColorVec3_1_) {
+	private static Vec3d readColorVec3(Properties p_readColorVec3_0_, String p_readColorVec3_1_) {
 		int i = readColor(p_readColorVec3_0_, p_readColorVec3_1_);
 
 		if (i < 0)
@@ -518,7 +518,7 @@ public class CustomColors {
 		float f = (float) j / 255.0F;
 		float f1 = (float) k / 255.0F;
 		float f2 = (float) l / 255.0F;
-		return new Vec3((double) f, (double) f1, (double) f2);
+		return new Vec3d((double) f, (double) f1, (double) f2);
 	}
 
 	private static CustomColormap getCustomColors(String p_getCustomColors_0_, String[] p_getCustomColors_1_, int p_getCustomColors_2_, int p_getCustomColors_3_) {
@@ -820,19 +820,19 @@ public class CustomColors {
 		return lilyPadColor < 0 ? Blocks.waterlily.colorMultiplier(p_getLilypadColorMultiplier_0_, p_getLilypadColorMultiplier_1_) : lilyPadColor;
 	}
 
-	private static Vec3 getFogColorNether(Vec3 p_getFogColorNether_0_) {
+	private static Vec3d getFogColorNether(Vec3d p_getFogColorNether_0_) {
 		return fogColorNether == null ? p_getFogColorNether_0_ : fogColorNether;
 	}
 
-	private static Vec3 getFogColorEnd(Vec3 p_getFogColorEnd_0_) {
+	private static Vec3d getFogColorEnd(Vec3d p_getFogColorEnd_0_) {
 		return fogColorEnd == null ? p_getFogColorEnd_0_ : fogColorEnd;
 	}
 
-	private static Vec3 getSkyColorEnd(Vec3 p_getSkyColorEnd_0_) {
+	private static Vec3d getSkyColorEnd(Vec3d p_getSkyColorEnd_0_) {
 		return skyColorEnd == null ? p_getSkyColorEnd_0_ : skyColorEnd;
 	}
 
-	public static Vec3 getSkyColor(Vec3 p_getSkyColor_0_, IBlockAccess p_getSkyColor_1_, double p_getSkyColor_2_, double p_getSkyColor_4_, double p_getSkyColor_6_) {
+	public static Vec3d getSkyColor(Vec3d p_getSkyColor_0_, IBlockAccess p_getSkyColor_1_, double p_getSkyColor_2_, double p_getSkyColor_4_, double p_getSkyColor_6_) {
 		if (skyColors == null)
 			return p_getSkyColor_0_;
 		int i = skyColors.getColorSmooth(p_getSkyColor_1_, p_getSkyColor_2_, p_getSkyColor_4_, p_getSkyColor_6_, 3);
@@ -851,7 +851,7 @@ public class CustomColors {
 		return skyColorFader.getColor((double) f, (double) f1, (double) f2);
 	}
 
-	private static Vec3 getFogColor(Vec3 p_getFogColor_0_, IBlockAccess p_getFogColor_1_, double p_getFogColor_2_, double p_getFogColor_4_, double p_getFogColor_6_) {
+	private static Vec3d getFogColor(Vec3d p_getFogColor_0_, IBlockAccess p_getFogColor_1_, double p_getFogColor_2_, double p_getFogColor_4_, double p_getFogColor_6_) {
 		if (fogColors == null)
 			return p_getFogColor_0_;
 		int i = fogColors.getColorSmooth(p_getFogColor_1_, p_getFogColor_2_, p_getFogColor_4_, p_getFogColor_6_, 3);
@@ -870,7 +870,7 @@ public class CustomColors {
 		return fogColorFader.getColor((double) f, (double) f1, (double) f2);
 	}
 
-	public static Vec3 getUnderwaterColor(IBlockAccess p_getUnderwaterColor_0_, double p_getUnderwaterColor_1_, double p_getUnderwaterColor_3_, double p_getUnderwaterColor_5_) {
+	public static Vec3d getUnderwaterColor(IBlockAccess p_getUnderwaterColor_0_, double p_getUnderwaterColor_1_, double p_getUnderwaterColor_3_, double p_getUnderwaterColor_5_) {
 		if (underwaterColors == null)
 			return null;
 		int i = underwaterColors.getColorSmooth(p_getUnderwaterColor_0_, p_getUnderwaterColor_1_, p_getUnderwaterColor_3_, p_getUnderwaterColor_5_, 3);
@@ -993,7 +993,7 @@ public class CustomColors {
 		}
 	}
 
-	public static Vec3 getWorldFogColor(Vec3 p_getWorldFogColor_0_, WorldClient p_getWorldFogColor_1_, Entity p_getWorldFogColor_2_, float p_getWorldFogColor_3_) {
+	public static Vec3d getWorldFogColor(Vec3d p_getWorldFogColor_0_, WorldClient p_getWorldFogColor_1_, Entity p_getWorldFogColor_2_, float p_getWorldFogColor_3_) {
 		int i = p_getWorldFogColor_1_.provider.getDimensionId();
 
 		switch (i) {
@@ -1013,7 +1013,7 @@ public class CustomColors {
 		return p_getWorldFogColor_0_;
 	}
 
-	public static Vec3 getWorldSkyColor(Vec3 p_getWorldSkyColor_0_, World p_getWorldSkyColor_1_, Entity p_getWorldSkyColor_2_, float p_getWorldSkyColor_3_) {
+	public static Vec3d getWorldSkyColor(Vec3d p_getWorldSkyColor_0_, World p_getWorldSkyColor_1_, Entity p_getWorldSkyColor_2_, float p_getWorldSkyColor_3_) {
 		int i = p_getWorldSkyColor_1_.provider.getDimensionId();
 
 		switch (i) {

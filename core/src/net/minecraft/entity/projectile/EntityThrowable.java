@@ -9,7 +9,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.ProjectileHitEvent;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -160,14 +159,14 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 			++this.ticksInAir;
 		}
 
-		Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
-		Vec3 vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-		MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
-		vec3 = new Vec3(this.posX, this.posY, this.posZ);
-		vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+		Vec3d vec3D = new Vec3d(this.posX, this.posY, this.posZ);
+		Vec3d vec31D = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+		MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3D, vec31D);
+		vec3D = new Vec3d(this.posX, this.posY, this.posZ);
+		vec31D = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
 		if (movingobjectposition != null) {
-			vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+			vec31D = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 
 		if (!this.worldObj.isClientSide) {
@@ -182,10 +181,10 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 				if (entity1.canBeCollidedWith() && (entity1 != entitylivingbase || this.ticksInAir >= 5)) {
 					float f = 0.3F;
 					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
-					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
+					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3D, vec31D);
 
 					if (movingobjectposition1 != null) {
-						double d1 = vec3.squareDistanceTo(movingobjectposition1.hitVec);
+						double d1 = vec3D.squareDistanceTo(movingobjectposition1.hitVec);
 
 						if (d1 < d0 || d0 == 0.0D) {
 							entity = entity1;

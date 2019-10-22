@@ -52,11 +52,7 @@ import java.util.UUID;
 import static net.minecraft.entity.EnumCreatureAttribute.UNDEFINED;
 
 public abstract class Player extends EntityLivingBase {
-
-	/**
-	 * Inventory of the player
-	 */
-	public InventoryPlayer inventory = new InventoryPlayer(this);
+	public final InventoryPlayer inventory = new InventoryPlayer(this);
 	private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
 
 	/**
@@ -178,6 +174,10 @@ public abstract class Player extends EntityLivingBase {
 		this.setLocationAndAngles((double) blockpos.getX() + 0.5D, (double) (blockpos.getY() + 1), (double) blockpos.getZ() + 0.5D, 0.0F, 0.0F);
 		this.field_70741_aB = 180.0F;
 		this.fireResistance = 20;
+	}
+
+	public void teleport(Location location){
+		setLocationAndAngles(location.x(), location.y(), location.z(), location.yaw(), location.pitch());
 	}
 
 	protected void applyEntityAttributes() {
@@ -395,20 +395,20 @@ public abstract class Player extends EntityLivingBase {
 
 		if (itemStackIn.getItemUseAction() == EnumAction.EAT) {
 			for (int i = 0; i < p_71010_2_; ++i) {
-				Vec3 vec3 = new Vec3(((double) this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
-				vec3 = vec3.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
-				vec3 = vec3.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
+				Vec3d vec3D = new Vec3d(((double) this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+				vec3D = vec3D.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
+				vec3D = vec3D.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
 				double d0 = (double) -this.rand.nextFloat() * 0.6D - 0.3D;
-				Vec3 vec31 = new Vec3(((double) this.rand.nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
-				vec31 = vec31.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
-				vec31 = vec31.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
-				vec31 = vec31.addVector(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ);
+				Vec3d vec31D = new Vec3d(((double) this.rand.nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
+				vec31D = vec31D.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
+				vec31D = vec31D.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
+				vec31D = vec31D.addVector(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ);
 
 				if (itemStackIn.getHasSubtypes()) {
-					this.worldObj.spawnParticle(ParticleType.ITEM_CRACK, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord,
+					this.worldObj.spawnParticle(ParticleType.ITEM_CRACK, vec31D.xCoord, vec31D.yCoord, vec31D.zCoord, vec3D.xCoord, vec3D.yCoord + 0.05D, vec3D.zCoord,
 							Item.getIdFromItem(itemStackIn.getItem()), itemStackIn.getMetadata());
 				} else {
-					this.worldObj.spawnParticle(ParticleType.ITEM_CRACK, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord,
+					this.worldObj.spawnParticle(ParticleType.ITEM_CRACK, vec31D.xCoord, vec31D.yCoord, vec31D.zCoord, vec3D.xCoord, vec3D.yCoord + 0.05D, vec3D.zCoord,
 							Item.getIdFromItem(itemStackIn.getItem()));
 				}
 			}
@@ -427,11 +427,9 @@ public abstract class Player extends EntityLivingBase {
 			ItemStack itemstack = this.itemInUse.onItemUseFinish(this.worldObj, this);
 
 			if (itemstack != this.itemInUse || itemstack != null && itemstack.stackSize != i) {
-				this.inventory.mainInventory[this.inventory.currentItem] = itemstack;
-
-				if (itemstack.stackSize == 0) {
-					this.inventory.mainInventory[this.inventory.currentItem] = null;
-				}
+				inventory.setItem(inventory.currentItem, itemstack);
+				if (itemstack.stackSize == 0)
+					this.inventory.setItem(this.inventory.currentItem, null);
 			}
 
 			this.clearItemInUse();
@@ -1693,51 +1691,32 @@ public abstract class Player extends EntityLivingBase {
 		return !this.capabilities.isFlying;
 	}
 
-	/**
-	 * Sends the player's abilities to the server (if there is one).
-	 */
-	public void sendPlayerAbilities() {
-	}
+	public void sendPlayerAbilities() {}
 
-	/**
-	 * Sets the player's game mode and sends it to them.
-	 */
-	public void setGameType(WorldSettings.GameType gameType) {
-	}
+	public void setGameType(WorldSettings.GameType gameType){}
 
-	/**
-	 * Gets the name of this command sender (usually username, but possibly "Rcon")
-	 */
 	public String getName() {
-		return this.gameProfile.getName();
+		return gameProfile.getName();
 	}
 
-	/**
-	 * Returns the InventoryEnderChest of this player.
-	 */
 	public InventoryEnderChest getInventoryEnderChest() {
-		return this.theInventoryEnderChest;
+		return theInventoryEnderChest;
 	}
 
-	/**
-	 * 0: Tool in Hand; 1-4: Armor
-	 */
 	public ItemStack getEquipmentInSlot(int slotIn) {
-		return slotIn == 0 ? this.inventory.getCurrentItem() : this.inventory.armorInventory[slotIn - 1];
+		return slotIn == 0 ? inventory.getCurrentItem() : inventory.getArmor(slotIn - 1);
 	}
 
-	/**
-	 * Returns the item that this EntityLiving is holding, if any.
-	 */
 	public ItemStack getHeldItem() {
-		return this.inventory.getCurrentItem();
+		return inventory.getCurrentItem();
 	}
 
 	/**
+	 * Ниже комментарии просто не работают, откуда то скопипастили. Этот метод просто ставит броню
 	 * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor. Params: Item, slot
 	 */
 	public void setCurrentItemOrArmor(int slotIn, ItemStack stack) {
-		this.inventory.armorInventory[slotIn] = stack;
+		inventory.setArmor(slotIn, stack);
 	}
 
 	/**
@@ -1756,14 +1735,8 @@ public abstract class Player extends EntityLivingBase {
 		return team == null || player == null || player.getTeam() != team || !team.getSeeFriendlyInvisiblesEnabled();
 	}
 
-	/**
-	 * Returns true if the player is in spectator mode.
-	 */
 	public abstract boolean isSpectator();
 
-	/**
-	 * returns the inventory of this entity (only used in EntityPlayerMP it seems)
-	 */
 	public ItemStack[] getInventory() {
 		return this.inventory.armorInventory;
 	}
@@ -1823,9 +1796,7 @@ public abstract class Player extends EntityLivingBase {
 	public static UUID getUUID(GameProfile profile) {
 		UUID uuid = profile.getId();
 
-		if (uuid == null) {
-			uuid = getOfflineUUID(profile.getName());
-		}
+		if (uuid == null) uuid = getOfflineUUID(profile.getName());
 
 		return uuid;
 	}

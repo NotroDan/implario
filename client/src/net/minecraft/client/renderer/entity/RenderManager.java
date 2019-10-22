@@ -26,7 +26,7 @@ import net.minecraft.init.Items;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ReportedException;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 import optifine.PlayerItemsLayer;
 
@@ -324,10 +324,10 @@ public class RenderManager {
 
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		Vec3 vec3 = entityIn.getLook(p_85094_9_);
+		Vec3d vec3D = entityIn.getLook(p_85094_9_);
 		worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
 		worldrenderer.pos(p_85094_2_, p_85094_4_ + (double) entityIn.getEyeHeight(), p_85094_6_).color(0, 0, 255, 255).endVertex();
-		worldrenderer.pos(p_85094_2_ + vec3.xCoord * 2.0D, p_85094_4_ + (double) entityIn.getEyeHeight() + vec3.yCoord * 2.0D, p_85094_6_ + vec3.zCoord * 2.0D).color(0, 0, 255, 255).endVertex();
+		worldrenderer.pos(p_85094_2_ + vec3D.xCoord * 2.0D, p_85094_4_ + (double) entityIn.getEyeHeight() + vec3D.yCoord * 2.0D, p_85094_6_ + vec3D.zCoord * 2.0D).color(0, 0, 255, 255).endVertex();
 		tessellator.draw();
 		G.enableTexture2D();
 		G.enableLighting();

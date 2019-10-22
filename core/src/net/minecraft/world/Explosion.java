@@ -38,7 +38,7 @@ public class Explosion {
 	private final Entity exploder;
 	private final float explosionSize;
 	private final List<BlockPos> affectedBlockPositions;
-	private final Map<Player, Vec3> playerKnockbackMap;
+	private final Map<Player, Vec3d> playerKnockbackMap;
 
 	public Explosion(World worldIn, Entity p_i45752_2_, double p_i45752_3_, double p_i45752_5_, double p_i45752_7_, float p_i45752_9_, List<BlockPos> p_i45752_10_) {
 		this(worldIn, p_i45752_2_, p_i45752_3_, p_i45752_5_, p_i45752_7_, p_i45752_9_, false, true, p_i45752_10_);
@@ -119,7 +119,7 @@ public class Explosion {
 		int j2 = MathHelper.floor_double(this.explosionZ - (double) f3 - 1.0D);
 		int j1 = MathHelper.floor_double(this.explosionZ + (double) f3 + 1.0D);
 		List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, new AxisAlignedBB((double) k1, (double) i2, (double) j2, (double) l1, (double) i1, (double) j1));
-		Vec3 vec3 = new Vec3(this.explosionX, this.explosionY, this.explosionZ);
+		Vec3d vec3D = new Vec3d(this.explosionX, this.explosionY, this.explosionZ);
 
 		for (int k2 = 0; k2 < list.size(); ++k2) {
 			Entity entity = (Entity) list.get(k2);
@@ -137,7 +137,7 @@ public class Explosion {
 						d5 = d5 / d13;
 						d7 = d7 / d13;
 						d9 = d9 / d13;
-						double d14 = (double) this.worldObj.getBlockDensity(vec3, entity.getEntityBoundingBox());
+						double d14 = (double) this.worldObj.getBlockDensity(vec3D, entity.getEntityBoundingBox());
 						double d10 = (1.0D - d12) * d14;
 						entity.attackEntityFrom(DamageSource.setExplosionSource(this), (float) (int) ((d10 * d10 + d10) / 2.0D * 8.0D * (double) f3 + 1.0D));
 						double d11 = EnchantmentProtection.func_92092_a(entity, d10);
@@ -146,7 +146,7 @@ public class Explosion {
 						entity.motionZ += d9 * d11;
 
 						if (entity instanceof Player && !((Player) entity).capabilities.disableDamage) {
-							this.playerKnockbackMap.put((Player) entity, new Vec3(d5 * d10, d7 * d10, d9 * d10));
+							this.playerKnockbackMap.put((Player) entity, new Vec3d(d5 * d10, d7 * d10, d9 * d10));
 						}
 					}
 				}
@@ -213,7 +213,7 @@ public class Explosion {
 		}
 	}
 
-	public Map<Player, Vec3> getPlayerKnockbackMap() {
+	public Map<Player, Vec3d> getPlayerKnockbackMap() {
 		return this.playerKnockbackMap;
 	}
 

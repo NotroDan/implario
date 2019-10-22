@@ -3,6 +3,7 @@ package net.minecraft.command;
 import net.minecraft.entity.player.Player;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.Vec3d;
 import net.minecraft.util.chat.ChatComponentTranslation;
 
 public class CommandFly extends CommandBase{

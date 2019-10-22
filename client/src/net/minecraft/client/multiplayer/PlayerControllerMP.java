@@ -315,7 +315,7 @@ public class PlayerControllerMP {
 		}
 	}
 
-	public boolean onPlayerRightClick(CPlayer player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3 hitVec) {
+	public boolean onPlayerRightClick(CPlayer player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos, EnumFacing side, Vec3d hitVec) {
 		this.syncCurrentPlayItem();
 		float f = (float) (hitVec.xCoord - (double) hitPos.getX());
 		float f1 = (float) (hitVec.yCoord - (double) hitPos.getY());
@@ -426,9 +426,9 @@ public class PlayerControllerMP {
 
 	public boolean interactAt(Player p, Entity e, MovingObjectPosition obj) {
 		this.syncCurrentPlayItem();
-		Vec3 vec3 = new Vec3(obj.hitVec.xCoord - e.posX, obj.hitVec.yCoord - e.posY, obj.hitVec.zCoord - e.posZ);
-		this.netClientHandler.addToSendQueue(new C02PacketUseEntity(e, vec3));
-		return this.currentGameType != WorldSettings.GameType.SPECTATOR && e.interactAt(p, vec3);
+		Vec3d vec3D = new Vec3d(obj.hitVec.xCoord - e.posX, obj.hitVec.yCoord - e.posY, obj.hitVec.zCoord - e.posZ);
+		this.netClientHandler.addToSendQueue(new C02PacketUseEntity(e, vec3D));
+		return this.currentGameType != WorldSettings.GameType.SPECTATOR && e.interactAt(p, vec3D);
 	}
 
 	/**

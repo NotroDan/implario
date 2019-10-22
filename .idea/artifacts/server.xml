@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="server">
+    <output-path>$PROJECT_DIR$/../implario-server</output-path>
+    <root id="archive" name="server.jar">
+      <element id="module-output" name="core" />
+      <element id="module-output" name="server" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/core/libs.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/core/Util.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

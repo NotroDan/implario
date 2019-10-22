@@ -3,7 +3,7 @@ package net.minecraft.command;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -46,7 +46,7 @@ public interface ICommandSender {
 	 * Get the position vector. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return 0.0D,
 	 * 0.0D, 0.0D
 	 */
-	Vec3 getPositionVector();
+	Vec3d getPositionVector();
 
 	/**
 	 * Get the world, if available. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return

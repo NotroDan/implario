@@ -882,15 +882,15 @@ public abstract class EntityLivingBase extends Entity {
 		this.playSound("random.break", 0.8F, 0.8F + this.worldObj.rand.nextFloat() * 0.4F);
 
 		for (int i = 0; i < 5; ++i) {
-			Vec3 vec3 = new Vec3(((double) this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
-			vec3 = vec3.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
-			vec3 = vec3.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
+			Vec3d vec3D = new Vec3d(((double) this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+			vec3D = vec3D.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
+			vec3D = vec3D.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
 			double d0 = (double) -this.rand.nextFloat() * 0.6D - 0.3D;
-			Vec3 vec31 = new Vec3(((double) this.rand.nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
-			vec31 = vec31.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
-			vec31 = vec31.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
-			vec31 = vec31.addVector(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ);
-			this.worldObj.spawnParticle(ParticleType.ITEM_CRACK, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord + 0.05D, vec3.zCoord,
+			Vec3d vec31D = new Vec3d(((double) this.rand.nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
+			vec31D = vec31D.rotatePitch(-this.rotationPitch * (float) Math.PI / 180.0F);
+			vec31D = vec31D.rotateYaw(-this.rotationYaw * (float) Math.PI / 180.0F);
+			vec31D = vec31D.addVector(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ);
+			this.worldObj.spawnParticle(ParticleType.ITEM_CRACK, vec31D.xCoord, vec31D.yCoord, vec31D.zCoord, vec3D.xCoord, vec3D.yCoord + 0.05D, vec3D.zCoord,
 					Item.getIdFromItem(stack.getItem()));
 		}
 	}
@@ -1820,21 +1820,21 @@ public abstract class EntityLivingBase extends Entity {
 	 * returns true if the entity provided in the argument can be seen. (Raytrace)
 	 */
 	public boolean canEntityBeSeen(Entity entityIn) {
-		return this.worldObj.rayTraceBlocks(new Vec3(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ),
-				new Vec3(entityIn.posX, entityIn.posY + (double) entityIn.getEyeHeight(), entityIn.posZ)) == null;
+		return this.worldObj.rayTraceBlocks(new Vec3d(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ),
+				new Vec3d(entityIn.posX, entityIn.posY + (double) entityIn.getEyeHeight(), entityIn.posZ)) == null;
 	}
 
 	/**
 	 * returns a (normalized) vector of where this entity is looking
 	 */
-	public Vec3 getLookVec() {
+	public Vec3d getLookVec() {
 		return this.getLook(1.0F);
 	}
 
 	/**
 	 * interpolated look vector
 	 */
-	public Vec3 getLook(float partialTicks) {
+	public Vec3d getLook(float partialTicks) {
 		if (partialTicks == 1.0F) {
 			return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
 		}

@@ -4,7 +4,7 @@ import vanilla.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import vanilla.entity.ai.RandomPositionGenerator;
 import vanilla.entity.ai.tasks.EntityAIBase;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 
 public class EntityAIMoveTowardsTarget extends EntityAIBase {
 
@@ -39,14 +39,14 @@ public class EntityAIMoveTowardsTarget extends EntityAIBase {
 		if (this.targetEntity.getDistanceSqToEntity(this.theEntity) > (double) (this.maxTargetDistance * this.maxTargetDistance)) {
 			return false;
 		}
-		Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, new Vec3(this.targetEntity.posX, this.targetEntity.posY, this.targetEntity.posZ));
+		Vec3d vec3D = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, new Vec3d(this.targetEntity.posX, this.targetEntity.posY, this.targetEntity.posZ));
 
-		if (vec3 == null) {
+		if (vec3D == null) {
 			return false;
 		}
-		this.movePosX = vec3.xCoord;
-		this.movePosY = vec3.yCoord;
-		this.movePosZ = vec3.zCoord;
+		this.movePosX = vec3D.xCoord;
+		this.movePosY = vec3D.yCoord;
+		this.movePosZ = vec3D.zCoord;
 		return true;
 	}
 

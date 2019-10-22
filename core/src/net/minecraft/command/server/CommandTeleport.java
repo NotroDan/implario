@@ -10,9 +10,11 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.MPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.FLocation;
 import net.minecraft.util.MathHelper;
 
 public class CommandTeleport extends CommandBase {
@@ -138,8 +140,8 @@ public class CommandTeleport extends CommandBase {
 			}
 			entity.mountEntity((Entity) null);
 
-			if (entity instanceof MPlayer) {
-				((MPlayer) entity).playerNetServerHandler.setPlayerLocation(entity1.posX, entity1.posY, entity1.posZ, entity1.rotationYaw, entity1.rotationPitch);
+			if (entity instanceof Player) {
+				((Player) entity).teleport(new FLocation(entity1.posX, entity1.posY, entity1.posZ, entity1.rotationYaw, entity1.rotationPitch));
 			} else {
 				entity.setLocationAndAngles(entity1.posX, entity1.posY, entity1.posZ, entity1.rotationYaw, entity1.rotationPitch);
 			}

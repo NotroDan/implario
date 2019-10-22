@@ -683,11 +683,11 @@ public abstract class World implements IBlockAccess {
 	/**
 	 * ray traces all blocks, including non-collideable ones
 	 */
-	public MovingObjectPosition rayTraceBlocks(Vec3 start, Vec3 end) {
+	public MovingObjectPosition rayTraceBlocks(Vec3d start, Vec3d end) {
 		return this.rayTraceBlocks(start, end, false, false, false);
 	}
 
-	public MovingObjectPosition rayTraceBlocks(Vec3 start, Vec3 end, boolean stopOnLiquid) {
+	public MovingObjectPosition rayTraceBlocks(Vec3d start, Vec3d end, boolean stopOnLiquid) {
 		return this.rayTraceBlocks(start, end, stopOnLiquid, false, false);
 	}
 
@@ -695,7 +695,7 @@ public abstract class World implements IBlockAccess {
 	 * Performs a raycast against all blocks in the world. Args : Vec1, Vec2, stopOnLiquid,
 	 * ignoreBlockWithoutBoundingBox, returnLastUncollidableBlock
 	 */
-	public MovingObjectPosition rayTraceBlocks(Vec3 start, Vec3 end, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock) {
+	public MovingObjectPosition rayTraceBlocks(Vec3d start, Vec3d end, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock) {
 		if (!Double.isNaN(start.xCoord) && !Double.isNaN(start.yCoord) && !Double.isNaN(start.zCoord)) {
 			if (!Double.isNaN(end.xCoord) && !Double.isNaN(end.yCoord) && !Double.isNaN(end.zCoord)) {
 				int i = MathHelper.floor_double(end.xCoord);
@@ -794,13 +794,13 @@ public abstract class World implements IBlockAccess {
 
 					if (d3 < d4 && d3 < d5) {
 						enumfacing = i > l ? EnumFacing.WEST : EnumFacing.EAST;
-						start = new Vec3(d0, start.yCoord + d7 * d3, start.zCoord + d8 * d3);
+						start = new Vec3d(d0, start.yCoord + d7 * d3, start.zCoord + d8 * d3);
 					} else if (d4 < d5) {
 						enumfacing = j > i1 ? EnumFacing.DOWN : EnumFacing.UP;
-						start = new Vec3(start.xCoord + d6 * d4, d1, start.zCoord + d8 * d4);
+						start = new Vec3d(start.xCoord + d6 * d4, d1, start.zCoord + d8 * d4);
 					} else {
 						enumfacing = k > j1 ? EnumFacing.NORTH : EnumFacing.SOUTH;
-						start = new Vec3(start.xCoord + d6 * d5, start.yCoord + d7 * d5, d2);
+						start = new Vec3d(start.xCoord + d6 * d5, start.yCoord + d7 * d5, d2);
 					}
 
 					l = MathHelper.floor_double(start.xCoord) - (enumfacing == EnumFacing.EAST ? 1 : 0);
@@ -1133,7 +1133,7 @@ public abstract class World implements IBlockAccess {
 	/**
 	 * Calculates the color for the skybox
 	 */
-	public Vec3 getSkyColor(Entity entityIn, float partialTicks) {
+	public Vec3d getSkyColor(Entity entityIn, float partialTicks) {
 		float f = this.getCelestialAngle(partialTicks);
 		float f1 = MathHelper.cos(f * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
 		f1 = MathHelper.clamp_float(f1, 0.0F, 1.0F);
@@ -1183,7 +1183,7 @@ public abstract class World implements IBlockAccess {
 			f5 = f5 * (1.0F - f12) + 1.0F * f12;
 		}
 
-		return new Vec3((double) f3, (double) f4, (double) f5);
+		return new Vec3d((double) f3, (double) f4, (double) f5);
 	}
 
 	/**
@@ -1212,7 +1212,7 @@ public abstract class World implements IBlockAccess {
 		return f * (float) Math.PI * 2.0F;
 	}
 
-	public Vec3 getCloudColour(float partialTicks) {
+	public Vec3d getCloudColour(float partialTicks) {
 		float f = this.getCelestialAngle(partialTicks);
 		float f1 = MathHelper.cos(f * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
 		f1 = MathHelper.clamp_float(f1, 0.0F, 1.0F);
@@ -1242,13 +1242,13 @@ public abstract class World implements IBlockAccess {
 			f4 = f4 * f8 + f10 * (1.0F - f8);
 		}
 
-		return new Vec3((double) f2, (double) f3, (double) f4);
+		return new Vec3d((double) f2, (double) f3, (double) f4);
 	}
 
 	/**
 	 * Returns vector(ish) with R/G/B for fog
 	 */
-	public Vec3 getFogColor(float partialTicks) {
+	public Vec3d getFogColor(float partialTicks) {
 		float f = this.getCelestialAngle(partialTicks);
 		return this.provider.getFogColor(f, partialTicks);
 	}
@@ -1674,7 +1674,7 @@ public abstract class World implements IBlockAccess {
 			return false;
 		}
 		boolean flag = false;
-		Vec3 vec3 = new Vec3(0.0D, 0.0D, 0.0D);
+		Vec3d vec3D = new Vec3d(0.0D, 0.0D, 0.0D);
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
 		for (int k1 = i; k1 < j; ++k1) {
@@ -1689,19 +1689,19 @@ public abstract class World implements IBlockAccess {
 
 						if ((double) l >= d0) {
 							flag = true;
-							vec3 = block.modifyAcceleration(this, blockpos$mutableblockpos, entityIn, vec3);
+							vec3D = block.modifyAcceleration(this, blockpos$mutableblockpos, entityIn, vec3D);
 						}
 					}
 				}
 			}
 		}
 
-		if (vec3.lengthVector() > 0.0D && entityIn.isPushedByWater()) {
-			vec3 = vec3.normalize();
+		if (vec3D.lengthVector() > 0.0D && entityIn.isPushedByWater()) {
+			vec3D = vec3D.normalize();
 			double d1 = 0.014D;
-			entityIn.motionX += vec3.xCoord * d1;
-			entityIn.motionY += vec3.yCoord * d1;
-			entityIn.motionZ += vec3.zCoord * d1;
+			entityIn.motionX += vec3D.xCoord * d1;
+			entityIn.motionY += vec3D.yCoord * d1;
+			entityIn.motionZ += vec3D.zCoord * d1;
 		}
 
 		return flag;
@@ -1789,7 +1789,7 @@ public abstract class World implements IBlockAccess {
 	/**
 	 * Gets the percentage of real blocks within within a bounding box, along a specified vector.
 	 */
-	public float getBlockDensity(Vec3 vec, AxisAlignedBB bb) {
+	public float getBlockDensity(Vec3d vec, AxisAlignedBB bb) {
 		double d0 = 1.0D / ((bb.maxX - bb.minX) * 2.0D + 1.0D);
 		double d1 = 1.0D / ((bb.maxY - bb.minY) * 2.0D + 1.0D);
 		double d2 = 1.0D / ((bb.maxZ - bb.minZ) * 2.0D + 1.0D);
@@ -1807,7 +1807,7 @@ public abstract class World implements IBlockAccess {
 						double d6 = bb.minY + (bb.maxY - bb.minY) * (double) f1;
 						double d7 = bb.minZ + (bb.maxZ - bb.minZ) * (double) f2;
 
-						if (this.rayTraceBlocks(new Vec3(d5 + d3, d6, d7 + d4), vec) == null) {
+						if (this.rayTraceBlocks(new Vec3d(d5 + d3, d6, d7 + d4), vec) == null) {
 							++i;
 						}
 

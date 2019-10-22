@@ -609,117 +609,117 @@ public class Block {
 	/**
 	 * Ray traces through the blocks collision from start vector to end vector returning a ray trace hit.
 	 */
-	public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 start, Vec3 end) {
+	public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
 		this.setBlockBoundsBasedOnState(worldIn, pos);
 		start = start.addVector((double) -pos.getX(), (double) -pos.getY(), (double) -pos.getZ());
 		end = end.addVector((double) -pos.getX(), (double) -pos.getY(), (double) -pos.getZ());
-		Vec3 vec3 = start.getIntermediateWithXValue(end, this.minX);
-		Vec3 vec31 = start.getIntermediateWithXValue(end, this.maxX);
-		Vec3 vec32 = start.getIntermediateWithYValue(end, this.minY);
-		Vec3 vec33 = start.getIntermediateWithYValue(end, this.maxY);
-		Vec3 vec34 = start.getIntermediateWithZValue(end, this.minZ);
-		Vec3 vec35 = start.getIntermediateWithZValue(end, this.maxZ);
+		Vec3d vec3D = start.getIntermediateWithXValue(end, this.minX);
+		Vec3d vec31D = start.getIntermediateWithXValue(end, this.maxX);
+		Vec3d vec32D = start.getIntermediateWithYValue(end, this.minY);
+		Vec3d vec33D = start.getIntermediateWithYValue(end, this.maxY);
+		Vec3d vec34D = start.getIntermediateWithZValue(end, this.minZ);
+		Vec3d vec35D = start.getIntermediateWithZValue(end, this.maxZ);
 
-		if (!this.isVecInsideYZBounds(vec3)) {
-			vec3 = null;
+		if (!this.isVecInsideYZBounds(vec3D)) {
+			vec3D = null;
 		}
 
-		if (!this.isVecInsideYZBounds(vec31)) {
-			vec31 = null;
+		if (!this.isVecInsideYZBounds(vec31D)) {
+			vec31D = null;
 		}
 
-		if (!this.isVecInsideXZBounds(vec32)) {
-			vec32 = null;
+		if (!this.isVecInsideXZBounds(vec32D)) {
+			vec32D = null;
 		}
 
-		if (!this.isVecInsideXZBounds(vec33)) {
-			vec33 = null;
+		if (!this.isVecInsideXZBounds(vec33D)) {
+			vec33D = null;
 		}
 
-		if (!this.isVecInsideXYBounds(vec34)) {
-			vec34 = null;
+		if (!this.isVecInsideXYBounds(vec34D)) {
+			vec34D = null;
 		}
 
-		if (!this.isVecInsideXYBounds(vec35)) {
-			vec35 = null;
+		if (!this.isVecInsideXYBounds(vec35D)) {
+			vec35D = null;
 		}
 
-		Vec3 vec36 = null;
+		Vec3d vec36D = null;
 
-		if (vec3 != null && (vec36 == null || start.squareDistanceTo(vec3) < start.squareDistanceTo(vec36))) {
-			vec36 = vec3;
+		if (vec3D != null && (vec36D == null || start.squareDistanceTo(vec3D) < start.squareDistanceTo(vec36D))) {
+			vec36D = vec3D;
 		}
 
-		if (vec31 != null && (vec36 == null || start.squareDistanceTo(vec31) < start.squareDistanceTo(vec36))) {
-			vec36 = vec31;
+		if (vec31D != null && (vec36D == null || start.squareDistanceTo(vec31D) < start.squareDistanceTo(vec36D))) {
+			vec36D = vec31D;
 		}
 
-		if (vec32 != null && (vec36 == null || start.squareDistanceTo(vec32) < start.squareDistanceTo(vec36))) {
-			vec36 = vec32;
+		if (vec32D != null && (vec36D == null || start.squareDistanceTo(vec32D) < start.squareDistanceTo(vec36D))) {
+			vec36D = vec32D;
 		}
 
-		if (vec33 != null && (vec36 == null || start.squareDistanceTo(vec33) < start.squareDistanceTo(vec36))) {
-			vec36 = vec33;
+		if (vec33D != null && (vec36D == null || start.squareDistanceTo(vec33D) < start.squareDistanceTo(vec36D))) {
+			vec36D = vec33D;
 		}
 
-		if (vec34 != null && (vec36 == null || start.squareDistanceTo(vec34) < start.squareDistanceTo(vec36))) {
-			vec36 = vec34;
+		if (vec34D != null && (vec36D == null || start.squareDistanceTo(vec34D) < start.squareDistanceTo(vec36D))) {
+			vec36D = vec34D;
 		}
 
-		if (vec35 != null && (vec36 == null || start.squareDistanceTo(vec35) < start.squareDistanceTo(vec36))) {
-			vec36 = vec35;
+		if (vec35D != null && (vec36D == null || start.squareDistanceTo(vec35D) < start.squareDistanceTo(vec36D))) {
+			vec36D = vec35D;
 		}
 
-		if (vec36 == null) {
+		if (vec36D == null) {
 			return null;
 		}
 		EnumFacing enumfacing = null;
 
-		if (vec36 == vec3) {
+		if (vec36D == vec3D) {
 			enumfacing = EnumFacing.WEST;
 		}
 
-		if (vec36 == vec31) {
+		if (vec36D == vec31D) {
 			enumfacing = EnumFacing.EAST;
 		}
 
-		if (vec36 == vec32) {
+		if (vec36D == vec32D) {
 			enumfacing = EnumFacing.DOWN;
 		}
 
-		if (vec36 == vec33) {
+		if (vec36D == vec33D) {
 			enumfacing = EnumFacing.UP;
 		}
 
-		if (vec36 == vec34) {
+		if (vec36D == vec34D) {
 			enumfacing = EnumFacing.NORTH;
 		}
 
-		if (vec36 == vec35) {
+		if (vec36D == vec35D) {
 			enumfacing = EnumFacing.SOUTH;
 		}
 
-		return new MovingObjectPosition(vec36.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), enumfacing, pos);
+		return new MovingObjectPosition(vec36D.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), enumfacing, pos);
 	}
 
 	/**
 	 * Checks if a vector is within the Y and Z bounds of the block.
 	 */
-	private boolean isVecInsideYZBounds(Vec3 point) {
+	private boolean isVecInsideYZBounds(Vec3d point) {
 		return point != null && point.yCoord >= this.minY && point.yCoord <= this.maxY && point.zCoord >= this.minZ && point.zCoord <= this.maxZ;
 	}
 
 	/**
 	 * Checks if a vector is within the X and Z bounds of the block.
 	 */
-	private boolean isVecInsideXZBounds(Vec3 point) {
+	private boolean isVecInsideXZBounds(Vec3d point) {
 		return point != null && point.xCoord >= this.minX && point.xCoord <= this.maxX && point.zCoord >= this.minZ && point.zCoord <= this.maxZ;
 	}
 
 	/**
 	 * Checks if a vector is within the X and Y bounds of the block.
 	 */
-	private boolean isVecInsideXYBounds(Vec3 point) {
+	private boolean isVecInsideXYBounds(Vec3d point) {
 		return point != null && point.xCoord >= this.minX && point.xCoord <= this.maxX && point.yCoord >= this.minY && point.yCoord <= this.maxY;
 	}
 
@@ -769,7 +769,7 @@ public class Block {
 	public void onBlockClicked(World worldIn, BlockPos pos, Player playerIn) {
 	}
 
-	public Vec3 modifyAcceleration(World worldIn, BlockPos pos, Entity entityIn, Vec3 motion) {
+	public Vec3d modifyAcceleration(World worldIn, BlockPos pos, Entity entityIn, Vec3d motion) {
 		return motion;
 	}
 

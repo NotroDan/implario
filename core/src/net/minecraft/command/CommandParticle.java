@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ParticleType;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -59,10 +59,10 @@ public class CommandParticle extends CommandBase {
 			throw new CommandException("commands.particle.notFound", new Object[] {args[0]});
 		}
 		String s = args[0];
-		Vec3 vec3 = sender.getPositionVector();
-		double d6 = (double) (float) parseDouble(vec3.xCoord, args[1], true);
-		double d0 = (double) (float) parseDouble(vec3.yCoord, args[2], true);
-		double d1 = (double) (float) parseDouble(vec3.zCoord, args[3], true);
+		Vec3d vec3D = sender.getPositionVector();
+		double d6 = (double) (float) parseDouble(vec3D.xCoord, args[1], true);
+		double d0 = (double) (float) parseDouble(vec3D.yCoord, args[2], true);
+		double d1 = (double) (float) parseDouble(vec3D.zCoord, args[3], true);
 		double d2 = (double) (float) parseDouble(args[4]);
 		double d3 = (double) (float) parseDouble(args[5]);
 		double d4 = (double) (float) parseDouble(args[6]);

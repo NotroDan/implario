@@ -55,7 +55,7 @@ public class VEvents implements ServerSideLoadable {
 		registrar.registerListener(ServerEvents.playerTick, this::handlePlayerTick, -5);
 		registrar.registerListener(ServerEvents.playerFall, this::handlePlayerFall, -5, true);
 		registrar.registerListener(ServerEvents.playerDisconnect, e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat), -5);
-		registrar.registerListener(ServerEvents.playerJump, e -> e.getPlayer().triggerAchievement(StatList.jumpStat), -5);
+		registrar.registerListener(ServerEvents.playerJump, e -> e.getPlayer().triggerAchievement(StatList.jumpStat), -5, true);
 		registrar.registerListener(ServerEvents.playerItemDrop, this::handleItemDrop, -5, true);
 		registrar.registerListener(ServerEvents.playerDeath, e -> e.getPlayer().triggerAchievement(StatList.deathsStat), -5);
 		registrar.registerListener(ServerEvents.playerSleep, new SleepChecker());
