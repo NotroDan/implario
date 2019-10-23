@@ -4,7 +4,11 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.resources.event.ServerEvents;
+import net.minecraft.resources.event.events.player.PlayerFoodChangeEvent;
+import net.minecraft.server.Todo;
 import net.minecraft.world.EnumDifficulty;
+import org.apache.logging.log4j.core.jmx.Server;
 
 public class FoodStats {
 
@@ -45,6 +49,11 @@ public class FoodStats {
 	 * Handles the food game logic.
 	 */
 	public void onUpdate(Player player) {
+		if(Todo.instance.isServerSide() && ServerEvents.playerFoodChange.isUseful()) {
+			PlayerFoodChangeEvent event = new PlayerFoodChangeEvent(player, 1);
+			ServerEvents.playerFoodChange.call(event);
+			foodLevel = event.getFood();
+		}
 		EnumDifficulty enumdifficulty = player.worldObj.getDifficulty();
 		this.prevFoodLevel = this.foodLevel;
 

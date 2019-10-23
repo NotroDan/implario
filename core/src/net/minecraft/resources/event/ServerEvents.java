@@ -36,6 +36,7 @@ public class ServerEvents {
 	public static EventManager<PlayerChatMessageEvent> playerChatMessage = new EventManager<>();
 	public static EventManager<PlayerTeleportEvent> playerTeleport = new EventManager<>();
 	public static EventManager<PlayerJoinEvent> playerJoin = new EventManager<>();
+	public static EventManager<PlayerFoodChangeEvent> playerFoodChange = new EventManager<>();
 
 	public static EventManager<WorldServerInitEvent> worldInit = new EventManager<>();
 	public static EventManager<WorldTickEvent> worldTick = new EventManager<>();
