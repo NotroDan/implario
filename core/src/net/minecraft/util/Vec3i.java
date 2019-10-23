@@ -1,6 +1,8 @@
 package net.minecraft.util;
 
 import com.google.common.base.Objects;
+import net.minecraft.util.byteable.Decoder;
+import net.minecraft.util.byteable.Encoder;
 
 public class Vec3i implements Comparable<Vec3i>, Location {
 
@@ -15,6 +17,12 @@ public class Vec3i implements Comparable<Vec3i>, Location {
 		this.x = xIn;
 		this.y = yIn;
 		this.z = zIn;
+	}
+
+	public Vec3i(Decoder decoder){
+		x = decoder.readInt();
+		y = decoder.readInt();
+		z = decoder.readInt();
 	}
 
 	public Vec3i(double xIn, double yIn, double zIn) {
@@ -34,6 +42,10 @@ public class Vec3i implements Comparable<Vec3i>, Location {
 	@Override
 	public double z() {
 		return z;
+	}
+
+	public void encode(Encoder encoder){
+		encoder.writeInt(x).writeInt(y).writeInt(z);
 	}
 
 	public boolean equals(Object p_equals_1_) {

@@ -12,6 +12,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
+import lombok.Getter;
 import net.minecraft.Logger;
 import net.minecraft.command.*;
 import net.minecraft.crash.CrashReport;
@@ -55,6 +56,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private static final Logger logger = Logger.getInstance();
 	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
 	public static MinecraftServer mcServer;
+	public static Storage storage;
 
 	private final File anvilFile;
 	private final ISaveFormat anvilConverterForAnvilFile;
@@ -189,6 +191,10 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		}
 	}
 
+	public Storage getStorage(){
+		return storage;
+	}
+
 	protected void loadAllWorlds(String name, String globalName, long seed, WorldType type, String p_71247_6_) {
 		this.convertMapIfNeeded(name);
 		worldService = WORLD_SERVICE_PROVIDER.provide(this);
@@ -220,11 +226,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		this.setDifficultyForAllWorlds(this.getDifficulty());
 		this.initialWorldChunkLoad();
 	}
-
-	/*
-		а в чом смысол этих комментов, и так понятно что тут нужно вернуть хранилище
-	 */
-	public abstract Storage getStorage();
 
 	public void initialWorldChunkLoad() {
 		int loaded = 0;

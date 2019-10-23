@@ -38,7 +38,6 @@ public class DedicatedServer extends MinecraftServer {
 	private PropertyManager settings;
 	private boolean canSpawnStructures;
 	private WorldSettings.GameType gameType;
-	private Storage storage;
 
 	public DedicatedServer(File workDir) {
 		super(workDir, Proxy.NO_PROXY, USER_CACHE_FILE);
@@ -56,7 +55,6 @@ public class DedicatedServer extends MinecraftServer {
 	}
 
 	protected boolean startServer() throws IOException {
-		storage = new MemoryStorage(getDataDirectory(), true);
 		Thread thread = new Thread("Server console handler") {
 			public void run() {
 				BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
@@ -178,11 +176,6 @@ public class DedicatedServer extends MinecraftServer {
 		}
 
 		return true;
-	}
-
-	@Override
-	public Storage getStorage() {
-		return storage;
 	}
 
 	public void setGameType(WorldSettings.GameType gameMode) {

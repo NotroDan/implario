@@ -103,6 +103,7 @@ public class Datapacks {
 	public static void fullInitializeDatapacks(File directory){
 		initializeDatapacks(directory);
 		Bootstrap.register();
-		for (Datapack datapack : Datapacks.getDatapacks()) datapack.init();
+		for (Datapack datapack : Datapacks.getDatapacks())
+			datapack.init();
 	}
 }

@@ -35,7 +35,6 @@ public class IntegratedServer extends MinecraftServer {
 	private boolean isGamePaused;
 	private boolean isPublic;
 	private ThreadLanServerPing lanServerPing;
-    private Storage storage = new MemoryStorage(null, false);
 
 	public IntegratedServer(Minecraft mcIn) {
 		super(mcIn.getProxy(), USER_CACHE_FILE);
@@ -53,11 +52,6 @@ public class IntegratedServer extends MinecraftServer {
 		this.setConfigManager(new IntegratedPlayerList(this));
 		this.mc = mcIn;
 		this.theWorldSettings = settings;
-	}
-
-	@Override
-	public Storage getStorage() {
-		return storage;
 	}
 
 	protected ServerCommandManager createNewCommandManager() {

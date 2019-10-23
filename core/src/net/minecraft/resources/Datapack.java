@@ -35,6 +35,12 @@ public abstract class Datapack implements ServerSideDatapack {
 
 	public void loadItems() {}
 
+	public byte[] saveState(){
+		return null;
+	}
+
+	public void loadState(byte array[]){}
+
 	public Registrar getRegistrar() {
 		return registrar;
 	}

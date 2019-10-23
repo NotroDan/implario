@@ -4,7 +4,13 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
+import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
+import net.minecraft.resources.load.DatapackLoadException;
+import net.minecraft.resources.load.DatapackLoader;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.IntDoubleMap;
+import net.minecraft.util.IntHashMap;
 
 import java.io.File;
 
@@ -30,6 +36,24 @@ public class CommandDatapack extends CommandBase {
 		if (args.length == 0) throw new WrongUsageException("Использование: /dp [Jar]");
 		String cmd = args[0];
 		if(cmd.equals("reload")){
+			for(DatapackLoader loader : Datapacks.getLoaders())
+				if(loader.getName().equals(args[1])){
+					byte[] array = loader.get().saveState();
+					Datapacks.shutdown(loader);
+					try{
+						Datapacks.load(loader);
+						loader.get().preinit();
+						loader.get().init();
+						sender.sendMessage("все норм");
+					}catch (DatapackLoadException loadException){
+						sender.sendMessage("ошыбка");
+						sender.sendMessage(loadException.getMessage());
+						return;
+					}
+					if(array != null)loader.get().loadState(array);
+					return;
+				}
+			Datapacks.getLoaders().get(0).getName();
 			Datapacks.shutdown();
 			Datapacks.fullInitializeDatapacks(new File("datapacks"));
 		}

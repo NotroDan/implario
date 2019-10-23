@@ -1,6 +1,8 @@
 import net.minecraft.client.main.Main;
+import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.security.Restart;
+import net.minecraft.server.MinecraftServer;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,6 +15,7 @@ public class Start {
 
 	public static void main(String[] args) {
 		Restart.setArgs(args);
+		MinecraftServer.storage = new MemoryStorage(null, false);
 		Main.main(concat(new String[] {
 				"--accessToken", "0", "--assetsDir", "assets",
 				"--height", "600", "--width", "1000"

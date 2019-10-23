@@ -1,6 +1,8 @@
 package net.minecraft.util;
 
-public class IntHashMap<V> {
+import java.util.Iterator;
+
+public class IntHashMap<V> implements Iterable<V>{
 
 	private transient IntHashMap.Entry<V>[] slots = new IntHashMap.Entry[16];
 
@@ -47,6 +49,32 @@ public class IntHashMap<V> {
 		}
 
 		return (V) null;
+	}
+
+	public int size(){
+		int size = 0;
+		for(Entry<V> entry : slots)
+			if(entry != null)size++;
+		return size;
+	}
+
+	public Iterator<V> iterator(){
+		return new Iterator<V>() {
+			private int pos = 0;
+
+			@Override
+			public boolean hasNext() {
+				if(++pos == slots.length)return false;
+				while (slots[pos++] == null)
+					if(slots.length == pos)return false;
+				return true;
+			}
+
+			@Override
+			public V next() {
+				return slots[pos].getValue();
+			}
+		};
 	}
 
 	/**
@@ -191,7 +219,7 @@ public class IntHashMap<V> {
 		}
 	}
 
-	static class Entry<V> {
+	public static class Entry<V> {
 
 		final int hashEntry;
 		V valueEntry;

@@ -1,5 +1,6 @@
 package net.minecraft.server;
 
+import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
@@ -49,6 +50,8 @@ public class ServerStart {
 
 			if (wasArgumentUsed) ++j;
 		}
+
+		MinecraftServer.storage = new MemoryStorage(new File(workDir), true);
 
 		Datapacks.fullInitializeDatapacks(new File("datapacks"));
 
