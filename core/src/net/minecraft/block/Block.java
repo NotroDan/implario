@@ -1000,6 +1000,10 @@ public class Block {
 		return this;
 	}
 
+	public boolean canBreakBlock(World worldIn, BlockPos pos, IBlockState state, Player player){
+		return true;
+	}
+
 	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, Player player) {
 	}
 

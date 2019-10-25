@@ -122,8 +122,11 @@ public class Vec3i implements Comparable<Vec3i>, Location {
 		return this.distanceSq((double) to.getX(), (double) to.getY(), (double) to.getZ());
 	}
 
+	public String readableToString(){
+		return x + "," + y + "," + z;
+	}
+
 	public String toString() {
 		return Objects.toStringHelper(this).add("x", this.getX()).add("y", this.getY()).add("z", this.getZ()).toString();
 	}
-
 }

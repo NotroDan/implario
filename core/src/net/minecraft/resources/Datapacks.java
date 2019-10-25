@@ -75,6 +75,7 @@ public class Datapacks {
 			Log.MAIN.warn(loader + " hadn't loaded anything but still is in the list.");
 			return;
 		}
+		datapacks.remove(datapack);
 		datapack.unload();
 		datapack.disable();
 		loader.close();

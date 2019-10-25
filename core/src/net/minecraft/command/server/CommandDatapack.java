@@ -42,15 +42,15 @@ public class CommandDatapack extends CommandBase {
 					Datapacks.shutdown(loader);
 					try{
 						Datapacks.load(loader);
-						loader.get().preinit();
-						loader.get().init();
+						Datapacks.initSingleDatapack(loader.get());
+						if(array != null)loader.get().loadState(array);
 						sender.sendMessage("все норм");
-					}catch (DatapackLoadException loadException){
+					}catch (Exception loadException){
+						loadException.printStackTrace();
 						sender.sendMessage("ошыбка");
 						sender.sendMessage(loadException.getMessage());
 						return;
 					}
-					if(array != null)loader.get().loadState(array);
 					return;
 				}
 			Datapacks.getLoaders().get(0).getName();

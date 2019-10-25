@@ -272,6 +272,11 @@ public class ItemInWorldManager {
 			}
 		}
 
+		if(!iblockstate.getBlock().canBreakBlock(theWorld, pos, iblockstate, thisPlayerMP)){
+			this.thisPlayerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(this.theWorld, pos));
+			return;
+		}
+
 		this.theWorld.playAuxSFXAtEntity(this.thisPlayerMP, 2001, pos, Block.getStateId(iblockstate));
 		boolean flag1 = this.removeBlock(pos);
 
