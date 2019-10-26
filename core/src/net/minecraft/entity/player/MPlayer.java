@@ -170,6 +170,7 @@ public class MPlayer extends Player implements ICrafting {
 		if(ServerEvents.playerTeleport.isUseful())
 			location = ServerEvents.playerTeleport.call(new PlayerTeleportEvent(this, location)).getLocation();
 		playerNetServerHandler.setPlayerLocation(location.x(), location.y(), location.z(), location.yaw(), location.pitch());
+		fallDistance = 0.0F;
 	}
 
 	@Override

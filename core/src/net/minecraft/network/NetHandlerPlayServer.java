@@ -309,12 +309,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					}
 
 					if (x != playerEntity.posX || y != playerEntity.posY || z != playerEntity.posZ) {
-						if (ServerEvents.playerMove.isUseful())
-							if(ServerEvents.playerMove.call(new PlayerMoveEvent(playerEntity,
-								x, y, z, pX, pY, pZ)).isCanceled()){
+						if (ServerEvents.playerMove.isUseful()){
+							PlayerMoveEvent event = new PlayerMoveEvent(playerEntity, x, y, z, pX, pY, pZ);
+							ServerEvents.playerMove.call(event);
+							if(event.isAbltCancel())return;
+							if(event.isCanceled()){
 								playerEntity.setPositionAndUpdate(x, y, z);
 								return;
 							}
+
+						}
 					}
 					this.playerEntity.setPositionAndRotation(pX, pY, pZ, pYaw, pPitch);
 					//					this.playerEntity.addMovementStat(this.playerEntity.posX - x, this.playerEntity.posY - y, this.playerEntity.posZ - z);

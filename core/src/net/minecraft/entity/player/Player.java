@@ -177,7 +177,10 @@ public abstract class Player extends EntityLivingBase {
 	}
 
 	public void teleport(Location location){
+		sendMessage("Teleport!");
+		fallDistance = 0.0F;
 		setLocationAndAngles(location.x(), location.y(), location.z(), location.yaw(), location.pitch());
+		fallDistance = 0.0F;
 	}
 
 	protected void applyEntityAttributes() {
