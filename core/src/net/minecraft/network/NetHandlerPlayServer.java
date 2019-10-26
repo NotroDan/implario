@@ -30,10 +30,7 @@ import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
 import net.minecraft.network.protocol.Protocols;
 import net.minecraft.resources.event.ServerEvents;
-import net.minecraft.resources.event.events.player.PlayerActionEvent;
-import net.minecraft.resources.event.events.player.PlayerBlockPlaceEvent;
-import net.minecraft.resources.event.events.player.PlayerChatMessageEvent;
-import net.minecraft.resources.event.events.player.PlayerMoveEvent;
+import net.minecraft.resources.event.events.player.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListBansEntry;
 import net.minecraft.stats.AchievementList;
@@ -439,10 +436,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 				}
 				if (packetIn.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK) {
 					if (!this.serverController.isBlockProtected(worldserver, blockpos, this.playerEntity) && worldserver.getWorldBorder().contains(blockpos)) {
-						this.playerEntity.theItemInWorldManager.onBlockClicked(blockpos, packetIn.getFacing());
-					} else {
-						this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(worldserver, blockpos));
+						boolean using = true;
+						if(ServerEvents.playerBlockClick.isUseful()){
+							PlayerBlockClickEvent event = new PlayerBlockClickEvent(playerEntity, blockpos);
+							ServerEvents.playerBlockClick.call(event);
+							if(event.isCanceled())using = false;
+						}
+						if (using) {
+							this.playerEntity.theItemInWorldManager.onBlockClicked(blockpos, packetIn.getFacing());
+							return;
+						}
 					}
+					this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(worldserver, blockpos));
 				} else {
 					if (packetIn.getStatus() == C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK) {
 						this.playerEntity.theItemInWorldManager.blockRemoving(blockpos);
@@ -473,7 +478,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		BlockPos l = packetIn.getPosition();
 		EnumFacing enumfacing = EnumFacing.getFront(packetIn.getPlacedBlockDirection());
 		this.playerEntity.markPlayerActive();
-		boolean isBlock = itemstack.getItem().isBlock();
+		boolean isBlock = itemstack.getItem() != null && itemstack.getItem().isBlock();
 
 		if (packetIn.getPlacedBlockDirection() == 255) {
 			if (itemstack == null) return;
