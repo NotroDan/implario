@@ -478,7 +478,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		BlockPos l = packetIn.getPosition();
 		EnumFacing enumfacing = EnumFacing.getFront(packetIn.getPlacedBlockDirection());
 		this.playerEntity.markPlayerActive();
-		boolean isBlock = itemstack.getItem() != null && itemstack.getItem().isBlock();
+		boolean isBlock = itemstack != null && itemstack.getItem() != null && itemstack.getItem().isBlock();
 
 		if (packetIn.getPlacedBlockDirection() == 255) {
 			if (itemstack == null) return;

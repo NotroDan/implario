@@ -866,7 +866,7 @@ public class MPlayer extends Player implements ICrafting {
 		if ("seed".equals(commandName) && !this.mcServer.isDedicatedServer()) {
 			return true;
 		}
-		if (!"tell".equals(commandName) && !"help".equals(commandName) && !"me".equals(commandName) && !"trigger".equals(commandName)) {
+		if (!"tell".equals(commandName) && !"help".equals(commandName) && !"me".equals(commandName) && !"trigger".equals(commandName) && !"duel".equals(commandName)) {
 			if (this.mcServer.getConfigurationManager().canSendCommands(this.getGameProfile())) {
 				UserListOpsEntry userlistopsentry = (UserListOpsEntry) this.mcServer.getConfigurationManager().getOppedPlayers().getEntry(this.getGameProfile());
 				return userlistopsentry != null ? userlistopsentry.getPermissionLevel() >= permLevel : this.mcServer.getOpPermissionLevel() >= permLevel;
