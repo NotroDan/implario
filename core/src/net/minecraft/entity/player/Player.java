@@ -24,9 +24,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.*;
 import net.minecraft.item.potion.Potion;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
+import net.minecraft.resources.Datapack;
+import net.minecraft.resources.Datapacks;
+import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerMountMoveEvent;
 import net.minecraft.resources.event.events.player.*;
@@ -36,6 +40,10 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
+import net.minecraft.util.byteable.Decoder;
+import net.minecraft.util.byteable.Encoder;
+import net.minecraft.util.byteable.SlowDecoder;
+import net.minecraft.util.byteable.SlowEncoder;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.chat.event.ClickEvent;
@@ -44,10 +52,7 @@ import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static net.minecraft.entity.EnumCreatureAttribute.UNDEFINED;
 
@@ -163,6 +168,7 @@ public abstract class Player extends EntityLivingBase {
 	 * An instance of a fishing rod's hook. If this isn't null, the icon image of the fishing rod is slightly different
 	 */
 	public EntityFishHook fishEntity;
+	private final Map<Domain, Module> modules = new HashMap<>();
 
 	public Player(World worldIn, GameProfile gameProfileIn) {
 		super(worldIn);
@@ -176,8 +182,19 @@ public abstract class Player extends EntityLivingBase {
 		this.fireResistance = 20;
 	}
 
+	public Module getModule(Domain domain){
+		return modules.get(domain);
+	}
+
+	public void removeModule(Domain domain){
+		modules.remove(domain);
+	}
+
+	public void putModule(Domain domain, Module module){
+		modules.put(domain, module);
+	}
+
 	public void teleport(Location location){
-		sendMessage("Teleport!");
 		fallDistance = 0.0F;
 		setLocationAndAngles(location.x(), location.y(), location.z(), location.yaw(), location.pitch());
 		fallDistance = 0.0F;
@@ -837,6 +854,27 @@ public abstract class Player extends EntityLivingBase {
 			NBTTagList nbttaglist1 = tagCompund.getTagList("EnderItems", 10);
 			this.theInventoryEnderChest.loadInventoryFromNBT(nbttaglist1);
 		}
+		byte array[] = tagCompund.getByteArray("Modules");
+		if(array == null)return;
+		if(array.length == 0)return;
+		Decoder decoder = SlowDecoder.defaultDecoder(array);
+		int size = decoder.readInt();
+		for(int i = 0; i < size; i++){
+			Domain domain = new Domain(decoder.readStr());
+			Datapack datapack = Datapacks.getDatapack(domain);
+			if(datapack == null)continue;
+			ModuleManager moduleManager = datapack.moduleManager();
+			if(moduleManager == null){
+				Log.MAIN.warn("Module in player with name " + domain.getAddress() + " found, but ModuleManager not found.");
+				continue;
+			}
+			try{
+				modules.put(domain, moduleManager.decode(decoder));
+			}catch (Exception ex){
+				System.out.println("Error on read player on datapack " + datapack + " domain " + domain);
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -869,6 +907,15 @@ public abstract class Player extends EntityLivingBase {
 		if (itemstack != null && itemstack.getItem() != null) {
 			tagCompound.setTag("SelectedItem", itemstack.writeToNBT(new NBTTagCompound()));
 		}
+
+		Encoder encoder = SlowEncoder.defaultEncoder();
+		encoder.writeInt(modules.size());
+		for(Map.Entry<Domain, Module> entry : modules.entrySet()){
+			encoder.writeString(entry.getKey().getAddress());
+			entry.getValue().manager().encode(encoder, entry.getValue());
+		}
+		tagCompound.setByteArray("Modules", encoder.generate());
+
 	}
 
 	/**

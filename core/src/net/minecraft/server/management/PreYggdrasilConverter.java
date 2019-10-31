@@ -146,7 +146,7 @@ public class PreYggdrasilConverter {
 	}
 
 	public static boolean convertOplist(final MinecraftServer server) throws IOException {
-		final UserListOps userlistops = new UserListOps(ServerConfigurationManager.FILE_OPS);
+		/*final UserListOps userlistops = new UserListOps(ServerConfigurationManager.FILE_OPS);
 
 		if (OLD_OPS_FILE.exists() && OLD_OPS_FILE.isFile()) {
 			if (userlistops.getSaveFile().exists()) {
@@ -158,6 +158,7 @@ public class PreYggdrasilConverter {
 			}
 
 			try {
+				//TODO: надо конвертер в игроков
 				List<String> list = Files.readLines(OLD_OPS_FILE, Charsets.UTF_8);
 				ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
 					public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_) {
@@ -184,7 +185,7 @@ public class PreYggdrasilConverter {
 				LOGGER.error("Conversion failed, please try again later", preyggdrasilconverter$conversionerror);
 				return false;
 			}
-		}
+		}*/
 		return true;
 	}
 

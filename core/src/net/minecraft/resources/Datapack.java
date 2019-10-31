@@ -1,5 +1,6 @@
 package net.minecraft.resources;
 
+import net.minecraft.entity.player.ModuleManager;
 import net.minecraft.server.Todo;
 
 public abstract class Datapack implements ServerSideDatapack {
@@ -43,6 +44,10 @@ public abstract class Datapack implements ServerSideDatapack {
 
 	public Registrar getRegistrar() {
 		return registrar;
+	}
+
+	public ModuleManager moduleManager(){
+		return null;
 	}
 
 	@Override

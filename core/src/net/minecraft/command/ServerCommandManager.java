@@ -1,6 +1,7 @@
 package net.minecraft.command;
 
 import net.minecraft.command.server.*;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -57,6 +58,8 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		registerCommand(new CommandSet());
 		registerCommand(new CommandMemory());
 		registerCommand(new CommandGC());
+		registerCommand(new CommandLogin());
+		registerCommand(new CommandRegister());
 
 		if (MinecraftServer.getServer().isDedicatedServer()) {
 			registerCommand(new CommandDatapack());
@@ -75,6 +78,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 			registerCommand(new CommandListPlayers());
 			registerCommand(new CommandWhitelist());
 			registerCommand(new CommandSetPlayerTimeout());
+
 		} else {
 			registerCommand(new CommandPublishLocalServer());
 		}
@@ -97,7 +101,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 
 		if (flag) {
 			for (Player entityplayer : minecraftserver.getConfigurationManager().getPlayers()) {
-				if (entityplayer != sender && minecraftserver.getConfigurationManager().canSendCommands(entityplayer.getGameProfile()) && command.canCommandSenderUseCommand(sender)) {
+				if (entityplayer != sender && minecraftserver.getConfigurationManager().canSendCommands((MPlayer)entityplayer) && command.canCommandSenderUseCommand(sender)) {
 					boolean flag1 = sender instanceof MinecraftServer && MinecraftServer.getServer().opsSeeConsole();
 
 					if (flag1 || !(sender instanceof MinecraftServer)) {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.inventory.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
@@ -85,7 +86,7 @@ public class ItemBlock extends Item {
 			TileEntity tileentity = worldIn.getTileEntity(stack);
 
 			if (tileentity != null) {
-				if (!worldIn.isClientSide && tileentity.func_183000_F() && !minecraftserver.getConfigurationManager().canSendCommands(pos.getGameProfile())) {
+				if (!worldIn.isClientSide && tileentity.func_183000_F() && !minecraftserver.getConfigurationManager().canSendCommands((MPlayer)pos)) {
 					return false;
 				}
 

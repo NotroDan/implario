@@ -4,7 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
-import net.minecraft.Logger;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -24,9 +25,7 @@ import net.minecraft.item.ItemMapBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.network.Packet;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.*;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.ServerEvents;
@@ -39,7 +38,6 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ItemInWorldManager;
-import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
@@ -52,7 +50,6 @@ import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 
-import javax.jws.Oneway;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -60,13 +57,10 @@ import java.util.List;
 import java.util.Set;
 
 public class MPlayer extends Player implements ICrafting {
-
-	private static final Logger logger = Logger.getInstance();
-
 	/**
 	 * The NetServerHandler assigned to this player by the ServerConfigurationManager.
 	 */
-	public NetHandlerPlayServer playerNetServerHandler;
+	public INetHandlerPlayMPlayer playerNetServerHandler;
 	public final MinecraftServer mcServer;
 	public final ItemInWorldManager theItemInWorldManager;
 
@@ -111,6 +105,10 @@ public class MPlayer extends Player implements ICrafting {
 	private Player.EnumChatVisibility chatVisibility;
 	private long playerLastActiveTime = System.currentTimeMillis();
 
+	@Setter
+	@Getter
+	private int playerPermission = 0;
+
 	/**
 	 * The entity the player is currently spectating through.
 	 */
@@ -133,6 +131,9 @@ public class MPlayer extends Player implements ICrafting {
 	 * and XP
 	 */
 	public boolean playerConqueredTheEnd;
+	private byte password[] = null;
+	@Getter
+	private boolean logined = false;
 
 	public MPlayer(MinecraftServer server, WorldServer worldIn, GameProfile profile, ItemInWorldManager interactionManager) {
 		super(worldIn, profile);
@@ -177,6 +178,10 @@ public class MPlayer extends Player implements ICrafting {
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 
+		if(tagCompund.hasKey("permissionLevel"))
+			playerPermission = tagCompund.getInteger("permissionLevel");
+		if(tagCompund.hasKey("password"))
+			password = tagCompund.getByteArray("password");
 		if (tagCompund.hasKey("playerGameType", 99)) {
 			if (MinecraftServer.getServer().getForceGamemode()) {
 				this.theItemInWorldManager.setGameType(MinecraftServer.getServer().getGameType());
@@ -189,6 +194,8 @@ public class MPlayer extends Player implements ICrafting {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
+		tagCompound.setInteger("permissionLevel", playerPermission);
+		if(password != null)tagCompound.setByteArray("password", password);
 		tagCompound.setInteger("playerGameType", this.theItemInWorldManager.getGameType().getID());
 	}
 
@@ -863,24 +870,15 @@ public class MPlayer extends Player implements ICrafting {
 	 * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
 	 */
 	public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
-		if ("seed".equals(commandName) && !this.mcServer.isDedicatedServer()) {
-			return true;
-		}
-		if (!"tell".equals(commandName) && !"help".equals(commandName) && !"me".equals(commandName) && !"trigger".equals(commandName) && !"duel".equals(commandName)) {
-			if (this.mcServer.getConfigurationManager().canSendCommands(this.getGameProfile())) {
-				UserListOpsEntry userlistopsentry = (UserListOpsEntry) this.mcServer.getConfigurationManager().getOppedPlayers().getEntry(this.getGameProfile());
-				return userlistopsentry != null ? userlistopsentry.getPermissionLevel() >= permLevel : this.mcServer.getOpPermissionLevel() >= permLevel;
-			}
-			return false;
-		}
-		return true;
+		if (!this.mcServer.isDedicatedServer() && ("seed".equals(commandName) || getEntityWorld().getWorldInfo().areCommandsAllowed())) return true;
+		return playerPermission >= permLevel;
 	}
 
 	/**
 	 * Gets the player's IP address. Used in /banip.
 	 */
 	public String getPlayerIP() {
-		String s = this.playerNetServerHandler.netManager.getRemoteAddress().toString();
+		String s = this.playerNetServerHandler.getRemoteAddress();
 		s = s.substring(s.indexOf("/") + 1);
 		s = s.substring(0, s.indexOf(":"));
 		return s;
@@ -989,5 +987,32 @@ public class MPlayer extends Player implements ICrafting {
 		if (ServerEvents.playerJump.isUseful())
 			ServerEvents.playerJump.call(new PlayerJumpEvent(this));
 		super.jump();
+	}
+
+	public boolean registered() {
+		return password != null;
+	}
+
+	public boolean register(byte array[]){
+		if(!logined && registered())return false;
+		password = array;
+		if(!logined)login();
+		return true;
+	}
+
+	public boolean login(byte array[]){
+		if(!registered())return false;
+		if(logined)return false;
+		if(Arrays.equals(array, password)) {
+			login();
+			return true;
+		}
+		return false;
+	}
+
+	private void login(){
+		NetHandlerPlayServerAuth auth = (NetHandlerPlayServerAuth) playerNetServerHandler;
+		logined = true;
+		new NetHandlerPlayServer(MinecraftServer.getServer(), auth.netManager, auth.playerEntity);
 	}
 }

@@ -16,7 +16,6 @@ public class CommandMemory extends CommandBase{
         long used = Runtime.getRuntime().totalMemory() / 1024 / 1024;
         long free = Runtime.getRuntime().freeMemory() / 1024 / 1024;
         long total = Runtime.getRuntime().totalMemory() / 1024 / 1024;
-        byte b[] = new byte[1024 * 1024 * Integer.decode(args[0])];
-        sender.sendMessage( used - free + "mb used, " + free + "mb free, " + total + "mb total " + b[65]);
+        sender.sendMessage( used - free + "mb used, " + free + "mb free, " + total + "mb total");
     }
 }

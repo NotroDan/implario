@@ -51,7 +51,7 @@ public class EntityEnderPearl extends EntityThrowable {
 			if (entitylivingbase instanceof MPlayer) {
 				MPlayer player = (MPlayer) entitylivingbase;
 
-				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == this.worldObj && !player.isPlayerSleeping()) {
+				if (player.playerNetServerHandler.channelOpened() && player.worldObj == this.worldObj && !player.isPlayerSleeping()) {
 					float damage = 5.0F;
 					if (ServerEvents.playerTeleportPearl.isUseful()) {
 						PlayerTeleportPearlEvent event = new PlayerTeleportPearlEvent(player, this);

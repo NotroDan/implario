@@ -13,10 +13,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.*;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerJoinEvent;
@@ -70,11 +67,6 @@ public abstract class ServerConfigurationManager {
 	private final BanList bannedIPs;
 
 	/**
-	 * A set containing the OPs.
-	 */
-	private final UserListOps ops;
-
-	/**
 	 * The Set of all whitelisted players.
 	 */
 	private final Whitelist whiteListedPlayers;
@@ -118,7 +110,6 @@ public abstract class ServerConfigurationManager {
 	public 	ServerConfigurationManager(MinecraftServer server) {
 		this.bannedPlayers = new UserListBans(FILE_PLAYERBANS);
 		this.bannedIPs = new BanList(FILE_IPBANS);
-		this.ops = new UserListOps(FILE_OPS);
 		this.whiteListedPlayers = new Whitelist(server.getStorage().getCoreTable());
 		this.playerStatFiles = Maps.newHashMap();
 		this.mcServer = server;
@@ -148,7 +139,7 @@ public abstract class ServerConfigurationManager {
 		WorldInfo worldinfo = worldserver.getWorldInfo();
 		BlockPos blockpos = worldserver.getSpawnPoint();
 		this.setPlayerGameTypeBasedOnOther(playerIn, null, worldserver);
-		NetHandlerPlayServer nethandlerplayserver = new NetHandlerPlayServer(this.mcServer, netManager, playerIn);
+		INetHandlerPlayMPlayer nethandlerplayserver = new NetHandlerPlayServerAuth(this.mcServer, netManager, playerIn);
 		nethandlerplayserver.sendPacket(
 				new S01PacketJoinGame(playerIn.getEntityId(), playerIn.theItemInWorldManager.getGameType(), worldinfo.isHardcoreModeEnabled(), worldserver.provider.getDimensionId(),
 						worldserver.getDifficulty(), this.getMaxPlayers(), worldinfo.getTerrainType(), worldserver.getGameRules().getBoolean("reducedDebugInfo")));
@@ -428,7 +419,7 @@ public abstract class ServerConfigurationManager {
 
 			return s1;
 		}
-		if (!this.canJoin(profile)) {
+		if (!this.canJoin(profile.getName())) {
 			return "You are not white-listed on this server!";
 		}
 		if (this.bannedIPs.isBanned(address)) {
@@ -738,21 +729,15 @@ public abstract class ServerConfigurationManager {
 		return this.bannedIPs;
 	}
 
-	public void addOp(GameProfile profile) {
-		this.ops.addEntry(new UserListOpsEntry(profile, this.mcServer.getOpPermissionLevel(), this.ops.func_183026_b(profile)));
+	public boolean canJoin(String username) {
+		return !this.whiteListEnforced || this.whiteListedPlayers.contains(username);
 	}
 
-	public void removeOp(GameProfile profile) {
-		this.ops.removeEntry(profile);
-	}
-
-	public boolean canJoin(GameProfile profile) {
-		return !this.whiteListEnforced || this.ops.hasEntry(profile) || this.whiteListedPlayers.contains(profile.getName());
-	}
-
-	public boolean canSendCommands(GameProfile profile) {
-		return this.ops.hasEntry(profile) || this.mcServer.isSinglePlayer() && this.mcServer.getEntityWorld().getWorldInfo().areCommandsAllowed() && this.mcServer.getServerOwner().equalsIgnoreCase(
-				profile.getName()) || this.commandsAllowedForAll;
+	public boolean canSendCommands(MPlayer player) {
+		//TODO: нада буит заменить
+		return player.getPlayerPermission() == 4 || this.mcServer.isSinglePlayer() &&
+				this.mcServer.getEntityWorld().getWorldInfo().areCommandsAllowed() &&
+				this.mcServer.getServerOwner().equalsIgnoreCase(player.getName()) || this.commandsAllowedForAll;
 	}
 
 	public MPlayer getPlayerByUsername(String username) {
@@ -815,14 +800,6 @@ public abstract class ServerConfigurationManager {
 
 	public List<String> getWhitelistedPlayerNames() {
 		return whiteListedPlayers.values();
-	}
-
-	public UserListOps getOppedPlayers() {
-		return this.ops;
-	}
-
-	public String[] getOppedPlayerNames() {
-		return this.ops.getKeys();
 	}
 
 	/**

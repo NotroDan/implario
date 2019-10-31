@@ -58,7 +58,7 @@ public class BiomeGenJungle extends BiomeGenBase {
 		super.decorate(worldIn, rand, pos);
 		int i = rand.nextInt(16) + 8;
 		int j = rand.nextInt(16) + 8;
-		int k = rand.nextInt(worldIn.getHeight(pos.add(i, 0, j)).getY() * 2);
+		int k = rand. nextInt(worldIn.getHeight(pos.add(i, 0, j)).getY() * 2);
 		new WorldGenMelon().generate(worldIn, rand, pos.add(i, k, j));
 		WorldGenVines worldgenvines = new WorldGenVines();
 

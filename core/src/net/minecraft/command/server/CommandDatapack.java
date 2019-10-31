@@ -39,11 +39,13 @@ public class CommandDatapack extends CommandBase {
 			for(DatapackLoader loader : Datapacks.getLoaders())
 				if(loader.getName().equals(args[1])){
 					byte[] array = loader.get().saveState();
+					byte[] playerInfo = Datapacks.removePlayerInfo(loader.get());
 					Datapacks.shutdown(loader);
 					try{
 						Datapacks.load(loader);
 						Datapacks.initSingleDatapack(loader.get());
 						if(array != null)loader.get().loadState(array);
+						if(playerInfo != null)Datapacks.loadPlayerInfo(loader.get(), playerInfo);
 						sender.sendMessage("все норм");
 					}catch (Exception loadException){
 						loadException.printStackTrace();

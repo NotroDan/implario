@@ -6,6 +6,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.database.Storage;
 import net.minecraft.database.mariadb.MariaDBStorage;
 import net.minecraft.database.memory.MemoryStorage;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.player.Player;
 import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
@@ -341,7 +342,7 @@ public class DedicatedServer extends MinecraftServer {
 
 	public boolean isBlockProtected(World worldIn, BlockPos pos, Player playerIn) {
 		if (worldIn.provider.getDimensionId() != 0) return false;
-		if (this.getConfigurationManager().canSendCommands(playerIn.getGameProfile())) return false;
+		if (this.getConfigurationManager().canSendCommands((MPlayer)playerIn)) return false;
 		if (this.getSpawnProtectionSize() <= 0) return false;
 		BlockPos blockpos = worldIn.getSpawnPoint();
 		int i = MathHelper.abs_int(pos.getX() - blockpos.getX());

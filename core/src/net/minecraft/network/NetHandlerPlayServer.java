@@ -51,12 +51,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
+public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 
 	private static final Logger logger = Logger.getInstance();
-	public final NetworkManager netManager;
-	private final MinecraftServer serverController;
-	public MPlayer playerEntity;
 	private int networkTickCount;
 	private int field_175090_f;
 
@@ -83,12 +80,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	private boolean hasMoved = true;
 
 	public NetHandlerPlayServer(MinecraftServer server, NetworkManager networkManagerIn, MPlayer playerIn) {
-		this.serverController = server;
-		this.netManager = networkManagerIn;
-		networkManagerIn.setConnectionState(Protocols.PLAY_47);
-		networkManagerIn.setNetHandler(this);
-		this.playerEntity = playerIn;
-		playerIn.playerNetServerHandler = this;
+		super(server, networkManagerIn, playerIn);
 	}
 
 	/**
@@ -101,7 +93,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 		if ((long) this.networkTickCount - this.lastSentPingPacket > 40L) {
 			this.lastSentPingPacket = this.networkTickCount;
-			this.lastPingTime = this.currentTimeMillis();
+			this.lastPingTime = System.currentTimeMillis();
 			this.field_147378_h = (int) this.lastPingTime;
 			this.sendPacket(new S00PacketKeepAlive(this.field_147378_h));
 		}
@@ -593,7 +585,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	 * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
 	 */
 	public void onDisconnect(IChatComponent reason) {
-		logger.info(this.playerEntity.getName() + " lost connection: " + reason);
 		this.serverController.refreshStatusNextTick();
 		ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("multiplayer.player.left", this.playerEntity.getDisplayName());
 		chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.YELLOW);
@@ -670,11 +661,14 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 			if (s.startsWith("/")) {
 				this.handleSlashCommand(s);
 			} else {
-				boolean b = serverController.getConfigurationManager().canSendCommands(playerEntity.getGameProfile());
+				boolean b = serverController.getConfigurationManager().canSendCommands(playerEntity);
 				if(ServerEvents.playerChatMessage.isUseful()){
 					PlayerChatMessageEvent event = new PlayerChatMessageEvent(playerEntity, s);
 					ServerEvents.playerChatMessage.call(event);
-					if(event.isCanceled())return;
+					if(event.isCanceled()) {
+						checkSpam();
+						return;
+					}
 					s = event.getMessage();
 				}
 				IChatComponent ichatcomponent =
@@ -682,12 +676,15 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 				//new ChatComponentTranslation("chat.type.text", new Object[] {this.playerEntity.getDisplayName(), s});
 				this.serverController.getConfigurationManager().sendChatMsgImpl(ichatcomponent, false);
 			}
+			checkSpam();
+		}
+	}
 
-			this.chatSpamThresholdCount += 20;
+	private void checkSpam(){
+		this.chatSpamThresholdCount += 20;
 
-			if (this.chatSpamThresholdCount > 200 && !this.serverController.getConfigurationManager().canSendCommands(this.playerEntity.getGameProfile())) {
-				this.kickPlayerFromServer("disconnect.spam");
-			}
+		if (this.chatSpamThresholdCount > 200 && !this.serverController.getConfigurationManager().canSendCommands(playerEntity)) {
+			this.kickPlayerFromServer("disconnect.spam");
 		}
 	}
 
@@ -990,13 +987,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	 */
 	public void processKeepAlive(C00PacketKeepAlive packetIn) {
 		if (packetIn.getKey() == this.field_147378_h) {
-			int i = (int) (this.currentTimeMillis() - this.lastPingTime);
+			int i = (int) (System.currentTimeMillis() - this.lastPingTime);
 			this.playerEntity.ping = (this.playerEntity.ping * 3 + i) / 4;
 		}
-	}
-
-	private long currentTimeMillis() {
-		return System.nanoTime() / 1000000L;
 	}
 
 	/**

@@ -22,9 +22,7 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 
 		this.saveUserBanList();
 		this.saveIpBanList();
-		this.loadOpsList();
 		this.readWhiteList();
-		this.saveOpsList();
 
 	}
 
@@ -32,16 +30,6 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 		super.setWhiteListEnabled(whitelistEnabled);
 		this.getServerInstance().setProperty("white-list", whitelistEnabled);
 		this.getServerInstance().saveProperties();
-	}
-
-	public void addOp(GameProfile profile) {
-		super.addOp(profile);
-		this.saveOpsList();
-	}
-
-	public void removeOp(GameProfile profile) {
-		super.removeOp(profile);
-		this.saveOpsList();
 	}
 
 	@Override
@@ -78,24 +66,6 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 		}
 	}
 
-	private void loadOpsList() {
-		try {
-			this.getOppedPlayers().readSavedFile();
-		} catch (Exception exception) {
-			Log.MAIN.warn("Не удалось прогрузить список операторов: ");
-			Log.MAIN.exception(exception);
-		}
-	}
-
-	private void saveOpsList() {
-		try {
-			this.getOppedPlayers().writeChanges();
-		} catch (Exception exception) {
-			Log.MAIN.warn("Не удалось сохранить список операторов: ");
-			Log.MAIN.exception(exception);
-		}
-	}
-
 	private void readWhiteList() {
 		try {
 			this.getWhitelistedPlayers().read();
@@ -114,16 +84,12 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 		}
 	}
 
-	public boolean canJoin(GameProfile profile) {
-		return !this.isWhiteListEnabled() || this.canSendCommands(profile) || this.getWhitelistedPlayers().contains(profile.getName());
+	public boolean canJoin(String nickname) {
+		return !this.isWhiteListEnabled() || this.getWhitelistedPlayers().contains(nickname);
 	}
 
 	public DedicatedServer getServerInstance() {
 		return (DedicatedServer) super.getServerInstance();
-	}
-
-	public boolean func_183023_f(GameProfile p_183023_1_) {
-		return this.getOppedPlayers().func_183026_b(p_183023_1_);
 	}
 
 }

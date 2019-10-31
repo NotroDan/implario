@@ -9,6 +9,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
+import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
@@ -41,15 +42,14 @@ public class CommandOp extends CommandBase {
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length == 1 && args[0].length() > 0) {
 			MinecraftServer minecraftserver = MinecraftServer.getServer();
-			GameProfile gameprofile = minecraftserver.getPlayerProfileCache().getGameProfileForUsername(args[0]);
+			MPlayer mPlayer = minecraftserver.getConfigurationManager().getPlayerByUsername(args[0]);
 
-			if (gameprofile == null) {
-				throw new CommandException("commands.op.failed", new Object[] {args[0]});
-			}
-			minecraftserver.getConfigurationManager().addOp(gameprofile);
-			notifyOperators(sender, this, "commands.op.success", new Object[] {args[0]});
+			if (mPlayer == null)
+				throw new CommandException("commands.op.failed", args[0]);
+			mPlayer.setPlayerPermission(4);
+			notifyOperators(sender, this, "commands.op.success", args[0]);
 		} else {
-			throw new WrongUsageException("commands.op.usage", new Object[0]);
+			throw new WrongUsageException("commands.op.usage");
 		}
 	}
 
@@ -59,7 +59,7 @@ public class CommandOp extends CommandBase {
 			List<String> list = new ArrayList<>();
 
 			for (GameProfile gameprofile : MinecraftServer.getServer().getGameProfiles()) {
-				if (!MinecraftServer.getServer().getConfigurationManager().canSendCommands(gameprofile) && doesStringStartWith(s, gameprofile.getName())) {
+				if (!MinecraftServer.getServer().getConfigurationManager().canSendCommands((MPlayer)sender) && doesStringStartWith(s, gameprofile.getName())) {
 					list.add(gameprofile.getName());
 				}
 			}
