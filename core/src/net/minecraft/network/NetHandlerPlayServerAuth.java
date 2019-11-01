@@ -54,10 +54,6 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
     public MPlayer playerEntity;
     private int networkTickCount;
 
-    /**
-     * Used to keep track of how the player is floating while gamerules should prevent that. Surpassing 80 ticks means
-     * kick
-     */
     private int field_147378_h;
     private long lastPingTime;
     private long lastSentPingPacket;

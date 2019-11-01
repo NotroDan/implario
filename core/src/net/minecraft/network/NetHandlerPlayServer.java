@@ -88,6 +88,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 */
 	public void update() {
 		this.field_147366_g = false;
+		floatingTickCount = -40;
 		++this.networkTickCount;
 		MinecraftServer.profiler.startSection("keepAlive");
 
