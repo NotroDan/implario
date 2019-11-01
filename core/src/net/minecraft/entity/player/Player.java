@@ -854,24 +854,28 @@ public abstract class Player extends EntityLivingBase {
 			NBTTagList nbttaglist1 = tagCompund.getTagList("EnderItems", 10);
 			this.theInventoryEnderChest.loadInventoryFromNBT(nbttaglist1);
 		}
-		byte array[] = tagCompund.getByteArray("Modules");
-		if(array == null)return;
-		if(array.length == 0)return;
-		Decoder decoder = SlowDecoder.defaultDecoder(array);
-		int size = decoder.readInt();
-		for(int i = 0; i < size; i++){
-			Domain domain = new Domain(decoder.readStr());
-			Datapack datapack = Datapacks.getDatapack(domain);
-			if(datapack == null)continue;
-			ModuleManager moduleManager = datapack.moduleManager();
-			if(moduleManager == null){
-				Log.MAIN.warn("Module in player with name " + domain.getAddress() + " found, but ModuleManager not found.");
-				continue;
-			}
-			try{
-				modules.put(domain, moduleManager.decode(decoder));
-			}catch (Exception ex){
-				System.out.println("Error on read player on datapack " + datapack + " domain " + domain);
+		if(tagCompund.hasKey("Modules")){
+			byte array[] = tagCompund.getByteArray("Modules");
+			Decoder decoder = SlowDecoder.defaultDecoder(array);
+			int size = decoder.readInt();
+			try {
+				for (int i = 0; i < size; i++) {
+					Domain domain = new Domain(decoder.readStr());
+					Datapack datapack = Datapacks.getDatapack(domain);
+					if (datapack == null) continue;
+					ModuleManager moduleManager = datapack.moduleManager();
+					if (moduleManager == null) {
+						Log.MAIN.warn("Module in player with name " + domain.getAddress() + " found, but ModuleManager not found.");
+						continue;
+					}
+					try {
+						modules.put(domain, moduleManager.decode(decoder.readBytes()));
+					} catch (Exception ex) {
+						System.out.println("Error on read player on datapack " + datapack + " domain " + domain);
+						ex.printStackTrace();
+					}
+				}
+			}catch (Throwable ex){
 				ex.printStackTrace();
 			}
 		}
@@ -911,8 +915,12 @@ public abstract class Player extends EntityLivingBase {
 		Encoder encoder = SlowEncoder.defaultEncoder();
 		encoder.writeInt(modules.size());
 		for(Map.Entry<Domain, Module> entry : modules.entrySet()){
-			encoder.writeString(entry.getKey().getAddress());
-			entry.getValue().manager().encode(encoder, entry.getValue());
+			try{
+				byte array[] = entry.getValue().manager().encode(entry.getValue());
+				encoder.writeString(entry.getKey().getAddress()).writeBytes(array);
+			}catch (Throwable throwable){
+				Log.MAIN.error("Error on write nbt, domain " + entry.getKey() + " class module manager " + entry.getValue().manager());
+			}
 		}
 		tagCompound.setByteArray("Modules", encoder.generate());
 
@@ -1727,6 +1735,7 @@ public abstract class Player extends EntityLivingBase {
 			this.setScore(oldPlayer.getScore());
 		}
 
+		this.modules.putAll(oldPlayer.modules);
 		this.xpSeed = oldPlayer.xpSeed;
 		this.capabilities.allowFlying = oldPlayer.capabilities.allowFlying;
 		this.theInventoryEnderChest = oldPlayer.theInventoryEnderChest;

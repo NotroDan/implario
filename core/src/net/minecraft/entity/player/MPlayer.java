@@ -28,7 +28,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.*;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.network.play.server.*;
+import net.minecraft.resources.event.EventManager;
 import net.minecraft.resources.event.ServerEvents;
+import net.minecraft.resources.event.events.player.PlayerDamagePlayerEvent;
 import net.minecraft.resources.event.events.player.PlayerDeathEvent;
 import net.minecraft.resources.event.events.player.PlayerJumpEvent;
 import net.minecraft.resources.event.events.player.PlayerTeleportEvent;
@@ -444,8 +446,15 @@ public class MPlayer extends Player implements ICrafting {
 		if (source instanceof EntityDamageSource) {
 			Entity entity = source.getEntity();
 
-			if (entity instanceof Player && !this.canAttackPlayer((Player) entity)) {
-				return false;
+			if (entity instanceof Player) {
+				if(ServerEvents.playerDamagePlayer.isUseful()){
+					PlayerDamagePlayerEvent event = new PlayerDamagePlayerEvent(this, (Player)entity, source, amount);
+					ServerEvents.playerDamagePlayer.call(event);
+					if(event.isCanceled())return false;
+					source = event.getSource();
+					amount = event.getAmount();
+				}
+				if(!canAttackPlayer((Player) entity)) return false;
 			}
 
 			if (entity instanceof EntityArrow) {
@@ -790,6 +799,8 @@ public class MPlayer extends Player implements ICrafting {
 		this.lastExperience = -1;
 		this.lastHealth = -1.0F;
 		this.lastFoodLevel = -1;
+		this.password = ((MPlayer)oldPlayer).password;
+		this.playerPermission = ((MPlayer)oldPlayer).playerPermission;
 		this.destroyedItemsNetCache.addAll(((MPlayer) oldPlayer).destroyedItemsNetCache);
 	}
 

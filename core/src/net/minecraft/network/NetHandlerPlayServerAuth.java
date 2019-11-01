@@ -68,7 +68,6 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      */
     private int chatSpamThresholdCount;
     private int itemDropThreshold;
-    private boolean logged = false;
 
     public NetHandlerPlayServerAuth(MinecraftServer server, NetworkManager networkManagerIn, MPlayer playerIn) {
         this.serverController = server;

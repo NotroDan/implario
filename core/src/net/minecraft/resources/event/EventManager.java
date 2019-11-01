@@ -1,5 +1,6 @@
 package net.minecraft.resources.event;
 
+import net.minecraft.logging.Log;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.events.Cancelable;
 import org.apache.commons.lang3.ArrayUtils;
@@ -51,7 +52,12 @@ public class EventManager<T extends Event> {
 		for (Listener<T> listener : array){
 		    if(listener.ignoreCancelled() && event instanceof Cancelable && ((Cancelable)event).isCanceled())
                 continue;
-		    listener.process(event);
+		    try{
+				listener.process(event);
+			}catch (Throwable throwable){
+		    	Log.MAIN.error("Error on event " + event + " listener " + listener);
+				Log.MAIN.exception(throwable);
+			}
         }
 		return event;
 	}

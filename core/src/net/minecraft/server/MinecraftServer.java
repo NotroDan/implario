@@ -372,7 +372,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	 * Sets the serverRunning variable to false, in order to get the server to shut down.
 	 */
 	public void initiateShutdown() {
-		for (MPlayer player : getConfigurationManager().getPlayers()) {
+		for (MPlayer player : getConfigurationManager().getPlayers().toArray(new MPlayer[]{})) {
 			player.playerNetServerHandler.kickPlayerFromServer("§eСервер выключен.\nВозможно, он сейчас даже не включится.");
 		}
 		this.serverRunning = false;

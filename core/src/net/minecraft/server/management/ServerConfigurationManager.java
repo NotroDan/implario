@@ -139,7 +139,11 @@ public abstract class ServerConfigurationManager {
 		WorldInfo worldinfo = worldserver.getWorldInfo();
 		BlockPos blockpos = worldserver.getSpawnPoint();
 		this.setPlayerGameTypeBasedOnOther(playerIn, null, worldserver);
-		INetHandlerPlayMPlayer nethandlerplayserver = new NetHandlerPlayServerAuth(this.mcServer, netManager, playerIn);
+		INetHandlerPlayMPlayer nethandlerplayserver;
+		if(MinecraftServer.mcServer.isDedicatedServer()){
+			nethandlerplayserver = new NetHandlerPlayServerAuth(mcServer, netManager, playerIn);
+			playerIn.sendMessage(playerIn.registered() ? "§6Введите /login [Пароль] для авторизации" : "§6Введите /register [Пароль] для регистрации");
+		}else nethandlerplayserver = new NetHandlerPlayServer(mcServer, netManager, playerIn);
 		nethandlerplayserver.sendPacket(
 				new S01PacketJoinGame(playerIn.getEntityId(), playerIn.theItemInWorldManager.getGameType(), worldinfo.isHardcoreModeEnabled(), worldserver.provider.getDimensionId(),
 						worldserver.getDifficulty(), this.getMaxPlayers(), worldinfo.getTerrainType(), worldserver.getGameRules().getBoolean("reducedDebugInfo")));
