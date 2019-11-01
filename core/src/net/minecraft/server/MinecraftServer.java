@@ -12,7 +12,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
-import lombok.Getter;
 import net.minecraft.Logger;
 import net.minecraft.command.*;
 import net.minecraft.crash.CrashReport;
@@ -1097,6 +1096,15 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			return Futures.immediateFuture(callable.call());
 		} catch (Exception exception) {
 			return Futures.immediateFailedCheckedFuture(exception);
+		}
+	}
+
+	public <V> ListenableFuture<V> forcePushTask(Callable<V> callable) {
+		ListenableFutureTask<V> listenablefuturetask = ListenableFutureTask.create(callable);
+
+		synchronized (this.futureTaskQueue) {
+			this.futureTaskQueue.add(listenablefuturetask);
+			return listenablefuturetask;
 		}
 	}
 
