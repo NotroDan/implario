@@ -130,4 +130,13 @@ public class StringUtils {
 		return b.toString();
 	}
 
+	public static String join(String s, Object[] members) {
+		StringBuilder b = new StringBuilder();
+		for (Object member : members) {
+			if (b.length() != 0) b.append(s);
+			b.append(member);
+		}
+		return b.toString();
+	}
+
 }

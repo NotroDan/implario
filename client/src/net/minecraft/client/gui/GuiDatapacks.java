@@ -17,7 +17,7 @@ public class GuiDatapacks extends GuiScreen {
 	public void initGui() {
 		List<DatapackLoader> datapacks = Datapacks.getLoaders();
 		for (DatapackLoader loader : datapacks) {
-			Datapack datapack = loader.get();
+			Datapack datapack = loader.getInstance();
 			String msg = "§a" + datapack.getDomain() + "§f: " + (datapack.clientSide instanceof ClientSideDatapack ? "client" : "server") + "-side datapack '§e" +
 					loader.getName() + "§f', loaded at §7" + loader.getLoadedAt();
 			map.put(msg, datapack);

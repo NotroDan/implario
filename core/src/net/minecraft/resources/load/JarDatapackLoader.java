@@ -4,11 +4,14 @@ import lombok.Getter;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 import net.minecraft.server.Todo;
+import net.minecraft.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JarDatapackLoader extends DatapackLoader {
 
@@ -22,11 +25,52 @@ public class JarDatapackLoader extends DatapackLoader {
 	}
 
 	@Override
-	public void init() throws DatapackLoadException {
+	public DatapackInfo prepareReader() throws DatapackLoadException {
 		try {
 			loader = new DatapackClassLoader(jarFile, System.class.getClassLoader());
 		} catch (IOException ex) {
 			throw new DatapackLoadException(ex);
+		}
+
+		byte[] read = read("datapack.yml");
+		if (read == null) throw new DatapackLoadException(null, "Can't read datapack.yml");
+		String yml = new String(read);
+		String[] lines = yml.replace("\t", "").replace("\r", "").split("\n");
+		Map<String, String> config = new HashMap<>();
+		String current = null;
+		for (String line : lines) {
+			line = line.trim();
+			if (line.startsWith("#") || line.isEmpty()) continue;
+			String[] split = line.split(": ", 1);
+			if (split.length == 1 && current != null) {
+				config.put(current, config.get(current) + "\n" + split[0]);
+			} else if (split.length == 2) {
+				current = split[0].toLowerCase();
+				config.put(current, split[1]);
+			}
+		}
+
+		String domain = config.get("domain").toLowerCase();
+		String serverMain = config.get("server-class");
+		String clientMain = config.get("client-class");
+		String repo = config.get("repo");
+		String releasePrefix = config.get("release-prefix");
+		String description = config.get("description");
+		String[] dependencies = config.get("depend").split(", ");
+
+		return new DatapackInfo(domain, serverMain, clientMain, dependencies, repo, releasePrefix, description);
+
+	}
+
+
+	private byte[] read(String name) {
+		InputStream in = getResource(name);
+		try {
+			byte array[] = new byte[in.available()];
+			FileUtil.readInputStream(in, array);
+			return array;
+		} catch (IOException ex) {
+			return null;
 		}
 	}
 
@@ -36,17 +80,19 @@ public class JarDatapackLoader extends DatapackLoader {
 	}
 
 	@Override
-	public Datapack load(String main, String clientMain) throws DatapackLoadException {
+	public Datapack createInstance() throws DatapackLoadException {
+		if (datapack != null) return datapack;
+		String serverClass = properties.getServerMain();
+		String clientClass = properties.getClientMain();
 		try {
-			if (datapack != null) return datapack;
-			Log.DEBUG.info("Loading main class " + main);
+			Log.DEBUG.info("JarDPL '" + getName() + "' is loading its server-side stuff from '" + serverClass + "'");
 
-			Class mainClass = loadClass(main);
+			Class mainClass = loadClass(serverClass);
 			this.datapack = (Datapack) mainClass.getConstructors()[0].newInstance();
-			Log.DEBUG.info("clientMain: " + clientMain);
 
-			if (clientMain == null || Todo.instance.isServerSide()) return datapack;
-			Class client = loadClass(clientMain);
+			if (clientClass == null || Todo.instance.isServerSide()) return datapack;
+			Log.DEBUG.info("JarDPL '" + getName() + "' also has client-side stuff. Initializing '" + clientClass + "'");
+			Class client = loadClass(clientClass);
 			datapack.clientSide = client.getConstructors()[0].newInstance();
 			return datapack;
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {

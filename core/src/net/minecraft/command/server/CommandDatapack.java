@@ -4,13 +4,8 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
-import net.minecraft.resources.load.DatapackLoadException;
 import net.minecraft.resources.load.DatapackLoader;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.IntDoubleMap;
-import net.minecraft.util.IntHashMap;
 
 import java.io.File;
 
@@ -23,7 +18,7 @@ public class CommandDatapack extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "dp [Jar]";
+		return "dp reload [Jar]";
 	}
 
 	@Override
@@ -33,19 +28,19 @@ public class CommandDatapack extends CommandBase {
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		if (args.length == 0) throw new WrongUsageException("Использование: /dp [Jar]");
+		if (args.length == 0) throw new WrongUsageException("Использование: /dp reload [Jar]");
 		String cmd = args[0];
 		if(cmd.equals("reload")){
 			for(DatapackLoader loader : Datapacks.getLoaders())
 				if(loader.getName().equals(args[1])){
-					byte[] array = loader.get().saveState();
-					byte[] playerInfo = Datapacks.removePlayerInfo(loader.get());
+					byte[] array = loader.getInstance().saveState();
+					byte[] playerInfo = Datapacks.removePlayerInfo(loader.getInstance());
 					Datapacks.shutdown(loader);
 					try{
-						Datapacks.load(loader);
-						Datapacks.initSingleDatapack(loader.get());
-						if(array != null)loader.get().loadState(array);
-						if(playerInfo != null)Datapacks.loadPlayerInfo(loader.get(), playerInfo);
+						Datapacks.accept(loader);
+						Datapacks.initSingleDatapack(loader.getInstance());
+						if(array != null)loader.getInstance().loadState(array);
+						if(playerInfo != null)Datapacks.loadPlayerInfo(loader.getInstance(), playerInfo);
 						sender.sendMessage("все норм");
 					}catch (Exception loadException){
 						loadException.printStackTrace();

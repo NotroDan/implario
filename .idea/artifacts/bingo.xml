@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="bingo">
+    <output-path>$PROJECT_DIR$/client/env/gamedata/datapacks</output-path>
+    <root id="archive" name="bingo.jar">
+      <element id="module-output" name="bingo" />
+    </root>
+  </artifact>
+</component>

@@ -2,25 +2,30 @@ package net.minecraft.resources.load;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 
 @RequiredArgsConstructor
+@Getter
 public class SimpleDatapackLoader extends DatapackLoader {
 
-	@Getter
 	private final Datapack datapack;
+	private final DatapackInfo info;
 
 	@Override
-	public Datapack load(String name, String clientName) {
-		try {
-			datapack.clientSide = Class.forName(clientName);
-		} catch (ClassNotFoundException ignored) {}
+	public Datapack createInstance() {
+		String clientMainClass = properties.getClientMain();
+		if (clientMainClass != null) try {
+			datapack.clientSide = Class.forName(clientMainClass);
+		} catch (ClassNotFoundException ignored) {
+			Log.MAIN.warn("SimpleDPL '" + getName() + "' has broken main client class '" + clientMainClass + "'");
+		}
 		return datapack;
 	}
 
 	@Override
-	public byte[] read(String name) {
-		throw new UnsupportedOperationException("Unable to read resource from simple datapack. Requested resource is '" + name + "'");
+	public DatapackInfo prepareReader() {
+		return info;
 	}
 
 	@Override

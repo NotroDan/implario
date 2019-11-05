@@ -3,18 +3,20 @@ package net.minecraft.resources.load;
 import lombok.Getter;
 import net.minecraft.resources.Datapack;
 import net.minecraft.util.FileUtil;
+import net.minecraft.util.Tree;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public abstract class DatapackLoader {
+public abstract class DatapackLoader extends Tree.Leaf {
 
 	@Getter
 	private final long loadedAt = System.currentTimeMillis();
 
-	protected Datapack datapack;
+	@Getter
+	protected DatapackInfo properties;
 
-	public abstract Datapack load(String main, String clientMain) throws DatapackLoadException;
+	protected Datapack datapack;
 
 	public InputStream getResource(String name) {
 		return DatapackLoader.class.getResourceAsStream(name);
@@ -22,22 +24,13 @@ public abstract class DatapackLoader {
 
 	public abstract void close();
 
-	public Datapack get() {
+	public Datapack getInstance() {
 		return datapack;
 	}
 
-	public void init() throws DatapackLoadException {}
+	public abstract DatapackInfo prepareReader() throws DatapackLoadException;
 
-	public byte[] read(String name) {
-		InputStream in = getResource(name);
-		try {
-			byte array[] = new byte[in.available()];
-			FileUtil.readInputStream(in, array);
-			return array;
-		} catch (IOException ex) {
-			return null;
-		}
-	}
+	public abstract Datapack createInstance() throws DatapackLoadException;
 
 	public abstract String getName();
 
