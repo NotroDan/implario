@@ -25,7 +25,7 @@ public class ServerEvents {
 	public static EventManager<PlayerSleepEvent> playerSleep = new EventManager<>();
 	public static EventManager<PlayerActionEvent> playerAction = new EventManager<>();
 	public static EventManager<TrackerUpdateEvent> trackerUpdate = new EventManager<>();
-	public static EventManager<PlayerInteractEvent> playerInteract = new EventManager<>();
+	public static EventManager<PlayerBlockInteractEvent> playerBlockInteract = new EventManager<>();
 	public static EventManager<PlayerRespawnEvent> playerRespawn = new EventManager<>();
 	public static EventManager<PlayerTeleportPearlEvent> playerTeleportPearl = new EventManager<>();
 	public static EventManager<PlayerMountMoveEvent> playerMountMove = new EventManager<>();
@@ -39,6 +39,7 @@ public class ServerEvents {
 	public static EventManager<PlayerFoodChangeEvent> playerFoodChange = new EventManager<>();
 	public static EventManager<PlayerBlockClickEvent> playerBlockClick = new EventManager<>();
 	public static EventManager<PlayerDamagePlayerEvent> playerDamagePlayer = new EventManager<>();
+	public static EventManager<PlayerItemUseEvent> playerItemUse = new EventManager<>();
 
 	public static EventManager<WorldServerInitEvent> worldInit = new EventManager<>();
 	public static EventManager<WorldTickEvent> worldTick = new EventManager<>();

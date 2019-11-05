@@ -162,8 +162,14 @@ public class Datapacks {
 	public static void fullInitializeDatapacks(File directory){
 		initializeDatapacks(directory);
 		Bootstrap.register();
-		for (Datapack datapack : Datapacks.getDatapacks())
-			datapack.init();
+		for (Datapack datapack : Datapacks.getDatapacks()){
+			try {
+				datapack.init();
+			}catch (Throwable throwable){
+				Log.MAIN.error("Error on initialize datapack " + datapack + " domain " + datapack.getDomain());
+				Log.MAIN.exception(throwable);
+			}
+		}
 	}
 
 	public Datapack getDatapack(Domain domain){

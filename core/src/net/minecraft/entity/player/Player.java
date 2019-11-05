@@ -696,8 +696,8 @@ public abstract class Player extends EntityLivingBase {
 	/**
 	 * Called when player presses the drop item key
 	 */
-	public EntityItem dropOneItem(boolean dropAll) {
-		return this.dropItem(this.inventory.decrStackSize(this.inventory.currentItem, dropAll && this.inventory.getCurrentItem() != null ? this.inventory.getCurrentItem().stackSize : 1), false, true);
+	public void dropOneItem(boolean dropAll) {
+		this.dropItem(this.inventory.decrStackSize(this.inventory.currentItem, dropAll && this.inventory.getCurrentItem() != null ? this.inventory.getCurrentItem().stackSize : 1), false, true);
 	}
 
 	/**
@@ -714,9 +714,6 @@ public abstract class Player extends EntityLivingBase {
 		if (droppedItem.stackSize == 0) {
 			return null;
 		}
-		if (ServerEvents.playerItemDrop.isUseful())
-			if(ServerEvents.playerItemDrop.call(new PlayerItemDropEvent(this,
-					droppedItem, dropAround, traceItem)).isCanceled())return null;
 
 		double d0 = this.posY - 0.3F + (double) this.getEyeHeight();
 		EntityItem entityitem = new EntityItem(this.worldObj, this.posX, d0, this.posZ, droppedItem);

@@ -14,11 +14,12 @@ public class PlayerItemUseEvent extends APlayerСancelableEvent {
 	private final BlockPos pos;
 	private final EnumFacing side;
 	private final float hitX, hitY, hitZ;
+	private final boolean airUse;
 
 	@Setter
 	private boolean used;
 
-	public PlayerItemUseEvent(Player player, ItemStack stack, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
+	public PlayerItemUseEvent(Player player, ItemStack stack, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, boolean airUse){
 		super(player);
 		this.stack = stack;
 		this.pos = pos;
@@ -26,5 +27,6 @@ public class PlayerItemUseEvent extends APlayerСancelableEvent {
 		this.hitX = hitX;
 		this.hitY = hitY;
 		this.hitZ = hitZ;
+		this.airUse = airUse;
 	}
 }

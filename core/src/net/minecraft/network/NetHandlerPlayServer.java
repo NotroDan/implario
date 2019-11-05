@@ -475,23 +475,38 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 
 		if (packetIn.getPlacedBlockDirection() == 255) {
 			if (itemstack == null) return;
-
+			if(ServerEvents.playerItemUse.isUseful()){
+				PlayerItemUseEvent event = new PlayerItemUseEvent(playerEntity, itemstack, l, enumfacing,
+						packetIn.getPlacedBlockOffsetX(), packetIn.getPlacedBlockOffsetY(),
+						packetIn.getPlacedBlockOffsetZ(), true);
+				ServerEvents.playerItemUse.call(event);
+				if(event.isCanceled())return;
+			}
 			this.playerEntity.theItemInWorldManager.tryUseItem(this.playerEntity, worldserver, itemstack);
 		} else if (!isBlock ||
 				(l.getY() < this.serverController.getBuildLimit() - 1 || enumfacing != EnumFacing.UP
 						&& l.getY() < this.serverController.getBuildLimit())) {
 			flag = true;
-			boolean using = true;
-			if(isBlock && ServerEvents.playerBlockPlace.isUseful()){
-				PlayerBlockPlaceEvent event = new PlayerBlockPlaceEvent(playerEntity,
-						((ItemBlock)itemstack.getItem()).getBlock(), l.offset(enumfacing));
-				ServerEvents.playerBlockPlace.call(event);
-				using = !event.isCanceled();
-			}
-			if (using && this.hasMoved && this.playerEntity.getDistanceSq(l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5) < 64.0D &&
-					!this.serverController.isBlockProtected(worldserver, l, this.playerEntity) && worldserver.getWorldBorder().contains(l))
-				this.playerEntity.theItemInWorldManager.activateBlockOrUseItem(this.playerEntity, worldserver, itemstack, l, enumfacing, packetIn.getPlacedBlockOffsetX(),
+			if (this.hasMoved && this.playerEntity.getDistanceSq(l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5) < 64.0D &&
+					!this.serverController.isBlockProtected(worldserver, l, this.playerEntity) && worldserver.getWorldBorder().contains(l)){
+				boolean using = true;
+				if(isBlock && ServerEvents.playerBlockPlace.isUseful()){
+					PlayerBlockPlaceEvent event = new PlayerBlockPlaceEvent(playerEntity,
+							((ItemBlock)itemstack.getItem()).getBlock(), l.offset(enumfacing));
+					ServerEvents.playerBlockPlace.call(event);
+					using = !event.isCanceled();
+				}
+				if(using && ServerEvents.playerItemUse.isUseful()){
+					PlayerItemUseEvent event = new PlayerItemUseEvent(playerEntity, itemstack, l, enumfacing,
+							packetIn.getPlacedBlockOffsetX(), packetIn.getPlacedBlockOffsetY(),
+							packetIn.getPlacedBlockOffsetZ(), false);
+					ServerEvents.playerItemUse.call(event);
+					using = !event.isCanceled();
+				}
+				if(using)playerEntity.theItemInWorldManager.activateBlockOrUseItem(this.playerEntity, worldserver,
+						itemstack, l, enumfacing, packetIn.getPlacedBlockOffsetX(),
 						packetIn.getPlacedBlockOffsetY(), packetIn.getPlacedBlockOffsetZ());
+			}
 		} else {
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("build.tooHigh", this.serverController.getBuildLimit());
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);

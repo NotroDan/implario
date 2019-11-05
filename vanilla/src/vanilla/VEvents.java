@@ -2,7 +2,6 @@ package vanilla;
 
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.gui.Server;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -22,14 +21,12 @@ import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
 import net.minecraft.resources.event.events.player.*;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import org.lwjgl.Sys;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.monster.EntityBlaze;
 import vanilla.entity.monster.EntityEndermite;
@@ -37,14 +34,8 @@ import vanilla.entity.monster.EntitySilverfish;
 import vanilla.entity.passive.EntityChicken;
 import vanilla.entity.passive.EntityHorse;
 import vanilla.entity.passive.EntityPig;
-import vanilla.entity.passive.EntityRabbit;
 import vanilla.item.ItemLead;
 import vanilla.world.SleepChecker;
-
-import java.util.Random;
-
-import static net.minecraft.resources.Datapack.isServerSide;
-import static vanilla.Vanilla.VANILLA;
 
 public class VEvents implements ServerSideLoadable {
 
@@ -64,11 +55,11 @@ public class VEvents implements ServerSideLoadable {
 		registrar.registerListener(ServerEvents.projectileHit, this::handleProjectileHit, -5);
 		registrar.registerListener(ServerEvents.playerTeleportPearl, this::handlePlayerEnderPearl, -5, true);
 		registrar.registerListener(ServerEvents.blockDrop, this::handleBlockDrop, -5, true);
-		registrar.registerListener(ServerEvents.playerInteract, this::handleInteract, -5, true);
+		registrar.registerListener(ServerEvents.playerBlockInteract, this::handleInteract, -5, true);
 	}
 
 	private void handleItemDrop(PlayerItemDropEvent e) {
-		if (e.isTraceItem()) e.getPlayer().triggerAchievement(StatList.dropStat);
+		e.getPlayer().triggerAchievement(StatList.dropStat);
 	}
 
 	private void handlePlayerFall(PlayerFallEvent e) {
@@ -164,7 +155,7 @@ public class VEvents implements ServerSideLoadable {
 
 	}
 
-	private void handleInteract(PlayerInteractEvent e) {
+	private void handleInteract(PlayerBlockInteractEvent e) {
 		Player p = e.getPlayer();
 		ItemStack item = p.getHeldItem();
 		if (item != null && p.isSneaking()) return;

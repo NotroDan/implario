@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="server">
-    <output-path>out/artifacts/release</output-path>
+    <output-path>$PROJECT_DIR$/../implario-server</output-path>
     <root id="archive" name="server.jar">
       <element id="module-output" name="core" />
       <element id="module-output" name="server" />

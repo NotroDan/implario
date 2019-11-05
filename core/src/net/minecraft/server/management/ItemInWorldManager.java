@@ -13,7 +13,7 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.network.play.server.S38PacketPlayerListItem;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerBlockBreakEvent;
-import net.minecraft.resources.event.events.player.PlayerInteractEvent;
+import net.minecraft.resources.event.events.player.PlayerBlockInteractEvent;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
@@ -306,9 +306,7 @@ public class ItemInWorldManager {
 	 * Attempts to right-click use an item by the given EntityPlayer in the given World
 	 */
 	public void tryUseItem(Player player, World worldIn, ItemStack stack) {
-		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
-			return;
-		}
+		if (this.gameType == WorldSettings.GameType.SPECTATOR) return;
 		int i = stack.stackSize;
 		int j = stack.getMetadata();
 		ItemStack itemstack = stack.useItemRightClick(worldIn, player);
@@ -339,9 +337,9 @@ public class ItemInWorldManager {
 	 */
 	public void activateBlockOrUseItem(Player player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
 		IBlockState b = worldIn.getBlockState(pos);
-		if (ServerEvents.playerInteract.isUseful()) {
-			PlayerInteractEvent event = new PlayerInteractEvent(player, stack, pos, b, side, offsetX, offsetY, offsetZ);
-			ServerEvents.playerInteract.call(event);
+		if (ServerEvents.playerBlockInteract.isUseful()) {
+			PlayerBlockInteractEvent event = new PlayerBlockInteractEvent(player, stack, pos, b, side, offsetX, offsetY, offsetZ);
+			ServerEvents.playerBlockInteract.call(event);
 			if (event.isCanceled()) return;
 		}
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {

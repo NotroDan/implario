@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.*;
 import net.minecraft.resources.event.ServerEvents;
-import net.minecraft.resources.event.events.player.PlayerInteractEvent;
+import net.minecraft.resources.event.events.player.PlayerBlockInteractEvent;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -330,10 +330,10 @@ public class PlayerControllerMP {
 		boolean cancelled = false;
 		if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			IBlockState iblockstate = worldIn.getBlockState(hitPos);
-			if (ServerEvents.playerInteract.isUseful()) {
-				PlayerInteractEvent event = new PlayerInteractEvent(player, heldStack, hitPos, iblockstate, side,
+			if (ServerEvents.playerBlockInteract.isUseful()) {
+				PlayerBlockInteractEvent event = new PlayerBlockInteractEvent(player, heldStack, hitPos, iblockstate, side,
 						(float) hitVec.xCoord, (float) hitVec.yCoord, (float) hitVec.zCoord);
-				ServerEvents.playerInteract.call(event);
+				ServerEvents.playerBlockInteract.call(event);//TODO: ClientEvent
 				if (event.isCanceled()) {
 					cancelled = true;
 					sendToServer = event.isSendToServer();
