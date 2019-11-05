@@ -477,15 +477,6 @@ public abstract class ServerConfigurationManager {
 	 * Called on respawn
 	 */
 	public MPlayer recreatePlayerEntity(MPlayer player, int dimension, boolean conqueredEnd) {
-		if(true){
-			player.playerNetServerHandler.setPlayerLocation(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
-			WorldServer worldserver = mcServer.worldServerForDimension(player.dimension);
-			worldserver.theChunkProviderServer.loadChunk((int) player.posX >> 4, (int) player.posZ >> 4);
-			player.playerNetServerHandler.sendPacket(new S05PacketSpawnPosition(new BlockPos(24, 24, 24)));
-			player.playerNetServerHandler.sendPacket(new S1FPacketSetExperience(player.experience, player.experienceTotal, player.experienceLevel));
-			player.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(0, 0.0F));
-			return player;
-		}
 		player.getServerForPlayer().getEntityTracker().removePlayerFromTrackers(player);
 		player.getServerForPlayer().getEntityTracker().untrackEntity(player);
 		player.getServerForPlayer().getPlayerManager().removePlayer(player);

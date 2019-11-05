@@ -182,8 +182,9 @@ public abstract class Player extends EntityLivingBase {
 		this.fireResistance = 20;
 	}
 
-	public Module getModule(Domain domain){
-		return modules.get(domain);
+	@SuppressWarnings("unchecked")
+	public <T extends Module> T getModule(Domain domain){
+		return (T)modules.get(domain);
 	}
 
 	public void removeModule(Domain domain){

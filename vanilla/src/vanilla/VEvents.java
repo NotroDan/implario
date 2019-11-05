@@ -17,6 +17,7 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.resources.Registrar;
 import net.minecraft.resources.ServerSideLoadable;
+import net.minecraft.resources.event.EventPriority;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.*;
 import net.minecraft.resources.event.events.block.BlockDropEvent;
@@ -41,21 +42,21 @@ public class VEvents implements ServerSideLoadable {
 
 	@Override
 	public void load(Registrar registrar) {
-		registrar.registerListener(ServerEvents.playerMove, this::handlePlayerMove, -5);
-		registrar.registerListener(ServerEvents.playerMountMove, this::handleMountMove, -5, true);
-		registrar.registerListener(ServerEvents.playerTick, this::handlePlayerTick, -5);
-		registrar.registerListener(ServerEvents.playerFall, this::handlePlayerFall, -5, true);
-		registrar.registerListener(ServerEvents.playerDisconnect, e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat), -5);
-		registrar.registerListener(ServerEvents.playerJump, e -> e.getPlayer().triggerAchievement(StatList.jumpStat), -5, true);
-		registrar.registerListener(ServerEvents.playerItemDrop, this::handleItemDrop, -5, true);
-		registrar.registerListener(ServerEvents.playerDeath, e -> e.getPlayer().triggerAchievement(StatList.deathsStat), -5);
+		registrar.registerListener(ServerEvents.playerMove, this::handlePlayerMove, EventPriority.GLOBAL_MODE);
+		registrar.registerListener(ServerEvents.playerMountMove, this::handleMountMove, EventPriority.GLOBAL_MODE, true);
+		registrar.registerListener(ServerEvents.playerTick, this::handlePlayerTick, EventPriority.GLOBAL_MODE);
+		registrar.registerListener(ServerEvents.playerFall, this::handlePlayerFall, EventPriority.GLOBAL_MODE, true);
+		registrar.registerListener(ServerEvents.playerDisconnect, e -> e.getPlayer().triggerAchievement(StatList.leaveGameStat), EventPriority.GLOBAL_MODE);
+		registrar.registerListener(ServerEvents.playerJump, e -> e.getPlayer().triggerAchievement(StatList.jumpStat), EventPriority.GLOBAL_MODE, true);
+		registrar.registerListener(ServerEvents.playerItemDrop, this::handleItemDrop, EventPriority.GLOBAL_MODE, true);
+		registrar.registerListener(ServerEvents.playerDeath, e -> e.getPlayer().triggerAchievement(StatList.deathsStat), EventPriority.GLOBAL_MODE);
 		registrar.registerListener(ServerEvents.playerSleep, new SleepChecker());
-		registrar.registerListener(ServerEvents.playerAction, this::handleEntityAction, -5);
-		registrar.registerListener(ServerEvents.trackerUpdate, this::handlerTrackerUpdate, -5);
-		registrar.registerListener(ServerEvents.projectileHit, this::handleProjectileHit, -5);
-		registrar.registerListener(ServerEvents.playerTeleportPearl, this::handlePlayerEnderPearl, -5, true);
-		registrar.registerListener(ServerEvents.blockDrop, this::handleBlockDrop, -5, true);
-		registrar.registerListener(ServerEvents.playerBlockInteract, this::handleInteract, -5, true);
+		registrar.registerListener(ServerEvents.playerAction, this::handleEntityAction, EventPriority.GLOBAL_MODE);
+		registrar.registerListener(ServerEvents.trackerUpdate, this::handlerTrackerUpdate, EventPriority.GLOBAL_MODE);
+		registrar.registerListener(ServerEvents.projectileHit, this::handleProjectileHit, EventPriority.GLOBAL_MODE);
+		registrar.registerListener(ServerEvents.playerTeleportPearl, this::handlePlayerEnderPearl, EventPriority.GLOBAL_MODE, true);
+		registrar.registerListener(ServerEvents.blockDrop, this::handleBlockDrop, EventPriority.GLOBAL_MODE, true);
+		registrar.registerListener(ServerEvents.playerBlockInteract, this::handleInteract, EventPriority.GLOBAL_MODE, true);
 	}
 
 	private void handleItemDrop(PlayerItemDropEvent e) {
