@@ -209,7 +209,7 @@ public class EntityItemFrame extends EntityHanging {
 				this.setDisplayedItem(itemstack);
 
 				if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize <= 0) {
-					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack) null);
+					playerIn.inventory.clearCurrentSlot();
 				}
 			}
 		} else if (!this.worldObj.isClientSide) {

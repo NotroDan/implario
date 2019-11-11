@@ -522,15 +522,15 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 		itemstack = this.playerEntity.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.stackSize == 0) {
-			this.playerEntity.inventory.setItem(this.playerEntity.inventory.currentItem, null);
+			playerEntity.inventory.clearCurrentSlot();
 			itemstack = null;
 		}
 
 		if (itemstack == null || itemstack.getMaxItemUseDuration() == 0) {
 			this.playerEntity.isChangingQuantityOnly = true;
-			this.playerEntity.inventory.setItem(this.playerEntity.inventory.currentItem, ItemStack.copyItemStack(
-					this.playerEntity.inventory.getItem(this.playerEntity.inventory.currentItem)));
-			Slot slot = this.playerEntity.openContainer.getSlotFromInventory(this.playerEntity.inventory, this.playerEntity.inventory.currentItem);
+			this.playerEntity.inventory.setCurrentItem(ItemStack.copyItemStack(
+					playerEntity.inventory.getCurrentItem()));
+			Slot slot = this.playerEntity.openContainer.getSlotFromInventory(this.playerEntity.inventory, this.playerEntity.inventory.getCurrentSlot());
 			this.playerEntity.openContainer.detectAndSendChanges();
 			this.playerEntity.isChangingQuantityOnly = false;
 
@@ -645,7 +645,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
 
 		if (packetIn.getSlotId() >= 0 && packetIn.getSlotId() < InventoryPlayer.getHotbarSize()) {
-			this.playerEntity.inventory.currentItem = packetIn.getSlotId();
+			this.playerEntity.inventory.setCurrentSlot(packetIn.getSlotId());
 			this.playerEntity.markPlayerActive();
 		} else {
 			logger.warn(this.playerEntity.getName() + " tried to set an invalid carried item");

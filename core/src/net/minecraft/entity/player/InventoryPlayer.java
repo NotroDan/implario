@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class InventoryPlayer implements IInventory {
 	public final ItemStack[] mainInventory = new ItemStack[36];
 	public final ItemStack[] armorInventory = new ItemStack[4];
-	public int currentItem;
+	private int currentItem;
 	public final Player player;
 	private ItemStack itemStack;
 
@@ -34,11 +34,29 @@ public class InventoryPlayer implements IInventory {
 		this.player = playerIn;
 	}
 
+	public int getCurrentSlot(){
+		return currentItem;
+	}
+
+	public void setCurrentSlot(int currentItem){
+		if(currentItem > 9 || currentItem < 0)return;
+		this.currentItem = currentItem;
+	}
+
+	public Item getItemCurrentSlot(){
+		ItemStack itemStack = getCurrentItem();
+		return itemStack == null ? itemStack.getItem() : null;
+	}
+
 	/**
 	 * Returns the item stack currently held by the player.
 	 */
 	public ItemStack getCurrentItem() {
-		return this.currentItem < 9 && this.currentItem >= 0 ? this.mainInventory[this.currentItem] : null;
+		return mainInventory[currentItem];
+	}
+
+	public void setCurrentItem(ItemStack itemStack){
+		setItem(getCurrentSlot(), itemStack);
 	}
 
 	public ItemStack getItem(int slot){
@@ -65,11 +83,9 @@ public class InventoryPlayer implements IInventory {
 	}
 
 	private int getInventorySlotContainItem(Item itemIn) {
-		for (int i = 0; i < this.mainInventory.length; ++i) {
-			if (this.mainInventory[i] != null && this.mainInventory[i].getItem() == itemIn) {
+		for (int i = 0; i < this.mainInventory.length; ++i)
+			if (this.mainInventory[i] != null && this.mainInventory[i].getItem() == itemIn)
 				return i;
-			}
-		}
 
 		return -1;
 	}
@@ -129,13 +145,13 @@ public class InventoryPlayer implements IInventory {
 				int l;
 
 				if (k >= 0) {
-					l = this.mainInventory[k].stackSize;
+					l = mainInventory[k].stackSize;
 					this.mainInventory[k] = this.mainInventory[this.currentItem];
 				} else {
 					l = 1;
 				}
 
-				this.mainInventory[this.currentItem] = new ItemStack(itemIn, l, p_146030_2_);
+				setCurrentItem(new ItemStack(itemIn, l, p_146030_2_));
 			}
 		}
 	}
@@ -423,6 +439,14 @@ public class InventoryPlayer implements IInventory {
 		return null;
 	}
 
+	public void clearInventorySlot(int slot){
+		mainInventory[slot] = null;
+	}
+
+	public void clearCurrentSlot(){
+		clearInventorySlot(getCurrentSlot());
+	}
+
 	/**
 	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
 	 */
@@ -667,11 +691,9 @@ public class InventoryPlayer implements IInventory {
 		return false;
 	}
 
-	public void openInventory(Player player) {
-	}
+	public void openInventory(Player player) {}
 
-	public void closeInventory(Player player) {
-	}
+	public void closeInventory(Player player) {}
 
 	/**
 	 * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
@@ -699,8 +721,7 @@ public class InventoryPlayer implements IInventory {
 		return 0;
 	}
 
-	public void setField(int id, int value) {
-	}
+	public void setField(int id, int value) {}
 
 	public int getFieldCount() {
 		return 0;

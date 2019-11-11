@@ -40,14 +40,14 @@ public class ModuleHotbar implements Module {
 		float f = gui.zLevel;
 		gui.zLevel = -90.0F;
 		RenderElement.render(render);
+		int currentItem = entityplayer.inventory.getCurrentSlot();
 		if (settings) {
-
-			RenderRec.render(i - 90 + entityplayer.inventory.currentItem * 20,
+			RenderRec.render(i - 90 + currentItem * 20,
 					res.getScaledHeight() - 21, 20, 20, Colors.YELLOW);
-			RenderRec.render(i - 89 + entityplayer.inventory.currentItem * 20,
+			RenderRec.render(i - 89 + currentItem * 20,
 					res.getScaledHeight() - 20, 18, 18, Colors.LIGHT);
 		} else {
-			gui.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20,
+			gui.drawTexturedModalRect(i - 91 - 1 + currentItem * 20,
 					res.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
 		}
 		gui.zLevel = f;

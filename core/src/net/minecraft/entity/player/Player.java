@@ -448,9 +448,9 @@ public abstract class Player extends EntityLivingBase {
 			ItemStack itemstack = this.itemInUse.onItemUseFinish(this.worldObj, this);
 
 			if (itemstack != this.itemInUse || itemstack != null && itemstack.stackSize != i) {
-				inventory.setItem(inventory.currentItem, itemstack);
+				inventory.setItem(inventory.getCurrentSlot(), itemstack);
 				if (itemstack.stackSize == 0)
-					this.inventory.setItem(this.inventory.currentItem, null);
+					inventory.clearCurrentSlot();
 			}
 
 			this.clearItemInUse();
@@ -698,7 +698,7 @@ public abstract class Player extends EntityLivingBase {
 	 * Called when player presses the drop item key
 	 */
 	public void dropOneItem(boolean dropAll) {
-		this.dropItem(this.inventory.decrStackSize(this.inventory.currentItem, dropAll && this.inventory.getCurrentItem() != null ? this.inventory.getCurrentItem().stackSize : 1), false, true);
+		dropItem(inventory.decrStackSize(inventory.getCurrentSlot(), dropAll && inventory.getCurrentItem() != null ? inventory.getCurrentItem().stackSize : 1), false, true);
 	}
 
 	/**
@@ -821,7 +821,7 @@ public abstract class Player extends EntityLivingBase {
 		this.entityUniqueID = getUUID(this.gameProfile);
 		NBTTagList nbttaglist = tagCompund.getTagList("Inventory", 10);
 		this.inventory.readFromNBT(nbttaglist);
-		this.inventory.currentItem = tagCompund.getInteger("SelectedItemSlot");
+		this.inventory.setCurrentSlot(tagCompund.getInteger("SelectedItemSlot"));
 		this.sleeping = tagCompund.getBoolean("Sleeping");
 		this.sleepTimer = tagCompund.getShort("SleepTimer");
 		this.experience = tagCompund.getFloat("XpP");
@@ -885,7 +885,7 @@ public abstract class Player extends EntityLivingBase {
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setTag("Inventory", this.inventory.writeToNBT(new NBTTagList()));
-		tagCompound.setInteger("SelectedItemSlot", this.inventory.currentItem);
+		tagCompound.setInteger("SelectedItemSlot", inventory.getCurrentSlot());
 		tagCompound.setBoolean("Sleeping", this.sleeping);
 		tagCompound.setShort("SleepTimer", (short) this.sleepTimer);
 		tagCompound.setFloat("XpP", this.experience);
@@ -1058,7 +1058,7 @@ public abstract class Player extends EntityLivingBase {
 
 			return false;
 		}
-		ItemStack itemstack = this.getCurrentEquippedItem();
+		ItemStack itemstack = inventory.getCurrentItem();
 		ItemStack itemstack1 = itemstack != null ? itemstack.copy() : null;
 
 		if (!e.interactFirst(this)) {
@@ -1069,7 +1069,7 @@ public abstract class Player extends EntityLivingBase {
 
 				if (itemstack.interactWithEntity(this, (EntityLivingBase) e)) {
 					if (itemstack.stackSize <= 0 && !this.capabilities.isCreativeMode) {
-						this.destroyCurrentEquippedItem();
+						inventory.clearCurrentSlot();
 					}
 
 					return true;
@@ -1078,29 +1078,15 @@ public abstract class Player extends EntityLivingBase {
 
 			return false;
 		}
-		if (itemstack != null && itemstack == this.getCurrentEquippedItem()) {
+		if (itemstack != null && itemstack == inventory.getCurrentItem()) {
 			if (itemstack.stackSize <= 0 && !this.capabilities.isCreativeMode) {
-				this.destroyCurrentEquippedItem();
+				inventory.clearCurrentSlot();
 			} else if (itemstack.stackSize < itemstack1.stackSize && this.capabilities.isCreativeMode) {
 				itemstack.stackSize = itemstack1.stackSize;
 			}
 		}
 
 		return true;
-	}
-
-	/**
-	 * Returns the currently being used item by the player.
-	 */
-	public ItemStack getCurrentEquippedItem() {
-		return this.inventory.getCurrentItem();
-	}
-
-	/**
-	 * Destroys the currently equipped item from the player's inventory.
-	 */
-	public void destroyCurrentEquippedItem() {
-		this.inventory.setInventorySlotContents(this.inventory.currentItem, null);
 	}
 
 	/**
@@ -1187,7 +1173,7 @@ public abstract class Player extends EntityLivingBase {
 		}
 
 		EnchantmentHelper.applyArthropodEnchantments(this, targetEntity);
-		ItemStack itemstack = this.getCurrentEquippedItem();
+		ItemStack itemstack = inventory.getCurrentItem();
 		Entity entity = targetEntity;
 
 		// Обработка комплексных сущностей, состоящих из нескольких частей
@@ -1201,7 +1187,7 @@ public abstract class Player extends EntityLivingBase {
 			itemstack.hitEntity((EntityLivingBase) entity, this);
 
 			if (itemstack.stackSize <= 0) {
-				this.destroyCurrentEquippedItem();
+				inventory.clearCurrentSlot();
 			}
 		}
 
@@ -1869,7 +1855,7 @@ public abstract class Player extends EntityLivingBase {
 		if (code.isEmpty()) {
 			return true;
 		}
-		ItemStack itemstack = this.getCurrentEquippedItem();
+		ItemStack itemstack = inventory.getCurrentItem();
 		return itemstack != null && itemstack.hasDisplayName() && itemstack.getDisplayName().equals(code.getLock());
 	}
 

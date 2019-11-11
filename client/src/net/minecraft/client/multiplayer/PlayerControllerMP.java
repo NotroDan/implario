@@ -120,7 +120,7 @@ public class PlayerControllerMP {
 
 			if (!this.mc.thePlayer.isAllowEdit()) {
 				Block block = this.mc.theWorld.getBlockState(pos).getBlock();
-				ItemStack itemstack = this.mc.thePlayer.getCurrentEquippedItem();
+				ItemStack itemstack = mc.thePlayer.inventory.getCurrentItem();
 
 				if (itemstack == null)
 					return;
@@ -147,14 +147,13 @@ public class PlayerControllerMP {
 		this.currentBlock = new BlockPos(this.currentBlock.getX(), -1, this.currentBlock.getZ());
 
 		if (!this.currentGameType.isCreative()) {
-			ItemStack itemstack1 = this.mc.thePlayer.getCurrentEquippedItem();
+			ItemStack itemstack1 = mc.thePlayer.inventory.getCurrentItem();
 
 			if (itemstack1 != null) {
 				itemstack1.onBlockDestroyed(world, block1, pos, this.mc.thePlayer);
 
-				if (itemstack1.stackSize == 0) {
-					this.mc.thePlayer.destroyCurrentEquippedItem();
-				}
+				if (itemstack1.stackSize == 0)
+					mc.thePlayer.inventory.clearCurrentSlot();
 			}
 		}
 	}
@@ -170,7 +169,7 @@ public class PlayerControllerMP {
 
 			if (!this.mc.thePlayer.isAllowEdit()) {
 				Block block = this.mc.theWorld.getBlockState(loc).getBlock();
-				ItemStack itemstack = this.mc.thePlayer.getCurrentEquippedItem();
+				ItemStack itemstack = mc.thePlayer.inventory.getCurrentItem();
 
 				if (itemstack == null) {
 					return false;
@@ -307,7 +306,7 @@ public class PlayerControllerMP {
 	 * Syncs the current player item with the server
 	 */
 	private void syncCurrentPlayItem() {
-		int i = this.mc.thePlayer.inventory.currentItem;
+		int i = mc.thePlayer.inventory.getCurrentSlot();
 
 		if (i != this.currentPlayerItem) {
 			this.currentPlayerItem = i;
@@ -388,10 +387,10 @@ public class PlayerControllerMP {
 		ItemStack itemstack = itemStackIn.useItemRightClick(worldIn, playerIn);
 
 		if (itemstack != itemStackIn || itemstack != null && itemstack.stackSize != i) {
-			playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = itemstack;
+			playerIn.inventory.setCurrentItem(itemstack);
 
 			if (itemstack.stackSize == 0) {
-				playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = null;
+				playerIn.inventory.clearCurrentSlot();
 			}
 
 			return true;

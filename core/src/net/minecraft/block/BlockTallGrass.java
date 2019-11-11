@@ -74,7 +74,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
 	}
 
 	public void harvestBlock(World worldIn, Player player, BlockPos pos, IBlockState state, TileEntity te) {
-		if (!worldIn.isClientSide && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears) {
+		if (!worldIn.isClientSide && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() == Items.shears) {
 			player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
 			spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 1, state.getValue(TYPE).getMeta()));
 		} else {

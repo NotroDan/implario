@@ -160,7 +160,7 @@ public class ItemInWorldManager {
 				}
 
 				if (!this.thisPlayerMP.isAllowEdit()) {
-					ItemStack itemstack = this.thisPlayerMP.getCurrentEquippedItem();
+					ItemStack itemstack = thisPlayerMP.inventory.getCurrentItem();
 
 					if (itemstack == null) {
 						return;
@@ -260,7 +260,7 @@ public class ItemInWorldManager {
 			}
 
 			if (!this.thisPlayerMP.isAllowEdit()) {
-				ItemStack itemstack = this.thisPlayerMP.getCurrentEquippedItem();
+				ItemStack itemstack = thisPlayerMP.inventory.getCurrentItem();
 
 				if (itemstack == null) {
 					return;
@@ -283,14 +283,14 @@ public class ItemInWorldManager {
 		if (this.isCreative()) {
 			this.thisPlayerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(this.theWorld, pos));
 		} else {
-			ItemStack itemstack1 = this.thisPlayerMP.getCurrentEquippedItem();
+			ItemStack itemstack1 = thisPlayerMP.inventory.getCurrentItem();
 			boolean flag = this.thisPlayerMP.canHarvestBlock(iblockstate.getBlock());
 
 			if (itemstack1 != null) {
 				itemstack1.onBlockDestroyed(this.theWorld, iblockstate.getBlock(), pos, this.thisPlayerMP);
 
 				if (itemstack1.stackSize == 0) {
-					this.thisPlayerMP.destroyCurrentEquippedItem();
+					thisPlayerMP.inventory.clearCurrentSlot();
 				}
 			}
 
@@ -312,7 +312,7 @@ public class ItemInWorldManager {
 		ItemStack itemstack = stack.useItemRightClick(worldIn, player);
 
 		if (itemstack != stack || itemstack != null && (itemstack.stackSize != i || itemstack.getMaxItemUseDuration() > 0 || itemstack.getMetadata() != j)) {
-			player.inventory.mainInventory[player.inventory.currentItem] = itemstack;
+			player.inventory.setCurrentItem(itemstack);
 
 			if (this.isCreative()) {
 				itemstack.stackSize = i;
@@ -323,7 +323,7 @@ public class ItemInWorldManager {
 			}
 
 			if (itemstack.stackSize == 0) {
-				player.inventory.mainInventory[player.inventory.currentItem] = null;
+				player.inventory.clearCurrentSlot();
 			}
 
 			if (!player.isUsingItem()) {

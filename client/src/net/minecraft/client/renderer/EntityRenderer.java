@@ -1160,8 +1160,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		boolean flag = entity instanceof Player && !Settings.HIDE_GUI.b();
 
 		if (flag && !((Player) entity).capabilities.allowEdit) {
-			ItemStack itemstack = ((Player) entity).getCurrentEquippedItem();
-
 			if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 				BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
 				IBlockState iblockstate = this.mc.theWorld.getBlockState(blockpos);
@@ -1170,6 +1168,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				if (this.mc.playerController.getCurrentGameType() == WorldSettings.GameType.SPECTATOR) {
 					flag = this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
 				} else {
+					ItemStack itemstack = ((Player) entity).inventory.getCurrentItem();
 					flag = itemstack != null && (itemstack.canDestroy(block) || itemstack.canPlaceOn(block));
 				}
 			}

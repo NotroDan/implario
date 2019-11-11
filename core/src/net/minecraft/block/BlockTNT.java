@@ -77,17 +77,17 @@ public class BlockTNT extends Block {
 	}
 
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, Player playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (playerIn.getCurrentEquippedItem() != null) {
-			Item item = playerIn.getCurrentEquippedItem().getItem();
+		if (playerIn.inventory.getCurrentItem() != null) {
+			Item item = playerIn.inventory.getCurrentItem().getItem();
 
 			if (item == Items.flint_and_steel || item == Items.fire_charge) {
 				this.explode(worldIn, pos, state.withProperty(EXPLODE, Boolean.TRUE), playerIn);
 				worldIn.setBlockToAir(pos);
 
 				if (item == Items.flint_and_steel) {
-					playerIn.getCurrentEquippedItem().damageItem(1, playerIn);
+					playerIn.inventory.getCurrentItem().damageItem(1, playerIn);
 				} else if (!playerIn.capabilities.isCreativeMode) {
-					--playerIn.getCurrentEquippedItem().stackSize;
+					--playerIn.inventory.getCurrentItem().stackSize;
 				}
 
 				return true;

@@ -797,7 +797,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 
 			if (flag) {
 				if (!player.capabilities.isCreativeMode && --itemstack.stackSize == 0) {
-					player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
+					player.inventory.clearCurrentSlot();
 				}
 
 				return true;

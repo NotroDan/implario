@@ -213,7 +213,7 @@ public class MPlayer extends Player implements ICrafting {
 	@Override
 	public void dropOneItem(boolean dropAll) {
 		if (ServerEvents.playerItemDrop.isUseful())
-			if (ServerEvents.playerItemDrop.call(new PlayerItemDropEvent(this, inventory.getItem(inventory.currentItem))).isCanceled()) return;
+			if (ServerEvents.playerItemDrop.call(new PlayerItemDropEvent(this, inventory.getCurrentItem())).isCanceled()) return;
 		super.dropOneItem(dropAll);
 	}
 

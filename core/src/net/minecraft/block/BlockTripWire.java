@@ -122,7 +122,7 @@ public class BlockTripWire extends Block {
 
 	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, Player player) {
 		if (!worldIn.isClientSide) {
-			if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears) {
+			if (player.inventory.getItemCurrentSlot() == Items.shears) {
 				worldIn.setBlockState(pos, state.withProperty(DISARMED, Boolean.TRUE), 4);
 			}
 		}

@@ -167,7 +167,7 @@ public class EntityAIControlledByPlayer extends EntityAIBase {
 				if (itemstack.stackSize == 0) {
 					ItemStack itemstack1 = new ItemStack(Items.fishing_rod);
 					itemstack1.setTagCompound(itemstack.getTagCompound());
-					entityplayer.inventory.mainInventory[entityplayer.inventory.currentItem] = itemstack1;
+					entityplayer.inventory.setCurrentItem(itemstack1);
 				}
 			}
 		}

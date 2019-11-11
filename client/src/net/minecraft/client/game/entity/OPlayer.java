@@ -64,9 +64,9 @@ public class OPlayer extends AbstractClientPlayer {
 		this.limbSwingAmount += (f - this.limbSwingAmount) * 0.4F;
 		this.limbSwing += this.limbSwingAmount;
 
-		if (!this.isItemInUse && this.isEating() && this.inventory.mainInventory[this.inventory.currentItem] != null) {
-			ItemStack itemstack = this.inventory.mainInventory[this.inventory.currentItem];
-			this.setItemInUse(this.inventory.mainInventory[this.inventory.currentItem], itemstack.getItem().getMaxItemUseDuration(itemstack));
+		if (!this.isItemInUse && this.isEating() && this.inventory.getCurrentItem() != null) {
+			ItemStack itemstack = this.inventory.getCurrentItem();
+			setItemInUse(inventory.getCurrentItem(), itemstack.getItem().getMaxItemUseDuration(itemstack));
 			this.isItemInUse = true;
 		} else if (this.isItemInUse && !this.isEating()) {
 			this.clearItemInUse();
@@ -117,7 +117,7 @@ public class OPlayer extends AbstractClientPlayer {
 	 * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor. Params: Item, slot
 	 */
 	public void setCurrentItemOrArmor(int slotIn, ItemStack stack) {
-		if (slotIn == 0) this.inventory.mainInventory[this.inventory.currentItem] = stack;
+		if (slotIn == 0) inventory.setCurrentItem(stack);
 		else this.inventory.armorInventory[slotIn - 1] = stack;
 	}
 

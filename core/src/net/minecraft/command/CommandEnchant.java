@@ -53,7 +53,7 @@ public class CommandEnchant extends CommandBase {
 		}
 
 		int lvl = 1;
-		ItemStack itemstack = entityplayer.getCurrentEquippedItem();
+		ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 
 		if (itemstack == null) throw new CommandException("commands.enchant.noItem");
 

@@ -521,7 +521,7 @@ public class ItemRenderer {
 			}
 
 			this.itemToRender = itemstack;
-			this.equippedItemSlot = entityplayersp.inventory.currentItem;
+			this.equippedItemSlot = entityplayersp.inventory.getCurrentSlot();
 		}
 	}
 

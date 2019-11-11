@@ -358,8 +358,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		p.prevPosZ = p.lastTickPosZ = (double) (p.serverPosZ = packetIn.getZ());
 		int i = packetIn.getCurrentItemID();
 
-		p.inventory.mainInventory[p.inventory.currentItem] =
-				i == 0 ? null : new ItemStack(Item.getItemById(i), 1, 0);
+		p.inventory.setCurrentItem(i == 0 ? null :
+				new ItemStack(Item.getItemById(i), 1, 0));
 
 		p.setPositionAndRotation(x, y, z, yaw, pitch);
 		this.clientWorldController.addEntityToWorld(packetIn.getEntityID(), p);
@@ -402,7 +402,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 
 		if (packetIn.getHeldItemHotbarIndex() >= 0 && packetIn.getHeldItemHotbarIndex() < InventoryPlayer.getHotbarSize())
-			this.gameController.thePlayer.inventory.currentItem = packetIn.getHeldItemHotbarIndex();
+			this.gameController.thePlayer.inventory.setCurrentSlot(packetIn.getHeldItemHotbarIndex());
 	}
 
 	/**
@@ -1282,7 +1282,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		if ("MC|Brand".equals(packetIn.getChannelName()))
 			this.gameController.thePlayer.setClientBrand(packetIn.getBufferData().readStringFromBuffer(32767));
 		else if ("MC|BOpen".equals(packetIn.getChannelName())) {
-			ItemStack itemstack = this.gameController.thePlayer.getCurrentEquippedItem();
+			ItemStack itemstack = gameController.thePlayer.inventory.getCurrentItem();
 
 			if (itemstack != null && itemstack.getItem() == Items.written_book)
 				this.gameController.displayGuiScreen(new GuiScreenBook(this.gameController.thePlayer, itemstack, false));
