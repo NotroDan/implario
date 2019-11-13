@@ -12,6 +12,7 @@ import com.mojang.authlib.yggdrasil.ProfileNotFoundException;
 import net.minecraft.entity.player.Player;
 import net.minecraft.LogManager;
 import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
 
@@ -23,7 +24,7 @@ import java.util.*;
 
 public class PreYggdrasilConverter {
 
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Log LOGGER = Log.MAIN;
 	public static final File OLD_IPBAN_FILE = new File("banned-ips.txt");
 	public static final File OLD_PLAYERBAN_FILE = new File("banned-players.txt");
 	public static final File OLD_OPS_FILE = new File("ops.txt");
@@ -63,7 +64,7 @@ public class PreYggdrasilConverter {
 				try {
 					userlistbans.readSavedFile();
 				} catch (FileNotFoundException filenotfoundexception) {
-					LOGGER.warn("Could not load existing file " + userlistbans.getSaveFile().getName(), filenotfoundexception);
+					LOGGER.exception(filenotfoundexception, "Could not load existing file " + userlistbans.getSaveFile().getName());
 				}
 			}
 

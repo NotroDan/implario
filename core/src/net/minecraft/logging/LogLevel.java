@@ -2,7 +2,6 @@ package net.minecraft.logging;
 
 public enum LogLevel {
 	INFO(">", 0xffffff),
-	IMPORTANT("=", 0xffff8a),
 	WARNING("!", 0xffae29),
 	ERROR("*", 0xff3f29),
 	COMMENT("--", 0x909090),
@@ -20,8 +19,6 @@ public enum LogLevel {
 		switch (prefix) {
 			case '>':
 				return INFO;
-			case '=':
-				return IMPORTANT;
 			case '!':
 				return WARNING;
 			case '*':

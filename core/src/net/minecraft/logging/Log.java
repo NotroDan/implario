@@ -58,37 +58,6 @@ public class Log {
 		};
 	}
 
-
-	public void updateFile(Date date) throws IOException {
-		int today = (int) (date.getTime() / 3600000 / 24);
-		if (today <= day) return;
-		File f = getFile(date);
-		if (f.equals(file)) return;
-		day = today;
-		boolean continued = false;
-		if (stream != null) {
-			continued = true;
-			append("-- Продолжение следует...\n");
-			close();
-		}
-		file = f;
-		stream = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
-		if (continued) append("-- Продолжение предыдущей сессии\n");
-	}
-
-	public File getFile(Date date) throws IOException {
-		String name = extension + "_" + DAY.format(date) + ".log";
-		//		File gameData = new File("gamedata");
-		File logsDir = new File("gamedata/logs");
-		if (!logsDir.exists()) {
-			logsDir.mkdirs();
-			logsDir.mkdir();
-		}
-		File f = new File(logsDir, name);
-		if (!f.exists()) f.createNewFile();
-		return f;
-	}
-
 	public void exception(Throwable t) {
 		if (console) t.printStackTrace();
 		append("* Описание ошибки, которое желательно отправить разработчикам.\n");
@@ -102,17 +71,18 @@ public class Log {
 				int line = e.getLineNumber();
 
 				String f;
-				if (e.isNativeMethod()) f = "(Нативный метод)";
+				if (e.isNativeMethod()) f = "(Native method)";
 				else if (file != null && line >= 0) f = "(" + file + ":" + line + ")";
-				else f = file != null ? "(" + file + ")" : "(Неизвестный источник)";
+				else f = file != null ? "(" + file + ")" : "(Unknown source)";
 				append("*     " + e.getClassName() + "." + e.getMethodName() + " " + f + "\n");
 			}
 			t = t.getCause();
 		}
 	}
 
-	public void important(String s) {
-		log(s, LogLevel.IMPORTANT);
+	public void warnException(Throwable t, String message){
+		warn(message);
+		exception(t);
 	}
 
 	public void error(String s) {
@@ -125,6 +95,10 @@ public class Log {
 
 	public void info(String s) {
 		log(s, LogLevel.INFO);
+	}
+
+	public void comment(String s) {
+		log(s, LogLevel.COMMENT);
 	}
 
 	public void log(String s, LogLevel level) {
@@ -146,22 +120,17 @@ public class Log {
 		if (false) log(s, LogLevel.DEBUG);
 	}
 
-	public void comment(String s) {
-		append("-- " + s + "\n");
-	}
-
 	private void append(String s) {
 		try {
 			stream.write(s);
-			stream.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void close() {
 		try {
+			stream.flush();
 			stream.close();
 		} catch (IOException e) {
 			System.out.println("[Log] Unable to close stream for " + prefix);
@@ -169,9 +138,36 @@ public class Log {
 		}
 	}
 
-
 	public void addAccessor(ILogInterceptor interceptor) {
 		this.interceptors.add(interceptor);
 	}
 
+	private void updateFile(Date date) throws IOException {
+		int today = (int) (date.getTime() / 3600000 / 24);
+		if (today <= day) return;
+		File f = getFile(date);
+		if (f.equals(file)) return;
+		day = today;
+		boolean continued = false;
+		if (stream != null) {
+			continued = true;
+			append("-- Продолжение следует...\n");
+			close();
+		}
+		file = f;
+		stream = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
+		if (continued) append("-- Продолжение предыдущей сессии\n");
+	}
+
+	private File getFile(Date date) throws IOException {
+		String name = extension + "_" + DAY.format(date) + ".log";
+		File logsDir = new File("gamedata/logs");
+		if (!logsDir.exists()) {
+			logsDir.mkdirs();
+			logsDir.mkdir();
+		}
+		File f = new File(logsDir, name);
+		if (!f.exists()) f.createNewFile();
+		return f;
+	}
 }

@@ -2,6 +2,7 @@ package net.minecraft.server.management;
 
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.MPlayer;
+import net.minecraft.logging.Log;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S21PacketChunkData;
 import net.minecraft.network.play.server.S22PacketMultiBlockChange;
@@ -21,8 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
-
-	private static final Logger pmLogger = LogManager.getLogger();
+	private static final Log pmLogger = Log.MAIN;
 	private final WorldServer theWorldServer;
 	private final List<MPlayer> players = new ArrayList<>();
 	private final LongHashMap playerInstances = new LongHashMap();
@@ -319,7 +319,7 @@ public class PlayerManager {
 
 		public void addPlayer(MPlayer player) {
 			if (this.playersWatchingChunk.contains(player)) {
-				PlayerManager.pmLogger.debug("Failed to add player. {} already is in chunk {}, {}", new Object[] {player, this.chunkCoords.chunkXPos, this.chunkCoords.chunkZPos});
+				PlayerManager.pmLogger.debug("Failed to add player. " + player + " already is in chunk " + chunkCoords.chunkXPos + ", " + chunkCoords.chunkZPos);
 			} else {
 				if (this.playersWatchingChunk.isEmpty()) {
 					this.previousWorldTime = PlayerManager.this.theWorldServer.getTotalWorldTime();
