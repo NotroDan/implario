@@ -22,14 +22,11 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.*;
-import net.minecraft.Logger;
 import net.minecraft.util.chat.ChatAllowedCharacters;
 import net.minecraft.util.chat.ChatComponentText;
 import org.lwjgl.input.Keyboard;
 
 public class GuiScreenBook extends GuiScreen {
-
-	private static final Logger logger = Logger.getInstance();
 	private static final ResourceLocation bookGuiTextures = new ResourceLocation("textures/gui/book.png");
 
 	/**

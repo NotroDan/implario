@@ -3,7 +3,6 @@ package net.minecraft.client.gui;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import net.minecraft.Logger;
 import net.minecraft.Utils;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
@@ -19,6 +18,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.EntityList;
+import net.minecraft.logging.Log;
 import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.util.chat.event.HoverEvent;
 import net.minecraft.item.ItemStack;
@@ -45,7 +45,7 @@ import java.util.Set;
 
 public abstract class GuiScreen extends Gui implements GuiYesNoCallback, OpenableGui {
 
-	private static final Logger LOGGER = Logger.getInstance();
+	private static final Log LOGGER = Log.MAIN;
 	private static final Set<String> PROTOCOLS = Sets.newHashSet("http", "https");
 	private static final Splitter NEWLINE_SPLITTER = Splitter.on('\n');
 

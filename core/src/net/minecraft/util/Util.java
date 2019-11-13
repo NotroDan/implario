@@ -26,8 +26,7 @@ public class Util {
 		} catch (ThreadQuickExitException ignored) {
 		} catch (ExecutionException | InterruptedException e) {
 			if (e.getCause() == ThreadQuickExitException.EXIT_EXCEPTION) return;
-			Log.MAIN.error("Ошибка при выполнении задачи");
-			Log.MAIN.exception(e);
+			Log.MAIN.error("Exception on execute task", e);
 		}
 	}
 

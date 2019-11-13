@@ -14,11 +14,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraft.Logger;
 
 public class EntityItem extends Entity {
-
-	private static final Logger logger = Logger.getInstance();
 
 	/**
 	 * The age of this EntityItem (used to animate it up and down as well as expire it)

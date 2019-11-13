@@ -3,12 +3,12 @@ package net.minecraft.client.game.shader;
 import java.io.IOException;
 
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.logging.Log;
 import net.minecraft.util.JsonException;
-import net.minecraft.Logger;
 
 public class ShaderLinkHelper {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static ShaderLinkHelper staticShaderLinkHelper;
 
 	public static void setNewStaticShaderLinkHelper() {

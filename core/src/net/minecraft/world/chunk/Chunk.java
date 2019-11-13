@@ -3,7 +3,6 @@ package net.minecraft.world.chunk;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
-import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -12,6 +11,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.logging.Log;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Chunk {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	/**
 	 * Used to store block IDs, block MSBs, Sky-light maps, Block-light maps, and metadata. Each entry corresponds to a
@@ -712,7 +712,7 @@ public class Chunk {
 		int j = MathHelper.floor_double(entityIn.posZ / 16.0D);
 
 		if (i != this.xPosition || j != this.zPosition) {
-			logger.warn("Wrong location! (" + i + ", " + j + ") should be (" + this.xPosition + ", " + this.zPosition + "), " + entityIn, new Object[] {entityIn});
+			logger.warn("Wrong location! (" + i + ", " + j + ") should be (" + this.xPosition + ", " + this.zPosition + "), " + entityIn);
 			entityIn.setDead();
 		}
 

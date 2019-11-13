@@ -1,12 +1,12 @@
 package vanilla.world.gen.layer;
 
+import net.minecraft.logging.Log;
 import net.minecraft.world.biome.Biome;
 import vanilla.world.biome.BiomeGenBase;
-import net.minecraft.Logger;
 
 public class GenLayerHills extends GenLayer {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private GenLayer field_151628_d;
 
 	public GenLayerHills(long p_i45479_1_, GenLayer p_i45479_3_, GenLayer p_i45479_4_) {

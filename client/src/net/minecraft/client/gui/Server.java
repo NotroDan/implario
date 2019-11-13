@@ -5,12 +5,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
-import net.minecraft.Logger;
 import net.minecraft.client.MC;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.Validate;
 
@@ -48,7 +48,7 @@ public class Server {
 					Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high");
 					break label101;
 				} catch (Throwable throwable) {
-					Logger.instance.error("Invalid icon for server " +
+					Log.MAIN.error("Invalid icon for server " +
 							this.serverData.serverName + " (" + this.serverData.serverIP + ")", throwable);
 					this.serverData.setBase64EncodedIconData(null);
 				} finally {

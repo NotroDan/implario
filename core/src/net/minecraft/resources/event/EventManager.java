@@ -61,8 +61,7 @@ public class EventManager<T extends Event> {
 		    try{
 				listener.process(event);
 			}catch (Throwable throwable){
-		    	Log.MAIN.error("Error on event " + event + " listener " + listener);
-				Log.MAIN.exception(throwable);
+		    	Log.MAIN.error("Error on event " + event + " listener " + listener, throwable);
 			}
         }
 		return event;

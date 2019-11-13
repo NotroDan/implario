@@ -1,6 +1,6 @@
 package net.minecraft.util;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
@@ -14,7 +14,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class CryptManager {
 
-	private static final Logger LOGGER = Logger.getInstance();
+	private static final Log LOGGER = Log.MAIN;
 
 	/**
 	 * Generate a new shared secret AES key from a secure random source
@@ -38,8 +38,7 @@ public class CryptManager {
 			keypairgenerator.initialize(1024);
 			return keypairgenerator.generateKeyPair();
 		} catch (NoSuchAlgorithmException nosuchalgorithmexception) {
-			nosuchalgorithmexception.printStackTrace();
-			LOGGER.error("Key pair generation failed!");
+			LOGGER.error("Key pair generation failed!", nosuchalgorithmexception);
 			return null;
 		}
 	}

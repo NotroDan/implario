@@ -18,7 +18,6 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import net.minecraft.Logger;
 import net.minecraft.logging.Log;
 import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.protocol.Protocols;
@@ -36,7 +35,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	public static final AttributeKey<Protocol> attrKeyConnectionState = AttributeKey.valueOf("protocol");
 	public static final LazySupplier<NioEventLoopGroup> NIO_CLIENT = new LazySupplier<NioEventLoopGroup>() {
 		protected NioEventLoopGroup load() {
@@ -91,7 +90,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		try {
 			this.setConnectionState(Protocols.HANDSHAKING);
 		} catch (Throwable throwable) {
-			logger.fatal(throwable);
+			logger.error("Error on change connection state", throwable);
 		}
 	}
 

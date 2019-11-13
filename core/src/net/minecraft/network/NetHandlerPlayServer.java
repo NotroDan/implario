@@ -4,7 +4,6 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.util.concurrent.Futures;
 import io.netty.buffer.Unpooled;
-import net.minecraft.Logger;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.crash.CrashReport;
@@ -23,12 +22,11 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemEditableBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemWritableBook;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
-import net.minecraft.network.protocol.Protocols;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.*;
 import net.minecraft.server.MinecraftServer;
@@ -43,7 +41,6 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.WorldServer;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +50,7 @@ import java.util.Set;
 
 public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private int networkTickCount;
 	private int field_175090_f;
 

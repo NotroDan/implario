@@ -66,14 +66,13 @@ public class DedicatedServer extends MinecraftServer {
 						DedicatedServer.this.addPendingCommand(s4, DedicatedServer.this);
 					}
 				} catch (IOException e) {
-					MAIN.error("Ошибка при обработке ввода из консоли");
-					MAIN.exception(e);
+					MAIN.error("Ошибка при обработке ввода из консоли", e);
 				}
 			}
 		};
 		thread.setDaemon(true);
 		thread.start();
-		MAIN.info("Запуск сервера на ImplarioCore (Minecraft 1.8.8)...");
+		MAIN.info("Run server on ImplarioCore (Minecraft 1.8.8)...");
 
 		MAIN.info("Загрузка свойств сервера...");
 		this.settings = new PropertyManager(new File("server.properties"));
@@ -101,7 +100,7 @@ public class DedicatedServer extends MinecraftServer {
 		this.canSpawnStructures = this.settings.getBooleanProperty("generate-structures", true);
 		int i = this.settings.getIntProperty("gamemode", WorldSettings.GameType.SURVIVAL.getID());
 		this.gameType = WorldSettings.getGameTypeById(i);
-		MAIN.info("Стандартный режим игры: " + this.gameType);
+		MAIN.info("Default gamemode: " + this.gameType);
 		InetAddress inetaddress = null;
 
 		if (this.getServerHostname().length() > 0) inetaddress = InetAddress.getByName(this.getServerHostname());
@@ -125,8 +124,7 @@ public class DedicatedServer extends MinecraftServer {
 					return false;
 				}
 			}
-			MAIN.error("**** При создании сетевого слушателя возникла ошибка!");
-			MAIN.exception(ex);
+			MAIN.error("**** При создании сетевого слушателя возникла ошибка!", ex);
 			return false;
 		}
 

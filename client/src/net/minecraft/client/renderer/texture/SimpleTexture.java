@@ -7,16 +7,15 @@ import java.io.InputStream;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.data.TextureMetadataSection;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 import shadersmod.client.ShadersTex;
 
 public class SimpleTexture extends AbstractTexture {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	protected final ResourceLocation textureLocation;
 
 

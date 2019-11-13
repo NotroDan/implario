@@ -105,8 +105,7 @@ public class Datapacks {
 					byte array[] = module.manager().encode(module);
 					encoder.writeString(player.getName()).writeBytes(array);
 				}catch (Throwable throwable){
-					Log.MAIN.error("Error on write nbt data, domain " + datapack.getDomain() + " module manager " + module.manager());
-					Log.MAIN.exception(throwable);
+					Log.MAIN.error("Error on write nbt data, domain " + datapack.getDomain() + " module manager " + module.manager(), throwable);
 				}
 				player.removeModule(datapack.getDomain());
 			}
@@ -133,8 +132,7 @@ public class Datapacks {
 				if (mplayer == null) continue;
 				mplayer.putModule(datapack.getDomain(), module);
 			} catch (Throwable throwable) {
-				Log.MAIN.error("Error on read nbt data, domain " + datapack.getDomain() + " module manager " + datapack.moduleManager());
-				Log.MAIN.exception(throwable);
+				Log.MAIN.error("Error on read nbt data, domain " + datapack.getDomain() + " module manager " + datapack.moduleManager(), throwable);
 			}
 		}
 	}
@@ -144,8 +142,7 @@ public class Datapacks {
 		try{
 			return load(loader);
 		}catch (DatapackLoadException ex){
-			Log.MAIN.error("Load failed " + datapack.getAbsolutePath());
-			Log.MAIN.exception(ex);
+			Log.MAIN.error("Load failed " + datapack.getAbsolutePath(), ex);
 		}
 		return null;
 	}
@@ -166,8 +163,7 @@ public class Datapacks {
 			try {
 				datapack.init();
 			}catch (Throwable throwable){
-				Log.MAIN.error("Error on initialize datapack " + datapack + " domain " + datapack.getDomain());
-				Log.MAIN.exception(throwable);
+				Log.MAIN.error("Error on initialize datapack " + datapack + " domain " + datapack.getDomain(), throwable);
 			}
 		}
 	}

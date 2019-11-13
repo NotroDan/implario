@@ -1,6 +1,5 @@
 package vanilla.entity.ai;
 
-import net.minecraft.Logger;
 import net.minecraft.logging.IProfiler;
 import vanilla.entity.ai.tasks.EntityAIBase;
 
@@ -9,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class EntityAITasks {
-
-	private static final Logger logger = Logger.getInstance();
 	private List<EntityAITasks.EntityAITaskEntry> taskEntries = new ArrayList<>();
 	private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = new ArrayList<>();
 

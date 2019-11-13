@@ -4,7 +4,6 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
-import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.CPlayer;
@@ -42,7 +41,6 @@ import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.logging.Log;
-import net.minecraft.logging.Profiler;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -69,7 +67,7 @@ import java.util.Map.Entry;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	/**
 	 * The NetworkManager instance used to communicate with the server (used only by handlePlayerPosLook to update

@@ -5,13 +5,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.*;
 import net.minecraft.network.play.server.*;
@@ -54,7 +53,7 @@ public abstract class ServerConfigurationManager {
 	public static final File FILE_IPBANS = new File("banned-ips.json");
 	public static final File FILE_OPS = new File("ops.json");
 	public static final File FILE_WHITELIST = new File("whitelist.json");
-	private static final Logger logger = LogManager.getLogger();
+	private static final Log logger = Log.MAIN;
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
 	/**

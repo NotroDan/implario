@@ -4,8 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 import com.google.gson.*;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 public class UserList<K, V extends UserListEntry<K>> {
 
-	protected static final Logger logger = LogManager.getLogger();
+	protected static final Log logger = Log.MAIN;
 	protected final Gson gson;
 	private final File saveFile;
 	private final Map<String, V> values = Maps.newHashMap();

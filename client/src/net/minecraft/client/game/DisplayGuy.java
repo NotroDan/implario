@@ -63,8 +63,7 @@ public class DisplayGuy {
 		try {
 			Display.create(new PixelFormat().withDepthBits(24));
 		} catch (LWJGLException lwjglexception) {
-			MAIN.error("Не удалось создать окно для игры с крутым форматом пикселизации");
-			MAIN.exception(lwjglexception);
+			MAIN.error("Не удалось создать окно для игры с крутым форматом пикселизации", lwjglexception);
 
 			Utils.sleep(1000);
 
@@ -98,8 +97,7 @@ public class DisplayGuy {
 				Display.setIcon(new ByteBuffer[] {FileUtil.readImageToBuffer(icon16), FileUtil.readImageToBuffer(icon32)});
 			}
 		} catch (IOException e) {
-			MAIN.error("Не удалось установить иконку окна");
-			MAIN.exception(e);
+			MAIN.error("Не удалось установить иконку окна", e);
 		} finally {
 			IOUtils.closeQuietly(icon16);
 			IOUtils.closeQuietly(icon32);
@@ -202,8 +200,7 @@ public class DisplayGuy {
 			Display.setVSyncEnabled(false);//Settings.ENABLE_VSYNC.b());
 			updateDisplay(mc);
 		} catch (Exception ex) {
-			MAIN.error("Не удалось переключить полноэкранный режим");
-			MAIN.exception(ex);
+			MAIN.error("Не удалось переключить полноэкранный режим", ex);
 		}
 	}
 

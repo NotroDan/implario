@@ -6,13 +6,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 
 public class ThreadLanServerPing extends Thread {
 
 	private static final AtomicInteger field_148658_a = new AtomicInteger(0);
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final String motd;
 
 	/**

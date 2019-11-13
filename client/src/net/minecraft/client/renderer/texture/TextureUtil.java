@@ -3,11 +3,11 @@ package net.minecraft.client.renderer.texture;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.Mipmaps;
 import org.apache.commons.io.IOUtils;
-import net.minecraft.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -22,7 +22,7 @@ import java.nio.IntBuffer;
 
 public class TextureUtil {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final IntBuffer dataBuffer = GLAllocation.createDirectIntBuffer(4194304);
 	public static final DynamicTexture missingTexture = new DynamicTexture(16, 16);
 	public static final int[] missingTextureData = missingTexture.getTextureData();
@@ -278,7 +278,7 @@ public class TextureUtil {
 
 			try {
 				ImageIO.write(bufferedimage, "png", file1);
-				logger.debug("Exported png to: {}", new Object[] {file1.getAbsolutePath()});
+				logger.debug("Exported png to: " + file1.getAbsolutePath());
 			} catch (Exception exception) {
 				logger.debug("Unable to write: ", exception);
 			}

@@ -27,7 +27,7 @@ public class PropertyManager {
 			try (FileInputStream fileinputstream = new FileInputStream(propertiesFile)) {
 				this.serverProperties.load(fileinputstream);
 			} catch (Exception exception) {
-				LOGGER.exception(exception, "Failed to load " + propertiesFile);
+				LOGGER.error("Failed to load " + propertiesFile, exception);
 				generateNewProperties();
 			}
 		} else {
@@ -54,7 +54,7 @@ public class PropertyManager {
 			fileoutputstream = new FileOutputStream(this.serverPropertiesFile);
 			this.serverProperties.store(fileoutputstream, "Minecraft server properties");
 		} catch (Exception exception) {
-			LOGGER.exception(exception, "Failed to save " + this.serverPropertiesFile);
+			LOGGER.error("Failed to save " + this.serverPropertiesFile, exception);
 			generateNewProperties();
 		} finally {
 			if (fileoutputstream != null) {

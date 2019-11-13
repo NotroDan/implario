@@ -1,8 +1,7 @@
 package net.minecraft.client.multiplayer;
 
-import com.google.common.collect.Lists;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class ServerList {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	/**
 	 * The Minecraft instance.

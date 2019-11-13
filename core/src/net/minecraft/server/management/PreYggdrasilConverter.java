@@ -10,8 +10,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.ProfileLookupCallback;
 import com.mojang.authlib.yggdrasil.ProfileNotFoundException;
 import net.minecraft.entity.player.Player;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
@@ -64,7 +62,7 @@ public class PreYggdrasilConverter {
 				try {
 					userlistbans.readSavedFile();
 				} catch (FileNotFoundException filenotfoundexception) {
-					LOGGER.exception(filenotfoundexception, "Could not load existing file " + userlistbans.getSaveFile().getName());
+					LOGGER.warn("Could not load existing file " + userlistbans.getSaveFile().getName(), filenotfoundexception);
 				}
 			}
 

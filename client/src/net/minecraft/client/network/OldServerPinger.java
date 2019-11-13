@@ -6,10 +6,10 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.ServerStatusResponse;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -33,7 +33,7 @@ import java.util.List;
 
 public class OldServerPinger {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final List<NetworkManager> pingDestinations = Collections.synchronizedList(new ArrayList<>());
 
 	public void ping(final ServerData server) throws UnknownHostException {
@@ -49,7 +49,7 @@ public class OldServerPinger {
 			networkmanager.sendPacket(new C00Handshake(47, serveraddress.getIP(), serveraddress.getPort(), Protocols.STATUS));
 			networkmanager.sendPacket(new C00PacketServerQuery());
 		} catch (Throwable ex) {
-			logger.error(ex);
+			logger.error("Error on send first packets", ex);
 		}
 	}
 

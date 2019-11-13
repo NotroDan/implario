@@ -65,9 +65,8 @@ public class DatapackClassLoader extends ClassLoader {
 			try {
 				return DatapackClassLoader.getSystemClassLoader().loadClass(name);
 			} catch (ClassNotFoundException e) {
-				Log.MAIN.error("Tried to load class '" + name + "' from datapack " + filename + " but failed!");
-				Log.MAIN.exception(ex);
-				throw new RuntimeException(ex);
+				Log.MAIN.error("Tried to load class '" + name + "' from datapack " + filename + " but failed!", ex);
+				throw e;
 			}
 		}
 	}

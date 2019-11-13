@@ -1,6 +1,6 @@
 package net.minecraft.client.multiplayer;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.LongHashMap;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ChunkProviderClient implements IChunkProvider {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	/**
 	 * The completely empty chunk used by ChunkProviderClient when chunkMapping doesn't contain the requested

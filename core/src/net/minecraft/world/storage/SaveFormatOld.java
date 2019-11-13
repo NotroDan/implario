@@ -6,15 +6,15 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.logging.Log;
 import net.minecraft.world.AnvilConverterException;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IProgressUpdate;
-import net.minecraft.Logger;
 
 public class SaveFormatOld implements ISaveFormat {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	/**
 	 * Reference to the File object representing the directory for the world saves

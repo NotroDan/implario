@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.MessageToByteEncoder;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -34,7 +34,7 @@ public class NettyCommunication {
 
 	public static class Encoder extends MessageToByteEncoder<Packet> {
 
-		private static final Logger logger = Logger.getInstance();
+		private static final Log logger = Log.MAIN;
 		private final boolean isClientSided;
 
 		public Encoder(boolean isClientSided) {
@@ -44,7 +44,7 @@ public class NettyCommunication {
 		protected void encode(ChannelHandlerContext chc, Packet packet, ByteBuf buf) throws Exception {
 			int id = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(isClientSided, packet);
 
-			if (id == -1) throw new IOException("Can\'t serialize unregistered packet");
+			if (id == -1) throw new IOException("Can't serialize unregistered packet");
 
 			PacketBuffer packetbuffer = new PacketBuffer(buf);
 			packetbuffer.writeVarIntToBuffer(id);
@@ -52,7 +52,7 @@ public class NettyCommunication {
 			try {
 				packet.writePacketData(packetbuffer);
 			} catch (Throwable throwable) {
-				logger.error((Object) throwable);
+				logger.error("Error on write packet", throwable);
 			}
 		}
 

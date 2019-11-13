@@ -1,6 +1,5 @@
 package net.minecraft.init;
 
-import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.enchantment.Enchantments;
@@ -17,7 +16,6 @@ public class Bootstrap {
 	private static final PrintStream SYSOUT = System.out;
 
 	private static boolean registered = false, alreadyRegistered;
-	private static final Logger LOGGER = Logger.getInstance();
 
 	/**
 	 * Is Bootstrap registration already done?

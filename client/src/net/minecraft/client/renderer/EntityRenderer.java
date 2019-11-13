@@ -2,7 +2,6 @@ package net.minecraft.client.renderer;
 
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -39,6 +38,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.Potion;
+import net.minecraft.logging.Log;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
@@ -65,7 +65,7 @@ import java.util.concurrent.Callable;
 
 public class EntityRenderer implements IResourceManagerReloadListener {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final ResourceLocation locationRainPng = new ResourceLocation("textures/environment/rain.png");
 	private static final ResourceLocation locationSnowPng = new ResourceLocation("textures/environment/snow.png");
 

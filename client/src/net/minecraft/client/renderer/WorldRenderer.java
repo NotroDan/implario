@@ -1,10 +1,10 @@
 package net.minecraft.client.renderer;
 
 import com.google.common.primitives.Floats;
-import net.minecraft.LogManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
+import net.minecraft.logging.Log;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MathHelper;
 import optifine.Config;
@@ -61,7 +61,7 @@ public class WorldRenderer {
 			int i = this.byteBuffer.capacity();
 			int j = i % 2097152;
 			int k = j + (((this.rawIntBuffer.position() + p_181670_1_) * 4 - j) / 2097152 + 1) * 2097152;
-			LogManager.getLogger().warn("Needed to grow BufferBuilder buffer: Old size " + i + " bytes, new size " + k + " bytes.");
+			Log.MAIN.warn("Needed to grow BufferBuilder buffer: Old size " + i + " bytes, new size " + k + " bytes.");
 			int l = this.rawIntBuffer.position();
 			ByteBuffer bytebuffer = GLAllocation.createDirectByteBuffer(k);
 			this.byteBuffer.position(0);

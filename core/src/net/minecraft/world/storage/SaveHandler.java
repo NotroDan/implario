@@ -1,7 +1,7 @@
 package net.minecraft.world.storage;
 
-import net.minecraft.Logger;
 import net.minecraft.entity.player.Player;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -13,7 +13,7 @@ import java.io.*;
 
 public class SaveHandler implements ISaveHandler, IPlayerFileData {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	/**
 	 * The directory in which to save world data.

@@ -8,12 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 
 public class NBTTagList extends NBTBase {
 
-	private static final Logger LOGGER = Logger.getInstance();
+	private static final Log LOGGER = Log.MAIN;
 	private List<NBTBase> tagList = new ArrayList<>();
 
 	/**

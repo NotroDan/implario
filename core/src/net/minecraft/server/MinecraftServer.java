@@ -12,7 +12,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
-import net.minecraft.Logger;
 import net.minecraft.command.*;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.database.Storage;
@@ -20,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.logging.IProfiler;
+import net.minecraft.logging.Log;
 import net.minecraft.logging.Profiler;
 import net.minecraft.network.NetworkSystem;
 import net.minecraft.network.ServerStatusResponse;
@@ -52,7 +52,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 	public static final IProfiler profiler = new Profiler();
 	public static final Provider<MinecraftServer, WorldService> WORLD_SERVICE_PROVIDER = new Provider<>(SimpleWorldService::new);
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
 	public static MinecraftServer mcServer;
 	public static Storage storage;

@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -25,7 +25,7 @@ public class HttpUtil {
 	 * The number of download threads that we have started so far.
 	 */
 	private static final AtomicInteger downloadThreadsStarted = new AtomicInteger(0);
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	/**
 	 * Builds an encoded HTTP POST content string from a string map

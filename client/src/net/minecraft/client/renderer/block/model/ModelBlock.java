@@ -70,7 +70,7 @@ public class ModelBlock {
 				data[i++] = (byte) read;
 			}
 		} catch (IOException ex) {
-			Log.MAIN.exception(ex);
+			Log.MAIN.error("Error on read model", ex);
 			return null;
 		}
 		if (data[0] == 0) return readBinModel(data);

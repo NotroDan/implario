@@ -1,7 +1,7 @@
 package net.minecraft.entity;
 
-import net.minecraft.Logger;
 import net.minecraft.entity.attributes.*;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class SharedMonsterAttributes {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	public static final IAttribute maxHealth = new RangedAttribute((IAttribute) null, "generic.maxHealth", 20.0D, 0.0D, 1024.0D).setDescription("Max Health").setShouldWatch(true);
 	public static final IAttribute followRange = new RangedAttribute((IAttribute) null, "generic.followRange", 32.0D, 0.0D, 2048.0D).setDescription("Follow Range");
 	public static final IAttribute knockbackResistance = new RangedAttribute((IAttribute) null, "generic.knockbackResistance", 0.0D, 0.0D, 1.0D).setDescription("Knockback Resistance");

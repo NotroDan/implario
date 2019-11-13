@@ -1,11 +1,10 @@
 package net.minecraft.client.gui;
 
 import __google_.util.Exceptions;
-import net.minecraft.CyclicIterator;
+import net.minecraft.util.CyclicIterator;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiGridTest;
 import net.minecraft.client.gui.settings.GuiSettings;
-import net.minecraft.client.main.Main;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,14 +17,10 @@ import net.minecraft.logging.Log;
 import net.minecraft.network.services.github.Release;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.Datapacks;
-import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.security.Restart;
 import net.minecraft.security.update.DatapackUpdate;
-import net.minecraft.security.update.JarFile;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
-import org.apache.logging.log4j.core.config.NullConfiguration;
-import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GLContext;
 

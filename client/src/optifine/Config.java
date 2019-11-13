@@ -2,7 +2,6 @@ package optifine;
 
 import net.minecraft.Utils;
 import net.minecraft.client.gui.LoadingScreenRenderer;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.G;
@@ -14,6 +13,7 @@ import net.minecraft.client.resources.*;
 import net.minecraft.client.resources.ResourcePackRepository.Entry;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.settings.Settings;
+import net.minecraft.logging.Log;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
@@ -66,7 +66,7 @@ public class Config {
 	private static boolean desktopModeChecked = false;
 	private static DefaultResourcePack defaultResourcePackLazy = null;
 	public static final Float DEF_ALPHA_FUNC_LEVEL = 0.1F;
-	private static final Logger LOGGER = Logger.getInstance();
+	private static final Log LOGGER = Log.MAIN;
 
 	public static String getVersion() {
 		return "OptiFine_1.8.8_HD_U_H8";
@@ -398,7 +398,7 @@ public class Config {
 	}
 
 	public static void dbg(String p_dbg_0_) {
-		if (LOGGER.isDebugEnabled()) LOGGER.info("[OptiFine] " + p_dbg_0_);
+		LOGGER.debug("[OptiFine] " + p_dbg_0_);
 	}
 
 	public static void warn(String p_warn_0_) {

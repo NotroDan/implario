@@ -1,12 +1,11 @@
 package net.minecraft.client.renderer.texture;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.Logger;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
@@ -23,7 +22,7 @@ import java.util.concurrent.Callable;
 
 public class TextureManager implements ITickable, IResourceManagerReloadListener {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final Map mapTextureObjects = Maps.newHashMap();
 	private final List listTickables = new ArrayList<>();
 	private final Map mapTextureCounters = Maps.newHashMap();

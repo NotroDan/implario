@@ -1,7 +1,6 @@
 package net.minecraft.logging;
 
-import net.minecraft.Logger;
-import net.minecraft.util.LoggingPrintStream;
+import net.minecraft.server.Todo;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,24 +46,13 @@ public class Log {
 		comment("Начало новой сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date));
 	}
 
-	public static void init() {
-		Logger.instance = new Logger() {
-			public void print(Object... ob) {
-				for (Object o : ob) {
-					if (o instanceof Throwable) MAIN.exception((Throwable) o);
-					else MAIN.info(o.toString());
-				}
-			}
-		};
-	}
-
 	public void exception(Throwable t) {
 		if (console) t.printStackTrace();
 		append("* Описание ошибки, которое желательно отправить разработчикам.\n");
 		boolean causedBy = false;
 		while (t != null) {
-			String word = causedBy ? "Причина: " : "Исключение: ";
-			append("* " + word + t.getClass().getName() + ". Описание: " + t.getMessage() + "\n");
+			String word = causedBy ? "Reason: " : "Exception: ";
+			append("* " + word + t.getClass().getName() + ". Description: " + t.getMessage() + "\n");
 			causedBy = true;
 			for (StackTraceElement e : t.getStackTrace()) {
 				String file = e.getFileName();
@@ -80,17 +68,31 @@ public class Log {
 		}
 	}
 
-	public void warnException(Throwable t, String message){
-		warn(message);
-		exception(t);
-	}
-
 	public void error(String s) {
 		log(s, LogLevel.ERROR);
 	}
 
+	public void error(String s, Throwable t){
+		error(s);
+		error(parseException(t));
+	}
+
 	public void warn(String s) {
 		log(s, LogLevel.WARNING);
+	}
+
+	public void warn(String s, Throwable t){
+		warn(s);
+		warn(parseException(t));
+	}
+
+	public void debug(String s) {
+		if (Todo.instance.debugEnabled()) log(s, LogLevel.DEBUG);
+	}
+
+	public void debug(String s, Throwable t){
+		debug(s);
+		debug(parseException(t));
 	}
 
 	public void info(String s) {
@@ -116,18 +118,6 @@ public class Log {
 		append(line);
 	}
 
-	public void debug(String s) {
-		if (false) log(s, LogLevel.DEBUG);
-	}
-
-	private void append(String s) {
-		try {
-			stream.write(s);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void close() {
 		try {
 			stream.flush();
@@ -140,6 +130,37 @@ public class Log {
 
 	public void addAccessor(ILogInterceptor interceptor) {
 		this.interceptors.add(interceptor);
+	}
+
+	private String parseException(Throwable t){
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("* Описание ошибки, которое желательно отправить разработчикам.\n");
+		boolean causedBy = false;
+		while (t != null) {
+			String word = causedBy ? "Reason: " : "Exception: ";
+			buffer.append("* " + word + t.getClass().getName() + ". Description: " + t.getMessage() + "\n");
+			causedBy = true;
+			for (StackTraceElement e : t.getStackTrace()) {
+				String file = e.getFileName();
+				int line = e.getLineNumber();
+
+				String f;
+				if (e.isNativeMethod()) f = "(Native method)";
+				else if (file != null && line >= 0) f = "(" + file + ":" + line + ")";
+				else f = file != null ? "(" + file + ")" : "(Unknown source)";
+				buffer.append("*     " + e.getClassName() + "." + e.getMethodName() + " " + f + "\n");
+			}
+			t = t.getCause();
+		}
+		return buffer.toString();
+	}
+
+	private void append(String s) {
+		try {
+			stream.write(s);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void updateFile(Date date) throws IOException {

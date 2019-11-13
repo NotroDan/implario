@@ -16,13 +16,13 @@ import java.io.Reader;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
-import net.minecraft.Logger;
 
 public abstract class AbstractResourcePack implements IResourcePack {
 
-	private static final Logger resourceLog = Logger.getInstance();
+	private static final Log resourceLog = Log.MAIN;
 	public final File resourcePackFile;
 
 
@@ -50,8 +50,8 @@ public abstract class AbstractResourcePack implements IResourcePack {
 
 	protected abstract boolean hasResourceName(String name);
 
-	protected void logNameNotLowercase(String p_110594_1_) {
-		resourceLog.warn("ResourcePack: ignored non-lowercase namespace: {} in {}", new Object[] {p_110594_1_, this.resourcePackFile});
+	protected void logNameNotLowercase(String src) {
+		resourceLog.warn("ResourcePack: ignored non-lowercase namespace: " + src + " in " + resourcePackFile);
 	}
 
 	public IMetadataSection getPackMetadata(IMetadataSerializer p_135058_1_, String p_135058_2_) throws IOException {

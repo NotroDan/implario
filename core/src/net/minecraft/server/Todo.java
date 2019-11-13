@@ -24,4 +24,7 @@ public class Todo {
 
 	public void clientInit(Datapack datapack) {}
 
+	public boolean debugEnabled(){
+		return false;
+	}
 }

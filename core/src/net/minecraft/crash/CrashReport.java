@@ -1,6 +1,6 @@
 package net.minecraft.crash;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ReportedException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CrashReport {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	private final String description;
 

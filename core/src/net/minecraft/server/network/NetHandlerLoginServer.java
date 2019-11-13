@@ -3,8 +3,8 @@ package net.minecraft.server.network;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationUnavailableException;
-import net.minecraft.Logger;
 import net.minecraft.entity.player.MPlayer;
+import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.login.INetHandlerLoginServer;
 import net.minecraft.network.login.client.C00PacketLoginStart;
@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable {
 
 	private static final AtomicInteger AUTHENTICATOR_THREAD_ID = new AtomicInteger(0);
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final Random RANDOM = new Random();
 	private final byte[] verifyToken = new byte[4];
 	private final MinecraftServer server;

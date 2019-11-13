@@ -7,11 +7,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraft.Logger;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.logging.Log;
 import net.minecraft.util.JsonBlendingMode;
 import net.minecraft.util.JsonException;
 import net.minecraft.util.JsonUtils;
@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class ShaderManager {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final ShaderDefault defaultShaderUniform = new ShaderDefault();
 	private static ShaderManager staticShaderManager = null;
 	private static int currentProgram = -1;

@@ -1,7 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.google.common.collect.Lists;
-import net.minecraft.Logger;
 import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.util.*;
@@ -15,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiChat extends GuiScreen {
-
-	private static final Logger logger = Logger.getInstance();
 	private String historyBuffer = "";
 
 	/**

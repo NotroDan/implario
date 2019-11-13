@@ -1,10 +1,6 @@
 package net.minecraft.server;
 
-import com.google.common.collect.Lists;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 import net.minecraft.logging.Log;
-import net.minecraft.logging.ProfilerResult;
 
 import java.util.ArrayList;
 import java.util.Collections;

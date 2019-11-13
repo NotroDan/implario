@@ -2,18 +2,12 @@ package net.minecraft.nbt;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
-
 public class JsonToNBT {
-
-	private static final Logger logger = Logger.getInstance();
 	private static final Pattern field_179273_b = Pattern.compile("\\[[-+\\d|,\\s]+\\]");
 
 	public static NBTTagCompound getTagFromJson(String jsonString) throws NBTException {

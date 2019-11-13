@@ -2,11 +2,11 @@ package net.minecraft.client.audio;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraft.Logger;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.player.Player;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
@@ -27,7 +27,7 @@ import java.util.Random;
 
 public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(SoundList.class, new SoundListSerializer()).create();
 	private static final ParameterizedType TYPE = new ParameterizedType() {
 		public Type[] getActualTypeArguments() {
@@ -107,7 +107,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 			soundeventaccessorcomposite = this.sndRegistry.getObject(location);
 		} else {
 			if (!flag) {
-				logger.debug("Replaced sound event location {}", location);
+				logger.debug("Replaced sound event location " + location);
 			}
 
 			soundeventaccessorcomposite = new SoundEventAccessorComposite(location, 1.0D, 1.0D, sounds.getSoundCategory());
@@ -128,7 +128,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 					try {
 						inputstream = this.mcResourceManager.getResource(resourcelocation1).getInputStream();
 					} catch (FileNotFoundException var18) {
-						logger.warn("File {} does not exist, cannot add it to event {}", resourcelocation1, location);
+						logger.warn("File " + resourcelocation1 + " does not exist, cannot add it to event " + location);
 						continue;
 					} catch (IOException ioexception) {
 						logger.warn("Could not load sound file " + resourcelocation1 + ", cannot add it to event " + location, ioexception);

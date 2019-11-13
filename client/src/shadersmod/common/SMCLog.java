@@ -1,11 +1,11 @@
 package shadersmod.common;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 
+//todo: ещё один логгер
 public abstract class SMCLog {
 
-	private static final Logger LOGGER = Logger.getInstance();
-	private static final String PREFIX = "[Shaders] ";
+	private static final Log LOGGER = Log.MAIN;
 
 	public static void severe(String message) {
 		LOGGER.error(message);

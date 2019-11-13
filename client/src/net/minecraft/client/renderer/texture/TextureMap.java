@@ -10,13 +10,13 @@ import net.minecraft.client.resources.data.TextureMetadataSection;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.logging.Log;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.ConnectedTextures;
 import optifine.TextureUtils;
-import net.minecraft.Logger;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShadersTex;
 
@@ -28,12 +28,11 @@ import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.Callable;
 
 public class TextureMap extends AbstractTexture implements ITickableTextureObject {
 
 	private static final boolean ENABLE_SKIP = Boolean.parseBoolean(System.getProperty("fml.skipFirstTextureLoad", "true"));
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	public static final ResourceLocation LOCATION_MISSING_TEXTURE = new ResourceLocation("missingno");
 	public static final ResourceLocation locationBlocksTexture = new ResourceLocation("textures/atlas/blocks.png");
 	private final List<TextureAtlasSprite> listAnimatedSprites;
@@ -197,7 +196,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 								try {
 									abufferedimage[j3] = TextureUtil.readBufferedImage(resourceManager.getResource(resourcelocation2).getInputStream());
 								} catch (IOException ioexception) {
-									logger.error("Unable to load miplevel {} from: {}", j3, resourcelocation2, ioexception);
+									logger.error("Unable to load miplevel " + j3 + " from: " + resourcelocation2, ioexception);
 								}
 							}
 						}
@@ -217,8 +216,9 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 				int k2 = Math.min(Integer.lowestOneBit(textureatlassprite1.getIconWidth()), Integer.lowestOneBit(textureatlassprite1.getIconHeight()));
 
 				if (k2 < k) {
-					logger.warn("Texture {} with size {}x{} limits mip level from {} to {}", resourcelocation1, textureatlassprite1.getIconWidth(), textureatlassprite1.getIconHeight(),
-							MathHelper.calculateLogBaseTwo(k), MathHelper.calculateLogBaseTwo(k2));
+					logger.warn("Texture " + resourcelocation1 + " with size " + textureatlassprite1.getIconWidth() + "x" +
+									textureatlassprite1.getIconHeight() + " limits mip level from " + MathHelper.calculateLogBaseTwo(k) +
+									" to " +MathHelper.calculateLogBaseTwo(k2));
 					k = k2;
 				}
 
@@ -237,7 +237,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		}
 
 		if (j2 < this.mipmapLevels) {
-			logger.info("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath, this.mipmapLevels, j2, i2);
+			logger.info(basePath + ": dropping miplevel from " + mipmapLevels + " to " + j2 + ", " +
+					"because of minimum power of two: " + i2);
 			this.mipmapLevels = j2;
 		}
 
