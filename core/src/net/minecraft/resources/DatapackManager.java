@@ -23,6 +23,9 @@ public class DatapackManager {
 	@Getter
 	private final Tree<DatapackLoader> tree = new Tree<>(CORE);
 
+	@Getter
+	private final Set<Datapack> datapacks = new HashSet<>();
+
 	public void prepare(DatapackLoader loader) throws DatapackLoadException {
 		DatapackInfo properties = loader.prepareReader();
 		map.put(properties.hashCode(), loader);
@@ -32,9 +35,17 @@ public class DatapackManager {
 		tree.getRootElement().growBranch(loader);
 	}
 
-	public void 
+	public Datapack load(DatapackLoader loader) throws DatapackLoadException {
+		Datapack datapack = loader.createInstance();
+		datapacks.add(datapack);
+		return datapack;
+	}
 
-	public void release(DatapackLoader loader) {
+	public void init(DatapackLoader loader) {
+		loader.getInstance().init();
+	}
+
+	public void shutdownBranch(DatapackLoader loader) {
 		map.remove(loader.getProperties().hashCode());
 		try {
 			List<DatapackLoader> dependents = tree.resolve(loader);
