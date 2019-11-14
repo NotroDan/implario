@@ -4,13 +4,12 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.Logger;
 
 public class MapGenStructureIO {
-
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static Map<String, Class<? extends StructureStart>> startNameToClassMap = Maps.newHashMap();
 	private static Map<Class<? extends StructureStart>, String> startClassToNameMap = Maps.newHashMap();
 	private static Map<String, Class<? extends StructureComponent>> componentNameToClassMap = Maps.newHashMap();

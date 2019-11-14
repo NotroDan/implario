@@ -9,13 +9,12 @@ import java.io.InputStream;
 import java.util.List;
 
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 
 public class LayeredTexture extends AbstractTexture {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	public final List<String> layeredTextureNames;
 
 	public LayeredTexture(String... textureNames) {

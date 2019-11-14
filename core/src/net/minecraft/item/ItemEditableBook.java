@@ -110,8 +110,8 @@ public class ItemEditableBook extends Item {
 
 		nbttagcompound.setTag("pages", nbttaglist);
 
-		if (player instanceof MPlayer && player.getCurrentEquippedItem() == stack) {
-			Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
+		if (player instanceof MPlayer && player.inventory.getCurrentItem() == stack) {
+			Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.getCurrentSlot());
 			((MPlayer) player).playerNetServerHandler.sendPacket(new S2FPacketSetSlot(0, slot.slotNumber, stack));
 		}
 	}

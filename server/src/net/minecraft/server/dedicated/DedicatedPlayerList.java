@@ -50,28 +50,25 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 
 	private void saveIpBanList() {
 		try {
-			this.getBannedIPs().writeChanges();
+			getBannedIPs().writeChanges();
 		} catch (IOException ioexception) {
-			Log.MAIN.warn("Не удалось сохранить список банов по IP: ");
-			Log.MAIN.exception(ioexception);
+			Log.MAIN.warn("Can't save ban-ip list", ioexception);
 		}
 	}
 
 	private void saveUserBanList() {
 		try {
-			this.getBannedPlayers().writeChanges();
+			getBannedPlayers().writeChanges();
 		} catch (IOException ioexception) {
-			Log.MAIN.warn("Не удалось сохранить список банов: ");
-			Log.MAIN.exception(ioexception);
+			Log.MAIN.warn("Can't save ban list", ioexception);
 		}
 	}
 
 	private void readWhiteList() {
 		try {
-			this.getWhitelistedPlayers().read();
+			getWhitelistedPlayers().read();
 		} catch (Exception exception) {
-			Log.MAIN.warn("Не удалось прогрузить вайтлист: ");
-			Log.MAIN.exception(exception);
+			Log.MAIN.warn("Can't load whitelist", exception);
 		}
 	}
 
@@ -79,8 +76,7 @@ public class DedicatedPlayerList extends ServerConfigurationManager {
 		try {
 			this.getWhitelistedPlayers().save();
 		} catch (Exception exception) {
-			Log.MAIN.warn("Не удалось сохранить вайтлист: ");
-			Log.MAIN.exception(exception);
+			Log.MAIN.warn("Can't save whitelist", exception);
 		}
 	}
 

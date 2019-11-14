@@ -40,8 +40,7 @@ public class DefaultResourcePack implements IResourcePack {
 		try {
 			return this.getInternalInputStream(location) != null || this.getExternalInputStream(location) != null;
 		} catch (IOException e) {
-			Log.MAIN.error("При проверке ресурса " + location + " на факт существования произошла ошибка.");
-			Log.MAIN.exception(e);
+			Log.MAIN.error("При проверке ресурса " + location + " на факт существования произошла ошибка.", e);
 			return false;
 		}
 	}

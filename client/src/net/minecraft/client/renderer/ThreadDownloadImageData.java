@@ -1,10 +1,10 @@
 package net.minecraft.client.renderer;
 
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.logging.Log;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.HttpPipeline;
@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadDownloadImageData extends SimpleTexture {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final AtomicInteger threadDownloadCounter = new AtomicInteger(0);
 	private final File cacheFile;
 	private final String imageUrl;
@@ -71,7 +71,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 		if (this.bufferedImage == null && this.textureLocation != null) super.loadTexture(resourceManager);
 
 		if (this.imageThread == null) if (this.cacheFile != null && this.cacheFile.isFile()) {
-			logger.debug("Loading http texture from memory cache ({})", new Object[] {this.cacheFile});
+			logger.debug("Loading http texture from memory cache (" + cacheFile + ")");
 
 			try {
 				this.bufferedImage = ImageIO.read(this.cacheFile);

@@ -183,7 +183,7 @@ public class EntityOcelot extends EntityTameable {
 			}
 
 			if (itemstack.stackSize <= 0) {
-				player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
+				player.inventory.setInventorySlotContents(player.inventory.getCurrentSlot(), (ItemStack) null);
 			}
 
 			if (!this.worldObj.isClientSide) {

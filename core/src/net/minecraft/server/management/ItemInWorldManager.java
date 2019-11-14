@@ -13,7 +13,7 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.network.play.server.S38PacketPlayerListItem;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerBlockBreakEvent;
-import net.minecraft.resources.event.events.player.PlayerInteractEvent;
+import net.minecraft.resources.event.events.player.PlayerBlockInteractEvent;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
@@ -160,7 +160,7 @@ public class ItemInWorldManager {
 				}
 
 				if (!this.thisPlayerMP.isAllowEdit()) {
-					ItemStack itemstack = this.thisPlayerMP.getCurrentEquippedItem();
+					ItemStack itemstack = thisPlayerMP.inventory.getCurrentItem();
 
 					if (itemstack == null) {
 						return;
@@ -260,7 +260,7 @@ public class ItemInWorldManager {
 			}
 
 			if (!this.thisPlayerMP.isAllowEdit()) {
-				ItemStack itemstack = this.thisPlayerMP.getCurrentEquippedItem();
+				ItemStack itemstack = thisPlayerMP.inventory.getCurrentItem();
 
 				if (itemstack == null) {
 					return;
@@ -283,14 +283,14 @@ public class ItemInWorldManager {
 		if (this.isCreative()) {
 			this.thisPlayerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(this.theWorld, pos));
 		} else {
-			ItemStack itemstack1 = this.thisPlayerMP.getCurrentEquippedItem();
+			ItemStack itemstack1 = thisPlayerMP.inventory.getCurrentItem();
 			boolean flag = this.thisPlayerMP.canHarvestBlock(iblockstate.getBlock());
 
 			if (itemstack1 != null) {
 				itemstack1.onBlockDestroyed(this.theWorld, iblockstate.getBlock(), pos, this.thisPlayerMP);
 
 				if (itemstack1.stackSize == 0) {
-					this.thisPlayerMP.destroyCurrentEquippedItem();
+					thisPlayerMP.inventory.clearCurrentSlot();
 				}
 			}
 
@@ -306,15 +306,13 @@ public class ItemInWorldManager {
 	 * Attempts to right-click use an item by the given EntityPlayer in the given World
 	 */
 	public void tryUseItem(Player player, World worldIn, ItemStack stack) {
-		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
-			return;
-		}
+		if (this.gameType == WorldSettings.GameType.SPECTATOR) return;
 		int i = stack.stackSize;
 		int j = stack.getMetadata();
 		ItemStack itemstack = stack.useItemRightClick(worldIn, player);
 
 		if (itemstack != stack || itemstack != null && (itemstack.stackSize != i || itemstack.getMaxItemUseDuration() > 0 || itemstack.getMetadata() != j)) {
-			player.inventory.mainInventory[player.inventory.currentItem] = itemstack;
+			player.inventory.setCurrentItem(itemstack);
 
 			if (this.isCreative()) {
 				itemstack.stackSize = i;
@@ -325,7 +323,7 @@ public class ItemInWorldManager {
 			}
 
 			if (itemstack.stackSize == 0) {
-				player.inventory.mainInventory[player.inventory.currentItem] = null;
+				player.inventory.clearCurrentSlot();
 			}
 
 			if (!player.isUsingItem()) {
@@ -339,9 +337,9 @@ public class ItemInWorldManager {
 	 */
 	public void activateBlockOrUseItem(Player player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
 		IBlockState b = worldIn.getBlockState(pos);
-		if (ServerEvents.playerInteract.isUseful()) {
-			PlayerInteractEvent event = new PlayerInteractEvent(player, stack, pos, b, side, offsetX, offsetY, offsetZ);
-			ServerEvents.playerInteract.call(event);
+		if (ServerEvents.playerBlockInteract.isUseful()) {
+			PlayerBlockInteractEvent event = new PlayerBlockInteractEvent(player, stack, pos, b, side, offsetX, offsetY, offsetZ);
+			ServerEvents.playerBlockInteract.call(event);
 			if (event.isCanceled()) return;
 		}
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {

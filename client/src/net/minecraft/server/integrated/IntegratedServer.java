@@ -2,15 +2,13 @@ package net.minecraft.server.integrated;
 
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ThreadLanServerPing;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.database.Storage;
-import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.entity.player.MPlayer;
+import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.HttpUtil;
@@ -28,7 +26,7 @@ import static net.minecraft.logging.Log.MAIN;
 
 public class IntegratedServer extends MinecraftServer {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = MAIN;
 
 	private final Minecraft mc;
 	private final WorldSettings theWorldSettings;

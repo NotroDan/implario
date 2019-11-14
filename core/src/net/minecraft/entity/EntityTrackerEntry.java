@@ -1,7 +1,6 @@
 package net.minecraft.entity;
 
 import com.google.common.collect.Sets;
-import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.attributes.ServersideAttributeMap;
@@ -13,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.*;
@@ -28,7 +28,7 @@ import java.util.Set;
 
 public class EntityTrackerEntry {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	/**
 	 * The entity that this EntityTrackerEntry tracks.

@@ -352,7 +352,7 @@ public class EntityWolf extends EntityTameable {
 						this.heal((float) itemfood.getHealAmount(itemstack));
 
 						if (itemstack.stackSize <= 0) {
-							player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
+							player.inventory.clearCurrentSlot();
 						}
 
 						return true;
@@ -364,7 +364,7 @@ public class EntityWolf extends EntityTameable {
 						this.setCollarColor(enumdyecolor);
 
 						if (!player.capabilities.isCreativeMode && --itemstack.stackSize <= 0) {
-							player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
+							player.inventory.clearCurrentSlot();
 						}
 
 						return true;
@@ -384,7 +384,7 @@ public class EntityWolf extends EntityTameable {
 			}
 
 			if (itemstack.stackSize <= 0) {
-				player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
+				player.inventory.clearCurrentSlot();
 			}
 
 			if (!this.worldObj.isClientSide) {

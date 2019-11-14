@@ -2,9 +2,9 @@ package net.minecraft.world.chunk;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
-import net.minecraft.Logger;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.logging.Log;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.LongHashMap;
@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ChunkProviderServer implements IChunkProvider {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private Set<Long> droppedChunksSet = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
 	/**

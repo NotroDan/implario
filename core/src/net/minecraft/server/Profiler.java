@@ -1,9 +1,6 @@
 package net.minecraft.server;
 
-import com.google.common.collect.Lists;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
-import net.minecraft.logging.ProfilerResult;
+import net.minecraft.logging.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +12,7 @@ public class Profiler1 {
 
 //	public static Profiler in = new Profiler();
 
-	protected static final Logger logger = LogManager.getLogger();
+	protected static final Log logger = Log.MAIN;
 	protected final List<String> sectionList = Collections.synchronizedList(new ArrayList<>());
 	protected final List<Long> timestampList = Collections.synchronizedList(new ArrayList<>());
 

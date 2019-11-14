@@ -65,4 +65,9 @@ public class FastDecoder implements Decoder{
     public String readStr() {
         return new String(readBytes(), StandardCharsets.UTF_8);
     }
+
+    @Override
+    public boolean hasNext() {
+        return array.length != i;
+    }
 }

@@ -206,8 +206,7 @@ public class ClientVanilla implements ClientSideDatapack {
 					imerchant.setRecipes(merchantrecipelist);
 				}
 			} catch (IOException ioexception) {
-				Log.MAIN.error("Couldn\'t load trade info");
-				Log.MAIN.exception(ioexception);
+				Log.MAIN.error("Couldn\'t load trade info", ioexception);
 			} finally {
 				packetbuffer.release();
 			}

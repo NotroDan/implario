@@ -4,7 +4,6 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.util.concurrent.Futures;
 import io.netty.buffer.Unpooled;
-import net.minecraft.Logger;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.crash.CrashReport;
@@ -23,12 +22,11 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemEditableBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemWritableBook;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.*;
-import net.minecraft.network.protocol.Protocols;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.*;
 import net.minecraft.server.MinecraftServer;
@@ -43,7 +41,6 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.world.WorldServer;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +50,7 @@ import java.util.Set;
 
 public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private int networkTickCount;
 	private int field_175090_f;
 
@@ -475,23 +472,38 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 
 		if (packetIn.getPlacedBlockDirection() == 255) {
 			if (itemstack == null) return;
-
+			if(ServerEvents.playerItemUse.isUseful()){
+				PlayerItemUseEvent event = new PlayerItemUseEvent(playerEntity, itemstack, l, enumfacing,
+						packetIn.getPlacedBlockOffsetX(), packetIn.getPlacedBlockOffsetY(),
+						packetIn.getPlacedBlockOffsetZ(), true);
+				ServerEvents.playerItemUse.call(event);
+				if(event.isCanceled())return;
+			}
 			this.playerEntity.theItemInWorldManager.tryUseItem(this.playerEntity, worldserver, itemstack);
 		} else if (!isBlock ||
 				(l.getY() < this.serverController.getBuildLimit() - 1 || enumfacing != EnumFacing.UP
 						&& l.getY() < this.serverController.getBuildLimit())) {
 			flag = true;
-			boolean using = true;
-			if(isBlock && ServerEvents.playerBlockPlace.isUseful()){
-				PlayerBlockPlaceEvent event = new PlayerBlockPlaceEvent(playerEntity,
-						((ItemBlock)itemstack.getItem()).getBlock(), l.offset(enumfacing));
-				ServerEvents.playerBlockPlace.call(event);
-				using = !event.isCanceled();
-			}
-			if (using && this.hasMoved && this.playerEntity.getDistanceSq(l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5) < 64.0D &&
-					!this.serverController.isBlockProtected(worldserver, l, this.playerEntity) && worldserver.getWorldBorder().contains(l))
-				this.playerEntity.theItemInWorldManager.activateBlockOrUseItem(this.playerEntity, worldserver, itemstack, l, enumfacing, packetIn.getPlacedBlockOffsetX(),
+			if (this.hasMoved && this.playerEntity.getDistanceSq(l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5) < 64.0D &&
+					!this.serverController.isBlockProtected(worldserver, l, this.playerEntity) && worldserver.getWorldBorder().contains(l)){
+				boolean using = true;
+				if(isBlock && ServerEvents.playerBlockPlace.isUseful()){
+					PlayerBlockPlaceEvent event = new PlayerBlockPlaceEvent(playerEntity,
+							((ItemBlock)itemstack.getItem()).getBlock(), l.offset(enumfacing));
+					ServerEvents.playerBlockPlace.call(event);
+					using = !event.isCanceled();
+				}
+				if(using && ServerEvents.playerItemUse.isUseful()){
+					PlayerItemUseEvent event = new PlayerItemUseEvent(playerEntity, itemstack, l, enumfacing,
+							packetIn.getPlacedBlockOffsetX(), packetIn.getPlacedBlockOffsetY(),
+							packetIn.getPlacedBlockOffsetZ(), false);
+					ServerEvents.playerItemUse.call(event);
+					using = !event.isCanceled();
+				}
+				if(using)playerEntity.theItemInWorldManager.activateBlockOrUseItem(this.playerEntity, worldserver,
+						itemstack, l, enumfacing, packetIn.getPlacedBlockOffsetX(),
 						packetIn.getPlacedBlockOffsetY(), packetIn.getPlacedBlockOffsetZ());
+			}
 		} else {
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("build.tooHigh", this.serverController.getBuildLimit());
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
@@ -507,15 +519,15 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 		itemstack = this.playerEntity.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.stackSize == 0) {
-			this.playerEntity.inventory.setItem(this.playerEntity.inventory.currentItem, null);
+			playerEntity.inventory.clearCurrentSlot();
 			itemstack = null;
 		}
 
 		if (itemstack == null || itemstack.getMaxItemUseDuration() == 0) {
 			this.playerEntity.isChangingQuantityOnly = true;
-			this.playerEntity.inventory.setItem(this.playerEntity.inventory.currentItem, ItemStack.copyItemStack(
-					this.playerEntity.inventory.getItem(this.playerEntity.inventory.currentItem)));
-			Slot slot = this.playerEntity.openContainer.getSlotFromInventory(this.playerEntity.inventory, this.playerEntity.inventory.currentItem);
+			this.playerEntity.inventory.setCurrentItem(ItemStack.copyItemStack(
+					playerEntity.inventory.getCurrentItem()));
+			Slot slot = this.playerEntity.openContainer.getSlotFromInventory(this.playerEntity.inventory, this.playerEntity.inventory.getCurrentSlot());
 			this.playerEntity.openContainer.detectAndSendChanges();
 			this.playerEntity.isChangingQuantityOnly = false;
 
@@ -630,7 +642,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
 
 		if (packetIn.getSlotId() >= 0 && packetIn.getSlotId() < InventoryPlayer.getHotbarSize()) {
-			this.playerEntity.inventory.currentItem = packetIn.getSlotId();
+			this.playerEntity.inventory.setCurrentSlot(packetIn.getSlotId());
 			this.playerEntity.markPlayerActive();
 		} else {
 			logger.warn(this.playerEntity.getName() + " tried to set an invalid carried item");

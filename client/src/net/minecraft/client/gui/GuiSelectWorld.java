@@ -1,9 +1,9 @@
 package net.minecraft.client.gui;
 
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.Lang;
+import net.minecraft.logging.Log;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.AnvilConverterException;
 import net.minecraft.world.WorldSettings;
@@ -21,7 +21,7 @@ import java.util.Date;
 
 public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final DateFormat dateFormat = new SimpleDateFormat();
 	protected GuiScreen parentScreen;
 	protected String select = "Select world";

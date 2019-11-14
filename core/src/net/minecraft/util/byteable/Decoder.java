@@ -18,4 +18,6 @@ public interface Decoder {
     double readDouble();
 
     String readStr();
+
+    boolean hasNext();
 }

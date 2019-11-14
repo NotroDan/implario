@@ -113,8 +113,7 @@ public class SoundManager {
 				SoundManager.logger.info("Аудиодвижок успешно запущен.");
 			}, "Sound Library Loader").start();
 		} catch (RuntimeException runtimeexception) {
-			logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c");
-			logger.exception(runtimeexception);
+			logger.error("При запуске звуковой системы произошла ошибка. Придётся играть без звуков :c", runtimeexception);
 			Settings.SOUND_MASTER.set(0);
 			Settings.saveOptions();
 		}

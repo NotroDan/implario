@@ -1,12 +1,12 @@
 package net.minecraft.item.potion;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.Logger;
 
 public class PotionEffect {
 
-	private static final Logger LOGGER = Logger.getInstance();
+	private static final Log LOGGER = Log.MAIN;
 
 	/**
 	 * ID value of the potion this effect matches.

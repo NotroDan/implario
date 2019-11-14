@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.gui.GuiNewChat;
@@ -12,6 +11,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.logging.Log;
 import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -32,8 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class GameSettings {
-
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final Gson gson = new Gson();
 	private static final ParameterizedType typeListString = new ParameterizedType() {
 		public Type[] getActualTypeArguments() {

@@ -2,10 +2,10 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import net.minecraft.Utils;
-import net.minecraft.Logger;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.resources.*;
 import net.minecraft.client.settings.Settings;
+import net.minecraft.logging.Log;
 import net.minecraft.util.Util;
 import org.lwjgl.Sys;
 
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GuiScreenResourcePacks extends GuiScreen {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final GuiScreen parentScreen;
 	private List<ResourcePackListEntry> availableResourcePacks;
 	private List<ResourcePackListEntry> selectedResourcePacks;

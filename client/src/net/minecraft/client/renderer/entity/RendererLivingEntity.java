@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.game.model.ModelBase;
@@ -13,6 +12,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.logging.Log;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.EnumChatFormatting;
@@ -27,7 +27,7 @@ import java.util.List;
 
 public abstract class RendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final DynamicTexture field_177096_e = new DynamicTexture(16, 16);
 	protected ModelBase mainModel;
 	protected FloatBuffer brightnessBuffer = GLAllocation.createDirectFloatBuffer(4);

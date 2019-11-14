@@ -6,9 +6,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import net.minecraft.Logger;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
+import net.minecraft.logging.Log;
 import net.minecraft.network.play.server.S37PacketStatistics;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IJsonSerializable;
@@ -24,8 +24,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class StatisticsFile extends StatFileWriter {
-
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final MinecraftServer mcServer;
 	private final File statsFile;
 	private final Set<StatBase> field_150888_e = Sets.newHashSet();
@@ -43,9 +42,9 @@ public class StatisticsFile extends StatFileWriter {
 				this.statsData.clear();
 				this.statsData.putAll(this.parseJson(FileUtils.readFileToString(this.statsFile)));
 			} catch (IOException ioexception) {
-				logger.error((String) ("Couldn\'t read statistics file " + this.statsFile), (Throwable) ioexception);
+				logger.error("Couldn't read statistics file " + statsFile, ioexception);
 			} catch (JsonParseException jsonparseexception) {
-				logger.error((String) ("Couldn\'t parse statistics file " + this.statsFile), (Throwable) jsonparseexception);
+				logger.error("Couldn't parse statistics file " + statsFile, jsonparseexception);
 			}
 		}
 	}

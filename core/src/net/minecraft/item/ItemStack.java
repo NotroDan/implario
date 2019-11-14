@@ -280,7 +280,7 @@ public final class ItemStack {
 				Player entityplayer = (Player) entityIn;
 				entityplayer.triggerAchievement(StatList.objectBreakStats[Item.getIdFromItem(this.item)]);
 
-				if (this.stackSize == 0 && this.getItem() instanceof ItemBow) entityplayer.destroyCurrentEquippedItem();
+				if (this.stackSize == 0 && this.getItem() instanceof ItemBow) entityplayer.inventory.clearCurrentSlot();
 			}
 
 			if (this.stackSize < 0) this.stackSize = 0;

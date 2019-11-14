@@ -1,7 +1,7 @@
 package net.minecraft.util;
 
 import com.google.common.collect.Maps;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import org.apache.commons.lang3.Validate;
 
 import java.util.Collections;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class RegistrySimple<K, V> implements IRegistry<K, V> {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	protected final Map<K, V> registryObjects = this.createUnderlyingMap();
 
 	protected Map<K, V> createUnderlyingMap() {

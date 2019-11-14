@@ -93,13 +93,13 @@ public class BlockCauldron extends Block {
 		if (itemstack == null) {
 			return true;
 		}
-		int i = ((Integer) state.getValue(LEVEL)).intValue();
+		int i = state.getValue(LEVEL);
 		Item item = itemstack.getItem();
 
 		if (item == Items.water_bucket) {
 			if (i < 3) {
 				if (!playerIn.capabilities.isCreativeMode) {
-					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, new ItemStack(Items.bucket));
+					playerIn.inventory.setCurrentItem(new ItemStack(Items.bucket));
 				}
 
 				playerIn.triggerAchievement(StatList.cauldronFilledStat);
@@ -123,7 +123,7 @@ public class BlockCauldron extends Block {
 					--itemstack.stackSize;
 
 					if (itemstack.stackSize <= 0) {
-						playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack) null);
+						playerIn.inventory.clearCurrentSlot();
 					}
 				}
 
@@ -149,7 +149,7 @@ public class BlockCauldron extends Block {
 			TileEntityBanner.removeBannerData(itemstack1);
 
 			if (itemstack.stackSize <= 1 && !playerIn.capabilities.isCreativeMode) {
-				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, itemstack1);
+				playerIn.inventory.setCurrentItem(itemstack1);
 			} else {
 				if (!playerIn.inventory.addItemStackToInventory(itemstack1)) {
 					worldIn.spawnEntityInWorld(new EntityItem(worldIn, (double) pos.getX() + 0.5D, (double) pos.getY() + 1.5D, (double) pos.getZ() + 0.5D, itemstack1));

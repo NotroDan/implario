@@ -1,7 +1,6 @@
 package net.minecraft.command;
 
 import com.google.gson.JsonParseException;
-import net.minecraft.Logger;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.network.play.server.S45PacketTitle;
 import net.minecraft.server.MinecraftServer;
@@ -13,8 +12,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import java.util.List;
 
 public class CommandTitle extends CommandBase {
-
-	private static final Logger LOGGER = Logger.getInstance();
 
 	/**
 	 * Gets the name of the command

@@ -1,10 +1,10 @@
 package net.minecraft.entity;
 
 import com.google.common.collect.Sets;
-import net.minecraft.Logger;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.player.MPlayer;
+import net.minecraft.logging.Log;
 import net.minecraft.network.Packet;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ReportedException;
@@ -17,10 +17,10 @@ import java.util.Set;
 
 public class EntityTracker {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final WorldServer theWorld;
 	private Set<EntityTrackerEntry> trackedEntities = Sets.newHashSet();
-	private IntHashMap<EntityTrackerEntry> trackedEntityHashTable = new IntHashMap();
+	private IntHashMap<EntityTrackerEntry> trackedEntityHashTable = new IntHashMap<>();
 	private int maxTrackingDistanceThreshold;
 
 	public EntityTracker(WorldServer theWorldIn) {

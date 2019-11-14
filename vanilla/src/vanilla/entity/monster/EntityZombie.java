@@ -525,7 +525,7 @@ public class EntityZombie extends EntityMob {
 	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
 	 */
 	public boolean interact(Player player) {
-		ItemStack itemstack = player.getCurrentEquippedItem();
+		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.getItem() == Items.golden_apple && itemstack.getMetadata() == 0 && this.isVillager() && this.isPotionActive(Potion.weakness)) {
 			if (!player.capabilities.isCreativeMode) {
@@ -533,7 +533,7 @@ public class EntityZombie extends EntityMob {
 			}
 
 			if (itemstack.stackSize <= 0) {
-				player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
+				player.inventory.clearCurrentSlot();
 			}
 
 			if (!this.worldObj.isClientSide) {

@@ -2,8 +2,7 @@ package net.minecraft.server.dedicated;
 
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
 
 import java.io.File;
@@ -17,7 +16,7 @@ import java.util.TimerTask;
 
 public class ServerHangWatchdog implements Runnable {
 
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Log LOGGER = Log.MAIN;
 	private final DedicatedServer server;
 	private final long maxTickTime;
 
@@ -33,8 +32,8 @@ public class ServerHangWatchdog implements Runnable {
 			long k = j - i;
 
 			if (k > this.maxTickTime) {
-				LOGGER.fatal("Один тик занял " + String.format("%.2f", (float) k / 1000.0F) + " сек. (Должен занимать не более 0.05)");
-				LOGGER.fatal("С этого момента считается, что сервер упал. Принудительное выключение...");
+				LOGGER.error("Один тик занял " + String.format("%.2f", (float) k / 1000.0F) + " сек. (Должен занимать не более 0.05)");
+				LOGGER.error("С этого момента считается, что сервер упал. Принудительное выключение...");
 				ThreadMXBean threadmxbean = ManagementFactory.getThreadMXBean();
 				ThreadInfo[] athreadinfo = threadmxbean.dumpAllThreads(true, true);
 				StringBuilder stringbuilder = new StringBuilder();

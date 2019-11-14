@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.client.resources.data.PackMetadataSection;
 import net.minecraft.client.settings.Settings;
+import net.minecraft.logging.Log;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.HttpUtil;
 import net.minecraft.util.ResourceLocation;
@@ -22,8 +23,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
@@ -35,7 +34,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ResourcePackRepository {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final FileFilter resourcePackFilter = f -> {
 		boolean flag = f.isFile() && f.getName().endsWith(".zip");
 		boolean flag1 = f.isDirectory() && new File(f, "pack.mcmeta").isFile();
@@ -70,7 +69,7 @@ public class ResourcePackRepository {
 						break;
 					}
 					iterator.remove();
-					logger.warn("Removed selected resource pack {} because it\'s no longer compatible", e.getResourcePackName());
+					logger.warn("Removed selected resource pack " + e.getResourcePackName() + "because it's no longer compatible");
 				}
 		}
 	}

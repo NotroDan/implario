@@ -5,13 +5,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.*;
 import net.minecraft.network.play.server.*;
@@ -54,7 +53,7 @@ public abstract class ServerConfigurationManager {
 	public static final File FILE_IPBANS = new File("banned-ips.json");
 	public static final File FILE_OPS = new File("ops.json");
 	public static final File FILE_WHITELIST = new File("whitelist.json");
-	private static final Logger logger = LogManager.getLogger();
+	private static final Log logger = Log.MAIN;
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
 	/**
@@ -151,7 +150,7 @@ public abstract class ServerConfigurationManager {
 		nethandlerplayserver.sendPacket(new S41PacketServerDifficulty(worldinfo.getDifficulty(), worldinfo.isDifficultyLocked()));
 		nethandlerplayserver.sendPacket(new S05PacketSpawnPosition(blockpos));
 		nethandlerplayserver.sendPacket(new S39PacketPlayerAbilities(playerIn.capabilities));
-		nethandlerplayserver.sendPacket(new S09PacketHeldItemChange(playerIn.inventory.currentItem));
+		nethandlerplayserver.sendPacket(new S09PacketHeldItemChange(playerIn.inventory.getCurrentSlot()));
 		playerIn.getStatFile().func_150877_d();
 		playerIn.getStatFile().sendAchievements(playerIn);
 		this.sendScoreboard((ServerScoreboard) worldserver.getScoreboard(), playerIn);
@@ -486,13 +485,13 @@ public abstract class ServerConfigurationManager {
 		boolean flag = player.isSpawnForced();
 		player.dimension = dimension;
 		ItemInWorldManager iteminworldmanager = new ItemInWorldManager(this.mcServer.worldServerForDimension(player.dimension));
+		WorldServer worldserver = mcServer.worldServerForDimension(player.dimension);
 
 		MPlayer entityplayermp = new MPlayer(this.mcServer, this.mcServer.worldServerForDimension(player.dimension), player.getGameProfile(), iteminworldmanager);
 		entityplayermp.playerNetServerHandler = player.playerNetServerHandler;
 		entityplayermp.clonePlayer(player, conqueredEnd);
 		entityplayermp.setEntityId(player.getEntityId());
 		entityplayermp.func_174817_o(player);
-		WorldServer worldserver = this.mcServer.worldServerForDimension(player.dimension);
 		this.setPlayerGameTypeBasedOnOther(entityplayermp, player, worldserver);
 
 		boolean changed = false;
@@ -520,7 +519,6 @@ public abstract class ServerConfigurationManager {
 			}
 		}
 
-		worldserver.theChunkProviderServer.loadChunk((int) entityplayermp.posX >> 4, (int) entityplayermp.posZ >> 4);
 
 		while (!worldserver.getCollidingBoundingBoxes(entityplayermp, entityplayermp.getEntityBoundingBox()).isEmpty() && entityplayermp.posY < 256.0D) {
 			entityplayermp.setPosition(entityplayermp.posX, entityplayermp.posY + 1.0D, entityplayermp.posZ);
@@ -833,7 +831,7 @@ public abstract class ServerConfigurationManager {
 	public void syncPlayerInventory(MPlayer playerIn) {
 		playerIn.sendContainerToPlayer(playerIn.inventoryContainer);
 		playerIn.setPlayerHealthUpdated();
-		playerIn.playerNetServerHandler.sendPacket(new S09PacketHeldItemChange(playerIn.inventory.currentItem));
+		playerIn.playerNetServerHandler.sendPacket(new S09PacketHeldItemChange(playerIn.inventory.getCurrentSlot()));
 	}
 
 	/**

@@ -2,7 +2,6 @@ package net.minecraft.inventory;
 
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.Logger;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.Player;
@@ -18,8 +17,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class ContainerRepair extends Container {
-
-	private static final Logger logger = Logger.getInstance();
 
 	/**
 	 * Here comes out item you merged and/or renamed.

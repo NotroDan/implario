@@ -108,7 +108,7 @@ public final class InputHandler {
 
 				if (itemstack == null) return;
 
-				if (itemstack.stackSize == 0) mc.thePlayer.inventory.mainInventory[mc.thePlayer.inventory.currentItem] = null;
+				if (itemstack.stackSize == 0) mc.thePlayer.inventory.clearCurrentSlot();
 				else if (itemstack.stackSize != i || mc.playerController.isInCreativeMode()) mc.entityRenderer.itemRenderer.resetEquippedProgress();
 		}
 
@@ -212,12 +212,12 @@ public final class InputHandler {
 			inventoryplayer.setCurrentItem(item, i, flag1, flag);
 		} else {
 			ItemStack itemstack1 = getTileItemStack(item, i, tileentity);
-			inventoryplayer.setInventorySlotContents(inventoryplayer.currentItem, itemstack1);
+			inventoryplayer.clearCurrentSlot();
 		}
 
 		if (flag) {
-			int j = mc.thePlayer.inventoryContainer.inventorySlots.size() - 9 + inventoryplayer.currentItem;
-			mc.playerController.sendSlotPacket(inventoryplayer.getStackInSlot(inventoryplayer.currentItem), j);
+			int j = mc.thePlayer.inventoryContainer.inventorySlots.size() - 9 + inventoryplayer.getCurrentSlot();
+			mc.playerController.sendSlotPacket(inventoryplayer.getCurrentItem(), j);
 		}
 	}
 
@@ -395,7 +395,7 @@ public final class InputHandler {
 				if (mc.thePlayer.isSpectator()) {
 					mc.ingameGUI.getSpectatorGui().func_175260_a(l);
 				} else {
-					mc.thePlayer.inventory.currentItem = l;
+					mc.thePlayer.inventory.setCurrentSlot(l);
 				}
 			}
 		}

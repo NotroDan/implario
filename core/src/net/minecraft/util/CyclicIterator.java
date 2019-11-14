@@ -1,4 +1,4 @@
-package net.minecraft;
+package net.minecraft.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

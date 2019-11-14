@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.ChatLine;
 import net.minecraft.client.renderer.G;
@@ -15,8 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GuiNewChat extends Gui {
-
-	private static final Logger logger = Logger.getInstance();
 	private final Minecraft mc;
 	private final List<String> sentMessages = new ArrayList<>();
 	private final List<ChatLine> chatLines = new ArrayList<>();

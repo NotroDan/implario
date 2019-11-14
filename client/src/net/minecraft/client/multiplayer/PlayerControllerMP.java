@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.*;
 import net.minecraft.resources.event.ServerEvents;
-import net.minecraft.resources.event.events.player.PlayerInteractEvent;
+import net.minecraft.resources.event.events.player.PlayerBlockInteractEvent;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -120,7 +120,7 @@ public class PlayerControllerMP {
 
 			if (!this.mc.thePlayer.isAllowEdit()) {
 				Block block = this.mc.theWorld.getBlockState(pos).getBlock();
-				ItemStack itemstack = this.mc.thePlayer.getCurrentEquippedItem();
+				ItemStack itemstack = mc.thePlayer.inventory.getCurrentItem();
 
 				if (itemstack == null)
 					return;
@@ -147,14 +147,13 @@ public class PlayerControllerMP {
 		this.currentBlock = new BlockPos(this.currentBlock.getX(), -1, this.currentBlock.getZ());
 
 		if (!this.currentGameType.isCreative()) {
-			ItemStack itemstack1 = this.mc.thePlayer.getCurrentEquippedItem();
+			ItemStack itemstack1 = mc.thePlayer.inventory.getCurrentItem();
 
 			if (itemstack1 != null) {
 				itemstack1.onBlockDestroyed(world, block1, pos, this.mc.thePlayer);
 
-				if (itemstack1.stackSize == 0) {
-					this.mc.thePlayer.destroyCurrentEquippedItem();
-				}
+				if (itemstack1.stackSize == 0)
+					mc.thePlayer.inventory.clearCurrentSlot();
 			}
 		}
 	}
@@ -170,7 +169,7 @@ public class PlayerControllerMP {
 
 			if (!this.mc.thePlayer.isAllowEdit()) {
 				Block block = this.mc.theWorld.getBlockState(loc).getBlock();
-				ItemStack itemstack = this.mc.thePlayer.getCurrentEquippedItem();
+				ItemStack itemstack = mc.thePlayer.inventory.getCurrentItem();
 
 				if (itemstack == null) {
 					return false;
@@ -307,7 +306,7 @@ public class PlayerControllerMP {
 	 * Syncs the current player item with the server
 	 */
 	private void syncCurrentPlayItem() {
-		int i = this.mc.thePlayer.inventory.currentItem;
+		int i = mc.thePlayer.inventory.getCurrentSlot();
 
 		if (i != this.currentPlayerItem) {
 			this.currentPlayerItem = i;
@@ -330,10 +329,10 @@ public class PlayerControllerMP {
 		boolean cancelled = false;
 		if (this.currentGameType != WorldSettings.GameType.SPECTATOR) {
 			IBlockState iblockstate = worldIn.getBlockState(hitPos);
-			if (ServerEvents.playerInteract.isUseful()) {
-				PlayerInteractEvent event = new PlayerInteractEvent(player, heldStack, hitPos, iblockstate, side,
+			if (ServerEvents.playerBlockInteract.isUseful()) {
+				PlayerBlockInteractEvent event = new PlayerBlockInteractEvent(player, heldStack, hitPos, iblockstate, side,
 						(float) hitVec.xCoord, (float) hitVec.yCoord, (float) hitVec.zCoord);
-				ServerEvents.playerInteract.call(event);
+				ServerEvents.playerBlockInteract.call(event);//TODO: ClientEvent
 				if (event.isCanceled()) {
 					cancelled = true;
 					sendToServer = event.isSendToServer();
@@ -388,10 +387,10 @@ public class PlayerControllerMP {
 		ItemStack itemstack = itemStackIn.useItemRightClick(worldIn, playerIn);
 
 		if (itemstack != itemStackIn || itemstack != null && itemstack.stackSize != i) {
-			playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = itemstack;
+			playerIn.inventory.setCurrentItem(itemstack);
 
 			if (itemstack.stackSize == 0) {
-				playerIn.inventory.mainInventory[playerIn.inventory.currentItem] = null;
+				playerIn.inventory.clearCurrentSlot();
 			}
 
 			return true;

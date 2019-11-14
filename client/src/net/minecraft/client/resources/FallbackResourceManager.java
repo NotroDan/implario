@@ -1,8 +1,8 @@
 package net.minecraft.client.resources;
 
-import com.google.common.collect.Lists;
-import net.minecraft.Logger;
 import net.minecraft.client.resources.data.IMetadataSerializer;
+import net.minecraft.logging.Log;
+import net.minecraft.server.Todo;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.*;
@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 public class FallbackResourceManager implements IResourceManager {
-
-	private static final Logger logger = Logger.getInstance();
 	protected final List<IResourcePack> resourcePacks = new ArrayList<>();
 	private final IMetadataSerializer frmMetadataSerializer;
 
@@ -55,7 +53,7 @@ public class FallbackResourceManager implements IResourceManager {
 
 	protected InputStream getInputStream(ResourceLocation location, IResourcePack resourcePack) throws IOException {
 		InputStream inputstream = resourcePack.getInputStream(location);
-		return logger.isDebugEnabled() ? new InputStreamLeakedResourceLogger(inputstream, location, resourcePack.getPackName()) : inputstream;
+		return Todo.instance.debugEnabled() ? new InputStreamLeakedResourceLogger(inputstream, location, resourcePack.getPackName()) : inputstream;
 	}
 
 	public List<IResource> getAllResources(ResourceLocation location) throws IOException {
@@ -97,12 +95,10 @@ public class FallbackResourceManager implements IResourceManager {
 			this.field_177329_c = true;
 		}
 
-		protected void finalize() throws Throwable {
+		protected void finalize() {
 			if (!this.field_177329_c) {
-				FallbackResourceManager.logger.warn(this.field_177328_b);
+				Log.MAIN.warn(this.field_177328_b);
 			}
-
-			super.finalize();
 		}
 
 		public int read() throws IOException {

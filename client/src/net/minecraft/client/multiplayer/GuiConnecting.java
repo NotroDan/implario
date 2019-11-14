@@ -1,7 +1,6 @@
 package net.minecraft.client.multiplayer;
 
 import net.minecraft.logging.Log;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
@@ -25,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GuiConnecting extends GuiScreen {
 
 	private static final AtomicInteger CONNECTION_ID = new AtomicInteger(0);
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private NetworkManager networkManager;
 	private boolean cancel;
 	private final GuiScreen previousGuiScreen;
@@ -48,7 +47,7 @@ public class GuiConnecting extends GuiScreen {
 	}
 
 	private void connect(final String ip, final int port) {
-		Log.CHAT.important("Подключение к серверу " + ip + ":" + port);
+		Log.CHAT.info("Подключение к серверу " + ip + ":" + port);
 		new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
 			public void run() {
 

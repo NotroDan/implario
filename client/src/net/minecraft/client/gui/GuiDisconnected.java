@@ -21,7 +21,7 @@ public class GuiDisconnected extends GuiScreen {
 		this.parentScreen = screen;
 		this.reason = Lang.format(reasonLocalizationKey);
 		this.message = chatComp;
-		Log.CHAT.important("Подключение к серверу разорвано: " + chatComp.getUnformattedText().replaceAll("§.", ""));
+		Log.CHAT.info("Подключение к серверу разорвано: " + chatComp.getUnformattedText().replaceAll("§.", ""));
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package vanilla.client.gui.block;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -23,8 +22,6 @@ import vanilla.world.gen.feature.village.MerchantRecipeList;
 import java.io.IOException;
 
 public class GuiMerchant extends GuiContainer {
-
-	private static final Logger logger = Logger.getInstance();
 
 	/**
 	 * The GUI texture for the villager merchant GUI.

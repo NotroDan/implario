@@ -1,13 +1,13 @@
 package net.minecraft.util;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
 
 public class LoggingPrintStream extends PrintStream {
 
-	private static final Logger LOGGER = Logger.getInstance();
+	private static final Log LOGGER = Log.MAIN;
 	private final String domain;
 
 	public LoggingPrintStream(String domainIn, OutputStream outStream) {
@@ -26,7 +26,8 @@ public class LoggingPrintStream extends PrintStream {
 	private void logString(String string) {
 		StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
 		StackTraceElement stacktraceelement = astacktraceelement[Math.min(3, astacktraceelement.length)];
-		LOGGER.info("[{}]@.({}:{}): {}", new Object[] {this.domain, stacktraceelement.getFileName(), stacktraceelement.getLineNumber(), string});
+		LOGGER.info("[" + domain + "]@.(" + stacktraceelement.getFileName() + ":" + stacktraceelement.getLineNumber() +
+				"): " + string);
 	}
 
 }

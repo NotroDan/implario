@@ -5,11 +5,11 @@ import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.exceptions.AuthenticationUnavailableException;
 import com.mojang.authlib.exceptions.InvalidCredentialsException;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
-import net.minecraft.Logger;
 import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.login.INetHandlerLoginClient;
 import net.minecraft.network.login.client.C01PacketEncryptionResponse;
@@ -17,7 +17,6 @@ import net.minecraft.network.login.server.S00PacketDisconnect;
 import net.minecraft.network.login.server.S01PacketEncryptionRequest;
 import net.minecraft.network.login.server.S02PacketLoginSuccess;
 import net.minecraft.network.login.server.S03PacketEnableCompression;
-import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.protocol.Protocols;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
@@ -29,7 +28,7 @@ import java.security.PublicKey;
 
 public class NetHandlerLoginClient implements INetHandlerLoginClient {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final Minecraft mc;
 	private final GuiScreen previousGuiScreen;
 	private final NetworkManager networkManager;

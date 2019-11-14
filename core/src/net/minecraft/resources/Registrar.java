@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandHandler;
+import net.minecraft.command.ICommand;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.PlayerGuiBridge;
@@ -41,7 +42,6 @@ public class Registrar {
 		return domain;
 	}
 
-
 	protected void unregister() {
 		E.getPacketLib().LIB.disable(domain);
 		Collections.reverse(mappings);
@@ -50,10 +50,10 @@ public class Registrar {
 	}
 
 	/**
-	 * @param command гагагаг
-	 * @param <T>     гагага
+	 * @param command Команда является типом T
+	 * @param <T>     Тип наследуемый от ICommand
 	 */
-	public <T extends CommandBase> void regCommand(T command) {
+	public <T extends ICommand> void registerCommand(T command) {
 		registerMapping(new MappingCommand(command));
 	}
 

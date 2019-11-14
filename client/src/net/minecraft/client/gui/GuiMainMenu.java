@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import __google_.util.Exceptions;
-import net.minecraft.CyclicIterator;
+import net.minecraft.util.CyclicIterator;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiGridTest;
 import net.minecraft.client.gui.settings.GuiSettings;

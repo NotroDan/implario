@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -27,12 +28,10 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.NibbleArray;
 import net.minecraft.world.storage.IThreadedFileIO;
 import net.minecraft.world.storage.ThreadedFileIOBase;
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
 
 public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private Map<ChunkCoordIntPair, NBTTagCompound> chunksToRemove = new ConcurrentHashMap();
 	private Set<ChunkCoordIntPair> pendingAnvilChunksCoordinates = Collections.<ChunkCoordIntPair>newSetFromMap(new ConcurrentHashMap());
 
@@ -120,7 +119,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 	public boolean writeNextIO() {
 		if (this.chunksToRemove.isEmpty()) {
 			if (this.field_183014_e) {
-				logger.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", new Object[] {this.chunkSaveLocation.getName()});
+				logger.info("ThreadedAnvilChunkStorage (" + chunkSaveLocation.getName() + "): All chunks are saved");
 			}
 
 			return false;

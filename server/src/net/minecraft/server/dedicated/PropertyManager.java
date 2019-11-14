@@ -1,14 +1,13 @@
 package net.minecraft.server.dedicated;
 
-import net.minecraft.LogManager;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 
 import java.io.*;
 import java.util.Properties;
 
 public class PropertyManager {
 
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Log LOGGER = Log.MAIN;
 
 	/**
 	 * The server properties object.
@@ -28,8 +27,8 @@ public class PropertyManager {
 			try (FileInputStream fileinputstream = new FileInputStream(propertiesFile)) {
 				this.serverProperties.load(fileinputstream);
 			} catch (Exception exception) {
-				LOGGER.warn("Failed to load " + propertiesFile, exception);
-				this.generateNewProperties();
+				LOGGER.error("Failed to load " + propertiesFile, exception);
+				generateNewProperties();
 			}
 		} else {
 			LOGGER.warn(propertiesFile + " does not exist");
@@ -55,8 +54,8 @@ public class PropertyManager {
 			fileoutputstream = new FileOutputStream(this.serverPropertiesFile);
 			this.serverProperties.store(fileoutputstream, "Minecraft server properties");
 		} catch (Exception exception) {
-			LOGGER.warn(("Failed to save " + this.serverPropertiesFile), exception);
-			this.generateNewProperties();
+			LOGGER.error("Failed to save " + this.serverPropertiesFile, exception);
+			generateNewProperties();
 		} finally {
 			if (fileoutputstream != null) {
 				try {

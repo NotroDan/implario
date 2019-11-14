@@ -5,15 +5,15 @@ import net.minecraft.client.gui.GuiScreenResourcePacks;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.PackMetadataSection;
+import net.minecraft.logging.Log;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.Logger;
 
 import java.io.IOException;
 
 public class ResourcePackListEntryDefault extends ResourcePackListEntry {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private final IResourcePack field_148320_d;
 	private final ResourceLocation resourcePackIcon;
 

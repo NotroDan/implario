@@ -1,11 +1,11 @@
 package vanilla.world.biome;
 
 import com.google.common.collect.Maps;
-import net.minecraft.Logger;
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.logging.Log;
 import vanilla.entity.EnumCreatureType;
 import vanilla.Vanilla;
 import vanilla.entity.monster.*;
@@ -31,7 +31,7 @@ import java.util.Random;
 @SuppressWarnings ("StaticInitializerReferencesSubClass")
 public abstract class BiomeGenBase extends Biome {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	protected static final BiomeGenBase.Height height_Default = new BiomeGenBase.Height(0.1F, 0.2F);
 	protected static final BiomeGenBase.Height height_ShallowWaters = new BiomeGenBase.Height(-0.5F, 0.0F);
 	protected static final BiomeGenBase.Height height_Oceans = new BiomeGenBase.Height(-1.0F, 0.1F);

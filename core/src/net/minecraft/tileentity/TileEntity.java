@@ -1,12 +1,12 @@
 package net.minecraft.tileentity;
 
 import com.google.common.collect.Maps;
-import net.minecraft.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.init.Blocks;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.util.BlockPos;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 public abstract class TileEntity {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static Map<String, Class<? extends TileEntity>> nameToClassMap = Maps.newHashMap();
 	private static Map<Class<? extends TileEntity>, String> classToNameMap = Maps.newHashMap();
 

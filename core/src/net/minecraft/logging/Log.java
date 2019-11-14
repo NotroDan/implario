@@ -1,7 +1,6 @@
 package net.minecraft.logging;
 
-import net.minecraft.Logger;
-import net.minecraft.util.LoggingPrintStream;
+import net.minecraft.server.Todo;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -46,84 +45,61 @@ public class Log {
 		comment("Начало новой сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date));
 	}
 
-	public static void init() {
-		Logger.instance = new Logger() {
-			public void print(Object... ob) {
-				for (Object o : ob) {
-					if (o instanceof Throwable) MAIN.exception((Throwable) o);
-					else MAIN.info(o.toString());
-				}
-			}
-		};
-	}
-
-
-	public void updateFile(Date date) throws IOException {
-		int today = (int) (date.getTime() / 3600000 / 24);
-		if (today <= day) return;
-		File f = getFile(date);
-		if (f.equals(file)) return;
-		day = today;
-		boolean continued = false;
-		if (stream != null) {
-			continued = true;
-			append("-- Продолжение следует...\n");
-			close();
-		}
-		file = f;
-		stream = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
-		if (continued) append("-- Продолжение предыдущей сессии\n");
-	}
-
-	public File getFile(Date date) throws IOException {
-		String name = extension + "_" + DAY.format(date) + ".log";
-		//		File gameData = new File("gamedata");
-		File logsDir = new File("gamedata/logs");
-		if (!logsDir.exists()) {
-			logsDir.mkdirs();
-			logsDir.mkdir();
-		}
-		File f = new File(logsDir, name);
-		if (!f.exists()) f.createNewFile();
-		return f;
-	}
-
 	public void exception(Throwable t) {
 		if (console) t.printStackTrace();
 		append("* Описание ошибки, которое желательно отправить разработчикам.\n");
 		boolean causedBy = false;
 		while (t != null) {
-			String word = causedBy ? "Причина: " : "Исключение: ";
-			append("* " + word + t.getClass().getName() + ". Описание: " + t.getMessage() + "\n");
+			String word = causedBy ? "Reason: " : "Exception: ";
+			append("* " + word + t.getClass().getName() + ". Description: " + t.getMessage() + "\n");
 			causedBy = true;
 			for (StackTraceElement e : t.getStackTrace()) {
 				String file = e.getFileName();
 				int line = e.getLineNumber();
 
 				String f;
-				if (e.isNativeMethod()) f = "(Нативный метод)";
+				if (e.isNativeMethod()) f = "(Native method)";
 				else if (file != null && line >= 0) f = "(" + file + ":" + line + ")";
-				else f = file != null ? "(" + file + ")" : "(Неизвестный источник)";
+				else f = file != null ? "(" + file + ")" : "(Unknown source)";
 				append("*     " + e.getClassName() + "." + e.getMethodName() + " " + f + "\n");
 			}
 			t = t.getCause();
 		}
 	}
 
-	public void important(String s) {
-		log(s, LogLevel.IMPORTANT);
-	}
-
 	public void error(String s) {
 		log(s, LogLevel.ERROR);
+	}
+
+	public void error(String s, Throwable t){
+		error(s);
+		error(parseException(t));
 	}
 
 	public void warn(String s) {
 		log(s, LogLevel.WARNING);
 	}
 
+	public void warn(String s, Throwable t){
+		warn(s);
+		warn(parseException(t));
+	}
+
+	public void debug(String s) {
+		if (Todo.instance.debugEnabled()) log(s, LogLevel.DEBUG);
+	}
+
+	public void debug(String s, Throwable t){
+		debug(s);
+		debug(parseException(t));
+	}
+
 	public void info(String s) {
 		log(s, LogLevel.INFO);
+	}
+
+	public void comment(String s) {
+		log(s, LogLevel.COMMENT);
 	}
 
 	public void log(String s, LogLevel level) {
@@ -141,26 +117,9 @@ public class Log {
 		append(line);
 	}
 
-	public void debug(String s) {
-		if (false) log(s, LogLevel.DEBUG);
-	}
-
-	public void comment(String s) {
-		append("-- " + s + "\n");
-	}
-
-	private void append(String s) {
-		try {
-			stream.write(s);
-			stream.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	public void close() {
 		try {
+			stream.flush();
 			stream.close();
 		} catch (IOException e) {
 			System.out.println("[Log] Unable to close stream for " + prefix);
@@ -168,9 +127,67 @@ public class Log {
 		}
 	}
 
-
 	public void addAccessor(ILogInterceptor interceptor) {
 		this.interceptors.add(interceptor);
 	}
 
+	private String parseException(Throwable t){
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("* Описание ошибки, которое желательно отправить разработчикам.\n");
+		boolean causedBy = false;
+		while (t != null) {
+			String word = causedBy ? "Reason: " : "Exception: ";
+			buffer.append("* " + word + t.getClass().getName() + ". Description: " + t.getMessage() + "\n");
+			causedBy = true;
+			for (StackTraceElement e : t.getStackTrace()) {
+				String file = e.getFileName();
+				int line = e.getLineNumber();
+
+				String f;
+				if (e.isNativeMethod()) f = "(Native method)";
+				else if (file != null && line >= 0) f = "(" + file + ":" + line + ")";
+				else f = file != null ? "(" + file + ")" : "(Unknown source)";
+				buffer.append("*     " + e.getClassName() + "." + e.getMethodName() + " " + f + "\n");
+			}
+			t = t.getCause();
+		}
+		return buffer.toString();
+	}
+
+	private void append(String s) {
+		try {
+			stream.write(s);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void updateFile(Date date) throws IOException {
+		int today = (int) (date.getTime() / 3600000 / 24);
+		if (today <= day) return;
+		File f = getFile(date);
+		if (f.equals(file)) return;
+		day = today;
+		boolean continued = false;
+		if (stream != null) {
+			continued = true;
+			append("-- Продолжение следует...\n");
+			close();
+		}
+		file = f;
+		stream = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
+		if (continued) append("-- Продолжение предыдущей сессии\n");
+	}
+
+	private File getFile(Date date) throws IOException {
+		String name = extension + "_" + DAY.format(date) + ".log";
+		File logsDir = new File("gamedata/logs");
+		if (!logsDir.exists()) {
+			logsDir.mkdirs();
+			logsDir.mkdir();
+		}
+		File f = new File(logsDir, name);
+		if (!f.exists()) f.createNewFile();
+		return f;
+	}
 }

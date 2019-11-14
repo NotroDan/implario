@@ -347,7 +347,7 @@ public class BlockVine extends Block {
 	}
 
 	public void harvestBlock(World worldIn, Player player, BlockPos pos, IBlockState state, TileEntity te) {
-		if (!worldIn.isClientSide && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears) {
+		if (!worldIn.isClientSide && player.inventory.getItemCurrentSlot() == Items.shears) {
 			player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
 			spawnAsEntity(worldIn, pos, new ItemStack(Blocks.vine, 1, 0));
 		} else {

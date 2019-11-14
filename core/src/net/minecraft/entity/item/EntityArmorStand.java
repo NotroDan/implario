@@ -323,7 +323,7 @@ public class EntityArmorStand extends EntityLivingBase {
 		}
 		if (!this.worldObj.isClientSide && !player.isSpectator()) {
 			int i = 0;
-			ItemStack itemstack = player.getCurrentEquippedItem();
+			ItemStack itemstack = player.inventory.getCurrentItem();
 			boolean flag = itemstack != null;
 
 			if (flag && itemstack.getItem() instanceof ItemArmor) {
@@ -395,7 +395,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
 		if (itemstack == null || (this.disabledSlots & 1 << p_175422_2_ + 8) == 0) {
 			if (itemstack != null || (this.disabledSlots & 1 << p_175422_2_ + 16) == 0) {
-				int i = p_175422_1_.inventory.currentItem;
+				int i = p_175422_1_.inventory.getCurrentSlot();
 				ItemStack itemstack1 = p_175422_1_.inventory.getStackInSlot(i);
 
 				if (p_175422_1_.capabilities.isCreativeMode && (itemstack == null || itemstack.getItem() == Item.getItemFromBlock(Blocks.air)) && itemstack1 != null) {

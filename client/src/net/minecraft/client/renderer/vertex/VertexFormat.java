@@ -1,13 +1,13 @@
 package net.minecraft.client.renderer.vertex;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class VertexFormat {
 
-	private static final Logger LOGGER = Logger.getInstance();
+	private static final Log LOGGER = Log.MAIN;
 	private final List<VertexFormatElement> elements;
 	private final List<Integer> offsets;
 

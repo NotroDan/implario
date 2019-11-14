@@ -1,11 +1,11 @@
 package net.minecraft.entity;
 
 import com.google.common.collect.Maps;
-import net.minecraft.Logger;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.*;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.*;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
@@ -17,8 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class EntityList {
-
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final Map<String, Class<? extends Entity>> stringToClassMapping = Maps.newHashMap();
 	private static final Map<Class<? extends Entity>, String> classToStringMapping = Maps.newHashMap();
 	private static final Map<Integer, Class<? extends Entity>> idToClassMapping = Maps.newHashMap();

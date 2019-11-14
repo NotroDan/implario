@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.Logger;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -46,6 +45,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
+import net.minecraft.logging.Log;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySign;
@@ -70,8 +70,7 @@ import java.util.concurrent.Callable;
 import static net.minecraft.item.Item.itemRand;
 
 public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListener {
-
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final ResourceLocation locationMoonPhasesPng = new ResourceLocation("textures/environment/moon_phases.png");
 	private static final ResourceLocation locationSunPng = new ResourceLocation("textures/environment/sun.png");
 	private static final ResourceLocation locationCloudsPng = new ResourceLocation("textures/environment/clouds.png");

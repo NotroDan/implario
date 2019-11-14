@@ -1,14 +1,13 @@
 package net.minecraft.client.renderer.chunk;
 
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import net.minecraft.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RegionRenderCacheBuilder;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
+import net.minecraft.logging.Log;
 import net.minecraft.util.EnumWorldBlockLayer;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.concurrent.CancellationException;
 
 public class ChunkRenderWorker implements Runnable {
 
-	private static final Logger LOGGER = Logger.getInstance();
+	private static final Log LOGGER = Log.MAIN;
 	private final ChunkRenderDispatcher chunkRenderDispatcher;
 	private final RegionRenderCacheBuilder regionRenderCacheBuilder;
 

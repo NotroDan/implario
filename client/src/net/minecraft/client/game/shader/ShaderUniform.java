@@ -4,13 +4,13 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Matrix4f;
 
 public class ShaderUniform {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private int uniformLocation;
 	private final int uniformCount;
 	private final int uniformType;

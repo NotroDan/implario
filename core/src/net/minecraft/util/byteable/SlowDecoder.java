@@ -153,4 +153,9 @@ public class SlowDecoder implements Decoder{
     public static SlowDecoder defaultDecoder(byte array[]){
         return new SlowDecoder(array).setSizeCompressOfInt(2).setSizeCompressOfLong(6).setUsingCompressACSII(true).setUseCompressOfShort(true);
     }
+
+    @Override
+    public boolean hasNext() {
+        return array.length != i;
+    }
 }

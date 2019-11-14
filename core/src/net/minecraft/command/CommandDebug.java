@@ -1,6 +1,6 @@
 package net.minecraft.command;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.logging.ProfilerResult;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -15,7 +15,7 @@ import static net.minecraft.server.MinecraftServer.profiler;
 
 public class CommandDebug extends CommandBase {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private long field_147206_b;
 	private int field_147207_c;
 

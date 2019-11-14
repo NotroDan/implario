@@ -102,7 +102,7 @@ public class BlockFlowerPot extends BlockContainer {
 			playerIn.triggerAchievement(StatList.flowerPottedStat);
 
 			if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize <= 0) {
-				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack) null);
+				playerIn.inventory.clearCurrentSlot();
 			}
 
 			return true;

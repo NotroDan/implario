@@ -256,14 +256,12 @@ public class Minecraft implements IThreadListener {
 			this.freeMemory();
 			MAIN.error("Minecraft: Хм, а что это за кнопочка?");
 			MAIN.error("Minecraft: *тык*");
-			MAIN.error("Minecraft:");
-			MAIN.exception(e);
+			MAIN.error("Minecraft:", e);
 			this.errorGuy.displayCrashReport(e.getCrashReport());
 		} catch (Throwable t) {
 			CrashReport report = this.errorGuy.addGraphicsAndWorldToCrashReport(new CrashReport("Неожиданная ошибка", t));
 			this.freeMemory();
-			MAIN.error("Произошла непонятная фигня! Спасайтесь!");
-			MAIN.exception(t);
+			MAIN.error("Произошла непонятная фигня! Спасайтесь!", t);
 			this.errorGuy.displayCrashReport(report);
 		} finally {
 			this.shutdownMinecraftApplet();
@@ -340,7 +338,6 @@ public class Minecraft implements IThreadListener {
 	 * Starts the game: initializes the canvas, the title, the settings, etcetera.
 	 */
 	private void startGame() throws LWJGLException {
-		Log.init();
 		Settings.init();
 		this.inputHandler = new InputHandler(this);
 		MAIN.info("Сессия аккаунта " + this.session.getUsername() + ", ID сессии: " + session.getSessionID());
@@ -461,8 +458,7 @@ public class Minecraft implements IThreadListener {
 		try {
 			this.mcResourceManager.reloadResources(list);
 		} catch (RuntimeException runtimeexception) {
-			MAIN.warn("Во время перезагрузки ресурсов произошла ошибка. Выключаем все ресурс-паки.");
-			MAIN.exception(runtimeexception);
+			MAIN.warn("Во время перезагрузки ресурсов произошла ошибка. Выключаем все ресурс-паки.", runtimeexception);
 			list.clear();
 			list.addAll(this.defaultResourcePacks);
 			this.mcResourcePackRepository.setRepositories(Collections.emptyList());

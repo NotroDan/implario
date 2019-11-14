@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.logging.Log;
 import vanilla.entity.EntityCreature;
 import vanilla.entity.VanillaEntity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,11 +15,8 @@ import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.scoreboard.Team;
-import net.minecraft.Logger;
 
 public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
-
-	private static final Logger field_179436_a = Logger.getInstance();
 	private VanillaEntity field_179434_b;
 	private final Predicate<Entity> field_179435_c;
 	private final EntityAINearestAttackableTarget.Sorter field_179432_d;
@@ -28,7 +26,7 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
 		this.field_179434_b = p_i45882_1_;
 
 		if (p_i45882_1_ instanceof EntityCreature) {
-			field_179436_a.warn("Use NearestAttackableTargetGoal.class for PathfinerMob mobs!");
+			Log.MAIN.warn("Use NearestAttackableTargetGoal.class for PathfinerMob mobs!");
 		}
 
 		this.field_179435_c = new Predicate<Entity>() {

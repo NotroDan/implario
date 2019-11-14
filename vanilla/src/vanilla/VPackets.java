@@ -28,8 +28,7 @@ public class VPackets implements ServerSideLoadable {
 					((ContainerMerchant) container).setCurrentRecipeIndex(i);
 				}
 			} catch (Exception e) {
-				Log.MAIN.error("Couldn\'t select trade");
-				Log.MAIN.exception(e);
+				Log.MAIN.error("Couldn't select trade", e);
 			}
 			return true;
 		}

@@ -1,13 +1,12 @@
 package vanilla.world;
 
 import net.minecraft.entity.player.Player;
-import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.Listener;
+import net.minecraft.resources.event.EventPriority;
 import net.minecraft.resources.event.events.player.PlayerSleepEvent;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
-import vanilla.Vanilla;
 import vanilla.entity.monster.EntityMob;
 
 import java.util.List;
@@ -32,6 +31,6 @@ public class SleepChecker implements Listener<PlayerSleepEvent> {
 
 	@Override
 	public int priority() {
-		return -5;
+		return EventPriority.GLOBAL_MODE;
 	}
 }

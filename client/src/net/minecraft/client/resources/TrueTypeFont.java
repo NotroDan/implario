@@ -230,8 +230,7 @@ public class TrueTypeFont {
 			//.getTexture(font.toString(), imgTemp);
 
 		} catch (Exception e) {
-			Log.MAIN.error("Failed to create font.");
-			Log.MAIN.exception(e);
+			Log.MAIN.error("Failed to create font.", e);
 		}
 	}
 

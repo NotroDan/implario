@@ -1,6 +1,6 @@
 package net.minecraft.scoreboard;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -9,7 +9,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class ScoreboardSaveData extends WorldSavedData {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private Scoreboard theScoreboard;
 	private NBTTagCompound delayedInitNbt;
 

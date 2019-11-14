@@ -184,7 +184,7 @@ public class EntityFishHook extends Entity {
 			this.setRotation(this.rotationYaw, this.rotationPitch);
 		} else {
 			if (!this.worldObj.isClientSide) {
-				ItemStack itemstack = this.angler.getCurrentEquippedItem();
+				ItemStack itemstack = angler.inventory.getCurrentItem();
 
 				if (this.angler.isDead || !this.angler.isEntityAlive() || itemstack == null || itemstack.getItem() != Items.fishing_rod || this.getDistanceSqToEntity(this.angler) > 1024.0D) {
 					this.setDead();

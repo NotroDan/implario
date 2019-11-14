@@ -30,10 +30,7 @@ import net.minecraft.network.play.client.C15PacketClientSettings;
 import net.minecraft.network.play.server.*;
 import net.minecraft.resources.event.EventManager;
 import net.minecraft.resources.event.ServerEvents;
-import net.minecraft.resources.event.events.player.PlayerDamagePlayerEvent;
-import net.minecraft.resources.event.events.player.PlayerDeathEvent;
-import net.minecraft.resources.event.events.player.PlayerJumpEvent;
-import net.minecraft.resources.event.events.player.PlayerTeleportEvent;
+import net.minecraft.resources.event.events.player.*;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -211,6 +208,13 @@ public class MPlayer extends Player implements ICrafting {
 	public void removeExperienceLevel(int levels) {
 		super.removeExperienceLevel(levels);
 		this.lastExperience = -1;
+	}
+
+	@Override
+	public void dropOneItem(boolean dropAll) {
+		if (ServerEvents.playerItemDrop.isUseful())
+			if (ServerEvents.playerItemDrop.call(new PlayerItemDropEvent(this, inventory.getCurrentItem())).isCanceled()) return;
+		super.dropOneItem(dropAll);
 	}
 
 	public void addSelfToInternalCraftingInventory() {

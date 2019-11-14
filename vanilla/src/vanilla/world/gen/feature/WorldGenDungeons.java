@@ -8,6 +8,7 @@ import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.logging.Log;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import vanilla.item.VanillaItems;
@@ -16,11 +17,10 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
-import net.minecraft.Logger;
 
 public class WorldGenDungeons extends WorldGenerator {
 
-	private static final Logger field_175918_a = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 	private static final String[] SPAWNERTYPES = new String[] {"Skeleton", "Zombie", "Zombie", "Spider"};
 	private static final List<WeightedRandomChestContent> CHESTCONTENT = Lists.newArrayList(new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(VanillaItems.saddle, 0, 1, 1, 10), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 4, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 1, 10),
@@ -125,7 +125,7 @@ public class WorldGenDungeons extends WorldGenerator {
 			if (tileentity instanceof TileEntityMobSpawner) {
 				((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntityName(this.pickMobSpawner(rand));
 			} else {
-				field_175918_a.error("Failed to fetch mob spawner entity at (" + position.getX() + ", " + position.getY() + ", " + position.getZ() + ")");
+				Log.MAIN.error("Failed to fetch mob spawner entity at (" + position.getX() + ", " + position.getY() + ", " + position.getZ() + ")");
 			}
 
 			return true;

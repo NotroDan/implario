@@ -70,8 +70,7 @@ public class ScreenShotHelper {
 
 
 		} catch (Exception exception) {
-			Log.MAIN.error("Не удалось сохранить скриншот!");
-			Log.MAIN.exception(exception);
+			Log.MAIN.error("Не удалось сохранить скриншот!", exception);
 			return new ChatComponentTranslation("screenshot.failure", exception.getMessage());
 		}
 	}

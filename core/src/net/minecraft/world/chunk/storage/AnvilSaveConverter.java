@@ -1,6 +1,6 @@
 package net.minecraft.world.chunk.storage;
 
-import net.minecraft.Logger;
+import net.minecraft.logging.Log;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IProgressUpdate;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public class AnvilSaveConverter extends SaveFormatOld {
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Log logger = Log.MAIN;
 
 	public AnvilSaveConverter(File p_i2144_1_) {
 		super(p_i2144_1_);

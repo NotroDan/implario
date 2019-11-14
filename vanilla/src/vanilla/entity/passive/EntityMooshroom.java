@@ -25,12 +25,12 @@ public class EntityMooshroom extends EntityCow {
 
 		if (itemstack != null && itemstack.getItem() == Items.bowl && this.getGrowingAge() >= 0) {
 			if (itemstack.stackSize == 1) {
-				player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.mushroom_stew));
+				player.inventory.setCurrentItem(new ItemStack(Items.mushroom_stew));
 				return true;
 			}
 
 			if (player.inventory.addItemStackToInventory(new ItemStack(Items.mushroom_stew)) && !player.capabilities.isCreativeMode) {
-				player.inventory.decrStackSize(player.inventory.currentItem, 1);
+				player.inventory.decrStackSize(player.inventory.getCurrentSlot(), 1);
 				return true;
 			}
 		}
