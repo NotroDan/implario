@@ -165,7 +165,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	protected abstract boolean startServer() throws IOException;
 
 	protected void convertMapIfNeeded(String worldNameIn) {
-		// Значит ситуация такая: Миры при создании каждый раз конвертируются этим методом, и вроде как он нужен, НО без него НИЧЕГО не меняется и всё продолжает работать.
+		// Значит ситуация такая: Миры при создании каждый раз конвертируются этим методом, и вроде как он нужен,
+		// НО без него НИЧЕГО не меняется и всё продолжает работать. (Но ведь он проверяет старый ли формат карты)
 		// Поэтому ToDo: разобраться, нахера эта конвертация инвокается постоянно
 		if (true) return;
 		if (this.getActiveAnvilConverter().isOldMapFormat(worldNameIn)) {

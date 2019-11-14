@@ -69,7 +69,7 @@ public class ModuleHotbar implements Module {
 	}
 
 	private void renderHotbarItem(GuiIngame gui, Minecraft mc, int index, int xPos, int yPos, float partialTicks, Player p_175184_5_) {
-		ItemStack itemstack = p_175184_5_.inventory.mainInventory[index];
+		ItemStack itemstack = p_175184_5_.inventory.getItem(index);
 
 		if (itemstack != null) {
 			float f = (float) itemstack.animationsToGo - partialTicks;

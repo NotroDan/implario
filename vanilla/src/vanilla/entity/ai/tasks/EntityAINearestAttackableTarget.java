@@ -51,7 +51,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 					}
 
 					if (p_apply_1_.isInvisible()) {
-						float f = ((Player) p_apply_1_).getArmorVisibility();
+						float f = ((Player) p_apply_1_).inventory.getArmorVisibility();
 
 						if (f < 0.1F) {
 							f = 0.1F;

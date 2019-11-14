@@ -113,7 +113,7 @@ public class EntityEnderman extends EntityMob {
 	 * Checks to see if this enderman should be attacking this player
 	 */
 	private boolean shouldAttackPlayer(Player player) {
-		ItemStack itemstack = player.inventory.armorInventory[3];
+		ItemStack itemstack = player.inventory.getArmor(3);
 
 		if (itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin)) {
 			return false;

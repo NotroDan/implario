@@ -20,7 +20,6 @@ public class Log {
 	public static final Log MAIN = Log.create(true, "main", "");
 	public static final Log SOUND = Log.create(false, "sound", "[ЗВУК] ");
 	public static final Log CHAT = Log.create(true, "chat", "[ЧАТ] ");
-	public static final Log DEBUG = Log.create(true, "debug", "[DEBUG] ");
 
 	private final boolean console;
 	private final String extension, prefix;
