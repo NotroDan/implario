@@ -987,22 +987,6 @@ public abstract class Player extends EntityLivingBase {
 	}
 
 	/**
-	 * When searching for vulnerable players, if a player is invisible, the return value of this is the chance of seeing
-	 * them anyway.
-	 */
-	public float getArmorVisibility() {
-		int i = 0;
-
-		for (ItemStack itemstack : this.inventory.armorInventory) {
-			if (itemstack != null) {
-				++i;
-			}
-		}
-
-		return (float) i / (float) this.inventory.armorInventory.length;
-	}
-
-	/**
 	 * Deals damage to the entity. If its a EntityPlayer then will take damage from the armor first and then health
 	 * second with the reduced value. Args: damageAmount
 	 */
@@ -1780,8 +1764,9 @@ public abstract class Player extends EntityLivingBase {
 
 	public abstract boolean isSpectator();
 
+	@Override
 	public ItemStack[] getInventory() {
-		return this.inventory.armorInventory;
+		return inventory.armorInventory;
 	}
 
 	public boolean isPushedByWater() {
@@ -1877,7 +1862,7 @@ public abstract class Player extends EntityLivingBase {
 		}
 		int i = inventorySlot - 100;
 
-		if (i >= 0 && i < this.inventory.armorInventory.length) {
+		if (i >= 0 && i < 4) {
 			int k = i + 1;
 
 			if (itemStackIn != null && itemStackIn.getItem() != null) {

@@ -118,7 +118,7 @@ public class OPlayer extends AbstractClientPlayer {
 	 */
 	public void setCurrentItemOrArmor(int slotIn, ItemStack stack) {
 		if (slotIn == 0) inventory.setCurrentItem(stack);
-		else this.inventory.armorInventory[slotIn - 1] = stack;
+		else this.inventory.setArmor(slotIn - 1, stack);
 	}
 
 	/**

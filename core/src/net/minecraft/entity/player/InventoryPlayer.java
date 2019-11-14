@@ -18,8 +18,8 @@ import net.minecraft.util.ReportedException;
 import java.util.Arrays;
 
 public class InventoryPlayer implements IInventory {
-	public final ItemStack[] mainInventory = new ItemStack[36];
-	public final ItemStack[] armorInventory = new ItemStack[4];
+	final ItemStack[] mainInventory = new ItemStack[36];
+	final ItemStack[] armorInventory = new ItemStack[4];
 	private int currentItem;
 	public final Player player;
 	private ItemStack itemStack;
@@ -73,6 +73,22 @@ public class InventoryPlayer implements IInventory {
 
 	public void setArmor(int slot, ItemStack stack){
 		armorInventory[slot] = stack;
+	}
+
+	/**
+	 * When searching for vulnerable players, if a player is invisible, the return value of this is the chance of seeing
+	 * them anyway.
+	 */
+	public float getArmorVisibility() {
+		int i = 0;
+
+		for (ItemStack itemstack : armorInventory) {
+			if (itemstack != null) {
+				++i;
+			}
+		}
+
+		return (float) i / (float) armorInventory.length;
 	}
 
 	/**

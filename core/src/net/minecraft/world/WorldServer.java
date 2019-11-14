@@ -551,8 +551,10 @@ public class WorldServer extends World implements IThreadListener {
 	}
 
 	protected void grantStarterKit() {
-
-		// ToDo: Платформа в пустом мире.
+		final BlockPos pos = getPlayerManager().getWorldServer().getMinecraftServer().getEntityWorld().getSpawnPoint().offset(EnumFacing.DOWN);
+		for(int x = pos.x - 10; x < pos.x + 10; x++)
+			for(int z = pos.z - 10; z < pos.z + 10; z++)
+				setBlockState(new BlockPos(x, pos.y, z), Blocks.stone.getDefaultState());
 	}
 
 
