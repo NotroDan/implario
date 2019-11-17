@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -2585,7 +2586,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				return;
 
 			case 2001:
-				Block block = Block.getBlockById(p_180439_4_ & 4095);
+				IBlockState blockState = Block.states[p_180439_4_];
+				Block block = blockState.getBlock();
 
 				if (block.getMaterial() != Material.air) {
 					this.mc.getSoundHandler().playSound(
@@ -2593,7 +2595,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 									(float) blockPosIn.getX() + 0.5F, (float) blockPosIn.getY() + 0.5F, (float) blockPosIn.getZ() + 0.5F));
 				}
 
-				this.mc.effectRenderer.addBlockDestroyEffects(blockPosIn, block.getStateFromMeta(p_180439_4_ >> 12 & 255));
+				this.mc.effectRenderer.addBlockDestroyEffects(blockPosIn, blockState);
 				break;
 
 			case 2002:

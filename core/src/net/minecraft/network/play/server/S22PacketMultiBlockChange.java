@@ -36,7 +36,7 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient> 
 		this.changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[buf.readVarIntFromBuffer()];
 
 		for (int i = 0; i < this.changedBlocks.length; ++i) {
-			this.changedBlocks[i] = new S22PacketMultiBlockChange.BlockUpdateData(buf.readShort(), (IBlockState) Block.BLOCK_STATE_IDS.getByValue(buf.readVarIntFromBuffer()));
+			this.changedBlocks[i] = new S22PacketMultiBlockChange.BlockUpdateData(buf.readShort(), (IBlockState) Block.states[buf.readVarIntFromBuffer()]);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient> 
 
 		for (S22PacketMultiBlockChange.BlockUpdateData s22packetmultiblockchange$blockupdatedata : this.changedBlocks) {
 			buf.writeShort(s22packetmultiblockchange$blockupdatedata.func_180089_b());
-			buf.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(s22packetmultiblockchange$blockupdatedata.getBlockState()));
+			buf.writeVarIntToBuffer(s22packetmultiblockchange$blockupdatedata.getBlockState().getID());
 		}
 	}
 

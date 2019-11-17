@@ -35,8 +35,11 @@ public class Block {
 	 * ResourceLocation for the Air block
 	 */
 	private static final ResourceLocation AIR_ID = new ResourceLocation("air");
+	private static Block[] array = new Block[1024];
 	public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey<>(AIR_ID);
 	public static ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+	public static IBlockState states[] = new IBlockState[40000];
+	public static int st = 0;
 	private CreativeTabs displayOnCreativeTab;
 	public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
 
@@ -164,21 +167,18 @@ public class Block {
 	 * Get a unique ID for the given BlockState, containing both BlockID and metadata
 	 */
 	public static int getStateId(IBlockState state) {
-		Block block = state.getBlock();
-		return getIdFromBlock(block) + (block.getMetaFromState(state) << 12);
+		return state.getID();
 	}
 
 	public static Block getBlockById(int id) {
-		return blockRegistry.getObjectById(id);
+		return array[id];
 	}
 
 	/**
 	 * Get a BlockState by it's ID (see getStateId)
 	 */
 	public static IBlockState getStateById(int id) {
-		int blockId = id & 4095;
-		int stateId = id >> 12 & 0xF;
-		return getBlockById(blockId).getStateFromMeta(stateId);
+		return states[id];
 	}
 
 	public static Block getBlockFromItem(Item itemIn) {
@@ -1343,6 +1343,8 @@ public class Block {
 			for (IBlockState state : b.getBlockState().getValidStates()) {
 				int i = blockRegistry.getIDForObject(b) << 4 | b.getMetaFromState(state);
 				BLOCK_STATE_IDS.put(state, i);
+				state.setID(st);
+				states[st++] = state;
 			}
 		}
 
@@ -1351,6 +1353,7 @@ public class Block {
 	private static void registerBlock(int id, ResourceLocation textualID, Block block_) {
 		blockRegistry.register(id, textualID, block_);
 		block_.id = id;
+		array[id] = block_;
 	}
 
 	public static void registerBlock(int id, String textualID, Block block_) {
@@ -1396,5 +1399,4 @@ public class Block {
 		}
 
 	}
-
 }

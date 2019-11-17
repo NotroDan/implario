@@ -21,4 +21,7 @@ public interface IBlockState {
 
 	Block getBlock();
 
+	int getID();
+
+	void setID(int id);
 }

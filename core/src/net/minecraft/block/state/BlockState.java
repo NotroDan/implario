@@ -141,6 +141,17 @@ public class BlockState {
 			return map;
 		}
 
+		private int id;
+
+		@Override
+		public int getID() {
+			return id;
+		}
+
+		@Override
+		public void setID(int id) {
+			this.id = id;
+		}
 	}
 
 }

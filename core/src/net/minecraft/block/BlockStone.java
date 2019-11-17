@@ -25,6 +25,15 @@ public class BlockStone extends Block {
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
+	private boolean inited = false;
+
+	public void postInit(){
+		for(int i = 0; i < states.length; i++){
+			states[i] = getDefaultState().withProperty(VARIANT, EnumType.values()[i]);
+		}
+		inited = true;
+	}
+
 	/**
 	 * Gets the localized name of this block. Used for the statistics page.
 	 */
@@ -63,18 +72,24 @@ public class BlockStone extends Block {
 		}
 	}
 
+	private static IBlockState states[] = new IBlockState[7];
+
 	/**
 	 * Convert the given metadata into a BlockState for this Block
 	 */
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(VARIANT, BlockStone.EnumType.byMetadata(meta));
+		if(!inited)postInit();
+		return states[meta];
 	}
 
 	/**
 	 * Convert the BlockState into the correct metadata value
 	 */
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(VARIANT).getMetadata();
+		if(!inited)postInit();
+		for(int i = 0; i < 7; i++)
+			if(states[i] == state)return i;
+		throw new Error();
 	}
 
 	protected BlockState createBlockState() {

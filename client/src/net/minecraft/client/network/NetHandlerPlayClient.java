@@ -882,7 +882,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 						i == 5 && tileentity instanceof TileEntityFlowerPot ||
 						i == 6 && tileentity instanceof TileEntityBanner
 		)
-			tileentity.readFromNBT(packetIn.getNbtCompound());
+			try{
+				tileentity.readFromNBT(packetIn.getNbtCompound());
+			}catch (Exception ex){
+				ex.printStackTrace();
+			}
 	}
 
 	/**

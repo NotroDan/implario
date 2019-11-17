@@ -7,9 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 public class ChunkProviderVoid implements IChunkProvider {
-
 	private World worldObj;
-	private final IBlockState[] cachedBlockIDs = new IBlockState[256];
 
 	public ChunkProviderVoid(World worldIn) {
 		this.worldObj = worldIn;
