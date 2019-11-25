@@ -2,14 +2,13 @@ package net.minecraft.server;
 
 import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.init.Bootstrap;
-import net.minecraft.resources.Datapack;
-import net.minecraft.resources.Datapacks;
-import net.minecraft.resources.load.JarDatapackLoader;
-import net.minecraft.resources.load.SimpleDatapackLoader;
+import net.minecraft.logging.Log;
+import net.minecraft.resources.DatapackManager;
+import net.minecraft.resources.load.DatapackLoadException;
+import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.security.Restart;
 import net.minecraft.server.dedicated.DedicatedServer;
-import vanilla.Vanilla;
 
 import java.io.File;
 
@@ -18,7 +17,7 @@ public class ServerStart {
 		if(System.getSecurityManager() == null) System.setSecurityManager(new MinecraftSecurityManager());
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DatapackLoadException {
 		Restart.setArgs(args);
 		String serverOwner = null;
 		String workDir = ".";
@@ -53,7 +52,24 @@ public class ServerStart {
 
 		MinecraftServer.storage = new MemoryStorage(new File(workDir), true);
 
-		Datapacks.fullInitializeDatapacks(new File("datapacks"));
+		DatapackManager.importDir(new File("datapacks"));
+		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
+			Log.MAIN.info("Распаковываем из коробочки датапак " + loader + "...");
+			try {
+				DatapackManager.load(loader);
+			} catch (DatapackLoadException e) {
+				Log.MAIN.info("Ой, коробочка не открывается :c");
+				e.printStackTrace();
+			}
+		}
+		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
+			DatapackManager.load(loader);
+		}
+		Bootstrap.register();
+		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
+			Log.MAIN.info("Initializing " + loader.getProperties());
+			loader.getInstance().init();
+		}
 
 		final DedicatedServer dedicatedserver = new DedicatedServer(new File(workDir));
 

@@ -9,8 +9,10 @@ import net.minecraft.resources.Datapack;
 @Getter
 public class SimpleDatapackLoader extends DatapackLoader {
 
-	private final Datapack datapack;
-	private final DatapackInfo info;
+	public SimpleDatapackLoader(Datapack datapack, DatapackInfo info) {
+		this.datapack = datapack;
+		this.properties = info;
+	}
 
 	@Override
 	public Datapack createInstance() {
@@ -25,7 +27,7 @@ public class SimpleDatapackLoader extends DatapackLoader {
 
 	@Override
 	public DatapackInfo prepareReader() {
-		return info;
+		return properties;
 	}
 
 	@Override

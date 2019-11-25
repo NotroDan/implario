@@ -439,6 +439,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void notifyBlockOfStateChange(BlockPos pos, final Block blockIn) {
+		if (true) return;
 		if (!this.isClientSide) {
 			IBlockState iblockstate = this.getBlockState(pos);
 

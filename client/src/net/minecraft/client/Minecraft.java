@@ -52,7 +52,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.client.resources.ClientRegistrar;
 import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.resources.Datapack;
-import net.minecraft.resources.Datapacks;
+import net.minecraft.resources.DatapackManager;
+import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.*;
@@ -328,9 +329,13 @@ public class Minecraft implements IThreadListener {
 		preloader.nextState();
 		this.guiAchievement = new GuiAchievement(this);
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
-		for (Datapack datapack : Datapacks.getDatapacks())
-			if (datapack.clientSide instanceof ClientSideDatapack)
-				((ClientSideDatapack) datapack.clientSide).clientInit(new ClientRegistrar(datapack.getRegistrar()));
+		for (DatapackLoader loader : DatapackManager.getTree().unloadingOrder()) {
+			Datapack datapack = loader.getInstance();
+			if (datapack.clientSide instanceof ClientSideDatapack) {
+				ClientRegistrar registrar = new ClientRegistrar(datapack.getRegistrar());
+				((ClientSideDatapack) datapack.clientSide).clientInit(registrar);
+			}
+		}
 		blabla = true;
 	}
 
@@ -368,7 +373,7 @@ public class Minecraft implements IThreadListener {
 		preloader.header();
 		preloader.render();
 		drawable = new SharedDrawable(Display.getDrawable());
-		for (Datapack datapack : Datapacks.getDatapacks()) datapack.init();
+		for (DatapackLoader loader : DatapackManager.getTree().unloadingOrder()) loader.getInstance().init();
 		loader.start();
 		preloader.render();
 		while (!blabla) {

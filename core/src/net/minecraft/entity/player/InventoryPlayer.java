@@ -45,7 +45,7 @@ public class InventoryPlayer implements IInventory {
 
 	public Item getItemCurrentSlot(){
 		ItemStack itemStack = getCurrentItem();
-		return itemStack == null ? itemStack.getItem() : null;
+		return itemStack == null ? null : itemStack.getItem();
 	}
 
 	/**

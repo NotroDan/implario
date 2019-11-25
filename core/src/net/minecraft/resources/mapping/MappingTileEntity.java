@@ -11,7 +11,7 @@ public class MappingTileEntity extends AbstractMapping<Class<? extends TileEntit
 	@Override
 	public void map(Class<? extends TileEntity> element) {
 		TileEntity.unregister(address);
-		TileEntity.register(element, address);
+		if (element != null) TileEntity.register(element, address);
 	}
 
 }

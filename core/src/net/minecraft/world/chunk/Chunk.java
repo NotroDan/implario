@@ -1075,7 +1075,7 @@ public class Chunk {
 	/**
 	 * Initialize this chunk with new binary data.
 	 */
-	public void fillChunk(byte[] p_177439_1_, int p_177439_2_, boolean p_177439_3_) {
+	public void fillChunk(byte[] data, int p_177439_2_, boolean p_177439_3_) {
 		int i = 0;
 		boolean flag = !this.worldObj.provider.getHasNoSky();
 
@@ -1088,7 +1088,7 @@ public class Chunk {
 				char[] achar = this.storageArrays[j].getData();
 
 				for (int k = 0; k < achar.length; ++k) {
-					achar[k] = (char) ((p_177439_1_[i + 1] & 255) << 8 | p_177439_1_[i] & 255);
+					achar[k] = (char) ((data[i + 1] & 255) << 8 | data[i] & 255);
 					i += 2;
 				}
 			} else if (p_177439_3_ && this.storageArrays[j] != null) {
@@ -1099,7 +1099,7 @@ public class Chunk {
 		for (int l = 0; l < this.storageArrays.length; ++l) {
 			if ((p_177439_2_ & 1 << l) != 0 && this.storageArrays[l] != null) {
 				NibbleArray nibblearray = this.storageArrays[l].getBlocklightArray();
-				System.arraycopy(p_177439_1_, i, nibblearray.getData(), 0, nibblearray.getData().length);
+				System.arraycopy(data, i, nibblearray.getData(), 0, nibblearray.getData().length);
 				i += nibblearray.getData().length;
 			}
 		}
@@ -1108,14 +1108,14 @@ public class Chunk {
 			for (int i1 = 0; i1 < this.storageArrays.length; ++i1) {
 				if ((p_177439_2_ & 1 << i1) != 0 && this.storageArrays[i1] != null) {
 					NibbleArray nibblearray1 = this.storageArrays[i1].getSkylightArray();
-					System.arraycopy(p_177439_1_, i, nibblearray1.getData(), 0, nibblearray1.getData().length);
+					System.arraycopy(data, i, nibblearray1.getData(), 0, nibblearray1.getData().length);
 					i += nibblearray1.getData().length;
 				}
 			}
 		}
 
 		if (p_177439_3_) {
-			System.arraycopy(p_177439_1_, i, this.blockBiomeArray, 0, this.blockBiomeArray.length);
+			System.arraycopy(data, i, this.blockBiomeArray, 0, this.blockBiomeArray.length);
 			int k1 = i + this.blockBiomeArray.length;
 		}
 

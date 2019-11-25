@@ -28,6 +28,11 @@ public abstract class DatapackLoader extends Tree.Leaf {
 		return datapack;
 	}
 
+	@Override
+	public String toString() {
+		return properties == null ? "dp-" + loadedAt : properties.toString();
+	}
+
 	public abstract DatapackInfo prepareReader() throws DatapackLoadException;
 
 	public abstract Datapack createInstance() throws DatapackLoadException;

@@ -33,6 +33,12 @@ public class BlockSapling extends BlockBush {
 	}
 
 
+	@Override
+	public BlockState getBlockState() {
+		System.out.println("Requested blockstate for " + getClass().getName());
+		return super.getBlockState();
+	}
+
 	/**
 	 * Check whether the given BlockPos has a Sapling of the given type
 	 */

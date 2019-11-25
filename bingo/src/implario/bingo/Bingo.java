@@ -1,7 +1,6 @@
 package implario.bingo;
 
 import net.minecraft.resources.Datapack;
-import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.Domain;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -12,7 +11,6 @@ public class Bingo extends Datapack {
 
 	public Bingo() {
 		super(DOMAIN);
-		Datapacks.acceptJar()
 	}
 
 

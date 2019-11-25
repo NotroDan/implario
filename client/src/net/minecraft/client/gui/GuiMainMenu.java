@@ -1,6 +1,14 @@
 package net.minecraft.client.gui;
 
 import __google_.util.Exceptions;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.resources.DatapackManager;
+import net.minecraft.resources.load.DatapackLoadException;
+import net.minecraft.resources.load.DatapackLoader;
+import net.minecraft.server.Todo;
 import net.minecraft.util.CyclicIterator;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiGridTest;
@@ -29,6 +37,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
@@ -91,7 +100,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		buttonList.add(new GuiButton(97, cacheWidth + 2, j + 84, 98, 20, "Смена ника"));
 		buttonList.add(new GuiButton(54, cacheWidth + 2, j + 108, 98, 20, "Обновление"));
 		if (Settings.DEBUG.b()) {
-			buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20, "§8Dev §fVanilla"));
+			buttonList.add(new GuiButton(4, cacheWidth - 100, j + 108, 98, 20,
+					"§8Dev §fVanilla: " + (DatapackManager.getLoaderByName("vanilla") == null ? "§cOFF" : "§aON")));
 			buttonList.add(new GuiButton(5, cacheWidth - 100, j + 132, 98, 20, "§8Dev §fЛоги"));
 			buttonList.add(new GuiButton(6, cacheWidth + 2, j + 132, 98, 20, "§8Dev §fНастройки"));
 			buttonList.add(new GuiButton(3, cacheWidth - 100, j + 156, 98, 20, "§8Dev §fСервера"));
@@ -143,20 +153,47 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 		if (button.id == 97) this.mc.displayGuiScreen(new GuiPlayername(this));
 
+		// Костыль для тестирования перезагрузки
 		if (button.id == 4) {
-			if (Datapacks.getLoaders().isEmpty()) {
+			DatapackLoader vanilla = DatapackManager.getLoaderByName("vanilla");
+			if (vanilla == null) {
 				long time = System.currentTimeMillis();
-				Datapack datapack = Datapacks.acceptJar(new File("gamedata/datapacks/vanilla.jar"));
+				DatapackLoader loader;
+				Datapack datapack;
+				try {
+					loader = DatapackManager.importJar(new File("gamedata/datapacks/vanilla.jar"));
+					datapack = DatapackManager.load(loader);
+
+				} catch (DatapackLoadException e) {
+					e.printStackTrace();
+					return;
+				}
 				System.out.println("Vanilla loaded to memory in " + (System.currentTimeMillis() - time));
-				time = System.currentTimeMillis();
-				Datapacks.initSingleDatapack(datapack);
+
+				datapack.loadBlocks();
+				Block.reloadBlockStates();
+				Blocks.reload();
+
+				BlockFire.init();
+
+				datapack.loadItems();
+				Items.reload();
+
+				datapack.preinit();
+				datapack.init();
+				Todo.instance.clientInit(datapack);
+
 				System.out.println("Vanilla loaded in " + (System.currentTimeMillis() - time));
-			}
-			else {
+			} else {
 				long time = System.currentTimeMillis();
-				Datapacks.shutdown();
+				DatapackManager.shutdownBranch(vanilla);
+				Blocks.reload();
+				Items.reload();
 				System.out.println("Vanilla UNloaded in " + (System.currentTimeMillis() - time));
 			}
+
+			button.displayString = "§8Dev §fVanilla: " + (DatapackManager.getLoaderByName("vanilla") == null ? "§cOFF" : "§aON");
+//			Block.blockRegistry.getRegistryObjects().values().stream().map(b -> b.getClass().getName()).sorted().forEach(System.out::println);
 		}
 
 	}
@@ -185,7 +222,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		Date date = new Date();
 		String today = birthday == null ? "Сегодня §a" + DATE_FORMAT.format(date) : "§eСегодня день рождения у " + birthday;
 		String time = birthdayComment == null ? "Сейчас §a" + TIME_FORMAT.format(date) : birthdayComment + "";
-		this.drawString(this.fontRendererObj, today, this.width - this.fontRendererObj.getStringWidth(today) - 6, this.height - 10 - fontRendererObj.getFontHeight(), -1);
+		this.drawString(this.fontRendererObj, today,
+				this.width - this.fontRendererObj.getStringWidth(today) - 6, this.height - 10 - fontRendererObj.getFontHeight(), -1);
 		this.drawString(this.fontRendererObj, time, this.width - this.fontRendererObj.getStringWidth(time) - 6, this.height - 10, -1);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
@@ -201,7 +239,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		float f = 32.0F;
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		worldrenderer.pos(0.0D, (double) this.height, 0.0D).tex(0.0D, (double) ((float) this.height / 32.0F)).color(64, 64, 64, 255).endVertex();
-		worldrenderer.pos((double) this.width, (double) this.height, 0.0D).tex((double) ((float) this.width / 32.0F), (double) ((float) this.height / 32.0F)).color(64, 64, 64,
+		worldrenderer.pos((double) this.width, (double) this.height, 0.0D)
+				.tex((double) ((float) this.width / 32.0F), (double) ((float) this.height / 32.0F)).color(64, 64, 64,
 				255).endVertex();
 		worldrenderer.pos((double) this.width, 0.0D, 0.0D).tex((double) ((float) this.width / 32.0F), 0).color(64, 64, 64, 255).endVertex();
 		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, 0).color(64, 64, 64, 255).endVertex();

@@ -36,7 +36,7 @@ public class Block {
 	 */
 	private static final ResourceLocation AIR_ID = new ResourceLocation("air");
 	public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey<>(AIR_ID);
-	public static ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+	public static ObjectIntIdentityMap<IBlockState> BLOCK_STATE_IDS = new ObjectIntIdentityMap<>();
 	private CreativeTabs displayOnCreativeTab;
 	public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
 
@@ -1328,24 +1328,28 @@ public class Block {
 	public static void reloadBlockStates() {
 		blockRegistry.validateKey();
 
-		BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+		BLOCK_STATE_IDS = new ObjectIntIdentityMap<>();
 		for (Block b : blockRegistry) {
-
-			b.useNeighborBrightness =
-					b.blockMaterial != Material.air && (
-							b instanceof BlockStairs ||
-									b instanceof BlockSlab ||
-									b.getUnlocalizedName().equals("farmland") ||
-									b.translucent ||
-									b.lightOpacity == 0
-					);
-
-			for (IBlockState state : b.getBlockState().getValidStates()) {
-				int i = blockRegistry.getIDForObject(b) << 4 | b.getMetaFromState(state);
-				BLOCK_STATE_IDS.put(state, i);
-			}
+			reloadBlockStates(b);
 		}
 
+	}
+
+
+	public static void reloadBlockStates(Block b) {
+		b.useNeighborBrightness =
+				b.blockMaterial != Material.air && (
+						b instanceof BlockStairs ||
+								b instanceof BlockSlab ||
+								b.getUnlocalizedName().equals("farmland") ||
+								b.translucent ||
+								b.lightOpacity == 0
+				);
+
+		for (IBlockState state : b.getBlockState().getValidStates()) {
+			int i = blockRegistry.getIDForObject(b) << 4 | b.getMetaFromState(state);
+			BLOCK_STATE_IDS.put(state, i);
+		}
 	}
 
 	private static void registerBlock(int id, ResourceLocation textualID, Block block_) {

@@ -25,12 +25,19 @@ public class JarDatapackLoader extends DatapackLoader {
 	}
 
 	@Override
+	public String toString() {
+		return jarFile.getName();
+	}
+
+	@Override
 	public DatapackInfo prepareReader() throws DatapackLoadException {
 		try {
 			loader = new DatapackClassLoader(jarFile, System.class.getClassLoader());
 		} catch (IOException ex) {
 			throw new DatapackLoadException(ex);
 		}
+
+		Log.MAIN.info("Preparing " + jarFile.getAbsolutePath());
 
 		byte[] read = read("datapack.yml");
 		if (read == null) throw new DatapackLoadException(null, "Can't read datapack.yml");
@@ -41,7 +48,7 @@ public class JarDatapackLoader extends DatapackLoader {
 		for (String line : lines) {
 			line = line.trim();
 			if (line.startsWith("#") || line.isEmpty()) continue;
-			String[] split = line.split(": ", 1);
+			String[] split = line.split(": ", 2);
 			if (split.length == 1 && current != null) {
 				config.put(current, config.get(current) + "\n" + split[0]);
 			} else if (split.length == 2) {
@@ -56,9 +63,10 @@ public class JarDatapackLoader extends DatapackLoader {
 		String repo = config.get("repo");
 		String releasePrefix = config.get("release-prefix");
 		String description = config.get("description");
-		String[] dependencies = config.get("depend").split(", ");
+		String dep = config.get("depend");
+		String[] dependencies = dep == null ? new String[0] : dep.split(", ");
 
-		return new DatapackInfo(domain, serverMain, clientMain, dependencies, repo, releasePrefix, description);
+		return properties = new DatapackInfo(domain, serverMain, clientMain, dependencies, repo, releasePrefix, description);
 
 	}
 
@@ -85,13 +93,13 @@ public class JarDatapackLoader extends DatapackLoader {
 		String serverClass = properties.getServerMain();
 		String clientClass = properties.getClientMain();
 		try {
-			Log.DEBUG.info("JarDPL '" + getName() + "' is loading its server-side stuff from '" + serverClass + "'");
+			Log.MAIN.debug("JarDPL '" + getName() + "' is loading its server-side stuff from '" + serverClass + "'");
 
 			Class mainClass = loadClass(serverClass);
 			this.datapack = (Datapack) mainClass.getConstructors()[0].newInstance();
 
 			if (clientClass == null || Todo.instance.isServerSide()) return datapack;
-			Log.DEBUG.info("JarDPL '" + getName() + "' also has client-side stuff. Initializing '" + clientClass + "'");
+			Log.MAIN.debug("JarDPL '" + getName() + "' also has client-side stuff. Initializing '" + clientClass + "'");
 			Class client = loadClass(clientClass);
 			datapack.clientSide = client.getConstructors()[0].newInstance();
 			return datapack;

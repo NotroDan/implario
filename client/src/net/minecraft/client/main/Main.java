@@ -10,19 +10,15 @@ import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.TodoClient;
-import net.minecraft.network.services.github.Release;
-import net.minecraft.resources.Datapacks;
-import net.minecraft.resources.load.JarDatapackLoader;
-import net.minecraft.security.update.DatapackUpdate;
+import net.minecraft.logging.Log;
+import net.minecraft.resources.DatapackManager;
+import net.minecraft.resources.load.DatapackLoadException;
+import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.server.Todo;
 import net.minecraft.util.Session;
 import net.minecraft.util.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.management.ManagementFactory;
-import java.lang.reflect.Array;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
@@ -83,7 +79,16 @@ public class Main {
 		int j = optionset.valueOf(optionspec14);
 		boolean flag = optionset.has("fullscreen");
 		boolean flag1 = optionset.has("checkGlErrors");
-		Datapacks.initializeDatapacks(new File("gamedata/datapacks"));
+
+		try {
+			DatapackManager.importDir(new File("gamedata/datapacks"));
+			for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
+				Log.MAIN.info("Instantiating datapack" + loader);
+				DatapackManager.load(loader);
+			}
+		} catch (DatapackLoadException e) {
+			e.printStackTrace();
+		}
 		Gson gson = new GsonBuilder().registerTypeAdapter(PropertyMap.class, new Serializer()).create();
 		PropertyMap propertymap1 = gson.fromJson(optionset.valueOf(optionspec16), PropertyMap.class);
 		File file1 = optionset.valueOf(optionspec2);
@@ -100,11 +105,7 @@ public class Main {
 				new GameConfiguration.FolderInformation(file1, file3, file2),
 				new GameConfiguration.ServerInformation(s6, integer)
 		);
-		Runtime.getRuntime().addShutdownHook(new Thread("Client Shutdown Thread") {
-			public void run() {
-				Minecraft.stopIntegratedServer();
-			}
-		});
+		Runtime.getRuntime().addShutdownHook(new Thread(Minecraft::stopIntegratedServer, "Client Shutdown Thread"));
 		Thread.currentThread().setName("Client thread");
 		new Minecraft(gameconfiguration).run();
 	}

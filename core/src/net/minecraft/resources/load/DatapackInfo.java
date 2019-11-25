@@ -17,6 +17,11 @@ public class DatapackInfo {
 			releasePrefix,
 			description;
 
+	@Override
+	public boolean equals(Object o) {
+		return o instanceof DatapackInfo && ((DatapackInfo) o).domain.equals(domain);
+	}
+
 	public int hashCode() {
 		return domain.hashCode();
 	}

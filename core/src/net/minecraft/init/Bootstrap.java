@@ -4,11 +4,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
-import net.minecraft.resources.Datapack;
-import net.minecraft.resources.Datapacks;
+import net.minecraft.resources.DatapackManager;
+import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.stats.StatList;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Collection;
 
 public class Bootstrap {
@@ -30,26 +31,27 @@ public class Bootstrap {
 	public static void register() {
 		registered = true;
 
-		Collection<Datapack> datapacks = Datapacks.getDatapacks();
+		Collection<DatapackLoader> datapacks = DatapackManager.getTree().loadingOrder();
+		System.out.println(Arrays.toString(datapacks.toArray()));
 
 		Block.registerBlocks();
-		for (Datapack datapack : datapacks) datapack.loadBlocks();
+		for (DatapackLoader loader : datapacks) loader.getInstance().loadBlocks();
 		Block.reloadBlockStates();
 		Blocks.reload();
 
 		BlockFire.init();
 
 		Item.registerItems();
-		for (Datapack datapack : datapacks) datapack.loadItems();
+		for (DatapackLoader loader : datapacks) loader.getInstance().loadItems();
 		Items.reload();
 
 		if(!alreadyRegistered){
 			StatList.init();
 			Enchantments.init();
 		}
-		for (Datapack datapack : datapacks) {
-			System.out.println("Преинициализация датапака " + datapack.getDomain());
-			datapack.preinit();
+		for (DatapackLoader loader : datapacks) {
+			System.out.println("Преинициализация датапака " + loader.getInstance().getDomain());
+			loader.getInstance().preinit();
 		}
 		if (!datapacks.isEmpty()) {
 			Blocks.reload();

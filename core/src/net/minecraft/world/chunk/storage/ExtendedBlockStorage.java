@@ -144,7 +144,7 @@ public class ExtendedBlockStorage {
 	}
 
 	public void removeInvalidBlocks() {
-		List list = Block.BLOCK_STATE_IDS.getObjectList();
+		List<IBlockState> list = Block.BLOCK_STATE_IDS.getObjectList();
 		int i = list.size();
 		int j = 0;
 		int k = 0;
@@ -162,7 +162,7 @@ public class ExtendedBlockStorage {
 						++j;
 
 						if (i2 < i) {
-							IBlockState iblockstate = (IBlockState) list.get(i2);
+							IBlockState iblockstate = list.get(i2);
 
 							if (iblockstate != null) {
 								Block block = iblockstate.getBlock();

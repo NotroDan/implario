@@ -12,6 +12,7 @@ public class MappingBlock extends LegacyMapping<Block> {
 
 	@Override
 	public void map(Block element) {
+
 		if (element == null) {
 			RegistryNamespacedDefaultedByKey<ResourceLocation, Block> r = Block.blockRegistry;
 			r.remove(r.getNameForObject(r.getObjectById(id)));

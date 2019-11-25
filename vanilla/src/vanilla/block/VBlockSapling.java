@@ -1,6 +1,7 @@
 package vanilla.block;
 
 import net.minecraft.block.*;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -15,6 +16,7 @@ public class VBlockSapling extends BlockSapling implements IGrowable {
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		if (worldIn.isClientSide) return;
 		super.updateTick(worldIn, pos, state, rand);
+		new Exception().printStackTrace();
 
 		if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0) {
 			this.grow(worldIn, pos, state, rand);
@@ -44,6 +46,10 @@ public class VBlockSapling extends BlockSapling implements IGrowable {
 				pos.add(x + 1, 0, y + 1), z);
 	}
 
+	@Override
+	public BlockState getBlockState() {
+		return super.getBlockState();
+	}
 
 	public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		WorldGenerator worldgenerator = rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true);

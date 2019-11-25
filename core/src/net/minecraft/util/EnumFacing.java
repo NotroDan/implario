@@ -387,7 +387,7 @@ public enum EnumFacing implements IStringSerializable {
 		Y("y", EnumFacing.Plane.VERTICAL),
 		Z("z", EnumFacing.Plane.HORIZONTAL);
 
-		private static final Map NAME_LOOKUP = Maps.newHashMap();
+		private static final Map<String, Axis> NAME_LOOKUP = Maps.newHashMap();
 		private final String name;
 		private final EnumFacing.Plane plane;
 
@@ -398,7 +398,7 @@ public enum EnumFacing implements IStringSerializable {
 		}
 
 		public static EnumFacing.Axis byName(String name) {
-			return name == null ? null : (EnumFacing.Axis) NAME_LOOKUP.get(name.toLowerCase());
+			return name == null ? null : NAME_LOOKUP.get(name.toLowerCase());
 		}
 
 		public String getName2() {
