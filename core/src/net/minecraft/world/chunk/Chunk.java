@@ -20,7 +20,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.IChunkBiomer;
-import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
+import net.minecraft.world.chunk.anvil.ExtendedBlockStorage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -138,26 +139,23 @@ public class Chunk {
 		Arrays.fill(this.blockBiomeArray, (byte) -1);
 	}
 
-	public Chunk(World worldIn, ChunkPrimer primer, int x, int z) {
-		this(worldIn, x, z);
+	public Chunk(World worldIn, IChunkPrimer primer, int chunkX, int chunkZ) {
+		this(worldIn, chunkX, chunkZ);
 		int i = 256;
 		boolean flag = !worldIn.provider.getHasNoSky();
 
-		for (int j = 0; j < 16; ++j) {
-			for (int k = 0; k < 16; ++k) {
-				for (int l = 0; l < i; ++l) {
-					int i1 = j * i * 16 | k * i | l;
-					IBlockState iblockstate = primer.getBlockState(i1);
+		for (int x = 0; x < 16; ++x) {
+			for (int z = 0; z < 16; ++z) {
+				for (int y = 0; y < i; ++y) {
+					IBlockState iblockstate = primer.getBlockState(x, y, z);
 
-					if (iblockstate.getBlock().getMaterial() != Material.air) {
-						int j1 = l >> 4;
+					if (iblockstate.getBlock().getMaterial() == Material.air) continue;
+					int j1 = y >> 4;
 
-						if (this.storageArrays[j1] == null) {
-							this.storageArrays[j1] = new ExtendedBlockStorage(j1 << 4, flag);
-						}
+					if (this.storageArrays[j1] == null)
+						this.storageArrays[j1] = new ExtendedBlockStorage(j1 << 4, flag);
 
-						this.storageArrays[j1].set(j, l & 15, k, iblockstate);
-					}
+					this.storageArrays[j1].set(x, y & 15, z, iblockstate);
 				}
 			}
 		}

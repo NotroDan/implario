@@ -8,7 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.feature.*;
 
 import java.util.Random;
@@ -74,7 +74,7 @@ public class BiomeGenTaiga extends BiomeGenBase {
 		super.decorate(worldIn, rand, pos);
 	}
 
-	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
+	public void genTerrainBlocks(World worldIn, Random rand, AnvilChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
 		if (this.field_150644_aH == 1 || this.field_150644_aH == 2) {
 			this.topBlock = Blocks.grass.getDefaultState();
 			this.fillerBlock = Blocks.dirt.getDefaultState();

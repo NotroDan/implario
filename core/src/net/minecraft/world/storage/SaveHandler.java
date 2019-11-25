@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.chunk.storage.IChunkLoader;
+import net.minecraft.world.chunk.IChunkLoader;
 
 import java.io.*;
 

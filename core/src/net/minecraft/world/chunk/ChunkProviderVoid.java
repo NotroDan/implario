@@ -1,15 +1,13 @@
 package net.minecraft.world.chunk;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 
 public class ChunkProviderVoid implements IChunkProvider {
-
 	private World worldObj;
-	private final IBlockState[] cachedBlockIDs = new IBlockState[256];
 
 	public ChunkProviderVoid(World worldIn) {
 		this.worldObj = worldIn;
@@ -21,7 +19,7 @@ public class ChunkProviderVoid implements IChunkProvider {
 	 * specified chunk from the map seed and chunk seed
 	 */
 	public Chunk provideChunk(int x, int z) {
-		ChunkPrimer chunkprimer = new ChunkPrimer();
+		AnvilChunkPrimer chunkprimer = new AnvilChunkPrimer();
 
 		Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
 		byte[] abyte = chunk.getBiomeArray();

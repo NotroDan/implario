@@ -1,10 +1,12 @@
 package net.minecraft.client.renderer;
 
+import __google_.util.Exceptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.logging.Log;
+import net.minecraft.util.FileUtil;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.HttpPipeline;
@@ -17,21 +19,21 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.Proxy.Type;
 import java.net.URL;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+//TODO: надо http async, это прям неоч
 public class ThreadDownloadImageData extends SimpleTexture {
-
+	private static final ExecutorService executors = Executors.newCachedThreadPool((runnable) ->
+		new Thread(runnable, "Minecraft Texture Download"));
 	private static final Log logger = Log.MAIN;
-	private static final AtomicInteger threadDownloadCounter = new AtomicInteger(0);
 	private final File cacheFile;
 	private final String imageUrl;
 	private final IImageBuffer imageBuffer;
 	private BufferedImage bufferedImage;
-	private Thread imageThread;
 	private boolean textureUploaded;
 
 	public Boolean imageFound = null;
@@ -70,7 +72,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 	public void loadTexture(IResourceManager resourceManager) throws IOException {
 		if (this.bufferedImage == null && this.textureLocation != null) super.loadTexture(resourceManager);
 
-		if (this.imageThread == null) if (this.cacheFile != null && this.cacheFile.isFile()) {
+		if (this.cacheFile != null && this.cacheFile.isFile()) {
 			logger.debug("Loading http texture from memory cache (" + cacheFile + ")");
 
 			try {
@@ -87,80 +89,43 @@ public class ThreadDownloadImageData extends SimpleTexture {
 	}
 
 	protected void loadTextureFromServer() {
-		this.imageThread = new Thread("Texture Downloader #" + threadDownloadCounter.incrementAndGet()) {
+		executors.submit(() -> {
+			HttpURLConnection httpurlconnection = null;
+			logger.debug("Downloading http texture from " + imageUrl + " to " + cacheFile);
 
-			public void run() {
-				HttpURLConnection httpurlconnection = null;
-				ThreadDownloadImageData.logger.debug("Downloading http texture from " + ThreadDownloadImageData.this.imageUrl + " to " + ThreadDownloadImageData.this.cacheFile);
+			try {
+				httpurlconnection = (HttpURLConnection) new URL(imageUrl).openConnection(Minecraft.getMinecraft().getProxy());
+				httpurlconnection.setDoInput(true);
+				httpurlconnection.setDoOutput(false);
+				httpurlconnection.connect();
 
-				if (ThreadDownloadImageData.this.shouldPipeline()) ThreadDownloadImageData.this.loadPipelined();
-				else try {
-					httpurlconnection = (HttpURLConnection) new URL(ThreadDownloadImageData.this.imageUrl).openConnection(Minecraft.getMinecraft().getProxy());
-					httpurlconnection.setDoInput(true);
-					httpurlconnection.setDoOutput(false);
-					httpurlconnection.connect();
+				if (httpurlconnection.getResponseCode() / 100 != 2) {
+					if (httpurlconnection.getErrorStream() != null) Config.readAll(httpurlconnection.getErrorStream());
 
-					if (httpurlconnection.getResponseCode() / 100 != 2) {
-						if (httpurlconnection.getErrorStream() != null) Config.readAll(httpurlconnection.getErrorStream());
-
-						return;
-					}
-
-					BufferedImage bufferedimage;
-
-					if (ThreadDownloadImageData.this.cacheFile != null) {
-						FileUtils.copyInputStreamToFile(httpurlconnection.getInputStream(), ThreadDownloadImageData.this.cacheFile);
-						bufferedimage = ImageIO.read(ThreadDownloadImageData.this.cacheFile);
-					} else bufferedimage = TextureUtil.readBufferedImage(httpurlconnection.getInputStream());
-
-					if (ThreadDownloadImageData.this.imageBuffer != null) bufferedimage = ThreadDownloadImageData.this.imageBuffer.parseUserSkin(bufferedimage);
-
-					ThreadDownloadImageData.this.setBufferedImage(bufferedimage);
-				} catch (Exception exception) {
-					ThreadDownloadImageData.logger.error("Couldn\'t download http texture: " + exception.getClass().getName() + ": " + exception.getMessage());
 					return;
-				} finally {
-					if (httpurlconnection != null) httpurlconnection.disconnect();
-
-					ThreadDownloadImageData.this.imageFound = ThreadDownloadImageData.this.bufferedImage != null;
 				}
+
+				BufferedImage bufferedimage;
+
+				if (cacheFile != null) {
+					InputStream in = httpurlconnection.getInputStream();
+					byte array[] = new byte[in.available()];
+					FileUtil.readInputStream(in, array);
+					FileUtils.writeByteArrayToFile(cacheFile, array);
+					bufferedimage = ImageIO.read(new ByteArrayInputStream(array));
+				} else bufferedimage = TextureUtil.readBufferedImage(httpurlconnection.getInputStream());
+
+				if (imageBuffer != null) bufferedimage = imageBuffer.parseUserSkin(bufferedimage);
+
+				setBufferedImage(bufferedimage);
+			} catch (Exception exception) {
+				ThreadDownloadImageData.logger.error("Couldn\'t download http texture: " + exception.getClass().getName() + ": " + exception.getMessage());
+				return;
+			} finally {
+				if (httpurlconnection != null) httpurlconnection.disconnect();
+
+				imageFound = bufferedImage != null;
 			}
-		};
-		this.imageThread.setDaemon(true);
-		this.imageThread.start();
+		});
 	}
-
-	private boolean shouldPipeline() {
-		if (!this.pipeline) return false;
-		Proxy proxy = Minecraft.getMinecraft().getProxy();
-		return proxy.type() != Type.DIRECT && proxy.type() != Type.SOCKS ? false : this.imageUrl.startsWith("http://");
-	}
-
-	private void loadPipelined() {
-		try {
-			HttpRequest httprequest = HttpPipeline.makeRequest(this.imageUrl, Minecraft.getMinecraft().getProxy());
-			HttpResponse httpresponse = HttpPipeline.executeRequest(httprequest);
-
-			if (httpresponse.getStatus() / 100 != 2) return;
-
-			byte[] abyte = httpresponse.getBody();
-			ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(abyte);
-			BufferedImage bufferedimage;
-
-			if (this.cacheFile != null) {
-				FileUtils.copyInputStreamToFile(bytearrayinputstream, this.cacheFile);
-				bufferedimage = ImageIO.read(this.cacheFile);
-			} else bufferedimage = TextureUtil.readBufferedImage(bytearrayinputstream);
-
-			if (this.imageBuffer != null) bufferedimage = this.imageBuffer.parseUserSkin(bufferedimage);
-
-			this.setBufferedImage(bufferedimage);
-		} catch (Exception exception) {
-			logger.error("Couldn\'t download http texture: " + exception.getClass().getName() + ": " + exception.getMessage());
-			return;
-		} finally {
-			this.imageFound = this.bufferedImage != null;
-		}
-	}
-
 }

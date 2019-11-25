@@ -2,6 +2,7 @@ package vanilla.world.gen.provider;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.world.chunk.IChunkPrimer;
 import vanilla.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -15,7 +16,7 @@ import net.minecraft.world.biome.Biome;
 import vanilla.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
 import vanilla.world.gen.*;
 import vanilla.world.gen.feature.WorldGenDungeons;
@@ -124,7 +125,7 @@ public class ChunkProviderGenerate implements VanillaChunkProvider {
 		}
 	}
 
-	public void setBlocksInChunk(int p_180518_1_, int p_180518_2_, ChunkPrimer p_180518_3_) {
+	public void setBlocksInChunk(int p_180518_1_, int p_180518_2_, IChunkPrimer p_180518_3_) {
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, p_180518_1_ * 4 - 2, p_180518_2_ * 4 - 2, 10, 10);
 		this.func_147423_a(p_180518_1_ * 4, 0, p_180518_2_ * 4);
 
@@ -183,7 +184,7 @@ public class ChunkProviderGenerate implements VanillaChunkProvider {
 		}
 	}
 
-	public void replaceBlocksForBiome(int p_180517_1_, int p_180517_2_, ChunkPrimer p_180517_3_, Biome[] p_180517_4_) {
+	public void replaceBlocksForBiome(int p_180517_1_, int p_180517_2_, IChunkPrimer p_180517_3_, Biome[] p_180517_4_) {
 		double d0 = 0.03125D;
 		this.stoneNoise = this.field_147430_m.func_151599_a(this.stoneNoise, (double) (p_180517_1_ * 16), (double) (p_180517_2_ * 16), 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
 
@@ -201,7 +202,7 @@ public class ChunkProviderGenerate implements VanillaChunkProvider {
 	 */
 	public Chunk provideChunk(int x, int z) {
 		this.rand.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
-		ChunkPrimer chunkprimer = new ChunkPrimer();
+		IChunkPrimer chunkprimer = new AnvilChunkPrimer();
 		this.setBlocksInChunk(x, z, chunkprimer);
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, x * 16, z * 16, 16, 16);
 		this.replaceBlocksForBiome(x, z, chunkprimer, this.biomesForGeneration);

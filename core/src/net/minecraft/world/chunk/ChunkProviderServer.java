@@ -13,7 +13,6 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.chunk.storage.IChunkLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;

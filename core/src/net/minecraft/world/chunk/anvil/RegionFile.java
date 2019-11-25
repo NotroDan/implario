@@ -1,4 +1,4 @@
-package net.minecraft.world.chunk.storage;
+package net.minecraft.world.chunk.anvil;
 
 import com.google.common.collect.Lists;
 
@@ -84,8 +84,7 @@ public class RegionFile {
 			}
 
 			for (int i2 = 0; i2 < 1024; ++i2) {
-				int j2 = this.dataFile.readInt();
-				this.chunkTimestamps[i2] = j2;
+				this.chunkTimestamps[i2] = dataFile.readInt();
 			}
 		} catch (IOException ioexception) {
 			ioexception.printStackTrace();

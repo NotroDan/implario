@@ -1,5 +1,6 @@
 package net.minecraft.util;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class IntHashMap<V> implements Iterable<V>{
@@ -198,13 +199,8 @@ public class IntHashMap<V> implements Iterable<V>{
 	 * Removes all entries from the map
 	 */
 	public void clearMap() {
-		IntHashMap.Entry<V>[] entry = this.slots;
-
-		for (int i = 0; i < entry.length; ++i) {
-			entry[i] = null;
-		}
-
-		this.count = 0;
+		Arrays.fill(slots, null);
+		count = 0;
 	}
 
 	/**

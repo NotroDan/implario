@@ -9,7 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.NoiseGeneratorPerlin;
 import vanilla.world.gen.feature.WorldGenAbstractTree;
 
@@ -63,7 +63,7 @@ public class BiomeGenMesa extends BiomeGenBase {
 		super.decorate(worldIn, rand, pos);
 	}
 
-	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
+	public void genTerrainBlocks(World worldIn, Random rand, AnvilChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
 		if (this.field_150621_aC == null || this.field_150622_aD != worldIn.getSeed()) {
 			this.func_150619_a(worldIn.getSeed());
 		}

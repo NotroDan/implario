@@ -655,13 +655,13 @@ public class CustomColors {
 		return world.getBiomeGenForCoords(p_getColorBiome_1_);
 	}
 
-	private static CustomColormap getBlockColormap(IBlockState p_getBlockColormap_0_) {
+	private static CustomColormap getBlockColormap(IBlockState blockState) {
 		if (blockColormaps == null)
 			return null;
-		if (!(p_getBlockColormap_0_ instanceof BlockStateBase))
+		if (!(blockState instanceof BlockStateBase))
 			return null;
-		BlockStateBase blockstatebase = (BlockStateBase) p_getBlockColormap_0_;
-		int i = blockstatebase.getBlockId();
+		BlockStateBase blockstatebase = (BlockStateBase) blockState;
+		int i = blockState.getBlock().getId();
 
 		if (i >= 0 && i < blockColormaps.length) {
 			CustomColormap[] acustomcolormap = blockColormaps[i];

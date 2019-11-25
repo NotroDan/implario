@@ -4,7 +4,7 @@ import net.minecraft.block.BlockSilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.feature.WorldGenAbstractTree;
 import vanilla.world.gen.feature.WorldGenMinable;
 import vanilla.world.gen.feature.WorldGenTaiga2;
@@ -57,7 +57,7 @@ public class BiomeGenHills extends BiomeGenBase {
 		}
 	}
 
-	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
+	public void genTerrainBlocks(World worldIn, Random rand, AnvilChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
 		this.topBlock = Blocks.grass.getDefaultState();
 		this.fillerBlock = Blocks.dirt.getDefaultState();
 

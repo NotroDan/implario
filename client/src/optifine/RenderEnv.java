@@ -57,14 +57,8 @@ public class RenderEnv {
 	}
 
 	public int getBlockId() {
-		if (this.blockId < 0) {
-			if (this.blockState instanceof BlockStateBase) {
-				BlockStateBase blockstatebase = (BlockStateBase) this.blockState;
-				this.blockId = blockstatebase.getBlockId();
-			} else {
-				this.blockId = Block.getIdFromBlock(this.blockState.getBlock());
-			}
-		}
+		if (this.blockId < 0)
+			blockId = blockState.getBlock().getId();
 
 		return this.blockId;
 	}

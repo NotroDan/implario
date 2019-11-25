@@ -3,6 +3,7 @@ package net.minecraft.entity.item;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -147,7 +148,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
 		if (TileEntityHopper.captureDroppedItems(this)) {
 			return true;
 		}
-		List<EntityItem> list = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25D, 0.0D, 0.25D), EntitySelectors.selectAnything);
+		List<EntityItem> list = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25D, 0.0D, 0.25D), Entity::isEntityAlive);
 
 		if (list.size() > 0) {
 			TileEntityHopper.putDropInInventoryAllSlots(this, (EntityItem) list.get(0));

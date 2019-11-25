@@ -167,7 +167,7 @@ public class ConnectedTextures {
 					for (int k = 0; k < aconnectedproperties.length; ++k) {
 						ConnectedProperties connectedproperties = aconnectedproperties[k];
 
-						if (connectedproperties != null && connectedproperties.matchesBlockId(blockstatebase.getBlockId())) {
+						if (connectedproperties != null && connectedproperties.matchesBlockId(blockstatebase.getBlock().getId())) {
 							TextureAtlasSprite textureatlassprite = getConnectedTexture(connectedproperties, world, blockstatebase, pos, j, sprite, env);
 							if (textureatlassprite != null) return textureatlassprite;
 						}
@@ -281,7 +281,7 @@ public class ConnectedTextures {
 			}
 		}
 
-		if (!p_getConnectedTexture_0_.matchesBlock(p_getConnectedTexture_2_.getBlockId(), k)) {
+		if (!p_getConnectedTexture_0_.matchesBlock(p_getConnectedTexture_2_.getBlock().getId(), k)) {
 			return null;
 		}
 		if (p_getConnectedTexture_4_ >= 0 && p_getConnectedTexture_0_.faces != 63) {

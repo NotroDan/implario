@@ -501,7 +501,7 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 	}
 
 	public static List<EntityItem> getEntitiesToSuck(World w, double x, double y, double z) {
-		return w.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - 0.5D, y - 0.5D, z - 0.5D, x + 0.5D, y + 0.5D, z + 0.5D), EntitySelectors.selectAnything);
+		return w.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - 0.5D, y - 0.5D, z - 0.5D, x + 0.5D, y + 0.5D, z + 0.5D), Entity::isEntityAlive);
 	}
 
 	/**

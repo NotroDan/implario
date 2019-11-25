@@ -45,14 +45,14 @@ public class SVertexBuilder {
 		--this.entityDataIndex;
 	}
 
-	public static void pushEntity(IBlockState blockState, BlockPos blockPos, IBlockAccess blockAccess, WorldRenderer wrr) {
+	public static void pushEntity(IBlockState blockState, WorldRenderer wrr) {
 		Block block = blockState.getBlock();
 		int i;
 		int j;
 
 		if (blockState instanceof BlockStateBase) {
 			BlockStateBase blockstatebase = (BlockStateBase) blockState;
-			i = blockstatebase.getBlockId();
+			i = blockState.getBlock().getId();
 			j = blockstatebase.getMetadata();
 		} else {
 			i = Block.getIdFromBlock(block);

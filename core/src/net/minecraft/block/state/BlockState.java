@@ -4,16 +4,11 @@ import com.google.common.base.Objects;
 import com.google.common.collect.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.util.Cartesian;
-import net.minecraft.util.MapPopulator;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BlockState {
-
-	private static final Function<IProperty, String> GET_NAME_FUNC = s -> s == null ? "<NULL>" : s.getName();
 	private final Block block;
 	private final ImmutableList<IProperty> properties;
 	private final ImmutableList<IBlockState> validStates;
@@ -25,12 +20,13 @@ public class BlockState {
 		Map<Map<IProperty, Comparable>, StateImplementation> map = Maps.newLinkedHashMap();
 		List<StateImplementation> list = new ArrayList<>();
 
-		for (List<Comparable> list1 : Cartesian.cartesianProduct(getAllowedValues())) {
-			Map<IProperty, Comparable> map1 = MapPopulator.createMap(this.properties, list1);
-			StateImplementation blockstate$stateimplementation = new StateImplementation(b, ImmutableMap.copyOf(map1));
+		List<Iterable<Comparable>> lst = getAllowedValues();
+		if(lst.size() == 0){
+			ImmutableMap<IProperty, Comparable> map1 = ImmutableMap.of();
+			StateImplementation blockstate$stateimplementation = new StateImplementation(block, map1);
 			map.put(map1, blockstate$stateimplementation);
 			list.add(blockstate$stateimplementation);
-		}
+		}else register(lst, 0, list, map, new Comparable[]{});
 
 		for (StateImplementation state : list) state.buildPropertyValueTable(map);
 
@@ -63,62 +59,76 @@ public class BlockState {
 		return properties;
 	}
 
+	@Override
 	public String toString() {
 		return Objects.toStringHelper(this).add("block", Block.blockRegistry.getNameForObject(block))
-				.add("properties", properties.stream().map(GET_NAME_FUNC).collect(Collectors.toList())).toString();
+				.add("properties", properties.stream().map(s -> s == null ? "<NULL>" : s.getName())
+						.collect(Collectors.toList())).toString();
 	}
 
-	static class StateImplementation extends BlockStateBase {
-
+	private static class StateImplementation extends BlockStateBase {
 		private final Block block;
 		private final ImmutableMap<IProperty, Comparable> properties;
 		private ImmutableTable<IProperty, Comparable, IBlockState> propertyValueTable;
+		private int id;
 
 		private StateImplementation(Block blockIn, ImmutableMap<IProperty, Comparable> propertiesIn) {
 			block = blockIn;
 			properties = propertiesIn;
 		}
 
+		@Override
+		public int getID() {
+			return id;
+		}
+
+		@Override
+		public void setID(int id) {
+			this.id = id;
+		}
+
+		@Override
 		public Collection<IProperty> getPropertyNames() {
 			return Collections.unmodifiableCollection(properties.keySet());
 		}
 
+		@Override
 		public <T extends Comparable<T>> T getValue(IProperty<T> property) {
-			if (!properties.containsKey(property)) {
+			Comparable comparable = properties.get(property);
+			if (comparable == null)
 				throw new IllegalArgumentException("Cannot get property " + property + " as it does not exist in " + block.getBlockState());
-			}
-			return property.getValueClass().cast(properties.get(property));
+			return property.getValueClass().cast(comparable);
 		}
 
+		@Override
 		public <T extends Comparable<T>, V extends T> IBlockState withProperty(IProperty<T> property, V value) {
-			if (!properties.containsKey(property)) {
+			Comparable comparable = properties.get(property);
+			if (comparable == null)
 				throw new IllegalArgumentException("Cannot set property " + property + " as it does not exist in " + block.getBlockState());
-			}
-			if (!property.getAllowedValues().contains(value)) {
+			if (!property.getAllowedValues().contains(value))
 				throw new IllegalArgumentException(
 						"Cannot set property " + property + " to " + value + " on block " +
 								Block.blockRegistry.getNameForObject(block) + ", it is not an allowed value");
-			}
-			return properties.get(property) == value ? this : propertyValueTable.get(property, value);
+
+			return comparable == value ? this : propertyValueTable.get(property, value);
 		}
 
+		@Override
 		public ImmutableMap<IProperty, Comparable> getProperties() {
 			return properties;
 		}
 
+		@Override
 		public Block getBlock() {
 			return block;
 		}
 
-		public boolean equals(Object p_equals_1_) {
-			return this == p_equals_1_;
-		}
-
+		@Override
 		public int hashCode() {
 			return properties.hashCode();
 		}
 
-		public void buildPropertyValueTable(Map<Map<IProperty, Comparable>, StateImplementation> map) {
+		private void buildPropertyValueTable(Map<Map<IProperty, Comparable>, StateImplementation> map) {
 			if (propertyValueTable != null) {
 				throw new IllegalStateException();
 			}
@@ -140,7 +150,34 @@ public class BlockState {
 			map.put(property, value);
 			return map;
 		}
-
 	}
 
+	private void register(List<Iterable<Comparable>> iterables, int index, List<StateImplementation> list,
+						  Map<Map<IProperty, Comparable>, StateImplementation> map, Comparable[] reg){
+		Iterable<Comparable> iterable = iterables.get(index);
+		if(iterables.size() == index + 1){
+			for(Comparable comparable : iterable){
+				Map<IProperty, Comparable> map1 = new LinkedHashMap<>();
+				int i = reg.length - 1;
+				for(IProperty property : properties) {
+					Comparable comp = i == -1 ? comparable : reg[i];
+					map1.put(property, comp);
+					i--;
+				}
+
+
+				StateImplementation blockstate$stateimplementation = new StateImplementation(block, ImmutableMap.copyOf(map1));
+				map.put(map1, blockstate$stateimplementation);
+				list.add(blockstate$stateimplementation);
+			}
+		}else{
+			index++;
+			for(Comparable comparable : iterable){
+				Comparable newComparable[] = new Comparable[reg.length + 1];
+				System.arraycopy(reg, 0, newComparable, 1, reg.length);
+				newComparable[0] = comparable;
+				register(iterables, index, list, map, newComparable);
+			}
+		}
+	}
 }

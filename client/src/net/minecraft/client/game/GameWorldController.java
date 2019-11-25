@@ -21,7 +21,7 @@ import net.minecraft.util.FileUtil;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldService;
 import net.minecraft.world.WorldSettings;
-import net.minecraft.world.chunk.storage.AnvilSaveConverter;
+import net.minecraft.world.chunk.anvil.AnvilSaveConverter;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;

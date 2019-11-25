@@ -6,6 +6,7 @@ import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.logging.Log;
+import net.minecraft.world.chunk.IChunkPrimer;
 import vanilla.entity.EnumCreatureType;
 import vanilla.Vanilla;
 import vanilla.entity.monster.*;
@@ -18,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.biome.TempCategory;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.NoiseGeneratorPerlin;
 import vanilla.world.gen.feature.*;
 
@@ -366,11 +367,11 @@ public abstract class BiomeGenBase extends Biome {
 		return this.enableSnow;
 	}
 
-	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
+	public void genTerrainBlocks(World worldIn, Random rand, IChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
 		this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, p_180622_4_, p_180622_5_, p_180622_6_);
 	}
 
-	public final void generateBiomeTerrain(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180628_4_, int p_180628_5_, double p_180628_6_) {
+	public final void generateBiomeTerrain(World worldIn, Random rand, IChunkPrimer chunkPrimerIn, int p_180628_4_, int p_180628_5_, double p_180628_6_) {
 		int i = worldIn.getSeaLevel();
 		IBlockState iblockstate = this.topBlock;
 		IBlockState iblockstate1 = this.fillerBlock;

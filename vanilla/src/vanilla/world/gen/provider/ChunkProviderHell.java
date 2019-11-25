@@ -15,7 +15,7 @@ import net.minecraft.world.biome.Biome;
 import vanilla.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
 import vanilla.world.gen.GeneratorBushFeature;
 import vanilla.world.gen.MapGenBase;
@@ -96,7 +96,7 @@ public class ChunkProviderHell implements VanillaChunkProvider {
 		worldIn.setSeaLevel(63);
 	}
 
-	public void func_180515_a(int p_180515_1_, int p_180515_2_, ChunkPrimer p_180515_3_) {
+	public void func_180515_a(int p_180515_1_, int p_180515_2_, AnvilChunkPrimer p_180515_3_) {
 		int i = 4;
 		int j = this.worldObj.getSeaLevel() / 2 + 1;
 		int k = i + 1;
@@ -161,7 +161,7 @@ public class ChunkProviderHell implements VanillaChunkProvider {
 		}
 	}
 
-	public void func_180516_b(int p_180516_1_, int p_180516_2_, ChunkPrimer p_180516_3_) {
+	public void func_180516_b(int p_180516_1_, int p_180516_2_, AnvilChunkPrimer p_180516_3_) {
 		int i = this.worldObj.getSeaLevel() + 1;
 		double d0 = 0.03125D;
 		this.slowsandNoise = this.slowsandGravelNoiseGen.generateNoiseOctaves(this.slowsandNoise, p_180516_1_ * 16, p_180516_2_ * 16, 0, 16, 16, 1, d0, d0, 1.0D);
@@ -236,7 +236,7 @@ public class ChunkProviderHell implements VanillaChunkProvider {
 	 */
 	public Chunk provideChunk(int x, int z) {
 		this.hellRNG.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
-		ChunkPrimer chunkprimer = new ChunkPrimer();
+		AnvilChunkPrimer chunkprimer = new AnvilChunkPrimer();
 		this.func_180515_a(x, z, chunkprimer);
 		this.func_180516_b(x, z, chunkprimer);
 		this.netherCaveGenerator.generate(this, this.worldObj, x, z, chunkprimer);
@@ -446,7 +446,7 @@ public class ChunkProviderHell implements VanillaChunkProvider {
 	}
 
 	public void recreateStructures(Chunk p_180514_1_, int p_180514_2_, int p_180514_3_) {
-		this.genNetherBridge.generate(this, this.worldObj, p_180514_2_, p_180514_3_, (ChunkPrimer) null);
+		this.genNetherBridge.generate(this, this.worldObj, p_180514_2_, p_180514_3_, (AnvilChunkPrimer) null);
 	}
 
 	public Chunk provideChunk(BlockPos blockPosIn) {

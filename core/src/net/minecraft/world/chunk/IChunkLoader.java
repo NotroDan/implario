@@ -1,4 +1,4 @@
-package net.minecraft.world.chunk.storage;
+package net.minecraft.world.chunk;
 
 import java.io.IOException;
 

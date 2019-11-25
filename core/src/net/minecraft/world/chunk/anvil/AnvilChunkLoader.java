@@ -1,4 +1,4 @@
-package net.minecraft.world.chunk.storage;
+package net.minecraft.world.chunk.anvil;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -24,7 +24,9 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkLoader;
 import net.minecraft.world.chunk.NibbleArray;
 import net.minecraft.world.storage.IThreadedFileIO;
 import net.minecraft.world.storage.ThreadedFileIOBase;
@@ -406,5 +408,4 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 
 		return chunk;
 	}
-
 }

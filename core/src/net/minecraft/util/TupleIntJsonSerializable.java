@@ -1,9 +1,9 @@
 package net.minecraft.util;
 
-public class TupleIntJsonSerializable {
+public class TupleIntJsonSerializable<T extends IJsonSerializable> {
 
 	private int integerValue;
-	private IJsonSerializable jsonSerializableValue;
+	private T jsonSerializableValue;
 
 	/**
 	 * Gets the integer value stored in this tuple.
@@ -19,14 +19,14 @@ public class TupleIntJsonSerializable {
 		this.integerValue = integerValueIn;
 	}
 
-	public <T extends IJsonSerializable> T getJsonSerializableValue() {
-		return (T) this.jsonSerializableValue;
+	public T getJsonSerializableValue() {
+		return this.jsonSerializableValue;
 	}
 
 	/**
 	 * Sets this tuple's JsonSerializable value to the given value.
 	 */
-	public void setJsonSerializableValue(IJsonSerializable jsonSerializableValueIn) {
+	public void setJsonSerializableValue(T jsonSerializableValueIn) {
 		this.jsonSerializableValue = jsonSerializableValueIn;
 	}
 

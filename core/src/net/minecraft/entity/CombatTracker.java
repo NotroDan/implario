@@ -1,4 +1,4 @@
-package net.minecraft.util;
+package net.minecraft.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.chat.ChatComponentTranslation;
 
 public class CombatTracker {
@@ -206,4 +209,51 @@ public class CombatTracker {
 		return this.fighter;
 	}
 
+	private static class CombatEntry {
+		private final DamageSource damageSrc;
+		private final int field_94567_b;
+		private final float damage;
+		private final float health;
+		private final String field_94566_e;
+		private final float fallDistance;
+
+		private CombatEntry(DamageSource damageSrcIn, int p_i1564_2_, float healthAmount, float damageAmount, String p_i1564_5_, float fallDistanceIn) {
+			this.damageSrc = damageSrcIn;
+			this.field_94567_b = p_i1564_2_;
+			this.damage = damageAmount;
+			this.health = healthAmount;
+			this.field_94566_e = p_i1564_5_;
+			this.fallDistance = fallDistanceIn;
+		}
+
+		/**
+		 * Get the DamageSource of the CombatEntry instance.
+		 */
+		private DamageSource getDamageSrc() {
+			return this.damageSrc;
+		}
+
+		private float func_94563_c() {
+			return this.damage;
+		}
+
+		/**
+		 * Returns true if {@link DamageSource#getEntity() damage source} is a living entity
+		 */
+		private boolean isLivingDamageSrc() {
+			return this.damageSrc.getEntity() instanceof EntityLivingBase;
+		}
+
+		private String func_94562_g() {
+			return this.field_94566_e;
+		}
+
+		private IChatComponent getDamageSrcDisplayName() {
+			return this.getDamageSrc().getEntity() == null ? null : this.getDamageSrc().getEntity().getDisplayName();
+		}
+
+		private float getDamageAmount() {
+			return this.damageSrc == DamageSource.outOfWorld ? Float.MAX_VALUE : this.fallDistance;
+		}
+	}
 }

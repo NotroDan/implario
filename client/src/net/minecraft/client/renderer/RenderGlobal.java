@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -2585,6 +2586,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				return;
 
 			case 2001:
+				//Баг, тут используется не стандартное кодирование блоков (12 бит на айди, 4 на мету), а наоборот
 				Block block = Block.getBlockById(p_180439_4_ & 4095);
 
 				if (block.getMaterial() != Material.air) {

@@ -7,7 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.feature.WorldGenAbstractTree;
 
 import java.util.Random;
@@ -47,7 +47,7 @@ public class BiomeGenSwamp extends BiomeGenBase {
 		return BlockFlower.EnumFlowerType.BLUE_ORCHID;
 	}
 
-	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
+	public void genTerrainBlocks(World worldIn, Random rand, AnvilChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
 		double d0 = GRASS_COLOR_NOISE.func_151601_a((double) p_180622_4_ * 0.25D, (double) p_180622_5_ * 0.25D);
 
 		if (d0 > 0.0D) {

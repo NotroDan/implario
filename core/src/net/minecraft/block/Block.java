@@ -36,7 +36,9 @@ public class Block {
 	 */
 	private static final ResourceLocation AIR_ID = new ResourceLocation("air");
 	public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey<>(AIR_ID);
-	public static ObjectIntIdentityMap<IBlockState> BLOCK_STATE_IDS = new ObjectIntIdentityMap<>();
+	private static ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+	private static IBlockState states[] = new IBlockState[40000];
+	public static int st = 0;
 	private CreativeTabs displayOnCreativeTab;
 	public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
 
@@ -160,25 +162,22 @@ public class Block {
 		return blockIn.getId();
 	}
 
+	public static Block getBlockById(int id) {
+		return blockRegistry.getObjectById(id);
+	}
+
 	/**
 	 * Get a unique ID for the given BlockState, containing both BlockID and metadata
 	 */
 	public static int getStateId(IBlockState state) {
-		Block block = state.getBlock();
-		return getIdFromBlock(block) + (block.getMetaFromState(state) << 12);
-	}
-
-	public static Block getBlockById(int id) {
-		return blockRegistry.getObjectById(id);
+		return BLOCK_STATE_IDS.get(state);
 	}
 
 	/**
 	 * Get a BlockState by it's ID (see getStateId)
 	 */
 	public static IBlockState getStateById(int id) {
-		int blockId = id & 4095;
-		int stateId = id >> 12 & 0xF;
-		return getBlockById(blockId).getStateFromMeta(stateId);
+		return (IBlockState)BLOCK_STATE_IDS.getByValue(id);
 	}
 
 	public static Block getBlockFromItem(Item itemIn) {
@@ -1328,28 +1327,26 @@ public class Block {
 	public static void reloadBlockStates() {
 		blockRegistry.validateKey();
 
-		BLOCK_STATE_IDS = new ObjectIntIdentityMap<>();
+		BLOCK_STATE_IDS = new ObjectIntIdentityMap();
 		for (Block b : blockRegistry) {
-			reloadBlockStates(b);
+
+			b.useNeighborBrightness =
+					b.blockMaterial != Material.air && (
+							b instanceof BlockStairs ||
+									b instanceof BlockSlab ||
+									b.getUnlocalizedName().equals("farmland") ||
+									b.translucent ||
+									b.lightOpacity == 0
+					);
+
+			for (IBlockState state : b.getBlockState().getValidStates()) {
+				int i = blockRegistry.getIDForObject(b) << 4 | b.getMetaFromState(state);
+				BLOCK_STATE_IDS.put(state, i);
+				state.setID(st);
+				states[st++] = state;
+			}
 		}
 
-	}
-
-
-	public static void reloadBlockStates(Block b) {
-		b.useNeighborBrightness =
-				b.blockMaterial != Material.air && (
-						b instanceof BlockStairs ||
-								b instanceof BlockSlab ||
-								b.getUnlocalizedName().equals("farmland") ||
-								b.translucent ||
-								b.lightOpacity == 0
-				);
-
-		for (IBlockState state : b.getBlockState().getValidStates()) {
-			int i = blockRegistry.getIDForObject(b) << 4 | b.getMetaFromState(state);
-			BLOCK_STATE_IDS.put(state, i);
-		}
 	}
 
 	private static void registerBlock(int id, ResourceLocation textualID, Block block_) {
@@ -1400,5 +1397,4 @@ public class Block {
 		}
 
 	}
-
 }
