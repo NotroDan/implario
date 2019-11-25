@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.logging.Log;
+import net.minecraft.util.FileUtil;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
 import optifine.HttpPipeline;
@@ -18,23 +19,16 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.Proxy.Type;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+//TODO: надо http async, это прям неоч
 public class ThreadDownloadImageData extends SimpleTexture {
-	static AtomicInteger integer = new AtomicInteger(0);
-	private static final ExecutorService executors = Executors.newCachedThreadPool((runnable) -> {
-		ThreadDownloadImageData.logger.info("Create thread! " + integer.incrementAndGet());
-		return new Thread(runnable, "Minecraft Texture Download");
-	});
+	private static final ExecutorService executors = Executors.newCachedThreadPool((runnable) ->
+		new Thread(runnable, "Minecraft Texture Download"));
 	private static final Log logger = Log.MAIN;
 	private final File cacheFile;
 	private final String imageUrl;
@@ -114,8 +108,11 @@ public class ThreadDownloadImageData extends SimpleTexture {
 				BufferedImage bufferedimage;
 
 				if (cacheFile != null) {
-					FileUtils.copyInputStreamToFile(httpurlconnection.getInputStream(), cacheFile);
-					bufferedimage = ImageIO.read(cacheFile);
+					InputStream in = httpurlconnection.getInputStream();
+					byte array[] = new byte[in.available()];
+					FileUtil.readInputStream(in, array);
+					FileUtils.writeByteArrayToFile(cacheFile, array);
+					bufferedimage = ImageIO.read(new ByteArrayInputStream(array));
 				} else bufferedimage = TextureUtil.readBufferedImage(httpurlconnection.getInputStream());
 
 				if (imageBuffer != null) bufferedimage = imageBuffer.parseUserSkin(bufferedimage);
