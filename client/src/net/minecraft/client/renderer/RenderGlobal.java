@@ -2586,7 +2586,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				return;
 
 			case 2001:
-				IBlockState blockState = Block.states[p_180439_4_];
+				IBlockState blockState = Block.getStateById(p_180439_4_);
 				Block block = blockState.getBlock();
 
 				if (block.getMaterial() != Material.air) {

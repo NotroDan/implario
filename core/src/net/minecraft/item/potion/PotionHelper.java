@@ -2,7 +2,7 @@ package net.minecraft.item.potion;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.util.IntegerCache;
+import net.minecraft.util.IntHashMap;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +27,7 @@ public class PotionHelper {
 	public static final String rabbitFootEffect = "+0+1-2+3&4-4+13";
 	private static final Map potionRequirements = Maps.newHashMap();
 	private static final Map potionAmplifiers = Maps.newHashMap();
-	private static final Map DATAVALUE_COLORS = Maps.newHashMap();
+	private static final IntHashMap<Integer> DATAVALUE_COLORS = new IntHashMap<>();
 
 	/**
 	 * An array of possible potion prefix names, as translation IDs.
@@ -124,17 +124,14 @@ public class PotionHelper {
 	 * Given a potion data value, get the associated liquid color (optionally bypassing the cache)
 	 */
 	public static int getLiquidColor(int dataValue, boolean bypassCache) {
-		Integer integer = IntegerCache.func_181756_a(dataValue);
-
 		if (!bypassCache) {
-			if (DATAVALUE_COLORS.containsKey(integer)) {
-				return ((Integer) DATAVALUE_COLORS.get(integer)).intValue();
-			}
-			int i = calcPotionLiquidColor(getPotionEffects(integer.intValue(), false));
-			DATAVALUE_COLORS.put(integer, i);
+			if (DATAVALUE_COLORS.containsItem(dataValue))
+				return DATAVALUE_COLORS.lookup(dataValue);
+			int i = calcPotionLiquidColor(getPotionEffects(dataValue, false));
+			DATAVALUE_COLORS.addKey(dataValue, i);
 			return i;
 		}
-		return calcPotionLiquidColor(getPotionEffects(integer.intValue(), true));
+		return calcPotionLiquidColor(getPotionEffects(dataValue, true));
 	}
 
 	/**
@@ -448,7 +445,7 @@ public class PotionHelper {
 	}
 
 	public static void clearPotionColorCache() {
-		DATAVALUE_COLORS.clear();
+		DATAVALUE_COLORS.clearMap();
 	}
 
 	static {

@@ -1,7 +1,8 @@
-package net.minecraft.world.chunk.storage;
+package net.minecraft.world.chunk.anvil;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.chunk.IChunkLoader;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.ThreadedFileIOBase;
 import net.minecraft.world.storage.WorldInfo;

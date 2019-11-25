@@ -1,21 +1,9 @@
 package net.minecraft.resources.event;
 
 import net.minecraft.logging.Log;
-import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.events.Cancelable;
-import net.minecraft.util.Unsafe;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Consumer;
-
-/*
- * Всегда пользуйтесь Registrar, абсолютно всегда
- * Никогда не пользуйтесь этим классом если не уверены в том что делаете
- */
-@Unsafe
 public class EventManager<T extends Event> {
 	private Listener<T>[] array;
 	private boolean using = false;

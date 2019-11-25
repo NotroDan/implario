@@ -7,7 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.SpawnListEntry;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.feature.WorldGenAbstractTree;
 import vanilla.world.gen.feature.WorldGenSavannaTree;
 
@@ -59,7 +59,7 @@ public class BiomeGenSavanna extends BiomeGenBase {
 			this.theBiomeDecorator.grassPerChunk = 5;
 		}
 
-		public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
+		public void genTerrainBlocks(World worldIn, Random rand, AnvilChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
 			this.topBlock = Blocks.grass.getDefaultState();
 			this.fillerBlock = Blocks.dirt.getDefaultState();
 

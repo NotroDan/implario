@@ -11,7 +11,7 @@ import net.minecraft.world.biome.Biome;
 import vanilla.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
 import vanilla.world.gen.FlatGeneratorInfo;
 import vanilla.world.gen.FlatLayerInfo;
@@ -112,7 +112,7 @@ public class ChunkProviderFlat implements VanillaChunkProvider {
 	 * specified chunk from the map seed and chunk seed
 	 */
 	public Chunk provideChunk(int x, int z) {
-		ChunkPrimer chunkprimer = new ChunkPrimer();
+		AnvilChunkPrimer chunkprimer = new AnvilChunkPrimer();
 
 		for (int i = 0; i < this.cachedBlockIDs.length; ++i) {
 			IBlockState iblockstate = this.cachedBlockIDs[i];

@@ -6,16 +6,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 
 public class MapGenCavesHell extends MapGenBase {
 
-	protected void func_180705_a(long p_180705_1_, int p_180705_3_, int p_180705_4_, ChunkPrimer p_180705_5_, double p_180705_6_, double p_180705_8_, double p_180705_10_) {
+	protected void func_180705_a(long p_180705_1_, int p_180705_3_, int p_180705_4_, AnvilChunkPrimer p_180705_5_, double p_180705_6_, double p_180705_8_, double p_180705_10_) {
 		this.func_180704_a(p_180705_1_, p_180705_3_, p_180705_4_, p_180705_5_, p_180705_6_, p_180705_8_, p_180705_10_, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
 	}
 
-	protected void func_180704_a(long p_180704_1_, int p_180704_3_, int p_180704_4_, ChunkPrimer p_180704_5_, double p_180704_6_, double p_180704_8_, double p_180704_10_, float p_180704_12_,
-								 float p_180704_13_, float p_180704_14_, int p_180704_15_, int p_180704_16_, double p_180704_17_) {
+	protected void func_180704_a(long p_180704_1_, int p_180704_3_, int p_180704_4_, AnvilChunkPrimer p_180704_5_, double p_180704_6_, double p_180704_8_, double p_180704_10_, float p_180704_12_,
+                                 float p_180704_13_, float p_180704_14_, int p_180704_15_, int p_180704_16_, double p_180704_17_) {
 		double d0 = (double) (p_180704_3_ * 16 + 8);
 		double d1 = (double) (p_180704_4_ * 16 + 8);
 		float f = 0.0F;
@@ -161,7 +161,7 @@ public class MapGenCavesHell extends MapGenBase {
 	/**
 	 * Recursively called by generate()
 	 */
-	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, ChunkPrimer chunkPrimerIn) {
+	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, AnvilChunkPrimer chunkPrimerIn) {
 		int i = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(10) + 1) + 1);
 
 		if (this.rand.nextInt(5) != 0) {

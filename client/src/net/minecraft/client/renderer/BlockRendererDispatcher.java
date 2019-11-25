@@ -53,14 +53,14 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 			if (i == -1) return false;
 			switch (i) {
 				case 1:
-					if (Config.isShaders()) SVertexBuilder.pushEntity(state, pos, world, worldRendererIn);
+					if (Config.isShaders()) SVertexBuilder.pushEntity(state, worldRendererIn);
 					boolean success = this.fluidRenderer.renderFluid(world, state, pos, worldRendererIn);
 					if (Config.isShaders()) SVertexBuilder.popEntity(worldRendererIn);
 					return success;
 
 				case 3:
 					IBakedModel ibakedmodel = this.getModelFromBlockState(state, world, pos);
-					if (Config.isShaders()) SVertexBuilder.pushEntity(state, pos, world, worldRendererIn);
+					if (Config.isShaders()) SVertexBuilder.pushEntity(state, worldRendererIn);
 					boolean flag = this.blockModelRenderer.renderModel(world, ibakedmodel, state, pos, worldRendererIn);
 					if (Config.isShaders()) SVertexBuilder.popEntity(worldRendererIn);
 					return flag;

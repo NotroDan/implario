@@ -30,7 +30,7 @@ import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.*;
-import net.minecraft.world.chunk.storage.AnvilSaveConverter;
+import net.minecraft.world.chunk.anvil.AnvilSaveConverter;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;

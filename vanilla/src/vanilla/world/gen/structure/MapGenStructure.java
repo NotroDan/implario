@@ -11,7 +11,7 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.StructureBoundingBox;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.MapGenBase;
 
 import java.util.Iterator;
@@ -38,7 +38,7 @@ public abstract class MapGenStructure extends MapGenBase {
 	/**
 	 * Recursively called by generate()
 	 */
-	protected final void recursiveGenerate(World worldIn, final int chunkX, final int chunkZ, int p_180701_4_, int p_180701_5_, ChunkPrimer chunkPrimerIn) {
+	protected final void recursiveGenerate(World worldIn, final int chunkX, final int chunkZ, int p_180701_4_, int p_180701_5_, AnvilChunkPrimer chunkPrimerIn) {
 		this.func_143027_a(worldIn);
 
 		if (!this.structureLongMap.containsItem(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ))) {

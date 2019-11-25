@@ -1,11 +1,9 @@
-package net.minecraft.world.chunk.storage;
+package net.minecraft.world.chunk.anvil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.NibbleArray;
-
-import java.util.List;
 
 public class ExtendedBlockStorage {
 
@@ -49,7 +47,7 @@ public class ExtendedBlockStorage {
 
 	public IBlockState get(int x, int y, int z) {
 		char data = this.data[y << 8 | z << 4 | x];
-		IBlockState state = Block.states[data];
+		IBlockState state = Block.getStateById(data);
 		return state != null ? state : Blocks.air.getDefaultState();
 	}
 
@@ -74,7 +72,7 @@ public class ExtendedBlockStorage {
 				++this.tickRefCount;
 			}
 		}
-		this.data[y << 8 | z << 4 | x] = (char)state.getID();
+		this.data[y << 8 | z << 4 | x] = (char)Block.getStateId(state);
 	}
 
 	/**

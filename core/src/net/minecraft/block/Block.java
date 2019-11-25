@@ -35,10 +35,9 @@ public class Block {
 	 * ResourceLocation for the Air block
 	 */
 	private static final ResourceLocation AIR_ID = new ResourceLocation("air");
-	private static Block[] array = new Block[1024];
 	public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey<>(AIR_ID);
-	public static ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
-	public static IBlockState states[] = new IBlockState[40000];
+	private static ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+	private static IBlockState states[] = new IBlockState[40000];
 	public static int st = 0;
 	private CreativeTabs displayOnCreativeTab;
 	public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
@@ -163,22 +162,22 @@ public class Block {
 		return blockIn.getId();
 	}
 
+	public static Block getBlockById(int id) {
+		return blockRegistry.getObjectById(id);
+	}
+
 	/**
 	 * Get a unique ID for the given BlockState, containing both BlockID and metadata
 	 */
 	public static int getStateId(IBlockState state) {
-		return state.getID();
-	}
-
-	public static Block getBlockById(int id) {
-		return array[id];
+		return BLOCK_STATE_IDS.get(state);
 	}
 
 	/**
 	 * Get a BlockState by it's ID (see getStateId)
 	 */
 	public static IBlockState getStateById(int id) {
-		return states[id];
+		return (IBlockState)BLOCK_STATE_IDS.getByValue(id);
 	}
 
 	public static Block getBlockFromItem(Item itemIn) {
@@ -1353,7 +1352,6 @@ public class Block {
 	private static void registerBlock(int id, ResourceLocation textualID, Block block_) {
 		blockRegistry.register(id, textualID, block_);
 		block_.id = id;
-		array[id] = block_;
 	}
 
 	public static void registerBlock(int id, String textualID, Block block_) {

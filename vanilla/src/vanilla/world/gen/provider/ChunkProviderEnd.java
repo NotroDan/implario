@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
 import vanilla.world.biome.BiomeGenBase;
 import vanilla.world.gen.NoiseGeneratorOctaves;
@@ -51,7 +51,7 @@ public class ChunkProviderEnd implements VanillaChunkProvider {
 		this.noiseGen5 = new NoiseGeneratorOctaves(this.endRNG, 16);
 	}
 
-	public void func_180520_a(int p_180520_1_, int p_180520_2_, ChunkPrimer p_180520_3_) {
+	public void func_180520_a(int p_180520_1_, int p_180520_2_, AnvilChunkPrimer p_180520_3_) {
 		int i = 2;
 		int j = i + 1;
 		int k = 33;
@@ -111,7 +111,7 @@ public class ChunkProviderEnd implements VanillaChunkProvider {
 		}
 	}
 
-	public void func_180519_a(ChunkPrimer p_180519_1_) {
+	public void func_180519_a(AnvilChunkPrimer p_180519_1_) {
 		for (int i = 0; i < 16; ++i) {
 			for (int j = 0; j < 16; ++j) {
 				int k = 1;
@@ -154,7 +154,7 @@ public class ChunkProviderEnd implements VanillaChunkProvider {
 	 */
 	public Chunk provideChunk(int x, int z) {
 		this.endRNG.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
-		ChunkPrimer chunkprimer = new ChunkPrimer();
+		AnvilChunkPrimer chunkprimer = new AnvilChunkPrimer();
 		this.biomesForGeneration = this.endWorld.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, x * 16, z * 16, 16, 16);
 		this.func_180520_a(x, z, chunkprimer);
 		this.func_180519_a(chunkprimer);

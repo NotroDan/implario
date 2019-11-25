@@ -1,7 +1,6 @@
 package net.minecraft.util.crypt;
 
 import __google_.util.Exceptions;
-import net.minecraft.util.TokenMap;
 import net.minecraft.util.byteable.Decoder;
 import net.minecraft.util.byteable.Encoder;
 import net.minecraft.util.byteable.SlowDecoder;

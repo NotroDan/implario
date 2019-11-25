@@ -1,6 +1,6 @@
 package net.minecraft.item;
 
-import net.minecraft.util.ItemStacker;
+import net.minecraft.block.Block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +26,7 @@ public class Group {
 			}
 			String[] a = s.split(":");
 			int data = a.length > 1 ? Integer.parseInt(a[1]) : 0;
-			ItemStack i = ItemStacker.createItemStack(Integer.parseInt(a[0]), data);
+			ItemStack i = createItemStack(Integer.parseInt(a[0]), data);
 			list.add(new Unit(i));
 		}
 		return list.toArray(new Unit[0]);
@@ -42,7 +42,7 @@ public class Group {
 	public static Unit[] every(int id, int amount) {
 		Unit[] u = new Unit[amount];
 		for (int i = 0; i < amount; i++) {
-			u[i] = new Unit(ItemStacker.createItemStack(id, i));
+			u[i] = new Unit(createItemStack(id, i));
 		}
 		return u;
 	}
@@ -71,7 +71,6 @@ public class Group {
 		return elements;
 	}
 
-
 	public static class Unit {
 
 		public ItemStack item;
@@ -88,4 +87,13 @@ public class Group {
 
 	}
 
+	public static ItemStack createItemStack(int id, int data) {
+		try {
+			Item i = Item.getItemById(id);
+			return new ItemStack(i, 1, data);
+		} catch (NullPointerException e) {
+			Block b = Block.getBlockById(id);
+			return new ItemStack(b, 1, data);
+		}
+	}
 }

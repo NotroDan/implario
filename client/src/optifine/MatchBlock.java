@@ -33,7 +33,7 @@ public class MatchBlock {
 	}
 
 	public boolean matches(BlockStateBase p_matches_1_) {
-		return p_matches_1_.getBlockId() != this.blockId ? false : Matches.metadata(p_matches_1_.getMetadata(), this.metadatas);
+		return p_matches_1_.getBlock().getId() != this.blockId ? false : Matches.metadata(p_matches_1_.getMetadata(), this.metadatas);
 	}
 
 	public boolean matches(int p_matches_1_, int p_matches_2_) {

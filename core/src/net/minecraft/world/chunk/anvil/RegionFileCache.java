@@ -1,4 +1,4 @@
-package net.minecraft.world.chunk.storage;
+package net.minecraft.world.chunk.anvil;
 
 import com.google.common.collect.Maps;
 

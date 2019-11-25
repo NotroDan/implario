@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.biome.BiomeGenBase;
 
 import java.util.Random;
@@ -14,8 +14,8 @@ public class MapGenRavine extends MapGenBase {
 
 	private float[] field_75046_d = new float[1024];
 
-	protected void func_180707_a(long p_180707_1_, int p_180707_3_, int p_180707_4_, ChunkPrimer p_180707_5_, double p_180707_6_, double p_180707_8_, double p_180707_10_, float p_180707_12_,
-								 float p_180707_13_, float p_180707_14_, int p_180707_15_, int p_180707_16_, double p_180707_17_) {
+	protected void func_180707_a(long p_180707_1_, int p_180707_3_, int p_180707_4_, AnvilChunkPrimer p_180707_5_, double p_180707_6_, double p_180707_8_, double p_180707_10_, float p_180707_12_,
+                                 float p_180707_13_, float p_180707_14_, int p_180707_15_, int p_180707_16_, double p_180707_17_) {
 		Random random = new Random(p_180707_1_);
 		double d0 = (double) (p_180707_3_ * 16 + 8);
 		double d1 = (double) (p_180707_4_ * 16 + 8);
@@ -176,7 +176,7 @@ public class MapGenRavine extends MapGenBase {
 	/**
 	 * Recursively called by generate()
 	 */
-	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, ChunkPrimer chunkPrimerIn) {
+	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, AnvilChunkPrimer chunkPrimerIn) {
 		if (this.rand.nextInt(50) == 0) {
 			double d0 = (double) (chunkX * 16 + this.rand.nextInt(16));
 			double d1 = (double) (this.rand.nextInt(this.rand.nextInt(40) + 8) + 20);

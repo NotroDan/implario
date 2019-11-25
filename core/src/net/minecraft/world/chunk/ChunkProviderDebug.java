@@ -1,6 +1,5 @@
 package net.minecraft.world.chunk;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -9,6 +8,7 @@ import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class ChunkProviderDebug implements IChunkProvider {
 	 * specified chunk from the map seed and chunk seed
 	 */
 	public Chunk provideChunk(int x, int z) {
-		ChunkPrimer chunkprimer = new ChunkPrimer();
+		AnvilChunkPrimer chunkprimer = new AnvilChunkPrimer();
 
 		for (int i = 0; i < 16; ++i) {
 			for (int j = 0; j < 16; ++j) {

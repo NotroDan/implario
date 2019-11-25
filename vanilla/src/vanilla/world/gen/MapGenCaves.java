@@ -8,19 +8,19 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.biome.BiomeGenBase;
 
 import java.util.Random;
 
 public class MapGenCaves extends MapGenBase {
 
-	protected void func_180703_a(long p_180703_1_, int p_180703_3_, int p_180703_4_, ChunkPrimer p_180703_5_, double p_180703_6_, double p_180703_8_, double p_180703_10_) {
+	protected void func_180703_a(long p_180703_1_, int p_180703_3_, int p_180703_4_, AnvilChunkPrimer p_180703_5_, double p_180703_6_, double p_180703_8_, double p_180703_10_) {
 		this.func_180702_a(p_180703_1_, p_180703_3_, p_180703_4_, p_180703_5_, p_180703_6_, p_180703_8_, p_180703_10_, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
 	}
 
-	protected void func_180702_a(long p_180702_1_, int p_180702_3_, int p_180702_4_, ChunkPrimer p_180702_5_, double p_180702_6_, double p_180702_8_, double p_180702_10_, float p_180702_12_,
-								 float p_180702_13_, float p_180702_14_, int p_180702_15_, int p_180702_16_, double p_180702_17_) {
+	protected void func_180702_a(long p_180702_1_, int p_180702_3_, int p_180702_4_, AnvilChunkPrimer p_180702_5_, double p_180702_6_, double p_180702_8_, double p_180702_10_, float p_180702_12_,
+                                 float p_180702_13_, float p_180702_14_, int p_180702_15_, int p_180702_16_, double p_180702_17_) {
 		double d0 = (double) (p_180702_3_ * 16 + 8);
 		double d1 = (double) (p_180702_4_ * 16 + 8);
 		float f = 0.0F;
@@ -204,7 +204,7 @@ public class MapGenCaves extends MapGenBase {
 	/**
 	 * Recursively called by generate()
 	 */
-	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, ChunkPrimer chunkPrimerIn) {
+	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, AnvilChunkPrimer chunkPrimerIn) {
 		int i = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);
 
 		if (this.rand.nextInt(7) != 0) {

@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.TempCategory;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.feature.WorldGenAbstractTree;
 
 import java.util.Random;
@@ -41,7 +41,7 @@ public class BiomeGenMutated extends BiomeGenBase {
 		this.baseBiome.theBiomeDecorator.decorate(worldIn, rand, this, pos);
 	}
 
-	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
+	public void genTerrainBlocks(World worldIn, Random rand, AnvilChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
 		this.baseBiome.genTerrainBlocks(worldIn, rand, chunkPrimerIn, p_180622_4_, p_180622_5_, p_180622_6_);
 	}
 
