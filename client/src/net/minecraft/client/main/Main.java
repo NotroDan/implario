@@ -80,15 +80,7 @@ public class Main {
 		boolean flag = optionset.has("fullscreen");
 		boolean flag1 = optionset.has("checkGlErrors");
 
-		try {
-			DatapackManager.importDir(new File("gamedata/datapacks"));
-			for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
-				Log.MAIN.info("Instantiating datapack" + loader);
-				DatapackManager.load(loader);
-			}
-		} catch (DatapackLoadException e) {
-			e.printStackTrace();
-		}
+		DatapackManager.loadDir(new File("gamedata/datapacks"));
 		Gson gson = new GsonBuilder().registerTypeAdapter(PropertyMap.class, new Serializer()).create();
 		PropertyMap propertymap1 = gson.fromJson(optionset.valueOf(optionspec16), PropertyMap.class);
 		File file1 = optionset.valueOf(optionspec2);

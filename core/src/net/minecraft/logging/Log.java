@@ -45,28 +45,6 @@ public class Log {
 		comment("Начало новой сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date));
 	}
 
-	public void exception(Throwable t) {
-		if (console) t.printStackTrace();
-		append("* Описание ошибки, которое желательно отправить разработчикам.\n");
-		boolean causedBy = false;
-		while (t != null) {
-			String word = causedBy ? "Reason: " : "Exception: ";
-			append("* " + word + t.getClass().getName() + ". Description: " + t.getMessage() + "\n");
-			causedBy = true;
-			for (StackTraceElement e : t.getStackTrace()) {
-				String file = e.getFileName();
-				int line = e.getLineNumber();
-
-				String f;
-				if (e.isNativeMethod()) f = "(Native method)";
-				else if (file != null && line >= 0) f = "(" + file + ":" + line + ")";
-				else f = file != null ? "(" + file + ")" : "(Unknown source)";
-				append("*     " + e.getClassName() + "." + e.getMethodName() + " " + f + "\n");
-			}
-			t = t.getCause();
-		}
-	}
-
 	public void error(String s) {
 		log(s, LogLevel.ERROR);
 	}

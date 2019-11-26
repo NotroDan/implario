@@ -52,19 +52,7 @@ public class ServerStart {
 
 		MinecraftServer.storage = new MemoryStorage(new File(workDir), true);
 
-		DatapackManager.importDir(new File("datapacks"));
-		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
-			Log.MAIN.info("Распаковываем из коробочки датапак " + loader + "...");
-			try {
-				DatapackManager.load(loader);
-			} catch (DatapackLoadException e) {
-				Log.MAIN.info("Ой, коробочка не открывается :c");
-				e.printStackTrace();
-			}
-		}
-		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
-			DatapackManager.load(loader);
-		}
+		DatapackManager.loadDir(new File("datapacks"));
 		Bootstrap.register();
 		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
 			Log.MAIN.info("Initializing " + loader.getProperties());

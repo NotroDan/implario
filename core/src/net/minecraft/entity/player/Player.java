@@ -1,5 +1,6 @@
 package net.minecraft.entity.player;
 
+import __google_.util.FileIO;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.resources.Datapack;
+import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.ServerEvents;
@@ -52,6 +54,7 @@ import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 
+import java.io.File;
 import java.util.*;
 
 import static net.minecraft.entity.EnumCreatureAttribute.UNDEFINED;
@@ -168,7 +171,7 @@ public abstract class Player extends EntityLivingBase {
 	 * An instance of a fishing rod's hook. If this isn't null, the icon image of the fishing rod is slightly different
 	 */
 	public EntityFishHook fishEntity;
-	private final Map<Domain, Module> modules = new HashMap<>();
+	private final Module[] modules;
 
 	public Player(World worldIn, GameProfile gameProfileIn) {
 		super(worldIn);
@@ -180,19 +183,20 @@ public abstract class Player extends EntityLivingBase {
 		this.setLocationAndAngles((double) blockpos.getX() + 0.5D, (double) (blockpos.getY() + 1), (double) blockpos.getZ() + 0.5D, 0.0F, 0.0F);
 		this.field_70741_aB = 180.0F;
 		this.fireResistance = 20;
+		modules = new Module[DatapackManager.getModulesSize()];
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Module> T getModule(Domain domain){
-		return (T)modules.get(domain);
+	<T extends Module> T getModule(int id){
+		return (T)modules[id];
 	}
 
-	public void removeModule(Domain domain){
-		modules.remove(domain);
+	void removeModule(int id){
+		modules[id] = null;
 	}
 
-	public void putModule(Domain domain, Module module){
-		modules.put(domain, module);
+	void putModule(int id, Module module){
+		modules[id] = module;
 	}
 
 	public void teleport(Location location){
@@ -867,10 +871,11 @@ public abstract class Player extends EntityLivingBase {
 						continue;
 					}
 					try {
-						modules.put(domain, moduleManager.decode(decoder.readBytes()));
+						byte world[] = decoder.readBytes();
+						byte global[] = FileIO.readBytes(whereToWrite());
+						modules[moduleManager.readID()] = moduleManager.decode(world, global);
 					} catch (Exception ex) {
-						System.out.println("Error on read player on datapack " + datapack + " domain " + domain);
-						ex.printStackTrace();
+						Log.MAIN.error("Error on read player on datapack " + datapack + " domain " + domain, ex);
 					}
 				}
 			}catch (Throwable ex){
@@ -911,17 +916,22 @@ public abstract class Player extends EntityLivingBase {
 		}
 
 		Encoder encoder = SlowEncoder.defaultEncoder();
-		encoder.writeInt(modules.size());
-		for(Map.Entry<Domain, Module> entry : modules.entrySet()){
+		for(Module entry : modules){
 			try{
-				byte array[] = entry.getValue().manager().encode(entry.getValue());
-				encoder.writeString(entry.getKey().getAddress()).writeBytes(array);
+				byte array[] = entry.manager().encodeWorld(entry);
+				encoder.writeString(entry.manager().getDomain().getAddress()).writeBytes(array);
+				FileIO.writeBytes(whereToWrite(), entry.manager().encodeGlobal(entry));
 			}catch (Throwable throwable){
-				Log.MAIN.error("Error on write nbt, domain " + entry.getKey() + " class module manager " + entry.getValue().manager());
+				Log.MAIN.error("Error on write nbt, domain " + entry.manager().getDomain() + " class module manager " +
+						entry.manager(), throwable);
 			}
 		}
 		tagCompound.setByteArray("Modules", encoder.generate());
 
+	}
+
+	private File whereToWrite(){
+		return new File("gamedata/player_info/" + getName() + ".bin");
 	}
 
 	/**
@@ -1703,7 +1713,7 @@ public abstract class Player extends EntityLivingBase {
 			this.setScore(oldPlayer.getScore());
 		}
 
-		this.modules.putAll(oldPlayer.modules);
+		System.arraycopy(oldPlayer.modules, 0, modules, 0, modules.length);
 		this.xpSeed = oldPlayer.xpSeed;
 		this.capabilities.allowFlying = oldPlayer.capabilities.allowFlying;
 		this.theInventoryEnderChest = oldPlayer.theInventoryEnderChest;

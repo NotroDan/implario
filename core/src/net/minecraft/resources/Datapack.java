@@ -1,10 +1,10 @@
 package net.minecraft.resources;
 
+import net.minecraft.entity.player.Module;
 import net.minecraft.entity.player.ModuleManager;
 import net.minecraft.server.Todo;
 
 public abstract class Datapack implements ServerSideDatapack {
-
 	private final Domain domain;
 	protected final Registrar registrar;
 	public Object clientSide;
@@ -46,7 +46,7 @@ public abstract class Datapack implements ServerSideDatapack {
 		return registrar;
 	}
 
-	public ModuleManager moduleManager(){
+	public ModuleManager<? extends Module> moduleManager(){
 		return null;
 	}
 

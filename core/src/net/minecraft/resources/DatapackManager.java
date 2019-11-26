@@ -47,6 +47,23 @@ public class DatapackManager {
 		tree.rebuild();
 	}
 
+	public void loadDir(File dir){
+		try {
+			importDir(dir);
+			for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
+				Log.MAIN.info("Instantiating datapack" + loader);
+				try {
+					DatapackManager.load(loader);
+				}catch (DatapackLoadException ex){
+					ex.printStackTrace();
+				}
+			}
+		} catch (DatapackLoadException e) {
+			e.printStackTrace();
+		}
+		initializeModules();
+	}
+
 	public Datapack load(DatapackLoader loader) throws DatapackLoadException {
 		Datapack datapack = loader.createInstance();
 		datapacks.add(datapack);
@@ -75,5 +92,19 @@ public class DatapackManager {
 		loader.close();
 	}
 
+	public void initializeModules(){
+		List<Domain> modules = new ArrayList<>();
+		for(Datapack datapack : datapacks)
+			if(datapack.moduleManager() != null){
+				datapack.moduleManager().writeID(modules.size());
+				modules.add(datapack.getDomain());
+			}
+		DatapackManager.modules = modules.toArray(new Domain[]{});
+	}
 
+	public int getModulesSize(){
+		return modules.length;
+	}
+
+	private Domain[] modules;
 }

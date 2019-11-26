@@ -22,7 +22,7 @@ public class Bingo extends Datapack {
 
 	@Override
 	public void init() {
-		registrar.regCommand(new CommandBingo());
+		registrar.registerCommand(new CommandBingo());
 	}
 
 }

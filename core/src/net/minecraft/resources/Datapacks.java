@@ -85,8 +85,7 @@ public class Datapacks {
 		try {
 			return accept(loader);
 		} catch (DatapackLoadException ex) {
-			Log.MAIN.error("Load failed " + datapack.getAbsolutePath());
-			Log.MAIN.exception(ex);
+			Log.MAIN.error("Load failed " + datapack.getAbsolutePath(), ex);
 		}
 		return null;
 	}
@@ -115,32 +114,37 @@ public class Datapacks {
 
 	public static byte[] removePlayerInfo(Datapack datapack) {
 		if (MinecraftServer.mcServer != null) {
+			ModuleManager manager = datapack.moduleManager();
 			Encoder encoder = new FastEncoder();
 			int players = 0;
 			for (Player player : MinecraftServer.mcServer.getConfigurationManager().getPlayers()) {
-				Module module = player.getModule(datapack.getDomain());
+				Module module = manager.getModule(player);
 				if (module == null) continue;
 				players++;
 			}
 			encoder.writeInt(players);
 			for (Player player : MinecraftServer.mcServer.getConfigurationManager().getPlayers()) {
-				Module module = player.getModule(datapack.getDomain());
+				Module module = manager.getModule(player);
 				if (module == null) continue;
 				try {
-					byte array[] = module.manager().encode(module);
-					encoder.writeString(player.getName()).writeBytes(array);
+					byte world[] = module.manager().encodeWorld(module);
+					byte global[] = module.manager().encodeGlobal(module);
+					encoder.writeString(player.getName());
+					encoder.writeBoolean(world != null);
+					if(world != null)encoder.writeBytes(world);
+					encoder.writeBoolean(global != null);
+					if(world != null)encoder.writeBytes(global);
 				} catch (Throwable throwable) {
-					Log.MAIN.error("Error on write nbt data, domain " + datapack.getDomain() + " module manager " + module.manager());
-					Log.MAIN.exception(throwable);
+					Log.MAIN.error("Error on write nbt data, domain " + datapack.getDomain() + " module manager " + module.manager(), throwable);
 				}
-				player.removeModule(datapack.getDomain());
+				manager.clearModule(player);
 			}
 			return encoder.generate();
 		}
 		return null;
 	}
 
-	public static void loadPlayerInfo(Datapack datapack, byte array[]) {
+	public static  void loadPlayerInfo(Datapack datapack, byte array[]) {
 		if (MinecraftServer.mcServer == null) return;
 		Decoder decoder = new FastDecoder(array);
 		int size = decoder.readInt();
@@ -152,14 +156,14 @@ public class Datapacks {
 		for (int i = 0; i < size; i++) {
 			try {
 				String player = decoder.readStr();
-				byte arr[] = decoder.readBytes();
-				Module module = datapack.moduleManager().decode(arr);
+				byte world[] = decoder.readBoolean() ? decoder.readBytes() : null,
+					 global[] = decoder.readBoolean() ? decoder.readBytes() : null;
+				Module module = datapack.moduleManager().decode(world, global);
 				Player mplayer = MinecraftServer.mcServer.getConfigurationManager().getPlayerByUsername(player);
 				if (mplayer == null) continue;
-				mplayer.putModule(datapack.getDomain(), module);
+				manager.setModule(mplayer, module);
 			} catch (Throwable throwable) {
-				Log.MAIN.error("Error on read nbt data, domain " + datapack.getDomain() + " module manager " + datapack.moduleManager());
-				Log.MAIN.exception(throwable);
+				Log.MAIN.error("Error on read nbt data, domain " + datapack.getDomain() + " module manager " + datapack.moduleManager(), throwable);
 			}
 		}
 	}
