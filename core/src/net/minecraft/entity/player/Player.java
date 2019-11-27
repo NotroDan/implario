@@ -856,31 +856,49 @@ public abstract class Player extends EntityLivingBase {
 			NBTTagList nbttaglist1 = tagCompund.getTagList("EnderItems", 10);
 			this.theInventoryEnderChest.loadInventoryFromNBT(nbttaglist1);
 		}
-		if(tagCompund.hasKey("Modules")){
-			byte array[] = tagCompund.getByteArray("Modules");
-			Decoder decoder = SlowDecoder.defaultDecoder(array);
-			int size = decoder.readInt();
-			try {
-				for (int i = 0; i < size; i++) {
-					Domain domain = new Domain(decoder.readStr());
-					Datapack datapack = Datapacks.getDatapack(domain);
+		//TODO: лютейший говнокодище, обязательно пофиксить
+		try {
+			byte[][] worlds = new byte[modules.length][], globals = new byte[modules.length][];
+			if (tagCompund.hasKey("Modules")) {
+				byte array[] = tagCompund.getByteArray("Modules");
+				Decoder decoder = SlowDecoder.defaultDecoder(array);
+				while (decoder.hasNext()) {
+					String domain = decoder.readStr();
+					Datapack datapack = DatapackManager.getDatapack(domain);
 					if (datapack == null) continue;
 					ModuleManager moduleManager = datapack.moduleManager();
 					if (moduleManager == null) {
-						Log.MAIN.warn("Module in player with name " + domain.getAddress() + " found, but ModuleManager not found.");
+						Log.MAIN.warn("Module in player with name " + domain + " found, but ModuleManager not found.");
 						continue;
 					}
-					try {
-						byte world[] = decoder.readBytes();
-						byte global[] = FileIO.readBytes(whereToWrite());
-						modules[moduleManager.readID()] = moduleManager.decode(world, global);
-					} catch (Exception ex) {
-						Log.MAIN.error("Error on read player on datapack " + datapack + " domain " + domain, ex);
-					}
+					worlds[moduleManager.readID()] = decoder.readBytes();
 				}
-			}catch (Throwable ex){
-				ex.printStackTrace();
 			}
+			byte array[] = FileIO.readBytes(whereToWrite());
+			if (array != null) {
+				Decoder decoder = SlowDecoder.defaultDecoder(array);
+				while (decoder.hasNext()) {
+					String name = decoder.readStr();
+					Datapack datapack = DatapackManager.getDatapack(name);
+					if (datapack == null) continue;
+					ModuleManager moduleManager = datapack.moduleManager();
+					if (moduleManager == null) {
+						Log.MAIN.warn("Module in player with name " + name + " found, but ModuleManager not found.");
+						continue;
+					}
+					globals[moduleManager.readID()] = decoder.readBytes();
+				}
+			}
+			for (int i = 0; i < modules.length; i++) {
+				byte world[] = worlds[i];
+				byte global[] = globals[i];
+				if (world == null && global == null) continue;
+				ModuleManager manager = DatapackManager.getDatapack(DatapackManager.getDatapackByModuleID(i)).moduleManager();
+				if (manager == null) throw new Error();
+				modules[i] = manager.decode(world, global);
+			}
+		} catch (Throwable throwable) {
+			throwable.printStackTrace();
 		}
 	}
 
@@ -914,20 +932,28 @@ public abstract class Player extends EntityLivingBase {
 		if (itemstack != null && itemstack.getItem() != null) {
 			tagCompound.setTag("SelectedItem", itemstack.writeToNBT(new NBTTagCompound()));
 		}
-
-		Encoder encoder = SlowEncoder.defaultEncoder();
-		for(Module entry : modules){
-			try{
-				byte array[] = entry.manager().encodeWorld(entry);
-				encoder.writeString(entry.manager().getDomain().getAddress()).writeBytes(array);
-				FileIO.writeBytes(whereToWrite(), entry.manager().encodeGlobal(entry));
-			}catch (Throwable throwable){
-				Log.MAIN.error("Error on write nbt, domain " + entry.manager().getDomain() + " class module manager " +
-						entry.manager(), throwable);
+		try {
+			Encoder encoder = SlowEncoder.defaultEncoder();
+			Encoder global = SlowEncoder.defaultEncoder();
+			for (Module entry : modules) {
+				if(entry == null)continue;
+				try {
+					byte array[] = entry.manager().encodeWorld(entry);
+					if(array != null) encoder.writeString(entry.manager().getDomain().getAddress()).writeBytes(array);
+					array = entry.manager().encodeGlobal(entry);
+					if(array != null)global.writeString(entry.manager().getDomain().getAddress()).writeBytes(array);
+				} catch (Throwable throwable) {
+					Log.MAIN.error("Error on write nbt, domain " + entry.manager().getDomain() + " class module manager " +
+							entry.manager(), throwable);
+				}
 			}
+			tagCompound.setByteArray("Modules", encoder.generate());
+			byte array[] = global.generate();
+			if (array.length != 0)
+				FileIO.writeBytes(whereToWrite(), global.generate());
+		}catch (Throwable throwable){
+			throwable.printStackTrace();
 		}
-		tagCompound.setByteArray("Modules", encoder.generate());
-
 	}
 
 	private File whereToWrite(){

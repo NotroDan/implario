@@ -3,9 +3,13 @@ package net.minecraft.entity.player;
 import net.minecraft.resources.Domain;
 
 public interface ModuleManager<T extends Module> {
-    byte[] encodeWorld(T module);
+    default byte[] encodeWorld(T module){
+        return null;
+    }
 
-    byte[] encodeGlobal(T module);
+    default byte[] encodeGlobal(T module){
+        return null;
+    }
 
     Domain getDomain();
 

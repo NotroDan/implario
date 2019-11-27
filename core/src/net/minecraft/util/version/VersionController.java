@@ -5,6 +5,8 @@ import net.minecraft.util.byteable.Encoder;
 import net.minecraft.util.byteable.SlowDecoder;
 import net.minecraft.util.byteable.SlowEncoder;
 
+import java.util.function.IntFunction;
+
 public class VersionController<T> {
     private final Version<T> before[], actual;
 
@@ -31,17 +33,16 @@ public class VersionController<T> {
     }
 
     public void encodeArray(final Encoder encoder, final T[] array){
-        encoder.writeInt(actual.version()).writeInt(array.length);
         for(final T object : array)
             if(!saveEncode(encoder, object))return;
     }
 
-    @SuppressWarnings("unchecked")
-    public T[] decodeArray(final Decoder decoder){
-        final Version<T> version = getVersion(decoder.readInt());
+    public T[] decodeArray(final Decoder decoder, IntFunction<T[]> function){
+        int v = decoder.readInt();
+        final Version<T> version = getVersion(v);
         if(version == null)return null;
         final int size = decoder.readInt();
-        T[] array = (T[])new Object[size];
+        T[] array = function.apply(size);
         try{
             for(int i = 0; i < size; i++)
                 array[i] = version.decode(SlowDecoder.defaultDecoder(decoder.readBytes()));

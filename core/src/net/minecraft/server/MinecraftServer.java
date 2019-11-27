@@ -24,6 +24,7 @@ import net.minecraft.logging.Profiler;
 import net.minecraft.network.NetworkSystem;
 import net.minecraft.network.ServerStatusResponse;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
+import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.Provider;
 import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.server.management.ServerConfigurationManager;
@@ -361,6 +362,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 				}
 			}
 
+			DatapackManager.shutdownBranch(DatapackManager.ROOT);
 		}
 	}
 
