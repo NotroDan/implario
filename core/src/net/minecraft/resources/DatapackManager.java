@@ -112,6 +112,7 @@ public class DatapackManager {
 			Log.MAIN.info("Loading " + dependent + "...");
 			loadBranch(dependent);
 		}
+		loader.createInstance();
 		loader.getInstance().preinit();
 		loader.getInstance().init();
 	}

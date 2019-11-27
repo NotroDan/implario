@@ -39,6 +39,7 @@ public class CommandDatapack extends CommandBase {
 				if (loader.getProperties().getDomain().equalsIgnoreCase(args[1])) {
 					byte[] array = loader.getInstance().saveState();
 					byte[] playerInfo = DatapackManager.removePlayerInfo(loader.getInstance());
+					DatapackManager.shutdownBranch(loader);
 					try {
 						DatapackManager.loadBranch(loader);
 						if (array != null) loader.getInstance().loadState(array);
