@@ -10,10 +10,7 @@ import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.TodoClient;
-import net.minecraft.logging.Log;
 import net.minecraft.resources.DatapackManager;
-import net.minecraft.resources.load.DatapackLoadException;
-import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.server.Todo;
 import net.minecraft.util.Session;
 import net.minecraft.util.StringUtils;
@@ -80,7 +77,7 @@ public class Main {
 		boolean flag = optionset.has("fullscreen");
 		boolean flag1 = optionset.has("checkGlErrors");
 
-		DatapackManager.loadDir(new File("gamedata/datapacks"));
+		DatapackManager.prepareAndLoadDir(new File("gamedata/datapacks"));
 		Gson gson = new GsonBuilder().registerTypeAdapter(PropertyMap.class, new Serializer()).create();
 		PropertyMap propertymap1 = gson.fromJson(optionset.valueOf(optionspec16), PropertyMap.class);
 		File file1 = optionset.valueOf(optionspec2);

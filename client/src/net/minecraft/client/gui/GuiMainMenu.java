@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
@@ -160,7 +159,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 				DatapackLoader loader;
 				Datapack datapack;
 				try {
-					loader = DatapackManager.importJar(new File("gamedata/datapacks/vanilla.jar"));
+					loader = DatapackManager.validateJar(new File("gamedata/datapacks/vanilla.jar"));
 					datapack = DatapackManager.load(loader);
 
 				} catch (DatapackLoadException e) {

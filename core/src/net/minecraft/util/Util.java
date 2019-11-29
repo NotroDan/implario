@@ -3,10 +3,20 @@ package net.minecraft.util;
 import net.minecraft.logging.Log;
 import net.minecraft.network.ThreadQuickExitException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.function.Function;
 
 public class Util {
+
+	public static <A, B> List<B> map(List<A> from, Function<A, B> converter) {
+		List<B> res = new ArrayList<>();
+		for (A a : from) res.add(converter.apply(a));
+		return res;
+	}
+
 	public static OS getOSType() {
 		String s = System.getProperty("os.name").toLowerCase();
 		return

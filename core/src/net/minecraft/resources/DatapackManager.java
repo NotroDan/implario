@@ -15,10 +15,7 @@ import net.minecraft.util.byteable.FastDecoder;
 import net.minecraft.util.byteable.FastEncoder;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 @UtilityClass
@@ -34,8 +31,14 @@ public class DatapackManager {
 
 	private final Set<Datapack> datapacks = new HashSet<>();
 
-	public void prepare(DatapackLoader loader) throws DatapackLoadException {
-		DatapackInfo properties = loader.prepareReader();
+	public void prepare(DatapackLoader loader) {
+		DatapackInfo properties;
+		try {
+			properties = loader.prepareReader();
+		} catch (DatapackLoadException ex) {
+			System.out.println("Unable to load datapack " + loader);
+			return;
+		}
 		map.put(properties.getDomain(), loader);
 		for (String dependency : properties.getDependencies()) {
 			map.get(dependency).growBranch(loader);
@@ -43,36 +46,60 @@ public class DatapackManager {
 		tree.getRootElement().growBranch(loader);
 	}
 
-	public DatapackLoader importJar(File jar) throws DatapackLoadException {
+	public void prepare(Iterable<DatapackLoader> loaders) {
+		for (DatapackLoader loader : loaders) prepare(loader);
+		tree.rebuild();
+	}
+
+	public void prepareAndLoad(Iterable<DatapackLoader> loaders){
+		prepare(loaders);
+		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
+			Log.MAIN.info("Instantiating datapack" + loader);
+			try {
+				DatapackManager.load(loader);
+			} catch (DatapackLoadException ex) {
+				ex.printStackTrace();
+			}
+		}
+		initializeModules();
+	}
+
+	public DatapackLoader validateJar(String path) {
+		return validateJar(new File(path));
+	}
+	public DatapackLoader validateJar(File jar) {
+		if (!jar.exists() || !jar.isFile() || !jar.getName().endsWith(".jar")) return null;
 		DatapackLoader loader = new JarDatapackLoader(jar);
 		prepare(loader);
 		tree.rebuild();
 		return loader;
 	}
 
-	public void importDir(File dir) throws DatapackLoadException {
-		if (!dir.isDirectory()) return;
+	public List<DatapackLoader> validateDir(File dir) {
+		if (!dir.isDirectory()) return new ArrayList<>();
+
+		List<DatapackLoader> loaders = new ArrayList<>();
 		for (File file : dir.listFiles()) {
-			if (file.isDirectory() || !file.getAbsolutePath().endsWith(".jar")) continue;
-			DatapackLoader loader = new JarDatapackLoader(file);
-			prepare(loader);
+			DatapackLoader loader = validateJar(file);
+			if (loader != null) loaders.add(loader);
 		}
+		return loaders;
+	}
+
+	public void prepareDir(File dir) {
+		prepare(validateDir(dir));
 		tree.rebuild();
 	}
 
-	public void loadDir(File dir){
-		try {
-			importDir(dir);
-			for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
-				Log.MAIN.info("Instantiating datapack" + loader);
-				try {
-					DatapackManager.load(loader);
-				}catch (DatapackLoadException ex){
-					ex.printStackTrace();
-				}
+	public void prepareAndLoadDir(File dir) {
+		prepareDir(dir);
+		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
+			Log.MAIN.info("Instantiating datapack" + loader);
+			try {
+				DatapackManager.load(loader);
+			} catch (DatapackLoadException ex) {
+				ex.printStackTrace();
 			}
-		} catch (DatapackLoadException e) {
-			e.printStackTrace();
 		}
 		initializeModules();
 	}

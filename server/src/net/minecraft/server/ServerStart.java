@@ -1,16 +1,23 @@
 package net.minecraft.server;
 
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import joptsimple.OptionSpec;
 import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.load.DatapackLoadException;
 import net.minecraft.resources.load.DatapackLoader;
+import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.security.Restart;
 import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.util.Util;
 
 import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ServerStart {
 	static{
@@ -19,40 +26,49 @@ public class ServerStart {
 
 	public static void main(String[] args) throws DatapackLoadException {
 		Restart.setArgs(args);
-		String serverOwner = null;
-		String workDir = ".";
-		String worldName = null;
-		boolean starterKit = false;
-		int i = -1;
 
-		for (int j = 0; j < args.length; ++j) {
-			String s3 = args[j];
-			String s4 = j == args.length - 1 ? null : args[j + 1];
-			boolean wasArgumentUsed = false;
+		OptionParser parser = new OptionParser(true);
+		parser.allowsUnrecognizedOptions();
+		parser.accepts("starter-kit");
+		OptionSpec<Integer> spPort = parser.accepts("port").withRequiredArg().ofType(Integer.class).defaultsTo(25565);
+		OptionSpec<String> spOwner = parser.accepts("owner").withRequiredArg();
+		OptionSpec<String> spWorkDir = parser.accepts("root").withRequiredArg().defaultsTo(".");
+		OptionSpec<String> spWorld = parser.accepts("world").withRequiredArg();
+		OptionSpec<String> spDatapack = parser.accepts("datapack").withRequiredArg();
+		OptionSpec<String> spIgnored = parser.nonOptions();
 
-			if (s3.equals("--port") && s4 != null) {
-				wasArgumentUsed = true;
+		OptionSet options = parser.parse(args);
+		List<String> ignored = options.valuesOf(spIgnored);
+		if (!ignored.isEmpty()) System.out.println("Ignored arguments: " + ignored);
 
-				try {
-					i = Integer.parseInt(s4);
-				} catch (NumberFormatException ignored) {}
-			} else if (s3.equals("--singleplayer") && s4 != null) {
-				wasArgumentUsed = true;
-				serverOwner = s4;
-			} else if (s3.equals("--universe") && s4 != null) {
-				wasArgumentUsed = true;
-				workDir = s4;
-			} else if (s3.equals("--world") && s4 != null) {
-				wasArgumentUsed = true;
-				worldName = s4;
-			} else if (s3.equals("--bonusChest")) starterKit = true;
 
-			if (wasArgumentUsed) ++j;
-		}
+		String serverOwner = options.valueOf(spOwner);
+		String workDir = options.valueOf(spWorkDir);
+		String worldName = options.valueOf(spWorld);
+		boolean starterKit = options.has("starter-kit");
+		int port = options.valueOf(spPort);
+		List<String> datapacks = options.valuesOf(spDatapack);
 
 		MinecraftServer.storage = new MemoryStorage(new File(workDir), true);
 
-		DatapackManager.loadDir(new File("datapacks"));
+		if (!datapacks.isEmpty()) {
+			for (String datapackPath : datapacks) {
+				File file = new File(datapackPath);
+				if (!file.exists() || !file.isFile() || !datapackPath.endsWith(".jar")) {
+					System.out.println("Unable to find datapack '" + datapackPath + "'");
+					continue;
+				}
+				DatapackManager.prepare(new JarDatapackLoader(file));
+			}
+			DatapackManager.getTree().rebuild();
+		}
+
+
+		List<DatapackLoader> datapackLoaders = DatapackManager.validateDir(new File("datapacks"));
+		List<DatapackLoader> custom = Util.map(datapacks, DatapackManager::validateJar);
+		datapackLoaders.addAll(custom);
+
+		DatapackManager.prepareAndLoadDir(new File("datapacks"));
 		Bootstrap.register();
 		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
 			Log.MAIN.info("Initializing " + loader.getProperties());
@@ -65,7 +81,7 @@ public class ServerStart {
 
 		if (worldName != null) dedicatedserver.setFolderName(worldName);
 
-		if (i >= 0) dedicatedserver.setServerPort(i);
+		if (port >= 0) dedicatedserver.setServerPort(port);
 
 		if (starterKit) dedicatedserver.canCreateBonusChest(true);
 
