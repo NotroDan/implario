@@ -2,6 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.resources.Datapack;
+import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.DatapackLoader;
 
@@ -15,8 +16,7 @@ public class GuiDatapacks extends GuiScreen {
 
 	@Override
 	public void initGui() {
-		List<DatapackLoader> datapacks = Datapacks.getLoaders();
-		for (DatapackLoader loader : datapacks) {
+		for (DatapackLoader loader : DatapackManager.getLoaders()) {
 			Datapack datapack = loader.getInstance();
 			String msg = "§a" + datapack.getDomain() + "§f: " + (datapack.clientSide instanceof ClientSideDatapack ? "client" : "server") + "-side datapack '§e" +
 					loader.getName() + "§f', loaded at §7" + loader.getLoadedAt();

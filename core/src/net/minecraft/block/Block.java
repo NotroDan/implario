@@ -1328,6 +1328,7 @@ public class Block {
 		blockRegistry.validateKey();
 
 		BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+		st = 0;
 		for (Block b : blockRegistry) {
 
 			b.useNeighborBrightness =

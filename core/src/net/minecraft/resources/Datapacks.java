@@ -45,23 +45,6 @@ public class Datapacks {
 		return datapack;
 	}
 
-	public void initSingleDatapack(Datapack datapack) {
-
-		datapack.loadBlocks();
-		Block.reloadBlockStates();
-		Blocks.reload();
-
-		BlockFire.init();
-
-		datapack.loadItems();
-		Items.reload();
-
-		datapack.preinit();
-		datapack.init();
-		Todo.instance.clientInit(datapack);
-
-	}
-
 	public void shutdown(DatapackLoader loader) {
 		Datapack datapack = loader.getInstance();
 		if (datapack == null) {

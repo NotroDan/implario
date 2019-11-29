@@ -1,9 +1,15 @@
 package net.minecraft.command.server;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
+import net.minecraft.entity.player.ModuleManager;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.resources.Datapack;
 import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.DatapackLoader;
@@ -38,12 +44,21 @@ public class CommandDatapack extends CommandBase {
 				sender.sendMessage(loader.getProperties().getDomain());
 				if (loader.getProperties().getDomain().equalsIgnoreCase(args[1])) {
 					byte[] array = loader.getInstance().saveState();
-					byte[] playerInfo = DatapackManager.removePlayerInfo(loader.getInstance());
+					byte[] playerInfo = ModuleManager.removePlayerInfo(loader.getInstance());
 					DatapackManager.shutdownBranch(loader);
 					try {
 						DatapackManager.loadBranch(loader);
 						if (array != null) loader.getInstance().loadState(array);
-						if (playerInfo != null) DatapackManager.loadPlayerInfo(loader.getInstance(), playerInfo);
+						if (playerInfo != null) ModuleManager.loadPlayerInfo(loader.getInstance(), playerInfo);
+						Datapack datapack = loader.getInstance();
+						datapack.loadBlocks();
+						Block.reloadBlockStates();
+						Blocks.reload();
+
+						BlockFire.init();
+
+						datapack.loadItems();
+						Items.reload();
 						sender.sendMessage("все норм");
 					} catch (Exception loadException) {
 						loadException.printStackTrace();

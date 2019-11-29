@@ -56,6 +56,7 @@ import net.minecraft.world.WorldSettings;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.BiConsumer;
 
 import static net.minecraft.entity.EnumCreatureAttribute.UNDEFINED;
 
@@ -856,47 +857,19 @@ public abstract class Player extends EntityLivingBase {
 			NBTTagList nbttaglist1 = tagCompund.getTagList("EnderItems", 10);
 			this.theInventoryEnderChest.loadInventoryFromNBT(nbttaglist1);
 		}
-		//TODO: лютейший говнокодище, обязательно пофиксить
+
 		try {
-			byte[][] worlds = new byte[modules.length][], globals = new byte[modules.length][];
-			if (tagCompund.hasKey("Modules")) {
-				byte array[] = tagCompund.getByteArray("Modules");
-				Decoder decoder = SlowDecoder.defaultDecoder(array);
-				while (decoder.hasNext()) {
-					String domain = decoder.readStr();
-					Datapack datapack = DatapackManager.getDatapack(domain);
-					if (datapack == null) continue;
-					ModuleManager moduleManager = datapack.moduleManager();
-					if (moduleManager == null) {
-						Log.MAIN.warn("Module in player with name " + domain + " found, but ModuleManager not found.");
-						continue;
-					}
-					worlds[moduleManager.readID()] = decoder.readBytes();
-				}
-			}
-			byte array[] = FileIO.readBytes(whereToWrite());
-			if (array != null) {
-				Decoder decoder = SlowDecoder.defaultDecoder(array);
-				while (decoder.hasNext()) {
-					String name = decoder.readStr();
-					Datapack datapack = DatapackManager.getDatapack(name);
-					if (datapack == null) continue;
-					ModuleManager moduleManager = datapack.moduleManager();
-					if (moduleManager == null) {
-						Log.MAIN.warn("Module in player with name " + name + " found, but ModuleManager not found.");
-						continue;
-					}
-					globals[moduleManager.readID()] = decoder.readBytes();
-				}
-			}
-			for (int i = 0; i < modules.length; i++) {
-				byte world[] = worlds[i];
-				byte global[] = globals[i];
-				if (world == null && global == null) continue;
-				ModuleManager manager = DatapackManager.getDatapack(DatapackManager.getDatapackByModuleID(i)).moduleManager();
-				if (manager == null) throw new Error();
-				modules[i] = manager.decode(world, global);
-			}
+			if (tagCompund.hasKey("Modules"))
+				decodeArray(tagCompund.getByteArray("Modules"), (manager, bytes) -> {
+					if(!manager.supportedWorld())
+						Log.MAIN.error("Manager " + manager + " not supported encode world, but value encoded!");
+					manager.decodeWorld(getModuleNotNull(manager), bytes);
+				});
+			decodeArray(FileIO.readBytes(whereToWrite()), (manager, bytes) -> {
+				if (!manager.supportedGlobal())
+					Log.MAIN.error("Manager " + manager + " not supported encode global, but value encoded!");
+				manager.decodeGlobal(getModuleNotNull(manager), bytes);
+			});
 		} catch (Throwable throwable) {
 			throwable.printStackTrace();
 		}
@@ -933,24 +906,23 @@ public abstract class Player extends EntityLivingBase {
 			tagCompound.setTag("SelectedItem", itemstack.writeToNBT(new NBTTagCompound()));
 		}
 		try {
-			Encoder encoder = SlowEncoder.defaultEncoder();
+			Encoder world = SlowEncoder.defaultEncoder();
 			Encoder global = SlowEncoder.defaultEncoder();
 			for (Module entry : modules) {
 				if(entry == null)continue;
 				try {
-					byte array[] = entry.manager().encodeWorld(entry);
-					if(array != null) encoder.writeString(entry.manager().getDomain().getAddress()).writeBytes(array);
-					array = entry.manager().encodeGlobal(entry);
-					if(array != null)global.writeString(entry.manager().getDomain().getAddress()).writeBytes(array);
+					ModuleManager manager = entry.manager();
+					if(manager.supportedWorld()) encodeArray(world, manager, manager.encodeWorld(entry));
+					if(manager.supportedGlobal()) encodeArray(global, manager, manager.encodeGlobal(entry));
 				} catch (Throwable throwable) {
 					Log.MAIN.error("Error on write nbt, domain " + entry.manager().getDomain() + " class module manager " +
 							entry.manager(), throwable);
 				}
 			}
-			tagCompound.setByteArray("Modules", encoder.generate());
-			byte array[] = global.generate();
-			if (array.length != 0)
-				FileIO.writeBytes(whereToWrite(), global.generate());
+			byte array[] = world.generate();
+			if(array.length != 0) tagCompound.setByteArray("Modules", array);
+			array = global.generate();
+			if(array.length != 0) FileIO.writeBytes(whereToWrite(), global.generate());
 		}catch (Throwable throwable){
 			throwable.printStackTrace();
 		}
@@ -1981,7 +1953,6 @@ public abstract class Player extends EntityLivingBase {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class SleepStatus {
-
 		public static final SleepStatus
 				OK = new SleepStatus(),
 				NOT_POSSIBLE_HERE = new SleepStatus(),
@@ -1990,7 +1961,39 @@ public abstract class Player extends EntityLivingBase {
 				OTHER_PROBLEM = new SleepStatus();
 
 		private IChatComponent message;
-
 	}
 
+	private Module getModuleNotNull(ModuleManager manager){
+		int index = manager.readID();
+		Module module = modules[index];
+		if(module != null) return module;
+		module = manager.createEmptyModule();
+		modules[index] = module;
+		return module;
+	}
+
+	private void decodeArray(byte array[], BiConsumer<ModuleManager, byte[]> consumer){
+		if(array == null)return;
+		Decoder decoder = SlowDecoder.defaultDecoder(array);
+		while (decoder.hasNext()) {
+			String name = decoder.readStr();
+			Datapack datapack = DatapackManager.getDatapack(name);
+			if (datapack == null) continue;
+			ModuleManager moduleManager = datapack.moduleManager();
+			if (moduleManager == null) {
+				Log.MAIN.warn("Module in player with name " + name + " found, but ModuleManager not found.");
+				continue;
+			}
+			try {
+				consumer.accept(moduleManager, decoder.readBytes());
+			}catch (Throwable throwable){
+				Log.MAIN.error("Error on decode module value. Datapack " + datapack + ", domain " + name +
+						", moduleManager " + moduleManager, throwable);
+			}
+		}
+	}
+
+	private static void encodeArray(Encoder encoder, ModuleManager manager, byte array[]){
+		if(array != null) encoder.writeString(manager.getDomain()).writeBytes(array);
+	}
 }
