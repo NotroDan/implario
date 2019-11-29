@@ -28,7 +28,6 @@ public class EventManager<T extends Event> {
 		array = ArrayUtils.add(array, listener);
     }
 
-	@SuppressWarnings("unchecked")
 	public void remove(Listener<T> listener) {
 		if(!using) return;
 		int where = ArrayUtils.indexOf(array, listener);

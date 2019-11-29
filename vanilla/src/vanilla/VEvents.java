@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.resources.Registrar;
-import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.event.EventPriority;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.*;
@@ -38,9 +37,7 @@ import vanilla.entity.passive.EntityPig;
 import vanilla.item.ItemLead;
 import vanilla.world.SleepChecker;
 
-public class VEvents implements ServerSideLoadable {
-
-	@Override
+public class VEvents {
 	public void load(Registrar registrar) {
 		registrar.registerListener(ServerEvents.playerMove, this::handlePlayerMove, EventPriority.GLOBAL_MODE);
 		registrar.registerListener(ServerEvents.playerMountMove, this::handleMountMove, EventPriority.GLOBAL_MODE, true);
@@ -234,6 +231,4 @@ public class VEvents implements ServerSideLoadable {
 			p.worldObj.spawnEntityInWorld(entityendermite);
 		}
 	}
-
-
 }

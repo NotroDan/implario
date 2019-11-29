@@ -18,7 +18,6 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
-import net.minecraft.resources.IClientRegistrar;
 import net.minecraft.resources.Provider;
 import net.minecraft.resources.Registrar;
 import net.minecraft.tileentity.TileEntity;
@@ -27,7 +26,7 @@ import net.minecraft.util.Govnokod;
 import java.util.Map;
 import java.util.function.Function;
 
-public class ClientRegistrar implements IClientRegistrar {
+public class ClientRegistrar {
 
 	@Getter
 	private final Registrar delegate;

@@ -1,7 +1,6 @@
 package vanilla.world.gen;
 
 import net.minecraft.resources.Registrar;
-import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BasicChunkBiomer;
@@ -13,9 +12,7 @@ import vanilla.world.biome.WorldChunkBiomer;
 import vanilla.world.gen.provider.ChunkProviderFlat;
 import vanilla.world.gen.provider.ChunkProviderGenerate;
 
-public class WorldTypes implements ServerSideLoadable {
-
-
+public class WorldTypes {
 	private static final ChunkManagerFactory
 			factoryDefaultCM = (p, s, t, g) -> p == null ? new WorldChunkBiomer(s, t, g) : new WorldChunkBiomer(p.getWorld());
 	private static final ChunkManagerFactory factoryFlatCM = (p, s, t, g) -> {
@@ -35,7 +32,6 @@ public class WorldTypes implements ServerSideLoadable {
 		return new ChunkProviderFlat(w, w.getSeed(), w.getWorldInfo().isMapFeaturesEnabled(), p.getGeneratorSettings());
 	};
 
-
 	public static final WorldType DEFAULT = new WorldType("default", factoryDefaultCM, factoryDefaultCP);
 	public static final WorldType FLAT = new WorldType("flat", factoryFlatCM, factoryFlatCP).weakFog();
 	public static final WorldType LARGE_BIOMES = new WorldType("large_biomes", factoryDefaultCM, factoryDefaultCP);
@@ -43,8 +39,6 @@ public class WorldTypes implements ServerSideLoadable {
 	public static final WorldType CUSTOMIZED = new WorldType("customized", factoryDefaultCM, factoryDefaultCP).disableFeatures();
 	public static final WorldType DEFAULT_OLD = new WorldType("default_1_1", factoryDefaultCM, factoryDefaultCP).invisible();
 
-
-	@Override
 	public void load(Registrar registrar) {
 		registrar.registerWorldType(DEFAULT);
 		registrar.registerWorldType(FLAT);
@@ -53,5 +47,4 @@ public class WorldTypes implements ServerSideLoadable {
 		registrar.registerWorldType(CUSTOMIZED);
 		registrar.registerWorldType(DEFAULT_OLD);
 	}
-
 }

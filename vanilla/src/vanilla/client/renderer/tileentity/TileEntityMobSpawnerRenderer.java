@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.resources.ClientSide;
 import vanilla.tileentity.MobSpawnerBaseLogic;
 import vanilla.tileentity.TileEntityMobSpawner;
 

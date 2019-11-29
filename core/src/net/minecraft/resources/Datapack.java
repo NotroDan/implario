@@ -4,7 +4,7 @@ import net.minecraft.entity.player.Module;
 import net.minecraft.entity.player.ModuleManager;
 import net.minecraft.server.Todo;
 
-public abstract class Datapack implements ServerSideDatapack {
+public abstract class Datapack {
 	private final String domain;
 	protected final Registrar registrar;
 	public Object clientSide;
@@ -22,8 +22,17 @@ public abstract class Datapack implements ServerSideDatapack {
 		return Todo.instance.isServerSide();
 	}
 
+	/**
+	 * Преинициализация.
+	 * На этом этапе нужно заменять основные понятия, генераторы.
+	 * Примеры: регистрация сущностей, изменение WorldServiceProveder
+	 */
 	public void preinit(){}
 
+	/**
+	 * Основная инициализация.
+	 * Здесь регистрируются слушатели событий, пакетов, внутриигровых гуишек
+	 */
 	public void init(){}
 
 	public void disable() {

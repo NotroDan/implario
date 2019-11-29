@@ -5,12 +5,10 @@ import net.minecraft.logging.Log;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.resources.Registrar;
-import net.minecraft.resources.ServerSideLoadable;
 import vanilla.inventory.ContainerMerchant;
 
-public class VPackets implements ServerSideLoadable {
+public class VPackets {
 
-	@Override
 	public void load(Registrar registrar) {
 
 		// Client packets

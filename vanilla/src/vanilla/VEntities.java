@@ -1,17 +1,8 @@
 package vanilla;
 
-import net.minecraft.client.MC;
-import net.minecraft.client.game.model.ModelSlime;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.resources.ClientRegistrar;
-import net.minecraft.client.resources.ClientSideLoadable;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.resources.ServerSideLoadable;
 import net.minecraft.resources.Registrar;
-import vanilla.client.game.model.*;
-import vanilla.client.renderer.entity.RenderLeashKnot;
 //import vanilla.client.renderer.entity.RenderMinecartMobSpawner;
-import vanilla.client.renderer.entity.vanilla.*;
 import vanilla.entity.EntityLeashKnot;
 import vanilla.entity.VanillaEntity;
 import vanilla.entity.ai.EntityMinecartMobSpawner;
@@ -20,10 +11,8 @@ import vanilla.entity.boss.EntityWither;
 import vanilla.entity.monster.*;
 import vanilla.entity.passive.*;
 
-public class VEntities implements ServerSideLoadable {
+public class VEntities {
 
-
-	@Override
 	public void load(Registrar registrar) {
 
 		registrar.registerEntity(EntityLeashKnot.class, "LeashKnot", 8);
