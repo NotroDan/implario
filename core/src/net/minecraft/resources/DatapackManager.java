@@ -15,13 +15,17 @@ import net.minecraft.util.byteable.FastDecoder;
 import net.minecraft.util.byteable.FastEncoder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 @UtilityClass
 public class DatapackManager {
 
 	public static final String MINECRAFT = "minecraft";
-	public final DatapackLoader ROOT = new SimpleDatapackLoader(new Datapack(MINECRAFT) {}, DatapackInfo.builder().domain("minecraft").build());
+	public final DatapackLoader ROOT = new SimpleDatapackLoader(new Datapack(MINECRAFT) {}, DatapackInfo.builder().domain(MINECRAFT).build());
 
 	private final Map<String, DatapackLoader> map = new HashMap<>();
 
@@ -141,4 +145,85 @@ public class DatapackManager {
 	}
 
 	private String[] modules;
+
+	public static byte[] removePlayerInfo(Datapack datapack) {
+		if (MinecraftServer.mcServer == null) return null;
+		ModuleManager manager = datapack.moduleManager();
+		if (manager == null) return null;
+		String domain = manager.getDomain();
+		Encoder encoder = new FastEncoder();
+		int players = 0;
+		for (Player player : MinecraftServer.mcServer.getConfigurationManager().getPlayers()) {
+			Module module = manager.getModule(player);
+			if (module == null) continue;
+			players++;
+		}
+		encoder.writeInt(players);
+		for (Player player : MinecraftServer.mcServer.getConfigurationManager().getPlayers()) {
+			Module module = manager.getModule(player);
+			if (module == null) continue;
+			try {
+				encoder.writeString(player.getName());
+				if (manager.supportedWorld())
+					encodeSecure(() -> manager.encodeWorld(module), encoder, domain);
+				if (manager.supportedGlobal())
+					encodeSecure(() -> manager.encodeGlobal(module), encoder, domain);
+				if (manager.supportedMemory())
+					encodeSecure(() -> manager.encodeMemory(module), encoder, domain);
+			} catch (Throwable throwable) {
+				Log.MAIN.error("Error on write nbt data, domain " + datapack.getDomain() + " module manager " + module.manager(), throwable);
+			}
+			manager.clearModule(player);
+		}
+		return encoder.generate();
+	}
+
+	private static void encodeSecure(Supplier<byte[]> supplier, Encoder encoder, String domain){
+		byte array[] = null;
+		try{
+			array = supplier.get();
+		}catch (Throwable error){
+			Log.MAIN.error("Error on write nbt data domain: " + domain, error);
+		}
+		encoder.writeBoolean(array != null);
+		if(array != null)encoder.writeBytes(array);
+	}
+
+	public static void loadPlayerInfo(Datapack datapack, byte array[]) {
+		if (MinecraftServer.mcServer == null) return;
+		ModuleManager manager = datapack.moduleManager();
+		if (manager == null) {
+			Log.MAIN.warn("ModuleManager on datapack " + datapack.moduleManager() + " not found, but nbt data founded");
+			return;
+		}
+		Decoder decoder = new FastDecoder(array);
+		int size = decoder.readInt();
+		String domain = manager.getDomain();
+		for (int i = 0; i < size; i++) {
+			try {
+				String player = decoder.readStr();
+				Module module = manager.createEmptyModule();
+				if (manager.supportedWorld())
+					decodeSecure(() -> manager.decodeWorld(module, decoder.readBytes()), decoder, domain);
+				if (manager.supportedGlobal())
+					decodeSecure(() -> manager.decodeGlobal(module, decoder.readBytes()), decoder, domain);
+				if (manager.supportedMemory())
+					decodeSecure(() -> manager.decodeMemory(module, decoder.readBytes()), decoder, domain);
+				Player mplayer = MinecraftServer.mcServer.getConfigurationManager().getPlayerByUsername(player);
+				if (mplayer == null) continue;
+				manager.setModule(mplayer, module);
+			} catch (Throwable throwable) {
+				Log.MAIN.error("Error on read nbt data, domain " + datapack.getDomain() + " module manager " + datapack.moduleManager(), throwable);
+			}
+		}
+	}
+
+	private static void decodeSecure(Runnable runnable, Decoder decoder, String domain){
+		if(!decoder.readBoolean())return;
+		try{
+			runnable.run();
+		}catch (Throwable error){
+			Log.MAIN.error("Error on write nbt data domain: " + domain, error);
+		}
+	}
 }

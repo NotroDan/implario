@@ -24,7 +24,6 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.logging.Log;
 import net.minecraft.network.services.github.Release;
 import net.minecraft.resources.Datapack;
-import net.minecraft.resources.Datapacks;
 import net.minecraft.security.Restart;
 import net.minecraft.security.update.DatapackUpdate;
 import net.minecraft.util.ResourceLocation;

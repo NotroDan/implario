@@ -11,7 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.DatapackManager;
-import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.DatapackLoader;
 
 import javax.xml.crypto.Data;
@@ -44,12 +43,12 @@ public class CommandDatapack extends CommandBase {
 				sender.sendMessage(loader.getProperties().getDomain());
 				if (loader.getProperties().getDomain().equalsIgnoreCase(args[1])) {
 					byte[] array = loader.getInstance().saveState();
-					byte[] playerInfo = ModuleManager.removePlayerInfo(loader.getInstance());
+					byte[] playerInfo = DatapackManager.removePlayerInfo(loader.getInstance());
 					DatapackManager.shutdownBranch(loader);
 					try {
 						DatapackManager.loadBranch(loader);
 						if (array != null) loader.getInstance().loadState(array);
-						if (playerInfo != null) ModuleManager.loadPlayerInfo(loader.getInstance(), playerInfo);
+						if (playerInfo != null) DatapackManager.loadPlayerInfo(loader.getInstance(), playerInfo);
 						Datapack datapack = loader.getInstance();
 						datapack.loadBlocks();
 						Block.reloadBlockStates();

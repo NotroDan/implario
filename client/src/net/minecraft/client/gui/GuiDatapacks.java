@@ -3,11 +3,9 @@ package net.minecraft.client.gui;
 import net.minecraft.client.resources.ClientSideDatapack;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.DatapackManager;
-import net.minecraft.resources.Datapacks;
 import net.minecraft.resources.load.DatapackLoader;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GuiDatapacks extends GuiScreen {
