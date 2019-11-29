@@ -308,34 +308,36 @@ public final class InputHandler {
 					if (k == Keyboard.KEY_ESCAPE) mc.displayInGameMenu();
 
 					Timer t = mc.getTimer();
-					MinecraftServer s = MinecraftServer.getServer();
-					if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-						t.ticksPerSecond++;
-						if (s != null) s.tickLength = (long) (1000 / t.ticksPerSecond);
-					}
-					if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-						t.ticksPerSecond--;
-						if (t.ticksPerSecond <= 1) t.ticksPerSecond = 1F;
-						if (s != null) s.tickLength = (long) (1000 / t.ticksPerSecond);
-					}
-					if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-						t.partialTicksMode++;
-						if (t.partialTicksMode > 2) t.partialTicksMode = 0;
-					}
-					if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-						if (stashedTps != 0) {
-							t.partialTicksMode = stashedPtm;
-							t.ticksPerSecond = stashedTps;
-							if (s != null) s.tickLength = stashedSpt;
-							stashedTps = 0;
-						} else {
-							stashedPtm = t.partialTicksMode;
-							stashedTps = t.ticksPerSecond;
-							if (s != null) stashedSpt = s.tickLength;
+					if (Settings.DEBUG.b()) {
+						MinecraftServer s = MinecraftServer.getServer();
+						if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+							t.ticksPerSecond++;
+							if (s != null) s.tickLength = (long) (1000 / t.ticksPerSecond);
+						}
+						if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+							t.ticksPerSecond--;
+							if (t.ticksPerSecond <= 1) t.ticksPerSecond = 1F;
+							if (s != null) s.tickLength = (long) (1000 / t.ticksPerSecond);
+						}
+						if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+							t.partialTicksMode++;
+							if (t.partialTicksMode > 2) t.partialTicksMode = 0;
+						}
+						if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
+							if (stashedTps != 0) {
+								t.partialTicksMode = stashedPtm;
+								t.ticksPerSecond = stashedTps;
+								if (s != null) s.tickLength = stashedSpt;
+								stashedTps = 0;
+							} else {
+								stashedPtm = t.partialTicksMode;
+								stashedTps = t.ticksPerSecond;
+								if (s != null) stashedSpt = s.tickLength;
 
-							t.partialTicksMode = 0;
-							t.ticksPerSecond = 20;
-							if (s != null) s.tickLength = 50;
+								t.partialTicksMode = 0;
+								t.ticksPerSecond = 20;
+								if (s != null) s.tickLength = 50;
+							}
 						}
 					}
 					if (Keyboard.isKeyDown(Keyboard.KEY_F3)) switch (k) {

@@ -178,7 +178,7 @@ public class GuiIngame extends Gui {
 		renderMinimap();
 
 
-		if (!Settings.DEBUGGER.b()) return;
+		if (!Settings.DEBUG.b()) return;
 		Timer t = mc.getTimer();
 		getFontRenderer().drawString("tps: §e" + t.ticksPerSecond, 10, 10, -1);
 		int m = t.partialTicksMode;
