@@ -20,7 +20,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import vanilla.entity.ai.pathfinding.PathNavigate;
 import vanilla.entity.ai.pathfinding.PathNavigateGround;
-import net.minecraft.resources.Domain;
 import net.minecraft.server.Todo;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.BlockPos;
@@ -125,7 +124,7 @@ public abstract class VanillaEntity extends EntityLivingBase implements IPersist
 	}
 
 	@Override
-	public Domain getDomain() {
+	public String getDomain() {
 		return Vanilla.VANILLA;
 	}
 

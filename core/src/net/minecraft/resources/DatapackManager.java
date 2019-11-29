@@ -20,7 +20,8 @@ import java.util.*;
 @UtilityClass
 public class DatapackManager {
 
-	public final DatapackLoader ROOT = new SimpleDatapackLoader(new Datapack(Domain.MINECRAFT) {}, DatapackInfo.builder().domain("minecraft").build());
+	public static final String MINECRAFT = "minecraft";
+	public final DatapackLoader ROOT = new SimpleDatapackLoader(new Datapack(MINECRAFT) {}, DatapackInfo.builder().domain("minecraft").build());
 
 	private final Map<String, DatapackLoader> map = new HashMap<>();
 
@@ -126,7 +127,7 @@ public class DatapackManager {
 		for(Datapack datapack : datapacks)
 			if(datapack.moduleManager() != null){
 				datapack.moduleManager().writeID(modules.size());
-				modules.add(datapack.getDomain().getAddress());
+				modules.add(datapack.getDomain());
 			}
 		DatapackManager.modules = modules.toArray(new String[]{});
 	}

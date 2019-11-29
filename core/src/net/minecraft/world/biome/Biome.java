@@ -3,7 +3,6 @@ package net.minecraft.world.biome;
 import com.google.common.collect.Sets;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.logging.Log;
-import net.minecraft.resources.Domain;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ColorizerFoliage;
@@ -17,12 +16,12 @@ public abstract class Biome {
 	public static final BiomeVoid VOID = new BiomeVoid();
 	public static final Set<Biome> explorationBiomesList = Sets.newHashSet();
 
-	protected final Domain domain;
+	protected final String domain;
 	protected final int legacyId;
 	protected final String name;
 	protected final String address;
 
-	protected Biome(int legacyId, String name, Domain domain) {
+	protected Biome(int legacyId, String name, String domain) {
 		this.legacyId = legacyId;
 		this.name = name;
 		this.domain = domain;
@@ -55,7 +54,7 @@ public abstract class Biome {
 		return legacyId;
 	}
 
-	public Domain getDomain() {
+	public String getDomain() {
 		return domain;
 	}
 

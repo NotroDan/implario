@@ -25,8 +25,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Registrar {
-
-	private final Domain domain;
+	private final String domain;
 
 	/**
 	 * Маппинги используются для удобной замены существующих вещей.
@@ -34,11 +33,11 @@ public class Registrar {
 	 */
 	private final List<Mapping> mappings = new ArrayList<>();
 
-	public Registrar(Domain domain) {
+	public Registrar(String domain) {
 		this.domain = domain;
 	}
 
-	public Domain getDomain() {
+	public String getDomain() {
 		return domain;
 	}
 

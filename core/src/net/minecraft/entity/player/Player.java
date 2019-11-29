@@ -31,8 +31,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.DatapackManager;
-import net.minecraft.resources.Datapacks;
-import net.minecraft.resources.Domain;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerMountMoveEvent;
 import net.minecraft.resources.event.events.player.*;

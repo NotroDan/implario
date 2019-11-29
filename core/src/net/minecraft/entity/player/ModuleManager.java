@@ -2,7 +2,6 @@ package net.minecraft.entity.player;
 
 import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
-import net.minecraft.resources.Domain;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.byteable.Decoder;
 import net.minecraft.util.byteable.Encoder;

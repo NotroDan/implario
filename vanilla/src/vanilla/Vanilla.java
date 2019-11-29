@@ -13,8 +13,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S2DPacketOpenWindow;
 import net.minecraft.network.play.server.S3FPacketCustomPayload;
 import net.minecraft.resources.Datapack;
-import net.minecraft.resources.Domain;
-import net.minecraft.resources.load.SimpleDatapackLoader;
 import net.minecraft.util.Govnokod;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
@@ -41,9 +39,7 @@ import static net.minecraft.block.Block.*;
 import static net.minecraft.inventory.creativetab.CreativeTabs.tabRedstone;
 
 public class Vanilla extends Datapack {
-
-
-	public static final Domain VANILLA = new Domain("vanilla");
+	public static final String VANILLA = "vanilla";
 
 	public Vanilla() {
 		super(VANILLA);

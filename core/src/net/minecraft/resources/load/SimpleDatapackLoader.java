@@ -32,7 +32,7 @@ public class SimpleDatapackLoader extends DatapackLoader {
 
 	@Override
 	public String getName() {
-		return datapack.getDomain().getAddress();
+		return datapack.getDomain();
 	}
 
 	@Override
