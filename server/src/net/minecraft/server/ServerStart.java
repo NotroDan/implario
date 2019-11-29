@@ -51,24 +51,26 @@ public class ServerStart {
 
 		MinecraftServer.storage = new MemoryStorage(new File(workDir), true);
 
-		if (!datapacks.isEmpty()) {
-			for (String datapackPath : datapacks) {
-				File file = new File(datapackPath);
-				if (!file.exists() || !file.isFile() || !datapackPath.endsWith(".jar")) {
-					System.out.println("Unable to find datapack '" + datapackPath + "'");
-					continue;
-				}
-				DatapackManager.prepare(new JarDatapackLoader(file));
-			}
-			DatapackManager.getTree().rebuild();
-		}
+//		if (!datapacks.isEmpty()) {
+//			for (String datapackPath : datapacks) {
+//				File file = new File(datapackPath);
+//				if (!file.exists() || !file.isFile() || !datapackPath.endsWith(".jar")) {
+//					System.out.println("Unable to find datapack '" + datapackPath + "'");
+//					continue;
+//				}
+//				DatapackManager.prepare(new JarDatapackLoader(file));
+//			}
+//			DatapackManager.getTree().rebuild();
+//		}
 
 
 		List<DatapackLoader> datapackLoaders = DatapackManager.validateDir(new File("datapacks"));
 		List<DatapackLoader> custom = Util.map(datapacks, DatapackManager::validateJar);
 		datapackLoaders.addAll(custom);
 
-		DatapackManager.prepareAndLoadDir(new File("datapacks"));
+		DatapackManager.prepareAndLoad(datapackLoaders);
+
+//		DatapackManager.prepareAndLoadDir(new File("datapacks"));
 		Bootstrap.register();
 		for (DatapackLoader loader : DatapackManager.getTree().loadingOrder()) {
 			Log.MAIN.info("Initializing " + loader.getProperties());
