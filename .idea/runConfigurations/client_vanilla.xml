@@ -8,7 +8,7 @@
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
-        <artifact name="vanilla" />
+        <artifact name="vanilla-clientenv" />
       </option>
     </method>
   </configuration>

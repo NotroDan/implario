@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact name="release-*">
+    <output-path>$PROJECT_DIR$/out/artifacts</output-path>
+    <root id="root">
+      <element id="artifact" artifact-name="release-server" />
+      <element id="artifact" artifact-name="release-client" />
+    </root>
+  </artifact>
+</component>

@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact name="clientrelease">
-    <output-path>$PROJECT_DIR$/out/artifacts/release</output-path>
+  <artifact name="release-client">
+    <output-path>$PROJECT_DIR$/out/artifacts/</output-path>
     <root id="root">
       <element id="archive" name="client.zip">
         <element id="directory" name="gamedata">
@@ -12,7 +12,7 @@
             <element id="extracted-dir" path="$PROJECT_DIR$/client/libs_client.jar" path-in-jar="/" />
           </element>
           <element id="directory" name="datapacks">
-            <element id="artifact" artifact-name="vanilla" />
+            <element id="artifact" artifact-name="vanilla-clientenv" />
           </element>
           <element id="file-copy" path="$PROJECT_DIR$/client/env/gamedata/Что это за папка.html" />
           <element id="directory" name="natives">
