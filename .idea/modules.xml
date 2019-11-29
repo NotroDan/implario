@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/client/client.iml" filepath="$PROJECT_DIR$/client/client.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stickfight/stickfight.iml" filepath="$PROJECT_DIR$/stickfight/stickfight.iml" />
       <module fileurl="file://$PROJECT_DIR$/vanilla/vanilla.iml" filepath="$PROJECT_DIR$/vanilla/vanilla.iml" />
     </modules>
   </component>
