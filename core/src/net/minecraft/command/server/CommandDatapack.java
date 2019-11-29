@@ -6,15 +6,11 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.ModuleManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.load.DatapackLoader;
-
-import javax.xml.crypto.Data;
-import java.io.File;
 
 public class CommandDatapack extends CommandBase {
 
