@@ -10,7 +10,7 @@ public class SpawnListEntry extends WeightedRandom.Item {
 	public int maxGroupCount;
 
 	public SpawnListEntry(Class<? extends EntityLivingBase> entityclassIn, int weight, int groupCountMin, int groupCountMax) {
-		super(weight);
+		super(weight);//TODO: рефлексия зло
 		this.entityClass = entityclassIn;
 		this.minGroupCount = groupCountMin;
 		this.maxGroupCount = groupCountMax;

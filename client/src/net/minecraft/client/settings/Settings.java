@@ -8,7 +8,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.EnumPlayerModelParts;
-import net.minecraft.network.play.client.C15PacketClientSettings;
+import net.minecraft.network.protocol.minecraft_47.play.client.C15PacketClientSettings;
 import net.minecraft.world.EnumDifficulty;
 import optifine.ClearWater;
 import optifine.Config;

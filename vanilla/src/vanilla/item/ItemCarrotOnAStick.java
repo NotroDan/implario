@@ -1,6 +1,6 @@
 package vanilla.item;
 
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import vanilla.entity.passive.EntityPig;

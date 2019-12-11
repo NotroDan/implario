@@ -19,8 +19,8 @@ import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.logging.Log;
-import net.minecraft.network.protocol.Protocol;
-import net.minecraft.network.protocol.Protocols;
+import net.minecraft.network.protocol.IProtocol;
+import net.minecraft.network.protocol.minecraft_47.Protocol47;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -36,7 +36,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 	private static final Log logger = Log.MAIN;
-	public static final AttributeKey<Protocol> attrKeyConnectionState = AttributeKey.valueOf("protocol");
+	public static final AttributeKey<IProtocol> attrKeyConnectionState = AttributeKey.valueOf("protocol");
 	public static final LazySupplier<NioEventLoopGroup> NIO_CLIENT = new LazySupplier<NioEventLoopGroup>() {
 		protected NioEventLoopGroup load() {
 			return new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Client IO #%d").setDaemon(true).build());
@@ -88,7 +88,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		this.socketAddress = this.channel.remoteAddress();
 
 		try {
-			this.setConnectionState(Protocols.HANDSHAKING);
+			this.setConnectionState(Protocol47.HANDSHAKING);
 		} catch (Throwable throwable) {
 			logger.error("Error on change connection state", throwable);
 		}
@@ -101,7 +101,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	/**
 	 * Sets the new connection state and registers which packets this channel may send and receive
 	 */
-	public void setConnectionState(Protocol newState) {
+	public void setConnectionState(IProtocol newState) {
 		this.channel.attr(attrKeyConnectionState).set(newState);
 		this.channel.config().setAutoRead(true);
 		Log.MAIN.debug("Enabled auto read");
@@ -176,7 +176,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * packet, otherwise it will add a task for the channel eventloop thread to do that.
 	 */
 	private void dispatchPacket(final Packet inPacket, final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
-		inPacket.startSend(this);
 		if (this.channel.eventLoop().inEventLoop()) {
 			ChannelFuture f = this.channel.writeAndFlush(inPacket);
 			if (futureListeners != null) f.addListeners(futureListeners);

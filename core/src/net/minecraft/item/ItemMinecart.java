@@ -4,7 +4,7 @@ import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.Player;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;

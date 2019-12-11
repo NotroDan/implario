@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.client.gui.element.GuiTextField;
-import net.minecraft.network.play.client.C14PacketTabComplete;
+import net.minecraft.network.protocol.minecraft_47.play.client.C14PacketTabComplete;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import org.apache.commons.lang3.StringUtils;

@@ -22,7 +22,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.S2BPacketChangeGameState;
+import net.minecraft.network.protocol.minecraft_47.play.server.S2BPacketChangeGameState;
 import vanilla.entity.ai.pathfinding.PathNavigate;
 import vanilla.entity.ai.pathfinding.PathNavigateSwimmer;
 import net.minecraft.item.potion.Potion;

@@ -11,7 +11,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.player.Player;
-import net.minecraft.network.play.server.S08PacketPlayerPosLook;
+import net.minecraft.network.protocol.minecraft_47.play.server.S08PacketPlayerPosLook;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;

@@ -1,7 +1,7 @@
 package net.minecraft.command;
 
 import net.minecraft.entity.player.MPlayer;
-import net.minecraft.network.play.server.S29PacketSoundEffect;
+import net.minecraft.network.protocol.minecraft_47.play.server.S29PacketSoundEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3d;

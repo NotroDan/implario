@@ -23,10 +23,5 @@ public interface Packet<T extends INetHandler> extends Listenable {
 	 */
 	void processPacket(T handler);
 
-
-	default void minecraft_netty(Player player){}
-
-	default void startSend(NetworkManager manager){}
-
 	default void endSend(NetworkManager manager){}
 }

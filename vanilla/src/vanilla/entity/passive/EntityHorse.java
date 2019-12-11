@@ -25,7 +25,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.AnimalChest;
-import net.minecraft.inventory.IInvBasic;
+import net.minecraft.inventory.InventoryListener;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -43,7 +43,10 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import vanilla.item.VanillaItems;
 
-public class EntityHorse extends EntityAnimal implements IInvBasic, EntityControllable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class EntityHorse extends EntityAnimal implements InventoryListener, EntityControllable {
 
 	private static final Predicate<Entity> horseBreedingSelector = e -> e instanceof EntityHorse && ((EntityHorse) e).isBreeding();
 	private static final IAttribute horseJumpStrength = new RangedAttribute(null, "horse.jumpStrength", 0.7D, 0.0D, 2.0D).setDescription("Jump Strength").setShouldWatch(true);
@@ -68,7 +71,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 	public int field_110278_bp;
 	public int field_110279_bq;
 	protected boolean horseJumping;
-	private AnimalChest horseChest;
+	private InventoryHorse horseChest;
 	private boolean hasReproduced;
 
 	/**
@@ -393,12 +396,12 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 	}
 
 	private void initHorseChest() {
-		AnimalChest animalchest = this.horseChest;
-		this.horseChest = new AnimalChest("HorseChest", this.getChestSize());
+		InventoryHorse animalchest = this.horseChest;
+		this.horseChest = new InventoryHorse("HorseChest", this.getChestSize());
 		this.horseChest.setCustomName(this.getName());
 
 		if (animalchest != null) {
-			animalchest.func_110132_b(this);
+			animalchest.removeListener(this);
 			int i = Math.min(animalchest.getSizeInventory(), this.horseChest.getSizeInventory());
 
 			for (int j = 0; j < i; ++j) {
@@ -410,7 +413,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 			}
 		}
 
-		this.horseChest.func_110134_a(this);
+		this.horseChest.addListener(this);
 		this.updateHorseSlots();
 	}
 
@@ -1539,4 +1542,27 @@ public class EntityHorse extends EntityAnimal implements IInvBasic, EntityContro
 
 	}
 
+	private static class InventoryHorse extends AnimalChest{
+		public InventoryHorse(String inventoryName, int slotCount) {
+			super(inventoryName, slotCount);
+		}
+
+		private List<EntityHorse> invListeners;
+
+		public void addListener(EntityHorse listener) {
+			if (invListeners == null)
+				invListeners = new ArrayList<>();
+			invListeners.add(listener);
+		}
+
+		public void removeListener(EntityHorse listener) {
+			invListeners.remove(listener);
+		}
+		@Override
+		public void markDirty() {
+			if (invListeners != null)
+				for (EntityHorse listener : invListeners)
+					listener.onInventoryChanged(this);
+		}
+	}
 }

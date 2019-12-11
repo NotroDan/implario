@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="6oogle-server">
+    <output-path>$PROJECT_DIR$/../implario-server</output-path>
+    <root id="archive" name="server.jar">
+      <element id="module-output" name="core" />
+      <element id="module-output" name="server" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/core/libs.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/core/Util.jar" path-in-jar="/" />
+      <element id="module-source" name="core" />
+      <element id="module-source" name="server" />
+      <element id="library" level="project" name="org.mariadb.jdbc:mariadb-java-client:2.5.2" />
+    </root>
+  </artifact>
+</component>

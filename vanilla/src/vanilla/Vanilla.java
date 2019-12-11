@@ -5,13 +5,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockHugeMushroom;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.MC;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.server.S2DPacketOpenWindow;
-import net.minecraft.network.play.server.S3FPacketCustomPayload;
+import net.minecraft.network.protocol.minecraft_47.play.server.S2DPacketOpenWindow;
+import net.minecraft.network.protocol.minecraft_47.play.server.S3FPacketCustomPayload;
 import net.minecraft.resources.Datapack;
 import net.minecraft.util.Govnokod;
 import net.minecraft.util.IChatComponent;
@@ -22,8 +21,6 @@ import vanilla.block.VBlockPortal;
 import vanilla.block.VBlockSapling;
 import vanilla.client.gui.GuiCreateFlatWorld;
 import vanilla.client.gui.GuiCustomizeWorldScreen;
-import vanilla.client.gui.block.GuiMerchant;
-import vanilla.client.gui.block.GuiScreenHorseInventory;
 import vanilla.client.gui.block.HorseInv;
 import vanilla.entity.IMerchant;
 import vanilla.inventory.ContainerHorseInventory;
@@ -36,7 +33,7 @@ import vanilla.world.gen.WorldTypes;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 
 import static net.minecraft.block.Block.*;
-import static net.minecraft.inventory.creativetab.CreativeTabs.tabRedstone;
+import static net.minecraft.inventory.CreativeTabs.tabRedstone;
 
 public class Vanilla extends Datapack {
 	public static final String VANILLA = "vanilla";

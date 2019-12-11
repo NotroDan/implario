@@ -505,7 +505,7 @@ public class ItemRenderer {
 		boolean flag = false;
 
 		if (this.itemToRender != null && itemstack != null) {
-			if (!this.itemToRender.getIsItemStackEqual(itemstack)) {
+			if (!this.itemToRender.isItemEqual(itemstack)) {
 				flag = true;
 			}
 		} else flag = this.itemToRender != null || itemstack != null;

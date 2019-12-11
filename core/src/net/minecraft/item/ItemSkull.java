@@ -6,7 +6,7 @@ import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;

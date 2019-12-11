@@ -20,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
+import net.minecraft.network.protocol.minecraft_47.play.client.C17PacketCustomPayload;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatAllowedCharacters;
 import net.minecraft.util.chat.ChatComponentText;

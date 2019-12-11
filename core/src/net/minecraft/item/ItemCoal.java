@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import java.util.List;
 
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 
 public class ItemCoal extends Item {
 

@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.entity.player.Player;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;

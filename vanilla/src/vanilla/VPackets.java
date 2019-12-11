@@ -2,8 +2,8 @@ package vanilla;
 
 import net.minecraft.inventory.Container;
 import net.minecraft.logging.Log;
-import net.minecraft.network.play.INetHandlerPlayServer;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
+import net.minecraft.network.protocol.minecraft_47.play.INetHandlerPlayServer;
+import net.minecraft.network.protocol.minecraft_47.play.client.C17PacketCustomPayload;
 import net.minecraft.resources.Registrar;
 import vanilla.inventory.ContainerMerchant;
 

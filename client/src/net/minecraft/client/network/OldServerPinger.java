@@ -12,13 +12,13 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.ServerStatusResponse;
-import net.minecraft.network.handshake.client.C00Handshake;
-import net.minecraft.network.protocol.Protocols;
-import net.minecraft.network.status.INetHandlerStatusClient;
-import net.minecraft.network.status.client.C00PacketServerQuery;
-import net.minecraft.network.status.client.C01PacketPing;
-import net.minecraft.network.status.server.S00PacketServerInfo;
-import net.minecraft.network.status.server.S01PacketPong;
+import net.minecraft.network.protocol.implario.ProtocolImplario;
+import net.minecraft.network.protocol.minecraft_47.handshake.client.C00Handshake;
+import net.minecraft.network.protocol.minecraft_47.status.INetHandlerStatusClient;
+import net.minecraft.network.protocol.minecraft_47.status.client.C00PacketServerQuery;
+import net.minecraft.network.protocol.minecraft_47.status.client.C01PacketPing;
+import net.minecraft.network.protocol.minecraft_47.status.server.S00PacketServerInfo;
+import net.minecraft.network.protocol.minecraft_47.status.server.S01PacketPong;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
@@ -46,7 +46,7 @@ public class OldServerPinger {
 		networkmanager.setNetHandler(new PingerNetHandlerStatusClient(networkmanager, server));
 
 		try {
-			networkmanager.sendPacket(new C00Handshake(47, serveraddress.getIP(), serveraddress.getPort(), Protocols.STATUS));
+			networkmanager.sendPacket(new C00Handshake(47, serveraddress.getIP(), serveraddress.getPort(), true));
 			networkmanager.sendPacket(new C00PacketServerQuery());
 		} catch (Throwable ex) {
 			logger.error("Error on send first packets", ex);

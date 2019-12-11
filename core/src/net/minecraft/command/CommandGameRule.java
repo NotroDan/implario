@@ -3,7 +3,7 @@ package net.minecraft.command;
 import java.util.List;
 
 import net.minecraft.entity.player.MPlayer;
-import net.minecraft.network.play.server.S19PacketEntityStatus;
+import net.minecraft.network.protocol.minecraft_47.play.server.S19PacketEntityStatus;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentText;

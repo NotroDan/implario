@@ -2,7 +2,7 @@ package net.minecraft.resources.event.events.player;
 
 import lombok.Getter;
 import net.minecraft.entity.player.Player;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.network.protocol.minecraft_47.play.client.C0BPacketEntityAction;
 
 @Getter
 public class PlayerActionEvent extends APlayerEvent {

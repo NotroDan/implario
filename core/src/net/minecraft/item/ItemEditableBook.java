@@ -6,7 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.network.play.server.S2FPacketSetSlot;
+import net.minecraft.network.protocol.minecraft_47.play.server.S2FPacketSetSlot;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
@@ -37,7 +37,7 @@ public class ItemEditableBook extends Item {
 
 	/**
 	 * Gets the generation of the book (how many times it has been cloned)
-	 */
+			*/
 	public static int getGeneration(ItemStack book) {
 		return book.getTagCompound().getInteger("generation");
 	}

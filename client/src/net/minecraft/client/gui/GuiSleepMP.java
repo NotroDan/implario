@@ -3,7 +3,7 @@ package net.minecraft.client.gui;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.resources.Lang;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.network.protocol.minecraft_47.play.client.C0BPacketEntityAction;
 
 import java.io.IOException;
 

@@ -2,7 +2,7 @@ package net.minecraft.command;
 
 import com.google.gson.JsonParseException;
 import net.minecraft.entity.player.MPlayer;
-import net.minecraft.network.play.server.S45PacketTitle;
+import net.minecraft.network.protocol.minecraft_47.play.server.S45PacketTitle;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;

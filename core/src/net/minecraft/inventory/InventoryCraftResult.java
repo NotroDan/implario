@@ -7,11 +7,7 @@ import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 public class InventoryCraftResult implements IInventory {
-
-	/**
-	 * A list of one item containing the result of the crafting formula
-	 */
-	private ItemStack[] stackResult = new ItemStack[1];
+	private ItemStack stackResult;
 
 	/**
 	 * Returns the number of slots in the inventory.
@@ -24,7 +20,7 @@ public class InventoryCraftResult implements IInventory {
 	 * Returns the stack in the given slot.
 	 */
 	public ItemStack getStackInSlot(int index) {
-		return this.stackResult[0];
+		return stackResult;
 	}
 
 	/**
@@ -52,9 +48,9 @@ public class InventoryCraftResult implements IInventory {
 	 * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
 	 */
 	public ItemStack decrStackSize(int index, int count) {
-		if (this.stackResult[0] != null) {
-			ItemStack itemstack = this.stackResult[0];
-			this.stackResult[0] = null;
+		if (stackResult != null) {
+			ItemStack itemstack = stackResult;
+			stackResult = null;
 			return itemstack;
 		}
 		return null;
@@ -64,9 +60,9 @@ public class InventoryCraftResult implements IInventory {
 	 * Removes a stack from the given slot and returns it.
 	 */
 	public ItemStack removeStackFromSlot(int index) {
-		if (this.stackResult[0] != null) {
-			ItemStack itemstack = this.stackResult[0];
-			this.stackResult[0] = null;
+		if (stackResult != null) {
+			ItemStack itemstack = stackResult;
+			stackResult = null;
 			return itemstack;
 		}
 		return null;
@@ -76,7 +72,7 @@ public class InventoryCraftResult implements IInventory {
 	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
 	 */
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		this.stackResult[0] = stack;
+		stackResult = stack;
 	}
 
 	/**
@@ -86,12 +82,7 @@ public class InventoryCraftResult implements IInventory {
 		return 64;
 	}
 
-	/**
-	 * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think it
-	 * hasn't changed and skip it.
-	 */
-	public void markDirty() {
-	}
+	public void markDirty() {}
 
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
@@ -100,11 +91,9 @@ public class InventoryCraftResult implements IInventory {
 		return true;
 	}
 
-	public void openInventory(Player player) {
-	}
+	public void openInventory(Player player) {}
 
-	public void closeInventory(Player player) {
-	}
+	public void closeInventory(Player player) {}
 
 	/**
 	 * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
@@ -117,17 +106,13 @@ public class InventoryCraftResult implements IInventory {
 		return 0;
 	}
 
-	public void setField(int id, int value) {
-	}
+	public void setField(int id, int value) {}
 
 	public int getFieldCount() {
 		return 0;
 	}
 
 	public void clear() {
-		for (int i = 0; i < this.stackResult.length; ++i) {
-			this.stackResult[i] = null;
-		}
+		stackResult = null;
 	}
-
 }

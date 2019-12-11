@@ -9,7 +9,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S33PacketUpdateSign;
+import net.minecraft.network.protocol.minecraft_47.play.server.S33PacketUpdateSign;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentProcessor;

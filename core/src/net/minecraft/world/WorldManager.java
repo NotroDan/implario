@@ -3,9 +3,9 @@ package net.minecraft.world;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
-import net.minecraft.network.play.server.S25PacketBlockBreakAnim;
-import net.minecraft.network.play.server.S28PacketEffect;
-import net.minecraft.network.play.server.S29PacketSoundEffect;
+import net.minecraft.network.protocol.minecraft_47.play.server.S25PacketBlockBreakAnim;
+import net.minecraft.network.protocol.minecraft_47.play.server.S28PacketEffect;
+import net.minecraft.network.protocol.minecraft_47.play.server.S29PacketSoundEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 

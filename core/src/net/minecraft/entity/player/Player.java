@@ -28,7 +28,7 @@ import net.minecraft.item.potion.Potion;
 import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
+import net.minecraft.network.protocol.minecraft_47.play.server.S12PacketEntityVelocity;
 import net.minecraft.resources.Datapack;
 import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.event.ServerEvents;

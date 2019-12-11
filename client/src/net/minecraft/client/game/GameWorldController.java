@@ -12,9 +12,9 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.handshake.client.C00Handshake;
-import net.minecraft.network.login.client.C00PacketLoginStart;
-import net.minecraft.network.protocol.Protocols;
+import net.minecraft.network.protocol.implario.ProtocolImplario;
+import net.minecraft.network.protocol.minecraft_47.handshake.client.C00Handshake;
+import net.minecraft.network.protocol.minecraft_47.login.client.C00PacketLoginStart;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.FileUtil;
@@ -195,7 +195,7 @@ public class GameWorldController {
 		SocketAddress socketaddress = mc.theIntegratedServer.getNetworkSystem().addLocalEndpoint();
 		NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
 		networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, mc, null));
-		networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, Protocols.LOGIN));
+		networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, false));
 		networkmanager.sendPacket(new C00PacketLoginStart(mc.getSession().getProfile()));
 		mc.myNetworkManager = networkmanager;
 	}

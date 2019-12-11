@@ -15,7 +15,7 @@ import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.*;
+import net.minecraft.network.protocol.minecraft_47.play.server.*;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.TrackerUpdateEvent;
 import net.minecraft.util.BlockPos;

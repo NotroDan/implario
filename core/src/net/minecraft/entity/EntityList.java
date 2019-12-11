@@ -1,7 +1,6 @@
 package net.minecraft.entity;
 
 import com.google.common.collect.Maps;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.*;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.*;

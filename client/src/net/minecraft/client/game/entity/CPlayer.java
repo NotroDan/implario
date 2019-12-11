@@ -23,8 +23,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.Potion;
-import net.minecraft.network.play.client.*;
-import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.network.protocol.minecraft_47.play.client.*;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.tileentity.TileEntitySign;
@@ -32,7 +31,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 
-import static net.minecraft.network.play.client.C0BPacketEntityAction.Action.*;
+import static net.minecraft.network.protocol.minecraft_47.play.client.C0BPacketEntityAction.Action.*;
 
 public class CPlayer extends AbstractClientPlayer {
 

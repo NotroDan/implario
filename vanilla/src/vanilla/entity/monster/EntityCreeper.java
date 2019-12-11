@@ -3,7 +3,7 @@ package vanilla.entity.monster;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import vanilla.entity.ai.tasks.*;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.EntityLightningBolt;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;

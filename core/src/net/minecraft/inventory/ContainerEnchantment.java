@@ -42,12 +42,8 @@ public class ContainerEnchantment extends Container {
 
 	public ContainerEnchantment(InventoryPlayer playerInv, World worldIn, BlockPos pos) {
 		this.tableInventory = new InventoryBasic("Enchant", true, 2) {
-			public int getInventoryStackLimit() {
-				return 64;
-			}
-
+			@Override
 			public void markDirty() {
-				super.markDirty();
 				ContainerEnchantment.this.onCraftMatrixChanged(this);
 			}
 		};

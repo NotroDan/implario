@@ -394,10 +394,6 @@ public final class ItemStack {
 		this.item.onCreated(this, worldIn, playerIn);
 	}
 
-	public boolean getIsItemStackEqual(ItemStack p_179549_1_) {
-		return this.isItemStackEqual(p_179549_1_);
-	}
-
 	public int getMaxItemUseDuration() {
 		return this.getItem().getMaxItemUseDuration(this);
 	}

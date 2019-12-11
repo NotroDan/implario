@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.EntityLightningBolt;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderLightningBolt extends Render<EntityLightningBolt> {

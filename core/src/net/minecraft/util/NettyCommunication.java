@@ -7,6 +7,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.MessageToByteEncoder;
 import net.minecraft.logging.Log;
+import net.minecraft.network.protocol.IProtocol;
 import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -42,7 +43,7 @@ public class NettyCommunication {
 		}
 
 		protected void encode(ChannelHandlerContext chc, Packet packet, ByteBuf buf) throws Exception {
-			int id = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(isClientSided, packet);
+			int id = chc.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketID(isClientSided, packet);
 
 			if (id == -1) throw new IOException("Can't serialize unregistered packet");
 
@@ -109,7 +110,7 @@ public class NettyCommunication {
 			if (buf.readableBytes() != 0) {
 				PacketBuffer packetbuffer = new PacketBuffer(buf);
 				int i = packetbuffer.readVarIntFromBuffer();
-				Protocol state = chc.channel().attr(NetworkManager.attrKeyConnectionState).get();
+				IProtocol state = chc.channel().attr(NetworkManager.attrKeyConnectionState).get();
 				Packet packet = state.getPacket(isClientSide, i);
 
 				if (packet == null) {
@@ -118,7 +119,7 @@ public class NettyCommunication {
 				packet.readPacketData(packetbuffer);
 
 				if (packetbuffer.readableBytes() > 0) {
-					throw new IOException("Packet " + state.getId() + "/" + i + " (" + packet.getClass().getSimpleName() + ") was " +
+					throw new IOException("Packet " + state + "/" + i + " (" + packet.getClass().getSimpleName() + ") was " +
 							"larger than I expected, found " + packetbuffer.readableBytes() + " bytes extra whilst reading packet " + i);
 				}
 				list.add(packet);

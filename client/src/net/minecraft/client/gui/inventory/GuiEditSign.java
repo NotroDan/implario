@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.init.Blocks;
-import net.minecraft.network.play.client.C12PacketUpdateSign;
+import net.minecraft.network.protocol.minecraft_47.play.client.C12PacketUpdateSign;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.chat.ChatAllowedCharacters;
 import net.minecraft.util.chat.ChatComponentText;

@@ -26,7 +26,7 @@ import net.minecraft.logging.ProfilerResult;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.network.protocol.minecraft_47.play.client.C16PacketClientStatus;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;

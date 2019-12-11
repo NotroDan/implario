@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
-import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.network.protocol.minecraft_47.play.client.C16PacketClientStatus;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;

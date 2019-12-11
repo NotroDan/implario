@@ -23,7 +23,7 @@ import net.minecraft.logging.Log;
 import net.minecraft.logging.Profiler;
 import net.minecraft.network.NetworkSystem;
 import net.minecraft.network.ServerStatusResponse;
-import net.minecraft.network.play.server.S03PacketTimeUpdate;
+import net.minecraft.network.protocol.minecraft_47.play.server.S03PacketTimeUpdate;
 import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.Provider;
 import net.minecraft.server.management.PlayerProfileCache;

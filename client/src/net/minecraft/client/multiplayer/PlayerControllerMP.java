@@ -10,11 +10,11 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.IInvBasic;
+import net.minecraft.inventory.InventoryListener;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.network.play.client.*;
+import net.minecraft.network.protocol.minecraft_47.play.client.*;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.player.PlayerBlockInteractEvent;
 import net.minecraft.stats.StatFileWriter;
@@ -501,7 +501,7 @@ public class PlayerControllerMP {
 	 * Checks if the player is riding a horse, used to chose the GUI to open
 	 */
 	public boolean isRidingHorse() {
-		return this.mc.thePlayer.isRiding() && this.mc.thePlayer.ridingEntity instanceof IInvBasic;
+		return this.mc.thePlayer.isRiding() && this.mc.thePlayer.ridingEntity instanceof InventoryListener;
 	}
 
 	public boolean isSpectatorMode() {

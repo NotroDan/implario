@@ -53,8 +53,8 @@ public class ContainerRepair extends Container {
 	public ContainerRepair(InventoryPlayer playerInventory, final World worldIn, final BlockPos blockPosIn, Player player) {
 		this.outputSlot = new InventoryCraftResult();
 		this.inputSlots = new InventoryBasic("Repair", true, 2) {
+			@Override
 			public void markDirty() {
-				super.markDirty();
 				ContainerRepair.this.onCraftMatrixChanged(this);
 			}
 		};

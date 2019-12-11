@@ -1,7 +1,7 @@
 package net.minecraft.item;
 
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityArrow;

@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import net.minecraft.block.BlockStandingSign;
 import net.minecraft.block.BlockWallSign;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;

@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import java.util.Set;
 
 import net.minecraft.block.Block;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.attributes.AttributeModifier;

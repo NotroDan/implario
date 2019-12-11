@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.entity.player.Player;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;

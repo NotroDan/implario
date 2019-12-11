@@ -12,7 +12,7 @@ import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.logging.Log;
-import net.minecraft.network.play.client.C15PacketClientSettings;
+import net.minecraft.network.protocol.minecraft_47.play.client.C15PacketClientSettings;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import optifine.*;

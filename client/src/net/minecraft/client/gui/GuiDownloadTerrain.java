@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.resources.Lang;
-import net.minecraft.network.play.client.C00PacketKeepAlive;
+import net.minecraft.network.protocol.minecraft_47.play.client.C00PacketKeepAlive;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;

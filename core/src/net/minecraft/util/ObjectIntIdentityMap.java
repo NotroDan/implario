@@ -4,7 +4,7 @@ import com.google.common.collect.Iterators;
 
 import java.util.*;
 
-public class ObjectIntIdentityMap<T> implements IObjectIntIterable {
+public class ObjectIntIdentityMap<T> implements Iterable<T> {
 
 	private final IdentityHashMap<T, Object> identityMap = new IdentityHashMap<>(512);
 	private final List<T> objectList = new ArrayList<>();
@@ -34,7 +34,7 @@ public class ObjectIntIdentityMap<T> implements IObjectIntIterable {
 		return value >= 0 && value < this.objectList.size() ? this.objectList.get(value) : null;
 	}
 
-	public Iterator iterator() {
+	public Iterator<T> iterator() {
 		return Iterators.filter(this.objectList.iterator(), Objects::nonNull);
 	}
 

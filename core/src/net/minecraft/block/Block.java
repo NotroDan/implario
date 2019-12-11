@@ -5,7 +5,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-import static net.minecraft.inventory.creativetab.CreativeTabs.*;
+import static net.minecraft.inventory.CreativeTabs.*;
 
 public class Block {
 

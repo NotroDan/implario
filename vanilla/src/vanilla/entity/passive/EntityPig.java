@@ -3,7 +3,7 @@ package vanilla.entity.passive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.ICameraMagnet;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.EntityLightningBolt;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;

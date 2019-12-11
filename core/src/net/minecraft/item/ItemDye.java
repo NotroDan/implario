@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.Player;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 
 import java.util.List;
 

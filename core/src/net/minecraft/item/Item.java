@@ -13,7 +13,7 @@ import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionHelper;
 import net.minecraft.nbt.NBTTagCompound;

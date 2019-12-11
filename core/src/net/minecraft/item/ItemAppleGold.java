@@ -2,7 +2,7 @@ package net.minecraft.item;
 
 import java.util.List;
 
-import net.minecraft.inventory.creativetab.CreativeTabs;
+import net.minecraft.inventory.CreativeTabs;
 import net.minecraft.entity.player.Player;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;

@@ -4,7 +4,7 @@ import com.google.common.base.Objects;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.network.play.server.S38PacketPlayerListItem;
+import net.minecraft.network.protocol.minecraft_47.play.server.S38PacketPlayerListItem;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;

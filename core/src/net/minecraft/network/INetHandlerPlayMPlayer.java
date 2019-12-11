@@ -1,6 +1,6 @@
 package net.minecraft.network;
 
-import net.minecraft.network.play.server.S08PacketPlayerPosLook;
+import net.minecraft.network.protocol.minecraft_47.play.server.S08PacketPlayerPosLook;
 
 import java.util.Set;
 

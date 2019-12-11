@@ -2,7 +2,6 @@ package vanilla.entity;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.logging.Log;
 import vanilla.Vanilla;
 import vanilla.entity.ai.*;
 import net.minecraft.entity.attributes.AttributeModifier;
@@ -17,7 +16,7 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.server.S1BPacketEntityAttach;
+import net.minecraft.network.protocol.minecraft_47.play.server.S1BPacketEntityAttach;
 import vanilla.entity.ai.pathfinding.PathNavigate;
 import vanilla.entity.ai.pathfinding.PathNavigateGround;
 import net.minecraft.server.Todo;

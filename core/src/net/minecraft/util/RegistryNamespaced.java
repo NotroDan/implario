@@ -6,7 +6,7 @@ import com.google.common.collect.HashBiMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IObjectIntIterable<V> {
+public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements Iterable<V> {
 
 	protected final ObjectIntIdentityMap underlyingIntegerMap = new ObjectIntIdentityMap();
 	protected final Map<V, K> inverseObjectRegistry;

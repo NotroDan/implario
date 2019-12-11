@@ -6,8 +6,9 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
-public class InventoryCrafting implements IInventory {
+import java.util.Arrays;
 
+public class InventoryCrafting implements IInventory {
 	/**
 	 * List of the stacks in the crafting matrix.
 	 */
@@ -26,36 +27,41 @@ public class InventoryCrafting implements IInventory {
 
 	public InventoryCrafting(Container eventHandlerIn, int width, int height) {
 		int i = width * height;
-		this.stackList = new ItemStack[i];
-		this.eventHandler = eventHandlerIn;
-		this.inventoryWidth = width;
-		this.inventoryHeight = height;
+		stackList = new ItemStack[i];
+		eventHandler = eventHandlerIn;
+		inventoryWidth = width;
+		inventoryHeight = height;
 	}
 
 	/**
 	 * Returns the number of slots in the inventory.
 	 */
+	@Override
 	public int getSizeInventory() {
-		return this.stackList.length;
+		return stackList.length;
 	}
 
 	/**
 	 * Returns the stack in the given slot.
 	 */
+	@Override
 	public ItemStack getStackInSlot(int index) {
-		return index >= this.getSizeInventory() ? null : this.stackList[index];
+		return index >= getSizeInventory() ? null : stackList[index];
 	}
 
 	/**
 	 * Returns the itemstack in the slot specified (Top left is 0, 0). Args: row, column
 	 */
 	public ItemStack getStackInRowAndColumn(int row, int column) {
-		return row >= 0 && row < this.inventoryWidth && column >= 0 && column <= this.inventoryHeight ? this.getStackInSlot(row + column * this.inventoryWidth) : null;
+		return row >= 0 && row < inventoryWidth &&
+				column >= 0 && column <= inventoryHeight ?
+				getStackInSlot(row + column * inventoryWidth) : null;
 	}
 
 	/**
 	 * Gets the name of this command sender (usually username, but possibly "Rcon")
 	 */
+	@Override
 	public String getName() {
 		return "container.crafting";
 	}
@@ -63,24 +69,29 @@ public class InventoryCrafting implements IInventory {
 	/**
 	 * Returns true if this thing is named
 	 */
+	@Override
 	public boolean hasCustomName() {
 		return false;
 	}
 
 	/**
 	 * Get the formatted ChatComponent that will be used for the sender's username in chat
+	 * Изначально было hasCustomName() ? new ChatComponentText(getName()) : new ChatComponentTranslation(getName())
+	 * Но этот класс никто не наследует и hasCustonName всегда false
 	 */
+	@Override
 	public IChatComponent getDisplayName() {
-		return (IChatComponent) (this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
+		return new ChatComponentTranslation(getName());
 	}
 
 	/**
 	 * Removes a stack from the given slot and returns it.
 	 */
+	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		if (this.stackList[index] != null) {
-			ItemStack itemstack = this.stackList[index];
-			this.stackList[index] = null;
+		if (stackList[index] != null) {
+			ItemStack itemstack = stackList[index];
+			stackList[index] = null;
 			return itemstack;
 		}
 		return null;
@@ -89,21 +100,22 @@ public class InventoryCrafting implements IInventory {
 	/**
 	 * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
 	 */
+	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		if (this.stackList[index] != null) {
-			if (this.stackList[index].stackSize <= count) {
+		if (stackList[index] != null) {
+			if (stackList[index].stackSize <= count) {
 				ItemStack itemstack1 = this.stackList[index];
-				this.stackList[index] = null;
-				this.eventHandler.onCraftMatrixChanged(this);
+				stackList[index] = null;
+				eventHandler.onCraftMatrixChanged(this);
 				return itemstack1;
 			}
-			ItemStack itemstack = this.stackList[index].splitStack(count);
+			ItemStack itemstack = stackList[index].splitStack(count);
 
-			if (this.stackList[index].stackSize == 0) {
-				this.stackList[index] = null;
+			if (stackList[index].stackSize == 0) {
+				stackList[index] = null;
 			}
 
-			this.eventHandler.onCraftMatrixChanged(this);
+			eventHandler.onCraftMatrixChanged(this);
 			return itemstack;
 		}
 		return null;
@@ -112,14 +124,16 @@ public class InventoryCrafting implements IInventory {
 	/**
 	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
 	 */
+	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		this.stackList[index] = stack;
-		this.eventHandler.onCraftMatrixChanged(this);
+		stackList[index] = stack;
+		eventHandler.onCraftMatrixChanged(this);
 	}
 
 	/**
 	 * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended.
 	 */
+	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
@@ -128,52 +142,54 @@ public class InventoryCrafting implements IInventory {
 	 * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think it
 	 * hasn't changed and skip it.
 	 */
-	public void markDirty() {
-	}
+	@Override
+	public void markDirty() {}
 
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
+	@Override
 	public boolean isUseableByPlayer(Player player) {
 		return true;
 	}
 
-	public void openInventory(Player player) {
-	}
+	@Override
+	public void openInventory(Player player) {}
 
-	public void closeInventory(Player player) {
-	}
+	@Override
+	public void closeInventory(Player player) {}
 
 	/**
 	 * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
 	 */
+	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		return true;
 	}
 
+	@Override
 	public int getField(int id) {
 		return 0;
 	}
 
-	public void setField(int id, int value) {
-	}
+	@Override
+	public void setField(int id, int value) {}
 
+	@Override
 	public int getFieldCount() {
 		return 0;
 	}
 
+	@Override
 	public void clear() {
-		for (int i = 0; i < this.stackList.length; ++i) {
-			this.stackList[i] = null;
-		}
+		Arrays.fill(stackList, null);
 	}
 
 	public int getHeight() {
-		return this.inventoryHeight;
+		return inventoryHeight;
 	}
 
 	public int getWidth() {
-		return this.inventoryWidth;
+		return inventoryWidth;
 	}
-
 }

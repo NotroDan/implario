@@ -9,7 +9,7 @@ import com.google.gson.JsonParser;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.logging.Log;
-import net.minecraft.network.play.server.S37PacketStatistics;
+import net.minecraft.network.protocol.minecraft_47.play.server.S37PacketStatistics;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.TupleIntJsonSerializable;

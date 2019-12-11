@@ -1,7 +1,5 @@
 package net.minecraft.tileentity;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.protocol.minecraft_47.play.server.S35PacketUpdateTileEntity;
 
 public class TileEntityBanner extends TileEntity {
 

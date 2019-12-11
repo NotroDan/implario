@@ -11,13 +11,13 @@ import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.login.INetHandlerLoginClient;
-import net.minecraft.network.login.client.C01PacketEncryptionResponse;
-import net.minecraft.network.login.server.S00PacketDisconnect;
-import net.minecraft.network.login.server.S01PacketEncryptionRequest;
-import net.minecraft.network.login.server.S02PacketLoginSuccess;
-import net.minecraft.network.login.server.S03PacketEnableCompression;
-import net.minecraft.network.protocol.Protocols;
+import net.minecraft.network.protocol.minecraft_47.Protocol47;
+import net.minecraft.network.protocol.minecraft_47.login.INetHandlerLoginClient;
+import net.minecraft.network.protocol.minecraft_47.login.client.C01PacketEncryptionResponse;
+import net.minecraft.network.protocol.minecraft_47.login.server.S00PacketDisconnect;
+import net.minecraft.network.protocol.minecraft_47.login.server.S01PacketEncryptionRequest;
+import net.minecraft.network.protocol.minecraft_47.login.server.S02PacketLoginSuccess;
+import net.minecraft.network.protocol.minecraft_47.login.server.S03PacketEnableCompression;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
@@ -80,7 +80,7 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
 	public void handleLoginSuccess(S02PacketLoginSuccess packetIn) {
 		this.gameProfile = packetIn.getProfile();
 		Utils.implarioServer = packetIn.isImplario();
-		this.networkManager.setConnectionState(Protocols.PLAY_47);
+		this.networkManager.setConnectionState(Protocol47.PLAY);
 		this.networkManager.setNetHandler(new NetHandlerPlayClient(this.mc, this.previousGuiScreen, this.networkManager, this.gameProfile));
 	}
 

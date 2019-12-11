@@ -10,7 +10,6 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentProtection;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
@@ -2398,5 +2397,4 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	public float getSpectatorRotation(float partialTicks) {
 		return prevRotationYaw + (rotationYaw - prevRotationYaw) * partialTicks + 180.0F;
 	}
-
 }

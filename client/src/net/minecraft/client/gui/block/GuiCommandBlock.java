@@ -10,7 +10,7 @@ import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
+import net.minecraft.network.protocol.minecraft_47.play.client.C17PacketCustomPayload;
 import net.minecraft.util.IChatComponent;
 import org.lwjgl.input.Keyboard;
 
