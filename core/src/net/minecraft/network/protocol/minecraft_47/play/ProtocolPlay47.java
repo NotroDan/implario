@@ -2,9 +2,9 @@ package net.minecraft.network.protocol.minecraft_47.play;
 
 import net.minecraft.network.protocol.minecraft_47.play.client.*;
 import net.minecraft.network.protocol.minecraft_47.play.server.*;
-import net.minecraft.network.protocol.Protocol;
+import net.minecraft.network.protocol.AProtocol;
 
-public class ProtocolPlay47 extends Protocol {
+public class ProtocolPlay47 extends AProtocol {
 	public ProtocolPlay47() {
 		super(0);
 		this.registerPacket(false, S00PacketKeepAlive.class, S00PacketKeepAlive::new);

@@ -9,15 +9,21 @@ import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.network.protocol.IProtocolsClient;
+import net.minecraft.client.network.protocol.implario.ProtocolImplarioClient;
+import net.minecraft.client.network.protocol.minecraft_47.NetHandlerPlayClient;
+import net.minecraft.client.network.protocol.minecraft_47.Protocol47Client;
 import net.minecraft.logging.Log;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.network.protocol.implario.login.INetHandlerLoginClientImplario;
+import net.minecraft.network.protocol.implario.login.client.C02PacketClientInfo;
+import net.minecraft.network.protocol.implario.login.server.S04PacketServerInfo;
 import net.minecraft.network.protocol.minecraft_47.Protocol47;
-import net.minecraft.network.protocol.minecraft_47.login.INetHandlerLoginClient;
-import net.minecraft.network.protocol.minecraft_47.login.client.C01PacketEncryptionResponse;
-import net.minecraft.network.protocol.minecraft_47.login.server.S00PacketDisconnect;
-import net.minecraft.network.protocol.minecraft_47.login.server.S01PacketEncryptionRequest;
-import net.minecraft.network.protocol.minecraft_47.login.server.S02PacketLoginSuccess;
-import net.minecraft.network.protocol.minecraft_47.login.server.S03PacketEnableCompression;
+import net.minecraft.network.protocol.minecraft.login.client.C01PacketEncryptionResponse;
+import net.minecraft.network.protocol.minecraft.login.server.S00PacketDisconnect;
+import net.minecraft.network.protocol.minecraft.login.server.S01PacketEncryptionRequest;
+import net.minecraft.network.protocol.minecraft.login.server.S02PacketLoginSuccess;
+import net.minecraft.network.protocol.minecraft.login.server.S03PacketEnableCompression;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
@@ -26,7 +32,7 @@ import javax.crypto.SecretKey;
 import java.math.BigInteger;
 import java.security.PublicKey;
 
-public class NetHandlerLoginClient implements INetHandlerLoginClient {
+public class NetHandlerLoginClient implements INetHandlerLoginClientImplario {
 
 	private static final Log logger = Log.MAIN;
 	private final Minecraft mc;
@@ -38,6 +44,7 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
 		this.networkManager = p_i45059_1_;
 		this.mc = mcIn;
 		this.previousGuiScreen = p_i45059_3_;
+		networkManager.setProtocol(Protocol47Client.protocol);
 	}
 
 	public void handleEncryptionRequest(S01PacketEncryptionRequest packetIn) {
@@ -77,11 +84,11 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
 		return this.mc.getSessionService();
 	}
 
+	@Override
 	public void handleLoginSuccess(S02PacketLoginSuccess packetIn) {
-		this.gameProfile = packetIn.getProfile();
-		Utils.implarioServer = packetIn.isImplario();
-		this.networkManager.setConnectionState(Protocol47.PLAY);
-		this.networkManager.setNetHandler(new NetHandlerPlayClient(this.mc, this.previousGuiScreen, this.networkManager, this.gameProfile));
+		gameProfile = packetIn.getProfile();
+		networkManager.setConnectionState(networkManager.getProtocol().getProtocolPlay());
+		networkManager.setNetHandler(((IProtocolsClient)networkManager.getProtocol()).getPlayClient(mc, previousGuiScreen, networkManager, gameProfile));
 	}
 
 	/**
@@ -101,4 +108,10 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
 		}
 	}
 
+	@Override
+	public void processServerInfo(S04PacketServerInfo serverInfo) {
+		Utils.implarioServer = true;
+		networkManager.setProtocol(ProtocolImplarioClient.protocol);
+		networkManager.sendPacket(new C02PacketClientInfo());
+	}
 }

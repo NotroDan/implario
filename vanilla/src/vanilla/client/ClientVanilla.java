@@ -6,7 +6,7 @@ import net.minecraft.client.game.entity.CPlayer;
 import net.minecraft.client.game.model.ModelSlime;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.protocol.minecraft_47.NetHandlerPlayClient;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.ClientRegistrar;
 import net.minecraft.client.resources.Lang;

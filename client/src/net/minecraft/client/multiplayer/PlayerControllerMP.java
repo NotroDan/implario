@@ -6,7 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.game.entity.CPlayer;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.protocol.minecraft_47.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.ClickType;

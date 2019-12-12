@@ -8,7 +8,6 @@ import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.MessageToByteEncoder;
 import net.minecraft.logging.Log;
 import net.minecraft.network.protocol.IProtocol;
-import net.minecraft.network.protocol.Protocol;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;

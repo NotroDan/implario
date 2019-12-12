@@ -15,10 +15,10 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.logging.Log;
-import net.minecraft.network.protocol.minecraft_47.handshake.NetHandlerHandshakeMemory;
+import net.minecraft.network.protocol.minecraft.handshake.NetHandlerHandshakeMemory;
 import net.minecraft.network.protocol.minecraft_47.play.server.S40PacketDisconnect;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.network.protocol.minecraft_47.handshake.NetHandlerHandshakeTCP;
+import net.minecraft.network.protocol.minecraft.handshake.NetHandlerHandshakeTCP;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 

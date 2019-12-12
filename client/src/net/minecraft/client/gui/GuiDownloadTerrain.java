@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.protocol.minecraft_47.NetHandlerPlayClient;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.network.protocol.minecraft_47.play.client.C00PacketKeepAlive;
 

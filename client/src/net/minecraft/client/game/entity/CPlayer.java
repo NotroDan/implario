@@ -10,7 +10,7 @@ import net.minecraft.client.gui.block.GuiEnchantment;
 import net.minecraft.client.gui.block.GuiHopper;
 import net.minecraft.client.gui.block.GuiRepair;
 import net.minecraft.client.gui.inventory.*;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.protocol.minecraft_47.NetHandlerPlayClient;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.server.CommandBlockLogic;

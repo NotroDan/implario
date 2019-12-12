@@ -9,7 +9,7 @@ import net.minecraft.client.gui.spectator.ISpectatorMenuObject;
 import net.minecraft.client.gui.spectator.ISpectatorMenuView;
 import net.minecraft.client.gui.spectator.PlayerMenuObject;
 import net.minecraft.client.gui.spectator.SpectatorMenu;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.network.protocol.minecraft_47.NetworkPlayerInfo;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.WorldSettings;

@@ -18,8 +18,12 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.logging.Log;
 import net.minecraft.network.protocol.IProtocol;
+import net.minecraft.network.protocol.IProtocols;
+import net.minecraft.network.protocol.minecraft.ProtocolMinecraft;
 import net.minecraft.network.protocol.minecraft_47.Protocol47;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
@@ -62,6 +66,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private Channel channel;
 
 	/**
+	 * Активный протокол для игрока
+	 */
+	@Getter
+	@Setter
+	private IProtocols protocol;
+
+	/**
 	 * The address of the remote party
 	 */
 	private SocketAddress socketAddress;
@@ -88,7 +99,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		this.socketAddress = this.channel.remoteAddress();
 
 		try {
-			this.setConnectionState(Protocol47.HANDSHAKING);
+			this.setConnectionState(ProtocolMinecraft.HANDSHAKE);
 		} catch (Throwable throwable) {
 			logger.error("Error on change connection state", throwable);
 		}

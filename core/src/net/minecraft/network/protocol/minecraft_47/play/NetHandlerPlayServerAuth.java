@@ -47,7 +47,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
     public NetHandlerPlayServerAuth(MinecraftServer server, NetworkManager networkManagerIn, MPlayer playerIn) {
         this.serverController = server;
         this.netManager = networkManagerIn;
-        networkManagerIn.setConnectionState(Protocol47.PLAY);
+        networkManagerIn.setConnectionState(netManager.getProtocol().getProtocolPlay());
         networkManagerIn.setNetHandler(this);
         this.playerEntity = playerIn;
         playerIn.playerNetServerHandler = this;

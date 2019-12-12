@@ -9,11 +9,11 @@ import net.minecraft.client.network.NetHandlerLoginClient;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.protocol.implario.ProtocolImplario;
-import net.minecraft.network.protocol.minecraft_47.handshake.client.C00Handshake;
-import net.minecraft.network.protocol.minecraft_47.login.client.C00PacketLoginStart;
+import net.minecraft.network.protocol.minecraft.ProtocolMinecraft;
+import net.minecraft.network.protocol.minecraft.login.client.C00PacketLoginStart;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import org.apache.logging.log4j.core.net.Protocol;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -63,8 +63,8 @@ public class GuiConnecting extends GuiScreen {
 					connectionMs = System.currentTimeMillis() - connectionStart;
 					connectionStart = System.currentTimeMillis();
 					GuiConnecting.this.networkManager.setNetHandler(new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.this.mc, GuiConnecting.this.previousGuiScreen));
-					GuiConnecting.this.networkManager.sendPacket(new C00Handshake(47, ip, port, false));
-					GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
+					GuiConnecting.this.networkManager.sendPacket(ProtocolMinecraft.HANDSHAKE.getHandshake(47, false));
+					GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().getProfile().getName()));
 				} catch (UnknownHostException unknownhostexception) {
 					if (GuiConnecting.this.cancel) return;
 					GuiConnecting.logger.error("Не удалось подключиться к серверу.", unknownhostexception);
@@ -90,7 +90,7 @@ public class GuiConnecting extends GuiScreen {
 					}
 
 					GuiConnecting.logger.error("Couldn\'t connect to server", exception);
-
+					exception.printStackTrace();
 					GuiConnecting.this.mc.displayGuiScreen(
 							new GuiDisconnected(GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", s)));
 				}

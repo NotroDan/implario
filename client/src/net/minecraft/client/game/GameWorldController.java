@@ -6,15 +6,14 @@ import net.minecraft.client.game.input.MovementInputFromOptions;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerLoginClient;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.protocol.minecraft_47.NetHandlerPlayClient;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.protocol.implario.ProtocolImplario;
-import net.minecraft.network.protocol.minecraft_47.handshake.client.C00Handshake;
-import net.minecraft.network.protocol.minecraft_47.login.client.C00PacketLoginStart;
+import net.minecraft.network.protocol.minecraft.ProtocolMinecraft;
+import net.minecraft.network.protocol.minecraft_47.Protocol47;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.FileUtil;
@@ -195,8 +194,8 @@ public class GameWorldController {
 		SocketAddress socketaddress = mc.theIntegratedServer.getNetworkSystem().addLocalEndpoint();
 		NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
 		networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, mc, null));
-		networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, false));
-		networkmanager.sendPacket(new C00PacketLoginStart(mc.getSession().getProfile()));
+		networkmanager.sendPacket(ProtocolMinecraft.HANDSHAKE.getHandshake(47, false));
+		networkmanager.sendPacket(Protocol47.protocol.getProtocolLogin().getLoginStart(mc.getSession().getUsername()));
 		mc.myNetworkManager = networkmanager;
 	}
 

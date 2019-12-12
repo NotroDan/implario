@@ -9,7 +9,7 @@ import net.minecraft.client.gui.font.FontUtils;
 import net.minecraft.client.gui.spectator.ISpectatorMenuObject;
 import net.minecraft.client.gui.spectator.ISpectatorMenuView;
 import net.minecraft.client.gui.spectator.SpectatorMenu;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.network.protocol.minecraft_47.NetworkPlayerInfo;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.scoreboard.ScorePlayerTeam;

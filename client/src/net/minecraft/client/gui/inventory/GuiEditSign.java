@@ -5,7 +5,7 @@ import java.io.IOException;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.protocol.minecraft_47.NetHandlerPlayClient;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.Lang;
