@@ -7,7 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.inventory.CreativeTabs;
@@ -19,7 +19,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.ILockableContainer;
+import net.minecraft.world.LockableContainer;
 import net.minecraft.world.World;
 
 public class BlockChest extends BlockContainer {
@@ -328,8 +328,8 @@ public class BlockChest extends BlockContainer {
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if (tileentity instanceof IInventory) {
-			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
+		if (tileentity instanceof Inventory) {
+			InventoryHelper.dropInventoryItems(worldIn, pos, (Inventory) tileentity);
 			worldIn.updateComparatorOutputLevel(pos, this);
 		}
 
@@ -340,7 +340,7 @@ public class BlockChest extends BlockContainer {
 		if (worldIn.isClientSide) {
 			return true;
 		}
-		ILockableContainer ilockablecontainer = this.getLockableContainer(worldIn, pos);
+		LockableContainer ilockablecontainer = this.getLockableContainer(worldIn, pos);
 
 		if (ilockablecontainer != null) {
 			playerIn.displayGUIChest(ilockablecontainer);
@@ -355,13 +355,13 @@ public class BlockChest extends BlockContainer {
 		return true;
 	}
 
-	public ILockableContainer getLockableContainer(World worldIn, BlockPos pos) {
+	public LockableContainer getLockableContainer(World worldIn, BlockPos pos) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if (!(tileentity instanceof TileEntityChest)) {
 			return null;
 		}
-		ILockableContainer ilockablecontainer = (TileEntityChest) tileentity;
+		LockableContainer ilockablecontainer = (TileEntityChest) tileentity;
 
 		if (this.isBlocked(worldIn, pos)) {
 			return null;

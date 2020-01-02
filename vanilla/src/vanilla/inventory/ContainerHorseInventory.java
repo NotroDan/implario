@@ -1,7 +1,7 @@
 package vanilla.inventory;
 
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.Slot;
 import vanilla.entity.passive.EntityHorse;
 import net.minecraft.entity.player.Player;
@@ -10,10 +10,10 @@ import vanilla.item.VanillaItems;
 
 public class ContainerHorseInventory extends Container {
 
-	private IInventory horseInventory;
+	private Inventory horseInventory;
 	private EntityHorse theHorse;
 
-	public ContainerHorseInventory(IInventory playerInventory, final IInventory horseInventoryIn, final EntityHorse horse, Player player) {
+	public ContainerHorseInventory(Inventory playerInventory, final Inventory horseInventoryIn, final EntityHorse horse, Player player) {
 		this.horseInventory = horseInventoryIn;
 		this.theHorse = horse;
 		int i = 3;

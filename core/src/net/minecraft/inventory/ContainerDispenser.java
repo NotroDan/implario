@@ -5,9 +5,9 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerDispenser extends Container {
 
-	private IInventory dispenserInventory;
+	private Inventory dispenserInventory;
 
-	public ContainerDispenser(IInventory playerInventory, IInventory dispenserInventoryIn) {
+	public ContainerDispenser(Inventory playerInventory, Inventory dispenserInventoryIn) {
 		this.dispenserInventory = dispenserInventoryIn;
 
 		for (int i = 0; i < 3; ++i) {

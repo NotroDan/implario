@@ -6,7 +6,7 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
-public class InventoryCraftResult implements IInventory {
+public class InventoryCraftResult implements Inventory {
 	private ItemStack stackResult;
 
 	/**

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerHopper;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiHopper extends GuiContainer {
@@ -18,14 +18,14 @@ public class GuiHopper extends GuiContainer {
 	/**
 	 * The player inventory currently bound to this GUI instance
 	 */
-	private IInventory playerInventory;
+	private Inventory playerInventory;
 
 	/**
 	 * The hopper inventory bound to this GUI instance
 	 */
-	private IInventory hopperInventory;
+	private Inventory hopperInventory;
 
-	public GuiHopper(InventoryPlayer playerInv, IInventory hopperInv) {
+	public GuiHopper(InventoryPlayer playerInv, Inventory hopperInv) {
 		super(new ContainerHopper(playerInv, hopperInv, Minecraft.getMinecraft().thePlayer));
 		this.playerInventory = playerInv;
 		this.hopperInventory = hopperInv;

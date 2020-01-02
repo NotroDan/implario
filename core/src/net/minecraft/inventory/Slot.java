@@ -13,7 +13,7 @@ public class Slot {
 	/**
 	 * The inventory we want to extract a slot from.
 	 */
-	public final IInventory inventory;
+	public final Inventory inventory;
 
 	/**
 	 * the id of the slot(also the index in the inventory arraylist)
@@ -30,7 +30,7 @@ public class Slot {
 	 */
 	public int yDisplayPosition;
 
-	public Slot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+	public Slot(Inventory inventoryIn, int index, int xPosition, int yPosition) {
 		this.inventory = inventoryIn;
 		this.slotIndex = index;
 		this.xDisplayPosition = xPosition;
@@ -129,7 +129,7 @@ public class Slot {
 	/**
 	 * returns true if the slot exists in the given inventory and location
 	 */
-	public boolean isHere(IInventory inv, int slotIn) {
+	public boolean isHere(Inventory inv, int slotIn) {
 		return inv == this.inventory && slotIn == this.slotIndex;
 	}
 

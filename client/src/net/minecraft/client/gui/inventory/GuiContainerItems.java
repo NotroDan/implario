@@ -349,7 +349,7 @@ public class GuiContainerItems extends InventoryEffectRenderer {
 			return this.slot.decrStackSize(amount);
 		}
 
-		public boolean isHere(IInventory inv, int slotIn) {
+		public boolean isHere(Inventory inv, int slotIn) {
 			return this.slot.isHere(inv, slotIn);
 		}
 

@@ -8,7 +8,7 @@ import net.minecraft.stats.AchievementList;
 
 public class ContainerBrewingStand extends Container {
 
-	private IInventory tileBrewingStand;
+	private Inventory tileBrewingStand;
 
 	/**
 	 * Instance of Slot.
@@ -16,7 +16,7 @@ public class ContainerBrewingStand extends Container {
 	private final Slot theSlot;
 	private int brewTime;
 
-	public ContainerBrewingStand(InventoryPlayer playerInventory, IInventory tileBrewingStandIn) {
+	public ContainerBrewingStand(InventoryPlayer playerInventory, Inventory tileBrewingStandIn) {
 		this.tileBrewingStand = tileBrewingStandIn;
 		this.addSlotToContainer(new ContainerBrewingStand.Potion(playerInventory.player, tileBrewingStandIn, 0, 56, 46));
 		this.addSlotToContainer(new ContainerBrewingStand.Potion(playerInventory.player, tileBrewingStandIn, 1, 79, 53));
@@ -121,7 +121,7 @@ public class ContainerBrewingStand extends Container {
 
 	class Ingredient extends Slot {
 
-		public Ingredient(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+		public Ingredient(Inventory inventoryIn, int index, int xPosition, int yPosition) {
 			super(inventoryIn, index, xPosition, yPosition);
 		}
 
@@ -139,7 +139,7 @@ public class ContainerBrewingStand extends Container {
 
 		private Player player;
 
-		public Potion(Player playerIn, IInventory inventoryIn, int index, int xPosition, int yPosition) {
+		public Potion(Player playerIn, Inventory inventoryIn, int index, int xPosition, int yPosition) {
 			super(inventoryIn, index, xPosition, yPosition);
 			this.player = playerIn;
 		}

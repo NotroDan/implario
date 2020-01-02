@@ -1,7 +1,7 @@
 package vanilla.inventory;
 
 import net.minecraft.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.chat.ChatComponentText;
@@ -10,7 +10,7 @@ import vanilla.entity.IMerchant;
 import vanilla.world.gen.feature.village.MerchantRecipe;
 import vanilla.world.gen.feature.village.MerchantRecipeList;
 
-public class InventoryMerchant implements IInventory {
+public class InventoryMerchant implements Inventory {
 
 	private final IMerchant theMerchant;
 	private ItemStack[] theInventory = new ItemStack[3];

@@ -3,7 +3,7 @@ package net.minecraft.entity.player;
 import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ import net.minecraft.util.ReportedException;
 
 import java.util.Arrays;
 
-public class InventoryPlayer implements IInventory {
+public class InventoryPlayer implements Inventory {
 	final ItemStack[] mainInventory = new ItemStack[36];
 	final ItemStack[] armorInventory = new ItemStack[4];
 	private int currentItem;

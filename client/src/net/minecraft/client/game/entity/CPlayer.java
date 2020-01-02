@@ -20,7 +20,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.PlayerGuiBridge;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.network.protocol.minecraft_47.play.client.*;
@@ -283,8 +283,8 @@ public class CPlayer extends AbstractClientPlayer {
 			if (stack.getItem() == Items.writable_book) {
 				this.mc.displayGuiScreen(new GuiScreenBook(this, stack, true));
 			}
-		} else if (type == IInventory.class) {
-			IInventory container = (IInventory) element;
+		} else if (type == Inventory.class) {
+			Inventory container = (Inventory) element;
 			String s = container instanceof IInteractionObject ? ((IInteractionObject) container).getGuiID() : "minecraft:container";
 
 			if ("minecraft:chest".equals(s)) {

@@ -7,7 +7,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.protocol.minecraft_47.play.server.S2DPacketOpenWindow;
 import net.minecraft.network.protocol.minecraft_47.play.server.S3FPacketCustomPayload;
@@ -76,7 +76,7 @@ public class Vanilla extends Datapack {
 				player.openContainer = new ContainerMerchant(player.inventory, merchant, player.worldObj);
 				player.openContainer.windowId = player.currentWindowId;
 				player.openContainer.onCraftGuiOpened(player);
-				IInventory iinventory = ((ContainerMerchant) player.openContainer).getMerchantInventory();
+				Inventory iinventory = ((ContainerMerchant) player.openContainer).getMerchantInventory();
 				IChatComponent ichatcomponent = merchant.getDisplayName();
 				player.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(player.currentWindowId, "minecraft:villager", ichatcomponent, iinventory.getSizeInventory()));
 				MerchantRecipeList merchantrecipelist = merchant.getRecipes(player);
@@ -100,7 +100,7 @@ public class Vanilla extends Datapack {
 				if (!(p instanceof MPlayer)) return;
 				MPlayer player = (MPlayer) p;
 				((MPlayer) p).getNextWindowId();
-				IInventory inv = horseinv.inv;
+				Inventory inv = horseinv.inv;
 				player.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(player.currentWindowId, "EntityHorse", inv.getDisplayName(), inv.getSizeInventory(),
 						horseinv.horse.getEntityId()));
 				player.openContainer = new ContainerHorseInventory(player.inventory, inv, horseinv.horse, player);

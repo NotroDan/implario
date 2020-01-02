@@ -7,11 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.ILockableContainer;
+import net.minecraft.world.LockableContainer;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 
-public abstract class EntityMinecartContainer extends EntityMinecart implements ILockableContainer {
+public abstract class EntityMinecartContainer extends EntityMinecart implements LockableContainer {
 
 	private ItemStack[] minecartContainerItems = new ItemStack[36];
 

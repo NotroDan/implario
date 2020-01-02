@@ -10,7 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerBrewingStand;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
@@ -21,7 +21,7 @@ import net.minecraft.item.potion.PotionHelper;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
-public class TileEntityBrewingStand extends TileEntityLockable implements ITickable, ISidedInventory {
+public class TileEntityBrewingStand extends TileEntityLockable implements ITickable, SidedInventory {
 
 	/**
 	 * an array of the input slot indices

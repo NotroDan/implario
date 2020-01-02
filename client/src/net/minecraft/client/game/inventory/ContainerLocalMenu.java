@@ -9,10 +9,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.world.ILockableContainer;
+import net.minecraft.world.LockableContainer;
 import net.minecraft.world.LockCode;
 
-public class ContainerLocalMenu extends InventoryBasic implements ILockableContainer {
+public class ContainerLocalMenu extends InventoryBasic implements LockableContainer {
 
 	private String guiID;
 	private Map<Integer, Integer> field_174895_b = Maps.newHashMap();

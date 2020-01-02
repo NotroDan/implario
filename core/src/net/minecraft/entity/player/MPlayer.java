@@ -481,6 +481,7 @@ public class MPlayer extends Player implements ICrafting {
 
 	@Override
 	public <T> void openGui(Class<T> type, T base) {
+		System.out.println("Open inventory " + base + " class " + type);
 		if (type == TileEntitySign.class) {
 			TileEntitySign sign = (TileEntitySign) base;
 			sign.setPlayer(this);
@@ -490,14 +491,14 @@ public class MPlayer extends Player implements ICrafting {
 			if (item == Items.written_book) {
 				this.playerNetServerHandler.sendPacket(new S3FPacketCustomPayload("MC|BOpen", new PacketBuffer(Unpooled.buffer())));
 			}
-		} else if (type == IInventory.class) {
-			IInventory chest = (IInventory) base;
+		} else if (type == Inventory.class) {
+			Inventory chest = (Inventory) base;
 			if (this.openContainer != this.inventoryContainer) {
 				this.closeScreen();
 			}
 
-			if (chest instanceof ILockableContainer) {
-				ILockableContainer ilockablecontainer = (ILockableContainer) chest;
+			if (chest instanceof LockableContainer) {
+				LockableContainer ilockablecontainer = (LockableContainer) chest;
 
 				if (ilockablecontainer.isLocked() && !this.canOpen(ilockablecontainer.getLockCode()) && !this.isSpectator()) {
 					this.playerNetServerHandler.sendPacket(new S02PacketChat(new ChatComponentTranslation("container.isLocked", chest.getDisplayName()), (byte) 2));
@@ -684,7 +685,7 @@ public class MPlayer extends Player implements ICrafting {
 		this.playerNetServerHandler.sendPacket(new S31PacketWindowProperty(containerIn.windowId, varToUpdate, newValue));
 	}
 
-	public void func_175173_a(Container p_175173_1_, IInventory p_175173_2_) {
+	public void func_175173_a(Container p_175173_1_, Inventory p_175173_2_) {
 		for (int i = 0; i < p_175173_2_.getFieldCount(); ++i) {
 			this.playerNetServerHandler.sendPacket(new S31PacketWindowProperty(p_175173_1_.windowId, i, p_175173_2_.getField(i)));
 		}

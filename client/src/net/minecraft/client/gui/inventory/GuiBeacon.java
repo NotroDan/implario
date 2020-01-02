@@ -13,7 +13,7 @@ import net.minecraft.client.resources.Lang;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerBeacon;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.protocol.minecraft_47.play.client.C17PacketCustomPayload;
@@ -23,11 +23,11 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiBeacon extends GuiContainer {
 	private static final ResourceLocation beaconGuiTextures = new ResourceLocation("textures/gui/container/beacon.png");
-	private IInventory tileBeacon;
+	private Inventory tileBeacon;
 	private GuiBeacon.ConfirmButton beaconConfirmButton;
 	private boolean buttonsNotDrawn;
 
-	public GuiBeacon(InventoryPlayer playerInventory, IInventory tileBeaconIn) {
+	public GuiBeacon(InventoryPlayer playerInventory, Inventory tileBeaconIn) {
 		super(new ContainerBeacon(playerInventory, tileBeaconIn));
 		this.tileBeacon = tileBeaconIn;
 		this.xSize = 230;

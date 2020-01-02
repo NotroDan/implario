@@ -21,7 +21,7 @@ class MariaDBTable implements Table {
                     "INSERT INTO " + table + " (ONE, TWO) VALUES(?, ?) ON DUPLICATE KEY UPDATE TWO = ?");
             statement.setString(1, key);
             statement.setBytes(2, write);
-            statement.setBytes(3, write);
+            statement.setBytes( 3, write);
             statement.executeUpdate();
         }catch (SQLException ex){
             ex.printStackTrace();

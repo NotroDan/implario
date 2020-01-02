@@ -59,7 +59,7 @@ public class GuiScreenServerList extends GuiScreen {
 		if (!button.enabled) return;
 		if (button.id == 1) this.parent.confirmClicked(false, 0);
 		else if (button.id == 0) {
-			this.selected.serverIP = this.textField.getText();
+			this.selected.serverIP = this.textField.getText().trim();
 			this.parent.confirmClicked(true, 0);
 		}
 	}

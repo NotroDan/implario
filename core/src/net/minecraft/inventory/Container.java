@@ -90,7 +90,7 @@ public abstract class Container {
 		return false;
 	}
 
-	public Slot getSlotFromInventory(IInventory inv, int slotIn) {
+	public Slot getSlotFromInventory(Inventory inv, int slotIn) {
 		for (int i = 0; i < this.inventorySlots.size(); ++i) {
 			Slot slot = this.inventorySlots.get(i);
 
@@ -369,7 +369,7 @@ public abstract class Container {
 	/**
 	 * Callback for when the crafting matrix is changed.
 	 */
-	public void onCraftMatrixChanged(IInventory inventoryIn) {
+	public void onCraftMatrixChanged(Inventory inventoryIn) {
 		this.detectAndSendChanges();
 	}
 
@@ -550,10 +550,10 @@ public abstract class Container {
 	 * Like the version that takes an inventory. If the given TileEntity is not an Inventory, 0 is returned instead.
 	 */
 	public static int calcRedstone(TileEntity te) {
-		return te instanceof IInventory ? calcRedstoneFromInventory((IInventory) te) : 0;
+		return te instanceof Inventory ? calcRedstoneFromInventory((Inventory) te) : 0;
 	}
 
-	public static int calcRedstoneFromInventory(IInventory inv) {
+	public static int calcRedstoneFromInventory(Inventory inv) {
 		if (inv == null) return 0;
 		int i = 0;
 		float f = 0.0F;

@@ -9,8 +9,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerFurnace;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -25,7 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.MathHelper;
 
-public class TileEntityFurnace extends TileEntityLockable implements ITickable, ISidedInventory {
+public class TileEntityFurnace extends TileEntityLockable implements ITickable, SidedInventory {
 
 	private static final int[] slotsTop = new int[] {0};
 	private static final int[] slotsBottom = new int[] {2, 1};
@@ -193,7 +193,7 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 		return this.furnaceBurnTime > 0;
 	}
 
-	public static boolean isBurning(IInventory p_174903_0_) {
+	public static boolean isBurning(Inventory p_174903_0_) {
 		return p_174903_0_.getField(0) > 0;
 	}
 

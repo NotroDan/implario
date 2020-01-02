@@ -28,7 +28,7 @@ public class SlotCrafting extends Slot {
 	 */
 	private int amountCrafted;
 
-	public SlotCrafting(Player player, InventoryCrafting craftingInventory, IInventory p_i45790_3_, int slotIndex, int xPosition, int yPosition) {
+	public SlotCrafting(Player player, InventoryCrafting craftingInventory, Inventory p_i45790_3_, int slotIndex, int xPosition, int yPosition) {
 		super(p_i45790_3_, slotIndex, xPosition, yPosition);
 		this.thePlayer = player;
 		this.craftMatrix = craftingInventory;

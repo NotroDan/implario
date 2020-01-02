@@ -90,7 +90,7 @@ public class GuiScreenAddServer extends GuiScreen {
 				this.parentScreen.confirmClicked(false, 0);
 			} else if (button.id == 0) {
 				this.serverData.serverName = this.serverNameField.getText();
-				this.serverData.serverIP = this.serverIPField.getText();
+				this.serverData.serverIP = this.serverIPField.getText().trim();
 				this.parentScreen.confirmClicked(true, 0);
 			}
 		}

@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -593,7 +593,7 @@ public class GuiIngame extends Gui {
 			if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 				BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
 
-				return this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
+				return this.mc.theWorld.getTileEntity(blockpos) instanceof Inventory;
 			}
 
 			return false;

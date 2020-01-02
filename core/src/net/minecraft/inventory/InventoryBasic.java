@@ -1,8 +1,6 @@
 package net.minecraft.inventory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
@@ -10,7 +8,7 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
-public class InventoryBasic implements IInventory {
+public class InventoryBasic implements Inventory {
 
 	private String inventoryTitle;
 	private int slotsCount;

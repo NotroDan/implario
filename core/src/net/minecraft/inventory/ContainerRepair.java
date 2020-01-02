@@ -21,12 +21,12 @@ public class ContainerRepair extends Container {
 	/**
 	 * Here comes out item you merged and/or renamed.
 	 */
-	private IInventory outputSlot;
+	private Inventory outputSlot;
 
 	/**
 	 * The 2slots where you put your items in that you want to merge and/or rename.
 	 */
-	private IInventory inputSlots;
+	private Inventory inputSlots;
 	private World theWorld;
 	private BlockPos selfPosition;
 
@@ -126,7 +126,7 @@ public class ContainerRepair extends Container {
 	/**
 	 * Callback for when the crafting matrix is changed.
 	 */
-	public void onCraftMatrixChanged(IInventory inventoryIn) {
+	public void onCraftMatrixChanged(Inventory inventoryIn) {
 		super.onCraftMatrixChanged(inventoryIn);
 
 		if (inventoryIn == this.inputSlots) {

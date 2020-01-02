@@ -3,7 +3,7 @@ package net.minecraft.inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
-public interface ISidedInventory extends IInventory {
+public interface SidedInventory extends Inventory {
 
 	int[] getSlotsForFace(EnumFacing side);
 

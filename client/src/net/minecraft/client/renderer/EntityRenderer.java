@@ -35,7 +35,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.logging.Log;
@@ -1165,7 +1165,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				Block block = iblockstate.getBlock();
 
 				if (this.mc.playerController.getCurrentGameType() == WorldSettings.GameType.SPECTATOR) {
-					flag = this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory;
+					flag = this.mc.theWorld.getTileEntity(blockpos) instanceof Inventory;
 				} else {
 					ItemStack itemstack = ((Player) entity).inventory.getCurrentItem();
 					flag = itemstack != null && (itemstack.canDestroy(block) || itemstack.canPlaceOn(block));

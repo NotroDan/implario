@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
@@ -117,11 +117,11 @@ public class CommandReplaceItem extends CommandBase {
 			World world = sender.getEntityWorld();
 			TileEntity tileentity = world.getTileEntity(blockpos);
 
-			if (!(tileentity instanceof IInventory)) {
+			if (!(tileentity instanceof Inventory)) {
 				throw new CommandException("commands.replaceitem.noContainer", new Object[] {blockpos.getX(), blockpos.getY(), blockpos.getZ()});
 			}
 
-			IInventory iinventory = (IInventory) tileentity;
+			Inventory iinventory = (Inventory) tileentity;
 
 			if (j >= 0 && j < iinventory.getSizeInventory()) {
 				iinventory.setInventorySlotContents(j, itemstack);

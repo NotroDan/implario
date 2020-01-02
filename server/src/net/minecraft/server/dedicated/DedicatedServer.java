@@ -3,9 +3,6 @@ package net.minecraft.server.dedicated;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.ServerCommand;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.database.Storage;
-import net.minecraft.database.mariadb.MariaDBStorage;
-import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.player.Player;
 import net.minecraft.logging.Log;
@@ -49,6 +46,7 @@ public class DedicatedServer extends MinecraftServer {
 			}
 			public void run() {
 				while (true) try {
+					Thread.sleep(1, 1);
 					Thread.sleep(0x7fffffffL);
 				} catch (InterruptedException ignored) {}
 			}
@@ -79,7 +77,7 @@ public class DedicatedServer extends MinecraftServer {
 
 		if (this.isSinglePlayer()) this.setHostname("127.0.0.1");
 		else {
-			this.setOnlineMode(this.settings.getBooleanProperty("online-mode", true));
+			this.setOnlineMode(this.settings.getBooleanProperty("online-mode", false));
 			this.setHostname(this.settings.getStringProperty("server-ip", ""));
 		}
 

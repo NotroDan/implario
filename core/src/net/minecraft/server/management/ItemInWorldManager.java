@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.protocol.minecraft_47.play.server.S23PacketBlockChange;
@@ -18,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.ILockableContainer;
+import net.minecraft.world.LockableContainer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldSettings;
@@ -345,9 +345,9 @@ public class ItemInWorldManager {
 		if (this.gameType == WorldSettings.GameType.SPECTATOR) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-			if (tileentity instanceof ILockableContainer) {
+			if (tileentity instanceof LockableContainer) {
 				Block block = worldIn.getBlockState(pos).getBlock();
-				ILockableContainer ilockablecontainer = (ILockableContainer) tileentity;
+				LockableContainer ilockablecontainer = (LockableContainer) tileentity;
 
 				if (ilockablecontainer instanceof TileEntityChest && block instanceof BlockChest) {
 					ilockablecontainer = ((BlockChest) block).getLockableContainer(worldIn, pos);
@@ -357,8 +357,8 @@ public class ItemInWorldManager {
 					player.displayGUIChest(ilockablecontainer);
 					return;
 				}
-			} else if (tileentity instanceof IInventory) {
-				player.displayGUIChest((IInventory) tileentity);
+			} else if (tileentity instanceof Inventory) {
+				player.displayGUIChest((Inventory) tileentity);
 				return;
 			}
 

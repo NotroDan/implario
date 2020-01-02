@@ -5,10 +5,10 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerChest extends Container {
 
-	private IInventory lowerChestInventory;
+	private Inventory lowerChestInventory;
 	private int numRows;
 
-	public ContainerChest(IInventory playerInventory, IInventory chestInventory, Player player) {
+	public ContainerChest(Inventory playerInventory, Inventory chestInventory, Player player) {
 		this.lowerChestInventory = chestInventory;
 		this.numRows = chestInventory.getSizeInventory() / 9;
 		chestInventory.openInventory(player);
@@ -60,7 +60,7 @@ public class ContainerChest extends Container {
 	/**
 	 * Return this chest container's lower chest inventory.
 	 */
-	public IInventory getLowerChestInventory() {
+	public Inventory getLowerChestInventory() {
 		return this.lowerChestInventory;
 	}
 

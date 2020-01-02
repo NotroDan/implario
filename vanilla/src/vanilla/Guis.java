@@ -2,7 +2,7 @@ package vanilla;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.MPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.protocol.minecraft_47.play.server.S2DPacketOpenWindow;
 import net.minecraft.network.protocol.minecraft_47.play.server.S3FPacketCustomPayload;
@@ -20,7 +20,7 @@ public class Guis {
 		player.openContainer = new ContainerMerchant(player.inventory, villager, player.worldObj);
 		player.openContainer.windowId = player.currentWindowId;
 		player.openContainer.onCraftGuiOpened(player);
-		IInventory iinventory = ((ContainerMerchant) player.openContainer).getMerchantInventory();
+		Inventory iinventory = ((ContainerMerchant) player.openContainer).getMerchantInventory();
 		IChatComponent ichatcomponent = villager.getDisplayName();
 		player.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(player.currentWindowId, "minecraft:villager", ichatcomponent, iinventory.getSizeInventory()));
 		MerchantRecipeList merchantrecipelist = villager.getRecipes(player);
@@ -33,7 +33,7 @@ public class Guis {
 		}
 	}
 
-	public static void displayGUIHorse(MPlayer player, EntityHorse horse, IInventory horseInventory) {
+	public static void displayGUIHorse(MPlayer player, EntityHorse horse, Inventory horseInventory) {
 		if (player.openContainer != player.inventoryContainer) player.closeScreen();
 
 		player.getNextWindowId();

@@ -6,12 +6,12 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerDispenser;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class TileEntityDispenser extends TileEntityLockable implements IInventory {
+public class TileEntityDispenser extends TileEntityLockable implements Inventory {
 
 	private static final Random RNG = new Random();
 	private ItemStack[] stacks = new ItemStack[9];

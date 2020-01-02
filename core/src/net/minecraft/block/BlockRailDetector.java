@@ -14,7 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityMinecartCommandBlock;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntitySelectors;
@@ -136,7 +136,7 @@ public class BlockRailDetector extends BlockRailBase {
 			List<EntityMinecart> list1 = this.findMinecarts(worldIn, pos, EntityMinecart.class, new Predicate[] {EntitySelectors.selectInventories});
 
 			if (!list1.isEmpty()) {
-				return Container.calcRedstoneFromInventory((IInventory) list1.get(0));
+				return Container.calcRedstoneFromInventory((Inventory) list1.get(0));
 			}
 		}
 

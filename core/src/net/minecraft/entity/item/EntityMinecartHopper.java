@@ -11,14 +11,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerHopper;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.IHopper;
+import net.minecraft.tileentity.Hopper;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.world.World;
 
-public class EntityMinecartHopper extends EntityMinecartContainer implements IHopper {
+public class EntityMinecartHopper extends EntityMinecartContainer implements Hopper {
 
 	/**
 	 * Whether this hopper minecart is being blocked by an activator rail.

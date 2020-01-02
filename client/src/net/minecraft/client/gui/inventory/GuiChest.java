@@ -5,7 +5,7 @@ import net.minecraft.client.gui.element.Colors;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.inventory.ContainerChest;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiChest extends GuiContainer {
@@ -14,15 +14,15 @@ public class GuiChest extends GuiContainer {
 	 * The ResourceLocation containing the chest GUI texture.
 	 */
 	private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
-	private IInventory upperChestInventory;
-	private IInventory lowerChestInventory;
+	private Inventory upperChestInventory;
+	private Inventory lowerChestInventory;
 
 	/**
 	 * window height is calculated with these values; the more rows, the heigher
 	 */
 	private int inventoryRows;
 
-	public GuiChest(IInventory upperInv, IInventory lowerInv) {
+	public GuiChest(Inventory upperInv, Inventory lowerInv) {
 		super(new ContainerChest(upperInv, lowerInv, Minecraft.getMinecraft().thePlayer));
 		this.upperChestInventory = upperInv;
 		this.lowerChestInventory = lowerInv;

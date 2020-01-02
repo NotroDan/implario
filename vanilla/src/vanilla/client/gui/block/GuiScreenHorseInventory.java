@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.G;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.util.ResourceLocation;
 import vanilla.entity.passive.EntityHorse;
 import vanilla.inventory.ContainerHorseInventory;
@@ -16,12 +16,12 @@ public class GuiScreenHorseInventory extends GuiContainer {
 	/**
 	 * The player inventory bound to this GUI.
 	 */
-	private IInventory playerInventory;
+	private Inventory playerInventory;
 
 	/**
 	 * The horse inventory bound to this GUI.
 	 */
-	private IInventory horseInventory;
+	private Inventory horseInventory;
 
 	/**
 	 * The EntityHorse whose inventory is currently being accessed.
@@ -38,7 +38,7 @@ public class GuiScreenHorseInventory extends GuiContainer {
 	 */
 	private float mousePosY;
 
-	public GuiScreenHorseInventory(IInventory playerInv, IInventory horseInv, EntityHorse horse) {
+	public GuiScreenHorseInventory(Inventory playerInv, Inventory horseInv, EntityHorse horse) {
 		super(new ContainerHorseInventory(playerInv, horseInv, horse, Minecraft.getMinecraft().thePlayer));
 		this.playerInventory = playerInv;
 		this.horseInventory = horseInv;

@@ -6,10 +6,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.world.ILockableContainer;
+import net.minecraft.world.LockableContainer;
 import net.minecraft.world.LockCode;
 
-public class InventoryLargeChest implements ILockableContainer {
+public class InventoryLargeChest implements LockableContainer {
 
 	/**
 	 * Name of the chest.
@@ -19,14 +19,14 @@ public class InventoryLargeChest implements ILockableContainer {
 	/**
 	 * Inventory object corresponding to double chest upper part
 	 */
-	private ILockableContainer upperChest;
+	private LockableContainer upperChest;
 
 	/**
 	 * Inventory object corresponding to double chest lower part
 	 */
-	private ILockableContainer lowerChest;
+	private LockableContainer lowerChest;
 
-	public InventoryLargeChest(String nameIn, ILockableContainer upperChestIn, ILockableContainer lowerChestIn) {
+	public InventoryLargeChest(String nameIn, LockableContainer upperChestIn, LockableContainer lowerChestIn) {
 		this.name = nameIn;
 
 		if (upperChestIn == null) {
@@ -57,7 +57,7 @@ public class InventoryLargeChest implements ILockableContainer {
 	/**
 	 * Return whether the given inventory is part of this large chest.
 	 */
-	public boolean isPartOfLargeChest(IInventory inventoryIn) {
+	public boolean isPartOfLargeChest(Inventory inventoryIn) {
 		return this.upperChest == inventoryIn || this.lowerChest == inventoryIn;
 	}
 

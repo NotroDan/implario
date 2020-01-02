@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerFurnace;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ResourceLocation;
 
@@ -18,9 +18,9 @@ public class GuiFurnace extends GuiContainer {
 	 * The player inventory bound to this GUI.
 	 */
 	private final InventoryPlayer playerInventory;
-	private IInventory tileFurnace;
+	private Inventory tileFurnace;
 
-	public GuiFurnace(InventoryPlayer playerInv, IInventory furnaceInv) {
+	public GuiFurnace(InventoryPlayer playerInv, Inventory furnaceInv) {
 		super(new ContainerFurnace(playerInv, furnaceInv));
 		this.playerInventory = playerInv;
 		this.tileFurnace = furnaceInv;

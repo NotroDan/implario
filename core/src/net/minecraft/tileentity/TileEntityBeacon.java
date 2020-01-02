@@ -10,7 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerBeacon;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.potion.Potion;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TileEntityBeacon extends TileEntityLockable implements ITickable, IInventory {
+public class TileEntityBeacon extends TileEntityLockable implements ITickable, Inventory {
 
 	/**
 	 * List of effects that Beacon can apply

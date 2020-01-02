@@ -2,13 +2,12 @@ package net.minecraft.inventory;
 
 import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 import java.util.Arrays;
 
-public class InventoryCrafting implements IInventory {
+public class InventoryCrafting implements Inventory {
 	/**
 	 * List of the stacks in the crafting matrix.
 	 */

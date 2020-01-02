@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerDispenser;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiDispenser extends GuiContainer {
@@ -21,9 +21,9 @@ public class GuiDispenser extends GuiContainer {
 	/**
 	 * The inventory contained within the corresponding Dispenser.
 	 */
-	public IInventory dispenserInventory;
+	public Inventory dispenserInventory;
 
-	public GuiDispenser(InventoryPlayer playerInv, IInventory dispenserInv) {
+	public GuiDispenser(InventoryPlayer playerInv, Inventory dispenserInv) {
 		super(new ContainerDispenser(playerInv, dispenserInv));
 		this.playerInventory = playerInv;
 		this.dispenserInventory = dispenserInv;

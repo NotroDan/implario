@@ -2,7 +2,7 @@ package net.minecraft.block;
 
 import net.minecraft.block.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.block.dispenser.IBehaviorDispenseItem;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
@@ -42,7 +42,7 @@ public class BlockDropper extends BlockDispenser {
 				if (itemstack != null) {
 					EnumFacing enumfacing = (EnumFacing) worldIn.getBlockState(pos).getValue(FACING);
 					BlockPos blockpos = pos.offset(enumfacing);
-					IInventory iinventory = TileEntityHopper.getInventoryAtPosition(worldIn, (double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
+					Inventory iinventory = TileEntityHopper.getInventoryAtPosition(worldIn, (double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
 					ItemStack itemstack1;
 
 					if (iinventory == null) {

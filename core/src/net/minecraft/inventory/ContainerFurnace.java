@@ -8,13 +8,13 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerFurnace extends Container {
 
-	private final IInventory tileFurnace;
+	private final Inventory tileFurnace;
 	private int field_178152_f;
 	private int field_178153_g;
 	private int field_178154_h;
 	private int field_178155_i;
 
-	public ContainerFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory) {
+	public ContainerFurnace(InventoryPlayer playerInventory, Inventory furnaceInventory) {
 		this.tileFurnace = furnaceInventory;
 		this.addSlotToContainer(new Slot(furnaceInventory, 0, 56, 17));
 		this.addSlotToContainer(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));

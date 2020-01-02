@@ -21,7 +21,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.*;
 import net.minecraft.item.potion.Potion;
@@ -1033,17 +1033,21 @@ public abstract class Player extends EntityLivingBase {
 
 	public abstract <T> void openGui(Class<T> type, T gui);
 
+	public void openGui(Inventory inventory){
+		openGui(Inventory.class, inventory);
+	}
+
 	/**
 	 * Displays the GUI for interacting with a chest inventory. Args: chestInventory
 	 */
-	public void displayGUIChest(IInventory chestInventory) {
-		openGui(IInventory.class, chestInventory);
+	public void displayGUIChest(Inventory chestInventory) {
+		openGui(Inventory.class, chestInventory);
 	}
 
 	public boolean interactWith(Entity e) {
 		if (this.isSpectator()) {
-			if (e instanceof IInventory) {
-				this.displayGUIChest((IInventory) e);
+			if (e instanceof Inventory) {
+				this.displayGUIChest((Inventory) e);
 			}
 
 			return false;

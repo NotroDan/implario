@@ -4,7 +4,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IWorldNameable;
 
-public interface IInventory extends IWorldNameable {
+public interface Inventory extends IWorldNameable {
 
 	/**
 	 * Returns the number of slots in the inventory.

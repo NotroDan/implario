@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class SlotFurnaceFuel extends Slot {
 
-	public SlotFurnaceFuel(IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
+	public SlotFurnaceFuel(Inventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
 		super(inventoryIn, slotIndex, xPosition, yPosition);
 	}
 

@@ -16,7 +16,7 @@ public class SlotFurnaceOutput extends Slot {
 	private Player thePlayer;
 	private int field_75228_b;
 
-	public SlotFurnaceOutput(Player player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
+	public SlotFurnaceOutput(Player player, Inventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
 		super(inventoryIn, slotIndex, xPosition, yPosition);
 		this.thePlayer = player;
 	}

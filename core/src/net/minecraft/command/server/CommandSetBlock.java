@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.*;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
@@ -84,8 +84,8 @@ public class CommandSetBlock extends CommandBase {
 		TileEntity tileentity1 = world.getTileEntity(blockpos);
 
 		if (tileentity1 != null) {
-			if (tileentity1 instanceof IInventory) {
-				((IInventory) tileentity1).clear();
+			if (tileentity1 instanceof Inventory) {
+				((Inventory) tileentity1).clear();
 			}
 
 			world.setBlockState(blockpos, Blocks.air.getDefaultState(), block == Blocks.air ? 2 : 4);

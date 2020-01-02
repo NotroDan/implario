@@ -1,9 +1,9 @@
 package net.minecraft.tileentity;
 
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.world.World;
 
-public interface IHopper extends IInventory {
+public interface Hopper extends Inventory {
 
 	/**
 	 * Returns the worldObj for this tileEntity.

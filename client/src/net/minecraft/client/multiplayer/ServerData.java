@@ -37,9 +37,9 @@ public class ServerData {
 	private String serverIcon;
 	private boolean isOnlineMode;
 
-	public ServerData(String p_i46420_1_, String p_i46420_2_, boolean isOnlineMode) {
-		this.serverName = p_i46420_1_;
-		this.serverIP = p_i46420_2_;
+	public ServerData(String serverName, String serverIP, boolean isOnlineMode) {
+		this.serverName = serverName;
+		this.serverIP = serverIP.trim();
 		this.isOnlineMode = isOnlineMode;
 	}
 

@@ -16,7 +16,7 @@ import static net.minecraft.item.Groups.unoW;
 public class ContainerCreativeItems extends Container {
 
 
-	public static final IInventory DUMMY = new InventoryBasic("Болванка", true, 200);
+	public static final Inventory DUMMY = new InventoryBasic("Болванка", true, 200);
 	public final int left;
 
 	public List<ItemStack> itemList = new ArrayList<>();
@@ -105,7 +105,7 @@ public class ContainerCreativeItems extends Container {
 
 		public int baseY;
 
-		public ScrollSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+		public ScrollSlot(Inventory inventoryIn, int index, int xPosition, int yPosition) {
 			super(inventoryIn, index, xPosition, yPosition);
 			baseY = yPosition;
 		}

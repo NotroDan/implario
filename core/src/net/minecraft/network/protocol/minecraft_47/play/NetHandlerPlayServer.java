@@ -615,30 +615,6 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 		}
 	}
 
-	public void sendPacket(final Packet packetIn) {
-		if (packetIn instanceof S02PacketChat) {
-			S02PacketChat s02packetchat = (S02PacketChat) packetIn;
-			Player.EnumChatVisibility entityplayer$enumchatvisibility = this.playerEntity.getChatVisibility();
-
-			if (entityplayer$enumchatvisibility == Player.EnumChatVisibility.HIDDEN) {
-				return;
-			}
-
-			if (entityplayer$enumchatvisibility == Player.EnumChatVisibility.SYSTEM && !s02packetchat.isChat()) {
-				return;
-			}
-		}
-
-		try {
-			this.netManager.sendPacket(packetIn);
-		} catch (Throwable throwable) {
-			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Sending packet");
-			CrashReportCategory crashreportcategory = crashreport.makeCategory("Packet being sent");
-			crashreportcategory.addCrashSectionCallable("Packet class", () -> packetIn.getClass().getCanonicalName());
-			throw new ReportedException(crashreport);
-		}
-	}
-
 	/**
 	 * Updates which quickbar slot is selected
 	 */
@@ -841,6 +817,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Processes the client closing windows (container)
 	 */
 	public void processCloseWindow(C0DPacketCloseWindow packetIn) {
+		System.out.println(packetIn + " close window");
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
 		this.playerEntity.closeContainer();
 	}
@@ -851,6 +828,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * the same open container/inventory
 	 */
 	public void processClickWindow(C0EPacketClickWindow packetIn) {
+		System.out.println(packetIn + " click window");
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
 		this.playerEntity.markPlayerActive();
 
@@ -864,7 +842,14 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 
 				this.playerEntity.updateCraftingInventory(this.playerEntity.openContainer, list);
 			} else {
+				playerEntity.updateHeldItem();
+				this.playerEntity.sendSlotContents(playerEntity.openContainer, packetIn.getSlotId(), playerEntity.openContainer.inventoryItemStacks.get(packetIn.getSlotId()));
+				playerEntity.closeContainer();
+				playerEntity.closeScreen();
+				System.out.println("is work?");
+				if(true)return;
 				ItemStack itemstack = this.playerEntity.openContainer.slotClick(packetIn.getSlotId(), packetIn.getUsedButton(), ClickType.values()[packetIn.getMode()], this.playerEntity);
+
 
 				if (ItemStack.areItemStacksEqual(packetIn.getClickedItem(), itemstack)) {
 					this.playerEntity.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(packetIn.getWindowId(), packetIn.getActionNumber(), true));
@@ -1168,7 +1153,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 
 					if (slot.getHasStack()) {
 						slot.decrStackSize(1);
-						IInventory iinventory = containerbeacon.func_180611_e();
+						Inventory iinventory = containerbeacon.func_180611_e();
 						iinventory.setField(1, k);
 						iinventory.setField(2, l);
 						iinventory.markDirty();

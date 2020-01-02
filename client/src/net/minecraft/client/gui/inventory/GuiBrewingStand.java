@@ -3,7 +3,7 @@ package net.minecraft.client.gui.inventory;
 import net.minecraft.client.renderer.G;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerBrewingStand;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiBrewingStand extends GuiContainer {
@@ -14,9 +14,9 @@ public class GuiBrewingStand extends GuiContainer {
 	 * The player inventory bound to this GUI.
 	 */
 	private final InventoryPlayer playerInventory;
-	private IInventory tileBrewingStand;
+	private Inventory tileBrewingStand;
 
-	public GuiBrewingStand(InventoryPlayer playerInv, IInventory p_i45506_2_) {
+	public GuiBrewingStand(InventoryPlayer playerInv, Inventory p_i45506_2_) {
 		super(new ContainerBrewingStand(playerInv, p_i45506_2_));
 		this.playerInventory = playerInv;
 		this.tileBrewingStand = p_i45506_2_;

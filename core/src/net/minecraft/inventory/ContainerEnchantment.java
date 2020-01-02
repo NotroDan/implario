@@ -20,7 +20,7 @@ public class ContainerEnchantment extends Container {
 	/**
 	 * SlotEnchantmentTable object with ItemStack to be enchanted
 	 */
-	public IInventory tableInventory;
+	public Inventory tableInventory;
 
 	/**
 	 * current world (for bookshelf counting)
@@ -123,7 +123,7 @@ public class ContainerEnchantment extends Container {
 	/**
 	 * Callback for when the crafting matrix is changed.
 	 */
-	public void onCraftMatrixChanged(IInventory inventoryIn) {
+	public void onCraftMatrixChanged(Inventory inventoryIn) {
 		if (inventoryIn == this.tableInventory) {
 			ItemStack itemstack = inventoryIn.getStackInSlot(0);
 

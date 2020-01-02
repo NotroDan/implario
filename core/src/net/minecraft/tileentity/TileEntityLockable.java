@@ -5,10 +5,10 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.IInteractionObject;
-import net.minecraft.world.ILockableContainer;
+import net.minecraft.world.LockableContainer;
 import net.minecraft.world.LockCode;
 
-public abstract class TileEntityLockable extends TileEntity implements IInteractionObject, ILockableContainer {
+public abstract class TileEntityLockable extends TileEntity implements IInteractionObject, LockableContainer {
 
 	private LockCode code = LockCode.EMPTY_CODE;
 

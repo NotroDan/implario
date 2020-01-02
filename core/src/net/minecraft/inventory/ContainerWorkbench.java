@@ -14,7 +14,7 @@ public class ContainerWorkbench extends Container {
 	 * The crafting matrix inventory (3x3).
 	 */
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
-	public IInventory craftResult = new InventoryCraftResult();
+	public Inventory craftResult = new InventoryCraftResult();
 	private World worldObj;
 
 	/**
@@ -49,7 +49,7 @@ public class ContainerWorkbench extends Container {
 	/**
 	 * Callback for when the crafting matrix is changed.
 	 */
-	public void onCraftMatrixChanged(IInventory inventoryIn) {
+	public void onCraftMatrixChanged(Inventory inventoryIn) {
 		this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
 	}
 

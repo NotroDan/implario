@@ -15,7 +15,7 @@ public class ContainerPlayer extends Container {
 	 * The crafting matrix inventory.
 	 */
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 2, 2);
-	public IInventory craftResult = new InventoryCraftResult();
+	public Inventory craftResult = new InventoryCraftResult();
 
 	/**
 	 * Determines if inventory manipulation should be handled.
@@ -68,7 +68,7 @@ public class ContainerPlayer extends Container {
 	/**
 	 * Callback for when the crafting matrix is changed.
 	 */
-	public void onCraftMatrixChanged(IInventory inventoryIn) {
+	public void onCraftMatrixChanged(Inventory inventoryIn) {
 		this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.thePlayer.worldObj));
 	}
 
