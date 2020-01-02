@@ -56,6 +56,12 @@ public class Registrar {
 		registerMapping(new MappingCommand(command));
 	}
 
+	@SafeVarargs
+	public final <T extends ICommand> void registerCommands(T... commands){
+		for(T command : commands)
+			registerCommand(command);
+	}
+
 	/**
 	 * Перехватчики пакетов.
 	 *

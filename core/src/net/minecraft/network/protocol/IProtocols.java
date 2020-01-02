@@ -22,7 +22,5 @@ public interface IProtocols {
 
     IProtocol getProtocolPlay();
 
-    IPlayServer getPlayServer();
-
     Packet getDisconnectPacket(IChatComponent component);
 }

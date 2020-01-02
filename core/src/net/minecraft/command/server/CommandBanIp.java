@@ -17,8 +17,6 @@ import net.minecraft.server.management.IPBanEntry;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 
-import javax.annotation.PostConstruct;
-
 public class CommandBanIp extends CommandBase {
 
 	public static final Pattern field_147211_a = Pattern.compile(

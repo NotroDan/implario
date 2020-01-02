@@ -21,8 +21,8 @@ import java.util.function.Supplier;
 @UtilityClass
 public class DatapackManager {
 
-	public static final String MINECRAFT = "minecraft";
-	public final DatapackLoader ROOT = new SimpleDatapackLoader(new Datapack(MINECRAFT) {}, DatapackInfo.builder().domain(MINECRAFT).build());
+
+	public final DatapackLoader ROOT = new SimpleDatapackLoader(new DatapackMinecraft() {}, DatapackInfo.builder().domain(DatapackMinecraft.MINECRAFT).build());
 
 	private final Map<String, DatapackLoader> map = new HashMap<>();
 
@@ -40,13 +40,14 @@ public class DatapackManager {
 			return;
 		}
 		map.put(properties.getDomain(), loader);
-		for (String dependency : properties.getDependencies()) {
-			map.get(dependency).growBranch(loader);
-		}
+		if(properties.getDependencies() != null)
+			for (String dependency : properties.getDependencies())
+				map.get(dependency).growBranch(loader);
 		tree.getRootElement().growBranch(loader);
 	}
 
 	public void prepare(Iterable<DatapackLoader> loaders) {
+		tree.rebuild();
 		for (DatapackLoader loader : loaders) prepare(loader);
 		tree.rebuild();
 	}
@@ -69,16 +70,14 @@ public class DatapackManager {
 	}
 	public DatapackLoader validateJar(File jar) {
 		if (!jar.exists() || !jar.isFile() || !jar.getName().endsWith(".jar")) return null;
-		DatapackLoader loader = new JarDatapackLoader(jar);
-		prepare(loader);
-		tree.rebuild();
-		return loader;
+		return new JarDatapackLoader(jar);
 	}
 
 	public List<DatapackLoader> validateDir(File dir) {
-		if (!dir.isDirectory()) return new ArrayList<>();
-
 		List<DatapackLoader> loaders = new ArrayList<>();
+		loaders.add(ROOT);
+		if (!dir.isDirectory()) return loaders;
+
 		for (File file : dir.listFiles()) {
 			DatapackLoader loader = validateJar(file);
 			if (loader != null) loaders.add(loader);
@@ -117,10 +116,6 @@ public class DatapackManager {
 	public Datapack getDatapack(String name){
 		DatapackLoader loader = getLoaderByName(name);
 		return loader == null ? null : loader.getInstance();
-	}
-
-	public void init(DatapackLoader loader) {
-		loader.getInstance().init();
 	}
 
 	public void shutdownBranch(DatapackLoader loader) {

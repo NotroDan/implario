@@ -13,9 +13,4 @@ public class Protocol47 extends ProtocolMinecraft {
     public IProtocol getProtocolPlay() {
         return PLAY;
     }
-
-    @Override
-    public IPlayServer getPlayServer() {
-        return null;
-    }
 }

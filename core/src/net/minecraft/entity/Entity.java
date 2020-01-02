@@ -21,6 +21,7 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.resources.DatapackManager;
+import net.minecraft.resources.DatapackMinecraft;
 import net.minecraft.resources.event.ServerEvents;
 import net.minecraft.resources.event.events.entity.EntityKilledEntityEvent;
 import net.minecraft.server.MinecraftServer;
@@ -310,7 +311,7 @@ public abstract class Entity implements ICommandSender, ITrackable {
 	}
 
 	public String getDomain() {
-		return DatapackManager.MINECRAFT;
+		return DatapackMinecraft.MINECRAFT;
 	}
 
 	protected abstract void entityInit();

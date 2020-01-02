@@ -61,7 +61,6 @@ public class  ServerCommandManager extends CommandHandler implements IAdminComma
 		registerCommand(new CommandLogin());
 		registerCommand(new CommandRegister());
 
-		if (MinecraftServer.getServer().isDedicatedServer()) {
 			registerCommand(new CommandDatapack());
 			registerCommand(new CommandOp());
 			registerCommand(new CommandDeOp());
@@ -79,9 +78,7 @@ public class  ServerCommandManager extends CommandHandler implements IAdminComma
 			registerCommand(new CommandWhitelist());
 			registerCommand(new CommandSetPlayerTimeout());
 
-		} else {
 			registerCommand(new CommandPublishLocalServer());
-		}
 
 		CommandBase.setAdminCommander(this);
 	}
