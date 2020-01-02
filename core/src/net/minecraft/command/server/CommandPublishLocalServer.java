@@ -13,6 +13,11 @@ public class CommandPublishLocalServer extends CommandBase {
 	}
 
 	@Override
+	public boolean canCommandSenderUseCommand(ICommandSender sender) {
+		return MinecraftServer.getServer().isSinglePlayer();
+	}
+
+	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.publish.usage";
 	}
