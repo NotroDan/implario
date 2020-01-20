@@ -2,7 +2,7 @@ package net.minecraft.command.server;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.command.CommandResultStats;
-import net.minecraft.command.ICommandManager;
+import net.minecraft.command.api.ICommandManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;

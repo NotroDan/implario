@@ -59,6 +59,7 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.util.*;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.EnumDifficulty;
 import org.apache.commons.lang3.Validate;
 import org.lwjgl.LWJGLException;

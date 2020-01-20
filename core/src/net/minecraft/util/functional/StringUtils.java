@@ -1,5 +1,7 @@
-package net.minecraft.util;
+package net.minecraft.util.functional;
 
+import lombok.experimental.UtilityClass;
+import net.minecraft.util.ResourceLocation;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
@@ -8,11 +10,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+@UtilityClass
 public class StringUtils {
 
 	private static final Pattern patternControlCode = Pattern.compile("(?i)\\u00A7[0-9A-FK-OR]");
@@ -137,6 +141,68 @@ public class StringUtils {
 			b.append(member);
 		}
 		return b.toString();
+	}
+
+	public static Integer parseBoxedInt(String string) {
+		if (string == null) return null;
+		int result = 0;
+		boolean negative = false;
+		int offset = 0;
+		int size = string.length();
+		int value = -2147483647;
+		if (size <= 0) return null;
+		char c = string.charAt(0);
+		if (c < '0') {
+			if (c == '-') {
+				negative = true;
+				value = -2147483648;
+			} else if (c != '+') return null;
+			if (size == 1) return null;
+			++offset;
+		}
+
+		int digit;
+		for (int order = value / 10; offset < size; result -= digit) {
+			digit = string.charAt(offset++) - '0';
+			if (digit < 0 || digit > 9) return null;
+
+			if (result < order) return null;
+
+			result *= 10;
+			if (result < value + digit) return null;
+		}
+
+		return negative ? result : -result;
+	}
+
+
+	/**
+	 * Returns true if the given substring is exactly equal to the start of the given string (case insensitive).
+	 */
+	public boolean doesStringStartWith(String original, String region) {
+		return region.regionMatches(true, 0, original, 0, original.length());
+	}
+
+	public List<String> filterCompletions(String[] args, String... possibilities) {
+		return filterCompletions(args, Arrays.asList(possibilities));
+	}
+
+	public List<String> filterCompletions(String[] args, Collection<?> possibilities) {
+		if (possibilities.isEmpty()) return new ArrayList<>();
+
+		String s = args[args.length - 1];
+
+		List<String> list = possibilities.stream()
+				.map(String::valueOf)
+				.filter(s1 -> doesStringStartWith(s, s1))
+				.collect(Collectors.toList());
+
+		if (!list.isEmpty()) return list;
+
+		return possibilities.stream()
+				.filter(o -> o instanceof ResourceLocation && doesStringStartWith(s, ((ResourceLocation) o).getResourcePath()))
+				.map(String::valueOf)
+				.collect(Collectors.toList());
 	}
 
 }

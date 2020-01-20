@@ -11,6 +11,7 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandTrigger extends CommandBase {
 
@@ -101,9 +102,9 @@ public class CommandTrigger extends CommandBase {
 				}
 			}
 
-			return getListOfStringsMatchingLastWord(args, (String[]) list.toArray(new String[list.size()]));
+			return StringUtils.filterCompletions(args, (String[]) list.toArray(new String[list.size()]));
 		}
-		return args.length == 2 ? getListOfStringsMatchingLastWord(args, new String[] {"add", "set"}) : null;
+		return args.length == 2 ? StringUtils.filterCompletions(args, new String[] {"add", "set"}) : null;
 	}
 
 }

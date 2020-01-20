@@ -504,37 +504,6 @@ public abstract class CommandBase implements ICommand {
 	}
 
 	/**
-	 * Returns true if the given substring is exactly equal to the start of the given string (case insensitive).
-	 */
-	public static boolean doesStringStartWith(String original, String region) {
-		return region.regionMatches(true, 0, original, 0, original.length());
-	}
-
-	public static List<String> getListOfStringsMatchingLastWord(String[] args, String... possibilities) {
-		return getListOfStringsMatchingLastWord(args, Arrays.asList(possibilities));
-	}
-
-	public static List<String> getListOfStringsMatchingLastWord(String[] args, Collection<?> possibilities) {
-		String s = args[args.length - 1];
-		List<String> list = new ArrayList<>();
-
-		if (possibilities.isEmpty()) return list;
-
-		for (String s1 : Iterables.transform(possibilities, Functions.toStringFunction()))
-			if (doesStringStartWith(s, s1)) list.add(s1);
-
-		if (list.isEmpty()) {
-			for (Object object : possibilities) {
-				if (object instanceof ResourceLocation && doesStringStartWith(s, ((ResourceLocation) object).getResourcePath())) {
-					list.add(String.valueOf(object));
-				}
-			}
-		}
-
-		return list;
-	}
-
-	/**
 	 * Return whether the specified command parameter index is a username parameter.
 	 */
 	public boolean isUsernameIndex(String[] args, int index) {

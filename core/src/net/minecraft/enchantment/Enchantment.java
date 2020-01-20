@@ -6,6 +6,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.Todo;
 import net.minecraft.util.*;
+import net.minecraft.util.functional.StringUtils;
 
 import java.util.*;
 

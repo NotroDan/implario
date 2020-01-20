@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 
 import java.util.List;
 
@@ -98,7 +99,7 @@ public class CommandEnchant extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayers()) : args.length == 2 ? getListOfStringsMatchingLastWord(args, Enchantment.func_181077_c()) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, this.getListOfPlayers()) : args.length == 2 ? StringUtils.filterCompletions(args, Enchantment.func_181077_c()) : null;
 	}
 
 	protected String[] getListOfPlayers() {

@@ -5,6 +5,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.WorldSettings;
 
 import java.util.Collections;
@@ -75,8 +76,8 @@ public class CommandGameMode extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, "survival", "creative", "adventure",
-				"spectator") : args.length == 2 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayerUsernames()) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, "survival", "creative", "adventure",
+				"spectator") : args.length == 2 ? StringUtils.filterCompletions(args, this.getListOfPlayerUsernames()) : null;
 	}
 
 	/**

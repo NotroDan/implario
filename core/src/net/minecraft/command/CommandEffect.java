@@ -8,6 +8,7 @@ import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandEffect extends CommandBase {
 
@@ -37,16 +38,16 @@ public class CommandEffect extends CommandBase {
 	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 2) {
-			throw new WrongUsageException("commands.effect.usage", new Object[0]);
+			throw new WrongUsageException("commands.effect.usage");
 		}
-		EntityLivingBase entitylivingbase = (EntityLivingBase) getEntity(sender, args[0], EntityLivingBase.class);
+		EntityLivingBase entitylivingbase = getEntity(sender, args[0], EntityLivingBase.class);
 
 		if (args[1].equals("clear")) {
 			if (entitylivingbase.getActivePotionEffects().isEmpty()) {
-				throw new CommandException("commands.effect.failure.notActive.all", new Object[] {entitylivingbase.getName()});
+				throw new CommandException("commands.effect.failure.notActive.all", entitylivingbase.getName());
 			}
 			entitylivingbase.clearActivePotions();
-			notifyOperators(sender, this, "commands.effect.success.removed.all", new Object[] {entitylivingbase.getName()});
+			notifyOperators(sender, this, "commands.effect.success.removed.all", entitylivingbase.getName());
 		} else {
 			int i;
 
@@ -94,25 +95,23 @@ public class CommandEffect extends CommandBase {
 				if (l > 0) {
 					PotionEffect potioneffect = new PotionEffect(i, j, k, false, flag);
 					entitylivingbase.addPotionEffect(potioneffect);
-					notifyOperators(sender, this, "commands.effect.success", new Object[] {
-							new ChatComponentTranslation(potioneffect.getEffectName(), new Object[0]), i, k, entitylivingbase.getName(),
-							l
-					});
+					notifyOperators(sender, this, "commands.effect.success", new ChatComponentTranslation(potioneffect.getEffectName()), i, k, entitylivingbase.getName(),
+							l);
 				} else if (entitylivingbase.isPotionActive(i)) {
 					entitylivingbase.removePotionEffect(i);
-					notifyOperators(sender, this, "commands.effect.success.removed", new Object[] {new ChatComponentTranslation(potion1.getName(), new Object[0]), entitylivingbase.getName()});
+					notifyOperators(sender, this, "commands.effect.success.removed", new ChatComponentTranslation(potion1.getName()), entitylivingbase.getName());
 				} else {
-					throw new CommandException("commands.effect.failure.notActive", new Object[] {new ChatComponentTranslation(potion1.getName(), new Object[0]), entitylivingbase.getName()});
+					throw new CommandException("commands.effect.failure.notActive", new ChatComponentTranslation(potion1.getName()), entitylivingbase.getName());
 				}
 			} else {
-				throw new NumberInvalidException("commands.effect.notFound", new Object[] {i});
+				throw new NumberInvalidException("commands.effect.notFound", i);
 			}
 		}
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getAllUsernames()) : args.length == 2 ? getListOfStringsMatchingLastWord(args,
-				Potion.func_181168_c()) : args.length == 5 ? getListOfStringsMatchingLastWord(args, new String[] {"true", "false"}) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, this.getAllUsernames()) : args.length == 2 ? StringUtils.filterCompletions(args,
+				Potion.func_181168_c()) : args.length == 5 ? StringUtils.filterCompletions(args, "true", "false") : null;
 	}
 
 	protected String[] getAllUsernames() {

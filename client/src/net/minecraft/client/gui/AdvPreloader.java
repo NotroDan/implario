@@ -84,7 +84,7 @@ public class AdvPreloader extends Preloader {
 				glColor4f(0.4f, 0.4f, 0.4f, 1);
 				BakedFont.VERDANA.getRenderer().renderString(elapsed, -60, 30, false);
 				TrueTypeFontRenderer renderer = BakedFont.VERDANA.getRenderer();
-				renderer.renderString(states[state] + "...", renderer.getStringWidth(states[state] + "...") / -4 - 5, height / 2 - 40, false);
+				renderer.renderString(states[state] + "...", renderer.getStringWidth(states[state] + "...") / -2 - 5, height / 2 - 40, false);
 			} glPopMatrix();
 		} glPopMatrix();
 

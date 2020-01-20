@@ -33,6 +33,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandScoreboard extends CommandBase {
 
@@ -824,129 +825,129 @@ public class CommandScoreboard extends CommandBase {
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) {
-			return getListOfStringsMatchingLastWord(args, new String[] {"objectives", "players", "teams"});
+			return StringUtils.filterCompletions(args, new String[] {"objectives", "players", "teams"});
 		}
 		if (args[0].equalsIgnoreCase("objectives")) {
 			if (args.length == 2) {
-				return getListOfStringsMatchingLastWord(args, new String[] {"list", "add", "remove", "setdisplay"});
+				return StringUtils.filterCompletions(args, new String[] {"list", "add", "remove", "setdisplay"});
 			}
 
 			if (args[1].equalsIgnoreCase("add")) {
 				if (args.length == 4) {
 					Set<String> set = IScoreObjectiveCriteria.INSTANCES.keySet();
-					return getListOfStringsMatchingLastWord(args, set);
+					return StringUtils.filterCompletions(args, set);
 				}
 			} else if (args[1].equalsIgnoreCase("remove")) {
 				if (args.length == 3) {
-					return getListOfStringsMatchingLastWord(args, this.func_147184_a(false));
+					return StringUtils.filterCompletions(args, this.func_147184_a(false));
 				}
 			} else if (args[1].equalsIgnoreCase("setdisplay")) {
 				if (args.length == 3) {
-					return getListOfStringsMatchingLastWord(args, Scoreboard.getDisplaySlotStrings());
+					return StringUtils.filterCompletions(args, Scoreboard.getDisplaySlotStrings());
 				}
 
 				if (args.length == 4) {
-					return getListOfStringsMatchingLastWord(args, this.func_147184_a(false));
+					return StringUtils.filterCompletions(args, this.func_147184_a(false));
 				}
 			}
 		} else if (args[0].equalsIgnoreCase("players")) {
 			if (args.length == 2) {
-				return getListOfStringsMatchingLastWord(args, new String[] {"set", "add", "remove", "reset", "list", "enable", "test", "operation"});
+				return StringUtils.filterCompletions(args, new String[] {"set", "add", "remove", "reset", "list", "enable", "test", "operation"});
 			}
 
 			if (!args[1].equalsIgnoreCase("set") && !args[1].equalsIgnoreCase("add") && !args[1].equalsIgnoreCase("remove") && !args[1].equalsIgnoreCase("reset")) {
 				if (args[1].equalsIgnoreCase("enable")) {
 					if (args.length == 3) {
-						return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+						return StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames());
 					}
 
 					if (args.length == 4) {
-						return getListOfStringsMatchingLastWord(args, this.func_175782_e());
+						return StringUtils.filterCompletions(args, this.func_175782_e());
 					}
 				} else if (!args[1].equalsIgnoreCase("list") && !args[1].equalsIgnoreCase("test")) {
 					if (args[1].equalsIgnoreCase("operation")) {
 						if (args.length == 3) {
-							return getListOfStringsMatchingLastWord(args, this.getScoreboard().getObjectiveNames());
+							return StringUtils.filterCompletions(args, this.getScoreboard().getObjectiveNames());
 						}
 
 						if (args.length == 4) {
-							return getListOfStringsMatchingLastWord(args, this.func_147184_a(true));
+							return StringUtils.filterCompletions(args, this.func_147184_a(true));
 						}
 
 						if (args.length == 5) {
-							return getListOfStringsMatchingLastWord(args, new String[] {"+=", "-=", "*=", "/=", "%=", "=", "<", ">", "><"});
+							return StringUtils.filterCompletions(args, new String[] {"+=", "-=", "*=", "/=", "%=", "=", "<", ">", "><"});
 						}
 
 						if (args.length == 6) {
-							return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+							return StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames());
 						}
 
 						if (args.length == 7) {
-							return getListOfStringsMatchingLastWord(args, this.func_147184_a(false));
+							return StringUtils.filterCompletions(args, this.func_147184_a(false));
 						}
 					}
 				} else {
 					if (args.length == 3) {
-						return getListOfStringsMatchingLastWord(args, this.getScoreboard().getObjectiveNames());
+						return StringUtils.filterCompletions(args, this.getScoreboard().getObjectiveNames());
 					}
 
 					if (args.length == 4 && args[1].equalsIgnoreCase("test")) {
-						return getListOfStringsMatchingLastWord(args, this.func_147184_a(false));
+						return StringUtils.filterCompletions(args, this.func_147184_a(false));
 					}
 				}
 			} else {
 				if (args.length == 3) {
-					return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+					return StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames());
 				}
 
 				if (args.length == 4) {
-					return getListOfStringsMatchingLastWord(args, this.func_147184_a(true));
+					return StringUtils.filterCompletions(args, this.func_147184_a(true));
 				}
 			}
 		} else if (args[0].equalsIgnoreCase("teams")) {
 			if (args.length == 2) {
-				return getListOfStringsMatchingLastWord(args, new String[] {"add", "remove", "join", "leave", "empty", "list", "option"});
+				return StringUtils.filterCompletions(args, new String[] {"add", "remove", "join", "leave", "empty", "list", "option"});
 			}
 
 			if (args[1].equalsIgnoreCase("join")) {
 				if (args.length == 3) {
-					return getListOfStringsMatchingLastWord(args, this.getScoreboard().getTeamNames());
+					return StringUtils.filterCompletions(args, this.getScoreboard().getTeamNames());
 				}
 
 				if (args.length >= 4) {
-					return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+					return StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames());
 				}
 			} else {
 				if (args[1].equalsIgnoreCase("leave")) {
-					return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+					return StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames());
 				}
 
 				if (!args[1].equalsIgnoreCase("empty") && !args[1].equalsIgnoreCase("list") && !args[1].equalsIgnoreCase("remove")) {
 					if (args[1].equalsIgnoreCase("option")) {
 						if (args.length == 3) {
-							return getListOfStringsMatchingLastWord(args, this.getScoreboard().getTeamNames());
+							return StringUtils.filterCompletions(args, this.getScoreboard().getTeamNames());
 						}
 
 						if (args.length == 4) {
-							return getListOfStringsMatchingLastWord(args, new String[] {"color", "friendlyfire", "seeFriendlyInvisibles", "nametagVisibility", "deathMessageVisibility"});
+							return StringUtils.filterCompletions(args, new String[] {"color", "friendlyfire", "seeFriendlyInvisibles", "nametagVisibility", "deathMessageVisibility"});
 						}
 
 						if (args.length == 5) {
 							if (args[3].equalsIgnoreCase("color")) {
-								return getListOfStringsMatchingLastWord(args, EnumChatFormatting.getValidValues(true, false));
+								return StringUtils.filterCompletions(args, EnumChatFormatting.getValidValues(true, false));
 							}
 
 							if (args[3].equalsIgnoreCase("nametagVisibility") || args[3].equalsIgnoreCase("deathMessageVisibility")) {
-								return getListOfStringsMatchingLastWord(args, Team.EnumVisible.func_178825_a());
+								return StringUtils.filterCompletions(args, Team.EnumVisible.func_178825_a());
 							}
 
 							if (args[3].equalsIgnoreCase("friendlyfire") || args[3].equalsIgnoreCase("seeFriendlyInvisibles")) {
-								return getListOfStringsMatchingLastWord(args, new String[] {"true", "false"});
+								return StringUtils.filterCompletions(args, new String[] {"true", "false"});
 							}
 						}
 					}
 				} else if (args.length == 3) {
-					return getListOfStringsMatchingLastWord(args, this.getScoreboard().getTeamNames());
+					return StringUtils.filterCompletions(args, this.getScoreboard().getTeamNames());
 				}
 			}
 		}

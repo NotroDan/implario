@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.protocol.minecraft_47.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 
 public class TileEntitySkull extends TileEntity {
 

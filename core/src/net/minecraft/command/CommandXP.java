@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandXP extends CommandBase {
 
@@ -75,7 +76,7 @@ public class CommandXP extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 2 ? getListOfStringsMatchingLastWord(args, this.getAllUsernames()) : null;
+		return args.length == 2 ? StringUtils.filterCompletions(args, this.getAllUsernames()) : null;
 	}
 
 	protected String[] getAllUsernames() {

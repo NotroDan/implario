@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandBroadcast extends CommandBase {
 	@Override
@@ -39,6 +40,6 @@ public class CommandBroadcast extends CommandBase {
 
 	@Override
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length >= 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+		return args.length >= 1 ? StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames()) : null;
 	}
 }

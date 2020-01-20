@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.EnumDifficulty;
 
 public class CommandDifficulty extends CommandBase {
@@ -49,7 +50,7 @@ public class CommandDifficulty extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"peaceful", "easy", "normal", "hard"}) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, new String[] {"peaceful", "easy", "normal", "hard"}) : null;
 	}
 
 }

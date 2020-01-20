@@ -112,14 +112,14 @@ public class GuiPlayerTabOverlay extends Gui {
 			++k1;
 		}
 
-		drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
+		drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, 0xFFFFFFFF);
 
 		for (int k4 = 0; k4 < l3; ++k4) {
 			int l4 = k4 / i4;
 			int i5 = k4 % i4;
 			int j2 = j1 + l4 * i1 + l4 * 5;
 			int k2 = k1 + i5 * 9;
-			drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
+			drawRect(j2, k2, j2 + i1, k2 + 8, 0x20ffffff);
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
 			G.enableAlpha();
 			G.enableBlend();

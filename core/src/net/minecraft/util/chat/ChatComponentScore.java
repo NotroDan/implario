@@ -5,7 +5,7 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 
 public class ChatComponentScore extends ChatComponentStyle {
 

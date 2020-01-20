@@ -100,5 +100,6 @@ public interface IFontRenderer {
 
 	float renderChar(char c, boolean bold, boolean italic);
 
+	int getStringWidth(String s);
 
 }

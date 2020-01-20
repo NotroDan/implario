@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandSetSpawnpoint extends CommandBase {
 
@@ -46,7 +47,7 @@ public class CommandSetSpawnpoint extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : args.length > 1 && args.length <= 4 ? completePos(args, 1, pos) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames()) : args.length > 1 && args.length <= 4 ? completePos(args, 1, pos) : null;
 	}
 
 	/**

@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandKill extends CommandBase {
 
@@ -53,7 +54,7 @@ public class CommandKill extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames()) : null;
 	}
 
 }

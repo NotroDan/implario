@@ -5,11 +5,13 @@ import com.google.common.collect.Maps;
 import java.util.*;
 import java.util.Map.Entry;
 
+import net.minecraft.command.api.ICommandManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.logging.Log;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandHandler implements ICommandManager {
 	private static final Log logger = Log.MAIN;
@@ -42,7 +44,6 @@ public class CommandHandler implements ICommandManager {
 
 				for (Entity entity : list) {
 					astring[i] = entity.getUniqueID().toString();
-
 					if (tryExecute(sender, astring, icommand, rawCommand)) {
 						++j;
 					}
@@ -143,7 +144,7 @@ public class CommandHandler implements ICommandManager {
 		return astring;
 	}
 
-	public List<String> getTabCompletionOptions(ICommandSender sender, String input, BlockPos pos) {
+	public Collection<String> getTabCompletionOptions(ICommandSender sender, String input, BlockPos pos) {
 		String[] astring = input.split(" ", -1);
 		String s = astring[0];
 
@@ -151,7 +152,7 @@ public class CommandHandler implements ICommandManager {
 			List<String> list = new ArrayList<>();
 
 			for (Entry<String, ICommand> entry : this.commandMap.entrySet()) {
-				if (CommandBase.doesStringStartWith(s, (String) entry.getKey()) && ((ICommand) entry.getValue()).canCommandSenderUseCommand(sender)) {
+				if (StringUtils.doesStringStartWith(s, (String) entry.getKey()) && ((ICommand) entry.getValue()).canCommandSenderUseCommand(sender)) {
 					list.add(entry.getKey());
 				}
 			}

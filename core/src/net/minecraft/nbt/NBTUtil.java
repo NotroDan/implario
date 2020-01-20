@@ -5,7 +5,7 @@ import com.mojang.authlib.properties.Property;
 
 import java.util.UUID;
 
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 
 public final class NBTUtil {
 

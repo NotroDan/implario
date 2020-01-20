@@ -15,7 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.resources.WrongSideException;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import optifine.CapeUtils;

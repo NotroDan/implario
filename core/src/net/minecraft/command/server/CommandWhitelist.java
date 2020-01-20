@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandWhitelist extends CommandBase {
 	@Override
@@ -77,12 +78,12 @@ public class CommandWhitelist extends CommandBase {
 	@Override
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1)
-			return getListOfStringsMatchingLastWord(args, "on", "off", "list", "add", "remove", "reload");
+			return StringUtils.filterCompletions(args, "on", "off", "list", "add", "remove", "reload");
 		if (args.length == 2)
 			if (args[0].equals("remove"))
-				return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getConfigurationManager().getWhitelistedPlayerNames());
+				return StringUtils.filterCompletions(args, MinecraftServer.getServer().getConfigurationManager().getWhitelistedPlayerNames());
 			if (args[0].equals("add"))
-				return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getPlayerProfileCache().getUsernames());
+				return StringUtils.filterCompletions(args, MinecraftServer.getServer().getPlayerProfileCache().getUsernames());
 		return null;
 	}
 }

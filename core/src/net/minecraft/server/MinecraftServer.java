@@ -13,6 +13,7 @@ import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
 import net.minecraft.command.*;
+import net.minecraft.command.api.ICommandManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.database.Storage;
 import net.minecraft.entity.Entity;
@@ -30,6 +31,7 @@ import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.anvil.AnvilSaveConverter;
 import net.minecraft.world.storage.ISaveFormat;
@@ -48,6 +50,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.stream.Collectors;
 
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
 
@@ -684,36 +687,25 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return report;
 	}
 
-	public List<String> getTabCompletions(ICommandSender sender, String input, BlockPos pos) {
-		List<String> list = new ArrayList<>();
+	public Collection<String> getTabCompletions(MPlayer player, String input, BlockPos pos) {
 
 		if (input.startsWith("/")) {
 			input = input.substring(1);
 			boolean flag = !input.contains(" ");
-			List<String> list1 = this.commandManager.getTabCompletionOptions(sender, input, pos);
+			Collection<String> options = this.commandManager.getTabCompletionOptions(player, input, pos);
+			if (options == null) return new ArrayList<>();
 
-			if (list1 != null) {
-				for (String s2 : list1) {
-					if (flag) {
-						list.add("/" + s2);
-					} else {
-						list.add(s2);
-					}
-				}
-			}
-
-			return list;
+			if (flag) return options.stream().map(s -> "/" + s).collect(Collectors.toList());
+			else return options;
 		}
 		String[] astring = input.split(" ", -1);
 		String s = astring[astring.length - 1];
 
-		for (String s1 : this.serverConfigManager.getAllUsernames()) {
-			if (CommandBase.doesStringStartWith(s, s1)) {
-				list.add(s1);
-			}
-		}
+		return Arrays
+				.stream(this.serverConfigManager.getAllUsernames())
+				.filter(name -> StringUtils.doesStringStartWith(s, name))
+				.collect(Collectors.toList());
 
-		return list;
 	}
 
 	/**

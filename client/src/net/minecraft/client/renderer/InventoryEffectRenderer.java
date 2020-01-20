@@ -11,7 +11,7 @@ import net.minecraft.client.settings.Settings;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 
 import java.util.Collection;
 

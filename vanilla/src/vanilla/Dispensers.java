@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.*;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.World;
 import vanilla.entity.VBlockPumpkin;
 import vanilla.entity.VanillaEntity;

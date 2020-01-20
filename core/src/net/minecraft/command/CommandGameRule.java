@@ -7,6 +7,7 @@ import net.minecraft.network.protocol.minecraft_47.play.server.S19PacketEntitySt
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentText;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.GameRules;
 
 public class CommandGameRule extends CommandBase {
@@ -78,13 +79,13 @@ public class CommandGameRule extends CommandBase {
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) {
-			return getListOfStringsMatchingLastWord(args, this.getGameRules().getRules());
+			return StringUtils.filterCompletions(args, this.getGameRules().getRules());
 		}
 		if (args.length == 2) {
 			GameRules gamerules = this.getGameRules();
 
 			if (gamerules.areSameType(args[0], GameRules.ValueType.BOOLEAN_VALUE)) {
-				return getListOfStringsMatchingLastWord(args, new String[] {"true", "false"});
+				return StringUtils.filterCompletions(args, new String[] {"true", "false"});
 			}
 		}
 

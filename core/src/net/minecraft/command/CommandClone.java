@@ -8,6 +8,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.StructureBoundingBox;
 import net.minecraft.world.World;
@@ -210,8 +211,8 @@ public class CommandClone extends CommandBase {
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length > 0 && args.length <= 3 ? completePos(args, 0, pos) : args.length > 3 && args.length <= 6 ? completePos(args, 3, pos) : args.length > 6 && args.length <= 9 ? completePos(
-				args, 6, pos) : args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"replace", "masked", "filtered"}) : args.length == 11 ? getListOfStringsMatchingLastWord(args,
-				new String[] {"normal", "force", "move"}) : args.length == 12 && "filtered".equals(args[9]) ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null;
+				args, 6, pos) : args.length == 10 ? StringUtils.filterCompletions(args, new String[] {"replace", "masked", "filtered"}) : args.length == 11 ? StringUtils.filterCompletions(args,
+				new String[] {"normal", "force", "move"}) : args.length == 12 && "filtered".equals(args[9]) ? StringUtils.filterCompletions(args, Block.blockRegistry.getKeys()) : null;
 	}
 
 	static class StaticCloneData {

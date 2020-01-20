@@ -1007,9 +1007,8 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 */
 	public void processTabComplete(C14PacketTabComplete packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
-		List<String> list = new ArrayList<>();
 
-		list.addAll(this.serverController.getTabCompletions(this.playerEntity, packetIn.getMessage(), packetIn.getTargetBlock()));
+		List<String> list = new ArrayList<>(this.serverController.getTabCompletions(this.playerEntity, packetIn.getMessage(), packetIn.getTargetBlock()));
 
 		this.playerEntity.playerNetServerHandler.sendPacket(new S3APacketTabComplete(list.toArray(new String[0])));
 	}

@@ -2,11 +2,13 @@ package net.minecraft.command;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.command.api.ICommandManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3d;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -122,8 +124,8 @@ public class CommandExecuteAt extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : args.length > 1 && args.length <= 4 ? completePos(args, 1,
-				pos) : args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? completePos(args, 5, pos) : args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(
+		return args.length == 1 ? StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames()) : args.length > 1 && args.length <= 4 ? completePos(args, 1,
+				pos) : args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? completePos(args, 5, pos) : args.length == 9 && "detect".equals(args[4]) ? StringUtils.filterCompletions(
 				args, Block.blockRegistry.getKeys()) : null;
 	}
 

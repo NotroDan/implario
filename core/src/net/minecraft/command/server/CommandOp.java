@@ -12,6 +12,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandOp extends CommandBase {
 
@@ -59,7 +60,7 @@ public class CommandOp extends CommandBase {
 			List<String> list = new ArrayList<>();
 
 			for (GameProfile gameprofile : MinecraftServer.getServer().getGameProfiles()) {
-				if (!MinecraftServer.getServer().getConfigurationManager().canSendCommands((MPlayer)sender) && doesStringStartWith(s, gameprofile.getName())) {
+				if (!MinecraftServer.getServer().getConfigurationManager().canSendCommands((MPlayer)sender) && StringUtils.doesStringStartWith(s, gameprofile.getName())) {
 					list.add(gameprofile.getName());
 				}
 			}

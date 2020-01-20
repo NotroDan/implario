@@ -108,7 +108,7 @@ public class PlayerSelector {
 	private static List<World> getWorlds(ICommandSender sender, Map<String, String> argumentMap) {
 		List<World> list = new ArrayList<>();
 
-		if (func_179665_h(argumentMap)) {
+		if (isWorldSensitive(argumentMap)) {
 			list.add(sender.getEntityWorld());
 		} else {
 			Collections.addAll(list, MinecraftServer.getServer().getWorlds());
@@ -440,7 +440,7 @@ public class PlayerSelector {
 				parseIntWithDefault(p_179664_0_, "z", p_179664_1_.getZ()));
 	}
 
-	private static boolean func_179665_h(Map<String, String> p_179665_0_) {
+	private static boolean isWorldSensitive(Map<String, String> p_179665_0_) {
 		for (String s : WORLD_BINDING_ARGS) {
 			if (p_179665_0_.containsKey(s)) {
 				return true;

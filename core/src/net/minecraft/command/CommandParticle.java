@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ParticleType;
 import net.minecraft.util.Vec3d;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -103,9 +104,9 @@ public class CommandParticle extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		if (args.length == 1) return getListOfStringsMatchingLastWord(args, ParticleType.getParticleNames());
+		if (args.length == 1) return StringUtils.filterCompletions(args, ParticleType.getParticleNames());
 		if (args.length > 1 && args.length <= 4) return completePos(args, 1, pos);
-		if (args.length == 10) return getListOfStringsMatchingLastWord(args, "normal", "force");
+		if (args.length == 10) return StringUtils.filterCompletions(args, "normal", "force");
 		return null;
 	}
 

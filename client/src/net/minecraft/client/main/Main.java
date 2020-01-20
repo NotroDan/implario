@@ -13,7 +13,7 @@ import net.minecraft.client.TodoClient;
 import net.minecraft.resources.DatapackManager;
 import net.minecraft.server.Todo;
 import net.minecraft.util.Session;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 
 import java.io.File;
 import java.net.Authenticator;

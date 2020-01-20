@@ -18,6 +18,7 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandAchievement extends CommandBase {
 	@Override
@@ -129,10 +130,10 @@ public class CommandAchievement extends CommandBase {
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) {
-			return getListOfStringsMatchingLastWord(args, new String[] {"give", "take"});
+			return StringUtils.filterCompletions(args, new String[] {"give", "take"});
 		}
 		if (args.length != 2) {
-			return args.length == 3 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+			return args.length == 3 ? StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames()) : null;
 		}
 		List<String> list = new ArrayList<>();
 
@@ -140,7 +141,7 @@ public class CommandAchievement extends CommandBase {
 			list.add(statbase.statId);
 		}
 
-		return getListOfStringsMatchingLastWord(args, list);
+		return StringUtils.filterCompletions(args, list);
 	}
 
 	/**

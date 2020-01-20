@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandClearInventory extends CommandBase {
 
@@ -75,7 +76,7 @@ public class CommandClearInventory extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.func_147209_d()) : args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys()) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, this.func_147209_d()) : args.length == 2 ? StringUtils.filterCompletions(args, Item.itemRegistry.getKeys()) : null;
 	}
 
 	protected String[] func_147209_d() {

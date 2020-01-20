@@ -5,6 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.StructureBoundingBox;
 import net.minecraft.world.World;
 
@@ -124,7 +125,7 @@ public class CommandCompare extends CommandBase {
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length > 0 && args.length <= 3 ? completePos(args, 0, pos) : args.length > 3 && args.length <= 6 ? completePos(args, 3, pos) : args.length > 6 && args.length <= 9 ? completePos(
-				args, 6, pos) : args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"masked", "all"}) : null;
+				args, 6, pos) : args.length == 10 ? StringUtils.filterCompletions(args, new String[] {"masked", "all"}) : null;
 	}
 
 }

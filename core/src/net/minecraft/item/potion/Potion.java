@@ -11,7 +11,7 @@ import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.player.Player;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 
 import java.util.Map;
 import java.util.Map.Entry;

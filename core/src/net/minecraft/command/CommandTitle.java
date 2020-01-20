@@ -7,6 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.chat.ChatComponentProcessor;
+import net.minecraft.util.functional.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.util.List;
@@ -92,7 +93,7 @@ public class CommandTitle extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : args.length == 2 ? getListOfStringsMatchingLastWord(args,
+		return args.length == 1 ? StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames()) : args.length == 2 ? StringUtils.filterCompletions(args,
 				S45PacketTitle.Type.getNames()) : null;
 	}
 

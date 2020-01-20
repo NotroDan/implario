@@ -11,7 +11,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.util.chat.ChatComponentProcessor;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;

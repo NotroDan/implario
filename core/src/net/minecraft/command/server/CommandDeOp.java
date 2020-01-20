@@ -1,7 +1,5 @@
 package net.minecraft.command.server;
 
-import com.mojang.authlib.GameProfile;
-
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
@@ -9,9 +7,9 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.MPlayer;
-import net.minecraft.security.Restart;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandDeOp extends CommandBase {
 
@@ -54,7 +52,7 @@ public class CommandDeOp extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames()) : null;
 	}
 
 }

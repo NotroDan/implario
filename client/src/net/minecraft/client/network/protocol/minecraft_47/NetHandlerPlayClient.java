@@ -54,6 +54,7 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.WorldProviderSurface;

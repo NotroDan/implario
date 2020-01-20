@@ -38,12 +38,12 @@ public class TrueTypeFont {
 	/**
 	 * Array that holds necessary information about the font characters
 	 */
-	private IntObject[] charArray = new IntObject[256];
+	private CharBox[] charArray = new CharBox[256];
 
 	/**
 	 * Map of user defined font characters (Character <-> IntObject)
 	 */
-	private Map customChars = new HashMap();
+	private Map<Character, CharBox> customChars = new HashMap<>();
 
 	private boolean antiAlias;
 
@@ -61,9 +61,9 @@ public class TrueTypeFont {
 
 	private Font font;
 
-	private int correctL = 9, correctR = 8;
+	private int kerning = 9, correctR = 8;
 
-	private class IntObject {
+	private static class CharBox {
 
 		/**
 		 * Character's width
@@ -105,10 +105,10 @@ public class TrueTypeFont {
 
 	public void setCorrection(boolean on) {
 		if (on) {
-			correctL = 2;
+			kerning = 2;
 			correctR = 1;
 		} else {
-			correctL = 0;
+			kerning = 0;
 			correctR = 0;
 		}
 	}
@@ -186,38 +186,38 @@ public class TrueTypeFont {
 
 				BufferedImage fontImage = getFontImage(ch);
 
-				IntObject newIntObject = new IntObject();
+				CharBox newCharBox = new CharBox();
 
-				newIntObject.width = fontImage.getWidth();
-				newIntObject.height = fontImage.getHeight();
+				newCharBox.width = fontImage.getWidth();
+				newCharBox.height = fontImage.getHeight();
 
 
-				if (positionX + newIntObject.width >= textureWidth) {
+				if (positionX + newCharBox.width >= textureWidth) {
 					positionX = 0;
 					positionY += rowHeight;
 					rowHeight = 0;
 				}
 
-				newIntObject.storedX = positionX;
-				newIntObject.storedY = positionY;
+				newCharBox.storedX = positionX;
+				newCharBox.storedY = positionY;
 
-				if (newIntObject.height > fontHeight) {
-					fontHeight = newIntObject.height;
+				if (newCharBox.height > fontHeight) {
+					fontHeight = newCharBox.height;
 				}
 
-				if (newIntObject.height > rowHeight) {
-					rowHeight = newIntObject.height;
+				if (newCharBox.height > rowHeight) {
+					rowHeight = newCharBox.height;
 				}
 
 				// Draw it here
 				g.drawImage(fontImage, positionX, positionY, null);
 
-				positionX += newIntObject.width;
+				positionX += newCharBox.width;
 
 				if (i < 256) { // standard characters
-					charArray[i] = newIntObject;
+					charArray[i] = newCharBox;
 				} else { // custom characters
-					customChars.put(ch, newIntObject);
+					customChars.put(ch, newCharBox);
 				}
 
 			}
@@ -259,12 +259,12 @@ public class TrueTypeFont {
 		int totalwidth = 0;
 		for (int i = 0; i < whatchars.length(); i++)
 			totalwidth += getIntObject(whatchars.charAt(i)).width;
-		return totalwidth;
+		return totalwidth / 2;
 	}
 
-	private IntObject getIntObject(char c) {
+	private CharBox getIntObject(char c) {
 		if (c < 256) return charArray[c];
-		IntObject io = (IntObject) customChars.get(c);
+		CharBox io = customChars.get(c);
 		if (io == null) return charArray[2];
 		return io;
 	}
@@ -283,7 +283,7 @@ public class TrueTypeFont {
 
 	public int drawString(float x, float y, char[] whatchars, int startIndex, int endIndex) {
 
-		IntObject intObject;
+		CharBox charBox;
 		char charCurrent;
 
 
@@ -296,12 +296,12 @@ public class TrueTypeFont {
 		while (i >= startIndex && i <= endIndex) {
 
 			charCurrent = whatchars[i];
-			intObject = getIntObject(charCurrent);
+			charBox = getIntObject(charCurrent);
 
 
-			if (intObject != null) {
-				renderChar(intObject, totalwidth + x, y);
-				totalwidth += intObject.width - correctL;
+			if (charBox != null) {
+				renderChar(charBox, totalwidth + x, y);
+				totalwidth += charBox.width - kerning;
 			}
 			i++;
 		}
@@ -318,19 +318,23 @@ public class TrueTypeFont {
 		GL11.glEnd();
 	}
 
+
+
 	public int drawChar(char c, float x, float y) {
 
-		IntObject io = getIntObject(c);
+		CharBox io = getIntObject(c);
 		renderChar(io, x, y);
-		return io.width - correctL;
+		return io.width - kerning;
 	}
 
-	private void renderChar(IntObject intObject, float x, float y) {
-		drawQuad(intObject.width + x, y,
+
+
+	private void renderChar(CharBox charBox, float x, float y) {
+		drawQuad(charBox.width + x, y,
 				x,
-				(float) intObject.height + y, intObject.storedX + intObject.width,
-				intObject.storedY, intObject.storedX,
-				intObject.storedY + intObject.height);
+				(float) charBox.height + y, charBox.storedX + charBox.width,
+				charBox.storedY, charBox.storedX,
+				charBox.storedY + charBox.height);
 	}
 
 	public static int loadImage(BufferedImage bufferedImage) {

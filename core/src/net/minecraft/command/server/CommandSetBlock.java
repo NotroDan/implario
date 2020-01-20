@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -112,8 +113,8 @@ public class CommandSetBlock extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length > 0 && args.length <= 3 ? completePos(args, 0, pos) : args.length == 4 ? getListOfStringsMatchingLastWord(args,
-				Block.blockRegistry.getKeys()) : args.length == 6 ? getListOfStringsMatchingLastWord(args, new String[] {"replace", "destroy", "keep"}) : null;
+		return args.length > 0 && args.length <= 3 ? completePos(args, 0, pos) : args.length == 4 ? StringUtils.filterCompletions(args,
+				Block.blockRegistry.getKeys()) : args.length == 6 ? StringUtils.filterCompletions(args, new String[] {"replace", "destroy", "keep"}) : null;
 	}
 
 }

@@ -4,6 +4,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.border.WorldBorder;
 
 import java.util.List;
@@ -160,11 +161,11 @@ public class CommandWorldBorder extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, "set", "center", "damage", "warning", "add",
-				"get") : args.length == 2 && args[0].equals("damage") ? getListOfStringsMatchingLastWord(args,
+		return args.length == 1 ? StringUtils.filterCompletions(args, "set", "center", "damage", "warning", "add",
+				"get") : args.length == 2 && args[0].equals("damage") ? StringUtils.filterCompletions(args,
 				"buffer",
 				"amount") : args.length >= 2 && args.length <= 3 && args[0].equals("center") ? func_181043_b(args, 1, pos) : args.length == 2 && args[0].equals(
-				"warning") ? getListOfStringsMatchingLastWord(args,
+				"warning") ? StringUtils.filterCompletions(args,
 				"time", "distance") : null;
 	}
 

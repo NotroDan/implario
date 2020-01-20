@@ -11,6 +11,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandEmote extends CommandBase {
 
@@ -46,6 +47,6 @@ public class CommandEmote extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+		return StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames());
 	}
 }

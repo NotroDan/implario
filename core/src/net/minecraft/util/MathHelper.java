@@ -303,19 +303,13 @@ public class MathHelper {
 		return calculateLogBaseTwoDeBruijn(value) - (isPowerOfTwo(value) ? 0 : 1);
 	}
 
-	public static int func_154354_b(int p_154354_0_, int p_154354_1_) {
-		if (p_154354_1_ == 0) {
-			return 0;
-		}
-		if (p_154354_0_ == 0) {
-			return p_154354_1_;
-		}
-		if (p_154354_0_ < 0) {
-			p_154354_1_ *= -1;
-		}
+	public static int func_154354_b(int a, int b) {
+		if (b == 0) return 0;
+		if (a == 0) return b;
+		if (a < 0) b *= -1;
 
-		int i = p_154354_0_ % p_154354_1_;
-		return i == 0 ? p_154354_0_ : p_154354_0_ + p_154354_1_ - i;
+		int i = a % b;
+		return i == 0 ? a : a + b - i;
 	}
 
 	public static int func_180183_b(float p_180183_0_, float p_180183_1_, float p_180183_2_) {

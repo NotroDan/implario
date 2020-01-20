@@ -1,6 +1,5 @@
 package net.minecraft.command.server;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.IPBanEntry;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandBanIp extends CommandBase {
 
@@ -65,7 +65,7 @@ public class CommandBanIp extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames()) : null;
 	}
 
 	protected void func_147210_a(ICommandSender p_147210_1_, String p_147210_2_, String p_147210_3_) {

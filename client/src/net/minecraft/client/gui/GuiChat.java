@@ -160,9 +160,9 @@ public class GuiChat extends GuiScreen {
 			int i = this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false);
 			this.foundPlayerNames.clear();
 			this.autocompleteIndex = 0;
-			String s = this.inputField.getText().substring(i).toLowerCase();
-			String s1 = this.inputField.getText().substring(0, this.inputField.getCursorPosition());
-			this.sendAutocompleteRequest(s1, s);
+			String beforeCaret = this.inputField.getText().substring(i).toLowerCase();
+			String afterCaret = this.inputField.getText().substring(0, this.inputField.getCursorPosition());
+			this.sendAutocompleteRequest(afterCaret, beforeCaret);
 
 			if (this.foundPlayerNames.isEmpty()) {
 				return;
@@ -189,15 +189,15 @@ public class GuiChat extends GuiScreen {
 		this.inputField.writeText(this.foundPlayerNames.get(this.autocompleteIndex++));
 	}
 
-	private void sendAutocompleteRequest(String p_146405_1_, String p_146405_2_) {
-		if (p_146405_1_.length() >= 1) {
+	private void sendAutocompleteRequest(String beforeCaret, String afterCaret) {
+		if (beforeCaret.length() >= 1) {
 			BlockPos blockpos = null;
 
 			if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 				blockpos = this.mc.objectMouseOver.getBlockPos();
 			}
 
-			this.mc.thePlayer.sendQueue.addToSendQueue(new C14PacketTabComplete(p_146405_1_, blockpos));
+			this.mc.thePlayer.sendQueue.addToSendQueue(new C14PacketTabComplete(beforeCaret, blockpos));
 			this.waitingOnAutocomplete = true;
 		}
 	}

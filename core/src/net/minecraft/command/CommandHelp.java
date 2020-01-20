@@ -1,6 +1,5 @@
 package net.minecraft.command;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandHelp extends CommandBase {
 
@@ -99,7 +99,7 @@ public class CommandHelp extends CommandBase {
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) {
 			Set<String> set = this.getCommands().keySet();
-			return getListOfStringsMatchingLastWord(args, (String[]) set.toArray(new String[set.size()]));
+			return StringUtils.filterCompletions(args, (String[]) set.toArray(new String[set.size()]));
 		}
 		return null;
 	}

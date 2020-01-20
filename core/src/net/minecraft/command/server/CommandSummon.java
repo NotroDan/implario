@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3d;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -113,6 +114,6 @@ public class CommandSummon extends CommandBase {
 
 	@Override
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, EntityList.getEntityNameList()) : args.length > 1 && args.length <= 4 ? completePos(args, 1, pos) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, EntityList.getEntityNameList()) : args.length > 1 && args.length <= 4 ? completePos(args, 1, pos) : null;
 	}
 }

@@ -1,7 +1,5 @@
 package net.minecraft.command;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityCommandBlock;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.World;
 
 public class CommandStats extends CommandBase {
@@ -150,11 +149,11 @@ public class CommandStats extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"entity", "block"}) : args.length == 2 && args[0].equals("entity") ? getListOfStringsMatchingLastWord(args,
+		return args.length == 1 ? StringUtils.filterCompletions(args, new String[] {"entity", "block"}) : args.length == 2 && args[0].equals("entity") ? StringUtils.filterCompletions(args,
 				this.func_175776_d()) : args.length >= 2 && args.length <= 4 && args[0].equals("block") ? completePos(args, 1, pos) : (args.length != 3 || !args[0].equals(
 				"entity")) && (args.length != 5 || !args[0].equals("block")) ? (args.length != 4 || !args[0].equals("entity")) && (args.length != 6 || !args[0].equals(
-				"block")) ? (args.length != 6 || !args[0].equals("entity")) && (args.length != 8 || !args[0].equals("block")) ? null : getListOfStringsMatchingLastWord(args,
-				this.func_175777_e()) : getListOfStringsMatchingLastWord(args, CommandResultStats.Type.getTypeNames()) : getListOfStringsMatchingLastWord(args, new String[] {"set", "clear"});
+				"block")) ? (args.length != 6 || !args[0].equals("entity")) && (args.length != 8 || !args[0].equals("block")) ? null : StringUtils.filterCompletions(args,
+				this.func_175777_e()) : StringUtils.filterCompletions(args, CommandResultStats.Type.getTypeNames()) : StringUtils.filterCompletions(args, new String[] {"set", "clear"});
 	}
 
 	protected String[] func_175776_d() {

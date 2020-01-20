@@ -19,6 +19,7 @@ public class BlockPistonStructureHelper {
 	private final EnumFacing moveDirection;
 	private final List<BlockPos> toMove = new ArrayList<>();
 	private final List<BlockPos> toDestroy = new ArrayList<>();
+	private final int limit = 24;
 
 	public BlockPistonStructureHelper(World worldIn, BlockPos posIn, EnumFacing pistonFacing, boolean extending) {
 		this.world = worldIn;
@@ -76,7 +77,7 @@ public class BlockPistonStructureHelper {
 		}
 		int i = 1;
 
-		if (i + this.toMove.size() > 12) {
+		if (i + this.toMove.size() > limit) {
 			return false;
 		}
 		while (block == Blocks.slime_block) {
@@ -89,7 +90,7 @@ public class BlockPistonStructureHelper {
 
 			++i;
 
-			if (i + this.toMove.size() > 12) {
+			if (i + this.toMove.size() > limit) {
 				return false;
 			}
 		}
@@ -136,7 +137,7 @@ public class BlockPistonStructureHelper {
 				return true;
 			}
 
-			if (this.toMove.size() >= 12) {
+			if (this.toMove.size() >= limit) {
 				return false;
 			}
 

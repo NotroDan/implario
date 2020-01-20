@@ -2,6 +2,7 @@ package net.minecraft.command;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.WorldServer;
 
 import java.util.List;
@@ -82,8 +83,8 @@ public class CommandTime extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, "set", "add", "query") : args.length == 2 && args[0].equals("set") ? getListOfStringsMatchingLastWord(args, "day",
-				"night") : args.length == 2 && args[0].equals("query") ? getListOfStringsMatchingLastWord(args,
+		return args.length == 1 ? StringUtils.filterCompletions(args, "set", "add", "query") : args.length == 2 && args[0].equals("set") ? StringUtils.filterCompletions(args, "day",
+				"night") : args.length == 2 && args[0].equals("query") ? StringUtils.filterCompletions(args,
 				"daytime", "gametime") : null;
 	}
 

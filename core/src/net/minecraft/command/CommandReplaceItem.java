@@ -17,6 +17,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.World;
 
 public class CommandReplaceItem extends CommandBase {
@@ -155,10 +156,10 @@ public class CommandReplaceItem extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"entity", "block"}) : args.length == 2 && args[0].equals("entity") ? getListOfStringsMatchingLastWord(args,
+		return args.length == 1 ? StringUtils.filterCompletions(args, new String[] {"entity", "block"}) : args.length == 2 && args[0].equals("entity") ? StringUtils.filterCompletions(args,
 				this.getUsernames()) : args.length >= 2 && args.length <= 4 && args[0].equals("block") ? completePos(args, 1, pos) : (args.length != 3 || !args[0].equals(
 				"entity")) && (args.length != 5 || !args[0].equals("block")) ? (args.length != 4 || !args[0].equals("entity")) && (args.length != 6 || !args[0].equals(
-				"block")) ? null : getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys()) : getListOfStringsMatchingLastWord(args, SHORTCUTS.keySet());
+				"block")) ? null : StringUtils.filterCompletions(args, Item.itemRegistry.getKeys()) : StringUtils.filterCompletions(args, SHORTCUTS.keySet());
 	}
 
 	protected String[] getUsernames() {

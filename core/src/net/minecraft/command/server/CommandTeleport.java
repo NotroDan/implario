@@ -16,6 +16,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec5d;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandTeleport extends CommandBase {
 
@@ -151,7 +152,7 @@ public class CommandTeleport extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length != 1 && args.length != 2 ? null : getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+		return args.length != 1 && args.length != 2 ? null : StringUtils.filterCompletions(args, MinecraftServer.getServer().getAllUsernames());
 	}
 
 	/**

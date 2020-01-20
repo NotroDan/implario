@@ -12,7 +12,7 @@ import com.mojang.authlib.yggdrasil.ProfileNotFoundException;
 import net.minecraft.entity.player.Player;
 import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.functional.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -9,6 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
+import net.minecraft.util.functional.StringUtils;
 
 public class CommandListBans extends CommandBase {
 
@@ -55,7 +56,7 @@ public class CommandListBans extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"players", "ips"}) : null;
+		return args.length == 1 ? StringUtils.filterCompletions(args, new String[] {"players", "ips"}) : null;
 	}
 
 }
