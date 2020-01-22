@@ -12,13 +12,15 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
-import net.minecraft.command.*;
+import net.minecraft.command.api.CommandHandler;
 import net.minecraft.command.api.ICommandManager;
+import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.legacy.CommandResultStats;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.database.Storage;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.logging.IProfiler;
 import net.minecraft.logging.Log;
 import net.minecraft.logging.Profiler;
@@ -159,8 +161,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		this.profileRepo = this.authService.createProfileRepository();
 	}
 
-	protected ServerCommandManager createNewCommandManager() {
-		return new ServerCommandManager();
+	protected CommandHandler createNewCommandManager() {
+		return new CommandHandler();
 	}
 
 	/**

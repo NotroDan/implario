@@ -4,6 +4,8 @@
     <excludeFromCompile>
       <file url="file://$PROJECT_DIR$/core/src/net/minecraft/server/Profiler.java" />
       <file url="file://$PROJECT_DIR$/client/src/net/minecraft/client/ClientProfiler.java" />
+      <file url="file://$PROJECT_DIR$/core/src/net/minecraft/command/impl/core/CommandHandler.java" />
+      <file url="file://$PROJECT_DIR$/core/src/net/minecraft/command/impl/core/ICommand.java" />
     </excludeFromCompile>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />

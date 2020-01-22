@@ -1,6 +1,5 @@
 package net.minecraft.command.api;
 
-import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.util.BlockPos;
 

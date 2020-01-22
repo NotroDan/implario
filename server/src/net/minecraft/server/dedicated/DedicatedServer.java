@@ -1,7 +1,7 @@
 package net.minecraft.server.dedicated;
 
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.ServerCommand;
+import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.legacy.ServerCommand;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.player.Player;

@@ -1,22 +1,24 @@
 package net.minecraft.resources.mapping;
 
-import net.minecraft.command.CommandHandler;
-import net.minecraft.command.ICommand;
+import net.minecraft.command.api.Command;
+import net.minecraft.command.api.CommandRegistry;
 
 public class MappingCommand implements Mapping {
-	private final ICommand command;
 
-	public MappingCommand(ICommand command) {
+	private final Command command;
+
+	public MappingCommand(Command command) {
 		this.command = command;
 	}
 
 	@Override
 	public void apply() {
-		CommandHandler.registerCommand(command);
+		CommandRegistry.registerCommand(command);
 	}
 
 	@Override
 	public void revert() {
-		CommandHandler.unregisterCommand(command);
+		CommandRegistry.unregisterCommand(command);
 	}
+
 }

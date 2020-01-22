@@ -5,7 +5,6 @@ import com.google.common.util.concurrent.Futures;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ThreadLanServerPing;
 import net.minecraft.client.settings.Settings;
-import net.minecraft.command.ServerCommandManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.logging.Log;
@@ -50,10 +49,6 @@ public class IntegratedServer extends MinecraftServer {
 		this.setConfigManager(new IntegratedPlayerList(this));
 		this.mc = mcIn;
 		this.theWorldSettings = settings;
-	}
-
-	protected ServerCommandManager createNewCommandManager() {
-		return new IntegratedServerCommandManager();
 	}
 
 	protected void loadAllWorlds(String name, String globalName, long seed, WorldType type, String p_71247_6_) {

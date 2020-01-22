@@ -1,18 +1,17 @@
 package net.minecraft.client.gui.block;
 
 import io.netty.buffer.Unpooled;
-
-import java.io.IOException;
-
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.element.GuiButton;
 import net.minecraft.client.gui.element.GuiTextField;
 import net.minecraft.client.resources.Lang;
-import net.minecraft.command.server.CommandBlockLogic;
+import net.minecraft.command.legacy.CommandBlockLogic;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.protocol.minecraft_47.play.client.C17PacketCustomPayload;
 import net.minecraft.util.IChatComponent;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
 
 public class GuiCommandBlock extends GuiScreen {
 

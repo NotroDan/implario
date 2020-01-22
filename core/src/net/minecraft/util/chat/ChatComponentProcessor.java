@@ -2,16 +2,14 @@ package net.minecraft.util.chat;
 
 import java.util.List;
 
-import net.minecraft.command.CommandException;
-import net.minecraft.command.EntityNotFoundException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.PlayerSelector;
+import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.legacy.PlayerSelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IChatComponent;
 
 public class ChatComponentProcessor {
 
-	public static IChatComponent processComponent(ICommandSender commandSender, IChatComponent component, Entity entityIn) throws CommandException {
+	public static IChatComponent processComponent(ICommandSender commandSender, IChatComponent component, Entity entityIn) {
 		IChatComponent ichatcomponent = null;
 
 		if (component instanceof ChatComponentScore) {
@@ -21,9 +19,7 @@ public class ChatComponentProcessor {
 			if (PlayerSelector.hasArguments(s)) {
 				List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);
 
-				if (list.size() != 1) {
-					throw new EntityNotFoundException();
-				}
+				if (list.size() != 1) return null;
 
 				s = ((Entity) list.get(0)).getName();
 			}
@@ -51,7 +47,9 @@ public class ChatComponentProcessor {
 				Object object = aobject[i];
 
 				if (object instanceof IChatComponent) {
-					aobject[i] = processComponent(commandSender, (IChatComponent) object, entityIn);
+					IChatComponent recursive = processComponent(commandSender, (IChatComponent) object, entityIn);
+					if (recursive == null) return null;
+					aobject[i] = recursive;
 				}
 			}
 
@@ -65,7 +63,9 @@ public class ChatComponentProcessor {
 		}
 
 		for (IChatComponent ichatcomponent1 : component.getSiblings()) {
-			ichatcomponent.appendSibling(processComponent(commandSender, ichatcomponent1, entityIn));
+			IChatComponent recursive = processComponent(commandSender, ichatcomponent1, entityIn);
+			if (recursive == null) return null;
+			ichatcomponent.appendSibling(recursive);
 		}
 
 		return ichatcomponent;

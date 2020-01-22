@@ -3,6 +3,7 @@ package net.minecraft.network.protocol.minecraft.login.client;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Arrays;
 import javax.crypto.SecretKey;
 
 import net.minecraft.network.Packet;
@@ -28,7 +29,9 @@ public class C01PacketEncryptionResponse implements Packet<INetHandlerLoginServe
 	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.secretKeyEncrypted = buf.readByteArray();
+		System.out.println("Secret key [ENCRYPTED]: " + Arrays.toString(secretKeyEncrypted));
 		this.verifyTokenEncrypted = buf.readByteArray();
+		System.out.println("Verify token [ENCRYPTED]: " + Arrays.toString(verifyTokenEncrypted));
 	}
 
 	/**

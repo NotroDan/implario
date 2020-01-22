@@ -1,7 +1,6 @@
 package net.minecraft.command.api;
 
 import lombok.Data;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.functional.ArrayUtils;

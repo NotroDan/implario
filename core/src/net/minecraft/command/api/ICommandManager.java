@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.api.Command;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.util.BlockPos;
 
@@ -16,7 +14,5 @@ public interface ICommandManager {
 	Collection<String> getTabCompletionOptions(MPlayer player, String input, BlockPos pos);
 
 	List<Command> getPossibleCommands(ICommandSender sender);
-
-	Map<String, Command> getCommands();
 
 }

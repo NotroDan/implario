@@ -2,9 +2,7 @@ package net.minecraft.resources;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandHandler;
-import net.minecraft.command.ICommand;
+import net.minecraft.command.api.Command;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.PlayerGuiBridge;
@@ -52,12 +50,12 @@ public class Registrar {
 	 * @param command Команда является типом T
 	 * @param <T>     Тип наследуемый от ICommand
 	 */
-	public <T extends ICommand> void registerCommand(T command) {
+	public <T extends Command> void registerCommand(T command) {
 		registerMapping(new MappingCommand(command));
 	}
 
 	@SafeVarargs
-	public final <T extends ICommand> void registerCommands(T... commands){
+	public final <T extends Command> void registerCommands(T... commands){
 		for(T command : commands)
 			registerCommand(command);
 	}

@@ -1,22 +1,21 @@
 package net.minecraft.tileentity;
 
 import com.google.gson.JsonParseException;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.CommandResultStats;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.legacy.CommandResultStats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
-import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.protocol.minecraft_47.play.server.S33PacketUpdateSign;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.Vec3d;
 import net.minecraft.util.chat.ChatComponentProcessor;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatStyle;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.Vec3d;
+import net.minecraft.util.chat.event.ClickEvent;
 import net.minecraft.world.World;
 
 public class TileEntitySign extends TileEntity {
@@ -92,11 +91,9 @@ public class TileEntitySign extends TileEntity {
 			try {
 				IChatComponent ichatcomponent = IChatComponent.Serializer.jsonToComponent(s);
 
-				try {
-					this.signText[i] = ChatComponentProcessor.processComponent(icommandsender, ichatcomponent, (Entity) null);
-				} catch (CommandException var7) {
-					this.signText[i] = ichatcomponent;
-				}
+				IChatComponent processed = ChatComponentProcessor.processComponent(icommandsender, ichatcomponent, null);
+				if (processed != null) this.signText[i] = processed;
+				else this.signText[i] = ichatcomponent;
 			} catch (JsonParseException var8) {
 				this.signText[i] = new ChatComponentText(s);
 			}
@@ -184,8 +181,8 @@ public class TileEntitySign extends TileEntity {
 			}
 		};
 
-		for (int i = 0; i < this.signText.length; ++i) {
-			ChatStyle chatstyle = this.signText[i] == null ? null : this.signText[i].getChatStyle();
+		for (IChatComponent iChatComponent : this.signText) {
+			ChatStyle chatstyle = iChatComponent == null ? null : iChatComponent.getChatStyle();
 
 			if (chatstyle != null && chatstyle.getChatClickEvent() != null) {
 				ClickEvent clickevent = chatstyle.getChatClickEvent();

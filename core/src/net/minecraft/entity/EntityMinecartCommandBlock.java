@@ -2,7 +2,7 @@ package net.minecraft.entity;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.command.server.CommandBlockLogic;
+import net.minecraft.command.legacy.CommandBlockLogic;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;

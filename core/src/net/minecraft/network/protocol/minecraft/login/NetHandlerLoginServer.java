@@ -146,10 +146,13 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 		Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.KEY, "Unexpected key packet");
 		PrivateKey privatekey = this.server.getKeyPair().getPrivate();
 
-		if (!Arrays.equals(this.verifyToken, packetIn.getVerifyToken(privatekey))) {
+		byte[] verifyToken = packetIn.getVerifyToken(privatekey);
+		System.out.println("Verify token: " + Arrays.toString(verifyToken));
+		if (!Arrays.equals(this.verifyToken, verifyToken)) {
 			throw new IllegalStateException("Invalid nonce!");
 		}
 		this.secretKey = packetIn.getSecretKey(privatekey);
+		System.out.println("Secret key: " + Arrays.toString(this.secretKey.getEncoded()));
 		this.currentLoginState = NetHandlerLoginServer.LoginState.AUTHENTICATING;
 		this.networkManager.enableEncryption(this.secretKey);
 		new Thread("User Authenticator #" + AUTHENTICATOR_THREAD_ID.incrementAndGet()) {
