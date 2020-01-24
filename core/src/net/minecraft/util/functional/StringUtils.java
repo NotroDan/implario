@@ -1,5 +1,6 @@
 package net.minecraft.util.functional;
 
+import com.sun.javafx.logging.JFRInputEvent;
 import lombok.experimental.UtilityClass;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.codec.binary.Base64;
@@ -183,14 +184,18 @@ public class StringUtils {
 		return region.regionMatches(true, 0, original, 0, original.length());
 	}
 
+	public List<String> filterCompletions(String arg, String... possibilities) {
+		return filterCompletions(arg, Arrays.asList(possibilities));
+	}
 	public List<String> filterCompletions(String[] args, String... possibilities) {
 		return filterCompletions(args, Arrays.asList(possibilities));
 	}
-
 	public List<String> filterCompletions(String[] args, Collection<?> possibilities) {
-		if (possibilities.isEmpty()) return new ArrayList<>();
+		return filterCompletions(args[args.length - 1], possibilities);
+	}
 
-		String s = args[args.length - 1];
+	public List<String> filterCompletions(String s, Collection<?> possibilities) {
+		if (possibilities.isEmpty()) return new ArrayList<>();
 
 		List<String> list = possibilities.stream()
 				.map(String::valueOf)
@@ -203,6 +208,13 @@ public class StringUtils {
 				.filter(o -> o instanceof ResourceLocation && doesStringStartWith(s, ((ResourceLocation) o).getResourcePath()))
 				.map(String::valueOf)
 				.collect(Collectors.toList());
+	}
+
+	public String plurals(int n, String singular, String dual, String plural) {
+		if (n % 10 == 1 && n % 100 != 11) return singular;
+		if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return dual;
+		return plural;
+
 	}
 
 }

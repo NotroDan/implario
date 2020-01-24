@@ -4,6 +4,7 @@ import net.minecraft.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.game.input.InputHandler;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.block.GuiCommandBlock;
 import net.minecraft.client.gui.block.GuiEnchantment;
@@ -557,6 +558,7 @@ public class CPlayer extends AbstractClientPlayer {
 	 * use this to react to sunlight and start to burn.
 	 */
 	public void onLivingUpdate() {
+		if (InputHandler.frozen) return;
 		if (this.sprintingTicksLeft > 0) {
 			--this.sprintingTicksLeft;
 

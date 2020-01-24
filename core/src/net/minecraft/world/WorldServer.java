@@ -47,6 +47,7 @@ public class WorldServer extends World implements IThreadListener {
 	private final PlayerManager thePlayerManager;
 	private final Set<NextTickListEntry> pendingTickListEntriesHashSet = new HashSet<>();
 	private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet<>();
+	private List<NextTickListEntry> pendingTickListEntriesThisTick = new ArrayList<>();
 	private final Map<UUID, Entity> entitiesByUuid = Maps.newHashMap();
 	public ChunkProviderServer theChunkProviderServer;
 
@@ -56,7 +57,6 @@ public class WorldServer extends World implements IThreadListener {
 
 	private ServerBlockEventList[] serverBlockEvents = {new ServerBlockEventList(), new ServerBlockEventList()};
 	private int blockEventCacheIndex;
-	private List<NextTickListEntry> pendingTickListEntriesThisTick = new ArrayList<>();
 	private final WorldTickEvent tickEvent = new WorldTickEvent(this);
 	protected IDimensionTranser dimensionTransfer;
 
@@ -404,38 +404,31 @@ public class WorldServer extends World implements IThreadListener {
 		return this.func_175712_a(new StructureBoundingBox(i, 0, k, j, 256, l), p_72920_2_);
 	}
 
-	public List<NextTickListEntry> func_175712_a(StructureBoundingBox structureBB, boolean p_175712_2_) {
-		List<NextTickListEntry> list = null;
+	public List<NextTickListEntry> func_175712_a(StructureBoundingBox area, boolean clearAfter) {
+		List<NextTickListEntry> list = new ArrayList<>();
+		iterateOverPendingTickEntries(this.pendingTickListEntriesTreeSet.iterator(), area, clearAfter, list);
+		iterateOverPendingTickEntries(this.pendingTickListEntriesThisTick.iterator(), area, clearAfter, list);
+		return list.isEmpty() ? null : list;
+	}
 
-		for (int i = 0; i < 2; ++i) {
-			Iterator<NextTickListEntry> iterator;
+	private void iterateOverPendingTickEntries(Iterator<NextTickListEntry> iterator,
+											   StructureBoundingBox area,
+											   boolean clearAfter,
+											   List<NextTickListEntry> logList) {
 
-			if (i == 0) {
-				iterator = this.pendingTickListEntriesTreeSet.iterator();
-			} else {
-				iterator = this.pendingTickListEntriesThisTick.iterator();
-			}
+		while (iterator.hasNext()) {
+			NextTickListEntry nextticklistentry = iterator.next();
+			BlockPos blockpos = nextticklistentry.position;
 
-			while (iterator.hasNext()) {
-				NextTickListEntry nextticklistentry = iterator.next();
-				BlockPos blockpos = nextticklistentry.position;
-
-				if (blockpos.getX() >= structureBB.minX && blockpos.getX() < structureBB.maxX && blockpos.getZ() >= structureBB.minZ && blockpos.getZ() < structureBB.maxZ) {
-					if (p_175712_2_) {
-						this.pendingTickListEntriesHashSet.remove(nextticklistentry);
-						iterator.remove();
-					}
-
-					if (list == null) {
-						list = new ArrayList<>();
-					}
-
-					list.add(nextticklistentry);
+			if (blockpos.getX() >= area.minX && blockpos.getX() < area.maxX && blockpos.getZ() >= area.minZ && blockpos.getZ() < area.maxZ) {
+				if (clearAfter) {
+					this.pendingTickListEntriesHashSet.remove(nextticklistentry);
+					iterator.remove();
 				}
+
+				logList.add(nextticklistentry);
 			}
 		}
-
-		return list;
 	}
 
 	/**

@@ -21,7 +21,7 @@ public abstract class AbstractArg<T> implements Arg<T> {
 	private OptionalArgFiller<T> filler;
 	private TabCompleter tabCompleter = (player, pos) -> player.getServerForPlayer().getMinecraftServer().getConfigurationManager().getPlayers().stream().map(Player::getName).collect(Collectors.toList());
 
-	public Collection<String> performTabCompletion(MPlayer player, BlockPos pos) {
+	public Collection<String> performTabCompletion(MPlayer player, BlockPos pos, String arg) {
 		return tabCompleter.tabComplete(player, pos);
 	}
 

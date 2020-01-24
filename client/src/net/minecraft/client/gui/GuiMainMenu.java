@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import __google_.util.Exceptions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
+import net.minecraft.client.MC;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.resources.DatapackManager;
@@ -286,8 +287,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 	}
 
-	private static final CyclicIterator<String> titles = new CyclicIterator<>(new String[] {"Implario", "BedWars", "MLGRush"});
-	private static final CyclicIterator<String> headers = new CyclicIterator<>(new String[] {"Клиент Minecraft 1.8.8", "Киберспортивная версия", "Тренируйте свои навыки на"});
+	private static final CyclicIterator<String> titles = new CyclicIterator<>(new String[] {"implario", "типично"});
+	private static final CyclicIterator<String> headers = new CyclicIterator<>(new String[] {"страшная неведомая фиговина", "читать этот текст так"});
 	private static boolean switched = true;
 	private static String title = titles.current();
 	private static String header = headers.current();

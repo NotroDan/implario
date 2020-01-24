@@ -16,7 +16,6 @@ import optifine.FontUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -119,10 +118,6 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 	// RNG для обфусцированного текста
 	public Random fontRandom = new Random();
 
-	// Текущие координаты, на которых будет нарисован следующий символ
-	private float posX;
-	private float posY;
-
 
 	// Текущие цвета
 	private float red;
@@ -218,25 +213,31 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 		}
 	}
 
+	@Override
+	public void renderHeader() {
+		cachedPage = -1;
+	}
 
 	public float renderChar(char c, boolean bold, boolean italic) {
 		if (c == 32) return this.ucEnabled ? 4.0F : this.charWidth[c];
 		IProfiler profiler = getMinecraft().getProfiler();
 		profiler.startSection("fontrender");
 
-		int i = allChars.indexOf(c);
-		boolean unicode = i == -1 || ucEnabled;
-		float f = unicode ? renderCharUc(c, italic) : renderCharMinecraftia(i, italic);
-		float w = 0;
+		float charWidth;
+		int ucIndex = -1;
+		if (ucEnabled || (ucIndex = allChars.indexOf(c)) == -1) charWidth = renderCharUc(c, italic);
+		else charWidth = renderCharMinecraftia(ucIndex, italic);
+
+		float widthBias = 0;
 		if (bold) {
-			float offsetBold = unicode ? 0.5F : this.offsetBold;
-			this.posX += offsetBold;
+			float offsetBold = ucIndex == -1 ? 0.5F : this.offsetBold;
+			G.translate(offsetBold, 0, 0);
 			renderChar(c, false, this.italicStyle);
-			this.posX -= offsetBold;
-			w += offsetBold;
+			G.translate(-offsetBold, 0, 0);
+			widthBias += offsetBold;
 		}
 		profiler.endSection();
-		return f + w;
+		return charWidth + widthBias;
 	}
 
 	/**
@@ -251,13 +252,13 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 		float f1 = 7.99F;
 		GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
 		GL11.glTexCoord2f((float) i / 128.0F, (float) j / 128.0F);
-		GL11.glVertex3f(this.posX + (float) k, this.posY, 0.0F);
+		GL11.glVertex3f((float) k, 0, 0.0F);
 		GL11.glTexCoord2f((float) i / 128.0F, ((float) j + 7.99F) / 128.0F);
-		GL11.glVertex3f(this.posX - (float) k, this.posY + 7.99F, 0.0F);
+		GL11.glVertex3f(- (float) k, 7.99F, 0.0F);
 		GL11.glTexCoord2f(((float) i + f1 - 1.0F) / 128.0F, (float) j / 128.0F);
-		GL11.glVertex3f(this.posX + f1 - 1.0F + (float) k, this.posY, 0.0F);
+		GL11.glVertex3f(f1 - 1.0F + (float) k, 0, 0.0F);
 		GL11.glTexCoord2f(((float) i + f1 - 1.0F) / 128.0F, ((float) j + 7.99F) / 128.0F);
-		GL11.glVertex3f(this.posX + f1 - 1.0F - (float) k, this.posY + 7.99F, 0.0F);
+		GL11.glVertex3f(f1 - 1.0F - (float) k, 7.99F, 0.0F);
 		GL11.glEnd();
 		return f;
 	}
@@ -290,7 +291,7 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 				float v2 = (ty + 16) / 256;
 
 				int cc = c * 16;
-				buf[cc + 0] = 0;
+				buf[cc] = 0;
 				buf[cc + 1] = 0;
 				buf[cc + 2] = u1;
 				buf[cc + 3] = v1;
@@ -331,11 +332,7 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 		int rightOffset = this.glyphWidth[c] >>> 4 & 0b1111;
 		float width = (this.glyphWidth[c] & 15) + 1;
 
-		G.pushMatrix();
-		G.translate(posX, posY, 0);
-//		G.scale(2, 2, 1);
 		VBOHelper.draw2DTextured(vaos[page], GL11.GL_TRIANGLE_STRIP, (int) c % 256 * 4, 4);
-		G.popMatrix();
 
 		if (true) return (width - rightOffset) / 2.0F + 1.0F;
 
@@ -347,23 +344,22 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 		// Сдвиг верхней границы текста вправо, а нижней влево для создания эффекта курсива
 		float italicness = italic ? 1.0F : 0.0F;
 
-		float oneYCached = this.posY, twoYCached = oneYCached + 8;
-		float txCached = tx / 256, oneTwCached = posX + tw / 2;
+		float txCached = tx / 256, oneTwCached = tw / 2;
 		float tyCached = ty / 256, txTwCache = (tx + tw) / 256;
 		float tyCache = (ty + 16) / 256;
 		GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
 
 		GL11.glTexCoord2f(txCached, tyCached);
-		GL11.glVertex2f(posX + italicness, oneYCached);
+		GL11.glVertex2f(italicness, 0);
 
 		GL11.glTexCoord2f(txCached, tyCache);
-		GL11.glVertex2f(posX - italicness, twoYCached);
+		GL11.glVertex2f(-italicness, (float) 8);
 
 		GL11.glTexCoord2f(txTwCache, tyCached);
-		GL11.glVertex2f(oneTwCached + italicness, oneYCached);
+		GL11.glVertex2f(oneTwCached + italicness, 0);
 
 		GL11.glTexCoord2f(txTwCache, tyCache);
-		GL11.glVertex2f(oneTwCached - italicness, twoYCached);
+		GL11.glVertex2f(oneTwCached - italicness, (float) 8);
 
 		GL11.glEnd();
 
@@ -414,6 +410,7 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 	 * Рендерит строку (без переноса) на текущей позиции GL, сдвигая её по оси X.
 	 */
 	private void renderStringAtPos(String s, boolean dropShadow) {
+		G.pushMatrix();
 		for (int i = 0; i < s.length(); ++i) {
 			char c = s.charAt(i);
 
@@ -473,12 +470,11 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 			if (dropShadow) offset(-offsetBold);
 			float charWidth = this.renderChar(c, boldStyle, this.italicStyle);
 			if (dropShadow) offset(offsetBold);
+			G.translate(charWidth, 0, 0);
 
 
-			G.translate(posX, posY, 0);
 			if (strikethroughStyle) net.minecraft.client.gui.font.FontUtils.strike(charWidth, 9);
 			if (underlineStyle) net.minecraft.client.gui.font.FontUtils.underline(charWidth, 9, 0);
-			G.translate(-posX, -posY, 0);
 
 			//			if (this.underlineStyle) {
 			//				Tessellator tessellator1 = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTesselator();
@@ -494,14 +490,13 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 			//				G.enableTexture2D();
 			//			}
 
-			this.posX += charWidth;
 		}
-		cachedPage = -1123123312;
+		G.popMatrix();
+		cachedPage = -1;
 	}
 
 	private void offset(float offset) {
-		posX += offset;
-		posY += offset;
+		G.translate(offset, offset, 0);
 	}
 
 	/**
@@ -524,10 +519,13 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 			if (alpha == 0) alpha = 1;
 			this.setColor(this.red, this.blue, this.green, this.alpha);
 		}
-		this.posX = x;
-		this.posY = y;
+		G.translate(x, y, 0);
 		this.renderStringAtPos(text, dropShadow);
-		return (int) this.posX;
+		G.translate(-x, -y, 0);
+//		this.posX = x;
+//		this.posY = y;
+//		return (int) this.posX;
+		return 1;
 	}
 
 
@@ -579,30 +577,6 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 		return (float) (width - rightOffset) / 2F + 1F;
 	}
 
-	public void dlyaLogana() throws IOException {
-		FileOutputStream s = new FileOutputStream("lolkek");
-
-		for (char c = 0; c < 65535; c++) {
-
-			int w = 0, o = 0;
-			if (c == 32) w = (int) this.charWidth[32];
-
-
-			int i = allChars.indexOf(c);
-
-			//			if (c > 0 && i != -1 && !this.ucEnabled) return this.charWidth[i];
-
-			if (this.glyphWidth[c] != 0) {
-				o = this.glyphWidth[c] >>> 4;
-				w = this.glyphWidth[c] & 15;
-				o = o & 15;
-			}
-			String s1 = (int) c + "-" + w + "-" + o + "\n";
-			s.write(s1.getBytes());
-		}
-		s.flush();
-		s.close();
-	}
 
 	/**
 	 * Trims a string to fit a specified Width.

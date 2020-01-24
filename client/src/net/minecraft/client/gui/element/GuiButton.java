@@ -3,9 +3,7 @@ package net.minecraft.client.gui.element;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.font.BakedFont;
 import net.minecraft.client.gui.font.IFontRenderer;
-import net.minecraft.client.gui.font.MCFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.settings.Settings;
@@ -73,7 +71,7 @@ public class GuiButton extends Gui {
 
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
-		IFontRenderer fontrenderer = BakedFont.VERDANA.getRenderer();
+		IFontRenderer fontrenderer = mc.fontRenderer;
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 		int i = this.getHoverState(this.hovered);
@@ -95,18 +93,19 @@ public class GuiButton extends Gui {
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
 			this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
 		}
-		this.mouseDragged(mc, mouseX, mouseY);
+		this.render(mc, mouseX, mouseY);
 		int j = 0xe0e0e0;
 		if (!enabled) j = 0xa0a0a0;
 		else if (hovered) j = 0xffffa0;
 
+		
 		this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
 	}
 
 	/**
 	 * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
 	 */
-	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+	protected void render(Minecraft mc, int mouseX, int mouseY) {
 	}
 
 	/**

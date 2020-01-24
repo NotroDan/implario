@@ -145,12 +145,12 @@ public class Gui {
 	 */
 	public void drawCenteredString(IFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		Utils.glColorNoAlpha(color);
-		fontRendererIn.renderString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, false);
+		fontRendererIn.renderString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2f), (float) y, false);
 	}
 
 	public void drawShadowlessCenteredString(IFontRenderer fontRendererIn, String text, int x, int y, int color) {
 		Utils.glColorNoAlpha(color);
-		fontRendererIn.renderString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, false);
+		fontRendererIn.renderString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2f), (float) y, false);
 	}
 
 	/**

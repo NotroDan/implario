@@ -141,7 +141,7 @@ public abstract class ServerConfigurationManager {
 		BlockPos blockpos = worldserver.getSpawnPoint();
 		this.setPlayerGameTypeBasedOnOther(playerIn, null, worldserver);
 		INetHandlerPlayMPlayer nethandlerplayserver;
-		if(MinecraftServer.mcServer.isDedicatedServer()){
+		if(MinecraftServer.mcServer.isDedicatedServer() && false){
 			nethandlerplayserver = new NetHandlerPlayServerAuth(mcServer, netManager, playerIn);
 			playerIn.sendMessage(playerIn.registered() ? "§6Введите /login [Пароль] для авторизации" : "§6Введите /register [Пароль] для регистрации");
 		}else nethandlerplayserver = new NetHandlerPlayServer(mcServer, netManager, playerIn);

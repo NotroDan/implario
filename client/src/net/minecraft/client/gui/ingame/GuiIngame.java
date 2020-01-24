@@ -2,11 +2,13 @@ package net.minecraft.client.gui.ingame;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import net.minecraft.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.game.input.InputHandler;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.font.MCFontRenderer;
+import net.minecraft.client.gui.font.IFontRenderer;
 import net.minecraft.client.gui.map.Minimap;
 import net.minecraft.client.renderer.BowPathRenderer;
 import net.minecraft.client.renderer.G;
@@ -26,11 +28,12 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
-import net.minecraft.util.Timer;
 import optifine.Config;
 import optifine.CustomColors;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GuiIngame extends Gui {
@@ -108,6 +111,7 @@ public class GuiIngame extends Gui {
 		int width = res.getScaledWidth();
 		int height = res.getScaledHeight();
 		this.mc.entityRenderer.setupOverlayRendering();
+		final IFontRenderer fr = getFontRenderer();
 		G.enableBlend();
 
 		for (Map.Entry<String, Module> e : Modules.getEntries()) {
@@ -170,7 +174,7 @@ public class GuiIngame extends Gui {
 		renderChat(height);
 
 		// Информация о эффектах
-		if (Settings.FINE_EFFECTS.b()) InventoryEffectRenderer.drawActivePotionEffects(this, mc, getFontRenderer());
+		if (Settings.FINE_EFFECTS.b()) InventoryEffectRenderer.drawActivePotionEffects(this, mc, fr);
 
 		// Информация о траектории полёта стрелы
 		BowPathRenderer.renderOverlay(res.getScaledWidth() / 4 - 80, res.getScaledHeight() / 4 - 10);
@@ -179,14 +183,36 @@ public class GuiIngame extends Gui {
 
 
 		if (!Settings.DEBUG.b()) return;
+
 		Timer t = mc.getTimer();
-		getFontRenderer().drawString("tps: §e" + t.ticksPerSecond, 10, 10, -1);
+		fr.renderString("§ftps: §e" + t.ticksPerSecond, 10, 10, false);
 		int m = t.partialTicksMode;
-		getFontRenderer().drawString("ptm: " + (m == 0 ? "§aforwarded" : m == 1 ? "§eeased" : "§anullified"), 10, 19, -1);
-		if (MinecraftServer.getServer() != null) getFontRenderer().drawString("server_tick_length: §e" + MinecraftServer.getServer().tickLength, 10, 28, -1);
+		fr.renderString("§fptm: " + (m == 0 ? "§aforwarded" : m == 1 ? "§eeased" : "§anullified"), 10, 19, false);
+		if (MinecraftServer.getServer() != null) fr.renderString("§fserver_tick_length: §e" + MinecraftServer.getServer().tickLength, 10, 28, false);
+		fr.renderString("§epitch: §f" + MC.getPlayer().rotationPitch, res.getScaledWidth() / 2F - 10, res.getScaledHeight() / 2F + 10, true);
+		if (InputHandler.frozen) fr.renderString("§6CPlayer locked", res.getScaledWidth() / 2F - 10, res.getScaledHeight() / 2F + 20, true);
+
+//		Player p = MC.getPlayer();
+//		double xAxis = p.posX - MathHelper.floor_double(p.posX);
+//		if (xAxis > 0.5) xAxis = 1 - xAxis;
+//		double zAxis = p.posZ - MathHelper.floor_double(p.posZ);
+//		if (zAxis > 0.5) zAxis = 1 - zAxis;
+//		double x;
+//		if (Math.abs(xAxis) < Math.abs(zAxis)) {
+//			fr.renderString("§faxis: §c" + xAxis, res.getScaledWidth() / 2F - 10 , res.getScaledHeight() / 2F + 50, true);
+//			x = Math.abs(xAxis);
+//		} else {
+//			fr.renderString("§faxis: §9" + zAxis, res.getScaledWidth() / 2F - 10 , res.getScaledHeight() / 2F + 50, true);
+//			x = Math.abs(zAxis);
+//		}
+//		double y = p.getEyeHeight();
+//		double a = Math.atan(y / x) / Math.PI * 180;
+//		double b = Math.atan((y + 1) / x) / Math.PI * 180;
+
+//		fr.renderString("§e" + a + "§f, §e" + b, res.getScaledWidth() / 2F - 20, res.getScaledHeight() / 2F + 40, true);
 		if (MC.getPlayer().isCollidedVertically)
-			getFontRenderer().drawString("onGround", res.getScaledWidth() / 2,
-					res.getScaledHeight() / 2 + 10, -1);
+			fr.renderString("§fonGround", res.getScaledWidth() / 2F - 10,
+					res.getScaledHeight() / 2F + 30, true);
 //			Utils.drawHexagonOutline(Tessellator.getInstance(), 10);
 
 		//		renderFakeVime(res, width, height);
@@ -325,6 +351,7 @@ public class GuiIngame extends Gui {
 	private void renderCrosshair(int width, int height) {
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(icons);
+		G.scale(1, 1, 1);
 		G.enableBlend();
 
 		if (this.showCrosshair() && Settings.getPerspective() < 1) {
@@ -457,7 +484,8 @@ public class GuiIngame extends Gui {
 				i1 = MathHelper.func_181758_c(f3 / 50.0F, 0.7F, 0.6F) & 16777215;
 			}
 
-			this.getFontRenderer().drawString(this.recordPlaying, -this.getFontRenderer().getStringWidth(this.recordPlaying) / 2, -4, i1 + (k1 << 24 & -16777216));
+			Utils.glColorNoAlpha(i1 + (k1 << 24 & -16777216));
+			this.getFontRenderer().renderString(this.recordPlaying, -this.getFontRenderer().getStringWidth(this.recordPlaying) / 2F, -4, false);
 			G.disableBlend();
 			G.popMatrix();
 		}
@@ -487,12 +515,13 @@ public class GuiIngame extends Gui {
 			G.tryBlendFuncSeparate(770, 771, 1, 0);
 			G.pushMatrix();
 			G.scale(4.0F, 4.0F, 4.0F);
-			int j2 = opacity << 24 & 0xff000000;
-			this.getFontRenderer().drawString(this.title, (float) (-this.getFontRenderer().getStringWidth(this.title) / 2), -10.0F, 0xffffff | j2, true);
+			G.color(1, 1, 1, opacity / 255f);
+			IFontRenderer fr = this.getFontRenderer();
+			fr.renderString(title, -fr.getStringWidth(title) / 2F, -10.0F, true);
 			G.popMatrix();
 			G.pushMatrix();
 			G.scale(2.0F, 2.0F, 2.0F);
-			this.getFontRenderer().drawString(this.subtitle, (float) (-this.getFontRenderer().getStringWidth(this.subtitle) / 2), 5.0F, 0xffffff | j2, true);
+			fr.renderString(subtitle, -fr.getStringWidth(subtitle) / 2F, 5.0F, true);
 			G.popMatrix();
 			G.disableBlend();
 			G.popMatrix();
@@ -547,11 +576,14 @@ public class GuiIngame extends Gui {
 			int i1 = (p_175176_1_.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2;
 			int l = p_175176_1_.getScaledHeight() - 31 - 4;
 			boolean flag = false;
-			this.getFontRenderer().drawString(s, i1 + 1, l, 0);
-			this.getFontRenderer().drawString(s, i1 - 1, l, 0);
-			this.getFontRenderer().drawString(s, i1, l + 1, 0);
-			this.getFontRenderer().drawString(s, i1, l - 1, 0);
-			this.getFontRenderer().drawString(s, i1, l, j1);
+			IFontRenderer fr = getFontRenderer();
+			G.colorNoAlpha(0);
+			fr.renderString(s, i1 + 1, l, false);
+			fr.renderString(s, i1 - 1, l, false);
+			fr.renderString(s, i1, l + 1, false);
+			fr.renderString(s, i1, l - 1, false);
+			Utils.glColorNoAlpha(j1);
+			fr.renderString(s, i1, l, false);
 			mc.getProfiler().endSection();
 		}
 	}
@@ -562,10 +594,10 @@ public class GuiIngame extends Gui {
 
 		String s = this.highlightingItemStack.getDisplayName();
 
-		int i = (res.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2;
-		int j = res.getScaledHeight() - 59;
+		int x = (res.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2;
+		int y = res.getScaledHeight() - 59;
 
-		if (!this.mc.playerController.shouldDrawHUD()) j += 14;
+		if (!this.mc.playerController.shouldDrawHUD()) y += 14;
 
 		int k = (int) ((float) this.remainingHighlightTicks * 256.0F / 10.0F);
 		if (k > 255) k = 255;
@@ -574,7 +606,8 @@ public class GuiIngame extends Gui {
 			G.pushMatrix();
 			G.enableBlend();
 			G.tryBlendFuncSeparate(770, 771, 1, 0);
-			this.getFontRenderer().drawStringWithShadow(s, (float) i, (float) j, 16777215 + (k << 24));
+			G.color(1, 1, 1, k / 255F);
+			getFontRenderer().renderString(s, x, y, true);
 			G.disableBlend();
 			G.popMatrix();
 		}
@@ -632,15 +665,18 @@ public class GuiIngame extends Gui {
 			String s2 = EnumChatFormatting.RED + "" + ((Score) score1).getScorePoints();
 			int l = k1 - k * this.getFontRenderer().getFontHeight();
 			int i1 = res.getScaledWidth() - b0 + 2;
-			drawRect(j - 2, l, i1, l + this.getFontRenderer().getFontHeight(), 1342177280);
-			this.getFontRenderer().drawString(s1, j, l, 553648127);
-			this.getFontRenderer().drawString(s2, i1 - this.getFontRenderer().getStringWidth(s2), l, 553648127);
+			drawRect(j - 2, l, i1, l + this.getFontRenderer().getFontHeight(), 0x50000000);
+			G.color(1, 1, 1, 0x20 / 255F);
+			this.getFontRenderer().renderString(s1, j, l, false);
+			this.getFontRenderer().renderString(s2, i1 - this.getFontRenderer().getStringWidth(s2), l, false);
 
 			if (k == scoreboardLines.size()) {
 				String s3 = sidebarObjective.getDisplayName();
 				drawRect(j - 2, l - this.getFontRenderer().getFontHeight() - 1, i1, l - 1, 1610612736);
 				drawRect(j - 2, l - 1, i1, l, 1342177280);
-				this.getFontRenderer().drawString(s3, j + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, l - this.getFontRenderer().getFontHeight(), 553648127);
+				float x = j + i / 2F - this.getFontRenderer().getStringWidth(s3) / 2F;
+				G.color(1, 1, 1, 0x20 / 255F);
+				this.getFontRenderer().renderString(s3, x, l - getFontRenderer().getFontHeight(), false);
 			}
 		}
 	}
@@ -728,7 +764,7 @@ public class GuiIngame extends Gui {
 		return this.updateCounter;
 	}
 
-	public MCFontRenderer getFontRenderer() {
+	public IFontRenderer getFontRenderer() {
 		return this.mc.fontRenderer;
 	}
 

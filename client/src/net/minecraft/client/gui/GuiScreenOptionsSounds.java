@@ -92,7 +92,7 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 			return 0;
 		}
 
-		protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+		protected void render(Minecraft mc, int mouseX, int mouseY) {
 			if (this.visible) {
 				if (this.field_146155_p) {
 					this.field_146156_o = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);

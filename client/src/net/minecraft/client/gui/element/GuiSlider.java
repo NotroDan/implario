@@ -39,7 +39,7 @@ public class GuiSlider extends GuiButton {
 		}
 	}
 
-	public float func_175217_d() {
+	public float getSliderPosition() {
 		return this.sliderPosition;
 	}
 
@@ -58,7 +58,7 @@ public class GuiSlider extends GuiButton {
 	/**
 	 * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
 	 */
-	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+	protected void render(Minecraft mc, int mouseX, int mouseY) {
 		if (this.visible) {
 			if (this.isMouseDown) {
 				this.sliderPosition = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);

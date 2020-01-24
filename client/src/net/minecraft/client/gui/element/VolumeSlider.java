@@ -34,7 +34,7 @@ public class VolumeSlider extends SettingSlider implements HoverButton {
 	 * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
 	 */
 	@Override
-	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+	protected void render(Minecraft mc, int mouseX, int mouseY) {
 		if (!this.visible) return;
 		if (this.isMouseDown) {
 			this.sliderPosition = 1 - (float) (mouseY - this.yPosition) / this.height;
@@ -113,7 +113,7 @@ public class VolumeSlider extends SettingSlider implements HoverButton {
 		RenderHelper.disableStandardItemLighting();
 
 
-		this.mouseDragged(mc, mouseX, mouseY);
+		this.render(mc, mouseX, mouseY);
 	}
 
 

@@ -275,6 +275,8 @@ public final class InputHandler {
 
 	}
 
+	public static boolean frozen = false;
+
 	public void processKeyboard() throws IOException {
 
 		while (Keyboard.next()) {
@@ -311,12 +313,15 @@ public final class InputHandler {
 					if (Settings.DEBUG.b()) {
 						MinecraftServer s = MinecraftServer.getServer();
 						if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-							t.ticksPerSecond++;
+							t.ticksPerSecond = (int) (t.ticksPerSecond + 1);
 							if (s != null) s.tickLength = (long) (1000 / t.ticksPerSecond);
+						}
+						if (Keyboard.isKeyDown(Keyboard.KEY_APOSTROPHE)) {
+							frozen = !frozen;
 						}
 						if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
 							t.ticksPerSecond--;
-							if (t.ticksPerSecond <= 1) t.ticksPerSecond = 1F;
+							if (t.ticksPerSecond < 1) t.ticksPerSecond = 0.3f;
 							if (s != null) s.tickLength = (long) (1000 / t.ticksPerSecond);
 						}
 						if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {

@@ -4,7 +4,7 @@ import net.minecraft.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.element.Colors;
-import net.minecraft.client.gui.font.MCFontRenderer;
+import net.minecraft.client.gui.font.IFontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.Lang;
 import net.minecraft.client.settings.Settings;
@@ -55,7 +55,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 	/**
 	 * Display the potion effects list
 	 */
-	public static void drawActivePotionEffects(Gui screen, Minecraft mc, MCFontRenderer renderer) {
+	public static void drawActivePotionEffects(Gui screen, Minecraft mc, IFontRenderer renderer) {
 		Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
 		if (collection.isEmpty()) return;
@@ -92,14 +92,15 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 
 			G.disableLighting();
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			renderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 0xffffff);
+			renderer.renderString(s1, (float) (i + 10 + 18), (float) (j + 6), true);
 			String s = Potion.getDurationString(potioneffect);
-			renderer.drawStringWithShadow(s, (float) (i + 10 + 18), (float) (j + 6 + 10), 8355711);
+			G.colorNoAlpha(0x7f7f7f);
+			renderer.renderString(s, (float) (i + 10 + 18), (float) (j + 6 + 10), true);
 			j += l;
 		}
 	}
 
-	private static void drawPEnew(Gui screen, Minecraft mc, MCFontRenderer fontRendererObj, Collection<PotionEffect> effects) {
+	private static void drawPEnew(Gui screen, Minecraft mc, IFontRenderer fontRendererObj, Collection<PotionEffect> effects) {
 		RenderHelper.enableGUIStandardItemLighting();
 
 		int y = 5;
@@ -126,9 +127,9 @@ public abstract class InventoryEffectRenderer extends GuiContainer {
 			//			this.fontRenderer.drawStringWithShadow(s1, (float) (i + 10 + 18), (float) (j + 6), 16777215);
 			String s = Potion.getDurationString(e);
 			G.color(1.0F, 1.0F, 1.0F, 1.0F);
-			fontRendererObj.drawString(s1, 4, y + 20, Colors.WHITE);
+			fontRendererObj.renderString(s1, 4, y + 20, false);
 			G.scale(2, 2, 2);
-			fontRendererObj.drawString(s, 16, y / 2 + 1, Colors.WHITE);
+			fontRendererObj.renderString(s, 16, y / 2F + 1, false);
 			G.scale(0.5, 0.5, 0.5);
 			y += 27 + 10;
 		}

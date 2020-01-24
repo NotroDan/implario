@@ -40,7 +40,7 @@ public class ModuleBossStatus implements Module {
 
 		if (Config.isCustomColors()) l = CustomColors.getBossTextColor(l);
 
-		gui.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - gui.getFontRenderer().getStringWidth(s) / 2), (float) (b0 - 10), l);
+//todo		gui.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - gui.getFontRenderer().getStringWidth(s) / 2), (float) (b0 - 10), l);
 		G.color(1.0F, 1.0F, 1.0F, 1.0F);
 		profiler.endSection();
 	}

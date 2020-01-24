@@ -10,7 +10,7 @@ import java.util.Map;
 class ContextImpl implements Context {
 
 	private final MinecraftServer server;
-	private final ContextCommand command;
+	private final SuitedCommand command;
 	private final ICommandSender sender;
 	private final Map<Arg, Object> argsMap;
 	private int affectedEntities;
@@ -20,6 +20,11 @@ class ContextImpl implements Context {
 	@Override
 	public <T> T get(Arg<T> arg) {
 		return (T) argsMap.get(arg);
+	}
+
+	@Override
+	public void msg(String s) {
+		sender.sendMessage(s);
 	}
 
 }

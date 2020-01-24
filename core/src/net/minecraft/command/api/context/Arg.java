@@ -21,7 +21,7 @@ public interface Arg<T> {
 
 	T get(ArgsParser parser);
 
-	Collection<String> performTabCompletion(MPlayer player, BlockPos pos);
+	Collection<String> performTabCompletion(MPlayer player, BlockPos pos, String arg);
 
 	boolean isEssential();
 

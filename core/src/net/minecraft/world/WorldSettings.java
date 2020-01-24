@@ -129,18 +129,20 @@ public final class WorldSettings {
 	}
 
 	public enum GameType {
-		NOT_SET(-1, ""),
-		SURVIVAL(0, "survival"),
-		CREATIVE(1, "creative"),
-		ADVENTURE(2, "adventure"),
-		SPECTATOR(3, "spectator");
+		NOT_SET(-1, "", "Не установлен"),
+		SURVIVAL(0, "survival", "Выживание"),
+		CREATIVE(1, "creative", "Творческий"),
+		ADVENTURE(2, "adventure", "Приключение"),
+		SPECTATOR(3, "spectator", "Наблюдение");
 
 		int id;
 		String name;
+		String title;
 
-		GameType(int typeId, String nameIn) {
+		GameType(int typeId, String nameIn, String title) {
 			this.id = typeId;
 			this.name = nameIn;
+			this.title = title;
 		}
 
 		public int getID() {
@@ -201,6 +203,10 @@ public final class WorldSettings {
 			}
 
 			return SURVIVAL;
+		}
+
+		public String getTitle() {
+			return title;
 		}
 	}
 

@@ -9,12 +9,14 @@ public interface Context {
 
 	ICommandSender getSender();
 
-	ContextCommand getCommand();
+	SuitedCommand getCommand();
 
 	<T> T get(Arg<T> arg);
 
 	void setAffectedEntities(int amount);
 
 	int getAffectedEntities();
+
+	void msg(String s);
 
 }

@@ -1,5 +1,7 @@
 package net.minecraft.resources;
 
+import net.minecraft.command.impl.CommandGameMode;
+
 public class DatapackMinecraft extends Datapack{
     public static final String MINECRAFT = "minecraft";
 
@@ -10,6 +12,7 @@ public class DatapackMinecraft extends Datapack{
     @Override
     public void preinit() {
         registrar.registerCommands(
+        		new CommandGameMode()
 //                new CommandTime(), new CommandGameMode(), new CommandDifficulty(),
 //                new CommandDefaultGameMode(), new CommandKill(),
 //                new CommandToggleDownfall(), new CommandWeather(),

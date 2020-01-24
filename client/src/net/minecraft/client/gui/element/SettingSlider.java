@@ -33,7 +33,7 @@ public class SettingSlider extends SettingButton {
 	/**
 	 * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
 	 */
-	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+	protected void render(Minecraft mc, int mouseX, int mouseY) {
 		if (!visible) return;
 		if (dragging) {
 			sliderValue = (float) (mouseX - (xPosition + 4)) / (float) (width - 8);
