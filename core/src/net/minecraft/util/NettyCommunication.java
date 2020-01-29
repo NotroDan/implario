@@ -60,26 +60,27 @@ public class NettyCommunication {
 
 	public static class Splitter extends ByteToMessageDecoder {
 
-		protected void decode(ChannelHandlerContext chc, ByteBuf buf, List<Object> list) {
+		protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> list) {
 			buf.markReaderIndex();
-			byte[] abyte = new byte[3];
+			byte[] varint = new byte[3];
 
-			for (int i = 0; i < abyte.length; ++i) {
+			for (int i = 0; i < varint.length; ++i) {
 				if (!buf.isReadable()) {
 					buf.resetReaderIndex();
 					return;
 				}
 
-				abyte[i] = buf.readByte();
+				varint[i] = buf.readByte();
 
-				if (abyte[i] >= 0) {
-					PacketBuffer packetbuffer = new PacketBuffer(Unpooled.wrappedBuffer(abyte));
+				// Все отдельные байты в VarInt кроме последнего интерпретируются как отрицательные числа
+				if (varint[i] >= 0) {
+					PacketBuffer packetbuffer = new PacketBuffer(Unpooled.wrappedBuffer(varint));
 
 					try {
-						int j = packetbuffer.readVarIntFromBuffer();
+						int packetLength = packetbuffer.readVarIntFromBuffer();
 
-						if (buf.readableBytes() >= j) {
-							list.add(buf.readBytes(j));
+						if (buf.readableBytes() >= packetLength) {
+							list.add(buf.readBytes(packetLength));
 							return;
 						}
 
@@ -105,11 +106,11 @@ public class NettyCommunication {
 			this.isClientSide = isClientSide;
 		}
 
-		protected void decode(ChannelHandlerContext chc, ByteBuf buf, List<Object> list) throws Exception {
+		protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> buffer) throws Exception {
 			if (buf.readableBytes() != 0) {
 				PacketBuffer packetbuffer = new PacketBuffer(buf);
 				int i = packetbuffer.readVarIntFromBuffer();
-				IProtocol state = chc.channel().attr(NetworkManager.attrKeyConnectionState).get();
+				IProtocol state = ctx.channel().attr(NetworkManager.attrKeyConnectionState).get();
 				Packet packet = state.getPacket(isClientSide, i);
 
 				if (packet == null) {
@@ -121,7 +122,7 @@ public class NettyCommunication {
 					throw new IOException("Packet " + state + "/" + i + " (" + packet.getClass().getSimpleName() + ") was " +
 							"larger than I expected, found " + packetbuffer.readableBytes() + " bytes extra whilst reading packet " + i);
 				}
-				list.add(packet);
+				buffer.add(packet);
 			}
 		}
 

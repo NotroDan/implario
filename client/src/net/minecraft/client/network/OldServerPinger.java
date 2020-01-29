@@ -69,7 +69,7 @@ public class OldServerPinger {
 				if (networkmanager.isChannelOpen()) networkmanager.processReceivedPackets();
 				else {
 					iterator.remove();
-					networkmanager.checkDisconnected();
+					networkmanager.handleDisconnection();
 				}
 			}
 		}

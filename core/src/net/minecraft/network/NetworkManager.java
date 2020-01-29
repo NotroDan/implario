@@ -24,7 +24,6 @@ import net.minecraft.logging.Log;
 import net.minecraft.network.protocol.IProtocol;
 import net.minecraft.network.protocol.IProtocols;
 import net.minecraft.network.protocol.minecraft.ProtocolMinecraft;
-import net.minecraft.network.protocol.minecraft_47.Protocol47;
 import net.minecraft.util.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
@@ -86,7 +85,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * A String indicating why the network has shutdown.
 	 */
 	private IChatComponent terminationReason;
+
+	@Getter
 	private boolean isEncrypted;
+
+
 	private boolean disconnected;
 
 	public NetworkManager(boolean isClientSide) {
@@ -105,7 +108,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
-	public void setAutoRead(boolean autoRead){
+	public void setAutoRead(boolean autoRead) {
 		channel.config().setAutoRead(autoRead);
 	}
 
@@ -258,35 +261,40 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		return this.channel instanceof LocalChannel || this.channel instanceof LocalServerChannel;
 	}
 
-	public static NetworkManager func_181124_a(InetAddress p_181124_0_, int p_181124_1_, boolean useEpoll) {
+	public static NetworkManager func_181124_a(InetAddress address, int port, boolean useEpoll) {
 		final NetworkManager networkmanager = new NetworkManager(false);
 		Class<? extends SocketChannel> oclass;
-		LazySupplier<? extends EventLoopGroup> lazyloadbase;
+		LazySupplier<? extends EventLoopGroup> eventLoop;
 
 		if (Epoll.isAvailable() && useEpoll) {
 			oclass = EpollSocketChannel.class;
-			lazyloadbase = EPOLL_CLIENT;
+			eventLoop = EPOLL_CLIENT;
 		} else {
 			oclass = NioSocketChannel.class;
-			lazyloadbase = NIO_CLIENT;
+			eventLoop = NIO_CLIENT;
 		}
 
-		new Bootstrap().group(lazyloadbase.getValue()).handler(new ChannelInitializer<Channel>() {
-			protected void initChannel(Channel channel) throws Exception {
-				try {
-					channel.config().setOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
-				} catch (ChannelException ignored) {
-				}
+		new Bootstrap()
+				.group(eventLoop.getValue())
+				.handler(new ChannelInitializer<Channel>() {
+					protected void initChannel(Channel channel) {
+						try {
+							channel.config().setOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
+						} catch (ChannelException ignored) {
+						}
 
-				channel.pipeline()
-						.addLast("timeout", new ReadTimeoutHandler(30))
-						.addLast("splitter", new NettyCommunication.Splitter())
-						.addLast("decoder", new NettyCommunication.Decoder(false))
-						.addLast("prepender", new NettyCommunication.Prepender())
-						.addLast("encoder", new NettyCommunication.Encoder(true))
-						.addLast("packet_handler", networkmanager);
-			}
-		}).channel(oclass).connect(p_181124_0_, p_181124_1_).syncUninterruptibly();
+						channel.pipeline()
+								.addLast("timeout", new ReadTimeoutHandler(30))
+								.addLast("splitter", new NettyCommunication.Splitter())
+								.addLast("decoder", new NettyCommunication.Decoder(false))
+								.addLast("prepender", new NettyCommunication.Prepender())
+								.addLast("encoder", new NettyCommunication.Encoder(true))
+								.addLast("packet_handler", networkmanager);
+					}
+				})
+				.channel(oclass)
+				.connect(address, port)
+				.syncUninterruptibly();
 		return networkmanager;
 	}
 
@@ -295,10 +303,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * pipeline. Returns the newly created instance.
 	 */
 	public static NetworkManager provideLocalClient(SocketAddress address) {
+
 		final NetworkManager networkmanager = new NetworkManager(false);
+
 		new Bootstrap().group(LOCAL_CLIENT.getValue()).handler(new ChannelInitializer<Channel>() {
-			protected void initChannel(Channel p_initChannel_1_) throws Exception {
-				p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
+			protected void initChannel(Channel c) {
+				c.pipeline().addLast("packet_handler", networkmanager);
 			}
 		}).channel(LocalChannel.class).connect(address).syncUninterruptibly();
 		return networkmanager;
@@ -311,10 +321,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		this.isEncrypted = true;
 		this.channel.pipeline().addBefore("splitter", "decrypt", new NettyEncryptingDecoder(CryptManager.createNetCipherInstance(2, key)));
 		this.channel.pipeline().addBefore("prepender", "encrypt", new NettyEncryptingEncoder(CryptManager.createNetCipherInstance(1, key)));
-	}
-
-	public boolean getIsencrypted() {
-		return this.isEncrypted;
 	}
 
 	/**
@@ -373,7 +379,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
-	public void checkDisconnected() {
+	public void handleDisconnection() {
 		if (this.channel != null && !this.channel.isOpen()) {
 			if (!this.disconnected) {
 				this.disconnected = true;

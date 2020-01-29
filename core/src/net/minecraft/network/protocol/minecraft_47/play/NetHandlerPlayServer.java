@@ -10,9 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityMinecartCommandBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.Player;
-import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.MPlayer;
+import net.minecraft.entity.player.Player;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.*;
@@ -60,7 +60,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * kick
 	 */
 	private int floatingTickCount;
-	private boolean field_147366_g;
+	private boolean updated;
 	private int field_147378_h;
 	private long lastPingTime;
 	private long lastSentPingPacket;
@@ -71,7 +71,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 */
 	private int chatSpamThresholdCount;
 	private int itemDropThreshold;
-	private IntHashMap<Short> field_147372_n = new IntHashMap();
+	private IntHashMap<Short> field_147372_n = new IntHashMap<>();
 	private double lastPosX;
 	private double lastPosY;
 	private double lastPosZ;
@@ -85,7 +85,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Like the old updateEntity(), except more generic.
 	 */
 	public void update() {
-		this.field_147366_g = false;
+		this.updated = false;
 		floatingTickCount = -40;
 		++this.networkTickCount;
 		MinecraftServer.profiler.startSection("keepAlive");
@@ -123,7 +123,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 		final ChatComponentText chatcomponenttext = new ChatComponentText(reason);
 		this.netManager.sendPacket(new S40PacketDisconnect(chatcomponenttext), future -> netManager.closeChannel(chatcomponenttext));
 		this.netManager.disableAutoRead();
-		Futures.getUnchecked(this.serverController.addScheduledTask(netManager::checkDisconnected));
+		Futures.getUnchecked(this.serverController.addScheduledTask(netManager::handleDisconnection));
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * flying/sprinting
 	 */
 	public void processInput(C0CPacketInput packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.setEntityActionState(packetIn.getStrafeSpeed(), packetIn.getForwardSpeed(), packetIn.isJumping(), packetIn.isSneaking());
 	}
 
@@ -144,13 +144,13 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Processes clients perspective on player positioning and/or orientation
 	 */
 	public void processPlayer(C03PacketPlayer packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
 		if (!this.isValid(packetIn)) {
 			this.kickPlayerFromServer("Invalid move packet received");
 		} else {
 			WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
-			this.field_147366_g = true;
+			this.updated = true;
 
 			if (!this.playerEntity.playerConqueredTheEnd) {
 				double x = this.playerEntity.posX;
@@ -387,7 +387,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * side clicked on;)
 	 */
 	public void processPlayerDigging(C07PacketPlayerDigging packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
 		BlockPos blockpos = packetIn.getPosition();
 		this.playerEntity.markPlayerActive();
@@ -462,7 +462,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Processes block placement and block activation (anvil, furnace, etc.)
 	 */
 	public void processPlayerBlockPlacement(C08PacketPlayerBlockPlacement packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
 		ItemStack itemstack = this.playerEntity.inventory.getCurrentItem();
 		boolean flag = false;
@@ -539,7 +539,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	}
 
 	public void handleSpectate(C18PacketSpectate packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
 		if (this.playerEntity.isSpectator()) {
 			Entity entity = null;
@@ -616,7 +616,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Updates which quickbar slot is selected
 	 */
 	public void processHeldItemChange(C09PacketHeldItemChange packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
 		if (packetIn.getSlotId() >= 0 && packetIn.getSlotId() < InventoryPlayer.getHotbarSize()) {
 			this.playerEntity.inventory.setCurrentSlot(packetIn.getSlotId());
@@ -630,7 +630,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Process chat messages (broadcast back to clients) and commands (executes)
 	 */
 	public void processChatMessage(C01PacketChatMessage packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
 		if (this.playerEntity.getChatVisibility() == Player.EnumChatVisibility.HIDDEN) {
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("chat.cannotSend");
@@ -686,7 +686,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	}
 
 	public void handleAnimation(C0APacketAnimation packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.markPlayerActive();
 		this.playerEntity.swingItem();
 	}
@@ -696,7 +696,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * height of the horse the player is riding
 	 */
 	public void processEntityAction(C0BPacketEntityAction packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.markPlayerActive();
 
 		if (ServerEvents.playerAction.isUseful())
@@ -738,7 +738,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * equipped item
 	 */
 	public void processUseEntity(C02PacketUseEntity packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
 		Entity entity = packetIn.getEntityFromWorld(worldserver);
 		this.playerEntity.markPlayerActive();
@@ -774,7 +774,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * acquiring 'open inventory' achievement
 	 */
 	public void processClientStatus(C16PacketClientStatus packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.markPlayerActive();
 		C16PacketClientStatus.EnumState c16packetclientstatus$enumstate = packetIn.getStatus();
 
@@ -815,7 +815,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 */
 	public void processCloseWindow(C0DPacketCloseWindow packetIn) {
 		System.out.println(packetIn + " close window");
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.closeContainer();
 	}
 
@@ -826,7 +826,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 */
 	public void processClickWindow(C0EPacketClickWindow packetIn) {
 		System.out.println(packetIn + " click window");
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.markPlayerActive();
 
 		if (this.playerEntity.openContainer.windowId == packetIn.getWindowId() && this.playerEntity.openContainer.getCanCraft(this.playerEntity)) {
@@ -875,7 +875,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * should/shouldn't be in use?)
 	 */
 	public void processEnchantItem(C11PacketEnchantItem packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.markPlayerActive();
 
 		if (this.playerEntity.openContainer.windowId == packetIn.getWindowId() && this.playerEntity.openContainer.getCanCraft(this.playerEntity) && !this.playerEntity.isSpectator()) {
@@ -888,7 +888,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Update the server with an ItemStack in a slot.
 	 */
 	public void processCreativeInventoryAction(C10PacketCreativeInventoryAction packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
 		if (this.playerEntity.theItemInWorldManager.isCreative()) {
 			boolean flag = packetIn.getSlotId() < 0;
@@ -941,7 +941,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * contents
 	 */
 	public void processConfirmTransaction(C0FPacketConfirmTransaction packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		Short oshort = this.field_147372_n.lookup(this.playerEntity.openContainer.windowId);
 
 		if (oshort != null && packetIn.getUid() == oshort && this.playerEntity.openContainer.windowId == packetIn.getWindowId() && !this.playerEntity.openContainer.getCanCraft(
@@ -951,7 +951,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	}
 
 	public void processUpdateSign(C12PacketUpdateSign packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.markPlayerActive();
 		WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
 		BlockPos blockpos = packetIn.getPosition();
@@ -995,7 +995,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Processes a player starting/stopping flying
 	 */
 	public void processPlayerAbilities(C13PacketPlayerAbilities packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.capabilities.isFlying = packetIn.isFlying() && this.playerEntity.capabilities.allowFlying;
 	}
 
@@ -1003,7 +1003,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Retrieves possible tab completions for the requested command string and sends them to the client
 	 */
 	public void processTabComplete(C14PacketTabComplete packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
 		List<String> list = new ArrayList<>(this.serverController.getTabCompletions(this.playerEntity, packetIn.getMessage(), packetIn.getTargetBlock()));
 
@@ -1015,7 +1015,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * and whether to show the cape
 	 */
 	public void processClientSettings(C15PacketClientSettings packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 		this.playerEntity.handleClientSettings(packetIn);
 	}
 
@@ -1023,7 +1023,7 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	 * Synchronizes serverside and clientside book contents and signing
 	 */
 	public void processVanilla250Packet(C17PacketCustomPayload packetIn) {
-		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+		PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
 		if ("MC|BEdit".equals(packetIn.getChannelName())) {
 			PacketBuffer packetbuffer3 = new PacketBuffer(Unpooled.wrappedBuffer(packetIn.getBufferData()));

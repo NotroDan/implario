@@ -152,7 +152,7 @@ public class NetworkSystem {
 				if (networkmanager.hasNoChannel()) continue;
 				if (!networkmanager.isChannelOpen()) {
 					iterator.remove();
-					networkmanager.checkDisconnected();
+					networkmanager.handleDisconnection();
 					continue;
 				}
 				try {

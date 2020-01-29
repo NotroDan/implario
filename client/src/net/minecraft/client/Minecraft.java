@@ -943,11 +943,11 @@ public class Minecraft implements IThreadListener {
 		this.entityRenderer.loadEntityShader(viewingEntity);
 	}
 
-	public <V> ListenableFuture<V> addScheduledTask(Callable<V> callableToSchedule) {
-		Validate.notNull(callableToSchedule);
+	public <V> ListenableFuture<V> addScheduledTask(Callable<V> callable) {
+		Validate.notNull(callable);
 
 		if (!this.isCallingFromMinecraftThread()) {
-			ListenableFutureTask<V> listenablefuturetask = ListenableFutureTask.create(callableToSchedule);
+			ListenableFutureTask<V> listenablefuturetask = ListenableFutureTask.create(callable);
 
 			synchronized (this.scheduledTasks) {
 				this.scheduledTasks.add(listenablefuturetask);
@@ -955,7 +955,7 @@ public class Minecraft implements IThreadListener {
 			}
 		}
 		try {
-			return Futures.immediateFuture(callableToSchedule.call());
+			return Futures.immediateFuture(callable.call());
 		} catch (Exception exception) {
 			return Futures.immediateFailedCheckedFuture(exception);
 		}

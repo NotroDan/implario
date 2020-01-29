@@ -13,7 +13,6 @@ import net.minecraft.network.protocol.minecraft.ProtocolMinecraft;
 import net.minecraft.network.protocol.minecraft.login.client.C00PacketLoginStart;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
-import org.apache.logging.log4j.core.net.Protocol;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -106,7 +105,7 @@ public class GuiConnecting extends GuiScreen {
 			if (this.networkManager.isChannelOpen()) {
 				this.networkManager.processReceivedPackets();
 			} else {
-				this.networkManager.checkDisconnected();
+				this.networkManager.handleDisconnection();
 			}
 		}
 	}
