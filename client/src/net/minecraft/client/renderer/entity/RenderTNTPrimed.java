@@ -23,7 +23,7 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
 	 * double d2, float f, float f1). But JAD is pre 1.5 so doe
 	 */
 	public void doRender(EntityTNTPrimed entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+		BlockRendererDispatcher blockrendererdispatcher = Minecraft.get().getBlockRendererDispatcher();
 		G.pushMatrix();
 		G.translate((float) x, (float) y + 0.5F, (float) z);
 

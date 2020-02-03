@@ -1,7 +1,6 @@
 package net.minecraft.client.gui.spectator;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;
@@ -108,7 +107,7 @@ public class SpectatorMenu {
 		}
 
 		public void render(float p_178663_1_, int alpha) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
+			Minecraft.get().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
 			Gui.drawModalRectWithCustomSizedTexture(0, 0, 128.0F, 0.0F, 16, 16, 256.0F, 256.0F);
 		}
 
@@ -137,7 +136,7 @@ public class SpectatorMenu {
 		}
 
 		public void render(float p_178663_1_, int alpha) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
+			Minecraft.get().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
 
 			if (this.field_178666_a < 0) {
 				Gui.drawModalRectWithCustomSizedTexture(0, 0, 144.0F, 0.0F, 16, 16, 256.0F, 256.0F);

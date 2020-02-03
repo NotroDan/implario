@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import optifine.Config;
 import optifine.CustomColors;
 
-import static net.minecraft.client.Minecraft.getMinecraft;
+import static net.minecraft.client.Minecraft.get;
 
 public class FontUtils {
 
@@ -49,7 +49,7 @@ public class FontUtils {
 	}
 
 	public static void rect(float x1, float x2, float y1, float y2) {
-		Tessellator t = getMinecraft().preloader == null ? Tessellator.getInstance() : getMinecraft().preloader.getTessellator();
+		Tessellator t = get().preloader == null ? Tessellator.getInstance() : get().preloader.getTessellator();
 		WorldRenderer r = t.getWorldRenderer();
 		G.disableTexture2D();
 		r.begin(7, DefaultVertexFormats.POSITION);

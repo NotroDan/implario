@@ -29,7 +29,7 @@ public enum Settings {
 	RENDER_DISTANCE("Дальность прорисовки", 2, 32, 1, 10) {
 		@Override
 		public void change() {
-			Minecraft.getMinecraft().renderGlobal.setDisplayListEntitiesDirty();
+			Minecraft.get().renderGlobal.setDisplayListEntitiesDirty();
 		}
 	},
 	SCREEN_TO_BUFFER("Скриншот в буфер", true),
@@ -50,7 +50,7 @@ public enum Settings {
 	GUI_SCALE("Интерфейс", 0, "Авто", "x1", "x2", "x3", "x4") {
 		@Override
 		public void change() {
-			Minecraft mc = Minecraft.getMinecraft();
+			Minecraft mc = Minecraft.get();
 			ScaledResolution r = new ScaledResolution(mc);
 			mc.currentScreen.setWorldAndResolution(mc, r.getScaledWidth(), r.getScaledHeight());
 		}
@@ -70,7 +70,7 @@ public enum Settings {
 	CHAT_HEIGHT_UNFOCUSED("Высота (Неактивный чат)", 20, 300, 1, 100),
 	MIPMAP_LEVELS("Уровень сглаживания", 0, 4, 1, 4) {
 		public void change() {
-			Minecraft mc = Minecraft.getMinecraft();
+			Minecraft mc = Minecraft.get();
 			mc.getTextureMapBlocks().setMipmapLevels(i());
 			mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 			mc.getTextureMapBlocks().setBlurMipmapDirect(false, i() > 0);
@@ -263,7 +263,7 @@ public enum Settings {
 						String[] args = s.split(": ");
 						language = args[1];
 					} else if (s.startsWith("username")) {
-						Minecraft.getMinecraft().getSession().username = s.substring(10);
+						Minecraft.get().getSession().username = s.substring(10);
 					} else Setting.fromString(s);
 
 				} catch (Exception exception) {
@@ -303,14 +303,14 @@ public enum Settings {
 	}
 
 	public static void updateWaterOpacity() {
-		if (Minecraft.getMinecraft().isIntegratedServerRunning() && Minecraft.getMinecraft().getIntegratedServer() != null) Config.waterOpacityChanged = true;
-		ClearWater.updateWaterOpacity(Minecraft.getMinecraft().theWorld);
+		if (Minecraft.get().isIntegratedServerRunning() && Minecraft.get().getIntegratedServer() != null) Config.waterOpacityChanged = true;
+		ClearWater.updateWaterOpacity(Minecraft.get().theWorld);
 	}
 
 
 	public static void setSoundLevel(SoundCategory category, float level) {
 		valueOf("SOUND_" + category.name()).set(level);
-		Minecraft.getMinecraft().getSoundHandler().setSoundLevel(category, level);
+		Minecraft.get().getSoundHandler().setSoundLevel(category, level);
 	}
 
 	public static float getSoundLevel(SoundCategory category) {
@@ -322,7 +322,7 @@ public enum Settings {
 	}
 
 	public static void sendSettingsToServer() {
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.get();
 		if (mc.thePlayer == null) return;
 		int i = 0;
 		for (Settings modelpart : MODELPARTS) i |= EnumPlayerModelParts.valueOf(modelpart.name().substring(6)).getPartMask();
@@ -386,8 +386,8 @@ public enum Settings {
 	}
 
 	public void change() {
-		if (name().startsWith("CHAT")) Minecraft.getMinecraft().ingameGUI.getChatGUI().refreshChat();
-		if (name().startsWith("SOUND_")) Minecraft.getMinecraft().getSoundHandler().setSoundLevel(soundCategory, f());
+		if (name().startsWith("CHAT")) Minecraft.get().ingameGUI.getChatGUI().refreshChat();
+		if (name().startsWith("SOUND_")) Minecraft.get().getSoundHandler().setSoundLevel(soundCategory, f());
 	}
 
 	public String getCaption() {

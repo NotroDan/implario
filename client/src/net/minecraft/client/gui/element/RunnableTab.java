@@ -10,7 +10,7 @@ public class RunnableTab implements ITab {
 	private boolean enabled = false;
 
 	public RunnableTab(String name, Runnable runnable, int id, int x, int y) {
-		MCFontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+		MCFontRenderer fr = Minecraft.get().fontRenderer;
 		this.button = new GuiButton(id, x, y, fr.getStringWidth(name) + 12, 18, name);
 		this.runnable = runnable;
 	}

@@ -49,7 +49,7 @@ public class ErrorGuy {
 			return stringbuilder.toString();
 		});
 		crash.getCategory().addCrashSectionCallable("Язык",
-				() -> mc.mcLanguageManager.getCurrentLanguage().toString());
+				() -> mc.languageManager.getCurrentLanguage().toString());
 		crash.getCategory().addCrashSectionCallable("Позиция профайлера",
 				() -> mc.getProfiler().isEnabled() ? mc.getProfiler().getNameOfLastSection() : "N/A (профайлер отключен)");
 		crash.getCategory().addCrashSectionCallable("CPU", OpenGlHelper::getCPU);
@@ -65,7 +65,7 @@ public class ErrorGuy {
 	 * Wrapper around displayCrashReportInternal
 	 */
 	public void displayCrashReport(CrashReport crashReportIn) {
-		File file1 = new File(Minecraft.getMinecraft().mcDataDir, "gamedata/logs/crash-reports");
+		File file1 = new File(Minecraft.get().mcDataDir, "gamedata/logs/crash-reports");
 		File file2 = new File(file1, "crash-" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + "-client.txt");
 		Bootstrap.print(crashReportIn.getCompleteReport());
 

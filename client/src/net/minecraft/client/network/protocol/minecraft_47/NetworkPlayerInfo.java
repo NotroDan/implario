@@ -93,14 +93,14 @@ public class NetworkPlayerInfo {
 	}
 
 	public ScorePlayerTeam getPlayerTeam() {
-		return Minecraft.getMinecraft().theWorld.getScoreboard().getPlayersTeam(this.getGameProfile().getName());
+		return Minecraft.get().theWorld.getScoreboard().getPlayersTeam(this.getGameProfile().getName());
 	}
 
 	protected void loadPlayerTextures() {
 		synchronized (this) {
 			if (!this.playerTexturesLoaded) {
 				this.playerTexturesLoaded = true;
-				Minecraft.getMinecraft().getSkinManager().loadProfileTextures(this.gameProfile, (profile, location, profileTexture) -> {
+				Minecraft.get().getSkinManager().loadProfileTextures(this.gameProfile, (profile, location, profileTexture) -> {
 					switch (profile) {
 						case SKIN:
 							NetworkPlayerInfo.this.locationSkin = location;

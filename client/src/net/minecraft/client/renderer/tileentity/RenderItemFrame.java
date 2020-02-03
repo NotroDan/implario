@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.settings.Settings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -38,7 +39,7 @@ import shadersmod.client.ShadersTex;
 public class RenderItemFrame extends Render {
 
 	private static final ResourceLocation mapBackgroundTextures = new ResourceLocation("textures/map/map_background.png");
-	private final Minecraft mc = Minecraft.getMinecraft();
+	private final Minecraft mc = Minecraft.get();
 	private final ModelResourceLocation itemFrameModel = new ModelResourceLocation("item_frame", "normal");
 	private final ModelResourceLocation mapModel = new ModelResourceLocation("item_frame", "map");
 	private RenderItem itemRenderer;
@@ -170,7 +171,7 @@ public class RenderItemFrame extends Render {
 	}
 
 	protected void renderName(EntityItemFrame entity, double x, double y, double z) {
-		if (Minecraft.isGuiEnabled() && entity.getDisplayedItem() != null && entity.getDisplayedItem().hasDisplayName() && this.renderManager.pointedEntity == entity) {
+		if (!Settings.HIDE_GUI.b() && entity.getDisplayedItem() != null && entity.getDisplayedItem().hasDisplayName() && this.renderManager.pointedEntity == entity) {
 			float f = 1.6F;
 			float f1 = 0.016666668F * f;
 			double d0 = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);

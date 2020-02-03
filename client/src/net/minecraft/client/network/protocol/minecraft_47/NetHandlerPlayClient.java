@@ -65,6 +65,7 @@ import net.minecraft.world.storage.MapData;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.Executors;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
@@ -1236,8 +1237,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		} else if (this.gameController.getCurrentServerData() != null && this.gameController.getCurrentServerData().getResourceMode() != ServerData.ServerResourceMode.PROMPT)
 			this.netManager.sendPacket(new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.DECLINED));
 		else
-			this.gameController.addScheduledTask(() -> this.gameController.displayGuiScreen(new GuiYesNo((result, id) -> {
-				this.gameController = Minecraft.getMinecraft();
+			this.gameController.queue(Executors.callable(() -> this.gameController.displayGuiScreen(new GuiYesNo((result, id) -> {
+				this.gameController = Minecraft.get();
 
 				if (result) {
 					if (this.gameController.getCurrentServerData() != null)
@@ -1262,7 +1263,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 				ServerList.func_147414_b(this.gameController.getCurrentServerData());
 				this.gameController.displayGuiScreen(null);
-			}, Lang.format("multiplayer.texturePrompt.line1"), Lang.format("multiplayer.texturePrompt.line2"), 0)));
+			}, Lang.format("multiplayer.texturePrompt.line1"), Lang.format("multiplayer.texturePrompt.line2"), 0))));
 	}
 
 	public void handleEntityNBT(S49PacketUpdateEntityNBT packetIn) {

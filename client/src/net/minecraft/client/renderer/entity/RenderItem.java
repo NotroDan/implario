@@ -93,7 +93,7 @@ public class RenderItem implements IResourceManagerReloadListener {
 	private void renderModel(IBakedModel model, int color, ItemStack stack) {
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		boolean flag = Minecraft.getMinecraft().getTextureMapBlocks().isTextureBound();
+		boolean flag = Minecraft.get().getTextureMapBlocks().isTextureBound();
 		boolean flag1 = Config.isMultiTexture() && flag;
 
 		if (flag1) {

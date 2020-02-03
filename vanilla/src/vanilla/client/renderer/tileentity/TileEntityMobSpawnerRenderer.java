@@ -30,7 +30,7 @@ public class TileEntityMobSpawnerRenderer extends TileEntitySpecialRenderer<Tile
 			G.translate(0.0F, -0.4F, 0.0F);
 			G.scale(f, f, f);
 			entity.setLocationAndAngles(posX, posY, posZ, 0.0F, 0.0F);
-			Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks);
+			Minecraft.get().getRenderManager().renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks);
 		}
 	}
 

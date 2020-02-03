@@ -146,7 +146,7 @@ public class ShadersRender {
 
 	public static void renderShadowMap(EntityRenderer entityRenderer, int pass, float partialTicks, long finishTimeNano) {
 		if (Shaders.usedShadowDepthBuffers > 0 && --Shaders.shadowPassCounter <= 0) {
-			Minecraft minecraft = Minecraft.getMinecraft();
+			Minecraft minecraft = Minecraft.get();
 			minecraft.getProfiler().endStartSection("shadow pass");
 			RenderGlobal renderglobal = minecraft.renderGlobal;
 			Shaders.isShadowPass = true;

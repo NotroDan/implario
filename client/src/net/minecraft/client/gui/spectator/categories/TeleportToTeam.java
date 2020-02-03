@@ -27,7 +27,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
 	private final List<ISpectatorMenuObject> objects = new ArrayList<>();
 
 	public TeleportToTeam() {
-		Minecraft minecraft = Minecraft.getMinecraft();
+		Minecraft minecraft = Minecraft.get();
 
 		for (ScorePlayerTeam scoreplayerteam : minecraft.theWorld.getScoreboard().getTeams()) {
 			this.objects.add(new TeleportToTeam.TeamSelectionObject(scoreplayerteam));
@@ -51,7 +51,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
 	}
 
 	public void render(float p_178663_1_, int alpha) {
-		Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
+		Minecraft.get().getTextureManager().bindTexture(GuiSpectator.swidgetsResource);
 		Gui.drawModalRectWithCustomSizedTexture(0, 0, 16.0F, 0.0F, 16, 16, 256.0F, 256.0F);
 	}
 
@@ -76,7 +76,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
 			this.playerInfos = new ArrayList<>();
 
 			for (String s : team.getMembershipCollection()) {
-				NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(s);
+				NetworkPlayerInfo networkplayerinfo = Minecraft.get().getNetHandler().getPlayerInfo(s);
 				if (networkplayerinfo != null) this.playerInfos.add(networkplayerinfo);
 			}
 
@@ -111,7 +111,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject 
 				Gui.drawRect(1, 1, 15, 15, MathHelper.func_180183_b(f * p_178663_1_, f1 * p_178663_1_, f2 * p_178663_1_) | alpha << 24);
 			}
 
-			Minecraft.getMinecraft().getTextureManager().bindTexture(this.resource);
+			Minecraft.get().getTextureManager().bindTexture(this.resource);
 			G.color(p_178663_1_, p_178663_1_, p_178663_1_, (float) alpha / 255.0F);
 			Gui.drawScaledCustomSizeModalRect(2, 2, 8.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);
 			Gui.drawScaledCustomSizeModalRect(2, 2, 40.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);

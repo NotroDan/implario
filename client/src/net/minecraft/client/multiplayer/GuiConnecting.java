@@ -34,7 +34,7 @@ public class GuiConnecting extends GuiScreen {
 		this.previousGuiScreen = p_i1181_1_;
 		ServerAddress serveraddress = ServerAddress.func_78860_a(p_i1181_3_.serverIP);
 		mcIn.worldController.loadWorld(null, mcIn);
-		mcIn.setServerData(p_i1181_3_);
+		mcIn.setCurrentServerData(p_i1181_3_);
 		this.connect(serveraddress.getIP(), serveraddress.getPort());
 	}
 

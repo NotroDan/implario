@@ -782,7 +782,7 @@ public class ShadersTex {
 	}
 
 	static void updateTextureMinMagFilter() {
-		TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
+		TextureManager texturemanager = Minecraft.get().getTextureManager();
 		ITextureObject itextureobject = texturemanager.getTexture(TextureMap.locationBlocksTexture);
 
 		if (itextureobject != null) {

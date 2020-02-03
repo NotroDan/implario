@@ -101,7 +101,7 @@ public abstract class Render<T extends Entity> {
 	 */
 	private void renderEntityOnFire(Entity entity, double x, double y, double z, float partialTicks) {
 		G.disableLighting();
-		TextureMap texturemap = Minecraft.getMinecraft().getTextureMapBlocks();
+		TextureMap texturemap = Minecraft.get().getTextureMapBlocks();
 		TextureAtlasSprite textureatlassprite = texturemap.getAtlasSprite("minecraft:blocks/fire_layer_0");
 		TextureAtlasSprite textureatlassprite1 = texturemap.getAtlasSprite("minecraft:blocks/fire_layer_1");
 		G.pushMatrix();

@@ -56,7 +56,7 @@ public class Utils {
 	}
 
 	private static void drawFloatingText0(String text, float x, float y, float z, boolean back) {
-		MCFontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
+		MCFontRenderer fontrenderer = Minecraft.get().fontRenderer;
 		float f = 1.6F;
 		float f1 = 0.016666668F * f;
 		G.pushMatrix();
@@ -126,7 +126,7 @@ public class Utils {
 
 	public static void processCommand(String line) {
 		if (line.equals("c")) {
-			Minecraft.getMinecraft().ingameGUI.setLoading(5000, "Тестовая загрузка");
+			Minecraft.get().ingameGUI.setLoading(5000, "Тестовая загрузка");
 		}
 		if (line.equals("itemmesh")) {
 			MC.printMap(MC.i().getRenderItem().getItemModelMesher().getShapers());

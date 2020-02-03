@@ -100,7 +100,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * flying/sprinting
      */
     public void processInput(C0CPacketInput packetIn) {
-        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         this.playerEntity.setEntityActionState(packetIn.getStrafeSpeed(), packetIn.getForwardSpeed(), packetIn.isJumping(), packetIn.isSneaking());
     }
 
@@ -155,7 +155,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * side clicked on;)
      */
     public void processPlayerDigging(C07PacketPlayerDigging packetIn) {
-        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         playerEntity.theItemInWorldManager.cancelDestroyingBlock();
     }
 
@@ -163,7 +163,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * Processes block placement and block activation (anvil, furnace, etc.)
      */
     public void processPlayerBlockPlacement(C08PacketPlayerBlockPlacement packetIn) {
-        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         BlockPos l = packetIn.getPosition();
         EnumFacing enumfacing = EnumFacing.getFront(packetIn.getPlacedBlockDirection());
         WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
@@ -231,7 +231,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * Process chat messages (broadcast back to clients) and commands (executes)
      */
     public void processChatMessage(C01PacketChatMessage packetIn) {
-        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
         if (this.playerEntity.getChatVisibility() == Player.EnumChatVisibility.HIDDEN) {
             ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("chat.cannotSend");
@@ -285,7 +285,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * acquiring 'open inventory' achievement
      */
     public void processClientStatus(C16PacketClientStatus packetIn) {
-        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         this.playerEntity.markPlayerActive();
         C16PacketClientStatus.EnumState c16packetclientstatus$enumstate = packetIn.getStatus();
 
@@ -378,7 +378,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * and whether to show the cape
      */
     public void processClientSettings(C15PacketClientSettings packetIn) {
-        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         this.playerEntity.handleClientSettings(packetIn);
     }
 

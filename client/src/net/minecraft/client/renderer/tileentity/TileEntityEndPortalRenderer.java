@@ -120,7 +120,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 			float f6 = 1.0F / (f4 + 1.0F);
 
 			if (i == 0) {
-				Minecraft.getMinecraft().getTextureManager().bindTexture(END_SKY_TEXTURE);
+				Minecraft.get().getTextureManager().bindTexture(END_SKY_TEXTURE);
 				f6 = 0.1F;
 				f4 = 65.0F;
 				f5 = 0.125F;
@@ -129,7 +129,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 			}
 
 			if (i >= 1) {
-				Minecraft.getMinecraft().getTextureManager().bindTexture(END_PORTAL_TEXTURE);
+				Minecraft.get().getTextureManager().bindTexture(END_PORTAL_TEXTURE);
 			}
 
 			if (i == 1) {
@@ -177,7 +177,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
 			tessellator.draw();
 			G.popMatrix();
 			G.matrixMode(5888);
-			Minecraft.getMinecraft().getTextureManager().bindTexture(END_SKY_TEXTURE);
+			Minecraft.get().getTextureManager().bindTexture(END_SKY_TEXTURE);
 		}
 
 		G.disableBlend();

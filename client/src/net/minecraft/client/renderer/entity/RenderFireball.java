@@ -32,7 +32,7 @@ public class RenderFireball extends Render<EntityFireball> {
 		G.translate((float) x, (float) y, (float) z);
 		G.enableRescaleNormal();
 		G.scale(this.scale, this.scale, this.scale);
-		TextureAtlasSprite textureatlassprite = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(Items.fire_charge);
+		TextureAtlasSprite textureatlassprite = Minecraft.get().getRenderItem().getItemModelMesher().getParticleIcon(Items.fire_charge);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		float f = textureatlassprite.getMinU();

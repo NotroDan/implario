@@ -1,13 +1,15 @@
 package net.minecraft.network.net;
 
-import net.minecraft.resources.mapping.Entry;
+import lombok.Getter;
+import net.minecraft.resources.mapping.Mechanic;
 
-public class Protocol extends Entry {
+@Getter
+public class Protocol extends Mechanic<String> {
 
 	private final ConceptRegistry conceptRegistry;
 
 	public Protocol(ConceptRegistry conceptRegistry, String domain, String name) {
-		super(domain, name);
+		super(name);
 		this.conceptRegistry = conceptRegistry;
 	}
 

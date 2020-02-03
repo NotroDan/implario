@@ -5,31 +5,49 @@ import lombok.Data;
 import java.util.*;
 
 @Data
-public abstract class Registry<T extends Entry> {
+public abstract class Registry<D extends Comparable<D>, T extends Mechanic<D>> {
 
-	private final List<T> entries = new ArrayList<>();
-	private final Map<T, Integer> mapping = new HashMap<>();
+	private final Map<D, List<T>> registered = new HashMap<>();
+	private final Map<T, Integer> active = new HashMap<>();
 
-	public void register(T entry) {
-		entries.add(entry);
+	public void register(T mechanic) {
+		List<T> list = registered.computeIfAbsent(mechanic.getDescriptor(), s -> new ArrayList<>());
+		list.add(mechanic);
 	}
 
-	public void unregister(T entry) {
-		entries.remove(entry);
+	public boolean unregister(T entry) {
+		List<T> list = registered.get(entry.getDescriptor());
+		if (list != null) return list.remove(entry);
+		return false;
 	}
 
 	public void rebuild() {
-		mapping.clear();
-		Collections.sort(entries);
-		for (int id = 0; id < entries.size(); id++) {
-			T entry = entries.get(id);
-			entry.setId(id);
-			mapping.put(entry, id);
+		active.clear();
+		int id = 0;
+
+		// У каждой механики в реестре есть название - по нему производится сортировка и выдача ID
+		List<Map.Entry<D, List<T>>> values = new ArrayList<>(registered.entrySet());
+		values.sort(Map.Entry.comparingByKey());
+
+
+		for (Map.Entry<D, List<T>> entry : values) {
+			List<T> list = entry.getValue();
+			if (list.isEmpty()) continue;
+
+			// Сбрасываем ID всем, у кого он мог остаться
+			for (T t : list) t.setId(-1);
+
+			// Сортировка по приоритету механик, самая крутая становится активной
+			Collections.sort(list);
+			id++;
+			T topmost = list.get(0);
+			topmost.setId(id);
+			active.put(topmost, id);
 		}
 	}
 
 	public int idFor(T entry) {
-		return mapping.get(entry);
+		return active.get(entry);
 	}
 
 }

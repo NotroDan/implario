@@ -86,7 +86,7 @@ public class PlayerConfigurationParser {
 		String s = "http://s.optifine.net/" + p_downloadTextureImage_1_;
 
 		try {
-			byte[] abyte = HttpPipeline.get(s, Minecraft.getMinecraft().getProxy());
+			byte[] abyte = HttpPipeline.get(s, Minecraft.get().getProxy());
 			BufferedImage bufferedimage = ImageIO.read((InputStream) new ByteArrayInputStream(abyte));
 			return bufferedimage;
 		} catch (IOException ioexception) {
@@ -99,7 +99,7 @@ public class PlayerConfigurationParser {
 		String s = "http://s.optifine.net/" + p_downloadModel_1_;
 
 		try {
-			byte[] abyte = HttpPipeline.get(s, Minecraft.getMinecraft().getProxy());
+			byte[] abyte = HttpPipeline.get(s, Minecraft.get().getProxy());
 			String s1 = new String(abyte, "ASCII");
 			JsonParser jsonparser = new JsonParser();
 			JsonObject jsonobject = (JsonObject) jsonparser.parse(s1);

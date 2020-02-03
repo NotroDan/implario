@@ -108,7 +108,7 @@ public class IntegratedServer extends MinecraftServer {
 	 */
 	public void tick() {
 		boolean flag = this.isGamePaused;
-		this.isGamePaused = Minecraft.getMinecraft().getNetHandler() != null && Minecraft.getMinecraft().isGamePaused();
+		this.isGamePaused = Minecraft.get().getNetHandler() != null && Minecraft.get().isGamePaused();
 
 		if (!flag && this.isGamePaused) {
 			logger.info("Сохраняем мир и ставим игру на паузу...");

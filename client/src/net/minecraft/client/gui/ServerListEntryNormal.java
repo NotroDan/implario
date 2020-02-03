@@ -39,7 +39,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 	protected ServerListEntryNormal(GuiMultiplayer gui, ServerData serverData) {
 		this.gui = gui;
 		this.serverData = serverData;
-		this.mc = Minecraft.getMinecraft();
+		this.mc = Minecraft.get();
 		this.iconLoc = new ResourceLocation("servers/" + serverData.serverIP + "/icon");
 		this.texture = (DynamicTexture) this.mc.getTextureManager().getTexture(this.iconLoc);
 	}

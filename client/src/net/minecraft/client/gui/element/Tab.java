@@ -16,7 +16,7 @@ public class Tab implements ITab {
 
 	public Tab(String title, int id, int x, int y) {
 		this.title = title;
-		MCFontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+		MCFontRenderer fr = Minecraft.get().fontRenderer;
 		button = new GuiButton(id, x, y, fr.getStringWidth(title) + 12, 18, title);
 	}
 

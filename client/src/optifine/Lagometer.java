@@ -79,7 +79,7 @@ public class Lagometer {
 
 	public static void updateLagometer() {
 		if (mc == null) {
-			mc = Minecraft.getMinecraft();
+			mc = Minecraft.get();
 			profiler = mc.getProfiler();
 		}
 

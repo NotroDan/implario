@@ -1,16 +1,13 @@
 package net.minecraft.client;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Queues;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListenableFutureTask;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.game.DisplayGuy;
@@ -48,6 +45,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.IProfiler;
 import net.minecraft.logging.Log;
+import net.minecraft.logging.Profiler;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.client.resources.ClientRegistrar;
 import net.minecraft.client.resources.ClientSideDatapack;
@@ -61,7 +59,7 @@ import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.EnumDifficulty;
-import org.apache.commons.lang3.Validate;
+import optifine.Lagometer;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
@@ -71,22 +69,24 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Proxy;
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
 
 import static net.minecraft.logging.Log.MAIN;
 import static net.minecraft.util.Util.OS.OSX;
 
-public class Minecraft implements IThreadListener {
+public class Minecraft extends MinecraftCore {
 
 	public static final boolean isRunningOnMac = Util.getOSType() == OSX;
 
 	private final File fileResourcepacks;
 	private final PropertyMap propertyMap;
+
+	@Setter
+	@Getter
 	private ServerData currentServerData;
 
-	private TextureManager renderEngine;
+	@Getter
+	private TextureManager textureManager;
 
 	protected static Minecraft theMinecraft;
 	public PlayerControllerMP playerController;
@@ -101,13 +101,23 @@ public class Minecraft implements IThreadListener {
 
 	public WorldClient theWorld;
 	public RenderGlobal renderGlobal;
+
+	@Getter
 	private RenderManager renderManager;
+
+	@Getter
 	private RenderItem renderItem;
+
+	@Getter
 	private ItemRenderer itemRenderer;
 	public CPlayer thePlayer;
 	public Entity pointedEntity;
 	public EffectRenderer effectRenderer;
+
+	@Getter
 	private final Session session;
+
+	@Getter
 	private boolean isGamePaused;
 	public MCFontRenderer fontRenderer;
 	public MCFontRenderer standardGalacticFontRenderer;
@@ -115,7 +125,8 @@ public class Minecraft implements IThreadListener {
 	public LoadingScreenRenderer loadingScreen;
 	public EntityRenderer entityRenderer;
 
-	public IntegratedServer theIntegratedServer;
+	@Getter
+	public IntegratedServer integratedServer;
 
 	public GuiAchievement guiAchievement;
 	public GuiIngame ingameGUI;
@@ -125,12 +136,15 @@ public class Minecraft implements IThreadListener {
 
 	public MouseHelper mouseHelper;
 	public final File mcDataDir;
+
+	@Getter
 	private final Proxy proxy;
 
 	/**
 	 * This is set to fpsCounter every debug screen update, and is shown on the debug screen. It's also sent as part of
 	 * the usage snooping.
 	 */
+	@Getter
 	private static int debugFPS;
 
 	/**
@@ -149,28 +163,55 @@ public class Minecraft implements IThreadListener {
 	 * Join player counter
 	 */
 	private int joinPlayerCounter;
-	public final FrameTimer frameTimer = new FrameTimer();
-	long frameTiming = System.nanoTime();
-	private final boolean jvm64bit;
-	public NetworkManager myNetworkManager;
-	public boolean integratedServerIsRunning;
 
-	private IReloadableResourceManager mcResourceManager;
+	@Getter
+	private final FrameTimer frameTimer = new FrameTimer();
+
+	long frameTiming = System.nanoTime();
+
+	@Getter
+	private final boolean isJava64bit;
+
+	public NetworkManager myNetworkManager;
+
+	@Getter
+	public boolean integratedServerRunning;
+
+	@Getter
+	private IReloadableResourceManager resourceManager;
+
 	private final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
 	private final List<IResourcePack> defaultResourcePacks = new ArrayList<>();
 	private final DefaultResourcePack mcDefaultResourcePack;
-	private ResourcePackRepository mcResourcePackRepository;
-	public LanguageManager mcLanguageManager;
+
+	@Getter
+	private ResourcePackRepository resourcePackRepository;
+
+	@Getter
+	public LanguageManager languageManager;
 	private Framebuffer framebufferMc;
+
+	@Getter
 	private TextureMap textureMapBlocks;
-	private SoundHandler mcSoundHandler;
-	private MusicTicker mcMusicTicker;
+
+	@Getter
+	private SoundHandler soundHandler;
+
+	@Getter
+	private MusicTicker musicTicker;
+
+	@Getter
 	private final MinecraftSessionService sessionService;
+
+	@Getter
 	private SkinManager skinManager;
-	private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
 	private final Thread mcThread = Thread.currentThread();
+
+	@Getter
 	private ModelManager modelManager;
-	private BlockRendererDispatcher blockRenderDispatcher;
+
+	@Getter
+	private BlockRendererDispatcher blockRendererDispatcher;
 
 	/**
 	 * Set to true to keep the game loop running. Set to false by shutdown() to allow the game loop to exit cleanly.
@@ -204,7 +245,7 @@ public class Minecraft implements IThreadListener {
 
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
-		profiler = new OptifineProfiler();
+		profiler = new Profiler();
 		this.errorGuy = new ErrorGuy(this);
 		this.mcDataDir = gameConfig.folderInfo.mcDataDir;
 		this.fileResourcepacks = gameConfig.folderInfo.resourcePacksDir;
@@ -216,8 +257,8 @@ public class Minecraft implements IThreadListener {
 		this.displayWidth = gameConfig.displayInfo.width > 0 ? gameConfig.displayInfo.width : 1;
 		this.displayHeight = gameConfig.displayInfo.height > 0 ? gameConfig.displayInfo.height : 1;
 		this.displayGuy = new DisplayGuy(this, gameConfig.displayInfo);
-		this.jvm64bit = FileUtil.is64bit();
-		this.theIntegratedServer = new IntegratedServer(this);
+		this.isJava64bit = FileUtil.is64bit();
+		this.integratedServer = new IntegratedServer(this);
 		StringUtils.class.getCanonicalName();
 
 		if (gameConfig.serverInfo.serverName != null) {
@@ -287,18 +328,18 @@ public class Minecraft implements IThreadListener {
 		this.worldController = new GameWorldController(this);
 		preloader.nextState();
 
-		this.mcSoundHandler = new SoundHandler(this.mcResourceManager);
-		this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
+		this.soundHandler = new SoundHandler(this.resourceManager);
+		this.resourceManager.registerReloadListener(this.soundHandler);
 
-		this.mcMusicTicker = new MusicTicker(this);
+		this.musicTicker = new MusicTicker(this);
 		preloader.nextState();
 
 
 		this.standardGalacticFontRenderer = new MCFontRenderer(new ResourceLocation("textures/font/ascii_sga.png"), false);
-		this.mcResourceManager.registerReloadListener(this.fontRenderer);
-		this.mcResourceManager.registerReloadListener(this.standardGalacticFontRenderer);
-		this.mcResourceManager.registerReloadListener(new GrassColorReloadListener());
-		this.mcResourceManager.registerReloadListener(new FoliageColorReloadListener());
+		this.resourceManager.registerReloadListener(this.fontRenderer);
+		this.resourceManager.registerReloadListener(this.standardGalacticFontRenderer);
+		this.resourceManager.registerReloadListener(new GrassColorReloadListener());
+		this.resourceManager.registerReloadListener(new FoliageColorReloadListener());
 		AchievementList.openInventory.setStatStringFormatter(s -> String.format(s, "E"));
 		this.mouseHelper = new MouseHelper();
 		preloader.nextState();
@@ -306,30 +347,30 @@ public class Minecraft implements IThreadListener {
 		this.errorGuy.checkGLError("Startup");
 		this.textureMapBlocks = new TextureMap("textures");
 		this.textureMapBlocks.setMipmapLevels((int) Settings.MIPMAP_LEVELS.f());
-		this.renderEngine.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
-		this.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+		this.textureManager.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
+		this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
 		this.textureMapBlocks.setBlurMipmapDirect(false, Settings.MIPMAP_LEVELS.i() > 0);
 		preloader.nextState();
 		this.modelManager = new ModelManager(this.textureMapBlocks);
 		preloader.nextState();
-		this.mcResourceManager.registerReloadListener(this.modelManager);
+		this.resourceManager.registerReloadListener(this.modelManager);
 		preloader.nextState();
-		this.renderItem = new RenderItem(this.renderEngine, this.modelManager);
-		this.renderManager = new RenderManager(this.renderEngine, this.renderItem);
+		this.renderItem = new RenderItem(this.textureManager, this.modelManager);
+		this.renderManager = new RenderManager(this.textureManager, this.renderItem);
 		this.itemRenderer = new ItemRenderer(this);
-		this.mcResourceManager.registerReloadListener(this.renderItem);
+		this.resourceManager.registerReloadListener(this.renderItem);
 		preloader.nextState();
-		this.entityRenderer = new EntityRenderer(this, this.mcResourceManager);
-		this.mcResourceManager.registerReloadListener(this.entityRenderer);
+		this.entityRenderer = new EntityRenderer(this, this.resourceManager);
+		this.resourceManager.registerReloadListener(this.entityRenderer);
 		preloader.nextState();
-		this.blockRenderDispatcher = new BlockRendererDispatcher(this.modelManager.getBlockModelShapes());
-		this.mcResourceManager.registerReloadListener(this.blockRenderDispatcher);
+		this.blockRendererDispatcher = new BlockRendererDispatcher(this.modelManager.getBlockModelShapes());
+		this.resourceManager.registerReloadListener(this.blockRendererDispatcher);
 		preloader.nextState();
 		this.renderGlobal = new RenderGlobal(this);
-		this.mcResourceManager.registerReloadListener(this.renderGlobal);
+		this.resourceManager.registerReloadListener(this.renderGlobal);
 		preloader.nextState();
 		this.guiAchievement = new GuiAchievement(this);
-		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
+		this.effectRenderer = new EffectRenderer(this.theWorld, this.textureManager);
 		for (DatapackLoader loader : DatapackManager.getTree().unloadingOrder()) {
 			Datapack datapack = loader.getInstance();
 			if (datapack.clientSide instanceof ClientSideDatapack) {
@@ -359,14 +400,14 @@ public class Minecraft implements IThreadListener {
 		this.framebufferMc = new Framebuffer(this.displayWidth, this.displayHeight, true);
 		this.framebufferMc.setFramebufferColor(0.0F, 0.0F, 0.0F, 0.0F);
 		this.registerMetadataSerializers();
-		this.mcResourcePackRepository = new ResourcePackRepository(this.fileResourcepacks, new File(this.mcDataDir, "server-resource-packs"), this.mcDefaultResourcePack, this.metadataSerializer_);
-		this.mcResourceManager = new SimpleReloadableResourceManager(this.metadataSerializer_);
-		this.mcLanguageManager = new LanguageManager(this.metadataSerializer_, Settings.language);
-		this.mcResourceManager.registerReloadListener(this.mcLanguageManager);
+		this.resourcePackRepository = new ResourcePackRepository(this.fileResourcepacks, new File(this.mcDataDir, "server-resource-packs"), this.mcDefaultResourcePack, this.metadataSerializer_);
+		this.resourceManager = new SimpleReloadableResourceManager(this.metadataSerializer_);
+		this.languageManager = new LanguageManager(this.metadataSerializer_, Settings.language);
+		this.resourceManager.registerReloadListener(this.languageManager);
 		this.refreshResources();
-		this.renderEngine = new TextureManager(this.mcResourceManager);
-		this.mcResourceManager.registerReloadListener(this.renderEngine);
-		this.skinManager = new SkinManager(this.renderEngine, new File("gamedata/defaultresourcepack/skins"), this.sessionService);
+		this.textureManager = new TextureManager(this.resourceManager);
+		this.resourceManager.registerReloadListener(this.textureManager);
+		this.skinManager = new SkinManager(this.textureManager, new File("gamedata/defaultresourcepack/skins"), this.sessionService);
 		this.fontRenderer = new MCFontRenderer(new ResourceLocation("textures/font/ascii.png"), false);
 		if (Settings.language != null) this.fontRenderer.setUcEnabled(this.isUnicode());
 
@@ -447,34 +488,34 @@ public class Minecraft implements IThreadListener {
 	}
 
 	public boolean isUnicode() {
-		return this.mcLanguageManager.isCurrentLocaleUnicode() || Settings.FORCE_UNICODE_FONT.b();
+		return this.languageManager.isCurrentLocaleUnicode() || Settings.FORCE_UNICODE_FONT.b();
 	}
 
 	public void refreshResources() {
 		List<IResourcePack> list = Lists.newArrayList(this.defaultResourcePacks);
 
-		for (ResourcePackRepository.Entry resourcepackrepository$entry : this.mcResourcePackRepository.getRepositoryEntries()) {
+		for (ResourcePackRepository.Entry resourcepackrepository$entry : this.resourcePackRepository.getRepositoryEntries()) {
 			list.add(resourcepackrepository$entry.getResourcePack());
 		}
 
-		if (this.mcResourcePackRepository.getResourcePackInstance() != null) {
-			list.add(this.mcResourcePackRepository.getResourcePackInstance());
+		if (this.resourcePackRepository.getResourcePackInstance() != null) {
+			list.add(this.resourcePackRepository.getResourcePackInstance());
 		}
 
 		try {
-			this.mcResourceManager.reloadResources(list);
+			this.resourceManager.reloadResources(list);
 		} catch (RuntimeException runtimeexception) {
 			MAIN.warn("Во время перезагрузки ресурсов произошла ошибка. Выключаем все ресурс-паки.", runtimeexception);
 			list.clear();
 			list.addAll(this.defaultResourcePacks);
-			this.mcResourcePackRepository.setRepositories(Collections.emptyList());
-			this.mcResourceManager.reloadResources(list);
+			this.resourcePackRepository.setRepositories(Collections.emptyList());
+			this.resourceManager.reloadResources(list);
 			Settings.resourcePacks.clear();
 			Settings.incompatibleResourcePacks.clear();
 			Settings.saveOptions();
 		}
 
-		this.mcLanguageManager.parseLanguageMetadata(list);
+		this.languageManager.parseLanguageMetadata(list);
 		if (this.renderGlobal != null) this.renderGlobal.loadRenderers();
 	}
 
@@ -502,7 +543,7 @@ public class Minecraft implements IThreadListener {
 			int j = scaledresolution.getScaledHeight();
 			guiScreenIn.setWorldAndResolution(this, i, j);
 		} else {
-			this.mcSoundHandler.resumeSounds();
+			this.soundHandler.resumeSounds();
 			this.inputHandler.setIngameFocus();
 		}
 	}
@@ -518,7 +559,7 @@ public class Minecraft implements IThreadListener {
 				this.worldController.loadWorld(null, this);
 			} catch (Throwable ignored) {}
 
-			this.mcSoundHandler.unloadSounds();
+			this.soundHandler.unloadSounds();
 		} finally {
 		    Display.destroy();
 			Date date = new Date();
@@ -551,23 +592,23 @@ public class Minecraft implements IThreadListener {
 			this.timer.renderPartialTicks = f;
 		}
 
-		profiler.startSection("scheduledExecutables");
 
-		synchronized (this.scheduledTasks) {
-			while (!this.scheduledTasks.isEmpty()) Util.schedule(scheduledTasks.poll());
-		}
+		Lagometer.timerScheduledExecutables.start();
+		this.executeQueued();
+		Lagometer.timerScheduledExecutables.end();
 
-		profiler.endSection();
+		Lagometer.timerTick.start();
 		long l = System.nanoTime();
 		profiler.startSection("tick");
 
 		for (int j = 0; j < this.timer.elapsedTicks; ++j) this.runTick();
 
+		Lagometer.timerTick.end();
 		profiler.endStartSection("preRenderErrors");
 		long i1 = System.nanoTime() - l;
 		this.errorGuy.checkGLError("Pre render");
 		profiler.endStartSection("sound");
-		this.mcSoundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
+		this.soundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
 		profiler.endSection();
 		profiler.startSection("render");
 		G.pushMatrix();
@@ -607,9 +648,9 @@ public class Minecraft implements IThreadListener {
 		Thread.yield();
 		this.errorGuy.checkGLError("Post render");
 		++this.fpsCounter;
-		this.isGamePaused = this.isSingleplayer() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame() && !this.theIntegratedServer.getPublic();
+		this.isGamePaused = this.isSingleplayer() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame() && !this.integratedServer.getPublic();
 		long k = System.nanoTime();
-		this.frameTimer.func_181747_a(k - this.frameTiming);
+		this.getFrameTimer().func_181747_a(k - this.frameTiming);
 		this.frameTiming = k;
 
 		while (getSystemTime() >= this.debugUpdateTime + 1000L) {
@@ -664,13 +705,9 @@ public class Minecraft implements IThreadListener {
 		if (this.currentScreen != null) return;
 		this.displayGuiScreen(new GuiIngameMenu());
 
-		if (this.isSingleplayer() && !this.theIntegratedServer.getPublic()) this.mcSoundHandler.pauseSounds();
+		if (this.isSingleplayer() && !this.integratedServer.getPublic()) this.soundHandler.pauseSounds();
 	}
 
-
-	public MusicTicker getMusicTicker() {
-		return this.mcMusicTicker;
-	}
 
 	/**
 	 * Runs the current tick.
@@ -691,7 +728,7 @@ public class Minecraft implements IThreadListener {
 		profiler.endStartSection("textures");
 
 		// Рендер мира
-		if (!this.isGamePaused) this.renderEngine.tick();
+		if (!this.isGamePaused) this.textureManager.tick();
 
 		if (this.currentScreen == null && this.thePlayer != null) {
 			if (this.thePlayer.getHealth() <= 0.0F) {
@@ -772,8 +809,8 @@ public class Minecraft implements IThreadListener {
 		}
 
 		if (!this.isGamePaused) {
-			this.mcMusicTicker.update();
-			this.mcSoundHandler.update();
+			this.musicTicker.update();
+			this.soundHandler.update();
 		}
 
 		if (this.theWorld != null) {
@@ -817,50 +854,23 @@ public class Minecraft implements IThreadListener {
 		return this.thePlayer != null ? this.thePlayer.sendQueue : null;
 	}
 
-	public static boolean isGuiEnabled() {
-		return !Settings.HIDE_GUI.b();
-	}
-
-	public static boolean isFancyGraphicsEnabled() {
-		return true;
-	}
-
 	public static boolean isAmbientOcclusionEnabled() {
 		return Settings.AO_LEVEL.f() > 0;
 	}
 
-	public static Minecraft getMinecraft() {
+	public static Minecraft get() {
 		return theMinecraft;
 	}
 
 	public ListenableFuture<Object> scheduleResourcesRefresh() {
-		return this.addScheduledTask(this::refreshResources);
-	}
-
-	public void setServerData(ServerData serverDataIn) {
-		this.currentServerData = serverDataIn;
-	}
-
-	public ServerData getCurrentServerData() {
-		return this.currentServerData;
-	}
-
-	public boolean isIntegratedServerRunning() {
-		return this.integratedServerIsRunning;
+		return this.queue(Executors.callable(this::refreshResources));
 	}
 
 	/**
 	 * Returns true if there is only one player playing, and the current server is the integrated one.
 	 */
 	public boolean isSingleplayer() {
-		return this.integratedServerIsRunning && this.theIntegratedServer != null;
-	}
-
-	/**
-	 * Returns the currently running integrated server
-	 */
-	public IntegratedServer getIntegratedServer() {
-		return this.theIntegratedServer;
+		return this.integratedServerRunning && this.integratedServer != null;
 	}
 
 	public static void stopIntegratedServer() {
@@ -873,10 +883,6 @@ public class Minecraft implements IThreadListener {
 		return Sys.getTime() * 1000L / Sys.getTimerResolution();
 	}
 
-	public Session getSession() {
-		return this.session;
-	}
-
 	public PropertyMap getPropertyMap() {
 		if (this.propertyMap.isEmpty()) {
 			GameProfile gameprofile = this.getSessionService().fillProfileProperties(this.session.getProfile(), false);
@@ -884,54 +890,6 @@ public class Minecraft implements IThreadListener {
 		}
 
 		return this.propertyMap;
-	}
-
-	public Proxy getProxy() {
-		return this.proxy;
-	}
-
-	public TextureManager getTextureManager() {
-		return this.renderEngine;
-	}
-
-	public IResourceManager getResourceManager() {
-		return this.mcResourceManager;
-	}
-
-	public ResourcePackRepository getResourcePackRepository() {
-		return this.mcResourcePackRepository;
-	}
-
-	public LanguageManager getLanguageManager() {
-		return this.mcLanguageManager;
-	}
-
-	public TextureMap getTextureMapBlocks() {
-		return this.textureMapBlocks;
-	}
-
-	public boolean isJava64bit() {
-		return this.jvm64bit;
-	}
-
-	public boolean isGamePaused() {
-		return this.isGamePaused;
-	}
-
-	public SoundHandler getSoundHandler() {
-		return this.mcSoundHandler;
-	}
-
-	public ModelManager getModelManager() {
-		return modelManager;
-	}
-
-	public MinecraftSessionService getSessionService() {
-		return this.sessionService;
-	}
-
-	public SkinManager getSkinManager() {
-		return this.skinManager;
 	}
 
 	public Entity getRenderViewEntity() {
@@ -943,63 +901,8 @@ public class Minecraft implements IThreadListener {
 		this.entityRenderer.loadEntityShader(viewingEntity);
 	}
 
-	public <V> ListenableFuture<V> addScheduledTask(Callable<V> callable) {
-		Validate.notNull(callable);
-
-		if (!this.isCallingFromMinecraftThread()) {
-			ListenableFutureTask<V> listenablefuturetask = ListenableFutureTask.create(callable);
-
-			synchronized (this.scheduledTasks) {
-				this.scheduledTasks.add(listenablefuturetask);
-				return listenablefuturetask;
-			}
-		}
-		try {
-			return Futures.immediateFuture(callable.call());
-		} catch (Exception exception) {
-			return Futures.immediateFailedCheckedFuture(exception);
-		}
-	}
-
-	public ListenableFuture<Object> addScheduledTask(Runnable runnableToSchedule) {
-		Validate.notNull(runnableToSchedule);
-		return this.addScheduledTask(Executors.callable(runnableToSchedule));
-	}
-
 	public boolean isCallingFromMinecraftThread() {
 		return Thread.currentThread() == this.mcThread;
-	}
-
-	public BlockRendererDispatcher getBlockRendererDispatcher() {
-		return this.blockRenderDispatcher;
-	}
-
-	public RenderManager getRenderManager() {
-		return this.renderManager;
-	}
-
-	public RenderItem getRenderItem() {
-		return this.renderItem;
-	}
-
-	public ItemRenderer getItemRenderer() {
-		return this.itemRenderer;
-	}
-
-	public static int getDebugFPS() {
-		return debugFPS;
-	}
-
-	public FrameTimer func_181539_aj() {
-		return this.frameTimer;
-	}
-
-	public static Map<String, String> getSessionInfo() {
-		Map<String, String> map = Maps.newHashMap();
-		map.put("X-Minecraft-Username", getMinecraft().getSession().getUsername());
-		map.put("X-Minecraft-UUID", getMinecraft().getSession().getPlayerID());
-		map.put("X-Minecraft-Version", "1.8.8");
-		return map;
 	}
 
 }

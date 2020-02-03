@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer;
 
-import __google_.util.Exceptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -9,9 +8,6 @@ import net.minecraft.logging.Log;
 import net.minecraft.util.FileUtil;
 import net.minecraft.util.ResourceLocation;
 import optifine.Config;
-import optifine.HttpPipeline;
-import optifine.HttpRequest;
-import optifine.HttpResponse;
 import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
@@ -23,7 +19,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO: надо http async, это прям неоч
 public class ThreadDownloadImageData extends SimpleTexture {
@@ -94,7 +89,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 			logger.debug("Downloading http texture from " + imageUrl + " to " + cacheFile);
 
 			try {
-				httpurlconnection = (HttpURLConnection) new URL(imageUrl).openConnection(Minecraft.getMinecraft().getProxy());
+				httpurlconnection = (HttpURLConnection) new URL(imageUrl).openConnection(Minecraft.get().getProxy());
 				httpurlconnection.setDoInput(true);
 				httpurlconnection.setDoOutput(false);
 				httpurlconnection.connect();

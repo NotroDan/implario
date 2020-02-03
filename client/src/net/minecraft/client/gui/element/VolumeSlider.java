@@ -107,9 +107,9 @@ public class VolumeSlider extends SettingSlider implements HoverButton {
 			int total = yPosition + (int) (height * (1 - sliderPosition * Settings.SOUND_MASTER.f()));
 			drawRect(xPosition, total, xPosition + 10, total + 1, 0xfff3ff77);
 		}
-		drawCenteredString(Minecraft.getMinecraft().fontRenderer, (int) (sliderPosition * 100) + "%", xPosition + 5, yPosition - 10, -1);
+		drawCenteredString(Minecraft.get().fontRenderer, (int) (sliderPosition * 100) + "%", xPosition + 5, yPosition - 10, -1);
 		RenderHelper.enableGUIStandardItemLighting();
-		Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(settings.getSoundCategory().getItem(), xPosition - 3, yPosition + height + 8);
+		Minecraft.get().getRenderItem().renderItemIntoGUI(settings.getSoundCategory().getItem(), xPosition - 3, yPosition + height + 8);
 		RenderHelper.disableStandardItemLighting();
 
 

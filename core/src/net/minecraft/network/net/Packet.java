@@ -1,10 +1,8 @@
 package net.minecraft.network.net;
 
-import lombok.Data;
+@FunctionalInterface
+public interface Packet {
 
-@Data
-public class Packet {
-
-	private final Concept concept;
+	Concept getConcept();
 
 }

@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.chunk;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -169,7 +168,7 @@ public class ChunkRenderDispatcher {
 	}
 
 	public ListenableFuture<Object> uploadChunk(final EnumWorldBlockLayer player, final WorldRenderer p_178503_2_, final RenderChunk chunkRenderer, final CompiledChunk compiledChunkIn) {
-		if (Minecraft.getMinecraft().isCallingFromMinecraftThread()) {
+		if (Minecraft.get().isCallingFromMinecraftThread()) {
 			if (OpenGlHelper.useVbo()) {
 				this.uploadVertexBuffer(p_178503_2_, chunkRenderer.getVertexBufferByLayer(player.ordinal()));
 			} else {

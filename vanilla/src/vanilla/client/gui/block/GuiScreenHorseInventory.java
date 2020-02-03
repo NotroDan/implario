@@ -39,7 +39,7 @@ public class GuiScreenHorseInventory extends GuiContainer {
 	private float mousePosY;
 
 	public GuiScreenHorseInventory(Inventory playerInv, Inventory horseInv, EntityHorse horse) {
-		super(new ContainerHorseInventory(playerInv, horseInv, horse, Minecraft.getMinecraft().thePlayer));
+		super(new ContainerHorseInventory(playerInv, horseInv, horse, Minecraft.get().thePlayer));
 		this.playerInventory = playerInv;
 		this.horseInventory = horseInv;
 		this.horseEntity = horse;

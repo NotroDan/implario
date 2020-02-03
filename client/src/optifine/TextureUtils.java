@@ -15,7 +15,6 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.ITickableTextureObject;
@@ -139,7 +138,7 @@ public class TextureUtils {
 	}
 
 	public static TextureMap getTextureMapBlocks() {
-		return Minecraft.getMinecraft().getTextureMapBlocks();
+		return Minecraft.get().getTextureMapBlocks();
 	}
 
 	public static void registerResourceListener() {

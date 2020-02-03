@@ -63,11 +63,11 @@ public class SettingButton extends GuiButton {
 		displayString = getCaption(settings);
 
 		if (updateGraphics) {
-			ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
+			ScaledResolution scaledresolution = new ScaledResolution(Minecraft.get());
 			drawRect(0, 0, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 0xd0202020);
-			drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Применение настроек...",
+			drawCenteredString(Minecraft.get().fontRenderer, "Применение настроек...",
 					scaledresolution.getScaledWidth() / 2, scaledresolution.getScaledHeight() / 2, -1);
-			Minecraft.getMinecraft().renderGlobal.loadRenderers();
+			Minecraft.get().renderGlobal.loadRenderers();
 		}
 
 		if (reloadRP) {

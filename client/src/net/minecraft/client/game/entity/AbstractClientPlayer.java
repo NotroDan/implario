@@ -44,7 +44,7 @@ public abstract class AbstractClientPlayer extends Player {
 	 * Returns true if the player is in spectator mode.
 	 */
 	public boolean isSpectator() {
-		NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(this.getGameProfile().getId());
+		NetworkPlayerInfo networkplayerinfo = Minecraft.get().getNetHandler().getPlayerInfo(this.getGameProfile().getId());
 		return networkplayerinfo != null && networkplayerinfo.getGameType() == WorldSettings.GameType.SPECTATOR;
 	}
 
@@ -57,7 +57,7 @@ public abstract class AbstractClientPlayer extends Player {
 
 	protected NetworkPlayerInfo getPlayerInfo() {
 		if (this.playerInfo == null) {
-			this.playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(this.getUniqueID());
+			this.playerInfo = Minecraft.get().getNetHandler().getPlayerInfo(this.getUniqueID());
 		}
 
 		return this.playerInfo;
@@ -96,7 +96,7 @@ public abstract class AbstractClientPlayer extends Player {
 	}
 
 	public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username) {
-		TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
+		TextureManager texturemanager = Minecraft.get().getTextureManager();
 		ITextureObject object = texturemanager.getTexture(resourceLocationIn);
 
 		if (object == null) {
