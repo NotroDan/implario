@@ -38,7 +38,7 @@ public final class MC {
 	}
 
 	public static Minecraft i() {
-		return Minecraft.getMinecraft();
+		return Minecraft.get();
 	}
 
 	public static void chat(String s) {

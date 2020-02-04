@@ -61,7 +61,7 @@ public class WorldClient extends World {
 	 * spawn up to 10 pending entities with each subsequent tick until the spawn queue is empty.
 	 */
 	private final Set entitySpawnQueue = Sets.newHashSet();
-	private final Minecraft mc = Minecraft.getMinecraft();
+	private final Minecraft mc = Minecraft.get();
 	private final Set previousActiveChunkSet = Sets.newHashSet();
 
 	private BlockPosM randomTickPosM = new BlockPosM(0, 0, 0, 3);

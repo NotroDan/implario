@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
-import static net.minecraft.client.Minecraft.getMinecraft;
+import static net.minecraft.client.Minecraft.get;
 
 public class MCFontRenderer implements IResourceManagerReloadListener, IFontRenderer {
 
@@ -220,7 +220,7 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 
 	public float renderChar(char c, boolean bold, boolean italic) {
 		if (c == 32) return this.ucEnabled ? 4.0F : this.charWidth[c];
-		IProfiler profiler = getMinecraft().getProfiler();
+		IProfiler profiler = get().getProfiler();
 		profiler.startSection("fontrender");
 
 		float charWidth;
@@ -780,7 +780,7 @@ public class MCFontRenderer implements IResourceManagerReloadListener, IFontRend
 
 	protected InputStream getResourceInputStream(ResourceLocation loc) {
 		try {
-			return getMinecraft().getResourceManager().getResource(loc).getInputStream();
+			return get().getResourceManager().getResource(loc).getInputStream();
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}

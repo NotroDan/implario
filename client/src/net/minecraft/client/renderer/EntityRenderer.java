@@ -1137,7 +1137,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			} catch (Throwable throwable) {
 				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
 				CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
-				crashreportcategory.addCrashSectionCallable("Screen name", () -> Minecraft.getMinecraft().currentScreen.getClass().getCanonicalName());
+				crashreportcategory.addCrashSectionCallable("Screen name", () -> Minecraft.get().currentScreen.getClass().getCanonicalName());
 				crashreportcategory.addCrashSectionCallable("Mouse location", (Callable) () -> String.format("Scaled: (%d, %d). Absolute: (%d, %d)", j1, k1, Mouse.getX(), Mouse.getY()));
 				crashreportcategory.addCrashSectionCallable("Screen size",
 						(Callable) () -> String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(),

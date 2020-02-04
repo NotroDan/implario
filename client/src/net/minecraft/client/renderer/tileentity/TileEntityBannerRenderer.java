@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.tileentity;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.util.ArrayList;
@@ -95,7 +94,7 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
 					TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture1 = (TileEntityBannerRenderer.TimedBannerTexture) DESIGNS.get(s1);
 
 					if (i - tileentitybannerrenderer$timedbannertexture1.systemTime > 60000L) {
-						Minecraft.getMinecraft().getTextureManager().deleteTexture(tileentitybannerrenderer$timedbannertexture1.bannerTexture);
+						Minecraft.get().getTextureManager().deleteTexture(tileentitybannerrenderer$timedbannertexture1.bannerTexture);
 						iterator.remove();
 					}
 				}
@@ -115,7 +114,7 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
 
 			tileentitybannerrenderer$timedbannertexture = new TileEntityBannerRenderer.TimedBannerTexture();
 			tileentitybannerrenderer$timedbannertexture.bannerTexture = new ResourceLocation(s);
-			Minecraft.getMinecraft().getTextureManager().loadTexture(tileentitybannerrenderer$timedbannertexture.bannerTexture, new LayeredColorMaskTexture(BANNERTEXTURES, list2, list));
+			Minecraft.get().getTextureManager().loadTexture(tileentitybannerrenderer$timedbannertexture.bannerTexture, new LayeredColorMaskTexture(BANNERTEXTURES, list2, list));
 			DESIGNS.put(s, tileentitybannerrenderer$timedbannertexture);
 		}
 

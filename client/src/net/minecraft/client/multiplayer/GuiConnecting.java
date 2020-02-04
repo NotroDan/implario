@@ -13,7 +13,6 @@ import net.minecraft.network.protocol.minecraft.ProtocolMinecraft;
 import net.minecraft.network.protocol.minecraft.login.client.C00PacketLoginStart;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
-import org.apache.logging.log4j.core.net.Protocol;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -35,7 +34,7 @@ public class GuiConnecting extends GuiScreen {
 		this.previousGuiScreen = p_i1181_1_;
 		ServerAddress serveraddress = ServerAddress.func_78860_a(p_i1181_3_.serverIP);
 		mcIn.worldController.loadWorld(null, mcIn);
-		mcIn.setServerData(p_i1181_3_);
+		mcIn.setCurrentServerData(p_i1181_3_);
 		this.connect(serveraddress.getIP(), serveraddress.getPort());
 	}
 
@@ -106,7 +105,7 @@ public class GuiConnecting extends GuiScreen {
 			if (this.networkManager.isChannelOpen()) {
 				this.networkManager.processReceivedPackets();
 			} else {
-				this.networkManager.checkDisconnected();
+				this.networkManager.handleDisconnection();
 			}
 		}
 	}

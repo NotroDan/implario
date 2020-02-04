@@ -286,7 +286,7 @@ public class PlayerControllerMP {
 		if (this.netClientHandler.getNetworkManager().isChannelOpen()) {
 			this.netClientHandler.getNetworkManager().processReceivedPackets();
 		} else {
-			this.netClientHandler.getNetworkManager().checkDisconnected();
+			this.netClientHandler.getNetworkManager().handleDisconnection();
 		}
 	}
 

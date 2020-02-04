@@ -20,7 +20,7 @@ public class ModuleBossStatus implements Module {
 
 		if (BossStatus.bossName == null || BossStatus.statusBarTime <= 0) return;
 
-		IProfiler profiler = Minecraft.getMinecraft().getProfiler();
+		IProfiler profiler = Minecraft.get().getProfiler();
 		profiler.startSection("bossHealth");
 		--BossStatus.statusBarTime;
 		MCFontRenderer fontrenderer = MC.getFontRenderer();

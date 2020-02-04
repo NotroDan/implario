@@ -17,7 +17,7 @@ public class TextureClock extends TextureAtlasSprite {
 
 	public void updateAnimation() {
 		if (!this.framesTextureData.isEmpty()) {
-			Minecraft minecraft = Minecraft.getMinecraft();
+			Minecraft minecraft = Minecraft.get();
 			double d0 = 0.0D;
 
 			if (minecraft.theWorld != null && minecraft.thePlayer != null) {

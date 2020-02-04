@@ -81,12 +81,12 @@ public class GameWorldController {
 				nethandlerplayclient.cleanup();
 			}
 
-			if (mc.theIntegratedServer != null && mc.theIntegratedServer.isAnvilFileSet()) {
-				mc.theIntegratedServer.initiateShutdown();
-				mc.theIntegratedServer.setStaticInstance();
+			if (mc.integratedServer != null && mc.integratedServer.isAnvilFileSet()) {
+				mc.integratedServer.initiateShutdown();
+				mc.integratedServer.setStaticInstance();
 			}
 
-			mc.theIntegratedServer = null;
+			mc.integratedServer = null;
 			mc.guiAchievement.clearAchievements();
 			mc.entityRenderer.getMapItemRenderer().clearLoadedMaps();
 		}
@@ -102,8 +102,8 @@ public class GameWorldController {
 		if (worldClientIn == null && mc.theWorld != null) {
 			mc.getResourcePackRepository().func_148529_f();
 			mc.ingameGUI.func_181029_i();
-			mc.setServerData(null);
-			mc.integratedServerIsRunning = false;
+			mc.setCurrentServerData(null);
+			mc.integratedServerRunning = false;
 		}
 
 		mc.getSoundHandler().stopSounds();
@@ -163,9 +163,9 @@ public class GameWorldController {
 		}
 
 		try {
-			mc.theIntegratedServer = new IntegratedServer(mc, folderName, worldName, worldSettingsIn);
-			mc.theIntegratedServer.startServerThread();
-			mc.integratedServerIsRunning = true;
+			mc.integratedServer = new IntegratedServer(mc, folderName, worldName, worldSettingsIn);
+			mc.integratedServer.startServerThread();
+			mc.integratedServerRunning = true;
 		} catch (Throwable throwable) {
 			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Starting integrated server");
 			CrashReportCategory crashreportcategory = crashreport.makeCategory("Starting integrated server");
@@ -176,8 +176,8 @@ public class GameWorldController {
 
 		mc.loadingScreen.displaySavingString(Lang.format("menu.loadingLevel"));
 
-		while (!mc.theIntegratedServer.serverIsInRunLoop()) {
-			WorldService s = mc.theIntegratedServer.worldService;
+		while (!mc.integratedServer.serverIsInRunLoop()) {
+			WorldService s = mc.integratedServer.worldService;
 
 			if (s != null) {
 				mc.loadingScreen.displayLoadingString(Lang.format(s.getUserMessage()));
@@ -191,7 +191,7 @@ public class GameWorldController {
 		}
 
 		mc.displayGuiScreen(null);
-		SocketAddress socketaddress = mc.theIntegratedServer.getNetworkSystem().addLocalEndpoint();
+		SocketAddress socketaddress = mc.integratedServer.getNetworkSystem().addLocalEndpoint();
 		NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
 		networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, mc, null));
 		networkmanager.sendPacket(ProtocolMinecraft.HANDSHAKE.getHandshake(47, false));

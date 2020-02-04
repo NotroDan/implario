@@ -2,6 +2,7 @@ package net.minecraft.client.resources;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.FutureCallback;
@@ -30,6 +31,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ResourcePackRepository {
@@ -169,9 +171,12 @@ public class ResourcePackRepository {
 
 			this.func_183028_i();
 			final GuiScreenWorking guiscreenworking = new GuiScreenWorking();
-			Map<String, String> map = Minecraft.getSessionInfo();
-			final Minecraft minecraft = Minecraft.getMinecraft();
-			Futures.getUnchecked(minecraft.addScheduledTask(() -> minecraft.displayGuiScreen(guiscreenworking)));
+			Map<String, String> map = Maps.newHashMap();
+			map.put("X-Minecraft-Username", Minecraft.get().getSession().getUsername());
+			map.put("X-Minecraft-UUID", Minecraft.get().getSession().getPlayerID());
+			map.put("X-Minecraft-Version", "1.8.8");
+			final Minecraft minecraft = Minecraft.get();
+			Futures.getUnchecked(minecraft.queue(Executors.callable(() -> minecraft.displayGuiScreen(guiscreenworking))));
 			final SettableFuture<Object> settablefuture = SettableFuture.create();
 			this.field_177322_i = HttpUtil.downloadResourcePack(file1, url, map, 52428800, guiscreenworking, minecraft.getProxy());
 			Futures.addCallback(this.field_177322_i, new FutureCallback<Object>() {
@@ -205,7 +210,7 @@ public class ResourcePackRepository {
 
 	public ListenableFuture<Object> setResourcePackInstance(File p_177319_1_) {
 		this.resourcePackInstance = new FileResourcePack(p_177319_1_);
-		return Minecraft.getMinecraft().scheduleResourcesRefresh();
+		return Minecraft.get().scheduleResourcesRefresh();
 	}
 
 	/**
@@ -227,7 +232,7 @@ public class ResourcePackRepository {
 
 			if (this.resourcePackInstance != null) {
 				this.resourcePackInstance = null;
-				Minecraft.getMinecraft().scheduleResourcesRefresh();
+				Minecraft.get().scheduleResourcesRefresh();
 			}
 		} finally {
 			this.lock.unlock();

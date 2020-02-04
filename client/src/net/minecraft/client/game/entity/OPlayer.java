@@ -125,7 +125,7 @@ public class OPlayer extends AbstractClientPlayer {
 	 * Send a chat message to the CommandSender
 	 */
 	public void sendMessage(IChatComponent component) {
-		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
+		Minecraft.get().ingameGUI.getChatGUI().printChatMessage(component);
 	}
 
 	/**

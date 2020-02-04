@@ -52,7 +52,7 @@ public class Config {
 	public static int minecraftVersionInt = -1;
 	public static boolean fancyFogAvailable = false;
 	public static boolean occlusionAvailable = false;
-	private static Minecraft minecraft = Minecraft.getMinecraft();
+	private static Minecraft minecraft = Minecraft.get();
 	private static boolean initialized = false;
 	private static Thread minecraftThread = null;
 	private static DisplayMode desktopDisplayMode = null;
@@ -104,7 +104,7 @@ public class Config {
 		checkDisplayMode();
 		minecraftThread = Thread.currentThread();
 		updateThreadPriorities();
-		Shaders.startup(Minecraft.getMinecraft());
+		Shaders.startup(Minecraft.get());
 	}
 
 	public static void checkInitialized() {
@@ -675,7 +675,7 @@ public class Config {
 
 	public static DefaultResourcePack getDefaultResourcePack() {
 		if (defaultResourcePackLazy == null) {
-			Minecraft minecraft = Minecraft.getMinecraft();
+			Minecraft minecraft = Minecraft.get();
 			ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();
 
 			if (resourcepackrepository != null) defaultResourcePackLazy = (DefaultResourcePack) resourcepackrepository.rprDefaultResourcePack;

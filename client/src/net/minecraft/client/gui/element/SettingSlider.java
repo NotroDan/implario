@@ -21,7 +21,7 @@ public class SettingSlider extends SettingButton {
 		options = (SliderSetting) settings.getBase();
 		this.min = options.getMin();
 		this.max = options.getMax();
-		Minecraft minecraft = Minecraft.getMinecraft();
+		Minecraft minecraft = Minecraft.get();
 		sliderValue = options.normalizeValue(options.value);
 		displayString = getCaption(settings);
 	}

@@ -128,7 +128,7 @@ public class RenderChunk {
 		if (!regionrendercache.extendedLevelsInChunkCache()) {
 			++renderChunksUpdated;
 			boolean[] aboolean = new boolean[ENUM_WORLD_BLOCK_LAYERS.length];
-			BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+			BlockRendererDispatcher blockrendererdispatcher = Minecraft.get().getBlockRendererDispatcher();
 
 			for (Object o : BlockPosM.getAllInBoxMutable(blockpos, blockpos1)) {
 				BlockPosM blockposm = (BlockPosM) o;

@@ -5,7 +5,7 @@ import net.minecraft.client.resources.Lang;
 
 public class ServerListEntryLanScan implements GuiListExtended.IGuiListEntry {
 
-	private final Minecraft mc = Minecraft.getMinecraft();
+	private final Minecraft mc = Minecraft.get();
 
 	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
 		int i = y + slotHeight / 2 - this.mc.fontRenderer.getFontHeight() / 2;

@@ -115,7 +115,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T> {
 
 	protected void renderTileInside(T minecart, float partialTicks, IBlockState state) {
 		G.pushMatrix();
-		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(state, minecart.getBrightness(partialTicks));
+		Minecraft.get().getBlockRendererDispatcher().renderBlockBrightness(state, minecart.getBrightness(partialTicks));
 		G.popMatrix();
 	}
 

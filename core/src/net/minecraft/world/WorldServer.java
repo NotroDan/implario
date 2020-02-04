@@ -40,7 +40,7 @@ import net.minecraft.world.storage.WorldInfo;
 
 import java.util.*;
 
-public class WorldServer extends World implements IThreadListener {
+public class WorldServer extends World {
 
 	protected final MinecraftServer mcServer;
 	private final EntityTracker theEntityTracker;
@@ -772,14 +772,6 @@ public class WorldServer extends World implements IThreadListener {
 
 	public Entity getEntityFromUuid(UUID uuid) {
 		return this.entitiesByUuid.get(uuid);
-	}
-
-	public ListenableFuture<Object> addScheduledTask(Runnable runnableToSchedule) {
-		return this.mcServer.addScheduledTask(runnableToSchedule);
-	}
-
-	public boolean isCallingFromMinecraftThread() {
-		return this.mcServer.isCallingFromMinecraftThread();
 	}
 
 	public boolean areAllPlayersAsleep() {

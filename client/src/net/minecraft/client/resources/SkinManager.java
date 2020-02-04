@@ -13,10 +13,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
@@ -25,8 +22,6 @@ import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 @SuppressWarnings ("UnstableApiUsage")
 public class SkinManager {
@@ -43,7 +38,7 @@ public class SkinManager {
 		this.sessionService = sessionService;
 		this.skinCacheLoader = CacheBuilder.newBuilder().expireAfterAccess(15L, TimeUnit.SECONDS).build(new CacheLoader<GameProfile, Map<Type, MinecraftProfileTexture>>() {
 			public Map<Type, MinecraftProfileTexture> load(GameProfile p_load_1_) throws Exception {
-				return Minecraft.getMinecraft().getSessionService().getTextures(p_load_1_, false);
+				return Minecraft.get().getSessionService().getTextures(p_load_1_, false);
 			}
 		});
 	}
@@ -106,23 +101,21 @@ public class SkinManager {
 					;
 				}
 
-				if (map.isEmpty() && profile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
+				if (map.isEmpty() && profile.getId().equals(Minecraft.get().getSession().getProfile().getId())) {
 					profile.getProperties().clear();
-					profile.getProperties().putAll(Minecraft.getMinecraft().getPropertyMap());
+					profile.getProperties().putAll(Minecraft.get().getPropertyMap());
 					map.putAll(SkinManager.this.sessionService.getTextures(profile, false));
 				}
 
-				Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-					public void run() {
-						if (map.containsKey(Type.SKIN)) {
-							SkinManager.this.loadSkin((MinecraftProfileTexture) map.get(Type.SKIN), Type.SKIN, skinAvailableCallback);
-						}
-
-						if (map.containsKey(Type.CAPE)) {
-							SkinManager.this.loadSkin((MinecraftProfileTexture) map.get(Type.CAPE), Type.CAPE, skinAvailableCallback);
-						}
+				Minecraft.get().queue(Executors.callable(() -> {
+					if (map.containsKey(Type.SKIN)) {
+						SkinManager.this.loadSkin((MinecraftProfileTexture) map.get(Type.SKIN), Type.SKIN, skinAvailableCallback);
 					}
-				});
+
+					if (map.containsKey(Type.CAPE)) {
+						SkinManager.this.loadSkin((MinecraftProfileTexture) map.get(Type.CAPE), Type.CAPE, skinAvailableCallback);
+					}
+				}));
 			}
 		});
 	}

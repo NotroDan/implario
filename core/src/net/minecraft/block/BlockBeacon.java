@@ -112,14 +112,12 @@ public class BlockBeacon extends BlockContainer {
 					IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
 					if (iblockstate.getBlock() == Blocks.beacon) {
-						((WorldServer) worldIn).addScheduledTask(new Runnable() {
-							public void run() {
-								TileEntity tileentity = worldIn.getTileEntity(blockpos);
+						((WorldServer) worldIn).getMinecraftServer().addScheduledTask(() -> {
+							TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
-								if (tileentity instanceof TileEntityBeacon) {
-									((TileEntityBeacon) tileentity).updateBeacon();
-									worldIn.addBlockEvent(blockpos, Blocks.beacon, 1, 0);
-								}
+							if (tileentity instanceof TileEntityBeacon) {
+								((TileEntityBeacon) tileentity).updateBeacon();
+								worldIn.addBlockEvent(blockpos, Blocks.beacon, 1, 0);
 							}
 						});
 					}

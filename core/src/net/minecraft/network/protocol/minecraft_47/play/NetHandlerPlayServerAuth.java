@@ -10,7 +10,6 @@ import net.minecraft.network.INetHandlerPlayMPlayer;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketThreadUtil;
-import net.minecraft.network.protocol.minecraft_47.Protocol47;
 import net.minecraft.network.protocol.minecraft_47.play.client.*;
 import net.minecraft.network.protocol.minecraft_47.play.server.*;
 import net.minecraft.server.MinecraftServer;
@@ -93,7 +92,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
         final ChatComponentText chatcomponenttext = new ChatComponentText(reason);
         this.netManager.sendPacket(new S40PacketDisconnect(chatcomponenttext), future -> netManager.closeChannel(chatcomponenttext));
         this.netManager.disableAutoRead();
-        Futures.getUnchecked(this.serverController.addScheduledTask(netManager::checkDisconnected));
+        Futures.getUnchecked(this.serverController.addScheduledTask(netManager::handleDisconnection));
     }
 
     /**
@@ -101,7 +100,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * flying/sprinting
      */
     public void processInput(C0CPacketInput packetIn) {
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         this.playerEntity.setEntityActionState(packetIn.getStrafeSpeed(), packetIn.getForwardSpeed(), packetIn.isJumping(), packetIn.isSneaking());
     }
 
@@ -156,7 +155,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * side clicked on;)
      */
     public void processPlayerDigging(C07PacketPlayerDigging packetIn) {
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         playerEntity.theItemInWorldManager.cancelDestroyingBlock();
     }
 
@@ -164,7 +163,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * Processes block placement and block activation (anvil, furnace, etc.)
      */
     public void processPlayerBlockPlacement(C08PacketPlayerBlockPlacement packetIn) {
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         BlockPos l = packetIn.getPosition();
         EnumFacing enumfacing = EnumFacing.getFront(packetIn.getPlacedBlockDirection());
         WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
@@ -232,7 +231,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * Process chat messages (broadcast back to clients) and commands (executes)
      */
     public void processChatMessage(C01PacketChatMessage packetIn) {
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
 
         if (this.playerEntity.getChatVisibility() == Player.EnumChatVisibility.HIDDEN) {
             ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("chat.cannotSend");
@@ -286,7 +285,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * acquiring 'open inventory' achievement
      */
     public void processClientStatus(C16PacketClientStatus packetIn) {
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         this.playerEntity.markPlayerActive();
         C16PacketClientStatus.EnumState c16packetclientstatus$enumstate = packetIn.getStatus();
 
@@ -379,7 +378,7 @@ public class NetHandlerPlayServerAuth implements INetHandlerPlayServer, ITickabl
      * and whether to show the cape
      */
     public void processClientSettings(C15PacketClientSettings packetIn) {
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
+        PacketThreadUtil.syncPacket(packetIn, this, this.playerEntity.getServerForPlayer().getMinecraftServer());
         this.playerEntity.handleClientSettings(packetIn);
     }
 

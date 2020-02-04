@@ -1,7 +1,5 @@
 package net.minecraft.client.game.shader;
 
-import com.google.common.collect.Lists;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +74,7 @@ public class Shader {
 		this.manager.getShaderUniformOrDefault("InSize").set((float) this.framebufferIn.framebufferTextureWidth, (float) this.framebufferIn.framebufferTextureHeight);
 		this.manager.getShaderUniformOrDefault("OutSize").set(f, f1);
 		this.manager.getShaderUniformOrDefault("Time").set(p_148042_1_);
-		Minecraft minecraft = Minecraft.getMinecraft();
+		Minecraft minecraft = Minecraft.get();
 		this.manager.getShaderUniformOrDefault("ScreenSize").set((float) minecraft.displayWidth, (float) minecraft.displayHeight);
 		this.manager.useShader();
 		this.framebufferOut.framebufferClear();

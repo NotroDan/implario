@@ -212,8 +212,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (keyCode == 1) {
 			Settings.saveOptions();
-			Minecraft.getMinecraft().getSoundHandler().getSndManager().pauseAllSounds();
-			Minecraft.getMinecraft().getSoundHandler().getSndManager().resumeAllSounds();
+			Minecraft.get().getSoundHandler().getSndManager().pauseAllSounds();
+			Minecraft.get().getSoundHandler().getSndManager().resumeAllSounds();
 			super.keyTyped(typedChar, keyCode);
 			return;
 		}
@@ -250,7 +250,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		ent.rotationYawHead = ent.rotationYaw;
 		ent.prevRotationYawHead = ent.rotationYaw;
 		G.translate(0.0F, 0.0F, 0.0F);
-		RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+		RenderManager rendermanager = Minecraft.get().getRenderManager();
 		rendermanager.setPlayerViewY(180.0F);
 		rendermanager.setRenderShadow(false);
 		rendermanager.renderEntityWithPosYaw(ent, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
