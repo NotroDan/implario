@@ -1,13 +1,12 @@
 package net.minecraft.network.net.concepts.login;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import net.minecraft.network.net.Concept;
 import net.minecraft.network.net.ConceptRegistry;
-import net.minecraft.network.net.Packet;
+import net.minecraft.network.net.Instance;
 
 @Data
-public class InstClientEncryption implements Packet {
+public class InstClientEncryption implements Instance {
 
 	private final byte[] sharedSecret;
 	private final byte[] verifyToken;

@@ -9,7 +9,7 @@ import net.minecraft.util.MinecraftCore;
 
 @Data
 @EqualsAndHashCode (callSuper = false)
-public class Connection extends SimpleChannelInboundHandler<Packet> {
+public class Connection extends SimpleChannelInboundHandler<Instance> {
 
 	private final MinecraftCore core;
 
@@ -22,8 +22,8 @@ public class Connection extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
-		core.queue(packet);
+	protected void channelRead0(ChannelHandlerContext ctx, Instance instance) throws Exception {
+		core.queue(instance);
 	}
 
 

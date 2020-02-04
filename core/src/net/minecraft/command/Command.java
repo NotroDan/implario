@@ -12,16 +12,17 @@ import java.util.List;
 
 @Getter
 public abstract class Command implements ICommand {
+
 	private final List<Arg> args;
 	private final String description;
-	private final String address;
+	private final String name;
 	private final String ladder;
 	private final int permissionLevel;
 
 	private final int essentialArgsAmount;
 
-	public Command(String address, String description, String ladder, int permissionLevel, Arg... args) {
-		this.address = address;
+	public Command(String name, String description, String ladder, int permissionLevel, Arg... args) {
+		this.name = name;
 		this.description = description;
 		this.ladder = ladder;
 		this.permissionLevel = permissionLevel;
@@ -65,4 +66,5 @@ public abstract class Command implements ICommand {
 		Arg<?> arg = argTemplates.get(args.length - 1);
 		return arg.performTabCompletion(player, pos, args[args.length - 1]);
 	}
+
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 @Data
 public class Context {
+
 	private final MinecraftServer server;
 	private final Command command;
 	private final Sender sender;
@@ -21,4 +22,5 @@ public class Context {
 	public void msg(String s) {
 		sender.sendMessage(s);
 	}
+
 }

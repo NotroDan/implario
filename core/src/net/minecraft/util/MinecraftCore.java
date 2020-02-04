@@ -6,7 +6,7 @@ import com.google.common.util.concurrent.ListenableFutureTask;
 import lombok.Getter;
 import net.minecraft.logging.IProfiler;
 import net.minecraft.logging.Profiler;
-import net.minecraft.network.net.Packet;
+import net.minecraft.network.net.Instance;
 import org.apache.commons.lang3.Validate;
 
 import java.util.ArrayDeque;
@@ -19,13 +19,13 @@ public abstract class MinecraftCore {
 	@Getter
 	private final IProfiler profiler = new Profiler();
 
-	private final Queue<Packet> queuedPackets = new ArrayDeque<>();
+	private final Queue<Instance> queuedInstances = new ArrayDeque<>();
 
 	private final Queue<FutureTask<?>> queuedTasks = new ArrayDeque<>();
 
-	public void queue(Packet packet) {
-		synchronized (this.queuedPackets) {
-			this.queuedPackets.add(packet);
+	public void queue(Instance instance) {
+		synchronized (this.queuedInstances) {
+			this.queuedInstances.add(instance);
 		}
 	}
 
@@ -37,9 +37,9 @@ public abstract class MinecraftCore {
 			}
 		}
 		profiler.endStartSection("packets");
-		synchronized (this.queuedPackets) {
-			while (!this.queuedPackets.isEmpty()) {
-				Packet packet = queuedPackets.poll();
+		synchronized (this.queuedInstances) {
+			while (!this.queuedInstances.isEmpty()) {
+				Instance instance = queuedInstances.poll();
 				// ToDo: stub
 //				packet.getConcept().getListeners();
 			}

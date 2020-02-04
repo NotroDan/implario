@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.*;
 
 @Data
-public abstract class Registry<D extends Comparable<D>, T extends Mechanic<D>> {
+public abstract class Registry<ID extends Comparable<ID>, T extends Mechanic<ID>> {
 
-	private final Map<D, List<T>> registered = new HashMap<>();
+	private final Map<ID, List<T>> registered = new HashMap<>();
 	private final Map<T, Integer> active = new HashMap<>();
 
 	public void register(T mechanic) {
@@ -26,11 +26,11 @@ public abstract class Registry<D extends Comparable<D>, T extends Mechanic<D>> {
 		int id = 0;
 
 		// У каждой механики в реестре есть название - по нему производится сортировка и выдача ID
-		List<Map.Entry<D, List<T>>> values = new ArrayList<>(registered.entrySet());
+		List<Map.Entry<ID, List<T>>> values = new ArrayList<>(registered.entrySet());
 		values.sort(Map.Entry.comparingByKey());
 
 
-		for (Map.Entry<D, List<T>> entry : values) {
+		for (Map.Entry<ID, List<T>> entry : values) {
 			List<T> list = entry.getValue();
 			if (list.isEmpty()) continue;
 

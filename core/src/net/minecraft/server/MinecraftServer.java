@@ -54,7 +54,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
-public abstract class MinecraftServer implements Runnable, Sender, IThreadListener {
+public abstract class MinecraftServer extends MinecraftCore implements Runnable, Sender, IThreadListener {
 
 	public static final IProfiler profiler = new Profiler();
 	public static final Provider<MinecraftServer, WorldService> WORLD_SERVICE_PROVIDER = new Provider<>(SimpleWorldService::new);
@@ -546,15 +546,10 @@ public abstract class MinecraftServer implements Runnable, Sender, IThreadListen
 	}
 
 	public void updateTimeLightAndEntities() {
-		profiler.startSection("jobs");
 
-		synchronized (this.futureTaskQueue) {
-			while (!this.futureTaskQueue.isEmpty()) {
-				Util.schedule(futureTaskQueue.poll());
-			}
-		}
+		this.executeQueued();
 
-		profiler.endStartSection("levels");
+		profiler.startSection("levels");
 
 		for (int j = 0; j < worldService.getDimensionAmount(); ++j) {
 			long i = System.nanoTime();

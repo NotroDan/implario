@@ -6,6 +6,7 @@ import net.minecraft.util.BlockPos;
 import java.util.Collection;
 
 public interface ICommand {
+
 	/**
 	 * @return Имя команды - отличительная черта от остальных команд
 	 */
@@ -45,4 +46,5 @@ public interface ICommand {
 	 * @return Варианты для замены последнего аргумента
 	 */
 	Collection<String> tabComplete(MPlayer player, BlockPos pos, String[] args);
+
 }

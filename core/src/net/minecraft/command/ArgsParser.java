@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class ArgsParser implements Iterator<String> {
+
 	@Getter
 	private final Sender sender;
 
@@ -86,4 +87,5 @@ public class ArgsParser implements Iterator<String> {
 		error("Только для игроков");
 		return null;
 	}
+
 }

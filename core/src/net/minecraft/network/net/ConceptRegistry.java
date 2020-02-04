@@ -6,7 +6,7 @@ import net.minecraft.network.net.concepts.login.InstServerCompression;
 import net.minecraft.network.net.concepts.login.InstServerEncryption;
 import net.minecraft.resources.mapping.Registry;
 
-public class ConceptRegistry extends Registry<String, Concept<? extends Packet>> {
+public class ConceptRegistry extends Registry<String, Concept<? extends Instance>> {
 
 	public static final Concept<InstServerEncryption> serverEncryption = new Concept<>("encryption", true);
 	public static final Concept<InstServerCompression> serverCompression = new Concept<>("compression", true);

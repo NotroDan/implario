@@ -10,6 +10,7 @@ import java.util.Map;
 
 @UtilityClass
 public class CommandRegistry {
+
 	@Getter(AccessLevel.PROTECTED)
 	private final Map<String, ICommand> commandMap = Maps.newHashMap();
 
@@ -29,4 +30,5 @@ public class CommandRegistry {
 	public Collection<ICommand> getAllCommands() {
 		return commandMap.values();
 	}
+
 }

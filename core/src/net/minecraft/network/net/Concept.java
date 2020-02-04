@@ -4,12 +4,15 @@ import lombok.Getter;
 import lombok.ToString;
 import net.minecraft.resources.mapping.Mechanic;
 
+import java.util.List;
+
 @Getter
 @ToString
-public class Concept<Type extends Packet> extends Mechanic<String> {
+public class Concept<Type extends Instance> extends Mechanic<String> {
 
 	private final boolean isServerSide;
 	private ConceptAdapter<Type>[] adapters;
+	private List<Listener<Type>> listeners;
 
 	public Concept(String name, boolean isServerSide) {
 		super(name);

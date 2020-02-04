@@ -1,7 +1,7 @@
 package net.minecraft.network.net;
 
 @FunctionalInterface
-public interface Packet {
+public interface Instance {
 
 	Concept getConcept();
 

@@ -9,6 +9,7 @@ import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;
 
 public interface Sender {
+
 	/**
 	 * Gets the name of this command sender (usually username, but possibly "Rcon")
 	 */
@@ -65,4 +66,5 @@ public interface Sender {
 	boolean sendCommandFeedback();
 
 	void setCommandStat(CommandResultStats.Type type, int amount);
+
 }

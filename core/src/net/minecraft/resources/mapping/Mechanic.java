@@ -4,9 +4,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-public class Mechanic<D> implements Comparable<Mechanic> {
+public class Mechanic<ID> implements Comparable<Mechanic> {
 
-	private final D descriptor;
+	private final ID descriptor;
 	private int priority;
 
 	@EqualsAndHashCode.Exclude

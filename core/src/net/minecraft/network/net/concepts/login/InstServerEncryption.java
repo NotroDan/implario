@@ -1,13 +1,12 @@
 package net.minecraft.network.net.concepts.login;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import net.minecraft.network.net.Concept;
 import net.minecraft.network.net.ConceptRegistry;
-import net.minecraft.network.net.Packet;
+import net.minecraft.network.net.Instance;
 
 @Data
-public class InstServerEncryption implements Packet {
+public class InstServerEncryption implements Instance {
 
 	private final String serverId;
 	private final byte[] publicKey;

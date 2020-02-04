@@ -11,6 +11,7 @@ import java.util.Map;
 
 @Data
 public class ComplexCommand implements ICommand {
+
 	private final Map<String, ICommand> subcommands = new HashMap<>();
 
 	private final String description;
@@ -42,4 +43,5 @@ public class ComplexCommand implements ICommand {
 		ICommand subcommand = subcommands.get(args.length == 0 ? "" : args[0].toLowerCase());
 		return subcommand.tabComplete(player, pos, ArrayUtils.dropFirstArg(args));
 	}
+
 }

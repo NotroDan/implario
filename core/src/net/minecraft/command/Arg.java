@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.function.Function;
 
 public interface Arg<T> {
+
 	String getCaption();
 
 	String getDescription();
@@ -31,4 +32,5 @@ public interface Arg<T> {
 	interface TabCompleter {
 		Collection<String> tabComplete(MPlayer player, BlockPos pos);
 	}
+
 }

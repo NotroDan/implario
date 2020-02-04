@@ -16,6 +16,7 @@ import static net.minecraft.util.functional.ArrayUtils.*;
 
 @Getter
 public class CommandHandler implements ICommandManager {
+
 	@Override
 	public int executeCommand(Sender sender, String rawCommand) {
 		rawCommand = rawCommand.trim();
@@ -86,5 +87,6 @@ public class CommandHandler implements ICommandManager {
 
 		return list;
 	}
+
 }
 
