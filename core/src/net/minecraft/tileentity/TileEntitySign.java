@@ -1,7 +1,7 @@
 package net.minecraft.tileentity;
 
 import com.google.gson.JsonParseException;
-import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.Sender;
 import net.minecraft.command.legacy.CommandResultStats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
@@ -45,7 +45,7 @@ public class TileEntitySign extends TileEntity {
 	public void readFromNBT(NBTTagCompound compound) {
 		this.isEditable = false;
 		super.readFromNBT(compound);
-		ICommandSender icommandsender = new ICommandSender() {
+		Sender icommandsender = new Sender() {
 			public String getName() {
 				return "Sign";
 			}
@@ -140,7 +140,7 @@ public class TileEntitySign extends TileEntity {
 	}
 
 	public boolean executeCommand(final Player playerIn) {
-		ICommandSender icommandsender = new ICommandSender() {
+		Sender icommandsender = new Sender() {
 			public String getName() {
 				return playerIn.getName();
 			}

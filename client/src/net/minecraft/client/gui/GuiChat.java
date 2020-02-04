@@ -10,6 +10,7 @@ import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class GuiChat extends GuiScreen {
@@ -241,19 +242,19 @@ public class GuiChat extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void onAutocompleteResponse(String[] p_146406_1_) {
+	public void onAutocompleteResponse(Collection<String> tabComplete) {
 		if (this.waitingOnAutocomplete) {
 			this.playerNamesFound = false;
 			this.foundPlayerNames.clear();
 
-			for (String s : p_146406_1_) {
+			for (String s : tabComplete) {
 				if (s.length() > 0) {
 					this.foundPlayerNames.add(s);
 				}
 			}
 
 			String s1 = this.inputField.getText().substring(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false));
-			String s2 = StringUtils.getCommonPrefix(p_146406_1_);
+			String s2 = StringUtils.getCommonPrefix(tabComplete.toArray(new String[]{}));
 
 			if (s2.length() > 0 && !s1.equalsIgnoreCase(s2)) {
 				this.inputField.deleteFromCursor(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false) - this.inputField.getCursorPosition());

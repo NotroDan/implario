@@ -5,7 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.command.legacy.CommandResultStats;
-import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.Sender;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -37,7 +37,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
-public abstract class Entity implements ICommandSender, ITrackable {
+public abstract class Entity implements Sender, ITrackable {
 
 	private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	private static int nextEntityID;

@@ -1,23 +1,22 @@
-package net.minecraft.server;
+package net.minecraft.dedicated;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.database.memory.MemoryStorage;
+import net.minecraft.dedicated.dedicated.DedicatedServer;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.DatapackManager;
 import net.minecraft.resources.load.DatapackLoadException;
 import net.minecraft.resources.load.DatapackLoader;
-import net.minecraft.resources.load.JarDatapackLoader;
 import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.security.Restart;
-import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Util;
 
 import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ServerStart {
 	static{

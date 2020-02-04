@@ -1,25 +1,22 @@
-package net.minecraft.command.api.context;
+package net.minecraft.command;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.command.api.ICommandSender;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 @RequiredArgsConstructor
 public class ArgsParser implements Iterator<String> {
-
 	@Getter
-	private final ICommandSender sender;
+	private final Sender sender;
 
 	@Getter
 	private final MinecraftServer server;
-	private final SuitedCommand command;
+	private final Command command;
 	private final String[] argsArray;
 	private int currentArg;
 	private final Map<Arg, Object> parsed = new HashMap<>();
@@ -27,10 +24,10 @@ public class ArgsParser implements Iterator<String> {
 	@Getter
 	private String error;
 
-	public ContextImpl parse() {
+	public Context parse() {
 		if (argsArray.length < command.getEssentialArgsAmount()) {
-			sender.sendMessage("§7/" + command.getAddress() + ": §f" + command.getDescription());
-			StringBuilder usageStr = new StringBuilder("§7Использование: §f/").append(command.getAddress()).append(' ');
+			sender.sendMessage("§7/" + command.getName() + ": §f" + command.getDescription());
+			StringBuilder usageStr = new StringBuilder("§7Использование: §f/").append(command.getName()).append(' ');
 			int requiredCounter = 0;
 			for (Arg arg : command.getArgs()) {
 				if (!arg.isEssential()) {
@@ -63,8 +60,7 @@ public class ArgsParser implements Iterator<String> {
 			parsed.put(arg, value);
 		}
 
-		return new ContextImpl(server, command, sender, parsed);
-
+		return new Context(server, command, sender, parsed);
 	}
 
 	public void error(String message) {
@@ -85,11 +81,9 @@ public class ArgsParser implements Iterator<String> {
 		return argsArray[currentArg - 1];
 	}
 
-
 	public MPlayer getInvoker() {
 		if (sender instanceof MPlayer) return (MPlayer) sender;
 		error("Только для игроков");
 		return null;
 	}
-
 }

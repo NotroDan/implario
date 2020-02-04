@@ -1,10 +1,8 @@
-package net.minecraft.command.api.context.args;
+package net.minecraft.command.args;
 
-import net.minecraft.command.api.context.ArgsParser;
+import net.minecraft.command.ArgsParser;
 
 public class ArgString extends AbstractArg<String> {
-
-
 	public ArgString(String caption, String description) {
 		super(caption, description);
 	}
@@ -13,6 +11,4 @@ public class ArgString extends AbstractArg<String> {
 	public String get(ArgsParser parser) {
 		return parser.next();
 	}
-
-
 }

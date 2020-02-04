@@ -1,8 +1,8 @@
 package net.minecraft.command.legacy;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.command.api.ICommandManager;
-import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.Sender;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.player.Player;
@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
-public abstract class CommandBlockLogic implements ICommandSender {
+public abstract class CommandBlockLogic implements Sender {
 
 	/**
 	 * The formatting for the timestamp on commands run.

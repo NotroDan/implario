@@ -1,4 +1,4 @@
-package net.minecraft.command.api;
+package net.minecraft.command;
 
 
 import lombok.Getter;
@@ -16,9 +16,8 @@ import static net.minecraft.util.functional.ArrayUtils.*;
 
 @Getter
 public class CommandHandler implements ICommandManager {
-
 	@Override
-	public int executeCommand(ICommandSender sender, String rawCommand) {
+	public int executeCommand(Sender sender, String rawCommand) {
 		rawCommand = rawCommand.trim();
 
 		if (rawCommand.startsWith("/"))
@@ -26,13 +25,13 @@ public class CommandHandler implements ICommandManager {
 
 		String[] argsArray = rawCommand.split(" ");
 		String commandName = argsArray[0];
-		Command cmd = CommandRegistry.getCommand(commandName);
+		ICommand cmd = CommandRegistry.getCommand(commandName);
 
 		if (cmd == null) {
 			sender.sendMessage("§cКоманда §f/" + commandName + "§c не найдена.");
 			return 0;
 		}
-		if (!sender.canCommandSenderUseCommand(cmd.getPermissionLevel(), cmd.getAddress())) {
+		if (!sender.canCommandSenderUseCommand(cmd.getPermissionLevel(), cmd.getName())) {
 			sender.sendMessage("§7/" + commandName + ": §fТребуется " + cmd.getPermissionLevel() + " уровень доступа " + cmd.getPermissionLadder());
 			return 0;
 		}
@@ -49,7 +48,7 @@ public class CommandHandler implements ICommandManager {
 
 	}
 
-
+	@Override
 	public Collection<String> getTabCompletionOptions(MPlayer player, String input, BlockPos pos) {
 		String[] argsArray = input.split(" ", -1);
 		String s = argsArray[0];
@@ -57,10 +56,10 @@ public class CommandHandler implements ICommandManager {
 		if (argsArray.length == 1) {
 			List<String> list = new ArrayList<>();
 
-			for (Map.Entry<String, Command> entry : CommandRegistry.getCommandMap().entrySet()) {
-				Command cmd = entry.getValue();
+			for (Map.Entry<String, ICommand> entry : CommandRegistry.getCommandMap().entrySet()) {
+				ICommand cmd = entry.getValue();
 				if (StringUtils.doesStringStartWith(s, entry.getKey()) &&
-						player.canCommandSenderUseCommand(cmd.getPermissionLevel(), cmd.getAddress())) {
+						player.canCommandSenderUseCommand(cmd.getPermissionLevel(), cmd.getName())) {
 					list.add(entry.getKey());
 				}
 			}
@@ -68,7 +67,7 @@ public class CommandHandler implements ICommandManager {
 			return list;
 		}
 		if (argsArray.length > 1) {
-			Command command = CommandRegistry.getCommand(s);
+			ICommand command = CommandRegistry.getCommand(s);
 			if (command == null) return null;
 
 			argsArray = dropFirstArg(argsArray);
@@ -78,14 +77,14 @@ public class CommandHandler implements ICommandManager {
 		return null;
 	}
 
-	public List<Command> getPossibleCommands(ICommandSender sender) {
-		List<Command> list = new ArrayList<>();
-		for (Command cmd : CommandRegistry.getAllCommands())
-			if (sender.canCommandSenderUseCommand(cmd.getPermissionLevel(), cmd.getAddress()))
+	@Override
+	public List<ICommand> getPossibleCommands(Sender sender) {
+		List<ICommand> list = new ArrayList<>();
+		for (ICommand cmd : CommandRegistry.getAllCommands())
+			if (sender.canCommandSenderUseCommand(cmd.getPermissionLevel(), cmd.getName()))
 				list.add(cmd);
 
 		return list;
 	}
-
 }
 

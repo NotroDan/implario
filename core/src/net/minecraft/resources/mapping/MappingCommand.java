@@ -1,13 +1,13 @@
 package net.minecraft.resources.mapping;
 
-import net.minecraft.command.api.Command;
-import net.minecraft.command.api.CommandRegistry;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandRegistry;
 
 public class MappingCommand implements Mapping {
 
-	private final Command command;
+	private final ICommand command;
 
-	public MappingCommand(Command command) {
+	public MappingCommand(ICommand command) {
 		this.command = command;
 	}
 

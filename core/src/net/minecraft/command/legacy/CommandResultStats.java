@@ -1,6 +1,6 @@
 package net.minecraft.command.legacy;
 
-import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.Sender;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.Score;
@@ -26,11 +26,11 @@ public class CommandResultStats {
 		this.field_179673_d = STRING_RESULT_TYPES;
 	}
 
-	public void func_179672_a(final ICommandSender sender, CommandResultStats.Type resultTypeIn, int p_179672_3_) {
+	public void func_179672_a(final Sender sender, CommandResultStats.Type resultTypeIn, int p_179672_3_) {
 		String s = this.field_179675_c[resultTypeIn.getTypeID()];
 
 		if (s != null) {
-			ICommandSender icommandsender = new ICommandSender() {
+			Sender icommandsender = new Sender() {
 				public String getName() {
 					return sender.getName();
 				}

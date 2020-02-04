@@ -38,6 +38,7 @@ public interface ModuleManager<T extends Module> {
     default boolean supportedMemory(){
         return false;
     }
+
     T createEmptyModule();
 
     String getDomain();

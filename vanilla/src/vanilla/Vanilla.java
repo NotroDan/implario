@@ -12,6 +12,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.protocol.minecraft_47.play.server.S2DPacketOpenWindow;
 import net.minecraft.network.protocol.minecraft_47.play.server.S3FPacketCustomPayload;
 import net.minecraft.resources.Datapack;
+import net.minecraft.security.Restart;
 import net.minecraft.util.Govnokod;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;

@@ -44,10 +44,7 @@ import net.minecraft.world.WorldServer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 
@@ -1005,9 +1002,9 @@ public class NetHandlerPlayServer extends NetHandlerPlayServerAuth {
 	public void processTabComplete(C14PacketTabComplete packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
 
-		List<String> list = new ArrayList<>(this.serverController.getTabCompletions(this.playerEntity, packetIn.getMessage(), packetIn.getTargetBlock()));
+		Collection<String> collection = this.serverController.getTabCompletions(this.playerEntity, packetIn.getMessage(), packetIn.getTargetBlock());
 
-		this.playerEntity.playerNetServerHandler.sendPacket(new S3APacketTabComplete(list.toArray(new String[0])));
+		this.playerEntity.playerNetServerHandler.sendPacket(new S3APacketTabComplete(collection));
 	}
 
 	/**

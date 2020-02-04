@@ -1,4 +1,4 @@
-package net.minecraft.command.api;
+package net.minecraft.command;
 
 import net.minecraft.command.legacy.CommandResultStats;
 import net.minecraft.entity.Entity;
@@ -8,8 +8,7 @@ import net.minecraft.util.Vec3d;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.world.World;
 
-public interface ICommandSender {
-
+public interface Sender {
 	/**
 	 * Gets the name of this command sender (usually username, but possibly "Rcon")
 	 */
@@ -66,5 +65,4 @@ public interface ICommandSender {
 	boolean sendCommandFeedback();
 
 	void setCommandStat(CommandResultStats.Type type, int amount);
-
 }

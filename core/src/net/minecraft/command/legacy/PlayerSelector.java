@@ -6,7 +6,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.Sender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -49,16 +49,16 @@ public class PlayerSelector {
 	/**
 	 * Returns the one player that matches the given at-token.  Returns null if more than one player matches.
 	 */
-	public static MPlayer matchOnePlayer(ICommandSender sender, String token) {
+	public static MPlayer matchOnePlayer(Sender sender, String token) {
 		return matchOneEntity(sender, token, MPlayer.class);
 	}
 
-	public static <T extends Entity> T matchOneEntity(ICommandSender sender, String token, Class<? extends T> targetClass) {
+	public static <T extends Entity> T matchOneEntity(Sender sender, String token, Class<? extends T> targetClass) {
 		List<T> list = matchEntities(sender, token, targetClass);
 		return (T) (list.size() == 1 ? list.get(0) : null);
 	}
 
-	public static IChatComponent matchEntitiesToChatComponent(ICommandSender sender, String token) {
+	public static IChatComponent matchEntitiesToChatComponent(Sender sender, String token) {
 		List<Entity> list = matchEntities(sender, token, Entity.class);
 
 		if (list.isEmpty()) {
@@ -92,7 +92,7 @@ public class PlayerSelector {
 		return ichatcomponent;
 	}
 
-	public static <T extends Entity> List<T> matchEntities(ICommandSender sender, String token, Class<? extends T> targetClass) {
+	public static <T extends Entity> List<T> matchEntities(Sender sender, String token, Class<? extends T> targetClass) {
 		Matcher matcher = tokenPattern.matcher(token);
 
 		if (matcher.matches() && sender.canCommandSenderUseCommand(1, "@")) {
@@ -126,7 +126,7 @@ public class PlayerSelector {
 		return Collections.emptyList();
 	}
 
-	private static List<World> getWorlds(ICommandSender sender, Map<String, String> argumentMap) {
+	private static List<World> getWorlds(Sender sender, Map<String, String> argumentMap) {
 		List<World> list = new ArrayList<>();
 
 		if (isWorldSensitive(argumentMap)) {
@@ -138,7 +138,7 @@ public class PlayerSelector {
 		return list;
 	}
 
-	private static <T extends Entity> boolean isEntityTypeValid(ICommandSender commandSender, Map<String, String> params) {
+	private static <T extends Entity> boolean isEntityTypeValid(Sender commandSender, Map<String, String> params) {
 		String s = func_179651_b(params, "type");
 		s = s != null && s.startsWith("!") ? s.substring(1) : s;
 
@@ -399,8 +399,8 @@ public class PlayerSelector {
 		return list;
 	}
 
-	private static <T extends Entity> List<T> func_179658_a(List<T> p_179658_0_, Map<String, String> p_179658_1_, ICommandSender p_179658_2_, Class<? extends T> p_179658_3_, String p_179658_4_,
-															final BlockPos p_179658_5_) {
+	private static <T extends Entity> List<T> func_179658_a(List<T> p_179658_0_, Map<String, String> p_179658_1_, Sender p_179658_2_, Class<? extends T> p_179658_3_, String p_179658_4_,
+                                                            final BlockPos p_179658_5_) {
 		int i = parseIntWithDefault(p_179658_1_, "c", !p_179658_4_.equals("a") && !p_179658_4_.equals("e") ? 1 : 0);
 
 		if (!p_179658_4_.equals("p") && !p_179658_4_.equals("a") && !p_179658_4_.equals("e")) {

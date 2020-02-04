@@ -1,16 +1,13 @@
-package net.minecraft.command.api.context.args;
+package net.minecraft.command.args;
 
-import net.minecraft.command.api.context.ArgsParser;
+import net.minecraft.command.ArgsParser;
 import net.minecraft.command.legacy.PlayerSelector;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.MPlayer;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class ArgEntities<CaptureType extends Entity> extends AbstractArg<Collection<CaptureType>> {
-
 	private final Class<CaptureType> capture;
 
 	public ArgEntities(String caption, String description, Class<CaptureType> capture) {
@@ -33,5 +30,4 @@ public class ArgEntities<CaptureType extends Entity> extends AbstractArg<Collect
 		parser.error("§4! §cНеверный формат указателя на сущность");
 		return null;
 	}
-
 }

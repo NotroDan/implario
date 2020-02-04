@@ -12,9 +12,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
-import net.minecraft.command.api.CommandHandler;
-import net.minecraft.command.api.ICommandManager;
-import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.CommandHandler;
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.Sender;
 import net.minecraft.command.legacy.CommandResultStats;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.database.Storage;
@@ -54,7 +54,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
-public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
+public abstract class MinecraftServer implements Runnable, Sender, IThreadListener {
 
 	public static final IProfiler profiler = new Profiler();
 	public static final Provider<MinecraftServer, WorldService> WORLD_SERVICE_PROVIDER = new Provider<>(SimpleWorldService::new);

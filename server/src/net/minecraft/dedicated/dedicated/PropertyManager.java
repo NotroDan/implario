@@ -1,4 +1,4 @@
-package net.minecraft.server.dedicated;
+package net.minecraft.dedicated.dedicated;
 
 import net.minecraft.logging.Log;
 

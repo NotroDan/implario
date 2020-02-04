@@ -1,16 +1,15 @@
-package net.minecraft.command.api;
+package net.minecraft.command;
 
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.util.BlockPos;
 
 import java.util.Collection;
 
-public interface Command {
-
+public interface ICommand {
 	/**
 	 * @return Имя команды - отличительная черта от остальных команд
 	 */
-	String getAddress();
+	String getName();
 
 	/**
 	 * @return Описание того, что делает команда.
@@ -36,7 +35,7 @@ public interface Command {
 	 * Выполнение команды
 	 * @return Количество объектов, затронутых после выполнения команды (напр. убитых сущностей)
 	 */
-	int execute(ICommandSender sender, String[] args);
+	int execute(Sender sender, String[] args);
 
 	/**
 	 * Варианты автоматического дополнения команды при нажатии Tab
@@ -46,5 +45,4 @@ public interface Command {
 	 * @return Варианты для замены последнего аргумента
 	 */
 	Collection<String> tabComplete(MPlayer player, BlockPos pos, String[] args);
-
 }

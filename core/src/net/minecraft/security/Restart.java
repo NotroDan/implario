@@ -1,5 +1,6 @@
 package net.minecraft.security;
 
+import net.minecraft.entity.player.Module;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.core.jmx.Server;
 

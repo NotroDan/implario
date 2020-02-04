@@ -1,4 +1,4 @@
-package net.minecraft.command.api;
+package net.minecraft.command;
 
 import lombok.Data;
 import net.minecraft.entity.player.MPlayer;
@@ -10,28 +10,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Data
-public class ComplexCommand implements Command {
-
-	private final Map<String, Command> subcommands = new HashMap<>();
+public class ComplexCommand implements ICommand {
+	private final Map<String, ICommand> subcommands = new HashMap<>();
 
 	private final String description;
-	private final String address;
+	private final String name;
 	private final String permissionLadder;
 	private final int permissionLevel;
 
-	public ComplexCommand(String address, String description, String ladder, int permissionLevel) {
-		this.address = address;
+	public ComplexCommand(String name, String description, String ladder, int permissionLevel) {
+		this.name = name;
 		this.description = description;
 		this.permissionLadder = ladder;
 		this.permissionLevel = permissionLevel;
 	}
 
-
 	@Override
-	public int execute(ICommandSender sender, String[] args) {
-		Command subcommand = subcommands.get(args.length == 0 ? "" : args[0].toLowerCase());
+	public int execute(Sender sender, String[] args) {
+		ICommand subcommand = subcommands.get(args.length == 0 ? "" : args[0].toLowerCase());
 		if (subcommand == null) {
-			sender.sendMessage("§cИспользование: §f/" + getAddress() + " §7[§f" + String.join("§7|§f", subcommands.keySet()) + "§7]");
+			sender.sendMessage("§cИспользование: §f/" + getName() + " §7[§f" + String.join("§7|§f", subcommands.keySet()) + "§7]");
 			return 0;
 		}
 		args = ArrayUtils.dropFirstArg(args);
@@ -41,8 +39,7 @@ public class ComplexCommand implements Command {
 	@Override
 	public Collection<String> tabComplete(MPlayer player, BlockPos pos, String[] args) {
 		if (args.length == 1) return subcommands.keySet();
-		Command subcommand = subcommands.get(args.length == 0 ? "" : args[0].toLowerCase());
+		ICommand subcommand = subcommands.get(args.length == 0 ? "" : args[0].toLowerCase());
 		return subcommand.tabComplete(player, pos, ArrayUtils.dropFirstArg(args));
 	}
-
 }

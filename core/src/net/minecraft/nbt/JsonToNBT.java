@@ -2,6 +2,7 @@ package net.minecraft.nbt;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.Stack;

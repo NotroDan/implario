@@ -1,8 +1,6 @@
-package net.minecraft.command.api.context;
+package net.minecraft.command;
 
 import lombok.Getter;
-import net.minecraft.command.api.Command;
-import net.minecraft.command.api.ICommandSender;
 import net.minecraft.command.legacy.CommandResultStats;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -13,8 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-public abstract class SuitedCommand implements Command {
-
+public abstract class Command implements ICommand {
 	private final List<Arg> args;
 	private final String description;
 	private final String address;
@@ -23,7 +20,7 @@ public abstract class SuitedCommand implements Command {
 
 	private final int essentialArgsAmount;
 
-	public SuitedCommand(String address, String description, String ladder, int permissionLevel, Arg... args) {
+	public Command(String address, String description, String ladder, int permissionLevel, Arg... args) {
 		this.address = address;
 		this.description = description;
 		this.ladder = ladder;
@@ -41,7 +38,7 @@ public abstract class SuitedCommand implements Command {
 	}
 
 	@Override
-	public int execute(ICommandSender sender, String[] args) {
+	public int execute(Sender sender, String[] args) {
 		ArgsParser parser = new ArgsParser(sender, MinecraftServer.getServer(), this, args);
 
 		try {
@@ -68,5 +65,4 @@ public abstract class SuitedCommand implements Command {
 		Arg<?> arg = argTemplates.get(args.length - 1);
 		return arg.performTabCompletion(player, pos, args[args.length - 1]);
 	}
-
 }

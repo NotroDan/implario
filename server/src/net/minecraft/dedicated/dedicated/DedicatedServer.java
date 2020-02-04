@@ -1,6 +1,6 @@
-package net.minecraft.server.dedicated;
+package net.minecraft.dedicated.dedicated;
 
-import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.Sender;
 import net.minecraft.command.legacy.ServerCommand;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.player.MPlayer;
@@ -244,7 +244,7 @@ public class DedicatedServer extends MinecraftServer {
 		return this.settings.getBooleanProperty("snooper-enabled", true);
 	}
 
-	public void addPendingCommand(String input, ICommandSender sender) {
+	public void addPendingCommand(String input, Sender sender) {
 		this.pendingCommandList.add(new ServerCommand(input, sender));
 	}
 

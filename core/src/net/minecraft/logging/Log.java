@@ -41,7 +41,12 @@ public class Log {
 		this.prefix = prefix;
 
 		Date date = new Date();
-		updateFile(date);
+		try {
+			updateFile(date);
+		}catch (IOException ex){
+			System.out.println("Не удается начать запись логов");
+			ex.printStackTrace();
+		}
 		comment("Начало новой сессии " + Log.DAY.format(date) + " в " + Log.TIME.format(date));
 	}
 
@@ -81,6 +86,7 @@ public class Log {
 	}
 
 	public void log(String s, LogLevel level) {
+		if(stream == null)return;
 		if (console) System.out.println(prefix + (level == LogLevel.INFO ? "" : "[" + level.name() + "] ") + s);
 		Date date = new Date();
 		for (ILogInterceptor interceptor : interceptors) {
@@ -133,6 +139,7 @@ public class Log {
 	}
 
 	private void append(String s) {
+		if(stream == null)return;
 		try {
 			stream.write(s);
 		} catch (IOException e) {

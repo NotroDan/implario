@@ -1,15 +1,12 @@
-package net.minecraft.command.api.context.args;
+package net.minecraft.command.args;
 
-import net.minecraft.command.api.context.ArgsParser;
+import net.minecraft.command.ArgsParser;
 import net.minecraft.entity.player.MPlayer;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class ArgPlayers extends ArgEntities<MPlayer> {
-
 	public ArgPlayers(String caption, String description) {
 		super(caption, description, MPlayer.class);
 	}
@@ -28,5 +25,4 @@ public class ArgPlayers extends ArgEntities<MPlayer> {
 		parser.error(null);
 		return Collections.singleton(player);
 	}
-
 }

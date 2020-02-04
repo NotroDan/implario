@@ -13,7 +13,6 @@ import net.minecraft.client.gui.block.GuiRepair;
 import net.minecraft.client.gui.inventory.*;
 import net.minecraft.client.network.protocol.minecraft_47.NetHandlerPlayClient;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.command.api.CommandHandler;
 import net.minecraft.command.legacy.CommandBlockLogic;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityControllable;

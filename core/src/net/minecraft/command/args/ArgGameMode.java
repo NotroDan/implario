@@ -1,6 +1,6 @@
-package net.minecraft.command.api.context.args;
+package net.minecraft.command.args;
 
-import net.minecraft.command.api.context.ArgsParser;
+import net.minecraft.command.ArgsParser;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.functional.StringUtils;
@@ -9,7 +9,6 @@ import net.minecraft.world.WorldSettings;
 import java.util.Collection;
 
 public class ArgGameMode extends AbstractArg<WorldSettings.GameType> {
-
 	public ArgGameMode(String caption, String description) {
 		super(caption, description);
 	}
@@ -35,5 +34,4 @@ public class ArgGameMode extends AbstractArg<WorldSettings.GameType> {
 	public Collection<String> performTabCompletion(MPlayer player, BlockPos pos, String arg) {
 		return StringUtils.filterCompletions(arg, "survival", "creative", "adventure", "spectator");
 	}
-
 }

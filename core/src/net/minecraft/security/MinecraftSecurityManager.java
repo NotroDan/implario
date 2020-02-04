@@ -32,5 +32,7 @@ public class MinecraftSecurityManager extends SecurityManager{
 
     @Override
     public void checkPermission(Permission perm) {
+        if (perm.getName().equalsIgnoreCase("setSecurityManager"))
+            throw new SecurityException();
     }
 }

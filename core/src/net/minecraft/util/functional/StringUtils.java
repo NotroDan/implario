@@ -1,6 +1,5 @@
 package net.minecraft.util.functional;
 
-import com.sun.javafx.logging.JFRInputEvent;
 import lombok.experimental.UtilityClass;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.codec.binary.Base64;

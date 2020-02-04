@@ -1,17 +1,17 @@
-package net.minecraft.command.api.context;
+package net.minecraft.command;
 
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.util.BlockPos;
 
 import java.util.Collection;
+import java.util.function.Function;
 
 public interface Arg<T> {
-
 	String getCaption();
 
 	String getDescription();
 
-	Arg<T> defaults(OptionalArgFiller<T> filler);
+	Arg<T> defaults(Function<ArgsParser, T> filler);
 
 	Arg<T> defaults(T defaultValue);
 
@@ -29,9 +29,6 @@ public interface Arg<T> {
 
 	@FunctionalInterface
 	interface TabCompleter {
-
 		Collection<String> tabComplete(MPlayer player, BlockPos pos);
-
 	}
-
 }

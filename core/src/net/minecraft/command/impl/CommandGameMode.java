@@ -1,10 +1,10 @@
 package net.minecraft.command.impl;
 
-import net.minecraft.command.api.context.Arg;
-import net.minecraft.command.api.context.Context;
-import net.minecraft.command.api.context.SuitedCommand;
-import net.minecraft.command.api.context.args.ArgGameMode;
-import net.minecraft.command.api.context.args.ArgPlayers;
+import net.minecraft.command.Arg;
+import net.minecraft.command.Context;
+import net.minecraft.command.Command;
+import net.minecraft.command.args.ArgGameMode;
+import net.minecraft.command.args.ArgPlayers;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.util.functional.StringUtils;
 import net.minecraft.world.WorldSettings.GameType;
@@ -12,7 +12,7 @@ import net.minecraft.world.WorldSettings.GameType;
 import java.util.Collection;
 import java.util.Collections;
 
-public class CommandGameMode extends SuitedCommand {
+public class CommandGameMode extends Command {
 
 	private static final ArgGameMode argMode =
 			new ArgGameMode("Режим", "Режим, который нужно установить игроку");

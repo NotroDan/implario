@@ -2,14 +2,14 @@ package net.minecraft.util.chat;
 
 import java.util.List;
 
-import net.minecraft.command.api.ICommandSender;
+import net.minecraft.command.Sender;
 import net.minecraft.command.legacy.PlayerSelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IChatComponent;
 
 public class ChatComponentProcessor {
 
-	public static IChatComponent processComponent(ICommandSender commandSender, IChatComponent component, Entity entityIn) {
+	public static IChatComponent processComponent(Sender commandSender, IChatComponent component, Entity entityIn) {
 		IChatComponent ichatcomponent = null;
 
 		if (component instanceof ChatComponentScore) {
