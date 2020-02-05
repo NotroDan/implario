@@ -36,6 +36,15 @@ public class SimpleDatapackLoader extends DatapackLoader {
 	}
 
 	@Override
+	public Class<?> getLocalClass(String name) {
+		try {
+			return Class.forName(name);
+		}catch (ClassNotFoundException ex){
+			return null;
+		}
+	}
+
+	@Override
 	public void close() {}
 
 }

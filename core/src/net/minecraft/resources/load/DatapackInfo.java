@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @Builder(access = AccessLevel.PUBLIC)
 public class DatapackInfo {
-
 	private final String
 			domain,
 			serverMain,
@@ -25,5 +24,4 @@ public class DatapackInfo {
 	public int hashCode() {
 		return domain.hashCode();
 	}
-
 }

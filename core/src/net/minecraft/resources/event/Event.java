@@ -1,3 +1,3 @@
 package net.minecraft.resources.event;
 
-public interface Event extends Listenable {}
+public interface Event {}

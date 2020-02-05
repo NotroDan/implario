@@ -189,7 +189,7 @@ public class Registrar {
 	/**
 	 * @param manager Что то вроде ServerEvents.playerMove
 	 * @param listener Тот кто будет слушать
-	 * @param priority Ниже, раньше выполнится
+	 * @param priority Чем меньше, тем раньше выполнится
 	 * @param ignoreCancelled Отменять вызов метода когда был вызван cancel(true)
 	 * @param <T> Класс эвента
 	 */

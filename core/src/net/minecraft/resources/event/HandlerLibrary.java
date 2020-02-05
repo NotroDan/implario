@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @param <D> Тип данных (Event, Packet).
  */
-public class HandlerLibrary<D extends Listenable> {
+public class HandlerLibrary<D> {
 
 	private final List<Entry> list = new ArrayList<>();
 

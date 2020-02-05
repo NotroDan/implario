@@ -9,6 +9,6 @@ public interface Listener<T extends Event> {
 	}
 
 	default int priority(){
-	    return 0;
+	    return EventPriority.DEFAULT;
     }
 }

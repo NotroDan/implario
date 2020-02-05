@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public abstract class DatapackLoader extends Tree.Leaf {
-
 	@Getter
 	private final long loadedAt = System.currentTimeMillis();
 
@@ -39,4 +38,5 @@ public abstract class DatapackLoader extends Tree.Leaf {
 
 	public abstract String getName();
 
+	public abstract Class<?> getLocalClass(String name);
 }

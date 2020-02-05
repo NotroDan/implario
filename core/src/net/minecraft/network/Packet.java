@@ -1,13 +1,8 @@
 package net.minecraft.network;
 
-import net.minecraft.entity.player.MPlayer;
-import net.minecraft.entity.player.Player;
-import net.minecraft.resources.event.Listenable;
-import net.minecraft.util.byteable.Encoder;
-
 import java.io.IOException;
 
-public interface Packet<T extends INetHandler> extends Listenable {
+public interface Packet<T extends INetHandler> {
 	/**
 	 * Reads the raw packet data from the data stream.
 	 */

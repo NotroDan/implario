@@ -7,6 +7,7 @@ import net.minecraft.server.Todo;
 import net.minecraft.util.FileUtil;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +19,7 @@ public class JarDatapackLoader extends DatapackLoader {
 	@Getter
 	private final File jarFile;
 
-	private DatapackClassLoader loader;
+	private JarDatapackClassLoader loader;
 
 	public JarDatapackLoader(File jarFile) {
 		this.jarFile = jarFile;
@@ -32,7 +33,11 @@ public class JarDatapackLoader extends DatapackLoader {
 	@Override
 	public DatapackInfo prepareReader() throws DatapackLoadException {
 		try {
-			loader = new DatapackClassLoader(jarFile, System.class.getClassLoader());
+			byte array[] = new byte[(int)jarFile.length()];
+			InputStream in = new FileInputStream(jarFile);
+			FileUtil.readInputStream(in, array);
+			in.close();
+			loader = new JarDatapackClassLoader(jarFile.getName(), array, System.class.getClassLoader());
 		} catch (IOException ex) {
 			throw new DatapackLoadException(ex);
 		}
@@ -111,6 +116,11 @@ public class JarDatapackLoader extends DatapackLoader {
 	@Override
 	public InputStream getResource(String name) {
 		return loader.getResourceAsStream(name);
+	}
+
+	@Override
+	public Class<?> getLocalClass(String name){
+		return loader.getLocalClass(name);
 	}
 
 	private Class<?> loadClass(String name) {

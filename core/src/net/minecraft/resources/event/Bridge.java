@@ -1,6 +1,6 @@
 package net.minecraft.resources.event;
 
-public abstract class Bridge<D extends Listenable> {
+public abstract class Bridge<D> {
 
 	public HandlerLibrary<D> LIB = new HandlerLibrary<>();
 
