@@ -1,7 +1,5 @@
 package vanilla;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.*;
@@ -34,6 +32,7 @@ import vanilla.item.VanillaItems;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import static net.minecraft.block.BlockDispenser.getDispensePosition;
 import static net.minecraft.block.BlockDispenser.getFacing;
@@ -47,7 +46,7 @@ public class Dispensers {
 			int k = blockpos.getZ();
 			AxisAlignedBB axisalignedbb = new AxisAlignedBB((double) i, (double) j, (double) k, (double) (i + 1), (double) (j + 1), (double) (k + 1));
 			List<EntityLivingBase> list = source.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb,
-					Predicates.and(EntitySelectors.NOT_SPECTATING, new ArmoredMob(stack)));
+					EntitySelectors.NOT_SPECTATING.and(new ArmoredMob(stack)));
 
 			if (list.size() > 0) {
 				EntityLivingBase entitylivingbase = list.get(0);
@@ -77,7 +76,7 @@ public class Dispensers {
 			this.armor = armor;
 		}
 
-		public boolean apply(Entity e) {
+		public boolean test(Entity e) {
 			if (!e.isEntityAlive()) {
 				return false;
 			}

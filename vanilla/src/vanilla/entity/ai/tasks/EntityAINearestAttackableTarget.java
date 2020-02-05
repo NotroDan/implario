@@ -1,16 +1,14 @@
 package vanilla.entity.ai.tasks;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import net.minecraft.entity.Entity;
 import vanilla.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.Player;
 import net.minecraft.util.EntitySelectors;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends EntityAITarget {
 
@@ -39,8 +37,8 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 		this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(creature);
 		this.setMutexBits(1);
 		this.targetEntitySelector = new Predicate<T>() {
-			public boolean apply(T p_apply_1_) {
-				if (targetSelector != null && !targetSelector.apply(p_apply_1_)) {
+			public boolean test(T p_apply_1_) {
+				if (targetSelector != null && !targetSelector.test(p_apply_1_)) {
 					return false;
 				}
 				if (p_apply_1_ instanceof Player) {
@@ -79,8 +77,8 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 		}
 		double d0 = this.getTargetDistance();
 		List<T> list = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0),
-				Predicates.<T>and(this.targetEntitySelector, EntitySelectors.NOT_SPECTATING));
-		Collections.sort(list, this.theNearestAttackableTargetSorter);
+				(entity) -> targetEntitySelector.test(entity) && EntitySelectors.NOT_SPECTATING.test(entity));
+		list.sort(this.theNearestAttackableTargetSorter);
 
 		if (list.isEmpty()) {
 			return false;

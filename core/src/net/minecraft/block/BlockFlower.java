@@ -1,11 +1,13 @@
 package net.minecraft.block;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -57,11 +59,8 @@ public abstract class BlockFlower extends BlockBush {
 
 	public IProperty<BlockFlower.EnumFlowerType> getTypeProperty() {
 		if (this.type == null) {
-			this.type = PropertyEnum.create("type", BlockFlower.EnumFlowerType.class, new Predicate<BlockFlower.EnumFlowerType>() {
-				public boolean apply(BlockFlower.EnumFlowerType p_apply_1_) {
-					return p_apply_1_.getBlockType() == BlockFlower.this.getBlockType();
-				}
-			});
+			this.type = PropertyEnum.create("type", BlockFlower.EnumFlowerType.class,
+					(type) -> type.getBlockType() == BlockFlower.this.getBlockType());
 		}
 
 		return this.type;
@@ -159,12 +158,8 @@ public abstract class BlockFlower extends BlockBush {
 
 		static {
 			for (final BlockFlower.EnumFlowerColor blockflower$enumflowercolor : BlockFlower.EnumFlowerColor.values()) {
-				Collection<BlockFlower.EnumFlowerType> collection = Collections2.filter(Lists.newArrayList(values()), new Predicate<BlockFlower.EnumFlowerType>() {
-					public boolean apply(BlockFlower.EnumFlowerType p_apply_1_) {
-						return p_apply_1_.getBlockType() == blockflower$enumflowercolor;
-					}
-				});
-				TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = (BlockFlower.EnumFlowerType[]) collection.toArray(new BlockFlower.EnumFlowerType[collection.size()]);
+				TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = Arrays.stream(values()).filter((type) -> type.getBlockType()
+						== blockflower$enumflowercolor).toArray(EnumFlowerType[]::new);
 			}
 		}
 	}

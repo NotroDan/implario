@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="server" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="net.minecraft.server.ServerStart" />
+    <option name="MAIN_CLASS_NAME" value="net.minecraft.dedicated.ServerStart" />
     <module name="server" />
     <option name="VM_PARAMETERS" value="-Xmn32M -Xms64M -Xmx2G -server -XX:+AggressiveOpts -XX:+UseCompressedOops -XX:+OptimizeStringConcat -noverify" />
     <option name="WORKING_DIRECTORY" value="server/env" />

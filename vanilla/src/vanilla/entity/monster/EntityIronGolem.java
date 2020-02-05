@@ -1,6 +1,5 @@
 package vanilla.entity.monster;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
@@ -34,6 +33,8 @@ import net.minecraft.util.MathHelper;
 import vanilla.world.gen.feature.village.Village;
 import net.minecraft.world.World;
 import vanilla.world.gen.feature.village.VillageCollection;
+
+import java.util.function.Predicate;
 
 public class EntityIronGolem extends EntityGolem {
 
@@ -271,8 +272,8 @@ public class EntityIronGolem extends EntityGolem {
 		public AINearestAttackableTargetNonCreeper(final EntityCreature creature, Class<T> classTarget, int chance, boolean p_i45858_4_, boolean p_i45858_5_, final Predicate<? super T> p_i45858_6_) {
 			super(creature, classTarget, chance, p_i45858_4_, p_i45858_5_, p_i45858_6_);
 			this.targetEntitySelector = new Predicate<T>() {
-				public boolean apply(T p_apply_1_) {
-					if (p_i45858_6_ != null && !p_i45858_6_.apply(p_apply_1_)) {
+				public boolean test(T p_apply_1_) {
+					if (p_i45858_6_ != null && !p_i45858_6_.test(p_apply_1_)) {
 						return false;
 					}
 					if (p_apply_1_ instanceof EntityCreeper) {

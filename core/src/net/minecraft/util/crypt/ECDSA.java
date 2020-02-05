@@ -1,6 +1,5 @@
 package net.minecraft.util.crypt;
 
-import __google_.util.Exceptions;
 import net.minecraft.util.byteable.Decoder;
 import net.minecraft.util.byteable.Encoder;
 import net.minecraft.util.byteable.SlowDecoder;
@@ -19,8 +18,13 @@ public class ECDSA {
     private final PrivateKey privateKey;
 
     //256, 384, 571, я не знаю почему 571, но оно работает
-    public ECDSA(int keySize, SecureRandom random){
-        KeyPairGenerator generator = Exceptions.getThrowsEx(() -> KeyPairGenerator.getInstance(ALGORIZHM));
+    public ECDSA(int keySize, SecureRandom random) {
+        KeyPairGenerator generator = null;
+        try {
+            generator = KeyPairGenerator.getInstance(ALGORIZHM);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         generator.initialize(keySize, random);
         KeyPair pair = generator.generateKeyPair();
         publicKey = pair.getPublic();
@@ -95,7 +99,12 @@ public class ECDSA {
     }
 
     public static ECDSA decodePublic(Decoder decoder){
-        KeyFactory factory = Exceptions.getThrowsEx(() -> KeyFactory.getInstance(ALGORIZHM));
+        KeyFactory factory = null;
+        try {
+            factory = KeyFactory.getInstance(ALGORIZHM);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         try {
             return new ECDSA(factory.generatePublic(new X509EncodedKeySpec(decoder.readBytes())), null);
         }catch (InvalidKeySpecException key){
@@ -108,7 +117,12 @@ public class ECDSA {
     }
 
     public static ECDSA decodePrivate(Decoder decoder){
-        KeyFactory factory = Exceptions.getThrowsEx(() -> KeyFactory.getInstance(ALGORIZHM));
+        KeyFactory factory = null;
+        try {
+            factory = KeyFactory.getInstance(ALGORIZHM);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         try {
             return new ECDSA(factory.generatePublic(new X509EncodedKeySpec(decoder.readBytes())),
                     factory.generatePrivate(new PKCS8EncodedKeySpec(decoder.readBytes())));

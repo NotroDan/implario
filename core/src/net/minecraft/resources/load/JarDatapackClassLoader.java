@@ -51,7 +51,7 @@ class JarDatapackClassLoader extends ClassLoader {
 		Class<?> clazz = loadLocalClass(name);
 		if (clazz != null) return clazz;
 		try {
-			return getParent().loadClass(name);
+			return JarDatapackClassLoader.getSystemClassLoader().loadClass(name);
 		} catch (ClassNotFoundException ex) {
 			//Not found in classpath
 		}

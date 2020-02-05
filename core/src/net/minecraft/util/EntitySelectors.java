@@ -1,9 +1,10 @@
 package net.minecraft.util;
 
-import com.google.common.base.Predicate;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
 import net.minecraft.inventory.Inventory;
+
+import java.util.function.Predicate;
 
 public final class EntitySelectors {
 

@@ -17,7 +17,6 @@ import net.minecraft.command.ICommandManager;
 import net.minecraft.command.Sender;
 import net.minecraft.command.legacy.CommandResultStats;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.database.Storage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.MPlayer;
 import net.minecraft.entity.player.Player;
@@ -61,7 +60,6 @@ public abstract class MinecraftServer extends MinecraftCore implements Runnable,
 	private static final Log logger = Log.MAIN;
 	public static final File USER_CACHE_FILE = new File(Todo.instance.isServerSide() ? "usercache.json" : "gamedata/usercache.json");
 	public static MinecraftServer mcServer;
-	public static Storage storage;
 
 	private final File anvilFile;
 	private final ISaveFormat anvilConverterForAnvilFile;
@@ -181,8 +179,11 @@ public abstract class MinecraftServer extends MinecraftCore implements Runnable,
 			this.getActiveAnvilConverter().convertMapFormat(worldNameIn, new IProgressUpdate() {
 				private long startTime = System.currentTimeMillis();
 
-				public void displaySavingString(String message) {}
-				public void resetProgressAndMessage(String message) {}
+				public void displaySavingString(String message) {
+				}
+
+				public void resetProgressAndMessage(String message) {
+				}
 
 				public void setLoadingProgress(int progress) {
 					if (System.currentTimeMillis() - this.startTime < 1000L) return;
@@ -190,15 +191,13 @@ public abstract class MinecraftServer extends MinecraftCore implements Runnable,
 					MinecraftServer.logger.info("Converting... " + progress + "%");
 				}
 
-				public void setDoneWorking() {}
+				public void setDoneWorking() {
+				}
 
-				public void displayLoadingString(String message) {}
+				public void displayLoadingString(String message) {
+				}
 			});
 		}
-	}
-
-	public Storage getStorage(){
-		return storage;
 	}
 
 	protected void loadAllWorlds(String name, String globalName, long seed, WorldType type, String p_71247_6_) {

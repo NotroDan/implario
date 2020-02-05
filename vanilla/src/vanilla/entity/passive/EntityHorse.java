@@ -1,6 +1,5 @@
 package vanilla.entity.passive;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityControllable;
@@ -45,6 +44,7 @@ import vanilla.item.VanillaItems;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class EntityHorse extends EntityAnimal implements InventoryListener, EntityControllable {
 

@@ -1,7 +1,7 @@
 package net.minecraft.security.update;
 
-import __google_.util.FileIO;
 import net.minecraft.util.FileUtil;
+import oogle.util.IOUtil;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -36,7 +36,7 @@ public class JarFile {
 	}
 
 	public void writeToJar(File file) throws IOException {
-		FileIO.writeBytes(file, writeToByteArray());
+		IOUtil.writeBytes(file, writeToByteArray());
 	}
 
 	public byte[] writeToByteArray() throws IOException{

@@ -1,7 +1,5 @@
 package net.minecraft.client.renderer.block.model;
 
-import __google_.util.ByteUnzip;
-import __google_.util.ByteZip;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -15,10 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.Utils;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.JsonUtils;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.byteable.Decoder;
+import net.minecraft.util.*;
 import org.lwjgl.util.vector.Vector3f;
 
 public class BlockPart {
@@ -66,10 +61,6 @@ public class BlockPart {
 		}
 
 		return afloat;
-	}
-
-	public static BlockPart readByteable(Decoder decoder){
-		return null;
 	}
 
 	public static BlockPart deserialize(byte array[]) {

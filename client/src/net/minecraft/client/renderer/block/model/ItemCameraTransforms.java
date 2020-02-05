@@ -1,7 +1,5 @@
 package net.minecraft.client.renderer.block.model;
 
-import __google_.util.ByteUnzip;
-import __google_.util.ByteZip;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -11,6 +9,8 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 
 import net.minecraft.client.renderer.G;
+import net.minecraft.util.ByteUnzip;
+import net.minecraft.util.ByteZip;
 
 public class ItemCameraTransforms {
 

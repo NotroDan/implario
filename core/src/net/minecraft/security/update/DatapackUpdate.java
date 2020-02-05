@@ -1,6 +1,5 @@
 package net.minecraft.security.update;
 
-import __google_.util.FileIO;
 import net.minecraft.logging.Log;
 import net.minecraft.network.services.Method;
 import net.minecraft.network.services.Request;
@@ -9,6 +8,7 @@ import net.minecraft.network.services.github.GitHubAsset;
 import net.minecraft.network.services.github.Release;
 import net.minecraft.util.byteable.SlowDecoder;
 import net.minecraft.util.crypt.SecurityKey;
+import oogle.util.IOUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class DatapackUpdate {
             if(rlz == null)throw new Error("шта");
             for(GitHubAsset asset : rlz.getAssets()){
                 if(asset.getName().equals("client.jar"))
-                    FileIO.writeBytes(datapack, new Request(asset.getPath(), Method.GET).execute((int)asset.getSize()));
+                    IOUtil.writeBytes(datapack, new Request(asset.getPath(), Method.GET).execute((int)asset.getSize()));
             }
         }
 

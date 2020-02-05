@@ -10,6 +10,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.ProfileLookupCallback;
 import com.mojang.authlib.yggdrasil.ProfileNotFoundException;
 import net.minecraft.entity.player.Player;
+import net.minecraft.io.FileRootImpl;
 import net.minecraft.logging.Log;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.functional.StringUtils;
@@ -189,7 +190,7 @@ public class PreYggdrasilConverter {
 	}
 
 	public static boolean convertWhitelist(final MinecraftServer server) throws IOException {
-		final Whitelist whitelist = new Whitelist(server.getStorage().getCoreTable());
+		final Whitelist whitelist = new Whitelist(new FileRootImpl(new File(".")));
 
 		if (OLD_WHITELIST_FILE.exists() && OLD_WHITELIST_FILE.isFile()) {
 			whitelist.read();

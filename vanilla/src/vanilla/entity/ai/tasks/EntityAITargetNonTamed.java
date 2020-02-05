@@ -1,8 +1,9 @@
 package vanilla.entity.ai.tasks;
 
-import com.google.common.base.Predicate;
 import net.minecraft.entity.EntityLivingBase;
 import vanilla.entity.passive.EntityTameable;
+
+import java.util.function.Predicate;
 
 public class EntityAITargetNonTamed<T extends EntityLivingBase> extends EntityAINearestAttackableTarget {
 

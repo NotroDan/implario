@@ -1,6 +1,5 @@
 package net.minecraft.world;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -32,6 +31,7 @@ import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public abstract class World implements IBlockAccess {
 
@@ -2415,7 +2415,7 @@ public abstract class World implements IBlockAccess {
 		List<T> list = new ArrayList<>();
 
 		for (Entity entity : this.loadedEntityList) {
-			if (entityType.isAssignableFrom(entity.getClass()) && filter.apply((T) entity)) {
+			if (entityType.isAssignableFrom(entity.getClass()) && filter.test((T) entity)) {
 				list.add((T) entity);
 			}
 		}
@@ -2427,7 +2427,7 @@ public abstract class World implements IBlockAccess {
 		List<T> list = new ArrayList<>();
 
 		for (Entity entity : this.playerEntities) {
-			if (playerType.isAssignableFrom(entity.getClass()) && filter.apply((T) entity)) {
+			if (playerType.isAssignableFrom(entity.getClass()) && filter.test((T) entity)) {
 				list.add((T) entity);
 			}
 		}
@@ -2465,7 +2465,7 @@ public abstract class World implements IBlockAccess {
 		for (int i = 0; i < list.size(); ++i) {
 			T t1 = list.get(i);
 
-			if (t1 != closestTo && EntitySelectors.NOT_SPECTATING.apply(t1)) {
+			if (t1 != closestTo && EntitySelectors.NOT_SPECTATING.test(t1)) {
 				double d1 = closestTo.getDistanceSqToEntity(t1);
 
 				if (d1 <= d0) {
@@ -2643,7 +2643,7 @@ public abstract class World implements IBlockAccess {
 		for (int i = 0; i < this.playerEntities.size(); ++i) {
 			Player entityplayer1 = this.playerEntities.get(i);
 
-			if (EntitySelectors.NOT_SPECTATING.apply(entityplayer1)) {
+			if (EntitySelectors.NOT_SPECTATING.test(entityplayer1)) {
 				double d1 = entityplayer1.getDistanceSq(x, y, z);
 
 				if ((distance < 0.0D || d1 < distance * distance) && (d0 == -1.0D || d1 < d0)) {
@@ -2660,7 +2660,7 @@ public abstract class World implements IBlockAccess {
 		for (int i = 0; i < this.playerEntities.size(); ++i) {
 			Player entityplayer = this.playerEntities.get(i);
 
-			if (EntitySelectors.NOT_SPECTATING.apply(entityplayer)) {
+			if (EntitySelectors.NOT_SPECTATING.test(entityplayer)) {
 				double d0 = entityplayer.getDistanceSq(x, y, z);
 
 				if (range < 0.0D || d0 < range * range) {

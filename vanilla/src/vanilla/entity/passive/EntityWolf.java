@@ -1,6 +1,5 @@
 package vanilla.entity.passive;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import vanilla.entity.EntityAgeable;
@@ -37,6 +36,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ParticleType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.function.Predicate;
 
 public class EntityWolf extends EntityTameable {
 

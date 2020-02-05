@@ -1,11 +1,10 @@
 package net.minecraft.security.update;
 
-import __google_.util.FileIO;
 import net.minecraft.util.FileUtil;
 import net.minecraft.util.crypt.AES;
 import net.minecraft.util.crypt.ECDSA;
 import net.minecraft.util.crypt.SecurityKey;
-import net.minecraft.util.crypt.TimedSertificate;
+import oogle.util.IOUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +18,7 @@ public class SecurityKeys {
         try {
             URL url = SecurityKeys.class.getClassLoader().getResource("net/minecraft/security/update/privateTimedKey.aes");
             InputStream in = url.openStream();
-            byte read[] = FileIO.readBytes(new File("core/src/net/minecraft/security/update/privateTimedKey.aes"));
+            byte read[] = IOUtil.readBytes(new File("core/src/net/minecraft/security/update/privateTimedKey.aes"));
             FileUtil.readInputStream(in, read);
             AES aes = AES.generateAES(passwd, rounds);
             ECDSA ecdsa = ECDSA.decodePrivate(aes.decrypt(read));

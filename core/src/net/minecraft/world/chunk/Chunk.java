@@ -1,6 +1,5 @@
 package net.minecraft.world.chunk;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import net.minecraft.block.Block;
@@ -29,8 +28,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Predicate;
 
-public class 	Chunk {
+public class Chunk {
 
 	private static final Log logger = Log.MAIN;
 
@@ -866,7 +866,7 @@ public class 	Chunk {
 			if (!this.entityLists[k].isEmpty()) {
 				for (Entity entity : this.entityLists[k]) {
 					if (entity.getEntityBoundingBox().intersectsWith(aabb) && entity != entityIn) {
-						if (p_177414_4_ == null || p_177414_4_.apply(entity)) {
+						if (p_177414_4_ == null || p_177414_4_.test(entity)) {
 							listToFill.add(entity);
 						}
 
@@ -876,7 +876,7 @@ public class 	Chunk {
 							for (int l = 0; l < aentity.length; ++l) {
 								entity = aentity[l];
 
-								if (entity != entityIn && entity.getEntityBoundingBox().intersectsWith(aabb) && (p_177414_4_ == null || p_177414_4_.apply(entity))) {
+								if (entity != entityIn && entity.getEntityBoundingBox().intersectsWith(aabb) && (p_177414_4_ == null || p_177414_4_.test(entity))) {
 									listToFill.add(entity);
 								}
 							}
@@ -895,7 +895,7 @@ public class 	Chunk {
 
 		for (int k = i; k <= j; ++k) {
 			for (T t : this.entityLists[k].getByClass(entityClass)) {
-				if (t.getEntityBoundingBox().intersectsWith(aabb) && (p_177430_4_ == null || p_177430_4_.apply(t))) {
+				if (t.getEntityBoundingBox().intersectsWith(aabb) && (p_177430_4_ == null || p_177430_4_.test(t))) {
 					listToFill.add(t);
 				}
 			}

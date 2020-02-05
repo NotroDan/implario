@@ -1,6 +1,5 @@
 package net.minecraft.command.legacy;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
@@ -25,6 +24,7 @@ import net.minecraft.world.WorldSettings;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -352,8 +352,10 @@ public class PlayerSelector {
 		int j = parseIntWithDefault(params, "dy", 0);
 		int k = parseIntWithDefault(params, "dz", 0);
 		int l = parseIntWithDefault(params, "r", -1);
-		Predicate<Entity> predicate = Predicates.and(inputList);
-		Predicate<Entity> predicate1 = Predicates.and(Entity::isEntityAlive, predicate);
+		Predicate<Entity> predicate = inputList.get(0);
+		for(int z = 1; z < inputList.size(); z++)
+			predicate = predicate.and(inputList.get(z));
+		Predicate<Entity> predicate1 = predicate.and(Entity::isEntityAlive);
 
 		if (position != null) {
 			int i1 = worldIn.playerEntities.size();
@@ -383,7 +385,7 @@ public class PlayerSelector {
 				if (flag && flag2 && !flag1) {
 					Predicate<Entity> predicate2 =
 							b -> (b.posX >= axisalignedbb.minX && b.posY >= axisalignedbb.minY && b.posZ >= axisalignedbb.minZ) && (b.posX < axisalignedbb.maxX && b.posY < axisalignedbb.maxY && b.posZ < axisalignedbb.maxZ);
-					list.addAll(worldIn.<T>getPlayers(entityClass, Predicates.and(predicate1, predicate2)));
+					list.addAll(worldIn.<T>getPlayers(entityClass, predicate1.and(predicate2)));
 				} else {
 					list.addAll(worldIn.<T>getEntitiesWithinAABB(entityClass, axisalignedbb, predicate1));
 				}

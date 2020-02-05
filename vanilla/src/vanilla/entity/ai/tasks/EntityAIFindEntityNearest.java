@@ -1,9 +1,8 @@
 package vanilla.entity.ai.tasks;
 
-import com.google.common.base.Predicate;
-
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import net.minecraft.logging.Log;
 import vanilla.entity.EntityCreature;
@@ -31,7 +30,7 @@ public class EntityAIFindEntityNearest extends EntityAIBase {
 		}
 
 		this.field_179443_c = new Predicate<EntityLivingBase>() {
-			public boolean apply(EntityLivingBase p_apply_1_) {
+			public boolean test(EntityLivingBase p_apply_1_) {
 				double d0 = EntityAIFindEntityNearest.this.func_179438_f();
 
 				if (p_apply_1_.isSneaking()) {

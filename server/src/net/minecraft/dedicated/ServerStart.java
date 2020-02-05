@@ -3,16 +3,13 @@ package net.minecraft.dedicated;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
-import net.minecraft.database.memory.MemoryStorage;
 import net.minecraft.dedicated.dedicated.DedicatedServer;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.DatapackManager;
-import net.minecraft.resources.load.DatapackLoadException;
 import net.minecraft.resources.load.DatapackLoader;
 import net.minecraft.security.MinecraftSecurityManager;
 import net.minecraft.security.Restart;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Util;
 
 import java.io.File;
@@ -23,7 +20,7 @@ public class ServerStart {
 		if(System.getSecurityManager() == null) System.setSecurityManager(new MinecraftSecurityManager());
 	}
 
-	public static void main(String[] args) throws DatapackLoadException {
+	public static void main(String[] args) {
 		Restart.setArgs(args);
 
 		OptionParser parser = new OptionParser(true);
@@ -47,8 +44,6 @@ public class ServerStart {
 		boolean starterKit = options.has("starter-kit");
 		int port = options.valueOf(spPort);
 		List<String> datapacks = options.valuesOf(spDatapack);
-
-		MinecraftServer.storage = new MemoryStorage(new File(workDir), true);
 
 //		if (!datapacks.isEmpty()) {
 //			for (String datapackPath : datapacks) {

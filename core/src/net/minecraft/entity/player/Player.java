@@ -1,6 +1,5 @@
 package net.minecraft.entity.player;
 
-import __google_.util.FileIO;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import lombok.AllArgsConstructor;
@@ -51,6 +50,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import oogle.util.IOUtil;
 
 import java.io.File;
 import java.util.*;
@@ -863,7 +863,7 @@ public abstract class Player extends EntityLivingBase {
 						Log.MAIN.error("Manager " + manager + " not supported encode world, but value encoded!");
 					manager.decodeWorld(getModuleNotNull(manager), bytes);
 				});
-			decodeArray(FileIO.readBytes(whereToWrite()), (manager, bytes) -> {
+			decodeArray(IOUtil.readBytes(whereToWrite()), (manager, bytes) -> {
 				if (!manager.supportedGlobal())
 					Log.MAIN.error("Manager " + manager + " not supported encode global, but value encoded!");
 				manager.decodeGlobal(getModuleNotNull(manager), bytes);
@@ -920,7 +920,7 @@ public abstract class Player extends EntityLivingBase {
 			byte array[] = world.generate();
 			if(array.length != 0) tagCompound.setByteArray("Modules", array);
 			array = global.generate();
-			if(array.length != 0) FileIO.writeBytes(whereToWrite(), global.generate());
+			if(array.length != 0) IOUtil.writeBytes(whereToWrite(), global.generate());
 		}catch (Throwable throwable){
 			throwable.printStackTrace();
 		}

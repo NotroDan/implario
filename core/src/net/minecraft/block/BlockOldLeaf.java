@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import com.google.common.base.Predicate;
-
 import java.util.List;
 
 import net.minecraft.block.properties.IProperty;
@@ -21,12 +19,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockOldLeaf extends BlockLeaves {
-
-	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
-		public boolean apply(BlockPlanks.EnumType p_apply_1_) {
-			return p_apply_1_.getMetadata() < 4;
-		}
-	});
+	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant",
+			BlockPlanks.EnumType.class, (type) -> type.getMetadata() < 4);
 
 	public BlockOldLeaf() {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockPlanks.EnumType.OAK).withProperty(CHECK_DECAY, Boolean.TRUE).withProperty(DECAYABLE, Boolean.TRUE));

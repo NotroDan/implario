@@ -1,6 +1,5 @@
 package net.minecraft.client.resources.model;
 
-import __google_.util.FileIO;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -29,6 +28,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IRegistry;
 import net.minecraft.util.RegistrySimple;
 import net.minecraft.util.ResourceLocation;
+import oogle.util.IOUtil;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -186,7 +186,7 @@ public class ModelBakery {
 
 	public static void rewriteModel(File file) throws IOException{
 		ModelBlock load = ModelBlock.readModel(new FileInputStream(file));
-		FileIO.writeBytes(file, ModelBlock.serialize(load));
+		IOUtil.writeBytes(file, ModelBlock.serialize(load));
 	}
 
 	private static ModelBlock loadModel(ResourceLocation p_177594_1_, IResourceManager manager) throws IOException {

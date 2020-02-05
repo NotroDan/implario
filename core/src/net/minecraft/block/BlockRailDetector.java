@@ -1,9 +1,8 @@
 package net.minecraft.block;
 
-import com.google.common.base.Predicate;
-
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -24,8 +23,8 @@ import net.minecraft.world.World;
 
 public class BlockRailDetector extends BlockRailBase {
 
-	public static final PropertyEnum<BlockRailBase.EnumRailDirection> SHAPE = PropertyEnum.create("shape", BlockRailBase.EnumRailDirection.class, new Predicate<BlockRailBase.EnumRailDirection>() {
-		public boolean apply(BlockRailBase.EnumRailDirection p_apply_1_) {
+	public static final PropertyEnum<BlockRailBase.EnumRailDirection> SHAPE = PropertyEnum.create("shape", BlockRailBase.EnumRailDirection.class, new Predicate<EnumRailDirection>() {
+		public boolean test(BlockRailBase.EnumRailDirection p_apply_1_) {
 			return p_apply_1_ != BlockRailBase.EnumRailDirection.NORTH_EAST && p_apply_1_ != BlockRailBase.EnumRailDirection.NORTH_WEST && p_apply_1_ != BlockRailBase.EnumRailDirection.SOUTH_EAST && p_apply_1_ != BlockRailBase.EnumRailDirection.SOUTH_WEST;
 		}
 	});
@@ -133,7 +132,7 @@ public class BlockRailDetector extends BlockRailBase {
 				return ((EntityMinecartCommandBlock) list.get(0)).getCommandBlockLogic().getSuccessCount();
 			}
 
-			List<EntityMinecart> list1 = this.findMinecarts(worldIn, pos, EntityMinecart.class, new Predicate[] {EntitySelectors.selectInventories});
+			List<EntityMinecart> list1 = this.findMinecarts(worldIn, pos, EntityMinecart.class, EntitySelectors.selectInventories);
 
 			if (!list1.isEmpty()) {
 				return Container.calcRedstoneFromInventory((Inventory) list1.get(0));

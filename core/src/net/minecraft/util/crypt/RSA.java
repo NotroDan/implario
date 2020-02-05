@@ -1,6 +1,5 @@
 package net.minecraft.util.crypt;
 
-import __google_.util.Exceptions;
 import net.minecraft.util.byteable.Decoder;
 import net.minecraft.util.byteable.Encoder;
 import net.minecraft.util.byteable.SlowDecoder;
@@ -19,7 +18,12 @@ public class RSA {
     private final PrivateKey privateKey;
 
     public RSA(int keySize, SecureRandom random){
-        KeyPairGenerator generator = Exceptions.getThrowsEx(() -> KeyPairGenerator.getInstance(ALGORIZHM));
+        KeyPairGenerator generator = null;
+        try {
+            generator = KeyPairGenerator.getInstance(ALGORIZHM);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         generator.initialize(keySize, random);
         KeyPair pair = generator.generateKeyPair();
         publicKey = pair.getPublic();
@@ -94,7 +98,12 @@ public class RSA {
     }
 
     public static RSA decodePublic(Decoder decoder){
-        KeyFactory factory = Exceptions.getThrowsEx(() -> KeyFactory.getInstance(ALGORIZHM));
+        KeyFactory factory = null;
+        try {
+            factory = KeyFactory.getInstance(ALGORIZHM);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         try {
             return new RSA(factory.generatePublic(new X509EncodedKeySpec(decoder.readBytes())), null);
         }catch (InvalidKeySpecException key){
@@ -107,7 +116,12 @@ public class RSA {
     }
 
     public static RSA decodePrivate(Decoder decoder){
-        KeyFactory factory = Exceptions.getThrowsEx(() -> KeyFactory.getInstance(ALGORIZHM));
+        KeyFactory factory = null;
+        try {
+            factory = KeyFactory.getInstance(ALGORIZHM);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         try {
             return new RSA(factory.generatePublic(new X509EncodedKeySpec(decoder.readBytes())),
                     factory.generatePrivate(new PKCS8EncodedKeySpec(decoder.readBytes())));

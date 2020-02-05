@@ -1,6 +1,5 @@
 package net.minecraft.util.crypt;
 
-import __google_.util.Exceptions;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
@@ -8,6 +7,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class AES {
@@ -31,14 +31,24 @@ public class AES {
     }
 
     public static byte[] getRandomAESKey() {
-        KeyGenerator keyGenerator = Exceptions.getThrowsEx(() -> KeyGenerator.getInstance(ALGORITHM));
+        KeyGenerator keyGenerator = null;
+        try {
+            keyGenerator = KeyGenerator.getInstance(ALGORITHM);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         keyGenerator.init(256);
         SecretKey key = keyGenerator.generateKey();
         return key.getEncoded();
     }
 
     public static byte[] getRandomAESKey(SecureRandom random){
-        KeyGenerator keyGenerator = Exceptions.getThrowsEx(() -> KeyGenerator.getInstance(ALGORITHM));
+        KeyGenerator keyGenerator = null;
+        try {
+            keyGenerator = KeyGenerator.getInstance(ALGORITHM);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         keyGenerator.init(256, random);
         SecretKey key = keyGenerator.generateKey();
         return key.getEncoded();

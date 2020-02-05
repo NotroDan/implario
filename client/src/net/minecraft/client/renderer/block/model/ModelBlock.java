@@ -1,15 +1,13 @@
 package net.minecraft.client.renderer.block.model;
 
-import __google_.util.ByteUnzip;
-import __google_.util.ByteZip;
 import com.google.common.collect.Maps;
 import com.google.gson.*;
 import net.minecraft.logging.Log;
-import net.minecraft.util.FileUtil;
+import net.minecraft.util.ByteUnzip;
+import net.minecraft.util.ByteZip;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.byteable.Decoder;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -268,7 +266,7 @@ public class ModelBlock {
 		}
 
 		private Map<String, String> getTextures(JsonObject p_178329_1_) {
-			Map<String, String> map = Maps.newHashMap();
+			Map<String, String> map = new HashMap<>();
 
 			if (p_178329_1_.has("textures")) {
 				JsonObject jsonobject = p_178329_1_.getAsJsonObject("textures");

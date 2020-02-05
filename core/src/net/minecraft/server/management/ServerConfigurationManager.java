@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.Player;
 import net.minecraft.entity.player.MPlayer;
+import net.minecraft.io.FileRootImpl;
 import net.minecraft.item.potion.PotionEffect;
 import net.minecraft.logging.Log;
 import net.minecraft.nbt.NBTTagCompound;
@@ -111,7 +112,7 @@ public abstract class ServerConfigurationManager {
 	public 	ServerConfigurationManager(MinecraftServer server) {
 		this.bannedPlayers = new UserListBans(FILE_PLAYERBANS);
 		this.bannedIPs = new BanList(FILE_IPBANS);
-		this.whiteListedPlayers = new Whitelist(server.getStorage().getCoreTable());
+		this.whiteListedPlayers = new Whitelist(new FileRootImpl(new File(".")));
 		this.playerStatFiles = Maps.newHashMap();
 		this.mcServer = server;
 		this.bannedPlayers.setLanServer(false);

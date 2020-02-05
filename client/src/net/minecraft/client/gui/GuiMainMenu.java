@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import __google_.util.Exceptions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.client.MC;
@@ -27,6 +26,7 @@ import net.minecraft.network.services.github.Release;
 import net.minecraft.resources.Datapack;
 import net.minecraft.security.Restart;
 import net.minecraft.security.update.DatapackUpdate;
+import net.minecraft.util.Exceptions;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Skybox;
 import org.lwjgl.input.Keyboard;

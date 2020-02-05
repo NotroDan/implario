@@ -1,6 +1,5 @@
 package vanilla.entity.monster;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,6 +35,8 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomFishable;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+
+import java.util.function.Predicate;
 
 public class EntityGuardian extends EntityMob {
 
@@ -364,7 +365,7 @@ public class EntityGuardian extends EntityMob {
 				Potion potion = Potion.digSlowdown;
 
 				for (MPlayer entityplayermp : this.worldObj.getPlayers(MPlayer.class, new Predicate<MPlayer>() {
-					public boolean apply(MPlayer p_apply_1_) {
+					public boolean test(MPlayer p_apply_1_) {
 						return EntityGuardian.this.getDistanceSqToEntity(p_apply_1_) < 2500.0D && p_apply_1_.theItemInWorldManager.survivalOrAdventure();
 					}
 				})) {
@@ -611,7 +612,7 @@ public class EntityGuardian extends EntityMob {
 			this.parentEntity = p_i45832_1_;
 		}
 
-		public boolean apply(EntityLivingBase p_apply_1_) {
+		public boolean test(EntityLivingBase p_apply_1_) {
 			return (p_apply_1_ instanceof Player || p_apply_1_ instanceof EntitySquid) && p_apply_1_.getDistanceSqToEntity(this.parentEntity) > 9.0D;
 		}
 

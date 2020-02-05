@@ -1,8 +1,7 @@
 package net.minecraft.block;
 
-import com.google.common.base.Predicate;
-
 import java.util.List;
+import java.util.function.Predicate;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
@@ -15,11 +14,8 @@ import net.minecraft.item.ItemStack;
 
 public class BlockOldLog extends BlockLog {
 
-	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
-		public boolean apply(BlockPlanks.EnumType p_apply_1_) {
-			return p_apply_1_.getMetadata() < 4;
-		}
-	});
+	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant",
+			BlockPlanks.EnumType.class, (type) -> type.getMetadata() < 4);
 
 	public BlockOldLog() {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockPlanks.EnumType.OAK).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));

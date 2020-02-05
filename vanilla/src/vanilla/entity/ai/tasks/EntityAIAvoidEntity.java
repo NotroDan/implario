@@ -1,7 +1,5 @@
 package vanilla.entity.ai.tasks;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import net.minecraft.entity.Entity;
 import vanilla.entity.EntityCreature;
 import vanilla.entity.ai.RandomPositionGenerator;
@@ -11,6 +9,7 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.Vec3d;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
 
@@ -38,12 +37,12 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
 	private Predicate<? super T> avoidTargetSelector;
 
 	public EntityAIAvoidEntity(EntityCreature p_i46404_1_, Class<T> p_i46404_2_, float p_i46404_3_, double p_i46404_4_, double p_i46404_6_) {
-		this(p_i46404_1_, p_i46404_2_, Predicates.alwaysTrue(), p_i46404_3_, p_i46404_4_, p_i46404_6_);
+		this(p_i46404_1_, p_i46404_2_, (__) -> true, p_i46404_3_, p_i46404_4_, p_i46404_6_);
 	}
 
 	public EntityAIAvoidEntity(EntityCreature p_i46405_1_, Class<T> p_i46405_2_, Predicate<? super T> p_i46405_3_, float p_i46405_4_, double p_i46405_5_, double p_i46405_7_) {
 		this.canBeSeenSelector = new Predicate<Entity>() {
-			public boolean apply(Entity p_apply_1_) {
+			public boolean test(Entity p_apply_1_) {
 				return p_apply_1_.isEntityAlive() && EntityAIAvoidEntity.this.theEntity.getEntitySenses().canSee(p_apply_1_);
 			}
 		};
@@ -62,7 +61,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
 	 */
 	public boolean shouldExecute() {
 		List<T> list = this.theEntity.worldObj.getEntitiesWithinAABB(this.field_181064_i, this.theEntity.getEntityBoundingBox().expand((double) this.avoidDistance, 3.0D, (double) this.avoidDistance),
-				Predicates.and(new Predicate[] {EntitySelectors.NOT_SPECTATING, this.canBeSeenSelector, this.avoidTargetSelector}));
+				(entity) -> EntitySelectors.NOT_SPECTATING.and(this.canBeSeenSelector).test(entity) && this.avoidTargetSelector.test(entity));
 
 		if (list.isEmpty()) {
 			return false;

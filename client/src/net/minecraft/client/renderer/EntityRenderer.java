@@ -448,7 +448,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			List list = this.mc.theWorld.getEntitiesInAABBexcluding(
 					entity,
 					entity.getEntityBoundingBox().addCoord(vec31D.xCoord * d0, vec31D.yCoord * d0, vec31D.zCoord * d0).expand((double) f, (double) f, (double) f),
-					Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
+					EntitySelectors.NOT_SPECTATING.and(Entity::canBeCollidedWith));
 			double d2 = d1;
 
 			for (Object aList : list) {

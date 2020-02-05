@@ -1,10 +1,9 @@
 package net.minecraft.client.renderer.block.model;
 
-import __google_.util.ByteUnzip;
-import __google_.util.ByteZip;
 import com.google.gson.*;
 import net.minecraft.Utils;
-import net.minecraft.block.Block;
+import net.minecraft.util.ByteUnzip;
+import net.minecraft.util.ByteZip;
 import net.minecraft.util.JsonUtils;
 
 import java.lang.reflect.Type;

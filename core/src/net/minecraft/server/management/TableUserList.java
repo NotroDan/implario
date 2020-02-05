@@ -1,7 +1,7 @@
 package net.minecraft.server.management;
 
 import lombok.RequiredArgsConstructor;
-import net.minecraft.database.Table;
+import net.minecraft.io.FileRoot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,9 +9,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class TableUserList {
-    private final Table table;
+    private final FileRoot table;
     private final String write;
-    private List<String> list = new ArrayList<>();
+    private final List<String> list = new ArrayList<>();
 
     public void add(String nick){
         list.add(nick.toLowerCase());

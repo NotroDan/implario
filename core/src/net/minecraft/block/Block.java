@@ -37,7 +37,6 @@ public class Block {
 	private static final ResourceLocation AIR_ID = new ResourceLocation("air");
 	public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey<>(AIR_ID);
 	private static ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
-	private static IBlockState states[] = new IBlockState[40000];
 	public static int st = 0;
 	private CreativeTabs displayOnCreativeTab;
 	public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
@@ -1344,7 +1343,6 @@ public class Block {
 				int i = blockRegistry.getIDForObject(b) << 4 | b.getMetaFromState(state);
 				BLOCK_STATE_IDS.put(state, i);
 				state.setID(st);
-				states[st++] = state;
 			}
 		}
 

@@ -1,6 +1,5 @@
 package vanilla.entity.boss;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -22,6 +21,7 @@ import vanilla.entity.ai.tasks.*;
 import vanilla.entity.monster.EntityMob;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class EntityWither extends EntityMob implements IBossDisplayData, IRangedAttackMob {
 
@@ -37,7 +37,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 	 */
 	private int blockBreakCounter;
 	private static final Predicate<Entity> attackEntitySelector = new Predicate<Entity>() {
-		public boolean apply(Entity p_apply_1_) {
+		public boolean test(Entity p_apply_1_) {
 			return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase) p_apply_1_).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
 		}
 	};
@@ -248,7 +248,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 						}
 					} else {
 						List<EntityLivingBase> list = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(20.0D, 8.0D, 20.0D),
-								Predicates.and(attackEntitySelector, EntitySelectors.NOT_SPECTATING));
+								attackEntitySelector.and(EntitySelectors.NOT_SPECTATING));
 
 						for (int j2 = 0; j2 < 10 && !list.isEmpty(); ++j2) {
 							EntityLivingBase entitylivingbase = list.get(this.rand.nextInt(list.size()));

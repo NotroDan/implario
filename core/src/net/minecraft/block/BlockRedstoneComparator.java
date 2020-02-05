@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import com.google.common.base.Predicate;
-
 import java.util.List;
 import java.util.Random;
 
@@ -131,11 +129,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
 	private EntityItemFrame findItemFrame(World worldIn, final EnumFacing facing, BlockPos pos) {
 		List<EntityItemFrame> list = worldIn.getEntitiesWithinAABB(EntityItemFrame.class,
 				new AxisAlignedBB((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 1), (double) (pos.getZ() + 1)),
-				new Predicate<Entity>() {
-					public boolean apply(Entity p_apply_1_) {
-						return p_apply_1_ != null && p_apply_1_.getHorizontalFacing() == facing;
-					}
-				});
+				(entity) -> entity != null && entity.getHorizontalFacing() == facing);
 		return list.size() == 1 ? (EntityItemFrame) list.get(0) : null;
 	}
 

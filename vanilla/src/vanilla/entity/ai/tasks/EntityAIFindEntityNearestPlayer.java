@@ -1,9 +1,8 @@
 package vanilla.entity.ai.tasks;
 
-import com.google.common.base.Predicate;
-
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.logging.Log;
@@ -30,7 +29,7 @@ public class EntityAIFindEntityNearestPlayer extends EntityAIBase {
 		}
 
 		this.field_179435_c = new Predicate<Entity>() {
-			public boolean apply(Entity p_apply_1_) {
+			public boolean test(Entity p_apply_1_) {
 				if (!(p_apply_1_ instanceof Player)) {
 					return false;
 				}

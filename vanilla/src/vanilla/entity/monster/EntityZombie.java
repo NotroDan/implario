@@ -2,25 +2,18 @@ package vanilla.entity.monster;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
-import vanilla.entity.VanillaEntity;
 import net.minecraft.entity.attributes.AttributeModifier;
 import net.minecraft.entity.attributes.IAttribute;
 import net.minecraft.entity.attributes.IAttributeInstance;
 import net.minecraft.entity.attributes.RangedAttribute;
-import vanilla.entity.ai.tasks.*;
-import vanilla.entity.ai.tasks.village.EntityAIBreakDoor;
-import vanilla.entity.ai.tasks.village.EntityAIMoveThroughVillage;
-import vanilla.entity.passive.EntityChicken;
-import vanilla.entity.passive.EntityVillager;
 import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import vanilla.entity.ai.pathfinding.PathNavigateGround;
 import net.minecraft.item.potion.Potion;
 import net.minecraft.item.potion.PotionEffect;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
@@ -28,6 +21,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import vanilla.entity.VanillaEntity;
+import vanilla.entity.ai.pathfinding.PathNavigateGround;
+import vanilla.entity.ai.tasks.*;
+import vanilla.entity.ai.tasks.village.EntityAIBreakDoor;
+import vanilla.entity.ai.tasks.village.EntityAIMoveThroughVillage;
+import vanilla.entity.passive.EntityChicken;
+import vanilla.entity.passive.EntityVillager;
 
 import java.util.Calendar;
 import java.util.List;
@@ -460,11 +460,11 @@ public class EntityZombie extends EntityMob {
 		this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * f);
 
 		if (livingdata == null) {
-			livingdata = new EntityZombie.GroupData(this.worldObj.rand.nextFloat() < 0.05F, this.worldObj.rand.nextFloat() < 0.05F);
+			livingdata = new GroupData(this.worldObj.rand.nextFloat() < 0.05F, this.worldObj.rand.nextFloat() < 0.05F);
 		}
 
-		if (livingdata instanceof EntityZombie.GroupData) {
-			EntityZombie.GroupData entityzombie$groupdata = (EntityZombie.GroupData) livingdata;
+		if (livingdata instanceof GroupData) {
+			GroupData entityzombie$groupdata = (GroupData) livingdata;
 
 			if (entityzombie$groupdata.isVillager) {
 				this.setVillager(true);
@@ -474,7 +474,7 @@ public class EntityZombie extends EntityMob {
 				this.setChild(true);
 
 				if ((double) this.worldObj.rand.nextFloat() < 0.05D) {
-					List<EntityChicken> list = this.worldObj.getEntitiesWithinAABB(EntityChicken.class, this.getEntityBoundingBox().expand(5.0D, 3.0D, 5.0D), EntitySelectors.IS_STANDALONE);
+					List<EntityChicken> list = this.worldObj.getEntitiesWithinAABB(EntityChicken.class, this.getEntityBoundingBox().expand(5.0D, 3.0D, 5.0D), EntitySelectors.IS_STANDALONE::test);
 
 					if (!list.isEmpty()) {
 						EntityChicken entitychicken = (EntityChicken) list.get(0);
@@ -499,7 +499,7 @@ public class EntityZombie extends EntityMob {
 		if (this.getEquipmentInSlot(4) == null) {
 			Calendar calendar = this.worldObj.getCurrentDate();
 
-			if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && this.rand.nextFloat() < 0.25F) {
+			if (calendar.get(Calendar.MONTH) + 1 == 10 && calendar.get(Calendar.DATE) == 31 && this.rand.nextFloat() < 0.25F) {
 				this.setCurrentItemOrArmor(4, new ItemStack(this.rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
 				this.equipmentDropChances[4] = 0.0F;
 			}
