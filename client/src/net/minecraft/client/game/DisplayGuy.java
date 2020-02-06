@@ -30,10 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.text.DecimalFormat;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static net.minecraft.logging.Log.MAIN;
 import static net.minecraft.util.Util.OS.OSX;
@@ -41,7 +38,7 @@ import static optifine.Config.updateFramebufferSize;
 
 public class DisplayGuy {
 
-	private static final List<DisplayMode> macDisplayModes = Lists.newArrayList(new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
+	private static final List<DisplayMode> macDisplayModes = Arrays.asList(new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
 	private final Minecraft mc;
 	public boolean fullscreen;
 	public IProfiler activeProfiler;

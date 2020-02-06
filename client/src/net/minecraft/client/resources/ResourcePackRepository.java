@@ -171,7 +171,7 @@ public class ResourcePackRepository {
 
 			this.func_183028_i();
 			final GuiScreenWorking guiscreenworking = new GuiScreenWorking();
-			Map<String, String> map = Maps.newHashMap();
+			Map<String, String> map = new HashMap<>();
 			map.put("X-Minecraft-Username", Minecraft.get().getSession().getUsername());
 			map.put("X-Minecraft-UUID", Minecraft.get().getSession().getPlayerID());
 			map.put("X-Minecraft-Version", "1.8.8");

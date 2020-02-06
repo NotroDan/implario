@@ -22,10 +22,7 @@ import net.minecraft.world.biome.IChunkBiomer;
 import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import net.minecraft.world.chunk.anvil.ExtendedBlockStorage;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Predicate;
@@ -122,10 +119,10 @@ public class Chunk {
 		this.blockBiomeArray = new byte[256];
 		this.precipitationHeightMap = new int[256];
 		this.updateSkylightColumns = new boolean[256];
-		this.chunkTileEntityMap = Maps.newHashMap();
+		this.chunkTileEntityMap = new HashMap<>();
 		this.queuedLightChecks = 4096;
 		this.tileEntityPosQueue = Queues.newConcurrentLinkedQueue();
-		this.entityLists = (ClassInheritanceMultiMap[]) new ClassInheritanceMultiMap[16];
+		this.entityLists = new ClassInheritanceMultiMap[16];
 		this.worldObj = worldIn;
 		this.xPosition = x;
 		this.zPosition = z;

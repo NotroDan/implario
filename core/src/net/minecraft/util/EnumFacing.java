@@ -387,7 +387,7 @@ public enum EnumFacing implements IStringSerializable {
 		Y("y", EnumFacing.Plane.VERTICAL),
 		Z("z", EnumFacing.Plane.HORIZONTAL);
 
-		private static final Map<String, Axis> NAME_LOOKUP = Maps.newHashMap();
+		private static final Map<String, Axis> NAME_LOOKUP = new HashMap<>();
 		private final String name;
 		private final EnumFacing.Plane plane;
 

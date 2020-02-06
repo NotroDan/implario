@@ -1,14 +1,13 @@
 package net.minecraft.server.management;
 
-import com.google.common.collect.Maps;
-
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class LowerStringMap<V> implements Map<String, V> {
 
-	private final Map<String, V> internalMap = Maps.newLinkedHashMap();
+	private final Map<String, V> internalMap = new LinkedHashMap<>();
 
 	public int size() {
 		return this.internalMap.size();
@@ -23,7 +22,7 @@ public class LowerStringMap<V> implements Map<String, V> {
 	}
 
 	public boolean containsValue(Object value) {
-		return this.internalMap.containsKey(value);
+		return this.internalMap.containsValue(value);
 	}
 
 	public V get(Object key) {

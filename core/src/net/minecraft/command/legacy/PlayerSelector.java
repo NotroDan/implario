@@ -417,7 +417,7 @@ public class PlayerSelector {
 		Entity entity = p_179658_2_.getCommandSenderEntity();
 
 		if (entity != null && p_179658_3_.isAssignableFrom(entity.getClass()) && i == 1 && p_179658_0_.contains(entity) && !"r".equals(p_179658_4_)) {
-			p_179658_0_ = Lists.newArrayList((T) entity);
+			p_179658_0_ = Collections.singletonList((T) entity);
 		}
 
 		if (i != 0) {
@@ -482,7 +482,7 @@ public class PlayerSelector {
 	}
 
 	public static Map<String, Integer> func_96560_a(Map<String, String> p_96560_0_) {
-		Map<String, Integer> map = Maps.newHashMap();
+		Map<String, Integer> map = new HashMap<>();
 
 		for (String s : p_96560_0_.keySet()) {
 			if (s.startsWith("score_") && s.length() > "score_".length()) {
@@ -516,7 +516,7 @@ public class PlayerSelector {
 	}
 
 	private static Map<String, String> getArgumentMap(String argumentString) {
-		Map<String, String> map = Maps.newHashMap();
+		Map<String, String> map = new HashMap<>();
 
 		if (argumentString == null) {
 			return map;

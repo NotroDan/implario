@@ -26,6 +26,7 @@ import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class GuiFlatPresets extends GuiScreen {
@@ -161,7 +162,7 @@ public class GuiFlatPresets extends GuiScreen {
 
 		if (p_175354_4_ != null) {
 			for (String s : p_175354_4_) {
-				flatgeneratorinfo.getWorldFeatures().put(s, Maps.newHashMap());
+				flatgeneratorinfo.getWorldFeatures().put(s, new HashMap<>());
 			}
 		}
 

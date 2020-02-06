@@ -13,11 +13,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.WeightedRandom;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class EnchantmentHelper {
 
@@ -60,7 +56,7 @@ public class EnchantmentHelper {
 	}
 
 	public static Map<Integer, Integer> getEnchantments(ItemStack stack) {
-		Map<Integer, Integer> map = Maps.newLinkedHashMap();
+		Map<Integer, Integer> map = new LinkedHashMap<>();
 		NBTTagList nbttaglist = stack.getItem() == Items.enchanted_book ? Items.enchanted_book.getEnchantments(stack) : stack.getEnchantmentTagList();
 
 		if (nbttaglist != null) {
@@ -422,7 +418,7 @@ public class EnchantmentHelper {
 				for (int i = enchantment.getMinLevel(); i <= enchantment.getMaxLevel(); ++i) {
 					if (p_77505_0_ >= enchantment.getMinEnchantability(i) && p_77505_0_ <= enchantment.getMaxEnchantability(i)) {
 						if (map == null) {
-							map = Maps.newHashMap();
+							map = new HashMap<>();
 						}
 
 						map.put(enchantment.effectId, new EnchantmentData(enchantment, i));

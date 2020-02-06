@@ -8,12 +8,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 
 import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class BlockStateMapper {
 
-	private Map<Block, IStateMapper> blockStateMap = Maps.newIdentityHashMap();
+	private Map<Block, IStateMapper> blockStateMap = new IdentityHashMap<>();
 	private Set<Block> setBuiltInBlocks = Sets.newIdentityHashSet();
 
 	public void registerBlockStateMapper(Block block, IStateMapper mapper) {
@@ -25,7 +26,7 @@ public class BlockStateMapper {
 	}
 
 	public Map<IBlockState, ModelResourceLocation> putAllStateModelLocations() {
-		Map<IBlockState, ModelResourceLocation> map = Maps.newIdentityHashMap();
+		Map<IBlockState, ModelResourceLocation> map = new IdentityHashMap<>();
 
 		for (Block block : Block.blockRegistry)
 			if (!this.setBuiltInBlocks.contains(block))

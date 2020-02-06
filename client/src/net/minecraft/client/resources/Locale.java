@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class Locale {
 	 */
 	private static final Splitter splitter = Splitter.on('=').limit(2);
 	private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
-	Map<String, String> properties = Maps.newHashMap();
+	Map<String, String> properties = new HashMap<>();
 	private boolean unicode;
 
 	/**

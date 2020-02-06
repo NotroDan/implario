@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.block.model;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,10 +11,7 @@ import com.google.gson.JsonParseException;
 
 import java.io.Reader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import net.minecraft.client.resources.model.ModelRotation;
@@ -23,13 +19,12 @@ import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelBlockDefinition {
-
 	static final Gson GSON = new GsonBuilder()
 			.registerTypeAdapter(ModelBlockDefinition.class, new ModelBlockDefinition.Deserializer())
 			.registerTypeAdapter(             Variant.class, new Variant.Deserializer())
 			.create();
 
-	private final Map<String, ModelBlockDefinition.Variants> mapVariants = Maps.newHashMap();
+	private final Map<String, ModelBlockDefinition.Variants> mapVariants = new HashMap<>();
 
 	public static ModelBlockDefinition parseFromReader(Reader reader) {
 		return GSON.fromJson(reader, ModelBlockDefinition.class);

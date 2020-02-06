@@ -1,15 +1,10 @@
 package net.minecraft.util;
 
-import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ParticleType {
 
-	private static final Map<Integer, ParticleType> PARTICLES = Maps.newHashMap();
+	private static final Map<Integer, ParticleType> PARTICLES = new HashMap<>();
 	private static final List<String> PARTICLE_NAMES = new ArrayList<>();
 	public static final ParticleType
 			EXPLOSION_NORMAL = new ParticleType("explode", 0, true),

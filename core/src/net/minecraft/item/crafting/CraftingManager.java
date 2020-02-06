@@ -10,11 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CraftingManager {
 
@@ -230,7 +226,7 @@ public class CraftingManager {
 
 		Map<Character, ItemStack> map;
 
-		for (map = Maps.newHashMap(); i < recipeComponents.length; i += 2) {
+		for (map = new HashMap<>(); i < recipeComponents.length; i += 2) {
 			Character character = (Character) recipeComponents[i];
 			ItemStack itemstack = null;
 

@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PreYggdrasilConverter {
 
@@ -68,7 +69,7 @@ public class PreYggdrasilConverter {
 			}
 
 			try {
-				final Map<String, String[]> map = Maps.newHashMap();
+				final Map<String, String[]> map = new HashMap<>();
 				readFile(OLD_PLAYERBAN_FILE, map);
 				ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
 					public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_) {
@@ -122,7 +123,7 @@ public class PreYggdrasilConverter {
 			}
 
 			try {
-				Map<String, String[]> map = Maps.newHashMap();
+				Map<String, String[]> map = new HashMap<>();
 				readFile(OLD_IPBAN_FILE, map);
 
 				for (String s : map.keySet()) {
@@ -246,7 +247,7 @@ public class PreYggdrasilConverter {
 						PreYggdrasilConverter.LOGGER.warn("Could not lookup user whitelist entry for " + p_onProfileLookupFailed_1_.getName(), p_onProfileLookupFailed_2_);
 					}
 				};
-				lookupNames(minecraftserver, Lists.newArrayList(p_152719_0_), profilelookupcallback);
+				lookupNames(minecraftserver, Collections.singletonList(p_152719_0_), profilelookupcallback);
 				return list.size() > 0 && list.get(0).getId() != null ? list.get(0).getId().toString() : "";
 			}
 			return Player.getUUID(new GameProfile(null, p_152719_0_)).toString();

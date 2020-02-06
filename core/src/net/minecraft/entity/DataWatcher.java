@@ -12,6 +12,7 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -25,8 +26,8 @@ public class DataWatcher {
 	 * When isBlank is true the DataWatcher is not watching any objects
 	 */
 	private boolean isBlank = true;
-	private static final Map<Class<?>, Integer> dataTypes = Maps.newHashMap();
-	private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.newHashMap();
+	private static final Map<Class<?>, Integer> dataTypes = new HashMap<>();
+	private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = new HashMap<>();
 
 	/**
 	 * true if one or more object was changed

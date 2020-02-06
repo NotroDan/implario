@@ -5,18 +5,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
-	private static final Set<Class<?>> field_181158_a = Sets.newHashSet();
-	private final Map<Class<?>, List<T>> map = Maps.newHashMap();
-	private final Set<Class<?>> knownKeys = Sets.newIdentityHashSet();
+	private static final Set<Class<?>> field_181158_a = new HashSet<>();
+	private final Map<Class<?>, List<T>> map = new HashMap<>();
+	private final Set<Class<?>> knownKeys = Collections.newSetFromMap(new HashMap<>());
 	private final Class<T> baseClass;
 	private final List<T> field_181745_e = new ArrayList<>();
 
@@ -67,7 +63,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 		List<T> list = (List) this.map.get(p_181743_2_);
 
 		if (list == null) {
-			this.map.put(p_181743_2_, Lists.newArrayList(p_181743_1_));
+			this.map.put(p_181743_2_, Collections.singletonList(p_181743_1_));
 		} else {
 			list.add(p_181743_1_);
 		}

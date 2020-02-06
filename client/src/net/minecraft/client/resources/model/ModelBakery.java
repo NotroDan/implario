@@ -47,12 +47,12 @@ public class ModelBakery {
 			new ResourceLocation("items/empty_armor_slot_chestplate"), new ResourceLocation("items/empty_armor_slot_leggings"), new ResourceLocation("items/empty_armor_slot_boots"));
 	private static final Log LOGGER = Log.MAIN;
 	protected static final ModelResourceLocation MODEL_MISSING = new ModelResourceLocation("builtin/missing", "missing");
-	private static final Map<String, String> BUILT_IN_MODELS = Maps.newHashMap();
+	private static final Map<String, String> BUILT_IN_MODELS = new HashMap<>();
 	private static final Joiner JOINER = Joiner.on(" -> ");
 	private final IResourceManager resourceManager;
-	public final Map<ResourceLocation, TextureAtlasSprite> sprites = Maps.newHashMap();
-	private final Map<ResourceLocation, ModelBlock> models = Maps.newLinkedHashMap();
-	private final Map<ModelResourceLocation, ModelBlockDefinition.Variants> variants = Maps.newLinkedHashMap();
+	public final Map<ResourceLocation, TextureAtlasSprite> sprites = new HashMap<>();
+	private final Map<ResourceLocation, ModelBlock> models = new LinkedHashMap<>();
+	private final Map<ModelResourceLocation, ModelBlockDefinition.Variants> variants = new LinkedHashMap<>();
 	private final TextureMap textureMap;
 	private final BlockModelShapes blockModelShapes;
 	private final FaceBakery faceBakery = new FaceBakery();
@@ -66,9 +66,9 @@ public class ModelBakery {
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
 	private static final ModelBlock MODEL_ENTITY = ModelBlock.readJsonModel(
 			"{\"elements\":[{  \"from\": [0, 0, 0],   \"to\": [16, 16, 16],   \"faces\": {       \"down\": {\"uv\": [0, 0, 16, 16], \"texture\":\"\"}   }}]}");
-	private Map<String, ResourceLocation> itemLocations = Maps.newLinkedHashMap();
-	private final Map<ResourceLocation, ModelBlockDefinition> blockDefinitions = Maps.newHashMap();
-	private Map<Item, List<String>> variantNames = Maps.newIdentityHashMap();
+	private Map<String, ResourceLocation> itemLocations = new LinkedHashMap<>();
+	private final Map<ResourceLocation, ModelBlockDefinition> blockDefinitions = new HashMap<>();
+	private Map<Item, List<String>> variantNames = new IdentityHashMap<>();
 
 	public ModelBakery(IResourceManager p_i46085_1_, TextureMap p_i46085_2_, BlockModelShapes p_i46085_3_) {
 		this.resourceManager = p_i46085_1_;
@@ -93,7 +93,7 @@ public class ModelBakery {
 	private void loadVariantItemModels() {
 		Collection<ModelResourceLocation> models = this.blockModelShapes.getBlockStateMapper().putAllStateModelLocations().values();
 		this.loadVariants(models);
-		this.variants.put(MODEL_MISSING, new ModelBlockDefinition.Variants(MODEL_MISSING.getVariant(), Lists.newArrayList(
+		this.variants.put(MODEL_MISSING, new ModelBlockDefinition.Variants(MODEL_MISSING.getVariant(), Collections.singletonList(
 				new ModelBlockDefinition.Variant(new ResourceLocation(MODEL_MISSING.getResourcePath()), ModelRotation.X0_Y0, false, 1))));
 		ResourceLocation resourcelocation = new ResourceLocation("item_frame");
 		ModelBlockDefinition modelblockdefinition = this.getModelBlockDefinition(resourcelocation);
@@ -258,62 +258,62 @@ public class ModelBakery {
 	}
 
 	private void registerVariantNames() {
-		this.variantNames.put(Item.getItemFromBlock(Blocks.stone), Lists.newArrayList("stone", "granite", "granite_smooth", "diorite", "diorite_smooth", "andesite", "andesite_smooth"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.dirt), Lists.newArrayList("dirt", "coarse_dirt", "podzol"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.planks), Lists.newArrayList("oak_planks", "spruce_planks", "birch_planks", "jungle_planks", "acacia_planks", "dark_oak_planks"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.sapling), Lists.newArrayList("oak_sapling", "spruce_sapling", "birch_sapling", "jungle_sapling", "acacia_sapling", "dark_oak_sapling"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.sand), Lists.newArrayList("sand", "red_sand"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.log), Lists.newArrayList("oak_log", "spruce_log", "birch_log", "jungle_log"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.leaves), Lists.newArrayList("oak_leaves", "spruce_leaves", "birch_leaves", "jungle_leaves"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.sponge), Lists.newArrayList("sponge", "sponge_wet"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.sandstone), Lists.newArrayList("sandstone", "chiseled_sandstone", "smooth_sandstone"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.red_sandstone), Lists.newArrayList("red_sandstone", "chiseled_red_sandstone", "smooth_red_sandstone"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.tallgrass), Lists.newArrayList("dead_bush", "tall_grass", "fern"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.deadbush), Lists.newArrayList("dead_bush"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.wool), Lists.newArrayList("black_wool", "red_wool", "green_wool", "brown_wool", "blue_wool", "purple_wool", "cyan_wool", "silver_wool",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.stone), Arrays.asList("stone", "granite", "granite_smooth", "diorite", "diorite_smooth", "andesite", "andesite_smooth"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.dirt), Arrays.asList("dirt", "coarse_dirt", "podzol"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.planks), Arrays.asList("oak_planks", "spruce_planks", "birch_planks", "jungle_planks", "acacia_planks", "dark_oak_planks"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.sapling), Arrays.asList("oak_sapling", "spruce_sapling", "birch_sapling", "jungle_sapling", "acacia_sapling", "dark_oak_sapling"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.sand), Arrays.asList("sand", "red_sand"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.log), Arrays.asList("oak_log", "spruce_log", "birch_log", "jungle_log"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.leaves), Arrays.asList("oak_leaves", "spruce_leaves", "birch_leaves", "jungle_leaves"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.sponge), Arrays.asList("sponge", "sponge_wet"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.sandstone), Arrays.asList("sandstone", "chiseled_sandstone", "smooth_sandstone"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.red_sandstone), Arrays.asList("red_sandstone", "chiseled_red_sandstone", "smooth_red_sandstone"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.tallgrass), Arrays.asList("dead_bush", "tall_grass", "fern"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.deadbush), Collections.singletonList("dead_bush"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.wool), Arrays.asList("black_wool", "red_wool", "green_wool", "brown_wool", "blue_wool", "purple_wool", "cyan_wool", "silver_wool",
 				"gray_wool", "pink_wool", "lime_wool", "yellow_wool", "light_blue_wool", "magenta_wool", "orange_wool", "white_wool"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.yellow_flower), Lists.newArrayList("dandelion"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.red_flower), Lists.newArrayList("poppy", "blue_orchid", "allium", "houstonia", "red_tulip", "orange_tulip", "white_tulip", "pink_tulip",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.yellow_flower), Collections.singletonList("dandelion"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.red_flower), Arrays.asList("poppy", "blue_orchid", "allium", "houstonia", "red_tulip", "orange_tulip", "white_tulip", "pink_tulip",
 				"oxeye_daisy"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.stone_slab), Lists.newArrayList("stone_slab", "sandstone_slab", "cobblestone_slab", "brick_slab", "stone_brick_slab", "nether_brick_slab",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.stone_slab), Arrays.asList("stone_slab", "sandstone_slab", "cobblestone_slab", "brick_slab", "stone_brick_slab", "nether_brick_slab",
 				"quartz_slab"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.stone_slab2), Lists.newArrayList("red_sandstone_slab"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.stained_glass), Lists.newArrayList("black_stained_glass", "red_stained_glass", "green_stained_glass", "brown_stained_glass",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.stone_slab2), Collections.singletonList("red_sandstone_slab"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.stained_glass), Arrays.asList("black_stained_glass", "red_stained_glass", "green_stained_glass", "brown_stained_glass",
 				"blue_stained_glass", "purple_stained_glass", "cyan_stained_glass", "silver_stained_glass", "gray_stained_glass", "pink_stained_glass", "lime_stained_glass", "yellow_stained_glass",
 				"light_blue_stained_glass", "magenta_stained_glass", "orange_stained_glass", "white_stained_glass"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.monster_egg), Lists.newArrayList("stone_monster_egg", "cobblestone_monster_egg", "stone_brick_monster_egg", "mossy_brick_monster_egg",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.monster_egg), Arrays.asList("stone_monster_egg", "cobblestone_monster_egg", "stone_brick_monster_egg", "mossy_brick_monster_egg",
 				"cracked_brick_monster_egg", "chiseled_brick_monster_egg"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.stonebrick), Lists.newArrayList("stonebrick", "mossy_stonebrick", "cracked_stonebrick", "chiseled_stonebrick"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.wooden_slab), Lists.newArrayList("oak_slab", "spruce_slab", "birch_slab", "jungle_slab", "acacia_slab", "dark_oak_slab"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.cobblestone_wall), Lists.newArrayList("cobblestone_wall", "mossy_cobblestone_wall"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.anvil), Lists.newArrayList("anvil_intact", "anvil_slightly_damaged", "anvil_very_damaged"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.quartz_block), Lists.newArrayList("quartz_block", "chiseled_quartz_block", "quartz_column"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.stained_hardened_clay), Lists.newArrayList("black_stained_hardened_clay", "red_stained_hardened_clay", "green_stained_hardened_clay",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.stonebrick), Arrays.asList("stonebrick", "mossy_stonebrick", "cracked_stonebrick", "chiseled_stonebrick"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.wooden_slab), Arrays.asList("oak_slab", "spruce_slab", "birch_slab", "jungle_slab", "acacia_slab", "dark_oak_slab"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.cobblestone_wall), Arrays.asList("cobblestone_wall", "mossy_cobblestone_wall"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.anvil), Arrays.asList("anvil_intact", "anvil_slightly_damaged", "anvil_very_damaged"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.quartz_block), Arrays.asList("quartz_block", "chiseled_quartz_block", "quartz_column"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.stained_hardened_clay), Arrays.asList("black_stained_hardened_clay", "red_stained_hardened_clay", "green_stained_hardened_clay",
 				"brown_stained_hardened_clay", "blue_stained_hardened_clay", "purple_stained_hardened_clay", "cyan_stained_hardened_clay", "silver_stained_hardened_clay", "gray_stained_hardened_clay",
 				"pink_stained_hardened_clay", "lime_stained_hardened_clay", "yellow_stained_hardened_clay", "light_blue_stained_hardened_clay", "magenta_stained_hardened_clay",
 				"orange_stained_hardened_clay", "white_stained_hardened_clay"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.stained_glass_pane), Lists.newArrayList("black_stained_glass_pane", "red_stained_glass_pane", "green_stained_glass_pane",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.stained_glass_pane), Arrays.asList("black_stained_glass_pane", "red_stained_glass_pane", "green_stained_glass_pane",
 				"brown_stained_glass_pane", "blue_stained_glass_pane", "purple_stained_glass_pane", "cyan_stained_glass_pane", "silver_stained_glass_pane", "gray_stained_glass_pane",
 				"pink_stained_glass_pane", "lime_stained_glass_pane", "yellow_stained_glass_pane", "light_blue_stained_glass_pane", "magenta_stained_glass_pane", "orange_stained_glass_pane",
 				"white_stained_glass_pane"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.leaves2), Lists.newArrayList("acacia_leaves", "dark_oak_leaves"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.log2), Lists.newArrayList("acacia_log", "dark_oak_log"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.prismarine), Lists.newArrayList("prismarine", "prismarine_bricks", "dark_prismarine"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.carpet), Lists.newArrayList("black_carpet", "red_carpet", "green_carpet", "brown_carpet", "blue_carpet", "purple_carpet", "cyan_carpet",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.leaves2), Arrays.asList("acacia_leaves", "dark_oak_leaves"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.log2), Arrays.asList("acacia_log", "dark_oak_log"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.prismarine), Arrays.asList("prismarine", "prismarine_bricks", "dark_prismarine"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.carpet), Arrays.asList("black_carpet", "red_carpet", "green_carpet", "brown_carpet", "blue_carpet", "purple_carpet", "cyan_carpet",
 				"silver_carpet", "gray_carpet", "pink_carpet", "lime_carpet", "yellow_carpet", "light_blue_carpet", "magenta_carpet", "orange_carpet", "white_carpet"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.double_plant), Lists.newArrayList("sunflower", "syringa", "double_grass", "double_fern", "double_rose", "paeonia"));
-		this.variantNames.put(Items.bow, Lists.newArrayList("bow", "bow_pulling_0", "bow_pulling_1", "bow_pulling_2"));
-		this.variantNames.put(Items.coal, Lists.newArrayList("coal", "charcoal"));
-		this.variantNames.put(Items.fishing_rod, Lists.newArrayList("fishing_rod", "fishing_rod_cast"));
-		this.variantNames.put(Items.fish, Lists.newArrayList("cod", "salmon", "clownfish", "pufferfish"));
-		this.variantNames.put(Items.cooked_fish, Lists.newArrayList("cooked_cod", "cooked_salmon"));
-		this.variantNames.put(Items.dye, Lists.newArrayList("dye_black", "dye_red", "dye_green", "dye_brown", "dye_blue", "dye_purple", "dye_cyan", "dye_silver", "dye_gray", "dye_pink", "dye_lime",
+		this.variantNames.put(Item.getItemFromBlock(Blocks.double_plant), Arrays.asList("sunflower", "syringa", "double_grass", "double_fern", "double_rose", "paeonia"));
+		this.variantNames.put(Items.bow, Arrays.asList("bow", "bow_pulling_0", "bow_pulling_1", "bow_pulling_2"));
+		this.variantNames.put(Items.coal, Arrays.asList("coal", "charcoal"));
+		this.variantNames.put(Items.fishing_rod, Arrays.asList("fishing_rod", "fishing_rod_cast"));
+		this.variantNames.put(Items.fish, Arrays.asList("cod", "salmon", "clownfish", "pufferfish"));
+		this.variantNames.put(Items.cooked_fish, Arrays.asList("cooked_cod", "cooked_salmon"));
+		this.variantNames.put(Items.dye, Arrays.asList("dye_black", "dye_red", "dye_green", "dye_brown", "dye_blue", "dye_purple", "dye_cyan", "dye_silver", "dye_gray", "dye_pink", "dye_lime",
 				"dye_yellow", "dye_light_blue", "dye_magenta", "dye_orange", "dye_white"));
-		this.variantNames.put(Items.potionitem, Lists.newArrayList("bottle_drinkable", "bottle_splash"));
-		this.variantNames.put(Items.skull, Lists.newArrayList("skull_skeleton", "skull_wither", "skull_zombie", "skull_char", "skull_creeper"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.oak_fence_gate), Lists.newArrayList("oak_fence_gate"));
-		this.variantNames.put(Item.getItemFromBlock(Blocks.oak_fence), Lists.newArrayList("oak_fence"));
-		this.variantNames.put(Items.oak_door, Lists.newArrayList("oak_door"));
+		this.variantNames.put(Items.potionitem, Arrays.asList("bottle_drinkable", "bottle_splash"));
+		this.variantNames.put(Items.skull, Arrays.asList("skull_skeleton", "skull_wither", "skull_zombie", "skull_char", "skull_creeper"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.oak_fence_gate), Collections.singletonList("oak_fence_gate"));
+		this.variantNames.put(Item.getItemFromBlock(Blocks.oak_fence), Collections.singletonList("oak_fence"));
+		this.variantNames.put(Items.oak_door, Collections.singletonList("oak_door"));
 	}
 
 	private List<String> getVariantNames(Item p_177596_1_) {
@@ -470,7 +470,7 @@ public class ModelBakery {
 	}
 
 	private List<ResourceLocation> getParentPath(ResourceLocation p_177573_1_) {
-		List<ResourceLocation> list = Lists.newArrayList(p_177573_1_);
+		List<ResourceLocation> list = Arrays.asList(p_177573_1_);
 		ResourceLocation resourcelocation = p_177573_1_;
 
 		while ((resourcelocation = this.getParentLocation(resourcelocation)) != null) {

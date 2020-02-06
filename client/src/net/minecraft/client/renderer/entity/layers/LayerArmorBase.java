@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.entity.layers;
 
-import com.google.common.collect.Maps;
 import net.minecraft.client.game.model.ModelBase;
 import net.minecraft.client.renderer.G;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
@@ -14,17 +13,15 @@ import optifine.CustomItems;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class LayerArmorBase<T extends ModelBase> implements LayerRenderer<EntityLivingBase> {
-
 	protected static final ResourceLocation ENCHANTED_ITEM_GLINT_RES = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 	protected ModelBase field_177189_c;
 	protected ModelBase field_177186_d;
 	private final RendererLivingEntity renderer;
-	private boolean field_177193_i;
-	private static final Map ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
-
+	private static final Map ARMOR_TEXTURE_RES_MAP = new HashMap();
 
 	public LayerArmorBase(RendererLivingEntity rendererIn) {
 		this.renderer = rendererIn;
@@ -84,7 +81,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 					modelbase.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
 			}
 
-			if (!this.field_177193_i && itemstack.isItemEnchanted() && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemstack, modelbase, p_177182_2_,
+			if (itemstack.isItemEnchanted() && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemstack, modelbase, p_177182_2_,
 					p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_))) {
 				this.func_177183_a(entitylivingbaseIn, modelbase, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
 			}

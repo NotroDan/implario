@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class BlockNote extends BlockContainer {
 
-	private static final List<String> INSTRUMENTS = Lists.newArrayList(new String[] {"harp", "bd", "snare", "hat", "bassattack"});
+	private static final List<String> INSTRUMENTS = Lists.newArrayList("harp", "bd", "snare", "hat", "bassattack");
 
 	public BlockNote() {
 		super(Material.wood);

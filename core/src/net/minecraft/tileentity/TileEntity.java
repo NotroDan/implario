@@ -12,13 +12,14 @@ import net.minecraft.network.Packet;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class TileEntity {
 
 	private static final Log logger = Log.MAIN;
-	private static Map<String, Class<? extends TileEntity>> nameToClassMap = Maps.newHashMap();
-	private static Map<Class<? extends TileEntity>, String> classToNameMap = Maps.newHashMap();
+	private static Map<String, Class<? extends TileEntity>> nameToClassMap = new HashMap<>();
+	private static Map<Class<? extends TileEntity>, String> classToNameMap = new HashMap<>();
 
 	/**
 	 * the instance of the world the tile entity is in.

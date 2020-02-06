@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.settings.Settings;
 import net.minecraft.item.ItemStack;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class IconButton extends SettingButton implements HoverButton {
 	}
 
 	public IconButton setHoverText(String... text) {
-		hoverText = Lists.newArrayList(text);
+		hoverText = Arrays.asList(text);
 		return this;
 	}
 

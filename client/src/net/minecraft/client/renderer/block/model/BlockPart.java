@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -80,7 +81,7 @@ public class BlockPart {
 			rotation = new BlockPartRotation(v3f, axis, f, flag);
 		}
 
-		Map<EnumFacing, BlockPartFace> faces = Maps.newEnumMap(EnumFacing.class);
+		Map<EnumFacing, BlockPartFace> faces = new EnumMap<>(EnumFacing.class);
 		int max = unzip.getInt();
 		for (int i = 0; i < max; i++)
 			faces.put(EnumFacing.VALUES[unzip.getInt()], BlockPartFace.deserialize(unzip.getBytes()));
@@ -189,7 +190,7 @@ public class BlockPart {
 		}
 
 		private Map<EnumFacing, BlockPartFace> parseFaces(JsonDeserializationContext p_178253_1_, JsonObject p_178253_2_) {
-			Map<EnumFacing, BlockPartFace> map = Maps.newEnumMap(EnumFacing.class);
+			Map<EnumFacing, BlockPartFace> map = new EnumMap<>(EnumFacing.class);
 			JsonObject jsonobject = JsonUtils.getJsonObject(p_178253_2_, "faces");
 
 			for (Entry<String, JsonElement> entry : jsonobject.entrySet()) {

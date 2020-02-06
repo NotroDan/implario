@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.IllegalFormatException;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -28,7 +29,7 @@ public class StringTranslate {
 	 * Is the private singleton instance of StringTranslate.
 	 */
 	private static StringTranslate instance = new StringTranslate();
-	private final Map<String, String> languageList = Maps.newHashMap();
+	private final Map<String, String> languageList = new HashMap<>();
 
 	/**
 	 * The time, in milliseconds since epoch, that this instance was last updated

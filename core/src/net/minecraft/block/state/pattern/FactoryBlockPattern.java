@@ -1,15 +1,15 @@
 package net.minecraft.block.state.pattern;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.Maps;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 
 import net.minecraft.block.state.BlockWorldState;
 import org.apache.commons.lang3.ArrayUtils;
@@ -19,12 +19,12 @@ public class FactoryBlockPattern {
 
 	private static final Joiner COMMA_JOIN = Joiner.on(",");
 	private final List<String[]> depth = new ArrayList<>();
-	private final Map<Character, Predicate<BlockWorldState>> symbolMap = Maps.newHashMap();
+	private final Map<Character, Predicate<BlockWorldState>> symbolMap = new HashMap<>();
 	private int aisleHeight;
 	private int rowWidth;
 
 	private FactoryBlockPattern() {
-		this.symbolMap.put(' ', Predicates.alwaysTrue());
+		this.symbolMap.put(' ', (__) -> true);
 	}
 
 	public FactoryBlockPattern aisle(String... aisle) {
@@ -70,7 +70,7 @@ public class FactoryBlockPattern {
 
 	private Predicate<BlockWorldState>[][][] makePredicateArray() {
 		this.checkMissingPredicates();
-		Predicate<BlockWorldState>[][][] predicate = (Predicate[][][]) (Predicate[][][]) Array.newInstance(Predicate.class, new int[] {this.depth.size(), this.aisleHeight, this.rowWidth});
+		Predicate<BlockWorldState>[][][] predicate = (Predicate[][][])Array.newInstance(Predicate.class, new int[] {this.depth.size(), this.aisleHeight, this.rowWidth});
 
 		for (int i = 0; i < this.depth.size(); ++i) {
 			for (int j = 0; j < this.aisleHeight; ++j) {

@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class ShaderGroup {
 	private IResourceManager resourceManager;
 	private String shaderGroupName;
 	private final List<Shader> listShaders = new ArrayList<>();
-	private final Map<String, Framebuffer> mapFramebuffers = Maps.newHashMap();
+	private final Map<String, Framebuffer> mapFramebuffers = new HashMap<>();
 	private final List<Framebuffer> listFramebuffers = new ArrayList<>();
 	private Matrix4f projectionMatrix;
 	private int mainFramebufferWidth;

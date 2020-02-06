@@ -1,7 +1,6 @@
 package vanilla.world.gen.structure;
 
-import com.google.common.collect.Maps;
-
+import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.logging.Log;
@@ -10,10 +9,10 @@ import net.minecraft.world.World;
 
 public class MapGenStructureIO {
 	private static final Log logger = Log.MAIN;
-	private static Map<String, Class<? extends StructureStart>> startNameToClassMap = Maps.newHashMap();
-	private static Map<Class<? extends StructureStart>, String> startClassToNameMap = Maps.newHashMap();
-	private static Map<String, Class<? extends StructureComponent>> componentNameToClassMap = Maps.newHashMap();
-	private static Map<Class<? extends StructureComponent>, String> componentClassToNameMap = Maps.newHashMap();
+	private static Map<String, Class<? extends StructureStart>> startNameToClassMap = new HashMap<>();
+	private static Map<Class<? extends StructureStart>, String> startClassToNameMap = new HashMap<>();
+	private static Map<String, Class<? extends StructureComponent>> componentNameToClassMap = new HashMap<>();
+	private static Map<Class<? extends StructureComponent>, String> componentClassToNameMap = new HashMap<>();
 
 	private static void registerStructure(Class<? extends StructureStart> startClass, String structureName) {
 		startNameToClassMap.put(structureName, startClass);

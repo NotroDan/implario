@@ -28,11 +28,12 @@ import vanilla.world.gen.feature.village.VillageCollection;
 import vanilla.world.gen.feature.village.VillageSiege;
 import vanilla.world.gen.provider.VanillaChunkProvider;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class VanillaWorldServer extends WorldServer {
 
-	private static final List<WeightedRandomChestContent> bonusChestContent = Lists.newArrayList(
+	private static final List<WeightedRandomChestContent> bonusChestContent = Arrays.asList(
 			new WeightedRandomChestContent(Items.stick, 0, 1, 3, 10),
 			new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.planks), 0, 1, 3, 10),
 			new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log), 0, 1, 3, 10), new WeightedRandomChestContent(Items.stone_axe, 0, 1, 1, 3),

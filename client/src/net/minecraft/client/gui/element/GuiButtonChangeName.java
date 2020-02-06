@@ -1,15 +1,15 @@
 package net.minecraft.client.gui.element;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.HoverButton;
 import net.minecraft.client.renderer.G;
 
+import java.util.Collections;
 import java.util.List;
 
 public class GuiButtonChangeName extends GuiButton implements HoverButton {
 
-	private static final List<String> hover = Lists.newArrayList("Изменить имя");
+	private static final List<String> hover = Collections.singletonList("Изменить имя");
 
 	public GuiButtonChangeName(int buttonID, int xPos, int yPos) {
 		super(buttonID, xPos, yPos, 20, 20, "");

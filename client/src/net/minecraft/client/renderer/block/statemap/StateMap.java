@@ -1,11 +1,6 @@
 package net.minecraft.client.renderer.block.statemap;
 
-import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -26,7 +21,7 @@ public class StateMap extends StateMapperBase {
 	}
 
 	protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-		Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
+		Map<IProperty, Comparable> map = new LinkedHashMap<>(state.getProperties());
 		String s;
 
 		if (this.name == null) {

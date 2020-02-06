@@ -1,8 +1,7 @@
 package net.minecraft.stats;
 
-import com.google.common.collect.Maps;
-
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.entity.player.Player;
 import net.minecraft.util.IJsonSerializable;
@@ -10,7 +9,7 @@ import net.minecraft.util.TupleIntJsonSerializable;
 
 public class StatFileWriter {
 
-	protected final Map<StatBase, TupleIntJsonSerializable> statsData = Maps.newConcurrentMap();
+	protected final Map<StatBase, TupleIntJsonSerializable> statsData = new ConcurrentHashMap<>();
 
 	/**
 	 * Returns true if the achievement has been unlocked.

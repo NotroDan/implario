@@ -126,12 +126,12 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	 * Stores blocks currently being broken. Key is entity ID of the thing doing the breaking. Value is a
 	 * DestroyBlockProgress
 	 */
-	public final Map damagedBlocks = Maps.newHashMap();
+	public final Map damagedBlocks = new HashMap();
 
 	/**
 	 * Currently playing sounds.  Type:  HashMap<ChunkCoordinates, ISound>
 	 */
-	private final Map mapSoundPositions = Maps.newHashMap();
+	private final Map mapSoundPositions = new HashMap();
 	private final TextureAtlasSprite[] destroyBlockIcons = new TextureAtlasSprite[10];
 	private Framebuffer entityOutlineFramebuffer;
 

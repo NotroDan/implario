@@ -1,7 +1,6 @@
 package net.minecraft.block.state.pattern;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Predicate;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
 import net.minecraft.block.state.BlockWorldState;
@@ -9,6 +8,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
+
+import java.util.function.Predicate;
 
 public class BlockPattern {
 
@@ -50,7 +51,7 @@ public class BlockPattern {
 		for (int i = 0; i < this.palmLength; ++i) {
 			for (int j = 0; j < this.thumbLength; ++j) {
 				for (int k = 0; k < this.fingerLength; ++k) {
-					if (!this.blockMatches[k][j][i].apply(lcache.getUnchecked(translateOffset(pos, finger, thumb, i, j, k)))) {
+					if (!this.blockMatches[k][j][i].test(lcache.getUnchecked(translateOffset(pos, finger, thumb, i, j, k)))) {
 						return null;
 					}
 				}

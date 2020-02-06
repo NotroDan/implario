@@ -1,6 +1,5 @@
 package vanilla.world.gen;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -8,6 +7,7 @@ import net.minecraft.util.MathHelper;
 import vanilla.world.biome.BiomeGenBase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 public class FlatGeneratorInfo {
 
 	private final List<FlatLayerInfo> flatLayers = new ArrayList<>();
-	private final Map<String, Map<String, String>> worldFeatures = Maps.newHashMap();
+	private final Map<String, Map<String, String>> worldFeatures = new HashMap<>();
 	private int biomeToUse;
 
 	/**
@@ -206,7 +206,7 @@ public class FlatGeneratorInfo {
 
 			for (String s : astring1) {
 				String[] astring2 = s.split("\\(", 2);
-				Map<String, String> map = Maps.newHashMap();
+				Map<String, String> map = new HashMap<>();
 
 				if (astring2[0].length() > 0) {
 					flatgeneratorinfo.getWorldFeatures().put(astring2[0], map);
@@ -225,7 +225,7 @@ public class FlatGeneratorInfo {
 				}
 			}
 		} else {
-			flatgeneratorinfo.getWorldFeatures().put("village", Maps.newHashMap());
+			flatgeneratorinfo.getWorldFeatures().put("village", new HashMap<>());
 		}
 
 		return flatgeneratorinfo;
@@ -238,7 +238,7 @@ public class FlatGeneratorInfo {
 		flatgeneratorinfo.getFlatLayers().add(new FlatLayerInfo(2, Blocks.dirt));
 		flatgeneratorinfo.getFlatLayers().add(new FlatLayerInfo(1, Blocks.grass));
 		flatgeneratorinfo.func_82645_d();
-		flatgeneratorinfo.getWorldFeatures().put("village", Maps.newHashMap());
+		flatgeneratorinfo.getWorldFeatures().put("village", new HashMap<>());
 		return flatgeneratorinfo;
 	}
 

@@ -10,17 +10,14 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UserList<K, V extends UserListEntry<K>> {
 
 	protected static final Log logger = Log.MAIN;
 	protected final Gson gson;
 	private final File saveFile;
-	private final Map<String, V> values = Maps.newHashMap();
+	private final Map<String, V> values = new HashMap<>();
 	private boolean lanServer = true;
 	private static final ParameterizedType saveFileFormat = new ParameterizedType() {
 		public Type[] getActualTypeArguments() {

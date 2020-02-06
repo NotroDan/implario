@@ -1,10 +1,9 @@
 package net.minecraft.block.state.pattern;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Maps;
-
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -14,7 +13,7 @@ import net.minecraft.block.state.IBlockState;
 public class BlockStateHelper implements Predicate<IBlockState> {
 
 	private final BlockState blockstate;
-	private final Map<IProperty, Predicate> propertyPredicates = Maps.newHashMap();
+	private final Map<IProperty, Predicate> propertyPredicates = new HashMap<>();
 
 	private BlockStateHelper(BlockState blockStateIn) {
 		this.blockstate = blockStateIn;
@@ -24,12 +23,12 @@ public class BlockStateHelper implements Predicate<IBlockState> {
 		return new BlockStateHelper(blockIn.getBlockState());
 	}
 
-	public boolean apply(IBlockState p_apply_1_) {
+	public boolean test(IBlockState p_apply_1_) {
 		if (p_apply_1_ != null && p_apply_1_.getBlock().equals(this.blockstate.getBlock())) {
 			for (Entry<IProperty, Predicate> entry : this.propertyPredicates.entrySet()) {
 				Object object = p_apply_1_.getValue((IProperty) entry.getKey());
 
-				if (!((Predicate) entry.getValue()).apply(object)) {
+				if (!entry.getValue().test(object)) {
 					return false;
 				}
 			}

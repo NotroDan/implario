@@ -1,11 +1,6 @@
 package net.minecraft.client.game.model;
 
-import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,7 +11,7 @@ public abstract class ModelBase {
 	public boolean isRiding;
 	public boolean isChild = true;
 	public List<ModelRenderer> boxList = new ArrayList<>();
-	private Map<String, TextureOffset> modelTextureMap = Maps.newHashMap();
+	private final Map<String, TextureOffset> modelTextureMap = new HashMap<>();
 	public int textureWidth = 64;
 	public int textureHeight = 32;
 

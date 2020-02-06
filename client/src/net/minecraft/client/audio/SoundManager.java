@@ -18,10 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 public class SoundManager {
@@ -50,21 +47,15 @@ public class SoundManager {
 	 * A counter for how long the sound manager has been running
 	 */
 	private int playTime = 0;
-	private final Map<String, ISound> playingSounds = HashBiMap.create();
-	private final Map<ISound, String> invPlayingSounds;
-	private Map<ISound, SoundPoolEntry> playingSoundPoolEntries;
-	private final Multimap<SoundCategory, String> categorySounds;
-	private final List<ITickableSound> tickableSounds;
-	private final Map<ISound, Integer> delayedSounds;
-	private final Map<String, Integer> playingSoundsStopTime;
+	private final BiMap<String, ISound> playingSounds = HashBiMap.create();
+	private final Map<ISound, String> invPlayingSounds = playingSounds.inverse();
+	private final Map<ISound, SoundPoolEntry> playingSoundPoolEntries = new HashMap<>();
+	private final Multimap<SoundCategory, String> categorySounds = HashMultimap.create();
+	private final List<ITickableSound> tickableSounds = new ArrayList<>();
+	private final Map<ISound, Integer> delayedSounds = new HashMap<>();
+	private final Map<String, Integer> playingSoundsStopTime = new HashMap<>();
 
 	public SoundManager(SoundHandler handler) {
-		this.invPlayingSounds = ((BiMap) this.playingSounds).inverse();
-		this.playingSoundPoolEntries = Maps.newHashMap();
-		this.categorySounds = HashMultimap.create();
-		this.tickableSounds = new ArrayList<>();
-		this.delayedSounds = Maps.newHashMap();
-		this.playingSoundsStopTime = Maps.newHashMap();
 		this.sndHandler = handler;
 
 		try {

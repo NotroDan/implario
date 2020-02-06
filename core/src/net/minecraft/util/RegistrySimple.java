@@ -4,10 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.logging.Log;
 import org.apache.commons.lang3.Validate;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RegistrySimple<K, V> implements IRegistry<K, V> {
 
@@ -15,7 +12,7 @@ public class RegistrySimple<K, V> implements IRegistry<K, V> {
 	protected final Map<K, V> registryObjects = this.createUnderlyingMap();
 
 	protected Map<K, V> createUnderlyingMap() {
-		return Maps.newHashMap();
+		return new HashMap<>();
 	}
 
 	public Map<K, V> getRegistryObjects() {

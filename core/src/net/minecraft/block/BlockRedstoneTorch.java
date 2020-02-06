@@ -2,10 +2,7 @@ package net.minecraft.block;
 
 import com.google.common.collect.Maps;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.CreativeTabs;
@@ -19,7 +16,7 @@ import net.minecraft.world.World;
 
 public class BlockRedstoneTorch extends BlockTorch {
 
-	private static Map<World, List<BlockRedstoneTorch.Toggle>> toggles = Maps.newHashMap();
+	private static Map<World, List<BlockRedstoneTorch.Toggle>> toggles = new HashMap<>();
 	private final boolean isOn;
 
 	private boolean isBurnedOut(World worldIn, BlockPos pos, boolean turnOff) {
@@ -27,7 +24,7 @@ public class BlockRedstoneTorch extends BlockTorch {
 			toggles.put(worldIn, new ArrayList<>());
 		}
 
-		List<BlockRedstoneTorch.Toggle> list = (List) toggles.get(worldIn);
+		List<BlockRedstoneTorch.Toggle> list = toggles.get(worldIn);
 
 		if (turnOff) {
 			list.add(new BlockRedstoneTorch.Toggle(pos, worldIn.getTotalWorldTime()));

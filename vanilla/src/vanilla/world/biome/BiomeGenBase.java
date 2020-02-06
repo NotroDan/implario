@@ -23,11 +23,7 @@ import net.minecraft.world.chunk.anvil.AnvilChunkPrimer;
 import vanilla.world.gen.NoiseGeneratorPerlin;
 import vanilla.world.gen.feature.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @SuppressWarnings ("StaticInitializerReferencesSubClass")
 public abstract class BiomeGenBase extends Biome {
@@ -47,7 +43,7 @@ public abstract class BiomeGenBase extends Biome {
 	protected static final BiomeGenBase.Height height_LowIslands = new BiomeGenBase.Height(0.2F, 0.3F);
 	protected static final BiomeGenBase.Height height_PartiallySubmerged = new BiomeGenBase.Height(-0.2F, 0.1F);
 
-	public static final Map<String, BiomeGenBase> BIOME_ID_MAP = Maps.newHashMap();
+	public static final Map<String, BiomeGenBase> BIOME_ID_MAP = new HashMap<>();
 	public static final BiomeGenBase
 			ocean = new BiomeGenOcean(0, "Ocean").setColor(0x000070).setHeight(height_Oceans),
 			plains = new BiomeGenPlains(1, "Plains").setColor(0x8db360),

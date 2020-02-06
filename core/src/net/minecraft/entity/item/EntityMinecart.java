@@ -973,7 +973,6 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		HOPPER(5, "MinecartHopper"),
 		COMMAND_BLOCK(6, "MinecartCommandBlock");
 
-		private static final Map<Integer, EntityMinecart.EnumMinecartType> ID_LOOKUP = Maps.newHashMap();
 		private final int networkID;
 		private final String name;
 
@@ -991,15 +990,8 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		}
 
 		public static EntityMinecart.EnumMinecartType byNetworkID(int id) {
-			EntityMinecart.EnumMinecartType entityminecart$enumminecarttype = (EntityMinecart.EnumMinecartType) ID_LOOKUP.get(id);
-			return entityminecart$enumminecarttype == null ? RIDEABLE : entityminecart$enumminecarttype;
-		}
-
-		static {
-			for (EntityMinecart.EnumMinecartType entityminecart$enumminecarttype : values()) {
-				ID_LOOKUP.put(entityminecart$enumminecarttype.getNetworkID(), entityminecart$enumminecarttype);
-			}
+			if(id > 6 || id < 0)return RIDEABLE;
+			return values()[id];
 		}
 	}
-
 }

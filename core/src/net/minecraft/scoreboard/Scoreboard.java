@@ -3,11 +3,7 @@ package net.minecraft.scoreboard;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.Player;
@@ -15,23 +11,23 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class Scoreboard {
 
-	private final Map<String, ScoreObjective> scoreObjectives = Maps.newHashMap();
-	private final Map<IScoreObjectiveCriteria, List<ScoreObjective>> scoreObjectiveCriterias = Maps.newHashMap();
-	private final Map<String, Map<ScoreObjective, Score>> entitiesScoreObjectives = Maps.newHashMap();
+	private final Map<String, ScoreObjective> scoreObjectives = new HashMap<>();
+	private final Map<IScoreObjectiveCriteria, List<ScoreObjective>> scoreObjectiveCriterias = new HashMap<>();
+	private final Map<String, Map<ScoreObjective, Score>> entitiesScoreObjectives = new HashMap<>();
 
 	/**
 	 * Index 0 is tab menu, 1 is sidebar, and 2 is below name
 	 */
 	private final ScoreObjective[] objectiveDisplaySlots = new ScoreObjective[19];
-	private final Map<String, ScorePlayerTeam> teams = Maps.newHashMap();
-	private final Map<String, ScorePlayerTeam> teamMemberships = Maps.newHashMap();
+	private final Map<String, ScorePlayerTeam> teams = new HashMap<>();
+	private final Map<String, ScorePlayerTeam> teamMemberships = new HashMap<>();
 	private static String[] field_178823_g = null;
 
 	/**
 	 * Returns a ScoreObjective for the objective name
 	 */
 	public ScoreObjective getObjective(String name) {
-		return (ScoreObjective) this.scoreObjectives.get(name);
+		return this.scoreObjectives.get(name);
 	}
 
 	/**
@@ -85,10 +81,10 @@ public class Scoreboard {
 		if (name.length() > 40) {
 			throw new IllegalArgumentException("The player name \'" + name + "\' is too long!");
 		}
-		Map<ScoreObjective, Score> map = (Map) this.entitiesScoreObjectives.get(name);
+		Map<ScoreObjective, Score> map = this.entitiesScoreObjectives.get(name);
 
 		if (map == null) {
-			map = Maps.newHashMap();
+			map = new HashMap<>();
 			this.entitiesScoreObjectives.put(name, map);
 		}
 
@@ -166,10 +162,10 @@ public class Scoreboard {
 	}
 
 	public Map<ScoreObjective, Score> getObjectivesForEntity(String name) {
-		Map<ScoreObjective, Score> map = (Map) this.entitiesScoreObjectives.get(name);
+		Map<ScoreObjective, Score> map = this.entitiesScoreObjectives.get(name);
 
 		if (map == null) {
-			map = Maps.newHashMap();
+			map = new HashMap<>();
 		}
 
 		return map;
@@ -184,7 +180,7 @@ public class Scoreboard {
 			}
 		}
 
-		List<ScoreObjective> list = (List) this.scoreObjectiveCriterias.get(p_96519_1_.getCriteria());
+		List<ScoreObjective> list = this.scoreObjectiveCriterias.get(p_96519_1_.getCriteria());
 
 		if (list != null) {
 			list.remove(p_96519_1_);

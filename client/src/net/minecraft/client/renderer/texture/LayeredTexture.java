@@ -1,11 +1,10 @@
 package net.minecraft.client.renderer.texture;
 
-import com.google.common.collect.Lists;
-
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.resources.IResourceManager;
@@ -18,7 +17,7 @@ public class LayeredTexture extends AbstractTexture {
 	public final List<String> layeredTextureNames;
 
 	public LayeredTexture(String... textureNames) {
-		this.layeredTextureNames = Lists.newArrayList(textureNames);
+		this.layeredTextureNames = Arrays.asList(textureNames);
 	}
 
 	public void loadTexture(IResourceManager resourceManager) throws IOException {

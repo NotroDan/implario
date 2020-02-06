@@ -2,6 +2,7 @@ package net.minecraft.item;
 
 import com.google.common.collect.Maps;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,14 +77,14 @@ public class ItemFishFood extends ItemFood {
 		CLOWNFISH(2, "clownfish", 1, 0.1F),
 		PUFFERFISH(3, "pufferfish", 1, 0.1F);
 
-		private static final Map<Integer, ItemFishFood.FishType> META_LOOKUP = Maps.newHashMap();
+		private static final Map<Integer, ItemFishFood.FishType> META_LOOKUP = new HashMap<>();
 		private final int meta;
 		private final String unlocalizedName;
 		private final int uncookedHealAmount;
 		private final float uncookedSaturationModifier;
 		private final int cookedHealAmount;
 		private final float cookedSaturationModifier;
-		private boolean cookable = false;
+		private boolean cookable;
 
 		private FishType(int meta, String unlocalizedName, int uncookedHeal, float uncookedSaturation, int cookedHeal, float cookedSaturation) {
 			this.meta = meta;

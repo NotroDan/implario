@@ -25,11 +25,7 @@ import shadersmod.client.Shaders;
 import java.io.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GameSettings {
 	private static final Log logger = Log.MAIN;
@@ -109,7 +105,7 @@ public class GameSettings {
 	public float chatHeightFocused = 1.0F;
 	public boolean showInventoryAchievementHint = true;
 	public int mipmapLevels = 4;
-	private Map mapSoundLevels = Maps.newEnumMap(SoundCategory.class);
+	private final Map<SoundCategory, Float> mapSoundLevels = new EnumMap<>(SoundCategory.class);
 	public boolean field_181150_U = true;
 	public boolean field_181151_V = true;
 	public KeyBinding[] keyBindings;

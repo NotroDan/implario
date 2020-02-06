@@ -1,11 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
-import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.game.model.ModelBanner;
@@ -19,8 +14,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEntityBanner> {
-
-	private static final Map<String, TileEntityBannerRenderer.TimedBannerTexture> DESIGNS = Maps.newHashMap();
+	private static final Map<String, TileEntityBannerRenderer.TimedBannerTexture> DESIGNS = new HashMap<>();
 	private static final ResourceLocation BANNERTEXTURES = new ResourceLocation("textures/entity/banner_base.png");
 	private ModelBanner bannerModel = new ModelBanner();
 

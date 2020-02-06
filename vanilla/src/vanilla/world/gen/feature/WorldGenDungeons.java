@@ -2,6 +2,7 @@ package vanilla.world.gen.feature;
 
 import com.google.common.collect.Lists;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -22,14 +23,14 @@ public class WorldGenDungeons extends WorldGenerator {
 
 	private static final Log logger = Log.MAIN;
 	private static final String[] SPAWNERTYPES = new String[] {"Skeleton", "Zombie", "Zombie", "Spider"};
-	private static final List<WeightedRandomChestContent> CHESTCONTENT = Lists.newArrayList(new WeightedRandomChestContent[] {
+	private static final List<WeightedRandomChestContent> CHESTCONTENT = Arrays.asList(
 			new WeightedRandomChestContent(VanillaItems.saddle, 0, 1, 1, 10), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 4, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 1, 10),
 			new WeightedRandomChestContent(Items.wheat, 0, 1, 4, 10), new WeightedRandomChestContent(Items.gunpowder, 0, 1, 4, 10), new WeightedRandomChestContent(Items.string, 0, 1, 4, 10),
 			new WeightedRandomChestContent(Items.bucket, 0, 1, 1, 10), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 1, 1), new WeightedRandomChestContent(Items.redstone, 0, 1, 4, 10),
 			new WeightedRandomChestContent(Items.record_13, 0, 1, 1, 4), new WeightedRandomChestContent(Items.record_cat, 0, 1, 1, 4), new WeightedRandomChestContent(
 			VanillaItems.name_tag, 0, 1, 1, 10), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 2), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 5),
 			new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)
-	});
+	);
 
 	public boolean generate(World worldIn, Random rand, BlockPos position) {
 		int i = 3;

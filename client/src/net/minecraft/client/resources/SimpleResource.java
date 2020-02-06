@@ -1,6 +1,5 @@
 package net.minecraft.client.resources;
 
-import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -8,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.client.resources.data.IMetadataSection;
@@ -17,7 +17,7 @@ import org.apache.commons.io.IOUtils;
 
 public class SimpleResource implements IResource {
 
-	private final Map<String, IMetadataSection> mapMetadataSections = Maps.newHashMap();
+	private final Map<String, IMetadataSection> mapMetadataSections = new HashMap<>();
 	private final String resourcePackName;
 	private final ResourceLocation srResourceLocation;
 	private final InputStream resourceInputStream;

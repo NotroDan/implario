@@ -9,9 +9,7 @@ import net.minecraft.logging.Log;
 import net.minecraft.util.StringTranslate;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
+import java.util.*;
 
 public class LanguageManager implements IResourceManagerReloadListener {
 
@@ -19,7 +17,7 @@ public class LanguageManager implements IResourceManagerReloadListener {
 	private final IMetadataSerializer theMetadataSerializer;
 	private String currentLanguage;
 	protected static final Locale currentLocale = new Locale();
-	private Map<String, Language> languageMap = Maps.newHashMap();
+	private Map<String, Language> languageMap = new HashMap<>();
 
 	public LanguageManager(IMetadataSerializer theMetadataSerializerIn, String currentLanguageIn) {
 		this.theMetadataSerializer = theMetadataSerializerIn;
@@ -50,7 +48,7 @@ public class LanguageManager implements IResourceManagerReloadListener {
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-		List<String> list = Lists.newArrayList("ru_RU");
+		List<String> list = Collections.singletonList("ru_RU");
 
 		if (!"ru_RU".equals(this.currentLanguage)) {
 			list.add(this.currentLanguage);

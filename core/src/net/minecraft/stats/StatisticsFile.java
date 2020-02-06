@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -93,10 +94,10 @@ public class StatisticsFile extends StatFileWriter {
 		JsonElement jsonelement = new JsonParser().parse(p_150881_1_);
 
 		if (!jsonelement.isJsonObject()) {
-			return Maps.newHashMap();
+			return new HashMap<>();
 		}
 		JsonObject jsonobject = jsonelement.getAsJsonObject();
-		Map<StatBase, TupleIntJsonSerializable> map = Maps.newHashMap();
+		Map<StatBase, TupleIntJsonSerializable> map = new HashMap<>();
 
 		for (Entry<String, JsonElement> entry : jsonobject.entrySet()) {
 			StatBase statbase = StatList.getOneShotStat((String) entry.getKey());
@@ -158,14 +159,12 @@ public class StatisticsFile extends StatFileWriter {
 	}
 
 	public void func_150877_d() {
-		for (StatBase statbase : this.statsData.keySet()) {
-			this.field_150888_e.add(statbase);
-		}
+		this.field_150888_e.addAll(this.statsData.keySet());
 	}
 
 	public void func_150876_a(MPlayer p_150876_1_) {
 		int i = this.mcServer.getTickCounter();
-		Map<StatBase, Integer> map = Maps.newHashMap();
+		Map<StatBase, Integer> map = new HashMap<>();
 
 		if (this.field_150886_g || i - this.field_150885_f > 300) {
 			this.field_150885_f = i;
@@ -179,7 +178,7 @@ public class StatisticsFile extends StatFileWriter {
 	}
 
 	public void sendAchievements(MPlayer player) {
-		Map<StatBase, Integer> map = Maps.newHashMap();
+		Map<StatBase, Integer> map = new HashMap<>();
 
 		for (Achievement achievement : AchievementList.achievementList) {
 			if (this.hasAchievementUnlocked(achievement)) {

@@ -3,6 +3,7 @@ package vanilla.world.gen.structure;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -505,10 +506,10 @@ public class StructureStrongholdPieces {
 
 	public static class Library extends StructureStrongholdPieces.Stronghold {
 
-		private static final List<WeightedRandomChestContent> strongholdLibraryChestContents = Lists.newArrayList(new WeightedRandomChestContent[] {
+		private static final List<WeightedRandomChestContent> strongholdLibraryChestContents = Arrays.asList(
 				new WeightedRandomChestContent(Items.book, 0, 1, 3, 20), new WeightedRandomChestContent(Items.paper, 0, 2, 7, 20), new WeightedRandomChestContent(Items.map, 0, 1, 1, 1),
 				new WeightedRandomChestContent(Items.compass, 0, 1, 1, 1)
-		});
+		);
 		private boolean isLargeRoom;
 
 		public Library() {
@@ -883,11 +884,11 @@ public class StructureStrongholdPieces {
 
 	public static class RoomCrossing extends StructureStrongholdPieces.Stronghold {
 
-		private static final List<WeightedRandomChestContent> strongholdRoomCrossingChestContents = Lists.newArrayList(new WeightedRandomChestContent[] {
+		private static final List<WeightedRandomChestContent> strongholdRoomCrossingChestContents = Arrays.asList(
 				new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5),
 				new WeightedRandomChestContent(Items.coal, 0, 3, 8, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15),
 				new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1)
-		});
+		);
 		protected int roomType;
 
 		public RoomCrossing() {

@@ -38,10 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class GuiScreen extends Gui implements GuiYesNoCallback, OpenableGui {
 
@@ -266,7 +263,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 				}
 				break;
 			case SHOW_FILE:
-				drawHoveringText(Lists.newArrayList(isCtrlKeyDown() ? "Показать файл в проводнике" : "Открыть файл",
+				drawHoveringText(Arrays.asList(isCtrlKeyDown() ? "Показать файл в проводнике" : "Открыть файл",
 						"§e" + hoverevent.getValue().getFormattedText(), "§f", "§7§oЗажмите Ctrl, чтобы", "§7§oоткрыть папку файла."), x, y);
 				break;
 			case SHOW_TEXT:
@@ -280,7 +277,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Openabl
 					IChatComponent ichatcomponent1 = new ChatComponentTranslation("stats.tooltip.type." + (statbase.isAchievement() ? "achievement" : "statistic"));
 					ichatcomponent1.getChatStyle().setItalic(Boolean.TRUE);
 					String s1 = statbase instanceof Achievement ? ((Achievement) statbase).getDescription() : null;
-					List<String> list = Lists.newArrayList(ichatcomponent.getFormattedText(), ichatcomponent1.getFormattedText());
+					List<String> list = Arrays.asList(ichatcomponent.getFormattedText(), ichatcomponent1.getFormattedText());
 
 					if (s1 != null) {
 						list.addAll(this.fontRendererObj.listFormattedStringToWidth(s1, 150));

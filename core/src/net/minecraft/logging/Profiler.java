@@ -1,17 +1,16 @@
 package net.minecraft.logging;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Profiler implements IProfiler {
 
-	private final List<String> sectionList = Lists.newArrayList();
-	private final List<Long> timestampList = Lists.newArrayList();
-	private final Map<String, Long> profilingMap = Maps.newConcurrentMap();
+	private final List<String> sectionList = new ArrayList<>();
+	private final List<Long> timestampList = new ArrayList<>();
+	private final Map<String, Long> profilingMap = new ConcurrentHashMap<>();
 
 	@Getter @Setter
 	private boolean enabled;

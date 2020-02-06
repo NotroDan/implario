@@ -31,6 +31,7 @@ import net.minecraft.world.World;
 import optifine.PlayerItemsLayer;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RenderManager {
@@ -38,12 +39,12 @@ public class RenderManager {
 	/**
 	 * A map of entity classes and the associated renderer.
 	 */
-	private Map entityRenderMap = Maps.newHashMap();
+	private final Map entityRenderMap = new HashMap();
 
 	/**
 	 * lists the various player skin types with their associated Renderer class instances.
 	 */
-	private Map skinMap = Maps.newHashMap();
+	private Map skinMap = new HashMap();
 	private RenderPlayer playerRenderer;
 
 	/**

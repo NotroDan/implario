@@ -6,6 +6,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -94,12 +95,12 @@ public class ShaderLoader {
 		private final String shaderName;
 		private final String shaderExtension;
 		private final int shaderMode;
-		private final Map<String, ShaderLoader> loadedShaders = Maps.newHashMap();
+		private final Map<String, ShaderLoader> loadedShaders = new HashMap<>();
 
-		private ShaderType(String p_i45090_3_, String p_i45090_4_, int p_i45090_5_) {
-			this.shaderName = p_i45090_3_;
-			this.shaderExtension = p_i45090_4_;
-			this.shaderMode = p_i45090_5_;
+		private ShaderType(String shaderName, String shaderExtension, int shaderMode) {
+			this.shaderName = shaderName;
+			this.shaderExtension = shaderExtension;
+			this.shaderMode = shaderMode;
 		}
 
 		public String getShaderName() {

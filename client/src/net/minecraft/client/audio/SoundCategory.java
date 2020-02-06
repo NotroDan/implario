@@ -1,11 +1,11 @@
 package net.minecraft.client.audio;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +20,8 @@ public enum SoundCategory {
 	PLAYERS("player", 7, new ItemStack(Items.skull, 1, 3), "§eИгроки", "Звуки ударов, жевания, ходьбы", "и прочего вандализма от игроков."),
 	AMBIENT("ambient", 8, new ItemStack(Blocks.tallgrass, 1, 2), "§eПрирода", "Звуки лавы, воды, огня,", "и даже странные звуки в пещерах.");
 
-	private static final Map<String, SoundCategory> NAME_CATEGORY_MAP = Maps.newHashMap();
-	private static final Map<Integer, SoundCategory> ID_CATEGORY_MAP = Maps.newHashMap();
+	private static final Map<String, SoundCategory> NAME_CATEGORY_MAP = new HashMap<>();
+	private static final Map<Integer, SoundCategory> ID_CATEGORY_MAP = new HashMap<>();
 	private final String categoryName;
 	private final int categoryId;
 	private final ItemStack item;
@@ -31,7 +31,7 @@ public enum SoundCategory {
 		this.item = item;
 		this.categoryName = name;
 		this.categoryId = id;
-		this.description = Lists.newArrayList(description);
+		this.description = Arrays.asList(description);
 	}
 
 	public String getCategoryName() {

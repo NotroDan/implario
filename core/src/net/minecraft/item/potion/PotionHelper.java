@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.util.IntHashMap;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PotionHelper {
 
@@ -25,8 +22,8 @@ public class PotionHelper {
 	public static final String goldenCarrotEffect = "-0+1+2-3+13&4-4";
 	public static final String pufferfishEffect = "+0-1+2+3+13&4-4";
 	public static final String rabbitFootEffect = "+0+1-2+3&4-4+13";
-	private static final Map potionRequirements = Maps.newHashMap();
-	private static final Map potionAmplifiers = Maps.newHashMap();
+	private static final Map potionRequirements = new HashMap();
+	private static final Map potionAmplifiers = new HashMap();
 	private static final IntHashMap<Integer> DATAVALUE_COLORS = new IntHashMap<>();
 
 	/**

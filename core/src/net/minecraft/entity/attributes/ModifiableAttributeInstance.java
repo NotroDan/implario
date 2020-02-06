@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class ModifiableAttributeInstance implements IAttributeInstance {
 
@@ -20,9 +17,9 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
 	 * The Attribute this is an instance of
 	 */
 	private final IAttribute genericAttribute;
-	private final Map<Integer, Set<AttributeModifier>> mapByOperation = Maps.newHashMap();
-	private final Map<String, Set<AttributeModifier>> mapByName = Maps.newHashMap();
-	private final Map<UUID, AttributeModifier> mapByUUID = Maps.newHashMap();
+	private final Map<Integer, Set<AttributeModifier>> mapByOperation = new HashMap<>();
+	private final Map<String, Set<AttributeModifier>> mapByName = new HashMap<>();
+	private final Map<UUID, AttributeModifier> mapByUUID = new HashMap<>();
 	private double baseValue;
 	private boolean needsUpdate = true;
 	private double cachedValue;
@@ -33,7 +30,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
 		this.baseValue = genericAttributeIn.getDefaultValue();
 
 		for (int i = 0; i < 3; ++i) {
-			this.mapByOperation.put(i, Sets.newHashSet());
+			this.mapByOperation.put(i, new HashSet<>());
 		}
 	}
 

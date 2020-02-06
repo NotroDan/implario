@@ -53,10 +53,10 @@ public class GuiOverlayDebug extends Gui {
 	}
 
 	private void renderDebugInfoLeft() {
-		List list = call();
+		List<String> list = call();
 
 		for (int i = 0; i < list.size(); ++i) {
-			String s = (String) list.get(i);
+			String s = list.get(i);
 
 			if (!Strings.isNullOrEmpty(s)) {
 				int j = fontRenderer.getFontHeight();
@@ -103,8 +103,8 @@ public class GuiOverlayDebug extends Gui {
 		}
 	}
 
-	protected List call() {
-		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return Lists.newArrayList(mc.debug);
+	protected List<String> call() {
+		if (Settings.REDUCED_DEBUG_INFO.i() == 2) return Collections.singletonList(mc.debug);
 		BlockPos blockpos = new BlockPos(mc.getRenderViewEntity().posX,
 				mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
 		Entity entity = mc.getRenderViewEntity();

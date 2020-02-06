@@ -48,7 +48,7 @@ public class WorldServer extends World {
 	private final Set<NextTickListEntry> pendingTickListEntriesHashSet = new HashSet<>();
 	private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet<>();
 	private List<NextTickListEntry> pendingTickListEntriesThisTick = new ArrayList<>();
-	private final Map<UUID, Entity> entitiesByUuid = Maps.newHashMap();
+	private final Map<UUID, Entity> entitiesByUuid = new HashMap<>();
 	public ChunkProviderServer theChunkProviderServer;
 
 	public boolean disableLevelSaving;

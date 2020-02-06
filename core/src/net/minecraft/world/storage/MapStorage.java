@@ -9,15 +9,16 @@ import net.minecraft.world.WorldSavedData;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MapStorage {
 
 	private ISaveHandler saveHandler;
-	protected Map<String, WorldSavedData> loadedDataMap = Maps.newHashMap();
+	protected Map<String, WorldSavedData> loadedDataMap = new HashMap<>();
 	private List<WorldSavedData> loadedDataList = new ArrayList<>();
-	private Map<String, Short> idCounts = Maps.newHashMap();
+	private Map<String, Short> idCounts = new HashMap<>();
 
 	public MapStorage(ISaveHandler saveHandlerIn) {
 		this.saveHandler = saveHandlerIn;

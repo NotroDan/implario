@@ -2,10 +2,7 @@ package net.minecraft.util;
 
 import com.google.common.collect.Maps;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public enum EnumChatFormatting {
@@ -32,7 +29,7 @@ public enum EnumChatFormatting {
 	ITALIC("ITALIC", 'o', true),
 	RESET("RESET", 'r', -1);
 
-	private static final Map<String, EnumChatFormatting> nameMapping = Maps.newHashMap();
+	private static final Map<String, EnumChatFormatting> nameMapping = new HashMap<>();
 
 	/**
 	 * Matches formatting codes that indicate that the client should treat the following text as bold, recolored,

@@ -2,9 +2,7 @@ package net.minecraft.world.storage;
 
 import com.google.common.collect.Maps;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.Player;
@@ -31,8 +29,8 @@ public class MapData extends WorldSavedData {
 	 */
 	public byte[] colors = new byte[16384];
 	public List<MapData.MapInfo> playersArrayList = new ArrayList<>();
-	private Map<Player, MapData.MapInfo> playersHashMap = Maps.newHashMap();
-	public Map<String, Vec4b> mapDecorations = Maps.newLinkedHashMap();
+	private Map<Player, MapData.MapInfo> playersHashMap = new HashMap<>();
+	public Map<String, Vec4b> mapDecorations = new LinkedHashMap<>();
 
 	public MapData(String mapname) {
 		super(mapname);

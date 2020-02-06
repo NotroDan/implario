@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class EntitySpawnPlacementRegistry {
 
-	private static final HashMap<Class, SpawnPlacementType> ENTITY_PLACEMENTS = Maps.newHashMap();
+	private static final HashMap<Class, SpawnPlacementType> ENTITY_PLACEMENTS = new HashMap<>();
 
 	public static SpawnPlacementType getPlacementForEntity(Class entityClass) {
 		return (SpawnPlacementType) ENTITY_PLACEMENTS.get(entityClass);

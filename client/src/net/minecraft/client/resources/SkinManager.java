@@ -12,6 +12,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
 
@@ -91,32 +92,30 @@ public class SkinManager {
 	}
 
 	public void loadProfileTextures(final GameProfile profile, final SkinManager.SkinAvailableCallback skinAvailableCallback, final boolean requireSecure) {
-		THREAD_POOL.submit(new Runnable() {
-			public void run() {
-				final Map<Type, MinecraftProfileTexture> map = Maps.newHashMap();
+		THREAD_POOL.submit(() -> {
+			final Map<Type, MinecraftProfileTexture> map = new HashMap<>();
 
-				try {
-					map.putAll(SkinManager.this.sessionService.getTextures(profile, requireSecure));
-				} catch (InsecureTextureException var3) {
-					;
-				}
-
-				if (map.isEmpty() && profile.getId().equals(Minecraft.get().getSession().getProfile().getId())) {
-					profile.getProperties().clear();
-					profile.getProperties().putAll(Minecraft.get().getPropertyMap());
-					map.putAll(SkinManager.this.sessionService.getTextures(profile, false));
-				}
-
-				Minecraft.get().queue(Executors.callable(() -> {
-					if (map.containsKey(Type.SKIN)) {
-						SkinManager.this.loadSkin((MinecraftProfileTexture) map.get(Type.SKIN), Type.SKIN, skinAvailableCallback);
-					}
-
-					if (map.containsKey(Type.CAPE)) {
-						SkinManager.this.loadSkin((MinecraftProfileTexture) map.get(Type.CAPE), Type.CAPE, skinAvailableCallback);
-					}
-				}));
+			try {
+				map.putAll(SkinManager.this.sessionService.getTextures(profile, requireSecure));
+			} catch (InsecureTextureException var3) {
+				;
 			}
+
+			if (map.isEmpty() && profile.getId().equals(Minecraft.get().getSession().getProfile().getId())) {
+				profile.getProperties().clear();
+				profile.getProperties().putAll(Minecraft.get().getPropertyMap());
+				map.putAll(SkinManager.this.sessionService.getTextures(profile, false));
+			}
+
+			Minecraft.get().queue(Executors.callable(() -> {
+				if (map.containsKey(Type.SKIN)) {
+					SkinManager.this.loadSkin((MinecraftProfileTexture) map.get(Type.SKIN), Type.SKIN, skinAvailableCallback);
+				}
+
+				if (map.containsKey(Type.CAPE)) {
+					SkinManager.this.loadSkin((MinecraftProfileTexture) map.get(Type.CAPE), Type.CAPE, skinAvailableCallback);
+				}
+			}));
 		});
 	}
 

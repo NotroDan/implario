@@ -44,11 +44,7 @@ import net.minecraft.world.storage.WorldInfo;
 import java.io.File;
 import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class ServerConfigurationManager {
 
@@ -64,7 +60,7 @@ public abstract class ServerConfigurationManager {
 	 */
 	private final MinecraftServer mcServer;
 	private final List<MPlayer> playerEntityList = new ArrayList<>();
-	private final Map<UUID, MPlayer> uuidToPlayerMap = Maps.newHashMap();
+	private final Map<UUID, MPlayer> uuidToPlayerMap = new HashMap<>();
 	private final UserListBans bannedPlayers;
 	private final BanList bannedIPs;
 
@@ -72,7 +68,7 @@ public abstract class ServerConfigurationManager {
 	 * The Set of all whitelisted players.
 	 */
 	private final Whitelist whiteListedPlayers;
-	private final Map<UUID, StatisticsFile> playerStatFiles;
+	private final Map<UUID, StatisticsFile> playerStatFiles = new HashMap<>();
 
 	/**
 	 * Reference to the PlayerNBTManager object.
@@ -113,7 +109,6 @@ public abstract class ServerConfigurationManager {
 		this.bannedPlayers = new UserListBans(FILE_PLAYERBANS);
 		this.bannedIPs = new BanList(FILE_IPBANS);
 		this.whiteListedPlayers = new Whitelist(new FileRootImpl(new File(".")));
-		this.playerStatFiles = Maps.newHashMap();
 		this.mcServer = server;
 		this.bannedPlayers.setLanServer(false);
 		this.bannedIPs.setLanServer(false);

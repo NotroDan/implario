@@ -1,17 +1,17 @@
 package net.minecraft.tileentity;
 
-import com.google.common.collect.Maps;
 import net.minecraft.item.EnumDyeColor;
 
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Random;
 
 public class BeaconColors {
 
-	public static final Map<EnumDyeColor, float[]> DYE_TO_RGB = Maps.newEnumMap(EnumDyeColor.class);
+	public static final Map<EnumDyeColor, float[]> DYE_TO_RGB = new EnumMap<>(EnumDyeColor.class);
 
 	public static float[] getColor(EnumDyeColor dyeColor) {
-		return (float[]) DYE_TO_RGB.get(dyeColor);
+		return DYE_TO_RGB.get(dyeColor);
 	}
 
 	/**

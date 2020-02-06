@@ -78,8 +78,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		this.atlasWidth = 0;
 		this.atlasHeight = 0;
 		this.listAnimatedSprites = new ArrayList<>();
-		this.mapRegisteredSprites = Maps.newHashMap();
-		this.mapUploadedSprites = Maps.newHashMap();
+		this.mapRegisteredSprites = new HashMap<>();
+		this.mapUploadedSprites = new HashMap<>();
 		this.missingImage = new TextureAtlasSprite("missingno");
 		this.basePath = p_i11_1_;
 		this.iconCreator = p_i11_2_;
@@ -106,7 +106,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		this.missingImage.setIconHeight(i);
 		int[][] aint1 = new int[this.mipmapLevels + 1][];
 		aint1[0] = aint;
-		this.missingImage.setFramesTextureData(Lists.newArrayList(new int[][][] {aint1}));
+		this.missingImage.setFramesTextureData(Collections.singletonList(new int[][][] {aint1}));
 		this.missingImage.setIndexInMap(this.counterIndexInMap++);
 	}
 
@@ -265,7 +265,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
 		if (Settings.DEBUG.b()) logger.info("Сгенерирован атлас спрайтов типа '" + basePath + "' с разрешением " + stitcher.getCurrentWidth() + "x" + stitcher.getCurrentHeight() + ".");
 		TextureUtil.allocateTextureImpl(this.getGlTextureId(), this.mipmapLevels, stitcher.getCurrentWidth(), stitcher.getCurrentHeight());
-		HashMap hashmap = Maps.newHashMap(this.mapRegisteredSprites);
+		Map<String, TextureAtlasSprite> hashmap = new HashMap<>(this.mapRegisteredSprites);
 
 		for (Object textureatlassprite30 : stitcher.getStichSlots()) {
 			TextureAtlasSprite textureatlassprite3 = (TextureAtlasSprite) textureatlassprite30;
@@ -289,8 +289,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			}
 		}
 
-		for (Object textureatlassprite4 : hashmap.values()) {
-			((TextureAtlasSprite) textureatlassprite4).copyFrom(this.missingImage);
+		for (TextureAtlasSprite textureatlassprite4 : hashmap.values()) {
+			textureatlassprite4.copyFrom(this.missingImage);
 		}
 
 		if (Config.isMultiTexture()) {

@@ -10,19 +10,16 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class EntityList {
 	private static final Log logger = Log.MAIN;
-	private static final Map<String, Class<? extends Entity>> stringToClassMapping = Maps.newHashMap();
-	private static final Map<Class<? extends Entity>, String> classToStringMapping = Maps.newHashMap();
-	private static final Map<Integer, Class<? extends Entity>> idToClassMapping = Maps.newHashMap();
-	private static final Map<Class<? extends Entity>, Integer> classToIDMapping = Maps.newHashMap();
-	private static final Map<String, Integer> stringToIDMapping = Maps.newHashMap();
-	public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = Maps.newLinkedHashMap();
+	private static final Map<String, Class<? extends Entity>> stringToClassMapping = new HashMap<>();
+	private static final Map<Class<? extends Entity>, String> classToStringMapping = new HashMap<>();
+	private static final Map<Integer, Class<? extends Entity>> idToClassMapping = new HashMap<>();
+	private static final Map<Class<? extends Entity>, Integer> classToIDMapping = new HashMap<>();
+	private static final Map<String, Integer> stringToIDMapping = new HashMap<>();
+	public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = new LinkedHashMap<>();
 
 	/**
 	 * adds a mapping between Entity classes and both a string representation and an ID

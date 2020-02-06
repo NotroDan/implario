@@ -1,7 +1,6 @@
 package net.minecraft.client.renderer.block.statemap;
 
-import com.google.common.collect.Maps;
-
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,7 +11,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 
 public abstract class StateMapperBase implements IStateMapper {
 
-	protected Map<IBlockState, ModelResourceLocation> mapStateModelLocations = Maps.newLinkedHashMap();
+	protected Map<IBlockState, ModelResourceLocation> mapStateModelLocations = new LinkedHashMap<>();
 
 	public String getPropertyString(Map<IProperty, Comparable> map) {
 		StringBuilder stringbuilder = new StringBuilder();

@@ -1,15 +1,15 @@
 package net.minecraft.client.gui.element;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.HoverButton;
 import net.minecraft.client.renderer.G;
 
+import java.util.Collections;
 import java.util.List;
 
 public class GuiButtonLanguage extends GuiButton implements HoverButton {
 
-	private static final List<String> text = Lists.newArrayList("Изменить язык");
+	private static final List<String> text = Collections.singletonList("Изменить язык");
 
 	public GuiButtonLanguage(int buttonID, int xPos, int yPos) {
 		super(buttonID, xPos, yPos, 20, 20, "");

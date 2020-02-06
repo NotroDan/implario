@@ -1,7 +1,6 @@
 package net.minecraft.item;
 
-import com.google.common.collect.Maps;
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ import net.minecraft.world.World;
 
 public class ItemRecord extends Item {
 
-	private static final Map<String, ItemRecord> RECORDS = Maps.newHashMap();
+	private static final Map<String, ItemRecord> RECORDS = new HashMap<>();
 
 	/**
 	 * The name of the record.
@@ -38,7 +37,7 @@ public class ItemRecord extends Item {
 	public boolean onItemUse(ItemStack stack, Player playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 
-		if (iblockstate.getBlock() == Blocks.jukebox && !((Boolean) iblockstate.getValue(BlockJukebox.HAS_RECORD)).booleanValue()) {
+		if (iblockstate.getBlock() == Blocks.jukebox && !iblockstate.getValue(BlockJukebox.HAS_RECORD)) {
 			if (worldIn.isClientSide) {
 				return true;
 			}

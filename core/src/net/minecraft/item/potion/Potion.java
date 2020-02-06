@@ -13,6 +13,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.functional.StringUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class Potion {
 	 * The array of potion types.
 	 */
 	public static final Potion[] potionTypes = new Potion[32];
-	private static final Map<ResourceLocation, Potion> field_180150_I = Maps.newHashMap();
+	private static final Map<ResourceLocation, Potion> field_180150_I = new HashMap<>();
 	public static final Potion field_180151_b = null;
 	public static final Potion moveSpeed = new Potion(1, new ResourceLocation("speed"), false, 8171462).setPotionName("potion.moveSpeed").setIconIndex(0, 0).registerPotionAttributeModifier(
 			SharedMonsterAttributes.movementSpeed, "91AEAA56-376B-4498-935B-2F7F68070635", 0.20000000298023224D, 2);
@@ -119,7 +120,7 @@ public class Potion {
 	 * The Id of a Potion object.
 	 */
 	public final int id;
-	private final Map<IAttribute, AttributeModifier> attributeModifierMap = Maps.newHashMap();
+	private final Map<IAttribute, AttributeModifier> attributeModifierMap = new HashMap<>();
 
 	/**
 	 * This field indicated if the effect is 'bad' - negative - for the entity.

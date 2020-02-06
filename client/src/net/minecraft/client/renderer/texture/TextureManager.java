@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.texture;
 
-import com.google.common.collect.Maps;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.crash.CrashReport;
@@ -13,19 +12,15 @@ import optifine.RandomMobs;
 import shadersmod.client.ShadersTex;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 
 public class TextureManager implements ITickable, IResourceManagerReloadListener {
-
 	private static final Log logger = Log.MAIN;
-	private final Map mapTextureObjects = Maps.newHashMap();
+	private final Map mapTextureObjects = new HashMap();
 	private final List listTickables = new ArrayList<>();
-	private final Map mapTextureCounters = Maps.newHashMap();
+	private final Map mapTextureCounters = new HashMap();
 	private IResourceManager theResourceManager;
 
 

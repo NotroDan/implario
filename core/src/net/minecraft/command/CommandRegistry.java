@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.experimental.UtilityClass;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 @UtilityClass
 public class CommandRegistry {
 
 	@Getter(AccessLevel.PROTECTED)
-	private final Map<String, ICommand> commandMap = Maps.newHashMap();
+	private final Map<String, ICommand> commandMap = new HashMap<>();
 
 	public ICommand registerCommand(ICommand cmd) {
 		commandMap.put(cmd.getName(), cmd);

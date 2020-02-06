@@ -14,12 +14,13 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class TileEntityRendererDispatcher {
 
 	@Getter
-	private Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> mapSpecialRenderers = Maps.newHashMap();
+	private Map<Class<? extends TileEntity>, TileEntitySpecialRenderer<? extends TileEntity>> mapSpecialRenderers = new HashMap<>();
 	public static TileEntityRendererDispatcher instance = new TileEntityRendererDispatcher();
 	private MCFontRenderer fontRenderer;
 

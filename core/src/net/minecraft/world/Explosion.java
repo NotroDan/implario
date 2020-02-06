@@ -1,7 +1,5 @@
 package net.minecraft.world;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,11 +11,7 @@ import net.minecraft.entity.player.Player;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Explosion {
 
@@ -53,7 +47,7 @@ public class Explosion {
 	public Explosion(World worldIn, Entity p_i45754_2_, double p_i45754_3_, double p_i45754_5_, double p_i45754_7_, float size, boolean p_i45754_10_, boolean p_i45754_11_) {
 		this.explosionRNG = new Random();
 		this.affectedBlockPositions = new ArrayList<>();
-		this.playerKnockbackMap = Maps.newHashMap();
+		this.playerKnockbackMap = new HashMap<>();
 		this.worldObj = worldIn;
 		this.exploder = p_i45754_2_;
 		this.explosionSize = size;
@@ -68,7 +62,7 @@ public class Explosion {
 	 * Does the first part of the explosion (destroy blocks)
 	 */
 	public void doExplosionA() {
-		Set<BlockPos> set = Sets.newHashSet();
+		Set<BlockPos> set = new HashSet<>();
 		int i = 16;
 
 		for (int j = 0; j < 16; ++j) {

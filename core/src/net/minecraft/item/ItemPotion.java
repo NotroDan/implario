@@ -4,10 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import net.minecraft.inventory.CreativeTabs;
@@ -28,8 +25,8 @@ import net.minecraft.world.World;
 
 public class ItemPotion extends Item {
 
-	private Map<Integer, List<PotionEffect>> effectCache = Maps.newHashMap();
-	private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = Maps.newLinkedHashMap();
+	private Map<Integer, List<PotionEffect>> effectCache = new HashMap<>();
+	private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = new LinkedHashMap<>();
 
 	public ItemPotion() {
 		this.setMaxStackSize(1);
@@ -54,7 +51,7 @@ public class ItemPotion extends Item {
 
 			return list1;
 		}
-		List<PotionEffect> list = (List) this.effectCache.get(stack.getMetadata());
+		List<PotionEffect> list = this.effectCache.get(stack.getMetadata());
 
 		if (list == null) {
 			list = PotionHelper.getPotionEffects(stack.getMetadata(), false);
@@ -65,7 +62,7 @@ public class ItemPotion extends Item {
 	}
 
 	public List<PotionEffect> getEffects(int meta) {
-		List<PotionEffect> list = (List) this.effectCache.get(meta);
+		List<PotionEffect> list = this.effectCache.get(meta);
 
 		if (list == null) {
 			list = PotionHelper.getPotionEffects(meta, false);

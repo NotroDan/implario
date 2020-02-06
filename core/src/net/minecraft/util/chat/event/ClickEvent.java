@@ -1,7 +1,6 @@
 package net.minecraft.util.chat.event;
 
-import com.google.common.collect.Maps;
-
+import java.util.HashMap;
 import java.util.Map;
 
 public class ClickEvent {
@@ -69,7 +68,7 @@ public class ClickEvent {
 		SUGGEST_COMMAND("suggest_command", true),
 		CHANGE_PAGE("change_page", true);
 
-		private static final Map<String, ClickEvent.Action> nameMapping = Maps.newHashMap();
+		private static final Map<String, ClickEvent.Action> nameMapping = new HashMap<>();
 		private final boolean allowedInChat;
 		private final String canonicalName;
 

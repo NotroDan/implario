@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer;
 
-import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -10,6 +9,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -20,14 +20,14 @@ import java.util.Map.Entry;
 public class ItemModelMesher {
 
 	// Простые модельки по индексу
-	private final Map<Integer, ModelResourceLocation> simpleShapes = Maps.newHashMap();
+	private final Map<Integer, ModelResourceLocation> simpleShapes = new HashMap<>();
 
 	// Сложные генераторы моделек по предмету
 	@Getter
-	private final Map<Item, ItemMeshDefinition> shapers = Maps.newHashMap();
+	private final Map<Item, ItemMeshDefinition> shapers = new HashMap<>();
 
 	// Запечённые модельки
-	private final Map<Integer, IBakedModel> simpleShapesCache = Maps.newHashMap();
+	private final Map<Integer, IBakedModel> simpleShapesCache = new HashMap<>();
 
 	private final ModelManager modelManager;
 

@@ -1,6 +1,5 @@
 package net.minecraft.client.game.particle;
 
-import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -18,10 +17,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import optifine.Config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public class EffectRenderer {
@@ -40,7 +36,7 @@ public class EffectRenderer {
 	 * RNG.
 	 */
 	private Random rand = new Random();
-	private Map particleTypes = Maps.newHashMap();
+	private final Map particleTypes = new HashMap();
 
 
 	public EffectRenderer(World worldIn, TextureManager rendererIn) {

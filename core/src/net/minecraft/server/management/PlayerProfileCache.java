@@ -29,14 +29,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import net.minecraft.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
@@ -45,9 +38,9 @@ import org.apache.commons.io.IOUtils;
 public class PlayerProfileCache {
 
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-	private final Map<String, PlayerProfileCache.ProfileEntry> usernameToProfileEntryMap = Maps.newHashMap();
-	private final Map<UUID, PlayerProfileCache.ProfileEntry> uuidToProfileEntryMap = Maps.newHashMap();
-	private final LinkedList<GameProfile> gameProfiles = Lists.newLinkedList();
+	private final Map<String, PlayerProfileCache.ProfileEntry> usernameToProfileEntryMap = new HashMap<>();
+	private final Map<UUID, PlayerProfileCache.ProfileEntry> uuidToProfileEntryMap = new HashMap<>();
+	private final LinkedList<GameProfile> gameProfiles = new LinkedList<>();
 	private final MinecraftServer mcServer;
 	protected final Gson gson;
 	private final File usercacheFile;

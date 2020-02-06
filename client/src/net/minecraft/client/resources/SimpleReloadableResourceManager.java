@@ -10,18 +10,15 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SimpleReloadableResourceManager implements IReloadableResourceManager {
 
 	private static final Log logger = Log.MAIN;
 	private static final Joiner joinerResourcePacks = Joiner.on(", ");
-	private final Map<String, FallbackResourceManager> domainResourceManagers = Maps.newHashMap();
+	private final Map<String, FallbackResourceManager> domainResourceManagers = new HashMap<>();
 	private final List<IResourceManagerReloadListener> reloadListeners = new ArrayList<>();
-	private final Set<String> setResourceDomains = Sets.newLinkedHashSet();
+	private final Set<String> setResourceDomains = new LinkedHashSet<>();
 	private final IMetadataSerializer rmMetadataSerializer;
 
 	public SimpleReloadableResourceManager(IMetadataSerializer rmMetadataSerializerIn) {

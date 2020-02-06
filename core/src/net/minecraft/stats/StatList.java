@@ -1,7 +1,5 @@
 package net.minecraft.stats;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
@@ -14,14 +12,11 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.chat.ChatComponentTranslation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class StatList {
 
-	protected static Map<String, StatBase> oneShotStats = Maps.newHashMap();
+	protected static Map<String, StatBase> oneShotStats = new HashMap<>();
 
 	public static List<StatBase> allStats = new ArrayList<>();
 	public static List<StatBase> generalStats = new ArrayList<>();
@@ -113,7 +108,7 @@ public class StatList {
 	 * initialized.
 	 */
 	private static void initCraftableStats() {
-		Set<Item> set = Sets.newHashSet();
+		Set<Item> set = new HashSet<>();
 
 		for (IRecipe irecipe : CraftingManager.getInstance().getRecipeList()) {
 			if (irecipe.getRecipeOutput() != null) {

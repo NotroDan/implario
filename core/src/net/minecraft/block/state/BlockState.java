@@ -17,7 +17,7 @@ public class BlockState {
 		block = b;
 		Arrays.sort(properties, Comparator.comparing(IProperty::getName));
 		this.properties = ImmutableList.copyOf(properties);
-		Map<Map<IProperty, Comparable>, StateImplementation> map = Maps.newLinkedHashMap();
+		Map<Map<IProperty, Comparable>, StateImplementation> map = new LinkedHashMap<>();
 		List<StateImplementation> list = new ArrayList<>();
 
 		List<Iterable<Comparable>> lst = getAllowedValues();
@@ -146,7 +146,7 @@ public class BlockState {
 		}
 
 		private Map<IProperty, Comparable> getPropertiesWithValue(IProperty property, Comparable value) {
-			Map<IProperty, Comparable> map = Maps.newHashMap(properties);
+			Map<IProperty, Comparable> map = new HashMap<>(properties);
 			map.put(property, value);
 			return map;
 		}

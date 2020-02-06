@@ -1,11 +1,9 @@
 package net.minecraft.block.properties;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import net.minecraft.util.EnumFacing;
 
@@ -19,14 +17,14 @@ public class PropertyDirection extends PropertyEnum<EnumFacing> {
 	 * Create a new PropertyDirection with the given name
 	 */
 	public static PropertyDirection create(String name) {
-		return create(name, Predicates.alwaysTrue());
+		return create(name, (__) -> true);
 	}
 
 	/**
 	 * Create a new PropertyDirection with all directions that match the given Predicate
 	 */
 	public static PropertyDirection create(String name, Predicate<EnumFacing> filter) {
-		return create(name, Collections2.filter(Lists.newArrayList(EnumFacing.values()), filter));
+		return create(name, Arrays.stream(EnumFacing.values()).filter(filter).collect(Collectors.toList()));
 	}
 
 	/**
