@@ -1,7 +1,7 @@
 package net.minecraft.util;
 
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
+import oogle.util.byteable.Decoder;
+import oogle.util.byteable.Encoder;
 
 public class Vec5d implements Location{
     public final double x, y, z;

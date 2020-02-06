@@ -5,7 +5,7 @@ import com.google.common.collect.AbstractIterator;
 import java.util.Iterator;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.byteable.Decoder;
+import oogle.util.byteable.Decoder;
 
 public class BlockPos extends Vec3i{
 

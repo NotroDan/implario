@@ -1,4 +1,4 @@
-import net.minecraft.util.byteable.*;
+import oogle.util.byteable.*;
 
 public class ByteableTest {
     public static void main(String args[]) {

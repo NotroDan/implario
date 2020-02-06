@@ -39,10 +39,7 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
-import net.minecraft.util.byteable.SlowDecoder;
-import net.minecraft.util.byteable.SlowEncoder;
+import oogle.util.byteable.*;
 import net.minecraft.util.chat.ChatComponentText;
 import net.minecraft.util.chat.ChatComponentTranslation;
 import net.minecraft.util.chat.event.ClickEvent;
@@ -904,8 +901,8 @@ public abstract class Player extends EntityLivingBase {
 			tagCompound.setTag("SelectedItem", itemstack.writeToNBT(new NBTTagCompound()));
 		}
 		try {
-			Encoder world = SlowEncoder.defaultEncoder();
-			Encoder global = SlowEncoder.defaultEncoder();
+			BytesEncoder world = SlowEncoder.defaultEncoder();
+			BytesEncoder global = SlowEncoder.defaultEncoder();
 			for (Module entry : modules) {
 				if(entry == null)continue;
 				try {

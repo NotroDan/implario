@@ -9,10 +9,7 @@ import net.minecraft.logging.Log;
 import net.minecraft.resources.load.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Tree;
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
-import net.minecraft.util.byteable.FastDecoder;
-import net.minecraft.util.byteable.FastEncoder;
+import oogle.util.byteable.*;
 
 import java.io.File;
 import java.util.*;
@@ -173,7 +170,7 @@ public class DatapackManager {
 		ModuleManager manager = datapack.moduleManager();
 		if (manager == null) return null;
 		String domain = manager.getDomain();
-		Encoder encoder = new FastEncoder();
+		BytesEncoder encoder = new FastEncoder();
 		int players = 0;
 		for (Player player : MinecraftServer.mcServer.getConfigurationManager().getPlayers()) {
 			Module module = manager.getModule(player);

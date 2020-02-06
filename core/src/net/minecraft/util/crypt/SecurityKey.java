@@ -1,10 +1,7 @@
 package net.minecraft.util.crypt;
 
 import lombok.Getter;
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
-import net.minecraft.util.byteable.SlowDecoder;
-import net.minecraft.util.byteable.SlowEncoder;
+import oogle.util.byteable.*;
 
 public class SecurityKey {
     @Getter
@@ -50,7 +47,7 @@ public class SecurityKey {
                 decoder.readBoolean() ? TimedSertificate.decodePublic(decoder) : null);
     }
 
-    public Encoder encodePrivate(Encoder encoder){
+    public BytesEncoder encodePrivate(BytesEncoder encoder){
         encoder.writeBoolean(rootKey != null);
         if(rootKey != null)rootKey.encodePrivate(encoder);
         encoder.writeBoolean(timed != null);
@@ -58,7 +55,7 @@ public class SecurityKey {
         return encoder;
     }
 
-    public Encoder encodePublic(Encoder encoder){
+    public BytesEncoder encodePublic(BytesEncoder encoder){
         encoder.writeBoolean(rootKey != null);
         if(rootKey != null)rootKey.encodePublic(encoder);
         encoder.writeBoolean(timed != null);

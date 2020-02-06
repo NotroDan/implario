@@ -1,9 +1,6 @@
 package net.minecraft.util.version;
 
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
-import net.minecraft.util.byteable.SlowDecoder;
-import net.minecraft.util.byteable.SlowEncoder;
+import oogle.util.byteable.*;
 
 import java.util.function.IntFunction;
 
@@ -61,7 +58,7 @@ public class VersionController<T> {
     }
 
     private boolean saveEncode(final Encoder encoder, final T object){
-        final Encoder enc = SlowEncoder.defaultEncoder();
+        final BytesEncoder enc = SlowEncoder.defaultEncoder();
         try{
             actual.encode(enc, object);
         }catch (Exception ex){

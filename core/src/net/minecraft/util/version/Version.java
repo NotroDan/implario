@@ -1,7 +1,7 @@
 package net.minecraft.util.version;
 
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
+import oogle.util.byteable.Decoder;
+import oogle.util.byteable.Encoder;
 
 public interface Version<T> {
     int version();

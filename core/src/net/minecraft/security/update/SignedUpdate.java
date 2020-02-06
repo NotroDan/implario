@@ -1,8 +1,8 @@
 package net.minecraft.security.update;
 
 import lombok.Getter;
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
+import oogle.util.byteable.Decoder;
+import oogle.util.byteable.Encoder;
 import net.minecraft.util.crypt.ECDSA;
 import net.minecraft.util.crypt.SHA;
 import net.minecraft.util.crypt.SecurityKey;

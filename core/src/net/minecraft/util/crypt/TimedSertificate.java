@@ -1,10 +1,7 @@
 package net.minecraft.util.crypt;
 
 import lombok.Getter;
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
-import net.minecraft.util.byteable.SlowDecoder;
-import net.minecraft.util.byteable.SlowEncoder;
+import oogle.util.byteable.*;
 
 import java.util.Date;
 
@@ -54,14 +51,14 @@ public class TimedSertificate {
         return new TimedSertificate(decoder.readLong(), ECDSA.decodePublic(decoder), decoder.readBytes());
     }
 
-    public Encoder encodePrivate(Encoder encoder){
+    public BytesEncoder encodePrivate(BytesEncoder encoder){
         encoder.writeLong(end);
         sert.encodePrivate(encoder);
         encoder.writeBytes(hash);
         return encoder;
     }
 
-    public Encoder encodePublic(Encoder encoder){
+    public BytesEncoder encodePublic(BytesEncoder encoder){
         encoder.writeLong(end);
         sert.encodePublic(encoder);
         encoder.writeBytes(hash);

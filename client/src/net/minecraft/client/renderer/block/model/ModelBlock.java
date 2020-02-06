@@ -7,7 +7,7 @@ import net.minecraft.util.ByteUnzip;
 import net.minecraft.util.ByteZip;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.byteable.Decoder;
+import oogle.util.byteable.Decoder;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;

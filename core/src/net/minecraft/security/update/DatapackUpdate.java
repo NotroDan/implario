@@ -6,7 +6,7 @@ import net.minecraft.network.services.Request;
 import net.minecraft.network.services.github.GitHubAPI;
 import net.minecraft.network.services.github.GitHubAsset;
 import net.minecraft.network.services.github.Release;
-import net.minecraft.util.byteable.SlowDecoder;
+import oogle.util.byteable.SlowDecoder;
 import net.minecraft.util.crypt.SecurityKey;
 import oogle.util.IOUtil;
 

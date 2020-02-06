@@ -1,8 +1,8 @@
 package net.minecraft.util;
 
 import com.google.common.base.Objects;
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
+import oogle.util.byteable.Decoder;
+import oogle.util.byteable.Encoder;
 
 public class Vec3i implements Comparable<Vec3i>, Location {
 

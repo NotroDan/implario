@@ -1,9 +1,6 @@
 package net.minecraft.util.crypt;
 
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
-import net.minecraft.util.byteable.SlowDecoder;
-import net.minecraft.util.byteable.SlowEncoder;
+import oogle.util.byteable.*;
 
 import javax.crypto.Cipher;
 import java.security.*;
@@ -61,14 +58,14 @@ public class RSA {
         }
     }
 
-    private static Encoder createEncoder(){
+    private static BytesEncoder createEncoder(){
         SlowEncoder encoder = new SlowEncoder();
         encoder.setSizeCompressOfInt(2);
         return encoder;
     }
 
     public byte[] encodePublic(){
-        Encoder encoder = createEncoder();
+        BytesEncoder encoder = createEncoder();
         encodePublic(encoder);
         return encoder.generate();
     }
@@ -78,7 +75,7 @@ public class RSA {
     }
 
     public byte[] encodePrivate(){
-        Encoder encoder = createEncoder();
+        BytesEncoder encoder = createEncoder();
         encodePrivate(encoder);
         return encoder.generate();
     }

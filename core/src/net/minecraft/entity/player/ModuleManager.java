@@ -3,10 +3,10 @@ package net.minecraft.entity.player;
 import net.minecraft.logging.Log;
 import net.minecraft.resources.Datapack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
-import net.minecraft.util.byteable.FastDecoder;
-import net.minecraft.util.byteable.FastEncoder;
+import oogle.util.byteable.Decoder;
+import oogle.util.byteable.Encoder;
+import oogle.util.byteable.FastDecoder;
+import oogle.util.byteable.FastEncoder;
 
 public interface ModuleManager<T extends Module> {
     default byte[] encodeWorld(T module){

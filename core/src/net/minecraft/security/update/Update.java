@@ -1,9 +1,9 @@
 package net.minecraft.security.update;
 
-import net.minecraft.util.byteable.Decoder;
-import net.minecraft.util.byteable.Encoder;
-import net.minecraft.util.byteable.SlowDecoder;
-import net.minecraft.util.byteable.SlowEncoder;
+import oogle.util.byteable.Decoder;
+import oogle.util.byteable.Encoder;
+import oogle.util.byteable.SlowDecoder;
+import oogle.util.byteable.SlowEncoder;
 import net.minecraft.util.crypt.SHA;
 
 import java.util.*;
