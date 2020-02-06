@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
@@ -15,11 +14,8 @@ import java.util.Random;
 
 public class BlockTorch extends Block {
 
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate<EnumFacing>() {
-		public boolean apply(EnumFacing p_apply_1_) {
-			return p_apply_1_ != EnumFacing.DOWN;
-		}
-	});
+	public static final PropertyDirection FACING = PropertyDirection.create("facing",
+			(facing) -> facing != EnumFacing.DOWN);
 
 	protected BlockTorch() {
 		super(Material.circuits);

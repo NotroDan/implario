@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.texture;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.data.AnimationFrame;
@@ -23,7 +22,7 @@ import java.util.concurrent.Callable;
 public class TextureAtlasSprite {
 
 	private final String iconName;
-	protected List framesTextureData = new ArrayList<>();
+	protected List<int[][]> framesTextureData = new ArrayList<>();
 	protected int[][] interpolatedFrameData;
 	private AnimationMetadataSection animationMetadata;
 	protected boolean rotated;
@@ -366,10 +365,10 @@ public class TextureAtlasSprite {
 	}
 
 	public void generateMipmaps(int level) {
-		ArrayList arraylist = new ArrayList<>();
+		ArrayList<int[][]> arraylist = new ArrayList<>();
 
 		for (int i = 0; i < this.framesTextureData.size(); ++i) {
-			final int[][] aint = (int[][]) (int[][]) this.framesTextureData.get(i);
+			final int[][] aint = this.framesTextureData.get(i);
 
 			if (aint != null) {
 				try {
@@ -409,7 +408,7 @@ public class TextureAtlasSprite {
 	private void allocateFrameTextureData(int index) {
 		if (this.framesTextureData.size() <= index) {
 			for (int i = this.framesTextureData.size(); i <= index; ++i) {
-				this.framesTextureData.add((Object) null);
+				this.framesTextureData.add(null);
 			}
 		}
 
@@ -445,7 +444,7 @@ public class TextureAtlasSprite {
 		return this.animationMetadata != null;
 	}
 
-	public void setFramesTextureData(List newFramesTextureData) {
+	public void setFramesTextureData(List<int[][]> newFramesTextureData) {
 		this.framesTextureData = newFramesTextureData;
 
 		if (this.spriteSingle != null) {

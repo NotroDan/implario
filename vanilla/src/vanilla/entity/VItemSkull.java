@@ -1,6 +1,5 @@
 package vanilla.entity;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -18,6 +17,8 @@ import net.minecraft.util.ParticleType;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import vanilla.entity.boss.EntityWither;
+
+import java.util.function.Predicate;
 
 public class VItemSkull extends ItemSkull {
 

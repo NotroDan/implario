@@ -1,6 +1,5 @@
 package vanilla.entity;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.BlockPumpkin;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
@@ -13,6 +12,8 @@ import net.minecraft.util.ParticleType;
 import net.minecraft.world.World;
 import vanilla.entity.monster.EntityIronGolem;
 import vanilla.entity.monster.EntitySnowman;
+
+import java.util.function.Predicate;
 
 public class VBlockPumpkin extends BlockPumpkin {
 

@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class WorldGenDesertWells extends WorldGenerator {
 
-	private static final BlockStateHelper field_175913_a = BlockStateHelper.forBlock(Blocks.sand).where(BlockSand.VARIANT, Predicates.equalTo(BlockSand.EnumType.SAND));
+	private static final BlockStateHelper field_175913_a = BlockStateHelper.forBlock(Blocks.sand).where(BlockSand.VARIANT, (type) -> type == BlockSand.EnumType.SAND);
 	private final IBlockState field_175911_b = Blocks.stone_slab.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.SAND).withProperty(BlockSlab.HALF,
 			BlockSlab.EnumBlockHalf.BOTTOM);
 	private final IBlockState field_175912_c = Blocks.sandstone.getDefaultState();
@@ -27,7 +27,7 @@ public class WorldGenDesertWells extends WorldGenerator {
 			position = position.down();
 		}
 
-		if (!field_175913_a.apply(worldIn.getBlockState(position))) {
+		if (!field_175913_a.test(worldIn.getBlockState(position))) {
 			return false;
 		}
 		for (int i = -2; i <= 2; ++i) {

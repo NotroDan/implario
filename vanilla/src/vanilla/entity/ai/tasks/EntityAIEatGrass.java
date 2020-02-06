@@ -1,7 +1,5 @@
 package vanilla.entity.ai.tasks;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.state.IBlockState;
@@ -11,9 +9,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.function.Predicate;
+
 public class EntityAIEatGrass extends EntityAIBase {
 
-	private static final Predicate<IBlockState> field_179505_b = BlockStateHelper.forBlock(Blocks.tallgrass).where(BlockTallGrass.TYPE, Predicates.equalTo(BlockTallGrass.EnumType.GRASS));
+	private static final Predicate<IBlockState> field_179505_b = BlockStateHelper.forBlock(Blocks.tallgrass).where(BlockTallGrass.TYPE,
+			(type) -> type == BlockTallGrass.EnumType.GRASS);
 
 	/**
 	 * The entity owner of this AITask
@@ -44,7 +45,7 @@ public class EntityAIEatGrass extends EntityAIBase {
 			return false;
 		}
 		BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
-		return field_179505_b.apply(this.entityWorld.getBlockState(blockpos)) ? true : this.entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.grass;
+		return field_179505_b.test(this.entityWorld.getBlockState(blockpos)) ? true : this.entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.grass;
 	}
 
 	/**
@@ -86,7 +87,7 @@ public class EntityAIEatGrass extends EntityAIBase {
 		if (this.eatingGrassTimer == 4) {
 			BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
 
-			if (field_179505_b.apply(this.entityWorld.getBlockState(blockpos))) {
+			if (field_179505_b.test(this.entityWorld.getBlockState(blockpos))) {
 				if (this.entityWorld.getGameRules().getBoolean("mobGriefing")) {
 					this.entityWorld.destroyBlock(blockpos, false);
 				}

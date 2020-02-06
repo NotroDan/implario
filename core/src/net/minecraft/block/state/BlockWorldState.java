@@ -1,9 +1,10 @@
 package net.minecraft.block.state;
 
-import com.google.common.base.Predicate;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.function.Predicate;
 
 public class BlockWorldState {
 
@@ -43,8 +44,8 @@ public class BlockWorldState {
 
 	public static Predicate<BlockWorldState> hasState(final Predicate<IBlockState> p_177510_0_) {
 		return new Predicate<BlockWorldState>() {
-			public boolean apply(BlockWorldState p_apply_1_) {
-				return p_apply_1_ != null && p_177510_0_.apply(p_apply_1_.getBlockState());
+			public boolean test(BlockWorldState p_apply_1_) {
+				return p_apply_1_ != null && p_177510_0_.test(p_apply_1_.getBlockState());
 			}
 		};
 	}

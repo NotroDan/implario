@@ -106,7 +106,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		this.missingImage.setIconHeight(i);
 		int[][] aint1 = new int[this.mipmapLevels + 1][];
 		aint1[0] = aint;
-		this.missingImage.setFramesTextureData(Collections.singletonList(new int[][][] {aint1}));
+		this.missingImage.setFramesTextureData(Collections.singletonList(aint1));
 		this.missingImage.setIndexInMap(this.counterIndexInMap++);
 	}
 

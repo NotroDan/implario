@@ -1,8 +1,6 @@
 package net.minecraft.util;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
 import lombok.Getter;
 
 import javax.annotation.Nonnull;
@@ -10,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Predicate;
 
 public enum EnumFacing implements IStringSerializable {
 	DOWN(1, -1, "down", EnumFacing.AxisDirection.NEGATIVE, EnumFacing.Axis.Y, new Vec3i(0, -1, 0)),
@@ -382,7 +381,7 @@ public enum EnumFacing implements IStringSerializable {
 		}
 	}
 
-	public enum Axis implements Predicate, IStringSerializable {
+	public enum Axis implements Predicate<EnumFacing>, IStringSerializable {
 		X("x", EnumFacing.Plane.HORIZONTAL),
 		Y("y", EnumFacing.Plane.VERTICAL),
 		Z("z", EnumFacing.Plane.HORIZONTAL);
@@ -417,7 +416,7 @@ public enum EnumFacing implements IStringSerializable {
 			return this.name;
 		}
 
-		public boolean apply(EnumFacing p_apply_1_) {
+		public boolean test(EnumFacing p_apply_1_) {
 			return p_apply_1_ != null && p_apply_1_.getAxis() == this;
 		}
 
@@ -427,10 +426,6 @@ public enum EnumFacing implements IStringSerializable {
 
 		public String getName() {
 			return this.name;
-		}
-
-		public boolean apply(Object p_apply_1_) {
-			return this.apply((EnumFacing) p_apply_1_);
 		}
 
 		static {
@@ -460,7 +455,7 @@ public enum EnumFacing implements IStringSerializable {
 		}
 	}
 
-	public enum Plane implements Predicate, Iterable<EnumFacing> {
+	public enum Plane implements Predicate<EnumFacing>, Iterable<EnumFacing> {
 		HORIZONTAL{
 			@Override
 			public EnumFacing[] facings() {
@@ -490,9 +485,7 @@ public enum EnumFacing implements IStringSerializable {
 		}
 
 		@Override
-		public boolean apply(Object object) {
-			if(!(object instanceof EnumFacing))return false;
-			EnumFacing facing = (EnumFacing)object;
+		public boolean test(EnumFacing facing) {
 			return facing != null && facing.getAxis().getPlane() == this;
 		}
 	}

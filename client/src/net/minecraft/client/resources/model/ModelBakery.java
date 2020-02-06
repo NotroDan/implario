@@ -470,7 +470,8 @@ public class ModelBakery {
 	}
 
 	private List<ResourceLocation> getParentPath(ResourceLocation p_177573_1_) {
-		List<ResourceLocation> list = Arrays.asList(p_177573_1_);
+		List<ResourceLocation> list = new ArrayList<>();
+		list.add(p_177573_1_);
 		ResourceLocation resourcelocation = p_177573_1_;
 
 		while ((resourcelocation = this.getParentLocation(resourcelocation)) != null) {
